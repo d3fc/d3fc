@@ -1,0 +1,165 @@
+<section>
+
+	<div class="btn-toolbar" role="toolbar">
+
+		<div class="row">
+			<div class="col-md-3 btn-group btn-group-sm">
+				<button type="button" class="btn btn-default" ng-click="chart.setDataStyle('bars')" ng-class="{active:chart.hasDataStyle('bars')}">Bars</button>
+				<button type="button" class="btn btn-default" ng-click="chart.setDataStyle('candles')" ng-class="{active:chart.hasDataStyle('candles')}">Candles</button>
+			</div>
+
+			<div class="col-md-6 btn-group btn-group-sm">
+				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('navigator')" ng-class="{active:chart.hasFeature('navigator')}">
+					Navigator &nbsp; 
+					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('navigator')"></span>
+					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('navigator')"></span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('gridlines')" ng-class="{active:chart.hasFeature('gridlines')}">
+					Grid &nbsp; 
+					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('gridlines')"></span>
+					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('gridlines')"></span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('crosshairs')" ng-class="{active:chart.hasFeature('crosshairs')}">
+					Crosshairs &nbsp; 
+					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('crosshairs')"></span>
+					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('crosshairs')"></span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('measure')" ng-class="{active:chart.hasFeature('measure')}">
+					Measure &nbsp; 
+					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('measure')"></span>
+					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('measure')"></span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('bollinger')" ng-class="{active:chart.hasFeature('bollinger')}">
+					Bollinger Bands &nbsp; 
+					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('bollinger')"></span>
+					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('bollinger')"></span>
+				</button>
+			</div>
+			
+			<div class="col-md-3">
+				<div class="pull-right btn-group btn-group-sm">
+					<button type="button" class="btn btn-default" ng-click="chart.toggleToolOptions()" ng-class="{active:chart.toolOptionsVisible}">Tool Options</button>
+					<button type="button" class="btn btn-default" ng-click="chart.toggleTrackersAndNotes()" ng-class="{active:chart.trackersAndNotesVisible}">Trackers &amp; Notes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<p>&nbsp;</p>
+
+	<form class="form-inline" ng-show="chart.toolOptionsVisible">
+		<table class="table table-bordered table-condensed">
+			<tr class="bg-info">
+				<th colspan="2">Grid, Crosshairs and Measure</th>
+			</tr>
+			<tr>
+				<td>Grid X axis ticks</td>
+				<td><input type="number" class="form-control input-sm" id="gridTicksX" ng-model="chart.axisOptions.xTicks"></td>
+			</tr>
+			<tr>
+				<td>Crosshair snap to value</td>
+				<td><select class="form-control input-sm" id="crosshairsValueY" ng-model="chart.crosshairOptions.yValue">
+					<option value="">All</option>
+					<option value="open">Open</option>
+					<option value="high">High</option>
+					<option value="low">Low</option>
+					<option value="close">Close</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td>Measure uses snap value</td>
+				<td><input type="checkbox" id="measureUseSnap" ng-model="chart.measureOptions.snap"></td>
+			</tr>
+			<tr class="bg-info">
+				<th colspan="2">Bollinger Bands</th>
+			</tr>
+			<tr>
+				<td>Average points</td>
+				<td><input type="number" class="form-control input-sm" id="bollingerAverage" ng-model="chart.bollingerOptions.movingAverageCount"></td>
+			</tr>
+			<tr>
+				<td>Number of deviations</td>
+				<td><input type="number" class="form-control input-sm" id="bollingerDeviations" ng-model="chart.bollingerOptions.standardDeviations"></td>
+			</tr>
+			<tr>
+				<td>Data value used</td>
+				<td><select class="form-control input-sm" id="bollingerValueY" ng-model="chart.bollingerOptions.yValue">
+					<option value="open">Open</option>
+					<option value="high">High</option>
+					<option value="low">Low</option>
+					<option value="close">Close</option>
+				</select></td>
+			</tr>
+		</table>
+		<button type="button" class="btn btn-default pull-right" ng-click="chart.applyToolOptions()">Apply Tool Options</button>
+	</form>
+
+	<form class="form-inline" ng-show="chart.trackersAndNotesVisible">
+		<table class="table table-bordered table-condensed">
+			<tr class="bg-info">
+				<th colspan="3">Trackers</th>
+				<th>
+					<button type="button" class="btn btn-default btn-xs pull-right" ng-click="chart.addTracker()">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</th>
+			</tr>
+			<tr ng-hide="chart.trackers.length > 0">
+				<td colspan="4">No trackers added to chart.</td>
+			</tr>
+			<tr ng-show="chart.trackers.length > 0">
+				<td>Label</td>
+				<td># Av. Pts</td>
+				<td>Av. Value</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr ng-repeat="t in chart.trackers">
+				<td><input type="text" class="form-control input-sm" ng-model="t.yLabel" ng-change="chart.trackerUpdated($index)" /></td>
+				<td><input type="number" class="form-control input-sm" ng-model="t.movingAverageCount" ng-change="chart.trackerUpdated($index)" /></td>
+				<td><select class="form-control input-sm" id="trackerValueY" ng-model="t.yValue" ng-change="chart.trackerUpdated($index)">
+					<option value="open">Open</option>
+					<option value="high">High</option>
+					<option value="low">Low</option>
+					<option value="close">Close</option>
+				</select></td>
+				<td>
+					<button type="button" class="btn btn-default btn-xs pull-right" ng-click="chart.removeTracker($index)">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</td>
+			</tr>
+			<tr class="bg-info">
+				<th colspan="3">Annotations</th>
+				<th>
+					<button type="button" class="btn btn-default btn-xs pull-right" ng-click="chart.addAnnotation()">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</th>
+			</tr>
+			<tr ng-hide="chart.annotations.length > 0">
+				<td colspan="4">No annotations added to chart.</td>
+			</tr>
+			<tr ng-show="chart.annotations.length > 0">
+				<td colspan="2">Label</td>
+				<td>Value</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr ng-repeat="a in chart.annotations">
+				<td colspan="2"><input type="text" class="form-control input-sm" ng-model="a.yLabel" ng-change="chart.annotationUpdated($index)" /></td>
+				<td><input type="number" class="form-control input-sm" ng-model="a.value" ng-change="chart.annotationUpdated($index)" /></td>
+				<td>
+					<button type="button" class="btn btn-default btn-xs pull-right" ng-click="chart.removeAnnotation($index)">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<div id="scottLogicChart" ng-show="chart.hasData()"></div>
+	<div ng-hide="chart.hasData()">
+		<h1>No data</h1>
+		<p>This chart currently has no data associated with it.</p>
+		<p>Data should be added to the $rootScope.chartData variable.</p>
+	</div>
+
+</section>

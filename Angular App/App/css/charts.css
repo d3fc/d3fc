@@ -1,0 +1,152 @@
+#scottLogicChart {
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+}
+
+.chart .axis text {
+    font: 10px sans-serif;
+}
+
+.chart .axis .domain,
+.chart .axis .tick line {
+    fill: none;
+    stroke-width: 0.3;
+    stroke: black;
+}
+
+.chart .bar path {
+    stroke-width: 1.5;
+}
+
+.chart .bar.up-day path {
+    stroke: #6c0;
+}
+
+.chart .bar.down-day path {
+    stroke: #c60;
+}
+
+.chart .bar.up-day rect {
+    fill: #6c0;
+}
+
+.chart .bar.down-day rect {
+    fill: #c60;
+}
+
+.chart .gridlines {
+    fill: none;
+    stroke-width: 0.5;
+    stroke-opacity: 0.1;
+    stroke: black;
+}
+
+.chart .overlay {
+    stroke-width: 0px;
+    fill-opacity: 0;
+}
+
+.chart line.crosshairs {
+    fill: none;
+    stroke: black;
+    stroke-width: 1;
+    stroke-opacity: 0.1;
+}
+
+.chart circle.crosshairs {
+    fill: none;
+    stroke: black;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+}
+
+.chart text.crosshairs {
+    font: 10px sans-serif;
+}
+
+.chart line.measure {
+    fill: none;
+    stroke: #f09;
+    stroke-width: 1;
+    stroke-opacity: 0.1;
+    stroke-dasharray: 3, 3;
+}
+
+.chart line.gradient {
+    fill: none;
+    stroke: #f09;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+    stroke-dasharray: 3, 3;
+}
+
+.chart text.measure {
+    font: 10px sans-serif;
+}
+
+.chart .annotation {
+    fill: none;
+    stroke: #0f9;
+    stroke-width: 1;
+    stroke-dasharray: 3, 3;
+    stroke-opacity: 0.5;
+}
+
+.chart .tracker {
+    fill: none;
+    stroke: #09f;
+    stroke-width: 1;
+    stroke-dasharray: 3, 3;
+    stroke-opacity: 0.5;
+}
+
+.chart g.tracker.open { stroke: #09f;  }
+.chart g.tracker.high { stroke: #90f; }
+.chart g.tracker.low { stroke: #0f9; }
+.chart g.tracker.close { stroke: #f09; }
+
+.chart .bollingerBandArea {
+    fill: #f90;
+    fill-opacity: 0.1;
+    stroke-width: 0;
+}
+
+.chart .bollingerBandUpper {
+    fill: none;
+    stroke: #f90;
+    stroke-width: 1;
+    stroke-opacity: 0.2;
+}
+
+.chart .bollingerBandLower {
+    fill: none;
+    stroke: #f90;
+    stroke-width: 1;
+    stroke-opacity: 0.2;
+}
+
+.chart .bollingerAverage {
+    fill: none;
+    stroke: #f90;
+    stroke-width: 1;
+    stroke-dasharray: 3, 3;
+    stroke-opacity: 0.5;
+}
+
+.navigator .data {
+    fill: #eeeeee;
+    stroke-width: 0px;
+}
+
+.navigator .line {
+    fill: none;
+    stroke: #cccccc;
+    stroke-width: 1px;
+}
+
+.navigator .viewport {
+    fill: black;
+    fill-opacity: 0.1;
+}
+
