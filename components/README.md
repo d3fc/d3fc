@@ -53,7 +53,7 @@ Used for any other functionality which is a dependencey of a component in the sl
 
 Current components int this namespace:
 
-+ sl.mockData
++ sl.dataGenerator
 + sl.weekday
 
 **Further documentation for each component can be found in the corresponding namespace folder**

@@ -47,3 +47,7 @@ The annotations component is currently missing the ability to display labels or 
 ### Measuring Tool
 
 the measuring tool needs to have a snapping mode as currently the resolution of emasurement is dependant on how accurate the user is and also the zoom level of the chart.
+
+##License
+
+These components are licensed under the [MIT License](http://opensource.org/licenses/MIT)

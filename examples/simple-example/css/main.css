@@ -1,0 +1,19 @@
+
+
+.slChartArea { background: #fefefe; border: solid 1px #eee; }
+.slChartArea .axis .domain,
+.slChartArea .axis .tick line { fill: none; stroke-width: 0.3; stroke: black; }
+
+.slPrimaryChart { border: solid 1px #0f0; }
+.slPrimaryChart g.slPrimaryPlot .gridlines line { stroke-width: 0.1; stroke: #ccc; }
+.slPrimaryChart g.slPrimaryPlot .bar path { stroke-width: 1.5; }
+.slPrimaryChart g.slPrimaryPlot .bar.up-day path { stroke: #6c0; }
+.slPrimaryChart g.slPrimaryPlot .bar.down-day path { stroke: #c60; }
+.slPrimaryChart g.slPrimaryPlot .bar.up-day rect { fill: #6c0; }
+.slPrimaryChart g.slPrimaryPlot .bar.down-day rect { fill: #c60; }
+
+.slIndicatorsChart_1 { border: solid 1px #00f; }
+
+.slIndicatorsChart_2 { border: solid 1px #ff0; }
+
+.slChartNavigation { border: solid 1px #0ff; }

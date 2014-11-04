@@ -1,9 +1,10 @@
 define([
-	'mockData',
+	'sl',
+	'dataGenerator',
 	'controllers/scottLogicChartCtrl'
 	], 
 
-	function(mockData, scottLogicChartCtrl) {
+	function(sl, dataGenerator, scottLogicChartCtrl) {
 
 		var app = angular.module('slChartDemoApp', []);
 
@@ -11,17 +12,21 @@ define([
 			// Root Scope Initialisation
 			$rootScope.chartData = null;
 
-			this.generateChartData = function(mockData) {
+			this.generateChartData = function(dataGenerator) {
 				if(!$rootScope.chartData) { 
-		    		$rootScope.chartData = new mockData(0.1, 0.1, 100, 50, function (moment) {
-			            return !(moment.day() === 0 || moment.day() === 6);
-			        })
-			        .generateOHLC(new Date(2012, 1, 1), new Date(2014, 10, 22));
+		    		$rootScope.chartData = sl.utilities.dataGenerator()
+				      .mu(0.1)
+				      .sigma(0.1)
+				      .startingPrice(100)
+				      .intraDaySteps(50)
+				      .fromDate(new Date(2013, 10, 1))
+				      .toDate(new Date(2014, 10, 30))
+				      .generate();
 			    }
 				return $rootScope.chartData;
 			};
 
-			this.generateChartData(mockData);
+			this.generateChartData(dataGenerator);
 		}]);
 
 		app.controller('scottLogicChartCtrl', [ '$rootScope', scottLogicChartCtrl ]);

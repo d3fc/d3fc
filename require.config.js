@@ -28,8 +28,9 @@ var require = {
         'measure': '../../../components/tools/measure',
 
         'weekday': '../../../components/utilities/weekday',
-        'mockData': '../../../components/utilities/mockData'
-    },
+        'mockData': '../../../components/utilities/mockData',
+        'dataGenerator': '../../../components/utilities/dataGenerator'
+   },
     shim: {
         'weekday': {
             exports: 'weekday'
