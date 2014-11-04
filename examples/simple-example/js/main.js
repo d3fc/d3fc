@@ -5,12 +5,12 @@ define ([
   'crosshairs',
   'measure',
   'financeScale',
-  'candlestickSeries',
-  'ohlcSeries',
-  'annotationSeries',
-  'trackerSeries',
-  'volumeSeries',
-  'bollingerSeries',
+  'candlestick',
+  'ohlc',
+  'annotation',
+  'movingAverage',
+  'volume',
+  'bollingerBands',
   'mockData'
 ], function initCharts(d3, sl, mockData) {
 
@@ -96,14 +96,14 @@ define ([
       .attr('class', 'axis volume')
       .call(volumeAxis);
 
-    var dimensions = sl.utility.dimensions()
+    /*var dimensions = sl.utility.dimensions()
       .marginBottom(30)
       .marginLeft(30)
       .width(30)
       .height(30);
 
     d3.select('#slPrimaryChart')
-      .call(dimensions);
+      .call(dimensions);*/
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Any secondary indicators

@@ -4,16 +4,16 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-    sl.series.tracker = function () {
+    sl.indicators.movingAverage = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = 0,
             yLabel = '',
-            movingAverage = 0,
+            averagePoints = 0,
             css = '';
 
-        var tracker = function (selection) {
+        var movingAverage = function (selection) {
 
             var line = d3.svg.line();
             line.x(function (d) { return xScale(d.date); });
@@ -26,7 +26,7 @@ define ([
                 }
                 else {
 
-                    if (movingAverage === 0) {
+                    if (averagePoints === 0) {
                         
                         line.y(function (d) { return yScale(d[yValue]); });
                     }
@@ -34,7 +34,7 @@ define ([
 
                         line.y(function (d, i) {
 
-                                var count = Math.min(movingAverage, i + 1),
+                                var count = Math.min(averagePoints, i + 1),
                                     first = i + 1 - count;
 
                                 var sum = 0;
@@ -61,54 +61,54 @@ define ([
             });
         };
 
-        tracker.xScale = function (value) {
+        movingAverage.xScale = function (value) {
             if (!arguments.length) {
                 return xScale;
             }
             xScale = value;
-            return tracker;
+            return movingAverage;
         };
 
-        tracker.yScale = function (value) {
+        movingAverage.yScale = function (value) {
             if (!arguments.length) {
                 return yScale;
             }
             yScale = value;
-            return tracker;
+            return movingAverage;
         };
 
-        tracker.yValue = function (value) {
+        movingAverage.yValue = function (value) {
             if (!arguments.length) {
                 return yValue;
             }
             yValue = value;
-            return tracker;
+            return movingAverage;
         };
 
-        tracker.yLabel = function (value) {
+        movingAverage.yLabel = function (value) {
             if (!arguments.length) {
                 return yLabel;
             }
             yLabel = value;
-            return tracker;
+            return movingAverage;
         };
 
-        tracker.movingAverage = function (value) {
+        movingAverage.averagePoints = function (value) {
             if (!arguments.length) {
-                return movingAverage;
+                return averagePoints;
             }
-            movingAverage = value;
-            return tracker;
+            averagePoints = value;
+            return movingAverage;
         };
 
-        tracker.css = function (value) {
+        movingAverage.css = function (value) {
             if (!arguments.length) {
                 return css;
             }
             css = value;
-            return tracker;
+            return movingAverage;
         };
 
-        return tracker;
+        return movingAverage;
     };
 });

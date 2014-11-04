@@ -4,7 +4,7 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-sl.series.annotation = function () {
+sl.tools.annotation = function () {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),

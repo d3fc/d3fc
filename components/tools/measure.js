@@ -4,7 +4,7 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-sl.series.measure = function () {
+sl.tools.measure = function () {
 
     var target = null,
         series = null,

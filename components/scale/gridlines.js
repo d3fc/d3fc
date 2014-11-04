@@ -4,7 +4,7 @@ define([
 ], function (d3, sl) {
     'use strict';
 
-    sl.svg.gridlines = function () {
+    sl.scale.gridlines = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),

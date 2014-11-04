@@ -5,12 +5,12 @@ define([
     'crosshairs',
     'measure',
     'financeScale',
-    'candlestickSeries',
-    'ohlcSeries',
-    'annotationSeries',
-    'trackerSeries',
-    'volumeSeries',
-    'bollingerSeries'
+    'candlestick',
+    'ohlc',
+    'annotation',
+    'movingAverage',
+    'volume',
+    'bollingerBands'
 	], function(d3, sl) {
 
 	function scottLogicChartCtrl($rootScope) {
@@ -276,7 +276,7 @@ define([
 
 			share.plotArea.selectAll('.gridlines').remove();
 
-		    share.gridLines = sl.svg.gridlines()
+		    share.gridLines = sl.scale.gridlines()
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
 		        .xTicks(share.axisOptions.xTicks);
@@ -288,7 +288,7 @@ define([
 
 			share.plotArea.selectAll('.crosshairs').remove();
 
-		    share.crosshairs = sl.series.crosshairs()
+		    share.crosshairs = sl.tools.crosshairs()
 		        .target(share.plotArea)
 		        .series(data)
 		        .xScale(share.xScale)
@@ -305,7 +305,7 @@ define([
 
 			share.plotArea.selectAll('.measure').remove();
 
-		    share.measure = sl.series.measure()
+		    share.measure = sl.tools.measure()
 		        .target(share.plotArea)
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
@@ -342,7 +342,7 @@ define([
 
 			share.plotArea.selectAll('.bollinger').remove();
 
-		    share.bollinger = sl.series.bollinger()
+		    share.bollinger = sl.indicators.bollingerBands()
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
 		        .yValue(share.bollingerOptions.yValue)

@@ -3,8 +3,10 @@ define(function () {
 
     return {
         version: '0.0.0',
+        indicators: {},
+        scale: {},
         series: {},
-        svg: {},
-        scale: {}
+        tools: {},
+        utilities: {}
     };
 });

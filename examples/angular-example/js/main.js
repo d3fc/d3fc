@@ -1,4 +1,4 @@
-require(['js/slChartDemoApp'],
+require(['slChartDemoApp'],
 	function() {
 		angular.bootstrap(document, ['slChartDemoApp']);
 	}

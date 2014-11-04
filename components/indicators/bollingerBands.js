@@ -4,7 +4,7 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-    sl.series.bollinger = function () {
+    sl.indicators.bollingerBands = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -18,7 +18,7 @@ define ([
             cssBandLower = 'bollingerBandLower',
             cssAverage = 'bollingerAverage';
 
-        var bollinger = function (selection) {
+        var bollingerBands = function (selection) {
 
             var areaBands = d3.svg.area(),
                 lineUpper = d3.svg.line(),
@@ -159,78 +159,78 @@ define ([
             });
         };
 
-        bollinger.xScale = function (value) {
+        bollingerBands.xScale = function (value) {
             if (!arguments.length) {
                 return xScale;
             }
             xScale = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.yScale = function (value) {
+        bollingerBands.yScale = function (value) {
             if (!arguments.length) {
                 return yScale;
             }
             yScale = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.yValue = function (value) {
+        bollingerBands.yValue = function (value) {
             if (!arguments.length) {
                 return yValue;
             }
             yValue = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.movingAverage = function (value) {
+        bollingerBands.movingAverage = function (value) {
             if (!arguments.length) {
                 return movingAverage;
             }
             movingAverage = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.standardDeviations = function (value) {
+        bollingerBands.standardDeviations = function (value) {
             if (!arguments.length) {
                 return standardDeviations;
             }
             standardDeviations = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.cssBandUpper = function (value) {
+        bollingerBands.cssBandUpper = function (value) {
             if (!arguments.length) {
                 return cssBandUpper;
             }
             cssBandUpper = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.cssBandLower = function (value) {
+        bollingerBands.cssBandLower = function (value) {
             if (!arguments.length) {
                 return cssBandLower;
             }
             cssBandLower = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.cssBandArea = function (value) {
+        bollingerBands.cssBandArea = function (value) {
             if (!arguments.length) {
                 return cssBandArea;
             }
             cssBandArea = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        bollinger.cssAverage = function (value) {
+        bollingerBands.cssAverage = function (value) {
             if (!arguments.length) {
                 return cssAverage;
             }
             cssAverage = value;
-            return bollinger;
+            return bollingerBands;
         };
 
-        return bollinger;
+        return bollingerBands;
     };
 });

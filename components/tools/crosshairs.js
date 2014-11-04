@@ -4,7 +4,7 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-sl.series.crosshairs = function () {
+sl.tools.crosshairs = function () {
 
     var target = null,
         series = null,
