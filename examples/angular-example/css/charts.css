@@ -36,12 +36,12 @@
 }
 
 .chart .volumebar.up-day rect {
-    fill: #ccc;
+    fill: #bcb;
     fill-opacity: 0.25;
 }
 
 .chart .volumebar.down-day rect {
-    fill: #ccc;
+    fill: #cbb;
     fill-opacity: 0.25;
 }
 

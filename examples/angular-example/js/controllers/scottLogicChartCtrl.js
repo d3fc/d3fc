@@ -36,7 +36,7 @@ define([
 		this.chartId = '#scottLogicChart';
 		this.initialDaysShown = 90;
 
-		this.margin = {top: 5, right: 0, bottom: 30, left: 35};
+		this.margin = {top: 5, right: 35, bottom: 30, left: 50};
 
 		this.chartWidth = 0;
 		this.chartHeight = 0;
@@ -50,7 +50,6 @@ define([
 		this.maxDate = null;
 		this.yMin = null;
 		this.yMax = null;
-		this.volYMin = null;
 		this.volYMax = null;
 
 		this.xScale = null;
@@ -60,9 +59,7 @@ define([
 		this.navXScale = null;
 		this.navYScale = null;
 		this.navXAxis = null;
-		this.volXScale = null;
 		this.volYScale = null;
-		this.volXAxis = null;
 		this.volYAxis = null;
 
 		// Data
@@ -71,6 +68,7 @@ define([
     	this.navSeries = null;
     	this.navLine = null;
 		this.volumeSeries = null;
+		this.volumePlot = null;
 
 		// SVG Element Handles
 		this.mainSVG = null;
@@ -118,6 +116,7 @@ define([
 			else if(featureName == 'measure') share.measureOptions.show = !share.measureOptions.show;
 			else if(featureName == 'bollinger') share.bollingerOptions.show = !share.bollingerOptions.show;
 			else if(featureName == 'navigator') share.showNavigator = !share.showNavigator;
+			else if(featureName == 'volume') share.showVolume = !share.showVolume;
 
 			share.showHideFeatures();
 		};
@@ -128,6 +127,7 @@ define([
 			else if(featureName == 'measure') return share.measureOptions.show;
 			else if(featureName == 'bollinger') return share.bollingerOptions.show;
 			else if(featureName == 'navigator') return share.showNavigator;
+			else if(featureName == 'volume') return share.showVolume;
 			return false;
 		};
 
@@ -165,7 +165,7 @@ define([
 	    	share.maxDate = new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7);
 	    	share.yMin = d3.min(data, function (d) { return d.low; });
 	    	share.yMax = d3.max(data, function (d) { return d.high; });
-	    	share.yVolMax = d3.max(data, function (d) { return d.volume; });
+	    	share.volYMax = d3.max(data, function (d) { return d.volume; });
 
 			share.initialiseChart(data, sl);
 			share.initialiseNavigator(data);
@@ -231,11 +231,12 @@ define([
 			share.plotChart.selectAll('.axis').remove();
 
 		    share.xAxis = d3.svg.axis().scale(share.xScale).orient('bottom').ticks(share.axisOptions.xTicks);
-		    share.yAxis = d3.svg.axis().scale(share.yScale).orient('left').ticks(share.axisOptions.yTicks);
+		    share.yAxis = d3.svg.axis().scale(share.yScale).orient('right').ticks(share.axisOptions.yTicks);
 
+		    var width = share.chartWidth - share.margin.left - share.margin.right;
 		    var height = share.chartHeight - share.margin.top - share.margin.bottom;
 		    share.plotChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(share.xAxis);
-		    share.plotChart.append('g').attr('class', 'y axis').call(share.yAxis);		    
+		    share.plotChart.append('g').attr('class', 'y axis').attr('transform', 'translate(' + width + ', 0)').call(share.yAxis);		    
 		};
 
 		this.initialiseNavigator = function(data) {
@@ -329,13 +330,19 @@ define([
 
 			share.plotArea.selectAll('.volume').remove();
 
-		    share.yVolScale = d3.scale.linear().domain([0, share.yVolMax]).nice().range([height,0]);
+		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
+		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
+		    share.volYAxis.tickFormat(function(d) {
+				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
+			});
+		    share.plotChart.append('g').attr('class', 'y axis').call(share.volYAxis);
+
 		    share.volumeSeries = sl.series.volume()
 		        .xScale(share.xScale)
-		        .yScale(share.yVolScale)
+		        .yScale(share.volYScale)
 		        .barWidth(this.chartDataOptions.width);
 
-		    share.plotArea.append('g').attr('class', 'volume').attr('id', 'volume').datum(data).call(share.volumeSeries);
+		    share.volumePlot = share.plotArea.append('g').attr('class', 'volume').attr('id', 'volume').datum(data).call(share.volumeSeries);
 		};
 
 		this.initialiseBollinger = function(data) {
@@ -423,7 +430,8 @@ define([
 
 	    this.redrawChart = function() {
 	        share.chartSeries.call(share.chartData);
-	        share.volumeSeries.call(share.chartData);
+	        share.volumePlot.call(share.chartData);
+	        
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
@@ -472,6 +480,7 @@ define([
 	    	share.plotArea.selectAll('.measure').style('display', share.measureOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
 
+	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
 	    	share.mainSVG.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
 	    };
 
