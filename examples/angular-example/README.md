@@ -45,7 +45,7 @@ Planned components in the near future
 
 + Auto margin calculator
 + Live data connector/stream
-+ Fibonaci Fans
++ Fibonacci Fans
 
 Short-comings and planned functionality
 ---------------------------------------
@@ -58,7 +58,7 @@ The annotations component is currently missing the ability to display labels or 
 
 ### Measuring Tool
 
-the measuring tool needs to hav a snapping mode as currently the resolution of emasurement is dependant on how accurate the user is and also the zoom level of the chart.
+the measuring tool needs to have a snapping mode as currently the resolution of emasurement is dependant on how accurate the user is and also the zoom level of the chart.
 
 
 

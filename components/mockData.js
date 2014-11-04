@@ -44,7 +44,8 @@ define([
                         open: daySteps[0],
                         high: Math.max.apply({}, daySteps),
                         low: Math.min.apply({}, daySteps),
-                        close: daySteps[self.intraDaySteps - 1]
+                        close: daySteps[self.intraDaySteps - 1],
+                        volume: Math.floor(Math.random() * 1000) * 1000000
                     })
                 }
             });
@@ -80,5 +81,4 @@ define([
     };
 
     return mockData;
-
 });

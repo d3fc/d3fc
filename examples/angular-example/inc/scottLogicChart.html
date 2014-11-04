@@ -3,16 +3,21 @@
 	<div class="btn-toolbar" role="toolbar">
 
 		<div class="row">
-			<div class="col-md-3 btn-group btn-group-sm">
+			<div class="col-md-2 btn-group btn-group-sm">
 				<button type="button" class="btn btn-default" ng-click="chart.setDataStyle('bars')" ng-class="{active:chart.hasDataStyle('bars')}">Bars</button>
 				<button type="button" class="btn btn-default" ng-click="chart.setDataStyle('candles')" ng-class="{active:chart.hasDataStyle('candles')}">Candles</button>
 			</div>
 
-			<div class="col-md-6 btn-group btn-group-sm">
+			<div class="col-md-7 btn-group btn-group-sm">
 				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('navigator')" ng-class="{active:chart.hasFeature('navigator')}">
 					Navigator &nbsp; 
 					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('navigator')"></span>
 					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('navigator')"></span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('volume')" ng-class="{active:chart.hasFeature('volume')}">
+					Volume &nbsp; 
+					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('volume')"></span>
+					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('volume')"></span>
 				</button>
 				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('gridlines')" ng-class="{active:chart.hasFeature('gridlines')}">
 					Grid &nbsp; 

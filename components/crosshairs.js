@@ -124,7 +124,7 @@ sl.series.crosshairs = function () {
 
         series.forEach(function(data) {
 
-            console.log("X:" + xTarget + ", Y:" + data.date);
+            //console.log("X:" + xTarget + ", Y:" + data.date);
 
             var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
 

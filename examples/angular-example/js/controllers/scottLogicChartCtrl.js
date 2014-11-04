@@ -1,15 +1,16 @@
 define([
 	'd3',
 	'sl',
-    'components/gridlines',
-    'components/crosshairs',
-    'components/measure',
-    'components/financeScale',
-    'components/candlestickSeries',
-    'components/ohlcSeries',
-    'components/annotationSeries',
-    'components/trackerSeries',
-    'components/bollingerSeries'
+    'gridlines',
+    'crosshairs',
+    'measure',
+    'financeScale',
+    'candlestickSeries',
+    'ohlcSeries',
+    'annotationSeries',
+    'trackerSeries',
+    'volumeSeries',
+    'bollingerSeries'
 	], function(d3, sl) {
 
 	function scottLogicChartCtrl($rootScope) {
@@ -17,9 +18,11 @@ define([
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 3 }; // Possible style options are 'bars' and 'candles', width is used for candles
 		this.chartAspect = 0.5; // Height to width mutiplier
-		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
-		this.axisOptions = { xTicks: 10, yTicks: 5 };
+		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
+		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
+		this.showVolume = true;
+		this.volumeAspect = 0.2; // Chart height to volume height mutiplier
 
 		this.gridlineOptions = { show: true };
 		this.crosshairOptions = { show: false, snap: true, yValue: '' };
@@ -39,12 +42,16 @@ define([
 		this.chartHeight = 0;
 		this.navWidth = 0;
 		this.navHeight = 0;
+		this.volWidth = 0;
+		this.volHeight = 0;
 
 		// Axes and Scaling
 		this.minDate = null;
 		this.maxDate = null;
 		this.yMin = null;
 		this.yMax = null;
+		this.volYMin = null;
+		this.volYMax = null;
 
 		this.xScale = null;
 		this.yScale = null;
@@ -53,12 +60,17 @@ define([
 		this.navXScale = null;
 		this.navYScale = null;
 		this.navXAxis = null;
+		this.volXScale = null;
+		this.volYScale = null;
+		this.volXAxis = null;
+		this.volYAxis = null;
 
 		// Data
     	this.chartData = null;
     	this.chartSeries = null;
     	this.navSeries = null;
     	this.navLine = null;
+		this.volumeSeries = null;
 
 		// SVG Element Handles
 		this.mainSVG = null;
@@ -153,6 +165,7 @@ define([
 	    	share.maxDate = new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7);
 	    	share.yMin = d3.min(data, function (d) { return d.low; });
 	    	share.yMax = d3.max(data, function (d) { return d.high; });
+	    	share.yVolMax = d3.max(data, function (d) { return d.volume; });
 
 			share.initialiseChart(data, sl);
 			share.initialiseNavigator(data);
@@ -160,6 +173,7 @@ define([
 			share.initialiseCrosshairs(data);
 			share.initialiseMeasure();
 
+			share.initialiseVolume(data);
 			share.initialiseBollinger(data);
 
 			share.initialiseBehaviours();
@@ -202,6 +216,28 @@ define([
 		    share.initialiseAxes();
 		};
 
+		this.initialiseData = function(data) {
+
+		    share.chartData = this.chartDataOptions.style == 'candles' ? 
+		    	sl.series.candlestick().rectangleWidth(this.chartDataOptions.width).xScale(share.xScale).yScale(share.yScale) :
+		    	sl.series.ohlc().xScale(share.xScale).yScale(share.yScale);
+
+		    share.plotArea.selectAll(".series").remove();
+    		share.chartSeries = share.plotArea.append('g').attr('class', 'series').datum(data).call(share.chartData);
+		};
+
+		this.initialiseAxes = function() {
+
+			share.plotChart.selectAll('.axis').remove();
+
+		    share.xAxis = d3.svg.axis().scale(share.xScale).orient('bottom').ticks(share.axisOptions.xTicks);
+		    share.yAxis = d3.svg.axis().scale(share.yScale).orient('left').ticks(share.axisOptions.yTicks);
+
+		    var height = share.chartHeight - share.margin.top - share.margin.bottom;
+		    share.plotChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(share.xAxis);
+		    share.plotChart.append('g').attr('class', 'y axis').call(share.yAxis);		    
+		};
+
 		this.initialiseNavigator = function(data) {
 		    share.navWidth = share.chartWidth - share.margin.left - share.margin.right;
 		    share.navHeight = (share.chartHeight * share.navigatorAspect) - share.margin.top - share.margin.bottom;
@@ -234,28 +270,6 @@ define([
 			        share.updateZoomFromChart();
 			    });
 			    share.navChart.append("g").attr("class", "viewport").call(share.viewport).selectAll("rect").attr("height", share.navHeight);
-		};
-
-		this.initialiseData = function(data) {
-
-		    share.chartData = this.chartDataOptions.style == 'candles' ? 
-		    	sl.series.candlestick().rectangleWidth(this.chartDataOptions.width).xScale(share.xScale).yScale(share.yScale) :
-		    	sl.series.ohlc().xScale(share.xScale).yScale(share.yScale);
-
-		    share.plotArea.selectAll(".series").remove();
-    		share.chartSeries = share.plotArea.append('g').attr('class', 'series').datum(data).call(share.chartData);
-		};
-
-		this.initialiseAxes = function() {
-
-			share.plotChart.selectAll('.axis').remove();
-
-		    share.xAxis = d3.svg.axis().scale(share.xScale).orient('bottom').ticks(share.axisOptions.xTicks);
-		    share.yAxis = d3.svg.axis().scale(share.yScale).orient('left').ticks(share.axisOptions.yTicks);
-
-		    var height = share.chartHeight - share.margin.top - share.margin.bottom;
-		    share.plotChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(share.xAxis);
-		    share.plotChart.append('g').attr('class', 'y axis').call(share.yAxis);		    
 		};
 
 		this.initialiseGridlines = function() {
@@ -307,6 +321,21 @@ define([
         		.formatV(function(d) { return d3.format('.2f')(d); });
 
 		    share.plotArea.call(share.measure);
+		};
+
+		this.initialiseVolume = function(data) {
+
+			var height = share.chartHeight - share.margin.top - share.margin.bottom;
+
+			share.plotArea.selectAll('.volume').remove();
+
+		    share.yVolScale = d3.scale.linear().domain([0, share.yVolMax]).nice().range([height,0]);
+		    share.volumeSeries = sl.series.volume()
+		        .xScale(share.xScale)
+		        .yScale(share.yVolScale)
+		        .barWidth(this.chartDataOptions.width);
+
+		    share.plotArea.append('g').attr('class', 'volume').attr('id', 'volume').datum(data).call(share.volumeSeries);
 		};
 
 		this.initialiseBollinger = function(data) {
@@ -394,9 +423,9 @@ define([
 
 	    this.redrawChart = function() {
 	        share.chartSeries.call(share.chartData);
+	        share.volumeSeries.call(share.chartData);
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
-	        //share.plotArea.select('#tracker').call(share.tracker);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
 
 	        // Draw all Trackers
@@ -419,8 +448,6 @@ define([
     							.yLabel(share.annotations[i].yLabel);
     			share.plotArea.append('g').attr('class', 'annotation').attr('id', 'annotation' + i).datum($rootScope.chartData).call(annotation);
     		}
-
-    		console.log("Redrawing");
 	    };
 
 	    this.updateViewportFromChart = function() {

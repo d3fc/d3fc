@@ -35,6 +35,16 @@
     fill: #c60;
 }
 
+.chart .volumebar.up-day rect {
+    fill: #ccc;
+    fill-opacity: 0.25;
+}
+
+.chart .volumebar.down-day rect {
+    fill: #ccc;
+    fill-opacity: 0.25;
+}
+
 .chart .gridlines {
     fill: none;
     stroke-width: 0.5;

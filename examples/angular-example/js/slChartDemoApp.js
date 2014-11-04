@@ -1,6 +1,6 @@
 define([
 	'mockData',
-	'controllers/scottLogicChartCtrl'
+	'js/controllers/scottLogicChartCtrl'
 	], 
 
 	function(mockData, scottLogicChartCtrl) {
