@@ -101,10 +101,10 @@
     stroke-dasharray: 3, 3;
 }
 
-.chart g.tracker.open { stroke: #09f;  }
-.chart g.tracker.high { stroke: #90f; }
-.chart g.tracker.low { stroke: #0f9; }
-.chart g.tracker.close { stroke: #f09; }
+.chart g.indicator.open { stroke: #09f;  }
+.chart g.indicator.high { stroke: #90f; }
+.chart g.indicator.low { stroke: #0f9; }
+.chart g.indicator.close { stroke: #f09; }
 
 .chart .bollingerBandArea {
     fill: #f90;

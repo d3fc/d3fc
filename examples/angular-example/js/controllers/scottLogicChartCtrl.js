@@ -17,11 +17,11 @@ define([
 		
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 3 }; // Possible style options are 'bars' and 'candles', width is used for candles
-		this.chartAspect = 0.4; // Height to width mutiplier
+		this.chartAspect = 0.45; // Height to width mutiplier
 		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
 		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
-		this.showVolume = true;
+		this.showVolume = false;
 		this.volumeAspect = 0.2; // Chart height to volume height mutiplier
 
 		this.gridlineOptions = { show: true };
@@ -29,7 +29,7 @@ define([
 		this.measureOptions = { show: false, snap: true };
 
 		this.annotations = [];
-		this.trackers = [];
+		this.indicators = [];
 		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: 'close' };
 
 		// Chart options for optimal chart but can be changed if required.
@@ -87,10 +87,6 @@ define([
 		// SVG Behaviours
 		this.zoomBehaviour = null;
 
-		// Angular DOME component control
-		this.toolOptionsVisible = false;
-		this.trackersAndNotesVisible = false;
-
 		var share = this;
 
 		this.hasData = function() {
@@ -131,16 +127,6 @@ define([
 			return false;
 		};
 
-		this.toggleToolOptions = function() {
-			this.toolOptionsVisible = !this.toolOptionsVisible;
-			if( this.toolOptionsVisible ) this.trackersAndNotesVisible = false;
-		};
-
-		this.toggleTrackersAndNotes = function() {
-			this.trackersAndNotesVisible = !this.trackersAndNotesVisible;
-			if( this.trackersAndNotesVisible ) this.toolOptionsVisible = false;
-		};
-
 		this.applyToolOptions = function() {
 
 			if( !share.hasData() ) return;
@@ -153,6 +139,20 @@ define([
 			share.initialiseMeasure();
 
 			share.initialiseBollinger(data);
+		};
+
+		this.applyCrosshairs = function() {
+			if( !share.hasData() ) return;
+	        share.initialiseCrosshairs($rootScope.chartData);
+		};
+
+		this.applyGridlines = function() {
+			share.initialiseGridlines();
+		};
+
+		this.applyBollinger = function() {
+			if( !share.hasData() ) return;
+	        share.initialiseBollinger($rootScope.chartData);
 		};
 
 		this.initialise = function() {
@@ -268,7 +268,7 @@ define([
 		    share.navWidth = share.chartWidth - share.margin.left - share.margin.right;
 		    share.navHeight = (share.chartHeight * share.navigatorAspect) - share.margin.top - share.margin.bottom;
 
-		    share.navChart = share.mainSVG.append('svg')
+		    share.navChart = share.mainDiv.append('svg')
 		        .classed('navigator', true)
 		        .attr('width', share.navWidth + share.margin.left + share.margin.right)
 		        .attr('height', share.navHeight + share.margin.top + share.margin.bottom)
@@ -386,33 +386,18 @@ define([
 		        .call(share.crosshairs).call(share.measure).call(share.zoomBehaviour);
 		};
 
-		this.addTracker = function() {
-			share.trackers.push( { yLabel: 'New Average Tracker', movingAverageCount: 5, yValue:'close' } );
+		this.addIndicator = function() {
+			share.indicators.push( { type: 'movingAverage', yLabel: 'Moving Average', averagePoints: 5, yValue:'close' } );
 			share.redrawChart();
 		};
 
-		this.removeTracker = function(index) {
-			share.trackers.splice(index, 1);
+		this.removeIndicator = function(index) {
+			share.indicators.splice(index, 1);
 			share.redrawChart();
-		};
-
-		this.trackerUpdated = function(index) {
-			if( !share.trackers[index].movingAverageCount ) return;
-			console.log(share.trackers[index].movingAverageCount);
-
-	        share.plotArea.selectAll('#tracker' + index).remove();
-			var tracker = sl.series.tracker().xScale(share.xScale).yScale(share.yScale)
-				.yValue(share.trackers[index].yValue)
-				.yLabel(share.trackers[index].yLabel)
-				.movingAverage(share.trackers[index].movingAverageCount);
-			share.plotArea.append('g')
-				.attr('class', 'tracker ' + share.trackers[index].yValue)
-				.attr('id', 'tracker' + index).datum($rootScope.chartData).call(tracker);
-    		console.log("Tracker updated:" + index);
 		};
 
 		this.addAnnotation = function() {
-			share.annotations.push( { yLabel: 'New Note', value: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
+			share.annotations.push( { yLabel: 'Annotation', value: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
 			share.redrawChart();
 		};
 
@@ -425,7 +410,7 @@ define([
 			if( !share.annotations[index].yValue ) return;
 
 	        share.plotArea.selectAll('#annotation' + index).remove();
-			var annotation = sl.series.tracker().xScale(share.xScale).yScale(share.yScale)
+			var annotation = sl.series.indicator().xScale(share.xScale).yScale(share.yScale)
 							.yValue(share.annotations[index].yValue)
 							.yLabel(share.annotations[index].yLabel);
 			share.plotArea.append('g').attr('class', 'annotation').attr('id', 'annotation' + index).datum($rootScope.chartData).call(annotation);
@@ -440,25 +425,38 @@ define([
 	        share.volumeSeries.call(share.volumeData);
 	        share.chartSeries.call(share.chartData);
 
-	        // Draw all Trackers
-	        share.plotArea.selectAll('.tracker').remove();
-	        for(var i=0; i<share.trackers.length; i++) {
-    			var tracker = sl.series.tracker().xScale(share.xScale).yScale(share.yScale)
-					.yValue(share.trackers[i].yValue)
-					.yLabel(share.trackers[i].yLabel)
-					.movingAverage(share.trackers[i].movingAverageCount);
-    			share.plotArea.append('g')
-    				.attr('class', 'tracker ' + share.trackers[i].yValue)
-    				.attr('id', 'tracker' + i).datum($rootScope.chartData).call(tracker);
+	        // Draw all indicators
+	        share.plotArea.selectAll('.indicator').remove();
+	        for(var i=0; i<share.indicators.length; i++) {
+    			var indicator = null
+    			if(share.indicators[i].type == 'movingAverage') {
+    				indicator = sl.indicators.movingAverage()
+    					.xScale(share.xScale)
+    					.yScale(share.yScale)
+						.yValue(share.indicators[i].value)
+						.yLabel(share.indicators[i].yLabel)
+						.averagePoints(share.indicators[i].averagePoints);
+	    			share.plotArea.append('g')
+	    				.attr('class', 'indicator ' + share.indicators[i].yValue)
+	    				.attr('id', 'indicator' + i)
+	    				.datum($rootScope.chartData)
+	    				.call(indicator);
+	    		};
     		}
 
 	        // Draw all annotations
 	        share.plotArea.selectAll('.annotation').remove();
 	        for(var i=0; i<share.annotations.length; i++) {
-    			var annotation = sl.series.annotation().xScale(share.xScale).yScale(share.yScale)
-    							.yValue(share.annotations[i].yValue)
-    							.yLabel(share.annotations[i].yLabel);
-    			share.plotArea.append('g').attr('class', 'annotation').attr('id', 'annotation' + i).datum($rootScope.chartData).call(annotation);
+    			var annotation = sl.tools.annotation()
+    				.xScale(share.xScale)
+    				.yScale(share.yScale)
+					.yValue(share.annotations[i].yValue)
+					.yLabel(share.annotations[i].yLabel);
+    			share.plotArea.append('g')
+	    			.attr('class', 'annotation')
+	    			.attr('id', 'annotation' + i)
+	    			//.datum($rootScope.chartData)
+	    			.call(annotation);
     		}
 	    };
 
@@ -485,7 +483,7 @@ define([
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
 
 	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
-	    	share.mainSVG.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
+	    	share.mainDiv.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
 	    };
 
 		this.initialise();

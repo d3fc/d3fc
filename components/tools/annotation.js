@@ -13,7 +13,14 @@ define ([
 
         var annotation = function (selection) {
 
-            var line = d3.svg.line();
+            var line = selection.append("line")
+                .attr('x1', xScale.range()[0]) 
+                .attr('y1', yScale(yValue))
+                .attr('x2', xScale.range()[1]) 
+                .attr('y2', yScale(yValue));
+
+
+            /*var line = d3.svg.line();
             line.x(function (d) { return xScale(d.date); })
                 .y(yScale(yValue));
 
@@ -28,7 +35,7 @@ define ([
                     .classed('annotation', true);
                 path.exit()
                     .remove();
-            });
+            });*/
         };
 
         annotation.xScale = function (value) {

@@ -39,12 +39,26 @@ define([
 
 		app.controller('scottLogicChartCtrl', [ '$rootScope', scottLogicChartCtrl ]);
 
-		app.directive('scottLogicChart', function() {
+		app.directive('slChart', function() {
 			return {
 				restrict: 'E',
 				templateUrl: 'inc/scottLogicChart.html',
 				controller: 'scottLogicChartCtrl',
 				controllerAs: 'chart'
+			};
+		});
+
+		app.directive('slChartToolbar', function() {
+			return {
+				restrict: 'E',
+				templateUrl: 'inc/scottLogicChartToolbar.html'
+			};
+		});
+
+		app.directive('slChartOptions', function() {
+			return {
+				restrict: 'E',
+				templateUrl: 'inc/scottLogicChartOptions.html'
 			};
 		});
 	}
