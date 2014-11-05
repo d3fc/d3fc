@@ -17,7 +17,7 @@ define([
 		
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 3 }; // Possible style options are 'bars' and 'candles', width is used for candles
-		this.chartAspect = 0.5; // Height to width mutiplier
+		this.chartAspect = 0.4; // Height to width mutiplier
 		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
 		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
@@ -36,7 +36,7 @@ define([
 		this.chartId = '#scottLogicChart';
 		this.initialDaysShown = 90;
 
-		this.margin = {top: 5, right: 35, bottom: 30, left: 50};
+		this.margin = {top: 15, right: 35, bottom: 30, left: 50};
 
 		this.chartWidth = 0;
 		this.chartHeight = 0;
@@ -67,11 +67,11 @@ define([
     	this.chartSeries = null;
     	this.navSeries = null;
     	this.navLine = null;
+		this.volumeData = null;
 		this.volumeSeries = null;
-		this.volumePlot = null;
 
 		// SVG Element Handles
-		this.mainSVG = null;
+		this.mainDiv = null;
 		this.plotChart = null;
 		this.plotArea = null;
 		this.navChart = null;
@@ -186,19 +186,23 @@ define([
 		this.initialiseChart = function(data) {
 
 			// Create the main chart
-		    share.mainSVG = d3.select(share.chartId).style('width', '100%');
+		    share.mainDiv = d3.select(share.chartId);
 
-		    share.chartWidth = share.mainSVG.node().offsetWidth;
-		    share.chartHeight = share.mainSVG.node().offsetWidth * share.chartAspect;
+	    	$(window).on('resize', function() {
+	    		// todo
+	    	});
+
+		    share.chartWidth = share.mainDiv.node().offsetWidth;
+		    share.chartHeight = share.mainDiv.node().offsetWidth * share.chartAspect;
+
+		    share.plotChart = share.mainDiv.classed('chart', true).append('svg')
+		        .attr('width', share.chartWidth)
+		        .attr('height', share.chartHeight)
+		        .append('g')
+		        .attr('transform', 'translate(' + share.margin.left + ',' + share.margin.top + ')');
 
 		    var width = share.chartWidth - share.margin.left - share.margin.right,
 		        height = share.chartHeight - share.margin.top - share.margin.bottom;
-
-		    share.plotChart = share.mainSVG.classed('chart', true).append('svg')
-		        .attr('width', width + share.margin.left + share.margin.right)
-		        .attr('height', height + share.margin.top + share.margin.bottom)
-		        .append('g')
-		        .attr('transform', 'translate(' + share.margin.left + ',' + share.margin.top + ')');
 
 		    share.plotArea = share.plotChart.append('g').attr('clip-path', 'url(#plotAreaClip)');
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
@@ -224,6 +228,27 @@ define([
 
 		    share.plotArea.selectAll(".series").remove();
     		share.chartSeries = share.plotArea.append('g').attr('class', 'series').datum(data).call(share.chartData);
+		};
+
+		this.initialiseVolume = function(data) {
+
+			var height = share.chartHeight - share.margin.top - share.margin.bottom;
+
+			share.plotArea.selectAll('.volume').remove();
+
+		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
+		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
+		    share.volYAxis.tickFormat(function(d) {
+				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
+			});
+		    share.plotChart.append('g').attr('class', 'y axis').call(share.volYAxis);
+
+		    share.volumeData = sl.series.volume()
+		        .xScale(share.xScale)
+		        .yScale(share.volYScale)
+		        .barWidth(this.chartDataOptions.width);
+
+		    share.volumeSeries = share.plotArea.append('g').attr('class', 'volume').datum(data).call(share.volumeData);
 		};
 
 		this.initialiseAxes = function() {
@@ -324,27 +349,6 @@ define([
 		    share.plotArea.call(share.measure);
 		};
 
-		this.initialiseVolume = function(data) {
-
-			var height = share.chartHeight - share.margin.top - share.margin.bottom;
-
-			share.plotArea.selectAll('.volume').remove();
-
-		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
-		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
-		    share.volYAxis.tickFormat(function(d) {
-				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
-			});
-		    share.plotChart.append('g').attr('class', 'y axis').call(share.volYAxis);
-
-		    share.volumeSeries = sl.series.volume()
-		        .xScale(share.xScale)
-		        .yScale(share.volYScale)
-		        .barWidth(this.chartDataOptions.width);
-
-		    share.volumePlot = share.plotArea.append('g').attr('class', 'volume').attr('id', 'volume').datum(data).call(share.volumeSeries);
-		};
-
 		this.initialiseBollinger = function(data) {
 
 			share.plotArea.selectAll('.bollinger').remove();
@@ -429,12 +433,12 @@ define([
 		};
 
 	    this.redrawChart = function() {
-	        share.chartSeries.call(share.chartData);
-	        share.volumePlot.call(share.chartData);
-	        
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
+
+	        share.volumeSeries.call(share.volumeData);
+	        share.chartSeries.call(share.chartData);
 
 	        // Draw all Trackers
 	        share.plotArea.selectAll('.tracker').remove();

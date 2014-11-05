@@ -14,11 +14,7 @@ define ([
             intraDaySteps = 50,
             toDate = new Date(),
             fromDate = new Date(),
-            filter = function (moment) { 
-                return !(moment.day() === 0 || moment.day() === 6);
-            };
-
-        var data = null;
+            filter = null;
 
         var generatePrices = function (period, steps) {
             var increments = generateIncrements(period, steps),
@@ -58,11 +54,10 @@ define ([
                 prices,
                 ohlc = [],
                 daySteps,
-                currentStep = 0,
-                self = this;
+                currentStep = 0;
 
             range.by('days', function (moment) {
-                if (self.filter(moment)) {
+                if (!filter || filter(moment)) {
                     daysIncluded += 1;
                 }
             });
@@ -71,7 +66,7 @@ define ([
             prices = generatePrices(rangeYears, steps);
 
             range.by('days', function (moment) {
-                if (self.filter(moment)) {
+                if (!filter || filter(moment)) {
                     daySteps = prices.slice(currentStep, currentStep += intraDaySteps);
                     ohlc.push({
                         date: moment.toDate(),

@@ -15,16 +15,16 @@ Included so far:
 
 The following components are included in this version:
 
-+ Annotations (js/components/annotationSeries.js)
-+ Bollinger Bands (js/components/bollingerSeries.js)
-+ Candlestick Data Series (js/components/candlestickSeries.js)
-+ Crosshairs (js/components/crosshairs.js)
-+ Financial Time Scale (js/components/financialScale.js)
-+ Gridlines (js/components/gridlines.js)
-+ Measuring Tool (js/components/measure.js)
-+ Mock Data Generator (js/components/mockData.js)
-+ OHLC (Open, High, Low, Close) Data Series (js/components/ohlcSeries.js)
-+ Rolling Average Tracker (js/components/trackerSeries.js)
++ Annotations 
++ Bollinger Bands
++ Candlestick Data Series
++ Crosshairs
++ Financial Time Scale
++ Gridlines 
++ Measuring Tool
++ Mock Data Generator
++ OHLC (Open, High, Low, Close) Data Series 
++ Rolling Average Tracker 
 
 Other files exists in the 'components' folder but these are utility classes for the main components.
 

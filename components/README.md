@@ -57,3 +57,7 @@ Current components int this namespace:
 + sl.weekday
 
 **Further documentation for each component can be found in the corresponding namespace folder**
+
+##License
+
+These components are licensed under the [MIT License](http://opensource.org/licenses/MIT)
