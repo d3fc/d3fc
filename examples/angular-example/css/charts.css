@@ -87,14 +87,19 @@
     font: 10px sans-serif;
 }
 
-.chart .annotation {
+.chart g.annotation line.marker {
     fill: none;
-    stroke: #0f9;
+    stroke: #099;
     stroke-width: 1;
     stroke-dasharray: 3, 3;
 }
 
-.chart .tracker {
+.chart g.annotation text.callout {
+    font: 10px sans-serif;
+    padding: 2px;
+}
+
+.chart .indicator {
     fill: none;
     stroke: #09f;
     stroke-width: 1;

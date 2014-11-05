@@ -14,8 +14,7 @@ sl.tools.crosshairs = function () {
         yNearestValue = '',
         formatH = null,
         formatV = null,
-        onSnap = null,
-        lastSnap = { x: null, y: null }
+        padding = 2;
 
     var lineH = null,
         lineV = null,
@@ -34,31 +33,26 @@ sl.tools.crosshairs = function () {
         lineH = root.append("line")
             .attr('class', 'crosshairs horizontal')
             .attr('x1', xScale.range()[0])
-            .attr('x2', xScale.range()[1])
-            .attr('display', 'none');
+            .attr('x2', xScale.range()[1]);
 
         lineV = root.append("line")
             .attr('class', 'crosshairs vertical')
             .attr('y1', yScale.range()[0])
-            .attr('y2', yScale.range()[1])
-            .attr('display', 'none');
+            .attr('y2', yScale.range()[1]);
 
         circle = root.append("circle")
             .attr('class', 'crosshairs circle')
-            .attr('r', 6)
-            .attr('display', 'none');
+            .attr('r', 6);
 
         calloutH = root.append("text")
             .attr('class', 'crosshairs callout horizontal')
-            .attr('x', xScale.range()[1])
-            .attr('style', 'text-anchor: end')
-            .attr('display', 'none');
+            .attr('x', xScale.range()[1] - padding)
+            .attr('style', 'text-anchor: end');
 
         calloutV = root.append("text")
             .attr('class', 'crosshairs callout vertical')
             .attr('y', '1em')
-            .attr('style', 'text-anchor: end')
-            .attr('display', 'none');
+            .attr('style', 'text-anchor: end');
     };
 
     function update()
@@ -72,9 +66,9 @@ sl.tools.crosshairs = function () {
             .attr('x2', x);
         circle.attr('cx', x)
             .attr('cy', y);
-        calloutH.attr('y', y)
+        calloutH.attr('y', y - padding)
             .text(yNearestValue + ": " + formatH(highlight[yNearestValue]));
-        calloutV.attr('x', x)
+        calloutV.attr('x', x - padding)
             .text(formatV(highlight.date));
 
         lineH.attr('display', 'inherit');
@@ -93,14 +87,6 @@ sl.tools.crosshairs = function () {
         if ((nearest !== null) /*&& (nearest !== highlight) && (yNearestValue !== yLastNearestValue)*/) {
             highlight = nearest;
             update();
-
-            if(onSnap) {
-                var snap = { x: highlight.date, y: highlight[yNearestValue] };
-                if( lastSnap.x != snap.x && lastSnap.y != snap.y ) {
-                    onSnap(snap);
-                    lastSnap = snap;
-                }
-            }
         }
     };
 
@@ -213,11 +199,11 @@ sl.tools.crosshairs = function () {
         return crosshairs;
     };
 
-    crosshairs.onSnap = function (value) {
+    crosshairs.padding = function (value) {
         if (!arguments.length) {
-            return onSnap;
+            return padding;
         }
-        onSnap = value;
+        padding = value;
         return crosshairs;
     };
 

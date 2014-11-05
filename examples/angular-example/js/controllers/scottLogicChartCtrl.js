@@ -78,7 +78,6 @@ define([
 		this.gridLines = null;
 		this.crosshairs = null;
 		this.measure = null;
-
 		this.bollinger = null;
 
 		this.viewport = null;
@@ -137,7 +136,6 @@ define([
 			share.initialiseAxes();
 			share.initialiseCrosshairs(data);
 			share.initialiseMeasure();
-
 			share.initialiseBollinger(data);
 		};
 
@@ -321,8 +319,7 @@ define([
 		        .yScale(share.yScale)
 		        .yValue(share.crosshairOptions.yValue)
 		        .formatV(function(d) { return d3.time.format('%b %e')(d); })
-		        .formatH(function(d) { return d3.format('.1f')(d); })
-		        .onSnap(function(s) { });
+		        .formatH(function(d) { return d3.format('.1f')(d); });
 
 		    share.plotArea.call(share.crosshairs);
 		};
@@ -382,8 +379,11 @@ define([
 
 			var height = share.chartHeight - share.margin.top - share.margin.bottom;
 		    share.overlay = d3.svg.area().x(function (d) { return share.xScale(d.date); }).y0(0).y1(height);
-		    share.plotArea.append('path').attr('class', 'overlay').attr('id', 'plotOverlay').attr('d', share.overlay(data))
-		        .call(share.crosshairs).call(share.measure).call(share.zoomBehaviour);
+		    share.plotArea.append('path')
+		    	.attr('class', 'overlay')
+		    	.attr('id', 'plotOverlay')
+		    	.attr('d', share.overlay(data))
+		        .call(share.zoomBehaviour);
 		};
 
 		this.addIndicator = function() {
@@ -397,7 +397,7 @@ define([
 		};
 
 		this.addAnnotation = function() {
-			share.annotations.push( { yLabel: 'Annotation', value: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
+			share.annotations.push( { yLabel: 'Annotation', yValue: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
 			share.redrawChart();
 		};
 
@@ -409,12 +409,15 @@ define([
 		this.annotationUpdated = function(index) {
 			if( !share.annotations[index].yValue ) return;
 
-	        share.plotArea.selectAll('#annotation' + index).remove();
-			var annotation = sl.series.indicator().xScale(share.xScale).yScale(share.yScale)
-							.yValue(share.annotations[index].yValue)
-							.yLabel(share.annotations[index].yLabel);
-			share.plotArea.append('g').attr('class', 'annotation').attr('id', 'annotation' + index).datum($rootScope.chartData).call(annotation);
-    		console.log("Annotation updated:" + index);
+	        share.plotArea.select("#annotation_" + index).remove();
+	        var annotation = sl.tools.annotation()
+    				.index(index)
+    				.xScale(share.xScale)
+    				.yScale(share.yScale)
+					.yValue(share.annotations[index].yValue)
+					.yLabel(share.annotations[index].yLabel)
+					.formatCallout(function(d) { return d3.format('.1f')(d); });
+    		share.plotArea.call(annotation);
 		};
 
 	    this.redrawChart = function() {
@@ -433,7 +436,7 @@ define([
     				indicator = sl.indicators.movingAverage()
     					.xScale(share.xScale)
     					.yScale(share.yScale)
-						.yValue(share.indicators[i].value)
+						.yValue(share.indicators[i].yValue)
 						.yLabel(share.indicators[i].yLabel)
 						.averagePoints(share.indicators[i].averagePoints);
 	    			share.plotArea.append('g')
@@ -448,15 +451,13 @@ define([
 	        share.plotArea.selectAll('.annotation').remove();
 	        for(var i=0; i<share.annotations.length; i++) {
     			var annotation = sl.tools.annotation()
+    				.index(i)
     				.xScale(share.xScale)
     				.yScale(share.yScale)
 					.yValue(share.annotations[i].yValue)
-					.yLabel(share.annotations[i].yLabel);
-    			share.plotArea.append('g')
-	    			.attr('class', 'annotation')
-	    			.attr('id', 'annotation' + i)
-	    			//.datum($rootScope.chartData)
-	    			.call(annotation);
+					.yLabel(share.annotations[i].yLabel)
+					.formatCallout(function(d) { return d3.format('.1f')(d); });
+    			share.plotArea.call(annotation);
     		}
 	    };
 
