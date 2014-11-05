@@ -1,4 +1,11 @@
-#sl.utilities.dataGenerator
+# sl.**utilities**
+
++ [Data Generator](#slutilitiesdatagenerator)
++ [Weekday](#slutilitiesweekday)
++ [Dimensions](#dimensions)
+
+
+## sl.utilities.dataGenerator()
 
 This component will generate some 'fake' daily price data to use when developing charts using these components. The generator uses the [Geometric Brownian motion](http://en.wikipedia.org/wiki/Geometric_Brownian_motion) model to generate price data points and a standard randomisation to generate volume values.
 
@@ -9,12 +16,14 @@ var deltaY = period / steps,
 sqrtDeltaY = Math.sqrt(deltaY),
 
 deltaW = jStat()
-	.randn(1, steps)
-	.multiply(sqrtDeltaY),
+  .randn(1, steps)
+  .multiply(sqrtDeltaY),
 
 increments =  deltaW
     .multiply(sigma)
     .add((mu - ((sigma * sigma) / 2)) * deltaY),
+
+
 
 expIncrements = increments.map(function (x) { return Math.exp(x); });
 ```
@@ -28,7 +37,7 @@ The dependencies for this component are injected using [require.js](http://requi
 + [moment-range.js](https://github.com/gf3/moment-range)
 + [jstat.js](https://github.com/jstat/jstat)
 
-##Properties:
+###Properties:
 
 **mu** - The 'mu' parameter for the Geometric Brownian motion algorithm.
 
@@ -39,7 +48,7 @@ The dependencies for this component are injected using [require.js](http://requi
 **intraDaySteps** - The number of price values generated for each day candle.
 
 **filter** - This property receives a function which will filter out dates which would not exist in a real world situation, i.e. when the market is closed. And example filter to filter weekends is shown below:
-	
+  
 ```javascript
 function (moment) { return !(moment.day() === 0 || moment.day() === 6); }
 ```
@@ -48,9 +57,9 @@ function (moment) { return !(moment.day() === 0 || moment.day() === 6); }
 
 **fromDate** - The first date and time (Date object) that data is generated for.
 
-##Methods:
+###Methods:
 
-###generate
+####generate
 
 Generates the data based on the current properties and returns an object array.
 
@@ -65,7 +74,7 @@ The function returns an array of objects each of which contains the following me
 + *low*: The minimum price reached in this period
 + *volume*: The total market volume for this period
 
-##Example Code:
+###Example Code:
 
 ```javascript
 var data = sl.utilities.dataGenerator()
@@ -80,8 +89,96 @@ var data = sl.utilities.dataGenerator()
 
 ------
 
-#sl.utilities.weekday
+## sl.utilities.**weekday**
 
 Information and code examples here
 
 ------
+
+## Dimensions
+
+Based on the [Margin Convention](http://bl.ocks.org/mbostock/3019563), the dimensions component is responsible for defining the chart area.
+
+It attempts to simplify the repetitive process of constructing the chart area:
+
++ Define the margins, height and width
++ Calculate the inner height and inner width
++ Create an SVG
++ Create a group for the chart; translate it based on the margins
++ Create a clipping path for the plot area; add it to the group
+
+### API
+
+#### sl.ultities.dimensions()
+
+Constructs the dimensions component, with default values.
+
+#### dimensions(selection)
+
+Apply the dimensions to a [selection](https://github.com/mbostock/d3/wiki/Selections). (Commonly  a `div`.) The dimensions component can be applied to one or more elements.
+
+If the width or height have not been set, for example:
+
+```js
+// Create the dimensions
+var dimensions = sl.utility.dimensions();
+
+// Setup the chart
+// Height and width automatically calculated from dimensions of #chart 
+var setupArea = d3.select('#chart')
+    .call(dimensions);
+```
+
+Then the width and height of the dimensions will try to expand to the dimensions of the selected element, respectively. If this results in an invalid value, i.e. less than 0, a default value will be used.
+
+#### dimensions.marginTop(value)
+
+If _value_ is specified, sets the top margin and returns the dimensions; if _value_ is not specified, returns the top margin.
+
+#### dimensions.marginRight(value)
+
+If _value_ is specified, sets the right margin and returns the dimensions; if _value_ is not specified, returns the right margin.
+
+#### dimensions.marginBottom(value)
+
+If _value_ is specified, sets the bottom margin and returns the dimensions; if _value_ is not specified, returns the bottom margin.
+
+#### dimensions.marginLeft(value)
+
+If _value_ is specified, sets the left margin and returns the dimensions; if _value_ is not specified, returns the left margin.
+
+#### dimensions.width(value)
+
+If _value_ is specified, sets the width and returns the dimensions; if _value_ is not specified, returns the width.
+
+#### dimensions.height(value)
+
+If _value_ is specified, sets the height and returns the dimensions; if _value_ is not specified, returns the height.
+
+#### dimensions.innerWidth()
+
+Returns the width of the chart minus the horizontal margins.
+
+#### dimensions.innerHeight()
+
+Returns the height of the chart minus the vertical margins.
+
+### Example Usage
+
+```js
+// Setup the dimensions
+  var dimensions = sl.utility.dimensions()
+      .marginBottom(30)
+      .marginLeft(50)
+      .width(660)
+      .height(400);
+
+  // Setup the chart
+  var setupArea = d3.select('#chart')
+      .call(dimensions);
+
+  // Select the elements which we may want to use
+  var svg = setupArea.select('svg'),
+      chart = svg.select('g'),
+      plotArea = chart.select('.plotArea');
+```
