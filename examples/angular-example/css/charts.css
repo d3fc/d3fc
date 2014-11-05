@@ -1,10 +1,4 @@
 #scottLogicChart {
-    background: #f00;
-}
-
-#scottLogicChart svg {
-    background: #00f;
-    opacity: 0.5;
 }
 
 .chart .axis text {
