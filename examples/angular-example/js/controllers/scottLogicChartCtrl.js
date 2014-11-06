@@ -10,18 +10,19 @@ define([
     'annotation',
     'movingAverage',
     'volume',
-    'bollingerBands'
+    'bollingerBands',
+    'fibonacciFan'
 	], function(d3, sl) {
 
 	function scottLogicChartCtrl($rootScope) {
 		
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 3 }; // Possible style options are 'bars' and 'candles', width is used for candles
-		this.chartAspect = 0.45; // Height to width mutiplier
+		this.chartAspect = 0.5; // Height to width mutiplier
 		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
 		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
-		this.showVolume = false;
+		this.showVolume = true;
 		this.volumeAspect = 0.2; // Chart height to volume height mutiplier
 
 		this.gridlineOptions = { show: true };
@@ -29,14 +30,15 @@ define([
 		this.measureOptions = { show: false, snap: true };
 
 		this.annotations = [];
-		this.indicators = [];
+		this.trackers = [];
 		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: 'close' };
+        this.fibonacciOptions = { show: false };
 
 		// Chart options for optimal chart but can be changed if required.
 		this.chartId = '#scottLogicChart';
 		this.initialDaysShown = 90;
 
-		this.margin = {top: 15, right: 35, bottom: 30, left: 50};
+		this.margin = {top: 5, right: 35, bottom: 30, left: 50};
 
 		this.chartWidth = 0;
 		this.chartHeight = 0;
@@ -67,24 +69,30 @@ define([
     	this.chartSeries = null;
     	this.navSeries = null;
     	this.navLine = null;
-		this.volumeData = null;
 		this.volumeSeries = null;
+		this.volumePlot = null;
 
 		// SVG Element Handles
-		this.mainDiv = null;
+		this.mainSVG = null;
 		this.plotChart = null;
 		this.plotArea = null;
 		this.navChart = null;
 		this.gridLines = null;
 		this.crosshairs = null;
 		this.measure = null;
+
 		this.bollinger = null;
+        this.fibonacci = null;
 
 		this.viewport = null;
 		this.overlay = null;
 
 		// SVG Behaviours
 		this.zoomBehaviour = null;
+
+		// Angular DOME component control
+		this.toolOptionsVisible = false;
+		this.trackersAndNotesVisible = false;
 
 		var share = this;
 
@@ -110,6 +118,7 @@ define([
 			else if(featureName == 'crosshairs') share.crosshairOptions.show = !share.crosshairOptions.show;
 			else if(featureName == 'measure') share.measureOptions.show = !share.measureOptions.show;
 			else if(featureName == 'bollinger') share.bollingerOptions.show = !share.bollingerOptions.show;
+			else if(featureName == 'fibonacci') share.fibonacciOptions.show = !share.fibonacciOptions.show;
 			else if(featureName == 'navigator') share.showNavigator = !share.showNavigator;
 			else if(featureName == 'volume') share.showVolume = !share.showVolume;
 
@@ -121,9 +130,20 @@ define([
 			else if(featureName == 'crosshairs') return share.crosshairOptions.show;
 			else if(featureName == 'measure') return share.measureOptions.show;
 			else if(featureName == 'bollinger') return share.bollingerOptions.show;
+			else if(featureName == 'fibonacci') return share.fibonacciOptions.show;
 			else if(featureName == 'navigator') return share.showNavigator;
 			else if(featureName == 'volume') return share.showVolume;
 			return false;
+		};
+
+		this.toggleToolOptions = function() {
+			this.toolOptionsVisible = !this.toolOptionsVisible;
+			if( this.toolOptionsVisible ) this.trackersAndNotesVisible = false;
+		};
+
+		this.toggleTrackersAndNotes = function() {
+			this.trackersAndNotesVisible = !this.trackersAndNotesVisible;
+			if( this.trackersAndNotesVisible ) this.toolOptionsVisible = false;
 		};
 
 		this.applyToolOptions = function() {
@@ -136,21 +156,9 @@ define([
 			share.initialiseAxes();
 			share.initialiseCrosshairs(data);
 			share.initialiseMeasure();
+
 			share.initialiseBollinger(data);
-		};
-
-		this.applyCrosshairs = function() {
-			if( !share.hasData() ) return;
-	        share.initialiseCrosshairs($rootScope.chartData);
-		};
-
-		this.applyGridlines = function() {
-			share.initialiseGridlines();
-		};
-
-		this.applyBollinger = function() {
-			if( !share.hasData() ) return;
-	        share.initialiseBollinger($rootScope.chartData);
+			share.initialiseFibonacci(data);
 		};
 
 		this.initialise = function() {
@@ -173,6 +181,7 @@ define([
 
 			share.initialiseVolume(data);
 			share.initialiseBollinger(data);
+			share.initialiseFibonacci(data);
 
 			share.initialiseBehaviours();
 			share.initialiseOverlay(data);
@@ -184,23 +193,19 @@ define([
 		this.initialiseChart = function(data) {
 
 			// Create the main chart
-		    share.mainDiv = d3.select(share.chartId);
+		    share.mainSVG = d3.select(share.chartId).style('width', '100%');
 
-	    	$(window).on('resize', function() {
-	    		// todo
-	    	});
-
-		    share.chartWidth = share.mainDiv.node().offsetWidth;
-		    share.chartHeight = share.mainDiv.node().offsetWidth * share.chartAspect;
-
-		    share.plotChart = share.mainDiv.classed('chart', true).append('svg')
-		        .attr('width', share.chartWidth)
-		        .attr('height', share.chartHeight)
-		        .append('g')
-		        .attr('transform', 'translate(' + share.margin.left + ',' + share.margin.top + ')');
+		    share.chartWidth = share.mainSVG.node().offsetWidth;
+		    share.chartHeight = share.mainSVG.node().offsetWidth * share.chartAspect;
 
 		    var width = share.chartWidth - share.margin.left - share.margin.right,
 		        height = share.chartHeight - share.margin.top - share.margin.bottom;
+
+		    share.plotChart = share.mainSVG.classed('chart', true).append('svg')
+		        .attr('width', width + share.margin.left + share.margin.right)
+		        .attr('height', height + share.margin.top + share.margin.bottom)
+		        .append('g')
+		        .attr('transform', 'translate(' + share.margin.left + ',' + share.margin.top + ')');
 
 		    share.plotArea = share.plotChart.append('g').attr('clip-path', 'url(#plotAreaClip)');
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
@@ -228,27 +233,6 @@ define([
     		share.chartSeries = share.plotArea.append('g').attr('class', 'series').datum(data).call(share.chartData);
 		};
 
-		this.initialiseVolume = function(data) {
-
-			var height = share.chartHeight - share.margin.top - share.margin.bottom;
-
-			share.plotArea.selectAll('.volume').remove();
-
-		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
-		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
-		    share.volYAxis.tickFormat(function(d) {
-				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
-			});
-		    share.plotChart.append('g').attr('class', 'y axis').call(share.volYAxis);
-
-		    share.volumeData = sl.series.volume()
-		        .xScale(share.xScale)
-		        .yScale(share.volYScale)
-		        .barWidth(this.chartDataOptions.width);
-
-		    share.volumeSeries = share.plotArea.append('g').attr('class', 'volume').datum(data).call(share.volumeData);
-		};
-
 		this.initialiseAxes = function() {
 
 			share.plotChart.selectAll('.axis').remove();
@@ -266,7 +250,7 @@ define([
 		    share.navWidth = share.chartWidth - share.margin.left - share.margin.right;
 		    share.navHeight = (share.chartHeight * share.navigatorAspect) - share.margin.top - share.margin.bottom;
 
-		    share.navChart = share.mainDiv.append('svg')
+		    share.navChart = share.mainSVG.append('svg')
 		        .classed('navigator', true)
 		        .attr('width', share.navWidth + share.margin.left + share.margin.right)
 		        .attr('height', share.navHeight + share.margin.top + share.margin.bottom)
@@ -319,7 +303,7 @@ define([
 		        .yScale(share.yScale)
 		        .yValue(share.crosshairOptions.yValue)
 		        .formatV(function(d) { return d3.time.format('%b %e')(d); })
-		        .formatH(function(d) { return d3.format('.1f')(d); });
+		        .formatH(function(d) { return share.crosshairs.highlightedField() + ': ' + d3.format('.1f')(d); });
 
 		    share.plotArea.call(share.crosshairs);
 		};
@@ -346,19 +330,54 @@ define([
 		    share.plotArea.call(share.measure);
 		};
 
-		this.initialiseBollinger = function(data) {
+		this.initialiseVolume = function(data) {
 
-			share.plotArea.selectAll('.bollinger').remove();
+			var height = share.chartHeight - share.margin.top - share.margin.bottom;
 
-		    share.bollinger = sl.indicators.bollingerBands()
+			share.plotArea.selectAll('.volume').remove();
+
+		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
+		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks);
+		    share.volYAxis.tickFormat(function(d) {
+				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
+			});
+		    share.plotChart.append('g').attr('class', 'y axis').call(share.volYAxis);
+
+		    share.volumeSeries = sl.series.volume()
 		        .xScale(share.xScale)
-		        .yScale(share.yScale)
-		        .yValue(share.bollingerOptions.yValue)
-		        .movingAverage(share.bollingerOptions.movingAverageCount)
-		        .standardDeviations(share.bollingerOptions.standardDeviations);
+		        .yScale(share.volYScale)
+		        .barWidth(this.chartDataOptions.width);
 
-		    share.plotArea.append('g').attr('class', 'bollinger').attr('id', 'bollinger').datum(data).call(share.bollinger);
+		    share.volumePlot = share.plotArea.append('g').attr('class', 'volume').attr('id', 'volume').datum(data).call(share.volumeSeries);
 		};
+
+        this.initialiseBollinger = function(data) {
+
+            share.plotArea.selectAll('.bollinger').remove();
+
+            share.bollinger = sl.indicators.bollingerBands()
+                .xScale(share.xScale)
+                .yScale(share.yScale)
+                .yValue(share.bollingerOptions.yValue)
+                .movingAverage(share.bollingerOptions.movingAverageCount)
+                .standardDeviations(share.bollingerOptions.standardDeviations);
+
+            share.plotArea.append('g').attr('class', 'bollinger').attr('id', 'bollinger').datum(data).call(share.bollinger);
+        };
+
+        this.initialiseFibonacci = function(data) {
+
+            share.plotArea.selectAll('.fibonacci-fan').remove();
+
+            share.fibonacci = sl.indicators.fibonacciFan()
+                .target(share.plotArea)
+                .series(data)
+                .xScale(share.xScale)
+                .yScale(share.yScale)
+                .active(false);
+
+            share.plotArea.call(share.fibonacci);
+        };
 
 		this.initialiseBehaviours = function() {
 
@@ -379,25 +398,37 @@ define([
 
 			var height = share.chartHeight - share.margin.top - share.margin.bottom;
 		    share.overlay = d3.svg.area().x(function (d) { return share.xScale(d.date); }).y0(0).y1(height);
-		    share.plotArea.append('path')
-		    	.attr('class', 'overlay')
-		    	.attr('id', 'plotOverlay')
-		    	.attr('d', share.overlay(data))
-		        .call(share.zoomBehaviour);
+		    share.plotArea.append('path').attr('class', 'overlay').attr('id', 'plotOverlay').attr('d', share.overlay(data))
+		        .call(share.crosshairs).call(share.measure).call(share.zoomBehaviour);
 		};
 
-		this.addIndicator = function() {
-			share.indicators.push( { type: 'movingAverage', yLabel: 'Moving Average', averagePoints: 5, yValue:'close' } );
+		this.addTracker = function() {
+			share.trackers.push( { yLabel: 'New Average Tracker', movingAverageCount: 5, yValue:'close' } );
 			share.redrawChart();
 		};
 
-		this.removeIndicator = function(index) {
-			share.indicators.splice(index, 1);
+		this.removeTracker = function(index) {
+			share.trackers.splice(index, 1);
 			share.redrawChart();
+		};
+
+		this.trackerUpdated = function(index) {
+			if( !share.trackers[index].movingAverageCount ) return;
+			console.log(share.trackers[index].movingAverageCount);
+
+	        share.plotArea.selectAll('#tracker' + index).remove();
+			var tracker = sl.series.tracker().xScale(share.xScale).yScale(share.yScale)
+				.yValue(share.trackers[index].yValue)
+				.yLabel(share.trackers[index].yLabel)
+				.movingAverage(share.trackers[index].movingAverageCount);
+			share.plotArea.append('g')
+				.attr('class', 'tracker ' + share.trackers[index].yValue)
+				.attr('id', 'tracker' + index).datum($rootScope.chartData).call(tracker);
+    		console.log("Tracker updated:" + index);
 		};
 
 		this.addAnnotation = function() {
-			share.annotations.push( { yLabel: 'Annotation', yValue: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
+			share.annotations.push( { yLabel: 'New Note', value: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
 			share.redrawChart();
 		};
 
@@ -409,55 +440,42 @@ define([
 		this.annotationUpdated = function(index) {
 			if( !share.annotations[index].yValue ) return;
 
-	        share.plotArea.select("#annotation_" + index).remove();
-	        var annotation = sl.tools.annotation()
-    				.index(index)
-    				.xScale(share.xScale)
-    				.yScale(share.yScale)
-					.yValue(share.annotations[index].yValue)
-					.yLabel(share.annotations[index].yLabel)
-					.formatCallout(function(d) { return d3.format('.1f')(d); });
-    		share.plotArea.call(annotation);
+	        share.plotArea.selectAll('#annotation' + index).remove();
+			var annotation = sl.series.tracker().xScale(share.xScale).yScale(share.yScale)
+							.yValue(share.annotations[index].yValue)
+							.yLabel(share.annotations[index].yLabel);
+			share.plotArea.append('g').attr('class', 'annotation').attr('id', 'annotation' + index).datum($rootScope.chartData).call(annotation);
+    		console.log("Annotation updated:" + index);
 		};
 
 	    this.redrawChart = function() {
+	        share.chartSeries.call(share.chartData);
+	        share.volumePlot.call(share.chartData);
+	        
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
+            share.fibonacci.update();
 
-	        share.volumeSeries.call(share.volumeData);
-	        share.chartSeries.call(share.chartData);
-
-	        // Draw all indicators
-	        share.plotArea.selectAll('.indicator').remove();
-	        for(var i=0; i<share.indicators.length; i++) {
-    			var indicator = null
-    			if(share.indicators[i].type == 'movingAverage') {
-    				indicator = sl.indicators.movingAverage()
-    					.xScale(share.xScale)
-    					.yScale(share.yScale)
-						.yValue(share.indicators[i].yValue)
-						.yLabel(share.indicators[i].yLabel)
-						.averagePoints(share.indicators[i].averagePoints);
-	    			share.plotArea.append('g')
-	    				.attr('class', 'indicator ' + share.indicators[i].yValue)
-	    				.attr('id', 'indicator' + i)
-	    				.datum($rootScope.chartData)
-	    				.call(indicator);
-	    		};
+	        // Draw all Trackers
+	        share.plotArea.selectAll('.tracker').remove();
+	        for(var i=0; i<share.trackers.length; i++) {
+    			var tracker = sl.series.tracker().xScale(share.xScale).yScale(share.yScale)
+					.yValue(share.trackers[i].yValue)
+					.yLabel(share.trackers[i].yLabel)
+					.movingAverage(share.trackers[i].movingAverageCount);
+    			share.plotArea.append('g')
+    				.attr('class', 'tracker ' + share.trackers[i].yValue)
+    				.attr('id', 'tracker' + i).datum($rootScope.chartData).call(tracker);
     		}
 
 	        // Draw all annotations
 	        share.plotArea.selectAll('.annotation').remove();
 	        for(var i=0; i<share.annotations.length; i++) {
-    			var annotation = sl.tools.annotation()
-    				.index(i)
-    				.xScale(share.xScale)
-    				.yScale(share.yScale)
-					.yValue(share.annotations[i].yValue)
-					.yLabel(share.annotations[i].yLabel)
-					.formatCallout(function(d) { return d3.format('.1f')(d); });
-    			share.plotArea.call(annotation);
+    			var annotation = sl.series.annotation().xScale(share.xScale).yScale(share.yScale)
+    							.yValue(share.annotations[i].yValue)
+    							.yLabel(share.annotations[i].yLabel);
+    			share.plotArea.append('g').attr('class', 'annotation').attr('id', 'annotation' + i).datum($rootScope.chartData).call(annotation);
     		}
 	    };
 
@@ -483,13 +501,16 @@ define([
 	    	share.plotArea.selectAll('.measure').style('display', share.measureOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
 
+            share.fibonacci.visible(share.fibonacciOptions.show);
+            share.fibonacci.active(share.fibonacciOptions.show);
+
 	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
-	    	share.mainDiv.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
+	    	share.mainSVG.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
 	    };
 
 		this.initialise();
 		this.showHideFeatures();
-	};
+	}
 
 	scottLogicChartCtrl.$inject=['$rootScope'];
 
