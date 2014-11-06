@@ -1,6 +1,6 @@
 /* jshint unused:false */
 /* global require: true */
-
+'use strict';
 var require = {
     baseUrl: '',
     paths: {
@@ -9,6 +9,8 @@ var require = {
         'moment': '../../../examples/_dependencies/js/moment',
         'moment-range': '../../../examples/_dependencies/js/moment-range',
         'promise': '../../../examples/_dependencies/js/promise',
+        'jquery': '../../../examples/_dependencies/js/jquery',
+        'bootstrap': '../../../examples/_dependencies/js/bootstrap',
         
         'sl': '../../../components/sl',
 
@@ -29,11 +31,15 @@ var require = {
 
         'weekday': '../../../components/utilities/weekday',
         'mockData': '../../../components/utilities/mockData',
-        'dataGenerator': '../../../components/utilities/dataGenerator'
+        'dataGenerator': '../../../components/utilities/dataGenerator',
+        'dimensions': '../../../components/utilities/dimensions'
    },
     shim: {
         'weekday': {
             exports: 'weekday'
+        },
+        'bootstrap': {
+            deps:['jquery']
         }
     }
 };
