@@ -64,8 +64,9 @@
 				<p ng-hide="chart.indicators.length > 0">No indicators shown on chart.</p>
 				<div ng-repeat="i in chart.indicators">
 					<a class="pull-right" href="#" ng-click="chart.removeIndicator($index)"><span class="glyphicon glyphicon-remove"></span></a>
-					Label
-					<input type="text" class="form-control input-sm" ng-model="i.yLabel" ng-change="chart.indicatorUpdated($index)" />
+					<!--Label
+					<input type="text" class="form-control input-sm" ng-model="i.yLabel" ng-change="chart.indicatorUpdated($index)" />-->
+					<h4>Moving Average</h4>
 					Average points
 					<input type="number" class="form-control input-sm" ng-model="i.averagePoints" ng-change="chart.indicatorUpdated($index)" />
 					Data value used

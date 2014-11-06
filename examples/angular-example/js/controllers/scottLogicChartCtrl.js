@@ -174,7 +174,7 @@ define([
 	    	share.maxDate = new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7);
 	    	share.yMin = d3.min(data, function (d) { return d.low; });
 	    	share.yMax = d3.max(data, function (d) { return d.high; });
-	    	share.volYMax = d3.max(data, function (d) { return d.volume; }) * (1/share.volumeAspect);
+	    	share.volYMax = d3.max(data, function (d) { return d.volume; });
 
 			share.initialiseChart(data, sl);
 			share.initialiseNavigator(data);
@@ -246,12 +246,12 @@ define([
 
 			share.plotArea.selectAll('.volume').remove();
 
-		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
+		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
 		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
 		    share.volYAxis.tickFormat(function(d) {
 				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
 			});
-		    share.plotChart.append('g').attr('class', 'y axis').call(share.volYAxis);
+		    share.plotChart.append('g').attr('id', 'yVolAxis').attr('class', 'y axis').call(share.volYAxis);
 
 		    share.volumeData = sl.series.volume()
 		        .xScale(share.xScale)
@@ -424,6 +424,7 @@ define([
 
 		this.indicatorUpdated = function(index) {
 			if( !share.indicators[index].yValue ) return;
+			if( !share.indicators[index].averagePoints ) return;
 
 	        share.plotArea.select("#indicators_" + index).remove();
 	        var indicator = sl.indicators.movingAverage()
@@ -531,6 +532,7 @@ define([
             share.fibonacci.active(share.showFibonacci);
 
 	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
+	    	share.plotChart.selectAll('#yVolAxis').style('display', share.showVolume ? 'block' : 'none' );
 	    	share.mainDiv.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
 	    };
 

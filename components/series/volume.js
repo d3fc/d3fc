@@ -30,7 +30,7 @@ define ([
             rect.attr('x', function (d) { return xScale(d.date) - barWidth; })
                 .attr('y', function(d) { return yScale(d.volume); } )
                 .attr('width', barWidth * 2)
-                .attr('height', function(d) { return yScale(0); });
+                .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
         };
 
         var volume = function (selection) {
