@@ -10,7 +10,8 @@ define([
     'annotation',
     'movingAverage',
     'volume',
-    'bollingerBands'
+    'bollingerBands',
+    'fibonacciFan'
 	], function(d3, sl) {
 
 	function scottLogicChartCtrl($rootScope) {
@@ -80,6 +81,7 @@ define([
 		this.crosshairs = null;
 		this.measure = null;
 		this.bollinger = null;
+		this.fibonacci = null;
 
 		this.viewport = null;
 		this.overlay = null;
@@ -140,6 +142,7 @@ define([
 			share.initialiseCrosshairs(data);
 			share.initialiseMeasure();
 			share.initialiseBollinger(data);
+			share.initialiseFibonacci(data);
 		};
 
 		this.applyCrosshairs = function() {
@@ -151,12 +154,17 @@ define([
 			share.initialiseGridlines();
 		};
 
-		this.applyBollinger = function() {
-			if( !share.hasData() ) return;
-	        share.initialiseBollinger($rootScope.chartData);
-		};
+        this.applyBollinger = function() {
+            if( !share.hasData() ) return;
+            share.initialiseBollinger($rootScope.chartData);
+        };
 
-		this.initialise = function() {
+        this.applyFibonacci = function() {
+            if( !share.hasData() ) return;
+            share.initialiseFibonacci($rootScope.chartData);
+        };
+
+        this.initialise = function() {
 
 			if( !share.hasData() ) return;
 
@@ -176,6 +184,7 @@ define([
 
 			share.initialiseVolume(data);
 			share.initialiseBollinger(data);
+			share.initialiseFibonacci(data);
 
 			share.initialiseBehaviours();
 			share.initialiseOverlay(data);
@@ -363,6 +372,20 @@ define([
 		    share.plotArea.append('g').attr('class', 'bollinger').attr('id', 'bollinger').datum(data).call(share.bollinger);
 		};
 
+        this.initialiseFibonacci = function(data) {
+
+            share.plotArea.selectAll('.fibonacci-fan').remove();
+
+            share.fibonacci = sl.indicators.fibonacciFan()
+                .target(share.plotArea)
+                .series(data)
+                .xScale(share.xScale)
+                .yScale(share.yScale)
+                .active(false);
+
+            share.plotArea.call(share.fibonacci);
+        };
+
 		this.initialiseBehaviours = function() {
 
 		    share.zoomBehaviour = d3.behavior.zoom().x(share.xScale).on('zoom', function() {
@@ -444,6 +467,7 @@ define([
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
+            share.fibonacci.update();
 
 	        share.volumeSeries.call(share.volumeData);
 	        share.chartSeries.call(share.chartData);
@@ -502,6 +526,9 @@ define([
 	    	share.plotArea.selectAll('.crosshairs').style('display', share.crosshairOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.measure').style('display', share.measureOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
+
+            share.fibonacci.visible(share.showFibonacci);
+            share.fibonacci.active(share.showFibonacci);
 
 	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
 	    	share.mainDiv.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
