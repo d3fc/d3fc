@@ -23,6 +23,7 @@ define([
 		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
 		this.showVolume = false;
 		this.volumeAspect = 0.4; // Chart height to volume height mutiplier
+		this.showFibonacci = false;
 
 		this.gridlineOptions = { show: true };
 		this.crosshairOptions = { show: false, snap: true, yValue: '' };
@@ -112,6 +113,7 @@ define([
 			else if(featureName == 'bollinger') share.bollingerOptions.show = !share.bollingerOptions.show;
 			else if(featureName == 'navigator') share.showNavigator = !share.showNavigator;
 			else if(featureName == 'volume') share.showVolume = !share.showVolume;
+			else if(featureName == 'fibonacci') share.showFibonacci = !share.showFibonacci;
 
 			share.showHideFeatures();
 		};
@@ -123,6 +125,7 @@ define([
 			else if(featureName == 'bollinger') return share.bollingerOptions.show;
 			else if(featureName == 'navigator') return share.showNavigator;
 			else if(featureName == 'volume') return share.showVolume;
+			else if(featureName == 'fibonacci') return share.showFibonacci;
 			return false;
 		};
 
