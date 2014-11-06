@@ -14,7 +14,8 @@ sl.tools.crosshairs = function () {
         formatH = null,
         formatV = null,
         active = true,
-        freezable = true;
+        freezable = true,
+        padding = 2;
 
     var lineH = null,
         lineV = null,
@@ -49,7 +50,7 @@ sl.tools.crosshairs = function () {
 
         calloutH = root.append("text")
             .attr('class', 'crosshairs callout horizontal')
-            .attr('x', xScale.range()[1])
+            .attr('x', xScale.range()[1] - padding)
             .attr('style', 'text-anchor: end')
             .attr('display', 'none');
 
@@ -150,9 +151,9 @@ sl.tools.crosshairs = function () {
                     .attr('x2', x);
                 circle.attr('cx', x)
                     .attr('cy', y);
-                calloutH.attr('y', y)
-                    .text(formatH(highlight[highlightedField]));
-                calloutV.attr('x', x)
+                calloutH.attr('y', y - padding)
+                    .text(formatH(highlight[highlightedField], highlightedField));
+                calloutV.attr('x', x - padding)
                     .text(formatV(highlight.date));
 
                 lineH.attr('display', 'inherit');
@@ -258,6 +259,14 @@ sl.tools.crosshairs = function () {
             return freezable;
         }
         freezable = value;
+        return crosshairs;
+    };
+
+    crosshairs.padding = function (value) {
+        if (!arguments.length) {
+            return padding;
+        }
+        padding = value;
         return crosshairs;
     };
 

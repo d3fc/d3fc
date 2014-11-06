@@ -331,7 +331,7 @@ define([
 		        .yScale(share.yScale)
 		        .yValue(share.crosshairOptions.yValue)
 		        .formatV(function(d) { return d3.time.format('%b %e')(d); })
-		        .formatH(function(d) { return d3.format('.1f')(d); });
+		        .formatH(function(d, field) { return field + " : " + d3.format('.1f')(d); });
 
 		    share.plotArea.call(share.crosshairs);
 		};
