@@ -48,13 +48,13 @@ define ([
                     }
                 }
 
-                var path = d3.select(this).selectAll('.tracker')
+                var path = d3.select(this).selectAll('.indicator')
                     .data([data]);
 
                 path.enter().append('path');
 
                 path.attr('d', line)
-                    .classed('tracker', true)
+                    .classed('indicator', true)
                     .classed(css, true);
 
                 path.exit().remove();

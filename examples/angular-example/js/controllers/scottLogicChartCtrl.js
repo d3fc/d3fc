@@ -22,7 +22,7 @@ define([
 		this.showNavigator = true;
 		this.navigatorAspect = 0.2; // Chart height to navigator height mutiplier
 		this.showVolume = false;
-		this.volumeAspect = 0.2; // Chart height to volume height mutiplier
+		this.volumeAspect = 0.4; // Chart height to volume height mutiplier
 
 		this.gridlineOptions = { show: true };
 		this.crosshairOptions = { show: false, snap: true, yValue: '' };
@@ -163,7 +163,7 @@ define([
 	    	share.maxDate = new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7);
 	    	share.yMin = d3.min(data, function (d) { return d.low; });
 	    	share.yMax = d3.max(data, function (d) { return d.high; });
-	    	share.volYMax = d3.max(data, function (d) { return d.volume; });
+	    	share.volYMax = d3.max(data, function (d) { return d.volume; }) * (1/share.volumeAspect);
 
 			share.initialiseChart(data, sl);
 			share.initialiseNavigator(data);
@@ -396,6 +396,23 @@ define([
 			share.redrawChart();
 		};
 
+		this.indicatorUpdated = function(index) {
+			if( !share.indicators[index].yValue ) return;
+
+	        share.plotArea.select("#indicators_" + index).remove();
+	        var indicator = sl.indicators.movingAverage()
+				.xScale(share.xScale)
+				.yScale(share.yScale)
+				.yValue(share.indicators[index].yValue)
+				.yLabel(share.indicators[index].yLabel)
+				.averagePoints(share.indicators[index].averagePoints);
+    		share.plotArea.append('g')
+				.attr('class', 'indicator ' + share.indicators[index].yValue)
+				.attr('id', 'indicators_' + index)
+				.datum($rootScope.chartData)
+				.call(indicator);
+		};
+
 		this.addAnnotation = function() {
 			share.annotations.push( { yLabel: 'Annotation', yValue: Math.floor(((share.yMax - share.yMin) / 2.0) + share.yMin) } );
 			share.redrawChart();
@@ -441,7 +458,7 @@ define([
 						.averagePoints(share.indicators[i].averagePoints);
 	    			share.plotArea.append('g')
 	    				.attr('class', 'indicator ' + share.indicators[i].yValue)
-	    				.attr('id', 'indicator' + i)
+	    				.attr('id', 'indicators_' + i)
 	    				.datum($rootScope.chartData)
 	    				.call(indicator);
 	    		};
