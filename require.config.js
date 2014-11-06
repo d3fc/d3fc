@@ -1,6 +1,6 @@
 /* jshint unused:false */
 /* global require: true */
-
+'use strict';
 var require = {
     baseUrl: '',
     paths: {
@@ -9,6 +9,8 @@ var require = {
         'moment': '../../../examples/_dependencies/js/moment',
         'moment-range': '../../../examples/_dependencies/js/moment-range',
         'promise': '../../../examples/_dependencies/js/promise',
+        'jquery': '../../../examples/_dependencies/js/jquery',
+        'bootstrap': '../../../examples/_dependencies/js/bootstrap',
         
         'sl': '../../../components/sl',
 
@@ -28,13 +30,17 @@ var require = {
         'fibonacciFan': '../../../components/tools/fibonacciFan',
         'measure': '../../../components/tools/measure',
 
+        'mockData': '../../../components/utilities/mockData',
         'dataGenerator': '../../../components/utilities/dataGenerator',
-        //'mockData': '../../../components/utilities/mockData',
+        'dimensions': '../../../components/utilities/dimensions',
         'weekday': '../../../components/utilities/weekday'
    },
     shim: {
         'weekday': {
             exports: 'weekday'
+        },
+        'bootstrap': {
+            deps:['jquery']
         }
     }
 };

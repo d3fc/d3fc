@@ -1,179 +1,146 @@
 define ([
-  'd3',
-  'sl',
-  'gridlines',
-  'crosshairs',
-  'measure',
-  'financeScale',
-  'candlestick',
-  'ohlc',
-  'annotation',
-  'movingAverage',
-  'volume',
-  'bollingerBands',
-  'dataGenerator'
-], function initCharts(d3, sl, dataGenerator) {
+    'd3',
+    'sl',
+    'gridlines',
+    'crosshairs',
+    'measure',
+    'financeScale',
+    'candlestick',
+    'ohlc',
+    'annotation',
+    'movingAverage',
+    'volume',
+    'bollingerBands',
+    'dataGenerator',
+    'dimensions'
+], function initCharts(d3, sl) {
+    'use strict';
 
     var chartOptions = {
-      name:'slChart',
-      xTicks: 5,
-      yTicks: 5
+        name:'slChart',
+        xTicks: 5,
+        yTicks: 5
     };
 
     // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
     var data = sl.utilities.dataGenerator()
-      .fromDate(new Date(2014, 10, 1))
-      .toDate(new Date(2014, 10, 30))
-      .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
-      .generate();
+        .fromDate(new Date(2014, 10, 1))
+        .toDate(new Date(2014, 10, 30))
+        .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
+        .generate();
 
-    // Calculate scale from data
+    // Setup the dimensions
+    var dimensions = sl.utilities.dimensions()
+        .marginBottom(30)
+        .marginLeft(80)
+        .marginRight(40);
+
+    // The overall chart
+    var setupArea = d3.select('#' + chartOptions.name)
+        .call(dimensions);
+
+    // Select the elements which we'll want to add other elements to
+    var svg = setupArea.select('svg'),
+        chart = svg.select('g'),
+        plotArea = chart.select('.plotArea');
+
+    // Style the svg with a CSS class
+    svg.attr('class', 'slChartArea');
+
+    // Calculate the scales from the data
     var chartScale = {
-       dateFrom: new Date(d3.min(data, function (d) { return d.date; }).getTime() - 8.64e7),
-       dateTo: new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7),
-       priceFrom: d3.min(data, function (d) { return d.low; }),
-       priceTo: d3.max(data, function (d) { return d.high; }),
-       volumeFrom: d3.min(data, function (d) { return d.volume; }),
-       volumeTo: d3.max(data, function (d) { return d.volume; })
+        dateFrom: new Date(d3.min(data, function (d) { return d.date; }).getTime() - 8.64e7),
+        dateTo: new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7),
+        priceFrom: d3.min(data, function (d) { return d.low; }),
+        priceTo: d3.max(data, function (d) { return d.high; }),
+        volumeFrom: d3.min(data, function (d) { return d.volume; }),
+        volumeTo: d3.max(data, function (d) { return d.volume; })
     };
 
     var dateScale = sl.scale.finance()
-      .domain([chartScale.dateFrom, chartScale.dateTo])
-      .range([0, $('#' + chartOptions.name).parent().width()]);
+        .domain([chartScale.dateFrom, chartScale.dateTo])
+        .range([0, dimensions.innerWidth()]);
 
     var priceScale = d3.scale.linear()
-      .domain([chartScale.priceFrom, chartScale.priceTo])
-      .nice()
-      .range([$('#' + chartOptions.name).height(), 0]);
+        .domain([chartScale.priceFrom, chartScale.priceTo])
+        .nice()
+        .range([dimensions.innerHeight(), 0]);
 
     var volumeScale = d3.scale.linear()
-      .domain([chartScale.volumeFrom, chartScale.volumeTo])
-      .nice()
-      .range([$('#' + chartOptions.name).height(), 0]);
+        .domain([chartScale.volumeFrom, chartScale.volumeTo])
+        .nice()
+        .range([dimensions.innerHeight(), 0]);
 
-    var width = $('#' + chartOptions.name).parent().width();
-    var height = $('#' + chartOptions.name).height();
-
-    // The overall chart
-    var chart = d3.select('#' + chartOptions.name)
-      .append('svg')
-      .attr('id', 'slChartArea')
-      .attr('class', 'slChartArea')
-      .attr('width', width)
-      .attr('height', height);
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    // The main chart area
-    d3.select('#slChartArea')
-      .append('g')
-      .attr('id', 'slPrimaryChart')
-      .attr('class', 'slPrimaryChart')
-      .attr('width', width)
-      .attr('height', function() { return height / 2.0; })
-
-    // Create axes from the scale
-    d3.select('#slPrimaryChart')
-      .append('g')
-      .attr('id', 'slPrimaryAxes')
-      .attr('class', 'slPrimaryAxes');
-
+    // Create the axes
     var dateAxis = d3.svg.axis()
-      .scale(dateScale)
-      .orient('bottom')
-      .ticks(chartOptions.xTicks);
+        .scale(dateScale)
+        .orient('bottom')
+        .ticks(chartOptions.xTicks);
 
     var priceAxis = d3.svg.axis()
-      .scale(priceScale)
-      .orient('right')
-      .ticks(chartOptions.yTicks);
+        .scale(priceScale)
+        .orient('right')
+        .ticks(chartOptions.yTicks);
 
     var volumeAxis = d3.svg.axis()
-      .scale(priceScale)
-      .orient('left')
-      .ticks(chartOptions.yTicks);
-      
-    // The axes for the main chart
-    d3.select('#slPrimaryAxes')
-      .append('g')
-      .attr('class', 'axis date')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(dateAxis);
+        .scale(volumeScale)
+        .orient('left')
+        .ticks(chartOptions.yTicks);
 
-    d3.select('#slPrimaryAxes')
-      .append('g')
-      .attr('class', 'axis price')
-      .attr('transform', 'translate(' + width + ',0)')
-      .call(priceAxis);
+    // Add the axes to the chart
+    chart.append('g')
+        .attr('class', 'axis date')
+        .attr('transform', 'translate(0,' + dimensions.innerHeight() + ')')
+        .call(dateAxis);
 
-    d3.select('#slPrimaryAxes')
-      .append('g')
-      .attr('class', 'axis volume')
-      .call(volumeAxis);
+    chart.append('g')
+        .attr('class', 'axis price')
+        .attr('transform', 'translate(' + dimensions.innerWidth() + ',0)')
+        .call(priceAxis);
 
-    // The main plotting area
-    d3.select('#slPrimaryChart')
-      .append('g')
-      .attr('id', 'slPrimaryPlot')
-      .attr('class', 'slPrimaryPlot')
-      .attr('clip-path', 'url(#slPrimaryPlotClip)');
+    chart.append('g')
+        .attr('class', 'axis volume')
+        .call(volumeAxis);
 
-    d3.select('#slPrimaryPlot')
-      .append('clipPath')
-      .attr('id', 'slPrimaryPlotClip')
-      .append('rect')
-      .attr({ width: width, height: height });
-
-    /*var dimensions = sl.utility.dimensions()
-      .marginBottom(30)
-      .marginLeft(30)
-      .width(30)
-      .height(30);
-
-    d3.select('#slPrimaryChart')
-      .call(dimensions);*/
-
-    // The primary data series
-    d3.selectAll(".series").remove();
-    d3.select('#slPrimaryPlot')
-      .append('g')
-      .attr('class', 'series')
-      .datum(data)
-      .call(sl.series.ohlc()
+    // Create the OHLC series
+    var ohlc = sl.series.ohlc()
         .xScale(dateScale)
-        .yScale(priceScale)
-      );
+        .yScale(priceScale);
+
+    // Add the primary OHLC series
+    plotArea.selectAll('.series').remove();
+    plotArea.append('g')
+        .attr('class', 'slPrimaryPlot series')
+        .datum(data)
+        .call(ohlc);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Main chart tools
 
-    // gridlines
+    // Gridlines
     var gridlines = sl.scale.gridlines()
-            .xScale(dateScale)
-            .yScale(priceScale)
-            .xTicks(5);
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .xTicks(5);
 
-    d3.select('#slPrimaryPlot')
-      .call(gridlines);
+    plotArea.call(gridlines);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Any secondary indicators
-    d3.select('#slChartArea')
-      .append('g')
-      .attr('id', 'slIndicatorsChart_1')
-      .attr('class', 'slIndicatorsChart_1');
+    chart.append('g')
+        .attr('id', 'slIndicatorsChart_1')
+        .attr('class', 'slIndicatorsChart_1');
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Any tertiary indicators
-    d3.select('#slChartArea')
-      .append('g')
-      .attr('id', 'slIndicatorsChart_2')
-      .attr('class', 'slIndicatorsChart_2');
+    chart.append('g')
+        .attr('id', 'slIndicatorsChart_2')
+        .attr('class', 'slIndicatorsChart_2');
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // The chart navigator
-    d3.select('#slChartArea')
-      .append('g')
-      .attr('id', 'slChartNavigation')
-      .attr('class', 'slChartNavigation');
-  }
-);
+    chart.append('g')
+        .attr('id', 'slChartNavigation')
+        .attr('class', 'slChartNavigation');
+
+});
