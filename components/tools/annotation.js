@@ -6,29 +6,46 @@ define ([
 
     sl.tools.annotation = function () {
 
-        var xScale = d3.time.scale(),
+        var index = 0,
+            xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yLabel = '',
-            yValue = 0;
+            yValue = 0,
+            padding = 2,
+            formatCallout = function(d) { return d; };
+
+        var root = null,
+            line = null,
+            callout = null;
 
         var annotation = function (selection) {
 
-            var line = d3.svg.line();
-            line.x(function (d) { return xScale(d.date); })
-                .y(yScale(yValue));
+            root = selection.append('g')
+                .attr('id', 'annotation_' + index)
+                .attr('class', 'annotation');
 
-            selection.each(function (data) {
+            line = root.append("line")
+                .attr('class', 'marker')
+                .attr('x1', xScale.range()[0]) 
+                .attr('y1', yScale(yValue))
+                .attr('x2', xScale.range()[1]) 
+                .attr('y2', yScale(yValue));
 
-                var path = d3.select(this).selectAll('.annotation')
-                    .data([data]);
 
-                path.enter()
-                    .append('path');
-                path.attr('d', line)
-                    .classed('annotation', true);
-                path.exit()
-                    .remove();
-            });
+            callout = root.append("text")
+                .attr('class', 'callout')
+                .attr('x', xScale.range()[1] - padding)
+                .attr('y', yScale(yValue) - padding)
+                .attr('style', 'text-anchor: end;')
+                .text(yLabel + " : " + formatCallout(yValue));
+        };
+
+        annotation.index = function (value) {
+            if (!arguments.length) {
+                return index;
+            }
+            index = value;
+            return annotation;
         };
 
         annotation.xScale = function (value) {
@@ -60,6 +77,22 @@ define ([
                 return yLabel;
             }
             yLabel = value;
+            return annotation;
+        };
+
+        annotation.padding = function (value) {
+            if (!arguments.length) {
+                return padding;
+            }
+            padding = value;
+            return annotation;
+        };
+
+        annotation.formatCallout = function (value) {
+            if (!arguments.length) {
+                return formatCallout;
+            }
+            formatCallout = value;
             return annotation;
         };
 

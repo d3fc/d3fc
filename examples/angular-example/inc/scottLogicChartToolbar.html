@@ -1,0 +1,50 @@
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.scottlogic.com" target="_blank">Scott Logic</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Chart Series <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-click="chart.toggleFeature('volume')" ng-class="{active:chart.hasFeature('volume')}"><a href="#">Volume</a></li>
+            <li ng-click="chart.toggleFeature('navigator')" ng-class="{active:chart.hasFeature('navigator')}"><a href="#">Navigator</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-click="chart.toggleFeature('gridlines')" ng-class="{active:chart.hasFeature('gridlines')}"><a href="#">Grid Lines</a></li>
+            <li ng-click="chart.toggleFeature('crosshairs')" ng-class="{active:chart.hasFeature('crosshairs')}"><a href="#">Crosshairs</a></li>
+            <li ng-click="chart.toggleFeature('measure')" ng-class="{active:chart.hasFeature('measure')}"><a href="#">Measure</a></li>
+            <li ng-click="chart.toggleFeature('fibonacci')" ng-class="{active:chart.hasFeature('fibonacci')}"><a href="#">Fibonacci Fan</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Indicators <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-click="chart.toggleFeature('bollinger')" ng-class="{active:chart.hasFeature('bollinger')}"><a href="#">Bollinger Bands</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-click="chart.setDataStyle('bars')" ng-class="{active:chart.hasDataStyle('bars')}"><a href="#">Bars</a></li>
+        <li ng-click="chart.setDataStyle('candles')" ng-class="{active:chart.hasDataStyle('candles')}"><a href="#">Candles</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

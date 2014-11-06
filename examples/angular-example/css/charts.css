@@ -87,24 +87,30 @@
     font: 10px sans-serif;
 }
 
-.chart .annotation {
+.chart g.annotation line.marker {
     fill: none;
-    stroke: #0f9;
+    stroke: #999;
     stroke-width: 1;
     stroke-dasharray: 3, 3;
 }
 
-.chart .tracker {
+.chart g.annotation text.callout {
+    font: 10px sans-serif;
+    padding: 2px;
+}
+
+.chart g.indicator {
     fill: none;
     stroke: #09f;
     stroke-width: 1;
     stroke-dasharray: 3, 3;
+    opacity: 1; /* This is to override the bootstrap defaults for .close etc */
 }
 
-.chart g.tracker.open { stroke: #09f;  }
-.chart g.tracker.high { stroke: #90f; }
-.chart g.tracker.low { stroke: #0f9; }
-.chart g.tracker.close { stroke: #f09; }
+.chart g.indicator.open { stroke: #096; }
+.chart g.indicator.high { stroke: #090; }
+.chart g.indicator.low { stroke: #900; }
+.chart g.indicator.close { stroke: #960; }
 
 .chart .bollingerBandArea {
     fill: #f90;
@@ -150,3 +156,31 @@
     fill-opacity: 0.1;
 }
 
+.chart line.fibonacci-fan {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+}
+
+.chart line.fibonacci-fan.source {
+    stroke: blue;
+    stroke-width: 1.5;
+}
+
+.chart line.fibonacci-fan.b {
+    stroke-opacity: 0.4;
+}
+
+.chart circle.fibonacci-fan {
+    fill: none;
+    stroke: blue;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+}
+
+.chart polygon.fibonacci-fan.area {
+    fill: lightgrey;
+    fill-opacity: 0.5;
+    stroke-width: 0;
+}
