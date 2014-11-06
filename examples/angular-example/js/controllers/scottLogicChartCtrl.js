@@ -10,7 +10,8 @@ define([
     'annotation',
     'movingAverage',
     'volume',
-    'bollingerBands'
+    'bollingerBands',
+    'fibonacciFan'
 	], function(d3, sl) {
 
 	function scottLogicChartCtrl($rootScope) {
@@ -31,6 +32,7 @@ define([
 		this.annotations = [];
 		this.trackers = [];
 		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: 'close' };
+        this.fibonacciOptions = { show: false };
 
 		// Chart options for optimal chart but can be changed if required.
 		this.chartId = '#scottLogicChart';
@@ -80,6 +82,7 @@ define([
 		this.measure = null;
 
 		this.bollinger = null;
+        this.fibonacci = null;
 
 		this.viewport = null;
 		this.overlay = null;
@@ -115,6 +118,7 @@ define([
 			else if(featureName == 'crosshairs') share.crosshairOptions.show = !share.crosshairOptions.show;
 			else if(featureName == 'measure') share.measureOptions.show = !share.measureOptions.show;
 			else if(featureName == 'bollinger') share.bollingerOptions.show = !share.bollingerOptions.show;
+			else if(featureName == 'fibonacci') share.fibonacciOptions.show = !share.fibonacciOptions.show;
 			else if(featureName == 'navigator') share.showNavigator = !share.showNavigator;
 			else if(featureName == 'volume') share.showVolume = !share.showVolume;
 
@@ -126,6 +130,7 @@ define([
 			else if(featureName == 'crosshairs') return share.crosshairOptions.show;
 			else if(featureName == 'measure') return share.measureOptions.show;
 			else if(featureName == 'bollinger') return share.bollingerOptions.show;
+			else if(featureName == 'fibonacci') return share.fibonacciOptions.show;
 			else if(featureName == 'navigator') return share.showNavigator;
 			else if(featureName == 'volume') return share.showVolume;
 			return false;
@@ -153,6 +158,7 @@ define([
 			share.initialiseMeasure();
 
 			share.initialiseBollinger(data);
+			share.initialiseFibonacci(data);
 		};
 
 		this.initialise = function() {
@@ -175,6 +181,7 @@ define([
 
 			share.initialiseVolume(data);
 			share.initialiseBollinger(data);
+			share.initialiseFibonacci(data);
 
 			share.initialiseBehaviours();
 			share.initialiseOverlay(data);
@@ -296,8 +303,7 @@ define([
 		        .yScale(share.yScale)
 		        .yValue(share.crosshairOptions.yValue)
 		        .formatV(function(d) { return d3.time.format('%b %e')(d); })
-		        .formatH(function(d) { return d3.format('.1f')(d); })
-		        .onSnap(function(s) { });
+		        .formatH(function(d) { return share.crosshairs.highlightedField() + ': ' + d3.format('.1f')(d); });
 
 		    share.plotArea.call(share.crosshairs);
 		};
@@ -331,7 +337,7 @@ define([
 			share.plotArea.selectAll('.volume').remove();
 
 		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,0]);
-		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
+		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks);
 		    share.volYAxis.tickFormat(function(d) {
 				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
 			});
@@ -345,19 +351,33 @@ define([
 		    share.volumePlot = share.plotArea.append('g').attr('class', 'volume').attr('id', 'volume').datum(data).call(share.volumeSeries);
 		};
 
-		this.initialiseBollinger = function(data) {
+        this.initialiseBollinger = function(data) {
 
-			share.plotArea.selectAll('.bollinger').remove();
+            share.plotArea.selectAll('.bollinger').remove();
 
-		    share.bollinger = sl.indicators.bollingerBands()
-		        .xScale(share.xScale)
-		        .yScale(share.yScale)
-		        .yValue(share.bollingerOptions.yValue)
-		        .movingAverage(share.bollingerOptions.movingAverageCount)
-		        .standardDeviations(share.bollingerOptions.standardDeviations);
+            share.bollinger = sl.indicators.bollingerBands()
+                .xScale(share.xScale)
+                .yScale(share.yScale)
+                .yValue(share.bollingerOptions.yValue)
+                .movingAverage(share.bollingerOptions.movingAverageCount)
+                .standardDeviations(share.bollingerOptions.standardDeviations);
 
-		    share.plotArea.append('g').attr('class', 'bollinger').attr('id', 'bollinger').datum(data).call(share.bollinger);
-		};
+            share.plotArea.append('g').attr('class', 'bollinger').attr('id', 'bollinger').datum(data).call(share.bollinger);
+        };
+
+        this.initialiseFibonacci = function(data) {
+
+            share.plotArea.selectAll('.fibonacci-fan').remove();
+
+            share.fibonacci = sl.indicators.fibonacciFan()
+                .target(share.plotArea)
+                .series(data)
+                .xScale(share.xScale)
+                .yScale(share.yScale)
+                .active(false);
+
+            share.plotArea.call(share.fibonacci);
+        };
 
 		this.initialiseBehaviours = function() {
 
@@ -435,6 +455,7 @@ define([
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
+            share.fibonacci.update();
 
 	        // Draw all Trackers
 	        share.plotArea.selectAll('.tracker').remove();
@@ -480,13 +501,16 @@ define([
 	    	share.plotArea.selectAll('.measure').style('display', share.measureOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
 
+            share.fibonacci.visible(share.fibonacciOptions.show);
+            share.fibonacci.active(share.fibonacciOptions.show);
+
 	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
 	    	share.mainSVG.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
 	    };
 
 		this.initialise();
 		this.showHideFeatures();
-	};
+	}
 
 	scottLogicChartCtrl.$inject=['$rootScope'];
 

@@ -13,6 +13,7 @@ var require = {
         'sl': '../../../components/sl',
 
         'bollingerBands': '../../../components/indicators/bollingerBands',
+        'fibonacciFan': '../../../components/indicators/fibonacciFan',
         'movingAverage': '../../../components/indicators/movingAverage',
 
         'financeScale': '../../../components/scale/financeScale',

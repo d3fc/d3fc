@@ -61,7 +61,7 @@
     fill: none;
     stroke: black;
     stroke-width: 1;
-    stroke-opacity: 0.1;
+    stroke-opacity: 0.25;
 }
 
 .chart circle.crosshairs {
@@ -142,6 +142,35 @@
     stroke-width: 1;
     stroke-dasharray: 3, 3;
     stroke-opacity: 0.5;
+}
+
+.chart line.fibonacci-fan {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+}
+
+.chart line.fibonacci-fan.source {
+    stroke: blue;
+    stroke-width: 1.5;
+}
+
+.chart line.fibonacci-fan.b {
+    stroke-opacity: 0.4;
+}
+
+.chart circle.fibonacci-fan {
+    fill: none;
+    stroke: blue;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+}
+
+.chart polygon.fibonacci-fan.area {
+    fill: lightgrey;
+    fill-opacity: 0.5;
+    stroke-width: 0;
 }
 
 .navigator .data {

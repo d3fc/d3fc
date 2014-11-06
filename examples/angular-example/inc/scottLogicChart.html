@@ -34,11 +34,16 @@
 					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('measure')"></span>
 					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('measure')"></span>
 				</button>
-				<button type="button" class="btn btn-default" ng-click="chart.toggleFeature('bollinger')" ng-class="{active:chart.hasFeature('bollinger')}">
-					Bollinger Bands &nbsp; 
-					<span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('bollinger')"></span>
-					<span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('bollinger')"></span>
-				</button>
+                <button type="button" class="btn btn-default" ng-click="chart.toggleFeature('bollinger')" ng-class="{active:chart.hasFeature('bollinger')}">
+                    Bollinger Bands &nbsp;
+                    <span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('bollinger')"></span>
+                    <span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('bollinger')"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="chart.toggleFeature('fibonacci')" ng-class="{active:chart.hasFeature('fibonacci')}">
+                    Fibonacci Fan &nbsp;
+                    <span class="glyphicon glyphicon-ok" ng-show="chart.hasFeature('fibonacci')"></span>
+                    <span class="glyphicon glyphicon-remove" ng-hide="chart.hasFeature('fibonacci')"></span>
+                </button>
 			</div>
 			
 			<div class="col-md-3">
