@@ -22,12 +22,9 @@ define ([
 
     // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
     var data = sl.utilities.dataGenerator()
-      .mu(0.1)
-      .sigma(0.1)
-      .startingPrice(100)
-      .intraDaySteps(50)
       .fromDate(new Date(2014, 10, 1))
       .toDate(new Date(2014, 10, 30))
+      .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
       .generate();
 
     // Calculate scale from data
