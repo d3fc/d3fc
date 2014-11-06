@@ -4,7 +4,7 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-    sl.indicators.fibonacciFan = function () {
+    sl.tools.fibonacciFan = function () {
 
         var target = null,
             series = null,

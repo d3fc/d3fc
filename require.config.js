@@ -13,7 +13,6 @@ var require = {
         'sl': '../../../components/sl',
 
         'bollingerBands': '../../../components/indicators/bollingerBands',
-        'fibonacciFan': '../../../components/indicators/fibonacciFan',
         'movingAverage': '../../../components/indicators/movingAverage',
 
         'financeScale': '../../../components/scale/financeScale',
@@ -24,13 +23,14 @@ var require = {
         'ohlc': '../../../components/series/ohlc',
         'volume': '../../../components/series/volume',
 
-        'crosshairs': '../../../components/tools/crosshairs',
         'annotation': '../../../components/tools/annotation',
+        'crosshairs': '../../../components/tools/crosshairs',
+        'fibonacciFan': '../../../components/tools/fibonacciFan',
         'measure': '../../../components/tools/measure',
 
-        'weekday': '../../../components/utilities/weekday',
-        'mockData': '../../../components/utilities/mockData',
-        'dataGenerator': '../../../components/utilities/dataGenerator'
+        'dataGenerator': '../../../components/utilities/dataGenerator',
+        //'mockData': '../../../components/utilities/mockData',
+        'weekday': '../../../components/utilities/weekday'
    },
     shim: {
         'weekday': {

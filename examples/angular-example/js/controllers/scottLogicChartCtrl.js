@@ -376,7 +376,7 @@ define([
 
             share.plotArea.selectAll('.fibonacci-fan').remove();
 
-            share.fibonacci = sl.indicators.fibonacciFan()
+            share.fibonacci = sl.tools.fibonacciFan()
                 .target(share.plotArea)
                 .series(data)
                 .xScale(share.xScale)
@@ -530,6 +530,8 @@ define([
 
             share.fibonacci.visible(share.showFibonacci);
             share.fibonacci.active(share.showFibonacci);
+
+            share.crosshairs.freezable(share.crosshairOptions.show);
 
 	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
 	    	share.plotChart.selectAll('#yVolAxis').style('display', share.showVolume ? 'block' : 'none' );
