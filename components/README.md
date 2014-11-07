@@ -10,7 +10,7 @@ Components are arranged in namespaces depending on function. These are all arran
 
 ###sl.indicators
 
-Used for financial indicators, such as Bollinger Bands, Moving Average, RSI, Divergance etc. These are components which are represented by a D3 data series but not directly related to data without some data processing before they are displayed.
+Used for financial indicators, such as Bollinger Bands, Moving Average, RSI, Divergence etc. These are components which are represented by a D3 data series but not directly related to data without some data processing before they are displayed.
 
 Current components in this namespace:
 
@@ -41,15 +41,16 @@ Current components in this namespace:
 
 Used for charting tools, such as crosshairs etc.
 
-Current components in this neamespace:
+Current components in this namespace:
 
 + sl.tools.annotation
 + sl.tools.crosshairs
++ sl.tools.fibonacciFan
 + sl.tools.measure
 
 ###sl.utilities
 
-Used for any other functionality which is a dependencey of a component in the sl namespace or something else useful which does not fall into on of the other namespaces.
+Used for any other functionality which is a dependency of a component in the sl namespace or something else useful which does not fall into on of the other namespaces.
 
 Current components int this namespace:
 

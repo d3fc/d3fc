@@ -108,7 +108,7 @@ It attempts to simplify the repetitive process of constructing the chart area:
 
 ### API
 
-#### sl.ultities.dimensions()
+#### sl.utilities.dimensions()
 
 Constructs the dimensions component, with default values.
 

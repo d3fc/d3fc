@@ -10,6 +10,12 @@ Information and code examples here
 
 ----
 
+#sl.tools.fibonacciFan
+
+Information and code examples here
+
+----
+
 #sl.tools.measure
 
 Information and code examples here

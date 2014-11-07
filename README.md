@@ -1,8 +1,9 @@
 #D3 Financial Components
 
-We are building a set of re-useable [D3](http://d3js.org) components that make it easier to create financial charts. Some of these components have been demonstrated via the following blogs:
+We are building a set of re-usable [D3](http://d3js.org) components that make it easier to create financial charts. Some of these components have been demonstrated via the following blogs:
 
- + [An interactive crosshair component](http://www.scottlogic.com/blog/2014/09/29/crosshairs.html)
+ + [An Fibonacci fan component](http://www.scottlogic.com/blog/2014/10/31/fibonacci.html)
+ + [An interactive crosshairs component](http://www.scottlogic.com/blog/2014/09/29/crosshairs.html)
  + [A re-based comparison chart](http://www.scottlogic.com/blog/2014/09/26/an-interactive-stock-comparison-chart-with-d3.html)
  + [A bollinger band component](http://www.scottlogic.com/blog/2014/08/28/bollinger.html)
  + [Line annotations](http://www.scottlogic.com/blog/2014/08/26/two-line-components-for-d3-charts.html)
@@ -19,6 +20,7 @@ The following components are included in this version:
 + Bollinger Bands
 + Candlestick Data Series
 + Crosshairs
++ Fibonacci Fans
 + Financial Time Scale
 + Gridlines 
 + Measuring Tool
@@ -33,7 +35,6 @@ Planned components in the near future
 
 + Auto margin calculator
 + Live data connector/stream
-+ Fibonacci Fans
 
 Short-comings and planned functionality
 ---------------------------------------
@@ -46,7 +47,7 @@ The annotations component is currently missing the ability to display labels or 
 
 ### Measuring Tool
 
-the measuring tool needs to have a snapping mode as currently the resolution of emasurement is dependant on how accurate the user is and also the zoom level of the chart.
+the measuring tool needs to have a snapping mode as currently the resolution of measurement is dependant on how accurate the user is and also the zoom level of the chart.
 
 ##License
 
