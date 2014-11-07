@@ -103,10 +103,10 @@ It attempts to simplify the repetitive process of constructing the chart area:
 + Define the margins, height and width
 + Calculate the inner height and inner width
 + Create an SVG
-+ Create a group for the chart; translate it based on the margins
++ Create a group for all chart elements; translate it based on the margins
 + Create a clipping path for the plot area; add it to the group
 
-### API
+### API Reference
 
 #### sl.utilities.dimensions()
 
@@ -119,7 +119,7 @@ Apply the dimensions to a [selection](https://github.com/mbostock/d3/wiki/Select
 If the width or height have not been set, for example:
 
 ```javascript
-// Create the dimensions
+// Create the dimensions (width and height not set)
 var dimensions = sl.utility.dimensions();
 
 // Setup the chart
@@ -164,20 +164,62 @@ Returns the height of the chart minus the vertical margins.
 
 ### Example Usage
 
+Explicitly define the height, width, bottom margin and left margin; use default top and right margins:
+
 ```javascript
 // Setup the dimensions
-  var dimensions = sl.utility.dimensions()
-      .marginBottom(30)
-      .marginLeft(50)
-      .width(660)
-      .height(400);
+var dimensions = sl.utilities.dimensions()
+    .marginBottom(30)
+    .marginLeft(50)
+    .width(660)
+    .height(400);
 
-  // Setup the chart
-  var setupArea = d3.select('#chart')
-      .call(dimensions);
+// Setup the chart
+var setupArea = d3.select('#chart')
+    .call(dimensions);
 
-  // Select the elements which we may want to use
-  var svg = setupArea.select('svg'),
-      chart = svg.select('g'),
-      plotArea = chart.select('.plotArea');
+// Select the elements which we may want to use
+// Typically the axes will be added to the 'chart' and series to the 'plotArea'
+var svg = setupArea.select('svg'),
+    chart = svg.select('g'),
+    plotArea = chart.select('.plotArea');
+```
+
+Attempt to size the chart to the selected element, by not specifying the width or height; use default margins:
+
+```javascript
+// Setup the dimensions
+var dimensions = sl.utilities.dimensions();
+
+// Setup the chart
+var setupArea = d3.select('#chart')
+    .call(dimensions);
+
+// Select the elements which we may want to use
+// Typically the axes will be added to the 'chart' and series to the 'plotArea'
+var svg = setupArea.select('svg'),
+    chart = svg.select('g'),
+    plotArea = chart.select('.plotArea');
+```
+
+Attempt to size the chart to the width of the selected element; use specified height and margins:
+
+```javascript
+// Setup the dimensions
+var dimensions = sl.utilities.dimensions()
+  .height(380)
+  .marginTop(25)
+  .marginRight(40)
+  .marginBottom(30)
+  .marginLeft(40);
+
+// Setup the chart
+var setupArea = d3.select('#chart')
+    .call(dimensions);
+
+// Select the elements which we may want to use
+// Typically the axes will be added to the 'chart' and series to the 'plotArea'
+var svg = setupArea.select('svg'),
+    chart = svg.select('g'),
+    plotArea = chart.select('.plotArea');
 ```

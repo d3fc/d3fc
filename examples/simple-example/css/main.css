@@ -1,16 +1,18 @@
-
+#slChart { height: 600px; }
 
 .slChartArea { background: #fefefe; border: solid 1px #eee; }
-.slChartArea .axis .domain,
-.slChartArea .axis .tick line { fill: none; stroke-width: 0.3; stroke: black; }
+.axis .domain,
+.axis .tick line { fill: none; stroke-width: 0.3; stroke: black; }
 
-.slPrimaryChart { border: solid 1px #0f0; }
-.slPrimaryChart g.slPrimaryPlot .gridlines line { stroke-width: 0.1; stroke: #ccc; }
-.slPrimaryChart g.slPrimaryPlot .bar path { stroke-width: 1.5; }
-.slPrimaryChart g.slPrimaryPlot .bar.up-day path { stroke: #6c0; }
-.slPrimaryChart g.slPrimaryPlot .bar.down-day path { stroke: #c60; }
-.slPrimaryChart g.slPrimaryPlot .bar.up-day rect { fill: #6c0; }
-.slPrimaryChart g.slPrimaryPlot .bar.down-day rect { fill: #c60; }
+.axis text { font: 10px sans-serif; }
+
+g.plotArea .gridlines line { stroke-width: 0.15; stroke: #222; }
+
+g.slPrimaryPlot .bar path { stroke-width: 1.5; }
+g.slPrimaryPlot .bar.up-day path { stroke: #6c0; }
+g.slPrimaryPlot .bar.down-day path { stroke: #c60; }
+g.slPrimaryPlot .bar.up-day rect { fill: #6c0; }
+g.slPrimaryPlot .bar.down-day rect { fill: #c60; }
 
 .slIndicatorsChart_1 { border: solid 1px #00f; }
 
