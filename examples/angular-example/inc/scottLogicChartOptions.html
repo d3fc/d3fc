@@ -1,111 +1,204 @@
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingOne">
-			<h4 class="panel-title">
-				<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Chart Tools</a>
-			</h4>
-		</div>
-		<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-			<div class="panel-body">
-				Grid X axis ticks
-				<input type="number" class="form-control input-sm" id="gridTicksX" ng-model="chart.axisOptions.xTicks" ng-change="chart.applyGridlines()">
-				Crosshair snap to value
-				<select class="form-control input-sm" id="crosshairsValueY" ng-model="chart.crosshairOptions.yValue" ng-change="chart.applyCrosshairs()">
-					<option value="">All</option>
-					<option value="open">Open</option>
-					<option value="high">High</option>
-					<option value="low">Low</option>
-					<option value="close">Close</option>
-				</select>
-			</div>
-		</div>
-	</div>
+<div class="panel-group options" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOptions">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOptions" aria-expanded="false" aria-controls="collapseOptions">
+                <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <h4 class="panel-title">Chart Options</h4>
+        </div>
+        <div id="collapseOptions" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOptions">
+            <div class="panel-body">
+                <div class="option-section">
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="chart.setDataStyle('bars')" ng-class="{active:chart.hasDataStyle('bars')}">OHLC</button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default" ng-click="chart.setDataStyle('candles')" ng-class="{active:chart.hasDataStyle('candles')}">Candles</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('gridlines')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('gridlines')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('gridlines')"></span>
+                    </a>
+                    Gridlines
+                </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('navigator')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('navigator')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('navigator')"></span>
+                    </a>
+                    Navigator
+                </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('volume')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('volume')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('volume')"></span>
+                    </a>
+                    Volume series
+                </div>
+                <div class="option-section">
+                    <div class="input-group">
+                        <span class="input-group-addon">X-axis ticks</span>
+                        <input type="number" class="form-control input-sm text-right" id="gridTicksX" ng-model="chart.axisOptions.xTicks" ng-change="chart.applyGridlines()">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTools">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTools" aria-expanded="false" aria-controls="collapseTools">
+                <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <h4 class="panel-title">Tools</h4>
+        </div>
+        <div id="collapseTools" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTools">
+            <div class="panel-body">
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('crosshairs')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('crosshairs')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('crosshairs')"></span>
+                    </a>
+                    Crosshairs
+                    <div class="option-group" ng-show="chart.hasFeature('crosshairs')">
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Snap to</span>
+                                <select class="form-control input-sm text-right" id="crosshairsValueY" ng-model="chart.crosshairOptions.yValue" ng-change="chart.applyCrosshairs()">
+                                    <option value="">All</option>
+                                    <option value="open">Open</option>
+                                    <option value="high">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="close">Close</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('measure')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('measure')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('measure')"></span>
+                    </a>
+                    Measurement tool
+                </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('fibonacci')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('fibonacci')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('fibonacci')"></span>
+                    </a>
+                    Fibonacci fan
+                </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('bollinger')">
+                        <span class="glyphicon glyphicon-eye-open" ng-show="chart.hasFeature('bollinger')"></span>
+                        <span class="glyphicon glyphicon-eye-close" ng-hide="chart.hasFeature('bollinger')"></span>
+                    </a>
+                    Bollinger bands
+                    <div class="option-group" ng-show="chart.hasFeature('bollinger')">
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Average points</span>
+                                <input type="number" class="form-control input-sm text-right" id="bollingerAverage" ng-model="chart.bollingerOptions.movingAverageCount" ng-change="chart.applyBollinger()">
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Std deviations</span>
+                                <input type="number" class="form-control input-sm text-right" id="bollingerDeviations" ng-model="chart.bollingerOptions.standardDeviations" ng-change="chart.applyBollinger()">
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Data value</span>
+                                <select class="form-control input-sm text-right" id="bollingerValueY" ng-model="chart.bollingerOptions.yValue" ng-change="chart.applyBollinger()">
+                                    <option value="open">Open</option>
+                                    <option value="high">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="close">Close</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingTwo">
-			<h4 class="panel-title">
-				<a class="pull-right" href="#" ng-click="chart.toggleFeature('bollinger')">
-					<span class="glyphicon glyphicon-eye-close" ng-show="chart.hasFeature('bollinger')"></span>
-					<span class="glyphicon glyphicon-eye-open" ng-hide="chart.hasFeature('bollinger')"></span>
-				</a>
-				<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-					Bollinger Bands
-				</a>
-			</h4>
+		<div class="panel-heading" role="tab" id="headingIndicators">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseIndicators" aria-expanded="false" aria-controls="collapseIndicators">
+                <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <h4 class="panel-title">Indicators</h4>
 		</div>
-		<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+		<div id="collapseIndicators" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingIndicators">
 			<div class="panel-body">
-				Average points
-				<input type="number" class="form-control input-sm" id="bollingerAverage" ng-model="chart.bollingerOptions.movingAverageCount" ng-change="chart.applyBollinger()">
-				Number of deviations
-				<input type="number" class="form-control input-sm" id="bollingerDeviations" ng-model="chart.bollingerOptions.standardDeviations" ng-change="chart.applyBollinger()">
-				Data value used
-				<select class="form-control input-sm" id="bollingerValueY" ng-model="chart.bollingerOptions.yValue" ng-change="chart.applyBollinger()">
-					<option value="open">Open</option>
-					<option value="high">High</option>
-					<option value="low">Low</option>
-					<option value="close">Close</option>
-				</select>
-			</div>
-		</div>
-	</div>
-
-	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingThree">
-			<h4 class="panel-title">
-				<a class="pull-right" href="#" ng-click="chart.addIndicator()"><span class="glyphicon glyphicon-plus"></span></a>
-				<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					Indicators
-				</a>
-			</h4>
-		</div>
-		<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-			<div class="panel-body">
-				<p ng-hide="chart.indicators.length > 0">No indicators shown on chart.</p>
+				<div class="option-section">
+				    <a class="pull-right" href="#" ng-click="chart.addIndicator()"><span class="glyphicon glyphicon-plus"></span></a>
+                    Add a moving average
+                </div>
 				<div ng-repeat="i in chart.indicators">
-					<a class="pull-right" href="#" ng-click="chart.removeIndicator($index)"><span class="glyphicon glyphicon-remove"></span></a>
-					<!--Label
-					<input type="text" class="form-control input-sm" ng-model="i.yLabel" ng-change="chart.indicatorUpdated($index)" />-->
-					<h4>Moving Average</h4>
-					Average points
-					<input type="number" class="form-control input-sm" ng-model="i.averagePoints" ng-change="chart.indicatorUpdated($index)" />
-					Data value used
-					<select class="form-control input-sm" ng-model="i.yValue" ng-change="chart.indicatorUpdated($index)">
-						<option value="open">Open</option>
-						<option value="high">High</option>
-						<option value="low">Low</option>
-						<option value="close">Close</option>
-						<button type="button" class="btn btn-default btn-xs pull-right" ng-click="chart.removeIndicator($index)">
-							<span class="glyphicon glyphicon-remove"></span>
-						</button>
-					</select>	
-					<hr />		
+                    <div class="option-group">
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Average points</span>
+                                <input type="number" class="form-control input-sm text-right" ng-model="i.averagePoints" ng-change="chart.indicatorUpdated($index)" />
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Data value</span>
+                                <select class="form-control input-sm text-right" ng-model="i.yValue" ng-change="chart.indicatorUpdated($index)">
+                                    <option value="open">Open</option>
+                                    <option value="high">High</option>
+                                    <option value="low">Low</option>
+                                    <option value="close">Close</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="option-section text-center">
+                            <a href="#" ng-click="chart.removeIndicator($index)" class="glyphicon glyphicon-trash"></a>
+                        </div>
+                    </div>
 				</div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.addAnnotation()"><span class="glyphicon glyphicon-plus"></span></a>
+                    Add an annotation
+                </div>
+                <div ng-repeat="a in chart.annotations">
+                    <div class="option-group">
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Label</span>
+                                <input type="text" class="form-control input-sm text-right" ng-model="a.yLabel" ng-change="chart.annotationUpdated($index)" />
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Price value</span>
+                                <input type="number" class="form-control input-sm text-right" ng-model="a.yValue" ng-change="chart.annotationUpdated($index)" />
+                            </div>
+                        </div>
+                        <div class="option-section text-center">
+                            <a href="#" ng-click="chart.removeAnnotation($index)" class="glyphicon glyphicon-trash"></a>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingFour">
-			<h4 class="panel-title">
-				<a class="pull-right" href="#" ng-click="chart.addAnnotation()"><span class="glyphicon glyphicon-plus"></span></a>
-				<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-					Annotations
-				</a>
-			</h4>
-		</div>
-		<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-			<div class="panel-body">
-				<p ng-hide="chart.annotations.length > 0">No annotations added to chart.</p>
-				<div ng-repeat="a in chart.annotations">
-					<a class="pull-right" href="#" ng-click="chart.removeAnnotation($index)"><span class="glyphicon glyphicon-remove"></span></a>
-					Label
-					<input type="text" class="form-control input-sm" ng-model="a.yLabel" ng-change="chart.annotationUpdated($index)" />
-					Price Value
-					<input type="number" class="form-control input-sm" ng-model="a.yValue" ng-change="chart.annotationUpdated($index)" />
-					<hr />		
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="logo">
+        <a href="http://www.scottlogic.com/" target="_blank">
+            <img src="http://www.scottlogic.com/media/logo_primary.svg">
+        </a>
+    </div>
+
 </div>

@@ -48,13 +48,6 @@ define([
 			};
 		});
 
-		app.directive('slChartToolbar', function() {
-			return {
-				restrict: 'E',
-				templateUrl: 'inc/scottLogicChartToolbar.html'
-			};
-		});
-
 		app.directive('slChartOptions', function() {
 			return {
 				restrict: 'E',
