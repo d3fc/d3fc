@@ -26,7 +26,6 @@ define ([
     var data = sl.utilities.dataGenerator()
         .fromDate(new Date(2014, 10, 1))
         .toDate(new Date(2014, 10, 30))
-        .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
         .generate();
 
     // Setup the dimensions

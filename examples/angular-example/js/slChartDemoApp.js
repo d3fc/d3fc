@@ -1,11 +1,10 @@
 define([
 	'sl',
 	'dataGenerator',
-	'moment',
 	'controllers/scottLogicChartCtrl'
 	], 
 
-	function(sl, dataGenerator, moment, scottLogicChartCtrl) {
+	function(sl, dataGenerator, scottLogicChartCtrl) {
 
 		var app = angular.module('slChartDemoApp', []);
 
@@ -13,13 +12,7 @@ define([
 			// Root Scope Initialisation
 			$rootScope.chartData = null;
 
-			var share = this;
-
-			this.filterWeekends = function (moment) { 
-				return !(moment.day() === 0 || moment.day() === 6); 
-			};
-
-			this.generateChartData = function(dataGenerator, moment) {
+			this.generateChartData = function() {
 				if(!$rootScope.chartData) { 
 		    		$rootScope.chartData = sl.utilities.dataGenerator()
 				      .mu(0.1)
@@ -28,7 +21,6 @@ define([
 				      .intraDaySteps(50)
 				      .fromDate(new Date(2013, 10, 1))
 				      .toDate(new Date(2014, 10, 30))
-				      .filter(share.filterWeekends)
 				      .generate();
 			    }
 				return $rootScope.chartData;

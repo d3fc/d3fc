@@ -16,7 +16,9 @@ define ([
             volumeNoiseFactor = 0.3,
             toDate = new Date(),
             fromDate = new Date(),
-            filter = null;
+            filter = function (moment) {
+                return !(moment.day() === 0 || moment.day() === 6);
+            };
 
         var generatePrices = function (period, steps) {
             var increments = generateIncrements(period, steps, mu, sigma),
@@ -63,7 +65,8 @@ define ([
         var generate = function() {
 
             var range = moment().range(fromDate, toDate),
-                rangeYears = range / 3.15569e10,
+                msec_per_year = 3.15569e10,
+                rangeYears = range / msec_per_year,
                 daysIncluded = 0,
                 prices,
                 volume,
