@@ -66,6 +66,10 @@
     font: 10px sans-serif;
 }
 
+.chart .crosshairs.frozen {
+    stroke: #933;
+}
+
 .chart line.measure {
     fill: none;
     stroke: #f09;

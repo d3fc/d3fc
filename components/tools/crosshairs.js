@@ -78,7 +78,7 @@ sl.tools.crosshairs = function () {
     function mouseclick() {
 
         if (freezable) {
-            active = !active;
+            crosshairs.active(!active);
         }
     }
 
@@ -251,6 +251,11 @@ sl.tools.crosshairs = function () {
             return active;
         }
         active = value;
+
+        lineH.classed('frozen', !active);
+        lineV.classed('frozen', !active);
+        circle.classed('frozen', !active);
+
         return crosshairs;
     };
 
