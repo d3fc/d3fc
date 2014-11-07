@@ -193,25 +193,28 @@ define ([
                 finalX = xScale.range()[1],
                 finalY = calculateY(originX, originY, targetX, targetY, finalX);
 
-            setFanLines(originX, originY, finalX, finalY.source, finalY.source, finalY.source);
+            if (finalY) {
 
-            lineA.attr('display', 'inherit');
-            lineB.attr('display', 'inherit');
-            lineC.attr('display', 'inherit');
-            fanArea.attr('display', 'inherit');
+                setFanLines(originX, originY, finalX, finalY.source, finalY.source, finalY.source);
 
-            var pointsFinal = originX + ',' + originY
-                + ' ' + finalX + ',' + finalY.a
-                + ' ' + finalX + ',' + finalY.c;
+                lineA.attr('display', 'inherit');
+                lineB.attr('display', 'inherit');
+                lineC.attr('display', 'inherit');
+                fanArea.attr('display', 'inherit');
 
-            lineA.transition()
-                .attr('y2', finalY.a);
-            lineB.transition()
-                .attr('y2', finalY.b);
-            lineC.transition()
-                .attr('y2', finalY.c);
-            fanArea.transition()
-                .attr('points', pointsFinal);
+                var pointsFinal = originX + ',' + originY
+                    + ' ' + finalX + ',' + finalY.a
+                    + ' ' + finalX + ',' + finalY.c;
+
+                lineA.transition()
+                    .attr('y2', finalY.a);
+                lineB.transition()
+                    .attr('y2', finalY.b);
+                lineC.transition()
+                    .attr('y2', finalY.c);
+                fanArea.transition()
+                    .attr('points', pointsFinal);
+            }
 
             circleOrigin.attr('display', 'none');
             circleTarget.attr('display', 'none');
@@ -232,6 +235,8 @@ define ([
         }
 
         function calculateY(originX, originY, targetX, targetY, finalX) {
+
+            if (originX === targetX) { return null; }
 
             var gradient = (targetY - originY) / (targetX - originX),
                 ySource = (gradient * (finalX - originX)) + originY,
@@ -290,7 +295,9 @@ define ([
                         var finalX = xScale.range()[1],
                             finalY = calculateY(originX, originY, targetX, targetY, finalX);
 
-                        setFanLines(originX, originY, finalX, finalY.a, finalY.b, finalY.c);
+                        if (finalY) {
+                            setFanLines(originX, originY, finalX, finalY.a, finalY.b, finalY.c);
+                        }
                     }
                 }
             }
