@@ -72,16 +72,35 @@
 
 .chart line.measure {
     fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+}
+
+.chart line.measure.source {
+    stroke: blue;
+    stroke-width: 1.5;
+}
+
+.chart line.measure.x {
+    fill: none;
     stroke: #f09;
     stroke-width: 1;
     stroke-dasharray: 3, 3;
 }
 
-.chart line.gradient {
+.chart line.measure.y {
     fill: none;
     stroke: #f09;
     stroke-width: 1;
     stroke-dasharray: 3, 3;
+}
+
+.chart circle.measure {
+    fill: none;
+    stroke: blue;
+    stroke-width: 1;
+    stroke-opacity: 0.5;
 }
 
 .chart text.measure {

@@ -4,175 +4,372 @@ define ([
 ], function (d3, sl) {
     'use strict';
 
-sl.tools.measure = function () {
+    sl.tools.measure = function () {
 
-    var target = null,
-        series = null,
-        xScale = d3.time.scale(),
-        yScale = d3.scale.linear(),
-        startPoint = null,
-        endPoint = null,
-        formatH = null,
-        formatV = null;
+        var target = null,
+            series = null,
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            active = true,
+            formatH = null,
+            formatV = null;
 
-    var lineH = null,
-        lineV = null,
-        gradient = null,
-        calloutH = null,
-        calloutV = null;
+        var circleOrigin = null,
+            circleTarget = null,
+            lineSource = null,
+            lineX = null,
+            lineY = null,
+            calloutX = null,
+            calloutY = null;
 
-    var drawing = false;
+        var phase = 1,
+            locationOrigin = null,
+            locationTarget = null;
 
-    var measure = function (selection) {
+        var measure = function () {
 
-       var root = target.append('g')
-            .attr('class', 'measure');
+            var root = target.append('g')
+                .attr('class', 'measure');
 
-        lineH = root.append("line")
-            .attr('class', 'measure horizontal')
-            .attr('x1', xScale.range()[0])
-            .attr('x2', xScale.range()[1])
-            .attr('display', 'none');
+            circleOrigin = root.append("circle")
+                .attr('class', 'measure origin')
+                .attr('r', 6)
+                .attr('display', 'none');
 
-        lineV = root.append("line")
-            .attr('class', 'measure vertical')
-            .attr('y1', yScale.range()[0])
-            .attr('y2', yScale.range()[1])
-            .attr('display', 'none');
+            circleTarget = root.append("circle")
+                .attr('class', 'measure target')
+                .attr('r', 6)
+                .attr('display', 'none');
 
-        gradient = root.append("line")
-            .attr('class', 'measure gradient')
-            .attr('x1', 0)
-            .attr('y1', 0)
-            .attr('x2', 0)
-            .attr('y2', 0)
-            .attr('display', 'none');
+            lineSource = root.append("line")
+                .attr('class', 'measure source')
+                .attr('display', 'none');
 
-        calloutH = root.append("text")
-            .attr('class', 'measure callout horizontal')
-            .attr('x', xScale.range()[1])
-            .attr('style', 'text-anchor: end')
-            .attr('display', 'none');
+            lineX = root.append("line")
+                .attr('class', 'measure x')
+                .attr('display', 'none');
 
-        calloutV = root.append("text")
-            .attr('class', 'measure callout vertical')
-            .attr('y', '1em')
-            .attr('style', 'text-anchor: end')
-            .attr('display', 'none');
-    };
+            lineY = root.append("line")
+                .attr('class', 'measure y')
+                .attr('display', 'none');
 
-    function mouseclick() {
-        if(!drawing) {
-            startPoint = { x: d3.mouse(this)[0], y: d3.mouse(this)[1] };
-            endPoint = startPoint;
-        }
-        drawing = !drawing;
-    };
+            calloutX = root.append("text")
+                .attr('class', 'measure callout horizontal')
+                .attr('x', xScale.range()[1])
+                .attr('style', 'text-anchor: end')
+                .attr('display', 'none');
 
-    function mousemove() {
+            calloutY = root.append("text")
+                .attr('class', 'measure callout vertical')
+                .attr('y', '1em')
+                .attr('style', 'text-anchor: end')
+                .attr('display', 'none');
+        };
 
-        if(!drawing) return;
+        function mousemove() {
 
-        endPoint = { x: d3.mouse(this)[0], y: d3.mouse(this)[1] };
-        update();
-    };
+            if (!active) {
+                return;
+            }
 
-    function update()
-    {
-        if(!drawing) return;
-
-        lineH.attr('x1', startPoint.x)
-            .attr('y1', startPoint.y)
-            .attr('x2', endPoint.x)
-            .attr('y2', startPoint.y);
-        lineV.attr('x1', endPoint.x)
-            .attr('y1', startPoint.y)
-            .attr('x2', endPoint.x)
-            .attr('y2', endPoint.y);
-        gradient.attr('x1', startPoint.x)
-            .attr('y1', startPoint.y)
-            .attr('x2', endPoint.x)
-            .attr('y2', endPoint.y);
-        calloutH.attr('x', endPoint.x)
-            .attr('y', startPoint.y - (startPoint.y - endPoint.y) / 2.0)
-            .text(formatV(Math.abs(yScale.invert(endPoint.y) - yScale.invert(startPoint.y))));
-        calloutV.attr('y', startPoint.y)
-            .attr('x', startPoint.x + (endPoint.x - startPoint.x) / 2.0)
-            .text(formatH(Math.abs(xScale.invert(endPoint.x).getTime() - xScale.invert(startPoint.x).getTime())));
-
-
-        lineH.attr('display', 'inherit');
-        lineV.attr('display', 'inherit');
-        gradient.attr('display', 'inherit');
-        calloutH.attr('display', 'inherit');
-        calloutV.attr('display', 'inherit');
-    };
-
-    function mouseout() {
-
-        if(drawing == false) return;
-
-        lineH.attr('display', 'none');
-        lineV.attr('display', 'none');
-        gradient.attr('display', 'none');
-        calloutH.attr('display', 'none');
-        calloutV.attr('display', 'none');
-    };
-
-    measure.target = function (value) {
-        if (!arguments.length) {
-            return target;
+            switch (phase) {
+                case 1: {
+                    locationOrigin = findLocation();
+                    if (locationOrigin) {
+                        measure.update();
+                        circleOrigin.attr('display', 'inherit');
+                    }
+                    break;
+                }
+                case 2: {
+                    locationTarget = findLocation();
+                    if (locationTarget) {
+                        measure.update();
+                        circleTarget.attr('display', 'inherit');
+                        lineSource.attr('display', 'inherit');
+                    }
+                    break;
+                }
+                case 3: {
+                    break;
+                }
+            }
         }
 
-        if (target) {
+        function mouseclick() {
 
-            target.on('click.measure', null);
-            target.on('mousemove.measure', null);
-            target.on('mouseout.measure', null);
+            if (!active) {
+                return;
+            }
+
+            switch (phase) {
+                case 1: {
+
+                    phase = 2;
+                    break;
+                }
+                case 2: {
+
+                    doMeasure();
+
+                    phase = 3;
+                    break;
+                }
+                case 3: {
+
+                    clearAll();
+
+                    phase = 1;
+                    break;
+                }
+            }
         }
 
-        target = value;
+        function findLocation() {
 
-        target.on('click.measure', mouseclick);
-        target.on('mousemove.measure', mousemove);
-        target.on('mouseout.measure', mouseout);
+            var mouse = d3.mouse(target[0][0]),
+                xMouse = xScale.invert(mouse[0]),
+                yMouse = yScale.invert(mouse[1]),
+                point = findPoint(xMouse);
+
+            if (point !== null) {
+
+                var field = findField(yMouse, point);
+
+                if (field !== null) {
+
+                    return { point: point, field: field }
+                }
+            }
+
+            return null;
+        }
+
+        function findPoint(xTarget) {
+
+            var nearest = null,
+                dx = Number.MAX_VALUE;
+
+            series.forEach(function(data) {
+
+                var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
+
+                if (xDiff < dx) {
+                    dx = xDiff;
+                    nearest = data;
+                }
+            });
+
+            return nearest;
+        }
+
+        function findField(yTarget, data) {
+
+            var field = null;
+
+            var minDiff = Number.MAX_VALUE;
+            for (var property in data) {
+
+                if (!data.hasOwnProperty(property) || (property === 'date')) {
+                    continue;
+                }
+
+                var dy = Math.abs(yTarget - data[property]);
+                if (dy <= minDiff) {
+                    minDiff = dy;
+                    field = property;
+                }
+            }
+
+            return field;
+        }
+
+        function doMeasure() {
+
+            if (xScale(locationOrigin.point.date) > xScale(locationTarget.point.date)) {
+                var tmp = locationOrigin;
+                locationOrigin = locationTarget;
+                locationTarget = tmp;
+            }
+
+            var originX = xScale(locationOrigin.point.date),
+                originY = yScale(locationOrigin.point[locationOrigin.field]),
+                targetX = xScale(locationTarget.point.date),
+                targetY = yScale(locationTarget.point[locationTarget.field]);
+
+            lineX.attr('x1', originX)
+                .attr('y1', originY)
+                .attr('x2', targetX)
+                .attr('y2', originY);
+            lineY.attr('x1', targetX)
+                .attr('y1', originY)
+                .attr('x2', targetX)
+                .attr('y2', targetY);
+
+            calloutX.attr('x', targetX)
+                .attr('y', originY - (originY - targetY) / 2.0)
+                .text(formatV(Math.abs(yScale.invert(targetY) - yScale.invert(originY))));
+            calloutY.attr('y', originY)
+                .attr('x', originX + (targetX - originX) / 2.0)
+                .text(formatH(Math.abs(xScale.invert(originX).getTime() - xScale.invert(originX).getTime())));
+
+            lineX.attr('display', 'inherit');
+            lineY.attr('display', 'inherit');
+            calloutX.attr('display', 'inherit');
+            calloutY.attr('display', 'inherit');
+
+            circleOrigin.attr('display', 'none');
+            circleTarget.attr('display', 'none');
+        }
+
+        function clearAll() {
+
+            locationOrigin = null;
+            locationTarget = null;
+
+            circleOrigin.attr('display', 'none');
+            circleTarget.attr('display', 'none');
+            lineSource.attr('display', 'none');
+            lineX.attr('display', 'none');
+            lineY.attr('display', 'none');
+            calloutX.attr('display', 'none');
+            calloutY.attr('display', 'none');
+        }
+
+        measure.update = function () {
+
+            if (locationOrigin) {
+
+                var originX = xScale(locationOrigin.point.date),
+                    originY = yScale(locationOrigin.point[locationOrigin.field]);
+
+                circleOrigin.attr('cx', originX)
+                    .attr('cy', originY);
+                lineSource.attr('x1', originX)
+                    .attr('y1', originY);
+
+                if (locationTarget && (phase !== 1)) {
+
+                    var targetX = xScale(locationTarget.point.date),
+                        targetY = yScale(locationTarget.point[locationTarget.field]);
+
+                    circleTarget.attr('cx', targetX)
+                        .attr('cy', targetY);
+                    lineSource.attr('x2', targetX)
+                        .attr('y2', targetY);
+
+                    if (phase === 3) {
+
+                        doMeasure();
+                    }
+                }
+            }
+        };
+
+        measure.visible = function (value) {
+
+            if (value) {
+
+                switch (phase) {
+                    case 1: {
+                        circleOrigin.attr('display', 'inherit');
+                        break;
+                    }
+                    case 2: {
+                        circleOrigin.attr('display', 'inherit');
+                        circleTarget.attr('display', 'inherit');
+                        lineSource.attr('display', 'inherit');
+                        break;
+                    }
+                    case 3: {
+                        lineSource.attr('display', 'inherit');
+                        lineX.attr('display', 'inherit');
+                        lineY.attr('display', 'inherit');
+                        calloutX.attr('display', 'inherit');
+                        calloutY.attr('display', 'inherit');
+                        break;
+                    }
+                }
+            } else {
+
+                circleOrigin.attr('display', 'none');
+                circleTarget.attr('display', 'none');
+                lineSource.attr('display', 'none');
+                lineX.attr('display', 'none');
+                lineY.attr('display', 'none');
+                calloutX.attr('display', 'none');
+                calloutY.attr('display', 'none');
+            }
+        };
+
+        measure.target = function (value) {
+            if (!arguments.length) {
+                return target;
+            }
+
+            if (target) {
+
+                target.on('mousemove.measure', null);
+                target.on('click.measure', null);
+            }
+
+            target = value;
+
+            target.on('mousemove.measure', mousemove);
+            target.on('click.measure', mouseclick);
+
+            return measure;
+        };
+
+        measure.series = function (value) {
+            if (!arguments.length) {
+                return series;
+            }
+            series = value;
+            return measure;
+        };
+
+        measure.xScale = function (value) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = value;
+            return measure;
+        };
+
+        measure.yScale = function (value) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = value;
+            return measure;
+        };
+
+        measure.active = function (value) {
+            if (!arguments.length) {
+                return active;
+            }
+            active = value;
+            return measure;
+        };
+
+        measure.formatH = function (value) {
+            if (!arguments.length) {
+                return formatH;
+            }
+            formatH = value;
+            return measure;
+        };
+
+        measure.formatV = function (value) {
+            if (!arguments.length) {
+                return formatV;
+            }
+            formatV = value;
+            return measure;
+        };
 
         return measure;
     };
-
-    measure.xScale = function (value) {
-        if (!arguments.length) {
-            return xScale;
-        }
-        xScale = value;
-        return measure;
-    };
-
-    measure.yScale = function (value) {
-        if (!arguments.length) {
-            return yScale;
-        }
-        yScale = value;
-        return measure;
-    };
-
-    measure.formatH = function (value) {
-        if (!arguments.length) {
-            return formatH;
-        }
-        formatH = value;
-        return measure;
-    };
-
-    measure.formatV = function (value) {
-        if (!arguments.length) {
-            return formatV;
-        }
-        formatV = value;
-        return measure;
-    };
-
-    return measure;
-};
 
 });

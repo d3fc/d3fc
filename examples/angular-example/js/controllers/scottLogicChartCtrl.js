@@ -140,7 +140,7 @@ define([
 			share.initialiseGridlines();
 			share.initialiseAxes();
 			share.initialiseCrosshairs(data);
-			share.initialiseMeasure();
+			share.initialiseMeasure(data);
 			share.initialiseBollinger(data);
 			share.initialiseFibonacci(data);
 		};
@@ -149,6 +149,11 @@ define([
 			if( !share.hasData() ) return;
 	        share.initialiseCrosshairs($rootScope.chartData);
 		};
+
+        this.applyMeasure = function() {
+            if( !share.hasData() ) return;
+            share.initialiseMeasure($rootScope.chartData);
+        };
 
 		this.applyGridlines = function() {
 			share.initialiseGridlines();
@@ -180,7 +185,7 @@ define([
 			share.initialiseNavigator(data);
 			share.initialiseGridlines();
 			share.initialiseCrosshairs(data);
-			share.initialiseMeasure();
+			share.initialiseMeasure(data);
 
 			share.initialiseVolume(data);
 			share.initialiseBollinger(data);
@@ -336,14 +341,15 @@ define([
 		    share.plotArea.call(share.crosshairs);
 		};
 
-		this.initialiseMeasure = function() {
+		this.initialiseMeasure = function(data) {
 
-			share.plotArea.selectAll('.measure').remove();
+            share.plotArea.selectAll('.measure').remove();
 
-		    share.measure = sl.tools.measure()
-		        .target(share.plotArea)
-		        .xScale(share.xScale)
-		        .yScale(share.yScale)
+            share.measure = sl.tools.measure()
+                .target(share.plotArea)
+                .series(data)
+                .xScale(share.xScale)
+                .yScale(share.yScale)
 		        .formatH(function(d) { 
 		            var timediff = d / 1000;
 		            var days = Math.floor(timediff / 86400),
@@ -353,9 +359,10 @@ define([
 
 		            return '' + days + 'days ' + hours + 'h ' + minutes + 'm ' + seconds + 's'; 
 		        })
-        		.formatV(function(d) { return d3.format('.2f')(d); });
+        		.formatV(function(d) { return d3.format('.2f')(d); })
+                .active(false);
 
-		    share.plotArea.call(share.measure);
+            share.plotArea.call(share.measure);
 		};
 
 		this.initialiseBollinger = function(data) {
@@ -468,6 +475,7 @@ define([
 	        share.plotChart.select('.x.axis').call(share.xAxis);
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
+            share.measure.update();
             share.fibonacci.update();
 
 	        share.volumeSeries.call(share.volumeData);
@@ -525,17 +533,18 @@ define([
 
 	    	share.plotArea.selectAll('.gridlines').style('display', share.gridlineOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.crosshairs').style('display', share.crosshairOptions.show ? 'block' : 'none' );
-	    	share.plotArea.selectAll('.measure').style('display', share.measureOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
+	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
+	    	share.plotChart.selectAll('#yVolAxis').style('display', share.showVolume ? 'block' : 'none' );
+	    	share.mainDiv.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
+
+            share.measure.visible(share.measureOptions.show);
+            share.measure.active(share.measureOptions.show);
 
             share.fibonacci.visible(share.showFibonacci);
             share.fibonacci.active(share.showFibonacci);
 
             share.crosshairs.freezable(share.crosshairOptions.show);
-
-	    	share.plotArea.selectAll('.volume-series').style('display', share.showVolume ? 'block' : 'none' );
-	    	share.plotChart.selectAll('#yVolAxis').style('display', share.showVolume ? 'block' : 'none' );
-	    	share.mainDiv.selectAll('.navigator').style('display', share.showNavigator ? 'block' : 'none' );
 	    };
 
 		this.initialise();
