@@ -26,6 +26,14 @@
                     </a>
                     Gridlines
                 </div>
+                <div class="option-group" ng-show="chart.hasFeature('gridlines')">
+                    <div class="option-section">
+                        <div class="input-group">
+                            <span class="input-group-addon">Ticks</span>
+                            <input type="number" class="form-control input-sm text-right" id="gridTicksX" ng-model="chart.axisOptions.xTicks" ng-change="chart.applyGridlines()">
+                        </div>
+                    </div>
+                </div>
                 <div class="option-section">
                     <a class="pull-right" href="#" ng-click="chart.toggleFeature('navigator')">
                         <span class="glyphicon glyphicon-check" ng-show="chart.hasFeature('navigator')" title="visible"></span>
@@ -40,13 +48,6 @@
                     </a>
                     Volume series
                 </div>
-                <div class="option-section">
-                    <div class="input-group">
-                        <span class="input-group-addon">X-axis ticks</span>
-                        <input type="number" class="form-control input-sm text-right" id="gridTicksX" ng-model="chart.axisOptions.xTicks" ng-change="chart.applyGridlines()">
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -104,19 +105,19 @@
                     <div class="option-group" ng-show="chart.hasFeature('bollinger')">
                         <div class="option-section">
                             <div class="input-group">
-                                <span class="input-group-addon">Average points</span>
+                                <span class="input-group-addon">Points</span>
                                 <input type="number" class="form-control input-sm text-right" id="bollingerAverage" ng-model="chart.bollingerOptions.movingAverageCount" ng-change="chart.applyBollinger()">
                             </div>
                         </div>
                         <div class="option-section">
                             <div class="input-group">
-                                <span class="input-group-addon">Std deviations</span>
+                                <span class="input-group-addon">Deviations</span>
                                 <input type="number" class="form-control input-sm text-right" id="bollingerDeviations" ng-model="chart.bollingerOptions.standardDeviations" ng-change="chart.applyBollinger()">
                             </div>
                         </div>
                         <div class="option-section">
                             <div class="input-group">
-                                <span class="input-group-addon">Data value</span>
+                                <span class="input-group-addon">Data</span>
                                 <select class="form-control input-sm text-right" id="bollingerValueY" ng-model="chart.bollingerOptions.yValue" ng-change="chart.applyBollinger()">
                                     <option value="open">Open</option>
                                     <option value="high">High</option>
@@ -148,13 +149,19 @@
                     <div class="option-group">
                         <div class="option-section">
                             <div class="input-group">
-                                <span class="input-group-addon">Average points</span>
+                                <span class="input-group-addon">Label</span>
+                                <input type="text" class="form-control input-sm text-right" ng-model="i.yLabel" ng-change="chart.indicatorUpdated($index)" />
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Points</span>
                                 <input type="number" class="form-control input-sm text-right" ng-model="i.averagePoints" ng-change="chart.indicatorUpdated($index)" />
                             </div>
                         </div>
                         <div class="option-section">
                             <div class="input-group">
-                                <span class="input-group-addon">Data value</span>
+                                <span class="input-group-addon">Data</span>
                                 <select class="form-control input-sm text-right" ng-model="i.yValue" ng-change="chart.indicatorUpdated($index)">
                                     <option value="open">Open</option>
                                     <option value="high">High</option>
@@ -182,7 +189,7 @@
                         </div>
                         <div class="option-section">
                             <div class="input-group">
-                                <span class="input-group-addon">Price value</span>
+                                <span class="input-group-addon">Price</span>
                                 <input type="number" class="form-control input-sm text-right" ng-model="a.yValue" ng-change="chart.annotationUpdated($index)" />
                             </div>
                         </div>
@@ -195,7 +202,7 @@
 		</div>
 	</div>
 
-    <div class="logo">
+    <div class="logo hidden-xs hidden-sm">
         <a href="http://www.scottlogic.com/" target="_blank">
             <img src="http://www.scottlogic.com/media/logo_primary.svg">
         </a>

@@ -29,4 +29,5 @@ div.logo {
 div#scottLogicChart {
     background-color: white;
     border-radius: 8px;
+    margin-bottom: 15px;
 }
