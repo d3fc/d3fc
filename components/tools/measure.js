@@ -11,6 +11,7 @@ define ([
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             active = true,
+            padding = 2,
             formatH = null,
             formatV = null;
 
@@ -55,14 +56,12 @@ define ([
 
             calloutX = root.append("text")
                 .attr('class', 'measure callout horizontal')
-                .attr('x', xScale.range()[1])
                 .attr('style', 'text-anchor: end')
                 .attr('display', 'none');
 
             calloutY = root.append("text")
                 .attr('class', 'measure callout vertical')
-                .attr('y', '1em')
-                .attr('style', 'text-anchor: end')
+                .attr('style', 'text-anchor: middle')
                 .attr('display', 'none');
         };
 
@@ -186,12 +185,6 @@ define ([
 
         function doMeasure() {
 
-            if (xScale(locationOrigin.point.date) > xScale(locationTarget.point.date)) {
-                var tmp = locationOrigin;
-                locationOrigin = locationTarget;
-                locationTarget = tmp;
-            }
-
             var originX = xScale(locationOrigin.point.date),
                 originY = yScale(locationOrigin.point[locationOrigin.field]),
                 targetX = xScale(locationTarget.point.date),
@@ -206,12 +199,12 @@ define ([
                 .attr('x2', targetX)
                 .attr('y2', targetY);
 
-            calloutX.attr('x', targetX)
+            calloutX.attr('x', targetX - padding)
                 .attr('y', originY - (originY - targetY) / 2.0)
-                .text(formatV(Math.abs(yScale.invert(targetY) - yScale.invert(originY))));
-            calloutY.attr('y', originY)
+                .text(formatV(Math.abs(locationTarget.point[locationTarget.field] - locationOrigin.point[locationOrigin.field])));
+            calloutY.attr('y', originY - padding)
                 .attr('x', originX + (targetX - originX) / 2.0)
-                .text(formatH(Math.abs(xScale.invert(originX).getTime() - xScale.invert(originX).getTime())));
+                .text(formatH(Math.abs(locationTarget.point.date.getTime() - locationOrigin.point.date.getTime())));
 
             lineX.attr('display', 'inherit');
             lineY.attr('display', 'inherit');
@@ -350,6 +343,14 @@ define ([
                 return active;
             }
             active = value;
+            return measure;
+        };
+
+        measure.padding = function (value) {
+            if (!arguments.length) {
+                return padding;
+            }
+            padding = value;
             return measure;
         };
 
