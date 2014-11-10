@@ -1,0 +1,20 @@
+<section>
+
+	<div class="row">
+
+		<div class="col-md-10">
+			<div id="scottLogicChart" ng-show="chart.hasData()"></div>
+			<div ng-hide="chart.hasData()">
+				<h1>No data</h1>
+				<p>This chart currently has no data associated with it.</p>
+				<p>Data should be added to the $rootScope.chartData variable.</p>
+			</div>
+		</div>
+
+		<div class="col-md-2">
+			<sl-chart-options></sl-chart-options>
+		</div>
+
+	</div>
+
+</section>

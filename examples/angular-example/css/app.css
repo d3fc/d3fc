@@ -1,0 +1,33 @@
+body {
+    background-color: #BBBBBB;
+    padding: 15px;
+}
+
+.options {
+    background-color: #231f20;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.option-group {
+    border: 1px solid #CCCCCC;
+    background-color: #E0E0E0;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.option-section {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+div.logo {
+    padding: 10px;
+    margin-top: 5px;
+}
+
+div#scottLogicChart {
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
