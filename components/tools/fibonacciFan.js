@@ -1,7 +1,4 @@
-define ([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     sl.tools.fibonacciFan = function () {
@@ -393,4 +390,4 @@ define ([
         return fibonacciFan;
     };
 
-});
+}(d3, sl));

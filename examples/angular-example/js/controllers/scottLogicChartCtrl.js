@@ -1,20 +1,6 @@
-define([
-	'd3',
-	'sl',
-    'gridlines',
-    'crosshairs',
-    'measure',
-    'financeScale',
-    'candlestick',
-    'ohlc',
-    'annotation',
-    'movingAverage',
-    'volume',
-    'bollingerBands',
-    'fibonacciFan'
-	], function(d3, sl) {
+(function(d3, sl) {
 
-	function scottLogicChartCtrl($rootScope) {
+	scottLogicChartCtrl = function scottLogicChartCtrl($rootScope) {
 		
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 3 }; // Possible style options are 'bars' and 'candles', width is used for candles
@@ -553,5 +539,4 @@ define([
 
 	scottLogicChartCtrl.$inject=['$rootScope'];
 
-	return scottLogicChartCtrl;
-});
+}(d3, sl));

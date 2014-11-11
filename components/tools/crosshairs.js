@@ -1,7 +1,4 @@
-define ([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
 sl.tools.crosshairs = function () {
@@ -282,4 +279,4 @@ sl.tools.crosshairs = function () {
     return crosshairs;
 };
 
-});
+}(d3, sl));
