@@ -14,7 +14,30 @@ g.slPrimaryPlot .bar.down-day path { stroke: #c60; }
 g.slPrimaryPlot .bar.up-day rect { fill: #6c0; }
 g.slPrimaryPlot .bar.down-day rect { fill: #c60; }
 
-.slIndicatorsChart_1 { border: solid 1px #00f; }
+#slIndicatorChart { height: 200px; }
+.slIndicatorChartArea { background: #fefefe; border: solid 1px #eee; }
+
+g.slIndicatorsChart_1 path.rsi {
+    fill: none;
+    stroke: #09f;
+    stroke-width: 1;
+    stroke-dasharray: 3, 3;
+    opacity: 1; /* This is to override the bootstrap defaults for .close etc */
+}
+g.slIndicatorsChart_1 line.marker {
+    fill: none;
+    stroke: #666;
+    stroke-width: 0.5;
+    stroke-dasharray: 3, 3;
+    opacity: 1; /* This is to override the bootstrap defaults for .close etc */
+}
+g.slIndicatorsChart_1 line.marker.centre {
+    fill: none;
+    stroke: #666;
+    stroke-width: 0.5;
+    stroke-dasharray: 1, 3;
+    opacity: 1; /* This is to override the bootstrap defaults for .close etc */
+}
 
 .slIndicatorsChart_2 { border: solid 1px #ff0; }
 
