@@ -1,9 +1,4 @@
-define ([
-    'sl',
-    'moment',
-    'moment-range',
-    'jstat'
-], function (sl, moment) {
+(function (sl, moment, jStat) {
     'use strict';
 
     sl.utilities.dataGenerator = function () {
@@ -184,4 +179,4 @@ define ([
 
         return dataGenerator;
     };
-});
+}(sl, moment, jStat));

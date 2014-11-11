@@ -1,7 +1,4 @@
-define ([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     sl.series.ohlc = function () {
@@ -136,4 +133,4 @@ define ([
         return ohlc;
 
     };
-});
+}(d3, sl));

@@ -1,8 +1,4 @@
-define ([
-    'd3',
-    'sl',
-    'jquery'
-], function (d3, sl, $) {
+(function (d3, sl, $) {
     'use strict';
 
     sl.utilities.dimensions = function () {
@@ -118,4 +114,4 @@ define ([
 
         return dimensions;
     };
-});
+}(d3, sl, jQuery));

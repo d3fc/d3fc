@@ -1,7 +1,4 @@
-define([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     sl.scale.gridlines = function () {
@@ -103,4 +100,4 @@ define([
 
         return gridlines;
     };
-});
+}(d3, sl));

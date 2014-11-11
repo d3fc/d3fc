@@ -1,7 +1,4 @@
-define ([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     sl.indicators.movingAverage = function () {
@@ -111,4 +108,4 @@ define ([
 
         return movingAverage;
     };
-});
+}(d3, sl));

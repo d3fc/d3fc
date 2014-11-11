@@ -1,20 +1,4 @@
-define ([
-    'd3',
-    'sl',
-    'gridlines',
-    'crosshairs',
-    'measure',
-    'financeScale',
-    'candlestick',
-    'ohlc',
-    'annotation',
-    'movingAverage',
-    'volume',
-    'bollingerBands',
-    'relativeStrengthIndex',
-    'dataGenerator',
-    'dimensions'
-], function initCharts(d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     var chartOptions = {
@@ -29,6 +13,7 @@ define ([
         .toDate(new Date(2014, 3, 1))
         .generate();
 
+
     // Setup the dimensions
     var dimensions = sl.utilities.dimensions()
         .marginBottom(30)
@@ -36,8 +21,9 @@ define ([
         .marginRight(40);
 
     // The overall chart
-    var setupArea = d3.select('#' + chartOptions.name)
-        .call(dimensions);
+    var setupArea = d3.select('#' + chartOptions.name);
+
+    setupArea.data(["test"]).call(dimensions);
 
     // Select the elements which we'll want to add other elements to
     var svg = setupArea.select('svg'),
@@ -213,4 +199,4 @@ define ([
         .call(rsi);
 
     indicators.series.push(rsi);
-});
+}(d3, sl));

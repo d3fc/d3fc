@@ -1,9 +1,7 @@
-define([
-    'd3',
-    'sl',
-    'weekday'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
+
+    var weekday = sl.utilities.weekday
 
     sl.scale.finance = function () {
         return financialScale();
@@ -58,4 +56,4 @@ define([
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-});
+}(d3, sl));

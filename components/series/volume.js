@@ -1,7 +1,4 @@
-define ([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     sl.series.volume = function () {
@@ -86,4 +83,4 @@ define ([
 
         return volume;
     };
-});
+}(d3, sl));

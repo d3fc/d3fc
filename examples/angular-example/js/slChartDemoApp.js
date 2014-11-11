@@ -1,10 +1,4 @@
-define([
-	'sl',
-	'dataGenerator',
-	'controllers/scottLogicChartCtrl'
-	], 
-
-	function(sl, dataGenerator, scottLogicChartCtrl) {
+(function(sl, dataGenerator, scottLogicChartCtrl) {
 
 		var app = angular.module('slChartDemoApp', []);
 
@@ -48,4 +42,4 @@ define([
 			};
 		});
 	}
-);
+)(sl, sl.utilities.dataGenerator, scottLogicChartCtrl);

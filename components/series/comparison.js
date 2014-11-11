@@ -1,8 +1,5 @@
-define([
-    'd3',
-    'sl',
-    'utils/yScaleTransform'
-], function (d3, sl, yScaleTransform) {
+// TODO where is yScaleTransform?
+(function (d3, sl, yScaleTransform) {
     'use strict';
 
     sl.series.comparison = function () {
@@ -186,4 +183,4 @@ define([
 
         return comparison;
     };
-});
+}(d3, sl));

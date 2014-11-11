@@ -1,7 +1,4 @@
-define ([
-    'd3',
-    'sl'
-], function (d3, sl) {
+(function (d3, sl) {
     'use strict';
 
     sl.tools.measure = function () {
@@ -373,4 +370,4 @@ define ([
         return measure;
     };
 
-});
+}(d3, sl));
