@@ -27,6 +27,17 @@ module.exports = function (grunt) {
             }
         },
 
+        uglify: {
+            options: {
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+            },
+            dist: {
+                files: {
+                    'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                }
+            }
+        },
+
         copy: {
             main: {
                 expand: true,
@@ -36,6 +47,11 @@ module.exports = function (grunt) {
                 flatten: true,
                 filter: 'isFile'
             }
+        },
+
+        watch: {
+            files: ['<%= meta.componentsJsFiles %>'],
+            tasks: ['build']
         },
 
         jscs: {
@@ -79,7 +95,7 @@ module.exports = function (grunt) {
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('build', ['concat:dist', 'copy:main']);
+    grunt.registerTask('build', ['concat:dist', 'uglify:dist', 'copy:main']);
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
