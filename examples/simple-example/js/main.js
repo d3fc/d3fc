@@ -11,6 +11,7 @@ define ([
     'movingAverage',
     'volume',
     'bollingerBands',
+    'relativeStrengthIndex',
     'dataGenerator',
     'dimensions'
 ], function initCharts(d3, sl) {
@@ -24,8 +25,8 @@ define ([
 
     // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
     var data = sl.utilities.dataGenerator()
-        .fromDate(new Date(2014, 10, 1))
-        .toDate(new Date(2014, 10, 30))
+        .fromDate(new Date(2014, 1, 1))
+        .toDate(new Date(2014, 6, 1))
         .generate();
 
     // Setup the dimensions
@@ -136,10 +137,80 @@ define ([
         .attr('id', 'slIndicatorsChart_2')
         .attr('class', 'slIndicatorsChart_2');
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    // The chart navigator
-    chart.append('g')
-        .attr('id', 'slChartNavigation')
-        .attr('class', 'slChartNavigation');
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // The indicator chart
+
+    var indicatorsOptions = {
+        name:'slIndicatorChart',
+        xTicks: 5,
+        yTicks: 5
+    };
+
+    var indicators = {
+        series: []
+    };
+
+    // Setup the dimensions
+    indicators.dimensions = sl.utilities.dimensions()
+        .marginBottom(30)
+        .marginLeft(80)
+        .marginRight(40);
+
+    // The overall chart
+    indicators.setupArea = d3.select('#' + indicatorsOptions.name)
+        .call(indicators.dimensions);
+
+    // Select the elements which we'll want to add other elements to
+    indicators.svg = indicators.setupArea.select('svg');
+    indicators.chart = indicators.svg.select('g');
+    indicators.plotArea = indicators.chart.select('.plotArea');
+
+    // Style the svg with a CSS class
+    indicators.svg.attr('class', 'slIndicatorChartArea');
+
+    indicators.dateScale = sl.scale.finance()
+        .domain([chartScale.dateFrom, chartScale.dateTo])
+        .range([0, indicators.dimensions.innerWidth()]);
+
+    indicators.percentageScale = d3.scale.linear()
+        .domain([0, 100])
+        .nice()
+        .range([indicators.dimensions.innerHeight(), 0]);
+
+    // Create the axes
+    indicators.dateAxis = d3.svg.axis()
+        .scale(indicators.dateScale)
+        .orient('bottom')
+        .ticks(indicatorsOptions.xTicks);
+
+    indicators.percentageAxis = d3.svg.axis()
+        .scale(indicators.percentageScale)
+        .orient('right')
+        .ticks(indicatorsOptions.yTicks);
+
+    // Add the axes to the chart
+    indicators.chart.append('g')
+        .attr('class', 'axis date')
+        .attr('transform', 'translate(0,' + indicators.dimensions.innerHeight() + ')')
+        .call(indicators.dateAxis);
+
+    indicators.chart.append('g')
+        .attr('class', 'axis percecntage')
+        .attr('transform', 'translate(' + indicators.dimensions.innerWidth() + ',0)')
+        .call(indicators.percentageAxis);
+
+    // Create RSI
+    var rsi = sl.indicators.rsi()
+        .xScale(indicators.dateScale)
+        .yScale(indicators.percentageScale)
+        .samplePeriods(14);
+
+    indicators.plotArea.append('g')
+        .attr('class', 'slIndicatorsChart_1')
+        .attr('id', 'rsi')
+        .datum(data)
+        .call(rsi);
+
+    indicators.series.push(rsi);
 });

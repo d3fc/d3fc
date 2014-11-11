@@ -16,6 +16,7 @@ var require = {
 
         'bollingerBands': '../../../components/indicators/bollingerBands',
         'movingAverage': '../../../components/indicators/movingAverage',
+        'relativeStrengthIndex': '../../../components/indicators/relativeStrengthIndex',
 
         'financeScale': '../../../components/scale/financeScale',
         'gridlines': '../../../components/scale/gridlines',
