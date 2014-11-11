@@ -120,7 +120,7 @@ If the width or height have not been set, for example:
 
 ```javascript
 // Create the dimensions (width and height not set)
-var dimensions = sl.utility.dimensions();
+var dimensions = sl.utilities.dimensions();
 
 // Setup the chart
 // Height and width automatically calculated from dimensions of #chart 
