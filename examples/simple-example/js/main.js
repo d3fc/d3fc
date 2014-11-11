@@ -26,7 +26,7 @@ define ([
     // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
     var data = sl.utilities.dataGenerator()
         .fromDate(new Date(2014, 1, 1))
-        .toDate(new Date(2014, 6, 1))
+        .toDate(new Date(2014, 3, 1))
         .generate();
 
     // Setup the dimensions

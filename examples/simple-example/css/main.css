@@ -27,7 +27,14 @@ g.slIndicatorsChart_1 path.rsi {
 g.slIndicatorsChart_1 line.marker {
     fill: none;
     stroke: #666;
-    stroke-width: 1;
+    stroke-width: 0.5;
+    stroke-dasharray: 3, 3;
+    opacity: 1; /* This is to override the bootstrap defaults for .close etc */
+}
+g.slIndicatorsChart_1 line.marker.centre {
+    fill: none;
+    stroke: #666;
+    stroke-width: 0.5;
     stroke-dasharray: 1, 3;
     opacity: 1; /* This is to override the bootstrap defaults for .close etc */
 }

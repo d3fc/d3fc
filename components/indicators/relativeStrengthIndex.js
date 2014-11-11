@@ -12,6 +12,7 @@ define ([
             css = '';
 
         var upper = null,
+            centre = null,
             lower = null;
 
         var rsi = function (selection) {
@@ -22,6 +23,13 @@ define ([
                 .attr('y1', yScale(70))
                 .attr('x2', xScale.range()[1]) 
                 .attr('y2', yScale(70));
+
+            centre = selection.append("line")
+                .attr('class', 'marker centre')
+                .attr('x1', xScale.range()[0]) 
+                .attr('y1', yScale(50))
+                .attr('x2', xScale.range()[1]) 
+                .attr('y2', yScale(50));
 
             lower = selection.append("line")
                 .attr('class', 'marker lower')
