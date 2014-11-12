@@ -45,17 +45,13 @@
                 }
                 else {
                     line.y(function (d, i) {
-
-                        var current = i,
-                            up = [],
+                        var up = [],
                             down = [];
 
-                        while((up.length < samplePeriods || down.length < samplePeriods) && current >= 0) {
-                            if( data[current].close > data[current].open && up.length < samplePeriods) 
-                                up.push(data[current].close - data[current].open);
-                            else if(down.length < samplePeriods) 
-                                down.push(data[current].open - data[current].close);
-                            current--;
+                        for( var offset = 0; offset < samplePeriods; offset++) {
+                            var di = data[i-offset];
+                            if(di.close < di.open) down.push(di.open - di.close);
+                            else up.push(di.close = di.open);
                         }
                         
                         var rsi = (up.length > 0 && down.length > 0 ) ?
