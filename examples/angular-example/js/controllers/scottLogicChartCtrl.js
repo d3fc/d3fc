@@ -30,8 +30,6 @@
 		this.chartHeight = 0;
 		this.navWidth = 0;
 		this.navHeight = 0;
-		this.volWidth = 0;
-		this.volHeight = 0;
 
 		// Axes and Scaling
 		this.minDate = null;
@@ -117,29 +115,10 @@
 			return false;
 		};
 
-		this.applyToolOptions = function() {
-
-			if( !share.hasData() ) return;
-
-			var data = $rootScope.chartData;
-
-			share.initialiseGridlines();
-			share.initialiseAxes();
-			share.initialiseCrosshairs(data);
-			share.initialiseMeasure(data);
-			share.initialiseBollinger(data);
-			share.initialiseFibonacci(data);
-		};
-
 		this.applyCrosshairs = function() {
 			if( !share.hasData() ) return;
 	        share.initialiseCrosshairs($rootScope.chartData);
 		};
-
-        this.applyMeasure = function() {
-            if( !share.hasData() ) return;
-            share.initialiseMeasure($rootScope.chartData);
-        };
 
 		this.applyGridlines = function() {
 			share.initialiseGridlines();
@@ -148,11 +127,6 @@
         this.applyBollinger = function() {
             if( !share.hasData() ) return;
             share.initialiseBollinger($rootScope.chartData);
-        };
-
-        this.applyFibonacci = function() {
-            if( !share.hasData() ) return;
-            share.initialiseFibonacci($rootScope.chartData);
         };
 
         this.initialise = function() {
@@ -238,7 +212,7 @@
 			share.plotArea.selectAll('.volume').remove();
 
 		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
-		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks)
+		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks);
 		    share.volYAxis.tickFormat(function(d) {
 				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
 			});
@@ -383,11 +357,11 @@
 
 		    share.zoomBehaviour = d3.behavior.zoom().x(share.xScale).on('zoom', function() {
 		        if (share.xScale.domain()[0] < share.minDate) {
-		        	var x = share.zoomBehaviour.translate()[0] - share.xScale(share.minDate) + share.xScale.range()[0];
-		            share.zoomBehaviour.translate([x, 0]);
+		        	var minX = share.zoomBehaviour.translate()[0] - share.xScale(share.minDate) + share.xScale.range()[0];
+		            share.zoomBehaviour.translate([minX, 0]);
 		        } else if (share.xScale.domain()[1] > share.maxDate) {
-		        	var x = share.zoomBehaviour.translate()[0] - share.xScale(share.maxDate) + share.xScale.range()[1];
-		            share.zoomBehaviour.translate([x, 0]);
+		        	var maxX = share.zoomBehaviour.translate()[0] - share.xScale(share.maxDate) + share.xScale.range()[1];
+		            share.zoomBehaviour.translate([maxX, 0]);
 		        }
 		        share.redrawChart();
 		        share.updateViewportFromChart();
@@ -395,6 +369,8 @@
 		};
 
 		this.initialiseOverlay = function(data) {
+
+            share.plotArea.selectAll('.overlay').remove();
 
 			var height = share.chartHeight - share.margin.top - share.margin.bottom;
 		    share.overlay = d3.svg.area().x(function (d) { return share.xScale(d.date); }).y0(0).y1(height);
@@ -469,35 +445,39 @@
 
 	        // Draw all indicators
 	        share.plotArea.selectAll('.indicator').remove();
-	        for(var i=0; i<share.indicators.length; i++) {
-    			var indicator = null
-    			if(share.indicators[i].type == 'movingAverage') {
+	        for(var indicatorIndex=0; i<share.indicators.length; indicatorIndex++) {
+    			var indicator = null;
+    			if(share.indicators[indicatorIndex].type == 'movingAverage') {
     				indicator = sl.indicators.movingAverage()
     					.xScale(share.xScale)
     					.yScale(share.yScale)
-						.yValue(share.indicators[i].yValue)
-						.yLabel(share.indicators[i].yLabel)
-						.averagePoints(share.indicators[i].averagePoints);
+						.yValue(share.indicators[indicatorIndex].yValue)
+						.yLabel(share.indicators[indicatorIndex].yLabel)
+						.averagePoints(share.indicators[indicatorIndex].averagePoints);
 	    			share.plotArea.append('g')
-	    				.attr('class', 'indicator ' + share.indicators[i].yValue)
-	    				.attr('id', 'indicators_' + i)
+	    				.attr('class', 'indicator ' + share.indicators[indicatorIndex].yValue)
+	    				.attr('id', 'indicators_' + indicatorIndex)
 	    				.datum($rootScope.chartData)
 	    				.call(indicator);
-	    		};
+	    		}
     		}
 
 	        // Draw all annotations
 	        share.plotArea.selectAll('.annotation').remove();
-	        for(var i=0; i<share.annotations.length; i++) {
+	        for(var annotationIndex=0; i<share.annotations.length; annotationIndex++) {
     			var annotation = sl.tools.annotation()
-    				.index(i)
+    				.index(annotationIndex)
     				.xScale(share.xScale)
     				.yScale(share.yScale)
-					.yValue(share.annotations[i].yValue)
-					.yLabel(share.annotations[i].yLabel)
+					.yValue(share.annotations[annotationIndex].yValue)
+					.yLabel(share.annotations[annotationIndex].yLabel)
 					.formatCallout(function(d) { return d3.format('.1f')(d); });
     			share.plotArea.call(annotation);
     		}
+
+            // We need to re-add our overlay here, because it handles user input
+            // and so needs to be on top of all the other SVG elements
+            share.initialiseOverlay($rootScope.chartData);
 	    };
 
 	    this.updateViewportFromChart = function() {
@@ -535,7 +515,7 @@
 
 		this.initialise();
 		this.showHideFeatures();
-	};
+	}
 
 	scottLogicChartCtrl.$inject=['$rootScope'];
 

@@ -14,6 +14,7 @@ body {
     background-color: #E0E0E0;
     padding: 5px;
     margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .option-section {
@@ -23,11 +24,15 @@ body {
 
 div.logo {
     padding: 10px;
-    margin-top: 5px;
+    max-width: 200px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div#scottLogicChart {
     background-color: white;
     border-radius: 8px;
     margin-bottom: 15px;
+    align-content: center;
 }

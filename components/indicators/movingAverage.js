@@ -94,7 +94,9 @@
             if (!arguments.length) {
                 return averagePoints;
             }
-            averagePoints = value;
+            if (value >= 0) {
+                averagePoints = value;
+            }
             return movingAverage;
         };
 

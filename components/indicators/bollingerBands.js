@@ -184,7 +184,9 @@
             if (!arguments.length) {
                 return movingAverage;
             }
-            movingAverage = value;
+            if (value >= 0) {
+                movingAverage = value;
+            }
             return bollingerBands;
         };
 
@@ -192,7 +194,9 @@
             if (!arguments.length) {
                 return standardDeviations;
             }
-            standardDeviations = value;
+            if (value >= 0) {
+                standardDeviations = value;
+            }
             return bollingerBands;
         };
 
