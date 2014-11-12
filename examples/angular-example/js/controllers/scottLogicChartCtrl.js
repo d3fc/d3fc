@@ -118,15 +118,18 @@
 		this.applyCrosshairs = function() {
 			if( !share.hasData() ) return;
 	        share.initialiseCrosshairs($rootScope.chartData);
+	        share.initialiseOverlay($rootScope.chartData);
 		};
 
 		this.applyGridlines = function() {
 			share.initialiseGridlines();
+	        share.initialiseOverlay($rootScope.chartData);
 		};
 
         this.applyBollinger = function() {
             if( !share.hasData() ) return;
             share.initialiseBollinger($rootScope.chartData);
+	        share.initialiseOverlay($rootScope.chartData);
         };
 
         this.initialise = function() {
