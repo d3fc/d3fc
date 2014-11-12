@@ -6,6 +6,8 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             samplePeriods = 0,
+            upperMarker = 70,
+            lowerMarker = 30,
             css = '';
 
         var upper = null,
@@ -17,9 +19,9 @@
             upper = selection.append("line")
                 .attr('class', 'marker upper')
                 .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(70))
+                .attr('y1', yScale(upperMarker))
                 .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(70));
+                .attr('y2', yScale(upperMarker));
 
             centre = selection.append("line")
                 .attr('class', 'marker centre')
@@ -31,9 +33,9 @@
             lower = selection.append("line")
                 .attr('class', 'marker lower')
                 .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(30))
+                .attr('y1', yScale(lowerMarker))
                 .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(30));
+                .attr('y2', yScale(lowerMarker));
 
             var line = d3.svg.line();
             line.x(function (d) { return xScale(d.date); });
@@ -96,6 +98,22 @@
                 return samplePeriods;
             }
             samplePeriods = value;
+            return rsi;
+        };
+
+        rsi.upperMarker = function (value) {
+            if (!arguments.length) {
+                return upperMarker;
+            }
+            upperMarker = value;
+            return rsi;
+        };
+
+        rsi.lowerMarker = function (value) {
+            if (!arguments.length) {
+                return lowerMarker;
+            }
+            lowerMarker = value;
             return rsi;
         };
 
