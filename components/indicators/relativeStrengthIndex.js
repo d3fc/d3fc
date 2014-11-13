@@ -8,6 +8,7 @@
             samplePeriods = 0,
             upperMarker = 70,
             lowerMarker = 30,
+            lambda = 1.0,
             css = '';
 
         var upper = null,
@@ -47,19 +48,25 @@
                 }
                 else {
                     line.y(function (d, i) {
-                        var up = [],
+                        var from = i - samplePeriods,
+                            to = i,
+                            up = [],
                             down = [];
 
-                        for( var offset = 0; offset < samplePeriods; offset++) {
-                            var di = data[i-offset];
-                            if(di.close < di.open) down.push(di.open - di.close);
-                            else up.push(di.close = di.open);
-                        }
-                        
-                        var rsi = (up.length > 0 && down.length > 0 ) ?
-                            100 - (100/(1+(d3.mean(up)/d3.mean(down)))) :
-                            0;
+                        if(from < 1) from = 1;
 
+                        for( var offset = to; offset >= from; offset--) {
+                            var dnow = data[offset],
+                                dprev = data[offset-1];
+
+                            var weight = Math.pow(lambda, offset);
+                            up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
+                            down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
+                        }
+
+                        if(up.length <= 0 || down.length <= 0) return yScale(0);
+
+                        var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
                         return yScale(rsi);
                     });
                 }
@@ -114,6 +121,14 @@
                 return lowerMarker;
             }
             lowerMarker = value;
+            return rsi;
+        };
+
+        rsi.lambda = function (value) {
+            if (!arguments.length) {
+                return lambda;
+            }
+            lambda = value > 1.0 ? 1.0 : (value < 0.0 ? 0.0 : value);
             return rsi;
         };
 
