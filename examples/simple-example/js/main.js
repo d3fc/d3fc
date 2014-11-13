@@ -182,7 +182,7 @@
         .call(indicators.dateAxis);
 
     indicators.chart.append('g')
-        .attr('class', 'axis percecntage')
+        .attr('class', 'axis percentage')
         .attr('transform', 'translate(' + indicators.dimensions.innerWidth() + ',0)')
         .call(indicators.percentageAxis);
 
