@@ -255,7 +255,9 @@ sl = {
             if (!arguments.length) {
                 return movingAverage;
             }
-            movingAverage = value;
+            if (value >= 0) {
+                movingAverage = value;
+            }
             return bollingerBands;
         };
 
@@ -263,7 +265,9 @@ sl = {
             if (!arguments.length) {
                 return standardDeviations;
             }
-            standardDeviations = value;
+            if (value >= 0) {
+                standardDeviations = value;
+            }
             return bollingerBands;
         };
 
@@ -302,6 +306,7 @@ sl = {
         return bollingerBands;
     };
 }(d3, sl));
+
 (function (d3, sl) {
     'use strict';
 
@@ -398,7 +403,9 @@ sl = {
             if (!arguments.length) {
                 return averagePoints;
             }
-            averagePoints = value;
+            if (value >= 0) {
+                averagePoints = value;
+            }
             return movingAverage;
         };
 
@@ -413,6 +420,7 @@ sl = {
         return movingAverage;
     };
 }(d3, sl));
+
 (function (d3, sl) {
     'use strict';
 
@@ -421,6 +429,9 @@ sl = {
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             samplePeriods = 0,
+            upperMarker = 70,
+            lowerMarker = 30,
+            lambda = 1.0,
             css = '';
 
         var upper = null,
@@ -429,26 +440,26 @@ sl = {
 
         var rsi = function (selection) {
 
-            upper = selection.append("line")
+            upper = selection.append('line')
                 .attr('class', 'marker upper')
                 .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(70))
+                .attr('y1', yScale(upperMarker))
                 .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(70));
+                .attr('y2', yScale(upperMarker));
 
-            centre = selection.append("line")
+            centre = selection.append('line')
                 .attr('class', 'marker centre')
                 .attr('x1', xScale.range()[0]) 
                 .attr('y1', yScale(50))
                 .attr('x2', xScale.range()[1]) 
                 .attr('y2', yScale(50));
 
-            lower = selection.append("line")
+            lower = selection.append('line')
                 .attr('class', 'marker lower')
                 .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(30))
+                .attr('y1', yScale(lowerMarker))
                 .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(30));
+                .attr('y2', yScale(lowerMarker));
 
             var line = d3.svg.line();
             line.x(function (d) { return xScale(d.date); });
@@ -460,23 +471,25 @@ sl = {
                 }
                 else {
                     line.y(function (d, i) {
-
-                        var current = i,
+                        var from = i - samplePeriods,
+                            to = i,
                             up = [],
                             down = [];
 
-                        while((up.length < samplePeriods || down.length < samplePeriods) && current >= 0) {
-                            if( data[current].close > data[current].open && up.length < samplePeriods) 
-                                up.push(data[current].close - data[current].open);
-                            else if(down.length < samplePeriods) 
-                                down.push(data[current].open - data[current].close);
-                            current--;
-                        }
-                        
-                        var rsi = (up.length > 0 && down.length > 0 ) ?
-                            100 - (100/(1+(d3.mean(up)/d3.mean(down)))) :
-                            0;
+                        if(from < 1) from = 1;
 
+                        for( var offset = to; offset >= from; offset--) {
+                            var dnow = data[offset],
+                                dprev = data[offset-1];
+
+                            var weight = Math.pow(lambda, offset);
+                            up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
+                            down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
+                        }
+
+                        if(up.length <= 0 || down.length <= 0) return yScale(0);
+
+                        var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
                         return yScale(rsi);
                     });
                 }
@@ -514,7 +527,31 @@ sl = {
             if (!arguments.length) {
                 return samplePeriods;
             }
-            samplePeriods = value;
+            samplePeriods = value < 0 ? 0 : value;
+            return rsi;
+        };
+
+        rsi.upperMarker = function (value) {
+            if (!arguments.length) {
+                return upperMarker;
+            }
+            upperMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
+            return rsi;
+        };
+
+        rsi.lowerMarker = function (value) {
+            if (!arguments.length) {
+                return lowerMarker;
+            }
+            lowerMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
+            return rsi;
+        };
+
+        rsi.lambda = function (value) {
+            if (!arguments.length) {
+                return lambda;
+            }
+            lambda = value > 1.0 ? 1.0 : (value < 0.0 ? 0.0 : value);
             return rsi;
         };
 

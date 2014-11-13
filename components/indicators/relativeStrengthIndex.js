@@ -17,21 +17,21 @@
 
         var rsi = function (selection) {
 
-            upper = selection.append("line")
+            upper = selection.append('line')
                 .attr('class', 'marker upper')
                 .attr('x1', xScale.range()[0]) 
                 .attr('y1', yScale(upperMarker))
                 .attr('x2', xScale.range()[1]) 
                 .attr('y2', yScale(upperMarker));
 
-            centre = selection.append("line")
+            centre = selection.append('line')
                 .attr('class', 'marker centre')
                 .attr('x1', xScale.range()[0]) 
                 .attr('y1', yScale(50))
                 .attr('x2', xScale.range()[1]) 
                 .attr('y2', yScale(50));
 
-            lower = selection.append("line")
+            lower = selection.append('line')
                 .attr('class', 'marker lower')
                 .attr('x1', xScale.range()[0]) 
                 .attr('y1', yScale(lowerMarker))
@@ -104,7 +104,7 @@
             if (!arguments.length) {
                 return samplePeriods;
             }
-            samplePeriods = value;
+            samplePeriods = value < 0 ? 0 : value;
             return rsi;
         };
 
@@ -112,7 +112,7 @@
             if (!arguments.length) {
                 return upperMarker;
             }
-            upperMarker = value;
+            upperMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
             return rsi;
         };
 
@@ -120,7 +120,7 @@
             if (!arguments.length) {
                 return lowerMarker;
             }
-            lowerMarker = value;
+            lowerMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
             return rsi;
         };
 
