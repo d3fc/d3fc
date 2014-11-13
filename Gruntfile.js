@@ -21,6 +21,9 @@ module.exports = function (grunt) {
         },
 
         concat: {
+            options : {
+                sourceMap: true
+            },
             dist: {
                 src: ['components/sl.js', 'components/utilities/weekday.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
@@ -29,7 +32,10 @@ module.exports = function (grunt) {
 
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+                sourceMap: true,
+                sourceMapIncludeSources : true,
+                sourceMapIn : 'dist/<%= pkg.name %>.js.map'
             },
             dist: {
                 files: {
@@ -42,7 +48,7 @@ module.exports = function (grunt) {
             main: {
                 expand: true,
                 cwd: 'dist/',
-                src: '*.js',
+                src: '**',
                 dest: 'examples/_dependencies/js/',
                 flatten: true,
                 filter: 'isFile'
