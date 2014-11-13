@@ -182,7 +182,7 @@
         .call(indicators.dateAxis);
 
     indicators.chart.append('g')
-        .attr('class', 'axis percecntage')
+        .attr('class', 'axis percentage')
         .attr('transform', 'translate(' + indicators.dimensions.innerWidth() + ',0)')
         .call(indicators.percentageAxis);
 
@@ -190,6 +190,9 @@
     var rsi = sl.indicators.rsi()
         .xScale(indicators.dateScale)
         .yScale(indicators.percentageScale)
+        .lambda(0.94)
+        .upperMarker(70)
+        .lowerMarker(30)
         .samplePeriods(14);
 
     indicators.plotArea.append('g')
