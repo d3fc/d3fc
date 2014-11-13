@@ -1,4 +1,4 @@
-(function (d3, sl, $) {
+(function (d3, sl) {
     'use strict';
 
     sl.utilities.dimensions = function () {
@@ -13,18 +13,33 @@
 
         var dimensions = function (selection) {
             selection.each( function () {
-                var element = d3.select(this);
+                var element = d3.select(this),
+                    style = getComputedStyle(this);
 
                 // Attempt to automatically size the chart to the selected element
                 if (defaultWidth === true) {
-                    width = $(element[0]).width();
+                    var paddingWidth = parseInt(style.paddingLeft) + parseInt(style.paddingRight),
+                        borderWidth = parseInt(style.borderLeft) + parseInt(style.borderRight);
+
+                    // Set the width of the chart to the width of the selected selected element,
+                    // excluding any margins, padding or borders
+                    width = this.offsetWidth - paddingWidth - borderWidth;
+
+                    // If the new width is too small, use a default width
                     if (dimensions.innerWidth() < 1) {
                         width = 800 + margin.left + margin.right;
                     }
                 }
 
                 if (defaultHeight === true) {
-                    height = $(element[0]).height();
+                    var paddingHeight = parseInt(style.paddingTop) + parseInt(style.paddingBottom),
+                        borderHeight = parseInt(style.borderTop) + parseInt(style.borderBottom);
+
+                    // Set the height of the chart to the height of the selected selected element,
+                    // excluding any margins, padding or borders
+                    height = this.offsetHeight - paddingHeight - borderHeight;
+
+                    // If the new height is too small, use a default height
                     if (dimensions.innerHeight() < 1) {
                         height = 400 + margin.top + margin.bottom;
                     }
@@ -114,4 +129,4 @@
 
         return dimensions;
     };
-}(d3, sl, jQuery));
+}(d3, sl));
