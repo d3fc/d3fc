@@ -17,7 +17,9 @@
 
         var rsi = function (selection) {
 
-            upper = selection.append('line')
+            selection.selectAll('.marker').remove();
+
+            upper = selection.append("line")
                 .attr('class', 'marker upper')
                 .attr('x1', xScale.range()[0]) 
                 .attr('y1', yScale(upperMarker))

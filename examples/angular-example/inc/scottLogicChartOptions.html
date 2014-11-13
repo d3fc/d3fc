@@ -141,6 +141,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('rsi')">
+                        <span class="glyphicon glyphicon-check" ng-show="chart.hasFeature('rsi')" title="visible"></span>
+                        <span class="glyphicon glyphicon-unchecked" ng-hide="chart.hasFeature('rsi')" title="hidden"></span>
+                    </a>
+                    RSI
+                    <div class="option-group" ng-show="chart.hasFeature('rsi')">
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Points</span>
+                                <input type="number" min="1" max="50" class="form-control input-sm text-right" id="rsiPoints" ng-model="chart.rsiOptions.points" ng-change="chart.applyRSI()">
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Points</span>
+                                <input type="number" min="0" max="1" step="0.01" class="form-control input-sm text-right" id="rsiLambda" ng-model="chart.rsiOptions.lambda" ng-change="chart.applyRSI()">
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Upper band</span>
+                                <input type="number" min="0" max="100" class="form-control input-sm text-right" id="rsiUpperMarker" ng-model="chart.rsiOptions.upperMarker" ng-change="chart.applyRSI()">
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Lower band</span>
+                                <input type="number" min="0" max="100" class="form-control input-sm text-right" id="rsiLowerMarker" ng-model="chart.rsiOptions.lowerMarker" ng-change="chart.applyRSI()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
