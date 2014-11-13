@@ -2670,3 +2670,4 @@ sl.tools.crosshairs = function () {
         return dimensions;
     };
 }(d3, sl, jQuery));
+//# sourceMappingURL=d3-financial-components.js.map
