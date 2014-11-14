@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream
-# sl.**scale**
-
-+ [Bollinger bands](#slindicatorsbollingerbands)
-+ [Moving average](#slindicatorsmovingaverage)
-+ [RSI](#slindicatorsrsi)
-
-#sl.indicators.bollingerBands
-=======
 # sl.**indicators**
 
 + [Bollinger Bands](#slindicatorsbollingerbands)
@@ -15,7 +6,6 @@
 
 
 ## sl.indicators.bollingerBands()
->>>>>>> Stashed changes
 
 Information and code examples here
 
@@ -25,16 +15,7 @@ Information and code examples here
 
 Information and code examples here
 
-<<<<<<< Updated upstream
 ----
-
-#sl.indicators.rsi
-
-Information and code examples here
-
-----
-=======
-------
 
 ## sl.indicators.rsi()
 
@@ -97,4 +78,3 @@ plotArea.append('g')
     .datum(data)
     .call(rsi);
 ```
->>>>>>> Stashed changes
