@@ -10,13 +10,12 @@
         "value": 120
     },
 
-    "requireBlocksOnNewline": true,
+    "requireBlocksOnNewline": 1,
     "requireCommaBeforeLineBreak": true,
     "requireDotNotation": true,
     "requireLineFeedAtFileEnd": null,
 
     "safeContextKeyword": "self",
 
-    "validateIndentation": 4,
-    "validateLineBreaks": "LF"
+    "validateIndentation": 4
 }
