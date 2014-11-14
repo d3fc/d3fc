@@ -14,8 +14,8 @@
         .generate();
 
 
-    // Setup the dimensions
-    var dimensions = sl.utilities.dimensions()
+    // Setup the chartLayout
+    var chartLayout = sl.utilities.chartLayout()
         .marginBottom(30)
         .marginLeft(80)
         .marginRight(40);
@@ -23,7 +23,7 @@
     // The overall chart
     var setupArea = d3.select('#' + chartOptions.name);
 
-    setupArea.data(["test"]).call(dimensions);
+    setupArea.data(["test"]).call(chartLayout);
 
     // Select the elements which we'll want to add other elements to
     var svg = setupArea.select('svg'),
@@ -45,17 +45,17 @@
 
     var dateScale = sl.scale.finance()
         .domain([chartScale.dateFrom, chartScale.dateTo])
-        .range([0, dimensions.innerWidth()]);
+        .range([0, chartLayout.innerWidth()]);
 
     var priceScale = d3.scale.linear()
         .domain([chartScale.priceFrom, chartScale.priceTo])
         .nice()
-        .range([dimensions.innerHeight(), 0]);
+        .range([chartLayout.innerHeight(), 0]);
 
     var volumeScale = d3.scale.linear()
         .domain([chartScale.volumeFrom, chartScale.volumeTo])
         .nice()
-        .range([dimensions.innerHeight(), 0]);
+        .range([chartLayout.innerHeight(), 0]);
 
     // Create the axes
     var dateAxis = d3.svg.axis()
@@ -76,12 +76,12 @@
     // Add the axes to the chart
     chart.append('g')
         .attr('class', 'axis date')
-        .attr('transform', 'translate(0,' + dimensions.innerHeight() + ')')
+        .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
         .call(dateAxis);
 
     chart.append('g')
         .attr('class', 'axis price')
-        .attr('transform', 'translate(' + dimensions.innerWidth() + ',0)')
+        .attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
         .call(priceAxis);
 
     chart.append('g')
@@ -137,15 +137,15 @@
         series: []
     };
 
-    // Setup the dimensions
-    indicators.dimensions = sl.utilities.dimensions()
+    // Setup the chartLayout
+    indicators.chartLayout = sl.utilities.chartLayout()
         .marginBottom(30)
         .marginLeft(80)
         .marginRight(40);
 
     // The overall chart
     indicators.setupArea = d3.select('#' + indicatorsOptions.name)
-        .call(indicators.dimensions);
+        .call(indicators.chartLayout);
 
     // Select the elements which we'll want to add other elements to
     indicators.svg = indicators.setupArea.select('svg');
@@ -157,12 +157,12 @@
 
     indicators.dateScale = sl.scale.finance()
         .domain([chartScale.dateFrom, chartScale.dateTo])
-        .range([0, indicators.dimensions.innerWidth()]);
+        .range([0, indicators.chartLayout.innerWidth()]);
 
     indicators.percentageScale = d3.scale.linear()
         .domain([0, 100])
         .nice()
-        .range([indicators.dimensions.innerHeight(), 0]);
+        .range([indicators.chartLayout.innerHeight(), 0]);
 
     // Create the axes
     indicators.dateAxis = d3.svg.axis()
@@ -178,12 +178,12 @@
     // Add the axes to the chart
     indicators.chart.append('g')
         .attr('class', 'axis date')
-        .attr('transform', 'translate(0,' + indicators.dimensions.innerHeight() + ')')
+        .attr('transform', 'translate(0,' + indicators.chartLayout.innerHeight() + ')')
         .call(indicators.dateAxis);
 
     indicators.chart.append('g')
         .attr('class', 'axis percentage')
-        .attr('transform', 'translate(' + indicators.dimensions.innerWidth() + ',0)')
+        .attr('transform', 'translate(' + indicators.chartLayout.innerWidth() + ',0)')
         .call(indicators.percentageAxis);
 
     // Create RSI
