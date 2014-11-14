@@ -29,7 +29,7 @@ expIncrements = increments.map(function (x) { return Math.exp(x); });
 
 The dependencies for this component are injected using [require.js](http://requirejs.org/) but shoudl require.js not be used you will need to include the following dependencies:
 
-+ [sl.js](https://github.com/tunerscafe/d3-financial-components/blob/master/components/sl.js)
++ [sl.js](https://github.com/ScottLogic/d3-financial-components)
 + [moment.js](http://momentjs.com/)
 + [moment-range.js](https://github.com/gf3/moment-range)
 + [jstat.js](https://github.com/jstat/jstat)
