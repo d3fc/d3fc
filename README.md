@@ -43,11 +43,7 @@ Documentation is scarce at the moment so we'll be concentrating on getting the d
 
 ### Annotations
 
-The annotations component is currently missing the ability to display labels or numbers, we are currently looking at removing this component as we are not happy with how it works, currently creating a dataset to draw what is essentially a horizontal rule.
-
-### Measuring Tool
-
-the measuring tool needs to have a snapping mode as currently the resolution of measurement is dependant on how accurate the user is and also the zoom level of the chart.
+The annotations component is currently missing the ability to display labels or numbers.
 
 ##License
 

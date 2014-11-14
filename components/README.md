@@ -16,6 +16,7 @@ Current components in this namespace:
 
 + sl.indicators.bollingerBands
 + sl.indicators.movingAverage
++ sl.indicators.rsi
 
 ###sl.scale
 
@@ -55,6 +56,7 @@ Used for any other functionality which is a dependency of a component in the sl 
 Current components int this namespace:
 
 + sl.dataGenerator
++ sl.dimensions
 + sl.weekday
 
 **Further documentation for each component can be found in the corresponding namespace folder**

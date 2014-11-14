@@ -1,9 +1,8 @@
 # sl.**utilities**
 
 + [Data Generator](#slutilitiesdatagenerator)
++ [Dimensions](#slutilitiesdimensions)
 + [Weekday](#slutilitiesweekday)
-+ [Dimensions](#dimensions)
-
 
 ## sl.utilities.dataGenerator()
 
@@ -85,12 +84,6 @@ var data = sl.utilities.dataGenerator()
   .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
   .generate();
 ```
-
-------
-
-## sl.utilities.weekday
-
-Information and code examples here
 
 ------
 
@@ -223,3 +216,9 @@ var svg = setupArea.select('svg'),
     chart = svg.select('g'),
     plotArea = chart.select('.plotArea');
 ```
+
+------
+
+## sl.utilities.weekday
+
+Information and code examples here
