@@ -5,7 +5,7 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            samplePeriods = 0,
+            samplePeriods = 14,
             upperMarker = 70,
             lowerMarker = 30,
             lambda = 1.0,
@@ -17,7 +17,9 @@
 
         var rsi = function (selection) {
 
-            upper = selection.append('line')
+            selection.selectAll('.marker').remove();
+
+            upper = selection.append("line")
                 .attr('class', 'marker upper')
                 .attr('x1', xScale.range()[0]) 
                 .attr('y1', yScale(upperMarker))

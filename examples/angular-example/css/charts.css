@@ -206,3 +206,23 @@
     fill-opacity: 0.5;
     stroke-width: 0;
 }
+
+.chart path.rsi {
+    fill: none;
+    stroke: #09f;
+    stroke-width: 1;
+}
+
+.chart line.marker {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1;
+    stroke-dasharray: 3, 3;
+}
+
+.chart line.marker.centre {
+    fill: none;
+    stroke: #666;
+    stroke-width: 0.5;
+    stroke-dasharray: 1, 3;
+}

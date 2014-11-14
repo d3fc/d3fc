@@ -61,14 +61,14 @@ sl.tools.crosshairs = function () {
     function mousemove() {
 
         if (active) {
-            update();
+            crosshairs.update();
         }
     }
 
     function mouseout() {
 
         if (active) {
-            clear();
+            crosshairs.clear();
         }
     }
 
@@ -118,51 +118,63 @@ sl.tools.crosshairs = function () {
         return field;
     }
 
-    function update() {
+    function redraw() {
 
-        var mouse = d3.mouse(target[0][0]),
-            xMouse = xScale.invert(mouse[0]),
-            yMouse = yScale.invert(mouse[1]),
-            nearest = findNearest(xMouse);
+        var x = xScale(highlight.date),
+            y = yScale(highlight[highlightedField]);
 
-        if (nearest !== null) {
+        lineH.attr('y1', y)
+            .attr('y2', y);
+        lineV.attr('x1', x)
+            .attr('x2', x);
+        circle.attr('cx', x)
+            .attr('cy', y);
+        calloutH.attr('y', y - padding)
+            .text(formatH(highlight[highlightedField], highlightedField));
+        calloutV.attr('x', x - padding)
+            .text(formatV(highlight.date));
 
-            var field = null;
-            if (nearest[yValue]) {
-                field = yValue;
-            } else {
-                field = findField(yMouse, nearest);
-            }
-
-            if ((nearest !== highlight) || (field !== highlightedField)) {
-
-                highlight = nearest;
-                highlightedField = field;
-
-                var x = xScale(highlight.date),
-                    y = yScale(highlight[highlightedField]);
-
-                lineH.attr('y1', y)
-                    .attr('y2', y);
-                lineV.attr('x1', x)
-                    .attr('x2', x);
-                circle.attr('cx', x)
-                    .attr('cy', y);
-                calloutH.attr('y', y - padding)
-                    .text(formatH(highlight[highlightedField], highlightedField));
-                calloutV.attr('x', x - padding)
-                    .text(formatV(highlight.date));
-
-                lineH.attr('display', 'inherit');
-                lineV.attr('display', 'inherit');
-                circle.attr('display', 'inherit');
-                calloutH.attr('display', 'inherit');
-                calloutV.attr('display', 'inherit');
-            }
-        }
+        lineH.attr('display', 'inherit');
+        lineV.attr('display', 'inherit');
+        circle.attr('display', 'inherit');
+        calloutH.attr('display', 'inherit');
+        calloutV.attr('display', 'inherit');
     }
 
-    function clear() {
+    crosshairs.update = function() {
+
+        if (!active) {
+
+            redraw();
+
+        } else {
+
+            var mouse = d3.mouse(target[0][0]),
+                xMouse = xScale.invert(mouse[0]),
+                yMouse = yScale.invert(mouse[1]),
+                nearest = findNearest(xMouse);
+
+            if (nearest !== null) {
+
+                var field = null;
+                if (nearest[yValue]) {
+                    field = yValue;
+                } else {
+                    field = findField(yMouse, nearest);
+                }
+
+                if ((nearest !== highlight) || (field !== highlightedField)) {
+
+                    highlight = nearest;
+                    highlightedField = field;
+
+                    redraw();
+                }
+            }
+        }
+    };
+
+    crosshairs.clear = function() {
 
         highlight = null;
         highlightedField = null;
@@ -172,7 +184,7 @@ sl.tools.crosshairs = function () {
         circle.attr('display', 'none');
         calloutH.attr('display', 'none');
         calloutV.attr('display', 'none');
-    }
+    };
 
     crosshairs.target = function (value) {
         if (!arguments.length) {
