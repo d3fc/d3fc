@@ -1,3 +1,10 @@
+# sl.**series**
+
++ [Candlestick](#slseriescandlestick)
++ [Comparison](#slseriescomparison)
++ [OHLC](#slseriesohlc)
++ [Volume](#slseriesvolume)
+
 #sl.series.candlestick
 
 Information and code examples here

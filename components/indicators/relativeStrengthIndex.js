@@ -5,7 +5,7 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            samplePeriods = 0,
+            samplePeriods = 14,
             upperMarker = 70,
             lowerMarker = 30,
             lambda = 1.0,

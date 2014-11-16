@@ -1,7 +1,7 @@
 (function (d3, sl) {
     'use strict';
 
-    sl.utilities.dimensions = function () {
+    sl.utilities.chartLayout = function () {
 
         // Default values
         var margin = {top: 20, right: 20, bottom: 20, left: 20},
@@ -11,7 +11,7 @@
         var defaultWidth = true,
             defaultHeight = true;
 
-        var dimensions = function (selection) {
+        var chartLayout = function (selection) {
             selection.each( function () {
                 var element = d3.select(this),
                     style = getComputedStyle(this);
@@ -26,7 +26,7 @@
                     width = this.offsetWidth - paddingWidth - borderWidth;
 
                     // If the new width is too small, use a default width
-                    if (dimensions.innerWidth() < 1) {
+                    if (chartLayout.innerWidth() < 1) {
                         width = 800 + margin.left + margin.right;
                     }
                 }
@@ -40,7 +40,7 @@
                     height = this.offsetHeight - paddingHeight - borderHeight;
 
                     // If the new height is too small, use a default height
-                    if (dimensions.innerHeight() < 1) {
+                    if (chartLayout.innerHeight() < 1) {
                         height = 400 + margin.top + margin.bottom;
                     }
                 }
@@ -58,7 +58,7 @@
                 chart.append('defs').append('clipPath')
                     .attr('id', 'plotAreaClip')
                     .append('rect')
-                    .attr({ width: dimensions.innerWidth(), height: dimensions.innerHeight() });
+                    .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
 
                 // Create plot area, using the clipping path
                 chart.append('g')
@@ -67,66 +67,66 @@
             });
         };
 
-        dimensions.marginTop = function (value) {
+        chartLayout.marginTop = function (value) {
             if (!arguments.length) {
                 return margin.top;
             }
             margin.top = value;
-            return dimensions;
+            return chartLayout;
         };
 
-        dimensions.marginRight = function (value) {
+        chartLayout.marginRight = function (value) {
             if (!arguments.length) {
                 return margin.right;
             }
             margin.right = value;
-            return dimensions;
+            return chartLayout;
         };
 
-        dimensions.marginBottom = function (value) {
+        chartLayout.marginBottom = function (value) {
             if (!arguments.length) {
                 return margin.bottom;
             }
             margin.bottom = value;
-            return dimensions;
+            return chartLayout;
         };
 
-        dimensions.marginLeft = function (value) {
+        chartLayout.marginLeft = function (value) {
             if (!arguments.length) {
                 return margin.left;
             }
             margin.left = value;
-            return dimensions;
+            return chartLayout;
         };
 
-        dimensions.width = function (value) {
+        chartLayout.width = function (value) {
             if (!arguments.length) {
                 return width;
             }
             width = value;
             defaultWidth = false;
-            return dimensions;
+            return chartLayout;
         };
 
-        dimensions.height = function (value) {
+        chartLayout.height = function (value) {
             if (!arguments.length) {
                 return height;
             }
             height = value;
             defaultHeight = false;
-            return dimensions;
+            return chartLayout;
         };
 
-        dimensions.innerWidth = function () {
+        chartLayout.innerWidth = function () {
             var innerWidth = width - margin.left - margin.right;
             return innerWidth;
         };
 
-        dimensions.innerHeight = function () {
+        chartLayout.innerHeight = function () {
             var innerHeight = height - margin.top - margin.bottom;
             return innerHeight;
         };
 
-        return dimensions;
+        return chartLayout;
     };
 }(d3, sl));
