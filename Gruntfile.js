@@ -25,7 +25,7 @@ module.exports = function (grunt) {
                 sourceMap: true
             },
             dist: {
-                src: ['components/sl.js', 'components/utilities/weekday.js', '<%= meta.componentsJsFiles %>'],
+                src: ['components/sl.js', 'components/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
             }
         },
