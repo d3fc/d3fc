@@ -123,8 +123,15 @@
 
         function findLocation() {
 
-            var mouse = d3.mouse(target[0][0]),
-                xMouse = xScale.invert(mouse[0]),
+            var mouse = [0, 0];
+            try {
+                mouse = d3.mouse(target[0][0]);
+            }
+            catch (exception) {
+                // Mouse is elsewhere
+            }
+
+            var xMouse = xScale.invert(mouse[0]),
                 yMouse = yScale.invert(mouse[1]),
                 point = findPoint(xMouse);
 
