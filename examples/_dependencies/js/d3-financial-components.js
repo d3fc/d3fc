@@ -70,503 +70,497 @@ sl = {
 }(d3, sl));
 
 (function (d3, sl) {
-    'use strict';
+	'use strict';
 
-    sl.indicators.bollingerBands = function () {
+	sl.indicators.bollingerBands = function () {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear();
+		var xScale = d3.time.scale(),
+			yScale = d3.scale.linear();
 
-        var yValue = 0,
-            movingAverage = 20,
-            standardDeviations = 2;
+		var yValue = 0,
+			movingAverage = 20,
+			standardDeviations = 2;
 
-        var cssBandArea = 'bollingerBandArea',
-            cssBandUpper = 'bollingerBandUpper',
-            cssBandLower = 'bollingerBandLower',
-            cssAverage = 'bollingerAverage';
+		var cssBandArea = 'bollingerBandArea',
+			cssBandUpper = 'bollingerBandUpper',
+			cssBandLower = 'bollingerBandLower',
+			cssAverage = 'bollingerAverage';
 
-        var bollingerBands = function (selection) {
+		var bollingerBands = function (selection) {
 
-            var areaBands = d3.svg.area(),
-                lineUpper = d3.svg.line(),
-                lineLower = d3.svg.line(),
-                lineAverage = d3.svg.line();
+			var areaBands = d3.svg.area(),
+				lineUpper = d3.svg.line(),
+				lineLower = d3.svg.line(),
+				lineAverage = d3.svg.line();
 
-            areaBands.x(function (d) { return xScale(d.date); });
-            lineUpper.x(function (d) { return xScale(d.date); });
-            lineLower.x(function (d) { return xScale(d.date); });
-            lineAverage.x(function (d) { return xScale(d.date); });
+			areaBands.x(function (d) { return xScale(d.date); });
+			lineUpper.x(function (d) { return xScale(d.date); });
+			lineLower.x(function (d) { return xScale(d.date); });
+			lineAverage.x(function (d) { return xScale(d.date); });
 
-            var calculateMovingAverage = function (data, i) {
+			var calculateMovingAverage = function (data, i) {
 
-                if (movingAverage === 0) {
-                    return data[i][yValue];
-                }
+				if (movingAverage === 0) {
+					return data[i][yValue];
+				}
 
-                var count = Math.min(movingAverage, i + 1),
-                    first = i + 1 - count;
+				var count = Math.min(movingAverage, i + 1),
+				first = i + 1 - count;
 
-                var sum = 0;
-                for (var index = first; index <= i; ++index) {
-                    var x = data[index][yValue];
-                    sum += x;
-                }
+				var sum = 0;
+				for (var index = first; index <= i; ++index) {
+					var x = data[index][yValue];
+					sum += x;
+				}
 
-                return sum / count;
-            };
+				return sum / count;
+			};
 
-            var calculateMovingStandardDeviation = function (data, i, avg) {
+			var calculateMovingStandardDeviation = function (data, i, avg) {
 
-                if (movingAverage === 0) {
-                    return 0;
-                }
+				if (movingAverage === 0) {
+					return 0;
+				}
 
-                var count = Math.min(movingAverage, i + 1),
-                    first = i + 1 - count;
+				var count = Math.min(movingAverage, i + 1),
+					first = i + 1 - count;
 
-                var sum = 0;
-                for (var index = first; index <= i; ++index) {
-                    var x = data[index][yValue];
-                    var dx = x - avg;
-                    sum += (dx * dx);
-                }
+				var sum = 0;
+				for (var index = first; index <= i; ++index) {
+					var x = data[index][yValue];
+					var dx = x - avg;
+					sum += (dx * dx);
+				}
 
-                var variance = sum / count;
-                return Math.sqrt(variance);
-            };
+				var variance = sum / count;
+				return Math.sqrt(variance);
+			};
 
-            selection.each(function (data) {
+			selection.each(function (data) {
 
-                var bollingerData = {};
-                for (var index = 0; index < data.length; ++index) {
+				var bollingerData = {};
+				for (var index = 0; index < data.length; ++index) {
 
-                    var date = data[index].date;
+					var date = data[index].date;
 
-                    var avg = calculateMovingAverage(data, index);
-                    var sd = calculateMovingStandardDeviation(data, index, avg);
+					var avg = calculateMovingAverage(data, index);
+					var sd = calculateMovingStandardDeviation(data, index, avg);
 
-                    bollingerData[date] = {avg: avg, sd: sd};
-                }
+					bollingerData[date] = {avg: avg, sd: sd};
+				}
 
-                areaBands.y0(function (d) {
+				areaBands.y0(function (d) {
 
-                    var avg = bollingerData[d.date].avg;
-                    var sd = bollingerData[d.date].sd;
+					var avg = bollingerData[d.date].avg;
+					var sd = bollingerData[d.date].sd;
 
-                    return yScale(avg + (sd * standardDeviations));
-                });
+					return yScale(avg + (sd * standardDeviations));
+				});
 
-                areaBands.y1(function (d) {
+				areaBands.y1(function (d) {
 
-                    var avg = bollingerData[d.date].avg;
-                    var sd = bollingerData[d.date].sd;
+					var avg = bollingerData[d.date].avg;
+					var sd = bollingerData[d.date].sd;
 
-                    return yScale(avg - (sd * standardDeviations));
-                });
+					return yScale(avg - (sd * standardDeviations));
+				});
 
-                lineUpper.y(function (d) {
+				lineUpper.y(function (d) {
 
-                    var avg = bollingerData[d.date].avg;
-                    var sd = bollingerData[d.date].sd;
+					var avg = bollingerData[d.date].avg;
+					var sd = bollingerData[d.date].sd;
 
-                    return yScale(avg + (sd * standardDeviations));
-                });
+					return yScale(avg + (sd * standardDeviations));
+				});
 
-                lineLower.y(function (d) {
+				lineLower.y(function (d) {
 
-                    var avg = bollingerData[d.date].avg;
-                    var sd = bollingerData[d.date].sd;
+					var avg = bollingerData[d.date].avg;
+					var sd = bollingerData[d.date].sd;
 
-                    return yScale(avg - (sd * standardDeviations));
-                });
+					return yScale(avg - (sd * standardDeviations));
+				});
 
-                lineAverage.y(function (d) {
+				lineAverage.y(function (d) {
 
-                    var avg = bollingerData[d.date].avg;
+					var avg = bollingerData[d.date].avg;
 
-                    return yScale(avg);
-                });
+					return yScale(avg);
+				});
 
-                var prunedData = [];
-                for (var index = movingAverage; index < data.length; ++index) {
-                    prunedData.push(data[index]);
-                }
+				var prunedData = [];
+				for (var index = movingAverage; index < data.length; ++index) {
+					prunedData.push(data[index]);
+				}
 
-                var pathArea = d3.select(this).selectAll('.area')
-                    .data([prunedData]);
-                var pathUpper = d3.select(this).selectAll('.upper')
-                    .data([prunedData]);
-                var pathLower = d3.select(this).selectAll('.lower')
-                    .data([prunedData]);
-                var pathAverage = d3.select(this).selectAll('.average')
-                    .data([prunedData]);
+				var pathArea = d3.select(this).selectAll('.area')
+					.data([prunedData]);
+				var pathUpper = d3.select(this).selectAll('.upper')
+					.data([prunedData]);
+				var pathLower = d3.select(this).selectAll('.lower')
+					.data([prunedData]);
+				var pathAverage = d3.select(this).selectAll('.average')
+					.data([prunedData]);
 
-                pathArea.enter().append('path');
-                pathUpper.enter().append('path');
-                pathLower.enter().append('path');
-                pathAverage.enter().append('path');
+				pathArea.enter().append('path');
+				pathUpper.enter().append('path');
+				pathLower.enter().append('path');
+				pathAverage.enter().append('path');
 
-                pathArea.attr('d', areaBands)
-                    .classed('area', true)
-                    .classed(cssBandArea, true);
-                pathUpper.attr('d', lineUpper)
-                    .classed('upper', true)
-                    .classed(cssBandUpper, true);
-                pathLower.attr('d', lineLower)
-                    .classed('lower', true)
-                    .classed(cssBandLower, true);
-                pathAverage.attr('d', lineAverage)
-                    .classed('average', true)
-                    .classed(cssAverage, true);
+				pathArea.attr('d', areaBands)
+					.classed('area', true)
+					.classed(cssBandArea, true);
+				pathUpper.attr('d', lineUpper)
+					.classed('upper', true)
+					.classed(cssBandUpper, true);
+				pathLower.attr('d', lineLower)
+					.classed('lower', true)
+					.classed(cssBandLower, true);
+				pathAverage.attr('d', lineAverage)
+					.classed('average', true)
+					.classed(cssAverage, true);
 
-                pathArea.exit().remove();
-                pathUpper.exit().remove();
-                pathLower.exit().remove();
-                pathAverage.exit().remove();
-            });
-        };
+				pathArea.exit().remove();
+				pathUpper.exit().remove();
+				pathLower.exit().remove();
+				pathAverage.exit().remove();
+			});
+		};
 
-        bollingerBands.xScale = function (value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return bollingerBands;
-        };
+		bollingerBands.xScale = function (value) {
+			if (!arguments.length) {
+				return xScale;
+			}
+			xScale = value;
+			return bollingerBands;
+		};
 
-        bollingerBands.yScale = function (value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return bollingerBands;
-        };
+		bollingerBands.yScale = function (value) {
+			if (!arguments.length) {
+				return yScale;
+			}
+			yScale = value;
+			return bollingerBands;
+		};
 
-        bollingerBands.yValue = function (value) {
-            if (!arguments.length) {
-                return yValue;
-            }
-            yValue = value;
-            return bollingerBands;
-        };
+		bollingerBands.yValue = function (value) {
+			if (!arguments.length) {
+				return yValue;
+			}
+			yValue = value;
+			return bollingerBands;
+		};
 
-        bollingerBands.movingAverage = function (value) {
-            if (!arguments.length) {
-                return movingAverage;
-            }
-            if (value >= 0) {
-                movingAverage = value;
-            }
-            return bollingerBands;
-        };
+		bollingerBands.movingAverage = function (value) {
+			if (!arguments.length) {
+				return movingAverage;
+			}
+			if (value >= 0) {
+				movingAverage = value;
+			}
+			return bollingerBands;
+		};
 
-        bollingerBands.standardDeviations = function (value) {
-            if (!arguments.length) {
-                return standardDeviations;
-            }
-            if (value >= 0) {
-                standardDeviations = value;
-            }
-            return bollingerBands;
-        };
+		bollingerBands.standardDeviations = function (value) {
+			if (!arguments.length) {
+				return standardDeviations;
+			}
+			if (value >= 0) {
+				standardDeviations = value;
+			}
+			return bollingerBands;
+		};
 
-        bollingerBands.cssBandUpper = function (value) {
-            if (!arguments.length) {
-                return cssBandUpper;
-            }
-            cssBandUpper = value;
-            return bollingerBands;
-        };
+		bollingerBands.cssBandUpper = function (value) {
+			if (!arguments.length) {
+				return cssBandUpper;
+			}
+			cssBandUpper = value;
+			return bollingerBands;
+		};
 
-        bollingerBands.cssBandLower = function (value) {
-            if (!arguments.length) {
-                return cssBandLower;
-            }
-            cssBandLower = value;
-            return bollingerBands;
-        };
+		bollingerBands.cssBandLower = function (value) {
+			if (!arguments.length) {
+				return cssBandLower;
+			}
+			cssBandLower = value;
+			return bollingerBands;
+		};
 
-        bollingerBands.cssBandArea = function (value) {
-            if (!arguments.length) {
-                return cssBandArea;
-            }
-            cssBandArea = value;
-            return bollingerBands;
-        };
+		bollingerBands.cssBandArea = function (value) {
+			if (!arguments.length) {
+				return cssBandArea;
+			}
+			cssBandArea = value;
+			return bollingerBands;
+		};
 
-        bollingerBands.cssAverage = function (value) {
-            if (!arguments.length) {
-                return cssAverage;
-            }
-            cssAverage = value;
-            return bollingerBands;
-        };
+		bollingerBands.cssAverage = function (value) {
+			if (!arguments.length) {
+				return cssAverage;
+			}
+			cssAverage = value;
+			return bollingerBands;
+		};
 
-        return bollingerBands;
-    };
+		return bollingerBands;
+	};
 }(d3, sl));
 
 (function (d3, sl) {
-    'use strict';
+	'use strict';
 
-    sl.indicators.movingAverage = function () {
+	sl.indicators.movingAverage = function () {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            yValue = 0,
-            yLabel = '',
-            averagePoints = 0,
-            css = '';
+		var xScale = d3.time.scale(),
+			yScale = d3.scale.linear(),
+			yValue = 0,
+			yLabel = '',
+			averagePoints = 0,
+			css = '';
 
-        var movingAverage = function (selection) {
+		var movingAverage = function (selection) {
+			var line = d3.svg.line();
+			line.x(function (d) { return xScale(d.date); });
 
-            var line = d3.svg.line();
-            line.x(function (d) { return xScale(d.date); });
+			selection.each(function (data) {
 
-            selection.each(function (data) {
+				if (!isNaN(parseFloat(yValue))) {
+					line.y(yScale(yValue));
+				}
+				else {
+					if (averagePoints === 0) {
+						line.y(function (d) { return yScale(d[yValue]); });
+					}
+					else {
+						line.y(function (d, i) {
+							var count = Math.min(averagePoints, i + 1),
+							    first = i + 1 - count;
 
-                if (!isNaN(parseFloat(yValue))) {
+							var sum = 0;
+							for (var index = first; index <= i; ++index) {
+							    sum += data[index][yValue];
+							}
+							var mean = sum / count;
 
-                    line.y(yScale(yValue));
-                }
-                else {
+							return yScale(mean);
+						});
+					}
+				}
 
-                    if (averagePoints === 0) {
-                        
-                        line.y(function (d) { return yScale(d[yValue]); });
-                    }
-                    else {
+				var path = d3.select(this).selectAll('.indicator')
+					.data([data]);
 
-                        line.y(function (d, i) {
+				path.enter().append('path');
 
-                                var count = Math.min(averagePoints, i + 1),
-                                    first = i + 1 - count;
+				path.attr('d', line)
+					.classed('indicator', true)
+					.classed(css, true);
 
-                                var sum = 0;
-                                for (var index = first; index <= i; ++index) {
-                                    sum += data[index][yValue];
-                                }
-                                var mean = sum / count;
+				path.exit().remove();
+			});
+		};
 
-                                return yScale(mean);
-                            });
-                    }
-                }
+		movingAverage.xScale = function (value) {
+			if (!arguments.length) {
+				return xScale;
+			}
+			xScale = value;
+			return movingAverage;
+		};
 
-                var path = d3.select(this).selectAll('.indicator')
-                    .data([data]);
+		movingAverage.yScale = function (value) {
+			if (!arguments.length) {
+				return yScale;
+			}
+			yScale = value;
+			return movingAverage;
+		};
 
-                path.enter().append('path');
+		movingAverage.yValue = function (value) {
+			if (!arguments.length) {
+				return yValue;
+			}
+			yValue = value;
+			return movingAverage;
+		};
 
-                path.attr('d', line)
-                    .classed('indicator', true)
-                    .classed(css, true);
+		movingAverage.yLabel = function (value) {
+			if (!arguments.length) {
+				return yLabel;
+			}
+			yLabel = value;
+			return movingAverage;
+		};
 
-                path.exit().remove();
-            });
-        };
+		movingAverage.averagePoints = function (value) {
+			if (!arguments.length) {
+				return averagePoints;
+			}
+			if (value >= 0) {
+			averagePoints = value;
+			}
+			return movingAverage;
+		};
 
-        movingAverage.xScale = function (value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return movingAverage;
-        };
+		movingAverage.css = function (value) {
+			if (!arguments.length) {
+				return css;
+			}
+			css = value;
+			return movingAverage;
+		};
 
-        movingAverage.yScale = function (value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return movingAverage;
-        };
-
-        movingAverage.yValue = function (value) {
-            if (!arguments.length) {
-                return yValue;
-            }
-            yValue = value;
-            return movingAverage;
-        };
-
-        movingAverage.yLabel = function (value) {
-            if (!arguments.length) {
-                return yLabel;
-            }
-            yLabel = value;
-            return movingAverage;
-        };
-
-        movingAverage.averagePoints = function (value) {
-            if (!arguments.length) {
-                return averagePoints;
-            }
-            if (value >= 0) {
-                averagePoints = value;
-            }
-            return movingAverage;
-        };
-
-        movingAverage.css = function (value) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = value;
-            return movingAverage;
-        };
-
-        return movingAverage;
-    };
+		return movingAverage;
+	};
 }(d3, sl));
 
 (function (d3, sl) {
-    'use strict';
+	'use strict';
 
-    sl.indicators.rsi = function () {
+	sl.indicators.rsi = function () {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            samplePeriods = 14,
-            upperMarker = 70,
-            lowerMarker = 30,
-            lambda = 1.0,
-            css = '';
+		var xScale = d3.time.scale(),
+			yScale = d3.scale.linear(),
+			samplePeriods = 14,
+			upperMarker = 70,
+			lowerMarker = 30,
+			lambda = 1.0,
+			css = '';
 
-        var upper = null,
-            centre = null,
-            lower = null;
+		var upper = null,
+			centre = null,
+			lower = null;
 
-        var rsi = function (selection) {
+		var rsi = function (selection) {
 
-            selection.selectAll('.marker').remove();
+			selection.selectAll('.marker').remove();
 
-            upper = selection.append("line")
-                .attr('class', 'marker upper')
-                .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(upperMarker))
-                .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(upperMarker));
+			upper = selection.append("line")
+				.attr('class', 'marker upper')
+				.attr('x1', xScale.range()[0]) 
+				.attr('y1', yScale(upperMarker))
+				.attr('x2', xScale.range()[1]) 
+				.attr('y2', yScale(upperMarker));
 
-            centre = selection.append('line')
-                .attr('class', 'marker centre')
-                .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(50))
-                .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(50));
+			centre = selection.append('line')
+				.attr('class', 'marker centre')
+				.attr('x1', xScale.range()[0]) 
+				.attr('y1', yScale(50))
+				.attr('x2', xScale.range()[1]) 
+				.attr('y2', yScale(50));
 
-            lower = selection.append('line')
-                .attr('class', 'marker lower')
-                .attr('x1', xScale.range()[0]) 
-                .attr('y1', yScale(lowerMarker))
-                .attr('x2', xScale.range()[1]) 
-                .attr('y2', yScale(lowerMarker));
+			lower = selection.append('line')
+				.attr('class', 'marker lower')
+				.attr('x1', xScale.range()[0]) 
+				.attr('y1', yScale(lowerMarker))
+				.attr('x2', xScale.range()[1]) 
+				.attr('y2', yScale(lowerMarker));
 
-            var line = d3.svg.line();
-            line.x(function (d) { return xScale(d.date); });
+			var line = d3.svg.line();
+			line.x(function (d) { return xScale(d.date); });
 
-            selection.each(function (data) {
+			selection.each(function (data) {
 
-                if (samplePeriods === 0) {
-                    line.y(function (d) { return yScale(0); });
-                }
-                else {
-                    line.y(function (d, i) {
-                        var from = i - samplePeriods,
-                            to = i,
-                            up = [],
-                            down = [];
+				if (samplePeriods === 0) {
+					line.y(function (d) { return yScale(0); });
+				}
+				else {
+					line.y(function (d, i) {
+						var from = i - samplePeriods,
+							to = i,
+							up = [],
+							down = [];
 
-                        if(from < 1) from = 1;
+						if(from < 1) from = 1;
 
-                        for( var offset = to; offset >= from; offset--) {
-                            var dnow = data[offset],
-                                dprev = data[offset-1];
+						for( var offset = to; offset >= from; offset--) {
+							var dnow = data[offset],
+							dprev = data[offset-1];
 
-                            var weight = Math.pow(lambda, offset);
-                            up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
-                            down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
-                        }
+							var weight = Math.pow(lambda, offset);
+							up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
+							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
+						}
 
-                        if(up.length <= 0 || down.length <= 0) return yScale(0);
+						if(up.length <= 0 || down.length <= 0) return yScale(0);
 
-                        var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
-                        return yScale(rsi);
-                    });
-                }
+						var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
+						return yScale(rsi);
+					});
+				}
 
-                var path = d3.select(this).selectAll('.rsi')
-                    .data([data]);
+				var path = d3.select(this).selectAll('.rsi')
+					.data([data]);
 
-                path.enter().append('path');
+				path.enter().append('path');
 
-                path.attr('d', line)
-                    .classed('rsi', true)
-                    .classed(css, true);
+				path.attr('d', line)
+					.classed('rsi', true)
+					.classed(css, true);
 
-                path.exit().remove();
-            });
-        };
+				path.exit().remove();
+			});
+		};
 
-        rsi.xScale = function (value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return rsi;
-        };
+		rsi.xScale = function (value) {
+			if (!arguments.length) {
+				return xScale;
+			}
+			xScale = value;
+			return rsi;
+		};
 
-        rsi.yScale = function (value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return rsi;
-        };
+		rsi.yScale = function (value) {
+			if (!arguments.length) {
+				return yScale;
+			}
+			yScale = value;
+			return rsi;
+		};
 
-        rsi.samplePeriods = function (value) {
-            if (!arguments.length) {
-                return samplePeriods;
-            }
-            samplePeriods = value < 0 ? 0 : value;
-            return rsi;
-        };
+		rsi.samplePeriods = function (value) {
+			if (!arguments.length) {
+				return samplePeriods;
+			}
+			samplePeriods = value < 0 ? 0 : value;
+			return rsi;
+		};
 
-        rsi.upperMarker = function (value) {
-            if (!arguments.length) {
-                return upperMarker;
-            }
-            upperMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
-            return rsi;
-        };
+		rsi.upperMarker = function (value) {
+			if (!arguments.length) {
+				return upperMarker;
+			}
+			upperMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
+			return rsi;
+		};
 
-        rsi.lowerMarker = function (value) {
-            if (!arguments.length) {
-                return lowerMarker;
-            }
-            lowerMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
-            return rsi;
-        };
+		rsi.lowerMarker = function (value) {
+			if (!arguments.length) {
+				return lowerMarker;
+			}
+			lowerMarker = value > 100 ? 100 : (value < 0 ? 0 : value);
+			return rsi;
+		};
 
-        rsi.lambda = function (value) {
-            if (!arguments.length) {
-                return lambda;
-            }
-            lambda = value > 1.0 ? 1.0 : (value < 0.0 ? 0.0 : value);
-            return rsi;
-        };
+		rsi.lambda = function (value) {
+			if (!arguments.length) {
+				return lambda;
+			}
+			lambda = value > 1.0 ? 1.0 : (value < 0.0 ? 0.0 : value);
+			return rsi;
+		};
 
-        rsi.css = function (value) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = value;
-            return rsi;
-        };
+		rsi.css = function (value) {
+			if (!arguments.length) {
+				return css;
+			}
+			css = value;
+			return rsi;
+		};
 
-        return rsi;
-    };
+		return rsi;
+	};
 }(d3, sl));
 (function (d3, sl) {
     'use strict';
@@ -579,18 +573,23 @@ sl = {
 
     function financialScale(linear) {
 
+    	var alignPixels = true;
+
         if (!arguments.length) {
             linear = d3.scale.linear();
         }
 
         function scale(x) {
+            var n = 0;
             if (typeof x === 'number') {
                 // When scaling ticks.
-                return linear(x);
+                n = linear(x);
             } else {
                 // When scaling dates.
-                return linear(weekday(x));
+                n = linear(weekday(x));
             }
+        	var m = Math.round(n);
+            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         };
 
         scale.copy = function () {
@@ -622,6 +621,14 @@ sl = {
 
         scale.invert = function (pixel) {
             return weekday.invert(linear.invert(pixel))
+        };
+
+        scale.alignPixels = function (value) {
+            if (!arguments.length) {
+                return alignPixels;
+            }
+            alignPixels = value;
+            return scale;
         };
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
@@ -731,6 +738,55 @@ sl = {
     };
 }(d3, sl));
 
+(function (d3, sl) {
+    'use strict';
+
+    sl.scale.linear = function () {
+        return linearScale();
+    };
+
+    function linearScale(linear) {
+    	
+    	var alignPixels = true;
+
+        if (!arguments.length) {
+            linear = d3.scale.linear();
+        }
+
+        function scale(x) {
+        	var n = linear(x);
+        	var m = Math.round(n);
+            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
+        };
+
+        scale.copy = function () {
+            return linearScale(linear.copy());
+        };
+
+        scale.domain = function (domain) {
+            linear.domain(domain);
+            return scale;
+        };
+
+        scale.ticks = function (n) {
+            return linear.ticks(n);
+        };
+
+        scale.invert = function (pixel) {
+            return linear.invert(pixel);
+        };
+
+        scale.alignPixels = function (value) {
+            if (!arguments.length) {
+                return alignPixels;
+            }
+            alignPixels = value;
+            return scale;
+        };
+
+        return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
+    }
+}(d3, sl));
 (function (d3, sl) {
     'use strict';
 

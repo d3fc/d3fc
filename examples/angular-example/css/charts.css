@@ -41,8 +41,8 @@
 
 .chart .gridlines {
     fill: none;
-    stroke-width: 0.5;
-    stroke: #aaa;
+    stroke-width: 1;
+    stroke: #ddd;
 }
 
 .chart .overlay {
