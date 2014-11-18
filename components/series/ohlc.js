@@ -39,6 +39,16 @@
             return d.close === d.open;
         };
 
+        var barColour = function(d) {
+            if (isUpDay(d)) {
+                return 'green';
+            } else if (isDownDay(d)) {
+                return 'red';
+            } else {
+                return 'black';
+            }
+        };
+
         // Path drawing
         var makeBarPath = function (d) {
             var moveToLow = 'M' + date(d) + ',' + low(d),
@@ -56,8 +66,8 @@
             return path;
         };
 
-        // For ohlcConcatBarPaths
-        var makeConcatPathElement = function(series, elementClass, data, filterFunction) {
+        // Filters data, and draws a series of ohlc bars from the result as a single path.
+        var makeConcatPathElement = function(series, elementClass, colour, data, filterFunction) {
             var concatPath;
             var filteredData = data.filter(function (d) {
                 return filterFunction(d);
@@ -70,7 +80,9 @@
                 .classed(elementClass, true);
 
             concatPath
-                .attr('d', makeConcatPath(filteredData));
+                .attr('d', makeConcatPath(filteredData))
+                .attr('stroke', colour);
+
 
             concatPath.exit().remove();
         };
@@ -104,6 +116,9 @@
                     'down-day': isDownDay,
                     'static-day': isStaticDay
                 });
+
+                bars.attr('stroke', barColour);
+
                 bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high });
                 bars.select('.open-tick').attr({
                     x1: function (d) { return date(d) - tickWidth; },
@@ -143,8 +158,9 @@
                     'static-day': isStaticDay
                 });
 
-                bars.attr('d', function (d) {
-                    return makeBarPath(d);
+                bars.attr({
+                    'stroke': barColour,
+                    'd': makeBarPath
                 });
 
                 bars.exit().remove();
@@ -155,17 +171,17 @@
         var ohlcConcatBarPaths = function (selection) {
             selection.each(function (data) {
                 var series = makeSeriesElement(this, data);
-                makeConcatPathElement(series, 'up-days', data, isUpDay);
-                makeConcatPathElement(series, 'down-days', data, isDownDay);
-                makeConcatPathElement(series, 'static-days', data, isStaticDay);
+                makeConcatPathElement(series, 'up-days', 'green', data, isUpDay);
+                makeConcatPathElement(series, 'down-days', 'red' ,data, isDownDay);
+                makeConcatPathElement(series, 'static-days', 'black', data, isStaticDay);
             });
         };
 
         switch (drawMethod) {
-            case 'groups': ohlc = ohlcLineGroups; break;
-            case 'paths': ohlc = ohlcBarPaths; break;
-            case 'concatpaths': ohlc = ohlcConcatBarPaths; break;
-            default: ohlc = ohlcConcatBarPaths;
+            case 'line': ohlc = ohlcLineGroups; break;
+            case 'path': ohlc = ohlcBarPaths; break;
+            case 'paths': ohlc = ohlcConcatBarPaths; break;
+            default: ohlc = ohlcBarPaths;
         }
 
         ohlc.xScale = function (value) {
