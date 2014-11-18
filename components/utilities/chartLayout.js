@@ -13,17 +13,13 @@
 
         var chartLayout = function (selection) {
             selection.each( function () {
-                var element = d3.select(this),
-                    style = getComputedStyle(this);
+                var element = d3.select(this);
 
                 // Attempt to automatically size the chart to the selected element
                 if (defaultWidth === true) {
-                    var paddingWidth = parseInt(style.paddingLeft) + parseInt(style.paddingRight),
-                        borderWidth = parseInt(style.borderLeft) + parseInt(style.borderRight);
-
                     // Set the width of the chart to the width of the selected selected element,
                     // excluding any margins, padding or borders
-                    width = this.offsetWidth - paddingWidth - borderWidth;
+                    width = parseInt(getComputedStyle(this).width);
 
                     // If the new width is too small, use a default width
                     if (chartLayout.innerWidth() < 1) {
@@ -32,12 +28,9 @@
                 }
 
                 if (defaultHeight === true) {
-                    var paddingHeight = parseInt(style.paddingTop) + parseInt(style.paddingBottom),
-                        borderHeight = parseInt(style.borderTop) + parseInt(style.borderBottom);
-
                     // Set the height of the chart to the height of the selected selected element,
                     // excluding any margins, padding or borders
-                    height = this.offsetHeight - paddingHeight - borderHeight;
+                    height = parseInt(getComputedStyle(this).height);
 
                     // If the new height is too small, use a default height
                     if (chartLayout.innerHeight() < 1) {
