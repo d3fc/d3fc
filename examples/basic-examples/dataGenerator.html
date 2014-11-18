@@ -51,43 +51,43 @@
       </table>
 
       <h2>The Code</h2>
-      
-      <pre>
-        var data = sl.utilities.dataGenerator()
-          .mu(0.1)
-          .sigma(0.1)
-          .startingPrice(100)
-          .intraDaySteps(50)
-          .fromDate(new Date(2014, 10, 1))
-          .toDate(new Date(2014, 10, 30))
-          .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
-          .generate();
 
-        // Create the table header
-        var thead = d3.select("thead")
-          .selectAll("th")
-          .data(d3.keys(data[0]))
-          .enter()
-          .append("th")
-          .text(function(d) { return d; } );
+<pre>
+  var data = sl.utilities.dataGenerator()
+    .mu(0.1)
+    .sigma(0.1)
+    .startingPrice(100)
+    .intraDaySteps(50)
+    .fromDate(new Date(2014, 10, 1))
+    .toDate(new Date(2014, 10, 30))
+    .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
+    .generate();
 
-        // Fill the table
-        // Create rows
-        var rows = d3.select("tbody")
-          .selectAll("tr")
-          .data(data)
-          .enter()
-          .append("tr")
+  // Create the table header
+  var thead = d3.select("thead")
+    .selectAll("th")
+    .data(d3.keys(data[0]))
+    .enter()
+    .append("th")
+    .text(function(d) { return d; } );
 
-        // cells
-        var cells = rows
-          .selectAll("td")
-          .data(function(d) { return d3.values(d); } )
-          .enter()
-          .append("td")
-          .text(function(d) { return d; })
+  // Fill the table
+  // Create rows
+  var rows = d3.select("tbody")
+    .selectAll("tr")
+    .data(data)
+    .enter()
+    .append("tr")
 
-      </pre>
+  // cells
+  var cells = rows
+    .selectAll("td")
+    .data(function(d) { return d3.values(d); } )
+    .enter()
+    .append("td")
+    .text(function(d) { return d; })
+
+</pre>
 
       <script type="text/javascript">
         var data = sl.utilities.dataGenerator()
