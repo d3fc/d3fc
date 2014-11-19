@@ -573,23 +573,18 @@ sl = {
 
     function financialScale(linear) {
 
-    	var alignPixels = true;
-
         if (!arguments.length) {
             linear = d3.scale.linear();
         }
 
         function scale(x) {
-            var n = 0;
             if (typeof x === 'number') {
                 // When scaling ticks.
-                n = linear(x);
+                return linear(x);
             } else {
                 // When scaling dates.
-                n = linear(weekday(x));
+                return linear(weekday(x));
             }
-        	var m = Math.round(n);
-            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         };
 
         scale.copy = function () {
@@ -621,14 +616,6 @@ sl = {
 
         scale.invert = function (pixel) {
             return weekday.invert(linear.invert(pixel))
-        };
-
-        scale.alignPixels = function (value) {
-            if (!arguments.length) {
-                return alignPixels;
-            }
-            alignPixels = value;
-            return scale;
         };
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
@@ -738,55 +725,6 @@ sl = {
     };
 }(d3, sl));
 
-(function (d3, sl) {
-    'use strict';
-
-    sl.scale.linear = function () {
-        return linearScale();
-    };
-
-    function linearScale(linear) {
-    	
-    	var alignPixels = true;
-
-        if (!arguments.length) {
-            linear = d3.scale.linear();
-        }
-
-        function scale(x) {
-        	var n = linear(x);
-        	var m = Math.round(n);
-            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
-
-        scale.copy = function () {
-            return linearScale(linear.copy());
-        };
-
-        scale.domain = function (domain) {
-            linear.domain(domain);
-            return scale;
-        };
-
-        scale.ticks = function (n) {
-            return linear.ticks(n);
-        };
-
-        scale.invert = function (pixel) {
-            return linear.invert(pixel);
-        };
-
-        scale.alignPixels = function (value) {
-            if (!arguments.length) {
-                return alignPixels;
-            }
-            alignPixels = value;
-            return scale;
-        };
-
-        return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
-    }
-}(d3, sl));
 (function (d3, sl) {
     'use strict';
 
@@ -1569,8 +1507,15 @@ sl.tools.crosshairs = function () {
 
         } else {
 
-            var mouse = d3.mouse(target[0][0]),
-                xMouse = xScale.invert(mouse[0]),
+            var mouse = [0, 0];
+            try {
+                mouse = d3.mouse(target[0][0]);
+            }
+            catch (exception) {
+                // Mouse is elsewhere
+            }
+
+            var xMouse = xScale.invert(mouse[0]),
                 yMouse = yScale.invert(mouse[1]),
                 nearest = findNearest(xMouse);
 
@@ -1832,8 +1777,15 @@ sl.tools.crosshairs = function () {
 
         function findLocation() {
 
-            var mouse = d3.mouse(target[0][0]),
-                xMouse = xScale.invert(mouse[0]),
+            var mouse = [0, 0];
+            try {
+                mouse = d3.mouse(target[0][0]);
+            }
+            catch (exception) {
+                // Mouse is elsewhere
+            }
+
+            var xMouse = xScale.invert(mouse[0]),
                 yMouse = yScale.invert(mouse[1]),
                 point = findPoint(xMouse);
 
@@ -2230,8 +2182,15 @@ sl.tools.crosshairs = function () {
 
         function findLocation() {
 
-            var mouse = d3.mouse(target[0][0]),
-                xMouse = xScale.invert(mouse[0]),
+            var mouse = [0, 0];
+            try {
+                mouse = d3.mouse(target[0][0]);
+            }
+            catch (exception) {
+                // Mouse is elsewhere
+            }
+
+            var xMouse = xScale.invert(mouse[0]),
                 yMouse = yScale.invert(mouse[1]),
                 point = findPoint(xMouse);
 
@@ -2493,13 +2452,15 @@ sl.tools.crosshairs = function () {
 
         var chartLayout = function (selection) {
             selection.each( function () {
-                var element = d3.select(this);
+                var element = d3.select(this),
+                    style = getComputedStyle(this);
 
                 // Attempt to automatically size the chart to the selected element
                 if (defaultWidth === true) {
-                    // Set the width of the chart to the width of the selected selected element,
+                    // Set the width of the chart to the width of the selected element,
                     // excluding any margins, padding or borders
-                    width = parseInt(getComputedStyle(this).width);
+                    var paddingWidth = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
+                    width = this.clientWidth - paddingWidth;
 
                     // If the new width is too small, use a default width
                     if (chartLayout.innerWidth() < 1) {
@@ -2508,9 +2469,10 @@ sl.tools.crosshairs = function () {
                 }
 
                 if (defaultHeight === true) {
-                    // Set the height of the chart to the height of the selected selected element,
+                    // Set the height of the chart to the height of the selected element,
                     // excluding any margins, padding or borders
-                    height = parseInt(getComputedStyle(this).height);
+                    var paddingHeight = parseInt(style.paddingTop) + parseInt(style.paddingBottom);
+                    height = this.clientHeight - paddingHeight;
 
                     // If the new height is too small, use a default height
                     if (chartLayout.innerHeight() < 1) {

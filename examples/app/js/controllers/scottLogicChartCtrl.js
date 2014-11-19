@@ -152,17 +152,20 @@
 	    	share.yMax = d3.max(data, function (d) { return d.high; });
 	    	share.volYMax = d3.max(data, function (d) { return d.volume; });
 
-			share.initialiseChart(data, sl);
-			share.initialiseRSI(data);
-			share.initialiseNavigator(data);
-
+			share.initialiseChart(data);
 			share.initialiseGridlines();
+		    share.initialiseData(data);
+
 			share.initialiseCrosshairs(data);
 			share.initialiseMeasure(data);
 			share.initialiseVolume(data);
 			share.initialiseBollinger(data);
 			share.initialiseFibonacci(data);
-			share.initialiseBehaviours();
+
+			share.initialiseRSI(data);
+			share.initialiseNavigator(data);
+
+            share.initialiseBehaviours();
 			share.initialiseOverlay(data);
 
 			share.updateViewportFromChart();
@@ -201,7 +204,6 @@
 		        data[data.length - 1].date
 		    ]);
 
-		    share.initialiseData(data);
 		    share.initialiseAxes();
 		};
 
