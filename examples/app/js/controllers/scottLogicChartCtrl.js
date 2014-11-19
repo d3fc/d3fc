@@ -162,8 +162,8 @@
 			share.initialiseBollinger(data);
 			share.initialiseFibonacci(data);
 
-			share.initialiseNavigator(data);
 			share.initialiseRSI(data);
+			share.initialiseNavigator(data);
 
             share.initialiseBehaviours();
 			share.initialiseOverlay(data);
