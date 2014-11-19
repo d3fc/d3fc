@@ -11,6 +11,7 @@
 
 .chart .bar path {
     stroke-width: 1.5;
+    stroke-linecap: round;
 }
 
 .chart .bar.up-day path {
@@ -41,8 +42,8 @@
 
 .chart .gridlines {
     fill: none;
-    stroke-width: 0.5;
-    stroke: #aaa;
+    stroke-width: 1;
+    stroke: #ddd;
 }
 
 .chart .overlay {

@@ -197,7 +197,7 @@
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
 
 		   	share.xScale = sl.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]);
-		    share.yScale = d3.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
+		    share.yScale = sl.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
 
 		    share.xScale.domain([
 		        data[data.length - share.initialDaysShown - 1].date,
@@ -227,7 +227,7 @@
             var width = share.chartWidth - share.margin.left - share.margin.right;
             var height = share.chartHeight - share.margin.top - share.margin.bottom;
             share.plotChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(share.xAxis);
-            share.plotChart.append('g').attr('class', 'y axis').attr('transform', 'translate(' + width + ', 0)').call(share.yAxis);
+            share.plotChart.append('g').attr('class', 'y axis').attr('transform', 'translate(' + (width+0.5) + ', 0)').call(share.yAxis);
         };
 
 		this.initialiseVolume = function(data) {
@@ -236,12 +236,10 @@
 
 			share.plotArea.selectAll('.volume').remove();
 
-		    share.volYScale = d3.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
+		    share.volYScale = sl.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
 		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks);
-		    share.volYAxis.tickFormat(function(d) {
-				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
-			});
-		    share.plotChart.append('g').attr('id', 'yVolAxis').attr('class', 'y axis').call(share.volYAxis);
+		    share.volYAxis.tickFormat(function(d) { return d3.format('s')(d); });
+		    share.plotChart.append('g').attr('id', 'yVolAxis').attr('class', 'y axis').attr('transform', 'translate(0.5,0)').call(share.volYAxis);
 
 		    share.volumeData = sl.series.volume()
 		        .xScale(share.xScale)
@@ -269,7 +267,7 @@
                 share.rsiArea.append('clipPath').attr('id', 'rsiAreaClip').append('rect').attr({ width: rsiWidth, height: rsiHeight });
 
                 share.rsiXScale = sl.scale.finance().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
-                share.rsiYScale = d3.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
+                share.rsiYScale = sl.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
                 share.rsiXAxis = d3.svg.axis().scale(share.xScale).orient('bottom');
                 share.rsiChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + rsiHeight + ')').call(share.rsiXAxis);
 
@@ -305,7 +303,7 @@
 		        .attr('transform', 'translate(' + share.margin.left + ', 0)');
 
 		    share.navXScale = sl.scale.finance().domain([share.minDate, share.maxDate]).range([0, navWidth]);
-		    share.navYScale = d3.scale.linear().domain([share.yMin, share.yMax]).range([navHeight, 0]);
+		    share.navYScale = sl.scale.linear().domain([share.yMin, share.yMax]).range([navHeight, 0]);
 		    share.navXAxis = d3.svg.axis().scale(share.navXScale).orient('bottom');
 
 		    share.navChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + navHeight + ')').call(share.navXAxis);
