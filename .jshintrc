@@ -14,7 +14,8 @@
     "devel": true,
 
     "globals": {
-        "define": false,
+        "d3": false,
+        "sl": false,
         "require": false
     }
 }
