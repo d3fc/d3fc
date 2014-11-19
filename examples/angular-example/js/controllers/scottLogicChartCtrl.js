@@ -225,7 +225,7 @@
             var width = share.chartWidth - share.margin.left - share.margin.right;
             var height = share.chartHeight - share.margin.top - share.margin.bottom;
             share.plotChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(share.xAxis);
-            share.plotChart.append('g').attr('class', 'y axis').attr('transform', 'translate(' + width + ', 0)').call(share.yAxis);
+            share.plotChart.append('g').attr('class', 'y axis').attr('transform', 'translate(' + (width+0.5) + ', 0)').call(share.yAxis);
         };
 
 		this.initialiseVolume = function(data) {
@@ -236,10 +236,8 @@
 
 		    share.volYScale = sl.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
 		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks);
-		    share.volYAxis.tickFormat(function(d) {
-				return d >= 1000000000 ? "" + Math.floor(d/1000000000) + " bil." : (d >= 1000000 ? "" + Math.floor(d/1000000) + " mil." : d);
-			});
-		    share.plotChart.append('g').attr('id', 'yVolAxis').attr('class', 'y axis').call(share.volYAxis);
+		    share.volYAxis.tickFormat(function(d) { return d3.format('s')(d); });
+		    share.plotChart.append('g').attr('id', 'yVolAxis').attr('class', 'y axis').attr('transform', 'translate(0.5,0)').call(share.volYAxis);
 
 		    share.volumeData = sl.series.volume()
 		        .xScale(share.xScale)

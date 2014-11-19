@@ -11,6 +11,7 @@
 
 .chart .bar path {
     stroke-width: 1.5;
+    stroke-linecap: round;
 }
 
 .chart .bar.up-day path {
