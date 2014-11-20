@@ -291,10 +291,6 @@ sl.tools.crosshairs = function () {
         return crosshairs;
     };
 
-    crosshairs.highlightedField = function() {
-        return highlightedField;
-    };
-
     return crosshairs;
 };
 
