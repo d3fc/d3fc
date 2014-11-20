@@ -6,6 +6,316 @@ sl = {
     tools: {},
     utilities: {}
 };
+(function (d3, sl) {
+    'use strict';
+
+    sl.utilities.chartLayout = function () {
+
+        // Default values
+        var margin = {top: 20, right: 20, bottom: 20, left: 20},
+            width = 0,
+            height = 0;
+
+        var defaultWidth = true,
+            defaultHeight = true;
+
+        var chartLayout = function (selection) {
+            selection.each( function () {
+                var element = d3.select(this),
+                    style = getComputedStyle(this);
+
+                // Attempt to automatically size the chart to the selected element
+                if (defaultWidth === true) {
+                    // Set the width of the chart to the width of the selected element,
+                    // excluding any margins, padding or borders
+                    var paddingWidth = parseInt(style.paddingLeft, 10) + parseInt(style.paddingRight, 10);
+                    width = this.clientWidth - paddingWidth;
+
+                    // If the new width is too small, use a default width
+                    if (chartLayout.innerWidth() < 1) {
+                        width = 800 + margin.left + margin.right;
+                    }
+                }
+
+                if (defaultHeight === true) {
+                    // Set the height of the chart to the height of the selected element,
+                    // excluding any margins, padding or borders
+                    var paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
+                    height = this.clientHeight - paddingHeight;
+
+                    // If the new height is too small, use a default height
+                    if (chartLayout.innerHeight() < 1) {
+                        height = 400 + margin.top + margin.bottom;
+                    }
+                }
+
+                // Create svg
+                var svg = element.append('svg')
+                    .attr('width', width)
+                    .attr('height', height);
+
+                // Create group for the chart
+                var chart =  svg.append('g')
+                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+                // Clipping path
+                chart.append('defs').append('clipPath')
+                    .attr('id', 'plotAreaClip')
+                    .append('rect')
+                    .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
+
+                // Create plot area, using the clipping path
+                chart.append('g')
+                    .attr('clip-path', 'url(#plotAreaClip)')
+                    .attr('class', 'plotArea');
+            });
+        };
+
+        chartLayout.marginTop = function (value) {
+            if (!arguments.length) {
+                return margin.top;
+            }
+            margin.top = value;
+            return chartLayout;
+        };
+
+        chartLayout.marginRight = function (value) {
+            if (!arguments.length) {
+                return margin.right;
+            }
+            margin.right = value;
+            return chartLayout;
+        };
+
+        chartLayout.marginBottom = function (value) {
+            if (!arguments.length) {
+                return margin.bottom;
+            }
+            margin.bottom = value;
+            return chartLayout;
+        };
+
+        chartLayout.marginLeft = function (value) {
+            if (!arguments.length) {
+                return margin.left;
+            }
+            margin.left = value;
+            return chartLayout;
+        };
+
+        chartLayout.width = function (value) {
+            if (!arguments.length) {
+                return width;
+            }
+            width = value;
+            defaultWidth = false;
+            return chartLayout;
+        };
+
+        chartLayout.height = function (value) {
+            if (!arguments.length) {
+                return height;
+            }
+            height = value;
+            defaultHeight = false;
+            return chartLayout;
+        };
+
+        chartLayout.innerWidth = function () {
+            var innerWidth = width - margin.left - margin.right;
+            return innerWidth;
+        };
+
+        chartLayout.innerHeight = function () {
+            var innerHeight = height - margin.top - margin.bottom;
+            return innerHeight;
+        };
+
+        return chartLayout;
+    };
+}(d3, sl));
+(function (sl, moment, jStat) {
+    'use strict';
+
+    sl.utilities.dataGenerator = function () {
+
+        var mu = 0.1,
+            sigma = 0.1,
+            startingPrice = 100,
+            startingVolume = 100000,
+            intraDaySteps = 50,
+            volumeNoiseFactor = 0.3,
+            toDate = new Date(),
+            fromDate = new Date(),
+            filter = function (moment) {
+                return !(moment.day() === 0 || moment.day() === 6);
+            };
+
+        var generatePrices = function (period, steps) {
+            var increments = generateIncrements(period, steps, mu, sigma),
+                i, prices = [];
+            prices[0] = startingPrice;
+
+            for (i = 1; i < increments.length; i += 1) {
+                prices[i] = prices[i - 1] * increments[i];
+            }
+            return prices;
+        };
+
+        var generateVolumes = function (period, steps) {
+            var increments = generateIncrements(period, steps, 0, 1),
+                i, volumes = [];
+
+            volumeNoiseFactor = Math.max(0, Math.min(volumeNoiseFactor, 1));
+            volumes[0] = startingVolume;
+
+            for (i = 1; i < increments.length; i += 1) {
+                volumes[i] = volumes[i - 1] * increments[i];
+            }
+            volumes = volumes.map(function (vol) {
+                return Math.floor(vol * (1 - volumeNoiseFactor + Math.random() * volumeNoiseFactor * 2));
+            });
+            return volumes;
+        };
+
+        var generateIncrements = function (period, steps, mu, sigma) {
+            // Geometric Brownian motion model.
+            var deltaY = period / steps,
+                sqrtDeltaY = Math.sqrt(deltaY),
+                deltaW = jStat().randn(1, steps).multiply(sqrtDeltaY),
+                increments =  deltaW
+                    .multiply(sigma)
+                    .add((mu - ((sigma * sigma) / 2)) * deltaY),
+                expIncrements = increments.map(function (x) {
+                    return Math.exp(x);
+                });
+
+            return jStat.row(expIncrements, 0);
+        };
+
+        var generate = function() {
+
+            var range = moment().range(fromDate, toDate),
+                msec_per_year = 3.15569e10,
+                rangeYears = range / msec_per_year,
+                daysIncluded = 0,
+                prices,
+                volume,
+                ohlcv = [],
+                daySteps,
+                currentStep = 0,
+                currentIntraStep = 0;
+
+            range.by('days', function (moment) {
+                if (!filter || filter(moment)) {
+                    daysIncluded += 1;
+                }
+            });
+
+            prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
+            volume = generateVolumes(rangeYears, daysIncluded);
+
+            range.by('days', function (moment) {
+                if (!filter || filter(moment)) {
+                    daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
+                    ohlcv.push({
+                        date: moment.toDate(),
+                        open: daySteps[0],
+                        high: Math.max.apply({}, daySteps),
+                        low: Math.min.apply({}, daySteps),
+                        close: daySteps[intraDaySteps - 1],
+                        volume: volume[currentStep]
+                    });
+                    currentIntraStep += intraDaySteps;
+                    currentStep += 1
+                }
+            });
+
+            return ohlcv;
+        };
+
+        var dataGenerator = function (selection) {
+        };
+
+        dataGenerator.generate = function() {
+            return generate();
+        };
+
+        dataGenerator.mu = function (value) {
+            if (!arguments.length) {
+                return mu;
+            }
+            mu = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.sigma = function (value) {
+            if (!arguments.length) {
+                return sigma;
+            }
+            sigma = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.startingPrice = function (value) {
+            if (!arguments.length) {
+                return startingPrice;
+            }
+            startingPrice = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.startingVolume = function (value) {
+            if (!arguments.length) {
+                return startingVolume;
+            }
+            startingVolume = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.intraDaySteps = function (value) {
+            if (!arguments.length) {
+                return intraDaySteps;
+            }
+            intraDaySteps = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.volumeNoiseFactor = function (value) {
+            if (!arguments.length) {
+                return volumeNoiseFactor;
+            }
+            volumeNoiseFactor = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.filter = function (value) {
+            if (!arguments.length) {
+                return filter;
+            }
+            filter = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.toDate = function (value) {
+            if (!arguments.length) {
+                return toDate;
+            }
+            toDate = value;
+            return dataGenerator;
+        };
+
+        dataGenerator.fromDate = function (value) {
+            if (!arguments.length) {
+                return fromDate;
+            }
+            fromDate = value;
+            return dataGenerator;
+        };
+
+        return dataGenerator;
+    };
+}(sl, moment, jStat));
 (function(d3, sl) {
 
     var weekdayCache = {};
@@ -573,18 +883,23 @@ sl = {
 
     function financialScale(linear) {
 
+    	var alignPixels = true;
+
         if (!arguments.length) {
             linear = d3.scale.linear();
         }
 
         function scale(x) {
+            var n = 0;
             if (typeof x === 'number') {
                 // When scaling ticks.
-                return linear(x);
+                n = linear(x);
             } else {
                 // When scaling dates.
-                return linear(weekday(x));
+                n = linear(weekday(x));
             }
+        	var m = Math.round(n);
+            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         };
 
         scale.copy = function () {
@@ -616,6 +931,14 @@ sl = {
 
         scale.invert = function (pixel) {
             return weekday.invert(linear.invert(pixel))
+        };
+
+        scale.alignPixels = function (value) {
+            if (!arguments.length) {
+                return alignPixels;
+            }
+            alignPixels = value;
+            return scale;
         };
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
@@ -725,6 +1048,55 @@ sl = {
     };
 }(d3, sl));
 
+(function (d3, sl) {
+    'use strict';
+
+    sl.scale.linear = function () {
+        return linearScale();
+    };
+
+    function linearScale(linear) {
+    	
+    	var alignPixels = true;
+
+        if (!arguments.length) {
+            linear = d3.scale.linear();
+        }
+
+        function scale(x) {
+        	var n = linear(x);
+        	var m = Math.round(n);
+            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
+        };
+
+        scale.copy = function () {
+            return linearScale(linear.copy());
+        };
+
+        scale.domain = function (domain) {
+            linear.domain(domain);
+            return scale;
+        };
+
+        scale.ticks = function (n) {
+            return linear.ticks(n);
+        };
+
+        scale.invert = function (pixel) {
+            return linear.invert(pixel);
+        };
+
+        scale.alignPixels = function (value) {
+            if (!arguments.length) {
+                return alignPixels;
+            }
+            alignPixels = value;
+            return scale;
+        };
+
+        return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
+    }
+}(d3, sl));
 (function (d3, sl) {
     'use strict';
 
@@ -1039,110 +1411,188 @@ sl = {
 (function (d3, sl) {
     'use strict';
 
-    sl.series.ohlc = function () {
+    sl.series.ohlc = function (drawMethod) {
 
+        // Configurable attributes
         var xScale = d3.time.scale(),
-            yScale = d3.scale.linear();
+            yScale = d3.scale.linear(),
+            tickWidth = 5;
 
+        // Function to return
+        var ohlc;
+
+        // Accessor functions
+        var open = function (d) {
+                return yScale(d.open);
+            },
+            high = function (d) {
+                return yScale(d.high);
+            },
+            low = function (d) {
+                return yScale(d.low);
+            },
+            close = function (d) {
+                return yScale(d.close);
+            },
+            date = function (d) {
+                return xScale(d.date);
+            };
+
+        // Up/down day logic
         var isUpDay = function(d) {
             return d.close > d.open;
         };
         var isDownDay = function (d) {
-            return !isUpDay(d);
+            return d.close < d.open;
+        };
+        var isStaticDay = function (d) {
+            return d.close === d.open;
         };
 
-        var tickWidth = 5;
-
-        var line = d3.svg.line()
-            .x(function (d) {
-                return d.x;
-            })
-            .y(function (d) {
-                return d.y;
-            });
-
-        var highLowLines = function (bars) {
-
-            var paths = bars.selectAll('.high-low-line').data(function (d) {
-                return [d];
-            });
-
-            paths.enter().append('path');
-
-            paths.classed('high-low-line', true)
-                .attr('d', function (d) {
-                    return line([
-                        { x: xScale(d.date), y: yScale(d.high) },
-                        { x: xScale(d.date), y: yScale(d.low) }
-                    ]);
-                });
+        var barColour = function(d) {
+            if (isUpDay(d)) {
+                return 'green';
+            } else if (isDownDay(d)) {
+                return 'red';
+            } else {
+                return 'black';
+            }
         };
 
-        var openCloseTicks = function (bars) {
-            var open,
-                close;
-
-            open = bars.selectAll('.open-tick').data(function (d) {
-                return [d];
-            });
-
-            close = bars.selectAll('.close-tick').data(function (d) {
-                return [d];
-            });
-
-            open.enter().append('path');
-            close.enter().append('path');
-
-            open.classed('open-tick', true)
-                .attr('d', function (d) {
-                    return line([
-                        { x: xScale(d.date) - tickWidth, y: yScale(d.open) },
-                        { x: xScale(d.date), y: yScale(d.open) }
-                    ]);
-                });
-
-            close.classed('close-tick', true)
-                .attr('d', function (d) {
-                    return line([
-                        { x: xScale(d.date), y: yScale(d.close) },
-                        { x: xScale(d.date) + tickWidth, y: yScale(d.close) }
-                    ]);
-                });
-
-            open.exit().remove();
-            close.exit().remove();
+        // Path drawing
+        var makeBarPath = function (d) {
+            var moveToLow = 'M' + date(d) + ',' + low(d),
+                verticalToHigh = 'V' + high(d),
+                openTick = 'M' + date(d) + "," + open(d) + 'h' + (-tickWidth),
+                closeTick = 'M' + date(d) + "," + close(d) + 'h' + tickWidth;
+            return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
-        var ohlc = function (selection) {
-            var series, bars;
+        var makeConcatPath = function (data) {
+            var path = 'M0,0';
+            data.forEach(function (d) {
+                path += makeBarPath(d);
+            });
+            return path;
+        };
 
+        // Filters data, and draws a series of ohlc bars from the result as a single path.
+        var makeConcatPathElement = function(series, elementClass, colour, data, filterFunction) {
+            var concatPath;
+            var filteredData = data.filter(function (d) {
+                return filterFunction(d);
+            });
+            concatPath = series.selectAll('.' + elementClass)
+                .data([filteredData]);
+
+            concatPath.enter()
+                .append('path')
+                .classed(elementClass, true);
+
+            concatPath
+                .attr('d', makeConcatPath(filteredData))
+                .attr('stroke', colour);
+
+
+            concatPath.exit().remove();
+        };
+
+        // Common series element
+        var makeSeriesElement = function (selection, data) {
+            var series = d3.select(selection).selectAll('.ohlc-series').data([data]);
+            series.enter().append('g').classed('ohlc-series', true);
+            return series;
+        };
+
+        // Draw ohlc bars as groups of svg lines
+        var ohlcLineGroups = function (selection) {
             selection.each(function (data) {
-                // series = d3.select(this);
+                var series = makeSeriesElement(this, data);
 
-                series = d3.select(this).selectAll('.ohlc-series').data([data]);
-                series.enter().append('g').classed('ohlc-series', true);
+                var bars = series.selectAll('.bar')
+                    .data(data, function (d) {
+                        return d.date;
+                    });
 
-                bars = series.selectAll('.bar')
+                // Enter
+                var barEnter = bars.enter().append('g').classed('bar', true);
+                barEnter.append('line').classed('high-low-line', true);
+                barEnter.append('line').classed('open-tick', true);
+                barEnter.append('line').classed('close-tick', true);
+
+                // Update
+                bars.classed({
+                    'up-day': isUpDay,
+                    'down-day': isDownDay,
+                    'static-day': isStaticDay
+                });
+
+                bars.attr('stroke', barColour);
+
+                bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high });
+                bars.select('.open-tick').attr({
+                    x1: function (d) { return date(d) - tickWidth; },
+                    y1: open,
+                    x2: date,
+                    y2: open
+                });
+                bars.select('.close-tick').attr({
+                    x1: date,
+                    y1: close,
+                    x2: function (d) { return date(d) + tickWidth; },
+                    y2: close
+                });
+
+                // Exit
+                bars.exit().remove();
+            });
+        };
+
+        // Draw ohlc bars as svg paths
+        var ohlcBarPaths = function (selection) {
+            selection.each(function (data) {
+                var series = makeSeriesElement(this, data);
+
+                var bars = series.selectAll('.bar')
                     .data(data, function (d) {
                         return d.date;
                     });
 
                 bars.enter()
-                    .append('g')
+                    .append('path')
                     .classed('bar', true);
 
                 bars.classed({
                     'up-day': isUpDay,
-                    'down-day': isDownDay
+                    'down-day': isDownDay,
+                    'static-day': isStaticDay
                 });
-                highLowLines(bars);
-                openCloseTicks(bars);
+
+                bars.attr({
+                    'stroke': barColour,
+                    'd': makeBarPath
+                });
 
                 bars.exit().remove();
-
-
             });
         };
+
+        // Draw the complete series of ohlc bars using 3 paths
+        var ohlcConcatBarPaths = function (selection) {
+            selection.each(function (data) {
+                var series = makeSeriesElement(this, data);
+                makeConcatPathElement(series, 'up-days', 'green', data, isUpDay);
+                makeConcatPathElement(series, 'down-days', 'red' ,data, isDownDay);
+                makeConcatPathElement(series, 'static-days', 'black', data, isStaticDay);
+            });
+        };
+
+        switch (drawMethod) {
+            case 'line': ohlc = ohlcLineGroups; break;
+            case 'path': ohlc = ohlcBarPaths; break;
+            case 'paths': ohlc = ohlcConcatBarPaths; break;
+            default: ohlc = ohlcBarPaths;
+        }
 
         ohlc.xScale = function (value) {
             if (!arguments.length) {
@@ -1169,7 +1619,6 @@ sl = {
         };
 
         return ohlc;
-
     };
 }(d3, sl));
 (function (d3, sl) {
@@ -1647,10 +2096,6 @@ sl.tools.crosshairs = function () {
         }
         padding = value;
         return crosshairs;
-    };
-
-    crosshairs.highlightedField = function() {
-        return highlightedField;
     };
 
     return crosshairs;
@@ -2437,314 +2882,4 @@ sl.tools.crosshairs = function () {
     };
 
 }(d3, sl));
-(function (d3, sl) {
-    'use strict';
-
-    sl.utilities.chartLayout = function () {
-
-        // Default values
-        var margin = {top: 20, right: 20, bottom: 20, left: 20},
-            width = 0,
-            height = 0;
-
-        var defaultWidth = true,
-            defaultHeight = true;
-
-        var chartLayout = function (selection) {
-            selection.each( function () {
-                var element = d3.select(this),
-                    style = getComputedStyle(this);
-
-                // Attempt to automatically size the chart to the selected element
-                if (defaultWidth === true) {
-                    // Set the width of the chart to the width of the selected element,
-                    // excluding any margins, padding or borders
-                    var paddingWidth = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
-                    width = this.clientWidth - paddingWidth;
-
-                    // If the new width is too small, use a default width
-                    if (chartLayout.innerWidth() < 1) {
-                        width = 800 + margin.left + margin.right;
-                    }
-                }
-
-                if (defaultHeight === true) {
-                    // Set the height of the chart to the height of the selected element,
-                    // excluding any margins, padding or borders
-                    var paddingHeight = parseInt(style.paddingTop) + parseInt(style.paddingBottom);
-                    height = this.clientHeight - paddingHeight;
-
-                    // If the new height is too small, use a default height
-                    if (chartLayout.innerHeight() < 1) {
-                        height = 400 + margin.top + margin.bottom;
-                    }
-                }
-
-                // Create svg
-                var svg = element.append('svg')
-                    .attr('width', width)
-                    .attr('height', height);
-
-                // Create group for the chart
-                var chart =  svg.append('g')
-                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-                // Clipping path
-                chart.append('defs').append('clipPath')
-                    .attr('id', 'plotAreaClip')
-                    .append('rect')
-                    .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
-
-                // Create plot area, using the clipping path
-                chart.append('g')
-                    .attr('clip-path', 'url(#plotAreaClip)')
-                    .attr('class', 'plotArea');
-            });
-        };
-
-        chartLayout.marginTop = function (value) {
-            if (!arguments.length) {
-                return margin.top;
-            }
-            margin.top = value;
-            return chartLayout;
-        };
-
-        chartLayout.marginRight = function (value) {
-            if (!arguments.length) {
-                return margin.right;
-            }
-            margin.right = value;
-            return chartLayout;
-        };
-
-        chartLayout.marginBottom = function (value) {
-            if (!arguments.length) {
-                return margin.bottom;
-            }
-            margin.bottom = value;
-            return chartLayout;
-        };
-
-        chartLayout.marginLeft = function (value) {
-            if (!arguments.length) {
-                return margin.left;
-            }
-            margin.left = value;
-            return chartLayout;
-        };
-
-        chartLayout.width = function (value) {
-            if (!arguments.length) {
-                return width;
-            }
-            width = value;
-            defaultWidth = false;
-            return chartLayout;
-        };
-
-        chartLayout.height = function (value) {
-            if (!arguments.length) {
-                return height;
-            }
-            height = value;
-            defaultHeight = false;
-            return chartLayout;
-        };
-
-        chartLayout.innerWidth = function () {
-            var innerWidth = width - margin.left - margin.right;
-            return innerWidth;
-        };
-
-        chartLayout.innerHeight = function () {
-            var innerHeight = height - margin.top - margin.bottom;
-            return innerHeight;
-        };
-
-        return chartLayout;
-    };
-}(d3, sl));
-(function (sl, moment, jStat) {
-    'use strict';
-
-    sl.utilities.dataGenerator = function () {
-
-        var mu = 0.1,
-            sigma = 0.1,
-            startingPrice = 100,
-            startingVolume = 100000,
-            intraDaySteps = 50,
-            volumeNoiseFactor = 0.3,
-            toDate = new Date(),
-            fromDate = new Date(),
-            filter = function (moment) {
-                return !(moment.day() === 0 || moment.day() === 6);
-            };
-
-        var generatePrices = function (period, steps) {
-            var increments = generateIncrements(period, steps, mu, sigma),
-                i, prices = [];
-            prices[0] = startingPrice;
-
-            for (i = 1; i < increments.length; i += 1) {
-                prices[i] = prices[i - 1] * increments[i];
-            }
-            return prices;
-        };
-
-        var generateVolumes = function (period, steps) {
-            var increments = generateIncrements(period, steps, 0, 1),
-                i, volumes = [];
-
-            volumeNoiseFactor = Math.max(0, Math.min(volumeNoiseFactor, 1));
-            volumes[0] = startingVolume;
-
-            for (i = 1; i < increments.length; i += 1) {
-                volumes[i] = volumes[i - 1] * increments[i];
-            }
-            volumes = volumes.map(function (vol) {
-                return Math.floor(vol * (1 - volumeNoiseFactor + Math.random() * volumeNoiseFactor * 2));
-            });
-            return volumes;
-        };
-
-        var generateIncrements = function (period, steps, mu, sigma) {
-            // Geometric Brownian motion model.
-            var deltaY = period / steps,
-                sqrtDeltaY = Math.sqrt(deltaY),
-                deltaW = jStat().randn(1, steps).multiply(sqrtDeltaY),
-                increments =  deltaW
-                    .multiply(sigma)
-                    .add((mu - ((sigma * sigma) / 2)) * deltaY),
-                expIncrements = increments.map(function (x) {
-                    return Math.exp(x);
-                });
-
-            return jStat.row(expIncrements, 0);
-        };
-
-        var generate = function() {
-
-            var range = moment().range(fromDate, toDate),
-                msec_per_year = 3.15569e10,
-                rangeYears = range / msec_per_year,
-                daysIncluded = 0,
-                prices,
-                volume,
-                ohlcv = [],
-                daySteps,
-                currentStep = 0,
-                currentIntraStep = 0;
-
-            range.by('days', function (moment) {
-                if (!filter || filter(moment)) {
-                    daysIncluded += 1;
-                }
-            });
-
-            prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
-            volume = generateVolumes(rangeYears, daysIncluded);
-
-            range.by('days', function (moment) {
-                if (!filter || filter(moment)) {
-                    daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
-                    ohlcv.push({
-                        date: moment.toDate(),
-                        open: daySteps[0],
-                        high: Math.max.apply({}, daySteps),
-                        low: Math.min.apply({}, daySteps),
-                        close: daySteps[intraDaySteps - 1],
-                        volume: volume[currentStep]
-                    });
-                    currentIntraStep += intraDaySteps;
-                    currentStep += 1
-                }
-            });
-
-            return ohlcv;
-        };
-
-        var dataGenerator = function (selection) {
-        };
-
-        dataGenerator.generate = function() {
-            return generate();
-        };
-
-        dataGenerator.mu = function (value) {
-            if (!arguments.length) {
-                return mu;
-            }
-            mu = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.sigma = function (value) {
-            if (!arguments.length) {
-                return sigma;
-            }
-            sigma = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.startingPrice = function (value) {
-            if (!arguments.length) {
-                return startingPrice;
-            }
-            startingPrice = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.startingVolume = function (value) {
-            if (!arguments.length) {
-                return startingVolume;
-            }
-            startingVolume = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.intraDaySteps = function (value) {
-            if (!arguments.length) {
-                return intraDaySteps;
-            }
-            intraDaySteps = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.volumeNoiseFactor = function (value) {
-            if (!arguments.length) {
-                return volumeNoiseFactor;
-            }
-            volumeNoiseFactor = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.filter = function (value) {
-            if (!arguments.length) {
-                return filter;
-            }
-            filter = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.toDate = function (value) {
-            if (!arguments.length) {
-                return toDate;
-            }
-            toDate = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.fromDate = function (value) {
-            if (!arguments.length) {
-                return fromDate;
-            }
-            fromDate = value;
-            return dataGenerator;
-        };
-
-        return dataGenerator;
-    };
-}(sl, moment, jStat));
 //# sourceMappingURL=d3-financial-components.js.map
