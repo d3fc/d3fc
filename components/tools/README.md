@@ -5,13 +5,13 @@
 + [Fibonacci fan](#fibonacci-fan)
 + [Measure](#sltoolsmeasure)
 
-#sl.tools.annotation
+## sl.tools.annotation
 
 Information and code examples here
 
 ----
 
-#Crosshairs
+## Crosshairs
 
 This component draws a crosshairs on a target element.
 The crosshairs can be made to snap to a particular field on the data model, but by default will snap to any field.
@@ -120,7 +120,7 @@ If not specified, returns the current padding, which defaults to 2px.
 
 ----
 
-#Fibonacci Fan
+## Fibonacci Fan
 
 This component allows the user to draw a Fibonacci fan onto a chart.
 For a Fibonacci fan, a trend line is drawn between two points, then three fan lines are drawn from the leftmost point to the rightmost edge of the chart at gradients of 38.2%, 50% and 61.8% of the trend line's gradient.

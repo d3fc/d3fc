@@ -1,19 +1,68 @@
 # sl.**indicators**
 
-+ [Bollinger Bands](#slindicatorsbollingerbands)
-+ [Moving Average](#slindicatorsmovingaverage)
++ [Bollinger Bands](#bollingerbands)
++ [Moving Average](#movingaveragetracker)
 + [Relative Strength Index](#slindicatorsrsi)
 
 
-## sl.indicators.bollingerBands()
+## Bollinger Bands
 
 Information and code examples here
 
 ------
 
-## sl.indicators.movingAverage()
+## Moving Average Tracker
 
-Information and code examples here
+This component draws a line on a chart which follows the value of a given data field, optionally applying a moving average calculation.
+
+sl.indicators**movingAverage**()
+
+Constructs a new instance of the moving average component.
+
+```javascript
+var indicator = sl.indicators.movingAverage()
+				.xScale(x)
+				.yScale(y)
+				.averagePoints(8)
+				.yValue('close');
+```
+
+**movingAverage**()
+
+This adds the moving average line to the chart.
+
+```javascript
+plotArea.append('g')
+				.datum($rootScope.chartData)
+				.call(indicator);
+```
+
+movingAverage.**xScale([*value*])
+
+Specifies the X scale which the tracker uses to locate its SVG elements.
+If not specified, returns the current X scale, which defaults to an unmodified `d3.time.scale`.
+
+movingAverage.**yScale([*value*])
+
+Specifies the Y scale which the tracker uses to locate its SVG elements.
+If not specified, returns the current Y scale, which defaults to an unmodified `d3.scale.linear`.
+
+movingAverage.**yValue([*value*])
+
+Specifies the name of the data field which the tracker will follow.
+You can also pass in an integer value, in which case the component will draw a horizontal line at that price value.
+If not specified, returns the current data field or price value, which defaults to 0.
+
+movingAverage.**averagePoints([*value*])
+
+Specifies the number of data points the tracker will use when calculating its moving average value.
+If not specified, returns the current value, which defaults to 5.
+
+movingAverage.**css([*value*])
+
+Specifies a CSS class which will be applied to the tracker line.
+This can be useful if you have multiple trackers on the same chart and need to differentiate them.
+If not specified, returns the current CSS class, which defaults to an empty string.
 
 ----
 

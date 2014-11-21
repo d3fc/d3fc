@@ -625,8 +625,7 @@ sl = {
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
 			yValue = 0,
-			yLabel = '',
-			averagePoints = 0,
+			averagePoints = 5,
 			css = '';
 
 		var movingAverage = function (selection) {
@@ -692,14 +691,6 @@ sl = {
 				return yValue;
 			}
 			yValue = value;
-			return movingAverage;
-		};
-
-		movingAverage.yLabel = function (value) {
-			if (!arguments.length) {
-				return yLabel;
-			}
-			yLabel = value;
 			return movingAverage;
 		};
 
