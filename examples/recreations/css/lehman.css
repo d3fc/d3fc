@@ -38,6 +38,6 @@ g.callouts { }
 
 g.callout text { fill: #fff; }
 g.callout rect { fill: #007942; }
-g.callout line { fill: none; stroke: #007942; stroke-width: 1.0; stroke-linecap:'round' }
+g.callout line { fill: none; stroke: #007942; stroke-width: 1.0; stroke-linecap:'round'; }
 
 path.overlay { fill: #090; opacity: 0; stroke: none; stroke-width: 0; }
