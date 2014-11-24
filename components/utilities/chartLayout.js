@@ -20,7 +20,7 @@
                 if (defaultWidth === true) {
                     // Set the width of the chart to the width of the selected element,
                     // excluding any margins, padding or borders
-                    var paddingWidth = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
+                    var paddingWidth = parseInt(style.paddingLeft, 10) + parseInt(style.paddingRight, 10);
                     width = this.clientWidth - paddingWidth;
 
                     // If the new width is too small, use a default width
@@ -32,7 +32,7 @@
                 if (defaultHeight === true) {
                     // Set the height of the chart to the height of the selected element,
                     // excluding any margins, padding or borders
-                    var paddingHeight = parseInt(style.paddingTop) + parseInt(style.paddingBottom);
+                    var paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
                     height = this.clientHeight - paddingHeight;
 
                     // If the new height is too small, use a default height

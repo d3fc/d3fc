@@ -1,19 +1,135 @@
 # sl.**indicators**
 
-+ [Bollinger Bands](#slindicatorsbollingerbands)
-+ [Moving Average](#slindicatorsmovingaverage)
++ [Bollinger Bands](#bollingerbands)
++ [Moving Average](#movingaveragetracker)
 + [Relative Strength Index](#slindicatorsrsi)
 
+## Bollinger Bands
 
-## sl.indicators.bollingerBands()
+This component calculates and draws Bollinger bands on a data series, calculated using a moving average and a standard deviation value.
 
-Information and code examples here
+sl.indicators.**bollingerBands**()
+
+Constructs a new instance of the Bollinger band component.
+
+```javascript
+var bollinger = sl.indicators.bollingerBands()
+		        .xScale(x)
+		        .yScale(y)
+		        .yValue('close')
+		        .movingAverage(20)
+		        .standardDeviations(2);
+```
+
+**bollingerBands**()
+
+This adds the Bollinger band component to a chart.
+
+```javascript
+plotArea.append('g')
+    .datum(data)
+    .call(bollinger);
+```
+
+bollingerBands.**xScale**([*value*])
+
+Specifies the X scale which the component uses to locate its SVG elements.
+If not specified, returns the current X scale, which defaults to an unmodified `d3.time.scale`.
+
+bollingerBands.**yScale**([*value*])
+
+Specifies the Y scale which the component uses to locate its SVG elements.
+If not specified, returns the current Y scale, which defaults to an unmodified `d3.scale.linear`.
+
+bollingerBands.**yValue**([*value*])
+
+Specifies the name of the data field which the component will follow.
+If not specified, returns the current data field, which defaults to 0.
+
+bollingerBands.**movingAverage**([*value*])
+
+Specifies the number of data points the component will use when calculating its moving average value.
+If not specified, returns the current value, which defaults to 20.
+
+bollingerBands.**standardDeviations**([*value*])
+
+Specifies the number of standard deviations to use as the amplitude of the displayed bands.
+If not specified, returns the current data field, which defaults to 2.
+
+bollingerBands.**cssBandUpper**([*value*])
+
+Specifies a CSS class which will be applied to the upper band line.
+If not specified, returns the current CSS class, which defaults to `bollingerBandUpper`.
+
+bollingerBands.**cssBandLower**([*value*])
+
+Specifies a CSS class which will be applied to the lower band line.
+If not specified, returns the current CSS class, which defaults to `bollingerBandLower`.
+
+bollingerBands.**cssBandArea**([*value*])
+
+Specifies a CSS class which will be applied to the band area.
+If not specified, returns the current CSS class, which defaults to `bollingerBandArea`.
+
+bollingerBands.**cssAverage**([*value*])
+
+Specifies a CSS class which will be applied to the middle band line.
+If not specified, returns the current CSS class, which defaults to `bollingerAverage`.
 
 ------
 
-## sl.indicators.movingAverage()
+## Moving Average Tracker
 
-Information and code examples here
+This component draws a line on a chart which follows the value of a given data field, optionally applying a moving average calculation.
+
+sl.indicators.**movingAverage**()
+
+Constructs a new instance of the moving average component.
+
+```javascript
+var indicator = sl.indicators.movingAverage()
+				.xScale(x)
+				.yScale(y)
+				.averagePoints(8)
+				.yValue('close');
+```
+
+**movingAverage**()
+
+This adds the moving average line to the chart.
+
+```javascript
+plotArea.append('g')
+				.datum($rootScope.chartData)
+				.call(indicator);
+```
+
+movingAverage.**xScale([*value*])
+
+Specifies the X scale which the tracker uses to locate its SVG elements.
+If not specified, returns the current X scale, which defaults to an unmodified `d3.time.scale`.
+
+movingAverage.**yScale([*value*])
+
+Specifies the Y scale which the tracker uses to locate its SVG elements.
+If not specified, returns the current Y scale, which defaults to an unmodified `d3.scale.linear`.
+
+movingAverage.**yValue([*value*])
+
+Specifies the name of the data field which the tracker will follow.
+You can also pass in an integer value, in which case the component will draw a horizontal line at that price value.
+If not specified, returns the current data field or price value, which defaults to 0.
+
+movingAverage.**averagePoints([*value*])
+
+Specifies the number of data points the tracker will use when calculating its moving average value.
+If not specified, returns the current value, which defaults to 5.
+
+movingAverage.**css([*value*])
+
+Specifies a CSS class which will be applied to the tracker line.
+This can be useful if you have multiple trackers on the same chart and need to differentiate them.
+If not specified, returns the current CSS class, which defaults to an empty string.
 
 ----
 

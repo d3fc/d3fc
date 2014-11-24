@@ -28,7 +28,11 @@ sl = {
                 if (defaultWidth === true) {
                     // Set the width of the chart to the width of the selected element,
                     // excluding any margins, padding or borders
+<<<<<<< HEAD
                     var paddingWidth = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
+=======
+                    var paddingWidth = parseInt(style.paddingLeft, 10) + parseInt(style.paddingRight, 10);
+>>>>>>> 9381f47e412fde139a35e68114c4b4ba6e1081c9
                     width = this.clientWidth - paddingWidth;
 
                     // If the new width is too small, use a default width
@@ -40,7 +44,11 @@ sl = {
                 if (defaultHeight === true) {
                     // Set the height of the chart to the height of the selected element,
                     // excluding any margins, padding or borders
+<<<<<<< HEAD
                     var paddingHeight = parseInt(style.paddingTop) + parseInt(style.paddingBottom);
+=======
+                    var paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
+>>>>>>> 9381f47e412fde139a35e68114c4b4ba6e1081c9
                     height = this.clientHeight - paddingHeight;
 
                     // If the new height is too small, use a default height
@@ -625,8 +633,7 @@ sl = {
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
 			yValue = 0,
-			yLabel = '',
-			averagePoints = 0,
+			averagePoints = 5,
 			css = '';
 
 		var movingAverage = function (selection) {
@@ -692,14 +699,6 @@ sl = {
 				return yValue;
 			}
 			yValue = value;
-			return movingAverage;
-		};
-
-		movingAverage.yLabel = function (value) {
-			if (!arguments.length) {
-				return yLabel;
-			}
-			yLabel = value;
 			return movingAverage;
 		};
 
@@ -2391,6 +2390,7 @@ sl.tools.crosshairs = function () {
         return crosshairs;
     };
 
+<<<<<<< HEAD
     crosshairs.onSnap = function (value) {
         if (!arguments.length) {
             return onSnap;
@@ -2403,6 +2403,8 @@ sl.tools.crosshairs = function () {
         return highlightedField;
     };
 
+=======
+>>>>>>> 9381f47e412fde139a35e68114c4b4ba6e1081c9
     return crosshairs;
 };
 
