@@ -2180,7 +2180,7 @@ sl.tools.crosshairs = function () {
 
             var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
 
-            if (xDiff < dx) {
+            if (xDiff <= dx) {
                 dx = xDiff;
                 nearest = data;
             }
