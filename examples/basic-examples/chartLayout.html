@@ -46,7 +46,93 @@
       <style>
       </style>
 
-      <div id="example"></div>
+       <h2>The Output</h2>
+     <div id="example"></div>
+
+  <h2>The Code</h2>
+
+  <pre style="overflow:auto;height:400px;">
+    // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
+    var data = sl.utilities.dataGenerator()
+      .fromDate(new Date(2014, 1, 1))
+      .toDate(new Date(2014, 3, 1))
+      .generate();
+
+    // Setup the chartLayout
+    var chartLayout = sl.utilities.chartLayout()
+      .marginBottom(30)
+      .marginLeft(10)
+      .marginRight(40);
+
+    // The overall chart
+    var setupArea = d3
+      .select('#example')
+      .call(chartLayout);
+
+    // Select the elements which we'll want to add other elements to
+    var svg = setupArea.select('svg'),
+        chart = svg.select('g'),
+        plotArea = chart.select('.plotArea');
+
+    // Style the svg with a CSS class
+    svg.attr('class', 'slChartArea');
+
+    // Calculate the scales from the data
+    var chartScale = {
+        dateFrom: new Date(d3.min(data, function (d) { return d.date; }).getTime() - 8.64e7),
+        dateTo: new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7),
+        priceFrom: d3.min(data, function (d) { return d.low; }),
+        priceTo: d3.max(data, function (d) { return d.high; }),
+    };
+
+    var dateScale = sl.scale.finance()
+        .domain([chartScale.dateFrom, chartScale.dateTo])
+        .range([0, chartLayout.innerWidth()]);
+
+    var priceScale = d3.scale.linear()
+        .domain([chartScale.priceFrom, chartScale.priceTo])
+        .nice()
+        .range([chartLayout.innerHeight(), 0]);
+
+    var volumeScale = d3.scale.linear()
+        .domain([chartScale.volumeFrom, chartScale.volumeTo])
+        .nice()
+        .range([chartLayout.innerHeight(), 0]);
+
+    // Create the axes
+    var dateAxis = d3.svg.axis()
+        .scale(dateScale)
+        .orient('bottom')
+        .ticks(5);
+
+    var priceAxis = d3.svg.axis()
+        .scale(priceScale)
+        .orient('right')
+        .ticks(5);
+
+    // Add the axes to the chart
+    chart.append('g')
+        .attr('class', 'axis date')
+        .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
+        .call(dateAxis);
+
+    chart.append('g')
+        .attr('class', 'axis price')
+        .attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
+        .call(priceAxis);
+
+    // Create the OHLC series
+    var ohlc = sl.series.ohlc()
+        .xScale(dateScale)
+        .yScale(priceScale);
+
+    // Add the primary OHLC series
+    plotArea.selectAll('.series').remove();
+    plotArea.append('g')
+        .attr('class', 'series')
+        .datum(data)
+        .call(ohlc);
+  </pre>
 
       <script type="text/javascript">
         // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
@@ -58,7 +144,7 @@
         // Setup the chartLayout
         var chartLayout = sl.utilities.chartLayout()
           .marginBottom(30)
-          .marginLeft(80)
+          .marginLeft(10)
           .marginRight(40);
 
         // The overall chart

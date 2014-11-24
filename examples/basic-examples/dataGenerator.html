@@ -52,41 +52,18 @@
 
       <h2>The Code</h2>
 
-<pre>
+<pre class="prettyprint linenums">
   var data = sl.utilities.dataGenerator()
-    .mu(0.1)
-    .sigma(0.1)
-    .startingPrice(100)
-    .intraDaySteps(50)
-    .fromDate(new Date(2014, 10, 1))
-    .toDate(new Date(2014, 10, 30))
-    .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
-    .generate();
-
-  // Create the table header
-  var thead = d3.select("thead")
-    .selectAll("th")
-    .data(d3.keys(data[0]))
-    .enter()
-    .append("th")
-    .text(function(d) { return d; } );
-
-  // Fill the table
-  // Create rows
-  var rows = d3.select("tbody")
-    .selectAll("tr")
-    .data(data)
-    .enter()
-    .append("tr")
-
-  // cells
-  var cells = rows
-    .selectAll("td")
-    .data(function(d) { return d3.values(d); } )
-    .enter()
-    .append("td")
-    .text(function(d) { return d; })
-
+    .mu(0.1)                              // Mu value used in the Brownian Motion algorithm
+    .sigma(0.1)                           // Sigma value used in the Brownian Motion algorithm
+    .startingPrice(100)                   // The initial price for the first generated data point
+    .intraDaySteps(50)                    // The amount of steps for each Day, default data is daily
+    .fromDate(new Date(2014, 10, 1))      // Generate the data from this date
+    .toDate(new Date(2014, 10, 30))       // Generate the data to this date
+    .filter(function (moment) {           // Specify the function used on the data, this filter will filter out weekends
+    	return !(moment.day() === 0 || moment.day() === 6);  
+    })
+    .generate();                          // Generate the data
 </pre>
 
       <script type="text/javascript">
