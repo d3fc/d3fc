@@ -12,7 +12,8 @@ sl.tools.crosshairs = function () {
         formatV = null,
         active = true,
         freezable = true,
-        padding = 2;
+        padding = 2,
+        onSnap = null;
 
     var lineH = null,
         lineV = null,
@@ -176,6 +177,8 @@ sl.tools.crosshairs = function () {
                     highlightedField = field;
 
                     redraw();
+                    if( onSnap )
+                    	onSnap(highlight);
                 }
             }
         }
@@ -289,6 +292,18 @@ sl.tools.crosshairs = function () {
         }
         padding = value;
         return crosshairs;
+    };
+
+    crosshairs.onSnap = function (value) {
+        if (!arguments.length) {
+            return onSnap;
+        }
+        onSnap = value;
+        return crosshairs;
+    };
+
+    crosshairs.highlightedField = function() {
+        return highlightedField;
     };
 
     return crosshairs;

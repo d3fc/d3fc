@@ -1,0 +1,43 @@
+body { background: #EFEFEF; }
+
+#chart { width: 100%; height: 400px; background: #fff; border: solid 1px #000; }
+
+h2 { font-size: 16px; font-weight: bold; }
+h3 { font-size: 12px; font-weight: bolder; margin: 2px; }
+h4 { font-size: 11px; font-weight: bold; margin: 2px; color: #005942; }
+hr { margin-top: 6px; margin-bottom: 8px; }
+
+span.legend { display: inline-block; background: #005942; width: 10px; height: 10px; vertical-align: middle; }
+div.date { float: right; margin: 0px; margin-top: 10px; margin-right: 40px; font-size: 11px; color: #a1a1a1; }
+
+g.gridlines line { stroke-width: 1.0; stroke: #EBF1F6; }
+g.volumebar { fill: #005942; }
+
+path.lineSeries { fill: none; stroke-width: 2.0; stroke: #005942; }
+path.lineSeriesArea { fill: #005942; stroke-width: 0; opacity: 0.5; stroke: none; }
+
+path.bar { fill: none; stroke-width: 1.0; stroke: #005942; }
+
+g.bar.up-day path { fill: none; stroke-width: 1.0; stroke: #007942; }
+g.bar.up-day rect { fill: #007942; stroke-width: 1.0; stroke: #007942; }
+g.bar.down-day path { fill: none; stroke-width: 1.0; stroke: #794200; }
+g.bar.down-day rect { fill: #794200; stroke-width: 1.0; stroke: #794200; }
+
+.axis g.tick line { fill: none; stroke-width: 1.0; stroke: #000; }
+.axis path.domain { fill: none; stroke-width: 1.0; stroke: #000; }
+.axis text { font: 10px sans-serif; }
+
+g.annotation line.marker { fill: none; stroke: #000; stroke-width: 1.0; }
+g.annotation text.callout { font: 10px sans-serif; padding: 2px; }
+
+g.crosshairs line { fill: none; stroke: #005942; stroke-width: 0.25; }
+g.crosshairs circle { fill: none; stroke: #000; stroke-width: 1.0; }
+g.crosshairs text { font: 10px sans-serif; padding: 2px; }
+
+g.callouts { }
+
+g.callout text { fill: #fff; }
+g.callout rect { fill: #007942; }
+g.callout line { fill: none; stroke: #007942; stroke-width: 1.0; stroke-linecap:'round'; }
+
+path.overlay { fill: #090; opacity: 0; stroke: none; stroke-width: 0; }
