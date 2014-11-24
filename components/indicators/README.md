@@ -1,8 +1,8 @@
 # sl.**indicators**
 
-+ [Bollinger Bands](#bollingerbands)
-+ [Moving Average](#movingaveragetracker)
-+ [Relative Strength Index](#relativestrengthindexrsi)
++ [Bollinger Bands](#bollinger-bands)
++ [Moving Average](#moving-average-tracker)
++ [Relative Strength Index](#relative-strength-index-rsi)
 
 ## Bollinger Bands
 
@@ -170,8 +170,8 @@ If not specified, returns the current Y scale, which defaults to an unmodified `
 
 rsi.**samplePeriods**([*value*])
 
-Specifies the number of data samples used to calculte the RSI over, much like the number of points for the moving average indicator.
-If not set the default value is 14, which is the accepted value given by Wilder, please refernce the Wikipedia page mentioned above.
+Specifies the number of data samples used to calculate the RSI over, much like the number of points for the moving average indicator.
+If not set the default value is 14, which is the accepted value given by Wilder, please reference the Wikipedia page mentioned above.
 
 rsi.**upperMarker**([*value*])
 
@@ -186,7 +186,7 @@ The default value of this 30%. The value is specified as a percentage so 30 as o
 rsi.**lambda**([*value*])
 
 Specifies the relative influence that the samples have on the Exponential Moving average calculation. A value of 1 (Default value) will mean that every data sample will have equal weight in the calculation. 
-The most widley used values are in the region 0.92 to 0.98.
+The most widely used values are in the region 0.92 to 0.98.
 
 rsi.**css**([*value*])
 
