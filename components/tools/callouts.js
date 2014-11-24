@@ -1,32 +1,35 @@
 (function (d3, sl) {
-    'use strict';
+		'use strict';
 
-    sl.tools.callouts = function () {
+		sl.tools.callouts = function () {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            padding = 5,
-            spacing = 5,
-            rounded = 0,
-            rotationStart = 20,
-            rotationSteps = 20,
-            stalkLength = 50,
-            css = 'callout',
-            data = [];
+		var xScale = d3.time.scale(),
+			yScale = d3.scale.linear(),
+			padding = 5,
+			spacing = 5,
+			rounded = 0,
+			rotationStart = 20,
+			rotationSteps = 20,
+			stalkLength = 50,
+			css = 'callout',
+			data = [];
 
-    	var currentBB = null,
-    		boundingBoxes = [],
-    		currentRotation = 0;
+		var currentBB = null,
+			boundingBoxes = [],
+			currentRotation = 0;
 
-    	var rectanglesIntersect = function() {
-    		return true;
-    	}
+		var rectanglesIntersect = function(r1, r2) {
+			return !(r2.left > r1.right || 
+				r2.right < r1.left || 
+				r2.top > r1.bottom ||
+				r2.bottom < r1.top);
+		}
 
-        var arrangeCallouts = function() {
+		var arrangeCallouts = function() {
 
-        	if(!boundingBoxes) return;
+			if(!boundingBoxes) return;
 
-        	var sortedRects = boundingBoxes.sort(function(a,b) {
+			var sortedRects = boundingBoxes.sort(function(a,b) {
 				if (a.y < b.y) return -1;
 				if (a.y > b.y) return 1;
 				return 0;
@@ -44,7 +47,7 @@
 				currentRotation += rotationSteps;
 			}
 
-        	// Tree sorting algo (Sudo code below)
+			// Tree sorting algo (Sudo code below)
 			for(var r1=0; r1<sortedRects.length; r1++ ){
 				for(var r2=r1+1; r2<sortedRects.length; r2++) {
 
@@ -80,14 +83,14 @@
 			}
 
 			boundingBoxes = sortedRects;
-        }
+		}
 
-        var callouts = function (selection) {
+		var callouts = function (selection) {
 
-        	// Create the callouts
-        	var callouts = selection.selectAll('g')
-        		.data(data)
-        		.enter()
+			// Create the callouts
+			var callouts = selection.selectAll('g')
+				.data(data)
+				.enter()
 				.append('g')
 				.attr('transform', function(d) { return 'translate(' + xScale(d.x) + ',' + yScale(d.y) +')'; })
 				.attr('class', function(d) { return d.css ? d.css : css; });
@@ -99,14 +102,14 @@
 
 			// Create the rectangles behind
 			callouts.insert('rect',':first-child')
-                .attr('x', function(d) { return -padding - rounded; })
-                .attr('y', function(d) { 
-                	currentBB = this.parentNode.getBBox();
-                	currentBB.x = xScale(d.x); 
-                	currentBB.y = yScale(d.y); 
-                	boundingBoxes.push(currentBB); 
-                	return -currentBB.height; 
-                })
+				.attr('x', function(d) { return -padding - rounded; })
+				.attr('y', function(d) { 
+					currentBB = this.parentNode.getBBox();
+					currentBB.x = xScale(d.x); 
+					currentBB.y = yScale(d.y); 
+					boundingBoxes.push(currentBB); 
+					return -currentBB.height; 
+				})
 				.attr('width', function(d) { return currentBB.width + (padding*2) + (rounded*2); })
 				.attr('height', function(d) { return currentBB.height + (padding*2); })
 				.attr('rx', rounded)
@@ -119,88 +122,88 @@
 				return 'translate(' + boundingBoxes[index].x + ',' + boundingBoxes[index++].y +')';
 			});
 
-        	callouts = selection.selectAll('g')
-        		.data(data)
-        		.exit();
-        };
+			callouts = selection.selectAll('g')
+			.data(data)
+			.exit();
+		};
 
-        callouts.addCallout = function (value) {
-        	data.push(value);
-            return callouts;
-        };
+		callouts.addCallout = function (value) {
+		data.push(value);
+			return callouts;
+		};
 
-        callouts.xScale = function (value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return callouts;
-        };
+		callouts.xScale = function (value) {
+			if (!arguments.length) {
+				return xScale;
+			}
+			xScale = value;
+			return callouts;
+		};
 
-        callouts.yScale = function (value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return callouts;
-        };
+		callouts.yScale = function (value) {
+			if (!arguments.length) {
+				return yScale;
+			}
+			yScale = value;
+			return callouts;
+		};
 
-        callouts.padding = function (value) {
-            if (!arguments.length) {
-                return padding;
-            }
-            padding = value;
-            return callouts;
-        };
+		callouts.padding = function (value) {
+			if (!arguments.length) {
+				return padding;
+			}
+			padding = value;
+			return callouts;
+		};
 
-        callouts.spacing = function (value) {
-            if (!arguments.length) {
-                return spacing;
-            }
-            spacing = value;
-            return callouts;
-        };
+		callouts.spacing = function (value) {
+			if (!arguments.length) {
+				return spacing;
+			}
+			spacing = value;
+			return callouts;
+		};
 
-        callouts.rounded = function (value) {
-            if (!arguments.length) {
-                return rounded;
-            }
-            rounded = value;
-            return callouts;
-        };
+		callouts.rounded = function (value) {
+			if (!arguments.length) {
+				return rounded;
+			}
+			rounded = value;
+			return callouts;
+		};
 
-        callouts.stalkLength = function (value) {
-            if (!arguments.length) {
-                return stalkLength;
-            }
-            stalkLength = value;
-            return callouts;
-        };
+		callouts.stalkLength = function (value) {
+			if (!arguments.length) {
+				return stalkLength;
+			}
+			stalkLength = value;
+			return callouts;
+		};
 
-        callouts.rotationStart = function (value) {
-            if (!arguments.length) {
-                return rotationStart;
-            }
-            rotationStart = value;
-            return callouts;
-        };
+		callouts.rotationStart = function (value) {
+			if (!arguments.length) {
+				return rotationStart;
+			}
+			rotationStart = value;
+			return callouts;
+		};
 
-        callouts.rotationSteps = function (value) {
-            if (!arguments.length) {
-                return rotationSteps;
-            }
-            rotationSteps = value;
-            return callouts;
-        };
+		callouts.rotationSteps = function (value) {
+			if (!arguments.length) {
+				return rotationSteps;
+			}
+			rotationSteps = value;
+			return callouts;
+		};
 
-        callouts.css = function (value) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = value;
-            return callouts;
-        };
+		callouts.css = function (value) {
+			if (!arguments.length) {
+				return css;
+			}
+			css = value;
+			return callouts;
+		};
 
-        return callouts;
-    };
+		return callouts;
+	};
 }(d3, sl));

@@ -37,7 +37,7 @@
 
 				line.y(function (d) { return yScale(d[yValue]); });
 				var linepath = d3.select(this).selectAll('.lineSeries')
-					.data([data])
+					.data([data]);
 				linepath.enter()
 					.append('path')
 					.attr('d', line)
