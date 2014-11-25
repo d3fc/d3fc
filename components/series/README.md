@@ -97,7 +97,7 @@ The series has the option to be under filled and the series and under fill can b
 
 fc.series.**line**()
 
-Constructs a new instance of the Candlestick component.
+Constructs a new instance of the Line Series component.
 
 ```javascript
 var line = fc.series.line()
@@ -160,5 +160,68 @@ The structure of the elements generated is shown below:
 
 ## Volume Data Series
 
-Documentation Pending
+This component calculates and draws a bar chart data series primarily for display market volume information, the series shows volume or any other linear values on the Y axis against Date/Time on the X axis.
+The series can be styled using CSS to represent market gains or market losses in that time period.
+
+fc.series.**volume**()
+
+Constructs a new instance of the Volume component.
+
+```javascript
+var volume = fc.series.volume()
+		        .xScale(x)
+		        .yScale(y)
+		        .barWidth(5);
+```
+
+**volume**()
+
+This adds the Volume component to a chart. 
+
+```javascript
+plotArea.append('g')
+	.attr('class', 'series')
+	.datum(data)
+	.call(volume);
+```
+
+The datum function is passed the data for the series. The data is an array of objects consistent with the output of the [dataGenerator component](../utilities/#slutilitiesdatagenerator). The bars are rendered using the value from the `volume` field in each data object.
+
+line.**xScale**([*value*])
+
+Specifies the X scale which the component uses to locate its SVG elements.
+If not specified, returns the current X scale, which defaults to an unmodified `d3.time.scale`.
+
+line.**yScale**([*value*])
+
+Specifies the Y scale which the component uses to locate its SVG elements.
+If not specified, returns the current Y scale, which defaults to an unmodified `d3.scale.linear`.
+
+line.**barWidth**([*value*])
+
+Specifies the width of the volume bars in the data series. If not specified the value defaults to 5.
+
+### CSS
+
+A number of CSS classes are used when generating the data series to allow the series to be styled. These classes are detailed below with a brief description of their use.
+
++ `g.volume-series` the class for the group object that contains the entire data series.
++ `g.volume-series g.volumebar` the class for the group object that contains the svg elements for each bar.
++ `g.volume-series g.down-day` the override class which overrides the bar style based on the market direction (Down, usually Red).
++ `g.volume-series g.up-day` the override class which overrides the bar style based on the market direction (Up, usually Green).
++ `g.volume-series g.volumebar rect` the class for the rectangle itself.
+
+The structure of the elements generated is shown below:
+
+```html
+<g class="volume-series">
+	<g class="volumebar down-day">
+		<rect></rect>
+	</g>
+	<g class="volumebar up-day">
+		<rect></rect>
+	</g>
+</g>
+
+```
 
