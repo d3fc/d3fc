@@ -35,13 +35,6 @@ plotArea.append('g')
 
 The datum function is passed the data for the series. The data is an array of objects consistent with the output of the [dataGenerator component](../utilities/#slutilitiesdatagenerator).
 
-```javascript
-plotArea.append('g')
-	.attr('class', 'series')
-	.datum(data)
-	.call(candlestick);
-```
-
 candlestick.**xScale**([*value*])
 
 Specifies the X scale which the component uses to locate its SVG elements.
@@ -99,7 +92,69 @@ Documentation Pending
 
 ## Line Data Series
 
-Documentation Pending
+This component calculates and draws a line data series, the series shows price or any other linear values on the Y axis against Date/Time on the X axis.
+The series has the option to be under filled and the series and under fill can be styled using CSS.
+
+fc.series.**line**()
+
+Constructs a new instance of the Candlestick component.
+
+```javascript
+var line = fc.series.line()
+		        .xScale(x)
+		        .yScale(y)
+		        .yValue('close')
+		        .underFill(true);
+```
+
+**line**()
+
+This adds the Line Series component to a chart. 
+
+```javascript
+plotArea.append('g')
+	.attr('class', 'series')
+	.datum(data)
+	.call(line);
+```
+
+The datum function is passed the data for the series. The data is an array of objects. The field used to render the line is specified in the `yValue()` property. 
+While the data set usually is of the form produced by the `fc.utilities.dataGenerator` component, any array of objects can be plotted so long as the object contains the field named in the `yValue()` property.
+
+line.**xScale**([*value*])
+
+Specifies the X scale which the component uses to locate its SVG elements.
+If not specified, returns the current X scale, which defaults to an unmodified `d3.time.scale`.
+
+line.**yScale**([*value*])
+
+Specifies the Y scale which the component uses to locate its SVG elements.
+If not specified, returns the current Y scale, which defaults to an unmodified `d3.scale.linear`.
+
+line.**yValue**([*value*])
+
+Specifies the name of the field in the object, whose value is used to render the series. The default value is 'close'.
+
+line.**underFill**([*value*])
+
+Is set to true or false depending on whether an under fill is required. If `true` an area will be created under the data series which can be styled using CSS. The default value is `true`.
+
+### CSS
+
+A number of CSS classes are used when generating the data series to allow the series to be styled. These classes are detailed below with a brief description of their use.
+
++ `path.lineSeries` the class for the data series line.
++ `path.lineSeriesArea` the class for the data series under fill area.
+
+The structure of the elements generated is shown below:
+
+```html
+<g class="series">
+	<path class="lineSeriesArea"></path>
+	<path class="lineSeries"></path>
+</g>
+
+```
 
 ------
 
