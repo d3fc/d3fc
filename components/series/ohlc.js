@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.series.ohlc = function (drawMethod) {
+    fc.series.ohlc = function (drawMethod) {
 
         // Configurable attributes
         var xScale = d3.time.scale(),
@@ -210,4 +210,4 @@
 
         return ohlc;
     };
-}(d3, sl));
+}(d3, fc));

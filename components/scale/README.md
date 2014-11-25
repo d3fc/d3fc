@@ -1,15 +1,15 @@
-# sl.**scale**
+# fc.**scale**
 
-+ [Finance scale](#slscalefinancescale)
-+ [Gridlines](#slscalegridlines)
++ [Finance scale](#fcscalefinancescale)
++ [Gridlines](#fcscalegridlines)
 
-#sl.scale.financeScale
+#fc.scale.financeScale
 
 Information and code examples here
 
 ----
 
-#sl.scale.gridlines
+#fc.scale.gridlines
 
 Information and code examples here
 

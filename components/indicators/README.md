@@ -1,4 +1,4 @@
-# sl.**indicators**
+# fc.**indicators**
 
 + [Bollinger Bands](#bollinger-bands)
 + [Moving Average](#moving-average-tracker)
@@ -8,12 +8,12 @@
 
 This component calculates and draws Bollinger bands on a data series, calculated using a moving average and a standard deviation value.
 
-sl.indicators.**bollingerBands**()
+fc.indicators.**bollingerBands**()
 
 Constructs a new instance of the Bollinger band component.
 
 ```javascript
-var bollinger = sl.indicators.bollingerBands()
+var bollinger = fc.indicators.bollingerBands()
 		        .xScale(x)
 		        .yScale(y)
 		        .yValue('close')
@@ -82,12 +82,12 @@ If not specified, returns the current CSS class, which defaults to `bollingerAve
 
 This component draws a line on a chart which follows the value of a given data field, optionally applying a moving average calculation.
 
-sl.indicators.**movingAverage**()
+fc.indicators.**movingAverage**()
 
 Constructs a new instance of the moving average component.
 
 ```javascript
-var indicator = sl.indicators.movingAverage()
+var indicator = fc.indicators.movingAverage()
 				.xScale(x)
 				.yScale(y)
 				.averagePoints(8)
@@ -137,12 +137,12 @@ If not specified, returns the current CSS class, which defaults to an empty stri
 
 This component will generate an RSI data series on a chart based on data generated in the format produced by the dataGenerator component. The RSI algorithm is based on the accepted algorithm for RSI presented on [Wikipedia](http://en.wikipedia.org/wiki/Relative_strength_index).
 
-sl.indicators.**rsi**()
+fc.indicators.**rsi**()
 
 Constructs a new instance of the RSI component.
 
 ```javascript
-var indicator = sl.indicators.rsi()
+var indicator = fc.indicators.rsi()
 				.xScale(x)
 				.yScale(y)
 				.lambda(0.94);

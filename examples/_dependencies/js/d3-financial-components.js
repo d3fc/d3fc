@@ -1,4 +1,4 @@
-sl = {
+fc = {
     version: '0.0.0',
     indicators: {},
     scale: {},
@@ -6,10 +6,10 @@ sl = {
     tools: {},
     utilities: {}
 };
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.utilities.chartLayout = function () {
+    fc.utilities.chartLayout = function () {
 
         // Default values
         var margin = {top: 20, right: 20, bottom: 20, left: 20},
@@ -133,11 +133,11 @@ sl = {
 
         return chartLayout;
     };
-}(d3, sl));
-(function (sl, moment, jStat) {
+}(d3, fc));
+(function (fc, moment, jStat) {
     'use strict';
 
-    sl.utilities.dataGenerator = function () {
+    fc.utilities.dataGenerator = function () {
 
         var mu = 0.1,
             sigma = 0.1,
@@ -315,8 +315,8 @@ sl = {
 
         return dataGenerator;
     };
-}(sl, moment, jStat));
-(function(d3, sl) {
+}(fc, moment, jStat));
+(function(d3, fc) {
 
     var weekdayCache = {};
     var dateCache = {};
@@ -375,14 +375,14 @@ sl = {
             - (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
     }
 
-    sl.utilities.weekday = weekday;
+    fc.utilities.weekday = weekday;
 
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.indicators.bollingerBands = function () {
+	fc.indicators.bollingerBands = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear();
@@ -615,12 +615,12 @@ sl = {
 
 		return bollingerBands;
 	};
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.indicators.movingAverage = function () {
+	fc.indicators.movingAverage = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
@@ -714,12 +714,12 @@ sl = {
 
 		return movingAverage;
 	};
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.indicators.rsi = function () {
+	fc.indicators.rsi = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
@@ -862,13 +862,13 @@ sl = {
 
 		return rsi;
 	};
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    var weekday = sl.utilities.weekday
+    var weekday = fc.utilities.weekday
 
-    sl.scale.finance = function () {
+    fc.scale.finance = function () {
         return financialScale();
     };
 
@@ -934,11 +934,11 @@ sl = {
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.scale.gridlines = function () {
+    fc.scale.gridlines = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -1037,12 +1037,12 @@ sl = {
 
         return gridlines;
     };
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.scale.linear = function () {
+    fc.scale.linear = function () {
         return linearScale();
     };
 
@@ -1087,11 +1087,11 @@ sl = {
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.series.candlestick = function () {
+    fc.series.candlestick = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -1212,12 +1212,12 @@ sl = {
         return candlestick;
 
     };
-}(d3, sl));
+}(d3, fc));
 // TODO where is yScaleTransform?
-(function (d3, sl, yScaleTransform) {
+(function (d3, fc, yScaleTransform) {
     'use strict';
 
-    sl.series.comparison = function () {
+    fc.series.comparison = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -1398,15 +1398,15 @@ sl = {
 
         return comparison;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
 	'use strict';
 
-	sl.series.line = function () {
+	fc.series.line = function () {
 
 		var yValue = 'close',
-			xScale = sl.scale.finance(),
-			yScale = sl.scale.linear(),
+			xScale = fc.scale.finance(),
+			yScale = fc.scale.linear(),
 			underFill = true;
 
 		var line = function (selection) {
@@ -1482,11 +1482,11 @@ sl = {
 
 		return line;
 	};
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.series.ohlc = function (drawMethod) {
+    fc.series.ohlc = function (drawMethod) {
 
         // Configurable attributes
         var xScale = d3.time.scale(),
@@ -1695,11 +1695,11 @@ sl = {
 
         return ohlc;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.series.volume = function () {
+    fc.series.volume = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -1781,11 +1781,11 @@ sl = {
 
         return volume;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.annotation = function () {
+    fc.tools.annotation = function () {
 
         var index = 0,
             xScale = d3.time.scale(),
@@ -1879,11 +1879,11 @@ sl = {
 
         return annotation;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
 		'use strict';
 
-		sl.tools.callouts = function () {
+		fc.tools.callouts = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
@@ -2088,11 +2088,11 @@ sl = {
 
 		return callouts;
 	};
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-sl.tools.crosshairs = function () {
+fc.tools.crosshairs = function () {
 
     var target = null,
         series = null,
@@ -2180,7 +2180,7 @@ sl.tools.crosshairs = function () {
 
             var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
 
-            if (xDiff <= dx) {
+            if (xDiff < dx) {
                 dx = xDiff;
                 nearest = data;
             }
@@ -2400,11 +2400,11 @@ sl.tools.crosshairs = function () {
     return crosshairs;
 };
 
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.fibonacciFan = function () {
+    fc.tools.fibonacciFan = function () {
 
         var target = null,
             series = null,
@@ -2800,11 +2800,11 @@ sl.tools.crosshairs = function () {
         return fibonacciFan;
     };
 
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.measure = function () {
+    fc.tools.measure = function () {
 
         var target = null,
             series = null,
@@ -3180,5 +3180,5 @@ sl.tools.crosshairs = function () {
         return measure;
     };
 
-}(d3, sl));
+}(d3, fc));
 //# sourceMappingURL=d3-financial-components.js.map

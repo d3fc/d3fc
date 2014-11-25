@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.fibonacciFan = function () {
+    fc.tools.fibonacciFan = function () {
 
         var target = null,
             series = null,
@@ -397,4 +397,4 @@
         return fibonacciFan;
     };
 
-}(d3, sl));
+}(d3, fc));

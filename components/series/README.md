@@ -1,29 +1,29 @@
-# sl.**series**
+# fc.**series**
 
-+ [Candlestick](#slseriescandlestick)
-+ [Comparison](#slseriescomparison)
-+ [OHLC](#slseriesohlc)
-+ [Volume](#slseriesvolume)
++ [Candlestick](#fcseriescandlestick)
++ [Comparison](#fcseriescomparison)
++ [OHLC](#fcseriesohlc)
++ [Volume](#fcseriesvolume)
 
-#sl.series.candlestick
-
-Information and code examples here
-
-----
-
-#sl.series.comparison
+#fc.series.candlestick
 
 Information and code examples here
 
 ----
 
-#sl.series.ohlc
+#fc.series.comparison
 
 Information and code examples here
 
 ----
 
-#sl.series.volume
+#fc.series.ohlc
+
+Information and code examples here
+
+----
+
+#fc.series.volume
 
 Information and code examples here
 

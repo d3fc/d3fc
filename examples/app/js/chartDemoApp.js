@@ -1,14 +1,14 @@
-(function(sl, dataGenerator, scottLogicChartCtrl) {
+(function(fc, dataGenerator, chartCtrl) {
 
-		var app = angular.module('slChartDemoApp', []);
+		var app = angular.module('chartDemoApp', []);
 
-		app.controller('slChartDemoAppCtrl', [ '$rootScope', '$http', function($rootScope, $http) {
+		app.controller('chartDemoAppCtrl', [ '$rootScope', '$http', function($rootScope, $http) {
 			// Root Scope Initialisation
 			$rootScope.chartData = null;
 
 			this.generateChartData = function() {
 				if(!$rootScope.chartData) { 
-		    		$rootScope.chartData = sl.utilities.dataGenerator()
+		    		$rootScope.chartData = fc.utilities.dataGenerator()
 				      .mu(0.1)
 				      .sigma(0.1)
 				      .startingPrice(100)
@@ -24,22 +24,22 @@
 			this.generateChartData(dataGenerator);
 		}]);
 
-		app.controller('scottLogicChartCtrl', [ '$rootScope', scottLogicChartCtrl ]);
+		app.controller('chartCtrl', [ '$rootScope', chartCtrl ]);
 
-		app.directive('slChart', function() {
+		app.directive('chart', function() {
 			return {
 				restrict: 'E',
-				templateUrl: 'inc/scottLogicChart.html',
-				controller: 'scottLogicChartCtrl',
+				templateUrl: 'inc/chart.html',
+				controller: 'chartCtrl',
 				controllerAs: 'chart'
 			};
 		});
 
-		app.directive('slChartOptions', function() {
+		app.directive('chartOptions', function() {
 			return {
 				restrict: 'E',
-				templateUrl: 'inc/scottLogicChartOptions.html'
+				templateUrl: 'inc/chartOptions.html'
 			};
 		});
 	}
-)(sl, sl.utilities.dataGenerator, scottLogicChartCtrl);
+)(fc, fc.utilities.dataGenerator, chartCtrl);
