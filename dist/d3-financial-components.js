@@ -1140,12 +1140,12 @@ fc = {
             rect.enter().append('rect');
 
             rect.attr('x', function (d) {
-                return xScale(d.date) - rectangleWidth;
+                return xScale(d.date) - (rectangleWidth/2.0);
             })
                 .attr('y', function (d) {
                     return isUpDay(d) ? yScale(d.close) : yScale(d.open);
                 })
-                .attr('width', rectangleWidth * 2)
+                .attr('width', rectangleWidth)
                 .attr('height', function (d) {
                     return isUpDay(d) ?
                         yScale(d.open) - yScale(d.close) :
@@ -1213,6 +1213,7 @@ fc = {
 
     };
 }(d3, fc));
+
 // TODO where is yScaleTransform?
 (function (d3, fc, yScaleTransform) {
     'use strict';
@@ -1722,9 +1723,9 @@ fc = {
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) { return xScale(d.date) - barWidth; })
+            rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
                 .attr('y', function(d) { return yScale(d.volume); } )
-                .attr('width', barWidth * 2)
+                .attr('width', barWidth)
                 .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
         };
 
@@ -1782,6 +1783,7 @@ fc = {
         return volume;
     };
 }(d3, fc));
+
 (function (d3, fc) {
     'use strict';
 
