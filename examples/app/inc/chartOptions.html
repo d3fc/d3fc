@@ -83,6 +83,13 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="option-section">
+                            <a class="pull-right" href="#" ng-click="chart.toggleFeature('callouts')">
+                                <span class="glyphicon glyphicon-check" ng-show="chart.hasFeature('callouts')" title="visible"></span>
+                                <span class="glyphicon glyphicon-unchecked" ng-hide="chart.hasFeature('callouts')" title="hidden"></span>
+                            </a>
+                            Show  value callouts
+                        </div>
                     </div>
                 </div>
                 <div class="option-section">

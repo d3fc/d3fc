@@ -227,3 +227,13 @@
     stroke-width: 0.5;
     stroke-dasharray: 1, 3;
 }
+
+g.callouts text {
+    fill: black;
+    font: 10px sans-serif;
+}
+
+g.callouts rect {
+    fill: #ddd;
+    stroke: black;
+}

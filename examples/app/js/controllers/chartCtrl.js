@@ -14,7 +14,7 @@
 		this.showFibonacci = false;
 
 		this.gridlineOptions = { show: true };
-		this.crosshairOptions = { show: false, snap: true, yValue: '' };
+		this.crosshairOptions = { show: false, snap: true, yValue: '', callouts: false };
 		this.measureOptions = { show: false, snap: true };
 
 		this.annotations = [];
@@ -102,6 +102,7 @@
 			else if(featureName == 'volume') share.showVolume = !share.showVolume;
 			else if(featureName == 'fibonacci') share.showFibonacci = !share.showFibonacci;
 			else if(featureName == 'rsi') share.rsiOptions.show = !share.rsiOptions.show;
+			else if(featureName == 'callouts') share.crosshairOptions.callouts = !share.crosshairOptions.callouts;
 
 			share.showHideFeatures();
 		};
@@ -115,6 +116,8 @@
 			else if(featureName == 'volume') return share.showVolume;
 			else if(featureName == 'fibonacci') return share.showFibonacci;
 			else if(featureName == 'rsi') return share.rsiOptions.show;
+			else if(featureName == 'callouts') return share.crosshairOptions.callouts;
+
 			return false;
 		};
 
@@ -338,6 +341,8 @@
 
 		this.initialiseCrosshairs = function(data) {
 
+            var self = this;
+
 			share.plotArea.selectAll('.crosshairs').remove();
 
 		    share.crosshairs = fc.tools.crosshairs()
@@ -347,7 +352,8 @@
 		        .yScale(share.yScale)
 		        .yValue(share.crosshairOptions.yValue)
 		        .formatV(function(d) { return d3.time.format('%b %e')(d); })
-		        .formatH(function(d, field) { return field + " : " + d3.format('.1f')(d); });
+		        .formatH(function(d, field) { return field + " : " + d3.format('.1f')(d); })
+                .onSnap(function(d) { self.updateCallouts(); });
 
 		    share.plotArea.call(share.crosshairs);
 		};
@@ -488,6 +494,7 @@
 	        share.plotArea.call(share.gridLines);
 	        share.plotArea.select('#bollinger').call(share.bollinger);
             share.crosshairs.update();
+            this.updateCallouts();
             share.measure.update();
             share.fibonacci.update();
 
@@ -563,7 +570,33 @@
             share.fibonacci.active(share.showFibonacci);
 
             share.crosshairs.freezable(share.crosshairOptions.show);
+            this.updateCallouts();
 	    };
+
+        this.updateCallouts = function() {
+
+            share.plotArea.selectAll('.callouts').remove();
+
+            var point = share.crosshairs.highlightedPoint();
+            if (share.crosshairOptions.show && share.crosshairOptions.callouts && point) {
+
+                var callouts = fc.tools.callouts()
+                    .xScale(share.xScale)
+                    .yScale(share.yScale)
+                    .rotationStart(30)
+                    .rotationSteps(30)
+                    // TODO: We really want these to be a single callout
+                    .addCallout({ x: point.date, y: point.high, label: d3.time.format('%b %e %Y')(point.date) })
+                    .addCallout({ x: point.date, y: point.high, label: 'high: ' + d3.format('.1f')(point.high) })
+                    .addCallout({ x: point.date, y: point.high, label: 'open: ' + d3.format('.1f')(point.open) })
+                    .addCallout({ x: point.date, y: point.high, label: 'close: ' + d3.format('.1f')(point.close) })
+                    .addCallout({ x: point.date, y: point.high, label: 'low: ' + d3.format('.1f')(point.low) });
+
+                share.plotArea.append('g')
+                    .attr("class", "callouts")
+                    .call(callouts);
+            }
+        };
 
 		this.initialise();
 		this.showHideFeatures();

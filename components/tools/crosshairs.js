@@ -302,6 +302,10 @@ fc.tools.crosshairs = function () {
         return crosshairs;
     };
 
+    crosshairs.highlightedPoint = function() {
+        return highlight;
+    };
+
     crosshairs.highlightedField = function() {
         return highlightedField;
     };
