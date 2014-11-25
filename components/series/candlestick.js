@@ -50,12 +50,12 @@
             rect.enter().append('rect');
 
             rect.attr('x', function (d) {
-                return xScale(d.date) - rectangleWidth;
+                return xScale(d.date) - (rectangleWidth/2.0);
             })
                 .attr('y', function (d) {
                     return isUpDay(d) ? yScale(d.close) : yScale(d.open);
                 })
-                .attr('width', rectangleWidth * 2)
+                .attr('width', rectangleWidth)
                 .attr('height', function (d) {
                     return isUpDay(d) ?
                         yScale(d.open) - yScale(d.close) :
