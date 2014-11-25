@@ -1,6 +1,6 @@
 (function(d3, fc) {
 
-	scottLogicChartCtrl = function scottLogicChartCtrl($rootScope) {
+	chartCtrl = function chartCtrl($rootScope) {
 		
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 3 }; // Possible style options are 'bars' and 'candles', width is used for candles
@@ -23,7 +23,7 @@
 		this.rsiOptions = { show: false, points: 14, lambda: 0.94, lowerMarker: 30, upperMarker: 70 };
 
 		// Chart options for optimal chart but can be changed if required.
-		this.chartId = '#scottLogicChart';
+		this.chartId = '#chart';
 		this.initialDaysShown = 90;
 
 		this.margin = {top: 15, right: 35, bottom: 30, left: 50};
@@ -574,6 +574,6 @@
 		this.showHideFeatures();
 	};
 
-	scottLogicChartCtrl.$inject=['$rootScope'];
+	chartCtrl.$inject=['$rootScope'];
 
 }(d3, fc));

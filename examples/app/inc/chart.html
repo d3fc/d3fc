@@ -3,7 +3,7 @@
 	<div class="row">
 
 		<div class="col-md-9">
-			<div id="scottLogicChart" ng-show="chart.hasData()"></div>
+			<div id="chart" ng-show="chart.hasData()"></div>
 			<div ng-hide="chart.hasData()">
 				<h1>No data</h1>
 				<p>This chart currently has no data associated with it.</p>
@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="col-md-3">
-			<fc-chart-options></fc-chart-options>
+			<chart-options></chart-options>
 		</div>
 
 	</div>
