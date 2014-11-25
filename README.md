@@ -59,6 +59,17 @@ Enhancements:
 
 + The annotations component is currently missing the ability to display labels or numbers
 
+## Browser Compatibility
+
+The components, examples and charting app included in this project support the following browsers:
+
+* Chrome
+* IE 9+
+* Firefox 3+
+* Android 4.4+
+* Safari 3.2+
+* Opera
+
 ## License
 
-These components are licensed under the [MIT License](http://opensource.org/licenses/MIT)
+These components are licensed under the [MIT License](http://opensource.org/licenses/MIT).
