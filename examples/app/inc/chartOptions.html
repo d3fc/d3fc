@@ -179,39 +179,16 @@
     </div>
 
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="headingIndicators">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseIndicators" aria-expanded="false" aria-controls="collapseIndicators">
+		<div class="panel-heading" role="tab" id="headingTrackers">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTrackers" aria-expanded="false" aria-controls="collapseTrackers">
                 <span class="pull-right glyphicon glyphicon-chevron-down"></span>
             </a>
-            <h4 class="panel-title">Indicators</h4>
+            <h4 class="panel-title">Trackers</h4>
 		</div>
-		<div id="collapseIndicators" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingIndicators">
+		<div id="collapseTrackers" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTrackers">
 			<div class="panel-body">
-                <div class="option-group text-center" ng-show="(chart.annotations.length === 0) && (chart.indicators.length === 0)">
-                    No indicators for this chart
-                </div>
-                <div ng-repeat="a in chart.annotations">
-                    <div class="option-group">
-                        <div class="option-section">
-                            <a class="pull-right" href="#" ng-click="chart.removeAnnotation($index)" title="Remove">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                            <strong>Annotation</strong>
-                        </div>
-
-                        <div class="option-section">
-                            <div class="input-group">
-                                <span class="input-group-addon">Label</span>
-                                <input type="text" class="form-control input-sm text-right" ng-model="a.yLabel" ng-change="chart.annotationUpdated($index)" />
-                            </div>
-                        </div>
-                        <div class="option-section">
-                            <div class="input-group">
-                                <span class="input-group-addon">Price</span>
-                                <input type="number" class="form-control input-sm text-right" ng-model="a.yValue" ng-change="chart.annotationUpdated($index)" />
-                            </div>
-                        </div>
-                    </div>
+                <div class="option-group text-center" ng-show="chart.indicators.length === 0">
+                    No trackers for this chart
                 </div>
 				<div ng-repeat="i in chart.indicators">
                     <div class="option-group">
@@ -219,14 +196,7 @@
                             <a class="pull-right" href="#" ng-click="chart.removeIndicator($index)" title="Remove">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
-                            <strong>Moving Average</strong>
-                        </div>
-
-                        <div class="option-section">
-                            <div class="input-group">
-                                <span class="input-group-addon">Label</span>
-                                <input type="text" class="form-control input-sm text-right" ng-model="i.yLabel" ng-change="chart.indicatorUpdated($index)" />
-                            </div>
+                            <strong>Tracker</strong>
                         </div>
                         <div class="option-section">
                             <div class="input-group">
@@ -249,21 +219,61 @@
 				</div>
                 <div class="option-section">
                     <li class="list-group-item">
-                        <a href="#" ng-click="chart.addAnnotation()">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            Add an <strong>annotation</strong>
-                        </a>
-                    </li>
-                    <li class="list-group-item">
                         <a href="#" ng-click="chart.addIndicator()">
                             <span class="glyphicon glyphicon-plus"></span>
-                            Add a <strong>moving average</strong>
+                            Add a <strong>tracker</strong>
                         </a>
                     </li>
                 </div>
 			</div>
 		</div>
 	</div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingAnnotations">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseAnnotations" aria-expanded="false" aria-controls="collapseAnnotations">
+                <span class="pull-right glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <h4 class="panel-title">Annotations</h4>
+        </div>
+        <div id="collapseAnnotations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAnnotations">
+            <div class="panel-body">
+                <div class="option-group text-center" ng-show="chart.annotations.length === 0">
+                    No annotations for this chart
+                </div>
+                <div ng-repeat="a in chart.annotations">
+                    <div class="option-group">
+                        <div class="option-section">
+                            <a class="pull-right" href="#" ng-click="chart.removeAnnotation($index)" title="Remove">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                            <strong>Annotation</strong>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Label</span>
+                                <input type="text" class="form-control input-sm text-right" ng-model="a.yLabel" ng-change="chart.annotationUpdated($index)" />
+                            </div>
+                        </div>
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Price</span>
+                                <input type="number" class="form-control input-sm text-right" ng-model="a.yValue" ng-change="chart.annotationUpdated($index)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-section">
+                    <li class="list-group-item">
+                        <a href="#" ng-click="chart.addAnnotation()">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Add an <strong>annotation</strong>
+                        </a>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="logo hidden-xs hidden-sm">
         <a href="http://www.scottlogic.com/" target="_blank">

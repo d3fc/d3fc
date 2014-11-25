@@ -433,7 +433,7 @@
 		};
 
 		this.addIndicator = function() {
-			share.indicators.push( { type: 'movingAverage', yLabel: 'Moving Average', averagePoints: 5, yValue:'close' } );
+			share.indicators.push( { averagePoints: 5, yValue:'close' } );
 			share.redrawChart();
 		};
 
@@ -451,7 +451,6 @@
 				.xScale(share.xScale)
 				.yScale(share.yScale)
 				.yValue(share.indicators[index].yValue)
-				.yLabel(share.indicators[index].yLabel)
 				.averagePoints(share.indicators[index].averagePoints);
     		share.plotArea.append('g')
 				.attr('class', 'indicator ' + share.indicators[index].yValue)
@@ -495,23 +494,19 @@
 	        share.volumeSeries.call(share.volumeData);
 	        share.chartSeries.call(share.chartData);
 
-	        // Draw all indicators
+	        // Draw all trackers
 	        share.plotArea.selectAll('.indicator').remove();
 	        for(var indicatorIndex=0; indicatorIndex<share.indicators.length; indicatorIndex++) {
-    			var indicator = null;
-    			if(share.indicators[indicatorIndex].type == 'movingAverage') {
-    				indicator = fc.indicators.movingAverage()
-    					.xScale(share.xScale)
-    					.yScale(share.yScale)
-						.yValue(share.indicators[indicatorIndex].yValue)
-						.yLabel(share.indicators[indicatorIndex].yLabel)
-						.averagePoints(share.indicators[indicatorIndex].averagePoints);
-	    			share.plotArea.append('g')
-	    				.attr('class', 'indicator ' + share.indicators[indicatorIndex].yValue)
-	    				.attr('id', 'indicators_' + indicatorIndex)
-	    				.datum($rootScope.chartData)
-	    				.call(indicator);
-	    		}
+                var indicator = fc.indicators.movingAverage()
+                    .xScale(share.xScale)
+                    .yScale(share.yScale)
+                    .yValue(share.indicators[indicatorIndex].yValue)
+                    .averagePoints(share.indicators[indicatorIndex].averagePoints);
+                share.plotArea.append('g')
+                    .attr('class', 'indicator ' + share.indicators[indicatorIndex].yValue)
+                    .attr('id', 'indicators_' + indicatorIndex)
+                    .datum($rootScope.chartData)
+                    .call(indicator);
     		}
 
 	        // Draw all annotations
