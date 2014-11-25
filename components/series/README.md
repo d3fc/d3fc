@@ -33,7 +33,7 @@ plotArea.append('g')
 	.call(candlestick);
 ```
 
-The datum function is passed the data for the series. The data is an array of objects consistant with the output of the [dataGenerator component](../utilities/#slutilitiesdatagenerator).
+The datum function is passed the data for the series. The data is an array of objects consistent with the output of the [dataGenerator component](../utilities/#slutilitiesdatagenerator).
 
 ```javascript
 plotArea.append('g')
@@ -59,6 +59,29 @@ Specifies the width of the candle bodies in the data series. If not specified th
 ### CSS
 
 A number of CSS classes are used when generating the data series to allow the series to be styled. These classes are detailed below with a brief description of their use.
+
++ `g.candlestick-series` the class for the group object that contains the entire data series.
++ `g.candlestick-series g.bar` the class for the group object that contains the svg elements for each candle.
++ `g.candlestick-series g.down-day` the override class which overrides the candle style based on the candles direction (Down, usually Red).
++ `g.candlestick-series g.up-day` the override class which overrides the candle style based on the candles direction (Up, usually Green).
++ `g.candlestick-series g.bar path.high-low-line` the class for the candle centre line, usually called the wick.
++ `g.candlestick-series g.bar rect` the class for the rectangle itself.
+
+The structure of the elements generated is shown below:
+
+```html
+<g class="candlestick-series">
+	<g class="bar down-day">
+		<path class="high-low-line"></path>
+		<rect></rect>
+	</g>
+	<g class="bar up-day">
+		<path class="high-low-line"></path>
+		<rect></rect>
+	</g>
+</g>
+
+```
 
 ------
 
