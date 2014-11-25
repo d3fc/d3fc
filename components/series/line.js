@@ -1,11 +1,11 @@
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.series.line = function () {
+	fc.series.line = function () {
 
 		var yValue = 'close',
-			xScale = sl.scale.finance(),
-			yScale = sl.scale.linear(),
+			xScale = fc.scale.finance(),
+			yScale = fc.scale.linear(),
 			underFill = true;
 
 		var line = function (selection) {
@@ -81,4 +81,4 @@
 
 		return line;
 	};
-}(d3, sl));
+}(d3, fc));

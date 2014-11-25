@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.scale.gridlines = function () {
+    fc.scale.gridlines = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -100,4 +100,4 @@
 
         return gridlines;
     };
-}(d3, sl));
+}(d3, fc));

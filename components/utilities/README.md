@@ -1,11 +1,11 @@
-# sl.**utilities**
+# fc.**utilities**
 
-+ [Data Generator](#slutilitiesdatagenerator)
++ [Data Generator](#fcutilitiesdatagenerator)
 + [Chart Layout](#chart-layout)
-+ [Weekday](#slutilitiesweekday)
++ [Weekday](#fcutilitiesweekday)
 
 
-## sl.utilities.dataGenerator()
+## fc.utilities.dataGenerator()
 
 This component will generate some 'fake' daily price data to use when developing charts using these components. The generator uses the [Geometric Brownian motion](http://en.wikipedia.org/wiki/Geometric_Brownian_motion) model to generate price data points and a standard randomisation to generate volume values.
 
@@ -30,7 +30,7 @@ expIncrements = increments.map(function (x) { return Math.exp(x); });
 
 The dependencies for this component are injected using [require.js](http://requirejs.org/) but shoudl require.js not be used you will need to include the following dependencies:
 
-+ [sl.js](https://github.com/ScottLogic/d3-financial-components)
++ [fc.js](https://github.com/ScottLogic/d3-financial-components)
 + [moment.js](http://momentjs.com/)
 + [moment-range.js](https://github.com/gf3/moment-range)
 + [jstat.js](https://github.com/jstat/jstat)
@@ -75,7 +75,7 @@ The function returns an array of objects each of which contains the following me
 ###Example Code:
 
 ```javascript
-var data = sl.utilities.dataGenerator()
+var data = fc.utilities.dataGenerator()
   .mu(0.1)
   .sigma(0.1)
   .startingPrice(100)
@@ -103,7 +103,7 @@ It attempts to simplify the repetitive process of constructing the chart area:
 
 ### API Reference
 
-#### sl.utilities.chartLayout()
+#### fc.utilities.chartLayout()
 
 Constructs the chartLayout component, with default values.
 
@@ -115,7 +115,7 @@ If the width or height have not been set, for example:
 
 ```javascript
 // Create the chartLayout (width and height not set)
-var chartLayout = sl.utilities.chartLayout();
+var chartLayout = fc.utilities.chartLayout();
 
 // Setup the chart
 // Height and width automatically calculated from chartLayout of #chart 
@@ -163,7 +163,7 @@ Explicitly define the height, width, bottom margin and left margin; use default 
 
 ```javascript
 // Setup the chart layout
-var layout = sl.utilities.chartLayout()
+var layout = fc.utilities.chartLayout()
     .marginBottom(30)
     .marginLeft(50)
     .width(660)
@@ -184,7 +184,7 @@ Attempt to size the chart to the selected element, by not specifying the width o
 
 ```javascript
 // Setup the chart layout
-var layout = sl.utilities.chartLayout();
+var layout = fc.utilities.chartLayout();
 
 // Setup the chart
 var setupArea = d3.select('#chart')
@@ -201,7 +201,7 @@ Attempt to size the chart to the width of the selected element; use specified he
 
 ```javascript
 // Setup the chart layout
-var layout = sl.utilities.chartLayout()
+var layout = fc.utilities.chartLayout()
   .height(380)
   .marginTop(25)
   .marginRight(40)
@@ -221,6 +221,6 @@ var svg = setupArea.select('svg'),
 
 ------
 
-## sl.utilities.weekday
+## fc.utilities.weekday
 
 Information and code examples here

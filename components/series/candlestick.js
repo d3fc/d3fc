@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.series.candlestick = function () {
+    fc.series.candlestick = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -122,4 +122,4 @@
         return candlestick;
 
     };
-}(d3, sl));
+}(d3, fc));

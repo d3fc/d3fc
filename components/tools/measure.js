@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.measure = function () {
+    fc.tools.measure = function () {
 
         var target = null,
             series = null,
@@ -377,4 +377,4 @@
         return measure;
     };
 
-}(d3, sl));
+}(d3, fc));

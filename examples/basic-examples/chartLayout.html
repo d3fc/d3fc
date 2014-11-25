@@ -26,7 +26,7 @@
   <script type="text/javascript" src="../_dependencies/js/jstat.js"></script>
   <script type="text/javascript" src="../_dependencies/js/d3.js"></script>
 
-  <script type="text/javascript" src="../../components/sl.js"></script>
+  <script type="text/javascript" src="../../components/fc.js"></script>
   <script type="text/javascript" src="../../components/utilities/weekday.js"></script>
   <script type="text/javascript" src="../../components/scale/financeScale.js"></script>
   <script type="text/javascript" src="../../components/series/ohlc.js"></script>
@@ -53,13 +53,13 @@
 
   <pre style="overflow:auto;height:400px;">
     // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-    var data = sl.utilities.dataGenerator()
+    var data = fc.utilities.dataGenerator()
       .fromDate(new Date(2014, 1, 1))
       .toDate(new Date(2014, 3, 1))
       .generate();
 
     // Setup the chartLayout
-    var chartLayout = sl.utilities.chartLayout()
+    var chartLayout = fc.utilities.chartLayout()
       .marginBottom(30)
       .marginLeft(10)
       .marginRight(40);
@@ -75,7 +75,7 @@
         plotArea = chart.select('.plotArea');
 
     // Style the svg with a CSS class
-    svg.attr('class', 'slChartArea');
+    svg.attr('class', 'fcChartArea');
 
     // Calculate the scales from the data
     var chartScale = {
@@ -85,7 +85,7 @@
         priceTo: d3.max(data, function (d) { return d.high; }),
     };
 
-    var dateScale = sl.scale.finance()
+    var dateScale = fc.scale.finance()
         .domain([chartScale.dateFrom, chartScale.dateTo])
         .range([0, chartLayout.innerWidth()]);
 
@@ -122,7 +122,7 @@
         .call(priceAxis);
 
     // Create the OHLC series
-    var ohlc = sl.series.ohlc()
+    var ohlc = fc.series.ohlc()
         .xScale(dateScale)
         .yScale(priceScale);
 
@@ -136,13 +136,13 @@
 
       <script type="text/javascript">
         // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-        var data = sl.utilities.dataGenerator()
+        var data = fc.utilities.dataGenerator()
           .fromDate(new Date(2014, 1, 1))
           .toDate(new Date(2014, 3, 1))
           .generate();
 
         // Setup the chartLayout
-        var chartLayout = sl.utilities.chartLayout()
+        var chartLayout = fc.utilities.chartLayout()
           .marginBottom(30)
           .marginLeft(10)
           .marginRight(40);
@@ -158,7 +158,7 @@
             plotArea = chart.select('.plotArea');
 
         // Style the svg with a CSS class
-        svg.attr('class', 'slChartArea');
+        svg.attr('class', 'fcChartArea');
 
         // Calculate the scales from the data
         var chartScale = {
@@ -168,7 +168,7 @@
             priceTo: d3.max(data, function (d) { return d.high; }),
         };
 
-        var dateScale = sl.scale.finance()
+        var dateScale = fc.scale.finance()
             .domain([chartScale.dateFrom, chartScale.dateTo])
             .range([0, chartLayout.innerWidth()]);
 
@@ -205,7 +205,7 @@
             .call(priceAxis);
 
         // Create the OHLC series
-        var ohlc = sl.series.ohlc()
+        var ohlc = fc.series.ohlc()
             .xScale(dateScale)
             .yScale(priceScale);
 

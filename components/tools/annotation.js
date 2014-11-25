@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.annotation = function () {
+    fc.tools.annotation = function () {
 
         var index = 0,
             xScale = d3.time.scale(),
@@ -95,4 +95,4 @@
 
         return annotation;
     };
-}(d3, sl));
+}(d3, fc));

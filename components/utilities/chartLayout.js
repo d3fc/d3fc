@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.utilities.chartLayout = function () {
+    fc.utilities.chartLayout = function () {
 
         // Default values
         var margin = {top: 20, right: 20, bottom: 20, left: 20},
@@ -125,4 +125,4 @@
 
         return chartLayout;
     };
-}(d3, sl));
+}(d3, fc));
