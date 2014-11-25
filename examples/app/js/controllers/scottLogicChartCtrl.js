@@ -1,4 +1,4 @@
-(function(d3, sl) {
+(function(d3, fc) {
 
 	scottLogicChartCtrl = function scottLogicChartCtrl($rootScope) {
 		
@@ -196,8 +196,8 @@
 		    share.plotArea = share.plotChart.append('g').attr('clip-path', 'url(#plotAreaClip)');
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
 
-		   	share.xScale = sl.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]);
-		    share.yScale = sl.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
+		   	share.xScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]);
+		    share.yScale = fc.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
 
 		    share.xScale.domain([
 		        data[data.length - share.initialDaysShown - 1].date,
@@ -210,8 +210,8 @@
 		this.initialiseData = function(data) {
 
 		    share.chartData = this.chartDataOptions.style == 'candles' ? 
-		    	sl.series.candlestick().rectangleWidth(this.chartDataOptions.width).xScale(share.xScale).yScale(share.yScale) :
-		    	sl.series.ohlc().xScale(share.xScale).yScale(share.yScale);
+		    	fc.series.candlestick().rectangleWidth(this.chartDataOptions.width).xScale(share.xScale).yScale(share.yScale) :
+		    	fc.series.ohlc().xScale(share.xScale).yScale(share.yScale);
 
 		    share.plotArea.selectAll(".series").remove();
     		share.chartSeries = share.plotArea.append('g').attr('class', 'series').datum(data).call(share.chartData);
@@ -236,12 +236,12 @@
 
 			share.plotArea.selectAll('.volume').remove();
 
-		    share.volYScale = sl.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
+		    share.volYScale = fc.scale.linear().domain([0, share.volYMax]).nice().range([height,height * share.volumeAspect]);
 		    share.volYAxis = d3.svg.axis().scale(share.volYScale).orient('left').ticks(share.axisOptions.yTicks);
 		    share.volYAxis.tickFormat(function(d) { return d3.format('s')(d); });
 		    share.plotChart.append('g').attr('id', 'yVolAxis').attr('class', 'y axis').attr('transform', 'translate(0.5,0)').call(share.volYAxis);
 
-		    share.volumeData = sl.series.volume()
+		    share.volumeData = fc.series.volume()
 		        .xScale(share.xScale)
 		        .yScale(share.volYScale)
 		        .barWidth(this.chartDataOptions.width);
@@ -266,12 +266,12 @@
                 share.rsiArea = share.rsiChart.append('g').attr('clip-path', 'url(#rsiAreaClip)');
                 share.rsiArea.append('clipPath').attr('id', 'rsiAreaClip').append('rect').attr({ width: rsiWidth, height: rsiHeight });
 
-                share.rsiXScale = sl.scale.finance().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
-                share.rsiYScale = sl.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
+                share.rsiXScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
+                share.rsiYScale = fc.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
                 share.rsiXAxis = d3.svg.axis().scale(share.xScale).orient('bottom');
                 share.rsiChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + rsiHeight + ')').call(share.rsiXAxis);
 
-                share.rsi = sl.indicators.rsi()
+                share.rsi = fc.indicators.rsi()
                     .xScale(share.xScale)
                     .yScale(share.rsiYScale);
 
@@ -302,8 +302,8 @@
 		        .append('g')
 		        .attr('transform', 'translate(' + share.margin.left + ', 0)');
 
-		    share.navXScale = sl.scale.finance().domain([share.minDate, share.maxDate]).range([0, navWidth]);
-		    share.navYScale = sl.scale.linear().domain([share.yMin, share.yMax]).range([navHeight, 0]);
+		    share.navXScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, navWidth]);
+		    share.navYScale = fc.scale.linear().domain([share.yMin, share.yMax]).range([navHeight, 0]);
 		    share.navXAxis = d3.svg.axis().scale(share.navXScale).orient('bottom');
 
 		    share.navChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + navHeight + ')').call(share.navXAxis);
@@ -328,7 +328,7 @@
 
 			share.plotArea.selectAll('.gridlines').remove();
 
-		    share.gridLines = sl.scale.gridlines()
+		    share.gridLines = fc.scale.gridlines()
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
 		        .xTicks(share.axisOptions.xTicks);
@@ -340,7 +340,7 @@
 
 			share.plotArea.selectAll('.crosshairs').remove();
 
-		    share.crosshairs = sl.tools.crosshairs()
+		    share.crosshairs = fc.tools.crosshairs()
 		        .target(share.plotArea)
 		        .series(data)
 		        .xScale(share.xScale)
@@ -356,7 +356,7 @@
 
             share.plotArea.selectAll('.measure').remove();
 
-            share.measure = sl.tools.measure()
+            share.measure = fc.tools.measure()
                 .target(share.plotArea)
                 .series(data)
                 .xScale(share.xScale)
@@ -380,7 +380,7 @@
 
 			share.plotArea.selectAll('.bollinger').remove();
 
-		    share.bollinger = sl.indicators.bollingerBands()
+		    share.bollinger = fc.indicators.bollingerBands()
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
 		        .yValue(share.bollingerOptions.yValue)
@@ -394,7 +394,7 @@
 
             share.plotArea.selectAll('.fibonacci-fan').remove();
 
-            share.fibonacci = sl.tools.fibonacciFan()
+            share.fibonacci = fc.tools.fibonacciFan()
                 .target(share.plotArea)
                 .series(data)
                 .xScale(share.xScale)
@@ -447,7 +447,7 @@
 			if( !share.indicators[index].averagePoints ) return;
 
 	        share.plotArea.select("#indicators_" + index).remove();
-	        var indicator = sl.indicators.movingAverage()
+	        var indicator = fc.indicators.movingAverage()
 				.xScale(share.xScale)
 				.yScale(share.yScale)
 				.yValue(share.indicators[index].yValue)
@@ -474,7 +474,7 @@
 			if( !share.annotations[index].yValue ) return;
 
 	        share.plotArea.select("#annotation_" + index).remove();
-	        var annotation = sl.tools.annotation()
+	        var annotation = fc.tools.annotation()
     				.index(index)
     				.xScale(share.xScale)
     				.yScale(share.yScale)
@@ -500,7 +500,7 @@
 	        for(var indicatorIndex=0; indicatorIndex<share.indicators.length; indicatorIndex++) {
     			var indicator = null;
     			if(share.indicators[indicatorIndex].type == 'movingAverage') {
-    				indicator = sl.indicators.movingAverage()
+    				indicator = fc.indicators.movingAverage()
     					.xScale(share.xScale)
     					.yScale(share.yScale)
 						.yValue(share.indicators[indicatorIndex].yValue)
@@ -517,7 +517,7 @@
 	        // Draw all annotations
 	        share.plotArea.selectAll('.annotation').remove();
 	        for(var annotationIndex=0; annotationIndex<share.annotations.length; annotationIndex++) {
-    			var annotation = sl.tools.annotation()
+    			var annotation = fc.tools.annotation()
     				.index(annotationIndex)
     				.xScale(share.xScale)
     				.yScale(share.yScale)
@@ -576,4 +576,4 @@
 
 	scottLogicChartCtrl.$inject=['$rootScope'];
 
-}(d3, sl));
+}(d3, fc));

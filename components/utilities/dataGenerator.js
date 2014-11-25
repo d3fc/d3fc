@@ -1,7 +1,7 @@
-(function (sl, moment, jStat) {
+(function (fc, moment, jStat) {
     'use strict';
 
-    sl.utilities.dataGenerator = function () {
+    fc.utilities.dataGenerator = function () {
 
         var mu = 0.1,
             sigma = 0.1,
@@ -179,4 +179,4 @@
 
         return dataGenerator;
     };
-}(sl, moment, jStat));
+}(fc, moment, jStat));

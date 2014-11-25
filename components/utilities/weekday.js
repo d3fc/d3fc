@@ -1,4 +1,4 @@
-(function(d3, sl) {
+(function(d3, fc) {
 
     var weekdayCache = {};
     var dateCache = {};
@@ -57,6 +57,6 @@
             - (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
     }
 
-    sl.utilities.weekday = weekday;
+    fc.utilities.weekday = weekday;
 
-}(d3, sl));
+}(d3, fc));

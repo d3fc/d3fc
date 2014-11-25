@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-sl.tools.crosshairs = function () {
+fc.tools.crosshairs = function () {
 
     var target = null,
         series = null,
@@ -309,4 +309,4 @@ sl.tools.crosshairs = function () {
     return crosshairs;
 };
 
-}(d3, sl));
+}(d3, fc));

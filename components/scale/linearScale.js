@@ -1,7 +1,7 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.scale.linear = function () {
+    fc.scale.linear = function () {
         return linearScale();
     };
 
@@ -46,4 +46,4 @@
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-}(d3, sl));
+}(d3, fc));

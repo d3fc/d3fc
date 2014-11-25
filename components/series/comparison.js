@@ -1,8 +1,8 @@
 // TODO where is yScaleTransform?
-(function (d3, sl, yScaleTransform) {
+(function (d3, fc, yScaleTransform) {
     'use strict';
 
-    sl.series.comparison = function () {
+    fc.series.comparison = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -183,4 +183,4 @@
 
         return comparison;
     };
-}(d3, sl));
+}(d3, fc));

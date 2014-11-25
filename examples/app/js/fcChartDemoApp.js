@@ -1,14 +1,14 @@
-(function(sl, dataGenerator, scottLogicChartCtrl) {
+(function(fc, dataGenerator, scottLogicChartCtrl) {
 
-		var app = angular.module('slChartDemoApp', []);
+		var app = angular.module('fcChartDemoApp', []);
 
-		app.controller('slChartDemoAppCtrl', [ '$rootScope', '$http', function($rootScope, $http) {
+		app.controller('fcChartDemoAppCtrl', [ '$rootScope', '$http', function($rootScope, $http) {
 			// Root Scope Initialisation
 			$rootScope.chartData = null;
 
 			this.generateChartData = function() {
 				if(!$rootScope.chartData) { 
-		    		$rootScope.chartData = sl.utilities.dataGenerator()
+		    		$rootScope.chartData = fc.utilities.dataGenerator()
 				      .mu(0.1)
 				      .sigma(0.1)
 				      .startingPrice(100)
@@ -26,7 +26,7 @@
 
 		app.controller('scottLogicChartCtrl', [ '$rootScope', scottLogicChartCtrl ]);
 
-		app.directive('slChart', function() {
+		app.directive('fcChart', function() {
 			return {
 				restrict: 'E',
 				templateUrl: 'inc/scottLogicChart.html',
@@ -35,11 +35,11 @@
 			};
 		});
 
-		app.directive('slChartOptions', function() {
+		app.directive('fcChartOptions', function() {
 			return {
 				restrict: 'E',
 				templateUrl: 'inc/scottLogicChartOptions.html'
 			};
 		});
 	}
-)(sl, sl.utilities.dataGenerator, scottLogicChartCtrl);
+)(fc, fc.utilities.dataGenerator, scottLogicChartCtrl);

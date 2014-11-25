@@ -15,7 +15,7 @@
 
     "globals": {
         "d3": false,
-        "sl": false,
+        "fc": false,
         "require": false
     }
 }

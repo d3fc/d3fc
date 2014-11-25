@@ -1,3 +1,3 @@
 (function() {
-	angular.bootstrap(document, ['slChartDemoApp']);
+	angular.bootstrap(document, ['fcChartDemoApp']);
 })();

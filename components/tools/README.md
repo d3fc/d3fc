@@ -1,11 +1,11 @@
-# sl.**tools**
+# fc.**tools**
 
-+ [Annotation](#sltoolsannotation)
++ [Annotation](#fctoolsannotation)
 + [Crosshairs](#crosshairs)
 + [Fibonacci fan](#fibonacci-fan)
-+ [Measure](#sltoolsmeasure)
++ [Measure](#fctoolsmeasure)
 
-## sl.tools.annotation
+## fc.tools.annotation
 
 Information and code examples here
 
@@ -25,12 +25,12 @@ The component is comprised of the following SVG elements:
 * A label for the horizontal crosshair (CSS: `text.crosshairs.callout.horizontal`)
 * A label for the vertical crosshair (CSS: `text.crosshairs.callout.vertical`)
 
-sl.tools.**crosshairs**()
+fc.tools.**crosshairs**()
 
 Constructs a new instance of the crosshairs component.
 
 ```javascript
-var crosshairs = sl.tools.crosshairs()
+var crosshairs = fc.tools.crosshairs()
 		        .target(plotArea)
 		        .series(data)
 		        .xScale(x)
@@ -137,12 +137,12 @@ The component comprises the following SVG elements:
 * Three lines which together make up the fan itself (CSS: `line.fibonacci-fan.a`, `line.fibonacci-fan.b` and `line.fibonacci-fan.c`)
 * A polygon to make up the area inside the fan (CSS: `polygon.fibonacci-fan.area`)
 
-sl.tools.**fibonacciFan**()
+fc.tools.**fibonacciFan**()
 
 Constructs a new instance of the Fibonacci fan component.
 
 ```javascript
-fibonacci = sl.tools.fibonacciFan()
+fibonacci = fc.tools.fibonacciFan()
                 .target(plotArea)
                 .series(data)
                 .xScale(x)
@@ -214,7 +214,7 @@ The procedure for measuring values is below:
 
 ### API Reference
 
-#### sl.tools.measure()
+#### fc.tools.measure()
 
 Constructs the measurement component, with default values.
 

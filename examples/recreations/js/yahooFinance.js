@@ -1,5 +1,5 @@
 // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-var data = sl.utilities.dataGenerator()
+var data = fc.utilities.dataGenerator()
   .fromDate(new Date(2013, 1, 1))
   .toDate(new Date(2014, 1, 1))
   .generate();
@@ -15,7 +15,7 @@ var chartScale = {
 };
 
 // The data chart
-var dataLayout = sl.utilities.chartLayout()
+var dataLayout = fc.utilities.chartLayout()
 		  .marginTop(5)
 		  .marginBottom(20)
 		  .marginLeft(0)
@@ -27,7 +27,7 @@ var dataArea = d3.select('#chart1').call(dataLayout),
 	dataPlot = dataChart.select('.plotArea');
 
 // The volume chart
-var volumeLayout = sl.utilities.chartLayout()
+var volumeLayout = fc.utilities.chartLayout()
 		  .marginTop(5)
 		  .marginBottom(20)
 		  .marginLeft(0)
@@ -39,16 +39,16 @@ var volumeArea = d3.select('#chart2').call(volumeLayout),
 	volumePlot = volumeChart.select('.plotArea');
 
 // Scales
-var dateScale = sl.scale.finance()
+var dateScale = fc.scale.finance()
     .domain([chartScale.dateFrom, chartScale.dateTo])
     .range([0, dataLayout.innerWidth()]);
 
-var priceScale = sl.scale.linear()
+var priceScale = fc.scale.linear()
     .domain([chartScale.priceFrom, chartScale.priceTo])
     .nice()
     .range([dataLayout.innerHeight(), 0]);
 
-var volumeScale = sl.scale.linear()
+var volumeScale = fc.scale.linear()
     .domain([chartScale.volumeFrom, chartScale.volumeTo])
     .nice()
     .range([volumeLayout.innerHeight(), 0]);
@@ -98,7 +98,7 @@ volumeChart.append('g')
     .call(volumeAxis);
 
 // Gridlines
-var dataGridlines = sl.scale.gridlines()
+var dataGridlines = fc.scale.gridlines()
     .xScale(dateScale)
     .yScale(priceScale)
     .yTicks(10)
@@ -106,7 +106,7 @@ var dataGridlines = sl.scale.gridlines()
     
 dataPlot.call(dataGridlines);
 
-var volumeGridlines = sl.scale.gridlines()
+var volumeGridlines = fc.scale.gridlines()
     .xScale(dateScale)
     .yScale(volumeScale)
     .yTicks(5)
@@ -115,7 +115,7 @@ var volumeGridlines = sl.scale.gridlines()
 volumePlot.call(volumeGridlines);
 
 // Create the volume series
-var volumeSeries = sl.series.volume()
+var volumeSeries = fc.series.volume()
 	.barWidth(0.5)
     .xScale(dateScale)
     .yScale(volumeScale);
@@ -131,7 +131,7 @@ volumePlot.append('g')
 
 function renderOhlc() {
 	
-	var dataSeries = sl.series.ohlc()
+	var dataSeries = fc.series.ohlc()
 		.tickWidth(2)
 	    .xScale(dateScale)
 	    .yScale(priceScale);
@@ -145,7 +145,7 @@ function renderOhlc() {
 
 function renderLine() {
 
-	var dataSeries = sl.series.line()
+	var dataSeries = fc.series.line()
 	    .yValue('close')
 	    .xScale(dateScale)
 	    .yScale(priceScale);
@@ -159,7 +159,7 @@ function renderLine() {
 
 function renderCandle() {
 	
-	var dataSeries = sl.series.candlestick()
+	var dataSeries = fc.series.candlestick()
 		.rectangleWidth(2)
 	    .xScale(dateScale)
 	    .yScale(priceScale);
