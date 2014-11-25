@@ -26,7 +26,7 @@
   <script type="text/javascript" src="../_dependencies/js/jstat.js"></script>
   <script type="text/javascript" src="../_dependencies/js/d3.js"></script>
 
-  <script type="text/javascript" src="../../components/sl.js"></script>
+  <script type="text/javascript" src="../../components/fc.js"></script>
   <script type="text/javascript" src="../../components/utilities/dataGenerator.js"></script>
 
 </head>
@@ -53,7 +53,7 @@
       <h2>The Code</h2>
 
 <pre class="prettyprint linenums">
-  var data = sl.utilities.dataGenerator()
+  var data = fc.utilities.dataGenerator()
     .mu(0.1)                              // Mu value used in the Brownian Motion algorithm
     .sigma(0.1)                           // Sigma value used in the Brownian Motion algorithm
     .startingPrice(100)                   // The initial price for the first generated data point
@@ -67,7 +67,7 @@
 </pre>
 
       <script type="text/javascript">
-        var data = sl.utilities.dataGenerator()
+        var data = fc.utilities.dataGenerator()
           .mu(0.1)
           .sigma(0.1)
           .startingPrice(100)

@@ -1,9 +1,9 @@
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    var weekday = sl.utilities.weekday
+    var weekday = fc.utilities.weekday
 
-    sl.scale.finance = function () {
+    fc.scale.finance = function () {
         return financialScale();
     };
 
@@ -69,4 +69,4 @@
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-}(d3, sl));
+}(d3, fc));

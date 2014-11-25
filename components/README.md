@@ -1,63 +1,63 @@
 #Components
 
-All components should fall in to one of the namespace categories below. If not a blank object with the name of the category should be added to the 'sl.js' file.
+All components should fall in to one of the namespace categories below. If not a blank object with the name of the category should be added to the 'fc.js' file.
 
 ##Namespaces
 
-Components are arranged in namespaces depending on function. These are all arranged under the 'sl' namespace which is defined in 'sl.js'.
+Components are arranged in namespaces depending on function. These are all arranged under the 'fc' namespace which is defined in 'fc.js'.
 
 *A namespace summary is below:*
 
-###sl.indicators
+###fc.indicators
 
 Used for financial indicators, such as Bollinger Bands, Moving Average, RSI, Divergence etc. These are components which are represented by a D3 data series but not directly related to data without some data processing before they are displayed.
 
 Current components in this namespace:
 
-+ sl.indicators.bollingerBands
-+ sl.indicators.movingAverage
-+ sl.indicators.rsi
++ fc.indicators.bollingerBands
++ fc.indicators.movingAverage
++ fc.indicators.rsi
 
-###sl.scale
+###fc.scale
 
 Used for components which interact with the axes or the scale on the chart.
 
 Current components in this namespace:
 
-+ sl.scale.financeScale
-+ sl.scale.gridlines
++ fc.scale.financeScale
++ fc.scale.gridlines
 
-###sl.series
+###fc.series
 
 Used for financial data series, such as OHLC (Open, High, Low, Close) and candles. These are components which are represented by a D3 data series in its raw from. i.e. No data processing.
 
 Current components in this namespace:
 
-+ sl.series.candlestick
-+ sl.series.comparison
-+ sl.series.ohlc
-+ sl.series.volume
++ fc.series.candlestick
++ fc.series.comparison
++ fc.series.ohlc
++ fc.series.volume
 
-###sl.tools
+###fc.tools
 
 Used for charting tools, such as crosshairs etc.
 
 Current components in this namespace:
 
-+ sl.tools.annotation
-+ sl.tools.crosshairs
-+ sl.tools.fibonacciFan
-+ sl.tools.measure
++ fc.tools.annotation
++ fc.tools.crosshairs
++ fc.tools.fibonacciFan
++ fc.tools.measure
 
-###sl.utilities
+###fc.utilities
 
-Used for any other functionality which is a dependency of a component in the sl namespace or something else useful which does not fall into on of the other namespaces.
+Used for any other functionality which is a dependency of a component in the fc namespace or something else useful which does not fall into on of the other namespaces.
 
 Current components int this namespace:
 
-+ sl.utilities.dataGenerator
-+ sl.utilities.chartLayout
-+ sl.utilities.weekday
++ fc.utilities.dataGenerator
++ fc.utilities.chartLayout
++ fc.utilities.weekday
 
 **Further documentation for each component can be found in the corresponding namespace folder**
 
