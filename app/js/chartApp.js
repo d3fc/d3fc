@@ -1,8 +1,8 @@
 (function(fc, dataGenerator, chartCtrl) {
 
-		var app = angular.module('chartDemoApp', []);
+		var app = angular.module('chartApp', []);
 
-		app.controller('chartDemoAppCtrl', [ '$rootScope', '$http', function($rootScope, $http) {
+		app.controller('chartAppCtrl', [ '$rootScope', '$http', function($rootScope, $http) {
 			// Root Scope Initialisation
 			$rootScope.chartData = null;
 
@@ -38,7 +38,7 @@
 		app.directive('chartOptions', function() {
 			return {
 				restrict: 'E',
-				templateUrl: 'inc/chartOptions.html'
+				templateUrl: 'inc/options.html'
 			};
 		});
 	}

@@ -10,8 +10,6 @@ For documentation on AngularJS you can refer to their website [here](https://ang
 
 The controller for this demo is in the 'controllers' folder (js/controllers/chartCtrl.js), the accompanying partial file is 'inc/chart.html'.
 
-This project also uses require.js and some other common Javascript projects. These script are included in the 'js/dist' folder.
-
 Getting Started
 ---------------
 
