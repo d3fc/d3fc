@@ -16,17 +16,20 @@ Scale:
 
 + [Financial Time Scale](examples/basic-examples/financeScale.html)
 + [Gridlines](examples/basic-examples/gridlines.html)
++ [Pixel Aligned Linear Scale](examples/basic-examples/linearScale.html)
 
 Series:
 
 + [Candlestick Series](examples/basic-examples/candlestick.html)
 + [Comparison Series](examples/basic-examples/comparison.html)
++ [Line Series](examples/basic-examples/line.html)
 + [OHLC (Open, High, Low, Close) Series](examples/basic-examples/ohlc.html)
 + [Volume series](examples/basic-examples/volume.html)
 
 Tools:
 
 + [Annotations](examples/basic-examples/annotation.html)
++ [Callouts](examples/basic-examples/callouts.html)
 + [Crosshairs](examples/basic-examples/crosshairs.html)
 + [Fibonacci Fans](examples/basic-examples/fibonacciFan.html)
 + [Ruler](examples/basic-examples/measure.html)
@@ -52,12 +55,7 @@ Instructions for its installation are included in [the app folder](examples/app)
 
 Components:
 
-+ Auto margin calculator
 + Live data connector/stream
-
-Enhancements:
-
-+ The annotations component is currently missing the ability to display labels or numbers
 
 ## Browser Compatibility
 
