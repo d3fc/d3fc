@@ -4,142 +4,34 @@ layout: default
 
 <div class="container">
   <div class="row">
-      <!--Nav Bar -->
-      <nav class="col-xs-3 bs-docs-sidebar">
-          <ul id="sidebar" class="nav nav-stacked fixed">
-              <li>
-                  <a href="#Indicators">Indicators</a>
-                  <ul class="nav nav-stacked">
-                      <li><a href="#BOLL">Bollinger Bands</a></li>
-                      <li><a href="#MA">Moving Average</a></li>
-                      <li><a href="#RSI">Relative Strength Index</a></li>
-                  </ul>
-              </li>
-              <li>
-                  <a href="#Scales">Scales</a>
-                  <ul class="nav nav-stacked">
-                      <li><a href="#FinScale">Financial Scale</a></li>
-                      <li><a href="#Gridlines">Gridlines</a></li>
-                      <li><a href="#Linear">Linear Scale</a></li>
-                  </ul>
-              </li>
-              <li>
-                  <a href="#Series">Series</a>
-                  <ul class="nav nav-stacked">
-                      <li><a href="#Candlestick">Candlestick</a></li>
-                      <li><a href="#Comparison">Comparison</a></li>
-                      <li><a href="#Line">Line</a></li>
-                      <li><a href="#OHLC">OHLC</a></li>
-                      <li><a href="#Volume">Volume</a></li>
-              </li>
+
+    <nav class="col-xs-3 bs-docs-sidebar">
+      <ul id="sidebar" class="nav nav-stacked fixed">
+        {% for componentId in site.component-ids %}
+        {% assign component = site.components[componentId] %}
+        <li>
+          <a href="#{{ componentId }}">{{ component.name }}</a>
+          <ul class="nav nav-stacked">
+            {% for post in site.categories[componentId] %}
+            <li><a href="#{{ post.id | split:'/' | last }}">{{ post.title }}</a></li>
+            {% endfor %}
           </ul>
-      </nav>
-      <!--Main Content -->
-      <div class="col-xs-9">
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
 
-        <h2 id="Indicators">Indicators</h2>
-        <h3 id="BOLL">Bollinger Bands</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-        <h3 id="MA">Moving Average</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-        <h3 id="RSI">Relative Strength Index</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-
-        <h2 id="Scales">Scales</h2>
-        <h3 id="FinScale">Financial Scale</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-        <h3 id="Gridlines">Moving Average</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-        <h3 id="Linear">Linear</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-
-        <h2 id="Series">Series</h2>
-
-
-        <h3 id="Line">Line</h3>
-        <p>This component calculates and draws a line series as an SVG <code>path</code>, with an optional fill.</p>
-
-        <div class="chart" id="example"></div>
-
-        <script type="text/javascript">
-          // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-          var data = sl.utilities.dataGenerator()
-            .fromDate(new Date(2014, 1, 1))
-            .toDate(new Date(2014, 3, 1))
-            .generate();
-          // Setup the chartLayout
-          var chartLayout = sl.utilities.chartLayout()
-            .marginBottom(30)
-            .marginLeft(10)
-            .marginRight(40);
-          // The overall chart
-          var setupArea = d3
-            .select('#example')
-            .call(chartLayout);
-          // Select the elements which we'll want to add other elements to
-          var svg = setupArea.select('svg'),
-              chart = svg.select('g'),
-              plotArea = chart.select('.plotArea');
-          // Style the svg with a CSS class
-          svg.attr('class', 'sl.hartArea');
-          // Calculate the scales from the data
-          var chartScale = {
-              dateFrom: new Date(d3.min(data, function (d) { return d.date; }).getTime() - 8.64e7),
-              dateTo: new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7),
-              priceFrom: d3.min(data, function (d) { return d.low; }),
-              priceTo: d3.max(data, function (d) { return d.high; }),
-          };
-          var dateScale = sl.scale.finance()
-              .domain([chartScale.dateFrom, chartScale.dateTo])
-              .range([0, chartLayout.innerWidth()]);
-          var priceScale = d3.scale.linear()
-              .domain([chartScale.priceFrom, chartScale.priceTo])
-              .nice()
-              .range([chartLayout.innerHeight(), 0]);
-          var volumeScale = d3.scale.linear()
-              .domain([chartScale.volumeFrom, chartScale.volumeTo])
-              .nice()
-              .range([chartLayout.innerHeight(), 0]);
-          // Create the axes
-          var dateAxis = d3.svg.axis()
-              .scale(dateScale)
-              .orient('bottom')
-              .ticks(5);
-          var priceAxis = d3.svg.axis()
-              .scale(priceScale)
-              .orient('right')
-              .ticks(5);
-          // Add the axes to the chart
-          chart.append('g')
-              .attr('class', 'axis date')
-              .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
-              .call(dateAxis);
-          chart.append('g')
-              .attr('class', 'axis price')
-              .attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
-              .call(priceAxis);
-          // Create the OHLC series
-          var ohlc = sl.series.ohlc()
-              .xScale(dateScale)
-              .yScale(priceScale);
-          // Add the primary OHLC series
-          plotArea.selectAll('.series').remove();
-          plotArea.append('g')
-              .attr('class', 'series')
-              .datum(data)
-              .call(ohlc);
-        </script>
-        
-        <h3 id="OHLC">OHLC</h3>
-        <p>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.</p>
-        <p>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.</p>
-
-      </div>
+    <div class="col-xs-9">
+      {% for componentId in site.component-ids %}
+      {% assign component = site.components[componentId] %}
+      <section>
+        <h2 id="{{ componentId }}">{{ component.name }}</h2>
+        {% for post in site.categories[componentId] %}
+        <h3 id="{{ post.id | split:'/' | last }}">{{ post.title }}</h3>
+        {{ post.content }}
+        {% endfor %}
+      </section>
+      {% endfor %}      
+    </div>
   </div>
 </div>
