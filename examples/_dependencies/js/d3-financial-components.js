@@ -1703,9 +1703,9 @@ fc = {
     fc.series.volume = function () {
 
         var xScale = d3.time.scale(),
-            yScale = d3.scale.linear();
-
-        var barWidth = 5;
+            yScale = d3.scale.linear(),
+            barWidth = 5,
+            yValue = 'volume';
 
         var isUpDay = function(d) {
             return d.close > d.open;
@@ -1724,7 +1724,7 @@ fc = {
             rect.enter().append('rect');
 
             rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
-                .attr('y', function(d) { return yScale(d.volume); } )
+                .attr('y', function(d) { return yScale(d[yValue]); } )
                 .attr('width', barWidth)
                 .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
         };
@@ -1777,6 +1777,14 @@ fc = {
                 return barWidth;
             }
             barWidth = value;
+            return volume;
+        };
+
+        volume.yValue = function (value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
             return volume;
         };
 
