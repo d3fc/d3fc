@@ -34,7 +34,7 @@
                 .attr('x', xScale.range()[1] - padding)
                 .attr('y', yScale(yValue) - padding)
                 .attr('style', 'text-anchor: end;')
-                .text(yLabel + " : " + formatCallout(yValue));
+                .text(yLabel + ": " + formatCallout(yValue));
         };
 
         annotation.index = function (value) {
