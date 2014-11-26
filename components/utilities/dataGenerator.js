@@ -50,8 +50,8 @@
 
             for(var i=0; i<steps; i++ ) {
                 var r = useFakeBoxMuller ?
-                    boxMullerTransform()[0] :
-                    fakeBoxMullerTransform();
+                    fakeBoxMullerTransform() :
+                    boxMullerTransform()[0];
                 r *= sqrtDeltaY;
                 r *= sigma;
                 r += (mu - ((sigma * sigma) / 2)) * deltaY;
