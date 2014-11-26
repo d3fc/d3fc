@@ -134,7 +134,7 @@ fc = {
         return chartLayout;
     };
 }(d3, fc));
-(function (fc, moment, jStat) {
+(function (fc) {
     'use strict';
 
     fc.utilities.dataGenerator = function () {
@@ -147,8 +147,9 @@ fc = {
             volumeNoiseFactor = 0.3,
             toDate = new Date(),
             fromDate = new Date(),
-            filter = function (moment) {
-                return !(moment.day() === 0 || moment.day() === 6);
+            useFakeBoxMuller = false,
+            filter = function (date) {
+                return !(date.getDay() === 0 || date.getDay() === 6);
             };
 
         var generatePrices = function (period, steps) {
@@ -179,25 +180,49 @@ fc = {
         };
 
         var generateIncrements = function (period, steps, mu, sigma) {
-            // Geometric Brownian motion model.
-            var deltaY = period / steps,
-                sqrtDeltaY = Math.sqrt(deltaY),
-                deltaW = jStat().randn(1, steps).multiply(sqrtDeltaY),
-                increments =  deltaW
-                    .multiply(sigma)
-                    .add((mu - ((sigma * sigma) / 2)) * deltaY),
-                expIncrements = increments.map(function (x) {
-                    return Math.exp(x);
-                });
+            var deltaW = [],
+                deltaY = period / steps,
+                sqrtDeltaY = Math.sqrt(deltaY);
 
-            return jStat.row(expIncrements, 0);
+            for(var i=0; i<steps; i++ ) {
+                var r = useFakeBoxMuller ?
+                    fakeBoxMullerTransform() :
+                    boxMullerTransform()[0];
+                r *= sqrtDeltaY;
+                r *= sigma;
+                r += (mu - ((sigma * sigma) / 2)) * deltaY;
+                deltaW.push(Math.exp(r));
+            }
+            return deltaW;
         };
+
+        var boxMullerTransform = function() {
+            var x = 0, y = 0, rds, c;
+
+            // Get two random numbers from -1 to 1.
+            // If the radius is zero or greater than 1, throw them out and pick two new ones
+            do {
+                x = Math.random()*2-1;
+                y = Math.random()*2-1;
+                rds = x*x + y*y;
+            }
+            while (rds == 0 || rds > 1)
+
+            // This is the Box-Muller Transform
+            c = Math.sqrt(-2*Math.log(rds)/rds);
+
+            // It always creates a pair of numbers but it is quite efficient so don't be afraid to throw one away if you don't need both.
+            return [x*c, y*c];
+        }
+
+        var fakeBoxMullerTransform = function() {
+            return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
+        }
 
         var generate = function() {
 
-            var range = moment().range(fromDate, toDate),
-                msec_per_year = 3.15569e10,
-                rangeYears = range / msec_per_year,
+            var msec_per_year = 3.15569e10,
+                rangeYears = (toDate.getTime() - fromDate.getTime()) / msec_per_year,
                 daysIncluded = 0,
                 prices,
                 volume,
@@ -206,20 +231,22 @@ fc = {
                 currentStep = 0,
                 currentIntraStep = 0;
 
-            range.by('days', function (moment) {
-                if (!filter || filter(moment)) {
+            var date = new Date(fromDate.getTime());
+            while(date <= toDate) {
+                if (!filter || filter(date)) 
                     daysIncluded += 1;
-                }
-            });
+                date.setDate(date.getDate()+1);
+            }
 
             prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
             volume = generateVolumes(rangeYears, daysIncluded);
 
-            range.by('days', function (moment) {
-                if (!filter || filter(moment)) {
+            date = new Date(fromDate.getTime());
+            while(date <= toDate) {
+                if (!filter || filter(date)) {
                     daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
                     ohlcv.push({
-                        date: moment.toDate(),
+                        date: new Date(date.getTime()),
                         open: daySteps[0],
                         high: Math.max.apply({}, daySteps),
                         low: Math.min.apply({}, daySteps),
@@ -227,9 +254,10 @@ fc = {
                         volume: volume[currentStep]
                     });
                     currentIntraStep += intraDaySteps;
-                    currentStep += 1
+                    currentStep += 1;
                 }
-            });
+                date.setDate(date.getDate()+1);
+            }
 
             return ohlcv;
         };
@@ -315,7 +343,7 @@ fc = {
 
         return dataGenerator;
     };
-}(fc, moment, jStat));
+}(fc));
 (function(d3, fc) {
 
     var weekdayCache = {};
