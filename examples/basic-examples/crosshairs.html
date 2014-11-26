@@ -127,7 +127,7 @@
                 dateFrom: new Date(d3.min(data, function (d) { return d.date; }).getTime() - 8.64e7),
                 dateTo: new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7),
                 priceFrom: d3.min(data, function (d) { return d.low; }),
-                priceTo: d3.max(data, function (d) { return d.high; }),
+                priceTo: d3.max(data, function (d) { return d.high; })
             };
 
             var dateScale = fc.scale.finance()
@@ -136,11 +136,6 @@
 
             var priceScale = d3.scale.linear()
                     .domain([chartScale.priceFrom, chartScale.priceTo])
-                    .nice()
-                    .range([chartLayout.innerHeight(), 0]);
-
-            var volumeScale = d3.scale.linear()
-                    .domain([chartScale.volumeFrom, chartScale.volumeTo])
                     .nice()
                     .range([chartLayout.innerHeight(), 0]);
 

@@ -171,7 +171,8 @@ Constructs a new instance of the Volume component.
 var volume = fc.series.volume()
 		        .xScale(x)
 		        .yScale(y)
-		        .barWidth(5);
+		        .barWidth(5)
+		        .yValue('volume');
 ```
 
 **volume**()
@@ -200,6 +201,11 @@ If not specified, returns the current Y scale, which defaults to an unmodified `
 line.**barWidth**([*value*])
 
 Specifies the width of the volume bars in the data series. If not specified the value defaults to 5.
+
+line.**yValue**([*value*])
+
+Specifies the name of the data field which the series will show.
+If not specified, returns the current data field, which defaults to `'volume'`.
 
 ### CSS
 
