@@ -8,11 +8,17 @@
 
 g.plotArea .gridlines line { stroke-width: 0.15; stroke: #222; }
 
-g.slPrimaryPlot .bar path { stroke-width: 1.5; }
-g.slPrimaryPlot .bar.up-day path { stroke: #6c0; }
-g.slPrimaryPlot .bar.down-day path { stroke: #c60; }
-g.slPrimaryPlot .bar.up-day rect { fill: #6c0; }
-g.slPrimaryPlot .bar.down-day rect { fill: #c60; }
+.bar path { stroke-width: 1.5; }
+.bar.up-day path { stroke: #6c0; }
+.bar.down-day path { stroke: #c60; }
+.bar.up-day rect { fill: #6c0; }
+.bar.down-day rect { fill: #c60; }
+
+.volumebar.up-day rect { fill: #6c0; }
+.volumebar.down-day rect { fill: #c60; }
+
+.marker { stroke-width: 0.5; stroke: #000; stroke-dasharray: 3,3; }
+.rsi { fill: none; stroke: #00c; stroke-width: 1.0; }
 
 #slIndicatorChart { height: 200px; }
 .slIndicatorChartArea { background: #fefefe; border: solid 1px #eee; }

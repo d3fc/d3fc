@@ -31,9 +31,6 @@ expIncrements = increments.map(function (x) { return Math.exp(x); });
 The dependencies for this component are injected using [require.js](http://requirejs.org/) but shoudl require.js not be used you will need to include the following dependencies:
 
 + [fc.js](https://github.com/ScottLogic/d3-financial-components)
-+ [moment.js](http://momentjs.com/)
-+ [moment-range.js](https://github.com/gf3/moment-range)
-+ [jstat.js](https://github.com/jstat/jstat)
 
 ###Properties:
 
@@ -82,7 +79,7 @@ var data = fc.utilities.dataGenerator()
   .intraDaySteps(50)
   .fromDate(new Date(2013, 10, 1))
   .toDate(new Date(2014, 10, 30))
-  .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
+  .filter(function (date) { return !(date.getDay() === 0 || date.getDay() === 6); })
   .generate();
 ```
 
