@@ -94,11 +94,6 @@
         .nice()
         .range([chartLayout.innerHeight(), 0]);
 
-    var volumeScale = d3.scale.linear()
-        .domain([chartScale.volumeFrom, chartScale.volumeTo])
-        .nice()
-        .range([chartLayout.innerHeight(), 0]);
-
     // Create the axes
     var dateAxis = d3.svg.axis()
         .scale(dateScale)
@@ -174,11 +169,6 @@
 
         var priceScale = d3.scale.linear()
             .domain([chartScale.priceFrom, chartScale.priceTo])
-            .nice()
-            .range([chartLayout.innerHeight(), 0]);
-
-        var volumeScale = d3.scale.linear()
-            .domain([chartScale.volumeFrom, chartScale.volumeTo])
             .nice()
             .range([chartLayout.innerHeight(), 0]);
 
