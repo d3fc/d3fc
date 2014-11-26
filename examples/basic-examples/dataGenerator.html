@@ -21,9 +21,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/main.css">
 
-  <script type="text/javascript" src="../_dependencies/js/moment.js"></script>
-  <script type="text/javascript" src="../_dependencies/js/moment-range.js"></script>
-  <script type="text/javascript" src="../_dependencies/js/jstat.js"></script>
   <script type="text/javascript" src="../_dependencies/js/d3.js"></script>
 
   <script type="text/javascript" src="../../components/fc.js"></script>
@@ -60,8 +57,8 @@
     .intraDaySteps(50)                    // The amount of steps for each Day, default data is daily
     .fromDate(new Date(2014, 10, 1))      // Generate the data from this date
     .toDate(new Date(2014, 10, 30))       // Generate the data to this date
-    .filter(function (moment) {           // Specify the function used on the data, this filter will filter out weekends
-    	return !(moment.day() === 0 || moment.day() === 6);  
+    .filter(function (date) {             // Specify the function used on the data, this filter will filter out weekends
+    	return !(date.getDay() === 0 || date.getDay() === 6);  
     })
     .generate();                          // Generate the data
 </pre>
@@ -74,7 +71,7 @@
           .intraDaySteps(50)
           .fromDate(new Date(2014, 10, 1))
           .toDate(new Date(2014, 10, 30))
-          .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
+          .filter(function (date) { return !(date.getDay() === 0 || date.getDay() === 6); })
           .generate();
 
         // Create the table header

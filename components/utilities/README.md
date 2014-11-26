@@ -82,7 +82,7 @@ var data = fc.utilities.dataGenerator()
   .intraDaySteps(50)
   .fromDate(new Date(2013, 10, 1))
   .toDate(new Date(2014, 10, 30))
-  .filter(function (moment) { return !(moment.day() === 0 || moment.day() === 6); })
+  .filter(function (date) { return !(date.getDay() === 0 || date.getDay() === 6); })
   .generate();
 ```
 
