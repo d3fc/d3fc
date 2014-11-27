@@ -10,6 +10,9 @@ module.exports = function (grunt) {
             componentsJsFiles: [
                 'components/**/*.js'
             ],
+            componentsCssFiles: [
+                'components/**/*.css'
+            ],
             examplesJsFiles: [
                 'examples/!(_dependencies)/**/*.js'
             ],
@@ -44,11 +47,31 @@ module.exports = function (grunt) {
             }
         },
 
+        concat_css: {
+            options: {},
+            all: {
+                src: ['<%= meta.componentsCssFiles %>'],
+                dest: 'dist/<%= pkg.name %>.css'
+            }
+        },
+
+        cssmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist/',
+                    src: ['<%= pkg.name %>.css'],
+                    dest: 'dist/',
+                    ext: '.min.css'
+                }]
+            }
+        },
+
         copy: {
             main: {
                 expand: true,
                 cwd: 'dist/',
-                src: '**',
+                src: ['**', '!*.css'],
                 dest: 'examples/_dependencies/js/',
                 flatten: true,
                 filter: 'isFile'
@@ -101,7 +124,7 @@ module.exports = function (grunt) {
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('build', ['concat:dist', 'uglify:dist', 'copy:main']);
+    grunt.registerTask('build', ['concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'copy:main']);
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);

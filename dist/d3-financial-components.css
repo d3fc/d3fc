@@ -1,0 +1,7 @@
+.ohlc-series .bar .up-day { stroke: #6c0; }
+.ohlc-series .bar .down-day { stroke: #c60; }
+.ohlc-series .bar .static-day { stroke: #000; }
+
+.ohlc-series .up-days { stroke: #6c0; }
+.ohlc-series .down-days { stroke: #c60; }
+.ohlc-series .bar .static-days { stroke: #000; }
