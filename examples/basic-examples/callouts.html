@@ -4,48 +4,245 @@
 <!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
-  <title>D3 Financial Components, Basic Examples - Scott Logic</title>
+    <title>D3 Financial Components, Basic Examples - Scott Logic</title>
 
-  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/main.css">
 
+    <script type="text/javascript" src="../_dependencies/js/d3.js"></script>
+
+    <script type="text/javascript" src="../../components/fc.js"></script>
+    <script type="text/javascript" src="../../components/utilities/weekday.js"></script>
+    <script type="text/javascript" src="../../components/scale/financeScale.js"></script>
+    <script type="text/javascript" src="../../components/series/ohlc.js"></script>
+    <script type="text/javascript" src="../../components/utilities/dataGenerator.js"></script>
+    <script type="text/javascript" src="../../components/utilities/chartLayout.js"></script>
+    <script type="text/javascript" src="../../components/tools/crosshairs.js"></script>
+    <script type="text/javascript" src="../../components/tools/callouts.js"></script>
 </head>
 
 <body>
-   
-  <div class="container">
+
+<div class="container">
     <div class="col-md-12">
-      <header class="page-header">
-        <h1>Callouts</h1>
-      </header>
+        <header class="page-header">
+            <h1>Callouts</h1>
+        </header>
 
-      <style>
-      </style>
+        <style>
+            .overlay {
+                stroke-width: 0px;
+                fill-opacity: 0;
+            }
 
-      <div id="example"></div>
+            line.crosshairs {
+                fill: none;
+                stroke: blue;
+                stroke-width: 1;
+                stroke-opacity: 0.5;
+            }
 
-      <script type="text/javascript">
-      </script>
+            circle.crosshairs {
+                fill: none;
+                stroke: blue;
+                stroke-width: 1;
+                stroke-opacity: 0.5;
+            }
 
-      <footer class="page-footer">
-        <hr>
-        <a href="http://www.scottlogic.com" target="_blank">Scott Logic</a>
-      </footer>
+            text.crosshairs {
+                font: 10px sans-serif;
+            }
+
+            .crosshairs.frozen {
+                stroke: #933;
+            }
+
+            .callout rect { 
+                fill: #999;
+                fill-opacity: 0.8;
+            }
+            .callout text { 
+                fill: #000;
+            }
+        </style>
+
+        <h2>The Output</h2>
+        <div id="example"></div>
+
+        <h2>The Code</h2>
+        <pre>
+          plotArea.selectAll('.callouts').remove();
+
+          var formatLabel = d3.format('.1f');
+          var callouts = fc.tools.callouts()
+              .xScale(dateScale)
+              .yScale(priceScale)
+              .rotationStart(30)
+              .rotationSteps(30)
+              .rounded(8)
+              .addCallout( { x: d.date, y: d.open, label: 'open:' + formatLabel(d.open) })
+              .addCallout( { x: d.date, y: d.high, label: 'high:' + formatLabel(d.high) })
+              .addCallout( { x: d.date, y: d.low, label: 'low:' + formatLabel(d.low) })
+              .addCallout( { x: d.date, y: d.close, label: 'close:' + formatLabel(d.close) });
+
+          plotArea.append('g')
+            .attr("class", "callouts")
+            .call(callouts);
+        </pre>
+
+        <script type="text/javascript">
+            // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
+            var data = fc.utilities.dataGenerator()
+                    .fromDate(new Date(2014, 1, 1))
+                    .toDate(new Date(2014, 3, 1))
+                    .generate();
+
+            // Setup the chartLayout
+            var chartLayout = fc.utilities.chartLayout()
+                    .marginBottom(30)
+                    .marginLeft(10)
+                    .marginRight(40);
+
+            // The overall chart
+            var setupArea = d3
+                    .select('#example')
+                    .call(chartLayout);
+
+            // Select the elements which we'll want to add other elements to
+            var svg = setupArea.select('svg'),
+                    chart = svg.select('g'),
+                    plotArea = chart.select('.plotArea');
+
+            // Style the svg with a CSS class
+            svg.attr('class', 'fcChartArea');
+
+            // Calculate the scales from the data
+            var chartScale = {
+                dateFrom: new Date(d3.min(data, function (d) { return d.date; }).getTime() - 8.64e7),
+                dateTo: new Date(d3.max(data, function (d) { return d.date; }).getTime() + 8.64e7),
+                priceFrom: d3.min(data, function (d) { return d.low; }),
+                priceTo: d3.max(data, function (d) { return d.high; })
+            };
+
+            var dateScale = fc.scale.finance()
+                    .domain([chartScale.dateFrom, chartScale.dateTo])
+                    .range([0, chartLayout.innerWidth()]);
+
+            var priceScale = d3.scale.linear()
+                    .domain([chartScale.priceFrom, chartScale.priceTo])
+                    .nice()
+                    .range([chartLayout.innerHeight(), 0]);
+
+            // Create the axes
+            var dateAxis = d3.svg.axis()
+                    .scale(dateScale)
+                    .orient('bottom')
+                    .ticks(5);
+
+            var priceAxis = d3.svg.axis()
+                    .scale(priceScale)
+                    .orient('right')
+                    .ticks(5);
+
+            // Add the axes to the chart
+            chart.append('g')
+                    .attr('class', 'axis date')
+                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
+                    .call(dateAxis);
+
+            chart.append('g')
+                    .attr('class', 'axis price')
+                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
+                    .call(priceAxis);
+
+            // Create the OHLC series
+            var ohlc = fc.series.ohlc()
+                    .xScale(dateScale)
+                    .yScale(priceScale);
+
+            // Add the primary OHLC series
+            plotArea.selectAll('.series').remove();
+            plotArea.append('g')
+                    .attr('class', 'series')
+                    .datum(data)
+                    .call(ohlc);
+
+            // Create an invisible overlay
+            var overlay = d3.svg.area()
+                    .x(function (d) { return dateScale(d.date); })
+                    .y0(0)
+                    .y1(chartLayout.innerHeight());
+
+            // Create the crosshairs
+            var crosshairs = fc.tools.crosshairs()
+                .target(plotArea)
+                .series(data)
+                .xScale(dateScale)
+                .yScale(priceScale)
+                .formatH(function(data) { return crosshairs.highlightedField() + ': ' + d3.format('.1f')(data); })
+                .formatV(function(data) { return d3.time.format('%b %e')(data); })
+                .onSnap(function(d) {
+                    plotArea.selectAll('.callouts').remove();
+
+                    var formatLabel = d3.format('.1f');
+                    var callouts = fc.tools.callouts()
+                        .xScale(dateScale)
+                        .yScale(priceScale)
+                        .rotationStart(30)
+                        .rotationSteps(30)
+                        .rounded(8)
+                      .addCallout( {
+                        x: d.date,
+                        y: d.open,
+                        label: 'open:' + formatLabel(d.open)
+                      })
+                      .addCallout( {
+                        x: d.date,
+                        y: d.high,
+                        label: 'high:' + formatLabel(d.high)
+                      })
+                      .addCallout( {
+                        x: d.date,
+                        y: d.low,
+                        label: 'low:' + formatLabel(d.low)
+                      })
+                      .addCallout( {
+                        x: d.date,
+                        y: d.close,
+                        label: 'close:' + formatLabel(d.close)
+                      });
+
+                    plotArea.append('g')
+                      .attr("class", "callouts")
+                      .call(callouts);
+                });
+
+            // Add the crosshairs on top of the overlay
+            plotArea.append('path')
+                    .attr('class', 'overlay')
+                    .attr('d', overlay(data))
+                    .call(crosshairs);
+        </script>
+
+        <footer class="page-footer">
+            <hr>
+            <a href="http://www.scottlogic.com" target="_blank">Scott Logic</a>
+        </footer>
     </div>
-  </div>
-   
+</div>
+
 </body>
 
 </html>
