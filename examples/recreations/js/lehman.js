@@ -97,12 +97,13 @@ function renderLine() {
 	    .datum(data)
 	    .call(dataSeries);
 
-	if(crosshairs)
-		crosshairs.yValue('close');
+	if (crosshairs) {
+        crosshairs.yValue('close');
+    }
 }
 
 function renderCandle() {
-	
+
 	var dataSeries = fc.series.candlestick()
 		.rectangleWidth(2)
 	    .xScale(dateScale)
@@ -144,8 +145,9 @@ var annotations = [
 		.formatCallout(function(d) { return d3.format('.1f')(d); })
 ];
 
-for(var i=0; i<annotations.length; i++)
-	dataPlot.call(annotations[i]);
+for (var i=0; i<annotations.length; i++) {
+    dataPlot.call(annotations[i]);
+}
 
 // Draw the line chart
 renderLine();

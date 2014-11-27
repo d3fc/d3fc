@@ -118,8 +118,8 @@
 				});
 
 				var prunedData = [];
-				for (var index = movingAverage; index < data.length; ++index) {
-					prunedData.push(data[index]);
+				for (var n = movingAverage; n < data.length; ++n) {
+					prunedData.push(data[n]);
 				}
 
 				var pathArea = d3.select(this).selectAll('.area')

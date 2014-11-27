@@ -1,7 +1,7 @@
 (function (d3, fc) {
     'use strict';
 
-    var weekday = fc.utilities.weekday
+    var weekday = fc.utilities.weekday;
 
     fc.scale.finance = function () {
         return financialScale();
@@ -26,7 +26,7 @@
             }
         	var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
+        }
 
         scale.copy = function () {
             return financialScale(linear.copy());
@@ -56,7 +56,7 @@
         };
 
         scale.invert = function (pixel) {
-            return weekday.invert(linear.invert(pixel))
+            return weekday.invert(linear.invert(pixel));
         };
 
         scale.alignPixels = function (value) {

@@ -70,18 +70,18 @@
                 y = Math.random()*2-1;
                 rds = x*x + y*y;
             }
-            while (rds == 0 || rds > 1)
+            while (rds === 0 || rds > 1);
 
             // This is the Box-Muller Transform
             c = Math.sqrt(-2*Math.log(rds)/rds);
 
             // It always creates a pair of numbers but it is quite efficient so don't be afraid to throw one away if you don't need both.
             return [x*c, y*c];
-        }
+        };
 
         var fakeBoxMullerTransform = function() {
             return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
-        }
+        };
 
         var generate = function() {
 
@@ -96,9 +96,10 @@
                 currentIntraStep = 0;
 
             var date = new Date(fromDate.getTime());
-            while(date <= toDate) {
-                if (!filter || filter(date)) 
+            while (date <= toDate) {
+                if (!filter || filter(date)) {
                     daysIncluded += 1;
+                }
                 date.setDate(date.getDate()+1);
             }
 

@@ -104,15 +104,12 @@ fc.tools.crosshairs = function () {
 
         var minDiff = Number.MAX_VALUE;
         for (var property in data) {
-
-            if (!data.hasOwnProperty(property) || (property === 'date')) {
-                continue;
-            }
-
-            var dy = Math.abs(yTarget - data[property]);
-            if (dy <= minDiff) {
-                minDiff = dy;
-                field = property;
+            if (data.hasOwnProperty(property) && (property !== 'date')) {
+                var dy = Math.abs(yTarget - data[property]);
+                if (dy <= minDiff) {
+                    minDiff = dy;
+                    field = property;
+                }
             }
         }
 
@@ -177,8 +174,9 @@ fc.tools.crosshairs = function () {
                     highlightedField = field;
 
                     redraw();
-                    if( onSnap )
-                    	onSnap(highlight);
+                    if (onSnap) {
+                        onSnap(highlight);
+                    }
                 }
             }
         }

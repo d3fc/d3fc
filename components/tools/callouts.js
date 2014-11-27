@@ -23,15 +23,21 @@
 				r2.right < r1.left || 
 				r2.top > r1.bottom ||
 				r2.bottom < r1.top);
-		}
+		};
 
 		var arrangeCallouts = function() {
 
-			if(!boundingBoxes) return;
+			if (!boundingBoxes) {
+                return;
+            }
 
 			var sortedRects = boundingBoxes.sort(function(a,b) {
-				if (a.y < b.y) return -1;
-				if (a.y > b.y) return 1;
+				if (a.y < b.y) {
+                    return -1;
+                }
+				if (a.y > b.y) {
+                    return 1;
+                }
 				return 0;
 			});
 
@@ -52,17 +58,17 @@
 				for(var r2=r1+1; r2<sortedRects.length; r2++) {
 
 					if( !sortedRects[r1].left ) {
-						sortedRects[r1].left = function() { return this.x - padding; }
-						sortedRects[r1].right = function() { return this.x + this.width + padding; }
-						sortedRects[r1].bottom = function() { return this.y + this.height + padding; }
-						sortedRects[r1].top = function() { return this.y - padding; }
+						sortedRects[r1].left = function() { return this.x - padding; };
+						sortedRects[r1].right = function() { return this.x + this.width + padding; };
+						sortedRects[r1].bottom = function() { return this.y + this.height + padding; };
+						sortedRects[r1].top = function() { return this.y - padding; };
 					}
 
 					if( !sortedRects[r2].left ) {
-						sortedRects[r2].left = function() { return this.x - padding; }
-						sortedRects[r2].right = function() { return this.x + this.width + padding; }
-						sortedRects[r2].bottom = function() { return this.y + this.height + padding; }
-						sortedRects[r2].top = function() { return this.y - padding; }
+						sortedRects[r2].left = function() { return this.x - padding; };
+						sortedRects[r2].right = function() { return this.x + this.width + padding; };
+						sortedRects[r2].bottom = function() { return this.y + this.height + padding; };
+						sortedRects[r2].top = function() { return this.y - padding; };
 					}
 
 					if(rectanglesIntersect(sortedRects[r1], sortedRects[r2])) {
@@ -71,19 +77,29 @@
 						var smallest = 0; // 0=left, 1=right, 2=down
 						var left = sortedRects[r2].right() - sortedRects[r1].left();
 						var right = sortedRects[r1].right() - sortedRects[r2].left();
-						if(right < left) smallest = 1;
+						if (right < left) {
+                            smallest = 1;
+                        }
 						var down = sortedRects[r1].bottom() - sortedRects[r2].top();
-						if(down < right && down < left) smallest = 2;
+						if (down < right && down < left) {
+                            smallest = 2;
+                        }
 
-						if(smallest == 0) sortedRects[r2].x -= (left + spacing);
-						else if(smallest == 1) sortedRects[r2].x += (right + spacing);
-						else if(smallest == 2) sortedRects[r2].y += (down + spacing);
+						if (smallest === 0) {
+                            sortedRects[r2].x -= (left + spacing);
+                        }
+						else if (smallest === 1) {
+                            sortedRects[r2].x += (right + spacing);
+                        }
+						else if (smallest === 2) {
+                            sortedRects[r2].y += (down + spacing);
+                        }
 					}
 				}
 			}
 
 			boundingBoxes = sortedRects;
-		}
+		};
 
 		var callouts = function (selection) {
 

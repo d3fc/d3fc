@@ -206,18 +206,18 @@ fc = {
                 y = Math.random()*2-1;
                 rds = x*x + y*y;
             }
-            while (rds == 0 || rds > 1)
+            while (rds === 0 || rds > 1);
 
             // This is the Box-Muller Transform
             c = Math.sqrt(-2*Math.log(rds)/rds);
 
             // It always creates a pair of numbers but it is quite efficient so don't be afraid to throw one away if you don't need both.
             return [x*c, y*c];
-        }
+        };
 
         var fakeBoxMullerTransform = function() {
             return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
-        }
+        };
 
         var generate = function() {
 
@@ -232,9 +232,10 @@ fc = {
                 currentIntraStep = 0;
 
             var date = new Date(fromDate.getTime());
-            while(date <= toDate) {
-                if (!filter || filter(date)) 
+            while (date <= toDate) {
+                if (!filter || filter(date)) {
                     daysIncluded += 1;
+                }
                 date.setDate(date.getDate()+1);
             }
 
@@ -345,18 +346,24 @@ fc = {
     };
 }(fc));
 (function(d3, fc) {
+    'use strict';
 
     var weekdayCache = {};
     var dateCache = {};
 
     // Returns the weekday number for the given date relative to January 1, 1970.
     function weekday(date) {
+
         if (date in weekdayCache) {
             return weekdayCache[date];
         }
+
         var weekdays = weekdayOfYear(date),
             year = date.getFullYear();
-        while (--year >= 1970) weekdays += weekdaysInYear(year);
+
+        while (--year >= 1970) {
+            weekdays += weekdaysInYear(year);
+        }
 
         weekdayCache[date] = weekdays;
         return weekdays;
@@ -380,7 +387,9 @@ fc = {
         // Compute the date from the remaining weekdays.
         var days = weekdays % 5,
             day0 = ((new Date(year, 0, 1)).getDay() + 6) % 7;
-        if (day0 + days > 4) days += 2;
+        if (day0 + days > 4) {
+            days += 2;
+        }
 
         result = new Date(year, 0, (weekdays / 5 | 0) * 7 + days + 1);
         dateCache[weekdays] = result;
@@ -527,8 +536,8 @@ fc = {
 				});
 
 				var prunedData = [];
-				for (var index = movingAverage; index < data.length; ++index) {
-					prunedData.push(data[index]);
+				for (var n = movingAverage; n < data.length; ++n) {
+					prunedData.push(data[n]);
 				}
 
 				var pathArea = d3.select(this).selectAll('.area')
@@ -801,7 +810,9 @@ fc = {
 							up = [],
 							down = [];
 
-						if(from < 1) from = 1;
+						if (from < 1) {
+                            from = 1;
+                        }
 
 						for( var offset = to; offset >= from; offset--) {
 							var dnow = data[offset],
@@ -812,7 +823,9 @@ fc = {
 							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
 						}
 
-						if(up.length <= 0 || down.length <= 0) return yScale(0);
+						if (up.length <= 0 || down.length <= 0) {
+                            return yScale(0);
+                        }
 
 						var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
 						return yScale(rsi);
@@ -894,7 +907,7 @@ fc = {
 (function (d3, fc) {
     'use strict';
 
-    var weekday = fc.utilities.weekday
+    var weekday = fc.utilities.weekday;
 
     fc.scale.finance = function () {
         return financialScale();
@@ -919,7 +932,7 @@ fc = {
             }
         	var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
+        }
 
         scale.copy = function () {
             return financialScale(linear.copy());
@@ -949,7 +962,7 @@ fc = {
         };
 
         scale.invert = function (pixel) {
-            return weekday.invert(linear.invert(pixel))
+            return weekday.invert(linear.invert(pixel));
         };
 
         scale.alignPixels = function (value) {
@@ -1086,7 +1099,7 @@ fc = {
         	var n = linear(x);
         	var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
+        }
 
         scale.copy = function () {
             return linearScale(linear.copy());
@@ -1389,7 +1402,7 @@ fc = {
                 return {
                     name: d.name,
                     data: rebaseChange(d.data, xScale.domain()[0])
-                }
+                };
             });
 
             yScale.domain(calculateYDomain(domainData, xScale.domain()));
@@ -1943,15 +1956,21 @@ fc = {
 				r2.right < r1.left || 
 				r2.top > r1.bottom ||
 				r2.bottom < r1.top);
-		}
+		};
 
 		var arrangeCallouts = function() {
 
-			if(!boundingBoxes) return;
+			if (!boundingBoxes) {
+                return;
+            }
 
 			var sortedRects = boundingBoxes.sort(function(a,b) {
-				if (a.y < b.y) return -1;
-				if (a.y > b.y) return 1;
+				if (a.y < b.y) {
+                    return -1;
+                }
+				if (a.y > b.y) {
+                    return 1;
+                }
 				return 0;
 			});
 
@@ -1972,17 +1991,17 @@ fc = {
 				for(var r2=r1+1; r2<sortedRects.length; r2++) {
 
 					if( !sortedRects[r1].left ) {
-						sortedRects[r1].left = function() { return this.x - padding; }
-						sortedRects[r1].right = function() { return this.x + this.width + padding; }
-						sortedRects[r1].bottom = function() { return this.y + this.height + padding; }
-						sortedRects[r1].top = function() { return this.y - padding; }
+						sortedRects[r1].left = function() { return this.x - padding; };
+						sortedRects[r1].right = function() { return this.x + this.width + padding; };
+						sortedRects[r1].bottom = function() { return this.y + this.height + padding; };
+						sortedRects[r1].top = function() { return this.y - padding; };
 					}
 
 					if( !sortedRects[r2].left ) {
-						sortedRects[r2].left = function() { return this.x - padding; }
-						sortedRects[r2].right = function() { return this.x + this.width + padding; }
-						sortedRects[r2].bottom = function() { return this.y + this.height + padding; }
-						sortedRects[r2].top = function() { return this.y - padding; }
+						sortedRects[r2].left = function() { return this.x - padding; };
+						sortedRects[r2].right = function() { return this.x + this.width + padding; };
+						sortedRects[r2].bottom = function() { return this.y + this.height + padding; };
+						sortedRects[r2].top = function() { return this.y - padding; };
 					}
 
 					if(rectanglesIntersect(sortedRects[r1], sortedRects[r2])) {
@@ -1991,19 +2010,29 @@ fc = {
 						var smallest = 0; // 0=left, 1=right, 2=down
 						var left = sortedRects[r2].right() - sortedRects[r1].left();
 						var right = sortedRects[r1].right() - sortedRects[r2].left();
-						if(right < left) smallest = 1;
+						if (right < left) {
+                            smallest = 1;
+                        }
 						var down = sortedRects[r1].bottom() - sortedRects[r2].top();
-						if(down < right && down < left) smallest = 2;
+						if (down < right && down < left) {
+                            smallest = 2;
+                        }
 
-						if(smallest == 0) sortedRects[r2].x -= (left + spacing);
-						else if(smallest == 1) sortedRects[r2].x += (right + spacing);
-						else if(smallest == 2) sortedRects[r2].y += (down + spacing);
+						if (smallest === 0) {
+                            sortedRects[r2].x -= (left + spacing);
+                        }
+						else if (smallest === 1) {
+                            sortedRects[r2].x += (right + spacing);
+                        }
+						else if (smallest === 2) {
+                            sortedRects[r2].y += (down + spacing);
+                        }
 					}
 				}
 			}
 
 			boundingBoxes = sortedRects;
-		}
+		};
 
 		var callouts = function (selection) {
 
@@ -2233,15 +2262,12 @@ fc.tools.crosshairs = function () {
 
         var minDiff = Number.MAX_VALUE;
         for (var property in data) {
-
-            if (!data.hasOwnProperty(property) || (property === 'date')) {
-                continue;
-            }
-
-            var dy = Math.abs(yTarget - data[property]);
-            if (dy <= minDiff) {
-                minDiff = dy;
-                field = property;
+            if (data.hasOwnProperty(property) && (property !== 'date')) {
+                var dy = Math.abs(yTarget - data[property]);
+                if (dy <= minDiff) {
+                    minDiff = dy;
+                    field = property;
+                }
             }
         }
 
@@ -2306,8 +2332,9 @@ fc.tools.crosshairs = function () {
                     highlightedField = field;
 
                     redraw();
-                    if( onSnap )
-                    	onSnap(highlight);
+                    if (onSnap) {
+                        onSnap(highlight);
+                    }
                 }
             }
         }
@@ -2581,7 +2608,7 @@ fc.tools.crosshairs = function () {
 
                 if (field !== null) {
 
-                    return { point: point, field: field }
+                    return { point: point, field: field };
                 }
             }
 
@@ -2612,15 +2639,12 @@ fc.tools.crosshairs = function () {
 
             var minDiff = Number.MAX_VALUE;
             for (var property in data) {
-
-                if (!data.hasOwnProperty(property) || (property === 'date')) {
-                    continue;
-                }
-
-                var dy = Math.abs(yTarget - data[property]);
-                if (dy <= minDiff) {
-                    minDiff = dy;
-                    field = property;
+                if (data.hasOwnProperty(property) && (property !== 'date')) {
+                    var dy = Math.abs(yTarget - data[property]);
+                    if (dy <= minDiff) {
+                        minDiff = dy;
+                        field = property;
+                    }
                 }
             }
 
@@ -2986,7 +3010,7 @@ fc.tools.crosshairs = function () {
 
                 if (field !== null) {
 
-                    return { point: point, field: field }
+                    return { point: point, field: field };
                 }
             }
 
@@ -3017,15 +3041,12 @@ fc.tools.crosshairs = function () {
 
             var minDiff = Number.MAX_VALUE;
             for (var property in data) {
-
-                if (!data.hasOwnProperty(property) || (property === 'date')) {
-                    continue;
-                }
-
-                var dy = Math.abs(yTarget - data[property]);
-                if (dy <= minDiff) {
-                    minDiff = dy;
-                    field = property;
+                if (data.hasOwnProperty(property) && (property !== 'date')) {
+                    var dy = Math.abs(yTarget - data[property]);
+                    if (dy <= minDiff) {
+                        minDiff = dy;
+                        field = property;
+                    }
                 }
             }
 

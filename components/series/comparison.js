@@ -145,7 +145,7 @@
                 return {
                     name: d.name,
                     data: rebaseChange(d.data, xScale.domain()[0])
-                }
+                };
             });
 
             yScale.domain(calculateYDomain(domainData, xScale.domain()));

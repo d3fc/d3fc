@@ -55,7 +55,9 @@
 							up = [],
 							down = [];
 
-						if(from < 1) from = 1;
+						if (from < 1) {
+                            from = 1;
+                        }
 
 						for( var offset = to; offset >= from; offset--) {
 							var dnow = data[offset],
@@ -66,7 +68,9 @@
 							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
 						}
 
-						if(up.length <= 0 || down.length <= 0) return yScale(0);
+						if (up.length <= 0 || down.length <= 0) {
+                            return yScale(0);
+                        }
 
 						var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
 						return yScale(rsi);

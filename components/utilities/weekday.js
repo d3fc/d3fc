@@ -1,16 +1,22 @@
 (function(d3, fc) {
+    'use strict';
 
     var weekdayCache = {};
     var dateCache = {};
 
     // Returns the weekday number for the given date relative to January 1, 1970.
     function weekday(date) {
+
         if (date in weekdayCache) {
             return weekdayCache[date];
         }
+
         var weekdays = weekdayOfYear(date),
             year = date.getFullYear();
-        while (--year >= 1970) weekdays += weekdaysInYear(year);
+
+        while (--year >= 1970) {
+            weekdays += weekdaysInYear(year);
+        }
 
         weekdayCache[date] = weekdays;
         return weekdays;
@@ -34,7 +40,9 @@
         // Compute the date from the remaining weekdays.
         var days = weekdays % 5,
             day0 = ((new Date(year, 0, 1)).getDay() + 6) % 7;
-        if (day0 + days > 4) days += 2;
+        if (day0 + days > 4) {
+            days += 2;
+        }
 
         result = new Date(year, 0, (weekdays / 5 | 0) * 7 + days + 1);
         dateCache[weekdays] = result;

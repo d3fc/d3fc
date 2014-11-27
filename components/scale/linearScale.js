@@ -17,7 +17,7 @@
         	var n = linear(x);
         	var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
+        }
 
         scale.copy = function () {
             return linearScale(linear.copy());
