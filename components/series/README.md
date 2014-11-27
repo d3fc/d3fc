@@ -132,7 +132,7 @@ When using the `"paths"` drawing method:
 
 The structure of the elements produced depends on the selected draw method:
 
-* By default, or with `"path"` selected:
+* By default, or using `"path"` method:
 ```html
 <g class="ohlc-series">
     <path class="bar up-day"></path>
@@ -141,7 +141,7 @@ The structure of the elements produced depends on the selected draw method:
     <!-- ... 1 path for each bar -->
 </g>
 ```
-* With `"line"` selected:
+* Using `"line"` method:
 ```html
 <g class="ohlc-series">
     <g class="bar up-day">
@@ -152,7 +152,7 @@ The structure of the elements produced depends on the selected draw method:
     <!-- ... 1 group for each bar -->
 </g>
 ```
-* With `"paths"` selected:
+* Using `"paths"` method:
 ```html
 <g class="ohlc-series">
     <path class="up-days"></path>
