@@ -121,14 +121,14 @@ If not specified, returns the current width, which defaults to 5 pixels.
 
 You can style the ohlc bars using CSS.
 
-+ `.ohlc-series .bar .up-day` for the up-day bars.
-+ `.ohlc-series .bar .down-day` for the down-day bars.
-+ `.ohlc-series .bar .static-day` for the static-day bars.
++ `.ohlc-series .bar .up-day` for the 'up day' bars.
++ `.ohlc-series .bar .down-day` for the 'down day' bars.
++ `.ohlc-series .bar .static-day` for the 'static day' bars.
 
 When using the `"paths"` drawing method:
-+ `.ohlc-series .up-days` for the up-day bars.
-+ `.ohlc-series .down-days` for the down-day bars.
-+ `.ohlc-series .static-days` for the static-day bars.
++ `.ohlc-series .up-days` for the 'up day' bars.
++ `.ohlc-series .down-days` for the 'down day' bars.
++ `.ohlc-series .static-days` for the 'static day' bars.
 
 The structure of the elements produced depends on the selected draw method:
 
@@ -138,7 +138,7 @@ The structure of the elements produced depends on the selected draw method:
     <path class="bar up-day"></path>
     <path class="bar down-day"></path>
     <path class="bar static-day"></path>
-    //... 1 path for each bar
+    <!-- ... 1 path for each bar -->
 </g>
 ```
 * With `"line"` selected:
@@ -149,10 +149,10 @@ The structure of the elements produced depends on the selected draw method:
         <line class="open-tick"></line>
         <line class="close-tick"></line>
     </g>
-    //... 1 group for each bar
+    <!-- ... 1 group for each bar -->
 </g>
 ```
-* With "paths" selected:
+* With `"paths"` selected:
 ```html
 <g class="ohlc-series">
     <path class="up-days"></path>
