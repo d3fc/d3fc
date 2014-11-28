@@ -38,16 +38,16 @@ This component calculates and draws a candlestick data series, the series shows 
 
 <script type="text/javascript">
 	// Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-	var plotArea = createPlotArea('#example_candlestick');
+	var chart = createPlotArea('#example_candlestick');
 
 	// Create the Candlestick series
 	var candlestick = fc.series.candlestick()
-		.xScale(dateScale)
-		.yScale(priceScale);
+		.xScale(chart.dateScale)
+		.yScale(chart.priceScale);
 
 	// Add the primary Candlestick series
-	plotArea.selectAll('.series').remove();
-	plotArea.append('g')
+	chart.plotArea.selectAll('.series').remove();
+	chart.plotArea.append('g')
 		.attr('class', 'series')
 		.datum(dataSeries1)
 		.call(candlestick);

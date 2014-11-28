@@ -250,7 +250,11 @@
 				.attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
 				.call(priceAxis);
 
-			return plotArea;
+			return { 
+				plotArea: plotArea, 
+				dateScale: dateScale, 
+				priceScale: priceScale 
+			};
 		}
       </script>
 
