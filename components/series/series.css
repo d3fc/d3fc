@@ -10,6 +10,8 @@
 .candlestick-series .bar .down-day { stroke: #c60; }
 .candlestick-series .bar .high-low-line { stroke: #000; }
 
+.comparison-series .line { fill: none; }
+
 .lineSeries { fill: none; stroke: #06c; }
 .lineSeriesArea { fill: #9cf; fill-opacity: 0.8; }
 
