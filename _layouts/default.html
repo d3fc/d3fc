@@ -192,7 +192,7 @@
 			.generate();
 
 
-		function createPlotArea(name) {
+		function createPlotArea(name, useVolumeScale) {
 			var chartLayout = fc.utilities.chartLayout()
 				.marginBottom(30)
 				.marginLeft(10)
@@ -217,6 +217,8 @@
 				dateTo: new Date(d3.max(dataSeries1, function (d) { return d.date; }).getTime() + 8.64e7),
 				priceFrom: d3.min(dataSeries1, function (d) { return d.low; }),
 				priceTo: d3.max(dataSeries1, function (d) { return d.high; }),
+				volumeFrom: d3.min(dataSeries1, function (d) { return d.volume; }),
+				volumeTo: d3.max(dataSeries1, function (d) { return d.volume; }),
 			};
 
 			var dateScale = fc.scale.finance()
@@ -225,6 +227,11 @@
 
 			var priceScale = d3.scale.linear()
 				.domain([chartScale.priceFrom, chartScale.priceTo])
+				.nice()
+				.range([chartLayout.innerHeight(), 0]);
+
+			var volumeScale = d3.scale.linear()
+				.domain([chartScale.volumeFrom, chartScale.volumeTo])
 				.nice()
 				.range([chartLayout.innerHeight(), 0]);
 
@@ -239,21 +246,35 @@
 				.orient('right')
 				.ticks(5);
 
+			var volumeAxis = d3.svg.axis()
+				.scale(volumeScale)
+				.orient('left')
+				.ticks(5);
+
 			// Add the axes to the chart
 			chart.append('g')
 				.attr('class', 'axis date')
 				.attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
 				.call(dateAxis);
 
-			chart.append('g')
-				.attr('class', 'axis price')
-				.attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
-				.call(priceAxis);
+			if( useVolumeScale ) {
+				chart.append('g')
+					.attr('class', 'axis volume')
+					.attr('transform', '(0,0)')
+					.call(priceAxis);
+			}
+			else {
+				chart.append('g')
+					.attr('class', 'axis price')
+					.attr('transform', 'translate(' + chartLayout.innerWidth() + ',0)')
+					.call(priceAxis);
+			}
 
 			return { 
 				plotArea: plotArea, 
 				dateScale: dateScale, 
-				priceScale: priceScale 
+				priceScale: priceScale, 
+				volumeScale: volumeScale 
 			};
 		}
       </script>
