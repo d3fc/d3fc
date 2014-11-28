@@ -195,7 +195,7 @@
 		function createPlotArea(name, useVolumeScale) {
 			var chartLayout = fc.utilities.chartLayout()
 				.marginBottom(30)
-				.marginLeft(10)
+				.marginLeft(40)
 				.marginRight(40);
 
 			// The overall chart
@@ -260,7 +260,7 @@
 			if( useVolumeScale ) {
 				chart.append('g')
 					.attr('class', 'axis volume')
-					.attr('transform', '(0,0)')
+					.attr('transform', 'translate(0,0)')
 					.call(priceAxis);
 			}
 			else {
