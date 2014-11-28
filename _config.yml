@@ -1,0 +1,9 @@
+siteurl: http://localhost:8080
+
+component-ids: [indicators, series]
+
+components:
+  indicators:
+    name: Indicators
+  series:
+    name: Series
