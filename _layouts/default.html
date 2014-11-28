@@ -192,7 +192,7 @@
 			.generate();
 
 
-		function createPlotArea() {
+		function createPlotArea(name) {
 			var chartLayout = fc.utilities.chartLayout()
 				.marginBottom(30)
 				.marginLeft(10)
@@ -200,7 +200,7 @@
 
 			// The overall chart
 			var setupArea = d3
-				.select('#example_candlestick')
+				.select(name)
 				.call(chartLayout);
 
 			// Select the elements which we'll want to add other elements to

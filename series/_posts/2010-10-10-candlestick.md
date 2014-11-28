@@ -32,13 +32,13 @@ html: |
 	</g>
 ---
 
-This component calculates and draws a candlestick data series, the series shows high, low, open and close values on the Y axis against Date/Time on the X axis. The series can be styled using CSS to represent market gains or market losses.
+This component calculates and draws a candlestick data series, the series shows high, low, open and close values on the Y axis against Date/Time on the X axis. The series can be styled using CSS to represent market gains or market losses. The candlestick data series also has functionality which allow the width of the candle wax to to be set and to set the style of the wick independently.
 
 <div id="example_candlestick"> </div>
 
 <script type="text/javascript">
 	// Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-	var plotArea = createPlotArea();
+	var plotArea = createPlotArea('#example_candlestick');
 
 	// Create the Candlestick series
 	var candlestick = fc.series.candlestick()
