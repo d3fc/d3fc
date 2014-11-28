@@ -34,7 +34,7 @@ html: |
 
 This component calculates and draws a candlestick data series, the series shows high, low, open and close values on the Y axis against Date/Time on the X axis. The series can be styled using CSS to represent market gains or market losses. The candlestick data series also has functionality which allow the width of the candle wax to to be set and to set the style of the wick independently.
 
-<div id="example_candlestick"> </div>
+<div id="example_candlestick" class="chart"> </div>
 
 {% include tabs.html %}
 
