@@ -249,7 +249,8 @@
 			var volumeAxis = d3.svg.axis()
 				.scale(volumeScale)
 				.orient('left')
-				.ticks(5);
+				.ticks(5)
+				.tickFormat(function(d) { return d3.format('s')(d); });
 
 			// Add the axes to the chart
 			chart.append('g')
