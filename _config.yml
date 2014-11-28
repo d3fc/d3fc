@@ -1,4 +1,4 @@
-siteurl: http://localhost:8080
+siteurl: http://localhost:8083
 
 component-ids: [indicators, series]
 
