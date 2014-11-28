@@ -36,6 +36,8 @@ This component calculates and draws a candlestick data series, the series shows 
 
 <div id="example_candlestick"> </div>
 
+{% include tabs.html %}
+
 <script type="text/javascript">
 	// Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
 	var chart = createPlotArea('#example_candlestick', false);
@@ -52,5 +54,3 @@ This component calculates and draws a candlestick data series, the series shows 
 		.datum(dataSeries1)
 		.call(candlestick);
 </script>
-
-{% include tabs.html %}
