@@ -1,4 +1,4 @@
-sl = {
+fc = {
     version: '0.0.0',
     indicators: {},
     scale: {},
@@ -6,10 +6,10 @@ sl = {
     tools: {},
     utilities: {}
 };
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.utilities.chartLayout = function () {
+    fc.utilities.chartLayout = function () {
 
         // Default values
         var margin = {top: 20, right: 20, bottom: 20, left: 20},
@@ -133,11 +133,11 @@ sl = {
 
         return chartLayout;
     };
-}(d3, sl));
-(function (sl, moment, jStat) {
+}(d3, fc));
+(function (fc) {
     'use strict';
 
-    sl.utilities.dataGenerator = function () {
+    fc.utilities.dataGenerator = function () {
 
         var mu = 0.1,
             sigma = 0.1,
@@ -147,8 +147,9 @@ sl = {
             volumeNoiseFactor = 0.3,
             toDate = new Date(),
             fromDate = new Date(),
-            filter = function (moment) {
-                return !(moment.day() === 0 || moment.day() === 6);
+            useFakeBoxMuller = false,
+            filter = function (date) {
+                return !(date.getDay() === 0 || date.getDay() === 6);
             };
 
         var generatePrices = function (period, steps) {
@@ -179,25 +180,49 @@ sl = {
         };
 
         var generateIncrements = function (period, steps, mu, sigma) {
-            // Geometric Brownian motion model.
-            var deltaY = period / steps,
-                sqrtDeltaY = Math.sqrt(deltaY),
-                deltaW = jStat().randn(1, steps).multiply(sqrtDeltaY),
-                increments =  deltaW
-                    .multiply(sigma)
-                    .add((mu - ((sigma * sigma) / 2)) * deltaY),
-                expIncrements = increments.map(function (x) {
-                    return Math.exp(x);
-                });
+            var deltaW = [],
+                deltaY = period / steps,
+                sqrtDeltaY = Math.sqrt(deltaY);
 
-            return jStat.row(expIncrements, 0);
+            for(var i=0; i<steps; i++ ) {
+                var r = useFakeBoxMuller ?
+                    fakeBoxMullerTransform() :
+                    boxMullerTransform()[0];
+                r *= sqrtDeltaY;
+                r *= sigma;
+                r += (mu - ((sigma * sigma) / 2)) * deltaY;
+                deltaW.push(Math.exp(r));
+            }
+            return deltaW;
+        };
+
+        var boxMullerTransform = function() {
+            var x = 0, y = 0, rds, c;
+
+            // Get two random numbers from -1 to 1.
+            // If the radius is zero or greater than 1, throw them out and pick two new ones
+            do {
+                x = Math.random()*2-1;
+                y = Math.random()*2-1;
+                rds = x*x + y*y;
+            }
+            while (rds === 0 || rds > 1);
+
+            // This is the Box-Muller Transform
+            c = Math.sqrt(-2*Math.log(rds)/rds);
+
+            // It always creates a pair of numbers but it is quite efficient so don't be afraid to throw one away if you don't need both.
+            return [x*c, y*c];
+        };
+
+        var fakeBoxMullerTransform = function() {
+            return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
         };
 
         var generate = function() {
 
-            var range = moment().range(fromDate, toDate),
-                msec_per_year = 3.15569e10,
-                rangeYears = range / msec_per_year,
+            var msec_per_year = 3.15569e10,
+                rangeYears = (toDate.getTime() - fromDate.getTime()) / msec_per_year,
                 daysIncluded = 0,
                 prices,
                 volume,
@@ -206,20 +231,23 @@ sl = {
                 currentStep = 0,
                 currentIntraStep = 0;
 
-            range.by('days', function (moment) {
-                if (!filter || filter(moment)) {
+            var date = new Date(fromDate.getTime());
+            while (date <= toDate) {
+                if (!filter || filter(date)) {
                     daysIncluded += 1;
                 }
-            });
+                date.setDate(date.getDate()+1);
+            }
 
             prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
             volume = generateVolumes(rangeYears, daysIncluded);
 
-            range.by('days', function (moment) {
-                if (!filter || filter(moment)) {
+            date = new Date(fromDate.getTime());
+            while(date <= toDate) {
+                if (!filter || filter(date)) {
                     daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
                     ohlcv.push({
-                        date: moment.toDate(),
+                        date: new Date(date.getTime()),
                         open: daySteps[0],
                         high: Math.max.apply({}, daySteps),
                         low: Math.min.apply({}, daySteps),
@@ -227,9 +255,10 @@ sl = {
                         volume: volume[currentStep]
                     });
                     currentIntraStep += intraDaySteps;
-                    currentStep += 1
+                    currentStep += 1;
                 }
-            });
+                date.setDate(date.getDate()+1);
+            }
 
             return ohlcv;
         };
@@ -315,20 +344,26 @@ sl = {
 
         return dataGenerator;
     };
-}(sl, moment, jStat));
-(function(d3, sl) {
+}(fc));
+(function(d3, fc) {
+    'use strict';
 
     var weekdayCache = {};
     var dateCache = {};
 
     // Returns the weekday number for the given date relative to January 1, 1970.
     function weekday(date) {
+
         if (date in weekdayCache) {
             return weekdayCache[date];
         }
+
         var weekdays = weekdayOfYear(date),
             year = date.getFullYear();
-        while (--year >= 1970) weekdays += weekdaysInYear(year);
+
+        while (--year >= 1970) {
+            weekdays += weekdaysInYear(year);
+        }
 
         weekdayCache[date] = weekdays;
         return weekdays;
@@ -352,7 +387,9 @@ sl = {
         // Compute the date from the remaining weekdays.
         var days = weekdays % 5,
             day0 = ((new Date(year, 0, 1)).getDay() + 6) % 7;
-        if (day0 + days > 4) days += 2;
+        if (day0 + days > 4) {
+            days += 2;
+        }
 
         result = new Date(year, 0, (weekdays / 5 | 0) * 7 + days + 1);
         dateCache[weekdays] = result;
@@ -375,14 +412,14 @@ sl = {
             - (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
     }
 
-    sl.utilities.weekday = weekday;
+    fc.utilities.weekday = weekday;
 
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.indicators.bollingerBands = function () {
+	fc.indicators.bollingerBands = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear();
@@ -499,8 +536,8 @@ sl = {
 				});
 
 				var prunedData = [];
-				for (var index = movingAverage; index < data.length; ++index) {
-					prunedData.push(data[index]);
+				for (var n = movingAverage; n < data.length; ++n) {
+					prunedData.push(data[n]);
 				}
 
 				var pathArea = d3.select(this).selectAll('.area')
@@ -615,12 +652,12 @@ sl = {
 
 		return bollingerBands;
 	};
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.indicators.movingAverage = function () {
+	fc.indicators.movingAverage = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
@@ -714,12 +751,12 @@ sl = {
 
 		return movingAverage;
 	};
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
 	'use strict';
 
-	sl.indicators.rsi = function () {
+	fc.indicators.rsi = function () {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
@@ -773,7 +810,9 @@ sl = {
 							up = [],
 							down = [];
 
-						if(from < 1) from = 1;
+						if (from < 1) {
+                            from = 1;
+                        }
 
 						for( var offset = to; offset >= from; offset--) {
 							var dnow = data[offset],
@@ -784,7 +823,9 @@ sl = {
 							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
 						}
 
-						if(up.length <= 0 || down.length <= 0) return yScale(0);
+						if (up.length <= 0 || down.length <= 0) {
+                            return yScale(0);
+                        }
 
 						var rsi = 100 - (100/(1+(d3.mean(up)/d3.mean(down))));
 						return yScale(rsi);
@@ -862,13 +903,13 @@ sl = {
 
 		return rsi;
 	};
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    var weekday = sl.utilities.weekday
+    var weekday = fc.utilities.weekday;
 
-    sl.scale.finance = function () {
+    fc.scale.finance = function () {
         return financialScale();
     };
 
@@ -891,7 +932,7 @@ sl = {
             }
         	var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
+        }
 
         scale.copy = function () {
             return financialScale(linear.copy());
@@ -921,7 +962,7 @@ sl = {
         };
 
         scale.invert = function (pixel) {
-            return weekday.invert(linear.invert(pixel))
+            return weekday.invert(linear.invert(pixel));
         };
 
         scale.alignPixels = function (value) {
@@ -934,11 +975,11 @@ sl = {
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.scale.gridlines = function () {
+    fc.scale.gridlines = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -1037,12 +1078,12 @@ sl = {
 
         return gridlines;
     };
-}(d3, sl));
+}(d3, fc));
 
-(function (d3, sl) {
+(function (d3, fc) {
     'use strict';
 
-    sl.scale.linear = function () {
+    fc.scale.linear = function () {
         return linearScale();
     };
 
@@ -1058,7 +1099,7 @@ sl = {
         	var n = linear(x);
         	var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
-        };
+        }
 
         scale.copy = function () {
             return linearScale(linear.copy());
@@ -1087,11 +1128,11 @@ sl = {
 
         return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
     }
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.series.candlestick = function () {
+    fc.series.candlestick = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -1140,12 +1181,12 @@ sl = {
             rect.enter().append('rect');
 
             rect.attr('x', function (d) {
-                return xScale(d.date) - rectangleWidth;
+                return xScale(d.date) - (rectangleWidth/2.0);
             })
                 .attr('y', function (d) {
                     return isUpDay(d) ? yScale(d.close) : yScale(d.open);
                 })
-                .attr('width', rectangleWidth * 2)
+                .attr('width', rectangleWidth)
                 .attr('height', function (d) {
                     return isUpDay(d) ?
                         yScale(d.open) - yScale(d.close) :
@@ -1212,12 +1253,13 @@ sl = {
         return candlestick;
 
     };
-}(d3, sl));
+}(d3, fc));
+
 // TODO where is yScaleTransform?
-(function (d3, sl, yScaleTransform) {
+(function (d3, fc, yScaleTransform) {
     'use strict';
 
-    sl.series.comparison = function () {
+    fc.series.comparison = function () {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -1360,7 +1402,7 @@ sl = {
                 return {
                     name: d.name,
                     data: rebaseChange(d.data, xScale.domain()[0])
-                }
+                };
             });
 
             yScale.domain(calculateYDomain(domainData, xScale.domain()));
@@ -1398,11 +1440,95 @@ sl = {
 
         return comparison;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
+	'use strict';
+
+	fc.series.line = function () {
+
+		var yValue = 'close',
+			xScale = fc.scale.finance(),
+			yScale = fc.scale.linear(),
+			underFill = true;
+
+		var line = function (selection) {
+
+			var area;
+
+			if(underFill) {
+				area = d3.svg.area()
+			      	.x(function(d) { return xScale(d.date); })
+			    	.y0(yScale(0));
+			}
+			
+			var line = d3.svg.line();
+			line.x(function (d) { return xScale(d.date); });
+
+			selection.each(function (data) {
+
+				if(underFill) {
+					area.y1(function (d) { return yScale(d[yValue]); });
+					var areapath = d3.select(this).selectAll('.lineSeriesArea')
+						.data([data]);
+					areapath.enter()
+						.append('path')
+						.attr('d', area)
+						.classed('lineSeriesArea', true);
+					areapath.exit()
+						.remove();
+				}
+
+				line.y(function (d) { return yScale(d[yValue]); });
+				var linepath = d3.select(this).selectAll('.lineSeries')
+					.data([data]);
+				linepath.enter()
+					.append('path')
+					.attr('d', line)
+					.classed('lineSeries', true);
+				linepath.exit()
+					.remove();
+			});
+		};
+
+		line.yValue = function (value) {
+			if (!arguments.length) {
+				return yValue;
+			}
+			yValue = value;
+			return line;
+		};
+
+		line.xScale = function (value) {
+			if (!arguments.length) {
+				return xScale;
+			}
+			xScale = value;
+			return line;
+		};
+
+		line.yScale = function (value) {
+			if (!arguments.length) {
+				return yScale;
+			}
+			yScale = value;
+			return line;
+		};
+
+		line.underFill = function (value) {
+			if (!arguments.length) {
+				return underFill;
+			}
+			underFill = value;
+			return line;
+		};
+
+		return line;
+	};
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.series.ohlc = function (drawMethod) {
+    fc.series.ohlc = function (drawMethod) {
 
         // Configurable attributes
         var xScale = d3.time.scale(),
@@ -1611,16 +1737,16 @@ sl = {
 
         return ohlc;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.series.volume = function () {
+    fc.series.volume = function () {
 
         var xScale = d3.time.scale(),
-            yScale = d3.scale.linear();
-
-        var barWidth = 5;
+            yScale = d3.scale.linear(),
+            barWidth = 5,
+            yValue = 'volume';
 
         var isUpDay = function(d) {
             return d.close > d.open;
@@ -1638,9 +1764,9 @@ sl = {
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) { return xScale(d.date) - barWidth; })
-                .attr('y', function(d) { return yScale(d.volume); } )
-                .attr('width', barWidth * 2)
+            rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
+                .attr('y', function(d) { return yScale(d[yValue]); } )
+                .attr('width', barWidth)
                 .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
         };
 
@@ -1695,13 +1821,22 @@ sl = {
             return volume;
         };
 
+        volume.yValue = function (value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
+            return volume;
+        };
+
         return volume;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.annotation = function () {
+    fc.tools.annotation = function () {
 
         var index = 0,
             xScale = d3.time.scale(),
@@ -1734,7 +1869,7 @@ sl = {
                 .attr('x', xScale.range()[1] - padding)
                 .attr('y', yScale(yValue) - padding)
                 .attr('style', 'text-anchor: end;')
-                .text(yLabel + " : " + formatCallout(yValue));
+                .text(yLabel + ": " + formatCallout(yValue));
         };
 
         annotation.index = function (value) {
@@ -1795,11 +1930,236 @@ sl = {
 
         return annotation;
     };
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
+		'use strict';
+
+		fc.tools.callouts = function () {
+
+		var xScale = d3.time.scale(),
+			yScale = d3.scale.linear(),
+			padding = 5,
+			spacing = 5,
+			rounded = 0,
+			rotationStart = 20,
+			rotationSteps = 20,
+			stalkLength = 50,
+			css = 'callout',
+			data = [];
+
+		var currentBB = null,
+			boundingBoxes = [],
+			currentRotation = 0;
+
+		var rectanglesIntersect = function(r1, r2) {
+			return !(r2.left > r1.right || 
+				r2.right < r1.left || 
+				r2.top > r1.bottom ||
+				r2.bottom < r1.top);
+		};
+
+		var arrangeCallouts = function() {
+
+			if (!boundingBoxes) {
+                return;
+            }
+
+			var sortedRects = boundingBoxes.sort(function(a,b) {
+				if (a.y < b.y) {
+                    return -1;
+                }
+				if (a.y > b.y) {
+                    return 1;
+                }
+				return 0;
+			});
+
+			currentRotation = rotationStart;
+			for(var i=0; i<sortedRects.length; i++) {
+
+				// Calculate the x and y components of the stalk
+				var offsetX = stalkLength * Math.sin(currentRotation * (Math.PI/180));
+				sortedRects[i].x += offsetX;
+				var offsetY = stalkLength * Math.cos(currentRotation * (Math.PI/180));
+				sortedRects[i].y -= offsetY;
+
+				currentRotation += rotationSteps;
+			}
+
+			// Tree sorting algo (Sudo code below)
+			for(var r1=0; r1<sortedRects.length; r1++ ){
+				for(var r2=r1+1; r2<sortedRects.length; r2++) {
+
+					if( !sortedRects[r1].left ) {
+						sortedRects[r1].left = function() { return this.x - padding; };
+						sortedRects[r1].right = function() { return this.x + this.width + padding; };
+						sortedRects[r1].bottom = function() { return this.y + this.height + padding; };
+						sortedRects[r1].top = function() { return this.y - padding; };
+					}
+
+					if( !sortedRects[r2].left ) {
+						sortedRects[r2].left = function() { return this.x - padding; };
+						sortedRects[r2].right = function() { return this.x + this.width + padding; };
+						sortedRects[r2].bottom = function() { return this.y + this.height + padding; };
+						sortedRects[r2].top = function() { return this.y - padding; };
+					}
+
+					if(rectanglesIntersect(sortedRects[r1], sortedRects[r2])) {
+						
+						// Find the smallest move to correct the overlap
+						var smallest = 0; // 0=left, 1=right, 2=down
+						var left = sortedRects[r2].right() - sortedRects[r1].left();
+						var right = sortedRects[r1].right() - sortedRects[r2].left();
+						if (right < left) {
+                            smallest = 1;
+                        }
+						var down = sortedRects[r1].bottom() - sortedRects[r2].top();
+						if (down < right && down < left) {
+                            smallest = 2;
+                        }
+
+						if (smallest === 0) {
+                            sortedRects[r2].x -= (left + spacing);
+                        }
+						else if (smallest === 1) {
+                            sortedRects[r2].x += (right + spacing);
+                        }
+						else if (smallest === 2) {
+                            sortedRects[r2].y += (down + spacing);
+                        }
+					}
+				}
+			}
+
+			boundingBoxes = sortedRects;
+		};
+
+		var callouts = function (selection) {
+
+			// Create the callouts
+			var callouts = selection.selectAll('g')
+				.data(data)
+				.enter()
+				.append('g')
+				.attr('transform', function(d) { return 'translate(' + xScale(d.x) + ',' + yScale(d.y) +')'; })
+				.attr('class', function(d) { return d.css ? d.css : css; });
+
+			// Create the text elements
+			callouts.append('text')
+				.attr('style', 'text-anchor: left;')
+				.text(function(d) { return d.label; });
+
+			// Create the rectangles behind
+			callouts.insert('rect',':first-child')
+				.attr('x', function(d) { return -padding - rounded; })
+				.attr('y', function(d) { 
+					currentBB = this.parentNode.getBBox();
+					currentBB.x = xScale(d.x); 
+					currentBB.y = yScale(d.y); 
+					boundingBoxes.push(currentBB); 
+					return -currentBB.height; 
+				})
+				.attr('width', function(d) { return currentBB.width + (padding*2) + (rounded*2); })
+				.attr('height', function(d) { return currentBB.height + (padding*2); })
+				.attr('rx', rounded)
+				.attr('ry', rounded);
+
+			// Arrange callout
+			arrangeCallouts();
+			var index = 0;
+			callouts.attr('transform', function(d) { 
+				return 'translate(' + boundingBoxes[index].x + ',' + boundingBoxes[index++].y +')';
+			});
+
+			callouts = selection.selectAll('g')
+			.data(data)
+			.exit();
+		};
+
+		callouts.addCallout = function (value) {
+		data.push(value);
+			return callouts;
+		};
+
+		callouts.xScale = function (value) {
+			if (!arguments.length) {
+				return xScale;
+			}
+			xScale = value;
+			return callouts;
+		};
+
+		callouts.yScale = function (value) {
+			if (!arguments.length) {
+				return yScale;
+			}
+			yScale = value;
+			return callouts;
+		};
+
+		callouts.padding = function (value) {
+			if (!arguments.length) {
+				return padding;
+			}
+			padding = value;
+			return callouts;
+		};
+
+		callouts.spacing = function (value) {
+			if (!arguments.length) {
+				return spacing;
+			}
+			spacing = value;
+			return callouts;
+		};
+
+		callouts.rounded = function (value) {
+			if (!arguments.length) {
+				return rounded;
+			}
+			rounded = value;
+			return callouts;
+		};
+
+		callouts.stalkLength = function (value) {
+			if (!arguments.length) {
+				return stalkLength;
+			}
+			stalkLength = value;
+			return callouts;
+		};
+
+		callouts.rotationStart = function (value) {
+			if (!arguments.length) {
+				return rotationStart;
+			}
+			rotationStart = value;
+			return callouts;
+		};
+
+		callouts.rotationSteps = function (value) {
+			if (!arguments.length) {
+				return rotationSteps;
+			}
+			rotationSteps = value;
+			return callouts;
+		};
+
+		callouts.css = function (value) {
+			if (!arguments.length) {
+				return css;
+			}
+			css = value;
+			return callouts;
+		};
+
+		return callouts;
+	};
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-sl.tools.crosshairs = function () {
+fc.tools.crosshairs = function () {
 
     var target = null,
         series = null,
@@ -1810,7 +2170,8 @@ sl.tools.crosshairs = function () {
         formatV = null,
         active = true,
         freezable = true,
-        padding = 2;
+        padding = 2,
+        onSnap = null;
 
     var lineH = null,
         lineV = null,
@@ -1901,15 +2262,12 @@ sl.tools.crosshairs = function () {
 
         var minDiff = Number.MAX_VALUE;
         for (var property in data) {
-
-            if (!data.hasOwnProperty(property) || (property === 'date')) {
-                continue;
-            }
-
-            var dy = Math.abs(yTarget - data[property]);
-            if (dy <= minDiff) {
-                minDiff = dy;
-                field = property;
+            if (data.hasOwnProperty(property) && (property !== 'date')) {
+                var dy = Math.abs(yTarget - data[property]);
+                if (dy <= minDiff) {
+                    minDiff = dy;
+                    field = property;
+                }
             }
         }
 
@@ -1974,6 +2332,9 @@ sl.tools.crosshairs = function () {
                     highlightedField = field;
 
                     redraw();
+                    if (onSnap) {
+                        onSnap(highlight);
+                    }
                 }
             }
         }
@@ -2089,14 +2450,30 @@ sl.tools.crosshairs = function () {
         return crosshairs;
     };
 
+    crosshairs.onSnap = function (value) {
+        if (!arguments.length) {
+            return onSnap;
+        }
+        onSnap = value;
+        return crosshairs;
+    };
+
+    crosshairs.highlightedPoint = function() {
+        return highlight;
+    };
+
+    crosshairs.highlightedField = function() {
+        return highlightedField;
+    };
+
     return crosshairs;
 };
 
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.fibonacciFan = function () {
+    fc.tools.fibonacciFan = function () {
 
         var target = null,
             series = null,
@@ -2231,7 +2608,7 @@ sl.tools.crosshairs = function () {
 
                 if (field !== null) {
 
-                    return { point: point, field: field }
+                    return { point: point, field: field };
                 }
             }
 
@@ -2262,15 +2639,12 @@ sl.tools.crosshairs = function () {
 
             var minDiff = Number.MAX_VALUE;
             for (var property in data) {
-
-                if (!data.hasOwnProperty(property) || (property === 'date')) {
-                    continue;
-                }
-
-                var dy = Math.abs(yTarget - data[property]);
-                if (dy <= minDiff) {
-                    minDiff = dy;
-                    field = property;
+                if (data.hasOwnProperty(property) && (property !== 'date')) {
+                    var dy = Math.abs(yTarget - data[property]);
+                    if (dy <= minDiff) {
+                        minDiff = dy;
+                        field = property;
+                    }
                 }
             }
 
@@ -2492,11 +2866,11 @@ sl.tools.crosshairs = function () {
         return fibonacciFan;
     };
 
-}(d3, sl));
-(function (d3, sl) {
+}(d3, fc));
+(function (d3, fc) {
     'use strict';
 
-    sl.tools.measure = function () {
+    fc.tools.measure = function () {
 
         var target = null,
             series = null,
@@ -2636,7 +3010,7 @@ sl.tools.crosshairs = function () {
 
                 if (field !== null) {
 
-                    return { point: point, field: field }
+                    return { point: point, field: field };
                 }
             }
 
@@ -2667,15 +3041,12 @@ sl.tools.crosshairs = function () {
 
             var minDiff = Number.MAX_VALUE;
             for (var property in data) {
-
-                if (!data.hasOwnProperty(property) || (property === 'date')) {
-                    continue;
-                }
-
-                var dy = Math.abs(yTarget - data[property]);
-                if (dy <= minDiff) {
-                    minDiff = dy;
-                    field = property;
+                if (data.hasOwnProperty(property) && (property !== 'date')) {
+                    var dy = Math.abs(yTarget - data[property]);
+                    if (dy <= minDiff) {
+                        minDiff = dy;
+                        field = property;
+                    }
                 }
             }
 
@@ -2872,4 +3243,5 @@ sl.tools.crosshairs = function () {
         return measure;
     };
 
-}(d3, sl));
+}(d3, fc));
+//# sourceMappingURL=d3-financial-components.js.map
