@@ -66,7 +66,6 @@ chart.plotArea.append('g')
 </div>
 
 <script type="text/javascript">
-  // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
   var chart = createPlotArea('#example_candlestick', false);
 
   // Create the Candlestick series
