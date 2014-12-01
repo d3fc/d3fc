@@ -8,53 +8,76 @@ This component calculates and draws a candlestick data series, the series shows 
 <div id="example_candlestick" class="chart"> </div>
 
 <div class="tabs">
-<div class="javascript">
+  <div>
+    <h4>JavaScript</h4>
+<pre>
 // Create the Candlestick series
 var candlestick = fc.series.candlestick()
-	.xScale(chart.dateScale)
-	.yScale(chart.priceScale);
+  .xScale(chart.dateScale)
+  .yScale(chart.priceScale);
 
 // Add the primary Candlestick series
 chart.plotArea.selectAll('.series').remove();
 chart.plotArea.append('g')
-	.attr('class', 'series')
-	.datum(dataSeries1)
-	.call(candlestick);
-</div>
-<div class="css">
-.bar path { stroke-width: 1.5; }
-.bar.up-day path { stroke: #6c0; }
-.bar.down-day path { stroke: #c60; }
-.bar.up-day rect { fill: #6c0; }
-.bar.down-day rect { fill: #c60; }
-</div>
-<div class="svg">
+  .attr('class', 'series')
+  .datum(dataSeries1)
+  .call(candlestick);
+</pre>
+  </div>
+  <div>
+    <h4>CSS</h4>
+<pre>
+.bar path { 
+  stroke-width: 1.5;
+}
+
+.bar.up-day path {
+  stroke: #6c0;
+}
+
+.bar.down-day path {
+  stroke: #c60;
+}
+
+.bar.up-day rect {
+  fill: #6c0;
+}
+
+.bar.down-day rect {
+  fill: #c60;
+}
+</pre>
+  </div>
+  <div>
+    <h4>SVG</h4>
+<xmp>
 <g class="candlestick-series">
-	<g class="bar down-day">
-		<path class="high-low-line"></path>
-		<rect></rect>
-	</g>
-	<g class="bar up-day">
-		<path class="high-low-line"></path>
-		<rect></rect>
-	</g>
+  <g class="bar down-day">
+    <path class="high-low-line"></path>
+    <rect></rect>
+  </g>
+  <g class="bar up-day">
+    <path class="high-low-line"></path>
+    <rect></rect>
+  </g>
 </g>
-</div>
+</xmp>
+  </div>
 </div>
 
 <script type="text/javascript">
-	// Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
-	var chart = createPlotArea('#example_candlestick', false);
+  // Mock data generation (mu, sigma, startingPrice, intraDaySteps, filter)
+  var chart = createPlotArea('#example_candlestick', false);
 
-	// Create the Candlestick series
-	var candlestick = fc.series.candlestick()
-		.xScale(chart.dateScale)
-		.yScale(chart.priceScale);
+  // Create the Candlestick series
+  var candlestick = fc.series.candlestick()
+    .xScale(chart.dateScale)
+    .yScale(chart.priceScale);
 
-	// Add the primary Candlestick series
-	chart.plotArea.selectAll('.series').remove();
-	chart.plotArea.append('g')
-		.attr('class', 'series')
-		.datum(dataSeries1)
-		.call(candlestick);
+  // Add the primary Candlestick series
+  chart.plotArea.selectAll('.series').remove();
+  chart.plotArea.append('g')
+    .attr('class', 'series')
+    .datum(dataSeries1)
+    .call(candlestick);
 </script>
