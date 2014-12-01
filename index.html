@@ -1,107 +1,205 @@
 ---
 layout: default
 ---
-<div class="jumbotron container">
-  <h2>D3 Financial Charts</h2>
-  <h4>A collection of components that make it easy to build interactive financial charts with D3.</h4>
-  <div class="btn-group btn-group-justified" role="group" aria-label="...">
-	<div class="btn-group" role="group">
-	  <a type="button" class="btn btn-primary btn-lg">Download (vX.X)</a>
-	</div>
-	<div class="btn-group" role="group">
-	  <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
-	</div>
-  </div>  
-  <hr />
-
-  <div class="btn-group" role="group">
-	<div class="btn-group" role="group">
-	  <a type="button" class="btn btn-default btn-xs" href="javascript:selectOHLC()">OHLC</a>
-	</div>
-	<div class="btn-group" role="group">
-	  <a type="button" class="btn btn-default btn-xs" href="javascript:selectCandles()">Candles</a>
-	</div>
-  </div>  
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <link rel="stylesheet" href="lib/chart_title.css"></link>
-      <div id="chart_title"></div>
-      <div id="chart_title_nav"></div>
-	  <script type="text/javascript" src="lib/chart_title.js"></script>
-    </div>
-  </div>
-</div>
-
 <div class="container">
-  <div class="row">
-    <div class="col-sm-3">
-      <h3>D3</h3>
-      <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
-      <p>However, constructing charts with D3 can be hard work!</p>
-    </div>
-    <div class="col-sm-1 massive">
-      +
-    </div>
-    <div class="col-sm-3">
-      <h3>D3FC</h3>
-      <p>D3FC provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
-    </div>
-    <div class="col-sm-1 massive">
-      =
-    </div>
-    <div class="col-sm-3">
-      <h3>Awesome!</h3>
-      <p>Building interactive or static charts with D3FC is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
-    </div>
-  </div>
-</div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <img src="http://placehold.it/700x250"/>
-    </div>
-  </div>
-</div>
+	<div class="jumbotron" id="jumbo1">
+		<div class="row">
+			<div class="col-md-8">
+				<h2>D3 Financial Charts</h2>
+				<h4>A collection of components that make it easy to build interactive financial charts with D3.</h4>
+			</div>
+			<div class="col-md-4">
+				<div class="btn-group btn-group-justified" role="group" style="margin-bottom:5px;">
+					<a type="button" class="btn btn-primary btn-lg">Download (vX.X)</a>
+				</div>
+				<div class="btn-group btn-group-justified" role="group">
+					<a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
+				</div>
+			</div>  
+		</div>
+	</div>
 
-<div class="container">
-  <h2>Getting Started</h2>
-  <div class="row">
-    <div class="col-md-4 col-sm-6 ">
-      <h3>Download D3FC</h3>
-      <p>Download the latest JavaScript distribution <a href="https://github.com/ScottLogic/d3-financial-components/tree/master/dist">from GitHub</a>, together with the associated CSS files.</p>
-      <p>You'll also need to obtain the latest version of <a href="http://d3js.org/">D3</a>.</p>
-    </div>
-    <div class="col-md-4 col-sm-6 ">
-      <h3>Pick Your Components</h3>
-      <p>Browse the <a href="components">D3FC components</a> to determine which you need in order to build your chart. You can mix an match with any D3 code you may require to produce your chart.</p>
-      <h3>Customise</h3>
-      <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p> 
-    </div>
-    <div class="col-md-4 col-sm-6 ">
-      <h3>Be Inspired!</h3>
-      <p>Take a look at the <a href="examples">examples</a> we have created using these components</p>
-      <h3>Contribute</h3>
-      <p>Spotted a bug? Have an idea for a feature? Please <a href="https://github.com/ScottLogic/d3-financial-components">pop over to GitHub and contribute</a>.</p>
-    </div>
-  </div>
-</div>
+	<div class="jumbotron" id="jumbo2">
+		<div class="btn-group" role="group">
+			<div class="btn-group" role="group">
+				<a type="button" class="btn btn-default btn-xs" href="javascript:selectOHLC()">OHLC</a>
+			</div>
+			<div class="btn-group" role="group">
+				<a type="button" class="btn btn-default btn-xs" href="javascript:selectCandles()">Candles</a>
+			</div>
+		</div>  
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<link rel="stylesheet" href="lib/chart_title.css"></link>
+				<div id="chart_title"></div>
+				<div id="chart_title_nav"></div>
+				<script type="text/javascript" src="lib/chart_title.js"></script>
+			</div>
+		</div>
+	</div>
 
-<div class="container">
-  <h2>D3FC Components</h2>
-  <p>The ever-growing list of components includes the following:
+	<div class="row">
+		<div class="col-sm-3">
+			<h3>D3</h3>
+			<p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
+			<p>However, constructing charts with D3 can be hard work!</p>
+		</div>
+		<div class="col-sm-1 massive">
+			+
+		</div>
+		<div class="col-sm-3">
+			<h3>D3FC</h3>
+			<p>D3FC provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
+		</div>
+		<div class="col-sm-2 massive">
+			=
+		</div>
+		<div class="col-sm-3">
+			<h3>Awesome!</h3>
+			<p>Building interactive or static charts with D3FC is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
+		</div>
+	</div>
 
-  <ul>
-    {% for componentId in site.component-ids %}
-    {% assign component = site.components[componentId] %}
-    <li>
-      <a href="components.html#{{ componentId }}">{{ component.name }}</a>
-      <ul>
-        {% for post in site.categories[componentId] %}
-        <li><a href="components.html#{{ post.id | split:'/' | last }}">{{ post.title }}</a></li>
-        {% endfor %}
-      </ul>
-    </li>
-    {% endfor %}
-  </ul>
+	<div class="row">
+		<div class="col-md-12">&nbsp;</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">A chart in <strong>7</strong> lines of Javascript.</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-8">
+							<div id="example_candlestick" class="chart"></div>
+						</div>
+						<div class="col-md-4">
+							<div class="tabs">
+								<div>
+									<h4>JavaScript</h4>
+									<pre>
+// Create the Candlestick series
+var candlestick = fc.series.candlestick()
+  .xScale(chart.dateScale)
+  .yScale(chart.priceScale);
+
+// Add the primary Candlestick series
+chart.plotArea.append('g')
+  .attr('class', 'series')
+  .datum(dataSeries1)
+  .call(candlestick);
+									</pre>
+								</div>
+								<div>
+									<h4>CSS</h4>
+									<pre>
+.bar path { 
+  stroke-width: 1.5;
+}
+
+.bar.up-day path {
+  stroke: #6c0;
+}
+
+.bar.down-day path {
+  stroke: #c60;
+}
+
+.bar.up-day rect {
+  fill: #6c0;
+}
+
+.bar.down-day rect {
+  fill: #c60;
+}
+									</pre>
+								</div>
+								<div>
+									<h4>SVG</h4>
+									<xmp>
+<g class="candlestick-series">
+  <g class="bar down-day">
+    <path class="high-low-line"></path>
+    <rect></rect>
+  </g>
+  <g class="bar up-day">
+    <path class="high-low-line"></path>
+    <rect></rect>
+  </g>
+</g>
+									</xmp>
+								</div>
+							</div>
+
+							<script type="text/javascript">
+							var example_candlestick = createPlotArea(dataSeries1, '#example_candlestick');
+
+							// Create the Candlestick series
+							var example_candlestick_series = fc.series.candlestick()
+								.xScale(example_candlestick.dateScale)
+								.yScale(example_candlestick.priceScale);
+
+							// Add the primary Candlestick series
+							example_candlestick.plotArea.append('g')
+								.attr('class', 'series')
+								.datum(dataSeries1)
+								.call(example_candlestick_series);
+							</script>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Getting Started</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-4 col-sm-6 ">
+			<h3>Download D3FC</h3>
+			<p>Download the latest JavaScript distribution <a href="https://github.com/ScottLogic/d3-financial-components/tree/master/dist">from GitHub</a>, together with the associated CSS files.</p>
+			<p>You'll also need to obtain the latest version of <a href="http://d3js.org/">D3</a>.</p>
+		</div>
+		<div class="col-md-4 col-sm-6 ">
+			<h3>Pick Your Components</h3>
+			<p>Browse the <a href="components">D3FC components</a> to determine which you need in order to build your chart. You can mix an match with any D3 code you may require to produce your chart.</p>
+			<h3>Customise</h3>
+			<p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p> 
+		</div>
+		<div class="col-md-4 col-sm-6 ">
+			<h3>Be Inspired!</h3>
+			<p>Take a look at the <a href="examples">examples</a> we have created using these components</p>
+			<h3>Contribute</h3>
+			<p>Spotted a bug? Have an idea for a feature? Please <a href="https://github.com/ScottLogic/d3-financial-components">pop over to GitHub and contribute</a>.</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<h2>D3FC Components</h2>
+			<p>The ever-growing list of components includes the following:
+
+			<ul>
+				{% for componentId in site.component-ids %}
+				{% assign component = site.components[componentId] %}
+				<li>
+					<a href="components.html#{{ componentId }}">{{ component.name }}</a>
+					<ul>
+						{% for post in site.categories[componentId] %}
+						<li><a href="components.html#{{ post.id | split:'/' | last }}">{{ post.title }}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
 </div>
