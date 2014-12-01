@@ -4,17 +4,33 @@ layout: default
 <div class="jumbotron container">
   <h2>D3 Financial Charts</h2>
   <h4>A collection of components that make it easy to build interactive financial charts with D3.</h4>
-  <p>
-    <a type="button" class="btn btn-primary btn-lg">Download (vX.X)</a>
-    <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
-  </p>
+  <div class="btn-group btn-group-justified" role="group" aria-label="...">
+	<div class="btn-group" role="group">
+	  <a type="button" class="btn btn-primary btn-lg">Download (vX.X)</a>
+	</div>
+	<div class="btn-group" role="group">
+	  <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
+	</div>
+  </div>  
+  <hr />
+
+  <div class="btn-group" role="group">
+	<div class="btn-group" role="group">
+	  <a type="button" class="btn btn-default btn-xs" href="javascript:selectOHLC()">OHLC</a>
+	</div>
+	<div class="btn-group" role="group">
+	  <a type="button" class="btn btn-default btn-xs" href="javascript:selectCandles()">Candles</a>
+	</div>
+  </div>  
   <div class="row">
     <div class="col-md-12 text-center">
-      <img src="http://placehold.it/700x250"/>
+      <link rel="stylesheet" href="lib/chart_title.css"></link>
+      <div id="chart_title"></div>
+      <div id="chart_title_nav"></div>
+	  <script type="text/javascript" src="lib/chart_title.js"></script>
     </div>
   </div>
 </div>
-
 
 <div class="container">
   <div class="row">

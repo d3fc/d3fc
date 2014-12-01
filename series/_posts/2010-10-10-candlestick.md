@@ -66,7 +66,7 @@ chart.plotArea.append('g')
 </div>
 
 <script type="text/javascript">
-  var chart = createPlotArea('#example_candlestick', false);
+  var chart = createPlotArea(dataSeries1, '#example_candlestick');
 
   // Create the Candlestick series
   var candlestick = fc.series.candlestick()

@@ -73,7 +73,7 @@ var data = [
 </div>
 
 <script type="text/javascript">
-  var chart = createPlotArea('#example_comparison', false, true);
+  var chart = createPlotArea(dataSeries1, '#example_comparison', false, true);
 
   var data = [ 
   	{ name: 'Series 1', data: dataSeries1 }, 
