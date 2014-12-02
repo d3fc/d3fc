@@ -1,9 +1,16 @@
 siteurl: http://localhost:8080
 
-component-ids: [indicators, series]
+component-ids: [indicators, scale, series, tools, utilities]
 
 components:
   indicators:
     name: Indicators
+  scale:
+    name: Scale
   series:
     name: Series
+  tools:
+    name: Tools  
+  utilities:
+    name: Utilities
+    
