@@ -1,19 +1,73 @@
-.ohlc-series .bar .up-day { stroke: #6c0; }
-.ohlc-series .bar .down-day { stroke: #c60; }
-.ohlc-series .bar .static-day { stroke: #000; }
+/* Default Chart Styles */
+.chart { 
+  height: 400px;
+}
+.chartArea { 
+  background: #fefefe; 
+  border: solid 1px #eee;
+}
 
-.ohlc-series .up-days { stroke: #6c0; }
-.ohlc-series .down-days { stroke: #c60; }
-.ohlc-series .bar .static-days { stroke: #000; }
+/* Default Axis Styles */
+.axis .domain,
+.axis .tick line { 
+  fill: none; 
+  stroke-width: 0.3; 
+  stroke: #000; 
+}
+.axis text { 
+  font: 10px sans-serif; 
+}
+/* OHLC Styles */
+.ohlc-series .bar .up-day { 
+  stroke: #6c0; 
+}
+.ohlc-series .bar .down-day { 
+  stroke: #c60; 
+}
+.ohlc-series .bar .static-day { 
+  stroke: #000; 
+}
 
-.candlestick-series .bar .up-day { stroke: #6c0; }
-.candlestick-series .bar .down-day { stroke: #c60; }
-.candlestick-series .bar .high-low-line { stroke: #000; }
+.ohlc-series .up-days { 
+  stroke: #6c0; 
+}
+.ohlc-series .down-days { 
+  stroke: #c60; 
+}
+.ohlc-series .bar .static-days { 
+  stroke: #000; 
+}
 
-.comparison-series .line { fill: none; }
+/* Candlestick Styles */
+.candlestick-series .up-day rect { 
+  fill: #6c0; 
+}
+.candlestick-series .down-day rect { 
+  fill: #c60; 
+}
+.candlestick-series .bar .high-low-line { 
+  stroke: #000; 
+}
 
-.lineSeries { fill: none; stroke: #06c; }
-.lineSeriesArea { fill: #9cf; fill-opacity: 0.8; }
+/* Comparison Styles */
+.comparison-series .line { 
+  fill: none; 
+}
 
-.volumebar.up-day rect { fill: #6c0; }
-.volumebar.down-day rect { fill: #c60; }
+/* Line Series Styles */
+.lineSeries { 
+  fill: none; 
+  stroke: #06c; 
+}
+.lineSeriesArea { 
+  fill: #9cf; 
+  fill-opacity: 0.5; 
+}
+
+/* Volume Styles */
+.volumebar.up-day rect { 
+  fill: #6c0; 
+}
+.volumebar.down-day rect { 
+  fill: #c60; 
+}
