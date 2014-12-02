@@ -50,8 +50,23 @@
 }
 
 /* Comparison Styles */
-.comparison-series .line { 
-  fill: none; 
+.comparison-series .line {
+    stroke: #000;
+}
+.comparison-series .line0 {
+    stroke: #1f77b4;
+}
+.comparison-series .line1 {
+    stroke: #ff7f0e;
+}
+.comparison-series .line2 {
+    stroke: #2ca02c;
+}
+.comparison-series .line3 {
+    stroke: #d62728;
+}
+.comparison-series .line4 {
+    stroke: #9467bd;
 }
 
 /* Line Series Styles */
@@ -69,5 +84,5 @@
   fill: #6c0; 
 }
 .volumebar.down-day rect { 
-  fill: #c60; 
+  fill: #c60;
 }
