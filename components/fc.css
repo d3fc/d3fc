@@ -1,0 +1,19 @@
+/* Default Chart Styles */
+.chart { 
+  height: 400px;
+}
+.chartArea { 
+  background: #fefefe; 
+  border: solid 1px #eee;
+}
+
+/* Default Axis Styles */
+.axis .domain,
+.axis .tick line { 
+  fill: none; 
+  stroke-width: 0.3; 
+  stroke: #000; 
+}
+.axis text { 
+  font: 10px sans-serif; 
+}
