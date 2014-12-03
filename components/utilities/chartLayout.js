@@ -124,16 +124,16 @@
             return innerHeight;
         };
 
-        chartLayout.getSVG = function(setupArea) {
-            return setupArea.select("svg");
+        chartLayout.getSVG = function (setupArea) {
+            return setupArea.select('svg');
         };
 
-        chartLayout.getChartArea = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select(".chartArea");
+        chartLayout.getChartArea = function (setupArea) {
+            return chartLayout.getSVG(setupArea).select('.chartArea');
         };
 
-        chartLayout.getPlotArea = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select(".plotArea");
+        chartLayout.getPlotArea = function (setupArea) {
+            return chartLayout.getSVG(setupArea).select('.plotArea');
         };
 
         return chartLayout;
