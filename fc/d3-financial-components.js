@@ -2878,8 +2878,8 @@ fc.tools.crosshairs = function () {
             yScale = d3.scale.linear(),
             active = true,
             padding = 2,
-            formatH = function(d) { return d; },
-            formatV = function(d) { return d; };
+            formatH = null,
+            formatV = null;
 
         var circleOrigin = null,
             circleTarget = null,
