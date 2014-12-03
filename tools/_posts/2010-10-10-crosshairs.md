@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Moving Average
+title: Crosshairs
 ---
 Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.
 
