@@ -3,7 +3,7 @@ layout: default
 title: Moving Average
 ---
 
-This component draws a line on a chart which follows the value of a given data field, optionally applying a moving average calculation.
+A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator that smooths out fluctuations in data. This component draws a [simple moving average](http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) line on a chart for a given data field, averaging the previous 5 points by default.
 
 <div id="example_movingAverage" class="chart"> </div>
 
@@ -11,18 +11,19 @@ This component draws a line on a chart which follows the value of a given data f
   <div>
     <h4>JavaScript</h4>
 <pre>
-// Create the moving average tracker
-var tracker = fc.indicators.movingAverage()
-  .xScale(chart.dateScale)
-  .yScale(chart.priceScale)
-  .yValue('close')
-  .averagePoints(10);
+// Create the moving average indicator
+var movingAverage = 
+  fc.indicators.movingAverage()
+    .xScale(chart.dateScale)   // associate the X and Y scales
+    .yScale(chart.priceScale)
+    .yValue('close')           // specify the property of the data that is smoothed
+    .averagePoints(10);        // specify the number of data points to average
 
-// Add it to the chart
+// Add the indicator to the chart
 chart.plotArea.append('g')
-  .attr('class', 'moving-average')
-  .datum(dataSeries1)
-  .call(tracker);
+  .attr('class', 'moving-average')   // add a class 
+  .datum(data)                       // associate with the given chart data
+  .call(movingAverage);
 </pre>
   </div>
   <div>
@@ -37,16 +38,17 @@ chart.plotArea.append('g')
 </pre>
   </div>
   <div>
-    <h4>SVG</h4>
+    <h4>SVG (output)</h4>
 <xmp>
 <g class="moving-average">
-  <path class="indicator"></path>
+  <path d="..." class="indicator"></path>
 </g>
 </xmp>
   </div>
 </div>
 
 <script type="text/javascript">
+(function(){
   var chart = createPlotArea(dataSeries1, '#example_movingAverage');
 
   // Create the OHLC series
@@ -73,4 +75,5 @@ chart.plotArea.append('g')
     .attr('class', 'moving-average')
     .datum(dataSeries1)
     .call(tracker);
+}());
 </script>
