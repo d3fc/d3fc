@@ -48,6 +48,7 @@
 
                 // Create group for the chart
                 var chart =  svg.append('g')
+                    .attr('class', 'chartArea')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
                 // Clipping path
@@ -123,6 +124,20 @@
             return innerHeight;
         };
 
+        chartLayout.getSVG = function(setupArea) {
+            return setupArea.select("svg");
+        };
+
+        chartLayout.getChartArea = function(setupArea) {
+            return chartLayout.getSVG(setupArea).select(".chartArea");
+        };
+
+        chartLayout.getPlotArea = function(setupArea) {
+            return chartLayout.getSVG(setupArea).select(".plotArea");
+        };
+
         return chartLayout;
     };
+
+    
 }(d3, fc));
