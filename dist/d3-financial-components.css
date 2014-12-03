@@ -27,13 +27,13 @@
 .bollingerBandUpper {
   fill: none;
   stroke: #666;
-  stroke-width: 2;
+  stroke-width: 1;
 }
 
 .bollingerBandLower {
   fill: none;
   stroke: #666;
-  stroke-width: 2;
+  stroke-width: 1;
 }
 
 .bollingerAverage {
@@ -63,6 +63,15 @@
   stroke: #69f;
   stroke-width: 1;
   stroke-dasharray: 3, 3;
+}
+/* Gridlines Styles */
+.gridlines { 
+	stroke: #ccc;
+	stroke-width: 1.0;
+}
+.gridlines .x { 
+}
+.gridlines .y { 
 }
 /* OHLC Styles */
 .ohlc-series .bar .up-day { 
