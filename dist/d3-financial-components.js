@@ -1255,8 +1255,7 @@ fc = {
     };
 }(d3, fc));
 
-// TODO where is yScaleTransform?
-(function (d3, fc, yScaleTransform) {
+(function (d3, fc) {
     'use strict';
 
     fc.series.comparison = function () {
@@ -1266,20 +1265,36 @@ fc = {
 
         var cachedData, cachedScale;
 
+        var yScaleTransform = function (oldScale, newScale) {
+            // Compute transform for elements wrt changing yScale.
+            var oldDomain = oldScale.domain(),
+                newDomain = newScale.domain(),
+                scale = (oldDomain[1] - oldDomain[0]) / (newDomain[1] - newDomain[0]),
+                translate = scale * (oldScale.range()[1] - oldScale(newDomain[1]));
+            return {
+                translate: translate,
+                scale: scale
+            };
+        };
+
         var findIndex = function (seriesData, date) {
+            // Find insertion point for date in seriesData.
             var bisect = d3.bisector(
                 function (d) {
                     return d.date;
                 }).left;
 
             var initialIndex = bisect(seriesData, date);
-            if (!initialIndex) {
+            if (initialIndex === 0) {
+                // Google finance style, calculate changes from the
+                // date one before initial date if possible, or index 0.
                 initialIndex += 1;
             }
             return initialIndex;
         };
 
         var percentageChange = function (seriesData, initialDate) {
+            // Computes the percentage change data of a series from an initial date.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialClose = seriesData[initialIndex].close;
 
@@ -1292,6 +1307,7 @@ fc = {
         };
 
         var rebaseChange = function (seriesData, initialDate) {
+            // Change the initial date the percentage changes should be based from.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialChange = seriesData[initialIndex].change;
 
@@ -1366,7 +1382,9 @@ fc = {
                         return d.name;
                     })
                     .enter().append("path")
-                    .attr("class", "line")
+                    .attr("class", function (d) {
+                        return "line " + "line" + data.indexOf(d);
+                    })
                     .attr("d", function (d) {
                         return line(d.data);
                     })
