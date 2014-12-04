@@ -2,8 +2,81 @@
 layout: default
 title: Annotations
 ---
-Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.
 
-Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.
+This component draws a horizontal marker on the chart at a given yValue. the marker has a label and can be styled using CSS.
 
-Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot green bean swiss chard seakale pumpkin onion chickpea gram corn pea. Brussels sprout coriander water chestnut gourd swiss chard wakame kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts nori azuki bean chickweed potato bell pepper artichoke.
+<div id="example_annotation" class="chart"> </div>
+
+<div class="tabs">
+  <div>
+    <h4>JavaScript</h4>
+<pre>
+// Create the annotation
+var annotation = fc.tools.annotation()
+  .xScale(chart.dateScale)
+  .yScale(chart.priceScale)
+  .yValue(100)
+  .yLabel('Annotation')
+  .formatCallout(function(d) { return d3.format('.1f')(d); });
+
+// Add it to the chart
+chart.plotArea.call(annotation);
+</pre>
+  </div>
+  <div>
+    <h4>CSS</h4>
+<pre>
+.annotation .marker {
+  fill: none;
+  stroke: #69f;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}
+.annotation .callout {
+  font: 10px sans-serif;
+}
+</pre>
+  </div>
+  <div>
+    <h4>SVG Output</h4>
+<xmp>
+<g class="annotation">
+	<line class="marker"></line>
+	<text class="callout"></text>
+</g>
+</xmp>
+  </div>
+</div>
+
+<script type="text/javascript">
+(function(){
+  var chart = createPlotArea(dataSeries1, '#example_annotation');
+
+  // Create the OHLC series
+  var ohlc = fc.series.ohlc()
+    .xScale(chart.dateScale)
+    .yScale(chart.priceScale);
+
+  // Add the primary OHLC series
+  chart.plotArea.selectAll('.series').remove();
+  chart.plotArea.append('g')
+    .attr('class', 'series')
+    .datum(dataSeries1)
+    .call(ohlc);
+
+  var min = d3.min(dataSeries1, function (d) { return d.low; }),
+	  max = d3.max(dataSeries1, function (d) { return d.high; }),
+	  mid = min + ((max-min)/2.0);
+
+  // Create the annotation
+  var annotation = fc.tools.annotation()
+    .xScale(chart.dateScale)
+    .yScale(chart.priceScale)
+    .yValue(mid)
+    .yLabel('Annotation:')
+    .formatCallout(function(d) { return d3.format('.1f')(d); });
+
+  // Add it to the chart
+  chart.plotArea.call(annotation);
+}());
+</script>

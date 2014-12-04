@@ -16,7 +16,7 @@ var movingAverage =
   fc.indicators.movingAverage()
     .xScale(chart.dateScale)   // associate the X and Y scales
     .yScale(chart.priceScale)
-    .yValue('close')           // specify the property of the data that is smoothed
+    .yValue(function(d) { return d.close; }) // specify the property of the data that is smoothed
     .averagePoints(10);        // specify the number of data points to average
 
 // Add the indicator to the chart
@@ -67,7 +67,7 @@ chart.plotArea.append('g')
   var tracker = fc.indicators.movingAverage()
     .xScale(chart.dateScale)
     .yScale(chart.priceScale)
-    .yValue('close')
+    .yValue(function(d) { return d.close; })
     .averagePoints(10);
 
   // Add it to the chart
