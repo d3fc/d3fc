@@ -1,9 +1,120 @@
 ---
 layout: default
-title: fibonacciFan
+title: Fibonacci Fan
 ---
-Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.
 
-Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.
+This component allows the user to draw a Fibonacci fan onto a chart.
+For a Fibonacci fan, a trend line is drawn between two points, then three fan lines are drawn from the leftmost point to the rightmost edge of the chart at gradients of 38.2%, 50% and 61.8% of the trend line's gradient.
+When added, the component exists in one of three phases:
 
-Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot green bean swiss chard seakale pumpkin onion chickpea gram corn pea. Brussels sprout coriander water chestnut gourd swiss chard wakame kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts nori azuki bean chickweed potato bell pepper artichoke.
+* In the first phase, a circle is drawn around the data point closest to the mouse (the **origin**); a mouse click advances the component to the next phase.
+* In the second phase, a second circle is drawn around the data point closest to the mouse (the **target**) and a trend line is drawn between it and the origin point; a mouse click advances the component to the final phase.
+* In the final phase, the three fan lines are drawn from the origin point to the edge of the chart; a mouse click hides the fan and returns the component to the first phase.
+
+<div id="example_fibonaccifan" class="chart"> </div>
+
+<div class="tabs">
+  <div>
+    <h4>JavaScript</h4>
+<pre>
+// Create an invisible overlay
+var overlay = d3.svg.area()
+  .x(function (d) { return chart.dateScale(d.date); })
+  .y0(0)
+  .y1(chart.layout.innerHeight());
+
+// Create the fan component
+var fibonacci = fc.tools.fibonacciFan()
+  .target(chart.plotArea)
+  .series(dataSeries1)
+  .xScale(chart.dateScale)
+  .yScale(chart.priceScale);
+
+// Add the fan on top of the overlay
+chart.plotArea.append('path')
+  .attr('class', 'overlay')
+  .attr('d', overlay(dataSeries1))
+  .call(fibonacci);
+</pre>
+  </div>
+  <div>
+    <h4>CSS</h4>
+<pre>
+.fibonacci-fan {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  stroke-opacity: 0.5;
+}
+.fibonacci-fan.source {
+  stroke: blue;
+  stroke-width: 1.5;
+}
+.fibonacci-fan.b {
+  stroke-opacity: 0.4;
+}
+circle.fibonacci-fan {
+  fill: none;
+  stroke: blue;
+  stroke-width: 1;
+  stroke-opacity: 0.5;
+}
+.fibonacci-fan.area {
+  fill: lightgrey;
+  fill-opacity: 0.5;
+  stroke-width: 0;
+}
+</pre>
+  </div>
+  <div>
+    <h4>SVG Output</h4>
+<xmp>
+<g class="fibonacci-fan">
+	<circle class="fibonacci-fan origin"></circle>
+	<circle class="fibonacci-fan target"></circle>
+	<line class="fibonacci-fan source"></line>
+	<line class="fibonacci-fan a"></line>
+	<line class="fibonacci-fan b"></line>
+	<line class="fibonacci-fan c"></line>
+	<polygon class="fibonacci-fan area"></polygon>
+</g>
+</xmp>
+  </div>
+</div>
+
+<script type="text/javascript">
+(function(){
+  var chart = createPlotArea(dataSeries1, '#example_fibonaccifan');
+
+  // Create the OHLC series
+  var ohlc = fc.series.ohlc()
+    .xScale(chart.dateScale)
+    .yScale(chart.priceScale);
+
+  // Add the primary OHLC series
+  chart.plotArea.selectAll('.series').remove();
+  chart.plotArea.append('g')
+    .attr('class', 'series')
+    .datum(dataSeries1)
+    .call(ohlc);
+
+  // Create an invisible overlay
+  var overlay = d3.svg.area()
+    .x(function (d) { return chart.dateScale(d.date); })
+    .y0(0)
+    .y1(chart.layout.innerHeight());
+
+  // Create the fan component
+  var fibonacci = fc.tools.fibonacciFan()
+    .target(chart.plotArea)
+    .series(dataSeries1)
+    .xScale(chart.dateScale)
+    .yScale(chart.priceScale);
+
+  // Add the fan on top of the overlay
+  chart.plotArea.append('path')
+    .attr('class', 'overlay')
+    .attr('d', overlay(dataSeries1))
+    .call(fibonacci);
+}());
+</script>

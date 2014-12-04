@@ -2,8 +2,78 @@
 layout: default
 title: Chart Layout
 ---
-Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic.
 
-Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.
+Based on the [Margin Convention](http://bl.ocks.org/mbostock/3019563), the chart layout component is responsible for defining the chart area.
 
-Turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot green bean swiss chard seakale pumpkin onion chickpea gram corn pea. Brussels sprout coriander water chestnut gourd swiss chard wakame kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts nori azuki bean chickweed potato bell pepper artichoke.
+It attempts to simplify the repetitive process of constructing the chart area:
+
++ Define the margins, height and width
++ Calculate the inner height and inner width
++ Create an SVG
++ Create a group for all chart elements; translate it based on the margins
++ Create a clipping path for the plot area; add it to the group
+
+<div id="example_chartLayout" class="chart"> </div>
+
+<div class="tabs">
+  <div>
+    <h4>JavaScript</h4>
+<pre>
+var chartLayout = fc.utilities.chartLayout()
+  .marginTop(10)
+  .marginBottom(30)
+  .marginLeft(40)
+  .marginRight(40);
+
+// The overall chart
+var setupArea = d3
+  .select(name)
+  .call(chartLayout);
+</pre>
+  </div>
+  <div>
+    <h4>CSS</h4>
+<pre>
+.chart { 
+  height: 400px;
+}
+.chartArea { 
+  background: #fefefe; 
+  border: solid 1px #eee;
+}
+</pre>
+  </div>
+  <div>
+    <h4>SVG Output</h4>
+<xmp>
+<svg class="chartArea">
+  <g>
+    <defs>
+      <clipPath id="plotAreaClip">
+        <rect></rect>
+      </clipPath>
+    </defs>
+    <g clip-path="url(#plotAreaClip)" class="plotArea"></g>
+  </g>
+</svg>
+</xmp>
+  </div>
+</div>
+
+<script type="text/javascript">
+(function(){
+  var chart = createPlotArea(dataSeries1, '#example_chartLayout');
+
+  // Create the OHLC series
+  var ohlc = fc.series.ohlc()
+    .xScale(chart.dateScale)
+    .yScale(chart.priceScale);
+
+  // Add the primary OHLC series
+  chart.plotArea.selectAll('.series').remove();
+  chart.plotArea.append('g')
+    .attr('class', 'series')
+    .datum(dataSeries1)
+    .call(ohlc);
+}());
+</script>

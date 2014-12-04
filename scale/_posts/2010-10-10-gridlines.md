@@ -45,6 +45,7 @@ chart.plotArea.call(gridlines);
 </div>
 
 <script type="text/javascript">
+(function(){
   var chart = createPlotArea(dataSeries1, '#example_gridlines');
 
   // Create the gridlines component
@@ -55,4 +56,5 @@ chart.plotArea.call(gridlines);
 
   // Add gridlines to the chart area
   chart.plotArea.call(gridlines);
+}());
 </script>

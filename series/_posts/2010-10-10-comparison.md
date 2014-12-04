@@ -73,6 +73,7 @@ var data = [
 </div>
 
 <script type="text/javascript">
+(function(){
   var chart = createPlotArea(dataSeries1, '#example_comparison', false, true);
 
   var data = [ 
@@ -92,4 +93,5 @@ var data = [
     .attr('class', 'series')
     .datum(data)
     .call(comparison);
+}());
 </script>

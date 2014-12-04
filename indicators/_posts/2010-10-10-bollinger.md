@@ -15,7 +15,6 @@ This component calculates and draws Bollinger bands on a data series, calculated
 var bollinger = fc.indicators.bollingerBands()
   .xScale(chart.dateScale)
   .yScale(chart.priceScale)
-  .yValue('close')
   .movingAverage(10)
   .standardDeviations(2);
 
@@ -69,6 +68,7 @@ chart.plotArea.append('g')
 </div>
 
 <script type="text/javascript">
+(function () {
   var chart = createPlotArea(dataSeries1, '#example_bollinger');
 
   // Create the OHLC series
@@ -87,7 +87,6 @@ chart.plotArea.append('g')
   var bollinger = fc.indicators.bollingerBands()
     .xScale(chart.dateScale)
     .yScale(chart.priceScale)
-    .yValue('close')
     .movingAverage(10)
     .standardDeviations(2);
 
@@ -96,4 +95,5 @@ chart.plotArea.append('g')
     .attr('class', 'bollinger-band')
     .datum(dataSeries1)
     .call(bollinger);
+}());
 </script>
