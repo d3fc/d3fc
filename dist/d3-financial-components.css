@@ -1,6 +1,5 @@
 /* Default Chart Styles */
 .chart { 
-  height: 400px;
 }
 
 /* Transparent overlay for interactive tools */
@@ -244,6 +243,10 @@ text.crosshairs {
 }
 .annotation .callout {
   font: 10px sans-serif;
+}
+.chartArea rect.background {
+  stroke: #ccc;
+  fill: #eee;
 }
 /* Chart Layout Styles */
 .chartArea rect.background {

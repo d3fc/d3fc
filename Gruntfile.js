@@ -13,13 +13,9 @@ module.exports = function (grunt) {
             componentsCssFiles: [
                 'components/**/*.css'
             ],
-            //examplesJsFiles: [
-            //    'examples/!(_dependencies)/**/*.js'
-            //],
             ourJsFiles: [
                 'Gruntfile.js',
-                '<%= meta.componentsJsFiles %>'//,
-            //    '<%= meta.examplesJsFiles %>'
+                '<%= meta.componentsJsFiles %>'
             ]
         },
 
@@ -36,9 +32,7 @@ module.exports = function (grunt) {
         uglify: {
             options: {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
-                sourceMap: true/*,
-                sourceMapIncludeSources : true,
-                sourceMapIn : 'dist/<%= pkg.name %>.js.map'*/
+                sourceMap: true
             },
             dist: {
                 files: {
@@ -66,17 +60,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-
-        /*copy: {
-            main: {
-                expand: true,
-                cwd: 'dist/',
-                src: ['**', '!*.css'],
-                dest: 'examples/_dependencies/js/',
-                flatten: true,
-                filter: 'isFile'
-            }
-        },*/
 
         watch: {
             files: ['<%= meta.componentsJsFiles %>'],
