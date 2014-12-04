@@ -424,7 +424,7 @@ fc = {
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear();
 
-		var yValue = 0,
+		var yValue = function(d) { return d.close; },
 			movingAverage = 20,
 			standardDeviations = 2;
 
@@ -448,7 +448,7 @@ fc = {
 			var calculateMovingAverage = function (data, i) {
 
 				if (movingAverage === 0) {
-					return data[i][yValue];
+					return yValue(data[i]);
 				}
 
 				var count = Math.min(movingAverage, i + 1),
@@ -456,7 +456,7 @@ fc = {
 
 				var sum = 0;
 				for (var index = first; index <= i; ++index) {
-					var x = data[index][yValue];
+					var x = yValue(data[index]);
 					sum += x;
 				}
 
@@ -474,7 +474,7 @@ fc = {
 
 				var sum = 0;
 				for (var index = first; index <= i; ++index) {
-					var x = data[index][yValue];
+					var x = yValue(data[index]);
 					var dx = x - avg;
 					sum += (dx * dx);
 				}
@@ -661,7 +661,7 @@ fc = {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
-			yValue = 0,
+			yValue = function(d) { return 0; },
 			averagePoints = 5,
 			css = '';
 
@@ -671,28 +671,23 @@ fc = {
 
 			selection.each(function (data) {
 
-				if (!isNaN(parseFloat(yValue))) {
-					line.y(yScale(yValue));
-				}
-				else {
-					if (averagePoints === 0) {
-						line.y(function (d) { return yScale(d[yValue]); });
-					}
-					else {
-						line.y(function (d, i) {
-							var count = Math.min(averagePoints, i + 1),
-							    first = i + 1 - count;
+                if (averagePoints === 0) {
+                    line.y(function (d) { return yScale(yValue(d)); });
+                }
+                else {
+                    line.y(function (d, i) {
+                        var count = Math.min(averagePoints, i + 1),
+                            first = i + 1 - count;
 
-							var sum = 0;
-							for (var index = first; index <= i; ++index) {
-							    sum += data[index][yValue];
-							}
-							var mean = sum / count;
+                        var sum = 0;
+                        for (var index = first; index <= i; ++index) {
+                            sum += yValue(data[index]);
+                        }
+                        var mean = sum / count;
 
-							return yScale(mean);
-						});
-					}
-				}
+                        return yScale(mean);
+                    });
+                }
 
 				var path = d3.select(this).selectAll('.indicator')
 					.data([data]);
@@ -764,7 +759,8 @@ fc = {
 			upperMarker = 70,
 			lowerMarker = 30,
 			lambda = 1.0,
-			css = '';
+			css = '',
+            yValue = function(d) { return d.close; };
 
 		var upper = null,
 			centre = null,
@@ -819,8 +815,8 @@ fc = {
 							dprev = data[offset-1];
 
 							var weight = Math.pow(lambda, offset);
-							up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
-							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
+							up.push(yValue(dnow) > yValue(dprev) ? (yValue(dnow) - yValue(dprev)) * weight : 0);
+							down.push(yValue(dnow) < yValue(dprev) ? (yValue(dprev) - yValue(dnow)) * weight : 0);
 						}
 
 						if (up.length <= 0 || down.length <= 0) {
@@ -900,6 +896,14 @@ fc = {
 			css = value;
 			return rsi;
 		};
+
+        rsi.yValue = function (value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
+            return rsi;
+        };
 
 		return rsi;
 	};
@@ -1137,10 +1141,15 @@ fc = {
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
+        var yOpen = function(d) { return d.open; },
+            yHigh = function(d) { return d.high; },
+            yLow = function(d) { return d.low; },
+            yClose = function(d) { return d.close; };
+
         var rectangleWidth = 5;
 
         var isUpDay = function(d) {
-            return d.close > d.open;
+            return yClose(d) > yOpen(d);
         };
         var isDownDay = function (d) {
             return !isUpDay(d);
@@ -1165,8 +1174,8 @@ fc = {
             paths.classed('high-low-line', true)
                 .attr('d', function (d) {
                     return line([
-                        { x: xScale(d.date), y: yScale(d.high) },
-                        { x: xScale(d.date), y: yScale(d.low) }
+                        { x: xScale(d.date), y: yScale(yHigh(d)) },
+                        { x: xScale(d.date), y: yScale(yLow(d)) }
                     ]);
                 });
         };
@@ -1184,13 +1193,13 @@ fc = {
                 return xScale(d.date) - (rectangleWidth/2.0);
             })
                 .attr('y', function (d) {
-                    return isUpDay(d) ? yScale(d.close) : yScale(d.open);
+                    return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
                 .attr('width', rectangleWidth)
                 .attr('height', function (d) {
                     return isUpDay(d) ?
-                        yScale(d.open) - yScale(d.close) :
-                        yScale(d.close) - yScale(d.open);
+                        yScale(yOpen(d)) - yScale(yClose(d)) :
+                        yScale(yClose(d)) - yScale(yOpen(d));
                 });
         };
 
@@ -1247,6 +1256,38 @@ fc = {
                 return rectangleWidth;
             }
             rectangleWidth = value;
+            return candlestick;
+        };
+
+        candlestick.yOpen = function(value) {
+            if (!arguments.length) {
+                return yOpen;
+            }
+            yOpen = value;
+            return candlestick;
+        };
+
+        candlestick.yHigh = function(value) {
+            if (!arguments.length) {
+                return yHigh;
+            }
+            yHigh = value;
+            return candlestick;
+        };
+
+        candlestick.yLow = function(value) {
+            if (!arguments.length) {
+                return yLow;
+            }
+            yLow = value;
+            return candlestick;
+        };
+
+        candlestick.yClose = function(value) {
+            if (!arguments.length) {
+                return yClose;
+            }
+            yClose = value;
             return candlestick;
         };
 
@@ -1446,7 +1487,7 @@ fc = {
 
 	fc.series.line = function () {
 
-		var yValue = 'close',
+		var yValue = function(d) { return d.close; },
 			xScale = fc.scale.finance(),
 			yScale = fc.scale.linear(),
 			underFill = true;
@@ -1467,7 +1508,7 @@ fc = {
 			selection.each(function (data) {
 
 				if(underFill) {
-					area.y1(function (d) { return yScale(d[yValue]); });
+					area.y1(function (d) { return yScale(yValue(d)); });
 					var areapath = d3.select(this).selectAll('.lineSeriesArea')
 						.data([data]);
 					areapath.enter()
@@ -1478,7 +1519,7 @@ fc = {
 						.remove();
 				}
 
-				line.y(function (d) { return yScale(d[yValue]); });
+				line.y(function (d) { return yScale(yValue(d)); });
 				var linepath = d3.select(this).selectAll('.lineSeries')
 					.data([data]);
 				linepath.enter()
@@ -1535,21 +1576,26 @@ fc = {
             yScale = d3.scale.linear(),
             tickWidth = 5;
 
+        var yOpen = function(d) { return d.open; },
+            yHigh = function(d) { return d.high; },
+            yLow = function(d) { return d.low; },
+            yClose = function(d) { return d.close; };
+
         // Function to return
         var ohlc;
 
         // Accessor functions
         var open = function (d) {
-                return yScale(d.open);
+                return yScale(yOpen(d));
             },
             high = function (d) {
-                return yScale(d.high);
+                return yScale(yHigh(d));
             },
             low = function (d) {
-                return yScale(d.low);
+                return yScale(yLow(d));
             },
             close = function (d) {
-                return yScale(d.close);
+                return yScale(yClose(d));
             },
             date = function (d) {
                 return xScale(d.date);
@@ -1557,13 +1603,13 @@ fc = {
 
         // Up/down day logic
         var isUpDay = function(d) {
-            return d.close > d.open;
+            return yClose(d) > yOpen(d);
         };
         var isDownDay = function (d) {
-            return d.close < d.open;
+            return yClose(d) < yOpen(d);
         };
         var isStaticDay = function (d) {
-            return d.close === d.open;
+            return yClose(d) === yOpen(d);
         };
 
         var barColour = function(d) {
@@ -1735,6 +1781,38 @@ fc = {
             return ohlc;
         };
 
+        ohlc.yOpen = function(value) {
+            if (!arguments.length) {
+                return yOpen;
+            }
+            yOpen = value;
+            return ohlc;
+        };
+
+        ohlc.yHigh = function(value) {
+            if (!arguments.length) {
+                return yHigh;
+            }
+            yHigh = value;
+            return ohlc;
+        };
+
+        ohlc.yLow = function(value) {
+            if (!arguments.length) {
+                return yLow;
+            }
+            yLow = value;
+            return ohlc;
+        };
+
+        ohlc.yClose = function(value) {
+            if (!arguments.length) {
+                return yClose;
+            }
+            yClose = value;
+            return ohlc;
+        };
+
         return ohlc;
     };
 }(d3, fc));
@@ -1746,7 +1824,7 @@ fc = {
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = 5,
-            yValue = 'volume';
+            yValue = function(d) { return d.volume; };
 
         var isUpDay = function(d) {
             return d.close > d.open;
@@ -1765,9 +1843,9 @@ fc = {
             rect.enter().append('rect');
 
             rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
-                .attr('y', function(d) { return yScale(d[yValue]); } )
+                .attr('y', function(d) { return yScale(yValue(d)); } )
                 .attr('width', barWidth)
-                .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
+                .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
         };
 
         var volume = function (selection) {
@@ -2077,7 +2155,7 @@ fc = {
 		};
 
 		callouts.addCallout = function (value) {
-		data.push(value);
+		    data.push(value);
 			return callouts;
 		};
 

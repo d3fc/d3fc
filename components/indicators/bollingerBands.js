@@ -6,7 +6,7 @@
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear();
 
-		var yValue = 0,
+		var yValue = function(d) { return d.close; },
 			movingAverage = 20,
 			standardDeviations = 2;
 
@@ -30,7 +30,7 @@
 			var calculateMovingAverage = function (data, i) {
 
 				if (movingAverage === 0) {
-					return data[i][yValue];
+					return yValue(data[i]);
 				}
 
 				var count = Math.min(movingAverage, i + 1),
@@ -38,7 +38,7 @@
 
 				var sum = 0;
 				for (var index = first; index <= i; ++index) {
-					var x = data[index][yValue];
+					var x = yValue(data[index]);
 					sum += x;
 				}
 
@@ -56,7 +56,7 @@
 
 				var sum = 0;
 				for (var index = first; index <= i; ++index) {
-					var x = data[index][yValue];
+					var x = yValue(data[index]);
 					var dx = x - avg;
 					sum += (dx * dx);
 				}

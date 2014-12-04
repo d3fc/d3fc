@@ -9,7 +9,8 @@
 			upperMarker = 70,
 			lowerMarker = 30,
 			lambda = 1.0,
-			css = '';
+			css = '',
+            yValue = function(d) { return d.close; };
 
 		var upper = null,
 			centre = null,
@@ -64,8 +65,8 @@
 							dprev = data[offset-1];
 
 							var weight = Math.pow(lambda, offset);
-							up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
-							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
+							up.push(yValue(dnow) > yValue(dprev) ? (yValue(dnow) - yValue(dprev)) * weight : 0);
+							down.push(yValue(dnow) < yValue(dprev) ? (yValue(dprev) - yValue(dnow)) * weight : 0);
 						}
 
 						if (up.length <= 0 || down.length <= 0) {
@@ -145,6 +146,14 @@
 			css = value;
 			return rsi;
 		};
+
+        rsi.yValue = function (value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
+            return rsi;
+        };
 
 		return rsi;
 	};

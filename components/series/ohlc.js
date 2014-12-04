@@ -8,21 +8,26 @@
             yScale = d3.scale.linear(),
             tickWidth = 5;
 
+        var yOpen = function(d) { return d.open; },
+            yHigh = function(d) { return d.high; },
+            yLow = function(d) { return d.low; },
+            yClose = function(d) { return d.close; };
+
         // Function to return
         var ohlc;
 
         // Accessor functions
         var open = function (d) {
-                return yScale(d.open);
+                return yScale(yOpen(d));
             },
             high = function (d) {
-                return yScale(d.high);
+                return yScale(yHigh(d));
             },
             low = function (d) {
-                return yScale(d.low);
+                return yScale(yLow(d));
             },
             close = function (d) {
-                return yScale(d.close);
+                return yScale(yClose(d));
             },
             date = function (d) {
                 return xScale(d.date);
@@ -30,13 +35,13 @@
 
         // Up/down day logic
         var isUpDay = function(d) {
-            return d.close > d.open;
+            return yClose(d) > yOpen(d);
         };
         var isDownDay = function (d) {
-            return d.close < d.open;
+            return yClose(d) < yOpen(d);
         };
         var isStaticDay = function (d) {
-            return d.close === d.open;
+            return yClose(d) === yOpen(d);
         };
 
         var barColour = function(d) {
@@ -205,6 +210,38 @@
                 return tickWidth;
             }
             tickWidth = value;
+            return ohlc;
+        };
+
+        ohlc.yOpen = function(value) {
+            if (!arguments.length) {
+                return yOpen;
+            }
+            yOpen = value;
+            return ohlc;
+        };
+
+        ohlc.yHigh = function(value) {
+            if (!arguments.length) {
+                return yHigh;
+            }
+            yHigh = value;
+            return ohlc;
+        };
+
+        ohlc.yLow = function(value) {
+            if (!arguments.length) {
+                return yLow;
+            }
+            yLow = value;
+            return ohlc;
+        };
+
+        ohlc.yClose = function(value) {
+            if (!arguments.length) {
+                return yClose;
+            }
+            yClose = value;
             return ohlc;
         };
 

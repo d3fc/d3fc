@@ -247,8 +247,7 @@
 		    share.volumeData = fc.series.volume()
 		        .xScale(share.xScale)
 		        .yScale(share.volYScale)
-		        .barWidth(this.chartDataOptions.width)
-                .yValue('volume');
+		        .barWidth(this.chartDataOptions.width);
 
 		    share.volumeSeries = share.plotArea.append('g').attr('class', 'volume').datum(data).call(share.volumeData);
 		};

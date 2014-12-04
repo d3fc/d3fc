@@ -5,7 +5,7 @@
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
-			yValue = 0,
+			yValue = function(d) { return 0; },
 			averagePoints = 5,
 			css = '';
 
@@ -15,28 +15,23 @@
 
 			selection.each(function (data) {
 
-				if (!isNaN(parseFloat(yValue))) {
-					line.y(yScale(yValue));
-				}
-				else {
-					if (averagePoints === 0) {
-						line.y(function (d) { return yScale(d[yValue]); });
-					}
-					else {
-						line.y(function (d, i) {
-							var count = Math.min(averagePoints, i + 1),
-							    first = i + 1 - count;
+                if (averagePoints === 0) {
+                    line.y(function (d) { return yScale(yValue(d)); });
+                }
+                else {
+                    line.y(function (d, i) {
+                        var count = Math.min(averagePoints, i + 1),
+                            first = i + 1 - count;
 
-							var sum = 0;
-							for (var index = first; index <= i; ++index) {
-							    sum += data[index][yValue];
-							}
-							var mean = sum / count;
+                        var sum = 0;
+                        for (var index = first; index <= i; ++index) {
+                            sum += yValue(data[index]);
+                        }
+                        var mean = sum / count;
 
-							return yScale(mean);
-						});
-					}
-				}
+                        return yScale(mean);
+                    });
+                }
 
 				var path = d3.select(this).selectAll('.indicator')
 					.data([data]);

@@ -6,10 +6,15 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
+        var yOpen = function(d) { return d.open; },
+            yHigh = function(d) { return d.high; },
+            yLow = function(d) { return d.low; },
+            yClose = function(d) { return d.close; };
+
         var rectangleWidth = 5;
 
         var isUpDay = function(d) {
-            return d.close > d.open;
+            return yClose(d) > yOpen(d);
         };
         var isDownDay = function (d) {
             return !isUpDay(d);
@@ -34,8 +39,8 @@
             paths.classed('high-low-line', true)
                 .attr('d', function (d) {
                     return line([
-                        { x: xScale(d.date), y: yScale(d.high) },
-                        { x: xScale(d.date), y: yScale(d.low) }
+                        { x: xScale(d.date), y: yScale(yHigh(d)) },
+                        { x: xScale(d.date), y: yScale(yLow(d)) }
                     ]);
                 });
         };
@@ -53,13 +58,13 @@
                 return xScale(d.date) - (rectangleWidth/2.0);
             })
                 .attr('y', function (d) {
-                    return isUpDay(d) ? yScale(d.close) : yScale(d.open);
+                    return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
                 .attr('width', rectangleWidth)
                 .attr('height', function (d) {
                     return isUpDay(d) ?
-                        yScale(d.open) - yScale(d.close) :
-                        yScale(d.close) - yScale(d.open);
+                        yScale(yOpen(d)) - yScale(yClose(d)) :
+                        yScale(yClose(d)) - yScale(yOpen(d));
                 });
         };
 
@@ -116,6 +121,38 @@
                 return rectangleWidth;
             }
             rectangleWidth = value;
+            return candlestick;
+        };
+
+        candlestick.yOpen = function(value) {
+            if (!arguments.length) {
+                return yOpen;
+            }
+            yOpen = value;
+            return candlestick;
+        };
+
+        candlestick.yHigh = function(value) {
+            if (!arguments.length) {
+                return yHigh;
+            }
+            yHigh = value;
+            return candlestick;
+        };
+
+        candlestick.yLow = function(value) {
+            if (!arguments.length) {
+                return yLow;
+            }
+            yLow = value;
+            return candlestick;
+        };
+
+        candlestick.yClose = function(value) {
+            if (!arguments.length) {
+                return yClose;
+            }
+            yClose = value;
             return candlestick;
         };
 

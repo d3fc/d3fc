@@ -6,7 +6,7 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = 5,
-            yValue = 'volume';
+            yValue = function(d) { return d.volume; };
 
         var isUpDay = function(d) {
             return d.close > d.open;
@@ -25,9 +25,9 @@
             rect.enter().append('rect');
 
             rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
-                .attr('y', function(d) { return yScale(d[yValue]); } )
+                .attr('y', function(d) { return yScale(yValue(d)); } )
                 .attr('width', barWidth)
-                .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
+                .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
         };
 
         var volume = function (selection) {

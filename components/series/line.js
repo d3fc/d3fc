@@ -3,7 +3,7 @@
 
 	fc.series.line = function () {
 
-		var yValue = 'close',
+		var yValue = function(d) { return d.close; },
 			xScale = fc.scale.finance(),
 			yScale = fc.scale.linear(),
 			underFill = true;
@@ -24,7 +24,7 @@
 			selection.each(function (data) {
 
 				if(underFill) {
-					area.y1(function (d) { return yScale(d[yValue]); });
+					area.y1(function (d) { return yScale(yValue(d)); });
 					var areapath = d3.select(this).selectAll('.lineSeriesArea')
 						.data([data]);
 					areapath.enter()
@@ -35,7 +35,7 @@
 						.remove();
 				}
 
-				line.y(function (d) { return yScale(d[yValue]); });
+				line.y(function (d) { return yScale(yValue(d)); });
 				var linepath = d3.select(this).selectAll('.lineSeries')
 					.data([data]);
 				linepath.enter()
