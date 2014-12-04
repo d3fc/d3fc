@@ -203,9 +203,9 @@
                 lineC.attr('display', 'inherit');
                 fanArea.attr('display', 'inherit');
 
-                var pointsFinal = originX + ',' + originY
-                    + ' ' + finalX + ',' + finalY.a
-                    + ' ' + finalX + ',' + finalY.c;
+                var pointsFinal = originX + ',' + originY +
+                    ' ' + finalX + ',' + finalY.a +
+                    ' ' + finalX + ',' + finalY.c;
 
                 lineA.transition()
                     .attr('y2', finalY.a);
@@ -250,9 +250,9 @@
 
         function setFanLines(originX, originY, finalX, finalYa, finalYb, finalYc) {
 
-            var points = originX + ',' + originY
-                + ' ' + finalX + ',' + finalYa
-                + ' ' + finalX + ',' + finalYc;
+            var points = originX + ',' + originY +
+                ' ' + finalX + ',' + finalYa +
+                ' ' + finalX + ',' + finalYc;
 
             lineA.attr('x1', originX)
                 .attr('y1', originY)

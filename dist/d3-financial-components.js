@@ -1,4 +1,5 @@
-fc = {
+/* globals window */
+window.fc = {
     version: '0.0.0',
     indicators: {},
     scale: {},
@@ -65,6 +66,12 @@ fc = {
                     .append('rect')
                     .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
 
+                // create a background element
+                chart.append('rect')
+                    .attr('class', 'background')
+                    .attr('width', chartLayout.innerWidth())
+                    .attr('height', chartLayout.innerHeight());
+
                 // Create plot area, using the clipping path
                 chart.append('g')
                     .attr('clip-path', 'url(#plotAreaClip)')
@@ -73,22 +80,17 @@ fc = {
                 // create containers for the axes
                 chart.append('g')
                     .attr('class', 'axis bottom')
-                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
+                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
                 chart.append('g')
                     .attr('class', 'axis top')
-                    .attr('transform', 'translate(0, 0)')
+                    .attr('transform', 'translate(0, 0)');
                 chart.append('g')
                     .attr('class', 'axis left')
-                    .attr('transform', 'translate(0, 0)')
+                    .attr('transform', 'translate(0, 0)');
                 chart.append('g')
                     .attr('class', 'axis right')
-                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)')
-  
-                // create a background element
-                chart.append('rect')
-                    .attr('class', 'background')
-                    .attr('width', chartLayout.innerWidth())
-                    .attr('height', chartLayout.innerHeight());
+                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
+                
             });
         };
 
@@ -450,9 +452,9 @@ fc = {
             weeks = days / 7 | 0,
             day0 = (d3.time.year(date).getDay() + 6) % 7,
             day1 = day0 + days - weeks * 7;
-        return Math.max(0, days - weeks * 2
-            - (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) // extra saturday
-            - (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
+        return Math.max(0, days - weeks * 2 -
+            (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) - // extra saturday
+            (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
     }
 
     fc.utilities.weekday = weekday;
@@ -2070,6 +2072,7 @@ fc = {
         return annotation;
     };
 }(d3, fc));
+/*jshint loopfunc: true */
 (function (d3, fc) {
 		'use strict';
 
@@ -2814,9 +2817,9 @@ fc.tools.crosshairs = function () {
                 lineC.attr('display', 'inherit');
                 fanArea.attr('display', 'inherit');
 
-                var pointsFinal = originX + ',' + originY
-                    + ' ' + finalX + ',' + finalY.a
-                    + ' ' + finalX + ',' + finalY.c;
+                var pointsFinal = originX + ',' + originY +
+                    ' ' + finalX + ',' + finalY.a +
+                    ' ' + finalX + ',' + finalY.c;
 
                 lineA.transition()
                     .attr('y2', finalY.a);
@@ -2861,9 +2864,9 @@ fc.tools.crosshairs = function () {
 
         function setFanLines(originX, originY, finalX, finalYa, finalYb, finalYc) {
 
-            var points = originX + ',' + originY
-                + ' ' + finalX + ',' + finalYa
-                + ' ' + finalX + ',' + finalYc;
+            var points = originX + ',' + originY +
+                ' ' + finalX + ',' + finalYa +
+                ' ' + finalX + ',' + finalYc;
 
             lineA.attr('x1', originX)
                 .attr('y1', originY)

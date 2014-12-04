@@ -57,6 +57,12 @@
                     .append('rect')
                     .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
 
+                // create a background element
+                chart.append('rect')
+                    .attr('class', 'background')
+                    .attr('width', chartLayout.innerWidth())
+                    .attr('height', chartLayout.innerHeight());
+
                 // Create plot area, using the clipping path
                 chart.append('g')
                     .attr('clip-path', 'url(#plotAreaClip)')
@@ -65,22 +71,17 @@
                 // create containers for the axes
                 chart.append('g')
                     .attr('class', 'axis bottom')
-                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')')
+                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
                 chart.append('g')
                     .attr('class', 'axis top')
-                    .attr('transform', 'translate(0, 0)')
+                    .attr('transform', 'translate(0, 0)');
                 chart.append('g')
                     .attr('class', 'axis left')
-                    .attr('transform', 'translate(0, 0)')
+                    .attr('transform', 'translate(0, 0)');
                 chart.append('g')
                     .attr('class', 'axis right')
-                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)')
-  
-                // create a background element
-                chart.append('rect')
-                    .attr('class', 'background')
-                    .attr('width', chartLayout.innerWidth())
-                    .attr('height', chartLayout.innerHeight());
+                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
+                
             });
         };
 
