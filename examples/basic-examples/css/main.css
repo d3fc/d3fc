@@ -17,6 +17,8 @@ g.plotArea .gridlines line { stroke-width: 0.15; stroke: #222; }
 .volumebar.up-day rect { fill: #6c0; }
 .volumebar.down-day rect { fill: #c60; }
 
+.comparison-series .line { fill: none; }
+
 .marker { stroke-width: 0.5; stroke: #000; stroke-dasharray: 3,3; }
 .rsi { fill: none; stroke: #00c; stroke-width: 1.0; }
 
