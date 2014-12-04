@@ -60,9 +60,9 @@
             weeks = days / 7 | 0,
             day0 = (d3.time.year(date).getDay() + 6) % 7,
             day1 = day0 + days - weeks * 7;
-        return Math.max(0, days - weeks * 2
-            - (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) // extra saturday
-            - (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
+        return Math.max(0, days - weeks * 2 -
+            (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) - // extra saturday
+            (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
     }
 
     fc.utilities.weekday = weekday;

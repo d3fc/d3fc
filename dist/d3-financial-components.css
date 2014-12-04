@@ -1,12 +1,3 @@
-/* Default Chart Styles */
-.chart { 
-  height: 400px;
-}
-.chartArea { 
-  background: #fefefe; 
-  border: solid 1px #eee;
-}
-
 /* Default Axis Styles */
 .axis .domain,
 .axis .tick line { 
@@ -85,4 +76,8 @@
 }
 .volumebar.down-day rect { 
   fill: #c60;
+}
+.chartArea rect.background {
+  stroke: #ccc;
+  fill: #eee;
 }

@@ -1,3 +1,4 @@
+/*jshint loopfunc: true */
 (function (d3, fc) {
 		'use strict';
 
