@@ -1,0 +1,6 @@
+/* Chart Layout Styles */
+.chartArea rect.background {
+  stroke: #eee;
+  stroke-width:; 0.5;
+  fill: #fff;
+}

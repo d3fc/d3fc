@@ -1,3 +1,13 @@
+/* Default Chart Styles */
+.chart { 
+}
+
+/* Transparent overlay for interactive tools */
+.overlay {
+  stroke-width: 0px;
+  fill-opacity: 0;
+}
+
 /* Default Axis Styles */
 .axis .domain,
 .axis .tick line { 
@@ -7,6 +17,62 @@
 }
 .axis text { 
   font: 10px sans-serif; 
+}
+/* Bollinger Bands Styles */
+.bollingerBandArea {
+  fill: #eee;
+  stroke-width: 0;
+  opacity: 0.5;
+}
+
+.bollingerBandUpper {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1;
+}
+
+.bollingerBandLower {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1;
+}
+
+.bollingerAverage {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1;
+  stroke-dasharray: 4, 1;
+}
+
+/* Moving Average Styles */
+.moving-average {
+  fill: none;
+  stroke: #69f;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}
+
+/* RSI Styles */
+.rsi { 
+  fill: none; 
+  stroke: #00c; 
+  stroke-width: 1.0; 
+}
+
+.marker { 
+  fill: none;
+  stroke: #69f;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}
+/* Gridlines Styles */
+.gridlines { 
+	stroke: #ccc;
+	stroke-width: 1.0;
+}
+.gridlines .x { 
+}
+.gridlines .y { 
 }
 /* OHLC Styles */
 .ohlc-series .bar .up-day { 
@@ -43,21 +109,27 @@
 /* Comparison Styles */
 .comparison-series .line {
     stroke: #000;
+    fill: none;
 }
 .comparison-series .line0 {
     stroke: #1f77b4;
+    fill: none;
 }
 .comparison-series .line1 {
     stroke: #ff7f0e;
+    fill: none;
 }
 .comparison-series .line2 {
     stroke: #2ca02c;
+    fill: none;
 }
 .comparison-series .line3 {
     stroke: #d62728;
+    fill: none;
 }
 .comparison-series .line4 {
     stroke: #9467bd;
+    fill: none;
 }
 
 /* Line Series Styles */
@@ -77,7 +149,108 @@
 .volumebar.down-day rect { 
   fill: #c60;
 }
+/* Ruler/Measure Component Styles */
+.measure.origin {
+  fill: none;
+  stroke: #00c;
+  stroke-width: 1;
+}
+.measure.target {
+  fill: none;
+  stroke: #00c;
+  stroke-width: 1;
+}
+.measure.source {
+  fill: none;
+  stroke: #00c;
+  stroke-width: 1;
+}
+.measure.x {
+  fill: none;
+  stroke: #00c;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}
+.measure.y {
+  fill: none;
+  stroke: #00c;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}
+.measure.callout {
+  font: 10px sans-serif;
+  fill: #000;
+}
+
+/* Fibonacci Fan Styles */
+.fibonacci-fan {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1;
+}
+.fibonacci-fan.source {
+  stroke: #69f;
+  stroke-width: 1;
+}
+.fibonacci-fan.b {
+}
+circle.fibonacci-fan {
+  fill: none;
+  stroke: #69f;
+  stroke-width: 1;
+}
+.fibonacci-fan.area {
+  fill: #eee;
+  fill-opacity: 0.5;
+  stroke-width: 0;
+}
+
+/* Crosshairs Styles */
+line.crosshairs {
+  stroke: #69f;
+  stroke-width: 1;
+}
+
+circle.crosshairs {
+  fill: none;
+  stroke: #69f;
+  stroke-width: 1;
+}
+
+text.crosshairs {
+  font: 10px sans-serif;
+}
+
+.crosshairs.frozen {
+  stroke: #933;
+}
+
+/* Callouts Styles */
+.callout rect { 
+  fill: #999;
+  fill-opacity: 0.8;
+}
+.callout text { 
+  fill: #000;
+}
+
+/* Annotations */
+.annotation .marker {
+  fill: none;
+  stroke: #69f;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}
+.annotation .callout {
+  font: 10px sans-serif;
+}
 .chartArea rect.background {
   stroke: #ccc;
   fill: #eee;
+}
+/* Chart Layout Styles */
+.chartArea rect.background {
+  stroke: #eee;
+  stroke-width:; 0.5;
+  fill: #fff;
 }

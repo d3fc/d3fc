@@ -1,3 +1,13 @@
+/* Default Chart Styles */
+.chart { 
+}
+
+/* Transparent overlay for interactive tools */
+.overlay {
+  stroke-width: 0px;
+  fill-opacity: 0;
+}
+
 /* Default Axis Styles */
 .axis .domain,
 .axis .tick line { 

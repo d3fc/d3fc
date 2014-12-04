@@ -9,8 +9,8 @@
             yScale = d3.scale.linear(),
             active = true,
             padding = 2,
-            formatH = null,
-            formatV = null;
+            formatH = function(d) { return d; },
+            formatV = function(d) { return d; };
 
         var circleOrigin = null,
             circleTarget = null,
