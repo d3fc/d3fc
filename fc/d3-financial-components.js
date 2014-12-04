@@ -1,4 +1,5 @@
-fc = {
+/* globals window */
+window.fc = {
     version: '0.0.0',
     indicators: {},
     scale: {},
@@ -56,6 +57,7 @@ fc = {
 
                 // Create group for the chart
                 var chart =  svg.append('g')
+                    .attr('class', 'chartArea')
                     .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
                 // Clipping path
@@ -64,10 +66,31 @@ fc = {
                     .append('rect')
                     .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
 
+                // create a background element
+                chart.append('rect')
+                    .attr('class', 'background')
+                    .attr('width', chartLayout.innerWidth())
+                    .attr('height', chartLayout.innerHeight());
+
                 // Create plot area, using the clipping path
                 chart.append('g')
                     .attr('clip-path', 'url(#plotAreaClip)')
                     .attr('class', 'plotArea');
+
+                // create containers for the axes
+                chart.append('g')
+                    .attr('class', 'axis bottom')
+                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
+                chart.append('g')
+                    .attr('class', 'axis top')
+                    .attr('transform', 'translate(0, 0)');
+                chart.append('g')
+                    .attr('class', 'axis left')
+                    .attr('transform', 'translate(0, 0)');
+                chart.append('g')
+                    .attr('class', 'axis right')
+                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
+                
             });
         };
 
@@ -131,8 +154,30 @@ fc = {
             return innerHeight;
         };
 
+        chartLayout.getSVG = function (setupArea) {
+            return setupArea.select('svg');
+        };
+
+        chartLayout.getChartArea = function (setupArea) {
+            return chartLayout.getSVG(setupArea).select('.chartArea');
+        };
+
+        chartLayout.getPlotArea = function (setupArea) {
+            return chartLayout.getSVG(setupArea).select('.plotArea');
+        };
+
+        chartLayout.getAxisContainer = function (setupArea, orientation) {
+            return chartLayout.getSVG(setupArea).select('.axis.' + orientation);
+        };
+
+        chartLayout.getPlotAreaBackground = function (setupArea) {
+            return chartLayout.getSVG(setupArea).select('.chartArea rect.background');
+        };
+
         return chartLayout;
     };
+
+    
 }(d3, fc));
 (function (fc) {
     'use strict';
@@ -407,9 +452,9 @@ fc = {
             weeks = days / 7 | 0,
             day0 = (d3.time.year(date).getDay() + 6) % 7,
             day1 = day0 + days - weeks * 7;
-        return Math.max(0, days - weeks * 2
-            - (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) // extra saturday
-            - (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
+        return Math.max(0, days - weeks * 2 -
+            (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) - // extra saturday
+            (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
     }
 
     fc.utilities.weekday = weekday;
@@ -424,7 +469,7 @@ fc = {
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear();
 
-		var yValue = 0,
+		var yValue = function(d) { return d.close; },
 			movingAverage = 20,
 			standardDeviations = 2;
 
@@ -448,7 +493,7 @@ fc = {
 			var calculateMovingAverage = function (data, i) {
 
 				if (movingAverage === 0) {
-					return data[i][yValue];
+					return yValue(data[i]);
 				}
 
 				var count = Math.min(movingAverage, i + 1),
@@ -456,7 +501,7 @@ fc = {
 
 				var sum = 0;
 				for (var index = first; index <= i; ++index) {
-					var x = data[index][yValue];
+					var x = yValue(data[index]);
 					sum += x;
 				}
 
@@ -474,7 +519,7 @@ fc = {
 
 				var sum = 0;
 				for (var index = first; index <= i; ++index) {
-					var x = data[index][yValue];
+					var x = yValue(data[index]);
 					var dx = x - avg;
 					sum += (dx * dx);
 				}
@@ -661,7 +706,7 @@ fc = {
 
 		var xScale = d3.time.scale(),
 			yScale = d3.scale.linear(),
-			yValue = 0,
+			yValue = function(d) { return 0; },
 			averagePoints = 5,
 			css = '';
 
@@ -671,28 +716,23 @@ fc = {
 
 			selection.each(function (data) {
 
-				if (!isNaN(parseFloat(yValue))) {
-					line.y(yScale(yValue));
-				}
-				else {
-					if (averagePoints === 0) {
-						line.y(function (d) { return yScale(d[yValue]); });
-					}
-					else {
-						line.y(function (d, i) {
-							var count = Math.min(averagePoints, i + 1),
-							    first = i + 1 - count;
+                if (averagePoints === 0) {
+                    line.y(function (d) { return yScale(yValue(d)); });
+                }
+                else {
+                    line.y(function (d, i) {
+                        var count = Math.min(averagePoints, i + 1),
+                            first = i + 1 - count;
 
-							var sum = 0;
-							for (var index = first; index <= i; ++index) {
-							    sum += data[index][yValue];
-							}
-							var mean = sum / count;
+                        var sum = 0;
+                        for (var index = first; index <= i; ++index) {
+                            sum += yValue(data[index]);
+                        }
+                        var mean = sum / count;
 
-							return yScale(mean);
-						});
-					}
-				}
+                        return yScale(mean);
+                    });
+                }
 
 				var path = d3.select(this).selectAll('.indicator')
 					.data([data]);
@@ -764,7 +804,8 @@ fc = {
 			upperMarker = 70,
 			lowerMarker = 30,
 			lambda = 1.0,
-			css = '';
+			css = '',
+            yValue = function(d) { return d.close; };
 
 		var upper = null,
 			centre = null,
@@ -819,8 +860,8 @@ fc = {
 							dprev = data[offset-1];
 
 							var weight = Math.pow(lambda, offset);
-							up.push(dnow.close > dprev.close ? (dnow.close - dprev.close) * weight : 0);
-							down.push(dnow.close < dprev.close ? (dprev.close - dnow.close) * weight : 0);
+							up.push(yValue(dnow) > yValue(dprev) ? (yValue(dnow) - yValue(dprev)) * weight : 0);
+							down.push(yValue(dnow) < yValue(dprev) ? (yValue(dprev) - yValue(dnow)) * weight : 0);
 						}
 
 						if (up.length <= 0 || down.length <= 0) {
@@ -900,6 +941,14 @@ fc = {
 			css = value;
 			return rsi;
 		};
+
+        rsi.yValue = function (value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
+            return rsi;
+        };
 
 		return rsi;
 	};
@@ -1137,10 +1186,15 @@ fc = {
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
+        var yOpen = function(d) { return d.open; },
+            yHigh = function(d) { return d.high; },
+            yLow = function(d) { return d.low; },
+            yClose = function(d) { return d.close; };
+
         var rectangleWidth = 5;
 
         var isUpDay = function(d) {
-            return d.close > d.open;
+            return yClose(d) > yOpen(d);
         };
         var isDownDay = function (d) {
             return !isUpDay(d);
@@ -1165,8 +1219,8 @@ fc = {
             paths.classed('high-low-line', true)
                 .attr('d', function (d) {
                     return line([
-                        { x: xScale(d.date), y: yScale(d.high) },
-                        { x: xScale(d.date), y: yScale(d.low) }
+                        { x: xScale(d.date), y: yScale(yHigh(d)) },
+                        { x: xScale(d.date), y: yScale(yLow(d)) }
                     ]);
                 });
         };
@@ -1184,13 +1238,13 @@ fc = {
                 return xScale(d.date) - (rectangleWidth/2.0);
             })
                 .attr('y', function (d) {
-                    return isUpDay(d) ? yScale(d.close) : yScale(d.open);
+                    return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
                 .attr('width', rectangleWidth)
                 .attr('height', function (d) {
                     return isUpDay(d) ?
-                        yScale(d.open) - yScale(d.close) :
-                        yScale(d.close) - yScale(d.open);
+                        yScale(yOpen(d)) - yScale(yClose(d)) :
+                        yScale(yClose(d)) - yScale(yOpen(d));
                 });
         };
 
@@ -1250,13 +1304,44 @@ fc = {
             return candlestick;
         };
 
+        candlestick.yOpen = function(value) {
+            if (!arguments.length) {
+                return yOpen;
+            }
+            yOpen = value;
+            return candlestick;
+        };
+
+        candlestick.yHigh = function(value) {
+            if (!arguments.length) {
+                return yHigh;
+            }
+            yHigh = value;
+            return candlestick;
+        };
+
+        candlestick.yLow = function(value) {
+            if (!arguments.length) {
+                return yLow;
+            }
+            yLow = value;
+            return candlestick;
+        };
+
+        candlestick.yClose = function(value) {
+            if (!arguments.length) {
+                return yClose;
+            }
+            yClose = value;
+            return candlestick;
+        };
+
         return candlestick;
 
     };
 }(d3, fc));
 
-// TODO where is yScaleTransform?
-(function (d3, fc, yScaleTransform) {
+(function (d3, fc) {
     'use strict';
 
     fc.series.comparison = function () {
@@ -1266,20 +1351,36 @@ fc = {
 
         var cachedData, cachedScale;
 
+        var yScaleTransform = function (oldScale, newScale) {
+            // Compute transform for elements wrt changing yScale.
+            var oldDomain = oldScale.domain(),
+                newDomain = newScale.domain(),
+                scale = (oldDomain[1] - oldDomain[0]) / (newDomain[1] - newDomain[0]),
+                translate = scale * (oldScale.range()[1] - oldScale(newDomain[1]));
+            return {
+                translate: translate,
+                scale: scale
+            };
+        };
+
         var findIndex = function (seriesData, date) {
+            // Find insertion point for date in seriesData.
             var bisect = d3.bisector(
                 function (d) {
                     return d.date;
                 }).left;
 
             var initialIndex = bisect(seriesData, date);
-            if (!initialIndex) {
+            if (initialIndex === 0) {
+                // Google finance style, calculate changes from the
+                // date one before initial date if possible, or index 0.
                 initialIndex += 1;
             }
             return initialIndex;
         };
 
         var percentageChange = function (seriesData, initialDate) {
+            // Computes the percentage change data of a series from an initial date.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialClose = seriesData[initialIndex].close;
 
@@ -1292,6 +1393,7 @@ fc = {
         };
 
         var rebaseChange = function (seriesData, initialDate) {
+            // Change the initial date the percentage changes should be based from.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialChange = seriesData[initialIndex].change;
 
@@ -1366,7 +1468,9 @@ fc = {
                         return d.name;
                     })
                     .enter().append("path")
-                    .attr("class", "line")
+                    .attr("class", function (d) {
+                        return "line " + "line" + data.indexOf(d);
+                    })
                     .attr("d", function (d) {
                         return line(d.data);
                     })
@@ -1446,7 +1550,7 @@ fc = {
 
 	fc.series.line = function () {
 
-		var yValue = 'close',
+		var yValue = function(d) { return d.close; },
 			xScale = fc.scale.finance(),
 			yScale = fc.scale.linear(),
 			underFill = true;
@@ -1467,7 +1571,7 @@ fc = {
 			selection.each(function (data) {
 
 				if(underFill) {
-					area.y1(function (d) { return yScale(d[yValue]); });
+					area.y1(function (d) { return yScale(yValue(d)); });
 					var areapath = d3.select(this).selectAll('.lineSeriesArea')
 						.data([data]);
 					areapath.enter()
@@ -1478,7 +1582,7 @@ fc = {
 						.remove();
 				}
 
-				line.y(function (d) { return yScale(d[yValue]); });
+				line.y(function (d) { return yScale(yValue(d)); });
 				var linepath = d3.select(this).selectAll('.lineSeries')
 					.data([data]);
 				linepath.enter()
@@ -1535,21 +1639,26 @@ fc = {
             yScale = d3.scale.linear(),
             tickWidth = 5;
 
+        var yOpen = function(d) { return d.open; },
+            yHigh = function(d) { return d.high; },
+            yLow = function(d) { return d.low; },
+            yClose = function(d) { return d.close; };
+
         // Function to return
         var ohlc;
 
         // Accessor functions
         var open = function (d) {
-                return yScale(d.open);
+                return yScale(yOpen(d));
             },
             high = function (d) {
-                return yScale(d.high);
+                return yScale(yHigh(d));
             },
             low = function (d) {
-                return yScale(d.low);
+                return yScale(yLow(d));
             },
             close = function (d) {
-                return yScale(d.close);
+                return yScale(yClose(d));
             },
             date = function (d) {
                 return xScale(d.date);
@@ -1557,13 +1666,13 @@ fc = {
 
         // Up/down day logic
         var isUpDay = function(d) {
-            return d.close > d.open;
+            return yClose(d) > yOpen(d);
         };
         var isDownDay = function (d) {
-            return d.close < d.open;
+            return yClose(d) < yOpen(d);
         };
         var isStaticDay = function (d) {
-            return d.close === d.open;
+            return yClose(d) === yOpen(d);
         };
 
         var barColour = function(d) {
@@ -1735,6 +1844,38 @@ fc = {
             return ohlc;
         };
 
+        ohlc.yOpen = function(value) {
+            if (!arguments.length) {
+                return yOpen;
+            }
+            yOpen = value;
+            return ohlc;
+        };
+
+        ohlc.yHigh = function(value) {
+            if (!arguments.length) {
+                return yHigh;
+            }
+            yHigh = value;
+            return ohlc;
+        };
+
+        ohlc.yLow = function(value) {
+            if (!arguments.length) {
+                return yLow;
+            }
+            yLow = value;
+            return ohlc;
+        };
+
+        ohlc.yClose = function(value) {
+            if (!arguments.length) {
+                return yClose;
+            }
+            yClose = value;
+            return ohlc;
+        };
+
         return ohlc;
     };
 }(d3, fc));
@@ -1746,7 +1887,7 @@ fc = {
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = 5,
-            yValue = 'volume';
+            yValue = function(d) { return d.volume; };
 
         var isUpDay = function(d) {
             return d.close > d.open;
@@ -1765,9 +1906,9 @@ fc = {
             rect.enter().append('rect');
 
             rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
-                .attr('y', function(d) { return yScale(d[yValue]); } )
+                .attr('y', function(d) { return yScale(yValue(d)); } )
                 .attr('width', barWidth)
-                .attr('height', function(d) { return yScale(0) - yScale(d.volume); });
+                .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
         };
 
         var volume = function (selection) {
@@ -1931,6 +2072,7 @@ fc = {
         return annotation;
     };
 }(d3, fc));
+/*jshint loopfunc: true */
 (function (d3, fc) {
 		'use strict';
 
@@ -2077,7 +2219,7 @@ fc = {
 		};
 
 		callouts.addCallout = function (value) {
-		data.push(value);
+		    data.push(value);
 			return callouts;
 		};
 
@@ -2675,9 +2817,9 @@ fc.tools.crosshairs = function () {
                 lineC.attr('display', 'inherit');
                 fanArea.attr('display', 'inherit');
 
-                var pointsFinal = originX + ',' + originY
-                    + ' ' + finalX + ',' + finalY.a
-                    + ' ' + finalX + ',' + finalY.c;
+                var pointsFinal = originX + ',' + originY +
+                    ' ' + finalX + ',' + finalY.a +
+                    ' ' + finalX + ',' + finalY.c;
 
                 lineA.transition()
                     .attr('y2', finalY.a);
@@ -2722,9 +2864,9 @@ fc.tools.crosshairs = function () {
 
         function setFanLines(originX, originY, finalX, finalYa, finalYb, finalYc) {
 
-            var points = originX + ',' + originY
-                + ' ' + finalX + ',' + finalYa
-                + ' ' + finalX + ',' + finalYc;
+            var points = originX + ',' + originY +
+                ' ' + finalX + ',' + finalYa +
+                ' ' + finalX + ',' + finalYc;
 
             lineA.attr('x1', originX)
                 .attr('y1', originY)

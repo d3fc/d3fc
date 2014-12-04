@@ -1,12 +1,3 @@
-/* Default Chart Styles */
-.chart { 
-  height: 400px;
-}
-.chartArea { 
-  background: #fefefe; 
-  border: solid 1px #eee;
-}
-
 /* Default Axis Styles */
 .axis .domain,
 .axis .tick line { 
@@ -16,62 +7,6 @@
 }
 .axis text { 
   font: 10px sans-serif; 
-}
-/* Bollinger Bands Styles */
-.bollingerBandArea {
-  fill: #eee;
-  stroke-width: 0;
-  opacity: 0.5;
-}
-
-.bollingerBandUpper {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-}
-
-.bollingerBandLower {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-}
-
-.bollingerAverage {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-  stroke-dasharray: 4, 1;
-}
-
-/* Moving Average Styles */
-.moving-average {
-  fill: none;
-  stroke: #69f;
-  stroke-width: 1;
-  stroke-dasharray: 3, 3;
-}
-
-/* RSI Styles */
-.rsi { 
-  fill: none; 
-  stroke: #00c; 
-  stroke-width: 1.0; 
-}
-
-.marker { 
-  fill: none;
-  stroke: #69f;
-  stroke-width: 1;
-  stroke-dasharray: 3, 3;
-}
-/* Gridlines Styles */
-.gridlines { 
-	stroke: #ccc;
-	stroke-width: 1.0;
-}
-.gridlines .x { 
-}
-.gridlines .y { 
 }
 /* OHLC Styles */
 .ohlc-series .bar .up-day { 
@@ -106,8 +41,23 @@
 }
 
 /* Comparison Styles */
-.comparison-series .line { 
-  fill: none; 
+.comparison-series .line {
+    stroke: #000;
+}
+.comparison-series .line0 {
+    stroke: #1f77b4;
+}
+.comparison-series .line1 {
+    stroke: #ff7f0e;
+}
+.comparison-series .line2 {
+    stroke: #2ca02c;
+}
+.comparison-series .line3 {
+    stroke: #d62728;
+}
+.comparison-series .line4 {
+    stroke: #9467bd;
 }
 
 /* Line Series Styles */
@@ -125,5 +75,9 @@
   fill: #6c0; 
 }
 .volumebar.down-day rect { 
-  fill: #c60; 
+  fill: #c60;
+}
+.chartArea rect.background {
+  stroke: #ccc;
+  fill: #eee;
 }
