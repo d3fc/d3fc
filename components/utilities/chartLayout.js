@@ -81,7 +81,12 @@
                 chart.append('g')
                     .attr('class', 'axis right')
                     .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
-                
+
+                chart.append('rect')
+                    .attr('class', 'zoom-pane')
+                    .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
+
+
             });
         };
 
@@ -155,6 +160,10 @@
 
         chartLayout.getPlotArea = function (setupArea) {
             return chartLayout.getSVG(setupArea).select('.plotArea');
+        };
+
+        chartLayout.getZoomPane = function (setupArea) {
+            return chartLayout.getSVG(setupArea).select('.zoom-pane');
         };
 
         chartLayout.getAxisContainer = function (setupArea, orientation) {

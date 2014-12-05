@@ -62,7 +62,7 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            files: ['<%= meta.componentsJsFiles %>'],
+            files: ['<%= meta.componentsJsFiles %>', '<%= meta.componentsCssFiles %>'],
             tasks: ['build']
         },
 

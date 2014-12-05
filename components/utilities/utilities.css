@@ -1,6 +1,13 @@
 /* Chart Layout Styles */
 .chartArea rect.background {
-  stroke: #eee;
-  stroke-width:; 0.5;
-  fill: #fff;
+  stroke: #ccc;
+  stroke-width: 0.5;
+  fill: #eee;
+}
+
+.chartArea .zoom-pane {
+  fill: none;
+  pointer-events: all;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 }

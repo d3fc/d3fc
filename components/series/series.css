@@ -1,11 +1,11 @@
 /* OHLC Styles */
-.ohlc-series .bar .up-day { 
+.ohlc-series .bar.up-day {
   stroke: #6c0; 
 }
-.ohlc-series .bar .down-day { 
+.ohlc-series .bar.down-day {
   stroke: #c60; 
 }
-.ohlc-series .bar .static-day { 
+.ohlc-series .bar.static-day {
   stroke: #000; 
 }
 
@@ -26,8 +26,9 @@
 .candlestick-series .down-day rect { 
   fill: #c60; 
 }
-.candlestick-series .bar .high-low-line { 
-  stroke: #000; 
+.candlestick-series .bar .high-low-line {
+    stroke: #000;
+    vector-effect: non-scaling-stroke;
 }
 
 /* Comparison Styles */
