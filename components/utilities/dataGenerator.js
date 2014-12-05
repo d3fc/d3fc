@@ -48,7 +48,7 @@
                 deltaY = period / steps,
                 sqrtDeltaY = Math.sqrt(deltaY);
 
-            for(var i=0; i<steps; i++ ) {
+            for (var i = 0; i < steps; i++) {
                 var r = useFakeBoxMuller ?
                     fakeBoxMullerTransform() :
                     boxMullerTransform()[0];
@@ -66,27 +66,28 @@
             // Get two random numbers from -1 to 1.
             // If the radius is zero or greater than 1, throw them out and pick two new ones
             do {
-                x = Math.random()*2-1;
-                y = Math.random()*2-1;
-                rds = x*x + y*y;
+                x = Math.random() * 2 - 1;
+                y = Math.random() * 2 - 1;
+                rds = x * x + y * y;
             }
             while (rds === 0 || rds > 1);
 
             // This is the Box-Muller Transform
-            c = Math.sqrt(-2*Math.log(rds)/rds);
+            c = Math.sqrt(-2 * Math.log(rds) / rds);
 
-            // It always creates a pair of numbers but it is quite efficient so don't be afraid to throw one away if you don't need both.
-            return [x*c, y*c];
+            // It always creates a pair of numbers but it is quite efficient
+            // so don't be afraid to throw one away if you don't need both.
+            return [x * c, y * c];
         };
 
         var fakeBoxMullerTransform = function() {
-            return (Math.random()*2-1)+(Math.random()*2-1)+(Math.random()*2-1);
+            return (Math.random() * 2 - 1) + (Math.random() * 2 - 1) + (Math.random() * 2 - 1);
         };
 
         var generate = function() {
 
-            var msec_per_year = 3.15569e10,
-                rangeYears = (toDate.getTime() - fromDate.getTime()) / msec_per_year,
+            var millisecondsPerYear = 3.15569e10,
+                rangeYears = (toDate.getTime() - fromDate.getTime()) / millisecondsPerYear,
                 daysIncluded = 0,
                 prices,
                 volume,
@@ -100,14 +101,14 @@
                 if (!filter || filter(date)) {
                     daysIncluded += 1;
                 }
-                date.setDate(date.getDate()+1);
+                date.setDate(date.getDate() + 1);
             }
 
             prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
             volume = generateVolumes(rangeYears, daysIncluded);
 
             date = new Date(fromDate.getTime());
-            while(date <= toDate) {
+            while (date <= toDate) {
                 if (!filter || filter(date)) {
                     daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
                     ohlcv.push({
@@ -121,7 +122,7 @@
                     currentIntraStep += intraDaySteps;
                     currentStep += 1;
                 }
-                date.setDate(date.getDate()+1);
+                date.setDate(date.getDate() + 1);
             }
 
             return ohlcv;

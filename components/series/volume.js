@@ -24,8 +24,8 @@
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) { return xScale(d.date) - (barWidth/2.0); })
-                .attr('y', function(d) { return yScale(yValue(d)); } )
+            rect.attr('x', function (d) { return xScale(d.date) - (barWidth / 2.0); })
+                .attr('y', function(d) { return yScale(yValue(d)); })
                 .attr('width', barWidth)
                 .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
         };
@@ -54,7 +54,7 @@
                 });
                 rectangles(bars);
                 bars.exit().remove();
-           });
+            });
         };
 
         volume.xScale = function (value) {

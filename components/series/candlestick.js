@@ -39,8 +39,8 @@
             paths.classed('high-low-line', true)
                 .attr('d', function (d) {
                     return line([
-                        { x: xScale(d.date), y: yScale(yHigh(d)) },
-                        { x: xScale(d.date), y: yScale(yLow(d)) }
+                        {x: xScale(d.date), y: yScale(yHigh(d))},
+                        {x: xScale(d.date), y: yScale(yLow(d))}
                     ]);
                 });
         };
@@ -55,7 +55,7 @@
             rect.enter().append('rect');
 
             rect.attr('x', function (d) {
-                return xScale(d.date) - (rectangleWidth/2.0);
+                return xScale(d.date) - (rectangleWidth / 2.0);
             })
                 .attr('y', function (d) {
                     return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
