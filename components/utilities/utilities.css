@@ -5,7 +5,7 @@
   fill: #eee;
 }
 
-.chartArea .zoom-pane {
+.zoom-pane {
   fill: none;
   pointer-events: all;
   cursor: -webkit-grab;
