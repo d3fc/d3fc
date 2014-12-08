@@ -21,20 +21,20 @@
                 .attr('id', 'annotation_' + index)
                 .attr('class', 'annotation');
 
-            line = root.append("line")
+            line = root.append('line')
                 .attr('class', 'marker')
-                .attr('x1', xScale.range()[0]) 
+                .attr('x1', xScale.range()[0])
                 .attr('y1', yScale(yValue))
-                .attr('x2', xScale.range()[1]) 
+                .attr('x2', xScale.range()[1])
                 .attr('y2', yScale(yValue));
 
 
-            callout = root.append("text")
+            callout = root.append('text')
                 .attr('class', 'callout')
                 .attr('x', xScale.range()[1] - padding)
                 .attr('y', yScale(yValue) - padding)
                 .attr('style', 'text-anchor: end;')
-                .text(yLabel + ": " + formatCallout(yValue));
+                .text(yLabel + ': ' + formatCallout(yValue));
         };
 
         annotation.index = function (value) {

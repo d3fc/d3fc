@@ -12,7 +12,7 @@
             defaultHeight = true;
 
         var chartLayout = function (selection) {
-            selection.each( function () {
+            selection.each(function () {
                 var element = d3.select(this),
                     style = getComputedStyle(this);
 
@@ -55,7 +55,7 @@
                 chart.append('defs').append('clipPath')
                     .attr('id', 'plotAreaClip')
                     .append('rect')
-                    .attr({ width: chartLayout.innerWidth(), height: chartLayout.innerHeight() });
+                    .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
 
                 // create a background element
                 chart.append('rect')
@@ -81,7 +81,6 @@
                 chart.append('g')
                     .attr('class', 'axis right')
                     .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
-                
             });
         };
 
@@ -167,6 +166,4 @@
 
         return chartLayout;
     };
-
-    
 }(d3, fc));
