@@ -19,7 +19,7 @@
 
 		this.annotations = [];
 		this.indicators = [];
-		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: 'close' };
+		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: function(d) { return d.close; } };
 		this.rsiOptions = { show: false, points: 14, lambda: 0.94, lowerMarker: 30, upperMarker: 70 };
 
 		// Chart options for optimal chart but can be changed if required.
