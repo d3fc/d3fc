@@ -2,3 +2,4 @@ aspnet_client
 node_modules
 .idea/
 _site
+tests/

@@ -8,7 +8,7 @@
 
 ## Annotation
 
-This component draws a horizontal marker on the chart at a given yValue. the marker has a label and can be styled using CSS.
+This component draws a horizontal marker on the chart at a given yValue. The marker has a label and can be styled using CSS.
 
 The component is comprised of the following SVG elements:
 
@@ -38,7 +38,7 @@ chart.plotArea.call(annotation);
 
 annotation.**index**([*value*])
 
-Specifies the index of this annotation to make the annotation referencable when more than one annotation is included on the same chart.
+Specifies the index of this annotation to make the annotation referenceable when more than one annotation is included on the same chart.
 
 annotation.**xScale**([*value*])
 
@@ -352,14 +352,14 @@ When added, the component exists in one of three phases:
 
 * In the first phase, a circle is drawn around the data point closest to the mouse (the **origin**); a mouse click advances the component to the next phase.
 * In the second phase, a second circle is drawn around the data point closest to the mouse (the **target**) and a line is drawn between it and the origin point; a mouse click advances the component to the final phase.
-* In the final phase, the two axis aligned lines are drawn showing measurments on the Y axis and X axis; a mouse click hides the ruler and returns the component to the first phase.
+* In the final phase, the two axis aligned lines are drawn showing measurements on the Y axis and X axis; a mouse click hides the ruler and returns the component to the first phase.
 
 The component comprises the following SVG elements:
 
 * Two circles to mark the origin and target points.
 * A line between these points.
-* Two lines which show the x and y components of the measurment.
-* Two labels which show the x and y components of the measurment.
+* Two lines which show the x and y components of the measurement.
+* Two labels which show the x and y components of the measurement.
 
 fc.tools.**measure**()
 

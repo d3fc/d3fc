@@ -87,7 +87,7 @@
 
             series.forEach(function(data) {
 
-                var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
+                var xDiff = Math.abs(xTarget - xScale(data.date));
 
                 if (xDiff < dx) {
                     dx = xDiff;
@@ -105,7 +105,7 @@
             var minDiff = Number.MAX_VALUE;
             for (var property in data) {
                 if (data.hasOwnProperty(property) && (property !== 'date')) {
-                    var dy = Math.abs(yTarget - data[property]);
+                    var dy = Math.abs(yTarget - yScale(data[property]));
                     if (dy <= minDiff) {
                         minDiff = dy;
                         field = property;
@@ -155,9 +155,7 @@
                     // Mouse is elsewhere
                 }
 
-                var xMouse = xScale.invert(mouse[0]),
-                    yMouse = yScale.invert(mouse[1]),
-                    nearest = findNearest(xMouse);
+                var nearest = findNearest(mouse[0]);
 
                 if (nearest !== null) {
 
@@ -165,7 +163,7 @@
                     if (nearest[yValue]) {
                         field = yValue;
                     } else {
-                        field = findField(yMouse, nearest);
+                        field = findField(mouse[1], nearest);
                     }
 
                     if ((nearest !== highlight) || (field !== highlightedField)) {
