@@ -6,16 +6,16 @@
     };
 
     function linearScale(linear) {
-    	
-    	var alignPixels = true;
+
+        var alignPixels = true;
 
         if (!arguments.length) {
             linear = d3.scale.linear();
         }
 
         function scale(x) {
-        	var n = linear(x);
-        	var m = Math.round(n);
+            var n = linear(x);
+            var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         }
 
@@ -44,6 +44,6 @@
             return scale;
         };
 
-        return d3.rebind(scale, linear, "range", "rangeRound", "interpolate", "clamp", "nice");
+        return d3.rebind(scale, linear, 'range', 'rangeRound', 'interpolate', 'clamp', 'nice');
     }
 }(d3, fc));

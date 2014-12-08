@@ -58,8 +58,8 @@
         var makeBarPath = function (d) {
             var moveToLow = 'M' + date(d) + ',' + low(d),
                 verticalToHigh = 'V' + high(d),
-                openTick = 'M' + date(d) + "," + open(d) + 'h' + (-tickWidth),
-                closeTick = 'M' + date(d) + "," + close(d) + 'h' + tickWidth;
+                openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-tickWidth),
+                closeTick = 'M' + date(d) + ',' + close(d) + 'h' + tickWidth;
             return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
@@ -124,7 +124,7 @@
 
                 bars.attr('stroke', barColour);
 
-                bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high });
+                bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high});
                 bars.select('.open-tick').attr({
                     x1: function (d) { return date(d) - tickWidth; },
                     y1: open,
@@ -177,7 +177,7 @@
             selection.each(function (data) {
                 var series = makeSeriesElement(this, data);
                 makeConcatPathElement(series, 'up-days', 'green', data, isUpDay);
-                makeConcatPathElement(series, 'down-days', 'red' ,data, isDownDay);
+                makeConcatPathElement(series, 'down-days', 'red', data, isDownDay);
                 makeConcatPathElement(series, 'static-days', 'black', data, isStaticDay);
             });
         };

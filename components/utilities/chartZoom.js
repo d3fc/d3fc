@@ -22,7 +22,7 @@
                     .append('rect')
                     .classed('zoom-pane', true);
                 zoomPane
-                    .attr({width: width, height: height });
+                    .attr({width: width, height: height});
                 zoomPane.call(zoomBehavior);
 
             });
@@ -91,7 +91,7 @@
             return chartZoom;
         };
 
-        zoomBehavior.on("zoom.chartZoomInternal", zoom);
+        zoomBehavior.on('zoom.chartZoomInternal', zoom);
         return chartZoom;
     };
 

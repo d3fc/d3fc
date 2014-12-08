@@ -62,13 +62,13 @@
             });
         };
 
-         var calculateYDomain = function (data, xDomain) {
+        var calculateYDomain = function (data, xDomain) {
             var start, end;
 
             data = data.map(function (series) {
                 series = series.data;
-                start = findIndex(series,xDomain[0]) - 1;
-                end = findIndex(series,xDomain[1]) + 1;
+                start = findIndex(series, xDomain[0]) - 1;
+                end = findIndex(series, xDomain[1]) + 1;
                 return series.slice(start, end);
             });
 
@@ -88,7 +88,7 @@
         var color = d3.scale.category10();
 
         var line = d3.svg.line()
-            .interpolate("linear")
+            .interpolate('linear')
             .x(function (d) {
                 return xScale(d.date);
             })
@@ -124,19 +124,19 @@
                     .data(data, function(d) {
                         return d.name;
                     })
-                    .enter().append("path")
-                    .attr("class", function (d) {
-                        return "line " + "line" + data.indexOf(d);
+                    .enter().append('path')
+                    .attr('class', function (d) {
+                        return 'line ' + 'line' + data.indexOf(d);
                     })
-                    .attr("d", function (d) {
+                    .attr('d', function (d) {
                         return line(d.data);
                     })
-                    .style("stroke", function (d) {
+                    .style('stroke', function (d) {
                         return color(d.name);
                     });
 
                 series.selectAll('.line')
-                    .attr("d", function (d) {
+                    .attr('d', function (d) {
                         return line(d.data);
                     });
             });

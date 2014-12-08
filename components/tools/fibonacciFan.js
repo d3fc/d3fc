@@ -26,33 +26,33 @@
             var root = target.append('g')
                 .attr('class', 'fibonacci-fan');
 
-            circleOrigin = root.append("circle")
+            circleOrigin = root.append('circle')
                 .attr('class', 'fibonacci-fan origin')
                 .attr('r', 6)
                 .attr('display', 'none');
 
-            circleTarget = root.append("circle")
+            circleTarget = root.append('circle')
                 .attr('class', 'fibonacci-fan target')
                 .attr('r', 6)
                 .attr('display', 'none');
 
-            lineSource = root.append("line")
+            lineSource = root.append('line')
                 .attr('class', 'fibonacci-fan source')
                 .attr('display', 'none');
 
-            lineA = root.append("line")
+            lineA = root.append('line')
                 .attr('class', 'fibonacci-fan a')
                 .attr('display', 'none');
 
-            lineB = root.append("line")
+            lineB = root.append('line')
                 .attr('class', 'fibonacci-fan b')
                 .attr('display', 'none');
 
-            lineC = root.append("line")
+            lineC = root.append('line')
                 .attr('class', 'fibonacci-fan c')
                 .attr('display', 'none');
 
-            fanArea = root.append("polygon")
+            fanArea = root.append('polygon')
                 .attr('class', 'fibonacci-fan area')
                 .attr('display', 'none');
         };
@@ -136,7 +136,7 @@
 
                 if (field !== null) {
 
-                    return { point: point, field: field };
+                    return {point: point, field: field};
                 }
             }
 
