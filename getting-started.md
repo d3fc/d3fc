@@ -152,4 +152,163 @@ The `dataGenerator` component generates dummy financial data for a given date ra
       "volume":80335},
       ... ]
 
-##Adding Axes
+##Adding Scales and Axes
+
+Scales map between your data domain and a visible output range, they are used by virtually every renderable component. 
+
+Add the following scales to your code:
+
+    var xScale = fc.scale.finance() 
+      .domain([startDate, endDate])
+      .range([chartLayout.innerWidth(), 0]);
+
+    var yLow = d3.min(data, function (d) { return d.low; });
+    var yHigh = d3.max(data, function (d) { return d.high; });
+    var yScale = d3.scale.linear()
+      .domain([yLow, yHigh])
+      .range([chartLayout.innerHeight(), 0]);
+
+The `fc.scale.finance` provides logic for skipping time periods (for example weekends - if required) and also ensures that the dates are correctly rendered. Because the input data is randomly generated, the extents of the 'y' scale are computed via the `d3.max` and `d3.min` functions.
+
+In order to view the chart scale, the next step is to add a pair of axes:
+
+    var bottomAxis = d3.svg.axis()
+        .scale(x)
+        .orient('bottom')
+        .ticks(5);
+    chartLayout.getAxisContainer(chart, 'bottom').call(bottomAxis);
+
+    var leftAxis = d3.svg.axis()
+        .scale(y)
+        .orient('left')
+        .ticks(5);
+    chartLayout.getAxisContainer(chart, 'left').call(leftAxis);
+
+The `d3.svg.axis` component takes a scale and renders this within your SVG element. The `chartLayout` component provides containers for the four possible axis locations, `top`, `bottom`, `left` and `right`.
+
+With the scales and axes added, the chart looks like the following:
+
+<div id="step-scale" style="width:400px; height:200px"></div>
+
+<script>
+(function(){
+var chartLayout = fc.utilities.chartLayout();
+
+// Setup the chart
+var chart = d3.select('#step-scale')
+    .call(chartLayout);
+
+// create some data
+var startDate = new Date(2014, 1, 1),
+    endDate = new Date(2014, 3, 1);
+
+var data = fc.utilities.dataGenerator()
+  .fromDate(startDate)
+  .toDate(endDate)
+  .generate();
+
+console.log(JSON.stringify(data))
+
+// create scales
+var x = fc.scale.finance() // financial scale (actually it is a date / time)
+  .domain([startDate, endDate])
+  .range([chartLayout.innerWidth(), 0]);
+
+var yLow = d3.min(data, function (d) { return d.low; });
+var yHigh = d3.max(data, function (d) { return d.high; });
+var y = d3.scale.linear()
+  .domain([yLow, yHigh])
+  .range([chartLayout.innerHeight(), 0]);
+
+// add axes
+var bottomAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .ticks(5);
+chartLayout.getAxisContainer(chart, 'bottom').call(bottomAxis);
+
+var leftAxis = d3.svg.axis()
+    .scale(y)
+    .orient('left')
+    .ticks(5);
+chartLayout.getAxisContainer(chart, 'left').call(leftAxis);
+}());
+</script>
+
+##Adding a series
+
+The final step is to add a series that renders the chart data. With D3 this would typically require the construction of suitable SVG elements, with their properties being set based on a combination of the input data and the scales.
+
+With D3FC, it is simply a matter of constructing the series component, then adding it to the chart as follows:
+
+    // Create the OHLC series
+    var ohlc = fc.series.ohlc()
+      .xScale(x)
+      .yScale(y);
+
+    // Add to the dplot area
+    chartLayout.getPlotArea(chart).append('g')
+      .datum(data)
+      .call(ohlc);
+
+This gives us the final chart:
+
+<div id="final-chart2" style="width:400px; height:200px"></div>
+
+<script>
+(function(){
+// Create the chartLayout (width and height not set)
+var chartLayout = fc.utilities.chartLayout();
+
+// create some data
+var startDate = new Date(2014, 1, 1);
+var endDate = new Date(2014, 3, 1);
+var dataSeries = fc.utilities.dataGenerator()
+  .fromDate(startDate)
+  .toDate(endDate)
+  .generate();
+
+// Setup the chart
+var setupArea = d3.select('#final-chart2')
+    .call(chartLayout);
+
+// create scales
+var x = fc.scale.finance() // financial scale (actually it is a date / time)
+  .domain([startDate, endDate])
+  .range([chartLayout.innerWidth(), 0]);
+
+var yLow = d3.min(dataSeries, function (d) { return d.low; });
+var yHigh = d3.max(dataSeries, function (d) { return d.high; });
+var y = d3.scale.linear()
+  .domain([yLow, yHigh])
+  .range([chartLayout.innerHeight(), 0]);
+
+// add axes
+var bottomAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .ticks(5);
+chartLayout.getAxisContainer(setupArea, 'bottom').call(bottomAxis);
+
+var leftAxis = d3.svg.axis()
+    .scale(y)
+    .orient('left')
+    .ticks(5);
+chartLayout.getAxisContainer(setupArea, 'left').call(leftAxis);
+
+// Create the OHLC series
+var ohlc = fc.series.ohlc()
+  .xScale(x)
+  .yScale(y);
+
+// Add the primary OHLC series
+chartLayout.getPlotArea(setupArea).append('g')
+  .attr('class', 'series')
+  .datum(dataSeries)
+  .call(ohlc);
+}());
+</script>
+
+##What next?
+
+You've seen how easy it is to build a chart using D3 and D3FC, why not take a look out the list of <a href="components.html">components</a> and try adding some more features to the chart?
