@@ -72,7 +72,7 @@ module.exports = function (grunt) {
             },
             failOnError: {
                 files: {
-                    src: ['<%= meta.ourJsFiles %>']
+                    src: ['<%= meta.componentsJsFiles %>']
                 }
             },
             warnOnly: {
@@ -80,7 +80,7 @@ module.exports = function (grunt) {
                     force: true
                 },
                 files: {
-                    src: ['<%= meta.ourJsFiles %>']
+                    src: ['<%= meta.componentsJsFiles %>']
                 }
             }
         },
