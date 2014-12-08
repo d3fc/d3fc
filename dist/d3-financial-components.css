@@ -244,13 +244,8 @@ text.crosshairs {
 .annotation .callout {
   font: 10px sans-serif;
 }
+/* Chart Layout Styles */
 .chartArea rect.background {
   stroke: #ccc;
   fill: #eee;
-}
-/* Chart Layout Styles */
-.chartArea rect.background {
-  stroke: #eee;
-  stroke-width:; 0.5;
-  fill: #fff;
 }
