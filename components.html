@@ -2,36 +2,34 @@
 layout: default
 ---
 
-<div class="container">
-  <div class="row">
+<div class="row">
 
-    <nav class="col-xs-3 bs-docs-sidebar">
-      <ul id="sidebar" class="nav nav-stacked fixed">
-        {% for componentId in site.component-ids %}
-        {% assign component = site.components[componentId] %}
-        <li>
-          <a href="#{{ componentId }}">{{ component.name }}</a>
-          <ul class="nav nav-stacked">
-            {% for post in site.categories[componentId] %}
-            <li><a href="#{{ post.id | split:'/' | last }}">{{ post.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </li>
-        {% endfor %}
-      </ul>
-    </nav>
-
-    <div class="col-xs-9">
+  <nav class="col-xs-3 bs-docs-sidebar">
+    <ul id="sidebar" class="nav nav-stacked fixed">
       {% for componentId in site.component-ids %}
       {% assign component = site.components[componentId] %}
-      <section>
-        <h2 id="{{ componentId }}">{{ component.name }}</h2>
-        {% for post in site.categories[componentId] %}
-        <h3 id="{{ post.id | split:'/' | last }}">{{ post.title }}</h3>
-        {{ post.content }}
-        {% endfor %}
-      </section>
-      {% endfor %}      
-    </div>
+      <li>
+        <a href="#{{ componentId }}">{{ component.name }}</a>
+        <ul class="nav nav-stacked">
+          {% for post in site.categories[componentId] %}
+          <li><a href="#{{ post.id | split:'/' | last }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <div class="col-xs-9">
+    {% for componentId in site.component-ids %}
+    {% assign component = site.components[componentId] %}
+    <section>
+      <h2 id="{{ componentId }}">{{ component.name }}</h2>
+      {% for post in site.categories[componentId] %}
+      <h3 id="{{ post.id | split:'/' | last }}">{{ post.title }}</h3>
+      {{ post.content }}
+      {% endfor %}
+    </section>
+    {% endfor %}      
   </div>
 </div>
