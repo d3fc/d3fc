@@ -19,7 +19,7 @@
 
 		this.annotations = [];
 		this.indicators = [];
-		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: function(d) { return d.close; } };
+		this.bollingerOptions = { show: false, movingAverageCount: 5, standardDeviations: 2, yValue: 'close' };
 		this.rsiOptions = { show: false, points: 14, lambda: 0.94, lowerMarker: 30, upperMarker: 70 };
 
 		// Chart options for optimal chart but can be changed if required.
@@ -350,9 +350,9 @@
 		        .series(data)
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
-		        .yValue(share.crosshairOptions.yValue)
+		        .yValue(share.crosshairOptions.yValue !== '' ? function(d) { return d[share.crosshairOptions.yValue]; } : null)
 		        .formatV(function(d) { return d3.time.format('%b %e')(d); })
-		        .formatH(function(d, field) { return field + " : " + d3.format('.1f')(d); })
+		        .formatH(function(d) { return d3.format('.1f')(d); })
                 .onSnap(function(d) { self.updateCallouts(); });
 
 		    share.plotArea.call(share.crosshairs);
@@ -389,7 +389,7 @@
 		    share.bollinger = fc.indicators.bollingerBands()
 		        .xScale(share.xScale)
 		        .yScale(share.yScale)
-		        .yValue(share.bollingerOptions.yValue)
+		        .yValue(function(d) { return d[share.bollingerOptions.yValue]; })
 		        .movingAverage(share.bollingerOptions.movingAverageCount)
 		        .standardDeviations(share.bollingerOptions.standardDeviations);
 
@@ -439,7 +439,7 @@
 		};
 
 		this.addIndicator = function() {
-			share.indicators.push( { averagePoints: 5, yValue:'close' } );
+			share.indicators.push( { averagePoints: 5, yValue: 'close' } );
 			share.redrawChart();
 		};
 
@@ -456,7 +456,7 @@
 	        var indicator = fc.indicators.movingAverage()
 				.xScale(share.xScale)
 				.yScale(share.yScale)
-				.yValue(share.indicators[index].yValue)
+				.yValue(function(d) { return d[share.indicators[index].yValue];})
 				.averagePoints(share.indicators[index].averagePoints);
     		share.plotArea.append('g')
 				.attr('class', 'indicator ' + share.indicators[index].yValue)
@@ -507,7 +507,7 @@
                 var indicator = fc.indicators.movingAverage()
                     .xScale(share.xScale)
                     .yScale(share.yScale)
-                    .yValue(share.indicators[indicatorIndex].yValue)
+                    .yValue(function(d) { return d[share.indicators[indicatorIndex].yValue]; })
                     .averagePoints(share.indicators[indicatorIndex].averagePoints);
                 share.plotArea.append('g')
                     .attr('class', 'indicator ' + share.indicators[indicatorIndex].yValue)

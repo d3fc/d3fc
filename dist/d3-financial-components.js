@@ -13,7 +13,7 @@ window.fc = {
     fc.utilities.chartLayout = function () {
 
         // Default values
-        var margin = {top: 20, right: 20, bottom: 20, left: 20},
+        var margin = {top: 20, right: 40, bottom: 20, left: 40},
             width = 0,
             height = 0;
 
@@ -2317,7 +2317,7 @@ window.fc = {
             calloutV = null;
 
         var highlight = null,
-            highlightedField = null;
+            highlightedValue = null;
 
         var crosshairs = function () {
 
@@ -2393,7 +2393,7 @@ window.fc = {
             return nearest;
         }
 
-        function findField(yTarget, data) {
+        function findValue(yTarget, data) {
 
             var field = null;
 
@@ -2408,13 +2408,13 @@ window.fc = {
                 }
             }
 
-            return field;
+            return data[field];
         }
 
         function redraw() {
 
             var x = xScale(highlight.date),
-                y = yScale(highlight[highlightedField]);
+                y = yScale(highlightedValue);
 
             lineH.attr('y1', y)
                 .attr('y2', y);
@@ -2423,7 +2423,7 @@ window.fc = {
             circle.attr('cx', x)
                 .attr('cy', y);
             calloutH.attr('y', y - padding)
-                .text(formatH(highlight[highlightedField], highlightedField));
+                .text(formatH(highlightedValue));
             calloutV.attr('x', x - padding)
                 .text(formatV(highlight.date));
 
@@ -2454,17 +2454,17 @@ window.fc = {
 
                 if (nearest !== null) {
 
-                    var field = null;
-                    if (nearest[yValue]) {
-                        field = yValue;
+                    var value = null;
+                    if (yValue) {
+                        value = yValue(nearest);
                     } else {
-                        field = findField(mouse[1], nearest);
+                        value = findValue(mouse[1], nearest);
                     }
 
-                    if ((nearest !== highlight) || (field !== highlightedField)) {
+                    if ((nearest !== highlight) || (value !== highlightedValue)) {
 
                         highlight = nearest;
-                        highlightedField = field;
+                        highlightedValue = value;
 
                         redraw();
                         if (onSnap) {
@@ -2478,7 +2478,7 @@ window.fc = {
         crosshairs.clear = function() {
 
             highlight = null;
-            highlightedField = null;
+            highlightedValue = null;
 
             lineH.attr('display', 'none');
             lineV.attr('display', 'none');
@@ -2595,10 +2595,6 @@ window.fc = {
 
         crosshairs.highlightedPoint = function() {
             return highlight;
-        };
-
-        crosshairs.highlightedField = function() {
-            return highlightedField;
         };
 
         return crosshairs;
