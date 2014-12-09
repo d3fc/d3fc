@@ -97,16 +97,56 @@ It attempts to simplify the repetitive process of constructing the chart area:
 + Create an SVG
 + Create a group for all chart elements; translate it based on the margins
 + Create a clipping path for the plot area; add it to the group
++ Create groups for the axes
+
+Given a `div` to contain the chart:
+
+```html
+<div id="chart"></div>
+```
+
+The following code:
+
+```javascript
+// Setup the chart layout
+var layout = fc.utilities.chartLayout();
+
+// Setup the chart
+var setupArea = d3.select('#chart')
+    .call(layout);
+```
+
+Will create and position the elements for the chart:
+
+```html
+<div id="chart">
+    <svg width="1330" height="440">
+        <g class="chartArea" transform="translate(20,20)">
+            <defs>
+                <clipPath id="plotAreaClip">
+                    <rect width="1290" height="400"></rect>
+                </clipPath>
+            </defs>
+            <rect class="background" width="1290" height="400"></rect>
+            <g clip-path="url(#plotAreaClip)" class="plotArea"></g>
+            <g class="axis bottom" transform="translate(0,400)"></g>
+            <g class="axis top" transform="translate(0, 0)"></g>
+            <g class="axis left" transform="translate(0, 0)"></g>
+            <g class="axis right" transform="translate(1290, 0)"></g>
+        </g>
+    </svg>
+</div>
+```
 
 ### API Reference
 
-#### fc.utilities.chartLayout()
+fc.utilities.**chartLayout**()
 
 Constructs the chartLayout component, with default values.
 
-#### chartLayout(selection)
+**chartLayout**(_selection_)
 
-Apply the chartLayout to a [selection](https://github.com/mbostock/d3/wiki/Selections). (Commonly  a `div`.) The chartLayout component can be applied to one or more elements.
+Apply the chartLayout to a [selection](https://github.com/mbostock/d3/wiki/Selections). (Commonly  a `div`.) The chartLayout component can only be applied to the first element in a selection, all other elements will be ignored.
 
 If the width or height have not been set, for example:
 
@@ -120,62 +160,61 @@ var setupArea = d3.select('#chart')
     .call(chartLayout);
 ```
 
-Then the width and height of the chartLayout will try to expand to the chartLayout of the selected element, respectively. If this results in an invalid value, i.e. less than 0, a default value will be used.
+Then the width and height of the chartLayout will try to expand to the dimensions of the selected element. If this results in an invalid value, i.e. less than 1, a default value will be used.
 
-#### chartLayout.marginTop(value)
+chartLayout.**marginTop**([_value_])
 
 If _value_ is specified, sets the top margin and returns the chartLayout; if _value_ is not specified, returns the top margin.
 
-#### chartLayout.marginRight(value)
+chartLayout.**marginRight**([_value_])
 
 If _value_ is specified, sets the right margin and returns the chartLayout; if _value_ is not specified, returns the right margin.
 
-#### chartLayout.marginBottom(value)
+chartLayout.**marginBottom**([_value_])
 
 If _value_ is specified, sets the bottom margin and returns the chartLayout; if _value_ is not specified, returns the bottom margin.
 
-#### chartLayout.marginLeft(value)
+chartLayout.**marginLeft**([_value_])
 
 If _value_ is specified, sets the left margin and returns the chartLayout; if _value_ is not specified, returns the left margin.
 
-#### chartLayout.width(value)
+chartLayout.**width**([_value_])
 
 If _value_ is specified, sets the width and returns the chartLayout; if _value_ is not specified, returns the width.
 
-#### chartLayout.height(value)
+chartLayout.**height**([_value_])
 
 If _value_ is specified, sets the height and returns the chartLayout; if _value_ is not specified, returns the height.
 
-#### chartLayout.innerWidth()
+chartLayout.**innerWidth**()
 
 Returns the width of the chart minus the horizontal margins.
 
-#### chartLayout.innerHeight()
+chartLayout.**innerHeight**()
 
 Returns the height of the chart minus the vertical margins.
 
+chartLayout.**getSVG**(_setupArea_) {
+
+Returns the SVG for the chart.
+
+chartLayout.**getChartArea**(_setupArea_)
+
+Returns the chart's chart area. Typically axes will be added to the chart area.
+
+chartLayout.**getPlotArea**(_setupArea_)
+
+Returns the chart's plot area. The plot area has a clipping path, so this is typically where series and indicators will be added.
+
+chartLayout.**getAxisContainer**(_setupArea_, _orientation_)
+
+Returns the container for a specified axis. Orientation is the position relative to the chart, valid values are the following strings: `'bottom'`, `'top'`, `'left'` and `'right'`.
+
+chartLayout.**getPlotAreaBackground**(_setupArea_)
+
+Returns the chart's background for the plot area.
+
 ### Example Usage
-
-Explicitly define the height, width, bottom margin and left margin; use default top and right margins:
-
-```javascript
-// Setup the chart layout
-var layout = fc.utilities.chartLayout()
-    .marginBottom(30)
-    .marginLeft(50)
-    .width(660)
-    .height(400);
-
-// Setup the chart
-var setupArea = d3.select('#chart')
-    .call(layout);
-
-// Select the elements which we may want to use
-// Typically the axes will be added to the 'chart' and series to the 'plotArea'
-var svg = setupArea.select('svg'),
-    chart = svg.select('g'),
-    plotArea = chart.select('.plotArea');
-```
 
 Attempt to size the chart to the selected element, by not specifying the width or height; use default margins:
 
@@ -186,34 +225,36 @@ var layout = fc.utilities.chartLayout();
 // Setup the chart
 var setupArea = d3.select('#chart')
     .call(layout);
-
-// Select the elements which we may want to use
-// Typically the axes will be added to the 'chart' and series to the 'plotArea'
-var svg = setupArea.select('svg'),
-    chart = svg.select('g'),
-    plotArea = chart.select('.plotArea');
 ```
 
-Attempt to size the chart to the width of the selected element; use specified height and margins:
+Attempt to size the chart to the width of the selected element; use specified height and margins, and add an axis to the chart:
 
 ```javascript
 // Setup the chart layout
 var layout = fc.utilities.chartLayout()
-  .height(380)
-  .marginTop(25)
-  .marginRight(40)
-  .marginBottom(30)
-  .marginLeft(40);
+    .height(380)
+    .marginTop(25)
+    .marginRight(40)
+    .marginBottom(30)
+    .marginLeft(40);
 
 // Setup the chart
 var setupArea = d3.select('#chart')
     .call(layout);
 
-// Select the elements which we may want to use
-// Typically the axes will be added to the 'chart' and series to the 'plotArea'
-var svg = setupArea.select('svg'),
-    chart = svg.select('g'),
-    plotArea = chart.select('.plotArea');
+// Add an axis to the bottom of the chart
+var bottomAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .ticks(5);
+chartLayout.getAxisContainer(setupArea, 'bottom').call(bottomAxis);
+```
+### CSS
+
+The chart's background can be styled using CSS:
+
+```CSS
+.chartArea rect.background
 ```
 
 ------
