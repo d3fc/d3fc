@@ -12,8 +12,8 @@
 .axis .domain,
 .axis .tick line { 
   fill: none; 
-  stroke-width: 0.3; 
-  stroke: #000; 
+  stroke-width: 1.0; 
+  stroke: #bbb; 
 }
 .axis text { 
   font: 10px sans-serif; 
