@@ -35,6 +35,13 @@
                     </div>
                 </div>
                 <div class="option-section">
+                    <a class="pull-right" href="#" ng-click="chart.toggleFeature('weekends')">
+                        <span class="glyphicon glyphicon-check" ng-show="chart.hasFeature('weekends')" title="visible"></span>
+                        <span class="glyphicon glyphicon-unchecked" ng-hide="chart.hasFeature('weekends')" title="hidden"></span>
+                    </a>
+                    Show Weekends
+                </div>
+                <div class="option-section">
                     <a class="pull-right" href="#" ng-click="chart.toggleFeature('navigator')">
                         <span class="glyphicon glyphicon-check" ng-show="chart.hasFeature('navigator')" title="visible"></span>
                         <span class="glyphicon glyphicon-unchecked" ng-hide="chart.hasFeature('navigator')" title="hidden"></span>

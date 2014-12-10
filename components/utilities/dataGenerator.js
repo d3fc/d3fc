@@ -101,7 +101,7 @@
                 if (!filter || filter(date)) {
                     daysIncluded += 1;
                 }
-                date.setDate(date.getDate() + 1);
+                date.setUTCDate(date.getUTCDate() + 1);
             }
 
             prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
@@ -122,7 +122,7 @@
                     currentIntraStep += intraDaySteps;
                     currentStep += 1;
                 }
-                date.setDate(date.getDate() + 1);
+                date.setUTCDate(date.getUTCDate() + 1);
             }
 
             return ohlcv;

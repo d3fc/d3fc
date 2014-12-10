@@ -5,7 +5,7 @@
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 5 }; // Possible style options are 'bars' and 'candles', width is used for candles
 		this.chartAspect = 0.45; // Height to width multiplier
-		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
+		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2, hideWeekends: true };
 		this.showNavigator = true;
 		this.rsiAspect = 0.3; // Chart height to RSI height multiplier
 		this.navigatorAspect = 0.2; // Chart height to navigator height multiplier
@@ -13,7 +13,7 @@
 		this.volumeAspect = 0.4; // Chart height to volume height multiplier
 		this.showFibonacci = false;
 
-		this.gridlineOptions = { show: true };
+        this.gridlineOptions = { show: true };
 		this.crosshairOptions = { show: false, snap: true, yValue: '', callouts: false };
 		this.measureOptions = { show: false, snap: true };
 
@@ -102,7 +102,8 @@
 			else if(featureName == 'volume') share.showVolume = !share.showVolume;
 			else if(featureName == 'fibonacci') share.showFibonacci = !share.showFibonacci;
 			else if(featureName == 'rsi') share.rsiOptions.show = !share.rsiOptions.show;
-			else if(featureName == 'callouts') share.crosshairOptions.callouts = !share.crosshairOptions.callouts;
+            else if(featureName == 'callouts') share.crosshairOptions.callouts = !share.crosshairOptions.callouts;
+            else if(featureName == 'weekends') share.axisOptions.hideWeekends = !share.axisOptions.hideWeekends;
 
 			share.showHideFeatures();
 		};
@@ -116,7 +117,8 @@
 			else if(featureName == 'volume') return share.showVolume;
 			else if(featureName == 'fibonacci') return share.showFibonacci;
 			else if(featureName == 'rsi') return share.rsiOptions.show;
-			else if(featureName == 'callouts') return share.crosshairOptions.callouts;
+            else if(featureName == 'callouts') return share.crosshairOptions.callouts;
+            else if(featureName == 'weekends') return share.axisOptions.hideWeekends;
 
 			return false;
 		};
@@ -199,7 +201,7 @@
 		    share.plotArea = share.plotChart.append('g').attr('clip-path', 'url(#plotAreaClip)');
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
 
-		   	share.xScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]);
+		   	share.xScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]).hideWeekends(share.axisOptions.hideWeekends);
 		    share.yScale = fc.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
 
 		    share.xScale.domain([
@@ -553,6 +555,8 @@
 	    };
 
 	    this.showHideFeatures = function() {
+
+            share.xScale.hideWeekends(share.axisOptions.hideWeekends);
 
 	    	share.plotArea.selectAll('.gridlines').style('display', share.gridlineOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.crosshairs').style('display', share.crosshairOptions.show ? 'block' : 'none' );
