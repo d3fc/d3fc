@@ -11,6 +11,7 @@
 
         var movingAverage = function (selection) {
             var line = d3.svg.line();
+            line.defined(function (d, i) { return i >= averagePoints; });
             line.x(function (d) { return xScale(d.date); });
 
             selection.each(function (data) {
@@ -19,26 +20,24 @@
                     line.y(function (d) { return yScale(yValue(d)); });
                 } else {
                     line.y(function (d, i) {
-                        var count = Math.min(averagePoints, i + 1),
-                            first = i + 1 - count;
-
+                        var first = i + 1 - averagePoints;
                         var sum = 0;
                         for (var index = first; index <= i; ++index) {
                             sum += yValue(data[index]);
                         }
-                        var mean = sum / count;
+                        var mean = sum / averagePoints;
 
                         return yScale(mean);
                     });
                 }
 
-                var path = d3.select(this).selectAll('.indicator')
+                var path = d3.select(this).selectAll('.moving-average')
                     .data([data]);
 
                 path.enter().append('path');
 
                 path.attr('d', line)
-                    .classed('indicator', true)
+                    .classed('moving-average', true)
                     .classed(css, true);
 
                 path.exit().remove();
