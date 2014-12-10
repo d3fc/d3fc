@@ -25,12 +25,12 @@
                         <span class="glyphicon glyphicon-unchecked" ng-hide="chart.hasFeature('gridlines')" title="hidden"></span>
                     </a>
                     Gridlines
-                </div>
-                <div class="option-group" ng-show="chart.hasFeature('gridlines')">
-                    <div class="option-section">
-                        <div class="input-group">
-                            <span class="input-group-addon">Ticks</span>
-                            <input type="number" min="1" max="20" class="form-control input-sm text-right" id="gridTicksX" ng-model="chart.axisOptions.xTicks" ng-change="chart.applyGridlines()">
+                    <div class="option-group" ng-show="chart.hasFeature('gridlines')">
+                        <div class="option-section">
+                            <div class="input-group">
+                                <span class="input-group-addon">Ticks</span>
+                                <input type="number" min="1" max="20" class="form-control input-sm text-right" id="gridTicksX" ng-model="chart.axisOptions.xTicks" ng-change="chart.applyGridlines()">
+                            </div>
                         </div>
                     </div>
                 </div>
