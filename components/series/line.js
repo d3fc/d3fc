@@ -4,7 +4,7 @@
     fc.series.line = function () {
 
         var yValue = function(d) { return d.close; },
-            xScale = fc.scale.finance(),
+            xScale = fc.scale.dateTime(),
             yScale = fc.scale.linear(),
             underFill = true;
 

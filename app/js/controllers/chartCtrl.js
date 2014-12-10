@@ -201,7 +201,7 @@
 		    share.plotArea = share.plotChart.append('g').attr('clip-path', 'url(#plotAreaClip)');
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
 
-		   	share.xScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]).hideWeekends(share.axisOptions.hideWeekends);
+		   	share.xScale = fc.scale.dateTime().domain([share.minDate, share.maxDate]).range([0, width]).hideWeekends(share.axisOptions.hideWeekends);
 		    share.yScale = fc.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
 
 		    share.xScale.domain([
@@ -271,7 +271,7 @@
                 share.rsiArea = share.rsiChart.append('g').attr('clip-path', 'url(#rsiAreaClip)');
                 share.rsiArea.append('clipPath').attr('id', 'rsiAreaClip').append('rect').attr({ width: rsiWidth, height: rsiHeight });
 
-                share.rsiXScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
+                share.rsiXScale = fc.scale.dateTime().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
                 share.rsiYScale = fc.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
                 share.rsiXAxis = d3.svg.axis().scale(share.xScale).orient('bottom');
                 share.rsiChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + rsiHeight + ')').call(share.rsiXAxis);
@@ -307,7 +307,7 @@
 		        .append('g')
 		        .attr('transform', 'translate(' + share.margin.left + ', 0)');
 
-		    share.navXScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, navWidth]);
+		    share.navXScale = fc.scale.dateTime().domain([share.minDate, share.maxDate]).range([0, navWidth]);
 		    share.navYScale = fc.scale.linear().domain([share.yMin, share.yMax]).range([navHeight, 0]);
 		    share.navXAxis = d3.svg.axis().scale(share.navXScale).orient('bottom');
 
