@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.measure = function () {
+    fc.tools.measure = function() {
 
         var target = null,
             series = null,
@@ -24,39 +24,39 @@
             locationOrigin = null,
             locationTarget = null;
 
-        var measure = function () {
+        var measure = function() {
 
             var root = target.append('g')
                 .attr('class', 'measure');
 
-            circleOrigin = root.append("circle")
+            circleOrigin = root.append('circle')
                 .attr('class', 'measure origin')
                 .attr('r', 6)
                 .attr('display', 'none');
 
-            circleTarget = root.append("circle")
+            circleTarget = root.append('circle')
                 .attr('class', 'measure target')
                 .attr('r', 6)
                 .attr('display', 'none');
 
-            lineSource = root.append("line")
+            lineSource = root.append('line')
                 .attr('class', 'measure source')
                 .attr('display', 'none');
 
-            lineX = root.append("line")
+            lineX = root.append('line')
                 .attr('class', 'measure x')
                 .attr('display', 'none');
 
-            lineY = root.append("line")
+            lineY = root.append('line')
                 .attr('class', 'measure y')
                 .attr('display', 'none');
 
-            calloutX = root.append("text")
+            calloutX = root.append('text')
                 .attr('class', 'measure callout horizontal')
                 .attr('style', 'text-anchor: end')
                 .attr('display', 'none');
 
-            calloutY = root.append("text")
+            calloutY = root.append('text')
                 .attr('class', 'measure callout vertical')
                 .attr('style', 'text-anchor: middle')
                 .attr('display', 'none');
@@ -141,7 +141,7 @@
 
                 if (field !== null) {
 
-                    return { point: point, field: field };
+                    return {point: point, field: field};
                 }
             }
 
@@ -200,9 +200,12 @@
                 .attr('x2', targetX)
                 .attr('y2', targetY);
 
+            var field = locationTarget.field;
+
             calloutX.attr('x', targetX - padding)
                 .attr('y', originY - (originY - targetY) / 2.0)
-                .text(formatV(Math.abs(locationTarget.point[locationTarget.field] - locationOrigin.point[locationOrigin.field])));
+                .text(formatV(Math.abs(locationTarget.point[field] - locationOrigin.point[field])));
+
             calloutY.attr('y', originY - padding)
                 .attr('x', originX + (targetX - originX) / 2.0)
                 .text(formatH(Math.abs(locationTarget.point.date.getTime() - locationOrigin.point.date.getTime())));
@@ -230,7 +233,7 @@
             calloutY.attr('display', 'none');
         }
 
-        measure.update = function () {
+        measure.update = function() {
 
             if (locationOrigin) {
 
@@ -260,7 +263,7 @@
             }
         };
 
-        measure.visible = function (value) {
+        measure.visible = function(value) {
 
             if (value) {
 
@@ -296,7 +299,7 @@
             }
         };
 
-        measure.target = function (value) {
+        measure.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -315,7 +318,7 @@
             return measure;
         };
 
-        measure.series = function (value) {
+        measure.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -323,7 +326,7 @@
             return measure;
         };
 
-        measure.xScale = function (value) {
+        measure.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -331,7 +334,7 @@
             return measure;
         };
 
-        measure.yScale = function (value) {
+        measure.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -339,7 +342,7 @@
             return measure;
         };
 
-        measure.active = function (value) {
+        measure.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
@@ -347,7 +350,7 @@
             return measure;
         };
 
-        measure.padding = function (value) {
+        measure.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -355,7 +358,7 @@
             return measure;
         };
 
-        measure.formatH = function (value) {
+        measure.formatH = function(value) {
             if (!arguments.length) {
                 return formatH;
             }
@@ -363,7 +366,7 @@
             return measure;
         };
 
-        measure.formatV = function (value) {
+        measure.formatV = function(value) {
             if (!arguments.length) {
                 return formatV;
             }

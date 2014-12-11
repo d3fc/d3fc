@@ -1,14 +1,22 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.scale.gridlines = function () {
+    /**
+    * This component provides gridlines, both horizontal and vertical linked to the respective chart scales/axes.
+    * If the pixel alignment options are selected on the scales, this generally produces crisper graphics.
+    *
+    * @type {object}
+    * @memberof fc.scale
+    * @namespace fc.scale.gridlines
+    */
+    fc.scale.gridlines = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             xTicks = 10,
             yTicks = 10;
 
-        var xLines = function (data, grid) {
+        var xLines = function(data, grid) {
             var xlines = grid.selectAll('.x')
                 .data(data);
             xlines
@@ -30,7 +38,7 @@
             xlines.exit().remove();
         };
 
-        var yLines = function (data, grid) {
+        var yLines = function(data, grid) {
             var ylines = grid.selectAll('.y')
                 .data(data);
             ylines
@@ -52,10 +60,16 @@
             ylines.exit().remove();
         };
 
-        var gridlines = function (selection) {
+        /**
+        * Constructs a new instance of the gridlines component.
+        *
+        * @memberof fc.scale.gridlines
+        * @param {selection} selection a selection of D3 elements.
+        */
+        var gridlines = function(selection) {
             var grid, xTickData, yTickData;
 
-            selection.each(function () {
+            selection.each(function() {
                 xTickData = xScale.ticks(xTicks);
                 yTickData = yScale.ticks(yTicks);
 
@@ -66,7 +80,7 @@
             });
         };
 
-        gridlines.xScale = function (value) {
+        gridlines.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -74,7 +88,7 @@
             return gridlines;
         };
 
-        gridlines.yScale = function (value) {
+        gridlines.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -82,7 +96,7 @@
             return gridlines;
         };
 
-        gridlines.xTicks = function (value) {
+        gridlines.xTicks = function(value) {
             if (!arguments.length) {
                 return xTicks;
             }
@@ -90,7 +104,7 @@
             return gridlines;
         };
 
-        gridlines.yTicks = function (value) {
+        gridlines.yTicks = function(value) {
             if (!arguments.length) {
                 return yTicks;
             }

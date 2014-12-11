@@ -1,35 +1,18 @@
 /* OHLC Styles */
-.ohlc-series .bar.up-day {
+.up-day { 
   stroke: #6c0; 
+  fill: #6c0;
 }
-.ohlc-series .bar.down-day {
+.down-day { 
   stroke: #c60; 
-}
-.ohlc-series .bar.static-day {
-  stroke: #000; 
+  fill: #c60;
 }
 
-.ohlc-series .up-days { 
-  stroke: #6c0; 
-}
-.ohlc-series .down-days { 
-  stroke: #c60; 
-}
-.ohlc-series .bar .static-days { 
+.static-day { 
   stroke: #000; 
+  fill: #000; 
 }
 
-/* Candlestick Styles */
-.candlestick-series .up-day rect { 
-  fill: #6c0; 
-}
-.candlestick-series .down-day rect { 
-  fill: #c60; 
-}
-.candlestick-series .bar .high-low-line {
-    stroke: #000;
-    vector-effect: non-scaling-stroke;
-}
 
 /* Comparison Styles */
 .comparison-series .line {
@@ -58,19 +41,11 @@
 }
 
 /* Line Series Styles */
-.lineSeries { 
+.line-series .line { 
   fill: none; 
   stroke: #06c; 
 }
-.lineSeriesArea { 
+.line-series .area { 
   fill: #9cf; 
   fill-opacity: 0.5; 
-}
-
-/* Volume Styles */
-.volumebar.up-day rect { 
-  fill: #6c0; 
-}
-.volumebar.down-day rect { 
-  fill: #c60;
 }

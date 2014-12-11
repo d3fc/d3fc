@@ -12,36 +12,23 @@
 .axis .domain,
 .axis .tick line { 
   fill: none; 
-  stroke-width: 0.3; 
-  stroke: #000; 
+  stroke-width: 1.0; 
+  stroke: #bbb; 
 }
 .axis text { 
   font: 10px sans-serif; 
 }
 /* Bollinger Bands Styles */
-.bollingerBandArea {
-  fill: #eee;
+.band-area {
+  fill: #ddd;
   stroke-width: 0;
   opacity: 0.5;
 }
 
-.bollingerBandUpper {
+.band-upper, .band-lower {
   fill: none;
   stroke: #666;
   stroke-width: 1;
-}
-
-.bollingerBandLower {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-}
-
-.bollingerAverage {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-  stroke-dasharray: 4, 1;
 }
 
 /* Moving Average Styles */
@@ -244,13 +231,8 @@ text.crosshairs {
 .annotation .callout {
   font: 10px sans-serif;
 }
-.chartArea rect.background {
-  stroke: #ccc;
-  fill: #eee;
-}
 /* Chart Layout Styles */
 .chartArea rect.background {
   stroke: #eee;
-  stroke-width:; 0.5;
-  fill: #fff;
+  fill: #fefefe;
 }

@@ -72,7 +72,7 @@ module.exports = function (grunt) {
             },
             failOnError: {
                 files: {
-                    src: ['<%= meta.ourJsFiles %>']
+                    src: ['<%= meta.componentsJsFiles %>']
                 }
             },
             warnOnly: {
@@ -80,7 +80,7 @@ module.exports = function (grunt) {
                     force: true
                 },
                 files: {
-                    src: ['<%= meta.ourJsFiles %>']
+                    src: ['<%= meta.componentsJsFiles %>']
                 }
             }
         },
@@ -102,14 +102,28 @@ module.exports = function (grunt) {
                     src: ['<%= meta.ourJsFiles %>']
                 }
             }
+        },
+
+        jsdoc : {
+            dist : {
+                src: ['<%= meta.componentsJsFiles %>'], 
+                options: {
+                    destination: 'doc'
+                }
+            }
+        },
+
+        clean: {
+            doc: ["doc"]
         }
     });
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-   
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
-    grunt.registerTask('build', ['jshint:failOnError', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist'/*, 'copy:main'*/]);
+    grunt.registerTask('build', ['jshint:failOnError', 'jscs:failOnError', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
+    grunt.registerTask('dev', ['build', 'watch']);
+    grunt.registerTask('doc', ['clean:doc', 'jsdoc'])
 };

@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.fibonacciFan = function () {
+    fc.tools.fibonacciFan = function() {
 
         var target = null,
             series = null,
@@ -21,38 +21,38 @@
             locationOrigin = null,
             locationTarget = null;
 
-        var fibonacciFan = function () {
+        var fibonacciFan = function() {
 
             var root = target.append('g')
                 .attr('class', 'fibonacci-fan');
 
-            circleOrigin = root.append("circle")
+            circleOrigin = root.append('circle')
                 .attr('class', 'fibonacci-fan origin')
                 .attr('r', 6)
                 .attr('display', 'none');
 
-            circleTarget = root.append("circle")
+            circleTarget = root.append('circle')
                 .attr('class', 'fibonacci-fan target')
                 .attr('r', 6)
                 .attr('display', 'none');
 
-            lineSource = root.append("line")
+            lineSource = root.append('line')
                 .attr('class', 'fibonacci-fan source')
                 .attr('display', 'none');
 
-            lineA = root.append("line")
+            lineA = root.append('line')
                 .attr('class', 'fibonacci-fan a')
                 .attr('display', 'none');
 
-            lineB = root.append("line")
+            lineB = root.append('line')
                 .attr('class', 'fibonacci-fan b')
                 .attr('display', 'none');
 
-            lineC = root.append("line")
+            lineC = root.append('line')
                 .attr('class', 'fibonacci-fan c')
                 .attr('display', 'none');
 
-            fanArea = root.append("polygon")
+            fanArea = root.append('polygon')
                 .attr('class', 'fibonacci-fan area')
                 .attr('display', 'none');
         };
@@ -136,7 +136,7 @@
 
                 if (field !== null) {
 
-                    return { point: point, field: field };
+                    return {point: point, field: field};
                 }
             }
 
@@ -269,7 +269,7 @@
             fanArea.attr('points', points);
         }
 
-        fibonacciFan.update = function () {
+        fibonacciFan.update = function() {
 
             if (locationOrigin) {
 
@@ -304,7 +304,7 @@
             }
         };
 
-        fibonacciFan.visible = function (value) {
+        fibonacciFan.visible = function(value) {
 
             if (value) {
 
@@ -340,7 +340,7 @@
             }
         };
 
-        fibonacciFan.target = function (value) {
+        fibonacciFan.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -359,7 +359,7 @@
             return fibonacciFan;
         };
 
-        fibonacciFan.series = function (value) {
+        fibonacciFan.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -367,7 +367,7 @@
             return fibonacciFan;
         };
 
-        fibonacciFan.xScale = function (value) {
+        fibonacciFan.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -375,7 +375,7 @@
             return fibonacciFan;
         };
 
-        fibonacciFan.yScale = function (value) {
+        fibonacciFan.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -383,7 +383,7 @@
             return fibonacciFan;
         };
 
-        fibonacciFan.active = function (value) {
+        fibonacciFan.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
