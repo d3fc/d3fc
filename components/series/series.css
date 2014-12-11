@@ -57,11 +57,11 @@
 }
 
 /* Line Series Styles */
-.lineSeries { 
+.line-series .line { 
   fill: none; 
   stroke: #06c; 
 }
-.lineSeriesArea { 
+.line-series .area { 
   fill: #9cf; 
   fill-opacity: 0.5; 
 }
