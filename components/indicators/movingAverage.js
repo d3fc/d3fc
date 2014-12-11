@@ -15,7 +15,7 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            yValue = function(d) { return d.close; },
+            yValue = fc.utilities.valueAccessor("close"),
             averagePoints = 5,
             css = 'moving-average';
 

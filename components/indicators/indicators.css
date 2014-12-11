@@ -14,7 +14,7 @@
 /* Moving Average Styles */
 .moving-average {
   fill: none;
-  stroke: #666;
+  stroke: #69f;
   stroke-width: 1;
   stroke-dasharray: 3, 3;
 }
