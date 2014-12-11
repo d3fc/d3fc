@@ -102,6 +102,19 @@ module.exports = function (grunt) {
                     src: ['<%= meta.ourJsFiles %>']
                 }
             }
+        },
+
+        jsdoc : {
+            dist : {
+                src: ['<%= meta.componentsJsFiles %>'], 
+                options: {
+                    destination: 'doc'
+                }
+            }
+        },
+
+        clean: {
+            doc: ["doc"]
         }
     });
 
@@ -112,4 +125,5 @@ module.exports = function (grunt) {
     grunt.registerTask('check', ['check:failOnError']);
     grunt.registerTask('build', ['jshint:failOnError', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
     grunt.registerTask('dev', ['build', 'watch']);
+    grunt.registerTask('doc', ['clean:doc', 'jsdoc'])
 };

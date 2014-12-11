@@ -1,5 +1,6 @@
 aspnet_client
 node_modules
+doc
 .idea/
 _site
 tests/
