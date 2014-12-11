@@ -15,9 +15,9 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            yValue = function(d) { return 0; },
+            yValue = fc.utilities.valueAccessor("close"),
             averagePoints = 5,
-            css = '';
+            css = 'moving-average';
 
         /**
         * Constructs a new instance of the moving average component.
@@ -47,13 +47,12 @@
                     });
                 }
 
-                var path = d3.select(this).selectAll('.moving-average')
+                var path = d3.select(this).selectAll('.' + css)
                     .data([data]);
 
                 path.enter().append('path');
 
                 path.attr('d', line)
-                    .classed('moving-average', true)
                     .classed(css, true);
 
                 path.exit().remove();
@@ -94,7 +93,7 @@
 
         /**
         * Specifies the name of the data field which the component will follow. If not specified,
-        * returns the current data field, which defaults to 0.
+        * returns the 'close' property of each datapoint.
         * 
         * @memberof fc.indicators.movingAverage
         * @method yValue
@@ -123,23 +122,6 @@
             if (value >= 0) {
                 averagePoints = value;
             }
-            return movingAverage;
-        };
-
-        /**
-        * Specifies a CSS class which will be applied to the tracker line. This can be useful if you have
-        * multiple trackers on the same chart and need to differentiate them. If not specified, returns
-        * the current CSS class, which defaults to an empty string.
-        * 
-        * @memberof fc.indicators.movingAverage
-        * @method css
-        * @param {string} className the CSS class name
-        */
-        movingAverage.css = function (className) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = className;
             return movingAverage;
         };
 

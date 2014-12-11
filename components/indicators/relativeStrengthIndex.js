@@ -17,7 +17,7 @@
             upperMarker = 70,
             lowerMarker = 30,
             lambda = 1.0,
-            css = '',
+            css = 'rsi',
             yValue = function(d) { return d.close; };
 
         var upper = null,
@@ -91,13 +91,12 @@
                     });
                 }
 
-                var path = d3.select(this).selectAll('.rsi')
+                var path = d3.select(this).selectAll('.' + css)
                     .data([data]);
 
                 path.enter().append('path');
 
                 path.attr('d', line)
-                    .classed('rsi', true)
                     .classed(css, true);
 
                 path.exit().remove();
@@ -206,25 +205,8 @@
         };
 
         /**
-        * Specifies a CSS class which will be applied to the RSI line. This can be useful if you have
-        * multiple RSIs on the same chart and need to differentiate them. If not specified, returns
-        * the current CSS class, which defaults to an empty string.
-        * 
-        * @memberof fc.indicators.movingAverage
-        * @method css
-        * @param {string} className the CSS class name
-        */
-        rsi.css = function (value) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = value;
-            return rsi;
-        };
-
-        /**
         * Specifies the name of the data field which the component will follow. If not specified,
-        * returns the current data field, which defaults to 0.
+        * returns the 'close' property of each datapoint
         * 
         * @memberof fc.indicators.bollingerBands
         * @method yValue

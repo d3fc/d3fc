@@ -19,10 +19,10 @@
             movingAverage = 20,
             standardDeviations = 2;
 
-        var cssBandArea = 'bollingerBandArea',
-            cssBandUpper = 'bollingerBandUpper',
-            cssBandLower = 'bollingerBandLower',
-            cssAverage = 'bollingerAverage';
+        var cssBandArea = 'band-area',
+            cssBandUpper = 'band-upper',
+            cssBandLower = 'band-lower',
+            cssAverage = 'moving-average';
 
         /**
         * Constructs a new instance of the bollinger bands component.
@@ -137,13 +137,13 @@
                     prunedData.push(data[n]);
                 }
 
-                var pathArea = d3.select(this).selectAll('.area')
+                var pathArea = d3.select(this).selectAll('.' + cssBandArea)
                     .data([prunedData]);
-                var pathUpper = d3.select(this).selectAll('.upper')
+                var pathUpper = d3.select(this).selectAll('.' + cssBandUpper)
                     .data([prunedData]);
-                var pathLower = d3.select(this).selectAll('.lower')
+                var pathLower = d3.select(this).selectAll('.' + cssBandLower)
                     .data([prunedData]);
-                var pathAverage = d3.select(this).selectAll('.average')
+                var pathAverage = d3.select(this).selectAll('.' + cssAverage)
                     .data([prunedData]);
 
                 pathArea.enter().append('path');
@@ -152,16 +152,12 @@
                 pathAverage.enter().append('path');
 
                 pathArea.attr('d', areaBands)
-                    .classed('area', true)
                     .classed(cssBandArea, true);
                 pathUpper.attr('d', lineUpper)
-                    .classed('upper', true)
                     .classed(cssBandUpper, true);
                 pathLower.attr('d', lineLower)
-                    .classed('lower', true)
                     .classed(cssBandLower, true);
                 pathAverage.attr('d', lineAverage)
-                    .classed('average', true)
                     .classed(cssAverage, true);
 
                 pathArea.exit().remove();
@@ -254,71 +250,7 @@
             }
             return bollingerBands;
         };
-
-        /**
-        * Specifies a CSS class which will be applied to the upper band line. If not specified,
-        * returns the current CSS class, which defaults to bollingerBandUpper.
-        * 
-        * @memberof fc.indicators.bollingerBands
-        * @method cssBandUpper
-        * @param {string} value the CSS class
-        */
-        bollingerBands.cssBandUpper = function (value) {
-            if (!arguments.length) {
-                return cssBandUpper;
-            }
-            cssBandUpper = value;
-            return bollingerBands;
-        };
-
-        /**
-        * Specifies a CSS class which will be applied to the lower band line. If not specified,
-        * returns the current CSS class, which defaults to bollingerBandLower.
-        * 
-        * @memberof fc.indicators.bollingerBands
-        * @method cssBandLower
-        * @param {string} value the CSS class
-        */
-        bollingerBands.cssBandLower = function (value) {
-            if (!arguments.length) {
-                return cssBandLower;
-            }
-            cssBandLower = value;
-            return bollingerBands;
-        };
-
-        /**
-        * Specifies a CSS class which will be applied to the band area. If not specified,
-        * returns the current CSS class, which defaults to bollingerBandArea.
-        * 
-        * @memberof fc.indicators.bollingerBands
-        * @method cssBandArea
-        * @param {string} value the CSS class
-        */
-        bollingerBands.cssBandArea = function (value) {
-            if (!arguments.length) {
-                return cssBandArea;
-            }
-            cssBandArea = value;
-            return bollingerBands;
-        };
-
-        /**
-        * Specifies a CSS class which will be applied to the middle band line. If 
-        * not specified, returns the current CSS class, which defaults to bollingerAverage.
-        * 
-        * @memberof fc.indicators.bollingerBands
-        * @method cssAverage
-        * @param {string} value the CSS class
-        */
-        bollingerBands.cssAverage = function (value) {
-            if (!arguments.length) {
-                return cssAverage;
-            }
-            cssAverage = value;
-            return bollingerBands;
-        };
-
+       
         return bollingerBands;
     };
 }(d3, fc));
