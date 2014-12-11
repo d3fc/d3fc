@@ -18,7 +18,7 @@
             lowerMarker = 30,
             lambda = 1.0,
             css = 'rsi',
-            yValue = function(d) { return d.close; };
+            yValue = fc.utilities.valueAccessor("close");
 
         var upper = null,
             centre = null,

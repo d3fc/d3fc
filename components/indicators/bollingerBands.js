@@ -15,7 +15,7 @@
             yScale = d3.scale.linear();
 
         
-        var yValue = function(d) { return d.close; },
+        var yValue = fc.utilities.valueAccessor("close"),
             movingAverage = 20,
             standardDeviations = 2;
 

@@ -6,7 +6,7 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = 5,
-            yValue = function(d) { return d.volume; };
+            yValue = fc.utilities.valueAccessor("volume");
 
         var isUpDay = function(d) {
             return d.close > d.open;
