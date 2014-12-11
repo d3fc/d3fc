@@ -1,35 +1,35 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.ohlc = function (drawMethod) {
+    fc.series.ohlc = function(drawMethod) {
 
         // Configurable attributes
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             tickWidth = 5;
 
-        var yOpen = function(d) { return d.open; },
-            yHigh = function(d) { return d.high; },
-            yLow = function(d) { return d.low; },
-            yClose = function(d) { return d.close; };
+        var yOpen = fc.utilities.valueAccessor('open'),
+            yHigh = fc.utilities.valueAccessor('high'),
+            yLow = fc.utilities.valueAccessor('low'),
+            yClose = fc.utilities.valueAccessor('close');
 
         // Function to return
         var ohlc;
 
         // Accessor functions
-        var open = function (d) {
+        var open = function(d) {
                 return yScale(yOpen(d));
             },
-            high = function (d) {
+            high = function(d) {
                 return yScale(yHigh(d));
             },
-            low = function (d) {
+            low = function(d) {
                 return yScale(yLow(d));
             },
-            close = function (d) {
+            close = function(d) {
                 return yScale(yClose(d));
             },
-            date = function (d) {
+            date = function(d) {
                 return xScale(d.date);
             };
 
@@ -37,10 +37,10 @@
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
         };
-        var isDownDay = function (d) {
+        var isDownDay = function(d) {
             return yClose(d) < yOpen(d);
         };
-        var isStaticDay = function (d) {
+        var isStaticDay = function(d) {
             return yClose(d) === yOpen(d);
         };
 
@@ -55,7 +55,7 @@
         };
 
         // Path drawing
-        var makeBarPath = function (d) {
+        var makeBarPath = function(d) {
             var moveToLow = 'M' + date(d) + ',' + low(d),
                 verticalToHigh = 'V' + high(d),
                 openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-tickWidth),
@@ -63,9 +63,9 @@
             return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
-        var makeConcatPath = function (data) {
+        var makeConcatPath = function(data) {
             var path = 'M0,0';
-            data.forEach(function (d) {
+            data.forEach(function(d) {
                 path += makeBarPath(d);
             });
             return path;
@@ -74,7 +74,7 @@
         // Filters data, and draws a series of ohlc bars from the result as a single path.
         var makeConcatPathElement = function(series, elementClass, colour, data, filterFunction) {
             var concatPath;
-            var filteredData = data.filter(function (d) {
+            var filteredData = data.filter(function(d) {
                 return filterFunction(d);
             });
             concatPath = series.selectAll('.' + elementClass)
@@ -93,19 +93,19 @@
         };
 
         // Common series element
-        var makeSeriesElement = function (selection, data) {
+        var makeSeriesElement = function(selection, data) {
             var series = d3.select(selection).selectAll('.ohlc-series').data([data]);
             series.enter().append('g').classed('ohlc-series', true);
             return series;
         };
 
         // Draw ohlc bars as groups of svg lines
-        var ohlcLineGroups = function (selection) {
-            selection.each(function (data) {
+        var ohlcLineGroups = function(selection) {
+            selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
 
                 var bars = series.selectAll('.bar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -126,7 +126,7 @@
 
                 bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high});
                 bars.select('.open-tick').attr({
-                    x1: function (d) { return date(d) - tickWidth; },
+                    x1: function(d) { return date(d) - tickWidth; },
                     y1: open,
                     x2: date,
                     y2: open
@@ -134,7 +134,7 @@
                 bars.select('.close-tick').attr({
                     x1: date,
                     y1: close,
-                    x2: function (d) { return date(d) + tickWidth; },
+                    x2: function(d) { return date(d) + tickWidth; },
                     y2: close
                 });
 
@@ -144,12 +144,12 @@
         };
 
         // Draw ohlc bars as svg paths
-        var ohlcBarPaths = function (selection) {
-            selection.each(function (data) {
+        var ohlcBarPaths = function(selection) {
+            selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
 
                 var bars = series.selectAll('.bar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -173,12 +173,12 @@
         };
 
         // Draw the complete series of ohlc bars using 3 paths
-        var ohlcConcatBarPaths = function (selection) {
-            selection.each(function (data) {
+        var ohlcConcatBarPaths = function(selection) {
+            selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
-                makeConcatPathElement(series, 'up-days', 'green', data, isUpDay);
-                makeConcatPathElement(series, 'down-days', 'red', data, isDownDay);
-                makeConcatPathElement(series, 'static-days', 'black', data, isStaticDay);
+                makeConcatPathElement(series, 'up-day', 'green', data, isUpDay);
+                makeConcatPathElement(series, 'down-day', 'red', data, isDownDay);
+                makeConcatPathElement(series, 'static-day', 'black', data, isStaticDay);
             });
         };
 
@@ -189,7 +189,7 @@
             default: ohlc = ohlcBarPaths;
         }
 
-        ohlc.xScale = function (value) {
+        ohlc.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -197,7 +197,7 @@
             return ohlc;
         };
 
-        ohlc.yScale = function (value) {
+        ohlc.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -205,7 +205,7 @@
             return ohlc;
         };
 
-        ohlc.tickWidth = function (value) {
+        ohlc.tickWidth = function(value) {
             if (!arguments.length) {
                 return tickWidth;
             }

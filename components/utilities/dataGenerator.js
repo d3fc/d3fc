@@ -1,7 +1,7 @@
-(function (fc) {
+(function(fc) {
     'use strict';
 
-    fc.utilities.dataGenerator = function () {
+    fc.utilities.dataGenerator = function() {
 
         var mu = 0.1,
             sigma = 0.1,
@@ -12,11 +12,11 @@
             toDate = new Date(),
             fromDate = new Date(),
             useFakeBoxMuller = false,
-            filter = function (date) {
+            filter = function(date) {
                 return !(date.getDay() === 0 || date.getDay() === 6);
             };
 
-        var generatePrices = function (period, steps) {
+        var generatePrices = function(period, steps) {
             var increments = generateIncrements(period, steps, mu, sigma),
                 i, prices = [];
             prices[0] = startingPrice;
@@ -27,7 +27,7 @@
             return prices;
         };
 
-        var generateVolumes = function (period, steps) {
+        var generateVolumes = function(period, steps) {
             var increments = generateIncrements(period, steps, 0, 1),
                 i, volumes = [];
 
@@ -37,13 +37,13 @@
             for (i = 1; i < increments.length; i += 1) {
                 volumes[i] = volumes[i - 1] * increments[i];
             }
-            volumes = volumes.map(function (vol) {
+            volumes = volumes.map(function(vol) {
                 return Math.floor(vol * (1 - volumeNoiseFactor + Math.random() * volumeNoiseFactor * 2));
             });
             return volumes;
         };
 
-        var generateIncrements = function (period, steps, mu, sigma) {
+        var generateIncrements = function(period, steps, mu, sigma) {
             var deltaW = [],
                 deltaY = period / steps,
                 sqrtDeltaY = Math.sqrt(deltaY);
@@ -128,14 +128,14 @@
             return ohlcv;
         };
 
-        var dataGenerator = function (selection) {
+        var dataGenerator = function(selection) {
         };
 
         dataGenerator.generate = function() {
             return generate();
         };
 
-        dataGenerator.mu = function (value) {
+        dataGenerator.mu = function(value) {
             if (!arguments.length) {
                 return mu;
             }
@@ -143,7 +143,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.sigma = function (value) {
+        dataGenerator.sigma = function(value) {
             if (!arguments.length) {
                 return sigma;
             }
@@ -151,7 +151,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.startingPrice = function (value) {
+        dataGenerator.startingPrice = function(value) {
             if (!arguments.length) {
                 return startingPrice;
             }
@@ -159,7 +159,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.startingVolume = function (value) {
+        dataGenerator.startingVolume = function(value) {
             if (!arguments.length) {
                 return startingVolume;
             }
@@ -167,7 +167,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.intraDaySteps = function (value) {
+        dataGenerator.intraDaySteps = function(value) {
             if (!arguments.length) {
                 return intraDaySteps;
             }
@@ -175,7 +175,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.volumeNoiseFactor = function (value) {
+        dataGenerator.volumeNoiseFactor = function(value) {
             if (!arguments.length) {
                 return volumeNoiseFactor;
             }
@@ -183,7 +183,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.filter = function (value) {
+        dataGenerator.filter = function(value) {
             if (!arguments.length) {
                 return filter;
             }
@@ -191,7 +191,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.toDate = function (value) {
+        dataGenerator.toDate = function(value) {
             if (!arguments.length) {
                 return toDate;
             }
@@ -199,7 +199,7 @@
             return dataGenerator;
         };
 
-        dataGenerator.fromDate = function (value) {
+        dataGenerator.fromDate = function(value) {
             if (!arguments.length) {
                 return fromDate;
             }

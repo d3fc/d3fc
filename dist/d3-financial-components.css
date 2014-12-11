@@ -19,29 +19,16 @@
   font: 10px sans-serif; 
 }
 /* Bollinger Bands Styles */
-.bollingerBandArea {
-  fill: #eee;
+.band-area {
+  fill: #ddd;
   stroke-width: 0;
   opacity: 0.5;
 }
 
-.bollingerBandUpper {
+.band-upper, .band-lower {
   fill: none;
   stroke: #666;
   stroke-width: 1;
-}
-
-.bollingerBandLower {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-}
-
-.bollingerAverage {
-  fill: none;
-  stroke: #666;
-  stroke-width: 1;
-  stroke-dasharray: 4, 1;
 }
 
 /* Moving Average Styles */
@@ -246,6 +233,6 @@ text.crosshairs {
 }
 /* Chart Layout Styles */
 .chartArea rect.background {
-  stroke: #ccc;
-  fill: #eee;
+  stroke: #eee;
+  fill: #fefefe;
 }

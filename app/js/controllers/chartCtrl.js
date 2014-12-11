@@ -5,7 +5,7 @@
 		// Primary chart options will be set here
 		this.chartDataOptions = { style: "bars", width: 5 }; // Possible style options are 'bars' and 'candles', width is used for candles
 		this.chartAspect = 0.45; // Height to width multiplier
-		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2, hideWeekends: true };
+		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
 		this.rsiAspect = 0.3; // Chart height to RSI height multiplier
 		this.navigatorAspect = 0.2; // Chart height to navigator height multiplier
@@ -13,7 +13,7 @@
 		this.volumeAspect = 0.4; // Chart height to volume height multiplier
 		this.showFibonacci = false;
 
-        this.gridlineOptions = { show: true };
+		this.gridlineOptions = { show: true };
 		this.crosshairOptions = { show: false, snap: true, yValue: '', callouts: false };
 		this.measureOptions = { show: false, snap: true };
 
@@ -102,8 +102,7 @@
 			else if(featureName == 'volume') share.showVolume = !share.showVolume;
 			else if(featureName == 'fibonacci') share.showFibonacci = !share.showFibonacci;
 			else if(featureName == 'rsi') share.rsiOptions.show = !share.rsiOptions.show;
-            else if(featureName == 'callouts') share.crosshairOptions.callouts = !share.crosshairOptions.callouts;
-            else if(featureName == 'weekends') share.axisOptions.hideWeekends = !share.axisOptions.hideWeekends;
+			else if(featureName == 'callouts') share.crosshairOptions.callouts = !share.crosshairOptions.callouts;
 
 			share.showHideFeatures();
 		};
@@ -117,8 +116,7 @@
 			else if(featureName == 'volume') return share.showVolume;
 			else if(featureName == 'fibonacci') return share.showFibonacci;
 			else if(featureName == 'rsi') return share.rsiOptions.show;
-            else if(featureName == 'callouts') return share.crosshairOptions.callouts;
-            else if(featureName == 'weekends') return share.axisOptions.hideWeekends;
+			else if(featureName == 'callouts') return share.crosshairOptions.callouts;
 
 			return false;
 		};
@@ -189,7 +187,10 @@
 		    share.chartWidth = share.mainDiv.node().offsetWidth;
 		    share.chartHeight = share.mainDiv.node().offsetWidth * share.chartAspect;
 
+            share.mainDiv.select('.main-chart').remove();
+
 		    share.plotChart = share.mainDiv.classed('chart', true).append('svg')
+                .attr('class', 'main-chart')
 		        .attr('width', share.chartWidth)
 		        .attr('height', share.chartHeight)
 		        .append('g')
@@ -201,7 +202,7 @@
 		    share.plotArea = share.plotChart.append('g').attr('clip-path', 'url(#plotAreaClip)');
 		    share.plotArea.append('clipPath').attr('id', 'plotAreaClip').append('rect').attr({ width: width, height: height });
 
-		   	share.xScale = fc.scale.dateTime().domain([share.minDate, share.maxDate]).range([0, width]).hideWeekends(share.axisOptions.hideWeekends);
+		   	share.xScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, width]);
 		    share.yScale = fc.scale.linear().domain([share.yMin, share.yMax]).nice().range([height, 0]);
 
 		    share.xScale.domain([
@@ -256,37 +257,34 @@
 
         this.initialiseRSI = function(data) {
 
-            if (!share.rsi) {
+            var rsiWidth = share.chartWidth - share.margin.left - share.margin.right;
+            var rsiHeight = (share.chartHeight * share.rsiAspect) - share.margin.top - share.margin.bottom;
 
-                var rsiWidth = share.chartWidth - share.margin.left - share.margin.right;
-                var rsiHeight = (share.chartHeight * share.rsiAspect) - share.margin.top - share.margin.bottom;
+            share.mainDiv.select('.rsi').remove();
 
-                share.rsiChart = share.mainDiv.append('svg')
-                    .classed('rsi', true)
-                    .attr('width', rsiWidth + share.margin.left + share.margin.right)
-                    .attr('height', rsiHeight + share.margin.top + share.margin.bottom)
-                    .append('g')
-                    .attr('transform', 'translate(' + share.margin.left + ', 0)');
+            share.rsiChart = share.mainDiv.append('svg')
+                .classed('rsi', true)
+                .attr('width', rsiWidth + share.margin.left + share.margin.right)
+                .attr('height', rsiHeight + share.margin.top + share.margin.bottom)
+                .append('g')
+                .attr('transform', 'translate(' + share.margin.left + ', 0)');
 
-                share.rsiArea = share.rsiChart.append('g').attr('clip-path', 'url(#rsiAreaClip)');
-                share.rsiArea.append('clipPath').attr('id', 'rsiAreaClip').append('rect').attr({ width: rsiWidth, height: rsiHeight });
+            share.rsiArea = share.rsiChart.append('g').attr('clip-path', 'url(#rsiAreaClip)');
+            share.rsiArea.append('clipPath').attr('id', 'rsiAreaClip').append('rect').attr({ width: rsiWidth, height: rsiHeight });
 
-                share.rsiXScale = fc.scale.dateTime().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
-                share.rsiYScale = fc.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
-                share.rsiXAxis = d3.svg.axis().scale(share.xScale).orient('bottom');
-                share.rsiChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + rsiHeight + ')').call(share.rsiXAxis);
+            share.rsiXScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, rsiWidth]);
+            share.rsiYScale = fc.scale.linear().domain([0, 100]).range([rsiHeight, 0]);
+            share.rsiXAxis = d3.svg.axis().scale(share.xScale).orient('bottom');
+            share.rsiChart.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + rsiHeight + ')').call(share.rsiXAxis);
 
-                share.rsi = fc.indicators.rsi()
-                    .xScale(share.xScale)
-                    .yScale(share.rsiYScale);
+            share.rsiArea.append('g')
+                .attr('class', 'rsi')
+                .attr('id', 'rsi')
+                .datum(data);
 
-                share.rsiArea.append('g')
-                    .attr('class', 'rsi')
-                    .attr('id', 'rsi')
-                    .datum(data);
-            }
-
-            share.rsi
+            share.rsi = fc.indicators.rsi()
+                .xScale(share.xScale)
+                .yScale(share.rsiYScale)
                 .samplePeriods(share.rsiOptions.points)
                 .lambda(share.rsiOptions.lambda)
                 .lowerMarker(share.rsiOptions.lowerMarker)
@@ -297,8 +295,11 @@
         };
 
 		this.initialiseNavigator = function(data) {
+
 		    var navWidth = share.chartWidth - share.margin.left - share.margin.right;
 		    var navHeight = (share.chartHeight * share.navigatorAspect) - share.margin.top - share.margin.bottom;
+
+            share.mainDiv.select('.navigator').remove();
 
 		    share.navChart = share.mainDiv.append('svg')
 		        .classed('navigator', true)
@@ -307,7 +308,7 @@
 		        .append('g')
 		        .attr('transform', 'translate(' + share.margin.left + ', 0)');
 
-		    share.navXScale = fc.scale.dateTime().domain([share.minDate, share.maxDate]).range([0, navWidth]);
+		    share.navXScale = fc.scale.finance().domain([share.minDate, share.maxDate]).range([0, navWidth]);
 		    share.navYScale = fc.scale.linear().domain([share.yMin, share.yMax]).range([navHeight, 0]);
 		    share.navXAxis = d3.svg.axis().scale(share.navXScale).orient('bottom');
 
@@ -556,8 +557,6 @@
 
 	    this.showHideFeatures = function() {
 
-            share.xScale.hideWeekends(share.axisOptions.hideWeekends);
-
 	    	share.plotArea.selectAll('.gridlines').style('display', share.gridlineOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.crosshairs').style('display', share.crosshairOptions.show ? 'block' : 'none' );
 	    	share.plotArea.selectAll('.bollinger').style('display', share.bollingerOptions.show ? 'block' : 'none' );
@@ -600,6 +599,52 @@
                     .attr("class", "callouts")
                     .call(callouts);
             }
+        };
+
+        this.regenerateData = function() {
+
+            $rootScope.chartData = fc.utilities.dataGenerator()
+                .mu(0.1)
+                .sigma(0.1)
+                .startingPrice(100)
+                .intraDaySteps(50)
+                .fromDate(share.minDate)
+                .toDate(share.maxDate)
+                .filter(function (date) { return !(date.getDay() === 0 || date.getDay() === 6); })
+                .generate();
+
+            this.initialise();
+            this.showHideFeatures();
+        };
+
+        this.addData = function(days) {
+
+            // Number of ms in one day
+            var day = 1000 * 60 * 60 * 24;
+
+            // Work out the first and last day to create data for
+            var firstDay = new Date(share.maxDate.getTime() + day),
+                lastDay = new Date(share.maxDate.getTime() + (days * day));
+
+            // Generate the new data
+            var newData = fc.utilities.dataGenerator()
+                .mu(0.1)
+                .sigma(0.1)
+                .startingPrice(100)
+                .intraDaySteps(50)
+                .fromDate(firstDay)
+                .toDate(lastDay)
+                .filter(function (date) { return !(date.getDay() === 0 || date.getDay() === 6); })
+                .generate();
+
+            // Append the new data
+            for (var i = 0; i < newData.length; i++) {
+                var data = newData[i];
+                $rootScope.chartData.push(data);
+            }
+
+            this.initialise();
+            this.showHideFeatures();
         };
 
 		this.initialise();

@@ -1,14 +1,14 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.comparison = function () {
+    fc.series.comparison = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
         var cachedData, cachedScale;
 
-        var yScaleTransform = function (oldScale, newScale) {
+        var yScaleTransform = function(oldScale, newScale) {
             // Compute transform for elements wrt changing yScale.
             var oldDomain = oldScale.domain(),
                 newDomain = newScale.domain(),
@@ -20,10 +20,10 @@
             };
         };
 
-        var findIndex = function (seriesData, date) {
+        var findIndex = function(seriesData, date) {
             // Find insertion point for date in seriesData.
             var bisect = d3.bisector(
-                function (d) {
+                function(d) {
                     return d.date;
                 }).left;
 
@@ -36,12 +36,12 @@
             return initialIndex;
         };
 
-        var percentageChange = function (seriesData, initialDate) {
+        var percentageChange = function(seriesData, initialDate) {
             // Computes the percentage change data of a series from an initial date.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialClose = seriesData[initialIndex].close;
 
-            return seriesData.map(function (d) {
+            return seriesData.map(function(d) {
                 return {
                     date: d.date,
                     change: (d.close / initialClose) - 1
@@ -49,12 +49,12 @@
             });
         };
 
-        var rebaseChange = function (seriesData, initialDate) {
+        var rebaseChange = function(seriesData, initialDate) {
             // Change the initial date the percentage changes should be based from.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialChange = seriesData[initialIndex].change;
 
-            return seriesData.map(function (d) {
+            return seriesData.map(function(d) {
                 return {
                     date: d.date,
                     change: d.change - initialChange
@@ -62,10 +62,10 @@
             });
         };
 
-        var calculateYDomain = function (data, xDomain) {
+        var calculateYDomain = function(data, xDomain) {
             var start, end;
 
-            data = data.map(function (series) {
+            data = data.map(function(series) {
                 series = series.data;
                 start = findIndex(series, xDomain[0]) - 1;
                 end = findIndex(series, xDomain[1]) + 1;
@@ -89,19 +89,19 @@
 
         var line = d3.svg.line()
             .interpolate('linear')
-            .x(function (d) {
+            .x(function(d) {
                 return xScale(d.date);
             })
-            .y(function (d) {
+            .y(function(d) {
                 return yScale(d.change);
             });
 
-        var comparison = function (selection) {
+        var comparison = function(selection) {
             var series, lines;
 
-            selection.each(function (data) {
+            selection.each(function(data) {
 
-                data = data.map(function (d) {
+                data = data.map(function(d) {
                     return {
                         name: d.name,
                         data: percentageChange(d.data, xScale.domain()[0])
@@ -110,7 +110,7 @@
 
                 cachedData = data; // Save for rebasing.
 
-                color.domain(data.map(function (d) {
+                color.domain(data.map(function(d) {
                     return d.name;
                 }));
 
@@ -125,31 +125,31 @@
                         return d.name;
                     })
                     .enter().append('path')
-                    .attr('class', function (d) {
+                    .attr('class', function(d) {
                         return 'line ' + 'line' + data.indexOf(d);
                     })
-                    .attr('d', function (d) {
+                    .attr('d', function(d) {
                         return line(d.data);
                     })
-                    .style('stroke', function (d) {
+                    .style('stroke', function(d) {
                         return color(d.name);
                     });
 
                 series.selectAll('.line')
-                    .attr('d', function (d) {
+                    .attr('d', function(d) {
                         return line(d.data);
                     });
             });
         };
 
-        comparison.geometricZoom = function (selection, xTransformTranslate, xTransformScale) {
+        comparison.geometricZoom = function(selection, xTransformTranslate, xTransformScale) {
             // Apply a transformation for each line to update its position wrt the new initial date,
             // then apply the yScale transformation to reflect the updated yScale domain.
 
             var initialIndex,
                 yTransform;
 
-            var lineTransform = function (initialChange) {
+            var lineTransform = function(initialChange) {
                 var yTransformLineTranslate = cachedScale(0) - cachedScale(initialChange);
 
                 yTransformLineTranslate *= yTransform.scale;
@@ -159,7 +159,7 @@
                     ' scale(' + xTransformScale + ',' + yTransform.scale + ')';
             };
 
-            var domainData = cachedData.map(function (d) {
+            var domainData = cachedData.map(function(d) {
                 return {
                     name: d.name,
                     data: rebaseChange(d.data, xScale.domain()[0])
@@ -169,7 +169,7 @@
             yScale.domain(calculateYDomain(domainData, xScale.domain()));
             yTransform = yScaleTransform(cachedScale, yScale);
 
-            cachedData = cachedData.map(function (d) {
+            cachedData = cachedData.map(function(d) {
                 initialIndex = findIndex(d.data, xScale.domain()[0]) - 1;
                 return {
                     name: d.name,
@@ -180,10 +180,10 @@
 
             selection.selectAll('.line')
                 .data(cachedData)
-                .attr('transform', function (d) { return d.transform; });
+                .attr('transform', function(d) { return d.transform; });
         };
 
-        comparison.xScale = function (value) {
+        comparison.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -191,7 +191,7 @@
             return comparison;
         };
 
-        comparison.yScale = function (value) {
+        comparison.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }

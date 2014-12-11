@@ -1,43 +1,43 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.candlestick = function () {
+    fc.series.candlestick = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
-        var yOpen = function(d) { return d.open; },
-            yHigh = function(d) { return d.high; },
-            yLow = function(d) { return d.low; },
-            yClose = function(d) { return d.close; };
+        var yOpen = fc.utilities.valueAccessor('open'),
+            yHigh = fc.utilities.valueAccessor('high'),
+            yLow = fc.utilities.valueAccessor('low'),
+            yClose = fc.utilities.valueAccessor('close');
 
         var rectangleWidth = 5;
 
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
         };
-        var isDownDay = function (d) {
+        var isDownDay = function(d) {
             return !isUpDay(d);
         };
 
         var line = d3.svg.line()
-            .x(function (d) {
+            .x(function(d) {
                 return d.x;
             })
-            .y(function (d) {
+            .y(function(d) {
                 return d.y;
             });
 
-        var highLowLines = function (bars) {
+        var highLowLines = function(bars) {
 
-            var paths = bars.selectAll('.high-low-line').data(function (d) {
+            var paths = bars.selectAll('.high-low-line').data(function(d) {
                 return [d];
             });
 
             paths.enter().append('path');
 
             paths.classed('high-low-line', true)
-                .attr('d', function (d) {
+                .attr('d', function(d) {
                     return line([
                         {x: xScale(d.date), y: yScale(yHigh(d))},
                         {x: xScale(d.date), y: yScale(yLow(d))}
@@ -45,40 +45,40 @@
                 });
         };
 
-        var rectangles = function (bars) {
+        var rectangles = function(bars) {
             var rect;
 
-            rect = bars.selectAll('rect').data(function (d) {
+            rect = bars.selectAll('rect').data(function(d) {
                 return [d];
             });
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) {
+            rect.attr('x', function(d) {
                 return xScale(d.date) - (rectangleWidth / 2.0);
             })
-                .attr('y', function (d) {
+                .attr('y', function(d) {
                     return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
                 .attr('width', rectangleWidth)
-                .attr('height', function (d) {
+                .attr('height', function(d) {
                     return isUpDay(d) ?
                         yScale(yOpen(d)) - yScale(yClose(d)) :
                         yScale(yClose(d)) - yScale(yOpen(d));
                 });
         };
 
-        var candlestick = function (selection) {
+        var candlestick = function(selection) {
             var series, bars;
 
-            selection.each(function (data) {
+            selection.each(function(data) {
                 series = d3.select(this).selectAll('.candlestick-series').data([data]);
 
                 series.enter().append('g')
                     .classed('candlestick-series', true);
 
                 bars = series.selectAll('.bar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -100,7 +100,7 @@
             });
         };
 
-        candlestick.xScale = function (value) {
+        candlestick.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -108,7 +108,7 @@
             return candlestick;
         };
 
-        candlestick.yScale = function (value) {
+        candlestick.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -116,7 +116,7 @@
             return candlestick;
         };
 
-        candlestick.rectangleWidth = function (value) {
+        candlestick.rectangleWidth = function(value) {
             if (!arguments.length) {
                 return rectangleWidth;
             }

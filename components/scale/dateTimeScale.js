@@ -1,28 +1,33 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
     /**
-    * This component provides a scale primarily used on the X axis of financial charts and implements a time scale. 
-    * It allows for the removal of time periods where the market may be closed, namely weekends. 
-    * This scale also contains an option to pixel align when calculating the screen pixel from the real value. 
-    * This generally produces crisper graphics.
-    * 
+    * This component provides a scale primarily used on the X axis of financial charts and
+    * implements a time scale. It allows for the removal of time periods where the market may
+    * be closed, namely weekends.
+    * This scale also contains an option to pixel align when calculating the screen pixel from
+    * the real value. This generally produces crisper graphics.
+    *
     * @type {object}
     * @memberof fc.scale
     * @namespace fc.scale.dateTime
     */
-    fc.scale.dateTime = function () {
+    fc.scale.dateTime = function() {
         return dateTimeScale();
     };
 
     /**
     * Constructs a new instance of the dateTime scale component.
-    * 
+    *
     * @memberof fc.scale.dateTime
-    * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear scale between the original and the copy.
-    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max and Min) between the original and the copy.
-    * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment option between the original and the copy.
-    * @param {boolean} hideWeekends used in the copy constructor to copy the hide weekends option between the original and the copy.
+    * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear
+    * scale between the original and the copy.
+    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max
+    * and Min) between the original and the copy.
+    * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment
+    * option between the original and the copy.
+    * @param {boolean} hideWeekends used in the copy constructor to copy the hide weekends
+    * option between the original and the copy.
     */
     function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends) {
 
@@ -34,11 +39,13 @@
         }
 
         /**
-        * Used to scale a value from domain space to pixel space. This function is used primarily to position elements on the X axis.
-        * 
+        * Used to scale a value from domain space to pixel space. This function is used primarily
+        * to position elements on the X axis.
+        *
         * @memberof fc.scale.dateTime
         * @param {object} x the real world domain value to be scaled.
-        * @returns the converted value in pixel space. This value is also pixel aligned if the relevant options are set.
+        * @returns the converted value in pixel space. This value is also pixel aligned if the
+        * relevant options are set.
         */
         function scale(x) {
             var n = 0;
@@ -54,13 +61,15 @@
         }
 
         /**
-        * Used to set or get the domain for this scale. The domain is the range of real world values denoted by this scale (Max. and Min.).
-        * 
+        * Used to set or get the domain for this scale. The domain is the range of real world
+        * values denoted by this scale (Max. and Min.).
+        *
         * @memberof fc.scale.dateTime
-        * @param {array[2]} domain the real world domain value as an array of 2 date objects, Min and Max respectively.
+        * @param {array[2]} domain the real world domain value as an array of 2 date objects,
+        * Min and Max respectively.
         * @returns the current domain is no arguments are passed.
         */
-        scale.domain = function (domain) {
+        scale.domain = function(domain) {
 
             if (!arguments.length) {
                 return [linearTime(baseDomain[0]), linearTime(baseDomain[1])];
@@ -75,29 +84,33 @@
         };
 
         /**
-        * Used to scale a value from pixel space to domain space. This function is the inverse of the `scale` function.
-        * 
+        * Used to scale a value from pixel space to domain space. This function is the inverse of
+        * the `scale` function.
+        *
         * @memberof fc.scale.dateTime
         * @param {decimal} pixel the pixel value to be scaled.
-        * @returns the converted value in real world space. In most cases this value will only be acurate to the precision of the pixel width of the scale.
+        * @returns the converted value in real world space. In most cases this value will only be
+        * accurate to the precision of the pixel width of the scale.
         */
-       scale.invert = function (pixel) {
+        scale.invert = function(pixel) {
             return linearTimeInvert(linear.invert(pixel));
         };
 
         /**
-        * Used to create a copy of the current scale. When scales are added to D3 axes the scales are copied rather than a reference being stored. 
+        * Used to create a copy of the current scale. When scales are added to D3 axes the scales
+        * are copied rather than a reference being stored.
         * This function facilities a deep copy.
-        * 
+        *
         * @memberof fc.scale.dateTime
         * @returns the copy.
         */
-        scale.copy = function () {
+        scale.copy = function() {
             return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends);
         };
 
         /**
-        * Used to get an array of tick mark locations which can be used to display labels and tick marks on the associated axis.
+        * Used to get an array of tick mark locations which can be used to display labels and
+        * tick marks on the associated axis.
         * Ticks will be aligned to the nearest date time boundary. Boundaries are listed below:
         * + Year
         * + 8 Month
@@ -114,12 +127,14 @@
         * + 15 Minute
         * + Minute
         * + Second
-        * 
+        *
         * @memberof fc.scale.dateTime
-        * @param {integer} n the number of ticks to try and display within the scale domain. (This value is used as  a guide for a best fit approach)
-        * @returns an array of values denoting real world positions within the scale. These can be converted to pixel locations using the `scale` function.
+        * @param {integer} n the number of ticks to try and display within the scale domain.
+        * (This value is used as  a guide for a best fit approach)
+        * @returns an array of values denoting real world positions within the scale.
+        * These can be converted to pixel locations using the `scale` function.
         */
-        scale.ticks = function (n) {
+        scale.ticks = function(n) {
             return arguments.length ? function() {
 
                 var test = [],
@@ -233,13 +248,13 @@
 
         /**
         * Used to set the callback function used to format the data label for the associated axis tick label.
-        * 
+        *
         * @memberof fc.scale.dateTime
-        * @param {integer} count 
-        * @param {decimal} f 
+        * @param {integer} count
+        * @param {decimal} f
         * @returns a function which returns the formatting function for the individual data item.
         */
-        scale.tickFormat = function (count, f) {
+        scale.tickFormat = function(count, f) {
             return function(n) {
                 return d3.time.format('%a, %e %b')(linearTimeInvert(n));
             };
@@ -247,11 +262,12 @@
 
         /**
         * Used to get or set the option to hide weekends. Not showing weekends is common practice on financial charts.
-        * 
+        *
         * @memberof fc.scale.dateTime
-        * @param {boolean} value if set to `true` weekends will not be shown. If no value argument is passed the current setting will be returned.
+        * @param {boolean} value if set to `true` weekends will not be shown.
+        * If no value argument is passed the current setting will be returned.
         */
-        scale.hideWeekends = function (value) {
+        scale.hideWeekends = function(value) {
             if (!arguments.length) {
                 return hideWeekends;
             }
@@ -261,11 +277,12 @@
 
         /**
         * Used to get or set the option to align ticks to pixel columns. Pixel aligning yields crisper chart graphics.
-        * 
+        *
         * @memberof fc.scale.dateTime
-        * @param {boolean} value if set to `true` values will be pixel aligned. If no value argument is passed the current setting will be returned.
+        * @param {boolean} value if set to `true` values will be pixel aligned.
+        * If no value argument is passed the current setting will be returned.
         */
-        scale.alignPixels = function (value) {
+        scale.alignPixels = function(value) {
             if (!arguments.length) {
                 return alignPixels;
             }
@@ -275,7 +292,7 @@
 
         function createbaseDomain(domain) {
             var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate(), 0, 0, 0);
-            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate()+2, 0, 0, 0);
+            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 2, 0, 0, 0);
             while (d0.getDay() !== 1) {
                 d0.setDate(d0.getDate() - 1);
             }

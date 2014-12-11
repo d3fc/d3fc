@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.measure = function () {
+    fc.tools.measure = function() {
 
         var target = null,
             series = null,
@@ -24,7 +24,7 @@
             locationOrigin = null,
             locationTarget = null;
 
-        var measure = function () {
+        var measure = function() {
 
             var root = target.append('g')
                 .attr('class', 'measure');
@@ -233,7 +233,7 @@
             calloutY.attr('display', 'none');
         }
 
-        measure.update = function () {
+        measure.update = function() {
 
             if (locationOrigin) {
 
@@ -263,7 +263,7 @@
             }
         };
 
-        measure.visible = function (value) {
+        measure.visible = function(value) {
 
             if (value) {
 
@@ -299,7 +299,7 @@
             }
         };
 
-        measure.target = function (value) {
+        measure.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -318,7 +318,7 @@
             return measure;
         };
 
-        measure.series = function (value) {
+        measure.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -326,7 +326,7 @@
             return measure;
         };
 
-        measure.xScale = function (value) {
+        measure.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -334,7 +334,7 @@
             return measure;
         };
 
-        measure.yScale = function (value) {
+        measure.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -342,7 +342,7 @@
             return measure;
         };
 
-        measure.active = function (value) {
+        measure.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
@@ -350,7 +350,7 @@
             return measure;
         };
 
-        measure.padding = function (value) {
+        measure.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -358,7 +358,7 @@
             return measure;
         };
 
-        measure.formatH = function (value) {
+        measure.formatH = function(value) {
             if (!arguments.length) {
                 return formatH;
             }
@@ -366,7 +366,7 @@
             return measure;
         };
 
-        measure.formatV = function (value) {
+        measure.formatV = function(value) {
             if (!arguments.length) {
                 return formatV;
             }

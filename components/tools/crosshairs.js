@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.crosshairs = function () {
+    fc.tools.crosshairs = function() {
 
         var target = null,
             series = null,
@@ -24,7 +24,7 @@
         var highlight = null,
             highlightedValue = null;
 
-        var crosshairs = function () {
+        var crosshairs = function() {
 
             var root = target.append('g')
                 .attr('class', 'crosshairs');
@@ -192,7 +192,7 @@
             calloutV.attr('display', 'none');
         };
 
-        crosshairs.target = function (value) {
+        crosshairs.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -213,7 +213,7 @@
             return crosshairs;
         };
 
-        crosshairs.series = function (value) {
+        crosshairs.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -221,7 +221,7 @@
             return crosshairs;
         };
 
-        crosshairs.xScale = function (value) {
+        crosshairs.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -229,7 +229,7 @@
             return crosshairs;
         };
 
-        crosshairs.yScale = function (value) {
+        crosshairs.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -237,7 +237,7 @@
             return crosshairs;
         };
 
-        crosshairs.yValue = function (value) {
+        crosshairs.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -245,7 +245,7 @@
             return crosshairs;
         };
 
-        crosshairs.formatH = function (value) {
+        crosshairs.formatH = function(value) {
             if (!arguments.length) {
                 return formatH;
             }
@@ -253,7 +253,7 @@
             return crosshairs;
         };
 
-        crosshairs.formatV = function (value) {
+        crosshairs.formatV = function(value) {
             if (!arguments.length) {
                 return formatV;
             }
@@ -261,7 +261,7 @@
             return crosshairs;
         };
 
-        crosshairs.active = function (value) {
+        crosshairs.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
@@ -274,7 +274,7 @@
             return crosshairs;
         };
 
-        crosshairs.freezable = function (value) {
+        crosshairs.freezable = function(value) {
             if (!arguments.length) {
                 return freezable;
             }
@@ -282,7 +282,7 @@
             return crosshairs;
         };
 
-        crosshairs.padding = function (value) {
+        crosshairs.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -290,7 +290,7 @@
             return crosshairs;
         };
 
-        crosshairs.onSnap = function (value) {
+        crosshairs.onSnap = function(value) {
             if (!arguments.length) {
                 return onSnap;
             }

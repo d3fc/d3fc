@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.utilities.chartLayout = function () {
+    fc.utilities.chartLayout = function() {
 
         // Default values
         var margin = {top: 20, right: 40, bottom: 20, left: 40},
@@ -11,7 +11,7 @@
         var defaultWidth = true,
             defaultHeight = true;
 
-        var chartLayout = function (selection) {
+        var chartLayout = function(selection) {
             // Select the first element in the selection
             // If the selection contains more than 1 element,
             // only the first will be used, the others will be ignored
@@ -86,7 +86,7 @@
 
         };
 
-        chartLayout.marginTop = function (value) {
+        chartLayout.marginTop = function(value) {
             if (!arguments.length) {
                 return margin.top;
             }
@@ -94,7 +94,7 @@
             return chartLayout;
         };
 
-        chartLayout.marginRight = function (value) {
+        chartLayout.marginRight = function(value) {
             if (!arguments.length) {
                 return margin.right;
             }
@@ -102,7 +102,7 @@
             return chartLayout;
         };
 
-        chartLayout.marginBottom = function (value) {
+        chartLayout.marginBottom = function(value) {
             if (!arguments.length) {
                 return margin.bottom;
             }
@@ -110,7 +110,7 @@
             return chartLayout;
         };
 
-        chartLayout.marginLeft = function (value) {
+        chartLayout.marginLeft = function(value) {
             if (!arguments.length) {
                 return margin.left;
             }
@@ -118,7 +118,7 @@
             return chartLayout;
         };
 
-        chartLayout.width = function (value) {
+        chartLayout.width = function(value) {
             if (!arguments.length) {
                 return width;
             }
@@ -127,7 +127,7 @@
             return chartLayout;
         };
 
-        chartLayout.height = function (value) {
+        chartLayout.height = function(value) {
             if (!arguments.length) {
                 return height;
             }
@@ -136,31 +136,31 @@
             return chartLayout;
         };
 
-        chartLayout.innerWidth = function () {
+        chartLayout.innerWidth = function() {
             return width - margin.left - margin.right;
         };
 
-        chartLayout.innerHeight = function () {
+        chartLayout.innerHeight = function() {
             return height - margin.top - margin.bottom;
         };
 
-        chartLayout.getSVG = function (setupArea) {
+        chartLayout.getSVG = function(setupArea) {
             return setupArea.select('svg');
         };
 
-        chartLayout.getChartArea = function (setupArea) {
+        chartLayout.getChartArea = function(setupArea) {
             return chartLayout.getSVG(setupArea).select('.chartArea');
         };
 
-        chartLayout.getPlotArea = function (setupArea) {
+        chartLayout.getPlotArea = function(setupArea) {
             return chartLayout.getSVG(setupArea).select('.plotArea');
         };
 
-        chartLayout.getAxisContainer = function (setupArea, orientation) {
+        chartLayout.getAxisContainer = function(setupArea, orientation) {
             return chartLayout.getSVG(setupArea).select('.axis.' + orientation);
         };
 
-        chartLayout.getPlotAreaBackground = function (setupArea) {
+        chartLayout.getPlotAreaBackground = function(setupArea) {
             return chartLayout.getSVG(setupArea).select('.chartArea rect.background');
         };
 
