@@ -3,7 +3,7 @@
 
     fc.series.line = function () {
 
-        var yValue = function(d) { return d.close; },
+        var yValue = fc.utilities.valueAccessor("close"),
             xScale = fc.scale.finance(),
             yScale = fc.scale.linear(),
             underFill = true;

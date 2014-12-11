@@ -6,10 +6,10 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
-        var yOpen = function(d) { return d.open; },
-            yHigh = function(d) { return d.high; },
-            yLow = function(d) { return d.low; },
-            yClose = function(d) { return d.close; };
+        var yOpen = fc.utilities.valueAccessor("open"),
+            yHigh = fc.utilities.valueAccessor("high"),
+            yLow = fc.utilities.valueAccessor("low"),
+            yClose = fc.utilities.valueAccessor("close");
 
         var rectangleWidth = 5;
 
