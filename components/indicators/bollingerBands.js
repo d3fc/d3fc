@@ -137,20 +137,34 @@
                     prunedData.push(data[n]);
                 }
 
-                var pathArea = d3.select(this).selectAll('.' + cssBandArea)
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this).selectAll('.bollinger-series').data([data]);
+                container.enter()
+                    .append('g')
+                    .classed('bollinger-series', true);
+
+                // create a data-join for each element of the band
+                var pathArea = container
+                    .selectAll('.' + cssBandArea)
                     .data([prunedData]);
-                var pathUpper = d3.select(this).selectAll('.' + cssBandUpper)
+                var pathUpper = container
+                    .selectAll('.' + cssBandUpper)
                     .data([prunedData]);
-                var pathLower = d3.select(this).selectAll('.' + cssBandLower)
+                var pathLower = container
+                    .selectAll('.' + cssBandLower)
                     .data([prunedData]);
-                var pathAverage = d3.select(this).selectAll('.' + cssAverage)
+                var pathAverage = container
+                    .selectAll('.' + cssAverage)
                     .data([prunedData]);
 
+                // enter
                 pathArea.enter().append('path');
                 pathUpper.enter().append('path');
                 pathLower.enter().append('path');
                 pathAverage.enter().append('path');
 
+                // update
                 pathArea.attr('d', areaBands)
                     .classed(cssBandArea, true);
                 pathUpper.attr('d', lineUpper)
@@ -160,6 +174,7 @@
                 pathAverage.attr('d', lineAverage)
                     .classed(cssAverage, true);
 
+                // exit
                 pathArea.exit().remove();
                 pathUpper.exit().remove();
                 pathLower.exit().remove();
