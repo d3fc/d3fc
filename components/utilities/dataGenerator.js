@@ -1,6 +1,15 @@
 (function(fc) {
     'use strict';
 
+    /**
+    * This component can be used to generate mock/fake daily market data for use with the chart
+    * data series components. This component does not act on a D3 selection in the same way as
+    * the other components.
+    *
+    * @type {object}
+    * @memberof fc.utilities
+    * @namespace fc.utilities.dataGenerator
+    */
     fc.utilities.dataGenerator = function() {
 
         var mu = 0.1,
@@ -131,10 +140,29 @@
         var dataGenerator = function(selection) {
         };
 
+        /**
+        * Used to trigger the generation of data once generation parameters have been set.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method generate
+        * @returns the generated data in a format suitable for the chart series components.
+        * This constitutes and array of objects with the following fields: date, open, high,
+        * low, close, volume. The data will be spaced as daily data with each date being a
+        * weekday.
+        */
         dataGenerator.generate = function() {
             return generate();
         };
 
+        /**
+        * Used to get/set the `mu` property for the brownian motion calculation this dictates the
+        * deviation in the standard deviation part of the calculation.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method mu
+        * @param {decimal} value the standard deviation for the generation equation.
+        * @returns the current value if a value is not specified. The default value is 0.1.
+        */
         dataGenerator.mu = function(value) {
             if (!arguments.length) {
                 return mu;
@@ -143,6 +171,15 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the `sigma` property for the brownian motion calculation this dictates the
+        * offset in the standard deviation part of the calculation.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method sigma
+        * @param {decimal} value the offset for the generation equation.
+        * @returns the current value if a value is not specified. The default value is 0.1.
+        */
         dataGenerator.sigma = function(value) {
             if (!arguments.length) {
                 return sigma;
@@ -151,6 +188,15 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the starting price which provides the reference point for the generation of
+        * the data that follows.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method startingPrice
+        * @param {decimal} value the starting price for data generation.
+        * @returns the current value if a value is not specified. The default value is 100.
+        */
         dataGenerator.startingPrice = function(value) {
             if (!arguments.length) {
                 return startingPrice;
@@ -159,6 +205,15 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the starting volume which provides the reference point for the generation of
+        * the data that follows.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method startingVolume
+        * @param {decimal} value the starting volume for data generation.
+        * @returns the current value if a value is not specified. The default value is 100000.
+        */
         dataGenerator.startingVolume = function(value) {
             if (!arguments.length) {
                 return startingVolume;
@@ -167,6 +222,14 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the number of data points (tick) calculated for each daily data period.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method intraDaySteps
+        * @param {decimal} value the number of ticks to evaluate within each daily data set.
+        * @returns the current value if a value is not specified. The default value is 50.
+        */
         dataGenerator.intraDaySteps = function(value) {
             if (!arguments.length) {
                 return intraDaySteps;
@@ -175,6 +238,15 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the noise factor for the volume data generator. The volume data is generated
+        * randomly within the range the start value +/- the noise factor.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method volumeNoiseFactor
+        * @param {decimal} value multiplier (factor) for noise added to the random volume data generator.
+        * @returns the current value if a value is not specified. The default value is 0.3.
+        */
         dataGenerator.volumeNoiseFactor = function(value) {
             if (!arguments.length) {
                 return volumeNoiseFactor;
@@ -183,6 +255,18 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the data filter function. The function passed to this property have each date sent
+        * to it and it will decide whether that date should appear in the final dataset. The default function
+        * will filter weekends, but it is user configurable.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method filter
+        * @param {function} value a function which will receive a date object and return a boolean to flag
+        * whether a date should be included in the data set or not.
+        * @returns the current function if a function is not specified. The default function is
+        * function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };
+        */
         dataGenerator.filter = function(value) {
             if (!arguments.length) {
                 return filter;
@@ -191,6 +275,15 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the date the data runs to.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method toDate
+        * @param {date} value the date of the final data item in the data set.
+        * @returns the current value if a value is not specified. This property has no default value and must
+        * be set before calling `generate()`.
+        */
         dataGenerator.toDate = function(value) {
             if (!arguments.length) {
                 return toDate;
@@ -199,6 +292,15 @@
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the date the data runs from.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method fromDate
+        * @param {date} value the date of the first data item in the data set.
+        * @returns the current value if a value is not specified. This property has no default value and must
+        * be set before calling `generate()`.
+        */
         dataGenerator.fromDate = function(value) {
             if (!arguments.length) {
                 return fromDate;
