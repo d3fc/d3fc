@@ -1,46 +1,46 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.volume = function () {
+    fc.series.volume = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = 5,
-            yValue = fc.utilities.valueAccessor("volume");
+            yValue = fc.utilities.valueAccessor('volume');
 
         var isUpDay = function(d) {
             return d.close > d.open;
         };
-        var isDownDay = function (d) {
+        var isDownDay = function(d) {
             return !isUpDay(d);
         };
 
-        var rectangles = function (bars) {
+        var rectangles = function(bars) {
             var rect;
 
-            rect = bars.selectAll('rect').data(function (d) {
+            rect = bars.selectAll('rect').data(function(d) {
                 return [d];
             });
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) { return xScale(d.date) - (barWidth / 2.0); })
+            rect.attr('x', function(d) { return xScale(d.date) - (barWidth / 2.0); })
                 .attr('y', function(d) { return yScale(yValue(d)); })
                 .attr('width', barWidth)
                 .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
         };
 
-        var volume = function (selection) {
+        var volume = function(selection) {
             var series, bars;
 
-            selection.each(function (data) {
+            selection.each(function(data) {
                 series = d3.select(this).selectAll('.volume-series').data([data]);
 
                 series.enter().append('g')
                     .classed('volume-series', true);
 
                 bars = series.selectAll('.volumebar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -57,7 +57,7 @@
             });
         };
 
-        volume.xScale = function (value) {
+        volume.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -65,7 +65,7 @@
             return volume;
         };
 
-        volume.yScale = function (value) {
+        volume.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -73,7 +73,7 @@
             return volume;
         };
 
-        volume.barWidth = function (value) {
+        volume.barWidth = function(value) {
             if (!arguments.length) {
                 return barWidth;
             }
@@ -81,7 +81,7 @@
             return volume;
         };
 
-        volume.yValue = function (value) {
+        volume.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }

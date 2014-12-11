@@ -1,8 +1,8 @@
 /*jshint loopfunc: true */
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.callouts = function () {
+    fc.tools.callouts = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -100,7 +100,7 @@
             boundingBoxes = sortedRects;
         };
 
-        var callouts = function (selection) {
+        var callouts = function(selection) {
 
             // Create the callouts
             var callouts = selection.selectAll('g')
@@ -117,7 +117,7 @@
 
             // Create the rectangles behind
             callouts.insert('rect', ':first-child')
-                .attr('x', function(d) { return - padding - rounded; })
+                .attr('x', function(d) { return -padding - rounded; })
                 .attr('y', function(d) {
                     currentBB = this.parentNode.getBBox();
                     currentBB.x = xScale(d.x);
@@ -142,12 +142,12 @@
                 .exit();
         };
 
-        callouts.addCallout = function (value) {
+        callouts.addCallout = function(value) {
             data.push(value);
             return callouts;
         };
 
-        callouts.xScale = function (value) {
+        callouts.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -155,7 +155,7 @@
             return callouts;
         };
 
-        callouts.yScale = function (value) {
+        callouts.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -163,7 +163,7 @@
             return callouts;
         };
 
-        callouts.padding = function (value) {
+        callouts.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -171,7 +171,7 @@
             return callouts;
         };
 
-        callouts.spacing = function (value) {
+        callouts.spacing = function(value) {
             if (!arguments.length) {
                 return spacing;
             }
@@ -179,7 +179,7 @@
             return callouts;
         };
 
-        callouts.rounded = function (value) {
+        callouts.rounded = function(value) {
             if (!arguments.length) {
                 return rounded;
             }
@@ -187,7 +187,7 @@
             return callouts;
         };
 
-        callouts.stalkLength = function (value) {
+        callouts.stalkLength = function(value) {
             if (!arguments.length) {
                 return stalkLength;
             }
@@ -195,7 +195,7 @@
             return callouts;
         };
 
-        callouts.rotationStart = function (value) {
+        callouts.rotationStart = function(value) {
             if (!arguments.length) {
                 return rotationStart;
             }
@@ -203,7 +203,7 @@
             return callouts;
         };
 
-        callouts.rotationSteps = function (value) {
+        callouts.rotationSteps = function(value) {
             if (!arguments.length) {
                 return rotationSteps;
             }
@@ -211,7 +211,7 @@
             return callouts;
         };
 
-        callouts.css = function (value) {
+        callouts.css = function(value) {
             if (!arguments.length) {
                 return css;
             }

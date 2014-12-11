@@ -1,16 +1,27 @@
 /* globals window */
+
+/**
+ * A collection of components that make it easy to build interactive financial charts with D3
+ *
+ * @namespace fc
+ */
 window.fc = {
     version: '0.0.0',
+    /**
+     * Studies, trend-lines and other financial indicators that can be added to a chart
+     *
+     * @namespace fc.indicators
+     */
     indicators: {},
     scale: {},
     series: {},
     tools: {},
     utilities: {}
 };
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.utilities.chartLayout = function () {
+    fc.utilities.chartLayout = function() {
 
         // Default values
         var margin = {top: 20, right: 40, bottom: 20, left: 40},
@@ -20,80 +31,82 @@ window.fc = {
         var defaultWidth = true,
             defaultHeight = true;
 
-        var chartLayout = function (selection) {
-            selection.each(function () {
-                var element = d3.select(this),
-                    style = getComputedStyle(this);
+        var chartLayout = function(selection) {
+            // Select the first element in the selection
+            // If the selection contains more than 1 element,
+            // only the first will be used, the others will be ignored
+            var element = selection.node(),
+                style = getComputedStyle(element);
 
-                // Attempt to automatically size the chart to the selected element
-                if (defaultWidth === true) {
-                    // Set the width of the chart to the width of the selected element,
-                    // excluding any margins, padding or borders
-                    var paddingWidth = parseInt(style.paddingLeft, 10) + parseInt(style.paddingRight, 10);
-                    width = this.clientWidth - paddingWidth;
+            // Attempt to automatically size the chart to the selected element
+            if (defaultWidth === true) {
+                // Set the width of the chart to the width of the selected element,
+                // excluding any margins, padding or borders
+                var paddingWidth = parseInt(style.paddingLeft, 10) + parseInt(style.paddingRight, 10);
+                width = element.clientWidth - paddingWidth;
 
-                    // If the new width is too small, use a default width
-                    if (chartLayout.innerWidth() < 1) {
-                        width = 800 + margin.left + margin.right;
-                    }
+                // If the new width is too small, use a default width
+                if (chartLayout.innerWidth() < 1) {
+                    width = 800 + margin.left + margin.right;
                 }
+            }
 
-                if (defaultHeight === true) {
-                    // Set the height of the chart to the height of the selected element,
-                    // excluding any margins, padding or borders
-                    var paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
-                    height = this.clientHeight - paddingHeight;
+            if (defaultHeight === true) {
+                // Set the height of the chart to the height of the selected element,
+                // excluding any margins, padding or borders
+                var paddingHeight = parseInt(style.paddingTop, 10) + parseInt(style.paddingBottom, 10);
+                height = element.clientHeight - paddingHeight;
 
-                    // If the new height is too small, use a default height
-                    if (chartLayout.innerHeight() < 1) {
-                        height = 400 + margin.top + margin.bottom;
-                    }
+                // If the new height is too small, use a default height
+                if (chartLayout.innerHeight() < 1) {
+                    height = 400 + margin.top + margin.bottom;
                 }
+            }
 
-                // Create svg
-                var svg = element.append('svg')
-                    .attr('width', width)
-                    .attr('height', height);
+            // Create svg
+            var svg = d3.select(element).append('svg')
+                .attr('width', width)
+                .attr('height', height);
 
-                // Create group for the chart
-                var chart =  svg.append('g')
-                    .attr('class', 'chartArea')
-                    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            // Create group for the chart
+            var chart = svg.append('g')
+                .attr('class', 'chartArea')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-                // Clipping path
-                chart.append('defs').append('clipPath')
-                    .attr('id', 'plotAreaClip')
-                    .append('rect')
-                    .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
+            // Clipping path
+            chart.append('defs').append('clipPath')
+                .attr('id', 'plotAreaClip')
+                .append('rect')
+                .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
 
-                // create a background element
-                chart.append('rect')
-                    .attr('class', 'background')
-                    .attr('width', chartLayout.innerWidth())
-                    .attr('height', chartLayout.innerHeight());
+            // Create a background element
+            chart.append('rect')
+                .attr('class', 'background')
+                .attr('width', chartLayout.innerWidth())
+                .attr('height', chartLayout.innerHeight());
 
-                // Create plot area, using the clipping path
-                chart.append('g')
-                    .attr('clip-path', 'url(#plotAreaClip)')
-                    .attr('class', 'plotArea');
+            // Create plot area, using the clipping path
+            chart.append('g')
+                .attr('clip-path', 'url(#plotAreaClip)')
+                .attr('class', 'plotArea');
 
-                // create containers for the axes
-                chart.append('g')
-                    .attr('class', 'axis bottom')
-                    .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
-                chart.append('g')
-                    .attr('class', 'axis top')
-                    .attr('transform', 'translate(0, 0)');
-                chart.append('g')
-                    .attr('class', 'axis left')
-                    .attr('transform', 'translate(0, 0)');
-                chart.append('g')
-                    .attr('class', 'axis right')
-                    .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
-            });
+            // Create containers for the axes
+            chart.append('g')
+                .attr('class', 'axis bottom')
+                .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
+            chart.append('g')
+                .attr('class', 'axis top')
+                .attr('transform', 'translate(0, 0)');
+            chart.append('g')
+                .attr('class', 'axis left')
+                .attr('transform', 'translate(0, 0)');
+            chart.append('g')
+                .attr('class', 'axis right')
+                .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
+
         };
 
-        chartLayout.marginTop = function (value) {
+        chartLayout.marginTop = function(value) {
             if (!arguments.length) {
                 return margin.top;
             }
@@ -101,7 +114,7 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.marginRight = function (value) {
+        chartLayout.marginRight = function(value) {
             if (!arguments.length) {
                 return margin.right;
             }
@@ -109,7 +122,7 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.marginBottom = function (value) {
+        chartLayout.marginBottom = function(value) {
             if (!arguments.length) {
                 return margin.bottom;
             }
@@ -117,7 +130,7 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.marginLeft = function (value) {
+        chartLayout.marginLeft = function(value) {
             if (!arguments.length) {
                 return margin.left;
             }
@@ -125,7 +138,7 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.width = function (value) {
+        chartLayout.width = function(value) {
             if (!arguments.length) {
                 return width;
             }
@@ -134,7 +147,7 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.height = function (value) {
+        chartLayout.height = function(value) {
             if (!arguments.length) {
                 return height;
             }
@@ -143,43 +156,41 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.innerWidth = function () {
-            var innerWidth = width - margin.left - margin.right;
-            return innerWidth;
+        chartLayout.innerWidth = function() {
+            return width - margin.left - margin.right;
         };
 
-        chartLayout.innerHeight = function () {
-            var innerHeight = height - margin.top - margin.bottom;
-            return innerHeight;
+        chartLayout.innerHeight = function() {
+            return height - margin.top - margin.bottom;
         };
 
-        chartLayout.getSVG = function (setupArea) {
+        chartLayout.getSVG = function(setupArea) {
             return setupArea.select('svg');
         };
 
-        chartLayout.getChartArea = function (setupArea) {
+        chartLayout.getChartArea = function(setupArea) {
             return chartLayout.getSVG(setupArea).select('.chartArea');
         };
 
-        chartLayout.getPlotArea = function (setupArea) {
+        chartLayout.getPlotArea = function(setupArea) {
             return chartLayout.getSVG(setupArea).select('.plotArea');
         };
 
-        chartLayout.getAxisContainer = function (setupArea, orientation) {
+        chartLayout.getAxisContainer = function(setupArea, orientation) {
             return chartLayout.getSVG(setupArea).select('.axis.' + orientation);
         };
 
-        chartLayout.getPlotAreaBackground = function (setupArea) {
+        chartLayout.getPlotAreaBackground = function(setupArea) {
             return chartLayout.getSVG(setupArea).select('.chartArea rect.background');
         };
 
         return chartLayout;
     };
 }(d3, fc));
-(function (fc) {
+(function(fc) {
     'use strict';
 
-    fc.utilities.dataGenerator = function () {
+    fc.utilities.dataGenerator = function() {
 
         var mu = 0.1,
             sigma = 0.1,
@@ -190,11 +201,11 @@ window.fc = {
             toDate = new Date(),
             fromDate = new Date(),
             useFakeBoxMuller = false,
-            filter = function (date) {
+            filter = function(date) {
                 return !(date.getDay() === 0 || date.getDay() === 6);
             };
 
-        var generatePrices = function (period, steps) {
+        var generatePrices = function(period, steps) {
             var increments = generateIncrements(period, steps, mu, sigma),
                 i, prices = [];
             prices[0] = startingPrice;
@@ -205,7 +216,7 @@ window.fc = {
             return prices;
         };
 
-        var generateVolumes = function (period, steps) {
+        var generateVolumes = function(period, steps) {
             var increments = generateIncrements(period, steps, 0, 1),
                 i, volumes = [];
 
@@ -215,13 +226,13 @@ window.fc = {
             for (i = 1; i < increments.length; i += 1) {
                 volumes[i] = volumes[i - 1] * increments[i];
             }
-            volumes = volumes.map(function (vol) {
+            volumes = volumes.map(function(vol) {
                 return Math.floor(vol * (1 - volumeNoiseFactor + Math.random() * volumeNoiseFactor * 2));
             });
             return volumes;
         };
 
-        var generateIncrements = function (period, steps, mu, sigma) {
+        var generateIncrements = function(period, steps, mu, sigma) {
             var deltaW = [],
                 deltaY = period / steps,
                 sqrtDeltaY = Math.sqrt(deltaY);
@@ -279,7 +290,7 @@ window.fc = {
                 if (!filter || filter(date)) {
                     daysIncluded += 1;
                 }
-                date.setDate(date.getDate() + 1);
+                date.setUTCDate(date.getUTCDate() + 1);
             }
 
             prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
@@ -300,20 +311,20 @@ window.fc = {
                     currentIntraStep += intraDaySteps;
                     currentStep += 1;
                 }
-                date.setDate(date.getDate() + 1);
+                date.setUTCDate(date.getUTCDate() + 1);
             }
 
             return ohlcv;
         };
 
-        var dataGenerator = function (selection) {
+        var dataGenerator = function(selection) {
         };
 
         dataGenerator.generate = function() {
             return generate();
         };
 
-        dataGenerator.mu = function (value) {
+        dataGenerator.mu = function(value) {
             if (!arguments.length) {
                 return mu;
             }
@@ -321,7 +332,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.sigma = function (value) {
+        dataGenerator.sigma = function(value) {
             if (!arguments.length) {
                 return sigma;
             }
@@ -329,7 +340,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.startingPrice = function (value) {
+        dataGenerator.startingPrice = function(value) {
             if (!arguments.length) {
                 return startingPrice;
             }
@@ -337,7 +348,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.startingVolume = function (value) {
+        dataGenerator.startingVolume = function(value) {
             if (!arguments.length) {
                 return startingVolume;
             }
@@ -345,7 +356,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.intraDaySteps = function (value) {
+        dataGenerator.intraDaySteps = function(value) {
             if (!arguments.length) {
                 return intraDaySteps;
             }
@@ -353,7 +364,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.volumeNoiseFactor = function (value) {
+        dataGenerator.volumeNoiseFactor = function(value) {
             if (!arguments.length) {
                 return volumeNoiseFactor;
             }
@@ -361,7 +372,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.filter = function (value) {
+        dataGenerator.filter = function(value) {
             if (!arguments.length) {
                 return filter;
             }
@@ -369,7 +380,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.toDate = function (value) {
+        dataGenerator.toDate = function(value) {
             if (!arguments.length) {
                 return toDate;
             }
@@ -377,7 +388,7 @@ window.fc = {
             return dataGenerator;
         };
 
-        dataGenerator.fromDate = function (value) {
+        dataGenerator.fromDate = function(value) {
             if (!arguments.length) {
                 return fromDate;
             }
@@ -391,104 +402,63 @@ window.fc = {
 (function(d3, fc) {
     'use strict';
 
-    var weekdayCache = {};
-    var dateCache = {};
-
-    // Returns the weekday number for the given date relative to January 1, 1970.
-    function weekday(date) {
-
-        if (date in weekdayCache) {
-            return weekdayCache[date];
-        }
-
-        var weekdays = weekdayOfYear(date),
-            year = date.getFullYear();
-
-        while (--year >= 1970) {
-            weekdays += weekdaysInYear(year);
-        }
-
-        weekdayCache[date] = weekdays;
-        return weekdays;
-    }
-
-    // Returns the date for the specified weekday number relative to January 1, 1970.
-    weekday.invert = function(weekdays) {
-        if (weekdays in dateCache) {
-            return dateCache[weekdays];
-        }
-        var year = 1970,
-            yearWeekdays,
-            result;
-
-        // Compute the year.
-        while ((yearWeekdays = weekdaysInYear(year)) <= weekdays) {
-            ++year;
-            weekdays -= yearWeekdays;
-        }
-
-        // Compute the date from the remaining weekdays.
-        var days = weekdays % 5,
-            day0 = ((new Date(year, 0, 1)).getDay() + 6) % 7;
-        if (day0 + days > 4) {
-            days += 2;
-        }
-
-        result = new Date(year, 0, (weekdays / 5 | 0) * 7 + days + 1);
-        dateCache[weekdays] = result;
-        return result;
+    fc.utilities.valueAccessor = function(propertyName) {
+        return function(d) {
+            if (d.hasOwnProperty(propertyName)) {
+                return d[propertyName];
+            } else {
+                if (typeof console === 'object') {
+                    console.warn('The property with name ' + propertyName + ' was not found on the data object');
+                }
+                return 0;
+            }
+        };
     };
-
-    // Returns the number of weekdays in the specified year.
-    function weekdaysInYear(year) {
-        return weekdayOfYear(new Date(year, 11, 31)) + 1;
-    }
-
-    // Returns the weekday number for the given date relative to the start of the year.
-    function weekdayOfYear(date) {
-        var days = d3.time.dayOfYear(date),
-            weeks = days / 7 | 0,
-            day0 = (d3.time.year(date).getDay() + 6) % 7,
-            day1 = day0 + days - weeks * 7;
-        return Math.max(0, days - weeks * 2 -
-            (day0 <= 5 && day1 >= 5 || day0 <= 12 && day1 >= 12) - // extra saturday
-            (day0 <= 6 && day1 >= 6 || day0 <= 13 && day1 >= 13)); // extra sunday
-    }
-
-    fc.utilities.weekday = weekday;
-
 }(d3, fc));
-
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.indicators.bollingerBands = function () {
+    /**
+    * This component calculates and draws Bollinger
+    *  bands on a data series, calculated using a moving average and a standard deviation value.
+    *
+    * @type {object}
+    * @memberof fc.indicators
+    * @namespace fc.indicators.bollingerBands
+    */
+    fc.indicators.bollingerBands = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
-        var yValue = function(d) { return d.close; },
+        var yValue = fc.utilities.valueAccessor('close'),
             movingAverage = 20,
             standardDeviations = 2;
 
-        var cssBandArea = 'bollingerBandArea',
-            cssBandUpper = 'bollingerBandUpper',
-            cssBandLower = 'bollingerBandLower',
-            cssAverage = 'bollingerAverage';
+        var cssBandArea = 'band-area',
+            cssBandUpper = 'band-upper',
+            cssBandLower = 'band-lower',
+            cssAverage = 'moving-average';
 
-        var bollingerBands = function (selection) {
+        /**
+        * Constructs a new instance of the bollinger bands component.
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @param {selection} selection a D3 selection
+        */
+        var bollingerBands = function(selection) {
 
             var areaBands = d3.svg.area(),
                 lineUpper = d3.svg.line(),
                 lineLower = d3.svg.line(),
                 lineAverage = d3.svg.line();
 
-            areaBands.x(function (d) { return xScale(d.date); });
-            lineUpper.x(function (d) { return xScale(d.date); });
-            lineLower.x(function (d) { return xScale(d.date); });
-            lineAverage.x(function (d) { return xScale(d.date); });
+            areaBands.x(function(d) { return xScale(d.date); });
+            lineUpper.x(function(d) { return xScale(d.date); });
+            lineLower.x(function(d) { return xScale(d.date); });
+            lineAverage.x(function(d) { return xScale(d.date); });
 
-            var calculateMovingAverage = function (data, i) {
+            var calculateMovingAverage = function(data, i) {
 
                 if (movingAverage === 0) {
                     return yValue(data[i]);
@@ -506,7 +476,7 @@ window.fc = {
                 return sum / count;
             };
 
-            var calculateMovingStandardDeviation = function (data, i, avg) {
+            var calculateMovingStandardDeviation = function(data, i, avg) {
 
                 if (movingAverage === 0) {
                     return 0;
@@ -526,7 +496,7 @@ window.fc = {
                 return Math.sqrt(variance);
             };
 
-            selection.each(function (data) {
+            selection.each(function(data) {
 
                 var bollingerData = {};
                 for (var index = 0; index < data.length; ++index) {
@@ -539,7 +509,7 @@ window.fc = {
                     bollingerData[date] = {avg: avg, sd: sd};
                 }
 
-                areaBands.y0(function (d) {
+                areaBands.y0(function(d) {
 
                     var avg = bollingerData[d.date].avg;
                     var sd = bollingerData[d.date].sd;
@@ -547,7 +517,7 @@ window.fc = {
                     return yScale(avg + (sd * standardDeviations));
                 });
 
-                areaBands.y1(function (d) {
+                areaBands.y1(function(d) {
 
                     var avg = bollingerData[d.date].avg;
                     var sd = bollingerData[d.date].sd;
@@ -555,7 +525,7 @@ window.fc = {
                     return yScale(avg - (sd * standardDeviations));
                 });
 
-                lineUpper.y(function (d) {
+                lineUpper.y(function(d) {
 
                     var avg = bollingerData[d.date].avg;
                     var sd = bollingerData[d.date].sd;
@@ -563,7 +533,7 @@ window.fc = {
                     return yScale(avg + (sd * standardDeviations));
                 });
 
-                lineLower.y(function (d) {
+                lineLower.y(function(d) {
 
                     var avg = bollingerData[d.date].avg;
                     var sd = bollingerData[d.date].sd;
@@ -571,7 +541,7 @@ window.fc = {
                     return yScale(avg - (sd * standardDeviations));
                 });
 
-                lineAverage.y(function (d) {
+                lineAverage.y(function(d) {
 
                     var avg = bollingerData[d.date].avg;
 
@@ -583,13 +553,13 @@ window.fc = {
                     prunedData.push(data[n]);
                 }
 
-                var pathArea = d3.select(this).selectAll('.area')
+                var pathArea = d3.select(this).selectAll('.' + cssBandArea)
                     .data([prunedData]);
-                var pathUpper = d3.select(this).selectAll('.upper')
+                var pathUpper = d3.select(this).selectAll('.' + cssBandUpper)
                     .data([prunedData]);
-                var pathLower = d3.select(this).selectAll('.lower')
+                var pathLower = d3.select(this).selectAll('.' + cssBandLower)
                     .data([prunedData]);
-                var pathAverage = d3.select(this).selectAll('.average')
+                var pathAverage = d3.select(this).selectAll('.' + cssAverage)
                     .data([prunedData]);
 
                 pathArea.enter().append('path');
@@ -598,16 +568,12 @@ window.fc = {
                 pathAverage.enter().append('path');
 
                 pathArea.attr('d', areaBands)
-                    .classed('area', true)
                     .classed(cssBandArea, true);
                 pathUpper.attr('d', lineUpper)
-                    .classed('upper', true)
                     .classed(cssBandUpper, true);
                 pathLower.attr('d', lineLower)
-                    .classed('lower', true)
                     .classed(cssBandLower, true);
                 pathAverage.attr('d', lineAverage)
-                    .classed('average', true)
                     .classed(cssAverage, true);
 
                 pathArea.exit().remove();
@@ -617,23 +583,47 @@ window.fc = {
             });
         };
 
-        bollingerBands.xScale = function (value) {
+        /**
+        * Specifies the X scale which the tracker uses to locate its SVG elements. If not specified, returns
+        * the current X scale, which defaults to an unmodified d3.time.scale
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @method xScale
+        * @param {scale} scale a D3 scale
+        */
+        bollingerBands.xScale = function(scale) {
             if (!arguments.length) {
                 return xScale;
             }
-            xScale = value;
+            xScale = scale;
             return bollingerBands;
         };
 
-        bollingerBands.yScale = function (value) {
+        /**
+        * Specifies the Y scale which the tracker uses to locate its SVG elements. If not specified, returns
+        * the current Y scale, which defaults to an unmodified d3.scale.linear.
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @method yScale
+        * @param {scale} scale a D3 scale
+        */
+        bollingerBands.yScale = function(scale) {
             if (!arguments.length) {
                 return yScale;
             }
-            yScale = value;
+            yScale = scale;
             return bollingerBands;
         };
 
-        bollingerBands.yValue = function (value) {
+        /**
+        * Specifies the name of the data field which the component will follow. If not specified,
+        * returns the current data field, which defaults to 0.
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @method yValue
+        * @param {accessor} value a D3 accessor function which returns the Y value for a given point
+        */
+        bollingerBands.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -641,7 +631,15 @@ window.fc = {
             return bollingerBands;
         };
 
-        bollingerBands.movingAverage = function (value) {
+        /**
+        * Specifies the number of data points the component will use when calculating its moving average
+        * value. If not specified, returns the current value, which defaults to 20.
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @method movingAverage
+        * @param {integer} value the number of points to average
+        */
+        bollingerBands.movingAverage = function(value) {
             if (!arguments.length) {
                 return movingAverage;
             }
@@ -651,7 +649,15 @@ window.fc = {
             return bollingerBands;
         };
 
-        bollingerBands.standardDeviations = function (value) {
+        /**
+        * Specifies the number of standard deviations to use as the amplitude of the displayed bands.
+        * If not specified, returns the current data field, which defaults to 2.
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @method standardDeviations
+        * @param {integer} value the number of standard deviations
+        */
+        bollingerBands.standardDeviations = function(value) {
             if (!arguments.length) {
                 return standardDeviations;
             }
@@ -661,106 +667,112 @@ window.fc = {
             return bollingerBands;
         };
 
-        bollingerBands.cssBandUpper = function (value) {
-            if (!arguments.length) {
-                return cssBandUpper;
-            }
-            cssBandUpper = value;
-            return bollingerBands;
-        };
-
-        bollingerBands.cssBandLower = function (value) {
-            if (!arguments.length) {
-                return cssBandLower;
-            }
-            cssBandLower = value;
-            return bollingerBands;
-        };
-
-        bollingerBands.cssBandArea = function (value) {
-            if (!arguments.length) {
-                return cssBandArea;
-            }
-            cssBandArea = value;
-            return bollingerBands;
-        };
-
-        bollingerBands.cssAverage = function (value) {
-            if (!arguments.length) {
-                return cssAverage;
-            }
-            cssAverage = value;
-            return bollingerBands;
-        };
-
         return bollingerBands;
     };
 }(d3, fc));
 
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.indicators.movingAverage = function () {
+
+    /**
+    * A moving average is an indicator that smooths out fluctuations in data. This component draws
+    * a simple moving average line on a chart for a given data field, averaging the previous 5
+    * points by default.
+    *
+    * @type {object}
+    * @memberof fc.indicators
+    * @namespace fc.indicators.movingAverage
+    */
+    fc.indicators.movingAverage = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            yValue = function(d) { return 0; },
+            yValue = fc.utilities.valueAccessor('close'),
             averagePoints = 5,
-            css = '';
+            css = 'moving-average';
 
-        var movingAverage = function (selection) {
+        /**
+        * Constructs a new instance of the moving average component.
+        *
+        * @memberof fc.indicators.movingAverage
+        * @param {selection} selection a D3 selection
+        */
+        var movingAverage = function(selection) {
             var line = d3.svg.line();
-            line.x(function (d) { return xScale(d.date); });
+            line.defined(function(d, i) { return i >= averagePoints; });
+            line.x(function(d) { return xScale(d.date); });
 
-            selection.each(function (data) {
+            selection.each(function(data) {
 
                 if (averagePoints === 0) {
-                    line.y(function (d) { return yScale(yValue(d)); });
+                    line.y(function(d) { return yScale(yValue(d)); });
                 } else {
-                    line.y(function (d, i) {
-                        var count = Math.min(averagePoints, i + 1),
-                            first = i + 1 - count;
-
+                    line.y(function(d, i) {
+                        var first = i + 1 - averagePoints;
                         var sum = 0;
                         for (var index = first; index <= i; ++index) {
                             sum += yValue(data[index]);
                         }
-                        var mean = sum / count;
+                        var mean = sum / averagePoints;
 
                         return yScale(mean);
                     });
                 }
 
-                var path = d3.select(this).selectAll('.indicator')
+                var path = d3.select(this).selectAll('.' + css)
                     .data([data]);
 
                 path.enter().append('path');
 
                 path.attr('d', line)
-                    .classed('indicator', true)
                     .classed(css, true);
 
                 path.exit().remove();
             });
         };
 
-        movingAverage.xScale = function (value) {
+        /**
+        * Specifies the X scale which the tracker uses to locate its SVG elements. If not specified, returns
+        * the current X scale, which defaults to an unmodified d3.time.scale
+        *
+        * @memberof fc.indicators.movingAverage
+        * @method xScale
+        * @param {scale} scale a D3 scale
+        */
+        movingAverage.xScale = function(scale) {
             if (!arguments.length) {
                 return xScale;
             }
-            xScale = value;
+            xScale = scale;
             return movingAverage;
         };
 
-        movingAverage.yScale = function (value) {
+        /**
+        * Specifies the Y scale which the tracker uses to locate its SVG elements. If not specified, returns
+        * the current Y scale, which defaults to an unmodified d3.scale.linear.
+        *
+        * @memberof fc.indicators.movingAverage
+        * @method yScale
+        * @param {scale} scale a D3 scale
+        */
+        movingAverage.yScale = function(scale) {
             if (!arguments.length) {
                 return yScale;
             }
-            yScale = value;
+            yScale = scale;
             return movingAverage;
         };
 
-        movingAverage.yValue = function (value) {
+        /**
+        * Specifies the name of the data field which the component will follow. If not specified,
+        * returns the 'close' property of each datapoint.
+        *
+        * @memberof fc.indicators.movingAverage
+        * @method yValue
+        * @param {accessor} value a D3 accessor function which returns the Y value for a given point
+        */
+        movingAverage.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -768,7 +780,15 @@ window.fc = {
             return movingAverage;
         };
 
-        movingAverage.averagePoints = function (value) {
+        /**
+        * Specifies the number of data points the tracker will use when calculating its moving average value.
+        * If not specified, returns the current value, which defaults to 5.
+        *
+        * @memberof fc.indicators.movingAverage
+        * @method averagePoints
+        * @param {integer} value the number of points to average
+        */
+        movingAverage.averagePoints = function(value) {
             if (!arguments.length) {
                 return averagePoints;
             }
@@ -778,22 +798,22 @@ window.fc = {
             return movingAverage;
         };
 
-        movingAverage.css = function (value) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = value;
-            return movingAverage;
-        };
-
         return movingAverage;
     };
 }(d3, fc));
 
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.indicators.rsi = function () {
+    /**
+    * This component will generate an RSI data series on
+    * a chart based on data generated in the format produced by the dataGenerator component.
+    *
+    * @type {object}
+    * @memberof fc.indicators
+    * @namespace fc.indicators.rsi
+    */
+    fc.indicators.rsi = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -801,14 +821,20 @@ window.fc = {
             upperMarker = 70,
             lowerMarker = 30,
             lambda = 1.0,
-            css = '',
-            yValue = function(d) { return d.close; };
+            css = 'rsi',
+            yValue = fc.utilities.valueAccessor('close');
 
         var upper = null,
             centre = null,
             lower = null;
 
-        var rsi = function (selection) {
+        /**
+        * Constructs a new instance of the RSI component.
+        *
+        * @memberof fc.indicators.rsi
+        * @param {selection} selection a D3 selection
+        */
+        var rsi = function(selection) {
 
             selection.selectAll('.marker').remove();
 
@@ -834,14 +860,14 @@ window.fc = {
                 .attr('y2', yScale(lowerMarker));
 
             var line = d3.svg.line();
-            line.x(function (d) { return xScale(d.date); });
+            line.x(function(d) { return xScale(d.date); });
 
-            selection.each(function (data) {
+            selection.each(function(data) {
 
                 if (samplePeriods === 0) {
-                    line.y(function (d) { return yScale(0); });
+                    line.y(function(d) { return yScale(0); });
                 } else {
-                    line.y(function (d, i) {
+                    line.y(function(d, i) {
                         var from = i - samplePeriods,
                         to = i,
                         up = [],
@@ -869,36 +895,60 @@ window.fc = {
                     });
                 }
 
-                var path = d3.select(this).selectAll('.rsi')
+                var path = d3.select(this).selectAll('.' + css)
                     .data([data]);
 
                 path.enter().append('path');
 
                 path.attr('d', line)
-                    .classed('rsi', true)
                     .classed(css, true);
 
                 path.exit().remove();
             });
         };
 
-        rsi.xScale = function (value) {
+        /**
+        * Specifies the X scale which the tracker uses to locate its SVG elements. If not specified, returns
+        * the current X scale, which defaults to an unmodified d3.time.scale
+        *
+        * @memberof fc.indicators.rsi
+        * @method xScale
+        * @param {scale} scale a D3 scale
+        */
+        rsi.xScale = function(scale) {
             if (!arguments.length) {
                 return xScale;
             }
-            xScale = value;
+            xScale = scale;
             return rsi;
         };
 
-        rsi.yScale = function (value) {
+        /**
+        * Specifies the Y scale which the tracker uses to locate its SVG elements. If not specified, returns
+        * the current Y scale, which defaults to an unmodified d3.scale.linear.
+        *
+        * @memberof fc.indicators.rsi
+        * @method yScale
+        * @param {scale} scale a D3 scale
+        */
+        rsi.yScale = function(scale) {
             if (!arguments.length) {
                 return yScale;
             }
-            yScale = value;
+            yScale = scale;
             return rsi;
         };
 
-        rsi.samplePeriods = function (value) {
+        /**
+        * Specifies the number of data samples used to calculate the RSI over, much like the number of
+        * points for the moving average indicator. If not set the default value is 14, which is the
+        * accepted value given by Wilder
+        *
+        * @memberof fc.indicators.rsi
+        * @method samplePeriods
+        * @param {integer} value the number of periods
+        */
+        rsi.samplePeriods = function(value) {
             if (!arguments.length) {
                 return samplePeriods;
             }
@@ -906,7 +956,16 @@ window.fc = {
             return rsi;
         };
 
-        rsi.upperMarker = function (value) {
+        /**
+        * Specifies the location of the upper marker used to mark the level at which the market/instrument is
+        * considered over bought. The default value of this 70%. The value is specified as a percentage so
+        * 70 as opposed to 0.7.
+        *
+        * @memberof fc.indicators.rsi
+        * @method upperMarker
+        * @param {number} value the value of the upper marker
+        */
+        rsi.upperMarker = function(value) {
             if (!arguments.length) {
                 return upperMarker;
             }
@@ -914,7 +973,16 @@ window.fc = {
             return rsi;
         };
 
-        rsi.lowerMarker = function (value) {
+        /**
+        * Specifies the location of the lower marker used to mark the level at which the market/instrument is
+        * considered over sold. The default value of this 30%. The value is specified as a percentage so 30
+        * as opposed to 0.3.
+        *
+        * @memberof fc.indicators.rsi
+        * @method lowerMarker
+        * @param {number} value the value of the lower marker
+        */
+        rsi.lowerMarker = function(value) {
             if (!arguments.length) {
                 return lowerMarker;
             }
@@ -922,7 +990,17 @@ window.fc = {
             return rsi;
         };
 
-        rsi.lambda = function (value) {
+
+        /**
+        * Specifies the relative influence that the samples have on the Exponential Moving average
+        * calculation. A value of 1 (Default value) will mean that every data sample will have equal
+        * weight in the calculation. The most widely used values are in the region 0.92 to 0.98.
+        *
+        * @memberof fc.indicators.rsi
+        * @method lambda
+        * @param {number} value the value of the lower marker
+        */
+        rsi.lambda = function(value) {
             if (!arguments.length) {
                 return lambda;
             }
@@ -930,15 +1008,15 @@ window.fc = {
             return rsi;
         };
 
-        rsi.css = function (value) {
-            if (!arguments.length) {
-                return css;
-            }
-            css = value;
-            return rsi;
-        };
-
-        rsi.yValue = function (value) {
+        /**
+        * Specifies the name of the data field which the component will follow. If not specified,
+        * returns the 'close' property of each datapoint
+        *
+        * @memberof fc.indicators.bollingerBands
+        * @method yValue
+        * @param {accessor} value a D3 accessor function which returns the Y value for a given point
+        */
+        rsi.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -949,23 +1027,55 @@ window.fc = {
         return rsi;
     };
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    var weekday = fc.utilities.weekday;
-
-    fc.scale.finance = function () {
-        return financialScale();
+    /**
+    * This component provides a scale primarily used on the X axis of financial charts and
+    * implements a time scale. It allows for the removal of time periods where the market may
+    * be closed, namely weekends.
+    * This scale also contains an option to pixel align when calculating the screen pixel from
+    * the real value. This generally produces crisper graphics.
+    *
+    * @type {object}
+    * @memberof fc.scale
+    * @namespace fc.scale.dateTime
+    */
+    fc.scale.dateTime = function() {
+        return dateTimeScale();
     };
 
-    function financialScale(linear) {
-
-        var alignPixels = true;
+    /**
+    * Constructs a new instance of the dateTime scale component.
+    *
+    * @memberof fc.scale.dateTime
+    * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear
+    * scale between the original and the copy.
+    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max
+    * and Min) between the original and the copy.
+    * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment
+    * option between the original and the copy.
+    * @param {boolean} hideWeekends used in the copy constructor to copy the hide weekends
+    * option between the original and the copy.
+    */
+    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends) {
 
         if (!arguments.length) {
             linear = d3.scale.linear();
+            baseDomain = [new Date(0), new Date(0)];
+            alignPixels = true;
+            hideWeekends = false;
         }
 
+        /**
+        * Used to scale a value from domain space to pixel space. This function is used primarily
+        * to position elements on the X axis.
+        *
+        * @memberof fc.scale.dateTime
+        * @param {object} x the real world domain value to be scaled.
+        * @returns the converted value in pixel space. This value is also pixel aligned if the
+        * relevant options are set.
+        */
         function scale(x) {
             var n = 0;
             if (typeof x === 'number') {
@@ -973,44 +1083,235 @@ window.fc = {
                 n = linear(x);
             } else {
                 // When scaling dates.
-                n = linear(weekday(x));
+                n = linear(linearTime(x));
             }
             var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         }
 
-        scale.copy = function () {
-            return financialScale(linear.copy());
-        };
+        /**
+        * Used to set or get the domain for this scale. The domain is the range of real world
+        * values denoted by this scale (Max. and Min.).
+        *
+        * @memberof fc.scale.dateTime
+        * @param {array[2]} domain the real world domain value as an array of 2 date objects,
+        * Min and Max respectively.
+        * @returns the current domain is no arguments are passed.
+        */
+        scale.domain = function(domain) {
 
-        scale.domain = function (domain) {
             if (!arguments.length) {
-                return linear.domain().map(weekday.invert);
+                return [linearTime(baseDomain[0]), linearTime(baseDomain[1])];
             }
             if (typeof domain[0] === 'number') {
                 linear.domain(domain);
             } else {
-                linear.domain(domain.map(weekday));
+                baseDomain = createbaseDomain(domain);
+                linear.domain([linearTime(baseDomain[0]), linearTime(baseDomain[1])]);
             }
             return scale;
         };
 
-        scale.ticks = function (n) {
-            return arguments.length ? linear.ticks(n) : linear.ticks();
+        /**
+        * Used to scale a value from pixel space to domain space. This function is the inverse of
+        * the `scale` function.
+        *
+        * @memberof fc.scale.dateTime
+        * @param {decimal} pixel the pixel value to be scaled.
+        * @returns the converted value in real world space. In most cases this value will only be
+        * accurate to the precision of the pixel width of the scale.
+        */
+        scale.invert = function(pixel) {
+            return linearTimeInvert(linear.invert(pixel));
         };
 
-        scale.tickFormat = function (count, f) {
+        /**
+        * Used to create a copy of the current scale. When scales are added to D3 axes the scales
+        * are copied rather than a reference being stored.
+        * This function facilities a deep copy.
+        *
+        * @memberof fc.scale.dateTime
+        * @returns the copy.
+        */
+        scale.copy = function() {
+            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends);
+        };
+
+        /**
+        * Used to get an array of tick mark locations which can be used to display labels and
+        * tick marks on the associated axis.
+        * Ticks will be aligned to the nearest date time boundary. Boundaries are listed below:
+        * + Year
+        * + 8 Month
+        * + 4 Month
+        * + 2 Month
+        * + Month
+        * + Week
+        * + Day
+        * + 12 Hour
+        * + 8 Hour
+        * + 4 Hour
+        * + 2 Hour
+        * + Hour
+        * + 15 Minute
+        * + Minute
+        * + Second
+        *
+        * @memberof fc.scale.dateTime
+        * @param {integer} n the number of ticks to try and display within the scale domain.
+        * (This value is used as  a guide for a best fit approach)
+        * @returns an array of values denoting real world positions within the scale.
+        * These can be converted to pixel locations using the `scale` function.
+        */
+        scale.ticks = function(n) {
+            return arguments.length ? function() {
+
+                var test = [],
+                    ticks = [],
+                    offsetMilli = (baseDomain[1].getTime() - baseDomain[0].getTime()) / n,
+                    offset = new Date(offsetMilli),
+                    start = new Date(baseDomain[0].getTime()),
+                    stepFunction = function(d) {
+                        d.setSeconds(d.getSeconds() + 1);
+                        return d;
+                    };
+
+                // Determine sensible date division starting from the largest time period down
+                if (((offset.getFullYear() - 1970) * 12) + offset.getMonth() >= 8) {
+                    start = getYearStart(start);
+                    stepFunction = function(d) {
+                        d.setFullYear(d.getFullYear() + 1);
+                        return d;
+                    };
+                } else if (((offset.getFullYear() - 1970) * 12) + offset.getMonth() >= 4) { // 8 Months
+                    start = getMonthStart(start);
+                    stepFunction = function(d) {
+                        d.setMonth(d.getMonth() + 8);
+                        return d;
+                    };
+                } else if (((offset.getFullYear() - 1970) * 12) + offset.getMonth() >= 2) { // 4 Months
+                    start = getMonthStart(start);
+                    stepFunction = function(d) {
+                        d.setMonth(d.getMonth() + 4);
+                        return d;
+                    };
+                } else if (((offset.getFullYear() - 1970) * 12) + offset.getMonth() >= 1) { // 2 Months
+                    start = getMonthStart(start);
+                    stepFunction = function(d) {
+                        d.setMonth(d.getMonth() + 2);
+                        return d;
+                    };
+                } else if (offsetMilli >= 604800000) { // Months
+                    start = getMonthStart(start);
+                    stepFunction = function(d) {
+                        d.setMonth(d.getMonth() + 1);
+                        return d;
+                    };
+                } else if (offsetMilli >= 86400000) { // 7 Days
+                    start = getWeekStart(start);
+                    stepFunction = function(d) {
+                        d.setDate(d.getDate() + 7);
+                        return d;
+                    };
+                } else if (offsetMilli >= 43200000) { // Days
+                    start = getDayStart(start);
+                    stepFunction = function(d) {
+                        d.setDate(d.getDate() + 1);
+                        return d;
+                    };
+                } else if (offsetMilli >= 28800000) { // 12 Hours
+                    start = getHourStart(start, 12);
+                    stepFunction = function(d) {
+                        d.setHours(d.getHours() + 12);
+                        return d;
+                    };
+                } else if (offsetMilli >= 14400000) { // 8 Hours
+                    start = getHourStart(start, 8);
+                    stepFunction = function(d) {
+                        d.setHours(d.getHours() + 8);
+                        return d;
+                    };
+                } else if (offsetMilli >= 7200000) { // 4 Hours
+                    start = getHourStart(start, 4);
+                    stepFunction = function(d) {
+                        d.setHours(d.getHours() + 4);
+                        return d;
+                    };
+                } else if (offsetMilli >= 3600000) { // 2 Hours
+                    start = getHourStart(start, 4);
+                    stepFunction = function(d) {
+                        d.setHours(d.getHours() + 2);
+                        return d;
+                    };
+                } else if (offsetMilli >= 900000) { // Hours
+                    start = getHourStart(start, 0);
+                    stepFunction = function(d) {
+                        d.setHours(d.getHours() + 1);
+                        return d;
+                    };
+                } else if (offsetMilli >= 60000) { // 15 Minutes
+                    start = getMinuteStart(start, 15);
+                    stepFunction = function(d) {
+                        d.setMinutes(d.getMinutes() + 15);
+                        return d;
+                    };
+                } else if (offsetMilli >= 1000) { // Minutes
+                    start = getMinuteStart(start, 0);
+                    stepFunction = function(d) {
+                        d.setMinutes(d.getMinutes() + 1);
+                        return d;
+                    };
+                }
+
+                var tickDate = start;
+                while (tickDate.getTime() <= baseDomain[1].getTime()) {
+                    ticks.push(linearTime(tickDate));
+                    test.push(new Date(tickDate.getTime()));
+                    tickDate = stepFunction(tickDate);
+                }
+
+                return ticks;
+
+            } : linear.ticks();
+        };
+
+        /**
+        * Used to set the callback function used to format the data label for the associated axis tick label.
+        *
+        * @memberof fc.scale.dateTime
+        * @param {integer} count
+        * @param {decimal} f
+        * @returns a function which returns the formatting function for the individual data item.
+        */
+        scale.tickFormat = function(count, f) {
             return function(n) {
-                var date = weekday.invert(n);
-                return d3.time.format('%b %e')(date);
+                return d3.time.format('%a, %e %b')(linearTimeInvert(n));
             };
         };
 
-        scale.invert = function (pixel) {
-            return weekday.invert(linear.invert(pixel));
+        /**
+        * Used to get or set the option to hide weekends. Not showing weekends is common practice on financial charts.
+        *
+        * @memberof fc.scale.dateTime
+        * @param {boolean} value if set to `true` weekends will not be shown.
+        * If no value argument is passed the current setting will be returned.
+        */
+        scale.hideWeekends = function(value) {
+            if (!arguments.length) {
+                return hideWeekends;
+            }
+            hideWeekends = value;
+            return scale;
         };
 
-        scale.alignPixels = function (value) {
+        /**
+        * Used to get or set the option to align ticks to pixel columns. Pixel aligning yields crisper chart graphics.
+        *
+        * @memberof fc.scale.dateTime
+        * @param {boolean} value if set to `true` values will be pixel aligned.
+        * If no value argument is passed the current setting will be returned.
+        */
+        scale.alignPixels = function(value) {
             if (!arguments.length) {
                 return alignPixels;
             }
@@ -1018,20 +1319,112 @@ window.fc = {
             return scale;
         };
 
+        function createbaseDomain(domain) {
+            var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate(), 0, 0, 0);
+            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 2, 0, 0, 0);
+            while (d0.getDay() !== 1) {
+                d0.setDate(d0.getDate() - 1);
+            }
+            return [d0, d1];
+        }
+
+        function linearTime(date) {
+
+            var l = 0,
+                milliSecondsInWeek = 592200000,
+                milliSecondsInWeekend = 172800000;
+
+            if (hideWeekends) {
+                if (date.getDay() === 0) {
+                    date.setDate(date.getDate() + 1);
+                }
+                if (date.getDay() === 6) {
+                    date.setDate(date.getDate() - 1);
+                }
+                var weeksFromBase = Math.floor((date.getTime() - baseDomain[0].getTime()) / milliSecondsInWeek);
+                l = (date.getTime() - baseDomain[0].getTime()) - (milliSecondsInWeekend * weeksFromBase);
+            } else {
+                l = date.getTime() - baseDomain[0].getTime();
+            }
+
+            return l;
+        }
+
+        function linearTimeInvert(l) {
+
+            var date = new Date(0),
+                milliSecondsInShortWeek = 432000000,
+                milliSecondsInWeekend = 172800000;
+
+            if (hideWeekends) {
+                var weeksFromBase = Math.floor(l / milliSecondsInShortWeek);
+                date = new Date(baseDomain[0].getTime() + l + (milliSecondsInWeekend * weeksFromBase));
+            } else {
+                date = new Date(baseDomain[0].getTime() + l);
+            }
+
+            return date;
+        }
+
+        function getMinuteStart(d, offset) {
+            d = offset > 0 ?
+                new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), offset, 0) :
+                new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), 0);
+            return d;
+        }
+
+        function getHourStart(d, offset) {
+            d = offset > 0 ?
+                new Date(d.getFullYear(), d.getMonth(), d.getDate(), offset, 0, 0) :
+                new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), 0, 0);
+            return d;
+        }
+
+        function getDayStart(d) {
+            d = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0);
+            return d;
+        }
+
+        function getWeekStart(d) {
+            d = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0);
+            while (d.getDay() > 0) {
+                d.setDate(d.getDate() - 1);
+            }
+            return d;
+        }
+
+        function getMonthStart(d) {
+            d = new Date(d.getFullYear(), d.getMonth(), 1, 0, 0, 0);
+            return d;
+        }
+
+        function getYearStart(d) {
+            d = new Date(d.getFullYear(), 0, 1, 0, 0, 0);
+            return d;
+        }
+
         return d3.rebind(scale, linear, 'range', 'rangeRound', 'interpolate', 'clamp', 'nice');
     }
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.scale.gridlines = function () {
+    /**
+    * This component provides gridlines, both horizontal and vertical linked to the respective chart scales/axes.
+    * If the pixel alignment options are selected on the scales, this generally produces crisper graphics.
+    *
+    * @type {object}
+    * @memberof fc.scale
+    * @namespace fc.scale.gridlines
+    */
+    fc.scale.gridlines = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             xTicks = 10,
             yTicks = 10;
 
-        var xLines = function (data, grid) {
+        var xLines = function(data, grid) {
             var xlines = grid.selectAll('.x')
                 .data(data);
             xlines
@@ -1053,7 +1446,7 @@ window.fc = {
             xlines.exit().remove();
         };
 
-        var yLines = function (data, grid) {
+        var yLines = function(data, grid) {
             var ylines = grid.selectAll('.y')
                 .data(data);
             ylines
@@ -1075,10 +1468,16 @@ window.fc = {
             ylines.exit().remove();
         };
 
-        var gridlines = function (selection) {
+        /**
+        * Constructs a new instance of the gridlines component.
+        *
+        * @memberof fc.scale.gridlines
+        * @param {selection} selection a selection of D3 elements.
+        */
+        var gridlines = function(selection) {
             var grid, xTickData, yTickData;
 
-            selection.each(function () {
+            selection.each(function() {
                 xTickData = xScale.ticks(xTicks);
                 yTickData = yScale.ticks(yTicks);
 
@@ -1089,7 +1488,7 @@ window.fc = {
             });
         };
 
-        gridlines.xScale = function (value) {
+        gridlines.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -1097,7 +1496,7 @@ window.fc = {
             return gridlines;
         };
 
-        gridlines.yScale = function (value) {
+        gridlines.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -1105,7 +1504,7 @@ window.fc = {
             return gridlines;
         };
 
-        gridlines.xTicks = function (value) {
+        gridlines.xTicks = function(value) {
             if (!arguments.length) {
                 return xTicks;
             }
@@ -1113,7 +1512,7 @@ window.fc = {
             return gridlines;
         };
 
-        gridlines.yTicks = function (value) {
+        gridlines.yTicks = function(value) {
             if (!arguments.length) {
                 return yTicks;
             }
@@ -1125,10 +1524,10 @@ window.fc = {
     };
 }(d3, fc));
 
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.scale.linear = function () {
+    fc.scale.linear = function() {
         return linearScale();
     };
 
@@ -1146,24 +1545,24 @@ window.fc = {
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         }
 
-        scale.copy = function () {
+        scale.copy = function() {
             return linearScale(linear.copy());
         };
 
-        scale.domain = function (domain) {
+        scale.domain = function(domain) {
             linear.domain(domain);
             return scale;
         };
 
-        scale.ticks = function (n) {
+        scale.ticks = function(n) {
             return linear.ticks(n);
         };
 
-        scale.invert = function (pixel) {
+        scale.invert = function(pixel) {
             return linear.invert(pixel);
         };
 
-        scale.alignPixels = function (value) {
+        scale.alignPixels = function(value) {
             if (!arguments.length) {
                 return alignPixels;
             }
@@ -1174,46 +1573,46 @@ window.fc = {
         return d3.rebind(scale, linear, 'range', 'rangeRound', 'interpolate', 'clamp', 'nice');
     }
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.candlestick = function () {
+    fc.series.candlestick = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
-        var yOpen = function(d) { return d.open; },
-            yHigh = function(d) { return d.high; },
-            yLow = function(d) { return d.low; },
-            yClose = function(d) { return d.close; };
+        var yOpen = fc.utilities.valueAccessor('open'),
+            yHigh = fc.utilities.valueAccessor('high'),
+            yLow = fc.utilities.valueAccessor('low'),
+            yClose = fc.utilities.valueAccessor('close');
 
         var rectangleWidth = 5;
 
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
         };
-        var isDownDay = function (d) {
+        var isDownDay = function(d) {
             return !isUpDay(d);
         };
 
         var line = d3.svg.line()
-            .x(function (d) {
+            .x(function(d) {
                 return d.x;
             })
-            .y(function (d) {
+            .y(function(d) {
                 return d.y;
             });
 
-        var highLowLines = function (bars) {
+        var highLowLines = function(bars) {
 
-            var paths = bars.selectAll('.high-low-line').data(function (d) {
+            var paths = bars.selectAll('.high-low-line').data(function(d) {
                 return [d];
             });
 
             paths.enter().append('path');
 
             paths.classed('high-low-line', true)
-                .attr('d', function (d) {
+                .attr('d', function(d) {
                     return line([
                         {x: xScale(d.date), y: yScale(yHigh(d))},
                         {x: xScale(d.date), y: yScale(yLow(d))}
@@ -1221,40 +1620,40 @@ window.fc = {
                 });
         };
 
-        var rectangles = function (bars) {
+        var rectangles = function(bars) {
             var rect;
 
-            rect = bars.selectAll('rect').data(function (d) {
+            rect = bars.selectAll('rect').data(function(d) {
                 return [d];
             });
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) {
+            rect.attr('x', function(d) {
                 return xScale(d.date) - (rectangleWidth / 2.0);
             })
-                .attr('y', function (d) {
+                .attr('y', function(d) {
                     return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
                 .attr('width', rectangleWidth)
-                .attr('height', function (d) {
+                .attr('height', function(d) {
                     return isUpDay(d) ?
                         yScale(yOpen(d)) - yScale(yClose(d)) :
                         yScale(yClose(d)) - yScale(yOpen(d));
                 });
         };
 
-        var candlestick = function (selection) {
+        var candlestick = function(selection) {
             var series, bars;
 
-            selection.each(function (data) {
+            selection.each(function(data) {
                 series = d3.select(this).selectAll('.candlestick-series').data([data]);
 
                 series.enter().append('g')
                     .classed('candlestick-series', true);
 
                 bars = series.selectAll('.bar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -1276,7 +1675,7 @@ window.fc = {
             });
         };
 
-        candlestick.xScale = function (value) {
+        candlestick.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -1284,7 +1683,7 @@ window.fc = {
             return candlestick;
         };
 
-        candlestick.yScale = function (value) {
+        candlestick.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -1292,7 +1691,7 @@ window.fc = {
             return candlestick;
         };
 
-        candlestick.rectangleWidth = function (value) {
+        candlestick.rectangleWidth = function(value) {
             if (!arguments.length) {
                 return rectangleWidth;
             }
@@ -1337,17 +1736,17 @@ window.fc = {
     };
 }(d3, fc));
 
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.comparison = function () {
+    fc.series.comparison = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
         var cachedData, cachedScale;
 
-        var yScaleTransform = function (oldScale, newScale) {
+        var yScaleTransform = function(oldScale, newScale) {
             // Compute transform for elements wrt changing yScale.
             var oldDomain = oldScale.domain(),
                 newDomain = newScale.domain(),
@@ -1359,10 +1758,10 @@ window.fc = {
             };
         };
 
-        var findIndex = function (seriesData, date) {
+        var findIndex = function(seriesData, date) {
             // Find insertion point for date in seriesData.
             var bisect = d3.bisector(
-                function (d) {
+                function(d) {
                     return d.date;
                 }).left;
 
@@ -1375,12 +1774,12 @@ window.fc = {
             return initialIndex;
         };
 
-        var percentageChange = function (seriesData, initialDate) {
+        var percentageChange = function(seriesData, initialDate) {
             // Computes the percentage change data of a series from an initial date.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialClose = seriesData[initialIndex].close;
 
-            return seriesData.map(function (d) {
+            return seriesData.map(function(d) {
                 return {
                     date: d.date,
                     change: (d.close / initialClose) - 1
@@ -1388,12 +1787,12 @@ window.fc = {
             });
         };
 
-        var rebaseChange = function (seriesData, initialDate) {
+        var rebaseChange = function(seriesData, initialDate) {
             // Change the initial date the percentage changes should be based from.
             var initialIndex = findIndex(seriesData, initialDate) - 1;
             var initialChange = seriesData[initialIndex].change;
 
-            return seriesData.map(function (d) {
+            return seriesData.map(function(d) {
                 return {
                     date: d.date,
                     change: d.change - initialChange
@@ -1401,10 +1800,10 @@ window.fc = {
             });
         };
 
-        var calculateYDomain = function (data, xDomain) {
+        var calculateYDomain = function(data, xDomain) {
             var start, end;
 
-            data = data.map(function (series) {
+            data = data.map(function(series) {
                 series = series.data;
                 start = findIndex(series, xDomain[0]) - 1;
                 end = findIndex(series, xDomain[1]) + 1;
@@ -1428,19 +1827,19 @@ window.fc = {
 
         var line = d3.svg.line()
             .interpolate('linear')
-            .x(function (d) {
+            .x(function(d) {
                 return xScale(d.date);
             })
-            .y(function (d) {
+            .y(function(d) {
                 return yScale(d.change);
             });
 
-        var comparison = function (selection) {
+        var comparison = function(selection) {
             var series, lines;
 
-            selection.each(function (data) {
+            selection.each(function(data) {
 
-                data = data.map(function (d) {
+                data = data.map(function(d) {
                     return {
                         name: d.name,
                         data: percentageChange(d.data, xScale.domain()[0])
@@ -1449,7 +1848,7 @@ window.fc = {
 
                 cachedData = data; // Save for rebasing.
 
-                color.domain(data.map(function (d) {
+                color.domain(data.map(function(d) {
                     return d.name;
                 }));
 
@@ -1464,31 +1863,31 @@ window.fc = {
                         return d.name;
                     })
                     .enter().append('path')
-                    .attr('class', function (d) {
+                    .attr('class', function(d) {
                         return 'line ' + 'line' + data.indexOf(d);
                     })
-                    .attr('d', function (d) {
+                    .attr('d', function(d) {
                         return line(d.data);
                     })
-                    .style('stroke', function (d) {
+                    .style('stroke', function(d) {
                         return color(d.name);
                     });
 
                 series.selectAll('.line')
-                    .attr('d', function (d) {
+                    .attr('d', function(d) {
                         return line(d.data);
                     });
             });
         };
 
-        comparison.geometricZoom = function (selection, xTransformTranslate, xTransformScale) {
+        comparison.geometricZoom = function(selection, xTransformTranslate, xTransformScale) {
             // Apply a transformation for each line to update its position wrt the new initial date,
             // then apply the yScale transformation to reflect the updated yScale domain.
 
             var initialIndex,
                 yTransform;
 
-            var lineTransform = function (initialChange) {
+            var lineTransform = function(initialChange) {
                 var yTransformLineTranslate = cachedScale(0) - cachedScale(initialChange);
 
                 yTransformLineTranslate *= yTransform.scale;
@@ -1498,7 +1897,7 @@ window.fc = {
                     ' scale(' + xTransformScale + ',' + yTransform.scale + ')';
             };
 
-            var domainData = cachedData.map(function (d) {
+            var domainData = cachedData.map(function(d) {
                 return {
                     name: d.name,
                     data: rebaseChange(d.data, xScale.domain()[0])
@@ -1508,7 +1907,7 @@ window.fc = {
             yScale.domain(calculateYDomain(domainData, xScale.domain()));
             yTransform = yScaleTransform(cachedScale, yScale);
 
-            cachedData = cachedData.map(function (d) {
+            cachedData = cachedData.map(function(d) {
                 initialIndex = findIndex(d.data, xScale.domain()[0]) - 1;
                 return {
                     name: d.name,
@@ -1519,10 +1918,10 @@ window.fc = {
 
             selection.selectAll('.line')
                 .data(cachedData)
-                .attr('transform', function (d) { return d.transform; });
+                .attr('transform', function(d) { return d.transform; });
         };
 
-        comparison.xScale = function (value) {
+        comparison.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -1530,7 +1929,7 @@ window.fc = {
             return comparison;
         };
 
-        comparison.yScale = function (value) {
+        comparison.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -1541,17 +1940,17 @@ window.fc = {
         return comparison;
     };
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.line = function () {
+    fc.series.line = function() {
 
-        var yValue = function(d) { return d.close; },
+        var yValue = fc.utilities.valueAccessor('close'),
             xScale = fc.scale.finance(),
             yScale = fc.scale.linear(),
             underFill = true;
 
-        var line = function (selection) {
+        var line = function(selection) {
 
             var area;
 
@@ -1562,12 +1961,12 @@ window.fc = {
             }
 
             var line = d3.svg.line();
-            line.x(function (d) { return xScale(d.date); });
+            line.x(function(d) { return xScale(d.date); });
 
-            selection.each(function (data) {
+            selection.each(function(data) {
 
                 if (underFill) {
-                    area.y1(function (d) { return yScale(yValue(d)); });
+                    area.y1(function(d) { return yScale(yValue(d)); });
                     var areapath = d3.select(this).selectAll('.lineSeriesArea')
                         .data([data]);
                     areapath.enter()
@@ -1578,7 +1977,7 @@ window.fc = {
                         .remove();
                 }
 
-                line.y(function (d) { return yScale(yValue(d)); });
+                line.y(function(d) { return yScale(yValue(d)); });
                 var linepath = d3.select(this).selectAll('.lineSeries')
                     .data([data]);
                 linepath.enter()
@@ -1590,7 +1989,7 @@ window.fc = {
             });
         };
 
-        line.yValue = function (value) {
+        line.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -1598,7 +1997,7 @@ window.fc = {
             return line;
         };
 
-        line.xScale = function (value) {
+        line.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -1606,7 +2005,7 @@ window.fc = {
             return line;
         };
 
-        line.yScale = function (value) {
+        line.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -1614,7 +2013,7 @@ window.fc = {
             return line;
         };
 
-        line.underFill = function (value) {
+        line.underFill = function(value) {
             if (!arguments.length) {
                 return underFill;
             }
@@ -1625,38 +2024,38 @@ window.fc = {
         return line;
     };
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.ohlc = function (drawMethod) {
+    fc.series.ohlc = function(drawMethod) {
 
         // Configurable attributes
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             tickWidth = 5;
 
-        var yOpen = function(d) { return d.open; },
-            yHigh = function(d) { return d.high; },
-            yLow = function(d) { return d.low; },
-            yClose = function(d) { return d.close; };
+        var yOpen = fc.utilities.valueAccessor('open'),
+            yHigh = fc.utilities.valueAccessor('high'),
+            yLow = fc.utilities.valueAccessor('low'),
+            yClose = fc.utilities.valueAccessor('close');
 
         // Function to return
         var ohlc;
 
         // Accessor functions
-        var open = function (d) {
+        var open = function(d) {
                 return yScale(yOpen(d));
             },
-            high = function (d) {
+            high = function(d) {
                 return yScale(yHigh(d));
             },
-            low = function (d) {
+            low = function(d) {
                 return yScale(yLow(d));
             },
-            close = function (d) {
+            close = function(d) {
                 return yScale(yClose(d));
             },
-            date = function (d) {
+            date = function(d) {
                 return xScale(d.date);
             };
 
@@ -1664,10 +2063,10 @@ window.fc = {
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
         };
-        var isDownDay = function (d) {
+        var isDownDay = function(d) {
             return yClose(d) < yOpen(d);
         };
-        var isStaticDay = function (d) {
+        var isStaticDay = function(d) {
             return yClose(d) === yOpen(d);
         };
 
@@ -1682,7 +2081,7 @@ window.fc = {
         };
 
         // Path drawing
-        var makeBarPath = function (d) {
+        var makeBarPath = function(d) {
             var moveToLow = 'M' + date(d) + ',' + low(d),
                 verticalToHigh = 'V' + high(d),
                 openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-tickWidth),
@@ -1690,9 +2089,9 @@ window.fc = {
             return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
-        var makeConcatPath = function (data) {
+        var makeConcatPath = function(data) {
             var path = 'M0,0';
-            data.forEach(function (d) {
+            data.forEach(function(d) {
                 path += makeBarPath(d);
             });
             return path;
@@ -1701,7 +2100,7 @@ window.fc = {
         // Filters data, and draws a series of ohlc bars from the result as a single path.
         var makeConcatPathElement = function(series, elementClass, colour, data, filterFunction) {
             var concatPath;
-            var filteredData = data.filter(function (d) {
+            var filteredData = data.filter(function(d) {
                 return filterFunction(d);
             });
             concatPath = series.selectAll('.' + elementClass)
@@ -1720,19 +2119,19 @@ window.fc = {
         };
 
         // Common series element
-        var makeSeriesElement = function (selection, data) {
+        var makeSeriesElement = function(selection, data) {
             var series = d3.select(selection).selectAll('.ohlc-series').data([data]);
             series.enter().append('g').classed('ohlc-series', true);
             return series;
         };
 
         // Draw ohlc bars as groups of svg lines
-        var ohlcLineGroups = function (selection) {
-            selection.each(function (data) {
+        var ohlcLineGroups = function(selection) {
+            selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
 
                 var bars = series.selectAll('.bar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -1753,7 +2152,7 @@ window.fc = {
 
                 bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high});
                 bars.select('.open-tick').attr({
-                    x1: function (d) { return date(d) - tickWidth; },
+                    x1: function(d) { return date(d) - tickWidth; },
                     y1: open,
                     x2: date,
                     y2: open
@@ -1761,7 +2160,7 @@ window.fc = {
                 bars.select('.close-tick').attr({
                     x1: date,
                     y1: close,
-                    x2: function (d) { return date(d) + tickWidth; },
+                    x2: function(d) { return date(d) + tickWidth; },
                     y2: close
                 });
 
@@ -1771,12 +2170,12 @@ window.fc = {
         };
 
         // Draw ohlc bars as svg paths
-        var ohlcBarPaths = function (selection) {
-            selection.each(function (data) {
+        var ohlcBarPaths = function(selection) {
+            selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
 
                 var bars = series.selectAll('.bar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -1800,12 +2199,12 @@ window.fc = {
         };
 
         // Draw the complete series of ohlc bars using 3 paths
-        var ohlcConcatBarPaths = function (selection) {
-            selection.each(function (data) {
+        var ohlcConcatBarPaths = function(selection) {
+            selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
-                makeConcatPathElement(series, 'up-days', 'green', data, isUpDay);
-                makeConcatPathElement(series, 'down-days', 'red', data, isDownDay);
-                makeConcatPathElement(series, 'static-days', 'black', data, isStaticDay);
+                makeConcatPathElement(series, 'up-day', 'green', data, isUpDay);
+                makeConcatPathElement(series, 'down-day', 'red', data, isDownDay);
+                makeConcatPathElement(series, 'static-day', 'black', data, isStaticDay);
             });
         };
 
@@ -1816,7 +2215,7 @@ window.fc = {
             default: ohlc = ohlcBarPaths;
         }
 
-        ohlc.xScale = function (value) {
+        ohlc.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -1824,7 +2223,7 @@ window.fc = {
             return ohlc;
         };
 
-        ohlc.yScale = function (value) {
+        ohlc.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -1832,7 +2231,7 @@ window.fc = {
             return ohlc;
         };
 
-        ohlc.tickWidth = function (value) {
+        ohlc.tickWidth = function(value) {
             if (!arguments.length) {
                 return tickWidth;
             }
@@ -1875,49 +2274,49 @@ window.fc = {
         return ohlc;
     };
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.series.volume = function () {
+    fc.series.volume = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = 5,
-            yValue = function(d) { return d.volume; };
+            yValue = fc.utilities.valueAccessor('volume');
 
         var isUpDay = function(d) {
             return d.close > d.open;
         };
-        var isDownDay = function (d) {
+        var isDownDay = function(d) {
             return !isUpDay(d);
         };
 
-        var rectangles = function (bars) {
+        var rectangles = function(bars) {
             var rect;
 
-            rect = bars.selectAll('rect').data(function (d) {
+            rect = bars.selectAll('rect').data(function(d) {
                 return [d];
             });
 
             rect.enter().append('rect');
 
-            rect.attr('x', function (d) { return xScale(d.date) - (barWidth / 2.0); })
+            rect.attr('x', function(d) { return xScale(d.date) - (barWidth / 2.0); })
                 .attr('y', function(d) { return yScale(yValue(d)); })
                 .attr('width', barWidth)
                 .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
         };
 
-        var volume = function (selection) {
+        var volume = function(selection) {
             var series, bars;
 
-            selection.each(function (data) {
+            selection.each(function(data) {
                 series = d3.select(this).selectAll('.volume-series').data([data]);
 
                 series.enter().append('g')
                     .classed('volume-series', true);
 
                 bars = series.selectAll('.volumebar')
-                    .data(data, function (d) {
+                    .data(data, function(d) {
                         return d.date;
                     });
 
@@ -1934,7 +2333,7 @@ window.fc = {
             });
         };
 
-        volume.xScale = function (value) {
+        volume.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -1942,7 +2341,7 @@ window.fc = {
             return volume;
         };
 
-        volume.yScale = function (value) {
+        volume.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -1950,7 +2349,7 @@ window.fc = {
             return volume;
         };
 
-        volume.barWidth = function (value) {
+        volume.barWidth = function(value) {
             if (!arguments.length) {
                 return barWidth;
             }
@@ -1958,7 +2357,7 @@ window.fc = {
             return volume;
         };
 
-        volume.yValue = function (value) {
+        volume.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -1970,10 +2369,10 @@ window.fc = {
     };
 }(d3, fc));
 
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.annotation = function () {
+    fc.tools.annotation = function() {
 
         var index = 0,
             xScale = d3.time.scale(),
@@ -1987,7 +2386,7 @@ window.fc = {
             line = null,
             callout = null;
 
-        var annotation = function (selection) {
+        var annotation = function(selection) {
 
             root = selection.append('g')
                 .attr('id', 'annotation_' + index)
@@ -2009,7 +2408,7 @@ window.fc = {
                 .text(yLabel + ': ' + formatCallout(yValue));
         };
 
-        annotation.index = function (value) {
+        annotation.index = function(value) {
             if (!arguments.length) {
                 return index;
             }
@@ -2017,7 +2416,7 @@ window.fc = {
             return annotation;
         };
 
-        annotation.xScale = function (value) {
+        annotation.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -2025,7 +2424,7 @@ window.fc = {
             return annotation;
         };
 
-        annotation.yScale = function (value) {
+        annotation.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -2033,7 +2432,7 @@ window.fc = {
             return annotation;
         };
 
-        annotation.yValue = function (value) {
+        annotation.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -2041,7 +2440,7 @@ window.fc = {
             return annotation;
         };
 
-        annotation.yLabel = function (value) {
+        annotation.yLabel = function(value) {
             if (!arguments.length) {
                 return yLabel;
             }
@@ -2049,7 +2448,7 @@ window.fc = {
             return annotation;
         };
 
-        annotation.padding = function (value) {
+        annotation.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -2057,7 +2456,7 @@ window.fc = {
             return annotation;
         };
 
-        annotation.formatCallout = function (value) {
+        annotation.formatCallout = function(value) {
             if (!arguments.length) {
                 return formatCallout;
             }
@@ -2069,10 +2468,10 @@ window.fc = {
     };
 }(d3, fc));
 /*jshint loopfunc: true */
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.callouts = function () {
+    fc.tools.callouts = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -2170,7 +2569,7 @@ window.fc = {
             boundingBoxes = sortedRects;
         };
 
-        var callouts = function (selection) {
+        var callouts = function(selection) {
 
             // Create the callouts
             var callouts = selection.selectAll('g')
@@ -2187,7 +2586,7 @@ window.fc = {
 
             // Create the rectangles behind
             callouts.insert('rect', ':first-child')
-                .attr('x', function(d) { return - padding - rounded; })
+                .attr('x', function(d) { return -padding - rounded; })
                 .attr('y', function(d) {
                     currentBB = this.parentNode.getBBox();
                     currentBB.x = xScale(d.x);
@@ -2212,12 +2611,12 @@ window.fc = {
                 .exit();
         };
 
-        callouts.addCallout = function (value) {
+        callouts.addCallout = function(value) {
             data.push(value);
             return callouts;
         };
 
-        callouts.xScale = function (value) {
+        callouts.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -2225,7 +2624,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.yScale = function (value) {
+        callouts.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -2233,7 +2632,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.padding = function (value) {
+        callouts.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -2241,7 +2640,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.spacing = function (value) {
+        callouts.spacing = function(value) {
             if (!arguments.length) {
                 return spacing;
             }
@@ -2249,7 +2648,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.rounded = function (value) {
+        callouts.rounded = function(value) {
             if (!arguments.length) {
                 return rounded;
             }
@@ -2257,7 +2656,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.stalkLength = function (value) {
+        callouts.stalkLength = function(value) {
             if (!arguments.length) {
                 return stalkLength;
             }
@@ -2265,7 +2664,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.rotationStart = function (value) {
+        callouts.rotationStart = function(value) {
             if (!arguments.length) {
                 return rotationStart;
             }
@@ -2273,7 +2672,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.rotationSteps = function (value) {
+        callouts.rotationSteps = function(value) {
             if (!arguments.length) {
                 return rotationSteps;
             }
@@ -2281,7 +2680,7 @@ window.fc = {
             return callouts;
         };
 
-        callouts.css = function (value) {
+        callouts.css = function(value) {
             if (!arguments.length) {
                 return css;
             }
@@ -2293,10 +2692,10 @@ window.fc = {
     };
 
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.crosshairs = function () {
+    fc.tools.crosshairs = function() {
 
         var target = null,
             series = null,
@@ -2319,7 +2718,7 @@ window.fc = {
         var highlight = null,
             highlightedValue = null;
 
-        var crosshairs = function () {
+        var crosshairs = function() {
 
             var root = target.append('g')
                 .attr('class', 'crosshairs');
@@ -2487,7 +2886,7 @@ window.fc = {
             calloutV.attr('display', 'none');
         };
 
-        crosshairs.target = function (value) {
+        crosshairs.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -2508,7 +2907,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.series = function (value) {
+        crosshairs.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -2516,7 +2915,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.xScale = function (value) {
+        crosshairs.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -2524,7 +2923,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.yScale = function (value) {
+        crosshairs.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -2532,7 +2931,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.yValue = function (value) {
+        crosshairs.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
             }
@@ -2540,7 +2939,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.formatH = function (value) {
+        crosshairs.formatH = function(value) {
             if (!arguments.length) {
                 return formatH;
             }
@@ -2548,7 +2947,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.formatV = function (value) {
+        crosshairs.formatV = function(value) {
             if (!arguments.length) {
                 return formatV;
             }
@@ -2556,7 +2955,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.active = function (value) {
+        crosshairs.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
@@ -2569,7 +2968,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.freezable = function (value) {
+        crosshairs.freezable = function(value) {
             if (!arguments.length) {
                 return freezable;
             }
@@ -2577,7 +2976,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.padding = function (value) {
+        crosshairs.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -2585,7 +2984,7 @@ window.fc = {
             return crosshairs;
         };
 
-        crosshairs.onSnap = function (value) {
+        crosshairs.onSnap = function(value) {
             if (!arguments.length) {
                 return onSnap;
             }
@@ -2601,10 +3000,10 @@ window.fc = {
     };
 
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.fibonacciFan = function () {
+    fc.tools.fibonacciFan = function() {
 
         var target = null,
             series = null,
@@ -2624,7 +3023,7 @@ window.fc = {
             locationOrigin = null,
             locationTarget = null;
 
-        var fibonacciFan = function () {
+        var fibonacciFan = function() {
 
             var root = target.append('g')
                 .attr('class', 'fibonacci-fan');
@@ -2872,7 +3271,7 @@ window.fc = {
             fanArea.attr('points', points);
         }
 
-        fibonacciFan.update = function () {
+        fibonacciFan.update = function() {
 
             if (locationOrigin) {
 
@@ -2907,7 +3306,7 @@ window.fc = {
             }
         };
 
-        fibonacciFan.visible = function (value) {
+        fibonacciFan.visible = function(value) {
 
             if (value) {
 
@@ -2943,7 +3342,7 @@ window.fc = {
             }
         };
 
-        fibonacciFan.target = function (value) {
+        fibonacciFan.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -2962,7 +3361,7 @@ window.fc = {
             return fibonacciFan;
         };
 
-        fibonacciFan.series = function (value) {
+        fibonacciFan.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -2970,7 +3369,7 @@ window.fc = {
             return fibonacciFan;
         };
 
-        fibonacciFan.xScale = function (value) {
+        fibonacciFan.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -2978,7 +3377,7 @@ window.fc = {
             return fibonacciFan;
         };
 
-        fibonacciFan.yScale = function (value) {
+        fibonacciFan.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -2986,7 +3385,7 @@ window.fc = {
             return fibonacciFan;
         };
 
-        fibonacciFan.active = function (value) {
+        fibonacciFan.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
@@ -2998,10 +3397,10 @@ window.fc = {
     };
 
 }(d3, fc));
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.tools.measure = function () {
+    fc.tools.measure = function() {
 
         var target = null,
             series = null,
@@ -3024,7 +3423,7 @@ window.fc = {
             locationOrigin = null,
             locationTarget = null;
 
-        var measure = function () {
+        var measure = function() {
 
             var root = target.append('g')
                 .attr('class', 'measure');
@@ -3233,7 +3632,7 @@ window.fc = {
             calloutY.attr('display', 'none');
         }
 
-        measure.update = function () {
+        measure.update = function() {
 
             if (locationOrigin) {
 
@@ -3263,7 +3662,7 @@ window.fc = {
             }
         };
 
-        measure.visible = function (value) {
+        measure.visible = function(value) {
 
             if (value) {
 
@@ -3299,7 +3698,7 @@ window.fc = {
             }
         };
 
-        measure.target = function (value) {
+        measure.target = function(value) {
             if (!arguments.length) {
                 return target;
             }
@@ -3318,7 +3717,7 @@ window.fc = {
             return measure;
         };
 
-        measure.series = function (value) {
+        measure.series = function(value) {
             if (!arguments.length) {
                 return series;
             }
@@ -3326,7 +3725,7 @@ window.fc = {
             return measure;
         };
 
-        measure.xScale = function (value) {
+        measure.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -3334,7 +3733,7 @@ window.fc = {
             return measure;
         };
 
-        measure.yScale = function (value) {
+        measure.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -3342,7 +3741,7 @@ window.fc = {
             return measure;
         };
 
-        measure.active = function (value) {
+        measure.active = function(value) {
             if (!arguments.length) {
                 return active;
             }
@@ -3350,7 +3749,7 @@ window.fc = {
             return measure;
         };
 
-        measure.padding = function (value) {
+        measure.padding = function(value) {
             if (!arguments.length) {
                 return padding;
             }
@@ -3358,7 +3757,7 @@ window.fc = {
             return measure;
         };
 
-        measure.formatH = function (value) {
+        measure.formatH = function(value) {
             if (!arguments.length) {
                 return formatH;
             }
@@ -3366,7 +3765,7 @@ window.fc = {
             return measure;
         };
 
-        measure.formatV = function (value) {
+        measure.formatV = function(value) {
             if (!arguments.length) {
                 return formatV;
             }

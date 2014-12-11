@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.scale.linear = function () {
+    fc.scale.linear = function() {
         return linearScale();
     };
 
@@ -19,24 +19,24 @@
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         }
 
-        scale.copy = function () {
+        scale.copy = function() {
             return linearScale(linear.copy());
         };
 
-        scale.domain = function (domain) {
+        scale.domain = function(domain) {
             linear.domain(domain);
             return scale;
         };
 
-        scale.ticks = function (n) {
+        scale.ticks = function(n) {
             return linear.ticks(n);
         };
 
-        scale.invert = function (pixel) {
+        scale.invert = function(pixel) {
             return linear.invert(pixel);
         };
 
-        scale.alignPixels = function (value) {
+        scale.alignPixels = function(value) {
             if (!arguments.length) {
                 return alignPixels;
             }
