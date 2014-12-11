@@ -47,15 +47,31 @@
                     });
                 }
 
-                var path = d3.select(this).selectAll('.' + css)
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this)
+                    .selectAll('.' + css)
+                    .data([data]);
+                container.enter()
+                    .append('g')
+                    .classed(css, true);
+
+                // create a data-join for the path
+                var path = container
+                    .selectAll('path')
                     .data([data]);
 
-                path.enter().append('path');
+                // enter
+                path.enter()
+                    .append('path');
 
+                // update
                 path.attr('d', line)
                     .classed(css, true);
 
-                path.exit().remove();
+                // exit
+                path.exit()
+                    .remove();
             });
         };
 

@@ -4,9 +4,10 @@
     fc.series.line = function() {
 
         var yValue = fc.utilities.valueAccessor('close'),
-            xScale = fc.scale.finance(),
+            xScale = fc.scale.dateTime(),
             yScale = fc.scale.linear(),
-            underFill = true;
+            underFill = true,
+            css = 'line-series';
 
         var line = function(selection) {
 
@@ -23,25 +24,50 @@
 
             selection.each(function(data) {
 
+
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this)
+                    .selectAll('.' + css)
+                    .data([data]);
+                container.enter()
+                    .append('g')
+                    .classed(css, true);
+
                 if (underFill) {
                     area.y1(function(d) { return yScale(yValue(d)); });
-                    var areapath = d3.select(this).selectAll('.lineSeriesArea')
+
+                    var areapath = container
+                        .selectAll('.area')
                         .data([data]);
+
+                    // enter
                     areapath.enter()
-                        .append('path')
-                        .attr('d', area)
-                        .classed('lineSeriesArea', true);
+                        .append('path');
+
+                    // update
+                    areapath.attr('d', area)
+                        .classed('area', true);
+
+                    // exit
                     areapath.exit()
                         .remove();
                 }
 
                 line.y(function(d) { return yScale(yValue(d)); });
-                var linepath = d3.select(this).selectAll('.lineSeries')
+                var linepath = container
+                    .selectAll('.line')
                     .data([data]);
+
+                // enter
                 linepath.enter()
-                    .append('path')
-                    .attr('d', line)
-                    .classed('lineSeries', true);
+                    .append('path');
+
+                // update
+                linepath.attr('d', line)
+                    .classed('line', true);
+
+                // exit
                 linepath.exit()
                     .remove();
             });
