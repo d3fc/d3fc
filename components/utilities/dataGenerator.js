@@ -265,7 +265,7 @@
         * @param {function} value a function which will receive a date object and return a boolean to flag
         * whether a date should be included in the data set or not.
         * @returns the current function if a function is not specified. The default function is
-        * function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };
+        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
         */
         dataGenerator.filter = function(value) {
             if (!arguments.length) {

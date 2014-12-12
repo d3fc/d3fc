@@ -56,7 +56,7 @@
         *
         * @memberof fc.scale.linear
         * @method domain
-        * @param {array[2]} domain the real world domain value as an array of 2 decimal numbers,
+        * @param {array} domain the real world domain value as an array of 2 decimal numbers,
         * Min and Max respectively.
         * @returns the current domain if no arguments are passed.
         */
