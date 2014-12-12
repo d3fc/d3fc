@@ -22,7 +22,7 @@
     * @memberof fc.scale.dateTime
     * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear
     * scale between the original and the copy.
-    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max
+    * @param {array} baseDomain used in the copy constructor to copy the base domain (Max
     * and Min) between the original and the copy.
     * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment
     * option between the original and the copy.
@@ -43,6 +43,7 @@
         * to position elements on the X axis.
         *
         * @memberof fc.scale.dateTime
+        * @method scale
         * @param {object} x the real world domain value to be scaled.
         * @returns the converted value in pixel space. This value is also pixel aligned if the
         * relevant options are set.
@@ -65,9 +66,10 @@
         * values denoted by this scale (Max. and Min.).
         *
         * @memberof fc.scale.dateTime
-        * @param {array[2]} domain the real world domain value as an array of 2 date objects,
+        * @method domain
+        * @param {array} domain the real world domain value as an array of 2 date objects,
         * Min and Max respectively.
-        * @returns the current domain is no arguments are passed.
+        * @returns the current domain if no arguments are passed.
         */
         scale.domain = function(domain) {
 
@@ -88,6 +90,7 @@
         * the `scale` function.
         *
         * @memberof fc.scale.dateTime
+        * @method invert
         * @param {decimal} pixel the pixel value to be scaled.
         * @returns the converted value in real world space. In most cases this value will only be
         * accurate to the precision of the pixel width of the scale.
@@ -102,6 +105,7 @@
         * This function facilities a deep copy.
         *
         * @memberof fc.scale.dateTime
+        * @method copy
         * @returns the copy.
         */
         scale.copy = function() {
@@ -129,6 +133,7 @@
         * + Second
         *
         * @memberof fc.scale.dateTime
+        * @method ticks
         * @param {integer} n the number of ticks to try and display within the scale domain.
         * (This value is used as  a guide for a best fit approach)
         * @returns an array of values denoting real world positions within the scale.
@@ -250,6 +255,7 @@
         * Used to set the callback function used to format the data label for the associated axis tick label.
         *
         * @memberof fc.scale.dateTime
+        * @method tickFormat
         * @param {integer} count
         * @param {decimal} f
         * @returns a function which returns the formatting function for the individual data item.
@@ -264,6 +270,7 @@
         * Used to get or set the option to hide weekends. Not showing weekends is common practice on financial charts.
         *
         * @memberof fc.scale.dateTime
+        * @method hideWeekends
         * @param {boolean} value if set to `true` weekends will not be shown.
         * If no value argument is passed the current setting will be returned.
         */
@@ -279,6 +286,7 @@
         * Used to get or set the option to align ticks to pixel columns. Pixel aligning yields crisper chart graphics.
         *
         * @memberof fc.scale.dateTime
+        * @method alignPixels
         * @param {boolean} value if set to `true` values will be pixel aligned.
         * If no value argument is passed the current setting will be returned.
         */
