@@ -87,7 +87,7 @@ window.fc = {
 
             // Clipping path
             chart.append('defs').append('clipPath')
-                .attr('id', 'plotAreaClip')
+                .attr('id', 'plotAreaClip_' + element.id)
                 .append('rect')
                 .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
 
@@ -99,7 +99,7 @@ window.fc = {
 
             // Create plot area, using the clipping path
             chart.append('g')
-                .attr('clip-path', 'url(#plotAreaClip)')
+                .attr('clip-path', 'url(#plotAreaClip_' + element.id + ')')
                 .attr('class', 'plotArea');
 
             // Create containers for the axes
@@ -466,7 +466,7 @@ window.fc = {
         * @param {function} value a function which will receive a date object and return a boolean to flag
         * whether a date should be included in the data set or not.
         * @returns the current function if a function is not specified. The default function is
-        * function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };
+        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
         */
         dataGenerator.filter = function(value) {
             if (!arguments.length) {
@@ -1778,7 +1778,7 @@ window.fc = {
         *
         * @memberof fc.scale.linear
         * @method domain
-        * @param {array[2]} domain the real world domain value as an array of 2 decimal numbers,
+        * @param {array} domain the real world domain value as an array of 2 decimal numbers,
         * Min and Max respectively.
         * @returns the current domain if no arguments are passed.
         */

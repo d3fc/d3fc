@@ -55,7 +55,7 @@
 
             // Clipping path
             chart.append('defs').append('clipPath')
-                .attr('id', 'plotAreaClip')
+                .attr('id', 'plotAreaClip_' + element.id)
                 .append('rect')
                 .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
 
@@ -67,7 +67,7 @@
 
             // Create plot area, using the clipping path
             chart.append('g')
-                .attr('clip-path', 'url(#plotAreaClip)')
+                .attr('clip-path', 'url(#plotAreaClip_' + element.id + ')')
                 .attr('class', 'plotArea');
 
             // Create containers for the axes
