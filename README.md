@@ -1,4 +1,4 @@
-# D3 Financial Components
+# D3 Financial Components [![Build Status](https://travis-ci.org/ScottLogic/d3-financial-components.svg?branch=master)](https://travis-ci.org/ScottLogic/d3-financial-components)
 
 We are building a set of re-usable [D3](http://d3js.org) components that make it simple to create complex financial charts.
 

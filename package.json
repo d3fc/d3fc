@@ -17,5 +17,8 @@
     "grunt-contrib-cssmin": "^0.10.0",
     "grunt-jsdoc": "^0.5.7",
     "grunt-contrib-clean": "^0.6.0"
+  },
+  "scripts": {
+    "test": "grunt ci"
   }
 }
