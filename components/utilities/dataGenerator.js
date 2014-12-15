@@ -256,16 +256,17 @@
         };
 
         /**
-        * Used to get/set the data filter function. The function passed to this property have each date sent
+        * Used to get/set the data filter function. The function passed to this property will have each date sent
         * to it and it will decide whether that date should appear in the final dataset. The default function
-        * will filter weekends, but it is user configurable.
+        * will filter weekends:
+        *
+        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
         *
         * @memberof fc.utilities.dataGenerator
         * @method filter
         * @param {function} value a function which will receive a date object and return a boolean to flag
         * whether a date should be included in the data set or not.
-        * @returns the current function if a function is not specified. The default function is
-        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
+        * @returns the current function if a function is not specified.
         */
         dataGenerator.filter = function(value) {
             if (!arguments.length) {
