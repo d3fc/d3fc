@@ -4,3 +4,4 @@ doc
 .idea/
 _site
 tests/
+test/
