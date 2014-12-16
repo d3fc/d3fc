@@ -10,54 +10,53 @@ This guide provides step-by-step instructions which will lead you through the pr
 
 <script>
 (function(){
-// Create the chartLayout (width and height not set)
-var chartLayout = fc.utilities.chartLayout();
+  // Create the chartLayout (width and height not set)
+  var chartLayout = fc.utilities.chartLayout();
 
-// Create some data
-var startDate = new Date(2014, 1, 1);
-var endDate = new Date(2014, 3, 1);
-var dataSeries = fc.utilities.dataGenerator()
-  .fromDate(startDate)
-  .toDate(endDate)
-  .generate();
+  // Create some data
+  var startDate = new Date(2014, 1, 1);
+  var dayCount = 30;
 
-// Setup the chart
-var setupArea = d3.select('#final-chart')
-    .call(chartLayout);
+  var gsData = fc.utilities.dataGenerator()
+    .seedDate(startDate)
+    .randomSeed(12345)
+    .generate(dayCount);
 
-// Create scales
-var xScale = fc.scale.finance() // Financial scale (actually it is a date / time)
-  .domain([startDate, endDate])
-  .range([0, chartLayout.innerWidth()]);
+  // Setup the chart
+  var setupArea = d3.select('#final-chart')
+      .call(chartLayout);
 
-var yLow = d3.min(dataSeries, function (d) { return d.low; });
-var yHigh = d3.max(dataSeries, function (d) { return d.high; });
-var yScale = d3.scale.linear()
-  .domain([yLow, yHigh])
-  .range([chartLayout.innerHeight(), 0]);
+  // Create scales
+  var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
+    .domainFromValues(gsData, ['date'])
+    .range([0, chartLayout.innerWidth()]);
 
-// Add axes
-var bottomAxis = d3.svg.axis()
-    .scale(xScale)
-    .orient('bottom')
-    .ticks(5);
-chartLayout.getAxisContainer(setupArea, 'bottom').call(bottomAxis);
+  var yScale = fc.scale.linear()
+    .domainFromValues(gsData, ['low', 'high'])
+    .range([chartLayout.innerHeight(), 0]);
 
-var leftAxis = d3.svg.axis()
-    .scale(yScale)
-    .orient('left')
-    .ticks(5);
-chartLayout.getAxisContainer(setupArea, 'left').call(leftAxis);
+  // Add axes
+  var bottomAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient('bottom')
+      .ticks(5);
+  chartLayout.getAxisContainer(setupArea, 'bottom').call(bottomAxis);
 
-// Create the OHLC series
-var ohlc = fc.series.ohlc()
-  .xScale(xScale)
-  .yScale(yScale);
+  var leftAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient('left')
+      .ticks(5);
+  chartLayout.getAxisContainer(setupArea, 'left').call(leftAxis);
 
-// Add the primary OHLC series
-chartLayout.getPlotArea(setupArea)
-  .datum(dataSeries)
-  .call(ohlc);
+  // Create the OHLC series
+  var ohlc = fc.series.ohlc()
+    .xScale(xScale)
+    .yScale(yScale);
+
+  // Add the primary OHLC series
+  chartLayout.getPlotArea(setupArea)
+    .datum(gsData)
+    .call(ohlc);
 }());
 </script>
 
@@ -126,18 +125,17 @@ Before you create a chart you're going to need some data. You'll no doubt have y
 
 Update your code to add the following:
 
-    // Create some data
     var startDate = new Date(2014, 1, 1),
-        endDate = new Date(2014, 3, 1);
+        dayCount = 60;
 
     var data = fc.utilities.dataGenerator()
-        .fromDate(startDate)
-        .toDate(endDate)
-        .generate();
+        .seedDate(startDate)
+        .randomSeed(12345)
+        .generate(dayCount);
 
     console.log(JSON.stringify(data));
 
-The `dataGenerator` component generates dummy financial data for a given date range. You should see something like the following in the developer console:
+The `dataGenerator` component generates dummy financial data for a given number of days from the given start date. You should see something like the following in the developer console:
 
     [{"date":"2014-02-03T00:00:00.000Z",
       "open":100,
@@ -155,21 +153,19 @@ The `dataGenerator` component generates dummy financial data for a given date ra
 
 ##Adding Scales and Axes
 
-Scales map between your data domain and a visible output range, they are used by virtually every renderable component. 
+Scales map between your data domain and a visible output range, they are used by virtually every renderable component. The d3fc scale components can generate the scales data domain from the data itself.
 
 Add the following scales to your code:
 
-    var xScale = fc.scale.finance() 
-        .domain([startDate, endDate])
+    var xScale = fc.scale.dateTime() 
+        .domainFromValues(data, ['date'])
         .range([0, chartLayout.innerWidth()]);
 
-    var yLow = d3.min(data, function (d) { return d.low; });
-    var yHigh = d3.max(data, function (d) { return d.high; });
-    var yScale = d3.scale.linear()
-        .domain([yLow, yHigh])
+    var yScale = fc.scale.linear()
+        .domainFromValues(data, ['low', 'high'])
         .range([chartLayout.innerHeight(), 0]);
 
-The `fc.scale.finance` component provides logic for skipping time periods (for example weekends - if required) and also ensures that the dates are correctly rendered. Because the input data is randomly generated, the extents of the 'y' scale are computed via the `d3.max` and `d3.min` functions.
+The `fc.scale.dateTime` component provides logic for skipping time periods (for example weekends - if required) and also ensures that the dates are correctly rendered. Because the input data is randomly generated, the extents of the 'y' scale are computed via the `d3.max` and `d3.min` functions internally. The domain can also be set manually using the `domain` function.
 
 In order to view the chart scale, the next step is to add a pair of axes:
 
@@ -201,25 +197,23 @@ var chart = d3.select('#step-scale')
 
 // Create some data
 var startDate = new Date(2014, 1, 1),
-    endDate = new Date(2014, 3, 1);
+    dayCount = 30;
 
-var data = fc.utilities.dataGenerator()
-  .fromDate(startDate)
-  .toDate(endDate)
-  .generate();
+var gsData = fc.utilities.dataGenerator()
+    .seedDate(startDate)
+    .randomSeed(12345)
+    .generate(dayCount);
 
-console.log(JSON.stringify(data))
+console.log(JSON.stringify(gsData))
 
 // Create scales
-var xScale  = fc.scale.finance() // Financial scale (actually it is a date / time)
-  .domain([startDate, endDate])
-  .range([0, chartLayout.innerWidth()]);
+var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
+    .domainFromValues(gsData, ['date'])
+    .range([0, chartLayout.innerWidth()]);
 
-var yLow = d3.min(data, function (d) { return d.low; });
-var yHigh = d3.max(data, function (d) { return d.high; });
-var yScale = d3.scale.linear()
-  .domain([yLow, yHigh])
-  .range([chartLayout.innerHeight(), 0]);
+var yScale = fc.scale.linear()
+    .domainFromValues(gsData, ['low', 'high'])
+    .range([chartLayout.innerHeight(), 0]);
 
 // Add axes
 var bottomAxis = d3.svg.axis()
@@ -258,30 +252,30 @@ This gives us the final chart:
 
 <script>
 (function(){
-// Create the chartLayout (width and height not set)
 var chartLayout = fc.utilities.chartLayout();
 
-// Create some data
-var startDate = new Date(2014, 1, 1);
-var endDate = new Date(2014, 3, 1);
-var dataSeries = fc.utilities.dataGenerator()
-    .fromDate(startDate)
-    .toDate(endDate)
-    .generate();
-
 // Setup the chart
-var setupArea = d3.select('#final-chart2')
+var chart = d3.select('#final-chart2')
     .call(chartLayout);
 
+// Create some data
+var startDate = new Date(2014, 1, 1),
+    dayCount = 30;
+
+var gsData = fc.utilities.dataGenerator()
+    .seedDate(startDate)
+    .randomSeed(12345)
+    .generate(dayCount);
+
+console.log(JSON.stringify(gsData))
+
 // Create scales
-var xScale = fc.scale.finance() // Financial scale (actually it is a date / time)
-    .domain([startDate, endDate])
+var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
+    .domainFromValues(gsData, ['date'])
     .range([0, chartLayout.innerWidth()]);
 
-var yLow = d3.min(dataSeries, function (d) { return d.low; });
-var yHigh = d3.max(dataSeries, function (d) { return d.high; });
-var yScale = d3.scale.linear()
-    .domain([yLow, yHigh])
+var yScale = fc.scale.linear()
+    .domainFromValues(gsData, ['low', 'high'])
     .range([chartLayout.innerHeight(), 0]);
 
 // Add axes
@@ -289,13 +283,13 @@ var bottomAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom')
     .ticks(5);
-chartLayout.getAxisContainer(setupArea, 'bottom').call(bottomAxis);
+chartLayout.getAxisContainer(chart, 'bottom').call(bottomAxis);
 
 var leftAxis = d3.svg.axis()
     .scale(yScale)
     .orient('left')
     .ticks(5);
-chartLayout.getAxisContainer(setupArea, 'left').call(leftAxis);
+chartLayout.getAxisContainer(chart, 'left').call(leftAxis);
 
 // Create the OHLC series
 var ohlc = fc.series.ohlc()
@@ -303,8 +297,8 @@ var ohlc = fc.series.ohlc()
     .yScale(yScale);
 
 // Add the primary OHLC series
-chartLayout.getPlotArea(setupArea)
-    .datum(dataSeries)
+chartLayout.getPlotArea(chart)
+    .datum(gsData)
     .call(ohlc);
 }());
 </script>
