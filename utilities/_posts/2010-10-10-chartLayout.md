@@ -15,10 +15,9 @@ It attempts to simplify the repetitive process of constructing the chart area:
 
 <div id="example_chartLayout" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 var chartLayout = fc.utilities.chartLayout()
   .marginTop(10)
   .marginBottom(30)
@@ -29,23 +28,23 @@ var chartLayout = fc.utilities.chartLayout()
 var setupArea = d3
   .select(name)
   .call(chartLayout);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
-.chart { 
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
+.chart {
   height: 400px;
 }
-.chartArea { 
-  background: #fefefe; 
+.chartArea {
+  background: #fefefe;
   border: solid 1px #eee;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG Output</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <svg class="chartArea">
   <g>
     <defs>
@@ -56,9 +55,7 @@ var setupArea = d3
     <g clip-path="url(#plotAreaClip)" class="plotArea"></g>
   </g>
 </svg>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){

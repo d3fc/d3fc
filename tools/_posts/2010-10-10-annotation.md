@@ -7,10 +7,9 @@ This component draws a horizontal marker on the chart at a given yValue. the mar
 
 <div id="example_annotation" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the annotation
 var annotation = fc.tools.annotation()
   .xScale(chart.dateScale)
@@ -21,11 +20,11 @@ var annotation = fc.tools.annotation()
 
 // Add it to the chart
 chart.plotArea.call(annotation);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
 .annotation .marker {
   fill: none;
   stroke: #69f;
@@ -35,18 +34,16 @@ chart.plotArea.call(annotation);
 .annotation .callout {
   font: 10px sans-serif;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG Output</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="annotation">
 	<line class="marker"></line>
 	<text class="callout"></text>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){
