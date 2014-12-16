@@ -18,12 +18,15 @@
             startingVolume = 100000,
             intraDaySteps = 50,
             volumeNoiseFactor = 0.3,
-            toDate = new Date(),
-            fromDate = new Date(),
+            seedDate = new Date(),
+            currentDate = seedDate,
             useFakeBoxMuller = false,
             filter = function(date) {
                 return !(date.getDay() === 0 || date.getDay() === 6);
             };
+
+        var randomSeed = (new Date()).getTime(),
+            randomGenerator = null;
 
         var generatePrices = function(period, steps) {
             var increments = generateIncrements(period, steps, mu, sigma),
@@ -47,7 +50,7 @@
                 volumes[i] = volumes[i - 1] * increments[i];
             }
             volumes = volumes.map(function(vol) {
-                return Math.floor(vol * (1 - volumeNoiseFactor + Math.random() * volumeNoiseFactor * 2));
+                return Math.floor(vol * (1 - volumeNoiseFactor + randomGenerator.next() * volumeNoiseFactor * 2));
             });
             return volumes;
         };
@@ -69,14 +72,29 @@
             return deltaW;
         };
 
+        var random = function(seed) {
+
+            var m = 0x80000000, // 2**31;
+                a = 1103515245,
+                c = 12345;
+
+            return {
+                state: seed ? seed : Math.floor(Math.random() * (m - 1)),
+                next: function() {
+                    this.state = (a * this.state + c) % m;
+                    return this.state / (m - 1);
+                }
+            };
+        };
+
         var boxMullerTransform = function() {
             var x = 0, y = 0, rds, c;
 
             // Get two random numbers from -1 to 1.
             // If the radius is zero or greater than 1, throw them out and pick two new ones
             do {
-                x = Math.random() * 2 - 1;
-                y = Math.random() * 2 - 1;
+                x = randomGenerator.next() * 2 - 1;
+                y = randomGenerator.next() * 2 - 1;
                 rds = x * x + y * y;
             }
             while (rds === 0 || rds > 1);
@@ -90,13 +108,18 @@
         };
 
         var fakeBoxMullerTransform = function() {
-            return (Math.random() * 2 - 1) + (Math.random() * 2 - 1) + (Math.random() * 2 - 1);
+            return (randomGenerator.next() * 2 - 1) +
+                (randomGenerator.next() * 2 - 1) +
+                (randomGenerator.next() * 2 - 1);
         };
 
-        var generate = function() {
+        var generate = function(dataCount) {
+
+            var toDate = new Date();
+            toDate.setUTCDate(currentDate.getUTCDate() + dataCount);
 
             var millisecondsPerYear = 3.15569e10,
-                rangeYears = (toDate.getTime() - fromDate.getTime()) / millisecondsPerYear,
+                rangeYears = (toDate.getTime() - seedDate.getTime()) / millisecondsPerYear,
                 daysIncluded = 0,
                 prices,
                 volume,
@@ -105,7 +128,11 @@
                 currentStep = 0,
                 currentIntraStep = 0;
 
-            var date = new Date(fromDate.getTime());
+            if (!randomGenerator) {
+                randomGenerator = random(randomSeed);
+            }
+
+            var date = new Date(seedDate.getTime());
             while (date <= toDate) {
                 if (!filter || filter(date)) {
                     daysIncluded += 1;
@@ -116,7 +143,7 @@
             prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
             volume = generateVolumes(rangeYears, daysIncluded);
 
-            date = new Date(fromDate.getTime());
+            date = new Date(currentDate.getTime());
             while (date <= toDate) {
                 if (!filter || filter(date)) {
                     daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
@@ -133,6 +160,7 @@
                 }
                 date.setUTCDate(date.getUTCDate() + 1);
             }
+            currentDate = new Date(date.getTime());
 
             return ohlcv;
         };
@@ -145,13 +173,14 @@
         *
         * @memberof fc.utilities.dataGenerator
         * @method generate
+        * @param {integer} dataCount the number of days to generate data for.
         * @returns the generated data in a format suitable for the chart series components.
         * This constitutes and array of objects with the following fields: date, open, high,
         * low, close, volume. The data will be spaced as daily data with each date being a
         * weekday.
         */
-        dataGenerator.generate = function() {
-            return generate();
+        dataGenerator.generate = function(dataCount) {
+            return generate(dataCount);
         };
 
         /**
@@ -276,39 +305,44 @@
         };
 
         /**
-        * Used to get/set the date the data runs to.
-        *
-        * @memberof fc.utilities.dataGenerator
-        * @method toDate
-        * @param {date} value the date of the final data item in the data set.
-        * @returns the current value if a value is not specified. This property has no default value and must
-        * be set before calling `generate()`.
-        */
-        dataGenerator.toDate = function(value) {
-            if (!arguments.length) {
-                return toDate;
-            }
-            toDate = value;
-            return dataGenerator;
-        };
-
-        /**
         * Used to get/set the date the data runs from.
         *
         * @memberof fc.utilities.dataGenerator
-        * @method fromDate
+        * @method seedDate
         * @param {date} value the date of the first data item in the data set.
         * @returns the current value if a value is not specified. This property has no default value and must
         * be set before calling `generate()`.
         */
-        dataGenerator.fromDate = function(value) {
+        dataGenerator.seedDate = function(value) {
             if (!arguments.length) {
-                return fromDate;
+                return seedDate;
             }
-            fromDate = value;
+            seedDate = value;
+            currentDate = seedDate;
+            randomGenerator = null;
+            return dataGenerator;
+        };
+
+        /**
+        * Used to get/set the seed value for the Random Number Generator used to create the data.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method randomSeed
+        * @param {decimal} value the seed used for the Random Number Generator.
+        * @returns the current value if a value is not specified. If not set then the default seed will be the
+        * current time as a timestamp in milliseconds.
+        */
+        dataGenerator.randomSeed = function(value) {
+            if (!arguments.length) {
+                return randomSeed;
+            }
+            randomSeed = value;
+            randomGenerator = null;
             return dataGenerator;
         };
 
         return dataGenerator;
     };
+
+
 }(fc));
