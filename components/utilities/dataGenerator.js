@@ -19,7 +19,7 @@
             intraDaySteps = 50,
             volumeNoiseFactor = 0.3,
             seedDate = new Date(),
-            currentDate = seedDate,
+            currentDate = new Date(seedDate.getTime()),
             useFakeBoxMuller = false,
             filter = function(date) {
                 return !(date.getDay() === 0 || date.getDay() === 6);
@@ -115,8 +115,8 @@
 
         var generate = function(dataCount) {
 
-            var toDate = new Date();
-            toDate.setUTCDate(currentDate.getUTCDate() + dataCount);
+            var toDate = new Date(currentDate.getTime());
+            toDate.setUTCDate(toDate.getUTCDate() + dataCount);
 
             var millisecondsPerYear = 3.15569e10,
                 rangeYears = (toDate.getTime() - seedDate.getTime()) / millisecondsPerYear,
