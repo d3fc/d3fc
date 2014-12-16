@@ -1,7 +1,7 @@
-(function (d3, fc) {
+(function(d3, fc) {
     'use strict';
 
-    fc.utilities.chartZoom = function () {
+    fc.utilities.chartZoom = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear();
@@ -12,28 +12,35 @@
         var zoomBehavior = d3.behavior.zoom();
         var components = [];
 
-        var chartZoom = function (selection) {
+        var chartZoom = function(selection) {
             var zoomPane;
 
             zoomBehavior.x(xScale);
-            selection.each(function () {
+            selection.each(function() {
                 zoomPane = d3.select(this).selectAll('.zoom-pane').data([0]);
                 zoomPane.enter()
                     .append('rect')
                     .classed('zoom-pane', true);
                 zoomPane
-                    .attr({width: width, height: height});
+                    .attr({
+                        width: width,
+                        height: height,
+                        fill: 'none'
+                    })
+                    .style('pointer-events', 'all');
                 zoomPane.call(zoomBehavior);
 
             });
         };
 
-        var zoom = function () {
+        var zoomstart = function() {
+        };
+
+        var zoom = function() {
             var component, selection;
             // Todo: Auto yScale domain update, error handling,
-            // similar functions for zoomstart and zoomend
 
-            components.forEach(function (pair) {
+            components.forEach(function(pair) {
                 component = pair[0];
                 selection = pair[1];
                 if (component.zoom) {
@@ -46,11 +53,23 @@
             });
         };
 
-        chartZoom.getZoomBehavior = function () {
+        var zoomend = function() {
+            var component, selection;
+
+            components.forEach(function(pair) {
+                component = pair[0];
+                selection = pair[1];
+                if (component.zoomend) {
+                    component.zoomend(selection);
+                }
+            });
+        };
+
+        chartZoom.getZoomBehavior = function() {
             return zoomBehavior;
         };
 
-        chartZoom.components = function (value) {
+        chartZoom.components = function(value) {
             if (!arguments.length) {
                 return components;
             } else {
@@ -59,7 +78,7 @@
             return chartZoom;
         };
 
-        chartZoom.xScale = function (value) {
+        chartZoom.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
             }
@@ -67,7 +86,7 @@
             return chartZoom;
         };
 
-        chartZoom.yScale = function (value) {
+        chartZoom.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -75,7 +94,7 @@
             return chartZoom;
         };
 
-        chartZoom.width = function (value) {
+        chartZoom.width = function(value) {
             if (!arguments.length) {
                 return width;
             }
@@ -83,7 +102,7 @@
             return chartZoom;
         };
 
-        chartZoom.height = function (value) {
+        chartZoom.height = function(value) {
             if (!arguments.length) {
                 return height;
             }
@@ -91,7 +110,9 @@
             return chartZoom;
         };
 
+        zoomBehavior.on('zoomstart.chartZoomInternal', zoomstart);
         zoomBehavior.on('zoom.chartZoomInternal', zoom);
+        zoomBehavior.on('zoomend.chartZoomInternal', zoomend);
         return chartZoom;
     };
 

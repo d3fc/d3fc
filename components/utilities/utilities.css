@@ -4,11 +4,5 @@
   fill: #fefefe;
 }  
 
-.zoom-pane {
-  fill: none;
-  pointer-events: all;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-}
 
 
