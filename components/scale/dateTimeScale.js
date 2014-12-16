@@ -176,8 +176,7 @@
         scale.ticks = function(n) {
             return arguments.length ? function() {
 
-                var test = [],
-                    ticks = [],
+                var ticks = [],
                     offsetMilli = (baseDomain[1].getTime() - baseDomain[0].getTime()) / n,
                     offset = new Date(offsetMilli),
                     start = new Date(baseDomain[0].getTime()),
@@ -275,8 +274,9 @@
 
                 var tickDate = start;
                 while (tickDate.getTime() <= baseDomain[1].getTime()) {
-                    ticks.push(linearTime(tickDate));
-                    test.push(new Date(tickDate.getTime()));
+                    if (tickDate.getTime() >= baseDomain[0].getTime()) {
+                        ticks.push(linearTime(tickDate));
+                    }
                     tickDate = stepFunction(tickDate);
                 }
 
