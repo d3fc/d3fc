@@ -33,6 +33,7 @@
     }
     .fixed {
         position: fixed;
+        top: 100px;
     }
 
     .tabs {
@@ -130,13 +131,13 @@
         /* The html and body elements cannot have any padding or margin. */
       }
 
-      /* Wrapper for page content to push down footer */
+      /* Wrapper for page content */
       #wrap {
         min-height: 100%;
         height: auto !important;
         height: 100%;
-        /* Negative indent footer by it's height */
-        margin: 0 auto -60px;
+        position: relative;
+        top: 70px;
       }
 
       /* Set the fixed height of the footer here */
@@ -181,28 +182,29 @@
   <body>
 
     <!-- Page layout based on sticky footer example http://getbootstrap.com/2.3.2/examples/sticky-footer.html -->
-    <div id="wrap">
-      <nav class="navbar navbar-inverse">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">D3FC</a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li><a href="components.html">Components</a></li>
-              <li><a href="getting-started.html">Getting Started</a></li>    
-            </ul>
-          </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">D3FC</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
-      </nav>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="components.html">Components</a></li>
+              <li><a href="getting-started.html">Getting Started</a></li>
+              <li><a href="app/index.html">Example Chart</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-      <script type="text/javascript" src="lib/init.js"></script>
+    <script type="text/javascript" src="lib/init.js"></script>
 
+    <div id="wrap">
       <div class="container">
         {{content}}
       </div>
