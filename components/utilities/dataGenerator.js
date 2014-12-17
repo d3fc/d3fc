@@ -36,6 +36,8 @@
             for (i = 1; i < increments.length; i += 1) {
                 prices[i] = prices[i - 1] * increments[i];
             }
+
+            startingPrice = prices[prices.length - 1];
             return prices;
         };
 
@@ -119,8 +121,7 @@
             toDate.setUTCDate(toDate.getUTCDate() + dataCount);
 
             var millisecondsPerYear = 3.15569e10,
-                rangeYears = (toDate.getTime() - seedDate.getTime()) / millisecondsPerYear,
-                daysIncluded = 0,
+                rangeYears = (toDate.getTime() - currentDate.getTime()) / millisecondsPerYear,
                 prices,
                 volume,
                 ohlcv = [],
@@ -132,19 +133,11 @@
                 randomGenerator = random(randomSeed);
             }
 
-            var date = new Date(seedDate.getTime());
-            while (date <= toDate) {
-                if (!filter || filter(date)) {
-                    daysIncluded += 1;
-                }
-                date.setUTCDate(date.getUTCDate() + 1);
-            }
+            prices = generatePrices(rangeYears, dataCount * intraDaySteps);
+            volume = generateVolumes(rangeYears, dataCount);
 
-            prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
-            volume = generateVolumes(rangeYears, daysIncluded);
-
-            date = new Date(currentDate.getTime());
-            while (date <= toDate) {
+            var date = new Date(currentDate.getTime());
+            while (ohlcv.length < dataCount) {
                 if (!filter || filter(date)) {
                     daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
                     ohlcv.push({

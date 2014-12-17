@@ -74,7 +74,7 @@
         scale.domain = function(domain) {
 
             if (!arguments.length) {
-                return [linearTime(baseDomain[0]), linearTime(baseDomain[1])];
+                return [baseDomain[0], baseDomain[1]];
             }
             if (typeof domain[0] === 'number') {
                 linear.domain(domain);
@@ -333,11 +333,8 @@
         };
 
         function createbaseDomain(domain) {
-            var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate(), 0, 0, 0);
-            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 2, 0, 0, 0);
-            while (d0.getDay() !== 1) {
-                d0.setDate(d0.getDate() - 1);
-            }
+            var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate() - 1, 0, 0, 0);
+            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 1, 0, 0, 0);
             return [d0, d1];
         }
 
@@ -348,14 +345,9 @@
                 milliSecondsInWeekend = 172800000;
 
             if (hideWeekends) {
-                if (date.getDay() === 0) {
-                    date.setDate(date.getDate() + 1);
-                }
-                if (date.getDay() === 6) {
-                    date.setDate(date.getDate() - 1);
-                }
-                var weeksFromBase = Math.floor((date.getTime() - baseDomain[0].getTime()) / milliSecondsInWeek);
-                l = (date.getTime() - baseDomain[0].getTime()) - (milliSecondsInWeekend * weeksFromBase);
+                var timeOffset = date.getTime() - baseDomain[0].getTime() + ((7 - baseDomain[0].getDay()) * 86400000);
+                var weekendsSinceBase = Math.floor(timeOffset / milliSecondsInWeek);
+                l = (date.getTime() - baseDomain[0].getTime()) - (milliSecondsInWeekend * weekendsSinceBase);
             } else {
                 l = date.getTime() - baseDomain[0].getTime();
             }
@@ -365,13 +357,19 @@
 
         function linearTimeInvert(l) {
 
-            var date = new Date(0),
-                milliSecondsInShortWeek = 432000000,
-                milliSecondsInWeekend = 172800000;
-
+            var date = new Date(0);
             if (hideWeekends) {
-                var weeksFromBase = Math.floor(l / milliSecondsInShortWeek);
-                date = new Date(baseDomain[0].getTime() + l + (milliSecondsInWeekend * weeksFromBase));
+
+                var dayMs = 86400000,
+                    shortWeekMs = dayMs * 5,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = l / shortWeekMs,
+                    weekOffsetMs = Math.floor(weekOffset) * weekendMs;
+
+                date = new Date(wsMonday + l + weekOffsetMs);
+
             } else {
                 date = new Date(baseDomain[0].getTime() + l);
             }
