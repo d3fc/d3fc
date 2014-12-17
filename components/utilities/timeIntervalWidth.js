@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.utilities.seriesElementWidth = function(timeInterval, units) {
+    fc.utilities.timeIntervalWidth = function(timeInterval, units) {
         // Given a time scale, return the width of a number of timeInterval units.
         return function(scale) {
             var point, left, right, difference;

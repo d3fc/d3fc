@@ -6,7 +6,7 @@
         // Configurable attributes
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            tickWidth = fc.utilities.seriesElementWidth(d3.time.day, 0.35);
+            tickWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.35);
 
         var yOpen = fc.utilities.valueAccessor('open'),
             yHigh = fc.utilities.valueAccessor('high'),
@@ -210,7 +210,7 @@
             if (!arguments.length) {
                 return tickWidth;
             }
-            tickWidth = value;
+            tickWidth = d3.functor(value);
             return ohlc;
         };
 

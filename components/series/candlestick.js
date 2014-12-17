@@ -11,7 +11,7 @@
             yLow = fc.utilities.valueAccessor('low'),
             yClose = fc.utilities.valueAccessor('close');
 
-        var rectangleWidth = fc.utilities.seriesElementWidth(d3.time.day, 0.5);
+        var rectangleWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5);
 
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
@@ -120,7 +120,7 @@
             if (!arguments.length) {
                 return rectangleWidth;
             }
-            rectangleWidth = value;
+            rectangleWidth = d3.functor(value);
             return candlestick;
         };
 
