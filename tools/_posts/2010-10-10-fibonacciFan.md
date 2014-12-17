@@ -21,7 +21,7 @@ When added, the component exists in one of three phases:
 var overlay = d3.svg.area()
   .x(function (d) { return chart.dateScale(d.date); })
   .y0(0)
-  .y1(chart.layout.innerHeight());
+  .y1(chart.layout.getPlotAreaHeight());
 
 // Create the fan component
 var fibonacci = fc.tools.fibonacciFan()
@@ -102,7 +102,7 @@ circle.fibonacci-fan {
   var overlay = d3.svg.area()
     .x(function (d) { return chart.dateScale(d.date); })
     .y0(0)
-    .y1(chart.layout.innerHeight());
+    .y1(chart.layout.getPlotAreaHeight());
 
   // Create the fan component
   var fibonacci = fc.tools.fibonacciFan()
