@@ -54,6 +54,8 @@
             volumes = volumes.map(function(vol) {
                 return Math.floor(vol * (1 - volumeNoiseFactor + randomGenerator.next() * volumeNoiseFactor * 2));
             });
+
+            startingVolume = volumes[volumes.length - 1];
             return volumes;
         };
 
