@@ -374,14 +374,19 @@
 
         function linearTimeInvert(l) {
 
-            var date = new Date(0),
-                milliSecondsInShortWeek = 432000000,
-                milliSecondsInWeekend = 172800000;
-
+            var date = new Date(0);
             if (hideWeekends) {
-                var weeksFromBase = Math.floor(l / milliSecondsInShortWeek);
-                date = new Date(baseDomain[0].getTime() + l +
-                    (milliSecondsInWeekend * weeksFromBase));
+
+                var dayMs = 86400000,
+                shortWeekMs = dayMs * 5,
+                weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(d[0].date).getTime() + dayMs, // Make Monday (Sunday=0)
+                weekOffset = l / shortWeekMs,
+                weekOffsetMs = Math.floor(weekOffset) * weekendMs,
+
+                date = new Date(wsMonday + l + weekOffsetMs);
+
             } else {
                 date = new Date(baseDomain[0].getTime() + l);
             }
