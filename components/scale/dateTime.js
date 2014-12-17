@@ -378,12 +378,12 @@
             if (hideWeekends) {
 
                 var dayMs = 86400000,
-                shortWeekMs = dayMs * 5,
-                weekendMs = dayMs * 2;
+                    shortWeekMs = dayMs * 5,
+                    weekendMs = dayMs * 2;
 
-                var wsMonday = getWeekStart(d[0].date).getTime() + dayMs, // Make Monday (Sunday=0)
-                weekOffset = l / shortWeekMs,
-                weekOffsetMs = Math.floor(weekOffset) * weekendMs,
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = l / shortWeekMs,
+                    weekOffsetMs = Math.floor(weekOffset) * weekendMs;
 
                 date = new Date(wsMonday + l + weekOffsetMs);
 
