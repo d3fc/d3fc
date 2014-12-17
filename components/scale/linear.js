@@ -1,8 +1,6 @@
 (function(d3, fc) {
     'use strict';
 
-    var marginPercentage = 0.05;
-
     /**
     * This component provides a scale primarily used on the Y axis of charts and extends the d3.scale.linear
     * scale. This scale contains an option to pixel align when calculating the screen pixel from the real value.
@@ -71,13 +69,19 @@
         * Used to set or get the domain for this scale from a data set. The domain is the range of real world
         * values denoted by this scale (Max. and Min.).
         *
-        * @memberof fc.scale.dateTime
+        * @memberof fc.scale.linear
         * @method domainFromValues
+
         * @param {array} data the data set used to evaluate Min and Max values.
-        * @param {array} fields the fields within the data set used to evaluate Min and Max values.
+        * @param {array} fields the properties of the objects within the data set used to evaluate Min and Max
+        * values.
+        * @param {number} [marginPercentage = 0.05] a margin, expressed as a percentage, that is applied to the domain
+        * range.
         * @returns the current domain if no arguments are passed.
         */
-        scale.domainFromValues = function(data, fields) {
+        scale.domainFromValues = function(data, fields, marginPercentage) {
+
+            marginPercentage = typeof marginPercentage !== 'undefined' ? marginPercentage : 0.05;
 
             if (!arguments.length) {
                 return scale.domain();
