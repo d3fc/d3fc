@@ -100,7 +100,7 @@
 
                 // If the new width is too small, use a default width
                 if (chartLayout.getPlotAreaWidth() < 1) {
-                    width = 800 + margin.left + margin.right;
+                    width = 600 + margin.left + margin.right;
                 }
             }
 
@@ -116,16 +116,42 @@
                 }
             }
 
+            // Setup the elements - following the general update pattern (http://bl.ocks.org/mbostock/3808218)
+            //
+            // When creating the elements for the chart, only one of each element is required. To achieve this we bind
+            // a single datum to each selection - this is represented in the dummyData variable. This data-join is only
+            // used for creating and updating the elements - through data(), enter() and exit(); the value of the data
+            // is irrelevant (but there must only be one value). This approach is similar to that used in D3's axis
+            // and brush components.
+            //
+            // For each element, we:
+            // 1. Select the element(s) and bind a single datum to that selection
+            // 2. If no element currently exists, append it (this is in the enter() subselection)
+            // 3. Update the element as required
+            // 4. If there are too many of the selected element(>1), then remove it (this is in the exit() subselection)
+            var container = d3.select(element),
+                dummyData = [0];
+
             // Create svg
-            chartElements.svg = d3.select(element).append('svg')
-                .attr('width', width)
-                .attr('height', height);
+            chartElements.svg = container.selectAll('svg').data(dummyData);
+            chartElements.svg.enter().append('svg');
+            chartElements.svg.attr('width', width)
+                .attr('height', height)
+                .style('display', 'block');
+            chartElements.svg.exit().remove();
 
             // Create group for the chart
-            var chart = chartElements.svg.append('g')
-                .attr('class', 'chartArea')
+            var chart = chartElements.svg.selectAll('g.chartArea').data(dummyData);
+            chart.enter().append('g');
+            chart.attr('class', 'chartArea')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            chart.exit().remove();
             chartElements.chartArea = chart;
+
+            // Defs - for clipping path
+            var defs = chart.selectAll('defs').data(dummyData);
+            defs.enter().append('defs');
+            defs.exit().remove();
 
             // Get an ID for the clipping path
             // If the element already has an ID, use that;
@@ -133,39 +159,62 @@
             var plotAreaClipId = 'fcPlotAreaClip_' + (element.id || nextId());
 
             // Clipping path
-            chart.append('defs').append('clipPath')
-                .attr('id', plotAreaClipId)
-                .append('rect')
-                .attr({width: chartLayout.getPlotAreaWidth(), height: chartLayout.getPlotAreaHeight()});
+            var clippingPath = defs.selectAll('clippath').data(dummyData);
+            clippingPath.enter().append('clippath');
+            clippingPath.attr('id', plotAreaClipId);
+            clippingPath.exit().remove();
+
+            // Clipping path rect
+            var clippingPathRect = clippingPath.selectAll('rect').data(dummyData);
+            clippingPathRect.enter().append('rect');
+            clippingPathRect.attr('width', chartLayout.getPlotAreaWidth())
+                .attr('height', chartLayout.getPlotAreaHeight());
+            clippingPathRect.exit().remove();
 
             // Create a background element
-            chartElements.plotAreaBackground = chart.append('rect')
-                .attr('class', 'background')
+            chartElements.plotAreaBackground = chart.selectAll('rect.background').data(dummyData);
+            chartElements.plotAreaBackground.enter().append('rect');
+            chartElements.plotAreaBackground.attr('class', 'background')
                 .attr('width', chartLayout.getPlotAreaWidth())
                 .attr('height', chartLayout.getPlotAreaHeight());
+            chartElements.plotAreaBackground.exit().remove();
 
             // Create plot area, using the clipping path
-            chartElements.plotArea = chart.append('g')
-                .attr('clip-path', 'url(#' + plotAreaClipId + ')')
+            chartElements.plotArea = chart.selectAll('g.plotArea').data(dummyData);
+            chartElements.plotArea.enter().append('g');
+            chartElements.plotArea.attr('clip-path', 'url(#' + plotAreaClipId + ')')
                 .attr('class', 'plotArea');
+            chartElements.plotArea.exit().remove();
 
             // Create containers for the axes
             chartElements.axisContainer = {};
-            chartElements.axisContainer.bottom = chart.append('g')
-                .attr('class', 'axis bottom')
-                .attr('transform', 'translate(0,' + chartLayout.getPlotAreaHeight() + ')');
 
-            chartElements.axisContainer.top = chart.append('g')
-                .attr('class', 'axis top')
+            chartElements.axisContainer.bottom = chart.selectAll('g.axis.bottom').data(dummyData);
+            chartElements.axisContainer.bottom.enter().append('g');
+            chartElements.axisContainer.bottom.attr('class', 'axis bottom')
+                .attr('transform', 'translate(0, ' + chartLayout.getPlotAreaHeight() + ')');
+            chartElements.axisContainer.bottom.exit().remove();
+
+
+            chartElements.axisContainer.top = chart.selectAll('g.axis.top').data(dummyData);
+            chartElements.axisContainer.top.enter().append('g');
+            chartElements.axisContainer.top.attr('class', 'axis top')
                 .attr('transform', 'translate(0, 0)');
+            chartElements.axisContainer.top.exit().remove();
 
-            chartElements.axisContainer.left = chart.append('g')
-                .attr('class', 'axis left')
+
+            chartElements.axisContainer.left = chart.selectAll('g.axis.left').data(dummyData);
+            chartElements.axisContainer.left.enter().append('g');
+            chartElements.axisContainer.left.attr('class', 'axis left')
                 .attr('transform', 'translate(0, 0)');
+            chartElements.axisContainer.left.exit().remove();
 
-            chartElements.axisContainer.right = chart.append('g')
-                .attr('class', 'axis right')
+
+            chartElements.axisContainer.right = chart.selectAll('g.axis.right').data(dummyData);
+            chartElements.axisContainer.right.enter().append('g');
+            chartElements.axisContainer.right.attr('class', 'axis right')
                 .attr('transform', 'translate(' + chartLayout.getPlotAreaWidth() + ', 0)');
+            chartElements.axisContainer.right.exit().remove();
         };
 
         /**
