@@ -7,12 +7,11 @@ A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator 
 
 <div id="example_movingAverage" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the moving average indicator
-var movingAverage = 
+var movingAverage =
   fc.indicators.movingAverage()
     .xScale(chart.dateScale)   // associate the X and Y scales
     .yScale(chart.priceScale)
@@ -21,31 +20,29 @@ var movingAverage =
 
 // Add the indicator to the chart
 chart.plotArea.append('g')
-  .attr('class', 'moving-average')   // add a class 
+  .attr('class', 'moving-average')   // add a class
   .datum(data)                       // associate with the given chart data
   .call(movingAverage);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
 .moving-average {
   fill: none;
   stroke: #69f;
   stroke-width: 1;
   stroke-dasharray: 3, 3;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG (output)</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="moving-average">
   <path d="..." class="indicator"></path>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){

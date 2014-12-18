@@ -13,10 +13,9 @@ When added, the component exists in one of three phases:
 
 <div id="example_fibonaccifan" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create an invisible overlay
 var overlay = d3.svg.area()
   .x(function (d) { return chart.dateScale(d.date); })
@@ -35,11 +34,11 @@ chart.plotArea.append('path')
   .attr('class', 'overlay')
   .attr('d', overlay(dataSeries1))
   .call(fibonacci);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
 .fibonacci-fan {
   fill: none;
   stroke: grey;
@@ -64,11 +63,11 @@ circle.fibonacci-fan {
   fill-opacity: 0.5;
   stroke-width: 0;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG Output</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="fibonacci-fan">
 	<circle class="fibonacci-fan origin"></circle>
 	<circle class="fibonacci-fan target"></circle>
@@ -78,9 +77,7 @@ circle.fibonacci-fan {
 	<line class="fibonacci-fan c"></line>
 	<polygon class="fibonacci-fan area"></polygon>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){

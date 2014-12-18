@@ -7,10 +7,9 @@ This component calculates and draws a candlestick data series, the series shows 
 
 <div id="example_candlestick" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the Candlestick series
 var candlestick = fc.series.candlestick()
   .xScale(chart.dateScale)
@@ -22,12 +21,12 @@ chart.plotArea.append('g')
   .attr('class', 'series')
   .datum(dataSeries1)
   .call(candlestick);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
-.bar path { 
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
+.bar path {
   stroke-width: 1.5;
 }
 
@@ -46,11 +45,11 @@ chart.plotArea.append('g')
 .bar.down-day rect {
   fill: #c60;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="candlestick-series">
   <g class="bar down-day">
     <path class="high-low-line"></path>
@@ -61,9 +60,7 @@ chart.plotArea.append('g')
     <rect></rect>
   </g>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){

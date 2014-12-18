@@ -7,10 +7,9 @@ This component calculates and draws Bollinger bands on a data series, calculated
 
 <div id="example_bollinger" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the Bollinger bands component
 var bollinger = fc.indicators.bollingerBands()
   .xScale(chart.dateScale)
@@ -23,11 +22,11 @@ chart.plotArea.append('g')
   .attr('class', 'bollinger-band')
   .datum(dataSeries1)
   .call(bollinger);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
 .bollingerBandArea {
   fill: lightgrey;
   stroke-width: 0;
@@ -52,20 +51,18 @@ chart.plotArea.append('g')
   stroke-width: 1;
   stroke-dasharray: 4, 1;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="bollinger-band">
   <path class="area bollingerBandArea"></path>
   <path class="upper bollingerBandUpper"></path>
   <path class="lower bollingerBandLower"></path>
   <path class="average bollingerAverage"></path>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function () {
