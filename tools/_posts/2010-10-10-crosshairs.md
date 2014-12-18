@@ -16,7 +16,7 @@ By default the component will become fixed at its current position in response t
 var overlay = d3.svg.area()
   .x(function (d) { return chart.dateScale(d.date); })
   .y0(0)
-  .y1(chart.layout.innerHeight());
+  .y1(chart.layout.getPlotAreaHeight());
 
 // Create the crosshairs
 var crosshairs = fc.tools.crosshairs()
@@ -24,8 +24,8 @@ var crosshairs = fc.tools.crosshairs()
   .series(dataSeries1)
   .xScale(chart.dateScale)
   .yScale(chart.priceScale)
-  .formatH(function(dataSeries1) { return crosshairs.highlightedField() + ': ' + d3.format('.1f')(dataSeries1); })
-  .formatV(function(dataSeries1) { return d3.time.format('%b %e')(dataSeries1); });
+  .formatH(function(d) { return d3.format('.1f')(d); })
+  .formatV(function(d) { return d3.time.format('%b %e')(d); });
 
 // Add the crosshairs on top of the overlay
 chart.plotArea.append('path')
@@ -89,7 +89,7 @@ text.crosshairs {
   var overlay = d3.svg.area()
     .x(function (d) { return chart.dateScale(d.date); })
     .y0(0)
-    .y1(chart.layout.innerHeight());
+    .y1(chart.layout.getPlotAreaHeight());
 
   // Create the crosshairs
   var crosshairs = fc.tools.crosshairs()
@@ -97,8 +97,8 @@ text.crosshairs {
     .series(dataSeries1)
     .xScale(chart.dateScale)
     .yScale(chart.priceScale)
-    .formatH(function(dataSeries1) { return crosshairs.highlightedField() + ': ' + d3.format('.1f')(dataSeries1); })
-    .formatV(function(dataSeries1) { return d3.time.format('%b %e')(dataSeries1); });
+    .formatH(function(d) { return d3.format('.1f')(d); })
+    .formatV(function(d) { return d3.time.format('%b %e')(d); });
 
   // Add the crosshairs on top of the overlay
   chart.plotArea.append('path')

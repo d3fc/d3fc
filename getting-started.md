@@ -29,24 +29,24 @@ This guide provides step-by-step instructions which will lead you through the pr
   // Create scales
   var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
     .domainFromValues(gsData, ['date'])
-    .range([0, chartLayout.innerWidth()]);
+    .range([0, chartLayout.getPlotAreaWidth()]);
 
   var yScale = fc.scale.linear()
     .domainFromValues(gsData, ['low', 'high'])
-    .range([chartLayout.innerHeight(), 0]);
+    .range([chartLayout.getPlotAreaHeight(), 0]);
 
   // Add axes
   var bottomAxis = d3.svg.axis()
       .scale(xScale)
       .orient('bottom')
       .ticks(5);
-  chartLayout.getAxisContainer(setupArea, 'bottom').call(bottomAxis);
+  chartLayout.getAxisContainer('bottom').call(bottomAxis);
 
   var leftAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left')
       .ticks(5);
-  chartLayout.getAxisContainer(setupArea, 'left').call(leftAxis);
+  chartLayout.getAxisContainer('left').call(leftAxis);
 
   // Create the OHLC series
   var ohlc = fc.series.ohlc()
@@ -159,11 +159,11 @@ Add the following scales to your code:
 
     var xScale = fc.scale.dateTime() 
         .domainFromValues(data, ['date'])
-        .range([0, chartLayout.innerWidth()]);
+        .range([0, chartLayout.getPlotAreaWidth()]);
 
     var yScale = fc.scale.linear()
         .domainFromValues(data, ['low', 'high'])
-        .range([chartLayout.innerHeight(), 0]);
+        .range([chartLayout.getPlotAreaHeight(), 0]);
 
 The `fc.scale.dateTime` component provides logic for skipping time periods (for example weekends - if required) and also ensures that the dates are correctly rendered. Because the input data is randomly generated, the extents of the 'y' scale are computed via the `d3.max` and `d3.min` functions internally. The domain can also be set manually using the `domain` function.
 
@@ -173,13 +173,13 @@ In order to view the chart scale, the next step is to add a pair of axes:
         .scale(xScale)
         .orient('bottom')
         .ticks(5);
-    chartLayout.getAxisContainer(chart, 'bottom').call(bottomAxis);
+    chartLayout.getAxisContainer('bottom').call(bottomAxis);
 
     var leftAxis = d3.svg.axis()
         .scale(yScale)
         .orient('left')
         .ticks(5);
-    chartLayout.getAxisContainer(chart, 'left').call(leftAxis);
+    chartLayout.getAxisContainer('left').call(leftAxis);
 
 The `d3.svg.axis` component takes a scale and renders this within your SVG element. The `chartLayout` component provides containers for the four possible axis locations, `top`, `bottom`, `left` and `right`.
 
@@ -209,24 +209,24 @@ console.log(JSON.stringify(gsData))
 // Create scales
 var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
     .domainFromValues(gsData, ['date'])
-    .range([0, chartLayout.innerWidth()]);
+    .range([0, chartLayout.getPlotAreaWidth()]);
 
 var yScale = fc.scale.linear()
     .domainFromValues(gsData, ['low', 'high'])
-    .range([chartLayout.innerHeight(), 0]);
+    .range([chartLayout.getPlotAreaHeight(), 0]);
 
 // Add axes
 var bottomAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom')
     .ticks(5);
-chartLayout.getAxisContainer(chart, 'bottom').call(bottomAxis);
+chartLayout.getAxisContainer('bottom').call(bottomAxis);
 
 var leftAxis = d3.svg.axis()
     .scale(yScale)
     .orient('left')
     .ticks(5);
-chartLayout.getAxisContainer(chart, 'left').call(leftAxis);
+chartLayout.getAxisContainer('left').call(leftAxis);
 }());
 </script>
 
@@ -272,24 +272,24 @@ console.log(JSON.stringify(gsData))
 // Create scales
 var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
     .domainFromValues(gsData, ['date'])
-    .range([0, chartLayout.innerWidth()]);
+    .range([0, chartLayout.getPlotAreaWidth()]);
 
 var yScale = fc.scale.linear()
     .domainFromValues(gsData, ['low', 'high'])
-    .range([chartLayout.innerHeight(), 0]);
+    .range([chartLayout.getPlotAreaHeight(), 0]);
 
 // Add axes
 var bottomAxis = d3.svg.axis()
     .scale(xScale)
     .orient('bottom')
     .ticks(5);
-chartLayout.getAxisContainer(chart, 'bottom').call(bottomAxis);
+chartLayout.getAxisContainer('bottom').call(bottomAxis);
 
 var leftAxis = d3.svg.axis()
     .scale(yScale)
     .orient('left')
     .ticks(5);
-chartLayout.getAxisContainer(chart, 'left').call(leftAxis);
+chartLayout.getAxisContainer('left').call(leftAxis);
 
 // Create the OHLC series
 var ohlc = fc.series.ohlc()
