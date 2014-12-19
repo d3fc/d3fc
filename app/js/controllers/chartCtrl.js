@@ -3,7 +3,7 @@
 	chartCtrl = function chartCtrl($rootScope) {
 		
 		// Primary chart options will be set here
-		this.chartDataOptions = { style: "bars", width: 5 }; // Possible style options are 'bars' and 'candles', width is used for volume
+		this.chartDataStyle = 'bars'; // Possible style options are 'bars' and 'candles'
 		this.chartAspect = 0.45; // Height to width multiplier
 		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
@@ -85,13 +85,13 @@
 
 			if( !share.hasData() ) return;
 
-			share.chartDataOptions.style = dataStyle;
+			share.chartDataStyle = dataStyle;
 			share.initialiseData($rootScope.chartData);
 			share.redrawChart();
 		};
 
 		this.hasDataStyle = function(dataStyle) {
-			return share.chartDataOptions.style == dataStyle;
+			return share.chartDataStyle == dataStyle;
 		};
 
 		this.toggleFeature = function(featureName) {
@@ -216,7 +216,7 @@
 
 		this.initialiseData = function(data) {
 
-		    share.chartData = this.chartDataOptions.style == 'candles' ? 
+		    share.chartData = this.chartDataStyle == 'candles' ?
 		    	fc.series.candlestick().xScale(share.xScale).yScale(share.yScale) :
 		    	fc.series.ohlc().xScale(share.xScale).yScale(share.yScale);
 
@@ -251,7 +251,6 @@
 		    share.volumeData = fc.series.bar()
 		        .xScale(share.xScale)
 		        .yScale(share.volYScale)
-		        .barWidth(this.chartDataOptions.width)
                 .classForBar(function (d) { return (d.close > d.open) ? 'up-day' : 'down-day'; });
 
 		    share.volumeSeries = share.plotArea.append('g').attr('class', 'volume').datum(data).call(share.volumeData);
