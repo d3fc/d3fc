@@ -269,10 +269,7 @@ var startDate = new Date(2014, 1, 1),
 
 var gsData = fc.utilities.dataGenerator()
     .seedDate(startDate)
-    .randomSeed(12345)
     .generate(dayCount);
-
-console.log(JSON.stringify(gsData))
 
 // Create scales
 var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
@@ -308,6 +305,175 @@ chartLayout.getPlotArea()
 }());
 </script>
 
-###What next?
+
+##Rendering Dynamic Charts
+
+The chart that you have developed is relatively simple, creating axes, scales, some D3FC components then rendering them to an SVG. This is just fine for static charts, however if you want to support resizing or data updates, you'll need to properly structure your code.
+
+The key to properly structuring your code is a basic understanding of D3's [General Update Pattern](http://bl.ocks.org/mbostock/3808218) - although you only need a **basic** understanding!
+
+All of the D3FC components have been designed with this pattern in mind, which means when you invoke a selection's `call`, method, passing in a component, it will not create a new instance of the component, instead it will update the elements that have already been added to the SVG.
+
+Therefore, when the chart size or data changes, you simply need to update your scales (either their width or domain), then re-render all the components.
+
+Here's a quick example that shows this in action:
+
+<div id="structured-chart" class="chart" style="width:100%"></div>
+
+And here is the annotated code:
+
+    // create the chart layout
+    var chartLayout = fc.utilities.chartLayout();
+
+    // Render the initial layout
+    d3.select('#structured-chart')
+        .call(chartLayout);
+
+    // Create some data
+    var startDate = new Date(2014, 1, 1),
+        dayCount = 100;
+    var gsData = fc.utilities.dataGenerator()
+        .seedDate(startDate)
+        .generate(dayCount);
+
+    // Create scales
+    var xScale = fc.scale.dateTime() 
+        .domainFromValues(gsData, ['date'])
+        .range([0, chartLayout.getPlotAreaWidth()]);
+    var yScale = fc.scale.linear()
+        .domainFromValues(gsData, ['low', 'high'])
+        .range([chartLayout.getPlotAreaHeight(), 0]);
+
+    // Create axes
+    var bottomAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient('bottom')
+        .ticks(10);
+    var leftAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient('left')
+        .ticks(5);
+
+    // Create some series
+    var ohlc = fc.series.ohlc()
+        .xScale(xScale)
+        .yScale(yScale);
+    var bollinger = fc.indicators.bollingerBands()
+        .xScale(xScale)
+        .yScale(yScale);
+
+    // add gridlines
+    var gridlines = fc.scale.gridlines()
+        .xScale(xScale)
+        .yScale(yScale);
+
+    // Collect together the various rendering steps into a function
+    function renderComponents() {
+      chartLayout.getAxisContainer('bottom').call(bottomAxis);
+      chartLayout.getAxisContainer('left').call(leftAxis);
+      chartLayout.getPlotArea()
+        .datum(gsData)
+        .call(ohlc)
+        .call(gridlines)
+        .call(bollinger);
+    }
+
+    // perform an initial render
+    renderComponents();
+
+    // handle resize events
+    d3.select(window).on('resize', resize); 
+    function resize() {
+
+      // update the chart layout
+      d3.select('#structured-chart')
+        .call(chartLayout);
+
+      // update the axis ranges
+      xScale.range([0, chartLayout.getPlotAreaWidth()]);
+      yScale.range([chartLayout.getPlotAreaHeight(), 0]);
+
+      // re-render the components
+      renderComponents()
+    }
+
+
+<script>
+(function(){
+var chartLayout = fc.utilities.chartLayout();
+
+// Setup the chart
+d3.select('#structured-chart')
+    .call(chartLayout);
+
+// Create some data
+var startDate = new Date(2014, 1, 1),
+    dayCount = 100;
+var gsData = fc.utilities.dataGenerator()
+    .seedDate(startDate)
+    .generate(dayCount);
+
+// Create scales
+var xScale = fc.scale.dateTime() 
+    .domainFromValues(gsData, ['date'])
+    .range([0, chartLayout.getPlotAreaWidth()]);
+var yScale = fc.scale.linear()
+    .domainFromValues(gsData, ['low', 'high'])
+    .range([chartLayout.getPlotAreaHeight(), 0]);
+
+// Create axes
+var bottomAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient('bottom')
+    .ticks(10);
+var leftAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient('left')
+    .ticks(5);
+
+// Create some series
+var ohlc = fc.series.ohlc()
+    .xScale(xScale)
+    .yScale(yScale);
+var bollinger = fc.indicators.bollingerBands()
+    .xScale(xScale)
+    .yScale(yScale);
+
+// add some gridlines
+var gridlines = fc.scale.gridlines()
+    .xScale(xScale)
+    .yScale(yScale);
+
+// Collect together the various rendering steps into a function
+function renderComponents() {
+  chartLayout.getAxisContainer('bottom').call(bottomAxis);
+  chartLayout.getAxisContainer('left').call(leftAxis);
+
+  // Add the primary OHLC series
+  chartLayout.getPlotArea()
+    .datum(gsData)
+    .call(ohlc)
+    .call(gridlines)
+    .call(bollinger);
+}
+
+renderComponents();
+
+d3.select(window).on('resize', resize); 
+
+function resize() {
+
+  d3.select('#structured-chart')
+    .call(chartLayout);
+
+  xScale.range([0, chartLayout.getPlotAreaWidth()]);
+  yScale.range([chartLayout.getPlotAreaHeight(), 0]);
+
+  renderComponents()
+}
+}());
+</script>
+
+##What next?
 
 You've seen how easy it is to build a chart using D3 and D3FC, why not take a look out the list of <a href="components.html">components</a> and try adding some more features to the chart?
