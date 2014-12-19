@@ -8,33 +8,36 @@ Our components are split into four categories - indicators, scale components, se
 
 Indicators:
 
-+ [Bollinger Bands](examples/basic-examples/bollingerBands.html)
-+ [Moving Average Tracker](examples/basic-examples/movingAverage.html)
-+ [RSI charts](examples/basic-examples/relativeStrengthIndex.html)
++ [Moving Average Tracker](http://scottlogic.github.io/d3-financial-components/components.html#movingAverage)
++ [Bollinger Bands](http://scottlogic.github.io/d3-financial-components/components.html#bollinger)
++ [RSI charts](http://scottlogic.github.io/d3-financial-components/components.html#RSI)
 
 Scale:
 
-+ [Financial Time Scale](examples/basic-examples/financeScale.html)
-+ [Gridlines](examples/basic-examples/gridlines.html)
-+ [Pixel Aligned Linear Scale](examples/basic-examples/linearScale.html)
++ [Financial Time Scale](http://scottlogic.github.io/d3-financial-components/components.html#finanace)
++ [Gridlines](http://scottlogic.github.io/d3-financial-components/components.html#gridlines)
++ [Pixel Aligned Linear Scale](http://scottlogic.github.io/d3-financial-components/components.html#linear)
 
 Series:
 
-+ [Candlestick Series](examples/basic-examples/candlestick.html)
-+ [Comparison Series](examples/basic-examples/comparison.html)
-+ [Line Series](examples/basic-examples/line.html)
-+ [OHLC (Open, High, Low, Close) Series](examples/basic-examples/ohlc.html)
-+ [Volume series](examples/basic-examples/volume.html)
++ [Candlestick Series](http://scottlogic.github.io/d3-financial-components/components.html#candlestick)
++ [Comparison Series](http://scottlogic.github.io/d3-financial-components/components.html#comparison)
++ [Line Series](http://scottlogic.github.io/d3-financial-components/components.html#line)
++ [OHLC (Open, High, Low, Close) Series](http://scottlogic.github.io/d3-financial-components/components.html#OHLC)
++ [Bar series](http://scottlogic.github.io/d3-financial-components/components.html#bar)
 
 Tools:
 
-+ [Annotations](examples/basic-examples/annotation.html)
-+ [Callouts](examples/basic-examples/callouts.html)
-+ [Crosshairs](examples/basic-examples/crosshairs.html)
-+ [Fibonacci Fans](examples/basic-examples/fibonacciFan.html)
-+ [Ruler](examples/basic-examples/measure.html)
++ [Annotations](http://scottlogic.github.io/d3-financial-components/components.html#annotation)
++ [Callouts](http://scottlogic.github.io/d3-financial-components/components.html#callouts)
++ [Crosshairs](http://scottlogic.github.io/d3-financial-components/components.html#crosshairs)
++ [Fibonacci Fans](http://scottlogic.github.io/d3-financial-components/components.html#fibonacciFan)
++ [Ruler](http://scottlogic.github.io/d3-financial-components/components.html#measure)
 
-Other files exists in the 'components' folder but these are utility classes for the main components.
+Utilites:
+
++ [Data Generator](http://scottlogic.github.io/d3-financial-components/components.html#dataGenerator)
++ [Chart Layout](http://scottlogic.github.io/d3-financial-components/components.html#chartLayout)
 
 ## Documentation and Usage
 
@@ -49,7 +52,7 @@ The [Scott Logic blog](http://www.scottlogic.com/blog/) provides several blog ar
 + [An RSI component for D3 charts](http://www.scottlogic.com/blog/2014/11/14/d3_chartcomponents_rsi.html)
 
 We have also implemented a charting app which utilises all these components.
-Instructions for its installation are included in [the app folder](examples/app).
+Instructions for its installation are included on the app page [the app folder](http://scottlogic.github.io/d3-financial-components/app/index.html).
 
 ## Planned Work
 

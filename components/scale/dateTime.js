@@ -29,13 +29,14 @@
     * @param {boolean} hideWeekends used in the copy constructor to copy the hide weekends
     * option between the original and the copy.
     */
-    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends) {
+    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends, padEnds) {
 
         if (!arguments.length) {
             linear = d3.scale.linear();
             baseDomain = [new Date(0), new Date(0)];
             alignPixels = true;
             hideWeekends = false;
+            padEnds = false;
         }
 
         /**
@@ -74,12 +75,12 @@
         scale.domain = function(domain) {
 
             if (!arguments.length) {
-                return [linearTime(baseDomain[0]), linearTime(baseDomain[1])];
+                return [baseDomain[0], baseDomain[1]];
             }
             if (typeof domain[0] === 'number') {
                 linear.domain(domain);
             } else {
-                baseDomain = createbaseDomain(domain);
+                baseDomain = domain;
                 linear.domain([linearTime(baseDomain[0]), linearTime(baseDomain[1])]);
             }
             return scale;
@@ -143,7 +144,7 @@
         * @returns the copy.
         */
         scale.copy = function() {
-            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends);
+            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends, padEnds);
         };
 
         /**
@@ -332,30 +333,38 @@
             return scale;
         };
 
-        function createbaseDomain(domain) {
-            var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate(), 0, 0, 0);
-            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 2, 0, 0, 0);
-            while (d0.getDay() !== 1) {
-                d0.setDate(d0.getDate() - 1);
+        /**
+        * Used to get or set the option to apply time period padding at the start and end of the data in the scale.
+        *
+        * @memberof fc.scale.dateTime
+        * @method padEnds
+        * @param {boolean} value if set to `true` the ends of the scale will be padded with one time period.
+        * If no value argument is passed the current setting will be returned.
+        */
+        scale.padEnds = function(value) {
+            if (!arguments.length) {
+                return padEnds;
             }
-            return [d0, d1];
-        }
+            padEnds = value;
+            return scale;
+        };
 
         function linearTime(date) {
 
-            var l = 0,
-                milliSecondsInWeek = 592200000,
-                milliSecondsInWeekend = 172800000;
-
+            var l = 0;
             if (hideWeekends) {
-                if (date.getDay() === 0) {
-                    date.setDate(date.getDate() + 1);
-                }
-                if (date.getDay() === 6) {
-                    date.setDate(date.getDate() - 1);
-                }
-                var weeksFromBase = Math.floor((date.getTime() - baseDomain[0].getTime()) / milliSecondsInWeek);
-                l = (date.getTime() - baseDomain[0].getTime()) - (milliSecondsInWeekend * weeksFromBase);
+
+                var dayMs = 86400000,
+                    weekMs = dayMs * 7,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = Math.floor((date.getTime() - wsMonday) / weekMs),
+                    weekOffsetMs = weekOffset * weekendMs,
+                    weekendAdjustment = weekOffsetMs - (baseDomain[0] - wsMonday);
+
+                l = (date.getTime() - baseDomain[0].getTime()) - weekendAdjustment;
+
             } else {
                 l = date.getTime() - baseDomain[0].getTime();
             }
@@ -365,13 +374,19 @@
 
         function linearTimeInvert(l) {
 
-            var date = new Date(0),
-                milliSecondsInShortWeek = 432000000,
-                milliSecondsInWeekend = 172800000;
-
+            var date = new Date(0);
             if (hideWeekends) {
-                var weeksFromBase = Math.floor(l / milliSecondsInShortWeek);
-                date = new Date(baseDomain[0].getTime() + l + (milliSecondsInWeekend * weeksFromBase));
+
+                var dayMs = 86400000,
+                    shortWeekMs = dayMs * 5,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = l / shortWeekMs,
+                    weekOffsetMs = Math.floor(weekOffset) * weekendMs;
+
+                date = new Date(wsMonday + l + weekOffsetMs);
+
             } else {
                 date = new Date(baseDomain[0].getTime() + l);
             }
