@@ -3,7 +3,7 @@
 	chartCtrl = function chartCtrl($rootScope) {
 		
 		// Primary chart options will be set here
-		this.chartDataOptions = { style: "bars", width: 5 }; // Possible style options are 'bars' and 'candles', width is used for candles
+		this.chartDataOptions = { style: "bars", width: 5 }; // Possible style options are 'bars' and 'candles', width is used for volume
 		this.chartAspect = 0.45; // Height to width multiplier
 		this.axisOptions = { xTicks: 10, yTicks: 5, volYTicks: 2 };
 		this.showNavigator = true;
@@ -217,7 +217,7 @@
 		this.initialiseData = function(data) {
 
 		    share.chartData = this.chartDataOptions.style == 'candles' ? 
-		    	fc.series.candlestick().rectangleWidth(this.chartDataOptions.width).xScale(share.xScale).yScale(share.yScale) :
+		    	fc.series.candlestick().xScale(share.xScale).yScale(share.yScale) :
 		    	fc.series.ohlc().xScale(share.xScale).yScale(share.yScale);
 
 		    share.plotArea.selectAll(".series").remove();
