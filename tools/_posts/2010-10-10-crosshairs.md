@@ -16,7 +16,7 @@ By default the component will become fixed at its current position in response t
 var overlay = d3.svg.area()
   .x(function (d) { return chart.dateScale(d.date); })
   .y0(0)
-  .y1(chart.layout.innerHeight());
+  .y1(chart.layout.getPlotAreaHeight());
 
 // Create the crosshairs
 var crosshairs = fc.tools.crosshairs()
@@ -89,7 +89,7 @@ text.crosshairs {
   var overlay = d3.svg.area()
     .x(function (d) { return chart.dateScale(d.date); })
     .y0(0)
-    .y1(chart.layout.innerHeight());
+    .y1(chart.layout.getPlotAreaHeight());
 
   // Create the crosshairs
   var crosshairs = fc.tools.crosshairs()

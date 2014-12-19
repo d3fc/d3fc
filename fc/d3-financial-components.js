@@ -33,6 +33,56 @@ window.fc = {
 (function(d3, fc) {
     'use strict';
 
+    /**
+    * Based on the [Margin Convention]{@link http://bl.ocks.org/mbostock/3019563},
+    * the Chart Layout component is responsible for defining the chart area.
+    *
+    * It attempts to simplify the repetitive process of constructing the chart's layout and its associated elements:
+    * <ul>
+    *   <li>Define the margins, height and width</li>
+    *   <li>Calculate the inner height and inner width</li>
+    *   <li>Create an SVG</li>
+    *   <li>Create a group for all chart elements; translate it based on the margins</li>
+    *   <li>Create a clipping path for the plot area; add it to the group</li>
+    *   <li>Create groups for the axes</li>
+    * </ul>
+    *
+    * If the width or height of the component have not been explicitly set using chartLayout.height()
+    * or chartLayout.width(), then the width and height of the chartLayout will try to expand to the
+    * dimensions of the selected element. If this results in an invalid value, i.e. less than 1,
+    * a default value will be used.
+    *
+    * <hr>
+    *
+    * Given a div:
+    * <pre>
+    * &lt;div id=&quot;myChart&quot; style=&quot;width:650px; height:300px;&quot;&gt;&lt;/div&gt;
+    * </pre>
+    *
+    * Chart Layout will tranform the selection to create the following elements:
+    * <pre>
+    * &lt;div id=&quot;myChart&quot; style=&quot;width:650px; height:300px;&quot;&gt;
+    *     &lt;svg width=&quot;650&quot; height=&quot;300&quot;&gt;
+    *         &lt;g class=&quot;chartArea&quot; transform=&quot;translate(40,20)&quot;&gt;
+    *             &lt;defs&gt;
+    *                 &lt;clipPath id=&quot;fcPlotAreaClip_myChart&quot;&gt;
+    *                     &lt;rect width=&quot;570&quot; height=&quot;260&quot;&gt;&lt;/rect&gt;
+    *                 &lt;/clipPath&gt;
+    *             &lt;/defs&gt;
+    *             &lt;rect class=&quot;background&quot; width=&quot;570&quot; height=&quot;260&quot;&gt;&lt;/rect&gt;
+    *             &lt;g clip-path=&quot;url(#fcPlotAreaClip_myChart)&quot; class=&quot;plotArea&quot;&gt;&lt;/g&gt;
+    *             &lt;g class=&quot;axis bottom&quot; transform=&quot;translate(0,260)&quot;&gt;&lt;/g&gt;
+    *             &lt;g class=&quot;axis top&quot; transform=&quot;translate(0, 0)&quot;&gt;&lt;/g&gt;
+    *             &lt;g class=&quot;axis right&quot; transform=&quot;translate(570, 0)&quot;&gt;&lt;/g&gt;
+    *         &lt;/g&gt;
+    *     &lt;/svg&gt;
+    * &lt;/div&gt;
+    * </pre>
+    *
+    * @type {object}
+    * @memberof fc.utilities
+    * @namespace fc.utilities.chartLayout
+    */
     fc.utilities.chartLayout = function() {
 
         // Default values
@@ -43,6 +93,29 @@ window.fc = {
         var defaultWidth = true,
             defaultHeight = true;
 
+        // The elements created for the chart
+        var chartElements = {};
+
+        /**
+         * Constructs a new instance of the chartLayout component.
+         *
+         * Applies the chartLayout to a [D3 selection]{@link https://github.com/mbostock/d3/wiki/Selections}
+         * (commonly  a <code>div</code>).
+         * The chartLayout component can only be applied to the first element in a selection,
+         * all other elements will be ignored.
+         *
+         * @example
+         * // Setup the chart layout
+         * var layout = fc.utilities.chartLayout();
+         *
+         * // Setup the chart
+         * var setupArea = d3.select('#chart')
+         *     .call(layout);
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method chartLayout
+         * @param {selection} selection a D3 selection
+         */
         var chartLayout = function(selection) {
             // Select the first element in the selection
             // If the selection contains more than 1 element,
@@ -58,8 +131,8 @@ window.fc = {
                 width = element.clientWidth - paddingWidth;
 
                 // If the new width is too small, use a default width
-                if (chartLayout.innerWidth() < 1) {
-                    width = 800 + margin.left + margin.right;
+                if (chartLayout.getPlotAreaWidth() < 1) {
+                    width = 600 + margin.left + margin.right;
                 }
             }
 
@@ -70,54 +143,124 @@ window.fc = {
                 height = element.clientHeight - paddingHeight;
 
                 // If the new height is too small, use a default height
-                if (chartLayout.innerHeight() < 1) {
+                if (chartLayout.getPlotAreaHeight() < 1) {
                     height = 400 + margin.top + margin.bottom;
                 }
             }
 
+            // Setup the elements - following the general update pattern (http://bl.ocks.org/mbostock/3808218)
+            //
+            // When creating the elements for the chart, only one of each element is required. To achieve this we bind
+            // a single datum to each selection - this is represented in the dummyData variable. This data-join is only
+            // used for creating and updating the elements - through data(), enter() and exit(); the value of the data
+            // is irrelevant (but there must only be one value). This approach is similar to that used in D3's axis
+            // and brush components.
+            //
+            // For each element, we:
+            // 1. Select the element(s) and bind a single datum to that selection
+            // 2. If no element currently exists, append it (this is in the enter() subselection)
+            // 3. Update the element as required
+            // 4. If there are too many of the selected element(>1), then remove it (this is in the exit() subselection)
+            var container = d3.select(element),
+                dummyData = [0];
+
             // Create svg
-            var svg = d3.select(element).append('svg')
-                .attr('width', width)
-                .attr('height', height);
+            chartElements.svg = container.selectAll('svg').data(dummyData);
+            chartElements.svg.enter().append('svg');
+            chartElements.svg.attr('width', width)
+                .attr('height', height)
+                .style('display', 'block');
+            chartElements.svg.exit().remove();
 
             // Create group for the chart
-            var chart = svg.append('g')
-                .attr('class', 'chartArea')
+            var chart = chartElements.svg.selectAll('g.chartArea').data(dummyData);
+            chart.enter().append('g');
+            chart.attr('class', 'chartArea')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            chart.exit().remove();
+            chartElements.chartArea = chart;
+
+            // Defs - for clipping path
+            var defs = chart.selectAll('defs').data(dummyData);
+            defs.enter().append('defs');
+            defs.exit().remove();
+
+            // Get an ID for the clipping path
+            // If the element already has an ID, use that;
+            // otherwise, generate one (to avoid duplicate IDs)
+            var plotAreaClipId = 'fcPlotAreaClip_' + (element.id || nextId());
 
             // Clipping path
-            chart.append('defs').append('clipPath')
-                .attr('id', 'plotAreaClip_' + element.id)
-                .append('rect')
-                .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
+            var clippingPath = defs.selectAll('clippath').data(dummyData);
+            clippingPath.enter().append('clippath');
+            clippingPath.attr('id', plotAreaClipId);
+            clippingPath.exit().remove();
+
+            // Clipping path rect
+            var clippingPathRect = clippingPath.selectAll('rect').data(dummyData);
+            clippingPathRect.enter().append('rect');
+            clippingPathRect.attr('width', chartLayout.getPlotAreaWidth())
+                .attr('height', chartLayout.getPlotAreaHeight());
+            clippingPathRect.exit().remove();
 
             // Create a background element
-            chart.append('rect')
-                .attr('class', 'background')
-                .attr('width', chartLayout.innerWidth())
-                .attr('height', chartLayout.innerHeight());
+            chartElements.plotAreaBackground = chart.selectAll('rect.background').data(dummyData);
+            chartElements.plotAreaBackground.enter().append('rect');
+            chartElements.plotAreaBackground.attr('class', 'background')
+                .attr('width', chartLayout.getPlotAreaWidth())
+                .attr('height', chartLayout.getPlotAreaHeight());
+            chartElements.plotAreaBackground.exit().remove();
 
             // Create plot area, using the clipping path
-            chart.append('g')
-                .attr('clip-path', 'url(#plotAreaClip_' + element.id + ')')
+            chartElements.plotArea = chart.selectAll('g.plotArea').data(dummyData);
+            chartElements.plotArea.enter().append('g');
+            chartElements.plotArea.attr('clip-path', 'url(#' + plotAreaClipId + ')')
                 .attr('class', 'plotArea');
+            chartElements.plotArea.exit().remove();
 
             // Create containers for the axes
-            chart.append('g')
-                .attr('class', 'axis bottom')
-                .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
-            chart.append('g')
-                .attr('class', 'axis top')
-                .attr('transform', 'translate(0, 0)');
-            chart.append('g')
-                .attr('class', 'axis left')
-                .attr('transform', 'translate(0, 0)');
-            chart.append('g')
-                .attr('class', 'axis right')
-                .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
+            chartElements.axisContainer = {};
 
+            chartElements.axisContainer.bottom = chart.selectAll('g.axis.bottom').data(dummyData);
+            chartElements.axisContainer.bottom.enter().append('g');
+            chartElements.axisContainer.bottom.attr('class', 'axis bottom')
+                .attr('transform', 'translate(0, ' + chartLayout.getPlotAreaHeight() + ')');
+            chartElements.axisContainer.bottom.exit().remove();
+
+
+            chartElements.axisContainer.top = chart.selectAll('g.axis.top').data(dummyData);
+            chartElements.axisContainer.top.enter().append('g');
+            chartElements.axisContainer.top.attr('class', 'axis top')
+                .attr('transform', 'translate(0, 0)');
+            chartElements.axisContainer.top.exit().remove();
+
+
+            chartElements.axisContainer.left = chart.selectAll('g.axis.left').data(dummyData);
+            chartElements.axisContainer.left.enter().append('g');
+            chartElements.axisContainer.left.attr('class', 'axis left')
+                .attr('transform', 'translate(0, 0)');
+            chartElements.axisContainer.left.exit().remove();
+
+
+            chartElements.axisContainer.right = chart.selectAll('g.axis.right').data(dummyData);
+            chartElements.axisContainer.right.enter().append('g');
+            chartElements.axisContainer.right.attr('class', 'axis right')
+                .attr('transform', 'translate(' + chartLayout.getPlotAreaWidth() + ', 0)');
+            chartElements.axisContainer.right.exit().remove();
         };
 
+        /**
+         * Get/set the size of the top margin between the chart area
+         * and the edge of its parent SVG.
+         *
+         * Increasing the size of a margin affords more space for an axis in the corresponding position.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method marginTop
+         * @param  {number} [value] The size of the top margin
+         * @returns {number|chartLayout} If value is specified, sets the top margin and returns the chartLayout;
+         * if value is not specified, returns the top margin.
+         */
         chartLayout.marginTop = function(value) {
             if (!arguments.length) {
                 return margin.top;
@@ -126,6 +269,18 @@ window.fc = {
             return chartLayout;
         };
 
+        /**
+         * Get/set the size of the right margin between the chart area
+         * and the edge of its parent SVG.
+         *
+         * Increasing the size of a margin affords more space for an axis in the corresponding position.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method marginRight
+         * @param  {number} [value] The size of the right margin
+         * @returns {number|chartLayout} If value is specified, sets the right margin and returns the chartLayout;
+         * if value is not specified, returns the right margin.
+         */
         chartLayout.marginRight = function(value) {
             if (!arguments.length) {
                 return margin.right;
@@ -134,6 +289,18 @@ window.fc = {
             return chartLayout;
         };
 
+        /**
+         * Get/set the size of the bottom margin between the chart area
+         * and the edge of its parent SVG.
+         *
+         * Increasing the size of a margin affords more space for an axis in the corresponding position.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method marginBottom
+         * @param  {number} [value] The size of the bottom margin
+         * @returns {number|chartLayout} If value is specified, sets the bottom margin and returns the chartLayout;
+         * if value is not specified, returns the bottom margin.
+         */
         chartLayout.marginBottom = function(value) {
             if (!arguments.length) {
                 return margin.bottom;
@@ -142,6 +309,18 @@ window.fc = {
             return chartLayout;
         };
 
+        /**
+         * Get/set the size of the left margin between the chart area
+         * and the edge of its parent SVG.
+         *
+         * Increasing the size of a margin affords more space for an axis in the corresponding position.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method marginLeft
+         * @param  {number} [value] The size of the left margin
+         * @returns {number|chartLayout} If value is specified, sets the left margin and returns the chartLayout;
+         * if value is not specified, returns the left margin.
+         */
         chartLayout.marginLeft = function(value) {
             if (!arguments.length) {
                 return margin.left;
@@ -150,6 +329,18 @@ window.fc = {
             return chartLayout;
         };
 
+        /**
+         * Get/set the width of the chart.
+         *
+         * If the width of the chart is not explicitly set before calling chartLayout on a selection,
+         * the component will attempt to size the chart to the dimensions of the selection's first element.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method width
+         * @param  {number} [value] The width of the chart
+         * @returns {number|chartLayout} If value is specified, sets the width and returns the chartLayout;
+         * if value is not specified, returns the width.
+         */
         chartLayout.width = function(value) {
             if (!arguments.length) {
                 return width;
@@ -159,6 +350,18 @@ window.fc = {
             return chartLayout;
         };
 
+        /**
+         * Get/set the height of the chart.
+         *
+         * If the height of the chart is not explicitly set before calling chartLayout on a selection,
+         * the component will attempt to size the chart to the dimensions of the selection's first element.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method height
+         * @param  {number} [value] The height of the chart
+         * @returns {number|chartLayout} If value is specified, sets the height and returns the chartLayout;
+         * if value is not specified, returns the height.
+         */
         chartLayout.height = function(value) {
             if (!arguments.length) {
                 return height;
@@ -168,36 +371,98 @@ window.fc = {
             return chartLayout;
         };
 
-        chartLayout.innerWidth = function() {
+        /**
+         * Get the width of the plot area. This is the total width of the chart minus the horizontal margins.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getPlotAreaWidth
+         * @returns {number} The width of the plot area.
+         */
+        chartLayout.getPlotAreaWidth = function() {
             return width - margin.left - margin.right;
         };
 
-        chartLayout.innerHeight = function() {
+        /**
+         * Get the height of the plot area. This is the total height of the chart minus the vertical margins.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getPlotAreaHeight
+         * @returns {number} The height of the plot area.
+         */
+        chartLayout.getPlotAreaHeight = function() {
             return height - margin.top - margin.bottom;
         };
 
-        chartLayout.getSVG = function(setupArea) {
-            return setupArea.select('svg');
+        /**
+         * Get the SVG for the chart.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getSVG
+         * @returns {selection} The SVG for the chart.
+         */
+        chartLayout.getSVG = function() {
+            return chartElements.svg;
         };
 
-        chartLayout.getChartArea = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select('.chartArea');
+        /**
+         * Get the chart area group for the chart.
+         * Typically axes will be added to the chart area.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getChartArea
+         * @returns {selection} The chart's plot area.
+         */
+        chartLayout.getChartArea = function() {
+            return chartElements.chartArea;
         };
 
-        chartLayout.getPlotArea = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select('.plotArea');
+        /**
+         * Get the plot area group for the chart.
+         * The plot area has a clipping path, so this is typically where series and indicators will be added.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getPlotArea
+         * @returns {selection} The chart's plot area.
+         */
+        chartLayout.getPlotArea = function() {
+            return chartElements.plotArea;
         };
 
-        chartLayout.getAxisContainer = function(setupArea, orientation) {
-            return chartLayout.getSVG(setupArea).select('.axis.' + orientation);
+        /**
+         * Get the group container for an axis.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getAxisContainer
+         * @param  {string} orientation The orientation of the axis container;
+         * valid values are 'top', 'bottom', 'left' or 'right'
+         * @returns {selection} The group for the specified axis orientation.
+         */
+        chartLayout.getAxisContainer = function(orientation) {
+            return chartElements.axisContainer[orientation];
         };
 
-        chartLayout.getPlotAreaBackground = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select('.chartArea rect.background');
+        /**
+         * Get the plot area's background element.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getPlotAreaBackground
+         * @returns {selection} The background rect of the plot area.
+         */
+        chartLayout.getPlotAreaBackground = function() {
+            return chartElements.plotAreaBackground;
         };
 
         return chartLayout;
     };
+
+    // Generates an integer ID
+    var nextId = (function() {
+        var id = 0;
+        return function() {
+            return ++id;
+        };
+    })();
+
 }(d3, fc));
 (function(fc) {
     'use strict';
@@ -237,6 +502,8 @@ window.fc = {
             for (i = 1; i < increments.length; i += 1) {
                 prices[i] = prices[i - 1] * increments[i];
             }
+
+            startingPrice = prices[prices.length - 1];
             return prices;
         };
 
@@ -253,6 +520,8 @@ window.fc = {
             volumes = volumes.map(function(vol) {
                 return Math.floor(vol * (1 - volumeNoiseFactor + randomGenerator.next() * volumeNoiseFactor * 2));
             });
+
+            startingVolume = volumes[volumes.length - 1];
             return volumes;
         };
 
@@ -320,8 +589,7 @@ window.fc = {
             toDate.setUTCDate(toDate.getUTCDate() + dataCount);
 
             var millisecondsPerYear = 3.15569e10,
-                rangeYears = (toDate.getTime() - seedDate.getTime()) / millisecondsPerYear,
-                daysIncluded = 0,
+                rangeYears = (toDate.getTime() - currentDate.getTime()) / millisecondsPerYear,
                 prices,
                 volume,
                 ohlcv = [],
@@ -333,19 +601,11 @@ window.fc = {
                 randomGenerator = random(randomSeed);
             }
 
-            var date = new Date(seedDate.getTime());
-            while (date <= toDate) {
-                if (!filter || filter(date)) {
-                    daysIncluded += 1;
-                }
-                date.setUTCDate(date.getUTCDate() + 1);
-            }
+            prices = generatePrices(rangeYears, dataCount * intraDaySteps);
+            volume = generateVolumes(rangeYears, dataCount);
 
-            prices = generatePrices(rangeYears, daysIncluded * intraDaySteps);
-            volume = generateVolumes(rangeYears, daysIncluded);
-
-            date = new Date(currentDate.getTime());
-            while (date <= toDate) {
+            var date = new Date(currentDate.getTime());
+            while (ohlcv.length < dataCount) {
                 if (!filter || filter(date)) {
                     daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
                     ohlcv.push({
@@ -486,16 +746,17 @@ window.fc = {
         };
 
         /**
-        * Used to get/set the data filter function. The function passed to this property have each date sent
+        * Used to get/set the data filter function. The function passed to this property will have each date sent
         * to it and it will decide whether that date should appear in the final dataset. The default function
-        * will filter weekends, but it is user configurable.
+        * will filter weekends:
+        *
+        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
         *
         * @memberof fc.utilities.dataGenerator
         * @method filter
         * @param {function} value a function which will receive a date object and return a boolean to flag
         * whether a date should be included in the data set or not.
-        * @returns the current function if a function is not specified. The default function is
-        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
+        * @returns the current function if a function is not specified.
         */
         dataGenerator.filter = function(value) {
             if (!arguments.length) {
@@ -547,6 +808,27 @@ window.fc = {
 
 
 }(fc));
+(function(d3, fc) {
+    'use strict';
+
+    fc.utilities.timeIntervalWidth = function(timeInterval, units) {
+        // Given a time scale, return the width of a number of timeInterval units.
+        return function(scale) {
+            var point, left, right, difference;
+
+            point = scale.domain()[0];
+            left = timeInterval.floor(point);
+            right = timeInterval.ceil(point);
+
+            if (left.getTime() === right.getTime()) {
+                right = timeInterval.offset(point, 1);
+            }
+            difference = Math.abs(scale(left) - scale(right));
+            return difference * units;
+        };
+    };
+}(d3, fc));
+
 (function(d3, fc) {
     'use strict';
 
@@ -1026,29 +1308,6 @@ window.fc = {
         */
         var rsi = function(selection) {
 
-            selection.selectAll('.marker').remove();
-
-            upper = selection.append('line')
-                .attr('class', 'marker upper')
-                .attr('x1', xScale.range()[0])
-                .attr('y1', yScale(upperMarker))
-                .attr('x2', xScale.range()[1])
-                .attr('y2', yScale(upperMarker));
-
-            centre = selection.append('line')
-                .attr('class', 'marker centre')
-                .attr('x1', xScale.range()[0])
-                .attr('y1', yScale(50))
-                .attr('x2', xScale.range()[1])
-                .attr('y2', yScale(50));
-
-            lower = selection.append('line')
-                .attr('class', 'marker lower')
-                .attr('x1', xScale.range()[0])
-                .attr('y1', yScale(lowerMarker))
-                .attr('x2', xScale.range()[1])
-                .attr('y2', yScale(lowerMarker));
-
             var line = d3.svg.line();
             line.x(function(d) { return xScale(d.date); });
 
@@ -1085,15 +1344,56 @@ window.fc = {
                     });
                 }
 
-                var path = d3.select(this).selectAll('.' + css)
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this)
+                    .selectAll('.' + css)
                     .data([data]);
-
-                path.enter().append('path');
-
-                path.attr('d', line)
+                container.enter()
+                    .append('g')
                     .classed(css, true);
 
-                path.exit().remove();
+
+                // add the marker lines
+                container.selectAll('.marker').remove();
+
+                upper = container.append('line')
+                    .attr('class', 'marker upper')
+                    .attr('x1', xScale.range()[0])
+                    .attr('y1', yScale(upperMarker))
+                    .attr('x2', xScale.range()[1])
+                    .attr('y2', yScale(upperMarker));
+
+                centre = container.append('line')
+                    .attr('class', 'marker centre')
+                    .attr('x1', xScale.range()[0])
+                    .attr('y1', yScale(50))
+                    .attr('x2', xScale.range()[1])
+                    .attr('y2', yScale(50));
+
+                lower = container.append('line')
+                    .attr('class', 'marker lower')
+                    .attr('x1', xScale.range()[0])
+                    .attr('y1', yScale(lowerMarker))
+                    .attr('x2', xScale.range()[1])
+                    .attr('y2', yScale(lowerMarker));
+
+
+                 // create a data-join for the path
+                var path = container
+                    .selectAll('path')
+                    .data([data]);
+
+                // enter
+                path.enter()
+                    .append('path');
+
+                // update
+                path.attr('d', line);
+
+                // exit
+                path.exit()
+                    .remove();
             });
         };
 
@@ -1248,13 +1548,14 @@ window.fc = {
     * @param {boolean} hideWeekends used in the copy constructor to copy the hide weekends
     * option between the original and the copy.
     */
-    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends) {
+    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends, padEnds) {
 
         if (!arguments.length) {
             linear = d3.scale.linear();
             baseDomain = [new Date(0), new Date(0)];
             alignPixels = true;
             hideWeekends = false;
+            padEnds = false;
         }
 
         /**
@@ -1293,12 +1594,12 @@ window.fc = {
         scale.domain = function(domain) {
 
             if (!arguments.length) {
-                return [linearTime(baseDomain[0]), linearTime(baseDomain[1])];
+                return [baseDomain[0], baseDomain[1]];
             }
             if (typeof domain[0] === 'number') {
                 linear.domain(domain);
             } else {
-                baseDomain = createbaseDomain(domain);
+                baseDomain = domain;
                 linear.domain([linearTime(baseDomain[0]), linearTime(baseDomain[1])]);
             }
             return scale;
@@ -1362,7 +1663,7 @@ window.fc = {
         * @returns the copy.
         */
         scale.copy = function() {
-            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends);
+            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends, padEnds);
         };
 
         /**
@@ -1551,30 +1852,38 @@ window.fc = {
             return scale;
         };
 
-        function createbaseDomain(domain) {
-            var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate(), 0, 0, 0);
-            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 2, 0, 0, 0);
-            while (d0.getDay() !== 1) {
-                d0.setDate(d0.getDate() - 1);
+        /**
+        * Used to get or set the option to apply time period padding at the start and end of the data in the scale.
+        *
+        * @memberof fc.scale.dateTime
+        * @method padEnds
+        * @param {boolean} value if set to `true` the ends of the scale will be padded with one time period.
+        * If no value argument is passed the current setting will be returned.
+        */
+        scale.padEnds = function(value) {
+            if (!arguments.length) {
+                return padEnds;
             }
-            return [d0, d1];
-        }
+            padEnds = value;
+            return scale;
+        };
 
         function linearTime(date) {
 
-            var l = 0,
-                milliSecondsInWeek = 592200000,
-                milliSecondsInWeekend = 172800000;
-
+            var l = 0;
             if (hideWeekends) {
-                if (date.getDay() === 0) {
-                    date.setDate(date.getDate() + 1);
-                }
-                if (date.getDay() === 6) {
-                    date.setDate(date.getDate() - 1);
-                }
-                var weeksFromBase = Math.floor((date.getTime() - baseDomain[0].getTime()) / milliSecondsInWeek);
-                l = (date.getTime() - baseDomain[0].getTime()) - (milliSecondsInWeekend * weeksFromBase);
+
+                var dayMs = 86400000,
+                    weekMs = dayMs * 7,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = Math.floor((date.getTime() - wsMonday) / weekMs),
+                    weekOffsetMs = weekOffset * weekendMs,
+                    weekendAdjustment = weekOffsetMs - (baseDomain[0] - wsMonday);
+
+                l = (date.getTime() - baseDomain[0].getTime()) - weekendAdjustment;
+
             } else {
                 l = date.getTime() - baseDomain[0].getTime();
             }
@@ -1584,13 +1893,19 @@ window.fc = {
 
         function linearTimeInvert(l) {
 
-            var date = new Date(0),
-                milliSecondsInShortWeek = 432000000,
-                milliSecondsInWeekend = 172800000;
-
+            var date = new Date(0);
             if (hideWeekends) {
-                var weeksFromBase = Math.floor(l / milliSecondsInShortWeek);
-                date = new Date(baseDomain[0].getTime() + l + (milliSecondsInWeekend * weeksFromBase));
+
+                var dayMs = 86400000,
+                    shortWeekMs = dayMs * 5,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = l / shortWeekMs,
+                    weekOffsetMs = Math.floor(weekOffset) * weekendMs;
+
+                date = new Date(wsMonday + l + weekOffsetMs);
+
             } else {
                 date = new Date(baseDomain[0].getTime() + l);
             }
@@ -1791,8 +2106,6 @@ window.fc = {
 (function(d3, fc) {
     'use strict';
 
-    var marginPercentage = 0.05;
-
     /**
     * This component provides a scale primarily used on the Y axis of charts and extends the d3.scale.linear
     * scale. This scale contains an option to pixel align when calculating the screen pixel from the real value.
@@ -1861,13 +2174,19 @@ window.fc = {
         * Used to set or get the domain for this scale from a data set. The domain is the range of real world
         * values denoted by this scale (Max. and Min.).
         *
-        * @memberof fc.scale.dateTime
+        * @memberof fc.scale.linear
         * @method domainFromValues
+
         * @param {array} data the data set used to evaluate Min and Max values.
-        * @param {array} fields the fields within the data set used to evaluate Min and Max values.
+        * @param {array} fields the properties of the objects within the data set used to evaluate Min and Max
+        * values.
+        * @param {number} [marginPercentage = 0.05] a margin, expressed as a percentage, that is applied to the domain
+        * range.
         * @returns the current domain if no arguments are passed.
         */
-        scale.domainFromValues = function(data, fields) {
+        scale.domainFromValues = function(data, fields, marginPercentage) {
+
+            marginPercentage = typeof marginPercentage !== 'undefined' ? marginPercentage : 0.05;
 
             if (!arguments.length) {
                 return scale.domain();
@@ -1950,7 +2269,7 @@ window.fc = {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            barWidth = 5,
+            barWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5),
             yValue = fc.utilities.valueAccessor('volume'),
             classForBar = function(d) { return ''; };
 
@@ -1982,9 +2301,9 @@ window.fc = {
                     .remove();
 
                 // update
-                series.attr('x', function(d) { return xScale(d.date) - (barWidth / 2.0); })
+                series.attr('x', function(d) { return xScale(d.date) - (barWidth(xScale) / 2.0); })
                     .attr('y', function(d) { return yScale(yValue(d)); })
-                    .attr('width', barWidth)
+                    .attr('width', barWidth(xScale))
                     .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); })
                     .attr('class', classForBar);
             });
@@ -2010,7 +2329,7 @@ window.fc = {
             if (!arguments.length) {
                 return barWidth;
             }
-            barWidth = value;
+            barWidth = d3.functor(value);
             return bar;
         };
 
@@ -2047,7 +2366,7 @@ window.fc = {
             yLow = fc.utilities.valueAccessor('low'),
             yClose = fc.utilities.valueAccessor('close');
 
-        var rectangleWidth = 5;
+        var rectangleWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5);
 
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
@@ -2091,12 +2410,12 @@ window.fc = {
             rect.enter().append('rect');
 
             rect.attr('x', function(d) {
-                return xScale(d.date) - (rectangleWidth / 2.0);
+                return xScale(d.date) - (rectangleWidth(xScale) / 2.0);
             })
                 .attr('y', function(d) {
                     return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
-                .attr('width', rectangleWidth)
+                .attr('width', rectangleWidth(xScale))
                 .attr('height', function(d) {
                     return isUpDay(d) ?
                         yScale(yOpen(d)) - yScale(yClose(d)) :
@@ -2156,7 +2475,7 @@ window.fc = {
             if (!arguments.length) {
                 return rectangleWidth;
             }
-            rectangleWidth = value;
+            rectangleWidth = d3.functor(value);
             return candlestick;
         };
 
@@ -2528,7 +2847,7 @@ window.fc = {
         // Configurable attributes
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            tickWidth = 5;
+            tickWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.35);
 
         var yOpen = fc.utilities.valueAccessor('open'),
             yHigh = fc.utilities.valueAccessor('high'),
@@ -2578,10 +2897,11 @@ window.fc = {
 
         // Path drawing
         var makeBarPath = function(d) {
-            var moveToLow = 'M' + date(d) + ',' + low(d),
+            var width = tickWidth(xScale),
+                moveToLow = 'M' + date(d) + ',' + low(d),
                 verticalToHigh = 'V' + high(d),
-                openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-tickWidth),
-                closeTick = 'M' + date(d) + ',' + close(d) + 'h' + tickWidth;
+                openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-width),
+                closeTick = 'M' + date(d) + ',' + close(d) + 'h' + width;
             return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
@@ -2648,7 +2968,7 @@ window.fc = {
 
                 bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high});
                 bars.select('.open-tick').attr({
-                    x1: function(d) { return date(d) - tickWidth; },
+                    x1: function(d) { return date(d) - tickWidth(xScale); },
                     y1: open,
                     x2: date,
                     y2: open
@@ -2656,7 +2976,7 @@ window.fc = {
                 bars.select('.close-tick').attr({
                     x1: date,
                     y1: close,
-                    x2: function(d) { return date(d) + tickWidth; },
+                    x2: function(d) { return date(d) + tickWidth(xScale); },
                     y2: close
                 });
 
@@ -2731,7 +3051,7 @@ window.fc = {
             if (!arguments.length) {
                 return tickWidth;
             }
-            tickWidth = value;
+            tickWidth = d3.functor(value);
             return ohlc;
         };
 
