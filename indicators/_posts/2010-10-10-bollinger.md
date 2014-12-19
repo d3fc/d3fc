@@ -7,65 +7,48 @@ This component calculates and draws Bollinger bands on a data series, calculated
 
 <div id="example_bollinger" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the Bollinger bands component
 var bollinger = fc.indicators.bollingerBands()
-  .xScale(chart.dateScale)
-  .yScale(chart.priceScale)
+  .xScale(xScale)
+  .yScale(yScale)
   .movingAverage(10)
   .standardDeviations(2);
 
 // Add it to the chart
-chart.plotArea.append('g')
-  .attr('class', 'bollinger-band')
-  .datum(dataSeries1)
+chart.plotArea
+  .datum(data)
   .call(bollinger);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
-.bollingerBandArea {
-  fill: lightgrey;
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
+.band-area {
+  fill: #ddd;
   stroke-width: 0;
   opacity: 0.5;
 }
 
-.bollingerBandUpper {
+.band-upper, .band-lower {
   fill: none;
-  stroke: darkgrey;
-  stroke-width: 2;
-}
-
-.bollingerBandLower {
-  fill: none;
-  stroke: darkgrey;
-  stroke-width: 2;
-}
-
-.bollingerAverage {
-  fill: none;
-  stroke: darkgrey;
+  stroke: #666;
   stroke-width: 1;
-  stroke-dasharray: 4, 1;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG</h4>
-<xmp>
-<g class="bollinger-band">
-  <path class="area bollingerBandArea"></path>
-  <path class="upper bollingerBandUpper"></path>
-  <path class="lower bollingerBandLower"></path>
-  <path class="average bollingerAverage"></path>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
+<g class="bollinger-series">
+  <path d="..." class="band-area"></path>
+  <path d="..." class="band-upper"></path>
+  <path d="..." class="band-lower"></path>
+  <path d="..." class="moving-average"></path>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function () {
@@ -91,8 +74,7 @@ chart.plotArea.append('g')
     .standardDeviations(2);
 
   // Add it to the chart
-  chart.plotArea.append('g')
-    .attr('class', 'bollinger-band')
+  chart.plotArea
     .datum(dataSeries1)
     .call(bollinger);
 }());

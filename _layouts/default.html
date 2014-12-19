@@ -7,16 +7,12 @@
 
     <title>D3 Financial Charting</title>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-
-    
     <script src="//code.jquery.com/jquery-2.1.1.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.js"></script>
     <script src="fc/d3-financial-components.min.js"></script>
- 
+
     <link rel="stylesheet" href="lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/pygments-github.css" />
     <link rel="stylesheet" href="fc/d3-financial-components.min.css" />
 
     <!-- side menu from the following fiddle: http://jsfiddle.net/gableroux/S2SMK/ -->
@@ -36,11 +32,10 @@
         top: 100px;
     }
 
-    .tabs {
+    .nav-tabs {
     	margin-top: 10px;
     }
-    .tabs pre,
-    .tabs xmp {
+    .tab-pane>pre {
     	margin-top: 10px;
     	max-height: 350px;
     	overflow: auto;
@@ -71,22 +66,22 @@
     }
 
     /* active & hover links */
-    .bs-docs-sidebar .nav>.active>a, 
-    .bs-docs-sidebar .nav>li>a:hover, 
+    .bs-docs-sidebar .nav>.active>a,
+    .bs-docs-sidebar .nav>li>a:hover,
     .bs-docs-sidebar .nav>li>a:focus {
-        color: #563d7c;                 
-        text-decoration: none;          
-        background-color: transparent;  
-        border-left-color: #563d7c; 
+        color: #563d7c;
+        text-decoration: none;
+        background-color: transparent;
+        border-left-color: #563d7c;
     }
     /* all active links */
-    .bs-docs-sidebar .nav>.active>a, 
+    .bs-docs-sidebar .nav>.active>a,
     .bs-docs-sidebar .nav>.active:hover>a,
     .bs-docs-sidebar .nav>.active:focus>a {
         font-weight: 700;
     }
     /* nested active links */
-    .bs-docs-sidebar .nav .nav>.active>a, 
+    .bs-docs-sidebar .nav .nav>.active>a,
     .bs-docs-sidebar .nav .nav>.active:hover>a,
     .bs-docs-sidebar .nav .nav>.active:focus>a {
         font-weight: 500;
@@ -94,11 +89,11 @@
 
     /* hide inactive nested list */
     .bs-docs-sidebar .nav ul.nav {
-        display: none;           
+        display: none;
     }
     /* show active nested list */
     .bs-docs-sidebar .nav>.active>ul.nav {
-        display: block;           
+        display: block;
     }
     </style>
 
@@ -117,6 +112,14 @@
     #jumbo2 {
     	padding: 20px;
     }
+    </style>
+
+    <!-- Page layout based on sticky footer example http://getbootstrap.com/2.3.2/examples/sticky-footer.html -->
+    <style type="text/css">
+      .chart {
+        width: 600px;
+        height: 300px;
+      }
     </style>
 
     <!-- Page layout based on sticky footer example http://getbootstrap.com/2.3.2/examples/sticky-footer.html -->
@@ -217,7 +220,7 @@
         <p class="muted credit">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
       </div>
     </div>
-    
+
     <script type="text/javascript" src="lib/tabs.js"></script>
     <script type="text/javascript" src="lib/bootstrap.min.js"></script>
 

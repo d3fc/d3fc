@@ -15,10 +15,9 @@ It attempts to simplify the repetitive process of constructing the chart area:
 
 <div id="example_chartLayout" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 var chartLayout = fc.utilities.chartLayout()
   .marginTop(10)
   .marginBottom(30)
@@ -26,26 +25,22 @@ var chartLayout = fc.utilities.chartLayout()
   .marginRight(40);
 
 // The overall chart
-var setupArea = d3
-  .select(name)
+d3.select(name)
   .call(chartLayout);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
-.chart { 
-  height: 400px;
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
+.chartArea rect.background {
+  stroke: #eee;
+  fill: #fefefe;
 }
-.chartArea { 
-  background: #fefefe; 
-  border: solid 1px #eee;
-}
-</pre>
-  </div>
-  <div>
-    <h4>SVG Output</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <svg class="chartArea">
   <g>
     <defs>
@@ -56,9 +51,7 @@ var setupArea = d3
     <g clip-path="url(#plotAreaClip)" class="plotArea"></g>
   </g>
 </svg>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){
@@ -70,9 +63,7 @@ var setupArea = d3
     .yScale(chart.priceScale);
 
   // Add the primary OHLC series
-  chart.plotArea.selectAll('.series').remove();
-  chart.plotArea.append('g')
-    .attr('class', 'series')
+  chart.plotArea
     .datum(dataSeries1)
     .call(ohlc);
 }());

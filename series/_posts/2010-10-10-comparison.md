@@ -7,10 +7,9 @@ Comparison charts, as their name suggests, are great for comparing the percentag
 
 <div id="example_comparison" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the Comparison series
 var comparison = fc.series.comparison()
   .xScale(chart.dateScale)
@@ -22,11 +21,11 @@ chart.plotArea.append('g')
   .attr('class', 'series')
   .datum(data)
   .call(comparison);
-</pre>
-  </div>
-  <div>
-    <h4>Data structure (JS)</h4>
-<pre>
+{% endhighlight %}
+
+#### Data structure (JS)
+
+{% highlight javascript %}
 var data = [
   {
     name: "Series 1",
@@ -50,34 +49,32 @@ var data = [
       .generate()
   }
 ];
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
-.line { 
-  fill: none; 
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
+.line {
+  fill: none;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="comparison-series">
   <path class="line"></path>
   <path class="line"></path>
   <path class="line"></path>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){
   var chart = createPlotArea(dataSeries1, '#example_comparison', false, true);
 
-  var data = [ 
-  	{ name: 'Series 1', data: dataSeries1 }, 
+  var data = [
+  	{ name: 'Series 1', data: dataSeries1 },
   	{ name: 'Series 2', data: dataSeries2 },
   	{ name: 'Series 3', data: dataSeries3 }
   ];

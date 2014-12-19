@@ -9,15 +9,14 @@ By default the component will become fixed at its current position in response t
 
 <div id="example_crosshairs" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create an invisible overlay
 var overlay = d3.svg.area()
   .x(function (d) { return chart.dateScale(d.date); })
   .y0(0)
-  .y1(chart.layout.innerHeight());
+  .y1(chart.layout.getPlotAreaHeight());
 
 // Create the crosshairs
 var crosshairs = fc.tools.crosshairs()
@@ -33,11 +32,11 @@ chart.plotArea.append('path')
   .attr('class', 'overlay')
   .attr('d', overlay(dataSeries1))
   .call(crosshairs);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
 line.crosshairs {
   stroke: #69f;
   stroke-width: 1;
@@ -56,11 +55,11 @@ text.crosshairs {
 .crosshairs.frozen {
   stroke: #933;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG Output</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="crosshairs">
 	<line class="crosshairs horizontal"></line>
 	<line class="crosshairs vertical"></line>
@@ -68,9 +67,7 @@ text.crosshairs {
 	<text class="crosshairs callout horizontal"></text>
 	<text class="crosshairs callout vertical"></text>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){
@@ -92,7 +89,7 @@ text.crosshairs {
   var overlay = d3.svg.area()
     .x(function (d) { return chart.dateScale(d.date); })
     .y0(0)
-    .y1(chart.layout.innerHeight());
+    .y1(chart.layout.getPlotAreaHeight());
 
   // Create the crosshairs
   var crosshairs = fc.tools.crosshairs()

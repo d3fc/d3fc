@@ -7,45 +7,40 @@ A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator 
 
 <div id="example_movingAverage" class="chart"> </div>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 // Create the moving average indicator
-var movingAverage = 
+var movingAverage =
   fc.indicators.movingAverage()
-    .xScale(chart.dateScale)   // associate the X and Y scales
-    .yScale(chart.priceScale)
-    .yValue(function(d) { return d.close; }) // specify the property of the data that is smoothed
-    .averagePoints(10);        // specify the number of data points to average
+    .xScale(xScale)     // associate the X and Y scales
+    .yScale(yScale)
+    .averagePoints(10); // specify the number of data points to average
 
 // Add the indicator to the chart
-chart.plotArea.append('g')
-  .attr('class', 'moving-average')   // add a class 
-  .datum(data)                       // associate with the given chart data
+chart.plotArea
+  .datum(data)          // associate with the given chart data
   .call(movingAverage);
-</pre>
-  </div>
-  <div>
-    <h4>CSS</h4>
-<pre>
+{% endhighlight %}
+
+#### CSS
+
+{% highlight css %}
 .moving-average {
   fill: none;
   stroke: #69f;
   stroke-width: 1;
   stroke-dasharray: 3, 3;
 }
-</pre>
-  </div>
-  <div>
-    <h4>SVG (output)</h4>
-<xmp>
+{% endhighlight %}
+
+#### SVG Output
+
+{% highlight html %}
 <g class="moving-average">
-  <path d="..." class="indicator"></path>
+  <path d="..." class="moving-average"></path>
 </g>
-</xmp>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){
@@ -71,8 +66,7 @@ chart.plotArea.append('g')
     .averagePoints(10);
 
   // Add it to the chart
-  chart.plotArea.append('g')
-    .attr('class', 'moving-average')
+  chart.plotArea
     .datum(dataSeries1)
     .call(tracker);
 }());

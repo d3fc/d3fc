@@ -12,19 +12,16 @@ This component will generate some 'fake' daily price data to use when developing
 </tbody>
 </table>
 
-<div class="tabs">
-  <div>
-    <h4>JavaScript</h4>
-<pre>
+#### JavaScript
+
+{% highlight javascript %}
 var dataSeries_Small = fc.utilities.dataGenerator()
   .mu(0.1)
   .sigma(0.2)
   .fromDate(new Date(2014, 1, 1))
   .toDate(new Date(2014, 2, 1))
   .generate();
-</pre>
-  </div>
-</div>
+{% endhighlight %}
 
 <script type="text/javascript">
 (function(){
