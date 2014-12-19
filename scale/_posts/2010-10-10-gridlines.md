@@ -12,8 +12,8 @@ This component draws gridlines on the chart based on the chart scales tick posit
 {% highlight javascript %}
 // Create the gridlines component
 var gridlines = fc.scale.gridlines()
-  .xScale(chart.dateScale)
-  .yScale(chart.priceScale)
+  .xScale(xScale)
+  .yScale(yScale)
   .xTicks(10);
 
 // Add gridlines to the chart area
@@ -24,12 +24,8 @@ chart.plotArea.call(gridlines);
 
 {% highlight css %}
 .gridlines {
-	stroke: #ccc;
-	stroke-width: 1.0;
-}
-.gridlines .x {
-}
-.gridlines .y {
+  stroke: #ccc;
+  stroke-width: 1.0;
 }
 {% endhighlight %}
 

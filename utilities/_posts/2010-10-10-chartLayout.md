@@ -25,20 +25,16 @@ var chartLayout = fc.utilities.chartLayout()
   .marginRight(40);
 
 // The overall chart
-var setupArea = d3
-  .select(name)
+d3.select(name)
   .call(chartLayout);
 {% endhighlight %}
 
 #### CSS
 
 {% highlight css %}
-.chart {
-  height: 400px;
-}
-.chartArea {
-  background: #fefefe;
-  border: solid 1px #eee;
+.chartArea rect.background {
+  stroke: #eee;
+  fill: #fefefe;
 }
 {% endhighlight %}
 
@@ -67,9 +63,7 @@ var setupArea = d3
     .yScale(chart.priceScale);
 
   // Add the primary OHLC series
-  chart.plotArea.selectAll('.series').remove();
-  chart.plotArea.append('g')
-    .attr('class', 'series')
+  chart.plotArea
     .datum(dataSeries1)
     .call(ohlc);
 }());

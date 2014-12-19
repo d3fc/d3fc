@@ -12,14 +12,12 @@ This component calculates and draws a candlestick data series, the series shows 
 {% highlight javascript %}
 // Create the Candlestick series
 var candlestick = fc.series.candlestick()
-  .xScale(chart.dateScale)
-  .yScale(chart.priceScale);
+  .xScale(xScale)
+  .yScale(yScale);
 
 // Add the primary Candlestick series
-chart.plotArea.selectAll('.series').remove();
-chart.plotArea.append('g')
-  .attr('class', 'series')
-  .datum(dataSeries1)
+chart.plotArea
+  .datum(data)
   .call(candlestick);
 {% endhighlight %}
 
@@ -59,6 +57,7 @@ chart.plotArea.append('g')
     <path class="high-low-line"></path>
     <rect></rect>
   </g>
+  ...
 </g>
 {% endhighlight %}
 
@@ -72,9 +71,7 @@ chart.plotArea.append('g')
     .yScale(chart.priceScale);
 
   // Add the primary Candlestick series
-  chart.plotArea.selectAll('.series').remove();
-  chart.plotArea.append('g')
-    .attr('class', 'series')
+  chart.plotArea
     .datum(dataSeries1)
     .call(candlestick);
 }());

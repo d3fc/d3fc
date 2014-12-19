@@ -13,15 +13,13 @@ A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator 
 // Create the moving average indicator
 var movingAverage =
   fc.indicators.movingAverage()
-    .xScale(chart.dateScale)   // associate the X and Y scales
-    .yScale(chart.priceScale)
-    .yValue(function(d) { return d.close; }) // specify the property of the data that is smoothed
-    .averagePoints(10);        // specify the number of data points to average
+    .xScale(xScale)     // associate the X and Y scales
+    .yScale(yScale)
+    .averagePoints(10); // specify the number of data points to average
 
 // Add the indicator to the chart
-chart.plotArea.append('g')
-  .attr('class', 'moving-average')   // add a class
-  .datum(data)                       // associate with the given chart data
+chart.plotArea
+  .datum(data)          // associate with the given chart data
   .call(movingAverage);
 {% endhighlight %}
 
@@ -40,7 +38,7 @@ chart.plotArea.append('g')
 
 {% highlight html %}
 <g class="moving-average">
-  <path d="..." class="indicator"></path>
+  <path d="..." class="moving-average"></path>
 </g>
 {% endhighlight %}
 
@@ -68,8 +66,7 @@ chart.plotArea.append('g')
     .averagePoints(10);
 
   // Add it to the chart
-  chart.plotArea.append('g')
-    .attr('class', 'moving-average')
+  chart.plotArea
     .datum(dataSeries1)
     .call(tracker);
 }());
