@@ -22,20 +22,21 @@
     * @memberof fc.scale.dateTime
     * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear
     * scale between the original and the copy.
-    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max
+    * @param {array} baseDomain used in the copy constructor to copy the base domain (Max
     * and Min) between the original and the copy.
     * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment
     * option between the original and the copy.
     * @param {boolean} hideWeekends used in the copy constructor to copy the hide weekends
     * option between the original and the copy.
     */
-    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends) {
+    function dateTimeScale(linear, baseDomain, alignPixels, hideWeekends, padEnds) {
 
         if (!arguments.length) {
             linear = d3.scale.linear();
             baseDomain = [new Date(0), new Date(0)];
             alignPixels = true;
             hideWeekends = false;
+            padEnds = false;
         }
 
         /**
@@ -43,6 +44,7 @@
         * to position elements on the X axis.
         *
         * @memberof fc.scale.dateTime
+        * @method scale
         * @param {object} x the real world domain value to be scaled.
         * @returns the converted value in pixel space. This value is also pixel aligned if the
         * relevant options are set.
@@ -65,21 +67,56 @@
         * values denoted by this scale (Max. and Min.).
         *
         * @memberof fc.scale.dateTime
-        * @param {array[2]} domain the real world domain value as an array of 2 date objects,
+        * @method domain
+        * @param {array} domain the real world domain value as an array of 2 date objects,
         * Min and Max respectively.
-        * @returns the current domain is no arguments are passed.
+        * @returns the current domain if no arguments are passed.
         */
         scale.domain = function(domain) {
 
             if (!arguments.length) {
-                return [linearTime(baseDomain[0]), linearTime(baseDomain[1])];
+                return [baseDomain[0], baseDomain[1]];
             }
             if (typeof domain[0] === 'number') {
                 linear.domain(domain);
             } else {
-                baseDomain = createbaseDomain(domain);
+                baseDomain = domain;
                 linear.domain([linearTime(baseDomain[0]), linearTime(baseDomain[1])]);
             }
+            return scale;
+        };
+
+        /**
+        * Used to set or get the domain for this scale from a data set. The domain is the range of real world
+        * values denoted by this scale (Max. and Min.).
+        *
+        * @memberof fc.scale.dateTime
+        * @method domainFromValues
+        * @param {array} data the data set used to evaluate Min and Max values.
+        * @param {array} fields the fields within the data set used to evaluate Min and Max values.
+        * @returns the current domain if no arguments are passed.
+        */
+        scale.domainFromValues = function(data, fields) {
+
+            if (!arguments.length) {
+                return scale.domain();
+            } else {
+                var mins = [],
+                    maxs = [],
+                    fieldIndex = 0,
+                    getField = function(d) { return d[fields[fieldIndex]].getTime(); };
+
+                for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+                    mins.push(d3.min(data, getField));
+                    maxs.push(d3.max(data, getField));
+                }
+
+                scale.domain([
+                    new Date(d3.min(mins, function(d) { return d; })),
+                    new Date(d3.max(maxs, function(d) { return d; }))
+                ]);
+            }
+
             return scale;
         };
 
@@ -88,6 +125,7 @@
         * the `scale` function.
         *
         * @memberof fc.scale.dateTime
+        * @method invert
         * @param {decimal} pixel the pixel value to be scaled.
         * @returns the converted value in real world space. In most cases this value will only be
         * accurate to the precision of the pixel width of the scale.
@@ -102,10 +140,11 @@
         * This function facilities a deep copy.
         *
         * @memberof fc.scale.dateTime
+        * @method copy
         * @returns the copy.
         */
         scale.copy = function() {
-            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends);
+            return dateTimeScale(linear.copy(), baseDomain, alignPixels, hideWeekends, padEnds);
         };
 
         /**
@@ -129,6 +168,7 @@
         * + Second
         *
         * @memberof fc.scale.dateTime
+        * @method ticks
         * @param {integer} n the number of ticks to try and display within the scale domain.
         * (This value is used as  a guide for a best fit approach)
         * @returns an array of values denoting real world positions within the scale.
@@ -137,8 +177,7 @@
         scale.ticks = function(n) {
             return arguments.length ? function() {
 
-                var test = [],
-                    ticks = [],
+                var ticks = [],
                     offsetMilli = (baseDomain[1].getTime() - baseDomain[0].getTime()) / n,
                     offset = new Date(offsetMilli),
                     start = new Date(baseDomain[0].getTime()),
@@ -236,8 +275,9 @@
 
                 var tickDate = start;
                 while (tickDate.getTime() <= baseDomain[1].getTime()) {
-                    ticks.push(linearTime(tickDate));
-                    test.push(new Date(tickDate.getTime()));
+                    if (tickDate.getTime() >= baseDomain[0].getTime()) {
+                        ticks.push(linearTime(tickDate));
+                    }
                     tickDate = stepFunction(tickDate);
                 }
 
@@ -250,6 +290,7 @@
         * Used to set the callback function used to format the data label for the associated axis tick label.
         *
         * @memberof fc.scale.dateTime
+        * @method tickFormat
         * @param {integer} count
         * @param {decimal} f
         * @returns a function which returns the formatting function for the individual data item.
@@ -264,6 +305,7 @@
         * Used to get or set the option to hide weekends. Not showing weekends is common practice on financial charts.
         *
         * @memberof fc.scale.dateTime
+        * @method hideWeekends
         * @param {boolean} value if set to `true` weekends will not be shown.
         * If no value argument is passed the current setting will be returned.
         */
@@ -279,6 +321,7 @@
         * Used to get or set the option to align ticks to pixel columns. Pixel aligning yields crisper chart graphics.
         *
         * @memberof fc.scale.dateTime
+        * @method alignPixels
         * @param {boolean} value if set to `true` values will be pixel aligned.
         * If no value argument is passed the current setting will be returned.
         */
@@ -290,30 +333,38 @@
             return scale;
         };
 
-        function createbaseDomain(domain) {
-            var d0 = new Date(domain[0].getFullYear(), domain[0].getMonth(), domain[0].getDate(), 0, 0, 0);
-            var d1 = new Date(domain[1].getFullYear(), domain[1].getMonth(), domain[1].getDate() + 2, 0, 0, 0);
-            while (d0.getDay() !== 1) {
-                d0.setDate(d0.getDate() - 1);
+        /**
+        * Used to get or set the option to apply time period padding at the start and end of the data in the scale.
+        *
+        * @memberof fc.scale.dateTime
+        * @method padEnds
+        * @param {boolean} value if set to `true` the ends of the scale will be padded with one time period.
+        * If no value argument is passed the current setting will be returned.
+        */
+        scale.padEnds = function(value) {
+            if (!arguments.length) {
+                return padEnds;
             }
-            return [d0, d1];
-        }
+            padEnds = value;
+            return scale;
+        };
 
         function linearTime(date) {
 
-            var l = 0,
-                milliSecondsInWeek = 592200000,
-                milliSecondsInWeekend = 172800000;
-
+            var l = 0;
             if (hideWeekends) {
-                if (date.getDay() === 0) {
-                    date.setDate(date.getDate() + 1);
-                }
-                if (date.getDay() === 6) {
-                    date.setDate(date.getDate() - 1);
-                }
-                var weeksFromBase = Math.floor((date.getTime() - baseDomain[0].getTime()) / milliSecondsInWeek);
-                l = (date.getTime() - baseDomain[0].getTime()) - (milliSecondsInWeekend * weeksFromBase);
+
+                var dayMs = 86400000,
+                    weekMs = dayMs * 7,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = Math.floor((date.getTime() - wsMonday) / weekMs),
+                    weekOffsetMs = weekOffset * weekendMs,
+                    weekendAdjustment = weekOffsetMs - (baseDomain[0] - wsMonday);
+
+                l = (date.getTime() - baseDomain[0].getTime()) - weekendAdjustment;
+
             } else {
                 l = date.getTime() - baseDomain[0].getTime();
             }
@@ -323,13 +374,19 @@
 
         function linearTimeInvert(l) {
 
-            var date = new Date(0),
-                milliSecondsInShortWeek = 432000000,
-                milliSecondsInWeekend = 172800000;
-
+            var date = new Date(0);
             if (hideWeekends) {
-                var weeksFromBase = Math.floor(l / milliSecondsInShortWeek);
-                date = new Date(baseDomain[0].getTime() + l + (milliSecondsInWeekend * weeksFromBase));
+
+                var dayMs = 86400000,
+                    shortWeekMs = dayMs * 5,
+                    weekendMs = dayMs * 2;
+
+                var wsMonday = getWeekStart(baseDomain[0]).getTime() + dayMs, // Make Monday (Sunday=0)
+                    weekOffset = l / shortWeekMs,
+                    weekOffsetMs = Math.floor(weekOffset) * weekendMs;
+
+                date = new Date(wsMonday + l + weekOffsetMs);
+
             } else {
                 date = new Date(baseDomain[0].getTime() + l);
             }

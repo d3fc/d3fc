@@ -5,7 +5,7 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            barWidth = 5,
+            barWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5),
             yValue = fc.utilities.valueAccessor('volume'),
             classForBar = function(d) { return ''; };
 
@@ -37,9 +37,9 @@
                     .remove();
 
                 // update
-                series.attr('x', function(d) { return xScale(d.date) - (barWidth / 2.0); })
+                series.attr('x', function(d) { return xScale(d.date) - (barWidth(xScale) / 2.0); })
                     .attr('y', function(d) { return yScale(yValue(d)); })
-                    .attr('width', barWidth)
+                    .attr('width', barWidth(xScale))
                     .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); })
                     .attr('class', classForBar);
             });
@@ -65,7 +65,7 @@
             if (!arguments.length) {
                 return barWidth;
             }
-            barWidth = value;
+            barWidth = d3.functor(value);
             return bar;
         };
 

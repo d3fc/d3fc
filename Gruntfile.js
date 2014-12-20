@@ -114,7 +114,7 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            doc: ["doc"]
+            doc: ['doc']
         }
     });
 
@@ -123,7 +123,9 @@ module.exports = function (grunt) {
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
-    grunt.registerTask('build', ['jshint:failOnError', 'jscs:failOnError', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
+    grunt.registerTask('build', ['check', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
     grunt.registerTask('dev', ['build', 'watch']);
-    grunt.registerTask('doc', ['clean:doc', 'jsdoc'])
+    grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
+    grunt.registerTask('ci', ['default']);
+    grunt.registerTask('default', ['build', 'doc']);
 };

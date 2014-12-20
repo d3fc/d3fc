@@ -11,7 +11,7 @@
             yLow = fc.utilities.valueAccessor('low'),
             yClose = fc.utilities.valueAccessor('close');
 
-        var rectangleWidth = 5;
+        var rectangleWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5);
 
         var isUpDay = function(d) {
             return yClose(d) > yOpen(d);
@@ -55,12 +55,12 @@
             rect.enter().append('rect');
 
             rect.attr('x', function(d) {
-                return xScale(d.date) - (rectangleWidth / 2.0);
+                return xScale(d.date) - (rectangleWidth(xScale) / 2.0);
             })
                 .attr('y', function(d) {
                     return isUpDay(d) ? yScale(yClose(d)) : yScale(yOpen(d));
                 })
-                .attr('width', rectangleWidth)
+                .attr('width', rectangleWidth(xScale))
                 .attr('height', function(d) {
                     return isUpDay(d) ?
                         yScale(yOpen(d)) - yScale(yClose(d)) :
@@ -125,7 +125,7 @@
             if (!arguments.length) {
                 return rectangleWidth;
             }
-            rectangleWidth = value;
+            rectangleWidth = d3.functor(value);
             return candlestick;
         };
 

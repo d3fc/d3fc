@@ -32,29 +32,6 @@
         */
         var rsi = function(selection) {
 
-            selection.selectAll('.marker').remove();
-
-            upper = selection.append('line')
-                .attr('class', 'marker upper')
-                .attr('x1', xScale.range()[0])
-                .attr('y1', yScale(upperMarker))
-                .attr('x2', xScale.range()[1])
-                .attr('y2', yScale(upperMarker));
-
-            centre = selection.append('line')
-                .attr('class', 'marker centre')
-                .attr('x1', xScale.range()[0])
-                .attr('y1', yScale(50))
-                .attr('x2', xScale.range()[1])
-                .attr('y2', yScale(50));
-
-            lower = selection.append('line')
-                .attr('class', 'marker lower')
-                .attr('x1', xScale.range()[0])
-                .attr('y1', yScale(lowerMarker))
-                .attr('x2', xScale.range()[1])
-                .attr('y2', yScale(lowerMarker));
-
             var line = d3.svg.line();
             line.x(function(d) { return xScale(d.date); });
 
@@ -91,15 +68,56 @@
                     });
                 }
 
-                var path = d3.select(this).selectAll('.' + css)
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this)
+                    .selectAll('.' + css)
                     .data([data]);
-
-                path.enter().append('path');
-
-                path.attr('d', line)
+                container.enter()
+                    .append('g')
                     .classed(css, true);
 
-                path.exit().remove();
+
+                // add the marker lines
+                container.selectAll('.marker').remove();
+
+                upper = container.append('line')
+                    .attr('class', 'marker upper')
+                    .attr('x1', xScale.range()[0])
+                    .attr('y1', yScale(upperMarker))
+                    .attr('x2', xScale.range()[1])
+                    .attr('y2', yScale(upperMarker));
+
+                centre = container.append('line')
+                    .attr('class', 'marker centre')
+                    .attr('x1', xScale.range()[0])
+                    .attr('y1', yScale(50))
+                    .attr('x2', xScale.range()[1])
+                    .attr('y2', yScale(50));
+
+                lower = container.append('line')
+                    .attr('class', 'marker lower')
+                    .attr('x1', xScale.range()[0])
+                    .attr('y1', yScale(lowerMarker))
+                    .attr('x2', xScale.range()[1])
+                    .attr('y2', yScale(lowerMarker));
+
+
+                 // create a data-join for the path
+                var path = container
+                    .selectAll('path')
+                    .data([data]);
+
+                // enter
+                path.enter()
+                    .append('path');
+
+                // update
+                path.attr('d', line);
+
+                // exit
+                path.exit()
+                    .remove();
             });
         };
 

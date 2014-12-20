@@ -13,9 +13,21 @@ window.fc = {
      * @namespace fc.indicators
      */
     indicators: {},
+    /**
+     * Useful complex scales which add to the D3 scales in terms of render quality.
+     * Also, complex financial scales that can be added to a chart
+     *
+     * @namespace fc.scale
+     */
     scale: {},
     series: {},
     tools: {},
+    /**
+     * Utility components to shorted long winded implementations of common operations.
+     * Also includes components for mock data generation and layout.
+     *
+     * @namespace fc.utilities
+     */
     utilities: {}
 };
 (function(d3, fc) {
@@ -75,7 +87,7 @@ window.fc = {
 
             // Clipping path
             chart.append('defs').append('clipPath')
-                .attr('id', 'plotAreaClip')
+                .attr('id', 'plotAreaClip_' + element.id)
                 .append('rect')
                 .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
 
@@ -87,7 +99,7 @@ window.fc = {
 
             // Create plot area, using the clipping path
             chart.append('g')
-                .attr('clip-path', 'url(#plotAreaClip)')
+                .attr('clip-path', 'url(#plotAreaClip_' + element.id + ')')
                 .attr('class', 'plotArea');
 
             // Create containers for the axes
@@ -190,6 +202,15 @@ window.fc = {
 (function(fc) {
     'use strict';
 
+    /**
+    * This component can be used to generate mock/fake daily market data for use with the chart
+    * data series components. This component does not act on a D3 selection in the same way as
+    * the other components.
+    *
+    * @type {object}
+    * @memberof fc.utilities
+    * @namespace fc.utilities.dataGenerator
+    */
     fc.utilities.dataGenerator = function() {
 
         var mu = 0.1,
@@ -320,10 +341,29 @@ window.fc = {
         var dataGenerator = function(selection) {
         };
 
+        /**
+        * Used to trigger the generation of data once generation parameters have been set.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method generate
+        * @returns the generated data in a format suitable for the chart series components.
+        * This constitutes and array of objects with the following fields: date, open, high,
+        * low, close, volume. The data will be spaced as daily data with each date being a
+        * weekday.
+        */
         dataGenerator.generate = function() {
             return generate();
         };
 
+        /**
+        * Used to get/set the `mu` property for the brownian motion calculation this dictates the
+        * deviation in the standard deviation part of the calculation.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method mu
+        * @param {decimal} value the standard deviation for the generation equation.
+        * @returns the current value if a value is not specified. The default value is 0.1.
+        */
         dataGenerator.mu = function(value) {
             if (!arguments.length) {
                 return mu;
@@ -332,6 +372,15 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the `sigma` property for the brownian motion calculation this dictates the
+        * offset in the standard deviation part of the calculation.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method sigma
+        * @param {decimal} value the offset for the generation equation.
+        * @returns the current value if a value is not specified. The default value is 0.1.
+        */
         dataGenerator.sigma = function(value) {
             if (!arguments.length) {
                 return sigma;
@@ -340,6 +389,15 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the starting price which provides the reference point for the generation of
+        * the data that follows.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method startingPrice
+        * @param {decimal} value the starting price for data generation.
+        * @returns the current value if a value is not specified. The default value is 100.
+        */
         dataGenerator.startingPrice = function(value) {
             if (!arguments.length) {
                 return startingPrice;
@@ -348,6 +406,15 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the starting volume which provides the reference point for the generation of
+        * the data that follows.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method startingVolume
+        * @param {decimal} value the starting volume for data generation.
+        * @returns the current value if a value is not specified. The default value is 100000.
+        */
         dataGenerator.startingVolume = function(value) {
             if (!arguments.length) {
                 return startingVolume;
@@ -356,6 +423,14 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the number of data points (tick) calculated for each daily data period.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method intraDaySteps
+        * @param {decimal} value the number of ticks to evaluate within each daily data set.
+        * @returns the current value if a value is not specified. The default value is 50.
+        */
         dataGenerator.intraDaySteps = function(value) {
             if (!arguments.length) {
                 return intraDaySteps;
@@ -364,6 +439,15 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the noise factor for the volume data generator. The volume data is generated
+        * randomly within the range the start value +/- the noise factor.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method volumeNoiseFactor
+        * @param {decimal} value multiplier (factor) for noise added to the random volume data generator.
+        * @returns the current value if a value is not specified. The default value is 0.3.
+        */
         dataGenerator.volumeNoiseFactor = function(value) {
             if (!arguments.length) {
                 return volumeNoiseFactor;
@@ -372,6 +456,18 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the data filter function. The function passed to this property have each date sent
+        * to it and it will decide whether that date should appear in the final dataset. The default function
+        * will filter weekends, but it is user configurable.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method filter
+        * @param {function} value a function which will receive a date object and return a boolean to flag
+        * whether a date should be included in the data set or not.
+        * @returns the current function if a function is not specified. The default function is
+        * <pre><code>function(date) { return !(date.getDay() === 0 || date.getDay() === 6); };</code></pre>
+        */
         dataGenerator.filter = function(value) {
             if (!arguments.length) {
                 return filter;
@@ -380,6 +476,15 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the date the data runs to.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method toDate
+        * @param {date} value the date of the final data item in the data set.
+        * @returns the current value if a value is not specified. This property has no default value and must
+        * be set before calling `generate()`.
+        */
         dataGenerator.toDate = function(value) {
             if (!arguments.length) {
                 return toDate;
@@ -388,6 +493,15 @@ window.fc = {
             return dataGenerator;
         };
 
+        /**
+        * Used to get/set the date the data runs from.
+        *
+        * @memberof fc.utilities.dataGenerator
+        * @method fromDate
+        * @param {date} value the date of the first data item in the data set.
+        * @returns the current value if a value is not specified. This property has no default value and must
+        * be set before calling `generate()`.
+        */
         dataGenerator.fromDate = function(value) {
             if (!arguments.length) {
                 return fromDate;
@@ -402,6 +516,17 @@ window.fc = {
 (function(d3, fc) {
     'use strict';
 
+    /**
+    * This component provides a utility which allows other component to fail gracefully should a value
+    * be passed for a data fields which does not exist in the data set.
+    *
+    * @type {function}
+    * @memberof fc.utilities
+    * @namespace fc.utilities.valueAccessor
+    * @param {string} propertyName the name of the property in the data set we are trying to use.
+    * @returns a function which returns the value of the named property/field from the data item if it exists or 0
+    * if it does not. Should it not exist the function will also log a message in the JavaScript console.
+    */
     fc.utilities.valueAccessor = function(propertyName) {
         return function(d) {
             if (d.hasOwnProperty(propertyName)) {
@@ -553,20 +678,34 @@ window.fc = {
                     prunedData.push(data[n]);
                 }
 
-                var pathArea = d3.select(this).selectAll('.' + cssBandArea)
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this).selectAll('.bollinger-series').data([data]);
+                container.enter()
+                    .append('g')
+                    .classed('bollinger-series', true);
+
+                // create a data-join for each element of the band
+                var pathArea = container
+                    .selectAll('.' + cssBandArea)
                     .data([prunedData]);
-                var pathUpper = d3.select(this).selectAll('.' + cssBandUpper)
+                var pathUpper = container
+                    .selectAll('.' + cssBandUpper)
                     .data([prunedData]);
-                var pathLower = d3.select(this).selectAll('.' + cssBandLower)
+                var pathLower = container
+                    .selectAll('.' + cssBandLower)
                     .data([prunedData]);
-                var pathAverage = d3.select(this).selectAll('.' + cssAverage)
+                var pathAverage = container
+                    .selectAll('.' + cssAverage)
                     .data([prunedData]);
 
+                // enter
                 pathArea.enter().append('path');
                 pathUpper.enter().append('path');
                 pathLower.enter().append('path');
                 pathAverage.enter().append('path');
 
+                // update
                 pathArea.attr('d', areaBands)
                     .classed(cssBandArea, true);
                 pathUpper.attr('d', lineUpper)
@@ -576,6 +715,7 @@ window.fc = {
                 pathAverage.attr('d', lineAverage)
                     .classed(cssAverage, true);
 
+                // exit
                 pathArea.exit().remove();
                 pathUpper.exit().remove();
                 pathLower.exit().remove();
@@ -720,15 +860,31 @@ window.fc = {
                     });
                 }
 
-                var path = d3.select(this).selectAll('.' + css)
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this)
+                    .selectAll('.' + css)
+                    .data([data]);
+                container.enter()
+                    .append('g')
+                    .classed(css, true);
+
+                // create a data-join for the path
+                var path = container
+                    .selectAll('path')
                     .data([data]);
 
-                path.enter().append('path');
+                // enter
+                path.enter()
+                    .append('path');
 
+                // update
                 path.attr('d', line)
                     .classed(css, true);
 
-                path.exit().remove();
+                // exit
+                path.exit()
+                    .remove();
             });
         };
 
@@ -1051,7 +1207,7 @@ window.fc = {
     * @memberof fc.scale.dateTime
     * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear
     * scale between the original and the copy.
-    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max
+    * @param {array} baseDomain used in the copy constructor to copy the base domain (Max
     * and Min) between the original and the copy.
     * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment
     * option between the original and the copy.
@@ -1072,6 +1228,7 @@ window.fc = {
         * to position elements on the X axis.
         *
         * @memberof fc.scale.dateTime
+        * @method scale
         * @param {object} x the real world domain value to be scaled.
         * @returns the converted value in pixel space. This value is also pixel aligned if the
         * relevant options are set.
@@ -1094,9 +1251,10 @@ window.fc = {
         * values denoted by this scale (Max. and Min.).
         *
         * @memberof fc.scale.dateTime
-        * @param {array[2]} domain the real world domain value as an array of 2 date objects,
+        * @method domain
+        * @param {array} domain the real world domain value as an array of 2 date objects,
         * Min and Max respectively.
-        * @returns the current domain is no arguments are passed.
+        * @returns the current domain if no arguments are passed.
         */
         scale.domain = function(domain) {
 
@@ -1117,6 +1275,7 @@ window.fc = {
         * the `scale` function.
         *
         * @memberof fc.scale.dateTime
+        * @method invert
         * @param {decimal} pixel the pixel value to be scaled.
         * @returns the converted value in real world space. In most cases this value will only be
         * accurate to the precision of the pixel width of the scale.
@@ -1131,6 +1290,7 @@ window.fc = {
         * This function facilities a deep copy.
         *
         * @memberof fc.scale.dateTime
+        * @method copy
         * @returns the copy.
         */
         scale.copy = function() {
@@ -1158,6 +1318,7 @@ window.fc = {
         * + Second
         *
         * @memberof fc.scale.dateTime
+        * @method ticks
         * @param {integer} n the number of ticks to try and display within the scale domain.
         * (This value is used as  a guide for a best fit approach)
         * @returns an array of values denoting real world positions within the scale.
@@ -1279,6 +1440,7 @@ window.fc = {
         * Used to set the callback function used to format the data label for the associated axis tick label.
         *
         * @memberof fc.scale.dateTime
+        * @method tickFormat
         * @param {integer} count
         * @param {decimal} f
         * @returns a function which returns the formatting function for the individual data item.
@@ -1293,6 +1455,7 @@ window.fc = {
         * Used to get or set the option to hide weekends. Not showing weekends is common practice on financial charts.
         *
         * @memberof fc.scale.dateTime
+        * @method hideWeekends
         * @param {boolean} value if set to `true` weekends will not be shown.
         * If no value argument is passed the current setting will be returned.
         */
@@ -1308,6 +1471,7 @@ window.fc = {
         * Used to get or set the option to align ticks to pixel columns. Pixel aligning yields crisper chart graphics.
         *
         * @memberof fc.scale.dateTime
+        * @method alignPixels
         * @param {boolean} value if set to `true` values will be pixel aligned.
         * If no value argument is passed the current setting will be returned.
         */
@@ -1419,8 +1583,8 @@ window.fc = {
     */
     fc.scale.gridlines = function() {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
+        var xScale = fc.scale.dateTime(),
+            yScale = fc.scale.linear(),
             xTicks = 10,
             yTicks = 10;
 
@@ -1472,7 +1636,7 @@ window.fc = {
         * Constructs a new instance of the gridlines component.
         *
         * @memberof fc.scale.gridlines
-        * @param {selection} selection a selection of D3 elements.
+        * @param {selection} selection contains the D3 selection to receive the new DOM elements.
         */
         var gridlines = function(selection) {
             var grid, xTickData, yTickData;
@@ -1488,22 +1652,46 @@ window.fc = {
             });
         };
 
-        gridlines.xScale = function(value) {
+        /**
+        * Specifies the X scale which the gridlines component uses to locate its SVG elements.
+        * If not specified, returns the current X scale, which defaults to an unmodified fc.scale.dateTime
+        *
+        * @memberof fc.scale.gridlines
+        * @method xScale
+        * @param {scale} scale a D3 scale
+        */
+        gridlines.xScale = function(scale) {
             if (!arguments.length) {
                 return xScale;
             }
-            xScale = value;
+            xScale = scale;
             return gridlines;
         };
 
-        gridlines.yScale = function(value) {
+        /**
+        * Specifies the Y scale which the gridlines component uses to locate its SVG elements.
+        * If not specified, returns the current Y scale, which defaults to an unmodified fc.scale.linear.
+        *
+        * @memberof fc.scale.gridlines
+        * @method yScale
+        * @param {scale} scale a D3 scale
+        */
+        gridlines.yScale = function(scale) {
             if (!arguments.length) {
                 return yScale;
             }
-            yScale = value;
+            yScale = scale;
             return gridlines;
         };
 
+        /**
+        * Specifies the number of X ticks / vertical lines used on the X scale.
+        * If not specified, returns the current X ticks, which defaults to 10.
+        *
+        * @memberof fc.scale.gridlines
+        * @method xTicks
+        * @param {integer} value a D3 scale
+        */
         gridlines.xTicks = function(value) {
             if (!arguments.length) {
                 return xTicks;
@@ -1512,6 +1700,14 @@ window.fc = {
             return gridlines;
         };
 
+        /**
+        * Specifies the number of Y ticks / horizontal lines used on the Y scale.
+        * If not specified, returns the current Y ticks, which defaults to 10.
+        *
+        * @memberof fc.scale.gridlines
+        * @method yTicks
+        * @param {integer} value a D3 scale
+        */
         gridlines.yTicks = function(value) {
             if (!arguments.length) {
                 return yTicks;
@@ -1527,6 +1723,15 @@ window.fc = {
 (function(d3, fc) {
     'use strict';
 
+    /**
+    * This component provides a scale primarily used on the Y axis of charts and extends the d3.scale.linear
+    * scale. This scale contains an option to pixel align when calculating the screen pixel from the real value.
+    * This generally produces crisper graphics.
+    *
+    * @type {object}
+    * @memberof fc.scale
+    * @namespace fc.scale.linear
+    */
     fc.scale.linear = function() {
         return linearScale();
     };
@@ -1539,29 +1744,87 @@ window.fc = {
             linear = d3.scale.linear();
         }
 
+        /**
+        * Used to scale a value from domain space to pixel space. This function is used primarily
+        * to position elements on the scales axis.
+        *
+        * @memberof fc.scale.linear
+        * @method scale
+        * @param {decimal} x the real world domain value to be scaled.
+        * @returns the converted pixel aligned value in pixel space.
+        */
         function scale(x) {
             var n = linear(x);
             var m = Math.round(n);
             return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
         }
 
+        /**
+        * Used to create a copy of the current scale. When scales are added to D3 axes the scales
+        * are copied rather than a reference being stored.
+        * This function facilities a deep copy.
+        *
+        * @memberof fc.scale.linear
+        * @method copy
+        * @returns the copy.
+        */
         scale.copy = function() {
             return linearScale(linear.copy());
         };
 
+        /**
+        * Used to set or get the domain for this scale. The domain is the range of real world
+        * values denoted by this scale (Max. and Min.).
+        *
+        * @memberof fc.scale.linear
+        * @method domain
+        * @param {array} domain the real world domain value as an array of 2 decimal numbers,
+        * Min and Max respectively.
+        * @returns the current domain if no arguments are passed.
+        */
         scale.domain = function(domain) {
             linear.domain(domain);
             return scale;
         };
 
+        /**
+        * Used to get an array of tick mark locations which can be used to display labels and
+        * tick marks on the associated axis.
+        *
+        * @memberof fc.scale.linear
+        * @method ticks
+        * @param {integer} n the number of ticks to try and display within the scale domain.
+        * (This value is used as a guide for a best fit approach)
+        * @returns an array of values denoting real world positions within the scale.
+        * These can be converted to pixel locations using the `scale` function.
+        */
         scale.ticks = function(n) {
             return linear.ticks(n);
         };
 
+        /**
+        * Used to scale a value from pixel space to domain space. This function is the inverse of
+        * the `scale` function.
+        *
+        * @memberof fc.scale.linear
+        * @method invert
+        * @param {decimal} pixel the pixel value to be scaled.
+        * @returns the converted value in real world space. In most cases this value will only be
+        * accurate to the precision of the pixel width of the scale.
+        */
         scale.invert = function(pixel) {
             return linear.invert(pixel);
         };
 
+        /**
+        * Used to get or set the option to align ticks to pixel columns/rows.
+        * Pixel aligning yields crisper chart graphics.
+        *
+        * @memberof fc.scale.linear
+        * @method alignPixels
+        * @param {boolean} value if set to `true` values will be pixel aligned.
+        * If no value argument is passed the current setting will be returned.
+        */
         scale.alignPixels = function(value) {
             if (!arguments.length) {
                 return alignPixels;
@@ -1573,6 +1836,97 @@ window.fc = {
         return d3.rebind(scale, linear, 'range', 'rangeRound', 'interpolate', 'clamp', 'nice');
     }
 }(d3, fc));
+(function(d3, fc) {
+    'use strict';
+
+    fc.series.bar = function() {
+
+        var xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            barWidth = 5,
+            yValue = fc.utilities.valueAccessor('volume'),
+            classForBar = function(d) { return ''; };
+
+        var bar = function(selection) {
+            var series, container;
+
+            selection.each(function(data) {
+
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                container = d3.select(this)
+                    .selectAll('.bar-series')
+                    .data([data]);
+                container.enter()
+                    .append('g')
+                    .classed('bar-series', true);
+
+                // create a data-join for each rect element
+                series = container
+                    .selectAll('rect')
+                    .data(data);
+
+                // enter
+                series.enter()
+                    .append('rect');
+
+                // exit
+                series.exit()
+                    .remove();
+
+                // update
+                series.attr('x', function(d) { return xScale(d.date) - (barWidth / 2.0); })
+                    .attr('y', function(d) { return yScale(yValue(d)); })
+                    .attr('width', barWidth)
+                    .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); })
+                    .attr('class', classForBar);
+            });
+        };
+
+        bar.xScale = function(value) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = value;
+            return bar;
+        };
+
+        bar.yScale = function(value) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = value;
+            return bar;
+        };
+
+        bar.barWidth = function(value) {
+            if (!arguments.length) {
+                return barWidth;
+            }
+            barWidth = value;
+            return bar;
+        };
+
+        bar.yValue = function(value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
+            return bar;
+        };
+
+        bar.classForBar = function(value) {
+            if (!arguments.length) {
+                return classForBar;
+            }
+            classForBar = value;
+            return bar;
+        };
+
+        return bar;
+    };
+}(d3, fc));
+
 (function(d3, fc) {
     'use strict';
 
@@ -1945,10 +2299,12 @@ window.fc = {
 
     fc.series.line = function() {
 
-        var yValue = fc.utilities.valueAccessor('close'),
-            xScale = fc.scale.finance(),
+        var xValue = fc.utilities.valueAccessor('date'),
+            yValue = fc.utilities.valueAccessor('close'),
+            xScale = fc.scale.dateTime(),
             yScale = fc.scale.linear(),
-            underFill = true;
+            underFill = true,
+            css = 'line-series';
 
         var line = function(selection) {
 
@@ -1956,37 +2312,70 @@ window.fc = {
 
             if (underFill) {
                 area = d3.svg.area()
-                    .x(function(d) { return xScale(d.date); })
+                    .x(function(d) { return xScale(xValue(d)); })
                     .y0(yScale(0));
             }
 
             var line = d3.svg.line();
-            line.x(function(d) { return xScale(d.date); });
+            line.x(function(d) { return xScale(xValue(d)); });
 
             selection.each(function(data) {
 
+
+                // add a 'root' g element on the first enter selection. This ensures
+                // that it is just added once
+                var container = d3.select(this)
+                    .selectAll('.' + css)
+                    .data([data]);
+                container.enter()
+                    .append('g')
+                    .classed(css, true);
+
                 if (underFill) {
                     area.y1(function(d) { return yScale(yValue(d)); });
-                    var areapath = d3.select(this).selectAll('.lineSeriesArea')
+
+                    var areapath = container
+                        .selectAll('.area')
                         .data([data]);
+
+                    // enter
                     areapath.enter()
-                        .append('path')
-                        .attr('d', area)
-                        .classed('lineSeriesArea', true);
+                        .append('path');
+
+                    // update
+                    areapath.attr('d', area)
+                        .classed('area', true);
+
+                    // exit
                     areapath.exit()
                         .remove();
                 }
 
                 line.y(function(d) { return yScale(yValue(d)); });
-                var linepath = d3.select(this).selectAll('.lineSeries')
+                var linepath = container
+                    .selectAll('.line')
                     .data([data]);
+
+                // enter
                 linepath.enter()
-                    .append('path')
-                    .attr('d', line)
-                    .classed('lineSeries', true);
+                    .append('path');
+
+                // update
+                linepath.attr('d', line)
+                    .classed('line', true);
+
+                // exit
                 linepath.exit()
                     .remove();
             });
+        };
+
+        line.xValue = function(value) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = value;
+            return line;
         };
 
         line.yValue = function(value) {
@@ -2274,101 +2663,6 @@ window.fc = {
         return ohlc;
     };
 }(d3, fc));
-(function(d3, fc) {
-    'use strict';
-
-    fc.series.volume = function() {
-
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            barWidth = 5,
-            yValue = fc.utilities.valueAccessor('volume');
-
-        var isUpDay = function(d) {
-            return d.close > d.open;
-        };
-        var isDownDay = function(d) {
-            return !isUpDay(d);
-        };
-
-        var rectangles = function(bars) {
-            var rect;
-
-            rect = bars.selectAll('rect').data(function(d) {
-                return [d];
-            });
-
-            rect.enter().append('rect');
-
-            rect.attr('x', function(d) { return xScale(d.date) - (barWidth / 2.0); })
-                .attr('y', function(d) { return yScale(yValue(d)); })
-                .attr('width', barWidth)
-                .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); });
-        };
-
-        var volume = function(selection) {
-            var series, bars;
-
-            selection.each(function(data) {
-                series = d3.select(this).selectAll('.volume-series').data([data]);
-
-                series.enter().append('g')
-                    .classed('volume-series', true);
-
-                bars = series.selectAll('.volumebar')
-                    .data(data, function(d) {
-                        return d.date;
-                    });
-
-                bars.enter()
-                    .append('g')
-                    .classed('volumebar', true);
-
-                bars.classed({
-                    'up-day': isUpDay,
-                    'down-day': isDownDay
-                });
-                rectangles(bars);
-                bars.exit().remove();
-            });
-        };
-
-        volume.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return volume;
-        };
-
-        volume.yScale = function(value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return volume;
-        };
-
-        volume.barWidth = function(value) {
-            if (!arguments.length) {
-                return barWidth;
-            }
-            barWidth = value;
-            return volume;
-        };
-
-        volume.yValue = function(value) {
-            if (!arguments.length) {
-                return yValue;
-            }
-            yValue = value;
-            return volume;
-        };
-
-        return volume;
-    };
-}(d3, fc));
-
 (function(d3, fc) {
     'use strict';
 

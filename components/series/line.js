@@ -3,7 +3,8 @@
 
     fc.series.line = function() {
 
-        var yValue = fc.utilities.valueAccessor('close'),
+        var xValue = fc.utilities.valueAccessor('date'),
+            yValue = fc.utilities.valueAccessor('close'),
             xScale = fc.scale.dateTime(),
             yScale = fc.scale.linear(),
             underFill = true,
@@ -15,12 +16,12 @@
 
             if (underFill) {
                 area = d3.svg.area()
-                    .x(function(d) { return xScale(d.date); })
+                    .x(function(d) { return xScale(xValue(d)); })
                     .y0(yScale(0));
             }
 
             var line = d3.svg.line();
-            line.x(function(d) { return xScale(d.date); });
+            line.x(function(d) { return xScale(xValue(d)); });
 
             selection.each(function(data) {
 
@@ -71,6 +72,14 @@
                 linepath.exit()
                     .remove();
             });
+        };
+
+        line.xValue = function(value) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = value;
+            return line;
         };
 
         line.yValue = function(value) {

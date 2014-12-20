@@ -6,7 +6,7 @@
         // Configurable attributes
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            tickWidth = 5;
+            tickWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.35);
 
         var yOpen = fc.utilities.valueAccessor('open'),
             yHigh = fc.utilities.valueAccessor('high'),
@@ -56,10 +56,11 @@
 
         // Path drawing
         var makeBarPath = function(d) {
-            var moveToLow = 'M' + date(d) + ',' + low(d),
+            var width = tickWidth(xScale),
+                moveToLow = 'M' + date(d) + ',' + low(d),
                 verticalToHigh = 'V' + high(d),
-                openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-tickWidth),
-                closeTick = 'M' + date(d) + ',' + close(d) + 'h' + tickWidth;
+                openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-width),
+                closeTick = 'M' + date(d) + ',' + close(d) + 'h' + width;
             return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
@@ -126,7 +127,7 @@
 
                 bars.select('.high-low-line').attr({x1: date, y1: low, x2: date, y2: high});
                 bars.select('.open-tick').attr({
-                    x1: function(d) { return date(d) - tickWidth; },
+                    x1: function(d) { return date(d) - tickWidth(xScale); },
                     y1: open,
                     x2: date,
                     y2: open
@@ -134,7 +135,7 @@
                 bars.select('.close-tick').attr({
                     x1: date,
                     y1: close,
-                    x2: function(d) { return date(d) + tickWidth; },
+                    x2: function(d) { return date(d) + tickWidth(xScale); },
                     y2: close
                 });
 
@@ -209,7 +210,7 @@
             if (!arguments.length) {
                 return tickWidth;
             }
-            tickWidth = value;
+            tickWidth = d3.functor(value);
             return ohlc;
         };
 
