@@ -31,8 +31,8 @@ window.fc = {
     utilities: {},
 
     /**
-     * The extents function uses the D3 extent() function calculate a domain from the data
-     * passed to it, specifically with multiple arrays of objects.
+     * The extents function mirrors the D3 extent() function. It calculates a domain from
+     * the data supplied, specifically arrays of arrays of objects.
      *
      * @namespace fc
      */

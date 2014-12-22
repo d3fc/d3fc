@@ -87,40 +87,6 @@
         };
 
         /**
-        * Used to set or get the domain for this scale from a data set. The domain is the range of real world
-        * values denoted by this scale (Max. and Min.).
-        *
-        * @memberof fc.scale.dateTime
-        * @method domainFromValues
-        * @param {array} data the data set used to evaluate Min and Max values.
-        * @param {array} fields the fields within the data set used to evaluate Min and Max values.
-        * @returns the current domain if no arguments are passed.
-        */
-        scale.domainFromValues = function(data, fields) {
-
-            if (!arguments.length) {
-                return scale.domain();
-            } else {
-                var mins = [],
-                    maxs = [],
-                    fieldIndex = 0,
-                    getField = function(d) { return d[fields[fieldIndex]].getTime(); };
-
-                for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
-                    mins.push(d3.min(data, getField));
-                    maxs.push(d3.max(data, getField));
-                }
-
-                scale.domain([
-                    new Date(d3.min(mins, function(d) { return d; })),
-                    new Date(d3.max(maxs, function(d) { return d; }))
-                ]);
-            }
-
-            return scale;
-        };
-
-        /**
         * Used to scale a value from pixel space to domain space. This function is the inverse of
         * the `scale` function.
         *

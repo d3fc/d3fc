@@ -66,49 +66,6 @@
         };
 
         /**
-        * Used to set or get the domain for this scale from a data set. The domain is the range of real world
-        * values denoted by this scale (Max. and Min.).
-        *
-        * @memberof fc.scale.linear
-        * @method domainFromValues
-
-        * @param {array} data the data set used to evaluate Min and Max values.
-        * @param {array} fields the properties of the objects within the data set used to evaluate Min and Max
-        * values.
-        * @param {number} [marginPercentage = 0.05] a margin, expressed as a percentage, that is applied to the domain
-        * range.
-        * @returns the current domain if no arguments are passed.
-        */
-        scale.domainFromValues = function(data, fields, marginPercentage) {
-
-            marginPercentage = typeof marginPercentage !== 'undefined' ? marginPercentage : 0.05;
-
-            if (!arguments.length) {
-                return scale.domain();
-            } else {
-                var mins = [],
-                    maxs = [],
-                    fieldIndex = 0,
-                    getField = function(d) { return d[fields[fieldIndex]]; };
-
-                for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
-                    mins.push(d3.min(data, getField));
-                    maxs.push(d3.max(data, getField));
-                }
-
-                var min = d3.min(mins, function(d) { return d; }),
-                    max = d3.max(maxs, function(d) { return d; });
-
-                scale.domain([
-                    min - ((max - min) * marginPercentage),
-                    max + ((max - min) * marginPercentage)
-                ]);
-            }
-
-            return scale;
-        };
-
-        /**
         * Used to get an array of tick mark locations which can be used to display labels and
         * tick marks on the associated axis.
         *
