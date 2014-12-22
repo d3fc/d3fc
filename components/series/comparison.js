@@ -4,9 +4,13 @@
     fc.series.comparison = function() {
 
         var xScale = d3.time.scale(),
-            yScale = d3.scale.linear();
+            yScale = d3.scale.linear(),
+            xValue = fc.utilities.valueAccessor('date'),
+            yValue = fc.utilities.valueAccessor('close');
 
-        var cachedData, cachedScale;
+        // Internal use
+        var cachedData, cachedScale,
+            xValueInternal = fc.utilities.valueAccessor('xValue');
 
         var yScaleTransform = function(oldScale, newScale) {
             // Compute transform for elements wrt changing yScale.
@@ -20,43 +24,43 @@
             };
         };
 
-        var findIndex = function(seriesData, date) {
-            // Find insertion point for date in seriesData.
+        var findIndex = function(seriesData, value, xAccessor) {
+            // Find insertion point of an xValue in seriesData.
             var bisect = d3.bisector(
                 function(d) {
-                    return d.date;
+                    return xAccessor(d);
                 }).left;
 
-            var initialIndex = bisect(seriesData, date);
+            var initialIndex = bisect(seriesData, value);
             if (initialIndex === 0) {
                 // Google finance style, calculate changes from the
-                // date one before initial date if possible, or index 0.
+                // xValue one before initial xValue if possible, or index 0.
                 initialIndex += 1;
             }
             return initialIndex;
         };
 
-        var percentageChange = function(seriesData, initialDate) {
-            // Computes the percentage change data of a series from an initial date.
-            var initialIndex = findIndex(seriesData, initialDate) - 1;
-            var initialClose = seriesData[initialIndex].close;
+        var percentageChange = function(seriesData, initialXValue) {
+            // Computes the percentage change data of a series from an initial xValue.
+            var initialIndex = findIndex(seriesData, initialXValue, xValue) - 1;
+            var initialYValue = yValue(seriesData[initialIndex]);
 
             return seriesData.map(function(d) {
                 return {
-                    date: d.date,
-                    change: (d.close / initialClose) - 1
+                    xValue: xValue(d),
+                    change: (yValue(d) / initialYValue) - 1
                 };
             });
         };
 
-        var rebaseChange = function(seriesData, initialDate) {
-            // Change the initial date the percentage changes should be based from.
-            var initialIndex = findIndex(seriesData, initialDate) - 1;
+        var rebaseChange = function(seriesData, initialXValue) {
+            // Change the initial xValue the percentage changes should be based from.
+            var initialIndex = findIndex(seriesData, initialXValue, xValueInternal) - 1;
             var initialChange = seriesData[initialIndex].change;
 
             return seriesData.map(function(d) {
                 return {
-                    date: d.date,
+                    xValue: xValueInternal(d),
                     change: d.change - initialChange
                 };
             });
@@ -67,8 +71,8 @@
 
             data = data.map(function(series) {
                 series = series.data;
-                start = findIndex(series, xDomain[0]) - 1;
-                end = findIndex(series, xDomain[1]) + 1;
+                start = findIndex(series, xDomain[0], xValueInternal) - 1;
+                end = findIndex(series, xDomain[1], xValueInternal) + 1;
                 return series.slice(start, end);
             });
 
@@ -85,12 +89,10 @@
             }
         };
 
-        var color = d3.scale.category10();
-
         var line = d3.svg.line()
             .interpolate('linear')
             .x(function(d) {
-                return xScale(d.date);
+                return xScale(xValueInternal(d));
             })
             .y(function(d) {
                 return yScale(d.change);
@@ -103,16 +105,11 @@
 
                 data = data.map(function(d) {
                     return {
-                        name: d.name,
-                        data: percentageChange(d.data, xScale.domain()[0])
+                        data: percentageChange(d, xScale.domain()[0])
                     };
                 });
 
                 cachedData = data; // Save for rebasing.
-
-                color.domain(data.map(function(d) {
-                    return d.name;
-                }));
 
                 yScale.domain(calculateYDomain(data, xScale.domain()));
                 cachedScale = yScale.copy();
@@ -121,32 +118,27 @@
                 series.enter().append('g').classed('comparison-series', true);
 
                 lines = series.selectAll('.line')
-                    .data(data, function(d) {
-                        return d.name;
-                    })
-                    .enter().append('path')
+                    .data(data)
+                    .enter().append('path').classed('line', true);
+
+                series.selectAll('.line')
                     .attr('class', function(d) {
                         return 'line ' + 'line' + data.indexOf(d);
                     })
                     .attr('d', function(d) {
                         return line(d.data);
                     })
-                    .style('stroke', function(d) {
-                        return color(d.name);
-                    });
-
-                series.selectAll('.line')
-                    .attr('d', function(d) {
-                        return line(d.data);
-                    });
+                    // Remove existing transform
+                    .attr('transform', null);
             });
         };
 
-        comparison.geometricZoom = function(selection, xTransformTranslate, xTransformScale) {
-            // Apply a transformation for each line to update its position wrt the new initial date,
+        comparison.zoom = function(selection) {
+            // Apply a transformation for each line to update its position wrt the new initial xValue,
             // then apply the yScale transformation to reflect the updated yScale domain.
-
-            var initialIndex,
+            var xTransformScale = d3.event.scale,
+                xTransformTranslate = d3.event.translate[0],
+                initialIndex,
                 yTransform;
 
             var lineTransform = function(initialChange) {
@@ -161,7 +153,6 @@
 
             var domainData = cachedData.map(function(d) {
                 return {
-                    name: d.name,
                     data: rebaseChange(d.data, xScale.domain()[0])
                 };
             });
@@ -170,9 +161,8 @@
             yTransform = yScaleTransform(cachedScale, yScale);
 
             cachedData = cachedData.map(function(d) {
-                initialIndex = findIndex(d.data, xScale.domain()[0]) - 1;
+                initialIndex = findIndex(d.data, xScale.domain()[0], xValueInternal) - 1;
                 return {
-                    name: d.name,
                     data: d.data,
                     transform: lineTransform(d.data[initialIndex].change)
                 };
@@ -196,6 +186,22 @@
                 return yScale;
             }
             yScale = value;
+            return comparison;
+        };
+
+        comparison.xValue = function(value) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = value;
+            return comparison;
+        };
+
+        comparison.yValue = function(value) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = value;
             return comparison;
         };
 
