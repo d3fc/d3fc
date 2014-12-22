@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <title>Chart App - Scott Logic</title>
+
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <link rel="stylesheet" href="dependencies/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+
+  <script type="text/javascript" src="dependencies/js/jquery.js"></script>
+  <script type="text/javascript" src="dependencies/js/angular.js"></script>
+  <script type="text/javascript" src="dependencies/js/bootstrap.js"></script>
+  <script type="text/javascript" src="dependencies/js/d3.js"></script>
+  <script type="text/javascript" src="../fc/d3-financial-components.js"></script>
+
+  <script type="text/javascript" src="js/controllers/chartCtrl.js"></script>
+  <script type="text/javascript" src="js/chartApp.js"></script>
+
+  <style type="text/css">
+
+        /* Sticky footer styles
+        -------------------------------------------------- */
+
+        html,
+        body {
+            height: 100%;
+            /* The html and body elements cannot have any padding or margin. */
+        }
+
+        /* Wrapper for page content */
+        #wrap {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            position: relative;
+            top: 70px;
+        }
+
+        /* Set the fixed height of the footer here */
+        #push,
+        #footer {
+            height: 60px;
+        }
+        #footer {
+            background-color: #f5f5f5;
+        }
+
+        /* Lastly, apply responsive CSS fixes as necessary */
+        @media (max-width: 767px) {
+            #footer {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+
+
+        /* Custom page CSS
+        -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+
+        .container .credit {
+            margin: 20px 0;
+            color: #999;
+        }
+
+        .navbar-inverse .navbar-brand {
+            color: #cdf;
+        }
+        .navbar-inverse .navbar-nav>li>a {
+            color: #cdf;
+        }
+
+  </style>
+</head>
+
+<body ng-controller="chartAppCtrl">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="../index.html">D3FC</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="../components.html">Components</a></li>
+          <li><a href="../getting-started.html">Getting Started</a></li>
+          <li><a href="index.html">Example Chart</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="wrap">
+    <chart></chart>
+  </div>
+
+</body>
+
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="../lib/bootstrap.min.js"></script>
+
+</html>
