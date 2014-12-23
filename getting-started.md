@@ -34,11 +34,11 @@ This guide provides step-by-step instructions which will lead you through the pr
 
   // Create scales
   var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
-    .domainFromValues(gsData, ['date'])
+    .domain(fc.extents(gsData, 'date'))
     .range([0, chartLayout.getPlotAreaWidth()]);
 
   var yScale = fc.scale.linear()
-    .domainFromValues(gsData, ['low', 'high'])
+    .domain(fc.extents(gsData, ['low', 'high']))
     .range([chartLayout.getPlotAreaHeight(), 0]);
 
   // Add axes
@@ -163,11 +163,11 @@ Scales map between your data domain and a visible output range, they are used by
 Add the following scales to your code:
 
     var xScale = fc.scale.dateTime() 
-        .domainFromValues(data, ['date'])
+        .domain(fc.extents(data, 'date'))
         .range([0, chartLayout.getPlotAreaWidth()]);
 
     var yScale = fc.scale.linear()
-        .domainFromValues(data, ['low', 'high'])
+        .domain(fc.extents(data, ['low', 'high']))
         .range([chartLayout.getPlotAreaHeight(), 0]);
 
 The `fc.scale.dateTime` component provides logic for skipping time periods (for example weekends - if required) and also ensures that the dates are correctly rendered. Because the input data is randomly generated, the extents of the 'y' scale are computed via the `d3.max` and `d3.min` functions internally. The domain can also be set manually using the `domain` function.
@@ -213,11 +213,11 @@ console.log(JSON.stringify(gsData))
 
 // Create scales
 var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
-    .domainFromValues(gsData, ['date'])
+    .domain(fc.extents(gsData, 'date'))
     .range([0, chartLayout.getPlotAreaWidth()]);
 
 var yScale = fc.scale.linear()
-    .domainFromValues(gsData, ['low', 'high'])
+    .domain(fc.extents(gsData, ['low', 'high']))
     .range([chartLayout.getPlotAreaHeight(), 0]);
 
 // Add axes
@@ -273,11 +273,11 @@ var gsData = fc.utilities.dataGenerator()
 
 // Create scales
 var xScale = fc.scale.dateTime() // Financial scale (actually it is a date / time)
-    .domainFromValues(gsData, ['date'])
+    .domain(fc.extents(gsData, ['date']))
     .range([0, chartLayout.getPlotAreaWidth()]);
 
 var yScale = fc.scale.linear()
-    .domainFromValues(gsData, ['low', 'high'])
+    .domain(fc.extents(gsData, ['low', 'high']))
     .range([chartLayout.getPlotAreaHeight(), 0]);
 
 // Add axes
@@ -338,10 +338,10 @@ And here is the annotated code:
 
     // Create scales
     var xScale = fc.scale.dateTime() 
-        .domainFromValues(gsData, ['date'])
+        .domain(fc.extents(gsData, 'date'))
         .range([0, chartLayout.getPlotAreaWidth()]);
     var yScale = fc.scale.linear()
-        .domainFromValues(gsData, ['low', 'high'])
+        .domain(fc.extents(gsData, ['low', 'high']))
         .range([chartLayout.getPlotAreaHeight(), 0]);
 
     // Create axes
@@ -415,10 +415,10 @@ var gsData = fc.utilities.dataGenerator()
 
 // Create scales
 var xScale = fc.scale.dateTime() 
-    .domainFromValues(gsData, ['date'])
+    .domain(fc.extents(gsData, 'date'))
     .range([0, chartLayout.getPlotAreaWidth()]);
 var yScale = fc.scale.linear()
-    .domainFromValues(gsData, ['low', 'high'])
+    .domain(fc.extents(gsData, ['low', 'high']))
     .range([chartLayout.getPlotAreaHeight(), 0]);
 
 // Create axes
