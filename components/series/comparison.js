@@ -9,8 +9,7 @@
             yValue = fc.utilities.valueAccessor('close');
 
         // Internal use
-        var cachedData, cachedScale,
-            xValueInternal = fc.utilities.valueAccessor('xValue');
+        var xValueInternal = fc.utilities.valueAccessor('xValue');
 
         var yScaleTransform = function(oldScale, newScale) {
             // Compute transform for elements wrt changing yScale.
@@ -90,29 +89,35 @@
         };
 
         var line = d3.svg.line()
-            .interpolate('linear')
-            .x(function(d) {
-                return xScale(xValueInternal(d));
-            })
-            .y(function(d) {
-                return yScale(d.change);
-            });
+            .interpolate('linear');
 
         var comparison = function(selection) {
             var series, lines;
 
             selection.each(function(data) {
+                // Save the current scales on the element.
+                this.__chart__ = this.__chart__ || {};
+                var yScale0 = this.__chart__.yScale || yScale;
+                var xScale0 = this.__chart__.xScale || xScale;
+                this.__chart__.yScale = yScale0;
+                this.__chart__.xScale = xScale0;
 
                 data = data.map(function(d) {
                     return {
-                        data: percentageChange(d, xScale.domain()[0])
+                        data: percentageChange(d, xScale0.domain()[0])
                     };
                 });
+                yScale0.domain(calculateYDomain(data, xScale0.domain()));
 
-                cachedData = data; // Save for rebasing.
+                this.__chart__.cachedData = data;
+                this.__chart__.cachedScale = yScale0.copy();
 
-                yScale.domain(calculateYDomain(data, xScale.domain()));
-                cachedScale = yScale.copy();
+                line.x(function(d) {
+                        return xScale0(xValueInternal(d));
+                    })
+                    .y(function(d) {
+                        return yScale0(d.change);
+                    });
 
                 series = d3.select(this).selectAll('.comparison-series').data([data]);
                 series.enter().append('g').classed('comparison-series', true);
@@ -136,41 +141,50 @@
         comparison.zoom = function(selection) {
             // Apply a transformation for each line to update its position wrt the new initial xValue,
             // then apply the yScale transformation to reflect the updated yScale domain.
-            var xTransformScale = d3.event.scale,
-                xTransformTranslate = d3.event.translate[0],
-                initialIndex,
-                yTransform;
+            selection.each(function() {
+                var xTransformScale = d3.event.scale,
+                    xTransformTranslate = d3.event.translate[0],
+                    initialIndex,
+                    yTransform;
 
-            var lineTransform = function(initialChange) {
-                var yTransformLineTranslate = cachedScale(0) - cachedScale(initialChange);
+                var cachedData = this.__chart__.cachedData,
+                    cachedScale = this.__chart__.cachedScale,
+                    xScale0 = this.__chart__.xScale,
+                    yScale0 = this.__chart__.yScale;
 
-                yTransformLineTranslate *= yTransform.scale;
-                yTransformLineTranslate += yTransform.translate;
+                var lineTransform = function(initialChange) {
+                    var yTransformLineTranslate = cachedScale(0) - cachedScale(initialChange);
 
-                return 'translate(' + xTransformTranslate + ',' + yTransformLineTranslate + ')' +
-                    ' scale(' + xTransformScale + ',' + yTransform.scale + ')';
-            };
+                    yTransformLineTranslate *= yTransform.scale;
+                    yTransformLineTranslate += yTransform.translate;
 
-            var domainData = cachedData.map(function(d) {
-                return {
-                    data: rebaseChange(d.data, xScale.domain()[0])
+                    return 'translate(' + xTransformTranslate + ',' + yTransformLineTranslate + ')' +
+                        ' scale(' + xTransformScale + ',' + yTransform.scale + ')';
                 };
+
+                var domainData = cachedData.map(function(d) {
+                    return {
+                        data: rebaseChange(d.data, xScale0.domain()[0])
+                    };
+                });
+
+                yScale0.domain(calculateYDomain(domainData, xScale0.domain()));
+                yTransform = yScaleTransform(cachedScale, yScale0);
+
+                cachedData = cachedData.map(function(d) {
+                    initialIndex = findIndex(d.data, xScale0.domain()[0], xValueInternal) - 1;
+                    return {
+                        data: d.data,
+                        transform: lineTransform(d.data[initialIndex].change)
+                    };
+                });
+
+                selection.selectAll('.line')
+                    .data(cachedData)
+                    .attr('transform', function(d) {
+                        return d.transform;
+                    });
             });
-
-            yScale.domain(calculateYDomain(domainData, xScale.domain()));
-            yTransform = yScaleTransform(cachedScale, yScale);
-
-            cachedData = cachedData.map(function(d) {
-                initialIndex = findIndex(d.data, xScale.domain()[0], xValueInternal) - 1;
-                return {
-                    data: d.data,
-                    transform: lineTransform(d.data[initialIndex].change)
-                };
-            });
-
-            selection.selectAll('.line')
-                .data(cachedData)
-                .attr('transform', function(d) { return d.transform; });
         };
 
         comparison.xScale = function(value) {
