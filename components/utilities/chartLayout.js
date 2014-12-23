@@ -159,9 +159,10 @@
             var plotAreaClipId = 'fcPlotAreaClip_' + (element.id || nextId());
 
             // Clipping path
-            var clippingPath = defs.selectAll('clipPath').data(dummyData);
+            var clippingPath = defs.selectAll('.fc-clip-path').data(dummyData);
             clippingPath.enter().append('clipPath');
-            clippingPath.attr('id', plotAreaClipId);
+            clippingPath.attr('id', plotAreaClipId)
+                .classed('fc-clip-path', true);
             clippingPath.exit().remove();
 
             // Clipping path rect
