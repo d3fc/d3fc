@@ -1,6 +1,31 @@
 (function(d3, fc) {
     'use strict';
 
+    /**
+     * <p>Constructs an instance of the comparison series component.
+     * This component plots the relative percentage changes of a collection of data series.
+     * For each series, a path is drawn showing the percentage change from an initial
+     * x value taken as the value nearest to the x value which precedes the start of the x scale's domain.</p>
+     *
+     * <p>The data bound to the element should be an array of arrays,
+     * with the inner array's elements being JavaScript objects.
+     * By default, the component looks for 'date' and 'close' properties in these objects
+     * for the x values and y values respectively. This behavior can be customised by specifying
+     * {@link fc.series.comparison#xValue|xValue} and
+     * {@link fc.series.comparison#yValue|yValue} accessor functions.</p>
+     *
+     * <p>Note that the yScale domain is modified by this component automatically to fit
+     * the extent of the percentage changes of the paths. As such, one should call any
+     * axis component which uses this scale after calling this component's
+     * {@link fc.series.comparison#comparison|create/update function} or
+     * {@link fc.series.comparison#zoom|zoom listener}. To set the tickFormat of the axis component
+     * to display percentages, use axis.tickFormat(d3.format('%'))</p>
+     *
+     *
+     * @type {object}
+     * @memberof fc.series
+     * @namespace fc.series.comparison
+     */
     fc.series.comparison = function() {
 
         var xScale = d3.time.scale(),
@@ -8,7 +33,6 @@
             xValue = fc.utilities.valueAccessor('date'),
             yValue = fc.utilities.valueAccessor('close');
 
-        // Internal use
         var xValueInternal = fc.utilities.valueAccessor('xValue');
 
         var yScaleTransform = function(oldScale, newScale) {
@@ -39,29 +63,17 @@
             return initialIndex;
         };
 
-        var percentageChange = function(seriesData, initialXValue) {
+        var percentageChange = function(seriesData, initialXValue, rebase) {
             // Computes the percentage change data of a series from an initial xValue.
-            var initialIndex = findIndex(seriesData, initialXValue, xValue) - 1;
-            var initialYValue = yValue(seriesData[initialIndex]);
-
+            // or changes the initial xValue existing percentage changes should be based from.
+            var xAccessor = rebase ? xValueInternal : xValue;
+            var initialIndex = findIndex(seriesData, initialXValue, xAccessor) - 1;
             return seriesData.map(function(d) {
-                return {
-                    xValue: xValue(d),
-                    change: (yValue(d) / initialYValue) - 1
-                };
-            });
-        };
-
-        var rebaseChange = function(seriesData, initialXValue) {
-            // Change the initial xValue the percentage changes should be based from.
-            var initialIndex = findIndex(seriesData, initialXValue, xValueInternal) - 1;
-            var initialChange = seriesData[initialIndex].change;
-
-            return seriesData.map(function(d) {
-                return {
-                    xValue: xValueInternal(d),
-                    change: d.change - initialChange
-                };
+                if (rebase) {
+                    return {xValue: xAccessor(d), change: d.change - seriesData[initialIndex].change};
+                } else {
+                    return {xValue: xAccessor(d), change: (yValue(d) / yValue(seriesData[initialIndex])) - 1};
+                }
             });
         };
 
@@ -88,35 +100,52 @@
             }
         };
 
-        var line = d3.svg.line()
-            .interpolate('linear');
+        var lineTransform = function(initialYScale, initialChange, yTransform, xTransform) {
+            var yTransformTranslate = initialYScale(0) - initialYScale(initialChange);
 
+            yTransformTranslate *= yTransform.scale;
+            yTransformTranslate += yTransform.translate;
+            return 'translate(' + xTransform.translate + ',' + yTransformTranslate + ')' +
+                ' scale(' + xTransform.scale + ',' + yTransform.scale + ')';
+        };
+
+        var line = d3.svg.line().interpolate('linear');
+
+        /**
+         * Applies the component to a D3 selection.
+         * Creates/updates the series comparison line paths, and modifies the yScale domain
+         * to make each path visible throughout the extent of the x scale's domain.
+         *
+         * @memberof fc.series.comparison#
+         * @method comparison
+         * @param {selection} selection - A D3 selection
+         */
         var comparison = function(selection) {
             var series, lines;
 
             selection.each(function(data) {
                 // Save the current scales on the element.
                 this.__chart__ = this.__chart__ || {};
-                var yScale0 = this.__chart__.yScale || yScale;
-                var xScale0 = this.__chart__.xScale || xScale;
-                this.__chart__.yScale = yScale0;
-                this.__chart__.xScale = xScale0;
+                var chartYScale = this.__chart__.yScale || yScale;
+                var chartXScale = this.__chart__.xScale || xScale;
+                this.__chart__.yScale = chartYScale;
+                this.__chart__.xScale = chartXScale;
 
                 data = data.map(function(d) {
                     return {
-                        data: percentageChange(d, xScale0.domain()[0])
+                        data: percentageChange(d, chartXScale.domain()[0])
                     };
                 });
-                yScale0.domain(calculateYDomain(data, xScale0.domain()));
+                chartYScale.domain(calculateYDomain(data, chartXScale.domain()));
 
-                this.__chart__.cachedData = data;
-                this.__chart__.cachedScale = yScale0.copy();
+                this.__chart__.initialData = data;
+                this.__chart__.initialYScale = chartYScale.copy();
 
                 line.x(function(d) {
-                        return xScale0(xValueInternal(d));
+                        return chartXScale(xValueInternal(d));
                     })
                     .y(function(d) {
-                        return yScale0(d.change);
+                        return chartYScale(d.change);
                     });
 
                 series = d3.select(this).selectAll('.comparison-series').data([data]);
@@ -138,55 +167,63 @@
             });
         };
 
+        /**
+         * A zoom 'listener'. Updates the positions of each line path given a change to
+         * the x scale domain by setting an SVG transform property on each path.
+         *
+         * It assumes the x scale's domain is controlled using a d3.behavior.zoom component.
+         *
+         * @memberof fc.series.comparison#
+         * @method zoom
+         * @param {selection} selection - A D3 selection.
+         */
         comparison.zoom = function(selection) {
             // Apply a transformation for each line to update its position wrt the new initial xValue,
             // then apply the yScale transformation to reflect the updated yScale domain.
             selection.each(function() {
-                var xTransformScale = d3.event.scale,
-                    xTransformTranslate = d3.event.translate[0],
-                    initialIndex,
-                    yTransform;
+                var initialData = this.__chart__.initialData,
+                    initialYScale = this.__chart__.initialYScale,
+                    chartXScale = this.__chart__.xScale,
+                    chartYScale = this.__chart__.yScale,
+                    yTransform,
+                    yDomain,
+                    xTransform = {
+                        scale: d3.event.scale,
+                        translate: d3.event.translate[0]
+                    },
+                    domainData = initialData.map(function(d) {
+                        return {
+                            data: percentageChange(d.data, chartXScale.domain()[0], true)
+                        };
+                    });
 
-                var cachedData = this.__chart__.cachedData,
-                    cachedScale = this.__chart__.cachedScale,
-                    xScale0 = this.__chart__.xScale,
-                    yScale0 = this.__chart__.yScale;
-
-                var lineTransform = function(initialChange) {
-                    var yTransformLineTranslate = cachedScale(0) - cachedScale(initialChange);
-
-                    yTransformLineTranslate *= yTransform.scale;
-                    yTransformLineTranslate += yTransform.translate;
-
-                    return 'translate(' + xTransformTranslate + ',' + yTransformLineTranslate + ')' +
-                        ' scale(' + xTransformScale + ',' + yTransform.scale + ')';
-                };
-
-                var domainData = cachedData.map(function(d) {
-                    return {
-                        data: rebaseChange(d.data, xScale0.domain()[0])
-                    };
-                });
-
-                yScale0.domain(calculateYDomain(domainData, xScale0.domain()));
-                yTransform = yScaleTransform(cachedScale, yScale0);
-
-                cachedData = cachedData.map(function(d) {
-                    initialIndex = findIndex(d.data, xScale0.domain()[0], xValueInternal) - 1;
-                    return {
-                        data: d.data,
-                        transform: lineTransform(d.data[initialIndex].change)
-                    };
-                });
-
+                // Set the new y domain
+                yDomain = calculateYDomain(domainData, chartXScale.domain());
+                chartYScale.domain(yDomain);
+                yTransform = yScaleTransform(initialYScale, chartYScale);
+                // Set a transform for each line
                 selection.selectAll('.line')
-                    .data(cachedData)
+                    .attr('visibility', function() {return (yDomain[0] || yDomain[1]) ? 'visible' : 'hidden';})
                     .attr('transform', function(d) {
-                        return d.transform;
+                        var initialIndex = findIndex(d.data, chartXScale.domain()[0], xValueInternal) - 1;
+                        if (yDomain[0] || yDomain[1]) {
+                            return lineTransform(initialYScale, d.data[initialIndex].change, yTransform, xTransform);
+                        } else {
+                            return null;
+                        }
                     });
             });
         };
 
+        /**
+         * Get/set the x scale
+         *
+         * @memberof fc.series.comparison#
+         * @method xScale
+         * @param  {scale} [value] The scale used for the x dimension
+         * @returns {scale|comparison} If value is specified, sets the scale and returns
+         * the component's create/update function. If value is not specified, returns the current x scale.
+         */
         comparison.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;
@@ -195,6 +232,15 @@
             return comparison;
         };
 
+        /**
+         * Get/set the y scale
+         *
+         * @memberof fc.series.comparison#
+         * @method yScale
+         * @param  {scale} [value] The scale used for the y dimension
+         * @returns {scale|comparison} If value is specified, sets the scale and returns
+         * the component's create/update function. If value is not specified, returns the current y scale.
+         */
         comparison.yScale = function(value) {
             if (!arguments.length) {
                 return yScale;
@@ -203,6 +249,16 @@
             return comparison;
         };
 
+        /**
+         * Get/set the x accessor function
+         *
+         * @memberof fc.series.comparison#
+         * @method xValue
+         * @param  {accessor} [value = fc.utilities.valueAccessor('date')] -
+         * A function that retrieves x values from a data object.
+         * @returns {accessor|comparison} If value is specified, sets the accessor and returns
+         * the component's create/update function. If value is not specified, returns the current accessor.
+         */
         comparison.xValue = function(value) {
             if (!arguments.length) {
                 return xValue;
@@ -211,6 +267,16 @@
             return comparison;
         };
 
+        /**
+         * Get/set the y accessor function
+         *
+         * @memberof fc.series.comparison#
+         * @method yValue
+         * @param  {accessor} [value = fc.utilities.valueAccessor('close')] -
+         * A function that retrieves y values from a data object.
+         * @returns {accessor|comparison} If value is specified, sets the accessor and returns
+         * the component's create/update function. If value is not specified, returns the current accessor.
+         */
         comparison.yValue = function(value) {
             if (!arguments.length) {
                 return yValue;
