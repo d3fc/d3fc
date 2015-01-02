@@ -64,6 +64,12 @@
         // The elements created for the chart
         var chartElements = {};
 
+        // components that have been added to the plot area.
+        var plotAreaComponents = [];
+
+        // the selection that was originally used to construct the layout
+        var callingSelection;
+
         /**
          * Constructs a new instance of the chartLayout component.
          *
@@ -85,6 +91,9 @@
          * @param {selection} selection a D3 selection
          */
         var chartLayout = function(selection) {
+
+            callingSelection = selection;
+
             // Select the first element in the selection
             // If the selection contains more than 1 element,
             // only the first will be used, the others will be ignored
@@ -180,41 +189,34 @@
             chartElements.plotAreaBackground.exit().remove();
 
             // Create plot area, using the clipping path
-            chartElements.plotArea = chart.selectAll('g.plotArea').data(dummyData);
-            chartElements.plotArea.enter().append('g');
-            chartElements.plotArea.attr('clip-path', 'url(#' + plotAreaClipId + ')')
-                .attr('class', 'plotArea');
-            chartElements.plotArea.exit().remove();
+            if (chart.selectAll('g.plotArea').empty()) {
+                chartElements.plotArea = chart.append('g')
+                    .attr('clip-path', 'url(#' + plotAreaClipId + ')')
+                    .attr('class', 'plotArea');
+            }
+
 
             // Create containers for the axes
-            chartElements.axisContainer = {};
+            if (!chartElements.axisContainer) {
+                chartElements.axisContainer = {};
+            }
 
-            chartElements.axisContainer.bottom = chart.selectAll('g.axis.bottom').data(dummyData);
-            chartElements.axisContainer.bottom.enter().append('g');
-            chartElements.axisContainer.bottom.attr('class', 'axis bottom')
-                .attr('transform', 'translate(0, ' + chartLayout.getPlotAreaHeight() + ')');
-            chartElements.axisContainer.bottom.exit().remove();
+            function createAxis(orientation, translation) {
+                var selection = chart.selectAll('g.axis.' + orientation).data(dummyData);
+                selection.enter().append('g');
+                selection.attr('class', 'axis ' + orientation)
+                    .attr('transform', translation);
+                selection.exit().remove();
+                if (!chartElements.axisContainer[orientation]) {
+                    chartElements.axisContainer[orientation] = {};
+                }
+                chartElements.axisContainer[orientation].selection = selection;
+            }
 
-
-            chartElements.axisContainer.top = chart.selectAll('g.axis.top').data(dummyData);
-            chartElements.axisContainer.top.enter().append('g');
-            chartElements.axisContainer.top.attr('class', 'axis top')
-                .attr('transform', 'translate(0, 0)');
-            chartElements.axisContainer.top.exit().remove();
-
-
-            chartElements.axisContainer.left = chart.selectAll('g.axis.left').data(dummyData);
-            chartElements.axisContainer.left.enter().append('g');
-            chartElements.axisContainer.left.attr('class', 'axis left')
-                .attr('transform', 'translate(0, 0)');
-            chartElements.axisContainer.left.exit().remove();
-
-
-            chartElements.axisContainer.right = chart.selectAll('g.axis.right').data(dummyData);
-            chartElements.axisContainer.right.enter().append('g');
-            chartElements.axisContainer.right.attr('class', 'axis right')
-                .attr('transform', 'translate(' + chartLayout.getPlotAreaWidth() + ', 0)');
-            chartElements.axisContainer.right.exit().remove();
+            createAxis('bottom', 'translate(0, ' + chartLayout.getPlotAreaHeight() + ')');
+            createAxis('top', 'translate(0, 0)');
+            createAxis('left', 'translate(0, 0)');
+            createAxis('right', 'translate(' + chartLayout.getPlotAreaWidth() + ', 0)');
         };
 
         /**
@@ -361,6 +363,7 @@
             return height - margin.top - margin.bottom;
         };
 
+
         /**
          * Get the SVG for the chart.
          *
@@ -385,6 +388,17 @@
         };
 
         /**
+         * Get the plot area's background element.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getPlotAreaBackground
+         * @returns {selection} The background rect of the plot area.
+         */
+        chartLayout.getPlotAreaBackground = function() {
+            return chartElements.plotAreaBackground;
+        };
+
+        /**
          * Get the plot area group for the chart.
          * The plot area has a clipping path, so this is typically where series and indicators will be added.
          *
@@ -406,18 +420,64 @@
          * @returns {selection} The group for the specified axis orientation.
          */
         chartLayout.getAxisContainer = function(orientation) {
-            return chartElements.axisContainer[orientation];
+            return chartElements.axisContainer[orientation].selection;
         };
 
         /**
-         * Get the plot area's background element.
+         * Adds a number of components to the chart plot area. The chart layout is responsible for
+         * rendering these components via the render function.
          *
          * @memberof fc.utilities.chartLayout#
-         * @method getPlotAreaBackground
-         * @returns {selection} The background rect of the plot area.
+         * @method addToPlotArea
+         * @param  {array} components an array of components to add to the plot area
          */
-        chartLayout.getPlotAreaBackground = function() {
-            return chartElements.plotAreaBackground;
+        chartLayout.addToPlotArea = function(components) {
+            plotAreaComponents = plotAreaComponents.concat(components);
+        };
+
+        /**
+         * Sets the chart axis with the given orientation. The chart layout is responsible for setting
+         * the range of this axis and rendering it via the render function.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method addToPlotArea
+         * @param  {string} orientation The orientation of the axis container
+         * @param  {object} axis a D3 or D3FC axis component
+         */
+        chartLayout.setAxis = function(orientation, axis) {
+            chartElements.axisContainer[orientation].axis = axis;
+        };
+
+        /**
+         * Renders all of the components associated with this chart. During the render process
+         * the axes have their scales set to an appropriate value.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method render
+         */
+        chartLayout.render = function() {
+            callingSelection.call(chartLayout);
+
+            // call each of the axis components with the axis selection
+            for (var axisContainerName in chartElements.axisContainer) {
+                if (chartElements.axisContainer.hasOwnProperty(axisContainerName)) {
+                    var axisContainer = chartElements.axisContainer[axisContainerName];
+                    if (axisContainer.hasOwnProperty('axis')) {
+                        var axis = axisContainer.axis;
+                        if (axisContainerName === 'top' || axisContainerName === 'bottom') {
+                            axis.scale().range([0, chartLayout.getPlotAreaWidth()]);
+                        } else {
+                            axis.scale().range([chartLayout.getPlotAreaHeight(), 0]);
+                        }
+                        axisContainer.selection.call(axis);
+                    }
+                }
+            }
+
+            // call each of the plot area components
+            plotAreaComponents.forEach(function(component) {
+                chartLayout.getPlotArea().call(component);
+            });
         };
 
         return chartLayout;
