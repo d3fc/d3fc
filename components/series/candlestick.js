@@ -28,7 +28,7 @@
                 return d.y;
             });
 
-        var highLowLines = function(bars) {
+        var highLowLines = function(bars, xScale, yScale) {
 
             var paths = bars.selectAll('.high-low-line').data(function(d) {
                 return [d];
@@ -45,7 +45,7 @@
                 });
         };
 
-        var rectangles = function(bars) {
+        var rectangles = function(bars, xScale, yScale) {
             var rect;
 
             rect = bars.selectAll('rect').data(function(d) {
@@ -72,10 +72,19 @@
             var series, bars;
 
             selection.each(function(data) {
+                this.__chart__ = this.__chart__ || {};
+                var chartYScale = this.__chart__.yScale || yScale;
+                var chartXScale = this.__chart__.xScale || xScale;
+                this.__chart__.yScale = chartYScale;
+                this.__chart__.xScale = chartXScale;
+                this.__chart__.initialYScale = chartYScale.copy();
+
                 series = d3.select(this).selectAll('.candlestick-series').data([data]);
 
                 series.enter().append('g')
                     .classed('candlestick-series', true);
+
+                series.attr('transform', null);
 
                 bars = series.selectAll('.bar')
                     .data(data, function(d) {
@@ -91,14 +100,15 @@
                     'down-day': isDownDay
                 });
 
-                highLowLines(bars);
-                rectangles(bars);
+                highLowLines(bars, chartXScale, chartYScale);
+                rectangles(bars, chartXScale, chartYScale);
 
                 bars.exit().remove();
 
-
             });
         };
+
+        candlestick.zoom = fc.utilities.series.zoom('.candlestick-series');
 
         candlestick.xScale = function(value) {
             if (!arguments.length) {
