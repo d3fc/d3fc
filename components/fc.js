@@ -28,42 +28,5 @@ window.fc = {
      *
      * @namespace fc.utilities
      */
-    utilities: {},
-
-    /**
-     * The extents function mirrors the D3 extent() function. It calculates a domain from
-     * the data supplied, specifically arrays of arrays of objects.
-     *
-     * @namespace fc
-     */
-    extents: function(data, fields) {
-        'use strict';
-
-        var minValues = [],
-            maxValues = [],
-            fieldIndex = 0,
-            getField = function(d) { return d[fields[fieldIndex]]; };
-
-        // the function only operates on arrays, but we can pass non-array types in
-        if (Object.prototype.toString.call(data) !== '[object Array]') {
-            data = [data];
-        }
-        if (Object.prototype.toString.call(fields) !== '[object Array]') {
-            fields = [fields];
-        }
-
-        // Fill the min and Max arrays for each data set
-        for (var i = 0; i < data.length; i++) {
-            for (fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
-                minValues.push(d3.min(data[i], getField));
-                maxValues.push(d3.max(data[i], getField));
-            }
-        }
-
-        // Return the smallest and largest
-        return [
-            d3.min(minValues, function(d) { return d; }),
-            d3.max(maxValues, function(d) { return d; })
-        ];
-    }
+    utilities: {}
 };

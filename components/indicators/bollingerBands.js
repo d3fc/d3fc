@@ -7,7 +7,7 @@
     *
     * @type {object}
     * @memberof fc.indicators
-    * @namespace fc.indicators.bollingerBands
+    * @class fc.indicators.bollingerBands
     */
     fc.indicators.bollingerBands = function() {
 

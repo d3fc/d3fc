@@ -49,7 +49,7 @@
     *
     * @type {object}
     * @memberof fc.utilities
-    * @namespace fc.utilities.chartLayout
+    * @class fc.utilities.chartLayout
     */
     fc.utilities.chartLayout = function() {
 

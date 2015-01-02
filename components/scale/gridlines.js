@@ -7,7 +7,7 @@
     *
     * @type {object}
     * @memberof fc.scale
-    * @namespace fc.scale.gridlines
+    * @class fc.scale.gridlines
     */
     fc.scale.gridlines = function() {
 

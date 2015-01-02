@@ -7,7 +7,7 @@
     *
     * @type {object}
     * @memberof fc.indicators
-    * @namespace fc.indicators.rsi
+    * @class fc.indicators.rsi
     */
     fc.indicators.rsi = function() {
 

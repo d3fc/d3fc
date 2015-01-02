@@ -10,7 +10,7 @@
     *
     * @type {object}
     * @memberof fc.scale
-    * @namespace fc.scale.dateTime
+    * @class fc.scale.dateTime
     */
     fc.scale.dateTime = function() {
         return dateTimeScale();
