@@ -13,6 +13,12 @@
             var series, container;
 
             selection.each(function(data) {
+                this.__chart__ = this.__chart__ || {};
+                var chartYScale = this.__chart__.yScale || yScale;
+                var chartXScale = this.__chart__.xScale || xScale;
+                this.__chart__.yScale = chartYScale;
+                this.__chart__.xScale = chartXScale;
+                this.__chart__.initialYScale = chartYScale.copy();
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
@@ -21,7 +27,8 @@
                     .data([data]);
                 container.enter()
                     .append('g')
-                    .classed('bar-series', true);
+                    .classed('bar-series', true)
+                    .attr('transform', null);
 
                 // create a data-join for each rect element
                 series = container
@@ -37,13 +44,15 @@
                     .remove();
 
                 // update
-                series.attr('x', function(d) { return xScale(d.date) - (barWidth(xScale) / 2.0); })
-                    .attr('y', function(d) { return yScale(yValue(d)); })
-                    .attr('width', barWidth(xScale))
-                    .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); })
+                series.attr('x', function(d) { return chartXScale(d.date) - (barWidth(chartXScale) / 2.0); })
+                    .attr('y', function(d) { return chartYScale(yValue(d)); })
+                    .attr('width', barWidth(chartXScale))
+                    .attr('height', function(d) { return chartYScale(0) - chartYScale(yValue(d)); })
                     .attr('class', classForBar);
             });
         };
+
+        bar.zoom = fc.utilities.series.zoom('.bar-series');
 
         bar.xScale = function(value) {
             if (!arguments.length) {
