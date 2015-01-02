@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<title>D3FC Test</title>
+<link rel="stylesheet" href="d3-financial-components.css"/>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="d3-financial-components.js"></script>
+<style>
+rect {
+  stroke-width:0;
+}
+</style>
+
+<div id="option">
+    <input name="updateButton" 
+           type="button" 
+           value="Update" 
+           onclick="updateData()" />
+</div>
+
+<div id="financial-chart" style="width:100%; height: 400px"></div>
+
+
+<script>
+var chartLayout = fc.utilities.chartLayout();
+
+// Setup the chart
+var chart = d3.select('#financial-chart')
+    .call(chartLayout);
+
+d3.csv("data.csv", function(error, data) {
+
+  var series = Object.getOwnPropertyNames(data[0]).slice(1);
+  var categories = data.slice(1).map(function(d) { return d.State; });
+  var yMax = d3.max(data, function(d) {
+    var total = 0
+    for (var prop in d) {
+      if (prop!="State") {
+        total += +d[prop]
+      }
+    }
+    return total
+  });
+
+  // create scales
+  var x = d3.scale.ordinal()
+      .domain(categories)
+      .rangeBands([0, chartLayout.getPlotAreaWidth()]);
+
+  var color = d3.scale.ordinal()
+    .domain(series)
+    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+  var y = d3.scale.linear()
+    .domain([0, yMax])
+    .range([chartLayout.getPlotAreaHeight(), 0]);
+
+  // add axes
+  var bottomAxis = d3.svg.axis()
+      .scale(x)
+      .orient('bottom');
+  chartLayout.getAxisContainer('bottom').call(bottomAxis);
+
+  var rightAxis = d3.svg.axis()
+      .scale(y)
+      .orient('right')
+      .ticks(5);
+  chartLayout.getAxisContainer('right').call(rightAxis);
+
+
+  var volume = fc.series.stackedBar()
+    .xScale(x)
+    .yValueKeys(series)
+    .xValueKey("State")
+    .yScale(y)
+    .visitor(function(s, d) {
+      s.attr("fill", color(d.name));
+    });
+
+  chartLayout.getPlotArea(chart)
+    .datum(data.slice(1))
+    .call(volume)
+});
+</script>
