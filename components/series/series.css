@@ -49,3 +49,7 @@
   fill: #9cf; 
   fill-opacity: 0.5; 
 }
+
+[class$="-series"] * {
+    vector-effect: non-scaling-stroke;
+}
