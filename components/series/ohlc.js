@@ -103,6 +103,7 @@
         var ohlcBarPaths = function(selection) {
             selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
+                series.attr('transform', null);
 
                 var bars = series.selectAll('.bar')
                     .data(data, function(d) {
@@ -129,6 +130,7 @@
         var ohlcConcatBarPaths = function(selection) {
             selection.each(function(data) {
                 var series = makeSeriesElement(this, data);
+                series.attr('transform', null);
                 makeConcatPathElement(series, 'up-day', data, isUpDay);
                 makeConcatPathElement(series, 'down-day', data, isDownDay);
                 makeConcatPathElement(series, 'static-day', data, isStaticDay);
