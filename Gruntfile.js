@@ -65,8 +65,14 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            files: ['<%= meta.componentsJsFiles %>', '<%= meta.componentsCssFiles %>'],
-            tasks: ['build']
+            files: [
+                '<%= meta.ourJsFiles %>',
+                '<%= meta.componentsCssFiles %>'
+            ],
+            tasks: ['build'],
+            options: {
+                livereload: true
+            }
         },
 
         jscs: {
@@ -109,7 +115,7 @@ module.exports = function (grunt) {
 
         jsdoc : {
             dist : {
-                src: ['<%= meta.componentsJsFiles %>'], 
+                src: ['<%= meta.componentsJsFiles %>'],
                 options: {
                     destination: 'doc'
                 }
