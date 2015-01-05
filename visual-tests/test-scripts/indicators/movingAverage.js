@@ -11,22 +11,15 @@
 
     chart.call(chartLayout);
 
-    // Calculate the scale domain
-    var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
-
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain([dateFrom, dateTo])
+        .domain(fc.utilities.extents(data, 'date'))
         .range([0, chartLayout.getPlotAreaWidth()])
         .nice();
 
     // Create scale for y axis
     var priceScale = fc.scale.linear()
-        .domain([priceFrom, priceTo])
+        .domain(fc.utilities.extents(data, ['high', 'low']))
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();
 
