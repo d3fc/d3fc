@@ -64,12 +64,6 @@
         // The elements created for the chart
         var chartElements = {};
 
-        // components that have been added to the plot area.
-        var plotAreaComponents = [];
-
-        // the selection that was originally used to construct the layout
-        var callingSelection;
-
         /**
          * Constructs a new instance of the chartLayout component.
          *
@@ -91,9 +85,6 @@
          * @param {selection} selection a D3 selection
          */
         var chartLayout = function(selection) {
-
-            callingSelection = selection;
-
             // Select the first element in the selection
             // If the selection contains more than 1 element,
             // only the first will be used, the others will be ignored
@@ -421,63 +412,6 @@
          */
         chartLayout.getAxisContainer = function(orientation) {
             return chartElements.axisContainer[orientation].selection;
-        };
-
-        /**
-         * Adds a number of components to the chart plot area. The chart layout is responsible for
-         * rendering these components via the render function.
-         *
-         * @memberof fc.utilities.chartLayout#
-         * @method addToPlotArea
-         * @param  {array} components an array of components to add to the plot area
-         */
-        chartLayout.addToPlotArea = function(components) {
-            plotAreaComponents = plotAreaComponents.concat(components);
-        };
-
-        /**
-         * Sets the chart axis with the given orientation. The chart layout is responsible for setting
-         * the range of this axis and rendering it via the render function.
-         *
-         * @memberof fc.utilities.chartLayout#
-         * @method addToPlotArea
-         * @param  {string} orientation The orientation of the axis container
-         * @param  {object} axis a D3 or D3FC axis component
-         */
-        chartLayout.setAxis = function(orientation, axis) {
-            chartElements.axisContainer[orientation].axis = axis;
-        };
-
-        /**
-         * Renders all of the components associated with this chart. During the render process
-         * the axes have their scales set to an appropriate value.
-         *
-         * @memberof fc.utilities.chartLayout#
-         * @method render
-         */
-        chartLayout.render = function() {
-            callingSelection.call(chartLayout);
-
-            // call each of the axis components with the axis selection
-            for (var axisContainerName in chartElements.axisContainer) {
-                if (chartElements.axisContainer.hasOwnProperty(axisContainerName)) {
-                    var axisContainer = chartElements.axisContainer[axisContainerName];
-                    if (axisContainer.hasOwnProperty('axis')) {
-                        var axis = axisContainer.axis;
-                        if (axisContainerName === 'top' || axisContainerName === 'bottom') {
-                            axis.scale().range([0, chartLayout.getPlotAreaWidth()]);
-                        } else {
-                            axis.scale().range([chartLayout.getPlotAreaHeight(), 0]);
-                        }
-                        axisContainer.selection.call(axis);
-                    }
-                }
-            }
-
-            // call each of the plot area components
-            plotAreaComponents.forEach(function(component) {
-                chartLayout.getPlotArea().call(component);
-            });
         };
 
         return chartLayout;
