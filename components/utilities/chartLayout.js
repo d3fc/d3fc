@@ -64,6 +64,8 @@
         // The elements created for the chart
         var chartElements = {};
 
+        var plotAreaClipId;
+
         /**
          * Constructs a new instance of the chartLayout component.
          *
@@ -156,7 +158,7 @@
             // Get an ID for the clipping path
             // If the element already has an ID, use that;
             // otherwise, generate one (to avoid duplicate IDs)
-            var plotAreaClipId = 'fcPlotAreaClip_' + (element.id || nextId());
+            plotAreaClipId = plotAreaClipId || 'fcPlotAreaClip_' + (element.id || nextId());
 
             // Clipping path
             var clippingPath = defs.selectAll('#' + plotAreaClipId).data(dummyData);
