@@ -6,27 +6,20 @@
         .randomSeed('12345')
         .generate(50);
 
-    var chart = d3.select('#fc-scale-dateTime'),
+    var chart = d3.select('#d3-time-d3-linear'),
         chartLayout = fc.utilities.chartLayout();
 
     chart.call(chartLayout);
 
-    // Calculate the scale domain
-    var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
-
     // Create scale for x axis
-    var dateScale = fc.scale.dateTime()
-        .domain([dateFrom, dateTo])
+    var dateScale = d3.time.scale()
+        .domain(fc.utilities.extents(data, 'date'))
         .range([0, chartLayout.getPlotAreaWidth()])
         .nice();
 
     // Create scale for y axis
-    var priceScale = fc.scale.linear()
-        .domain([priceFrom, priceTo])
+    var priceScale = d3.scale.linear()
+        .domain(fc.utilities.extents(data, ['high', 'low']))
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();
 
@@ -55,5 +48,16 @@
         .attr('class', 'series')
         .datum(data)
         .call(ohlc);
+
+    // Create the gridlines
+    var gridlines = fc.scale.gridlines()
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .xTicks(10);
+
+    // Add the gridlines
+    chartLayout.getPlotArea().append('g')
+        .attr('class', 'gridlines')
+        .call(gridlines);
 
 })(d3, fc);
