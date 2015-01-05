@@ -50,50 +50,6 @@
         };
 
         /**
-        * Used to set or get the domain for this scale. The domain is the range of real world
-        * values denoted by this scale (Max. and Min.).
-        *
-        * @memberof fc.scale.linear
-        * @method domain
-        * @param {array} domain the real world domain value as an array of 2 decimal numbers,
-        * Min and Max respectively.
-        * @returns the current domain if no arguments are passed.
-        */
-        scale.domain = function(domain) {
-            linear.domain(domain);
-            return scale;
-        };
-
-        /**
-        * Used to get an array of tick mark locations which can be used to display labels and
-        * tick marks on the associated axis.
-        *
-        * @memberof fc.scale.linear
-        * @method ticks
-        * @param {integer} n the number of ticks to try and display within the scale domain.
-        * (This value is used as a guide for a best fit approach)
-        * @returns an array of values denoting real world positions within the scale.
-        * These can be converted to pixel locations using the `scale` function.
-        */
-        scale.ticks = function(n) {
-            return linear.ticks(n);
-        };
-
-        /**
-        * Used to scale a value from pixel space to domain space. This function is the inverse of
-        * the `scale` function.
-        *
-        * @memberof fc.scale.linear
-        * @method invert
-        * @param {decimal} pixel the pixel value to be scaled.
-        * @returns the converted value in real world space. In most cases this value will only be
-        * accurate to the precision of the pixel width of the scale.
-        */
-        scale.invert = function(pixel) {
-            return linear.invert(pixel);
-        };
-
-        /**
         * Used to get or set the option to align ticks to pixel columns/rows.
         * Pixel aligning yields crisper chart graphics.
         *
@@ -110,6 +66,7 @@
             return scale;
         };
 
-        return d3.rebind(scale, linear, 'range', 'rangeRound', 'interpolate', 'clamp', 'nice');
+        return d3.rebind(scale, linear, 'domain', 'ticks', 'tickFormat', 'range', 'rangeRound', 'interpolate', 'clamp',
+            'invert', 'nice');
     }
 }(d3, fc));

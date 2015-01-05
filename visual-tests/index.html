@@ -78,7 +78,24 @@
         <h2>Tools</h2>
         <h3>Annotation</h3>
         <h3>Callouts</h3>
+        
         <h3>Crosshairs</h3>
+        <p>Demonstrates basic crosshairs functionality: snapping, padding, labels and decoration.
+        <div id="crosshairs"></div>
+        <p>Demonstrates crosshairs freezing, events and how they can be controlled.
+        <div style="display:flex;height:300px">
+            <div id="crosshairs-1" style="flex:1"></div>
+            <form id="crosshairs-1-form" style="width:200px">
+                <p>Container</p>
+                <label>pointer-events (all/none)<input name="pointerevents" type="checkbox" checked/></label>
+                <label>display (inherit/none)<input name="display" type="checkbox" checked/></label>
+                <button name="clear">clear</button>
+                <textarea name="eventlog" style="display:block;width:200px;height:200px"></textarea>
+            </form>
+        </div>
+        <p>Demonstrates crosshairs with dynamic data across multiple charts.
+        <div id="crosshairs-2">TODO</div>
+
         <h3>Fibonacci Fan</h3>
         <h3>Measure</h3>
     </section>
@@ -133,6 +150,9 @@
 
     <script src="test-scripts/series/bar.js"></script>
     <script src="test-scripts/series/ohlc.js"></script>
+
+    <script src="test-scripts/tools/crosshairs.js"></script>
+    <script src="test-scripts/tools/crosshairs-1.js"></script>
 
     <script src="test-scripts/utilities/chartBuilder.js"></script>
 
