@@ -8,30 +8,43 @@
      * can use <code>fc.utilities.extents(data, ['high', 'low'])</code> to compute the extents of your data.
      *
      * @memberof fc.utilities
-     * @param {array} data an array of data points
+     * @param {array} data an array of data points, or an array of arrays of data points
      * @param {array} fields the names of object properties that represent field values
      */
     fc.utilities.extents = function(data, fields) {
 
-        // the function only operates on arrays, but we can pass non-array types in
+        if (fields === null) {
+            return d3.extent(data);
+        }
+
+        // the function only operates on arrays of arrays, but we can pass non-array types in
         if (Object.prototype.toString.call(data) !== '[object Array]') {
             data = [data];
         }
+        // we need an array of arrays if we don't have one already
+        if (Object.prototype.toString.call(data[0]) !== '[object Array]') {
+            data = [data];
+        }
+        // the fields parameter must be an array of field names, but we can pass non-array types in
         if (Object.prototype.toString.call(fields) !== '[object Array]') {
             fields = [fields];
         }
 
         // Return the smallest and largest
         return [
-            d3.min(data, function(d) {
-                return d3.min(fields.map(function(f) {
-                    return d[f];
-                }));
+            d3.min(data, function(d0) {
+                return d3.min(d0, function(d1) {
+                    return d3.min(fields.map(function(f) {
+                        return d1[f];
+                    }));
+                });
             }),
-            d3.max(data, function(d) {
-                return d3.max(fields.map(function(f) {
-                    return d[f];
-                }));
+            d3.max(data, function(d0) {
+                return d3.max(d0, function(d1) {
+                    return d3.max(fields.map(function(f) {
+                        return d1[f];
+                    }));
+                });
             })
         ];
     };
