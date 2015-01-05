@@ -60,12 +60,14 @@ div#chart {
 .up-day path,
 .up-day rect {
     fill: #3d0;
+    stroke: #3d0;
 }
 
 .down-day,
 .down-day path,
 .down-day rect {
     fill: #d30;
+    stroke: #d30;
 }
 
 .volume rect {
