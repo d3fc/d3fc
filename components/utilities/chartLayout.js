@@ -141,10 +141,17 @@
             chartElements.svg.exit().remove();
 
             // Create group for the chart
+            function roundToNearestHalfInteger(n) {
+                var m = Math.round(n);
+                return n > m ? m + 0.5 : m - 0.5;
+            }
+
             var chart = chartElements.svg.selectAll('g.chartArea').data(dummyData);
             chart.enter().append('g');
             chart.attr('class', 'chartArea')
-                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+                .attr('transform', 'translate(' +
+                    roundToNearestHalfInteger(margin.left) + ',' +
+                    roundToNearestHalfInteger(margin.top) + ')');
             chart.exit().remove();
             chartElements.chartArea = chart;
 

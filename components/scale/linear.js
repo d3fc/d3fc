@@ -33,8 +33,7 @@
         */
         function scale(x) {
             var n = linear(x);
-            var m = Math.round(n);
-            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
+            return alignPixels ? Math.round(n) : n;
         }
 
         /**
