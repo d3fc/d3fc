@@ -6,7 +6,7 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             barWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5),
-            yValue = fc.utilities.valueAccessor('volume'),
+            yValue = fc.utilities.valueAccessor('close'),
             classForBar = function(d) { return ''; };
 
         var bar = function(selection) {
