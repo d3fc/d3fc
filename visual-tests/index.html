@@ -23,7 +23,7 @@
         <h3>Relative Strength Index</h3>
         <div id="rsi"></div>
     </section>
-    
+
     <section>
         <h2>Scale</h2>
 
@@ -32,7 +32,7 @@
         <h4>fc.scale.dateTime &amp; fc.scale.linear</h4>
         <div id="fc-time-fc-linear"></div>
 
-        <h4>d3.time.scale &amp; fc.scale.linear</h4>        
+        <h4>d3.time.scale &amp; fc.scale.linear</h4>
         <div id="d3-time-fc-linear"></div>
 
         <h4>fc.scale.dateTime &amp; d3.scale.linear</h4>
@@ -44,7 +44,17 @@
 
     <section>
         <h2>Series</h2>
+
         <h3>Bar</h3>
+        <style>
+          #bar .bar-1 { fill: red; }
+          #bar .bar-2 { fill: green; }
+          #bar .bar-3 { fill: blue; }
+          #bar .bar-4 { fill: yellow; }
+          #bar .bar-5 { fill: purple; }
+        </style>
+        <div id="bar"></div>
+
         <h3>Candlestick</h3>
         <h3>Comparison</h3>
         <h3>Line</h3>
@@ -79,6 +89,8 @@
     <script src="test-scripts/scale/d3-time-fc-linear.js"></script>
     <script src="test-scripts/scale/fc-time-d3-linear.js"></script>
     <script src="test-scripts/scale/d3-time-d3-linear.js"></script>
+
+    <script src="test-scripts/series/bar.js"></script>
 
     <script src="//localhost:35729/livereload.js"></script>
   </body>
