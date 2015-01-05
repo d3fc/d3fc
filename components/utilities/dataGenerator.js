@@ -8,7 +8,7 @@
     *
     * @type {object}
     * @memberof fc.utilities
-    * @namespace fc.utilities.dataGenerator
+    * @class fc.utilities.dataGenerator
     */
     fc.utilities.dataGenerator = function() {
 

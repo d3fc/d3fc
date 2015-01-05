@@ -8,7 +8,7 @@
     *
     * @type {object}
     * @memberof fc.scale
-    * @namespace fc.scale.linear
+    * @class fc.scale.linear
     */
     fc.scale.linear = function() {
         return linearScale();

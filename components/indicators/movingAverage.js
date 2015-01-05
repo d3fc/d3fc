@@ -9,7 +9,7 @@
     *
     * @type {object}
     * @memberof fc.indicators
-    * @namespace fc.indicators.movingAverage
+    * @class fc.indicators.movingAverage
     */
     fc.indicators.movingAverage = function() {
 
