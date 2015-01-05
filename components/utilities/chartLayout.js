@@ -158,9 +158,9 @@
             chartElements.chartArea = chart;
 
             // Defs - for clipping path
-            var defs = chart.selectAll('defs').data(dummyData);
-            defs.enter().append('defs');
-            defs.exit().remove();
+            chartElements.defs = chart.selectAll('defs').data(dummyData);
+            chartElements.defs.enter().append('defs');
+            chartElements.defs.exit().remove();
 
             // Get an ID for the clipping path
             // If the element already has an ID, use that;
@@ -168,7 +168,7 @@
             plotAreaClipId = plotAreaClipId || 'fcPlotAreaClip_' + (element.id || nextId());
 
             // Clipping path
-            var clippingPath = defs.selectAll('#' + plotAreaClipId).data(dummyData);
+            var clippingPath = chartElements.defs.selectAll('#' + plotAreaClipId).data(dummyData);
             clippingPath.enter().append('clipPath');
             clippingPath.attr('id', plotAreaClipId);
             clippingPath.exit().remove();
@@ -373,6 +373,19 @@
          */
         chartLayout.getSVG = function() {
             return chartElements.svg;
+        };
+
+        /**
+         * Get the defs element for the chart.
+         * The defs element can contain elements to be reused in the SVG, after they're defined;
+         * for example - a clipping path.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getDefs
+         * @returns {selection} The defs element for the chart.
+         */
+        chartLayout.getDefs = function() {
+            return chartElements.defs;
         };
 
         /**
