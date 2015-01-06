@@ -212,7 +212,3 @@ text.crosshairs {
   stroke: #eee;
   fill: #fefefe;
 }
-
-.plotarea {
-  overflow: hidden;
-}
