@@ -135,12 +135,12 @@
                 dummyData = [0];
 
             // Create svg
-            chartElements.svg = container.selectAll('svg').data(dummyData);
-            chartElements.svg.enter().append('svg');
-            chartElements.svg.attr('width', width)
+            var svg = container.selectAll('svg').data(dummyData);
+            svg.enter().append('svg');
+            svg.attr('width', width)
                 .attr('height', height)
                 .style('display', 'block');
-            chartElements.svg.exit().remove();
+            svg.exit().remove();
 
             // Create group for the chart
             function roundToNearestHalfInteger(n) {
@@ -148,53 +148,61 @@
                 return n > m ? m + 0.5 : m - 0.5;
             }
 
-            var chart = chartElements.svg.selectAll('g.chartArea').data(dummyData);
-            chart.enter().append('g');
-            chart.attr('class', 'chartArea')
-                .attr('transform', 'translate(' +
-                    roundToNearestHalfInteger(margin.left) + ',' +
-                    roundToNearestHalfInteger(margin.top) + ')');
+            var chart = svg.selectAll('g.chartArea').data(dummyData);
+            chart.enter().append('g')
+                .classed('chartArea', true);
+            chart.attr('transform', 'translate(' +
+                roundToNearestHalfInteger(margin.left) + ',' +
+                roundToNearestHalfInteger(margin.top) + ')');
             chart.exit().remove();
-            chartElements.chartArea = chart;
 
-            // Defs - for clipping path
-            chartElements.defs = chart.selectAll('defs').data(dummyData);
-            chartElements.defs.enter().append('defs');
-            chartElements.defs.exit().remove();
+            // Create defs - for clipping path
+            var defs = chart.selectAll('defs').data(dummyData);
+            defs.enter().append('defs');
+            defs.exit().remove();
 
             // Get an ID for the clipping path
-            // If the element already has an ID, use that;
-            // otherwise, generate one (to avoid duplicate IDs)
+            // If the element already has an ID, use that; otherwise, generate one (to avoid duplicate IDs)
             plotAreaClipId = plotAreaClipId || 'fcPlotAreaClip_' + (element.id || nextId());
 
             // Clipping path
-            var clippingPath = chartElements.defs.selectAll('#' + plotAreaClipId).data(dummyData);
-            clippingPath.enter().append('clipPath');
-            clippingPath.attr('id', plotAreaClipId);
+            var clippingPath = defs.selectAll('#' + plotAreaClipId).data(dummyData);
+            clippingPath.enter().append('clipPath')
+                .attr('id', plotAreaClipId);
             clippingPath.exit().remove();
 
             // Clipping path rect
             var clippingPathRect = clippingPath.selectAll('rect').data(dummyData);
             clippingPathRect.enter().append('rect');
-            clippingPathRect.attr('width', chartLayout.getPlotAreaWidth())
+            clippingPathRect
+                .attr('width', chartLayout.getPlotAreaWidth())
                 .attr('height', chartLayout.getPlotAreaHeight());
             clippingPathRect.exit().remove();
 
             // Create a background element
-            chartElements.plotAreaBackground = chart.selectAll('rect.background').data(dummyData);
-            chartElements.plotAreaBackground.enter().append('rect');
-            chartElements.plotAreaBackground.attr('class', 'background')
+            var plotAreaBackground = chart.selectAll('rect.background').data(dummyData);
+            plotAreaBackground.enter().append('rect')
+                .classed('background', true);
+            plotAreaBackground
                 .attr('width', chartLayout.getPlotAreaWidth())
                 .attr('height', chartLayout.getPlotAreaHeight());
-            chartElements.plotAreaBackground.exit().remove();
+            plotAreaBackground.exit().remove();
 
             // Create plot area, using the clipping path
-            if (chart.selectAll('g.plotArea').empty()) {
-                chartElements.plotArea = chart.append('g')
-                    .attr('clip-path', 'url(#' + plotAreaClipId + ')')
-                    .attr('class', 'plotArea');
-            }
+            var plotArea = chart.selectAll('g.plotArea').data(dummyData);
+            plotArea.enter().append('g');
+            plotArea.attr('clip-path', 'url(#' + plotAreaClipId + ')')
+                .classed('plotArea', true);
+            plotArea.exit().remove();
 
+            // Add selections to the chart elements object for the getters
+            chartElements = {
+                svg: svg,
+                chartArea: chart,
+                defs: defs,
+                plotAreaBackground: plotAreaBackground,
+                plotArea: plotArea
+            };
 
             // Create containers for the axes
             if (!chartElements.axisContainer) {
@@ -203,9 +211,9 @@
 
             function createAxis(orientation, translation) {
                 var selection = chart.selectAll('g.axis.' + orientation).data(dummyData);
-                selection.enter().append('g');
-                selection.attr('class', 'axis ' + orientation)
-                    .attr('transform', translation);
+                selection.enter().append('g')
+                    .attr('class', 'axis ' + orientation);
+                selection.attr('transform', translation);
                 selection.exit().remove();
                 if (!chartElements.axisContainer[orientation]) {
                     chartElements.axisContainer[orientation] = {};
