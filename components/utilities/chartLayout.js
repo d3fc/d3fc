@@ -189,41 +189,34 @@
             chartElements.plotAreaBackground.exit().remove();
 
             // Create plot area, using the clipping path
-            chartElements.plotArea = chart.selectAll('g.plotArea').data(dummyData);
-            chartElements.plotArea.enter().append('g');
-            chartElements.plotArea.attr('clip-path', 'url(#' + plotAreaClipId + ')')
-                .attr('class', 'plotArea');
-            chartElements.plotArea.exit().remove();
+            if (chart.selectAll('g.plotArea').empty()) {
+                chartElements.plotArea = chart.append('g')
+                    .attr('clip-path', 'url(#' + plotAreaClipId + ')')
+                    .attr('class', 'plotArea');
+            }
+
 
             // Create containers for the axes
-            chartElements.axisContainer = {};
+            if (!chartElements.axisContainer) {
+                chartElements.axisContainer = {};
+            }
 
-            chartElements.axisContainer.bottom = chart.selectAll('g.axis.bottom').data(dummyData);
-            chartElements.axisContainer.bottom.enter().append('g');
-            chartElements.axisContainer.bottom.attr('class', 'axis bottom')
-                .attr('transform', 'translate(0, ' + chartLayout.getPlotAreaHeight() + ')');
-            chartElements.axisContainer.bottom.exit().remove();
+            function createAxis(orientation, translation) {
+                var selection = chart.selectAll('g.axis.' + orientation).data(dummyData);
+                selection.enter().append('g');
+                selection.attr('class', 'axis ' + orientation)
+                    .attr('transform', translation);
+                selection.exit().remove();
+                if (!chartElements.axisContainer[orientation]) {
+                    chartElements.axisContainer[orientation] = {};
+                }
+                chartElements.axisContainer[orientation].selection = selection;
+            }
 
-
-            chartElements.axisContainer.top = chart.selectAll('g.axis.top').data(dummyData);
-            chartElements.axisContainer.top.enter().append('g');
-            chartElements.axisContainer.top.attr('class', 'axis top')
-                .attr('transform', 'translate(0, 0)');
-            chartElements.axisContainer.top.exit().remove();
-
-
-            chartElements.axisContainer.left = chart.selectAll('g.axis.left').data(dummyData);
-            chartElements.axisContainer.left.enter().append('g');
-            chartElements.axisContainer.left.attr('class', 'axis left')
-                .attr('transform', 'translate(0, 0)');
-            chartElements.axisContainer.left.exit().remove();
-
-
-            chartElements.axisContainer.right = chart.selectAll('g.axis.right').data(dummyData);
-            chartElements.axisContainer.right.enter().append('g');
-            chartElements.axisContainer.right.attr('class', 'axis right')
-                .attr('transform', 'translate(' + chartLayout.getPlotAreaWidth() + ', 0)');
-            chartElements.axisContainer.right.exit().remove();
+            createAxis('bottom', 'translate(0, ' + chartLayout.getPlotAreaHeight() + ')');
+            createAxis('top', 'translate(0, 0)');
+            createAxis('left', 'translate(0, 0)');
+            createAxis('right', 'translate(' + chartLayout.getPlotAreaWidth() + ', 0)');
         };
 
         /**
@@ -370,6 +363,7 @@
             return height - margin.top - margin.bottom;
         };
 
+
         /**
          * Get the SVG for the chart.
          *
@@ -394,6 +388,17 @@
         };
 
         /**
+         * Get the plot area's background element.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getPlotAreaBackground
+         * @returns {selection} The background rect of the plot area.
+         */
+        chartLayout.getPlotAreaBackground = function() {
+            return chartElements.plotAreaBackground;
+        };
+
+        /**
          * Get the plot area group for the chart.
          * The plot area has a clipping path, so this is typically where series and indicators will be added.
          *
@@ -415,18 +420,7 @@
          * @returns {selection} The group for the specified axis orientation.
          */
         chartLayout.getAxisContainer = function(orientation) {
-            return chartElements.axisContainer[orientation];
-        };
-
-        /**
-         * Get the plot area's background element.
-         *
-         * @memberof fc.utilities.chartLayout#
-         * @method getPlotAreaBackground
-         * @returns {selection} The background rect of the plot area.
-         */
-        chartLayout.getPlotAreaBackground = function() {
-            return chartElements.plotAreaBackground;
+            return chartElements.axisContainer[orientation].selection;
         };
 
         return chartLayout;
