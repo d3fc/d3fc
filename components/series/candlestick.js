@@ -100,6 +100,11 @@
             });
         };
 
+        candlestick.zoom = function(selection) {
+            selection.selectAll('.candlestick-series')
+                .attr('transform', 'translate(' + d3.event.translate[0] + ',0)scale(' + d3.event.scale + ',1)');
+        };
+
         candlestick.xScale = function(value) {
             if (!arguments.length) {
                 return xScale;

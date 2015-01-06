@@ -108,6 +108,7 @@
                     };
                 });
 
+                // TODO: use __chart__?
                 cachedData = data; // Save for rebasing.
 
                 color.domain(data.map(function(d) {
