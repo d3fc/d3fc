@@ -58,8 +58,7 @@
                 // When scaling dates.
                 n = linear(linearTime(x));
             }
-            var m = Math.round(n);
-            return alignPixels ? (n > m ? m + 0.5 : m - 0.5) : n;
+            return alignPixels ? Math.round(n) : n;
         }
 
         /**
