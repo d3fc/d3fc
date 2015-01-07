@@ -13,13 +13,13 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.utilities.extents(data, 'date'))
+        .domain(fc.utilities.extent(data, 'date'))
         .range([0, chartLayout.getPlotAreaWidth()])
         .nice();
 
     // Create scale for y axis
     var priceScale = fc.scale.linear()
-        .domain(fc.utilities.extents(data, ['high', 'low']))
+        .domain(fc.utilities.extent(data, ['high', 'low']))
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();
 
