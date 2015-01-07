@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>D3FC Visual Tests</title>
+    <link href="assets/style.css" rel="stylesheet">
+    <link href="../dist/d3-financial-components.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>D3FC Visual Tests</h1>
+
+    <section>
+        <h2>Indicators</h2>
+
+        <h3>Bollinger Bands</h3>
+        <div id="bollinger-bands"></div>
+
+        <h3>Moving Average</h3>
+        <div id="moving-average"></div>
+
+        <h3>Relative Strength Index</h3>
+        <div id="rsi"></div>
+    </section>
+
+    <section>
+        <h2>Scale</h2>
+
+        <h3>Date Time, Gridlines &amp; Linear (combined)</h3>
+
+        <h4>fc.scale.dateTime &amp; fc.scale.linear</h4>
+        <div id="fc-time-fc-linear"></div>
+
+        <h4>d3.time.scale &amp; fc.scale.linear</h4>
+        <div id="d3-time-fc-linear"></div>
+
+        <h4>fc.scale.dateTime &amp; d3.scale.linear</h4>
+        <div id="fc-time-d3-linear"></div>
+
+        <h4>d3.time.scale &amp; d3.scale.linear</h4>
+        <div id="d3-time-d3-linear"></div>
+    </section>
+
+    <section>
+        <h2>Series</h2>
+
+        <h3>Bar</h3>
+        <style>
+          #bar .bar-1 { fill: red; }
+          #bar .bar-2 { fill: green; }
+          #bar .bar-3 { fill: blue; }
+          #bar .bar-4 { fill: yellow; }
+          #bar .bar-5 { fill: purple; }
+        </style>
+        <div id="bar"></div>
+
+        <h3>Candlestick</h3>
+        <h3>Comparison</h3>
+        <h3>Line</h3>
+        <h3>OHLC</h3>
+    </section>
+
+    <section>
+        <h2>Tools</h2>
+        <h3>Annotation</h3>
+        <h3>Callouts</h3>
+        <h3>Crosshairs</h3>
+        <h3>Fibonacci Fan</h3>
+        <h3>Measure</h3>
+    </section>
+
+    <section>
+        <h2>Utilities</h2>
+        <h3>Chart Layout</h3>
+        <h3>Data Generator</h3>
+        <h3>Time interval Width</h3>
+        <h3>Value accessor</h3>
+    </section>
+
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="../dist/d3-financial-components.js"></script>
+
+    <script src="test-scripts/indicators/bollingerBands.js"></script>
+    <script src="test-scripts/indicators/movingAverage.js"></script>
+    <script src="test-scripts/indicators/relativeStrengthIndex.js"></script>
+
+    <script src="test-scripts/scale/fc-time-fc-linear.js"></script>
+    <script src="test-scripts/scale/d3-time-fc-linear.js"></script>
+    <script src="test-scripts/scale/fc-time-d3-linear.js"></script>
+    <script src="test-scripts/scale/d3-time-d3-linear.js"></script>
+
+    <script src="test-scripts/series/bar.js"></script>
+
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

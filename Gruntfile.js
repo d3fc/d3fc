@@ -10,12 +10,15 @@ module.exports = function (grunt) {
             componentsJsFiles: [
                 'components/**/*.js'
             ],
+            visualTestJsFiles: [
+                'visual-tests/**/*.js'
+            ],
             componentsCssFiles: [
                 'components/**/*.css'
             ],
             ourJsFiles: [
-                'Gruntfile.js',
-                '<%= meta.componentsJsFiles %>'
+                '<%= meta.componentsJsFiles %>',
+                '<%= meta.visualTestJsFiles %>'
             ]
         },
 
@@ -62,8 +65,14 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            files: ['<%= meta.componentsJsFiles %>', '<%= meta.componentsCssFiles %>'],
-            tasks: ['build']
+            files: [
+                '<%= meta.ourJsFiles %>',
+                '<%= meta.componentsCssFiles %>'
+            ],
+            tasks: ['build'],
+            options: {
+                livereload: true
+            }
         },
 
         jscs: {
@@ -72,7 +81,7 @@ module.exports = function (grunt) {
             },
             failOnError: {
                 files: {
-                    src: ['<%= meta.componentsJsFiles %>']
+                    src: ['<%= meta.ourJsFiles %>']
                 }
             },
             warnOnly: {
@@ -80,7 +89,7 @@ module.exports = function (grunt) {
                     force: true
                 },
                 files: {
-                    src: ['<%= meta.componentsJsFiles %>']
+                    src: ['<%= meta.ourJsFiles %>']
                 }
             }
         },
@@ -91,7 +100,7 @@ module.exports = function (grunt) {
             },
             failOnError: {
                 files: {
-                    src: ['<%= meta.componentsJsFiles %>']
+                    src: ['<%= meta.ourJsFiles %>']
                 }
             },
             warnOnly: {
@@ -106,7 +115,7 @@ module.exports = function (grunt) {
 
         jsdoc : {
             dist : {
-                src: ['<%= meta.componentsJsFiles %>'], 
+                src: ['<%= meta.componentsJsFiles %>'],
                 options: {
                     destination: 'doc'
                 }
