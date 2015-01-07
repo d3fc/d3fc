@@ -8,66 +8,60 @@
             xScale = fc.scale.dateTime(),
             yScale = fc.scale.linear(),
             underFill = true,
+            area = d3.svg.area(),
+            d3line = d3.svg.line(),
             css = 'line-series';
 
         var line = function(selection) {
-
-            var area;
-
-            if (underFill) {
-                area = d3.svg.area()
-                    .x(function(d) { return xScale(xValue(d)); })
-                    .y0(yScale(0));
-            }
-
-            var line = d3.svg.line();
-            line.x(function(d) { return xScale(xValue(d)); });
-
+            var container, areapath, linepath;
             selection.each(function(data) {
 
+                if (underFill) {
+                    area.x(function(d) { return xScale(xValue(d)); })
+                        .y0(yScale(0))
+                        .y1(function(d) { return yScale(yValue(d)); });
+                }
+
+                d3line
+                    .x(function(d) { return xScale(xValue(d)); })
+                    .y(function(d) { return yScale(yValue(d)); });
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
-                var container = d3.select(this)
+                container = d3.select(this)
                     .selectAll('.' + css)
                     .data([data]);
                 container.enter()
                     .append('g')
                     .classed(css, true);
 
-                if (underFill) {
-                    area.y1(function(d) { return yScale(yValue(d)); });
-
-                    var areapath = container
+                areapath = container
                         .selectAll('.area')
                         .data([data]);
+                // enter
+                areapath.enter()
+                    .append('path');
+                // update
+                areapath
+                    .classed('area', true)
+                    .attr('d', function(d) {
+                        return underFill ? area(d) : null;
+                    });
+                // exit
+                areapath.exit()
+                    .remove();
 
-                    // enter
-                    areapath.enter()
-                        .append('path');
 
-                    // update
-                    areapath.attr('d', area)
-                        .classed('area', true);
-
-                    // exit
-                    areapath.exit()
-                        .remove();
-                }
-
-                line.y(function(d) { return yScale(yValue(d)); });
-                var linepath = container
+                linepath = container
                     .selectAll('.line')
                     .data([data]);
-
                 // enter
                 linepath.enter()
                     .append('path');
-
                 // update
-                linepath.attr('d', line)
-                    .classed('line', true);
-
+                linepath
+                    .classed('line', true)
+                    .attr('d', d3line);
                 // exit
                 linepath.exit()
                     .remove();
