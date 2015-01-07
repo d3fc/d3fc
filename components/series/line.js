@@ -8,28 +8,23 @@
             xScale = fc.scale.dateTime(),
             yScale = fc.scale.linear(),
             underFill = true,
-            css = 'line-series',
             area = d3.svg.area(),
-            d3line = d3.svg.line();
+            d3line = d3.svg.line(),
+            css = 'line-series';
 
         var line = function(selection) {
             var container, areapath, linepath;
             selection.each(function(data) {
-                this.__chart__ = this.__chart__ || {};
-                var chartYScale = this.__chart__.yScale || yScale;
-                var chartXScale = this.__chart__.xScale || xScale;
-                this.__chart__.yScale = chartYScale;
-                this.__chart__.xScale = chartXScale;
-                this.__chart__.initialYScale = chartYScale.copy();
 
                 if (underFill) {
-                    area.x(function(d) { return chartXScale(xValue(d)); })
-                        .y0(chartYScale(0))
-                        .y1(function(d) { return chartYScale(yValue(d)); });
+                    area.x(function(d) { return xScale(xValue(d)); })
+                        .y0(yScale(0))
+                        .y1(function(d) { return yScale(yValue(d)); });
                 }
+
                 d3line
-                    .x(function(d) { return chartXScale(xValue(d)); })
-                    .y(function(d) { return chartYScale(yValue(d)); });
+                    .x(function(d) { return xScale(xValue(d)); })
+                    .y(function(d) { return yScale(yValue(d)); });
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
@@ -38,8 +33,7 @@
                     .data([data]);
                 container.enter()
                     .append('g')
-                    .classed(css, true)
-                    .attr('transform', null);
+                    .classed(css, true);
 
                 areapath = container
                         .selectAll('.area')
@@ -73,8 +67,6 @@
                     .remove();
             });
         };
-
-        line.zoom = fc.utilities.series.zoom('.' + css);
 
         line.xValue = function(value) {
             if (!arguments.length) {
