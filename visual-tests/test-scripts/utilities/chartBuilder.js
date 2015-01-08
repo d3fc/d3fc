@@ -47,4 +47,12 @@
     // draw stuff!
     chartBuilder.render();
 
+    var phase = 0.0;
+    setInterval(function() {
+        d3.select('#chartBuilder').style('width', 500 + Math.sin(phase) * 200 + 'px');
+        phase += 0.1;
+
+        chartBuilder.render();
+    }, 500);
+
 })(d3, fc);
