@@ -13,9 +13,6 @@
             yLow = fc.utilities.valueAccessor('low'),
             yClose = fc.utilities.valueAccessor('close');
 
-        // Function to return
-        var ohlc;
-
         // Accessor functions
         var open = function(d) {
                 return yScale(yOpen(d));
@@ -44,7 +41,6 @@
             return yClose(d) === yOpen(d);
         };
 
-        // Path drawing
         var makeBarPath = function(d) {
             var width = tickWidth(xScale),
                 moveToLow = 'M' + date(d) + ',' + low(d),
@@ -54,46 +50,20 @@
             return moveToLow + verticalToHigh + openTick + closeTick;
         };
 
-        var makeConcatPath = function(data) {
-            var path = 'M0,0';
-            data.forEach(function(d) {
-                path += makeBarPath(d);
-            });
-            return path;
-        };
-
-        // Filters data, and draws a series of ohlc bars from the result as a single path.
-        var makeConcatPathElement = function(series, elementClass, data, filterFunction) {
-            var concatPath;
-            var filteredData = data.filter(function(d) {
-                return filterFunction(d);
-            });
-            concatPath = series.selectAll('.' + elementClass)
-                .data([filteredData]);
-
-            concatPath.enter()
-                .append('path')
-                .classed(elementClass, true);
-
-            concatPath
-                .attr('d', makeConcatPath(filteredData));
-
-            concatPath.exit().remove();
-        };
-
-        // Common series element
-        var makeSeriesElement = function(selection, data) {
-            var series = d3.select(selection).selectAll('.ohlc-series').data([data]);
-            series.enter().append('g').classed('ohlc-series', true);
-            return series;
-        };
-
-        // Draw ohlc bars as svg paths
-        var ohlcBarPaths = function(selection) {
+        var ohlc = function(selection) {
             selection.each(function(data) {
-                var series = makeSeriesElement(this, data);
+                // data-join in order to create the series container element
+                var series = d3.select(this)
+                    .selectAll('.ohlc-series')
+                    .data([data]);
 
+                series.enter()
+                    .append('g')
+                    .classed('ohlc-series', true);
+
+                // create the bar paths
                 var bars = series.selectAll('.bar')
+                    // data-join, keying on the date (see #130)
                     .data(data, function(d) {
                         return d.date;
                     });
@@ -114,28 +84,16 @@
             });
         };
 
-        // Draw the complete series of ohlc bars using 3 paths
-        var ohlcConcatBarPaths = function(selection) {
-            selection.each(function(data) {
-                var series = makeSeriesElement(this, data);
-                makeConcatPathElement(series, 'up-day', data, isUpDay);
-                makeConcatPathElement(series, 'down-day', data, isDownDay);
-                makeConcatPathElement(series, 'static-day', data, isStaticDay);
-            });
-        };
-
-        switch (drawMethod) {
-            case 'path': ohlc = ohlcBarPaths; break;
-            case 'paths': ohlc = ohlcConcatBarPaths; break;
-            default: ohlc = ohlcBarPaths;
+        function fn(value, args, prop) {
+            if (!args.length) {
+                return prop;
+            }
+            prop = value;
+            return prop;
         }
 
         ohlc.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return ohlc;
+            return fn(value, arguments, xScale);
         };
 
         ohlc.yScale = function(value) {
