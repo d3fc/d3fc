@@ -200,11 +200,12 @@
                 .attr('x2', targetX)
                 .attr('y2', targetY);
 
-            var field = locationTarget.field;
+            var originField = locationOrigin.field,
+                targetfield = locationTarget.field;
 
             calloutX.attr('x', targetX - padding)
                 .attr('y', originY - (originY - targetY) / 2.0)
-                .text(formatV(Math.abs(locationTarget.point[field] - locationOrigin.point[field])));
+                .text(formatV(Math.abs(locationTarget.point[targetfield] - locationOrigin.point[originField])));
 
             calloutY.attr('y', originY - padding)
                 .attr('x', originX + (targetX - originX) / 2.0)
