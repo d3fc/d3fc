@@ -189,11 +189,15 @@
             plotAreaBackground.exit().remove();
 
             // Create plot area, using the clipping path
-            var plotArea = chart.selectAll('g.plotArea').data(dummyData);
-            plotArea.enter().append('g');
-            plotArea.attr('clip-path', 'url(#' + plotAreaClipId + ')')
-                .classed('plotArea', true);
-            plotArea.exit().remove();
+            // NOTE: We do not use a data-join to 'dummy data' here, because it is expected that the
+            // user (or chartBuilder) will want to data-join the plotArea with their own data in order
+            // that it is inherited by the series within the chart
+            var plotArea = chart.selectAll('g.plotArea');
+            if (plotArea.empty()) {
+                plotArea = chart.append('g')
+                    .attr('clip-path', 'url(#' + plotAreaClipId + ')')
+                    .attr('class', 'plotArea');
+            }
 
             // Add selections to the chart elements object for the getters
             chartElements = {
