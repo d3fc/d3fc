@@ -84,12 +84,16 @@
             });
         };
 
-        ohlc.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
+        function fn(value, args, prop) {
+            if (!args.length) {
+                return prop;
             }
-            xScale = value;
-            return ohlc;
+            prop = value;
+            return prop;
+        }
+
+        ohlc.xScale = function(value) {
+            return fn(value, arguments, xScale);
         };
 
         ohlc.yScale = function(value) {
