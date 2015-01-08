@@ -81,6 +81,21 @@
         <h3>Value accessor</h3>
     </section>
 
+
+    <section>
+        <h2>Functional</h2>
+        <h3>Update</h3>
+        <p>A slightly crude test that the series correctly implement the data-join pattern. The series below has points added, removed and updated. A visual inspection of the 
+        SVG should show no un-expected elements.</p>
+        <style>
+            #update candlestick-series {
+                opacity: 0.5;
+            }
+        </style>
+        <div id="update"></div>
+
+    </section>
+
     <script src="http://d3js.org/d3.v3.js"></script>
     <script src="../dist/d3-financial-components.js"></script>
 
@@ -97,6 +112,8 @@
     <script src="test-scripts/series/ohlc.js"></script>
 
     <script src="test-scripts/utilities/chartBuilder.js"></script>
+
+    <script src="test-scripts/functional/update.js"></script>
 
     <script src="//localhost:35729/livereload.js"></script>
   </body>
