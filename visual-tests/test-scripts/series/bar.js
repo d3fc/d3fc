@@ -55,7 +55,7 @@
         .decorate(function(sel) {
             sel.attr('class', function(d) { return 'bar-' + d.date.getDay(); });
         })
-        .barWidth(function() { return 9; });
+        .barWidth(9);
 
     // Add the primary bar series
     chartLayout.getPlotArea().append('g')

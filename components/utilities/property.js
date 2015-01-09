@@ -6,12 +6,12 @@
     fc.utilities.property = function(initialValue) {
 
         var accessor = function(newValue) {
-                if (!arguments.length) {
-                    return accessor.value;
-                }
-                accessor.value = newValue;
-                return this;
-            };
+            if (!arguments.length) {
+                return accessor.value;
+            }
+            accessor.value = d3.functor(newValue);
+            return this;
+        };
 
         accessor.value = initialValue;
 
