@@ -3,12 +3,6 @@
 
     fc.series.bar = function() {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            barWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.5),
-            yValue = fc.utilities.valueAccessor('close'),
-            classForBar = function(d) { return ''; };
-
         var bar = function(selection) {
             var series, container;
 
@@ -26,7 +20,9 @@
                 // create a data-join for each rect element
                 series = container
                     .selectAll('rect')
-                    .data(data);
+                    .data(data, function(d) {
+                        return d.date;
+                    });
 
                 // enter
                 series.enter()
@@ -37,53 +33,26 @@
                     .remove();
 
                 // update
-                series.attr('x', function(d) { return xScale(d.date) - (barWidth(xScale) / 2.0); })
-                    .attr('y', function(d) { return yScale(yValue(d)); })
-                    .attr('width', barWidth(xScale))
-                    .attr('height', function(d) { return yScale(0) - yScale(yValue(d)); })
-                    .attr('class', classForBar);
+                series.attr('x', function(d) { return bar.xScale.value(d.date) -
+                        (bar.barWidth.value(bar.xScale.value) / 2.0); })
+                    .attr('y', function(d) { return bar.yScale.value(bar.yValue.value(d)); })
+                    .attr('width', bar.barWidth.value(bar.xScale.value))
+                    .attr('height', function(d) { return bar.yScale.value(0) -
+                        bar.yScale.value(bar.yValue.value(d)); });
+
+                bar.decorate.value(series);
             });
         };
 
-        bar.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return bar;
-        };
+        bar.decorate = fc.utilities.property(fc.utilities.fn.noop);
 
-        bar.yScale = function(value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return bar;
-        };
+        bar.xScale = fc.utilities.property(d3.time.scale());
 
-        bar.barWidth = function(value) {
-            if (!arguments.length) {
-                return barWidth;
-            }
-            barWidth = d3.functor(value);
-            return bar;
-        };
+        bar.yScale = fc.utilities.property(d3.scale.linear());
 
-        bar.yValue = function(value) {
-            if (!arguments.length) {
-                return yValue;
-            }
-            yValue = value;
-            return bar;
-        };
+        bar.barWidth = fc.utilities.property(fc.utilities.timeIntervalWidth(d3.time.day, 0.5));
 
-        bar.classForBar = function(value) {
-            if (!arguments.length) {
-                return classForBar;
-            }
-            classForBar = value;
-            return bar;
-        };
+        bar.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
 
         return bar;
     };
