@@ -96,9 +96,11 @@
 
                 bars.exit().remove();
 
-
+                candlestick.decorate.value(bars);
             });
         };
+
+        candlestick.decorate = fc.utilities.property(fc.utilities.fn.noop);
 
         candlestick.xScale = function(value) {
             if (!arguments.length) {

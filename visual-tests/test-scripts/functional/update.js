@@ -1,14 +1,14 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = fc.utilities.dataGenerator()
-        .seedDate(new Date(2014, 1, 1))
-        .generate(50);
+    var generator = fc.utilities.dataGenerator()
+        .seedDate(new Date(2014, 1, 1));
+    var data = generator.generate(20);
 
     var chartLayout = fc.utilities.chartLayout();
     var chartBuilder = fc.utilities.chartBuilder(chartLayout);
 
-    d3.select('#chartBuilder')
+    d3.select('#update')
         .call(chartBuilder);
 
     // Create scale for x axis
@@ -36,10 +36,24 @@
         .xScale(dateScale)
         .yScale(priceScale);
 
+    var bar = fc.series.bar()
+        .yValue(function(d) { return d.low - 0.2; })
+        .xScale(dateScale)
+        .yScale(priceScale);
+
+    var line = fc.series.line()
+        .yValue(function(d) { return d.low - 0.2; })
+        .xScale(dateScale)
+        .yScale(priceScale);
+
+    var candle = fc.series.candlestick()
+        .xScale(dateScale)
+        .yScale(priceScale);
+
     // add the components to the chart
     chartBuilder.setAxis('bottom', dateAxis);
     chartBuilder.setAxis('left', priceAxis);
-    chartBuilder.addToPlotArea([ohlc]);
+    chartBuilder.addToPlotArea([ohlc, bar, line, candle]);
 
     // associate the data
     chartBuilder.setData(data);
@@ -47,12 +61,16 @@
     // draw stuff!
     chartBuilder.render();
 
-    var phase = 0.0;
     setInterval(function() {
-        d3.select('#chartBuilder').style('width', 500 + Math.sin(phase) * 200 + 'px');
-        phase += 0.1;
-
+        data.push(generator.generate(1)[0]);
+        data.shift();
+        data.forEach(function(d) {
+            d.low = d.low - 0.1;
+        });
+        dateScale.domain(fc.utilities.extent(data, 'date'));
+        priceScale.domain(fc.utilities.extent(data, ['high', 'low']));
+        chartBuilder.setData(data);
         chartBuilder.render();
-    }, 500);
+    }, 1000);
 
 })(d3, fc);

@@ -81,8 +81,12 @@
                 bars.attr('d', makeBarPath);
 
                 bars.exit().remove();
+
+                ohlc.decorate.value(bars);
             });
         };
+
+        ohlc.decorate = fc.utilities.property(fc.utilities.fn.noop);
 
         ohlc.xScale = function(value) {
             if (!arguments.length) {

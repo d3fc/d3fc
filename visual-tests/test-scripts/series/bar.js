@@ -52,8 +52,8 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .yValue(fc.utilities.valueAccessor('close'))
-        .classForBar(function(d) {
-            return 'bar-' + d.date.getDay();
+        .decorate(function(sel) {
+            sel.attr('class', function(d) { return 'bar-' + d.date.getDay(); });
         })
         .barWidth(9);
 

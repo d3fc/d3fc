@@ -75,10 +75,31 @@
         <h2>Utilities</h2>
         <h3>Chart Layout</h3>
         <h3>Chart Builder</h3>
+        <p>The main purpose of chartBuilder is to simplify the logic required when
+        resizing charts or update the data. This test resizes the chart container
+        then asks the builder to render.
         <div id="chartBuilder"></div>
         <h3>Data Generator</h3>
         <h3>Time interval Width</h3>
         <h3>Value accessor</h3>
+    </section>
+
+
+    <section>
+        <h2>Functional</h2>
+        <h3>Update</h3>
+        <p>A slightly crude test that the series correctly implement the data-join pattern. The series below has points added, removed and updated. A visual inspection of the 
+        SVG should show no un-expected elements.</p>
+        <style>
+            #update candlestick-series {
+                opacity: 0.5;
+            }
+        </style>
+        <div id="update"></div>
+
+        <h3>Decorate</h3>
+        <p>Tests decorate by performing a simple specialisation on each series type.</p>
+        <div id="decorate"></div>
     </section>
 
     <script src="http://d3js.org/d3.v3.js"></script>
@@ -97,6 +118,9 @@
     <script src="test-scripts/series/ohlc.js"></script>
 
     <script src="test-scripts/utilities/chartBuilder.js"></script>
+
+    <script src="test-scripts/functional/update.js"></script>
+    <script src="test-scripts/functional/decorate.js"></script>
 
     <script src="//localhost:35729/livereload.js"></script>
   </body>
