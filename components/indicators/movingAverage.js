@@ -16,8 +16,7 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = fc.utilities.valueAccessor('close'),
-            averagePoints = 5,
-            css = 'moving-average';
+            averagePoints = 5;
 
         /**
         * Constructs a new instance of the moving average component.
@@ -30,6 +29,7 @@
             line.defined(function(d, i) { return i >= averagePoints; });
             line.x(function(d) { return xScale(d.date); });
 
+            var css = 'moving-average';
             selection.each(function(data) {
 
                 if (averagePoints === 0) {
@@ -49,29 +49,23 @@
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
-                var container = d3.select(this)
-                    .selectAll('.' + css)
-                    .data([data]);
-                container.enter()
-                    .append('g')
-                    .classed(css, true);
+                var container = d3.select(this).selectAll('g.' + css).data([data]);
+                container.enter().append('g')
+                    .attr('class', css);
+                container.exit().remove();
 
                 // create a data-join for the path
-                var path = container
-                    .selectAll('path')
-                    .data([data]);
+                var path = container.selectAll('path.' +  css).data([data]);
 
                 // enter
-                path.enter()
-                    .append('path');
+                path.enter().append('path')
+                    .attr('class', css);
 
                 // update
-                path.attr('d', line)
-                    .classed(css, true);
+                path.attr('d', line);
 
                 // exit
-                path.exit()
-                    .remove();
+                path.exit().remove();
             });
         };
 

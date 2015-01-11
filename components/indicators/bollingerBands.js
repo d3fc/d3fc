@@ -18,11 +18,6 @@
             movingAverage = 20,
             standardDeviations = 2;
 
-        var cssBandArea = 'band-area',
-            cssBandUpper = 'band-upper',
-            cssBandLower = 'band-lower',
-            cssAverage = 'moving-average';
-
         /**
         * Constructs a new instance of the bollinger bands component.
         *
@@ -34,7 +29,11 @@
             var areaBands = d3.svg.area(),
                 lineUpper = d3.svg.line(),
                 lineLower = d3.svg.line(),
-                lineAverage = d3.svg.line();
+                lineAverage = d3.svg.line(),
+                cssBandArea = 'band-area',
+                cssBandUpper = 'band-upper',
+                cssBandLower = 'band-lower',
+                cssAverage = 'moving-average';
 
             areaBands.x(function(d) { return xScale(d.date); });
             lineUpper.x(function(d) { return xScale(d.date); });
@@ -138,40 +137,32 @@
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
-                var container = d3.select(this).selectAll('.bollinger-series').data([data]);
-                container.enter()
-                    .append('g')
-                    .classed('bollinger-series', true);
+                var container = d3.select(this).selectAll('g.bollinger-bands').data([data]);
+                container.enter().append('g')
+                    .attr('class', 'bollinger-bands');
+                container.exit().remove();
 
                 // create a data-join for each element of the band
-                var pathArea = container
-                    .selectAll('.' + cssBandArea)
-                    .data([prunedData]);
-                var pathUpper = container
-                    .selectAll('.' + cssBandUpper)
-                    .data([prunedData]);
-                var pathLower = container
-                    .selectAll('.' + cssBandLower)
-                    .data([prunedData]);
-                var pathAverage = container
-                    .selectAll('.' + cssAverage)
-                    .data([prunedData]);
+                var pathArea = container.selectAll('path.' + cssBandArea).data([prunedData]),
+                    pathUpper = container.selectAll('path.' + cssBandUpper).data([prunedData]),
+                    pathLower = container.selectAll('path.' + cssBandLower).data([prunedData]),
+                    pathAverage = container.selectAll('path.' + cssAverage).data([prunedData]);
 
                 // enter
-                pathArea.enter().append('path');
-                pathUpper.enter().append('path');
-                pathLower.enter().append('path');
-                pathAverage.enter().append('path');
+                pathArea.enter().append('path')
+                    .attr('class', cssBandArea);
+                pathUpper.enter().append('path')
+                    .attr('class', cssBandUpper);
+                pathLower.enter().append('path')
+                    .attr('class', cssBandLower);
+                pathAverage.enter().append('path')
+                    .attr('class', cssAverage);
 
                 // update
-                pathArea.attr('d', areaBands)
-                    .classed(cssBandArea, true);
-                pathUpper.attr('d', lineUpper)
-                    .classed(cssBandUpper, true);
-                pathLower.attr('d', lineLower)
-                    .classed(cssBandLower, true);
-                pathAverage.attr('d', lineAverage)
-                    .classed(cssAverage, true);
+                pathArea.attr('d', areaBands);
+                pathUpper.attr('d', lineUpper);
+                pathLower.attr('d', lineLower);
+                pathAverage.attr('d', lineAverage);
 
                 // exit
                 pathArea.exit().remove();
