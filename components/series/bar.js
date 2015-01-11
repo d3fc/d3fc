@@ -24,9 +24,7 @@
                 // create a data-join for each rect element
                 series = container
                     .selectAll('rect')
-                    .data(data, function(d) {
-                        return d.date;
-                    });
+                    .data(data, bar.xValue.value);
 
                 // enter
                 series.enter()
