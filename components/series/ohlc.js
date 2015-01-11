@@ -5,8 +5,7 @@
 
         // Configurable attributes
         var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            tickWidth = fc.utilities.timeIntervalWidth(d3.time.day, 0.35);
+            yScale = d3.scale.linear();
 
         var yOpen = fc.utilities.valueAccessor('open'),
             yHigh = fc.utilities.valueAccessor('high'),
@@ -41,15 +40,6 @@
             return yClose(d) === yOpen(d);
         };
 
-        var makeBarPath = function(d) {
-            var width = tickWidth(xScale),
-                moveToLow = 'M' + date(d) + ',' + low(d),
-                verticalToHigh = 'V' + high(d),
-                openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-width),
-                closeTick = 'M' + date(d) + ',' + close(d) + 'h' + width;
-            return moveToLow + verticalToHigh + openTick + closeTick;
-        };
-
         var ohlc = function(selection) {
             selection.each(function(data) {
                 // data-join in order to create the series container element
@@ -63,10 +53,8 @@
 
                 // create the bar paths
                 var bars = series.selectAll('.bar')
-                    // data-join, keying on the date (see #130)
-                    .data(data, function(d) {
-                        return d.date;
-                    });
+                    // data-join, keying on the xValue
+                    .data(data, ohlc.xValue.value);
 
                 bars.enter()
                     .append('path')
@@ -78,7 +66,19 @@
                     'static-day': isStaticDay
                 });
 
-                bars.attr('d', makeBarPath);
+                var xPixelValues = data.map(function(d) {
+                    return xScale(ohlc.xValue.value(d));
+                });
+                var width = ohlc.barWidth.value(xPixelValues);
+                var halfWidth = width / 2;
+
+                bars.attr('d', function(d) {
+                    var moveToLow = 'M' + date(d) + ',' + low(d),
+                        verticalToHigh = 'V' + high(d),
+                        openTick = 'M' + date(d) + ',' + open(d) + 'h' + (-halfWidth),
+                        closeTick = 'M' + date(d) + ',' + close(d) + 'h' + halfWidth;
+                    return moveToLow + verticalToHigh + openTick + closeTick;
+                });
 
                 bars.exit().remove();
 
@@ -86,7 +86,11 @@
             });
         };
 
+        ohlc.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
+
         ohlc.decorate = fc.utilities.property(fc.utilities.fn.noop);
+
+        ohlc.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
 
         ohlc.xScale = function(value) {
             if (!arguments.length) {
@@ -101,14 +105,6 @@
                 return yScale;
             }
             yScale = value;
-            return ohlc;
-        };
-
-        ohlc.tickWidth = function(value) {
-            if (!arguments.length) {
-                return tickWidth;
-            }
-            tickWidth = d3.functor(value);
             return ohlc;
         };
 

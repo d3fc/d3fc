@@ -3,6 +3,10 @@
 
     fc.series.bar = function() {
 
+        // convenience functions that return the x & y screen coords for a given point
+        var x = function(d) { return bar.xScale.value(bar.xValue.value(d)); };
+        var y = function(d) { return bar.yScale.value(bar.yValue.value(d)); };
+
         var bar = function(selection) {
             var series, container;
 
@@ -32,13 +36,15 @@
                 series.exit()
                     .remove();
 
+                var width = bar.barWidth.value(data.map(x));
+
                 // update
-                series.attr('x', function(d) { return bar.xScale.value(d.date) -
-                        (bar.barWidth.value(bar.xScale.value) / 2.0); })
-                    .attr('y', function(d) { return bar.yScale.value(bar.yValue.value(d)); })
-                    .attr('width', bar.barWidth.value(bar.xScale.value))
-                    .attr('height', function(d) { return bar.yScale.value(0) -
-                        bar.yScale.value(bar.yValue.value(d)); });
+                series.attr('x', function(d) {
+                        return x(d) - width / 2.0;
+                    })
+                    .attr('y', function(d) { return y(d); })
+                    .attr('width', width)
+                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
 
                 bar.decorate.value(series);
             });
@@ -50,9 +56,11 @@
 
         bar.yScale = fc.utilities.property(d3.scale.linear());
 
-        bar.barWidth = fc.utilities.property(fc.utilities.timeIntervalWidth(d3.time.day, 0.5));
+        bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
 
         bar.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
+
+        bar.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
 
         return bar;
     };
