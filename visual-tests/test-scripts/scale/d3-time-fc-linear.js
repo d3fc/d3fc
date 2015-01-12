@@ -27,7 +27,7 @@
     var dateAxis = d3.svg.axis()
         .scale(dateScale)
         .orient('bottom')
-        .ticks(5);
+        .ticks(10);
 
     var priceAxis = d3.svg.axis()
         .scale(priceScale)
@@ -37,17 +37,6 @@
     // Add the axes to the chart
     chartLayout.getAxisContainer('bottom').call(dateAxis);
     chartLayout.getAxisContainer('right').call(priceAxis);
-
-    // Create the OHLC series
-    var ohlc = fc.series.ohlc()
-        .xScale(dateScale)
-        .yScale(priceScale);
-
-    // Add the primary OHLC series
-    chartLayout.getPlotArea().append('g')
-        .attr('class', 'series')
-        .datum(data)
-        .call(ohlc);
 
     // Create the gridlines
     var gridlines = fc.scale.gridlines()
@@ -59,5 +48,16 @@
     chartLayout.getPlotArea().append('g')
         .attr('class', 'gridlines')
         .call(gridlines);
+
+    // Create the OHLC series
+    var ohlc = fc.series.ohlc()
+        .xScale(dateScale)
+        .yScale(priceScale);
+
+    // Add the primary OHLC series
+    chartLayout.getPlotArea().append('g')
+        .attr('class', 'series')
+        .datum(data)
+        .call(ohlc);
 
 })(d3, fc);

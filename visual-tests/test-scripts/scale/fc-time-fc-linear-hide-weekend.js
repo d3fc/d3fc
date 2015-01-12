@@ -6,19 +6,19 @@
         .randomSeed('12345')
         .generate(50);
 
-    var chart = d3.select('#d3-time-d3-linear'),
+    var chart = d3.select('#fc-time-fc-linear-hide-weekend'),
         chartLayout = fc.utilities.chartLayout();
 
     chart.call(chartLayout);
 
     // Create scale for x axis
-    var dateScale = d3.time.scale()
+    var dateScale = fc.scale.dateTime()
+        .hideWeekends(true)
         .domain(fc.utilities.extent(data, 'date'))
-        .range([0, chartLayout.getPlotAreaWidth()])
-        .nice();
+        .range([0, chartLayout.getPlotAreaWidth()]);
 
     // Create scale for y axis
-    var priceScale = d3.scale.linear()
+    var priceScale = fc.scale.linear()
         .domain(fc.utilities.extent(data, ['high', 'low']))
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();
