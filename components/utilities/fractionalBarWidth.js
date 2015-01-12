@@ -3,11 +3,16 @@
 
     // the barWidth property of the various series takes a function which, when given an
     // array of x values, returns a suitable width. This function creates a width which is
-    // equals to the smallest distance between neighbouring datapoints multiplied
+    // equal to the smallest distance between neighbouring datapoints multiplied
     // by the given factor
     fc.utilities.fractionalBarWidth = function(fraction) {
 
         return function(pixelValues) {
+            // return some default value if there are not enough datapoints to compute the width
+            if (pixelValues.length <= 1) {
+                return 10;
+            }
+
             pixelValues.sort();
 
             // creates a new array as a result of applying the 'fn' function to
