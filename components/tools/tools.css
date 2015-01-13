@@ -47,15 +47,12 @@
 }
 
 /* Annotations */
-.annotation .marker {
+.annotation>line.marker {
   fill: none;
   stroke: #69f;
   stroke-width: 1;
   stroke-dasharray: 3, 3;
 }
-.annotation .callout {
+.annotation>text.label {
   font: 10px sans-serif;
 }
-
-
-
