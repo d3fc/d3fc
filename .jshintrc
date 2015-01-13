@@ -1,6 +1,7 @@
 {
     "curly": true,
     "eqeqeq": true,
+    "eqnull": true,
     "forin": true,
     "immed": true,
     "latedef": true,
@@ -9,6 +10,7 @@
     "strict": true,
     "undef": true,
     "unused": "vars",
+    "validthis": true,
 
     "browser": true,
     "devel": true,

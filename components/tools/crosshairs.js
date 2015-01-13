@@ -3,304 +3,119 @@
 
     fc.tools.crosshairs = function() {
 
-        var target = null,
-            series = null,
-            xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            yValue = null,
-            formatH = null,
-            formatV = null,
-            active = true,
-            freezable = true,
-            padding = 2,
-            onSnap = null;
+        var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend');
 
-        var lineH = null,
-            lineV = null,
-            circle = null,
-            calloutH = null,
-            calloutV = null;
+        var crosshairs = function(selection) {
 
-        var highlight = null,
-            highlightedValue = null;
-
-        var crosshairs = function() {
-
-            var root = target.append('g')
-                .attr('class', 'crosshairs');
-
-            lineH = root.append('line')
-                .attr('class', 'crosshairs horizontal')
-                .attr('x1', xScale.range()[0])
-                .attr('x2', xScale.range()[1])
-                .attr('display', 'none');
-
-            lineV = root.append('line')
-                .attr('class', 'crosshairs vertical')
-                .attr('y1', yScale.range()[0])
-                .attr('y2', yScale.range()[1])
-                .attr('display', 'none');
-
-            circle = root.append('circle')
-                .attr('class', 'crosshairs circle')
-                .attr('r', 6)
-                .attr('display', 'none');
-
-            calloutH = root.append('text')
-                .attr('class', 'crosshairs callout horizontal')
-                .attr('x', xScale.range()[1] - padding)
-                .attr('style', 'text-anchor: end')
-                .attr('display', 'none');
-
-            calloutV = root.append('text')
-                .attr('class', 'crosshairs callout vertical')
-                .attr('y', '1em')
-                .attr('style', 'text-anchor: end')
-                .attr('display', 'none');
-        };
-
-        function mousemove() {
-
-            if (active) {
-                crosshairs.update();
-            }
-        }
-
-        function mouseout() {
-
-            if (active) {
-                crosshairs.clear();
-            }
-        }
-
-        function mouseclick() {
-
-            if (freezable) {
-                crosshairs.active(!active);
-            }
-        }
-
-        function findNearest(xTarget) {
-
-            var nearest = null,
-                dx = Number.MAX_VALUE;
-
-            series.forEach(function(data) {
-
-                var xDiff = Math.abs(xTarget - xScale(data.date));
-
-                if (xDiff < dx) {
-                    dx = xDiff;
-                    nearest = data;
+            selection.each(function() {
+                var data = this.__data__ || [];
+                if (!data.__crosshairs__) {
+                    data.__crosshairs__ = {};
+                    this.__data__ = data;
                 }
             });
 
-            return nearest;
+            selection.each(function(data) {
+
+                var container = d3.select(this)
+                    .style('pointer-events', 'all')
+                    .on('mouseenter.crosshairs', mouseenter);
+
+                if (!data.__crosshairs__.overlay) {
+                    container.append('rect')
+                        .style('visibility', 'hidden');
+                    data.__crosshairs__.overlay = true;
+                }
+
+                container.select('rect')
+                    .attr('x', crosshairs.xScale.value.range()[0])
+                    .attr('y', crosshairs.yScale.value.range()[1])
+                    .attr('width', crosshairs.xScale.value.range()[1])
+                    .attr('height', crosshairs.yScale.value.range()[0]);
+
+                var g = fc.utilities.simpleDataJoin(container, 'crosshairs', data);
+
+                var enter = g.enter();
+                enter.append('line')
+                    .attr('class', 'horizontal');
+                enter.append('line')
+                    .attr('class', 'vertical');
+                enter.append('text')
+                    .attr('class', 'horizontal');
+                enter.append('text')
+                    .attr('class', 'vertical');
+
+                g.select('line.horizontal')
+                    .attr('x1', crosshairs.xScale.value.range()[0])
+                    .attr('x2', crosshairs.xScale.value.range()[1])
+                    .attr('y1', function(d) { return d.y; })
+                    .attr('y2', function(d) { return d.y; });
+
+                g.select('line.vertical')
+                    .attr('y1', crosshairs.yScale.value.range()[0])
+                    .attr('y2', crosshairs.yScale.value.range()[1])
+                    .attr('x1', function(d) { return d.x; })
+                    .attr('x2', function(d) { return d.x; });
+
+                var paddingValue = crosshairs.padding.value.apply(this, arguments);
+
+                g.select('text.horizontal')
+                    .attr('x', crosshairs.xScale.value.range()[1] - paddingValue)
+                    .attr('y', function(d) { return d.y - paddingValue; })
+                    .text(function(d) { return crosshairs.yLabel.value.apply(this, arguments); });
+
+                g.select('text.vertical')
+                    .attr('x', function(d) { return d.x - paddingValue; })
+                    .attr('y', paddingValue)
+                    .text(function(d) { return crosshairs.xLabel.value.apply(this, arguments); });
+
+                crosshairs.decorate.value(g);
+            });
+        };
+
+
+
+        function mouseenter() {
+            var mouse = d3.mouse(this);
+            var container = d3.select(this)
+                .on('mousemove.crosshairs', mousemove)
+                .on('mouseleave.crosshairs', mouseleave);
+            var snapped = crosshairs.snap.value.apply(this, mouse);
+            var data = container.datum();
+            data.push(snapped);
+            container.call(crosshairs);
+            event.trackingstart.apply(this, arguments);
         }
 
-        function findValue(yTarget, data) {
-
-            var field = null;
-
-            var minDiff = Number.MAX_VALUE;
-            for (var property in data) {
-                if (data.hasOwnProperty(property) && (property !== 'date')) {
-                    var dy = Math.abs(yTarget - yScale(data[property]));
-                    if (dy <= minDiff) {
-                        minDiff = dy;
-                        field = property;
-                    }
-                }
-            }
-
-            return data[field];
+        function mousemove() {
+            var mouse = d3.mouse(this);
+            var container = d3.select(this);
+            var snapped = crosshairs.snap.value.apply(this, mouse);
+            var data = container.datum();
+            data[data.length - 1] = snapped;
+            container.call(crosshairs);
+            event.trackingmove.apply(this, arguments);
         }
 
-        function redraw() {
-
-            var x = xScale(highlight.date),
-                y = yScale(highlightedValue);
-
-            lineH.attr('y1', y)
-                .attr('y2', y);
-            lineV.attr('x1', x)
-                .attr('x2', x);
-            circle.attr('cx', x)
-                .attr('cy', y);
-            calloutH.attr('y', y - padding)
-                .text(formatH(highlightedValue));
-            calloutV.attr('x', x - padding)
-                .text(formatV(highlight.date));
-
-            lineH.attr('display', 'inherit');
-            lineV.attr('display', 'inherit');
-            circle.attr('display', 'inherit');
-            calloutH.attr('display', 'inherit');
-            calloutV.attr('display', 'inherit');
+        function mouseleave() {
+            var container = d3.select(this);
+            var data = container.datum();
+            data.pop();
+            container.call(crosshairs)
+                .on('mousemove.crosshairs', null)
+                .on('mouseleave.crosshairs', null);
+            event.trackingend.apply(this, arguments);
         }
 
-        crosshairs.update = function() {
+        crosshairs.xScale = fc.utilities.property(d3.time.scale());
+        crosshairs.yScale = fc.utilities.property(d3.scale.linear());
+        crosshairs.snap = fc.utilities.property(function(x, y) { return {x: x, y: y}; });
+        crosshairs.decorate = fc.utilities.property(fc.utilities.fn.noop);
+        crosshairs.xLabel = fc.utilities.functorProperty('');
+        crosshairs.yLabel = fc.utilities.functorProperty('');
+        crosshairs.padding = fc.utilities.functorProperty(2);
 
-            if (!active) {
-
-                redraw();
-
-            } else {
-
-                var mouse = [0, 0];
-                try {
-                    mouse = d3.mouse(target[0][0]);
-                }
-                catch (exception) {
-                    // Mouse is elsewhere
-                }
-
-                var nearest = findNearest(mouse[0]);
-
-                if (nearest !== null) {
-
-                    var value = null;
-                    if (yValue) {
-                        value = yValue(nearest);
-                    } else {
-                        value = findValue(mouse[1], nearest);
-                    }
-
-                    if ((nearest !== highlight) || (value !== highlightedValue)) {
-
-                        highlight = nearest;
-                        highlightedValue = value;
-
-                        redraw();
-                        if (onSnap) {
-                            onSnap(highlight);
-                        }
-                    }
-                }
-            }
-        };
-
-        crosshairs.clear = function() {
-
-            highlight = null;
-            highlightedValue = null;
-
-            lineH.attr('display', 'none');
-            lineV.attr('display', 'none');
-            circle.attr('display', 'none');
-            calloutH.attr('display', 'none');
-            calloutV.attr('display', 'none');
-        };
-
-        crosshairs.target = function(value) {
-            if (!arguments.length) {
-                return target;
-            }
-
-            if (target) {
-
-                target.on('mousemove.crosshairs', null);
-                target.on('mouseout.crosshairs', null);
-                target.on('click.crosshairs', null);
-            }
-
-            target = value;
-
-            target.on('mousemove.crosshairs', mousemove);
-            target.on('mouseout.crosshairs', mouseout);
-            target.on('click.crosshairs', mouseclick);
-
-            return crosshairs;
-        };
-
-        crosshairs.series = function(value) {
-            if (!arguments.length) {
-                return series;
-            }
-            series = value;
-            return crosshairs;
-        };
-
-        crosshairs.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return crosshairs;
-        };
-
-        crosshairs.yScale = function(value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return crosshairs;
-        };
-
-        crosshairs.yValue = function(value) {
-            if (!arguments.length) {
-                return yValue;
-            }
-            yValue = value;
-            return crosshairs;
-        };
-
-        crosshairs.formatH = function(value) {
-            if (!arguments.length) {
-                return formatH;
-            }
-            formatH = value;
-            return crosshairs;
-        };
-
-        crosshairs.formatV = function(value) {
-            if (!arguments.length) {
-                return formatV;
-            }
-            formatV = value;
-            return crosshairs;
-        };
-
-        crosshairs.active = function(value) {
-            if (!arguments.length) {
-                return active;
-            }
-            active = value;
-
-            lineH.classed('frozen', !active);
-            lineV.classed('frozen', !active);
-            circle.classed('frozen', !active);
-
-            return crosshairs;
-        };
-
-        crosshairs.freezable = function(value) {
-            if (!arguments.length) {
-                return freezable;
-            }
-            freezable = value;
-            return crosshairs;
-        };
-
-        crosshairs.padding = function(value) {
-            if (!arguments.length) {
-                return padding;
-            }
-            padding = value;
-            return crosshairs;
-        };
-
-        crosshairs.onSnap = function(value) {
-            if (!arguments.length) {
-                return onSnap;
-            }
-            onSnap = value;
-            return crosshairs;
-        };
-
-        crosshairs.highlightedPoint = function() {
-            return highlight;
-        };
+        d3.rebind(crosshairs, event, 'on');
 
         return crosshairs;
     };
