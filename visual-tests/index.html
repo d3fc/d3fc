@@ -58,6 +58,7 @@
         <h2>Series</h2>
 
         <h3>Bar</h3>
+        <h4>Static</h4>
         <style>
           #bar .bar-1 { fill: red; }
           #bar .bar-2 { fill: green; }
@@ -66,6 +67,18 @@
           #bar .bar-5 { fill: purple; }
         </style>
         <div id="bar"></div>
+
+        <h4>Transitions</h4>
+        <p>Demonstrates the bar series' and D3's axis support for transitions, including:</p>
+        <ul>
+            <li>Entering elements fade in</li>
+            <li>Updating elements properties' animate (position, size)</li>
+            <li>Exiting elements fade out</li>
+            <li>Attributes set using decorate animate (the colour of each bar)</li>
+        </ul>
+        <p>The Y-axis values random integers in the range 0-100.
+        The X-axis values are randomly added, removed and shuffled.</p>
+        <div id="bar-transitions"></div>
 
         <h3>Candlestick</h3>
         <div id="candlestick"></div>
@@ -177,6 +190,7 @@
     <script src="test-scripts/scale/d3-time-d3-linear.js"></script>
 
     <script src="test-scripts/series/bar.js"></script>
+    <script src="test-scripts/series/bar-transitions.js"></script>
     <script src="test-scripts/series/candlestick.js"></script>
     <script src="test-scripts/series/ohlc.js"></script>
 
