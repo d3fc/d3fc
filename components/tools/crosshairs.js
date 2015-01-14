@@ -62,18 +62,16 @@
                 g.select('text.horizontal')
                     .attr('x', crosshairs.xScale.value.range()[1] - paddingValue)
                     .attr('y', function(d) { return d.y - paddingValue; })
-                    .text(function(d) { return crosshairs.yLabel.value.apply(this, arguments); });
+                    .text(crosshairs.yLabel.value);
 
                 g.select('text.vertical')
                     .attr('x', function(d) { return d.x - paddingValue; })
                     .attr('y', paddingValue)
-                    .text(function(d) { return crosshairs.xLabel.value.apply(this, arguments); });
+                    .text(crosshairs.xLabel.value);
 
                 crosshairs.decorate.value(g);
             });
         };
-
-
 
         function mouseenter() {
             var mouse = d3.mouse(this);
