@@ -1,34 +1,21 @@
 /* Ruler/Measure Component Styles */
-.measure.origin {
-  fill: none;
+.measure>line {
   stroke: #00c;
   stroke-width: 1;
 }
-.measure.target {
-  fill: none;
-  stroke: #00c;
-  stroke-width: 1;
-}
-.measure.source {
-  fill: none;
-  stroke: #00c;
-  stroke-width: 1;
-}
-.measure.x {
-  fill: none;
-  stroke: #00c;
-  stroke-width: 1;
+.measure>line.horizontal,
+.measure>line.vertical {
   stroke-dasharray: 3, 3;
 }
-.measure.y {
-  fill: none;
-  stroke: #00c;
-  stroke-width: 1;
-  stroke-dasharray: 3, 3;
-}
-.measure.callout {
+.measure>text {
   font: 10px sans-serif;
   fill: #000;
+}
+.measure>text.horizontal {
+  text-anchor: middle;
+}
+.measure>text.vertical {
+  dominant-baseline: middle;
 }
 
 /* Fibonacci Fan Styles */

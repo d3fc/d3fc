@@ -3,377 +3,170 @@
 
     fc.tools.measure = function() {
 
-        var target = null,
-            series = null,
-            xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            active = true,
-            padding = 2,
-            formatH = function(d) { return d; },
-            formatV = function(d) { return d; };
+        var event = d3.dispatch('measuresource', 'measuretarget', 'measureclear');
 
-        var circleOrigin = null,
-            circleTarget = null,
-            lineSource = null,
-            lineX = null,
-            lineY = null,
-            calloutX = null,
-            calloutY = null;
+        var measure = function(selection) {
 
-        var phase = 1,
-            locationOrigin = null,
-            locationTarget = null;
-
-        var measure = function() {
-
-            var root = target.append('g')
-                .attr('class', 'measure');
-
-            circleOrigin = root.append('circle')
-                .attr('class', 'measure origin')
-                .attr('r', 6)
-                .attr('display', 'none');
-
-            circleTarget = root.append('circle')
-                .attr('class', 'measure target')
-                .attr('r', 6)
-                .attr('display', 'none');
-
-            lineSource = root.append('line')
-                .attr('class', 'measure source')
-                .attr('display', 'none');
-
-            lineX = root.append('line')
-                .attr('class', 'measure x')
-                .attr('display', 'none');
-
-            lineY = root.append('line')
-                .attr('class', 'measure y')
-                .attr('display', 'none');
-
-            calloutX = root.append('text')
-                .attr('class', 'measure callout horizontal')
-                .attr('style', 'text-anchor: end')
-                .attr('display', 'none');
-
-            calloutY = root.append('text')
-                .attr('class', 'measure callout vertical')
-                .attr('style', 'text-anchor: middle')
-                .attr('display', 'none');
-        };
-
-        function mousemove() {
-
-            if (!active) {
-                return;
-            }
-
-            switch (phase) {
-                case 1: {
-                    locationOrigin = findLocation();
-                    if (locationOrigin) {
-                        measure.update();
-                        circleOrigin.attr('display', 'inherit');
-                    }
-                    break;
-                }
-                case 2: {
-                    locationTarget = findLocation();
-                    if (locationTarget) {
-                        measure.update();
-                        circleTarget.attr('display', 'inherit');
-                        lineSource.attr('display', 'inherit');
-                    }
-                    break;
-                }
-                case 3: {
-                    break;
-                }
-            }
-        }
-
-        function mouseclick() {
-
-            if (!active) {
-                return;
-            }
-
-            switch (phase) {
-                case 1: {
-
-                    phase = 2;
-                    break;
-                }
-                case 2: {
-
-                    doMeasure();
-
-                    phase = 3;
-                    break;
-                }
-                case 3: {
-
-                    clearAll();
-
-                    phase = 1;
-                    break;
-                }
-            }
-        }
-
-        function findLocation() {
-
-            var mouse = [0, 0];
-            try {
-                mouse = d3.mouse(target[0][0]);
-            }
-            catch (exception) {
-                // Mouse is elsewhere
-            }
-
-            var xMouse = xScale.invert(mouse[0]),
-                yMouse = yScale.invert(mouse[1]),
-                point = findPoint(xMouse);
-
-            if (point !== null) {
-
-                var field = findField(yMouse, point);
-
-                if (field !== null) {
-
-                    return {point: point, field: field};
-                }
-            }
-
-            return null;
-        }
-
-        function findPoint(xTarget) {
-
-            var nearest = null,
-                dx = Number.MAX_VALUE;
-
-            series.forEach(function(data) {
-
-                var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
-
-                if (xDiff < dx) {
-                    dx = xDiff;
-                    nearest = data;
+            selection.each(function() {
+                var data = this.__data__ || [];
+                if (!data.__measure__) {
+                    data.__measure__ = {};
+                    this.__data__ = data;
                 }
             });
 
-            return nearest;
-        }
+            selection.each(function(data) {
 
-        function findField(yTarget, data) {
+                var container = d3.select(this)
+                    .style('pointer-events', 'all')
+                    .on('mouseenter.measure', mouseenter);
 
-            var field = null;
+                if (!data.__measure__.overlay) {
+                    container.append('rect')
+                        .style('visibility', 'hidden');
+                    data.__measure__.overlay = true;
+                }
 
-            var minDiff = Number.MAX_VALUE;
-            for (var property in data) {
-                if (data.hasOwnProperty(property) && (property !== 'date')) {
-                    var dy = Math.abs(yTarget - data[property]);
-                    if (dy <= minDiff) {
-                        minDiff = dy;
-                        field = property;
-                    }
+                container.select('rect')
+                    .attr('x', measure.xScale.value.range()[0])
+                    .attr('y', measure.yScale.value.range()[1])
+                    .attr('width', measure.xScale.value.range()[1])
+                    .attr('height', measure.yScale.value.range()[0]);
+
+                var g = fc.utilities.simpleDataJoin(container, 'measure', data);
+
+                var enter = g.enter();
+                enter.append('line')
+                    .attr('class', 'tangent');
+                enter.append('line')
+                    .attr('class', 'horizontal');
+                enter.append('line')
+                    .attr('class', 'vertical');
+                enter.append('text')
+                    .attr('class', 'horizontal');
+                enter.append('text')
+                    .attr('class', 'vertical');
+
+                g.select('line.tangent')
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.target.x; })
+                    .attr('y2', function(d) { return d.target.y; });
+
+                g.select('line.horizontal')
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.target.x; })
+                    .attr('y2', function(d) { return d.source.y; })
+                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; });
+
+                g.select('line.vertical')
+                    .attr('x1', function(d) { return d.target.x; })
+                    .attr('y1', function(d) { return d.target.y; })
+                    .attr('x2', function(d) { return d.target.x; })
+                    .attr('y2', function(d) { return d.source.y; })
+                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; });
+
+                var paddingValue = measure.padding.value.apply(this, arguments);
+
+                g.select('text.horizontal')
+                    .attr('x', function(d) { return d.source.x + (d.target.x - d.source.x) / 2; })
+                    .attr('y', function(d) { return d.source.y - paddingValue; })
+                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; })
+                    .text(measure.xLabel.value);
+
+                g.select('text.vertical')
+                    .attr('x', function(d) { return d.target.x + paddingValue; })
+                    .attr('y', function(d) { return d.source.y + (d.target.y - d.source.y) / 2; })
+                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; })
+                    .text(measure.yLabel.value);
+
+                measure.decorate.value(g);
+            });
+        };
+
+        function updatePositions() {
+            var container = d3.select(this);
+            var datum = container.datum()[0];
+            if (datum.state !== 'MEASURED') {
+                var mouse = d3.mouse(this);
+                var snapped = measure.snap.value.apply(this, mouse);
+                if (datum.state === 'SELECT_SOURCE') {
+                    datum.source = datum.target = snapped;
+                } else if (datum.state === 'SELECT_TARGET') {
+                    datum.target = snapped;
+                } else {
+                    throw new Error('Unknown state ' + datum.state);
                 }
             }
-
-            return field;
         }
 
-        function doMeasure() {
-
-            var originX = xScale(locationOrigin.point.date),
-                originY = yScale(locationOrigin.point[locationOrigin.field]),
-                targetX = xScale(locationTarget.point.date),
-                targetY = yScale(locationTarget.point[locationTarget.field]);
-
-            lineX.attr('x1', originX)
-                .attr('y1', originY)
-                .attr('x2', targetX)
-                .attr('y2', originY);
-            lineY.attr('x1', targetX)
-                .attr('y1', originY)
-                .attr('x2', targetX)
-                .attr('y2', targetY);
-
-            var originField = locationOrigin.field,
-                targetfield = locationTarget.field;
-
-            calloutX.attr('x', targetX - padding)
-                .attr('y', originY - (originY - targetY) / 2.0)
-                .text(formatV(Math.abs(locationTarget.point[targetfield] - locationOrigin.point[originField])));
-
-            calloutY.attr('y', originY - padding)
-                .attr('x', originX + (targetX - originX) / 2.0)
-                .text(formatH(Math.abs(locationTarget.point.date.getTime() - locationOrigin.point.date.getTime())));
-
-            lineX.attr('display', 'inherit');
-            lineY.attr('display', 'inherit');
-            calloutX.attr('display', 'inherit');
-            calloutY.attr('display', 'inherit');
-
-            circleOrigin.attr('display', 'none');
-            circleTarget.attr('display', 'none');
+        function mouseenter() {
+            var container = d3.select(this)
+                .on('click.measure', mouseclick)
+                .on('mousemove.measure', mousemove)
+                .on('mouseleave.measure', mouseleave);
+            var data = container.datum();
+            if (data[0] == null) {
+                data.push({
+                    state: 'SELECT_SOURCE'
+                });
+            }
+            updatePositions.call(this);
+            container.call(measure);
         }
 
-        function clearAll() {
-
-            locationOrigin = null;
-            locationTarget = null;
-
-            circleOrigin.attr('display', 'none');
-            circleTarget.attr('display', 'none');
-            lineSource.attr('display', 'none');
-            lineX.attr('display', 'none');
-            lineY.attr('display', 'none');
-            calloutX.attr('display', 'none');
-            calloutY.attr('display', 'none');
+        function mousemove() {
+            var container = d3.select(this);
+            updatePositions.call(this);
+            container.call(measure);
         }
 
-        measure.update = function() {
-
-            if (locationOrigin) {
-
-                var originX = xScale(locationOrigin.point.date),
-                    originY = yScale(locationOrigin.point[locationOrigin.field]);
-
-                circleOrigin.attr('cx', originX)
-                    .attr('cy', originY);
-                lineSource.attr('x1', originX)
-                    .attr('y1', originY);
-
-                if (locationTarget && (phase !== 1)) {
-
-                    var targetX = xScale(locationTarget.point.date),
-                        targetY = yScale(locationTarget.point[locationTarget.field]);
-
-                    circleTarget.attr('cx', targetX)
-                        .attr('cy', targetY);
-                    lineSource.attr('x2', targetX)
-                        .attr('y2', targetY);
-
-                    if (phase === 3) {
-
-                        doMeasure();
-                    }
-                }
+        function mouseleave() {
+            var container = d3.select(this);
+            var data = container.datum();
+            if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
+                data.pop();
             }
-        };
+            container.on('click.measure', null)
+                .on('mousemove.measure', null)
+                .on('mouseleave.measure', null);
+        }
 
-        measure.visible = function(value) {
-
-            if (value) {
-
-                switch (phase) {
-                    case 1: {
-                        circleOrigin.attr('display', 'inherit');
-                        break;
-                    }
-                    case 2: {
-                        circleOrigin.attr('display', 'inherit');
-                        circleTarget.attr('display', 'inherit');
-                        lineSource.attr('display', 'inherit');
-                        break;
-                    }
-                    case 3: {
-                        lineSource.attr('display', 'inherit');
-                        lineX.attr('display', 'inherit');
-                        lineY.attr('display', 'inherit');
-                        calloutX.attr('display', 'inherit');
-                        calloutY.attr('display', 'inherit');
-                        break;
-                    }
-                }
-            } else {
-
-                circleOrigin.attr('display', 'none');
-                circleTarget.attr('display', 'none');
-                lineSource.attr('display', 'none');
-                lineX.attr('display', 'none');
-                lineY.attr('display', 'none');
-                calloutX.attr('display', 'none');
-                calloutY.attr('display', 'none');
+        function mouseclick() {
+            var container = d3.select(this);
+            var datum = container.datum()[0];
+            switch (datum.state) {
+                case 'SELECT_SOURCE':
+                    updatePositions.call(this);
+                    event.measuresource.apply(this, arguments);
+                    datum.state = 'SELECT_TARGET';
+                    break;
+                case 'SELECT_TARGET':
+                    updatePositions.call(this);
+                    event.measuretarget.apply(this, arguments);
+                    datum.state = 'MEASURED';
+                    break;
+                case 'MEASURED':
+                    event.measureclear.apply(this, arguments);
+                    datum.state = 'SELECT_SOURCE';
+                    updatePositions.call(this);
+                    break;
+                default:
+                    throw new Error('Unknown state ' + datum.state);
             }
-        };
+            container.call(measure);
+        }
 
-        measure.target = function(value) {
-            if (!arguments.length) {
-                return target;
-            }
+        measure.xScale = fc.utilities.property(d3.time.scale());
+        measure.yScale = fc.utilities.property(d3.scale.linear());
+        measure.snap = fc.utilities.property(function(x, y) { return {x: x, y: y}; });
+        measure.decorate = fc.utilities.property(fc.utilities.fn.noop);
+        measure.xLabel = fc.utilities.functorProperty('');
+        measure.yLabel = fc.utilities.functorProperty('');
+        measure.padding = fc.utilities.functorProperty(2);
 
-            if (target) {
-
-                target.on('mousemove.measure', null);
-                target.on('click.measure', null);
-            }
-
-            target = value;
-
-            target.on('mousemove.measure', mousemove);
-            target.on('click.measure', mouseclick);
-
-            return measure;
-        };
-
-        measure.series = function(value) {
-            if (!arguments.length) {
-                return series;
-            }
-            series = value;
-            return measure;
-        };
-
-        measure.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return measure;
-        };
-
-        measure.yScale = function(value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return measure;
-        };
-
-        measure.active = function(value) {
-            if (!arguments.length) {
-                return active;
-            }
-            active = value;
-            return measure;
-        };
-
-        measure.padding = function(value) {
-            if (!arguments.length) {
-                return padding;
-            }
-            padding = value;
-            return measure;
-        };
-
-        measure.formatH = function(value) {
-            if (!arguments.length) {
-                return formatH;
-            }
-            formatH = value;
-            return measure;
-        };
-
-        measure.formatV = function(value) {
-            if (!arguments.length) {
-                return formatV;
-            }
-            formatV = value;
-            return measure;
-        };
+        d3.rebind(measure, event, 'on');
 
         return measure;
     };
