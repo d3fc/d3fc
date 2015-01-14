@@ -8,23 +8,19 @@
         var y = function(d) { return bar.yScale.value(bar.yValue.value(d)); };
 
         var bar = function(selection) {
-            var series, container;
-
             selection.each(function(data) {
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
-                container = d3.select(this)
+                var container = d3.select(this)
                     .selectAll('.bar-series')
                     .data([data]);
+
                 container.enter()
                     .append('g')
                     .classed('bar-series', true);
 
-                // create a data-join for each rect element
-                series = container
-                    .selectAll('rect')
-                    .data(data, bar.xValue.value);
+                var series = fc.utilities.simpleDataJoin(container, 'bar', data, bar.xValue.value);
 
                 // "Caution: avoid interpolating to or from the number zero when the interpolator is used to generate
                 // a string (such as with attr).
@@ -39,21 +35,20 @@
 
                 // enter
                 // entering elements fade in (from transparent to opaque)
-                series.enter()
-                    .append('rect')
+                series.enter().append('rect')
                     .style('opacity', effectivelyZero);
 
                 // exit
                 // exiting elements fade out (to transparent)
-                d3.transition(series.exit())
-                    .style('opacity', effectivelyZero)
-                    .remove();
+                series.exit().select('rect')
+                    .style('opacity', effectivelyZero);
 
                 var width = bar.barWidth.value(data.map(x));
 
                 // update
                 // all properties of the bars will transition
-                d3.transition(series).attr('x', function(d) {
+                series.select('rect')
+                    .attr('x', function(d) {
                         return x(d) - width / 2;
                     })
                     .attr('y', function(d) { return y(d); })
@@ -62,20 +57,15 @@
                     .style('opacity', 1);
 
                 // properties set by decorate will transition too
-                bar.decorate.value(d3.transition(series));
+                bar.decorate.value(series);
             });
         };
 
         bar.decorate = fc.utilities.property(fc.utilities.fn.noop);
-
         bar.xScale = fc.utilities.property(d3.time.scale());
-
         bar.yScale = fc.utilities.property(d3.scale.linear());
-
         bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
-
         bar.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-
         bar.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
 
         return bar;
