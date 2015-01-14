@@ -1,6 +1,8 @@
 (function(d3, fc) {
     'use strict';
 
+    var form = document.forms['fan-form'];
+
     var data = fc.utilities.dataGenerator()
         .seedDate(new Date(2014, 1, 1))
         .randomSeed('12345')
@@ -81,12 +83,38 @@
                 .attr('cx', function(d) { return d.target ? d.target.x : 0; })
                 .attr('cy', function(d) { return d.target ? d.target.y : 0; })
                 .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
+        })
+        .on('fansource', function(d) {
+            form.eventlog.value = 'fansource ' + d[0].source.x + ',' + d[0].source.y + '\n' + form.eventlog.value;
+        })
+        .on('fantarget', function(d) {
+            form.eventlog.value = 'fantarget ' + d[0].target.x + ',' + d[0].target.y + '\n' + form.eventlog.value;
+        })
+        .on('fanclear', function() {
+            form.eventlog.value = 'fanclear\n' + form.eventlog.value;
         });
 
     // Add it to the chart
-    chartLayout.getPlotArea()
+    var container = chartLayout.getPlotArea()
         .append('g')
         .attr('class', 'fan-container')
         .call(fibonacciFan);
+
+    d3.select(form.clear)
+        .on('click', function() {
+            container.datum([])
+                .call(fibonacciFan);
+            d3.event.preventDefault();
+        });
+
+    d3.select(form.pointerevents)
+        .on('click', function() {
+            container.style('pointer-events', this.checked ? 'all' : 'none');
+        });
+
+    d3.select(form.display)
+        .on('click', function() {
+            container.style('display', this.checked ? '' : 'none');
+        });
 
 })(d3, fc);
