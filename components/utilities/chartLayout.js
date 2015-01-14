@@ -199,13 +199,31 @@
                     .attr('class', 'plotArea');
             }
 
+            // A rectangular path, the size of the plot area, for the overlay
+            var overlayPath = 'M0,0' + // Move to the top-left corner of the plot area
+                'v' + chartLayout.getPlotAreaHeight() +  // Vertical line (height of plot area) down
+                'h' + chartLayout.getPlotAreaWidth() +   // Horizontal line (width of plot area) to the right
+                'v' + -chartLayout.getPlotAreaHeight() + // Vertical line (height of plot area) up
+                'h' + -chartLayout.getPlotAreaWidth() +  // Horizontal line (width of plot area) to the left
+                'Z';  // Close the path
+
+            // The transparent overlay is used with components to ensure that interactivity works anywhere
+            // in the chart's plot area
+            var overlay = plotArea.selectAll('path.overlay').data(dummyData);
+            overlay.enter().append('path')
+                .classed('overlay', true);
+            overlay.attr('d', overlayPath)
+                .attr('opacity', 0);
+            overlay.exit().remove();
+
             // Add selections to the chart elements object for the getters
             chartElements = {
                 svg: svg,
                 chartArea: chart,
                 defs: defs,
                 plotAreaBackground: plotAreaBackground,
-                plotArea: plotArea
+                plotArea: plotArea,
+                overlay: overlay
             };
 
             // Create containers for the axes
@@ -433,6 +451,19 @@
          */
         chartLayout.getPlotArea = function() {
             return chartElements.plotArea;
+        };
+
+        /**
+         * Get the overlay for the chart.
+         * The invisible overlay path is commonly used with interactive components, such as the crosshairs,
+         * to ensure that all the relevent events are captured, on the plot area, for interactivity.
+         *
+         * @memberof fc.utilities.chartLayout#
+         * @method getOverlay
+         * @returns {selection} The chart's overlay.
+         */
+        chartLayout.getOverlay = function() {
+            return chartElements.overlay;
         };
 
         /**
