@@ -1,32 +1,13 @@
-<!DOCTYPE html>
-<title>D3FC Test</title>
-<link rel="stylesheet" href="d3-financial-components.css"/>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="d3-financial-components.js"></script>
-<style>
-rect {
-  stroke-width:0;
-}
-</style>
+(function(d3, fc) {
+    'use strict';
 
-<div id="option">
-    <input name="updateButton" 
-           type="button" 
-           value="Update" 
-           onclick="updateData()" />
-</div>
-
-<div id="financial-chart" style="width:100%; height: 400px"></div>
-
-
-<script>
 var chartLayout = fc.utilities.chartLayout();
 
 // Setup the chart
-var chart = d3.select('#financial-chart')
+var chart = d3.select('#stacked-bar')
     .call(chartLayout);
 
-d3.csv("data.csv", function(error, data) {
+d3.csv("stackedBarData.csv", function(error, data) {
 
   var series = Object.getOwnPropertyNames(data[0]).slice(1);
   var categories = data.slice(1).map(function(d) { return d.State; });
@@ -79,4 +60,5 @@ d3.csv("data.csv", function(error, data) {
     .datum(data.slice(1))
     .call(volume)
 });
-</script>
+
+})(d3, fc);
