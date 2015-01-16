@@ -1,16 +1,29 @@
-/* OHLC Styles */
-.up-day { 
-  stroke: #6c0; 
+.candlestick>line {
+  stroke: #000;
+}
+.candlestick>rect {
+  stroke: #000;
+}
+.candlestick.down>rect {
+  fill: #c60;
+}
+.candlestick.up>rect {
   fill: #6c0;
 }
-.down-day { 
-  stroke: #c60; 
+
+/* OHLC Styles */
+.up-day {
+  stroke: #6c0;
+  fill: #6c0;
+}
+.down-day {
+  stroke: #c60;
   fill: #c60;
 }
 
-.static-day { 
-  stroke: #000; 
-  fill: #000; 
+.static-day {
+  stroke: #000;
+  fill: #000;
 }
 
 
@@ -41,13 +54,13 @@
 }
 
 /* Line Series Styles */
-.line-series .line { 
-  fill: none; 
-  stroke: #06c; 
+.line-series .line {
+  fill: none;
+  stroke: #06c;
 }
-.line-series .area { 
-  fill: #9cf; 
-  fill-opacity: 0.5; 
+.line-series .area {
+  fill: #9cf;
+  fill-opacity: 0.5;
 }
 
 [class$="-series"] * {
