@@ -3,395 +3,192 @@
 
     fc.tools.fibonacciFan = function() {
 
-        var target = null,
-            series = null,
-            xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            active = true;
+        var event = d3.dispatch('fansource', 'fantarget', 'fanclear');
 
-        var circleOrigin = null,
-            circleTarget = null,
-            lineSource = null,
-            lineA = null,
-            lineB = null,
-            lineC = null,
-            fanArea = null;
+        var fan = function(selection) {
 
-        var phase = 1,
-            locationOrigin = null,
-            locationTarget = null;
-
-        var fibonacciFan = function() {
-
-            var root = target.append('g')
-                .attr('class', 'fibonacci-fan');
-
-            circleOrigin = root.append('circle')
-                .attr('class', 'fibonacci-fan origin')
-                .attr('r', 6)
-                .attr('display', 'none');
-
-            circleTarget = root.append('circle')
-                .attr('class', 'fibonacci-fan target')
-                .attr('r', 6)
-                .attr('display', 'none');
-
-            lineSource = root.append('line')
-                .attr('class', 'fibonacci-fan source')
-                .attr('display', 'none');
-
-            lineA = root.append('line')
-                .attr('class', 'fibonacci-fan a')
-                .attr('display', 'none');
-
-            lineB = root.append('line')
-                .attr('class', 'fibonacci-fan b')
-                .attr('display', 'none');
-
-            lineC = root.append('line')
-                .attr('class', 'fibonacci-fan c')
-                .attr('display', 'none');
-
-            fanArea = root.append('polygon')
-                .attr('class', 'fibonacci-fan area')
-                .attr('display', 'none');
-        };
-
-        function mousemove() {
-
-            if (!active) {
-                return;
-            }
-
-            switch (phase) {
-                case 1: {
-                    locationOrigin = findLocation();
-                    if (locationOrigin) {
-                        fibonacciFan.update();
-                        circleOrigin.attr('display', 'inherit');
-                    }
-                    break;
-                }
-                case 2: {
-                    locationTarget = findLocation();
-                    if (locationTarget) {
-                        fibonacciFan.update();
-                        circleTarget.attr('display', 'inherit');
-                        lineSource.attr('display', 'inherit');
-                    }
-                    break;
-                }
-                case 3: {
-                    break;
-                }
-            }
-        }
-
-        function mouseclick() {
-
-            if (!active) {
-                return;
-            }
-
-            switch (phase) {
-                case 1: {
-
-                    phase = 2;
-                    break;
-                }
-                case 2: {
-
-                    setFan();
-
-                    phase = 3;
-                    break;
-                }
-                case 3: {
-
-                    clearAll();
-
-                    phase = 1;
-                    break;
-                }
-            }
-        }
-
-        function findLocation() {
-
-            var mouse = [0, 0];
-            try {
-                mouse = d3.mouse(target[0][0]);
-            }
-            catch (exception) {
-                // Mouse is elsewhere
-            }
-
-            var xMouse = xScale.invert(mouse[0]),
-                yMouse = yScale.invert(mouse[1]),
-                point = findPoint(xMouse);
-
-            if (point !== null) {
-
-                var field = findField(yMouse, point);
-
-                if (field !== null) {
-
-                    return {point: point, field: field};
-                }
-            }
-
-            return null;
-        }
-
-        function findPoint(xTarget) {
-
-            var nearest = null,
-                dx = Number.MAX_VALUE;
-
-            series.forEach(function(data) {
-
-                var xDiff = Math.abs(xTarget.getTime() - data.date.getTime());
-
-                if (xDiff < dx) {
-                    dx = xDiff;
-                    nearest = data;
+            selection.each(function() {
+                var data = this.__data__ || [];
+                if (!data.__fan__) {
+                    data.__fan__ = {};
+                    this.__data__ = data;
                 }
             });
 
-            return nearest;
-        }
+            selection.each(function(data) {
 
-        function findField(yTarget, data) {
+                var container = d3.select(this)
+                    .style('pointer-events', 'all')
+                    .on('mouseenter.fan', mouseenter);
 
-            var field = null;
-
-            var minDiff = Number.MAX_VALUE;
-            for (var property in data) {
-                if (data.hasOwnProperty(property) && (property !== 'date')) {
-                    var dy = Math.abs(yTarget - data[property]);
-                    if (dy <= minDiff) {
-                        minDiff = dy;
-                        field = property;
-                    }
+                if (!data.__fan__.overlay) {
+                    container.append('rect')
+                        .style('visibility', 'hidden');
+                    data.__fan__.overlay = true;
                 }
-            }
 
-            return field;
-        }
+                container.select('rect')
+                    .attr('x', fan.xScale.value.range()[0])
+                    .attr('y', fan.yScale.value.range()[1])
+                    .attr('width', fan.xScale.value.range()[1])
+                    .attr('height', fan.yScale.value.range()[0]);
 
-        function setFan() {
+                var g = fc.utilities.simpleDataJoin(container, 'fan', data);
 
-            if (xScale(locationOrigin.point.date) > xScale(locationTarget.point.date)) {
-                var tmp = locationOrigin;
-                locationOrigin = locationTarget;
-                locationTarget = tmp;
-            }
+                g.each(function(d) {
+                    d.x = fan.xScale.value.range()[1];
+                    d.ay = d.by = d.cy = d.target.y;
 
-            var originX = xScale(locationOrigin.point.date),
-                originY = yScale(locationOrigin.point[locationOrigin.field]),
-                targetX = xScale(locationTarget.point.date),
-                targetY = yScale(locationTarget.point[locationTarget.field]),
-                finalX = xScale.range()[1],
-                finalY = calculateY(originX, originY, targetX, targetY, finalX);
+                    if (d.source.x !== d.target.x) {
 
-            if (finalY) {
-
-                setFanLines(originX, originY, finalX, finalY.source, finalY.source, finalY.source);
-
-                lineA.attr('display', 'inherit');
-                lineB.attr('display', 'inherit');
-                lineC.attr('display', 'inherit');
-                fanArea.attr('display', 'inherit');
-
-                var pointsFinal = originX + ',' + originY +
-                    ' ' + finalX + ',' + finalY.a +
-                    ' ' + finalX + ',' + finalY.c;
-
-                lineA.transition()
-                    .attr('y2', finalY.a);
-                lineB.transition()
-                    .attr('y2', finalY.b);
-                lineC.transition()
-                    .attr('y2', finalY.c);
-                fanArea.transition()
-                    .attr('points', pointsFinal);
-            }
-
-            circleOrigin.attr('display', 'none');
-            circleTarget.attr('display', 'none');
-        }
-
-        function clearAll() {
-
-            locationOrigin = null;
-            locationTarget = null;
-
-            circleOrigin.attr('display', 'none');
-            circleTarget.attr('display', 'none');
-            lineSource.attr('display', 'none');
-            lineA.attr('display', 'none');
-            lineB.attr('display', 'none');
-            lineC.attr('display', 'none');
-            fanArea.attr('display', 'none');
-        }
-
-        function calculateY(originX, originY, targetX, targetY, finalX) {
-
-            if (originX === targetX) { return null; }
-
-            var gradient = (targetY - originY) / (targetX - originX),
-                ySource = (gradient * (finalX - originX)) + originY,
-                yA = ((gradient * 0.618) * (finalX - originX)) + originY,
-                yB = ((gradient * 0.500) * (finalX - originX)) + originY,
-                yC = ((gradient * 0.382) * (finalX - originX)) + originY;
-
-            return {source: ySource, a: yA, b: yB, c: yC};
-        }
-
-        function setFanLines(originX, originY, finalX, finalYa, finalYb, finalYc) {
-
-            var points = originX + ',' + originY +
-                ' ' + finalX + ',' + finalYa +
-                ' ' + finalX + ',' + finalYc;
-
-            lineA.attr('x1', originX)
-                .attr('y1', originY)
-                .attr('x2', finalX)
-                .attr('y2', finalYa);
-            lineB.attr('x1', originX)
-                .attr('y1', originY)
-                .attr('x2', finalX)
-                .attr('y2', finalYb);
-            lineC.attr('x1', originX)
-                .attr('y1', originY)
-                .attr('x2', finalX)
-                .attr('y2', finalYc);
-            fanArea.attr('points', points);
-        }
-
-        fibonacciFan.update = function() {
-
-            if (locationOrigin) {
-
-                var originX = xScale(locationOrigin.point.date),
-                    originY = yScale(locationOrigin.point[locationOrigin.field]);
-
-                circleOrigin.attr('cx', originX)
-                    .attr('cy', originY);
-                lineSource.attr('x1', originX)
-                    .attr('y1', originY);
-
-                if (locationTarget && (phase !== 1)) {
-
-                    var targetX = xScale(locationTarget.point.date),
-                        targetY = yScale(locationTarget.point[locationTarget.field]);
-
-                    circleTarget.attr('cx', targetX)
-                        .attr('cy', targetY);
-                    lineSource.attr('x2', targetX)
-                        .attr('y2', targetY);
-
-                    if (phase === 3) {
-
-                        var finalX = xScale.range()[1],
-                            finalY = calculateY(originX, originY, targetX, targetY, finalX);
-
-                        if (finalY) {
-                            setFanLines(originX, originY, finalX, finalY.a, finalY.b, finalY.c);
+                        if (d.state === 'DONE' && d.source.x > d.target.x) {
+                            var temp = d.source;
+                            d.source = d.target;
+                            d.target = temp;
                         }
+
+                        var gradient = (d.target.y - d.source.y) /
+                            (d.target.x - d.source.x);
+                        var deltaX = d.x - d.source.x;
+                        var deltaY = gradient * deltaX;
+                        d.ay = 0.618 * deltaY + d.source.y;
+                        d.by = 0.500 * deltaY + d.source.y;
+                        d.cy = 0.382 * deltaY + d.source.y;
                     }
+                });
+
+                var enter = g.enter();
+                enter.append('line')
+                    .attr('class', 'trend');
+                enter.append('line')
+                    .attr('class', 'a');
+                enter.append('line')
+                    .attr('class', 'b');
+                enter.append('line')
+                    .attr('class', 'c');
+                enter.append('polygon')
+                    .attr('class', 'area');
+
+                g.select('line.trend')
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.target.x; })
+                    .attr('y2', function(d) { return d.target.y; });
+
+                g.select('line.a')
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.x; })
+                    .attr('y2', function(d) { return d.ay; })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+
+                g.select('line.b')
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.x; })
+                    .attr('y2', function(d) { return d.by; })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+
+                g.select('line.c')
+                    .attr('x1', function(d) { return d.source.x; })
+                    .attr('y1', function(d) { return d.source.y; })
+                    .attr('x2', function(d) { return d.x; })
+                    .attr('y2', function(d) { return d.cy; })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+
+                g.select('polygon.area')
+                    .attr('points', function(d) {
+                        return d.source.x + ',' + d.source.y + ' ' +
+                            d.x + ',' + d.ay + ' ' +
+                            d.x + ',' + d.cy;
+                    })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+
+                fan.decorate.value(g);
+            });
+        };
+
+        function updatePositions() {
+            var container = d3.select(this);
+            var datum = container.datum()[0];
+            if (datum.state !== 'DONE') {
+                var mouse = d3.mouse(this);
+                var snapped = fan.snap.value.apply(this, mouse);
+                if (datum.state === 'SELECT_SOURCE') {
+                    datum.source = datum.target = snapped;
+                } else if (datum.state === 'SELECT_TARGET') {
+                    datum.target = snapped;
+                } else {
+                    throw new Error('Unknown state ' + datum.state);
                 }
             }
-        };
+        }
 
-        fibonacciFan.visible = function(value) {
-
-            if (value) {
-
-                switch (phase) {
-                    case 1: {
-                        circleOrigin.attr('display', 'inherit');
-                        break;
-                    }
-                    case 2: {
-                        circleOrigin.attr('display', 'inherit');
-                        circleTarget.attr('display', 'inherit');
-                        lineSource.attr('display', 'inherit');
-                        break;
-                    }
-                    case 3: {
-                        lineSource.attr('display', 'inherit');
-                        lineA.attr('display', 'inherit');
-                        lineB.attr('display', 'inherit');
-                        lineC.attr('display', 'inherit');
-                        fanArea.attr('display', 'inherit');
-                        break;
-                    }
-                }
-            } else {
-
-                circleOrigin.attr('display', 'none');
-                circleTarget.attr('display', 'none');
-                lineSource.attr('display', 'none');
-                lineA.attr('display', 'none');
-                lineB.attr('display', 'none');
-                lineC.attr('display', 'none');
-                fanArea.attr('display', 'none');
+        function mouseenter() {
+            var container = d3.select(this)
+                .on('click.fan', mouseclick)
+                .on('mousemove.fan', mousemove)
+                .on('mouseleave.fan', mouseleave);
+            var data = container.datum();
+            if (data[0] == null) {
+                data.push({
+                    state: 'SELECT_SOURCE'
+                });
             }
-        };
+            updatePositions.call(this);
+            container.call(fan);
+        }
 
-        fibonacciFan.target = function(value) {
-            if (!arguments.length) {
-                return target;
+        function mousemove() {
+            var container = d3.select(this);
+            updatePositions.call(this);
+            container.call(fan);
+        }
+
+        function mouseleave() {
+            var container = d3.select(this);
+            var data = container.datum();
+            if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
+                data.pop();
             }
+            container.on('click.fan', null)
+                .on('mousemove.fan', null)
+                .on('mouseleave.fan', null);
+        }
 
-            if (target) {
-
-                target.on('mousemove.fibonacci-fan', null);
-                target.on('click.fibonacci-fan', null);
+        function mouseclick() {
+            var container = d3.select(this);
+            var datum = container.datum()[0];
+            switch (datum.state) {
+                case 'SELECT_SOURCE':
+                    updatePositions.call(this);
+                    event.fansource.apply(this, arguments);
+                    datum.state = 'SELECT_TARGET';
+                    break;
+                case 'SELECT_TARGET':
+                    updatePositions.call(this);
+                    event.fantarget.apply(this, arguments);
+                    datum.state = 'DONE';
+                    break;
+                case 'DONE':
+                    event.fanclear.apply(this, arguments);
+                    datum.state = 'SELECT_SOURCE';
+                    updatePositions.call(this);
+                    break;
+                default:
+                    throw new Error('Unknown state ' + datum.state);
             }
+            container.call(fan);
+        }
 
-            target = value;
+        fan.xScale = fc.utilities.property(d3.time.scale());
+        fan.yScale = fc.utilities.property(d3.scale.linear());
+        fan.snap = fc.utilities.property(function(x, y) { return {x: x, y: y}; });
+        fan.decorate = fc.utilities.property(fc.utilities.fn.noop);
 
-            target.on('mousemove.fibonacci-fan', mousemove);
-            target.on('click.fibonacci-fan', mouseclick);
+        d3.rebind(fan, event, 'on');
 
-            return fibonacciFan;
-        };
-
-        fibonacciFan.series = function(value) {
-            if (!arguments.length) {
-                return series;
-            }
-            series = value;
-            return fibonacciFan;
-        };
-
-        fibonacciFan.xScale = function(value) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = value;
-            return fibonacciFan;
-        };
-
-        fibonacciFan.yScale = function(value) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = value;
-            return fibonacciFan;
-        };
-
-        fibonacciFan.active = function(value) {
-            if (!arguments.length) {
-                return active;
-            }
-            active = value;
-            return fibonacciFan;
-        };
-
-        return fibonacciFan;
+        return fan;
     };
 
 }(d3, fc));

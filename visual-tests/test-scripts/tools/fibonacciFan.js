@@ -1,12 +1,14 @@
 (function(d3, fc) {
     'use strict';
 
+    var form = document.forms['fan-form'];
+
     var data = fc.utilities.dataGenerator()
         .seedDate(new Date(2014, 1, 1))
         .randomSeed('12345')
         .generate(50);
 
-    var chart = d3.select('#measure'),
+    var chart = d3.select('#fan'),
         chartLayout = fc.utilities.chartLayout();
 
     chart.call(chartLayout);
@@ -66,21 +68,11 @@
         .datum(data)
         .call(bar);
 
-    // Create a measure tool
-    var measure = fc.tools.measure()
+    // Create a fibonacciFan tool
+    var fibonacciFan = fc.tools.fibonacciFan()
         .xScale(dateScale)
         .yScale(priceScale)
         .snap(fc.utilities.seriesPointSnap(bar, data))
-        .padding(10)
-        .xLabel(function(d) {
-            return !(d.source && d.target) ? '' :
-                d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
-                // d3.time.format('%a, %e %b')(d.target.datum.date - d.source.datum.date);
-        })
-        .yLabel(function(d) {
-            return !(d.source && d.target) ? '' :
-                d3.format('.2f')(d.target.datum.close - d.source.datum.close);
-        })
         .decorate(function(selection) {
             selection.enter()
                 .append('circle')
@@ -91,12 +83,38 @@
                 .attr('cx', function(d) { return d.target ? d.target.x : 0; })
                 .attr('cy', function(d) { return d.target ? d.target.y : 0; })
                 .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
+        })
+        .on('fansource', function(d) {
+            form.eventlog.value = 'fansource ' + d[0].source.x + ',' + d[0].source.y + '\n' + form.eventlog.value;
+        })
+        .on('fantarget', function(d) {
+            form.eventlog.value = 'fantarget ' + d[0].target.x + ',' + d[0].target.y + '\n' + form.eventlog.value;
+        })
+        .on('fanclear', function() {
+            form.eventlog.value = 'fanclear\n' + form.eventlog.value;
         });
 
     // Add it to the chart
-    chartLayout.getPlotArea()
+    var container = chartLayout.getPlotArea()
         .append('g')
-        .attr('class', 'measure-container')
-        .call(measure);
+        .attr('class', 'fan-container')
+        .call(fibonacciFan);
+
+    d3.select(form.clear)
+        .on('click', function() {
+            container.datum([])
+                .call(fibonacciFan);
+            d3.event.preventDefault();
+        });
+
+    d3.select(form.pointerevents)
+        .on('click', function() {
+            container.style('pointer-events', this.checked ? 'all' : 'none');
+        });
+
+    d3.select(form.display)
+        .on('click', function() {
+            container.style('display', this.checked ? '' : 'none');
+        });
 
 })(d3, fc);

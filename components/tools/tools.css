@@ -9,7 +9,6 @@
 }
 .measure>text {
   font: 10px sans-serif;
-  fill: #000;
 }
 .measure>text.horizontal {
   text-anchor: middle;
@@ -19,23 +18,14 @@
 }
 
 /* Fibonacci Fan Styles */
-.fibonacci-fan {
-  fill: none;
+.fan>* {
   stroke: #ccc;
   stroke-width: 1;
 }
-.fibonacci-fan.source {
+.fan>line.trend {
   stroke: #69f;
-  stroke-width: 1;
 }
-.fibonacci-fan.b {
-}
-circle.fibonacci-fan {
-  fill: none;
-  stroke: #69f;
-  stroke-width: 1;
-}
-.fibonacci-fan.area {
+.fan>polygon.area {
   fill: #eee;
   fill-opacity: 0.5;
   stroke-width: 0;

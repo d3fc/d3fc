@@ -58,27 +58,27 @@
                     .attr('y1', function(d) { return d.source.y; })
                     .attr('x2', function(d) { return d.target.x; })
                     .attr('y2', function(d) { return d.source.y; })
-                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; });
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
                 g.select('line.vertical')
                     .attr('x1', function(d) { return d.target.x; })
                     .attr('y1', function(d) { return d.target.y; })
                     .attr('x2', function(d) { return d.target.x; })
                     .attr('y2', function(d) { return d.source.y; })
-                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; });
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
                 var paddingValue = measure.padding.value.apply(this, arguments);
 
                 g.select('text.horizontal')
                     .attr('x', function(d) { return d.source.x + (d.target.x - d.source.x) / 2; })
                     .attr('y', function(d) { return d.source.y - paddingValue; })
-                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
                     .text(measure.xLabel.value);
 
                 g.select('text.vertical')
                     .attr('x', function(d) { return d.target.x + paddingValue; })
                     .attr('y', function(d) { return d.source.y + (d.target.y - d.source.y) / 2; })
-                    .style('visibility', function(d) { return d.state !== 'MEASURED' ? 'hidden' : 'visible'; })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
                     .text(measure.yLabel.value);
 
                 measure.decorate.value(g);
@@ -88,7 +88,7 @@
         function updatePositions() {
             var container = d3.select(this);
             var datum = container.datum()[0];
-            if (datum.state !== 'MEASURED') {
+            if (datum.state !== 'DONE') {
                 var mouse = d3.mouse(this);
                 var snapped = measure.snap.value.apply(this, mouse);
                 if (datum.state === 'SELECT_SOURCE') {
@@ -145,9 +145,9 @@
                 case 'SELECT_TARGET':
                     updatePositions.call(this);
                     event.measuretarget.apply(this, arguments);
-                    datum.state = 'MEASURED';
+                    datum.state = 'DONE';
                     break;
-                case 'MEASURED':
+                case 'DONE':
                     event.measureclear.apply(this, arguments);
                     datum.state = 'SELECT_SOURCE';
                     updatePositions.call(this);
