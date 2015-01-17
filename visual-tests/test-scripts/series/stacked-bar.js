@@ -57,11 +57,66 @@
           .datum(data.slice(1))
           .call(stack);
 
+        function findClosest(arr, minimize) {
+            var nearestIndex = 0,
+              nearestDiff = Number.MAX_VALUE;
+            for (var i = 0, l = arr.length; i < l; i++) {
+                var diff = minimize(arr, i);
+                if (diff < nearestDiff) {
+                    nearestDiff = diff;
+                    nearestIndex = i;
+                }
+            }
+            return nearestIndex;
+        }
+
+        function runningTotal(arr) {
+            var total = 0, result = [];
+            for (var i = 0, l = arr.length; i < l; i++) {
+                total += arr[i];
+                result.push(total);
+            }
+            return result;
+        }
+
+        function pixelSnap(xPixel, yPixel) {
+            // find the nearest x location
+            var nearestXIndex = findClosest(x.range(), function(arr, index) {
+                return Math.abs(arr[index] - xPixel);
+            });
+            var datum = data[nearestXIndex + 1];
+
+            // create an array of y pixel locations for each stacked bar
+            var keys = Object.keys(datum).filter(function(p) { return p !== 'State'; });
+            var yValues = keys.map(function(d) { return +datum[d]; });
+            var yPixels = runningTotal(yValues).map(y);
+
+            // find the nearest y index
+            var nearestYIndex = findClosest(yPixels, function(arr, index) {
+                return Math.abs(arr[index] - yPixel);
+            });
+            var nearestYProperty = keys[nearestYIndex];
+            return {
+                datum: {
+                    x: x.domain()[nearestXIndex],
+                    yProperty: nearestYProperty,
+                    yValue: datum[nearestYProperty]
+                },
+                x: x.range()[nearestXIndex],
+                y: yPixels[nearestYIndex]
+            };
+        }
+
         // Create a crosshairs tool
         var crosshairs = fc.tools.crosshairs()
           .xScale(x)
-          .yScale(y);
-          //.snap(fc.utilities.seriesPointSnap(bar, data));
+          .yScale(y)
+          .padding(8)
+          .xLabel(function(d) {
+              return d.datum.x;
+          })
+          .yLabel(function(d) { return d.datum.yProperty + ' : ' + d.datum.yValue; })
+          .snap(pixelSnap);
 
         // Add it to the chart
         chartLayout.getPlotArea()
