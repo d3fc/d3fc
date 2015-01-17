@@ -43,7 +43,6 @@
             .ticks(5);
         chartLayout.getAxisContainer('right').call(rightAxis);
 
-
         var stack = fc.series.stackedBar()
           .xScale(x)
           .xValueKey('State')
@@ -53,8 +52,22 @@
           });
 
         chartLayout.getPlotArea(chart)
+          .append('g')
+          .attr('class', 'series')
           .datum(data.slice(1))
           .call(stack);
+
+        // Create a crosshairs tool
+        var crosshairs = fc.tools.crosshairs()
+          .xScale(x)
+          .yScale(y);
+          //.snap(fc.utilities.seriesPointSnap(bar, data));
+
+        // Add it to the chart
+        chartLayout.getPlotArea()
+          .append('g')
+          .attr('class', 'crosshairs-container')
+          .call(crosshairs);
     });
 
 })(d3, fc);
