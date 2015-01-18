@@ -11,49 +11,22 @@
 
             selection.each(function(data) {
 
-                var g = d3.select(this)
+                var container = d3.select(this)
                     .selectAll('.line-series')
                     .data([data]);
 
-                g.enter()
+                container.enter()
                     .append('g')
-                    .classed('line-series', true);
-
-                g.exit()
-                    .remove();
-
-                var areaPath = g.selectAll('.area')
-                        .data(line.underFill.value.apply(this, arguments) ? [data] : []);
-
-                areaPath.enter()
-                    .append('path')
-                    .classed('area', true);
-
-                var areaData = d3.svg.area()
-                    .x(x)
-                    .y0(line.yScale.value(0))
-                    .y1(y);
-                areaPath.attr('d', areaData);
-
-                areaPath.exit()
-                    .remove();
-
-                var linePath = g.selectAll('.line')
-                    .data([data]);
-
-                linePath.enter()
-                    .append('path')
-                    .classed('line', true);
+                    .classed('line-series', true)
+                    .append('path');
 
                 var lineData = d3.svg.line()
                     .x(x)
                     .y(y);
-                linePath.attr('d', lineData);
+                container.select('path')
+                    .attr('d', lineData);
 
-                linePath.exit()
-                    .remove();
-
-                line.decorate.value(g);
+                line.decorate.value(container);
             });
         };
 
@@ -62,7 +35,6 @@
         line.yScale = fc.utilities.property(d3.scale.linear());
         line.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
         line.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
-        line.underFill = fc.utilities.functorProperty(true);
 
         return line;
     };

@@ -54,13 +54,22 @@
         .yValue(fc.utilities.valueAccessor('open'));
 
     // Create the area series
-    var area = fc.series.line()
+    var area = fc.series.area()
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale)
+        .y0Value(fc.utilities.valueAccessor('low'))
+        .y1Value(fc.utilities.valueAccessor('high'));
+
+    // Create the point series
+    var point = fc.series.point()
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .yValue(fc.utilities.valueAccessor('close'));
 
     chartLayout.getPlotArea()
         .datum(data)
         .call(line)
-        .call(area);
+        .call(area)
+        .call(point);
 
 })(d3, fc);
