@@ -12,20 +12,15 @@
 }
 
 /* OHLC Styles */
-.up-day {
-  stroke: #6c0;
-  fill: #6c0;
-}
-.down-day {
-  stroke: #c60;
-  fill: #c60;
-}
-
-.static-day {
+.ohlc>path {
   stroke: #000;
-  fill: #000;
 }
-
+.ohlc.down>path {
+  stroke: #c60;
+}
+.ohlc.up>path {
+  stroke: #6c0;
+}
 
 /* Comparison Styles */
 .comparison-series .line {
