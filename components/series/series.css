@@ -49,11 +49,18 @@
 }
 
 /* Line Series Styles */
-.line-series .line {
+.line-series>path {
   fill: none;
   stroke: #06c;
 }
-.line-series .area {
+
+.area-series>path {
+  fill: #9cf;
+  fill-opacity: 0.5;
+}
+
+.point-series>.point>circle {
+  stroke: #06c;
   fill: #9cf;
   fill-opacity: 0.5;
 }
