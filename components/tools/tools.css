@@ -46,15 +46,6 @@
   dominant-baseline: hanging;
 }
 
-/* Callouts Styles */
-.callout rect {
-  fill: #999;
-  fill-opacity: 0.8;
-}
-.callout text {
-  fill: #000;
-}
-
 /* Annotations */
 .annotation .marker {
   fill: none;
