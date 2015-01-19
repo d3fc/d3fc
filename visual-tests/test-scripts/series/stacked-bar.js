@@ -14,7 +14,7 @@
             var total = 0;
             for (var prop in d) {
                 if (prop !== 'State') {
-                    total += +d[prop];
+                    total += Number(d[prop]);
                 }
             }
             return total;

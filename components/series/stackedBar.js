@@ -27,7 +27,7 @@
                 for (var propertyName in obj) {
                     if (obj.hasOwnProperty(propertyName) && propertyName !== stackedBar.xValueKey.value) {
                         var previous = yTotal;
-                        yTotal += +obj[propertyName];
+                        yTotal += Number(obj[propertyName]);
                         values.push({
                             'name': propertyName,
                             'previousValue': previous,
