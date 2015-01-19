@@ -38,11 +38,10 @@
     chartLayout.getAxisContainer('bottom').call(dateAxis);
     chartLayout.getAxisContainer('right').call(priceAxis);
 
-    // Create the Bollinger bands component
-    var rsi = fc.indicators.rsi()
+    // Create the relative strength indicator component
+    var rsi = fc.indicators.relativeStrengthIndicator()
         .xScale(dateScale)
-        .yScale(priceScale)
-        .lambda(0.94);
+        .yScale(priceScale);
 
     // Add it to the chart
     chartLayout.getPlotArea().append('g')

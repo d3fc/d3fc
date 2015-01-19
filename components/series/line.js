@@ -7,6 +7,13 @@
         var x = function(d) { return line.xScale.value(line.xValue.value(d)); };
         var y = function(d) { return line.yScale.value(line.yValue.value(d)); };
 
+        var lineData = d3.svg.line()
+            .defined(function(d) {
+                return !isNaN(y(d));
+            })
+            .x(x)
+            .y(y);
+
         var line = function(selection) {
 
             selection.each(function(data) {
@@ -20,9 +27,6 @@
                     .classed('line-series', true)
                     .append('path');
 
-                var lineData = d3.svg.line()
-                    .x(x)
-                    .y(y);
                 container.select('path')
                     .attr('d', lineData);
 

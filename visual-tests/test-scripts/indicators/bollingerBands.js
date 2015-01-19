@@ -54,12 +54,12 @@
     var bollinger = fc.indicators.bollingerBands()
         .xScale(dateScale)
         .yScale(priceScale)
-        .movingAverage(4)
-        .standardDeviations(2);
+        .windowSize(4)
+        .multiplier(2);
 
     // Add it to the chart
     chartLayout.getPlotArea().append('g')
-        .attr('class', 'bollinger-band')
+        .attr('class', 'bollinger-bands')
         .datum(data)
         .call(bollinger);
 

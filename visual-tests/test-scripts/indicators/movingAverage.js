@@ -53,7 +53,7 @@
     var movingAverage = fc.indicators.movingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
-        .averagePoints(10);
+        .windowSize(10);
 
     // Add it to the chart
     chartLayout.getPlotArea().append('g')

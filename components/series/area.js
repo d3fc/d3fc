@@ -8,6 +8,14 @@
         var y0 = function(d) { return area.yScale.value(area.y0Value.value(d)); };
         var y1 = function(d) { return area.yScale.value(area.y1Value.value(d)); };
 
+        var areaData = d3.svg.area()
+            .defined(function(d) {
+                return !isNaN(y0(d)) && !isNaN(y1(d));
+            })
+            .x(x)
+            .y0(y0)
+            .y1(y1);
+
         var area = function(selection) {
 
             selection.each(function(data) {
@@ -21,10 +29,6 @@
                     .classed('area-series', true)
                     .append('path');
 
-                var areaData = d3.svg.area()
-                    .x(x)
-                    .y0(y0)
-                    .y1(y1);
                 container.select('path')
                     .attr('d', areaData);
 
