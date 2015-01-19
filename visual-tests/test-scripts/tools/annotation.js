@@ -60,7 +60,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .padding(7)
-        .formatLabel(function(d) {
+        .label(function(d) {
             return 'Last close: ' + d3.format('.6f')(d.close);
         });
 
@@ -73,7 +73,7 @@
             selection.selectAll('text')
                 .attr('x', dateScale.range()[1]);
         })
-        .formatLabel(function(d) {
+        .label(function(d) {
             return 'Annotation: ' + d3.format('.3f')(d);
         });
 

@@ -5,9 +5,9 @@
 
         var annotation = function(selection) {
             selection.each(function(data) {
-                var x = annotation.xScale.value,
-                    y = annotation.yScale.value,
-                    yValue = annotation.yValue.value;
+                var yValue = annotation.yValue.value,
+                    x = annotation.xScale.value,
+                    y = function(d) { return annotation.yScale.value(yValue(d)); };
 
                 var container = d3.select(this);
 
@@ -16,29 +16,22 @@
 
                 // Added the required elements - each annotation consists of a line and text label
                 var enter = g.enter();
-                enter.append('line')
-                    .attr('class', 'marker');
-                enter.append('text')
-                    .attr('class', 'label');
+                enter.append('line');
+                enter.append('text');
 
                 // Update the line
-                g.selectAll('line.marker').attr('x1', x.range()[0])
-                    .attr('y1', function(d) {
-                        return y(yValue(d));
-                    })
+                g.selectAll('line')
+                    .attr('x1', x.range()[0])
+                    .attr('y1', function(d) { return y(d); })
                     .attr('x2', x.range()[1])
-                    .attr('y2', function(d) {
-                        return y(yValue(d));
-                    });
+                    .attr('y2', function(d) { return y(d); });
 
                 // Update the text label
                 var paddingValue = annotation.padding.value.apply(this, arguments);
-                g.selectAll('text.label').attr('x', x.range()[1] - paddingValue)
-                    .attr('y', function(d) {
-                        return y(yValue(d)) - paddingValue;
-                    })
-                    .attr('style', 'text-anchor: end;')
-                    .text(annotation.formatLabel.value);
+                g.selectAll('text')
+                    .attr('x', x.range()[1] - paddingValue)
+                    .attr('y', function(d) { return y(d) - paddingValue; })
+                    .text(annotation.label.value);
 
                 annotation.decorate.value(container);
             });
@@ -47,10 +40,11 @@
         annotation.xScale = fc.utilities.property(d3.time.scale());
         annotation.yScale = fc.utilities.property(d3.scale.linear());
         annotation.yValue = fc.utilities.functorProperty(fc.utilities.fn.identity);
-        annotation.formatLabel = fc.utilities.functorProperty(annotation.yValue.value);
+        annotation.label = fc.utilities.functorProperty(annotation.yValue.value);
         annotation.padding = fc.utilities.functorProperty(2);
         annotation.decorate = fc.utilities.property(fc.utilities.fn.noop);
 
         return annotation;
     };
+
 }(d3, fc));
