@@ -68,9 +68,9 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .decorate(function(selection) {
-            selection.selectAll('line')
+            selection.select('line')
                 .style('stroke', 'red');
-            selection.selectAll('text')
+            selection.select('text')
                 .attr('x', dateScale.range()[1]);
         })
         .label(function(d) {

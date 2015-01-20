@@ -5,14 +5,13 @@
 
         var annotation = function(selection) {
             selection.each(function(data) {
-                var yValue = annotation.yValue.value,
-                    x = annotation.xScale.value,
-                    y = function(d) { return annotation.yScale.value(yValue(d)); };
+                var xScaleRange = annotation.xScale.value.range(),
+                    y = function(d) { return annotation.yScale.value(annotation.yValue.value(d)); };
 
                 var container = d3.select(this);
 
                 // Create a group for each annotation
-                var g = fc.utilities.simpleDataJoin(container, 'annotation', data, yValue);
+                var g = fc.utilities.simpleDataJoin(container, 'annotation', data, annotation.yValue.value);
 
                 // Added the required elements - each annotation consists of a line and text label
                 var enter = g.enter();
@@ -20,16 +19,16 @@
                 enter.append('text');
 
                 // Update the line
-                g.selectAll('line')
-                    .attr('x1', x.range()[0])
-                    .attr('y1', function(d) { return y(d); })
-                    .attr('x2', x.range()[1])
-                    .attr('y2', function(d) { return y(d); });
+                g.select('line')
+                    .attr('x1', xScaleRange[0])
+                    .attr('y1', y)
+                    .attr('x2', xScaleRange[1])
+                    .attr('y2', y);
 
                 // Update the text label
                 var paddingValue = annotation.padding.value.apply(this, arguments);
-                g.selectAll('text')
-                    .attr('x', x.range()[1] - paddingValue)
+                g.select('text')
+                    .attr('x', xScaleRange[1] - paddingValue)
                     .attr('y', function(d) { return y(d) - paddingValue; })
                     .text(annotation.label.value);
 
