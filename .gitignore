@@ -3,5 +3,3 @@ node_modules
 doc
 .*
 _site
-tests/
-test/
