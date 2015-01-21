@@ -10,7 +10,7 @@
 
         function clampDown(date) {
             if (isWeekend(date)) {
-                var daysToSubtract = date.getDay === 0 ? 2 : 1;
+                var daysToSubtract = date.getDay() === 0 ? 2 : 1;
                 // round the date up to midnight
                 var newDate = d3.time.day.ceil(date);
                 // then subtract the required number of days
@@ -22,7 +22,7 @@
 
         function clampUp(date) {
             if (isWeekend(date)) {
-                var daysToAdd = date.getDay === 0 ? 1 : 2;
+                var daysToAdd = date.getDay() === 0 ? 1 : 2;
                 // round the date down to midnight
                 var newDate = d3.time.day.floor(date);
                 // then add the required number of days

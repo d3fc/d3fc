@@ -14,11 +14,12 @@
 
         function scale(x) {
             // the discontinuityProvider is responsible for determinine the distance between two points
-            // along a scale that has discontinuities (i.e. sections that have been removed). 
+            // along a scale that has discontinuities (i.e. sections that have been removed).
             var totalDomainDistance = scale.discontinuityProvider.value.getDistance(adaptedScale.domain());
             var distanceToX = scale.discontinuityProvider.value.getDistance(adaptedScale.domain()[0], x);
             var ratioToX = distanceToX / totalDomainDistance;
-            var scaledByRange = ratioToX * (adaptedScale.range()[1] - adaptedScale.range()[0]) + adaptedScale.range()[0];
+            var scaledByRange = ratioToX * (adaptedScale.range()[1] - adaptedScale.range()[0]) +
+                adaptedScale.range()[0];
             return scaledByRange;
         }
 
@@ -45,7 +46,8 @@
 
         scale.discontinuityProvider = fc.utilities.property(fc.scale.discontinuity.identity());
 
-        return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp', 'nice', 'ticks', 'tickFormat', 'invert');
+        return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp',
+            'nice', 'ticks', 'tickFormat', 'invert');
     }
 
 }(d3, fc));
