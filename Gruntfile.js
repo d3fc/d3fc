@@ -11,7 +11,8 @@ module.exports = function (grunt) {
                 'components/**/*.js'
             ],
             visualTestJsFiles: [
-                'visual-tests/**/*.js'
+                'visual-tests/**/*.js',
+                'visual-tests/**/*.html'
             ],
             componentsCssFiles: [
                 'components/**/*.css'
@@ -132,7 +133,7 @@ module.exports = function (grunt) {
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
-    grunt.registerTask('build', ['check', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
+    grunt.registerTask('build', ['concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);

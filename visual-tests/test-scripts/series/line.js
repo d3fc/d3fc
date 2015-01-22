@@ -20,14 +20,12 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .alignPixels(true)
         .domain([dateFrom, dateTo])
         .range([0, chartLayout.getPlotAreaWidth()])
         .nice();
 
     // Create scale for y axis
     var priceScale = fc.scale.linear()
-        .alignPixels(true)
         .domain([priceFrom, priceTo])
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>D3FC Visual Tests</title>
+    <link href="assets/style.css" rel="stylesheet">
+    <link href="../dist/d3-financial-components.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>D3FC Visual Tests</h1>
+
+    <section>
+        scale: <input type="range" min="1" max="1000" value="1" id="scale"></input>
+        offset: <input type="range" min="1" max="50" value="1" id="offset"></input>
+        ticks: <input type="range" min="5" max="50" value="5" id="ticks"></input>
+        <input type="checkbox" id="nice">nice</input>
+
+        <div>
+            <svg id="chart" width="900" height="450">
+        </div>
+    </section>
+
+    <script src="//d3js.org/d3.v3.js"></script>
+    <script src="../dist/d3-financial-components.js"></script>
+    
+
+    <script>
+
+    var scale = 1, offset = 1, nice = false, ticks = 5;
+
+    d3.select("#scale").on("input", function() {
+        scale = this.value * this.value;
+        drawScale();
+    });
+
+    d3.select("#ticks").on("input", function() {
+        ticks = Number(this.value);
+        drawScale();
+    });
+
+    d3.select("#nice").on("change", function() {
+        nice = this.checked;
+        drawScale();
+    });
+
+    d3.select("#offset").on("input", function() {
+        offset = this.value;
+        drawScale();
+    });
+
+    function drawScale() {
+        function increment(date, minutes) {
+            return new Date(date.getTime() + minutes * 60000);
+        }
+
+        var data = [];
+        var date = increment(new Date(2014, 1, 1), offset * (scale / 50));
+        for (var i = 0; i < 20; i++) {
+            data.push({
+                date: date,
+                val: Math.sin(i/2)
+            });
+            date = increment(date, scale);
+        }
+
+
+        d3.select('#chart').selectAll('*').remove();
+
+        function drawChart(scale, location, name) {
+            if (nice) {
+                dateScale.nice();
+            }
+
+            var yScale = d3.scale.linear()
+                .domain([-1, 1])
+                .range([0, 50]);
+
+            var line = fc.series.line()
+                .xScale(scale)
+                .yScale(yScale)
+                .yValue(fc.utilities.valueAccessor('val'))
+
+            var dateAxis = d3.svg.axis()
+                .scale(scale)
+                .orient('bottom')
+                .ticks(ticks);
+
+            d3.select('#chart').append('g')
+                .classed('axis', true)
+                .attr('transform', 'translate(150, ' + location + ')')
+                .call(dateAxis);
+
+            d3.select('#chart').append('g')
+                .attr('transform', 'translate(10, ' + location + ')')
+                .append('text')
+                .text(name);
+
+            d3.select('#chart').append('g')
+                .attr('transform', 'translate(150, ' + (location - 50) + ')')
+                .datum(data)
+                .call(line);
+        }
+
+        // ##################################################################
+        var dateScale = d3.time.scale()
+            .domain(fc.utilities.extent(data, 'date'))
+            .range([0, 700]);
+
+        drawChart(dateScale, 100, 'd3.time.scale');
+
+
+        // ##################################################################
+        var dateScale2 = fc.scale.dateTime()
+            .hideWeekends(true)
+            .domain(fc.utilities.extent(data, 'date'))
+            .range([0, 700]);
+
+        drawChart(dateScale2, 250, 'fc.scale.dateTime');
+
+        // ##################################################################
+        var dateScale3 = fc.scale.dateTime2()
+            .domain(fc.utilities.extent(data, 'date'))
+            .range([0, 700]);
+
+        drawChart(dateScale3, 400, 'fc.scale.dateTime2');
+    }
+
+    drawScale()
+
+    </script>
+
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>
