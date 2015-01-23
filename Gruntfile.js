@@ -10,6 +10,9 @@ module.exports = function (grunt) {
             componentsJsFiles: [
                 'components/**/*.js'
             ],
+            testJsFiles: [
+                'tests/**/*Spec.js'
+            ],
             visualTestJsFiles: [
                 'visual-tests/**/*.js'
             ],
@@ -18,6 +21,7 @@ module.exports = function (grunt) {
             ],
             ourJsFiles: [
                 '<%= meta.componentsJsFiles %>',
+                '<%= meta.testJsFiles %>',
                 '<%= meta.visualTestJsFiles %>'
             ]
         },
@@ -122,6 +126,16 @@ module.exports = function (grunt) {
             }
         },
 
+        jasmine: {
+            test: {
+                src: ['<%= meta.componentsJsFiles %>'],
+                options: {
+                    specs: '<%= meta.testJsFiles %>',
+                    vendor: 'tests/d3.v3.js'
+                }
+            }
+        },
+
         clean: {
             doc: ['doc']
         }
@@ -132,7 +146,7 @@ module.exports = function (grunt) {
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
-    grunt.registerTask('build', ['check', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
+    grunt.registerTask('build', ['check', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);

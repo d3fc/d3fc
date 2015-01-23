@@ -19,7 +19,9 @@ window.fc = {
      *
      * @namespace fc.scale
      */
-    scale: {},
+    scale: {
+        discontinuity: {}
+    },
     series: {},
     tools: {},
     /**
