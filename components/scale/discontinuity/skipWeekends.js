@@ -4,6 +4,7 @@
     fc.scale.discontinuity.skipWeekends = function() {
         var millisPerDay = 24 * 3600 * 1000;
         var millisPerWorkWeek = millisPerDay * 5;
+        var millisPerWeek = millisPerDay * 7;
 
         function isWeekend(date) {
             return date.getDay() === 0 || date.getDay() === 6;
@@ -33,19 +34,6 @@
             }
         }
 
-        // counts the number of days that are weekends (sat / sun) within
-        // the give period
-        function countWeekendDays(start, end) {
-            var weekends = 0;
-            var d = d3.time.day.floor(start);
-            // TODO: replace with a non-iterative approach!
-            while (d < end) {
-                if (isWeekend(d)) { weekends ++; }
-                d = d3.time.day.offset(d, 1);
-            }
-            return weekends;
-        }
-
         // returns the number of included milliseconds (i.e. those which do not fall)
         // within discontinuities, along this scale
         function getDistance(startDate, endDate) {
@@ -57,11 +45,23 @@
 
             startDate = clampUp(startDate);
             endDate = clampDown(endDate);
-            if (startDate > endDate) {
-                return 0;
+
+            // move the start date to the end of week boundary
+            var offsetStart = d3.time.saturday.ceil(startDate);
+            if (endDate < offsetStart) {
+                return endDate.getTime() - startDate.getTime();
             }
-            var weekends = countWeekendDays(startDate, endDate);
-            return endDate.getTime() - startDate.getTime() - weekends * millisPerDay;
+
+            var ticksAdded = offsetStart.getTime() - startDate.getTime();
+
+            // move the end date to the end of week boundary
+            var offsetEnd = d3.time.saturday.ceil(endDate);
+            var ticksRemoved = offsetEnd.getTime() - endDate.getTime();
+
+            // determine how many weeks there are between these two dates
+            var weeks = (offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek;
+
+            return weeks * millisPerWorkWeek + ticksAdded - ticksRemoved;
         }
 
         function applyOffset(startDate, ticks) {

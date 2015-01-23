@@ -58,7 +58,6 @@
 
         scale.discontinuityProvider = fc.utilities.property(discontinuityProvider);
 
-        // TODO: Can calling 'nice' cause the domain to be moved into a discontinuity?
         return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp',
             'nice', 'ticks', 'tickFormat');
     }
