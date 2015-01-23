@@ -10,6 +10,7 @@
 
         if (!arguments.length) {
             adaptedScale = d3.time.scale();
+            discontinuityProvider = fc.scale.discontinuity.identity();
         }
 
         function scale(x) {
@@ -44,8 +45,9 @@
             return dateTimeScale(adaptedScale.copy(), scale.discontinuityProvider.value);
         };
 
-        scale.discontinuityProvider = fc.utilities.property(fc.scale.discontinuity.identity());
+        scale.discontinuityProvider = fc.utilities.property(discontinuityProvider);
 
+        // TODO: Can calling 'nice' cause the domain to be moved into a discontinuity?
         return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp',
             'nice', 'ticks', 'tickFormat', 'invert');
     }

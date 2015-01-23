@@ -131,7 +131,7 @@ module.exports = function (grunt) {
                 src: ['<%= meta.componentsJsFiles %>'],
                 options: {
                     specs: '<%= meta.testJsFiles %>',
-                    vendor: 'http://d3js.org/d3.v3.js'
+                    vendor: 'tests/d3.v3.js'
                 }
             }
         },

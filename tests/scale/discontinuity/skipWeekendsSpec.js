@@ -46,13 +46,13 @@
             });
 
             it('should clamp sunday down to 00:00 on saturday', function() {
-                var endOfWeek = new Date(2015, 0, 17); // monday 00:00 hours
+                var endOfWeek = new Date(2015, 0, 17); // saturday 00:00 hours
                 var date = new Date(2015, 0, 18, 12); // mid-day sunday
                 expect(skipWeekends.clampDown(date)).toEqual(endOfWeek);
             });
 
             it('should clamp saturday up to 00:00 on monday', function() {
-                var endOfWeek = new Date(2015, 0, 17); // monday 00:00 hours
+                var endOfWeek = new Date(2015, 0, 17); // saturday 00:00 hours
                 var date = new Date(2015, 0, 17, 12); // mid-day saturday
                 expect(skipWeekends.clampDown(date)).toEqual(endOfWeek);
             });
