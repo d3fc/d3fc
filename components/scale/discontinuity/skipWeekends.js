@@ -3,6 +3,7 @@
 
     fc.scale.discontinuity.skipWeekends = function() {
         var millisPerDay = 24 * 3600 * 1000;
+        var millisPerWorkWeek = millisPerDay * 5;
 
         function isWeekend(date) {
             return date.getDay() === 0 || date.getDay() === 6;
@@ -63,7 +64,35 @@
             return endDate.getTime() - startDate.getTime() - weekends * millisPerDay;
         }
 
+        function applyOffset(startDate, ticks) {
+            var date = isWeekend(startDate) ? clampUp(startDate) : startDate;
+            var remainingTicks = ticks;
+
+            // move to the end of week boundary
+            var endOfWeek = d3.time.saturday.ceil(date);
+            remainingTicks -= (endOfWeek.getTime() - date.getTime());
+
+            // if the distance to the boundary is greater than the number of ticks
+            // simply add the ticks to the current date
+            if (remainingTicks < 0) {
+                return new Date(date.getTime() + ticks);
+            }
+
+            // skip the weekend
+            date = d3.time.day.offset(endOfWeek, 2);
+
+            // add all of the complete weeks to the date
+            var completeWeeks = Math.floor(remainingTicks / millisPerWorkWeek);
+            date = d3.time.day.offset(date, completeWeeks * 7);
+            remainingTicks -= completeWeeks * millisPerWorkWeek;
+
+            // add the remaining time
+            date = new Date(date.getTime() + remainingTicks);
+            return date;
+        }
+
         return {
+            applyOffset: applyOffset,
             getDistance: getDistance,
             clampUp: clampUp,
             clampDown: clampDown

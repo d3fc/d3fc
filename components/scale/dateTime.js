@@ -13,20 +13,31 @@
             discontinuityProvider = fc.scale.discontinuity.identity();
         }
 
-        function scale(x) {
-            // the discontinuityProvider is responsible for determinine the distance between two points
+        function discontinuities() { return scale.discontinuityProvider.value; }
+
+        function scale(date) {
+            var domain = adaptedScale.domain();
+            var range = adaptedScale.range();
+
+            // The discontinuityProvider is responsible for determine the distance between two points
             // along a scale that has discontinuities (i.e. sections that have been removed).
-            var totalDomainDistance = scale.discontinuityProvider.value.getDistance(adaptedScale.domain());
-            var distanceToX = scale.discontinuityProvider.value.getDistance(adaptedScale.domain()[0], x);
+            // the scale for the given point 'x' is calculated as the ratio of the discontinuous distance
+            // over the domain of this axis, versus the discontinuous distance to 'x'
+            var totalDomainDistance = discontinuities().getDistance(domain);
+            var distanceToX = discontinuities().getDistance(domain[0], date);
             var ratioToX = distanceToX / totalDomainDistance;
-            var scaledByRange = ratioToX * (adaptedScale.range()[1] - adaptedScale.range()[0]) +
-                adaptedScale.range()[0];
+            var scaledByRange = ratioToX * (range[1] - range[0]) + range[0];
             return scaledByRange;
         }
 
         scale.invert = function(x) {
-            // TODO: this aint right!
-            return adaptedScale.invert(x);
+            var domain = adaptedScale.domain();
+            var range = adaptedScale.range();
+
+            var ratioToX = (x - range[0]) / (range[1] - range[0]);
+            var totalDomainDistance = discontinuities().getDistance(domain);
+            var distanceToX = ratioToX * totalDomainDistance;
+            return discontinuities().applyOffset(domain[0], distanceToX);
         };
 
         scale.domain = function(x) {
@@ -49,7 +60,7 @@
 
         // TODO: Can calling 'nice' cause the domain to be moved into a discontinuity?
         return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp',
-            'nice', 'ticks', 'tickFormat', 'invert');
+            'nice', 'ticks', 'tickFormat');
     }
 
 }(d3, fc));

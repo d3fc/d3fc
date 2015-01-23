@@ -15,6 +15,10 @@
             var clone = dateTime.copy();
 
             expect(clone.discontinuityProvider()).toEqual(dateTime.discontinuityProvider());
+            expect(clone.range()[0]).toEqual(0);
+            expect(clone.range()[1]).toEqual(100);
+            expect(clone.domain()[0]).toEqual(start);
+            expect(clone.domain()[1]).toEqual(end);
         });
 
         describe('without discontinuities', function() {
@@ -23,15 +27,15 @@
             var start = new Date(2015, 0, 18); // sunday
             var end = new Date(2015, 0, 28); // wednesday
 
-            it('should match the functionality of a d3 time axis', function() {
-                var referenceScale = d3.time.scale()
+            var referenceScale = d3.time.scale()
                     .domain([start, end])
                     .range(range);
 
-                var dateTime = fc.scale.dateTime()
-                    .domain([start, end])
-                    .range(range);
+            var dateTime = fc.scale.dateTime()
+                .domain([start, end])
+                .range(range);
 
+            it('should match the scale functionality of a d3 time scale', function() {
                 var date = new Date(2015, 0, 19);
                 expect(dateTime(date)).toEqual(referenceScale(date));
 
@@ -40,6 +44,12 @@
 
                 expect(dateTime(start)).toEqual(referenceScale(start));
                 expect(dateTime(end)).toEqual(referenceScale(end));
+            });
+
+            it('should match the invert functionality of a d3 time scale', function() {
+                expect(dateTime.invert(0)).toEqual(referenceScale.invert(0));
+                expect(dateTime.invert(50)).toEqual(referenceScale.invert(50));
+                expect(dateTime.invert(100)).toEqual(referenceScale.invert(100));
             });
         });
 
@@ -86,6 +96,24 @@
                 expect(dateTime(new Date(2015, 0, 13))).toEqual(60);
                 // wednesday
                 expect(dateTime(new Date(2015, 0, 14))).toEqual(80);
+
+            });
+
+            it('should invert with weekends skipped', function() {
+
+                // four calendar weeks = 20 week days
+                var start = new Date(2015, 0, 1); // thursday
+                var end = new Date(2015, 0, 29); // thursday
+
+                var dateTime = fc.scale.dateTime()
+                    .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
+                    .range([0, 20])
+                    .domain([start, end]);
+
+                expect(dateTime.invert(1)).toEqual(new Date(2015, 0, 2));
+                expect(dateTime.invert(2)).toEqual(new Date(2015, 0, 5)); // weekend skipped
+                expect(dateTime.invert(3)).toEqual(new Date(2015, 0, 6));
+                expect(dateTime.invert(4)).toEqual(new Date(2015, 0, 7));
 
             });
         });

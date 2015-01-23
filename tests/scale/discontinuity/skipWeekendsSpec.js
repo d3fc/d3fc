@@ -83,6 +83,26 @@
                 expect(skipWeekends.getDistance(d1, d2)).toEqual(1 * millisPerDay);
             });
         });
+
+        describe('applyOffset', function() {
+
+            var millisPerDay = 24 * 3600 * 1000;
+
+            it('should accommodate offsets that do not cross weekend boundaries', function() {
+                var d = new Date(2015, 0, 19); // monday
+                expect(skipWeekends.applyOffset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
+            });
+
+            it('should clamp up if supplied with a weekend date', function() {
+                var d = new Date(2015, 0, 18); // sunday
+                expect(skipWeekends.applyOffset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
+            });
+
+            it('should skip weekends', function() {
+                var d = new Date(2015, 0, 20); // tuesday
+                expect(skipWeekends.applyOffset(d, 5 * millisPerDay)).toEqual(new Date(2015, 0, 27));
+            });
+        });
     });
 
 }(d3, fc));

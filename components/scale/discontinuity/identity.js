@@ -12,9 +12,14 @@
             return endDate.getTime() - startDate.getTime();
         }
 
+        function applyOffset(startDate, ticks) {
+            return new Date(startDate.getTime() + ticks);
+        }
+
         function noop(date) { return date; }
 
         return {
+            applyOffset: applyOffset,
             getDistance: getDistance,
             clampUp: noop,
             clampDown: noop
