@@ -20,10 +20,17 @@ window.fc = {
      * @namespace fc.scale
      */
     scale: {},
+    /**
+     * Components which plot elements in 2 dimensional space using specified x and y scales.
+     * @namespace fc.series
+     */
     series: {},
+    /**
+     * @namespace fc.tools
+     */
     tools: {},
     /**
-     * Utility components to shorted long winded implementations of common operations.
+     * Utility components to shorten long winded implementations of common operations.
      * Also includes components for mock data generation and layout.
      *
      * @namespace fc.utilities

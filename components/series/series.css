@@ -24,6 +24,7 @@
 
 /* Comparison Styles */
 .comparison-series .line {
+    vector-effect: non-scaling-stroke;
     stroke: #000;
     fill: none;
 }
