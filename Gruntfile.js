@@ -129,7 +129,7 @@ module.exports = function (grunt) {
         jasmine: {
             options: {
                 specs: '<%= meta.testJsFiles %>',
-                vendor: 'tests/d3.v3.js'
+                vendor: 'node_modules/d3/d3.js'
             },
             test: {
                 src: ['<%= meta.componentsJsFiles %>'],

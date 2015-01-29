@@ -17,7 +17,8 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-jscs": "^1.0.0",
     "grunt-jsdoc": "^0.5.7",
-    "matchdep": "^0.3.0"
+    "matchdep": "^0.3.0",
+    "d3": "^3.5.3"
   },
   "scripts": {
     "test": "grunt ci"
