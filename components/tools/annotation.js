@@ -32,7 +32,7 @@
                     .attr('y', function(d) { return y(d) - paddingValue; })
                     .text(annotation.label.value);
 
-                annotation.decorate.value(container);
+                annotation.decorate.value(g);
             });
         };
 
