@@ -14,6 +14,7 @@
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
         .domain(fc.utilities.extent(data, 'date'))
+        .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
         .range([0, chartLayout.getPlotAreaWidth()])
         .nice();
 

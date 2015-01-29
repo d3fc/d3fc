@@ -14,6 +14,7 @@
 
     "browser": true,
     "devel": true,
+    "jasmine": true,
 
     "globals": {
         "d3": false,
