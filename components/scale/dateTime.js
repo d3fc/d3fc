@@ -46,14 +46,14 @@
             }
             // clamp the upper and lower domain values to ensure they
             // do not fall within a discontinuity
-            var domainLower = scale.discontinuityProvider.value.clampUp(x[0]);
-            var domainUpper = scale.discontinuityProvider.value.clampDown(x[1]);
+            var domainLower = discontinuities().clampUp(x[0]);
+            var domainUpper = discontinuities().clampDown(x[1]);
             adaptedScale.domain([domainLower, domainUpper]);
             return scale;
         };
 
         scale.copy = function() {
-            return dateTimeScale(adaptedScale.copy(), scale.discontinuityProvider.value);
+            return dateTimeScale(adaptedScale.copy(), discontinuities().copy());
         };
 
         scale.discontinuityProvider = fc.utilities.property(discontinuityProvider);

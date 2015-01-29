@@ -6,11 +6,13 @@
         var millisPerWorkWeek = millisPerDay * 5;
         var millisPerWeek = millisPerDay * 7;
 
+        var skipWeekends = {};
+
         function isWeekend(date) {
             return date.getDay() === 0 || date.getDay() === 6;
         }
 
-        function clampDown(date) {
+        skipWeekends.clampDown = function(date) {
             if (isWeekend(date)) {
                 var daysToSubtract = date.getDay() === 0 ? 2 : 1;
                 // round the date up to midnight
@@ -20,9 +22,9 @@
             } else {
                 return date;
             }
-        }
+        };
 
-        function clampUp(date) {
+        skipWeekends.clampUp = function(date) {
             if (isWeekend(date)) {
                 var daysToAdd = date.getDay() === 0 ? 1 : 2;
                 // round the date down to midnight
@@ -32,19 +34,19 @@
             } else {
                 return date;
             }
-        }
+        };
 
         // returns the number of included milliseconds (i.e. those which do not fall)
         // within discontinuities, along this scale
-        function getDistance(startDate, endDate) {
+        skipWeekends.getDistance = function(startDate, endDate) {
             if (arguments.length === 1) {
                 var domain = startDate;
                 startDate = domain[0];
                 endDate = domain[1];
             }
 
-            startDate = clampUp(startDate);
-            endDate = clampDown(endDate);
+            startDate = skipWeekends.clampUp(startDate);
+            endDate = skipWeekends.clampDown(endDate);
 
             // move the start date to the end of week boundary
             var offsetStart = d3.time.saturday.ceil(startDate);
@@ -62,10 +64,10 @@
             var weeks = (offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek;
 
             return weeks * millisPerWorkWeek + ticksAdded - ticksRemoved;
-        }
+        };
 
-        function applyOffset(startDate, ticks) {
-            var date = isWeekend(startDate) ? clampUp(startDate) : startDate;
+        skipWeekends.applyOffset = function(startDate, ticks) {
+            var date = isWeekend(startDate) ? skipWeekends.clampUp(startDate) : startDate;
             var remainingTicks = ticks;
 
             // move to the end of week boundary
@@ -89,13 +91,10 @@
             // add the remaining time
             date = new Date(date.getTime() + remainingTicks);
             return date;
-        }
-
-        return {
-            applyOffset: applyOffset,
-            getDistance: getDistance,
-            clampUp: clampUp,
-            clampDown: clampDown
         };
+
+        skipWeekends.copy = function() { return skipWeekends; };
+
+        return skipWeekends;
     };
 }(d3, fc));
