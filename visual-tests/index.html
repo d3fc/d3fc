@@ -13,6 +13,16 @@
 
     <section>
         <h2>Indicators</h2>
+        <svg id="layout-test" data-style="width: 600; height: 400">
+            <g data-style="flexDirection: row">
+                <g data-style="height: 300; flex: 1" class="plotArea"></g>
+                <g data-style="width: 100; height: 300" class="axis right"></g>
+            </g>
+            <g data-style="flexDirection: row">
+                <g data-style="height: 100; flex: 1" class="axis bottom"></g>
+                <g data-style="width: 100; height: 100" class="filler"></g>
+            </g>
+        </svg>
 
         <h3>Bollinger Bands</h3>
         <div id="bollinger-bands"></div>
@@ -182,6 +192,8 @@
 
     <script src="../node_modules/d3/d3.js"></script>
     <script src="../dist/d3-financial-components.js"></script>
+
+    <script src="test-scripts/layout.js"></script>
 
     <script src="test-scripts/indicators/bollingerBands.js"></script>
     <script src="test-scripts/indicators/movingAverage.js"></script>
