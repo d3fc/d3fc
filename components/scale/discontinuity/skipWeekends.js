@@ -38,13 +38,7 @@
 
         // returns the number of included milliseconds (i.e. those which do not fall)
         // within discontinuities, along this scale
-        skipWeekends.getDistance = function(startDate, endDate) {
-            if (arguments.length === 1) {
-                var domain = startDate;
-                startDate = domain[0];
-                endDate = domain[1];
-            }
-
+        skipWeekends.distance = function(startDate, endDate) {
             startDate = skipWeekends.clampUp(startDate);
             endDate = skipWeekends.clampDown(endDate);
 
@@ -54,42 +48,42 @@
                 return endDate.getTime() - startDate.getTime();
             }
 
-            var ticksAdded = offsetStart.getTime() - startDate.getTime();
+            var msAdded = offsetStart.getTime() - startDate.getTime();
 
             // move the end date to the end of week boundary
             var offsetEnd = d3.time.saturday.ceil(endDate);
-            var ticksRemoved = offsetEnd.getTime() - endDate.getTime();
+            var msRemoved = offsetEnd.getTime() - endDate.getTime();
 
             // determine how many weeks there are between these two dates
             var weeks = (offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek;
 
-            return weeks * millisPerWorkWeek + ticksAdded - ticksRemoved;
+            return weeks * millisPerWorkWeek + msAdded - msRemoved;
         };
 
-        skipWeekends.applyOffset = function(startDate, ticks) {
+        skipWeekends.offset = function(startDate, ms) {
             var date = isWeekend(startDate) ? skipWeekends.clampUp(startDate) : startDate;
-            var remainingTicks = ticks;
+            var remainingms = ms;
 
             // move to the end of week boundary
             var endOfWeek = d3.time.saturday.ceil(date);
-            remainingTicks -= (endOfWeek.getTime() - date.getTime());
+            remainingms -= (endOfWeek.getTime() - date.getTime());
 
-            // if the distance to the boundary is greater than the number of ticks
-            // simply add the ticks to the current date
-            if (remainingTicks < 0) {
-                return new Date(date.getTime() + ticks);
+            // if the distance to the boundary is greater than the number of ms
+            // simply add the ms to the current date
+            if (remainingms < 0) {
+                return new Date(date.getTime() + ms);
             }
 
             // skip the weekend
             date = d3.time.day.offset(endOfWeek, 2);
 
             // add all of the complete weeks to the date
-            var completeWeeks = Math.floor(remainingTicks / millisPerWorkWeek);
+            var completeWeeks = Math.floor(remainingms / millisPerWorkWeek);
             date = d3.time.day.offset(date, completeWeeks * 7);
-            remainingTicks -= completeWeeks * millisPerWorkWeek;
+            remainingms -= completeWeeks * millisPerWorkWeek;
 
             // add the remaining time
-            date = new Date(date.getTime() + remainingTicks);
+            date = new Date(date.getTime() + remainingms);
             return date;
         };
 

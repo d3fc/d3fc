@@ -6,6 +6,14 @@
     };
 
 
+    /**
+    * The `fc.scale.dateTime` scale renders a discontinuous date time scale, i.e. a time scale that incorporates gaps.
+    * As an example, you can use this scale to render a chart where the weekends are skipped.
+    *
+    * @type {object}
+    * @memberof fc.scale
+    * @class fc.scale.dateTime
+    */
     function dateTimeScale(adaptedScale, discontinuityProvider) {
 
         if (!arguments.length) {
@@ -23,8 +31,8 @@
             // along a scale that has discontinuities (i.e. sections that have been removed).
             // the scale for the given point 'x' is calculated as the ratio of the discontinuous distance
             // over the domain of this axis, versus the discontinuous distance to 'x'
-            var totalDomainDistance = discontinuities().getDistance(domain);
-            var distanceToX = discontinuities().getDistance(domain[0], date);
+            var totalDomainDistance = discontinuities().distance(domain[0], domain[1]);
+            var distanceToX = discontinuities().distance(domain[0], date);
             var ratioToX = distanceToX / totalDomainDistance;
             var scaledByRange = ratioToX * (range[1] - range[0]) + range[0];
             return scaledByRange;
@@ -35,9 +43,9 @@
             var range = adaptedScale.range();
 
             var ratioToX = (x - range[0]) / (range[1] - range[0]);
-            var totalDomainDistance = discontinuities().getDistance(domain);
+            var totalDomainDistance = discontinuities().distance(domain[0], domain[1]);
             var distanceToX = ratioToX * totalDomainDistance;
-            return discontinuities().applyOffset(domain[0], distanceToX);
+            return discontinuities().offset(domain[0], distanceToX);
         };
 
         scale.domain = function(x) {

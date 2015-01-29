@@ -58,49 +58,49 @@
             });
         });
 
-        describe('getDistance', function() {
+        describe('distance', function() {
             it('should give the right result - duh!', function() {
                 var d1 = new Date(2015, 0, 19); // monday
                 var d2 = new Date(2015, 0, 21); // wednesday
-                expect(skipWeekends.getDistance(d1, d2)).toEqual(2 * millisPerDay);
+                expect(skipWeekends.distance(d1, d2)).toEqual(2 * millisPerDay);
             });
 
             it('should remove weekends', function() {
                 var d1 = new Date(2015, 0, 19); // monday
                 var d2 = new Date(2015, 0, 30); // friday
-                expect(skipWeekends.getDistance(d1, d2)).toEqual(11 * millisPerDay - 2 * millisPerDay);
+                expect(skipWeekends.distance(d1, d2)).toEqual(11 * millisPerDay - 2 * millisPerDay);
             });
 
             it('should handle start dates which are weekends', function() {
                 var d1 = new Date(2015, 0, 18); // sunday
                 var d2 = new Date(2015, 0, 30); // friday
-                expect(skipWeekends.getDistance(d1, d2)).toEqual(11 * millisPerDay - 2 * millisPerDay);
+                expect(skipWeekends.distance(d1, d2)).toEqual(11 * millisPerDay - 2 * millisPerDay);
             });
 
             it('should handle end dates which are weekends', function() {
                 var d1 = new Date(2015, 0, 18); // sunday
                 var d2 = new Date(2015, 0, 20); // tuesday
-                expect(skipWeekends.getDistance(d1, d2)).toEqual(1 * millisPerDay);
+                expect(skipWeekends.distance(d1, d2)).toEqual(1 * millisPerDay);
             });
         });
 
-        describe('applyOffset', function() {
+        describe('offset', function() {
 
             var millisPerDay = 24 * 3600 * 1000;
 
             it('should accommodate offsets that do not cross weekend boundaries', function() {
                 var d = new Date(2015, 0, 19); // monday
-                expect(skipWeekends.applyOffset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
+                expect(skipWeekends.offset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
             });
 
             it('should clamp up if supplied with a weekend date', function() {
                 var d = new Date(2015, 0, 18); // sunday
-                expect(skipWeekends.applyOffset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
+                expect(skipWeekends.offset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
             });
 
             it('should skip weekends', function() {
                 var d = new Date(2015, 0, 20); // tuesday
-                expect(skipWeekends.applyOffset(d, 5 * millisPerDay)).toEqual(new Date(2015, 0, 27));
+                expect(skipWeekends.offset(d, 5 * millisPerDay)).toEqual(new Date(2015, 0, 27));
             });
         });
     });

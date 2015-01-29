@@ -5,17 +5,12 @@
 
         var identity = {};
 
-        identity.getDistance = function(startDate, endDate) {
-            if (arguments.length === 1) {
-                var domain = startDate;
-                startDate = domain[0];
-                endDate = domain[1];
-            }
+        identity.distance = function(startDate, endDate) {
             return endDate.getTime() - startDate.getTime();
         };
 
-        identity.applyOffset = function(startDate, ticks) {
-            return new Date(startDate.getTime() + ticks);
+        identity.offset = function(startDate, ms) {
+            return new Date(startDate.getTime() + ms);
         };
 
         identity.clampUp = fc.utilities.fn.identity;
