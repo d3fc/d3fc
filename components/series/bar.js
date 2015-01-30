@@ -9,17 +9,7 @@
 
         var bar = function(selection) {
             selection.each(function(data) {
-
-                // add a 'root' g element on the first enter selection. This ensures
-                // that it is just added once
-                var container = d3.select(this)
-                    .selectAll('.bar-series')
-                    .data([data]);
-
-                container.enter()
-                    .append('g')
-                    .classed('bar-series', true);
-
+                var container = d3.select(this);
                 var series = fc.utilities.simpleDataJoin(container, 'bar', data, bar.xValue.value);
 
                 // enter
