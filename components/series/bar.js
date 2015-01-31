@@ -9,52 +9,23 @@
 
         var bar = function(selection) {
             selection.each(function(data) {
-
-                // add a 'root' g element on the first enter selection. This ensures
-                // that it is just added once
-                var container = d3.select(this)
-                    .selectAll('.bar-series')
-                    .data([data]);
-
-                container.enter()
-                    .append('g')
-                    .classed('bar-series', true);
-
+                var container = d3.select(this);
                 var series = fc.utilities.simpleDataJoin(container, 'bar', data, bar.xValue.value);
 
-                // "Caution: avoid interpolating to or from the number zero when the interpolator is used to generate
-                // a string (such as with attr).
-                // Very small values, when stringified, may be converted to scientific notation and
-                // cause a temporarily invalid attribute or style property value.
-                // For example, the number 0.0000001 is converted to the string "1e-7".
-                // This is particularly noticeable when interpolating opacity values.
-                // To avoid scientific notation, start or end the transition at 1e-6,
-                // which is the smallest value that is not stringified in exponential notation."
-                // - https://github.com/mbostock/d3/wiki/Transitions#d3_interpolateNumber
-                var effectivelyZero = 1e-6;
-
                 // enter
-                // entering elements fade in (from transparent to opaque)
-                series.enter().append('rect')
-                    .style('opacity', effectivelyZero);
-
-                // exit
-                // exiting elements fade out (to transparent)
-                series.exit().select('rect')
-                    .style('opacity', effectivelyZero);
+                series.enter()
+                    .append('rect');
 
                 var width = bar.barWidth.value(data.map(x));
 
                 // update
-                // all properties of the bars will transition
                 series.select('rect')
                     .attr('x', function(d) {
                         return x(d) - width / 2;
                     })
                     .attr('y', function(d) { return y(d); })
                     .attr('width', width)
-                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); })
-                    .style('opacity', 1);
+                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
 
                 // properties set by decorate will transition too
                 bar.decorate.value(series);
