@@ -18,15 +18,15 @@
         }
 
         // the function only operates on arrays of arrays, but we can pass non-array types in
-        if (Object.prototype.toString.call(data) !== '[object Array]') {
+        if (!Array.isArray(data)) {
             data = [data];
         }
         // we need an array of arrays if we don't have one already
-        if (Object.prototype.toString.call(data[0]) !== '[object Array]') {
+        if (!Array.isArray(data[0])) {
             data = [data];
         }
         // the fields parameter must be an array of field names, but we can pass non-array types in
-        if (Object.prototype.toString.call(fields) !== '[object Array]') {
+        if (!Array.isArray(fields)) {
             fields = [fields];
         }
 
