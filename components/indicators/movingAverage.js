@@ -28,8 +28,8 @@
 
         movingAverage.xScale = fc.utilities.property(d3.time.scale());
         movingAverage.yScale = fc.utilities.property(d3.scale.linear());
-        movingAverage.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        movingAverage.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        movingAverage.yValue = fc.utilities.property(function(d) { return d.close; });
+        movingAverage.xValue = fc.utilities.property(function(d) { return d.date; });
         movingAverage.writeCalculatedValue = fc.utilities.property(function(d, value) { d.movingAverage = value; });
         movingAverage.readCalculatedValue = fc.utilities.property(function(d) { return d.movingAverage; });
 

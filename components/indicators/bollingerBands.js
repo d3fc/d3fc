@@ -98,8 +98,8 @@
 
         bollingerBands.xScale = fc.utilities.property(d3.time.scale());
         bollingerBands.yScale = fc.utilities.property(d3.scale.linear());
-        bollingerBands.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        bollingerBands.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        bollingerBands.yValue = fc.utilities.property(function(d) { return d.close; });
+        bollingerBands.xValue = fc.utilities.property(function(d) { return d.date; });
         bollingerBands.writeCalculatedValue = fc.utilities.property(function(d, value) { d.bollingerBands = value; });
         bollingerBands.readCalculatedValue = fc.utilities.property(function(d) { return d.bollingerBands; });
 

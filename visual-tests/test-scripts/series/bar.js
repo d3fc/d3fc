@@ -49,7 +49,7 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(fc.utilities.valueAccessor('close'))
+        .yValue(function(d) { return d.close; })
         .decorate(function(sel) {
             sel.attr('class', function(d) { return 'bar-' + d.date.getDay(); });
         })

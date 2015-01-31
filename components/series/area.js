@@ -40,8 +40,8 @@
         area.xScale = fc.utilities.property(d3.time.scale());
         area.yScale = fc.utilities.property(d3.scale.linear());
         area.y0Value = fc.utilities.functorProperty(0);
-        area.y1Value = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        area.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        area.y1Value = fc.utilities.property(function(d) { return d.close; });
+        area.xValue = fc.utilities.property(function(d) { return d.date; });
 
 
         return area;

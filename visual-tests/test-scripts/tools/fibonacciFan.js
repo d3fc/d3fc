@@ -54,7 +54,7 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(fc.utilities.valueAccessor('close'))
+        .yValue(function(d) { return d.close; })
         .decorate(function(sel) {
             sel.style('fill', function(d) { return color(d.date.getDay()); });
         })

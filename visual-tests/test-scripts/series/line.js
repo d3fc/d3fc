@@ -49,20 +49,20 @@
     var line = fc.series.line()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(fc.utilities.valueAccessor('open'));
+        .yValue(function(d) { return d.open; });
 
     // Create the area series
     var area = fc.series.area()
         .xScale(dateScale)
         .yScale(priceScale)
-        .y0Value(fc.utilities.valueAccessor('low'))
-        .y1Value(fc.utilities.valueAccessor('high'));
+        .y0Value(function(d) { return d.low; })
+        .y1Value(function(d) { return d.high; });
 
     // Create the point series
     var point = fc.series.point()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(fc.utilities.valueAccessor('close'));
+        .yValue(function(d) { return d.close; });
 
     chartLayout.getPlotArea()
         .datum(data)

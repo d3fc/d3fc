@@ -32,8 +32,8 @@
             return slidingWindow(data);
         };
 
-        rsi.openValue = fc.utilities.property(fc.utilities.valueAccessor('open'));
-        rsi.closeValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
+        rsi.openValue = fc.utilities.property(function(d) { return d.open; });
+        rsi.closeValue = fc.utilities.property(function(d) { return d.close; });
         rsi.averageAccumulator = fc.utilities.property(function(values) {
             var alpha = 1 / values.length;
             var result = values[0];

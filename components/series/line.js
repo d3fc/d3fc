@@ -37,8 +37,8 @@
         line.decorate = fc.utilities.property(fc.utilities.fn.noop);
         line.xScale = fc.utilities.property(d3.time.scale());
         line.yScale = fc.utilities.property(d3.scale.linear());
-        line.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        line.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        line.yValue = fc.utilities.property(function(d) { return d.close; });
+        line.xValue = fc.utilities.property(function(d) { return d.date; });
 
         return line;
     };
