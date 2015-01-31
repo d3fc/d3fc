@@ -1,5 +1,3 @@
-aspnet_client
+dist
 node_modules
-doc
 .*
-_site
