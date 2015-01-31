@@ -2,29 +2,13 @@
 (function(d3, fc) {
     'use strict';
 
-
     fc.utilities.layout = function() {
-
-        // copied from the css-layout tests, tidies up the node structure.
-        // this code will be removed long-term
-        function fillNodes(node) {
-            node.layout = {
-                width: undefined,
-                height: undefined,
-                top: 0,
-                left: 0
-            };
-            if (!node.style) {
-                node.style = {};
-            }
-            if (!node.children || node.style.measure) {
-                node.children = [];
-            }
-            node.children.forEach(fillNodes);
-        }
 
         // parses the style attribute, converting it into a JavaScript object
         function parseStyle(style) {
+            if (!style) {
+                return {};
+            }
             var properties = style.split(';');
             var json = {};
             properties.forEach(function(property) {
@@ -39,37 +23,60 @@
         }
 
         // creates the structure required by the layout engine
-        function createLayout(el) {
+        function createNodes(el) {
             function getChildNodes() {
                 var children = [];
                 for (var i = 0; i < el.childElementCount; i++) {
                     var child = el.children[i];
-                    if (child.getAttribute('data-style')) {
-                        children.push(createLayout(child));
+                    if (child.getAttribute('layout-css')) {
+                        children.push(createNodes(child));
                     }
                 }
                 return children;
             }
             return {
-                style: parseStyle(el.getAttribute('data-style')),
+                style: parseStyle(el.getAttribute('layout-css')),
                 children: getChildNodes(el),
-                element: el
+                element: el,
+                layout: {
+                    width: undefined,
+                    height: undefined,
+                    top: 0,
+                    left: 0
+                }
             };
         }
 
         // takes the result of layout and applied it to the SVG elements
         function applyLayout(node) {
-            node.element.setAttribute('width', node.layout.width);
-            node.element.setAttribute('height', node.layout.height);
+            node.element.setAttribute('layout-width', node.layout.width);
+            node.element.setAttribute('layout-height', node.layout.height);
             node.element.setAttribute('transform', 'translate(' + node.layout.left + ', ' + node.layout.top + ')');
             node.children.forEach(applyLayout);
         }
 
         var layout = function(selection) {
             selection.each(function(data) {
-                var layoutNodes = createLayout(this);
-                fillNodes(layoutNodes);
+                // compute the width and height based on the parent
+                var parent = this.parentElement;
+                var style = getComputedStyle(parent);
+                var width = parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+                var height = parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+
+                // set the SVG dimensions
+                this.setAttribute('width', width);
+                this.setAttribute('height', height);
+
+                // create the layout nodes
+                var layoutNodes = createNodes(this);
+                // set the width / height of the root
+                layoutNodes.style.width = width;
+                layoutNodes.style.height = height;
+
+                // use the Facebook CSS goodness
                 computeLayout(layoutNodes);
+
+                // apply the resultant layout
                 applyLayout(layoutNodes);
             });
         };

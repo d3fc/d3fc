@@ -7,8 +7,8 @@
     chart.call(layout);
 
     var plotArea = chart.select('.plotArea');
-    var width = plotArea.attr('width'),
-        height = plotArea.attr('height');
+    var width = plotArea.attr('layout-width'),
+        height = plotArea.attr('layout-height');
 
     var data = fc.utilities.dataGenerator()
         .seedDate(new Date(2014, 1, 1))
