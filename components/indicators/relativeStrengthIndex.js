@@ -4,31 +4,15 @@
     fc.indicators.relativeStrengthIndicator = function() {
 
         var algorithm = fc.math.relativeStrengthIndicator();
-
-        var upperLine = fc.series.line();
-        var midLine = fc.series.line();
-        var lowerLine = fc.series.line();
-
+        var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
 
         var rsi = function(selection) {
 
             algorithm.outputValue(rsi.writeCalculatedValue.value);
 
-            upperLine.xScale(rsi.xScale.value)
-                .yScale(rsi.yScale.value)
-                .xValue(rsi.xValue.value)
-                .yValue(rsi.upperValue.value);
-
-            midLine.xScale(rsi.xScale.value)
-                .yScale(rsi.yScale.value)
-                .xValue(rsi.xValue.value)
-                .yValue(d3.functor(50));
-
-            lowerLine.xScale(rsi.xScale.value)
-                .yScale(rsi.yScale.value)
-                .xValue(rsi.xValue.value)
-                .yValue(rsi.lowerValue.value);
+            annotations.xScale(rsi.xScale.value)
+                .yScale(rsi.yScale.value);
 
             rsiLine.xScale(rsi.xScale.value)
                 .yScale(rsi.yScale.value)
@@ -40,32 +24,18 @@
 
                 var container = d3.select(this);
 
-                var upperLineContainer = container.selectAll('g.upper')
-                    .data([data]);
+                var annotationsContainer = container.selectAll('g.annotations')
+                    .data([[
+                        rsi.upperValue.value.apply(this, arguments),
+                        50,
+                        rsi.lowerValue.value.apply(this, arguments)
+                    ]]);
 
-                upperLineContainer.enter()
+                annotationsContainer.enter()
                     .append('g')
-                    .attr('class', 'upper');
+                    .attr('class', 'annotations');
 
-                upperLineContainer.call(upperLine);
-
-                var midLineContainer = container.selectAll('g.mid')
-                    .data([data]);
-
-                midLineContainer.enter()
-                    .append('g')
-                    .attr('class', 'mid');
-
-                midLineContainer.call(midLine);
-
-                var lowerLineContainer = container.selectAll('g.lower')
-                    .data([data]);
-
-                lowerLineContainer.enter()
-                    .append('g')
-                    .attr('class', 'lower');
-
-                lowerLineContainer.call(lowerLine);
+                annotationsContainer.call(annotations);
 
                 var rsiLineContainer = container.selectAll('g.indicator')
                     .data([data]);
