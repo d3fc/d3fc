@@ -42,20 +42,21 @@
     var bollinger = fc.indicators.bollingerBands()
         .xScale(dateScale)
         .yScale(priceScale)
-        .movingAverage(4)
-        .standardDeviations(2);
+        .windowSize(4)
+        .multiplier(2);
 
     // Create the moving average component
     var movingAverage = fc.indicators.movingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
-        .averagePoints(10);
+        .windowSize(10);
 
     // Add the axes to the chart
     chartBuilder.setAxis('bottom', dateAxis);
     chartBuilder.setAxis('right', priceAxis);
 
     // Add components to plot area
+    // TODO: #255 These indicators are conflicting
     chartBuilder.addToPlotArea([ohlc, bollinger, movingAverage]);
 
     // Set data and render
@@ -83,10 +84,10 @@
     rsiBuilder.setAxis('right', percentageAxis);
 
     // Create the RSI component
-    var rsi = fc.indicators.rsi()
+    var rsi = fc.indicators.relativeStrengthIndicator()
         .xScale(dateScale)
         .yScale(percentageScale)
-        .lambda(0.94);
+        .windowSize(20);
 
     // Add the RSI component to the RSI chart
     rsiBuilder.addToPlotArea(rsi);

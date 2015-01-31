@@ -13,6 +13,7 @@ window.fc = {
      * @namespace fc.indicators
      */
     indicators: {},
+    math: {},
     /**
      * Useful complex scales which add to the D3 scales in terms of render quality.
      * Also, complex financial scales that can be added to a chart
