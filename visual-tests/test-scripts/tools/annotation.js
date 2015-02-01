@@ -98,16 +98,19 @@
 
     setInterval(function() {
         // Update an annotation
-        chartLayout.getPlotArea().select('#annotation')
+        chartLayout.getPlotArea()
+            .select('#annotation')
             .datum([randomValue()])
             .call(annotation);
 
         // Update an annotation with a transition
         var decimalData = [randomValue(), randomValue(), randomValue()];
         decimalData.splice(0, Math.floor(Math.random() * 2));
-        chartLayout.getPlotArea().select('#annotationDecimal')
+        chartLayout.getPlotArea()
+            .select('#annotationDecimal')
             .datum(decimalData)
-            .transition().duration(2000)
+            .transition()
+            .duration(2000)
             .call(annotationDecimal);
     }, 3000);
 

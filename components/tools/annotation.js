@@ -11,7 +11,7 @@
                 var container = d3.select(this);
 
                 // Create a group for each annotation
-                var g = fc.utilities.simpleDataJoin(container, 'annotation', data, annotation.keyFunction.value);
+                var g = fc.utilities.simpleDataJoin(container, 'annotation', data, annotation.keyValue.value);
 
                 // Added the required elements - each annotation consists of a line and text label
                 var enter = g.enter();
@@ -39,7 +39,7 @@
         annotation.xScale = fc.utilities.property(d3.time.scale());
         annotation.yScale = fc.utilities.property(d3.scale.linear());
         annotation.yValue = fc.utilities.functorProperty(fc.utilities.fn.identity);
-        annotation.keyFunction = fc.utilities.functorProperty(function(d, i) { return i; });
+        annotation.keyValue = fc.utilities.functorProperty(fc.utilities.fn.index);
         annotation.label = fc.utilities.functorProperty(annotation.yValue.value);
         annotation.padding = fc.utilities.functorProperty(2);
         annotation.decorate = fc.utilities.property(fc.utilities.fn.noop);
