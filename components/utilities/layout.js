@@ -57,15 +57,10 @@
 
         var layout = function(selection) {
             selection.each(function(data) {
-                // compute the width and height based on the parent
-                var parent = this.parentElement;
-                var style = getComputedStyle(parent);
+                // compute the width and height of the SVG element
+                var style = getComputedStyle(this);
                 var width = parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
                 var height = parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-
-                // set the SVG dimensions
-                this.setAttribute('width', width);
-                this.setAttribute('height', height);
 
                 // create the layout nodes
                 var layoutNodes = createNodes(this);
