@@ -36,8 +36,8 @@
         bar.xScale = fc.utilities.property(d3.time.scale());
         bar.yScale = fc.utilities.property(d3.scale.linear());
         bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
-        bar.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        bar.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        bar.yValue = fc.utilities.property(function(d) { return d.close; });
+        bar.xValue = fc.utilities.property(function(d) { return d.date; });
 
         return bar;
     };

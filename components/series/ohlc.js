@@ -55,11 +55,11 @@
         ohlc.xScale = fc.utilities.property(d3.time.scale());
         ohlc.yScale = fc.utilities.property(d3.scale.linear());
         ohlc.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
-        ohlc.yOpenValue = fc.utilities.property(fc.utilities.valueAccessor('open'));
-        ohlc.yHighValue = fc.utilities.property(fc.utilities.valueAccessor('high'));
-        ohlc.yLowValue = fc.utilities.property(fc.utilities.valueAccessor('low'));
-        ohlc.yCloseValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        ohlc.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        ohlc.yOpenValue = fc.utilities.property(function(d) { return d.open; });
+        ohlc.yHighValue = fc.utilities.property(function(d) { return d.high; });
+        ohlc.yLowValue = fc.utilities.property(function(d) { return d.low; });
+        ohlc.yCloseValue = fc.utilities.property(function(d) { return d.close; });
+        ohlc.xValue = fc.utilities.property(function(d) { return d.date; });
 
         return ohlc;
     };

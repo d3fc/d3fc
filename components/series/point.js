@@ -36,8 +36,8 @@
         point.decorate = fc.utilities.property(fc.utilities.fn.noop);
         point.xScale = fc.utilities.property(d3.time.scale());
         point.yScale = fc.utilities.property(d3.scale.linear());
-        point.yValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        point.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        point.yValue = fc.utilities.property(function(d) { return d.close; });
+        point.xValue = fc.utilities.property(function(d) { return d.date; });
         point.radius = fc.utilities.functorProperty(5);
 
         return point;

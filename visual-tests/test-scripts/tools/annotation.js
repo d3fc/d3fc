@@ -56,7 +56,7 @@
         .padding(10);
 
     var lastCloseAnnotation = fc.tools.annotation()
-        .yValue(fc.utilities.valueAccessor('close'))
+        .yValue(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
         .padding(7)

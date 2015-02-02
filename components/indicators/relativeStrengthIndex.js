@@ -50,7 +50,7 @@
 
         rsi.xScale = fc.utilities.property(d3.time.scale());
         rsi.yScale = fc.utilities.property(d3.scale.linear());
-        rsi.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        rsi.xValue = fc.utilities.property(function(d) { return d.date; });
         rsi.writeCalculatedValue = fc.utilities.property(function(d, value) { d.rsi = value; });
         rsi.readCalculatedValue = fc.utilities.property(function(d) { return d.rsi; });
         rsi.upperValue = fc.utilities.functorProperty(70);

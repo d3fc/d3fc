@@ -64,11 +64,11 @@
         candlestick.xScale = fc.utilities.property(d3.time.scale());
         candlestick.yScale = fc.utilities.property(d3.scale.linear());
         candlestick.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
-        candlestick.yOpenValue = fc.utilities.property(fc.utilities.valueAccessor('open'));
-        candlestick.yHighValue = fc.utilities.property(fc.utilities.valueAccessor('high'));
-        candlestick.yLowValue = fc.utilities.property(fc.utilities.valueAccessor('low'));
-        candlestick.yCloseValue = fc.utilities.property(fc.utilities.valueAccessor('close'));
-        candlestick.xValue = fc.utilities.property(fc.utilities.valueAccessor('date'));
+        candlestick.yOpenValue = fc.utilities.property(function(d) { return d.open; });
+        candlestick.yHighValue = fc.utilities.property(function(d) { return d.high; });
+        candlestick.yLowValue = fc.utilities.property(function(d) { return d.low; });
+        candlestick.yCloseValue = fc.utilities.property(function(d) { return d.close; });
+        candlestick.xValue = fc.utilities.property(function(d) { return d.date; });
 
         return candlestick;
 
