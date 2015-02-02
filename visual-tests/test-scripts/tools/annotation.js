@@ -61,7 +61,7 @@
         .yScale(priceScale)
         .padding(7)
         .label(function(d) {
-            return 'Last close: ' + d3.format('.6f')(d.close);
+            return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
     var annotationDecimal = fc.tools.annotation()
@@ -74,7 +74,7 @@
                 .attr('x', dateScale.range()[1]);
         })
         .label(function(d) {
-            return 'Annotation: ' + d3.format('.3f')(d);
+            return 'Animated: ' + d3.format('.3f')(d);
         });
 
     // Add the annotations to the chart
@@ -96,9 +96,27 @@
         .datum([100.675])
         .call(annotationDecimal);
 
-    // Update an annotation
-    chartLayout.getPlotArea().select('#annotationDecimal')
-        .datum([101.975])
-        .call(annotationDecimal);
+    setInterval(function() {
+        // Update an annotation
+        chartLayout.getPlotArea()
+            .select('#annotation')
+            .datum([randomValue()])
+            .call(annotation);
+
+        // Update an annotation with a transition
+        var decimalData = [randomValue(), randomValue(), randomValue()];
+        decimalData.splice(0, Math.floor(Math.random() * 2));
+        chartLayout.getPlotArea()
+            .select('#annotationDecimal')
+            .datum(decimalData)
+            .transition()
+            .duration(2000)
+            .call(annotationDecimal);
+    }, 3000);
+
+    function randomValue() {
+        // In the range 100-102
+        return Math.random() * 2 + 100;
+    }
 
 })(d3, fc);
