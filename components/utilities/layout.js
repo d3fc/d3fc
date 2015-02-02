@@ -26,10 +26,12 @@
         function createNodes(el) {
             function getChildNodes() {
                 var children = [];
-                for (var i = 0; i < el.childElementCount; i++) {
-                    var child = el.children[i];
-                    if (child.getAttribute('layout-css')) {
-                        children.push(createNodes(child));
+                for (var i = 0; i < el.childNodes.length; i++) {
+                    var child = el.childNodes[i];
+                    if (child.nodeType === 1) {
+                        if (child.getAttribute('layout-css')) {
+                            children.push(createNodes(child));
+                        }
                     }
                 }
                 return children;
