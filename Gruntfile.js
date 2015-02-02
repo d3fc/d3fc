@@ -22,7 +22,8 @@ module.exports = function (grunt) {
             ourJsFiles: [
                 '<%= meta.componentsJsFiles %>',
                 '<%= meta.testJsFiles %>',
-                '<%= meta.visualTestJsFiles %>'
+                '<%= meta.visualTestJsFiles %>',
+                '!components/utilities/csslayout.js'
             ]
         },
 

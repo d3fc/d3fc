@@ -148,7 +148,34 @@
 
     <section>
         <h2>Utilities</h2>
-        <h3>Chart Layout</h3>
+        <h3>Layout</h3>
+
+        <div style="width: 600px; height: 350px; padding: 20px">
+            <svg id="layout-test" style="height: 100%; width: 100%; margin: 10px">
+                <g layout-css="height: 30; justifyContent: center; flexDirection: row">
+                    <text layout-css="width: 0;" text-anchor="middle" dy="1em" font-size="20">
+                        Awesome Chart Layout Example!</text>
+                </g>
+                <g layout-css="flex: 1; flexDirection: row; marginLeft: 20">
+                    <g layout-css="flex: 1;" class="plotArea">
+                        <rect layout-css="width: 150; height: 100; margin: 10; alignSelf: flex-end" fill="red"></rect>
+                    </g>
+                    <g layout-css="width: 50;" class="axis right"></g>
+                    <g layout-css="width: 30; justifyContent: center;">
+                        <g layout-css="height: 0;">
+                            <text transform="rotate(90)">Price</text>
+                        </g>
+                    </g>
+                </g>
+                <g layout-css="height: 30; flexDirection: row">
+                    <g layout-css="flex: 1; marginRight: 80; marginLeft: 20" class="axis bottom"></g>
+                </g>
+                <g layout-css="height: 30; justifyContent: center; flexDirection: row">
+                    <text layout-css="width: 0; marginRight: 80" text-anchor="middle" dy="1em">Date</text>
+                </g>
+            </svg>
+        </div>
+
         <h3>Chart Builder</h3>
         <p>The main purpose of chartBuilder is to simplify the logic required when
         resizing charts or update the data. This test resizes the chart container
@@ -181,6 +208,7 @@
     </section>
 
     <script src="../node_modules/d3/d3.js"></script>
+    <script src="../node_modules/css-layout/src/Layout.js"></script>
     <script src="../dist/d3-financial-components.js"></script>
 
     <script src="test-scripts/indicators/bollingerBands.js"></script>
@@ -208,6 +236,7 @@
     <script src="test-scripts/tools/measure.js"></script>
     <script src="test-scripts/tools/measure-1.js"></script>
 
+    <script src="test-scripts/utilities/layout.js"></script>
     <script src="test-scripts/utilities/chartBuilder.js"></script>
 
     <script src="test-scripts/functional/update.js"></script>
