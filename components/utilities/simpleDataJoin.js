@@ -15,7 +15,7 @@
 
         // update
         var updateSelection = parent.selectAll('g.' + className)
-            .data(data, dataKey || fc.utilities.fn.identity);
+            .data(data, dataKey || fc.utilities.fn.index);
 
         // enter
         // entering elements fade in (from transparent to opaque)
