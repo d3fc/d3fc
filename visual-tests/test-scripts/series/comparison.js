@@ -1,17 +1,32 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = [1, 2, 3].map(function() {
-        return fc.utilities.dataGenerator()
+    var data = [
+        fc.utilities.dataGenerator()
             .seedDate(new Date(2014, 1, 1))
-            .generate(50);
-    });
+            .generate(50),
+        fc.utilities.dataGenerator()
+            .seedDate(new Date(2013, 12, 15))
+            .generate(50)
+        ];
 
     var chartLayout = fc.utilities.chartLayout();
     var chartBuilder = fc.utilities.chartBuilder(chartLayout);
+    var zoom = d3.behavior.zoom();
 
     d3.select('#comparison')
         .call(chartBuilder);
+
+    chartLayout.getChartArea().call(zoom);
+
+    var findIndex = function(data, item, field) {
+        // Find insertion point for item in seriesData.
+        var bisect = d3.bisector(
+            function(d) {
+                return d[field];
+            }).left;
+        return bisect(data, item);
+    };
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -65,8 +80,27 @@
 
     // associate the data
     chartBuilder.setData(data);
-
     // draw stuff!
     chartBuilder.render();
+
+    // zoom stuff!
+    function zoomed() {
+        var comparisonData = [];
+        data.forEach(function(d) {
+            var leftIndex = findIndex(d, dateScale.domain()[0], 'date'),
+                rightIndex = findIndex(d, dateScale.domain()[1], 'date');
+            if (leftIndex !== 0) {
+                leftIndex -= 1; // Try to base from the data point one before the LHS of the date axis.
+            }
+            percentageChange.initialIndex(leftIndex);
+            comparisonData.push(d.slice(leftIndex, rightIndex + 1));
+            return percentageChange(d);
+        });
+        chartBuilder.setData(data);
+        priceScale.domain(fc.utilities.extent(comparisonData, ['percentageChange'])).nice();
+        chartBuilder.render();
+    }
+
+    zoom.x(dateScale).on('zoom', zoomed).scaleExtent([0.5, 3]);
 
 })(d3, fc);
