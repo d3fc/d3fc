@@ -51,7 +51,7 @@
 
     var percentageChange = fc.math.percentageChange()
         .inputValue(function(d) { return d.close; })
-        .outputValue(function(d, value) { return (d.percentageChange = value); });
+        .outputValue(function(d, value) { d.percentageChange = value; });
 
     data.forEach(percentageChange);
 
