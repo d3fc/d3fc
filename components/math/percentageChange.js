@@ -12,8 +12,7 @@
             var baseIndex = percentageChange.baseIndex.value(data);
             var baseValue = percentageChange.inputValue.value(data[baseIndex]);
 
-            return data.slice(baseIndex, data.length)
-                .map(function(d) {
+            return data.map(function(d) {
                     var result = (percentageChange.inputValue.value(d) - baseValue) / baseValue;
                     return percentageChange.outputValue.value(d, result);
                 });
