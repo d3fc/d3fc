@@ -18,10 +18,12 @@
     "grunt-jscs": "^1.0.0",
     "grunt-jsdoc": "^0.5.7",
     "matchdep": "^0.3.0",
-    "d3": "^3.5.3",
     "css-layout": "git+https://git@github.com/ColinEberhardt/css-layout.git"
   },
   "scripts": {
     "test": "grunt ci"
+  },
+  "optionalDependencies": {
+    "d3": "^3.5.3"
   }
 }
