@@ -9,17 +9,17 @@
                 return [];
             }
 
-            var initialIndex = percentageChange.initialIndex.value(data);
-            var initialValue = percentageChange.inputValue.value(data[initialIndex]);
+            var baseIndex = percentageChange.baseIndex.value(data);
+            var baseValue = percentageChange.inputValue.value(data[baseIndex]);
 
-            return data.slice(initialIndex, data.length)
+            return data.slice(baseIndex, data.length)
                 .map(function(d) {
-                    var result = (percentageChange.inputValue.value(d) - initialValue) / initialValue;
+                    var result = (percentageChange.inputValue.value(d) - baseValue) / baseValue;
                     return percentageChange.outputValue.value(d, result);
                 });
         };
 
-        percentageChange.initialIndex = fc.utilities.functorProperty(0);
+        percentageChange.baseIndex = fc.utilities.functorProperty(0);
         percentageChange.inputValue = fc.utilities.property(fc.utilities.fn.identity);
         percentageChange.outputValue = fc.utilities.property(function(obj, value) { return value; });
 

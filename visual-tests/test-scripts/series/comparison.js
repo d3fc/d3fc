@@ -51,8 +51,7 @@
 
     var percentageChange = fc.math.percentageChange()
         .inputValue(function(d) { return d.close; })
-        .outputValue(function(d, value) { return (d.percentageChange = value); })
-        .initialIndex(0);
+        .outputValue(function(d, value) { return (d.percentageChange = value); });
 
     data.forEach(percentageChange);
 
@@ -92,7 +91,7 @@
             if (leftIndex !== 0) {
                 leftIndex -= 1; // Try to base from the data point one before the LHS of the date axis.
             }
-            percentageChange.initialIndex(leftIndex);
+            percentageChange.baseIndex(leftIndex);
             comparisonData.push(d.slice(leftIndex, rightIndex + 1));
             return percentageChange(d);
         });
