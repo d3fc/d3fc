@@ -20,7 +20,7 @@
         .nice();
 
     // Create scale for y axis
-    var priceScale = fc.scale.linear()
+    var priceScale = d3.scale.linear()
         .domain(fc.utilities.extent(data, ['high', 'low']))
         .nice();
 
@@ -56,7 +56,6 @@
     chartBuilder.setAxis('right', priceAxis);
 
     // Add components to plot area
-    // TODO: #255 These indicators are conflicting
     chartBuilder.addToPlotArea([ohlc, bollinger, movingAverage]);
 
     // Set data and render
@@ -71,7 +70,7 @@
     rsiChart.call(rsiBuilder);
 
     // Create RSI scale for y axis
-    var percentageScale = fc.scale.linear()
+    var percentageScale = d3.scale.linear()
         .domain([0, 100]) // Perctange scale
         .nice();
 
@@ -90,7 +89,7 @@
         .windowSize(20);
 
     // Add the RSI component to the RSI chart
-    rsiBuilder.addToPlotArea(rsi);
+    rsiBuilder.addToPlotArea([rsi]);
 
     // Set the data and render the RSI chart
     rsiBuilder.setData(data);

@@ -28,7 +28,7 @@
         .domain(data.map(function(d) { return d.name; }))
         .rangePoints([0, chartLayout.getPlotAreaWidth()], 1);
 
-    var yScale = fc.scale.linear()
+    var yScale = d3.scale.linear()
         .domain([0, 40])
         .range([chartLayout.getPlotAreaHeight(), 0]);
 

@@ -35,7 +35,12 @@
          * @param  {array} components an array of components to add to the plot area
          */
         chartBuilder.addToPlotArea = function(components) {
-            plotAreaComponents = plotAreaComponents.concat(components);
+            components.forEach(function(component) {
+                plotAreaComponents.push({
+                    component: component,
+                    selection: null
+                });
+            });
         };
 
         /**
@@ -89,7 +94,11 @@
 
             // call each of the plot area components
             plotAreaComponents.forEach(function(component) {
-                chartLayout.getPlotArea().call(component);
+                if (component.selection == null) {
+                    component.selection = chartLayout.getPlotArea()
+                        .append('g');
+                }
+                component.selection.call(component.component);
             });
         };
 

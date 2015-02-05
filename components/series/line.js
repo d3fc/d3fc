@@ -18,19 +18,17 @@
 
             selection.each(function(data) {
 
-                var container = d3.select(this)
-                    .selectAll('.line-series')
+                var path = d3.select(this)
+                    .selectAll('path.line')
                     .data([data]);
 
-                container.enter()
-                    .append('g')
-                    .classed('line-series', true)
-                    .append('path');
+                path.enter()
+                    .append('path')
+                    .attr('class', 'line');
 
-                container.select('path')
-                    .attr('d', lineData);
+                path.attr('d', lineData);
 
-                line.decorate.value(container);
+                line.decorate.value(path);
             });
         };
 

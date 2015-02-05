@@ -11,13 +11,7 @@
 
             selection.each(function(data) {
 
-                var container = d3.select(this)
-                    .selectAll('.point-series')
-                    .data([data]);
-
-                container.enter()
-                    .append('g')
-                    .classed('point-series', true);
+                var container = d3.select(this);
 
                 var g = fc.utilities.simpleDataJoin(container, 'point', data, point.xValue.value);
 

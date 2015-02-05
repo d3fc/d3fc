@@ -18,7 +18,7 @@
         .nice();
 
     // Create scale for y axis
-    var priceScale = fc.scale.linear()
+    var priceScale = d3.scale.linear()
         .domain([0, 100]) // Perctange scale
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();
