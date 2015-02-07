@@ -14,14 +14,9 @@
 
             selection.each(function(data) {
 
-                var series = d3.select(this)
-                    .selectAll('.candlestick-series')
-                    .data([data]);
+                var container = d3.select(this);
 
-                series.enter().append('g')
-                    .attr('class', 'candlestick-series');
-
-                var g = fc.utilities.simpleDataJoin(series, 'candlestick', data, candlestick.xValue.value);
+                var g = fc.utilities.simpleDataJoin(container, 'candlestick', data, candlestick.xValue.value);
 
                 var enter = g.enter();
                 enter.append('line');

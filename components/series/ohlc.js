@@ -12,16 +12,10 @@
 
         var ohlc = function(selection) {
             selection.each(function(data) {
-                // data-join in order to create the series container element
-                var series = d3.select(this)
-                    .selectAll('.ohlc-series')
-                    .data([data]);
 
-                series.enter()
-                    .append('g')
-                    .classed('ohlc-series', true);
+                var container = d3.select(this);
 
-                var g = fc.utilities.simpleDataJoin(series, 'ohlc', data, ohlc.xValue.value);
+                var g = fc.utilities.simpleDataJoin(container, 'ohlc', data, ohlc.xValue.value);
 
                 g.enter()
                     .append('path');

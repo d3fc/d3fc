@@ -20,7 +20,7 @@
         .nice();
 
     // Create scale for y axis
-    var priceScale = fc.scale.linear()
+    var priceScale = d3.scale.linear()
         .domain([90, 110])
         .nice();
 

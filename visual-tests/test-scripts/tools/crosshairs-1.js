@@ -29,7 +29,7 @@
         .nice();
 
     // Create scale for y axis
-    var priceScale = fc.scale.linear()
+    var priceScale = d3.scale.linear()
         .domain([priceFrom, priceTo])
         .range([chartLayout.getPlotAreaHeight(), 0])
         .nice();

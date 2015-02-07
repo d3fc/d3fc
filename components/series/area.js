@@ -20,19 +20,17 @@
 
             selection.each(function(data) {
 
-                var container = d3.select(this)
-                    .selectAll('.area-series')
+                var path = d3.select(this)
+                    .selectAll('path.area')
                     .data([data]);
 
-                container.enter()
-                    .append('g')
-                    .classed('area-series', true)
-                    .append('path');
+                path.enter()
+                    .append('path')
+                    .attr('class', 'area');
 
-                container.select('path')
-                    .attr('d', areaData);
+                path.attr('d', areaData);
 
-                area.decorate.value(container);
+                area.decorate.value(path);
             });
         };
 

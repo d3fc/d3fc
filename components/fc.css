@@ -18,3 +18,13 @@
 .axis text { 
   font: 10px sans-serif; 
 }
+
+.gridlines { 
+  stroke: #ccc;
+  stroke-width: 1.0;
+}
+
+.chartArea rect.background {
+  stroke: #eee;
+  fill: #fefefe;
+}

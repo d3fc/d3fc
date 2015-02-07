@@ -11,7 +11,6 @@
   fill: #6c0;
 }
 
-/* OHLC Styles */
 .ohlc>path {
   stroke: #000;
 }
@@ -22,49 +21,18 @@
   stroke: #6c0;
 }
 
-/* Comparison Styles */
-.comparison-series .line {
-    stroke: #000;
-    fill: none;
-}
-.comparison-series .line0 {
-    stroke: #1f77b4;
-    fill: none;
-}
-.comparison-series .line1 {
-    stroke: #ff7f0e;
-    fill: none;
-}
-.comparison-series .line2 {
-    stroke: #2ca02c;
-    fill: none;
-}
-.comparison-series .line3 {
-    stroke: #d62728;
-    fill: none;
-}
-.comparison-series .line4 {
-    stroke: #9467bd;
-    fill: none;
-}
-
-/* Line Series Styles */
-.line-series>path {
+path.line {
   fill: none;
   stroke: #06c;
 }
 
-.area-series>path {
+path.area {
   fill: #9cf;
   fill-opacity: 0.5;
 }
 
-.point-series>.point>circle {
+.point>circle {
   stroke: #06c;
   fill: #9cf;
   fill-opacity: 0.5;
-}
-
-[class$="-series"] * {
-    vector-effect: non-scaling-stroke;
 }

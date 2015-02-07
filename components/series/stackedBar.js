@@ -43,12 +43,7 @@
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
-                container = d3.select(this)
-                    .selectAll('.stacked-bar-series')
-                    .data([data]);
-                container.enter()
-                    .append('g')
-                    .classed('stacked-bar-series', true);
+                container = d3.select(this);
 
                 var keyFunction = function(d) {
                     return d[stackedBar.xValueKey.value];

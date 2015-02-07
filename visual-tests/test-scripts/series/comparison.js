@@ -34,7 +34,7 @@
         .nice();
 
     // Create scale for y axis
-    var priceScale = fc.scale.linear()
+    var priceScale = d3.scale.linear()
         .domain(fc.utilities.extent(data, ['high', 'low']))
         .nice();
 
