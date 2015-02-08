@@ -5,6 +5,26 @@
         return dateTimeScale();
     };
 
+    // obtains the ticks from the given scale, transforming the result to ensure
+    // it does not include any discontinuities
+    fc.scale.dateTime.tickTransformer = function(ticks, discontinuityProvider, domain) {
+        var clampedTicks = ticks.map(function(tick, index) {
+            if (index < ticks.length - 1) {
+                return discontinuityProvider.clampUp(tick);
+            } else {
+                var clampedTick = discontinuityProvider.clampUp(tick);
+                return clampedTick < domain[1] ?
+                    clampedTick : discontinuityProvider.clampDown(tick);
+            }
+        });
+        var uniqueTicks = clampedTicks.reduce(function(arr, tick) {
+            if (arr.filter(function(f) { return f.getTime() === tick.getTime(); }).length === 0) {
+                arr.push(tick);
+            }
+            return arr;
+        }, []);
+        return uniqueTicks;
+    };
 
     /**
     * The `fc.scale.dateTime` scale renders a discontinuous date time scale, i.e. a time scale that incorporates gaps.
@@ -70,23 +90,8 @@
         };
 
         scale.ticks = function() {
-            var ticks = adaptedScale.ticks();
-            var clampedTicks = ticks.map(function(tick, index) {
-                if (index < ticks.length - 1) {
-                    return discontinuities().clampUp(tick);
-                } else {
-                    var clampedTick = discontinuities().clampUp(tick);
-                    return clampedTick < scale.domain()[1] ?
-                        clampedTick : discontinuities().clampDown(tick);
-                }
-            });
-            var uniqueTicks = clampedTicks.reduce(function(arr, tick) {
-                if (arr.filter(function(f) { return f.getTime() === tick.getTime(); }).length === 0) {
-                    arr.push(tick);
-                }
-                return arr;
-            }, []);
-            return uniqueTicks;
+            var ticks = adaptedScale.ticks.apply(this, arguments);
+            return fc.scale.dateTime.tickTransformer(ticks, discontinuities(), scale.domain());
         };
 
         scale.copy = function() {
