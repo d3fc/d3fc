@@ -21,6 +21,27 @@
             expect(clone.domain()[1]).toEqual(end);
         });
 
+        describe('tick calculations', function() {
+
+            it('should ensure ticks are not within discontinuities', function() {
+                var start = new Date(2015, 0, 9); // friday
+                var end = new Date(2015, 0, 12); // monday
+
+                var dateTime = fc.scale.dateTime()
+                    .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
+                    .range([0, 100])
+                    .domain([start, end]);
+
+                var ticks = dateTime.ticks();
+                expect(ticks.length).toEqual(5);
+
+                var weekendTicks = ticks.filter(function(tick) {
+                    return tick.getDay() === 0 || tick.getDay() === 6;
+                });
+                expect(weekendTicks.length).toEqual(0);
+            });
+        });
+
         describe('without discontinuities', function() {
 
             var range = [0, 100];

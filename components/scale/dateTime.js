@@ -60,6 +60,35 @@
             return scale;
         };
 
+        scale.nice = function() {
+            adaptedScale.nice();
+            var domain = adaptedScale.domain();
+            var domainLower = discontinuities().clampUp(domain[0]);
+            var domainUpper = discontinuities().clampDown(domain[1]);
+            adaptedScale.domain([domainLower, domainUpper]);
+            return scale;
+        };
+
+        scale.ticks = function() {
+            var ticks = adaptedScale.ticks();
+            var clampedTicks = ticks.map(function(tick, index) {
+                if (index < ticks.length - 1) {
+                    return discontinuities().clampUp(tick);
+                } else {
+                    var clampedTick = discontinuities().clampUp(tick);
+                    return clampedTick < scale.domain()[1] ?
+                        clampedTick : discontinuities().clampDown(tick);
+                }
+            });
+            var uniqueTicks = clampedTicks.reduce(function(arr, tick) {
+                if (arr.filter(function(f) { return f.getTime() === tick.getTime(); }).length === 0) {
+                    arr.push(tick);
+                }
+                return arr;
+            }, []);
+            return uniqueTicks;
+        };
+
         scale.copy = function() {
             return dateTimeScale(adaptedScale.copy(), discontinuities().copy());
         };
@@ -67,7 +96,7 @@
         scale.discontinuityProvider = fc.utilities.property(discontinuityProvider);
 
         return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp',
-            'nice', 'ticks', 'tickFormat');
+            'tickFormat');
     }
 
 }(d3, fc));
