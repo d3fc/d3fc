@@ -132,7 +132,8 @@ module.exports = function (grunt) {
                 specs: '<%= meta.testJsFiles %>',
                 vendor: [
                     'node_modules/d3/d3.js',
-                    'http://d3js.org/d3.v3.js'
+                    'http://d3js.org/d3.v3.js',
+                    'node_modules/css-layout/src/Layout.js'
                 ]
             },
             test: {
