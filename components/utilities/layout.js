@@ -2,6 +2,30 @@
 (function(d3, fc) {
     'use strict';
 
+
+    d3.selection.prototype.layout = function(name, value) {
+        var n = arguments.length;
+        if (n === 2) {
+            this.attr('layout-css', name + ':' + value);
+        } else if (n === 1) {
+            if (typeof name !== 'string') {
+                var styleObject = name;
+                var layoutCss = Object.keys(styleObject)
+                    .map(function(property) {
+                        return property + ':' + styleObject[property];
+                    })
+                    .join(';');
+                this.attr('layout-css', layoutCss);
+            } else {
+                return this.attr('layout-' + name);
+            }
+        } else if (n === 0) {
+            var layout = fc.utilities.layout();
+            this.call(layout);
+        }
+        return this;
+    };
+
     fc.utilities.layout = function() {
 
         // parses the style attribute, converting it into a JavaScript object
