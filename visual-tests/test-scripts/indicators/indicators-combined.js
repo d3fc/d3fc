@@ -1,11 +1,8 @@
 (function(d3, fc) {
     'use strict';
 
-    var dataGenerator = fc.utilities.dataGenerator()
-        .seedDate(new Date(2014, 1, 1))
-        .randomSeed('12345');
-
-    var data = dataGenerator.generate(50);
+    var generator = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1));
+    var data = generator(50);
 
     // Create the main chart
     var chart = d3.select('#indicators-combined'),
@@ -97,7 +94,7 @@
 
     // Update the data and chart (1 second interval)
     setInterval(function() {
-        data.push(dataGenerator.generate(1)[0]);
+        data.push(generator(1)[0]);
         data.shift();
 
         // Update main chart

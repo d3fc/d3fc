@@ -2,11 +2,7 @@
     'use strict';
 
     var form = document.forms['fan-form'];
-
-    var data = fc.utilities.dataGenerator()
-        .seedDate(new Date(2014, 1, 1))
-        .randomSeed('12345')
-        .generate(50);
+    var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
     var chart = d3.select('#fan'),
         chartLayout = fc.utilities.chartLayout();

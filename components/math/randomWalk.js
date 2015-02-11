@@ -3,10 +3,10 @@
 
     fc.math.randomWalk = function(years, steps, mu, sigma, initial) {
         var randomNormal = d3.random.normal(),
-                timeStep = years / steps,
-                increments = new Array(steps);
+            timeStep = years / steps,
+            increments = new Array(steps);
 
-        // Compute step increments using a discretized GBM model.
+        // Compute step increments for the discretized GBM model.
         for (var i = 0; i < steps; i += 1) {
             var r = randomNormal();
             r *= Math.sqrt(timeStep);
@@ -14,8 +14,6 @@
             r += (mu - ((sigma * sigma) / 2)) * timeStep;
             increments[i] = Math.exp(r);
         }
-        console.log(increments);
-
         // Return the cumulative product of increments from initial value.
         increments[0] *= initial;
         for (i = 1; i < steps; i += 1) {

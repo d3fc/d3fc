@@ -3,35 +3,30 @@
 
     fc.utilities.dataGenerator = function() {
 
-        var mu = 0.1,
-            sigma = 0.1,
-            startingPrice = 100,
+        var startingPrice = 100,
             startingVolume = 100000,
-            intraDaySteps = 50,
+            stepsPerDay = 50,
             volumeNoiseFactor = 0.3,
-            seedDate = new Date(),
-            currentDate = new Date(seedDate.getTime()),
+            startDate = new Date(),
+            currentDate = new Date(startDate.getTime()),
             filter = function(date) {
                 return !(date.getDay() === 0 || date.getDay() === 6);
             };
 
         var generateVolumes = function(period, steps) {
-            var volumeNoiseFactor = Math.max(0, Math.min(volumeNoiseFactor, 1)),
+            var noise = Math.max(0, Math.min(volumeNoiseFactor, 1)),
                 volumes = fc.math.randomWalk(period, steps, 0, 1, startingVolume);
 
             volumes = volumes.map(function(vol) {
-                return Math.floor(vol * (1 - volumeNoiseFactor + Math.random() * volumeNoiseFactor * 2));
+                return Math.floor(vol * (1 - noise + Math.random() * noise * 2));
             });
             startingVolume = volumes[volumes.length - 1];
             return volumes;
         };
 
-        var dataGenerator = function() {};
-
-        dataGenerator.generate = function(dataCount) {
-
+        var gen = function(days) {
             var toDate = new Date(currentDate.getTime());
-            toDate.setUTCDate(toDate.getUTCDate() + dataCount);
+            toDate.setUTCDate(toDate.getUTCDate() + days);
 
             var millisecondsPerYear = 3.15569e10,
                 rangeYears = (toDate.getTime() - currentDate.getTime()) / millisecondsPerYear,
@@ -42,22 +37,24 @@
                 currentStep = 0,
                 currentIntraStep = 0;
 
-            prices = fc.math.randomWalk(rangeYears, dataCount * intraDaySteps, mu, sigma, startingPrice);
-            volume = generateVolumes(rangeYears, dataCount);
+            prices = fc.math.randomWalk(rangeYears, days * stepsPerDay,
+                gen.mu.value, gen.sigma.value, startingPrice);
+            startingPrice = prices[prices.length - 1];
+            volume = generateVolumes(rangeYears, days);
 
             var date = new Date(currentDate.getTime());
-            while (ohlcv.length < dataCount) {
+            while (ohlcv.length < days) {
                 if (!filter || filter(date)) {
-                    daySteps = prices.slice(currentIntraStep, currentIntraStep + intraDaySteps);
+                    daySteps = prices.slice(currentIntraStep, currentIntraStep + stepsPerDay);
                     ohlcv.push({
                         date: new Date(date.getTime()),
                         open: daySteps[0],
                         high: Math.max.apply({}, daySteps),
                         low: Math.min.apply({}, daySteps),
-                        close: daySteps[intraDaySteps - 1],
+                        close: daySteps[stepsPerDay - 1],
                         volume: volume[currentStep]
                     });
-                    currentIntraStep += intraDaySteps;
+                    currentIntraStep += stepsPerDay;
                     currentStep += 1;
                 }
                 date.setUTCDate(date.getUTCDate() + 1);
@@ -67,75 +64,58 @@
             return ohlcv;
         };
 
-        dataGenerator.mu = function(value) {
-            if (!arguments.length) {
-                return mu;
-            }
-            mu = value;
-            return dataGenerator;
-        };
+        gen.mu = fc.utilities.property(0.1);
+        gen.sigma = fc.utilities.property(0.1);
 
-        dataGenerator.sigma = function(value) {
-            if (!arguments.length) {
-                return sigma;
-            }
-            sigma = value;
-            return dataGenerator;
-        };
-
-        dataGenerator.startingPrice = function(value) {
+        gen.startingPrice = function(value) {
             if (!arguments.length) {
                 return startingPrice;
             }
             startingPrice = value;
-            return dataGenerator;
+            return gen;
         };
 
-        dataGenerator.startingVolume = function(value) {
+        gen.startingVolume = function(value) {
             if (!arguments.length) {
                 return startingVolume;
             }
             startingVolume = value;
-            return dataGenerator;
+            return gen;
         };
 
-        dataGenerator.intraDaySteps = function(value) {
+        gen.stepsPerDay = function(value) {
             if (!arguments.length) {
-                return intraDaySteps;
+                return stepsPerDay;
             }
-            intraDaySteps = value;
-            return dataGenerator;
+            stepsPerDay = value;
+            return gen;
         };
 
-        dataGenerator.volumeNoiseFactor = function(value) {
+        gen.volumeNoiseFactor = function(value) {
             if (!arguments.length) {
                 return volumeNoiseFactor;
             }
             volumeNoiseFactor = value;
-            return dataGenerator;
+            return gen;
         };
 
-        dataGenerator.filter = function(value) {
+        gen.filter = function(value) {
             if (!arguments.length) {
                 return filter;
             }
             filter = value;
-            return dataGenerator;
+            return gen;
         };
 
-        dataGenerator.seedDate = function(value) {
+        gen.startDate = function(value) {
             if (!arguments.length) {
-                return seedDate;
+                return startDate;
             }
-            seedDate = value;
-            return dataGenerator;
+            startDate = value;
+            return gen;
         };
 
-        dataGenerator.randomSeed = function() {
-            return dataGenerator;
-        };
-
-        return dataGenerator;
+        return gen;
     };
 
 }(fc));

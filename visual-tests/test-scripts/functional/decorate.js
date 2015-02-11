@@ -1,12 +1,10 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = fc.utilities.dataGenerator().randomSeed(12)
-        .seedDate(new Date(2014, 1, 1)).generate(20);
-    var data2 = fc.utilities.dataGenerator().randomSeed(123)
-        .seedDate(new Date(2014, 1, 1)).generate(20);
-    var data3 = fc.utilities.dataGenerator().randomSeed(1234)
-        .seedDate(new Date(2014, 1, 1)).generate(20);
+    var generator = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1));
+    var data = generator(20);
+    var data2 = generator(20);
+    var data3 = generator(20);
 
     var chartLayout = fc.utilities.chartLayout();
     var chartBuilder = fc.utilities.chartBuilder(chartLayout);
