@@ -78,7 +78,6 @@
 
                 var filtered = fc.scale.dateTime.tickTransformer(inputTicks,
                     fc.scale.discontinuity.skipWeekends(), [start, end]);
-                console.log(filtered);
                 expect(filtered[0].getDate()).toEqual(5); // monday
                 expect(filtered[1].getDate()).toEqual(9); // friday
             });
