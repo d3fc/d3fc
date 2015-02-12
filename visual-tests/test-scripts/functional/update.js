@@ -61,7 +61,11 @@
     chartBuilder.render();
 
     setInterval(function() {
-        data.push(generator(1)[0]);
+        var datum;
+        while (!datum) {
+            datum = generator(1)[0];
+        }
+        data.push(datum);
         data.shift();
         data.forEach(function(d) {
             d.low = d.low - 0.1;

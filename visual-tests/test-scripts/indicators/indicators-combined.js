@@ -94,7 +94,11 @@
 
     // Update the data and chart (1 second interval)
     setInterval(function() {
-        data.push(generator(1)[0]);
+        var datum;
+        while (!datum) {
+            datum = generator(1)[0];
+        }
+        data.push(datum);
         data.shift();
 
         // Update main chart
