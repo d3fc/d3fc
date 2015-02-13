@@ -7,27 +7,29 @@
         var x = function(d) { return bar.xScale.value(bar.xValue.value(d)); };
         var y = function(d) { return bar.yScale.value(bar.yValue.value(d)); };
 
-        var bar = function(selection) {
-            selection.each(function(data) {
+        var bar = function(container) {
+            container.each(function(data) {
                 var container = d3.select(this);
                 var series = fc.utilities.simpleDataJoin(container, 'bar', data, bar.xValue.value);
 
+                var width = bar.barWidth.value(data.map(x));
+                var translate = function(d) { return 'translate(' + (x(d) - width / 2) + ',0)'; };
+
                 // enter
+                // translate the group (child elements should be positioned relaitve to their parent group)
                 series.enter()
+                    .attr('transform', translate)
                     .append('rect');
 
-                var width = bar.barWidth.value(data.map(x));
-
                 // update
-                series.select('rect')
-                    .attr('x', function(d) {
-                        return x(d) - width / 2;
-                    })
+                series.attr('transform', translate)
+                    .select('rect')
+                    .attr('x', 0)
                     .attr('y', function(d) { return y(d); })
                     .attr('width', width)
                     .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
 
-                // properties set by decorate will transition too
+                // properties set by decorate can transition too
                 bar.decorate.value(series);
             });
         };
