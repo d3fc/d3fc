@@ -1,9 +1,8 @@
 (function(d3, fc) {
     'use strict';
 
-    var generator = fc.utilities.dataGenerator()
-        .seedDate(new Date(2014, 1, 1));
-    var data = generator.generate(20);
+    var generator = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1));
+    var data = generator(20);
 
     var chartLayout = fc.utilities.chartLayout();
     var chartBuilder = fc.utilities.chartBuilder(chartLayout);
@@ -62,7 +61,11 @@
     chartBuilder.render();
 
     setInterval(function() {
-        data.push(generator.generate(1)[0]);
+        var datum;
+        while (!datum) {
+            datum = generator(1)[0];
+        }
+        data.push(datum);
         data.shift();
         data.forEach(function(d) {
             d.low = d.low - 0.1;

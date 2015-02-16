@@ -1,9 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = fc.utilities.dataGenerator()
-        .seedDate(new Date(2014, 1, 1))
-        .generate(50);
+    var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
     var chartLayout = fc.utilities.chartLayout();
     var chartBuilder = fc.utilities.chartBuilder(chartLayout);
