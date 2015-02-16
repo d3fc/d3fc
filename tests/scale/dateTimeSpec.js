@@ -21,6 +21,68 @@
             expect(clone.domain()[1]).toEqual(end);
         });
 
+        describe('tick calculations', function() {
+            it('should ensure ticks are not within discontinuities', function() {
+                var start = new Date(2015, 0, 9); // friday
+                var end = new Date(2015, 0, 12); // monday
+
+                var dateTime = fc.scale.dateTime()
+                    .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
+                    .domain([start, end]);
+
+                var ticks = dateTime.ticks();
+                expect(ticks.length).toEqual(5);
+
+                var weekendTicks = ticks.filter(function(tick) {
+                    return tick.getDay() === 0 || tick.getDay() === 6;
+                });
+                expect(weekendTicks.length).toEqual(0);
+            });
+
+            it('should support arguments being passed to ticks', function() {
+                var start = new Date(2015, 0, 9); // friday
+                var end = new Date(2015, 0, 12); // monday
+
+                var dateTime = fc.scale.dateTime()
+                    .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
+                    .domain([start, end]);
+
+                var ticks = dateTime.ticks(100);
+                expect(ticks.length).toEqual(25);
+
+                var weekendTicks = ticks.filter(function(tick) {
+                    return tick.getDay() === 0 || tick.getDay() === 6;
+                });
+                expect(weekendTicks.length).toEqual(0);
+            });
+
+            it('should remove duplicates', function() {
+                var start = new Date(2015, 0, 6); // tuesday
+                var end = new Date(2015, 0, 9); // friday
+
+                var inputTicks = [
+                    new Date(2015, 0, 6), new Date(2015, 0, 6), // duplicates
+                    new Date(2015, 0, 7), new Date(2015, 0, 7), // duplicates
+                    new Date(2015, 0, 8)];
+
+                var filtered = fc.scale.dateTime.tickTransformer(inputTicks,
+                    fc.scale.discontinuity.skipWeekends(), [start, end]);
+                expect(filtered.length).toEqual(3);
+            });
+
+            it('should clamp both ends inwards', function() {
+                var start = new Date(2015, 0, 4); // sunday
+                var end = new Date(2015, 0, 11); // sunday
+
+                var inputTicks = [start, end];
+
+                var filtered = fc.scale.dateTime.tickTransformer(inputTicks,
+                    fc.scale.discontinuity.skipWeekends(), [start, end]);
+                expect(filtered[0].getDate()).toEqual(5); // monday
+                expect(filtered[1].getDate()).toEqual(9); // friday
+            });
+        });
+
         describe('without discontinuities', function() {
 
             var range = [0, 100];
