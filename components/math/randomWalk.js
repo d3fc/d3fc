@@ -1,9 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.math.randomWalk = function(years, steps, mu, sigma, initial) {
+    fc.math.randomWalk = function(period, steps, mu, sigma, initial) {
         var randomNormal = d3.random.normal(),
-            timeStep = years / steps,
+            timeStep = period / steps,
             increments = new Array(steps + 1),
             increment,
             step;
