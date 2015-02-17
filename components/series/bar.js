@@ -13,10 +13,12 @@
                 var series = fc.utilities.simpleDataJoin(container, 'bar', data, bar.xValue.value);
 
                 var width = bar.barWidth.value(data.map(x));
-                var translate = function(d) { return 'translate(' + (x(d) - width / 2) + ',0)'; };
+                var height = function(d) { return bar.yScale.value(0) - y(d); };
+                var translate = function(d) { return 'translate(' + x(d) + ',' + (y(d) + height(d) / 2) + ')'; };
 
                 // enter
                 // translate the group (child elements should be positioned relaitve to their parent group)
+                // the origin for each group is positioned in the centre (horizontally and vertically) of each bar
                 series.enter()
                     .attr('transform', translate)
                     .append('rect');
@@ -24,12 +26,11 @@
                 // update
                 series.attr('transform', translate)
                     .select('rect')
-                    .attr('x', 0)
-                    .attr('y', function(d) { return y(d); })
+                    .attr('x', -width / 2)
+                    .attr('y', function(d) { return -height(d) / 2; })
                     .attr('width', width)
-                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
+                    .attr('height', height);
 
-                // properties set by decorate can transition too
                 bar.decorate.value(series);
             });
         };

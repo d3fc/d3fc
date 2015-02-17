@@ -62,13 +62,20 @@
         .yValue(function(d) { return d.age; })
         .xScale(xScale)
         .yScale(yScale)
-        .decorate(function(sel) {
-            sel.select('rect')
+        .decorate(function(transition) {
+            transition.each(function() {
+                var selection = d3.select(this);
+                selection.append('path')
+                    .attr('d', d3.svg.symbol().type('cross'))
+                    .attr('fill', '#fff');
+            });
+            transition.select('rect')
                 .attr('fill', function(d, i) { return colour(d.age); });
         });
 
     // Add the bar series to the chart
-    chartLayout.getPlotArea().datum(data)
+    chartLayout.getPlotArea()
+        .datum(data)
         .transition()
         .duration(2500)
         .call(bar);
@@ -106,7 +113,8 @@
             .call(yAxis);
 
         // Update bar series
-        chartLayout.getPlotArea().datum(data)
+        chartLayout.getPlotArea()
+            .datum(data)
             .transition()
             .duration(2500)
             .call(bar);
