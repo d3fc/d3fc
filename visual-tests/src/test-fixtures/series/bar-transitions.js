@@ -63,12 +63,10 @@
         .xScale(xScale)
         .yScale(yScale)
         .decorate(function(transition) {
-            transition.each(function() {
-                var selection = d3.select(this);
-                selection.append('path')
-                    .attr('d', d3.svg.symbol().type('cross'))
-                    .attr('fill', '#fff');
-            });
+            transition.enter()
+                .append('path')
+                .attr('d', d3.svg.symbol().type('cross'))
+                .attr('fill', '#fff');
             transition.select('rect')
                 .attr('fill', function(d, i) { return colour(d.age); });
         });
