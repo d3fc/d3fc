@@ -34,6 +34,12 @@
             }
         });
 
+        var stack = fc.series.stackedBar();
+
+        var layeredData = stack.layout.value(seriesData);
+        var topLayer = layeredData[layeredData.length - 1];
+        var maxY = d3.max(topLayer, function(d) { return d.y + d.y0; });
+
         // create scales
         var x = d3.scale.ordinal()
             .domain(categories)
@@ -42,7 +48,8 @@
         var color = d3.scale.category10();
 
         var y = d3.scale.linear()
-          .domain([0, 10000000])
+          .domain([0, maxY])
+          .nice()
           .range([chartLayout.getPlotAreaHeight(), 0]);
 
         // add axes
@@ -57,8 +64,7 @@
             .ticks(5);
         chartLayout.getAxisContainer('right').call(rightAxis);
 
-        var stack = fc.series.stackedBar()
-            .xScale(x)
+        stack.xScale(x)
             .yScale(y)
             .decorate(function(sel) {
                 sel.attr('fill', function(d, i) {
