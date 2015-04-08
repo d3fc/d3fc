@@ -9,15 +9,29 @@
 
     d3.csv('stackedBarData.csv', function(error, data) {
 
-        var categories = data.slice(1).map(function(d) { return d.State; });
-        var yMax = d3.max(data, function(d) {
-            var total = 0;
-            for (var prop in d) {
-                if (prop !== 'State') {
-                    total += Number(d[prop]);
+        var categories = data.map(function(d) { return d.State; });
+
+        // Format data into a map of series key to series data & a data array to pass to our stacked-bar series.
+        var seriesMap = {};
+        var seriesData = [];
+        data.forEach(function(stateData) {
+            for (var propertyName in stateData) {
+                if (stateData.hasOwnProperty(propertyName) && propertyName !== 'State') {
+
+                    if (!seriesMap[propertyName]) {
+                        var dataArray = [];
+                        // Store the series names mapped to the data arrays.
+                        seriesMap[propertyName] = dataArray;
+                        // Store the data arrays to pass to our stackedBar series.
+                        seriesData.push(dataArray);
+                    }
+
+                    seriesMap[propertyName].push({
+                        x: stateData.State,
+                        y: parseInt(stateData[propertyName])
+                    });
                 }
             }
-            return total;
         });
 
         // create scales
@@ -28,7 +42,7 @@
         var color = d3.scale.category10();
 
         var y = d3.scale.linear()
-          .domain([0, yMax])
+          .domain([0, 10000000])
           .range([chartLayout.getPlotAreaHeight(), 0]);
 
         // add axes
@@ -44,17 +58,18 @@
         chartLayout.getAxisContainer('right').call(rightAxis);
 
         var stack = fc.series.stackedBar()
-          .xScale(x)
-          .xValueKey('State')
-          .yScale(y)
-          .decorate(function(sel) {
-              sel.attr('fill', function(d, i) { return color(i); });
-          });
+            .xScale(x)
+            .yScale(y)
+            .decorate(function(sel) {
+                sel.attr('fill', function(d, i) {
+                    return color(i);
+                });
+            });
 
         chartLayout.getPlotArea(chart)
           .append('g')
           .attr('class', 'series')
-          .datum(data.slice(1))
+          .datum(seriesData)
           .call(stack);
 
         function findClosest(arr, minimize) {
@@ -84,7 +99,7 @@
             var nearestXIndex = findClosest(x.range(), function(arr, index) {
                 return Math.abs(arr[index] - xPixel);
             });
-            var datum = data[nearestXIndex + 1];
+            var datum = data[nearestXIndex];
 
             // create an array of y pixel locations for each stacked bar
             var keys = Object.keys(datum).filter(function(p) { return p !== 'State'; });

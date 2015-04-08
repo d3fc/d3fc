@@ -6,77 +6,35 @@
         var stackedBar = function(selection) {
             var container;
 
-            // takes an object with values associated with each property, and
-            // converts it into an array of values. Each value has the xValue associated
-            // with it.
-            //
-            // For example, this object:
-            //
-            // obj = { county: 'North Tyneside', labour: 23, conservative: 55 }
-            //
-            // becomes this ...
-            //
-            // [
-            //   { xValue: 'North Tyneside', name: 'labour', previousValue: 0, currentValue: 23},
-            //   { xValue: 'North Tyneside', name: 'conservative', previousValue: 23, currentValue: 78},
-            // ]
-            function objectDatapointToArray(obj) {
-                var values = [];
-                var yTotal = 0;
-                var xVal = obj[stackedBar.xValueKey.value];
-                for (var propertyName in obj) {
-                    if (obj.hasOwnProperty(propertyName) && propertyName !== stackedBar.xValueKey.value) {
-                        var previous = yTotal;
-                        yTotal += Number(obj[propertyName]);
-                        values.push({
-                            'name': propertyName,
-                            'previousValue': previous,
-                            'currentValue': yTotal,
-                            'xValue': xVal
-                        });
-                    }
-                }
-                return values;
-            }
-
             selection.each(function(data) {
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
                 container = d3.select(this);
 
-                var keyFunction = function(d) {
-                    return d[stackedBar.xValueKey.value];
-                };
-                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', data, keyFunction);
+                var layers = layout(data);
 
+                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
 
-                // create a join for each bar
+                stackedBar.decorate.value(g);
+
                 var bar = g.selectAll('rect')
-                    .data(function(d) { return objectDatapointToArray(d); })
+                    .data(function(d) { return d; })
                     .enter()
                     .append('rect');
 
-                // compute the bar width from the x values
-                var xValues = data.map(function(d) {
-                    return stackedBar.xScale.value(d[stackedBar.xValueKey.value]);
-                });
+                // Compute the bar width from the x values
+                // Assumes first series contains all possible X values.
+                var xValues = data[0].map(function(d) { return stackedBar.xScale.value(d.x); });
                 var width = stackedBar.barWidth.value(xValues);
 
                 // update
-                bar.attr('x', function(d) {
-                        return stackedBar.xScale.value(d.xValue) - width / 2; }
-                    )
-                    .attr('y', function(d) {
-                        return stackedBar.yScale.value(d.currentValue); }
-                    )
+                bar.attr('x', function(d) { return stackedBar.xScale.value(d.x) - width / 2; })
+                    .attr('y', function(d) { return stackedBar.yScale.value(d.y + d.y0); })
                     .attr('width', width)
                     .attr('height', function(d) {
-                        return stackedBar.yScale.value(d.previousValue) - stackedBar.yScale.value(d.currentValue);
+                        return stackedBar.yScale.value(d.y0) - stackedBar.yScale.value(d.y + d.y0);
                     });
-
-                stackedBar.decorate.value(bar);
-
             });
         };
 
@@ -88,7 +46,7 @@
 
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
-        stackedBar.xValueKey = fc.utilities.property('name');
+        var layout = d3.layout.stack().offset('zero');
 
         return stackedBar;
     };
