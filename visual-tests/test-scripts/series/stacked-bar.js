@@ -36,8 +36,9 @@
 
         var stack = fc.series.stackedBar();
 
-        var layeredData = stack.layout.value(seriesData);
-        var topLayer = layeredData[layeredData.length - 1];
+        // Manually compute stacked data - use this to calculate the max Y domain.
+        stack.stackedData(stack.layout.value(seriesData));
+        var topLayer = stack.stackedData.value[stack.stackedData.value.length - 1];
         var maxY = d3.max(topLayer, function(d) { return d.y + d.y0; });
 
         // create scales
