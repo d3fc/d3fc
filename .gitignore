@@ -2,3 +2,4 @@ doc
 dist
 node_modules
 .*
+visual-tests/dist

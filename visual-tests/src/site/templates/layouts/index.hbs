@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{> header }}
+    <link href="{{assets}}/index.css" rel="stylesheet">
+  </head>
+  <body>
+    {{> index-top-navbar }}
+    <div id="main" class="container">
+      <div class="row">
+        <div class="col-md-10">
+          {{> body }}
+          <section id="tests">
+            {{> index-test-list }}
+          </section>
+        </div>
+        <div class="col-md-2 hidden-xs hidden-sm hidden-print">
+          {{> index-sidebar-nav }}
+        </div>
+      </div>
+    </div>
+    <footer>
+      <script src="{{assets}}/jquery.min.js"></script>
+      <script src="{{assets}}/bootstrap/js/bootstrap.min.js"></script>
+      {{> footer }}
+      <script src="{{assets}}/index.js"></script>
+    </footer>
+  </body>
+</html>

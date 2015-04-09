@@ -1,10 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
-    var form = document.forms['crosshairs-1-form'];
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
-    var chart = d3.select('#crosshairs-1'),
+    var chart = d3.select('#crosshairs'),
         chartLayout = fc.utilities.chartLayout();
 
     chart.call(chartLayout);
@@ -66,40 +65,27 @@
     var crosshairs = fc.tools.crosshairs()
         .xScale(dateScale)
         .yScale(priceScale)
-        .on('trackingstart', function(d) {
-            form.eventlog.value = 'trackingstart ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
-        })
-        .on('trackingmove', function(d) {
-            form.eventlog.value = 'trackingmove ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
-        })
-        .on('trackingend', function() {
-            form.eventlog.value = 'trackingend\n' + form.eventlog.value;
+        .snap(fc.utilities.seriesPointSnap(bar, data))
+        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
+        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
+        .padding(8)
+        .decorate(function(selection) {
+            selection.enter()
+                .append('rect')
+                .attr('class', 'example')
+                .attr('width', 50)
+                .attr('height', 50)
+                .style('opacity', 0.5);
+            selection.select('rect.example')
+                .attr('x', function(d) { return d.x - 25; })
+                .attr('y', function(d) { return d.y - 25; })
+                .style('fill', function(d) { return color(d.datum ? d.datum.date.getDay() : 0); });
         });
 
     // Add it to the chart
-    var container = chartLayout.getPlotArea()
+    chartLayout.getPlotArea()
         .append('g')
         .attr('class', 'crosshairs-container')
-        .on('click', function(d) {
-            d.push(d[0]);
-        })
         .call(crosshairs);
-
-    d3.select(form.clear)
-        .on('click', function() {
-            container.datum([])
-                .call(crosshairs);
-            d3.event.preventDefault();
-        });
-
-    d3.select(form.pointerevents)
-        .on('click', function() {
-            container.style('pointer-events', this.checked ? 'all' : 'none');
-        });
-
-    d3.select(form.display)
-        .on('click', function() {
-            container.style('display', this.checked ? '' : 'none');
-        });
 
 })(d3, fc);

@@ -1,0 +1,21 @@
+---
+title: Fibonacci Fan
+description: "Demonstrates basic fan functionality: snapping, events and decoration."
+categories: tools
+tags:
+- fibonacci fan
+- bar
+testScripts:
+- fibonacciFan.js
+---
+
+<div style="display:flex;height:300px">
+  <div id="fan" style="flex:1"></div>
+  <form id="fan-form" style="width:200px">
+    <p>Container</p>
+    <label>pointer-events (all/none)<input name="pointerevents" type="checkbox" checked/></label>
+    <label>display (inherit/none)<input name="display" type="checkbox" checked/></label>
+    <button name="clear">clear</button>
+    <textarea name="eventlog" style="display:block;width:200px;height:200px"></textarea>
+  </form>
+</div>
