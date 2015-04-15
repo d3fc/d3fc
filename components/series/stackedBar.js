@@ -12,11 +12,7 @@
                 // that it is just added once
                 container = d3.select(this);
 
-                // If the user has already set stacked data then we don't need to re-compute it.
-                var layers = stackedBar.stackedData.value;
-                if (typeof layers === 'undefined' || layers.length === 0) {
-                    layers = stackedBar.layout.value(data);
-                }
+                var layers = stackedBar.layout.value(data);
 
                 var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
 
@@ -51,8 +47,6 @@
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
         stackedBar.layout = fc.utilities.property(d3.layout.stack().offset('zero'));
-
-        stackedBar.stackedData = fc.utilities.property([]);
 
         return stackedBar;
     };
