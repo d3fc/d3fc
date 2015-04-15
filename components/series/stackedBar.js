@@ -12,7 +12,7 @@
                 // that it is just added once
                 container = d3.select(this);
 
-                var layers = stackedBar.layout.value(data);
+                var layers = stackLayout(data);
 
                 var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
 
@@ -45,9 +45,8 @@
         stackedBar.xScale = fc.utilities.property(d3.time.scale());
 
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
-
-        stackedBar.layout = fc.utilities.property(d3.layout.stack().offset('zero'));
-
-        return stackedBar;
+        
+        var stackLayout = d3.layout.stack().offset('zero');
+        return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
     };
 }(d3, fc));
