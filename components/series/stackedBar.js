@@ -25,15 +25,23 @@
 
                 // Compute the bar width from the x values
                 // Assumes first series contains all possible X values.
-                var xValues = data[0].map(function(d) { return stackedBar.xScale.value(d.x); });
+                var xValues = data[0].map(function(d) { return stackedBar.xScale.value(stackLayout.x()(d)); });
                 var width = stackedBar.barWidth.value(xValues);
 
                 // update
-                bar.attr('x', function(d) { return stackedBar.xScale.value(d.x) - width / 2; })
-                    .attr('y', function(d) { return stackedBar.yScale.value(d.y + d.y0); })
+                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
+                    .attr('y', function(d) {
+                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.getBaseline.value(d));
+                    })
                     .attr('width', width)
                     .attr('height', function(d) {
-                        return stackedBar.yScale.value(d.y0) - stackedBar.yScale.value(d.y + d.y0);
+                        var baselineValue = stackedBar.getBaseline.value(d);
+                        var topValue = stackedBar.y()(d);
+
+                        var bottomPixel = stackedBar.yScale.value(baselineValue);
+                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
+                        
+                        return bottomPixel - topPixel;
                     });
             });
         };
@@ -45,7 +53,12 @@
         stackedBar.xScale = fc.utilities.property(d3.time.scale());
 
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
-        
+
+        // Implicitly dependant on the implementation of the stack layout's `out`.
+        stackedBar.getBaseline = fc.utilities.property(function(d) {
+            return d.y0;
+        });
+
         var stackLayout = d3.layout.stack().offset('zero');
         return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
     };
