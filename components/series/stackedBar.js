@@ -19,7 +19,7 @@
                 stackedBar.decorate.value(g);
 
                 var bar = g.selectAll('rect')
-                    .data(function(d) { return d; })
+                    .data(fc.utilities.fn.identity)
                     .enter()
                     .append('rect');
 
