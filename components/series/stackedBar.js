@@ -19,14 +19,13 @@
                 stackedBar.decorate()(g);
 
                 var bar = g.selectAll('rect')
-                    .data(fc.utilities.fn.identity)
+                    .data(function(d) { return stackLayout.values()(d); })
                     .enter()
                     .append('rect');
 
-                // Compute the bar width from the x values
-                // Assumes first series contains all possible X values.
-                var xValues = data[0].map(function(d) { return stackedBar.xScale()(stackLayout.x()(d)); });
-                var width = stackedBar.barWidth()(xValues);
+                var xValues = stackedBar.xScale().domain();
+                var xPositions = xValues.map(function(d) { return stackedBar.xScale()(d); });
+                var width = stackedBar.barWidth()(xPositions);
 
                 // update
                 bar.attr('x', function(d) { return stackedBar.xScale()(stackLayout.x()(d)) - width / 2; })

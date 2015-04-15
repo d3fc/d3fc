@@ -9,41 +9,50 @@
 
     d3.csv('stackedBarData.csv', function(error, data) {
 
-        var categories = data.map(function(d) { return d.State; });
-
-        // Format data into a map of series key to series data & a data array to pass to our stacked-bar series.
-        var seriesMap = {};
-        var seriesData = [];
-        data.forEach(function(stateData) {
-            for (var propertyName in stateData) {
-                if (stateData.hasOwnProperty(propertyName) && propertyName !== 'State') {
-
-                    if (!seriesMap[propertyName]) {
-                        var dataArray = [];
-                        // Store the series names mapped to the data arrays.
-                        seriesMap[propertyName] = dataArray;
-                        // Store the data arrays to pass to our stackedBar series.
-                        seriesData.push(dataArray);
-                    }
-
-                    seriesMap[propertyName].push({
-                        x: stateData.State,
-                        y: parseInt(stateData[propertyName])
-                    });
-                }
-            }
+        // Collect all series keys.
+        var seriesKeys = data.reduce(function(previous, current) {
+            var currentKeys = fc.utilities.object.keys(current).filter(function(element) { 
+                return element !== 'State';
+            });
+            return previous.concat(currentKeys);
+        }, []);
+        seriesKeys = d3.set(seriesKeys).values();
+        
+        // Create an array of series objects.
+        var series = seriesKeys.map(function(element) {
+            return { name: element, data: [] };
         });
 
-        var stack = fc.series.stackedBar();
+        // Populate those series objects with data objects.
+        var series = data.reduce(function(series, current) {
+            series.forEach(function(element) {
+                element.data.push({
+                    state: current.State,
+                    value: parseFloat(current[element.name])
+                });
+            });
 
-        // Manually compute stacked data - use this to calculate the max Y domain.
-        var stackedData = d3.layout.stack().offset('zero')(seriesData);
+            return series;
+        }, series);
+
+        // Collect the X values.
+        var xCategories = series.reduce(function(previous, current) {
+            return previous.concat(current.data.map(function(element) { return element.state; }));
+        }, []);
+        xCategories = d3.set(xCategories).values();
+
+        var stackedData = d3.layout.stack()
+            .offset('zero')
+            .values(function(d) { return d.data; })
+            .x(function(d) { return d.state; })
+            .y(function(d) { return d.value; })
+            (series);
         var topLayer = stackedData[stackedData.length - 1];
-        var maxY = d3.max(topLayer, function(d) { return d.y + d.y0; });
+        var maxY = d3.max(topLayer.data, function(d) { return d.y + d.y0; });
 
         // create scales
         var x = d3.scale.ordinal()
-            .domain(categories)
+            .domain(xCategories)
             .rangePoints([0, chartLayout.getPlotAreaWidth()], 1);
 
         var color = d3.scale.category10();
@@ -65,8 +74,12 @@
             .ticks(5);
         chartLayout.getAxisContainer('right').call(rightAxis);
 
-        stack.xScale(x)
+        var stack = fc.series.stackedBar()
+            .xScale(x)
             .yScale(y)
+            .values(function(d) { return d.data; })
+            .x(function(d) { return d.state; })
+            .y(function(d) { return d.value; })
             .decorate(function(sel) {
                 sel.attr('fill', function(d, i) {
                     return color(i);
@@ -76,7 +89,7 @@
         chartLayout.getPlotArea(chart)
           .append('g')
           .attr('class', 'series')
-          .datum(seriesData)
+          .datum(series)
           .call(stack);
 
         function findClosest(arr, minimize) {
