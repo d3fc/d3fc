@@ -40,7 +40,7 @@
 
                         var bottomPixel = stackedBar.yScale.value(baselineValue);
                         var topPixel = stackedBar.yScale.value(topValue + baselineValue);
-                        
+
                         return bottomPixel - topPixel;
                     });
             });
@@ -59,7 +59,7 @@
             return d.y0;
         });
 
-        var stackLayout = d3.layout.stack().offset('zero');
+        var stackLayout = d3.layout.stack();
         return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
     };
 }(d3, fc));
