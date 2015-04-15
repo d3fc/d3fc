@@ -16,7 +16,7 @@
 
                 var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
 
-                stackedBar.decorate.value(g);
+                stackedBar.decorate()(g);
 
                 var bar = g.selectAll('rect')
                     .data(fc.utilities.fn.identity)
@@ -25,21 +25,21 @@
 
                 // Compute the bar width from the x values
                 // Assumes first series contains all possible X values.
-                var xValues = data[0].map(function(d) { return stackedBar.xScale.value(stackLayout.x()(d)); });
-                var width = stackedBar.barWidth.value(xValues);
+                var xValues = data[0].map(function(d) { return stackedBar.xScale()(stackLayout.x()(d)); });
+                var width = stackedBar.barWidth()(xValues);
 
                 // update
-                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
+                bar.attr('x', function(d) { return stackedBar.xScale()(stackLayout.x()(d)) - width / 2; })
                     .attr('y', function(d) {
-                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.getBaseline.value(d));
+                        return stackedBar.yScale()(stackLayout.y()(d) + stackedBar.getBaseline()(d));
                     })
                     .attr('width', width)
                     .attr('height', function(d) {
-                        var baselineValue = stackedBar.getBaseline.value(d);
+                        var baselineValue = stackedBar.getBaseline()(d);
                         var topValue = stackedBar.y()(d);
 
-                        var bottomPixel = stackedBar.yScale.value(baselineValue);
-                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
+                        var bottomPixel = stackedBar.yScale()(baselineValue);
+                        var topPixel = stackedBar.yScale()(topValue + baselineValue);
 
                         return bottomPixel - topPixel;
                     });
