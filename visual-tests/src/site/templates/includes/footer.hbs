@@ -1,0 +1,12 @@
+<script src="{{ assets }}/d3.js"></script>
+<script src="{{ assets }}/Layout.js"></script>
+<script src="{{ assets }}/d3-financial-components.js"></script>
+{{#unless notATest}}
+  {{#each testScripts}}
+    <script src="{{ . }}"></script>
+  {{else}}
+    <!-- No Scripts specified in YAML front-matter for test -->
+    <script>console.warn('No script(s) specified in YAML front-matter for test');</script>
+  {{/each}}
+{{/unless}}
+<script src="//localhost:35729/livereload.js"></script>

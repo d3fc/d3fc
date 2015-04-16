@@ -1,10 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
-    var form = document.forms['crosshairs-1-form'];
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
-    var chart = d3.select('#crosshairs-1'),
+    var chart = d3.select('#measure'),
         chartLayout = fc.utilities.chartLayout();
 
     chart.call(chartLayout);
@@ -62,44 +61,36 @@
         .datum(data)
         .call(bar);
 
-    // Create a crosshairs tool
-    var crosshairs = fc.tools.crosshairs()
+    // Create a measure tool
+    var measure = fc.tools.measure()
         .xScale(dateScale)
         .yScale(priceScale)
-        .on('trackingstart', function(d) {
-            form.eventlog.value = 'trackingstart ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
+        .snap(fc.utilities.seriesPointSnap(bar, data))
+        .padding(10)
+        .xLabel(function(d) {
+            return !(d.source && d.target) ? '' :
+            d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
         })
-        .on('trackingmove', function(d) {
-            form.eventlog.value = 'trackingmove ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
+        .yLabel(function(d) {
+            return !(d.source && d.target) ? '' :
+                d3.format('.2f')(d.target.datum.close - d.source.datum.close);
         })
-        .on('trackingend', function() {
-            form.eventlog.value = 'trackingend\n' + form.eventlog.value;
+        .decorate(function(selection) {
+            selection.enter()
+                .append('circle')
+                .attr('r', 6)
+                .style('stroke', 'black')
+                .style('fill', 'none');
+            selection.select('circle')
+                .attr('cx', function(d) { return d.target ? d.target.x : 0; })
+                .attr('cy', function(d) { return d.target ? d.target.y : 0; })
+                .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
         });
 
     // Add it to the chart
-    var container = chartLayout.getPlotArea()
+    chartLayout.getPlotArea()
         .append('g')
-        .attr('class', 'crosshairs-container')
-        .on('click', function(d) {
-            d.push(d[0]);
-        })
-        .call(crosshairs);
-
-    d3.select(form.clear)
-        .on('click', function() {
-            container.datum([])
-                .call(crosshairs);
-            d3.event.preventDefault();
-        });
-
-    d3.select(form.pointerevents)
-        .on('click', function() {
-            container.style('pointer-events', this.checked ? 'all' : 'none');
-        });
-
-    d3.select(form.display)
-        .on('click', function() {
-            container.style('display', this.checked ? '' : 'none');
-        });
+        .attr('class', 'measure-container')
+        .call(measure);
 
 })(d3, fc);

@@ -3,7 +3,7 @@
 
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
-    var chart = d3.select('#measure'),
+    var chart = d3.select('#crosshairs'),
         chartLayout = fc.utilities.chartLayout();
 
     chart.call(chartLayout);
@@ -61,36 +61,31 @@
         .datum(data)
         .call(bar);
 
-    // Create a measure tool
-    var measure = fc.tools.measure()
+    // Create a crosshairs tool
+    var crosshairs = fc.tools.crosshairs()
         .xScale(dateScale)
         .yScale(priceScale)
         .snap(fc.utilities.seriesPointSnap(bar, data))
-        .padding(10)
-        .xLabel(function(d) {
-            return !(d.source && d.target) ? '' :
-                d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
-        })
-        .yLabel(function(d) {
-            return !(d.source && d.target) ? '' :
-                d3.format('.2f')(d.target.datum.close - d.source.datum.close);
-        })
+        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
+        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
+        .padding(8)
         .decorate(function(selection) {
             selection.enter()
-                .append('circle')
-                .attr('r', 6)
-                .style('stroke', 'black')
-                .style('fill', 'none');
-            selection.select('circle')
-                .attr('cx', function(d) { return d.target ? d.target.x : 0; })
-                .attr('cy', function(d) { return d.target ? d.target.y : 0; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
+                .append('rect')
+                .attr('class', 'example')
+                .attr('width', 50)
+                .attr('height', 50)
+                .style('opacity', 0.5);
+            selection.select('rect.example')
+                .attr('x', function(d) { return d.x - 25; })
+                .attr('y', function(d) { return d.y - 25; })
+                .style('fill', function(d) { return color(d.datum ? d.datum.date.getDay() : 0); });
         });
 
     // Add it to the chart
     chartLayout.getPlotArea()
         .append('g')
-        .attr('class', 'measure-container')
-        .call(measure);
+        .attr('class', 'crosshairs-container')
+        .call(crosshairs);
 
 })(d3, fc);

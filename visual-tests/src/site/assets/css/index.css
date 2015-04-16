@@ -1,0 +1,139 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,500,700);
+
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 700;
+}
+
+iframe {
+  width: 100%;
+  max-width: 940px;
+  border: 1px solid #ddd;
+  display: none;
+  margin: 0 auto;
+}
+
+.tag {
+  display: inline-block;
+}
+
+.loading-message {
+  display: none;
+}
+
+#visuals-toggle {
+  visibility: hidden;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  color: #333;
+  font-size: 13px;
+}
+
+.loading-spin {
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+/*
+ * Sidebar navigation
+ * Inspired by: https://github.com/twbs/bootstrap/blob/ba1345f144283d579b07cd40b5ae5a5b84d2b2e7/docs/assets/css/src/docs.css#L561
+ */
+.sidebar-nav .nav > li > a {
+  display: block;
+  padding: 4px 20px;
+  color: #333;
+  font-size: 13px;
+}
+.sidebar-nav .nav > li > a:hover,
+.sidebar-nav .nav > li > a:focus {
+  padding-left: 19px;
+  color: #337ab7;
+  text-decoration: none;
+  background-color: transparent;
+  border-left: 1px solid #337ab7;
+}
+.sidebar-nav .nav > .active > a,
+.sidebar-nav .nav > .active:hover > a,
+.sidebar-nav .nav > .active:focus > a {
+  padding-left: 18px;
+  font-weight: bold;
+  color: #337ab7;
+  background-color: transparent;
+  border-left: 2px solid #337ab7;
+}
+
+.sidebar-nav .nav .nav {
+  display: none;
+  padding-bottom: 10px;
+}
+.sidebar-nav .nav .nav > li > a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 30px;
+  font-size: 12px;
+  font-weight: normal;
+}
+.sidebar-nav .nav .nav > li > a:hover,
+.sidebar-nav .nav .nav > li > a:focus {
+  padding-left: 29px;
+}
+.sidebar-nav .nav .nav > .active > a,
+.sidebar-nav .nav .nav > .active:hover > a,
+.sidebar-nav .nav .nav > .active:focus > a {
+  padding-left: 28px;
+  font-weight: 500;
+}
+
+.sidebar-nav .nav > .active > ul {
+  display: block;
+}
+
+.test-fixture {
+  padding-top: 20px;
+}
+
+.sidebar-nav.affix {
+  position: fixed;
+  top: 20px;
+}
+
+@media (min-width: 992px) {
+  .sidebar-nav.affix,
+  .sidebar-nav.affix-bottom {
+    width: 16.66666667%;
+  }
+}
