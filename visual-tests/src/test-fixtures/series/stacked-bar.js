@@ -11,29 +11,29 @@
 
         // Collect all series keys.
         var seriesKeys = data.reduce(function(previous, current) {
-            var currentKeys = fc.utilities.object.keys(current).filter(function(element) { 
+            var currentKeys = fc.utilities.object.keys(current).filter(function(element) {
                 return element !== 'State';
             });
             return previous.concat(currentKeys);
         }, []);
         seriesKeys = d3.set(seriesKeys).values();
-        
+
         // Create an array of series objects.
-        var series = seriesKeys.map(function(element) {
-            return { name: element, data: [] };
+        var emptySeries = seriesKeys.map(function(element) {
+            return {name: element, data: []};
         });
 
         // Populate those series objects with data objects.
-        var series = data.reduce(function(series, current) {
-            series.forEach(function(element) {
+        var series = data.reduce(function(allSeries, current) {
+            allSeries.forEach(function(element) {
                 element.data.push({
                     state: current.State,
                     value: parseFloat(current[element.name])
                 });
             });
 
-            return series;
-        }, series);
+            return allSeries;
+        }, emptySeries);
 
         // Collect the X values.
         var xCategories = series.reduce(function(previous, current) {
