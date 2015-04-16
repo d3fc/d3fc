@@ -27,11 +27,11 @@
                 // update
                 bar.attr('x', function(d) { return stackedBar.xScale()(stackLayout.x()(d)) - width / 2; })
                     .attr('y', function(d) {
-                        return stackedBar.yScale()(stackLayout.y()(d) + stackedBar.getBaseline()(d));
+                        return stackedBar.yScale()(stackLayout.y()(d) + stackedBar.y0()(d));
                     })
                     .attr('width', width)
                     .attr('height', function(d) {
-                        var baselineValue = stackedBar.getBaseline()(d);
+                        var baselineValue = stackedBar.y0()(d);
                         var topValue = stackedBar.y()(d);
 
                         var bottomPixel = stackedBar.yScale()(baselineValue);
@@ -53,7 +53,7 @@
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
         // Implicitly dependant on the implementation of the stack layout's `out`.
-        stackedBar.getBaseline = fc.utilities.property(function(d) {
+        stackedBar.y0 = fc.utilities.property(function(d) {
             return d.y0;
         });
 
