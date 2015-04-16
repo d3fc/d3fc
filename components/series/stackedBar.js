@@ -16,8 +16,6 @@
 
                 var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
 
-                stackedBar.decorate()(g);
-
                 var bar = g.selectAll('rect')
                     .data(function(d) { return stackLayout.values()(d); })
                     .enter()
@@ -42,6 +40,8 @@
 
                         return bottomPixel - topPixel;
                     });
+
+                stackedBar.decorate()(g);
             });
         };
 
