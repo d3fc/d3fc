@@ -41,15 +41,6 @@
         }, []);
         xCategories = d3.set(xCategories).values();
 
-        var stackedData = d3.layout.stack()
-            .offset('zero')
-            .values(function(d) { return d.data; })
-            .x(function(d) { return d.state; })
-            .y(function(d) { return d.value; })
-            (series);
-        var topLayer = stackedData[stackedData.length - 1];
-        var maxY = d3.max(topLayer.data, function(d) { return d.y + d.y0; });
-
         // create scales
         var x = d3.scale.ordinal()
             .domain(xCategories)
@@ -58,7 +49,7 @@
         var color = d3.scale.category10();
 
         var y = d3.scale.linear()
-          .domain([0, maxY])
+          .domain([0, 40000000])
           .nice()
           .range([chartLayout.getPlotAreaHeight(), 0]);
 
