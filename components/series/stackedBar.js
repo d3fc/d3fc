@@ -4,13 +4,12 @@
     fc.series.stackedBar = function() {
 
         var stackedBar = function(selection) {
-            var container;
 
             selection.each(function(data) {
 
                 // add a 'root' g element on the first enter selection. This ensures
                 // that it is just added once
-                container = d3.select(this);
+                var container = d3.select(this);
 
                 var layers = stackLayout(data);
 
