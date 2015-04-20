@@ -11,7 +11,7 @@
 
         // Collect all series keys.
         var seriesKeys = data.reduce(function(previous, current) {
-            var currentKeys = fc.utilities.object.keys(current).filter(function(element) {
+            var currentKeys = Object.keys(current).filter(function(element) {
                 return element !== 'State';
             });
             return previous.concat(currentKeys);
