@@ -22,7 +22,7 @@
                     .enter()
                     .append('rect');
 
-                var xPositions = stackedBar.xScale().domain().map(function(d) { return stackedBar.xScale()(d); });
+                var xPositions = stackedBar.xScale().domain().map(stackedBar.xScale.value);
                 var width = stackedBar.barWidth()(xPositions);
 
                 // update
