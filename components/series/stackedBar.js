@@ -3,6 +3,8 @@
 
     fc.series.stackedBar = function() {
 
+        var stackLayout = d3.layout.stack();
+
         var stackedBar = function(selection) {
 
             selection.each(function(data) {
@@ -57,7 +59,6 @@
             return d.y0;
         });
 
-        var stackLayout = d3.layout.stack();
         return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
     };
 }(d3, fc));
