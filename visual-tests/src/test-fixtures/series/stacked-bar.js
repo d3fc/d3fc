@@ -9,37 +9,31 @@
 
     d3.csv('stackedBarData.csv', function(error, data) {
 
-        // Collect all series keys.
-        var seriesKeys = data.reduce(function(previous, current) {
-            var currentKeys = Object.keys(current).filter(function(element) {
-                return element !== 'State';
+        /*  Build series objects for each series in the data set.
+            Assumption: first data object holds all series keys. */
+        var series = Object.keys(data[0])
+            .filter(function(key) {
+                return key !== 'State';
+            })
+            .map(function(key) {
+                return {
+                    name: key,
+                    data: []
+                };
             });
-            return previous.concat(currentKeys);
-        }, []);
-        seriesKeys = d3.set(seriesKeys).values();
 
-        // Create an array of series objects.
-        var emptySeries = seriesKeys.map(function(element) {
-            return {name: element, data: []};
-        });
-
-        // Populate those series objects with data objects.
-        var series = data.reduce(function(allSeries, current) {
-            allSeries.forEach(function(element) {
-                element.data.push({
-                    state: current.State,
-                    value: parseFloat(current[element.name])
+        // Populate these series objects.
+        data.forEach(function(datum) {
+            series.forEach(function(series) {
+                series.data.push({
+                    state: datum.State,
+                    value: parseInt(datum[series.name])
                 });
             });
-
-            return allSeries;
-        }, emptySeries);
+        });
 
         // Collect the X values.
-        var xCategories = series.reduce(function(previous, current) {
-            return previous.concat(current.data.map(function(element) { return element.state; }));
-        }, []);
-        xCategories = d3.set(xCategories).values();
+        var xCategories = data.map(function(d) { return d.State; });
 
         // create scales
         var x = d3.scale.ordinal()
