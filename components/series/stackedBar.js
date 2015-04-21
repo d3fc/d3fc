@@ -31,7 +31,7 @@
                     .attr('width', width)
                     .attr('height', function(d) {
                         var baselineValue = stackedBar.y0.value(d);
-                        var topValue = stackedBar.y()(d);
+                        var topValue = stackLayout.y()(d);
 
                         var bottomPixel = stackedBar.yScale.value(baselineValue);
                         var topPixel = stackedBar.yScale.value(topValue + baselineValue);
