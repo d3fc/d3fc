@@ -20,26 +20,26 @@
                     .enter()
                     .append('rect');
 
-                var xPositions = stackedBar.xScale().domain().map(stackedBar.xScale.value);
-                var width = stackedBar.barWidth()(xPositions);
+                var xPositions = stackedBar.xScale.value.domain().map(stackedBar.xScale.value);
+                var width = stackedBar.barWidth.value(xPositions);
 
                 // update
-                bar.attr('x', function(d) { return stackedBar.xScale()(stackLayout.x()(d)) - width / 2; })
+                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
                     .attr('y', function(d) {
-                        return stackedBar.yScale()(stackLayout.y()(d) + stackedBar.y0()(d));
+                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.y0.value(d));
                     })
                     .attr('width', width)
                     .attr('height', function(d) {
-                        var baselineValue = stackedBar.y0()(d);
+                        var baselineValue = stackedBar.y0.value(d);
                         var topValue = stackedBar.y()(d);
 
-                        var bottomPixel = stackedBar.yScale()(baselineValue);
-                        var topPixel = stackedBar.yScale()(topValue + baselineValue);
+                        var bottomPixel = stackedBar.yScale.value(baselineValue);
+                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
 
                         return bottomPixel - topPixel;
                     });
 
-                stackedBar.decorate()(g);
+                stackedBar.decorate.value(g);
             });
         };
 
