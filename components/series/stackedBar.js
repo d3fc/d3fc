@@ -9,8 +9,6 @@
 
             selection.each(function(data) {
 
-                // add a 'root' g element on the first enter selection. This ensures
-                // that it is just added once
                 var container = d3.select(this);
 
                 var layers = stackLayout(data);
