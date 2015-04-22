@@ -27,6 +27,43 @@ The components included in this project support the following browsers:
 * Safari 3.2+
 * Opera
 
+## Developing
+
+[npm](https://www.npmjs.com/), the package manager for [Node.js](https://nodejs.org/), is used to manage the project's dependencies. [Grunt](http://gruntjs.com/), a JavaScript task runner, is used to test and build the project.
+
+### Initial Setup
+
+- Download or clone this repository locally
+- Ensure [Node.js](https://nodejs.org/), which includes npm, is installed
+- Ensure [Grunt](http://gruntjs.com/getting-started#installing-the-cli) is installed:
+
+```
+npm install -g grunt-cli
+```
+
+- Navigate to the root of your local copy of this project and install the dependencies:
+
+```
+npm install
+```
+
+- Perform an initial build:
+
+```
+grunt
+```
+
+### Grunt Tasks
+
+The following Grunt tasks, found in `Gruntfile.js`, can be run from the command line:
+
+- `grunt build` - generate the project's JavaScript and CSS files in the _dist_ directory (at the root of the project); build the visual tests
+- `grunt check` - run JSHint and JSCS checks
+- `grunt test` - run unit tests and build the visual tests
+- `grunt watch` - watch the source files and rebuild when a change is saved
+- `grunt dev` - run `grunt build`, then `grunt watch`
+- `grunt` - check, test and build the project
+
 ## License
 
 These components are licensed under the [MIT License](http://opensource.org/licenses/MIT).
