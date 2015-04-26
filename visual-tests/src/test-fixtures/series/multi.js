@@ -23,9 +23,22 @@
     // Create the line series
     var line = fc.series.line()
         .yValue(function(d) { return d.open; });
-    chart.series(line);
 
-    d3.select('#line')
+    // Create the area series
+    var area = fc.series.area()
+        .y0Value(function(d) { return d.low; })
+        .y1Value(function(d) { return d.high; });
+
+    // Create the point series
+    var point = fc.series.point()
+        .yValue(function(d) { return d.close; });
+
+    // Create the multi series
+    var multi = fc.series.multi()
+        .series([line, area, point]);
+    chart.series(multi);
+
+    d3.select('#multi')
         .append('svg')
         .datum(data)
         .call(chart);
