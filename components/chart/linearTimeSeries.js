@@ -18,18 +18,18 @@
 
                 var container = d3.select(this);
 
-                var mainContainer = container.selectAll('svg')
-                    .data([data]);
+                var mainContainer = fc.utilities.simpleDataJoin(container,
+                        'linear-time-series', [data]);
                 mainContainer.enter()
-                    .append('svg')
+                    .layout('flex', 1);
+
+                var plotAreaContainer = mainContainer.selectOrAppend('svg', 'plot-area');
+                plotAreaContainer.enter()
                     .attr('overflow', 'hidden')
                     .layout('flex', 1);
 
-                var background = mainContainer.selectAll('rect.background')
-                    .data([data]);
-                background.enter()
-                    .append('rect')
-                    .attr('class', 'background')
+                mainContainer.selectOrAppend('rect', 'background')
+                    .enter()
                     .layout({
                         position: 'absolute',
                         top: 0,
@@ -38,17 +38,11 @@
                         left: 0
                     });
 
-                var gridlinesContainer = mainContainer.selectAll('g.gridlines')
-                    .data([data]);
-                gridlinesContainer.enter()
-                    .append('g')
-                    .attr('class', 'gridlines');
+                var gridlinesContainer = plotAreaContainer.selectOrAppend('g', 'gridlines');
 
-                var yAxisContainer = mainContainer.selectAll('g.y-axis')
-                    .data([data]);
+                var yAxisContainer = plotAreaContainer.selectOrAppend('g', 'y-axis');
                 yAxisContainer.enter()
-                    .append('g')
-                    .attr('class', 'axis y-axis')
+                    .classed('axis', true)
                     .layout({
                         position: 'absolute',
                         top: 0,
@@ -56,11 +50,8 @@
                         bottom: 0
                     });
 
-                var seriesContainer = mainContainer.selectAll('g.series')
-                    .data([data]);
+                var seriesContainer = plotAreaContainer.selectOrAppend('g', 'series');
                 seriesContainer.enter()
-                    .append('g')
-                    .attr('class', 'series')
                     .layout({
                         position: 'absolute',
                         top: 0,
@@ -69,14 +60,13 @@
                         left: 0
                     });
 
-                var xAxisContainer = container.selectAll('g.x-axis')
-                    .data([data]);
+                var xAxisContainer = mainContainer.selectOrAppend('g', 'x-axis');
                 xAxisContainer.enter()
-                    .append('g')
-                    .attr('class', 'axis x-axis')
+                    .classed('axis', true)
                     .layout('height', 20);
 
-                linearTimeSeries.decorate.value(container);
+                linearTimeSeries.decorate.value(mainContainer);
+                linearTimeSeries.layout.value(container);
 
                 xScale.range([0, xAxisContainer.layout('width')]);
 
@@ -117,7 +107,8 @@
             yTicks: 'ticks'
         });
 
-        linearTimeSeries.decorate = fc.utilities.property(fc.utilities.layout());
+        linearTimeSeries.decorate = fc.utilities.property(fc.utilities.fn.noop);
+        linearTimeSeries.layout = fc.utilities.property(fc.utilities.layout());
         linearTimeSeries.gridlines = fc.utilities.property(fc.scale.gridlines());
         linearTimeSeries.series = fc.utilities.property(fc.series.line());
 
