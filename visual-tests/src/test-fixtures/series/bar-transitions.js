@@ -47,11 +47,13 @@
 
     // Add the axes to the chart
     chartLayout.getAxisContainer('bottom')
-        .transition().duration(2500).
-        call(xAxis);
+        .transition()
+        .duration(2500)
+        .call(xAxis);
 
     chartLayout.getAxisContainer('left')
-        .transition().duration(2500)
+        .transition()
+        .duration(2500)
         .call(yAxis);
 
     // Create the bar series
@@ -60,13 +62,20 @@
         .yValue(function(d) { return d.age; })
         .xScale(xScale)
         .yScale(yScale)
-        .decorate(function(sel) {
-            sel.attr('fill', function(d, i) { return colour(d.age); });
+        .decorate(function(transition) {
+            transition.enter()
+                .append('path')
+                .attr('d', d3.svg.symbol().type('cross'))
+                .attr('fill', '#fff');
+            transition.select('rect')
+                .attr('fill', function(d, i) { return colour(d.age); });
         });
 
     // Add the bar series to the chart
-    chartLayout.getPlotArea().datum(data)
-        .transition().duration(2500)
+    chartLayout.getPlotArea()
+        .datum(data)
+        .transition()
+        .duration(2500)
         .call(bar);
 
     // Update the chart every 5 seconds (animation lasts 2.5 seconds)
@@ -93,15 +102,19 @@
 
         // Update axes
         chartLayout.getAxisContainer('bottom')
-            .transition().duration(2500)
+            .transition()
+            .duration(2500)
             .call(xAxis);
         chartLayout.getAxisContainer('left')
-            .transition().duration(2500)
+            .transition()
+            .duration(2500)
             .call(yAxis);
 
         // Update bar series
-        chartLayout.getPlotArea().datum(data)
-            .transition().duration(2500)
+        chartLayout.getPlotArea()
+            .datum(data)
+            .transition()
+            .duration(2500)
             .call(bar);
     }, 5000);
 

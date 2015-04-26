@@ -7,27 +7,30 @@
         var x = function(d) { return bar.xScale.value(bar.xValue.value(d)); };
         var y = function(d) { return bar.yScale.value(bar.yValue.value(d)); };
 
-        var bar = function(selection) {
-            selection.each(function(data) {
+        var bar = function(container) {
+            container.each(function(data) {
                 var container = d3.select(this);
                 var series = fc.utilities.simpleDataJoin(container, 'bar', data, bar.xValue.value);
 
+                var width = bar.barWidth.value(data.map(x));
+                var height = function(d) { return bar.yScale.value(0) - y(d); };
+                var translate = function(d) { return 'translate(' + x(d) + ',' + (y(d) + height(d) / 2) + ')'; };
+
                 // enter
+                // translate the group (child elements should be positioned relaitve to their parent group)
+                // the origin for each group is positioned in the centre (horizontally and vertically) of each bar
                 series.enter()
+                    .attr('transform', translate)
                     .append('rect');
 
-                var width = bar.barWidth.value(data.map(x));
-
                 // update
-                series.select('rect')
-                    .attr('x', function(d) {
-                        return x(d) - width / 2;
-                    })
-                    .attr('y', function(d) { return y(d); })
+                series.attr('transform', translate)
+                    .select('rect')
+                    .attr('x', -width / 2)
+                    .attr('y', function(d) { return -height(d) / 2; })
                     .attr('width', width)
-                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
+                    .attr('height', height);
 
-                // properties set by decorate will transition too
                 bar.decorate.value(series);
             });
         };
