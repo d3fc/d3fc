@@ -1,6 +1,17 @@
 (function(d3, fc) {
     'use strict';
 
+    function enhanceSelection(enterSelection, updateSelection) {
+        updateSelection.selectOrAppend = function(elementName, className) {
+            var enterSel = enterSelection.append(elementName)
+                .attr('class', className);
+            var updateSel = updateSelection.select(elementName + '.' + className);
+            updateSel.enter = d3.functor(enterSel);
+            enhanceSelection(enterSel, updateSel);
+            return updateSel;
+        };
+    }
+
     fc.utilities.simpleDataJoin = function(parent, className, data, dataKey) {
         // "Caution: avoid interpolating to or from the number zero when the interpolator is used to generate
         // a string (such as with attr).
@@ -36,6 +47,9 @@
 
         updateSelection.enter = d3.functor(enterSelection);
         updateSelection.exit = d3.functor(exitSelection);
+
+        enhanceSelection(enterSelection, updateSelection);
+
         return updateSelection;
     };
 }(d3, fc));
