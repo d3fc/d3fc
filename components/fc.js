@@ -7,6 +7,7 @@
  */
 window.fc = {
     version: '0.0.0',
+    charts: {},
     /**
      * Studies, trend-lines and other financial indicators that can be added to a chart
      *
