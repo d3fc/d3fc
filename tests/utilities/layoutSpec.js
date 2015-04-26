@@ -22,7 +22,7 @@
         it('should provide access to layout- prefixed properties', function() {
             var svg = window.document.createElement('svg');
             svg.setAttribute('layout-width', '30');
-            expect(d3.select(svg).layout('width')).toEqual('30');
+            expect(d3.select(svg).layout('width')).toEqual(30);
         });
 
         it('should permit layout with an explicit width / height', function() {
@@ -42,8 +42,8 @@
 
             svg.layout(800, 300);
 
-            expect(row1.layout('height')).toEqual('100');
-            expect(row2.layout('height')).toEqual('200');
+            expect(row1.layout('height')).toEqual(100);
+            expect(row2.layout('height')).toEqual(200);
         });
 
 
