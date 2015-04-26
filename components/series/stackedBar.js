@@ -3,80 +3,43 @@
 
     fc.series.stackedBar = function() {
 
-        var stackedBar = function(selection) {
-            var container;
+        var stackLayout = d3.layout.stack();
 
-            // takes an object with values associated with each property, and
-            // converts it into an array of values. Each value has the xValue associated
-            // with it.
-            //
-            // For example, this object:
-            //
-            // obj = { county: 'North Tyneside', labour: 23, conservative: 55 }
-            //
-            // becomes this ...
-            //
-            // [
-            //   { xValue: 'North Tyneside', name: 'labour', previousValue: 0, currentValue: 23},
-            //   { xValue: 'North Tyneside', name: 'conservative', previousValue: 23, currentValue: 78},
-            // ]
-            function objectDatapointToArray(obj) {
-                var values = [];
-                var yTotal = 0;
-                var xVal = obj[stackedBar.xValueKey.value];
-                for (var propertyName in obj) {
-                    if (obj.hasOwnProperty(propertyName) && propertyName !== stackedBar.xValueKey.value) {
-                        var previous = yTotal;
-                        yTotal += Number(obj[propertyName]);
-                        values.push({
-                            'name': propertyName,
-                            'previousValue': previous,
-                            'currentValue': yTotal,
-                            'xValue': xVal
-                        });
-                    }
-                }
-                return values;
-            }
+        var stackedBar = function(selection) {
 
             selection.each(function(data) {
 
-                // add a 'root' g element on the first enter selection. This ensures
-                // that it is just added once
-                container = d3.select(this);
+                var container = d3.select(this);
 
-                var keyFunction = function(d) {
-                    return d[stackedBar.xValueKey.value];
-                };
-                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', data, keyFunction);
+                var layers = stackLayout(data);
 
+                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
 
-                // create a join for each bar
                 var bar = g.selectAll('rect')
-                    .data(function(d) { return objectDatapointToArray(d); })
+                    .data(function(d) { return stackLayout.values()(d); })
                     .enter()
                     .append('rect');
 
-                // compute the bar width from the x values
-                var xValues = data.map(function(d) {
-                    return stackedBar.xScale.value(d[stackedBar.xValueKey.value]);
-                });
-                var width = stackedBar.barWidth.value(xValues);
+                var xPositions = stackedBar.xScale.value.domain().map(stackedBar.xScale.value);
+                var width = stackedBar.barWidth.value(xPositions);
 
                 // update
-                bar.attr('x', function(d) {
-                        return stackedBar.xScale.value(d.xValue) - width / 2; }
-                    )
+                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
                     .attr('y', function(d) {
-                        return stackedBar.yScale.value(d.currentValue); }
-                    )
+                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.y0.value(d));
+                    })
                     .attr('width', width)
                     .attr('height', function(d) {
-                        return stackedBar.yScale.value(d.previousValue) - stackedBar.yScale.value(d.currentValue);
+                        var baselineValue = stackedBar.y0.value(d);
+                        var topValue = stackLayout.y()(d);
+
+                        var bottomPixel = stackedBar.yScale.value(baselineValue);
+                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
+
+                        return bottomPixel - topPixel;
                     });
 
-                stackedBar.decorate.value(bar);
-
+                stackedBar.decorate.value(g);
             });
         };
 
@@ -88,8 +51,11 @@
 
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
-        stackedBar.xValueKey = fc.utilities.property('name');
+        // Implicitly dependant on the implementation of the stack layout's `out`.
+        stackedBar.y0 = fc.utilities.property(function(d) {
+            return d.y0;
+        });
 
-        return stackedBar;
+        return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
     };
 }(d3, fc));

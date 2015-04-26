@@ -70,7 +70,6 @@
         .xLabel(function(d) {
             return !(d.source && d.target) ? '' :
             d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
-            // d3.time.format('%a, %e %b')(d.target.datum.date - d.source.datum.date);
         })
         .yLabel(function(d) {
             return !(d.source && d.target) ? '' :
