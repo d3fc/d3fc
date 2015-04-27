@@ -64,6 +64,10 @@ The following Grunt tasks, found in `Gruntfile.js`, can be run from the command 
 - `grunt dev` - run `grunt build`, then `grunt watch`
 - `grunt` - check, test and build the project
 
+### Visual Tests
+
+The project includes a number of unit tests, however, because these components are visual in nature, unit testing is not enough. This project contains a number of ad-hoc visual tests that are found within the `visual-tests` folder. The visual tests are compiled, via [assemble](http://assemble.io/), to create a simple website. To view this site, run a [static server](https://gist.github.com/willurd/5720255) from the `visual-tests\dist` folder.
+
 ## License
 
 These components are licensed under the [MIT License](http://opensource.org/licenses/MIT).

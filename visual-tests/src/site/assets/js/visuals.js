@@ -41,7 +41,8 @@
     // Use local storage to track if the iframes should be shown
     var visualsDisplay = localStorage.getItem('visuals-display');
     if (visualsDisplay === null) {
-        localStorage.setItem('visuals-display', 'false');
+        localStorage.setItem('visuals-display', 'true');
+        visualsDisplay = 'true';
     }
 
     // Init checkbox and iframes
