@@ -5,7 +5,7 @@
   "description": "",
   "author": "Scott Logic",
   "dependencies": {
-    "css-layout": "git+https://git@github.com/ColinEberhardt/css-layout.git",
+    "css-layout": "^0.0.2",
     "d3": "^3.5.4"
   },
   "devDependencies": {
