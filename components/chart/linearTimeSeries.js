@@ -76,7 +76,7 @@
                     .attr('class', 'axis x-axis')
                     .layout('height', 20);
 
-                linearTimeSeries.decorate.value(container);
+                linearTimeSeries.layout.value(container);
 
                 xScale.range([0, xAxisContainer.layout('width')]);
 
@@ -117,7 +117,7 @@
             yTicks: 'ticks'
         });
 
-        linearTimeSeries.decorate = fc.utilities.property(fc.utilities.layout());
+        linearTimeSeries.layout = fc.utilities.property(fc.utilities.layout());
         linearTimeSeries.gridlines = fc.utilities.property(fc.scale.gridlines());
         linearTimeSeries.series = fc.utilities.property(fc.series.line());
 
