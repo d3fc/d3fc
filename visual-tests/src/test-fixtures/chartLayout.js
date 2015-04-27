@@ -1,57 +1,15 @@
 (function(d3, fc) {
     'use strict';
 
+    if (!fc.test) {
+        fc.test = {};
+    }
+
     /**
-    * Based on the [Margin Convention]{@link http://bl.ocks.org/mbostock/3019563},
-    * the Chart Layout component is responsible for defining the chart area.
-    *
-    * It attempts to simplify the repetitive process of constructing the chart's layout and its associated elements:
-    * <ul>
-    *   <li>Define the margins, height and width</li>
-    *   <li>Calculate the inner height and inner width</li>
-    *   <li>Create an SVG</li>
-    *   <li>Create a group for all chart elements; translate it based on the margins</li>
-    *   <li>Create a clipping path for the plot area; add it to the group</li>
-    *   <li>Create groups for the axes</li>
-    * </ul>
-    *
-    * If the width or height of the component have not been explicitly set using chartLayout.height()
-    * or chartLayout.width(), then the width and height of the chartLayout will try to expand to the
-    * dimensions of the selected element. If this results in an invalid value, i.e. less than 1,
-    * a default value will be used.
-    *
-    * <hr>
-    *
-    * Given a div:
-    * <pre>
-    * &lt;div id=&quot;myChart&quot; style=&quot;width:650px; height:300px;&quot;&gt;&lt;/div&gt;
-    * </pre>
-    *
-    * Chart Layout will tranform the selection to create the following elements:
-    * <pre>
-    * &lt;div id=&quot;myChart&quot; style=&quot;width:650px; height:300px;&quot;&gt;
-    *     &lt;svg width=&quot;650&quot; height=&quot;300&quot;&gt;
-    *         &lt;g class=&quot;chartArea&quot; transform=&quot;translate(40,20)&quot;&gt;
-    *             &lt;defs&gt;
-    *                 &lt;clipPath id=&quot;fcPlotAreaClip_myChart&quot;&gt;
-    *                     &lt;rect width=&quot;570&quot; height=&quot;260&quot;&gt;&lt;/rect&gt;
-    *                 &lt;/clipPath&gt;
-    *             &lt;/defs&gt;
-    *             &lt;rect class=&quot;background&quot; width=&quot;570&quot; height=&quot;260&quot;&gt;&lt;/rect&gt;
-    *             &lt;g clip-path=&quot;url(#fcPlotAreaClip_myChart)&quot; class=&quot;plotArea&quot;&gt;&lt;/g&gt;
-    *             &lt;g class=&quot;axis bottom&quot; transform=&quot;translate(0,260)&quot;&gt;&lt;/g&gt;
-    *             &lt;g class=&quot;axis top&quot; transform=&quot;translate(0, 0)&quot;&gt;&lt;/g&gt;
-    *             &lt;g class=&quot;axis right&quot; transform=&quot;translate(570, 0)&quot;&gt;&lt;/g&gt;
-    *         &lt;/g&gt;
-    *     &lt;/svg&gt;
-    * &lt;/div&gt;
-    * </pre>
-    *
-    * @type {object}
-    * @memberof fc.utilities
-    * @class fc.utilities.chartLayout
+    * This is a component that is currently being retired. It has been moved to the visual
+    * tests folder as a stop-gap solution until the newer chart component is added.
     */
-    fc.utilities.chartLayout = function() {
+    fc.test.chartLayout = function() {
 
         // Default values
         var margin = {top: 20, right: 40, bottom: 20, left: 40},

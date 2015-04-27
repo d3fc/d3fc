@@ -20,7 +20,7 @@ h6,
 }
 
 iframe {
-  width: 100%;
+  width: 600px;
   max-width: 940px;
   border: 1px solid #ddd;
   display: none;

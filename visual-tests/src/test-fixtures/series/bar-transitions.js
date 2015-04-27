@@ -18,19 +18,24 @@
     var data = dataset.slice();
 
     // Setup the chart area
-    var chart = d3.select('#bar-transitions'),
-        chartLayout = fc.utilities.chartLayout();
+    var width = 600, height = 250, axisHeight = 25;
 
-    chart.call(chartLayout);
+    var chart = d3.select('#bar-transitions')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+    var axisContainer = chart.append('g')
+        .attr('transform', 'translate(0, ' + (height - axisHeight) + ')');
 
     // Create scales
     var xScale = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.name; }))
-        .rangePoints([0, chartLayout.getPlotAreaWidth()], 1);
+        .rangePoints([0, width], 1);
 
     var yScale = d3.scale.linear()
         .domain([0, 40])
-        .range([chartLayout.getPlotAreaHeight(), 0]);
+        .range([height - axisHeight, 0]);
 
     var colour = d3.scale.linear()
         .domain([0, 100])
@@ -41,18 +46,10 @@
         .scale(xScale)
         .orient('bottom');
 
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('left');
-
     // Add the axes to the chart
-    chartLayout.getAxisContainer('bottom')
-        .transition().duration(2500).
-        call(xAxis);
-
-    chartLayout.getAxisContainer('left')
+    axisContainer
         .transition().duration(2500)
-        .call(yAxis);
+        .call(xAxis);
 
     // Create the bar series
     var bar = fc.series.bar()
@@ -65,9 +62,10 @@
         });
 
     // Add the bar series to the chart
-    chartLayout.getPlotArea().datum(data)
-        .transition().duration(2500)
-        .call(bar);
+    var seriesContainer = chart.append('g')
+        .datum(data);
+
+    seriesContainer.call(bar);
 
     // Update the chart every 5 seconds (animation lasts 2.5 seconds)
     // Y values are randomised
@@ -92,15 +90,12 @@
         yScale.domain([0, d3.max(data, function(d) { return d.age; })]);
 
         // Update axes
-        chartLayout.getAxisContainer('bottom')
+        axisContainer
             .transition().duration(2500)
             .call(xAxis);
-        chartLayout.getAxisContainer('left')
-            .transition().duration(2500)
-            .call(yAxis);
 
         // Update bar series
-        chartLayout.getPlotArea().datum(data)
+        seriesContainer.datum(data)
             .transition().duration(2500)
             .call(bar);
     }, 5000);
