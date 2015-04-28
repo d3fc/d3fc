@@ -3,7 +3,7 @@
 
     fc.charts.linearTimeSeries = function() {
 
-        var xScale = d3.time.scale();
+        var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
         var xAxis = d3.svg.axis()
             .scale(xScale)
@@ -100,6 +100,7 @@
         };
 
         fc.utilities.rebind(linearTimeSeries, xScale, {
+            xDiscontinuityProvider: 'discontinuityProvider',
             xDomain: 'domain',
             xNice: 'nice'
         });
