@@ -3,44 +3,24 @@
 
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
-    var chart = d3.select('#line'),
-        chartLayout = fc.utilities.chartLayout();
+    var width = 600, height = 250;
 
-    chart.call(chartLayout);
-
-    // Calculate the scale domain
-    var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+    var container = d3.select('#line')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain([dateFrom, dateTo])
-        .range([0, chartLayout.getPlotAreaWidth()])
+        .domain(fc.utilities.extent(data, 'date'))
+        .range([0, width])
         .nice();
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain([priceFrom, priceTo])
-        .range([chartLayout.getPlotAreaHeight(), 0])
+        .domain(fc.utilities.extent(data, ['high', 'low']))
+        .range([height, 0])
         .nice();
-
-    // Create the axes
-    var dateAxis = d3.svg.axis()
-        .scale(dateScale)
-        .orient('bottom')
-        .ticks(5);
-
-    var priceAxis = d3.svg.axis()
-        .scale(priceScale)
-        .orient('right')
-        .ticks(5);
-
-    // Add the axes to the chart
-    chartLayout.getAxisContainer('bottom').call(dateAxis);
-    chartLayout.getAxisContainer('right').call(priceAxis);
 
     // Create the line series
     var line = fc.series.line()
@@ -61,7 +41,8 @@
         .yScale(priceScale)
         .yValue(function(d) { return d.close; });
 
-    chartLayout.getPlotArea()
+    // Add it to the chart
+    container.append('g')
         .datum(data)
         .call(line)
         .call(area)

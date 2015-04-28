@@ -4,7 +4,7 @@
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
     var chart = d3.select('#fc-time-fc-linear-hide-weekend'),
-        chartLayout = fc.utilities.chartLayout();
+        chartLayout = fc.test.chartLayout();
 
     chart.call(chartLayout);
 

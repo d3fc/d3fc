@@ -6,8 +6,8 @@
         fc.utilities.dataGenerator().startDate(new Date(2013, 12, 15))(50)
     ];
 
-    var chartLayout = fc.utilities.chartLayout();
-    var chartBuilder = fc.utilities.chartBuilder(chartLayout);
+    var chartLayout = fc.test.chartLayout();
+    var chartBuilder = fc.test.chartBuilder(chartLayout);
     var zoom = d3.behavior.zoom();
 
     d3.select('#comparison')
