@@ -7,39 +7,29 @@
 
         var stackedBar = function(selection) {
 
-            selection.each(function(data) {
+            var bar = fc.series.bar()
+                .xScale(stackedBar.xScale.value)
+                .yScale(stackedBar.yScale.value)
+                .xValue(stackedBar.x())
+                .yValue(stackLayout.y())
+                .baseline(stackedBar.y0.value);
 
-                var container = d3.select(this);
+            selection.each(function(data) {
 
                 var layers = stackLayout(data);
 
-                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
+                var container = d3.select(this);
 
-                var bar = g.selectAll('rect')
-                    .data(function(d) { return stackLayout.values()(d); })
-                    .enter()
-                    .append('rect');
+                // Pull data from series objects.
+                var layeredData = layers.map(stackLayout.values());
 
-                var xPositions = stackedBar.xScale.value.domain().map(stackedBar.xScale.value);
-                var width = stackedBar.barWidth.value(xPositions);
+                var series = container.selectAll('g.stacked-bar').data(layeredData);
 
-                // update
-                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
-                    .attr('y', function(d) {
-                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.y0.value(d));
-                    })
-                    .attr('width', width)
-                    .attr('height', function(d) {
-                        var baselineValue = stackedBar.y0.value(d);
-                        var topValue = stackLayout.y()(d);
+                series.enter().append('g').attr('class', 'stacked-bar');
 
-                        var bottomPixel = stackedBar.yScale.value(baselineValue);
-                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
+                series.call(bar);
 
-                        return bottomPixel - topPixel;
-                    });
-
-                stackedBar.decorate.value(g);
+                stackedBar.decorate.value(series);
             });
         };
 
