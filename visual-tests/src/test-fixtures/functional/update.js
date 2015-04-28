@@ -79,42 +79,4 @@
         priceScale.domain(fc.utilities.extent(data, ['high', 'low']));
         render();
     }, 1000);
-
-        /*.call(ohlc);
-    }
-
-    container.append('g')
-        .datum(data)
-        .call(bar);
-
-    container.append('g')
-        .datum(data)
-        .call(line);
-
-    container.append('g')
-        .datum(data)
-        .call(candle);*/
-
-    // associate the data
-   /* chartBuilder.setData(data);
-
-    // draw stuff!
-    chartBuilder.render();
-
-    setInterval(function() {
-        var datum;
-        while (!datum) {
-            datum = generator(1)[0];
-        }
-        data.push(datum);
-        data.shift();
-        data.forEach(function(d) {
-            d.low = d.low - 0.1;
-        });
-        dateScale.domain(fc.utilities.extent(data, 'date'));
-        priceScale.domain(fc.utilities.extent(data, ['high', 'low']));
-        chartBuilder.setData(data);
-        chartBuilder.render();
-    }, 1000);
-*/
 })(d3, fc);

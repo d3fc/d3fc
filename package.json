@@ -21,7 +21,7 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-jscs": "^1.0.0",
+    "grunt-jscs": "^1.8.0",
     "grunt-jsdoc": "^0.5.7",
     "jquery": "^1.11.2",
     "matchdep": "^0.3.0"
