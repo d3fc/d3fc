@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    var chartLayout = fc.utilities.chartLayout();
+    var chartLayout = fc.test.chartLayout();
 
     // Setup the chart
     var chart = d3.select('#stacked-bar')
