@@ -1,6 +1,10 @@
 (function(d3, fc) {
     'use strict';
 
+    if (!fc.test) {
+        fc.test = {};
+    }
+
     /**
     * The chart builder makes it easier to constructs charts from a number of D3FC or D3 components. It
     * adapts a chartLayout (which is responsible for creating a suitable SVG structure for a chart), and allows
@@ -12,7 +16,7 @@
     * @memberof fc.utilities
     * @class fc.utilities.chartBuilder
     */
-    fc.utilities.chartBuilder = function(chartLayout) {
+    fc.test.chartBuilder = function(chartLayout) {
 
         // the components that have been added to the chart.
         var plotAreaComponents = [];

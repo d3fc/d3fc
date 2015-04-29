@@ -9,32 +9,32 @@
         {name: 'Brian', age: 35}
     ];
 
-    var chart = d3.select('#ordinal-axis'),
-        chartLayout = fc.utilities.chartLayout();
+    var width = 600, height = 250, axisHeight = 25;
 
-    chart.call(chartLayout);
+    var chart = d3.select('#ordinal-axis')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+
+    var axisContainer = chart.append('g')
+        .attr('transform', 'translate(0, ' + (height - axisHeight) + ')');
 
     // Create scale for x axis
     var xScale = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.name; }))
-        .rangePoints([0, chartLayout.getPlotAreaWidth()], 1);
+        .rangePoints([0, width], 1);
 
     var yScale = d3.scale.linear()
         .domain([0, 40])
-        .range([chartLayout.getPlotAreaHeight(), 0]);
+        .range([height - axisHeight, 0]);
 
     // Create the axes
     var xAxis = d3.svg.axis()
         .scale(xScale)
         .orient('bottom');
 
-    var yAxis = d3.svg.axis()
-        .scale(yScale)
-        .orient('right');
-
     // Add the axes to the chart
-    chartLayout.getAxisContainer('bottom').call(xAxis);
-    chartLayout.getAxisContainer('right').call(yAxis);
+    axisContainer.call(xAxis);
 
     var bar = fc.series.bar()
         .xValue(function(d) { return d.name; })
@@ -48,11 +48,11 @@
         .xScale(xScale)
         .yScale(yScale);
 
-    chartLayout.getPlotArea().append('g')
+    chart.append('g')
         .datum(data)
         .call(bar);
 
-    chartLayout.getPlotArea().append('g')
+    chart.append('g')
         .datum(data)
         .call(line);
 

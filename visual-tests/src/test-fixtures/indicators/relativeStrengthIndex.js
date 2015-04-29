@@ -3,37 +3,24 @@
 
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
-    var chart = d3.select('#rsi'),
-        chartLayout = fc.utilities.chartLayout();
+    var width = 600, height = 250;
 
-    chart.call(chartLayout);
+    var container = d3.select('#rsi')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
         .domain(fc.utilities.extent(data, 'date'))
-        .range([0, chartLayout.getPlotAreaWidth()])
+        .range([0, width])
         .nice();
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
         .domain([0, 100]) // Perctange scale
-        .range([chartLayout.getPlotAreaHeight(), 0])
+        .range([height, 0])
         .nice();
-
-    // Create the axes
-    var dateAxis = d3.svg.axis()
-        .scale(dateScale)
-        .orient('bottom')
-        .ticks(5);
-
-    var priceAxis = d3.svg.axis()
-        .scale(priceScale)
-        .orient('right')
-        .ticks(5);
-
-    // Add the axes to the chart
-    chartLayout.getAxisContainer('bottom').call(dateAxis);
-    chartLayout.getAxisContainer('right').call(priceAxis);
 
     // Create the relative strength indicator component
     var rsi = fc.indicators.relativeStrengthIndicator()
@@ -41,8 +28,7 @@
         .yScale(priceScale);
 
     // Add it to the chart
-    chartLayout.getPlotArea().append('g')
-        .attr('class', 'rsi')
+    container.append('g')
         .datum(data)
         .call(rsi);
 

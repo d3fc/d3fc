@@ -3,37 +3,24 @@
 
     var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
-    var chart = d3.select('#annotation'),
-        chartLayout = fc.utilities.chartLayout();
+    var width = 600, height = 250;
 
-    chart.call(chartLayout);
+    var container = d3.select('#annotation')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
         .domain(fc.utilities.extent(data, 'date'))
-        .range([0, chartLayout.getPlotAreaWidth()])
+        .range([0, width])
         .nice();
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
         .domain(fc.utilities.extent(data, ['high', 'low']))
-        .range([chartLayout.getPlotAreaHeight(), 0])
+        .range([height, 0])
         .nice();
-
-    // Create the axes
-    var dateAxis = d3.svg.axis()
-        .scale(dateScale)
-        .orient('bottom')
-        .ticks(5);
-
-    var priceAxis = d3.svg.axis()
-        .scale(priceScale)
-        .orient('right')
-        .ticks(5);
-
-    // Add the axes to the chart
-    chartLayout.getAxisContainer('bottom').call(dateAxis);
-    chartLayout.getAxisContainer('right').call(priceAxis);
 
     // Create the OHLC series
     var ohlc = fc.series.ohlc()
@@ -41,8 +28,7 @@
         .yScale(priceScale);
 
     // Add the primary OHLC series
-    chartLayout.getPlotArea().append('g')
-        .attr('class', 'series')
+    container.append('g')
         .datum(data)
         .call(ohlc);
 
@@ -75,19 +61,19 @@
         });
 
     // Add the annotations to the chart
-    chartLayout.getPlotArea()
+    container
         .append('g')
         .attr('id', 'annotation')
         .datum([100, 101.5])
         .call(annotation);
 
-    chartLayout.getPlotArea()
+    container
         .append('g')
         .attr('id', 'lastCloseAnnotation')
         .datum([data[data.length - 1]])
         .call(lastCloseAnnotation);
 
-    chartLayout.getPlotArea()
+    container
         .append('g')
         .attr('id', 'annotationDecimal')
         .datum([100.675])
@@ -95,7 +81,7 @@
 
     setInterval(function() {
         // Update an annotation
-        chartLayout.getPlotArea()
+        container
             .select('#annotation')
             .datum([randomValue()])
             .call(annotation);
@@ -103,7 +89,7 @@
         // Update an annotation with a transition
         var decimalData = [randomValue(), randomValue(), randomValue()];
         decimalData.splice(0, Math.floor(Math.random() * 2));
-        chartLayout.getPlotArea()
+        container
             .select('#annotationDecimal')
             .datum(decimalData)
             .transition()
