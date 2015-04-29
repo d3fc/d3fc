@@ -63,8 +63,8 @@
             .xScale(x)
             .yScale(y)
             .values(function(d) { return d.data; })
-            .x(function(d) { return d.state; })
-            .y(function(d) { return d.value; })
+            .xValue(function(d) { return d.state; })
+            .yValue(function(d) { return d.value; })
             .decorate(function(sel) {
                 sel.attr('fill', function(d, i) {
                     return color(i);

@@ -10,9 +10,9 @@
             var bar = fc.series.bar()
                 .xScale(stackedBar.xScale.value)
                 .yScale(stackedBar.yScale.value)
-                .xValue(stackedBar.x())
+                .xValue(stackLayout.x())
                 .yValue(stackLayout.y())
-                .baseline(stackedBar.y0.value);
+                .baseline(stackedBar.y0Value.value);
 
             selection.each(function(data) {
 
@@ -42,10 +42,17 @@
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
         // Implicitly dependant on the implementation of the stack layout's `out`.
-        stackedBar.y0 = fc.utilities.property(function(d) {
+        stackedBar.y0Value = fc.utilities.property(function(d) {
             return d.y0;
         });
 
-        return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
+        return fc.utilities.rebind(stackedBar, stackLayout, {
+            xValue: 'x',
+            yValue: 'y',
+            out: 'out',
+            offset: 'offset',
+            values: 'values',
+            order: 'order'
+        });
     };
 }(d3, fc));
