@@ -38,11 +38,18 @@
                         left: 0
                     });
 
-                var gridlinesContainer = mainContainer.selectAll('g.gridlines')
+                var plotAreaContainer = mainContainer.selectAll('g.plot-area')
                     .data([data]);
-                gridlinesContainer.enter()
+                plotAreaContainer.enter()
                     .append('g')
-                    .attr('class', 'gridlines');
+                    .attr('class', 'plot-area')
+                    .layout({
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0
+                    });
 
                 var yAxisContainer = mainContainer.selectAll('g.y-axis')
                     .data([data]);
@@ -54,19 +61,6 @@
                         top: 0,
                         right: 0,
                         bottom: 0
-                    });
-
-                var seriesContainer = mainContainer.selectAll('g.series')
-                    .data([data]);
-                seriesContainer.enter()
-                    .append('g')
-                    .attr('class', 'series')
-                    .layout({
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0
                     });
 
                 var xAxisContainer = container.selectAll('g.x-axis')
@@ -86,15 +80,10 @@
 
                 yAxisContainer.call(yAxis);
 
-                var gridlines = linearTimeSeries.gridlines.value;
-                gridlines.xScale(xScale)
+                var plotArea = linearTimeSeries.plotArea.value;
+                plotArea.xScale(xScale)
                     .yScale(yScale);
-                gridlinesContainer.call(gridlines);
-
-                var series = linearTimeSeries.series.value;
-                series.xScale(xScale)
-                    .yScale(yScale);
-                seriesContainer.call(series);
+                plotAreaContainer.call(plotArea);
 
             });
         };
@@ -118,8 +107,7 @@
             yTicks: 'ticks'
         });
 
-        linearTimeSeries.gridlines = fc.utilities.property(fc.scale.gridlines());
-        linearTimeSeries.series = fc.utilities.property(fc.series.line());
+        linearTimeSeries.plotArea = fc.utilities.property(fc.series.line());
 
         return linearTimeSeries;
     };

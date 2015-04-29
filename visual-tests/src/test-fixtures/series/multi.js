@@ -20,6 +20,9 @@
         .yNice()
         .yTicks(5);
 
+    // Create the gridlines
+    var gridlines = fc.scale.gridlines();
+
     // Create the line series
     var line = fc.series.line()
         .yValue(function(d) { return d.open; });
@@ -35,8 +38,8 @@
 
     // Create the multi series
     var multi = fc.series.multi()
-        .series([line, area, point]);
-    chart.series(multi);
+        .series([gridlines, line, area, point]);
+    chart.plotArea(multi);
 
     d3.select('#multi')
         .append('svg')
