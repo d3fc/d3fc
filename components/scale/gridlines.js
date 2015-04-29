@@ -13,7 +13,8 @@
                     gridlines.xScale.value.ticks(gridlines.xTicks.value));
 
                 xLines.enter()
-                    .append('line');
+                    .append('line')
+                    .attr('class', 'gridline');
 
                 xLines.select('line')
                     .attr({
@@ -27,7 +28,8 @@
                     gridlines.yScale.value.ticks(gridlines.yTicks.value));
 
                 yLines.enter()
-                    .append('line');
+                    .append('line')
+                    .attr('class', 'gridline');
 
                 yLines.select('line')
                     .attr({

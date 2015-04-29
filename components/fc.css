@@ -19,7 +19,7 @@
   font: 10px sans-serif; 
 }
 
-.gridlines { 
+.gridline { 
   stroke: #ccc;
   stroke-width: 1.0;
 }
