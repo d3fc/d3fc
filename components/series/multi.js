@@ -24,15 +24,15 @@
                 g.select('g.multi-inner')
                     .each(function() {
 
-                            var series = d3.select(this.parentNode)
-                                .datum()
-                                .xScale(multi.xScale.value)
-                                .yScale(multi.yScale.value);
+                        var series = d3.select(this.parentNode)
+                            .datum()
+                            .xScale(multi.xScale.value)
+                            .yScale(multi.yScale.value);
 
-                            d3.select(this)
-                                .datum(multi.mapping.value(data, series))
-                                .call(series);
-                        });
+                        d3.select(this)
+                            .datum(multi.mapping.value(data, series))
+                            .call(series);
+                    });
             });
         };
 
