@@ -30,11 +30,13 @@
     };
 
     fc.utilities.seriesPointSnap = function(series, data) {
-        var xScale = series.xScale(),
-            yScale = series.yScale(),
-            xValue = series.xValue ? series.xValue() : function(d) { return d.date; },
-            yValue = series.yValue();
-        return fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data);
+        return function(xPixel, yPixel) {
+            var xScale = series.xScale(),
+                yScale = series.yScale(),
+                xValue = series.xValue ? series.xValue() : function(d) { return d.date; },
+                yValue = (series.yValue || series.yCloseValue).call(series);
+            return fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data)(xPixel, yPixel);
+        };
     };
 
 }(d3, fc));
