@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Moving Average
+component: indicators/movingAverage.js
 
 example-code: |
   // Create the point series
@@ -8,7 +9,6 @@ example-code: |
       .xScale(xScale)
       .yScale(yScale);
 
-  // Add to the container (a 'g' element)
   container.append('g')
       .datum(data)
       .call(point);

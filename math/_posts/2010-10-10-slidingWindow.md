@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Sliding Window
+component: math/slidingWindow.js
 
 example-code: |
     var data = [1, 5, 7, 3, 5, 7, 4, 2, 5, 6];
@@ -16,7 +17,7 @@ advanced-example: |
     var data = [1, 5, 7, 3, 5, 7, 4, 2, 5, 6]
         .map(function(d) { return { value: d }; });
 
-    // create a moving average that reads from 'value' and writes to 'movinggAverage'
+    // create a moving average that reads from 'value' and writes to 'movingAverage'
     var algorithm = fc.math.slidingWindow()
             .windowSize(5)
             .inputValue(function(obj) { return obj.value; })

@@ -27,6 +27,7 @@ layout: default
       <h2 id="{{ componentId }}">{{ component.name }}</h2>
       {% for post in site.categories[componentId] %}
       <h3 id="{{ post.id | split:'/' | last }}">{{ post.title }}</h3>
+      <a href="{{ site.project-repoe-url }}/blob/master/components/{{ post.component }}">[View the component source]</a>
       {{ post.content }}
       {% endfor %}
     </section>
