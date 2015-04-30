@@ -1,0 +1,47 @@
+---
+title: Low-Barrel
+description: "Demonstrates a composition of the linear time series component."
+categories: chart
+tags:
+- linear time series
+testScripts:
+- low-barrel.js
+---
+
+<style>
+.main-row>td {
+	height: 240px;
+}
+.volume-row>td {
+	height: 160px;
+}
+.navigator-row>td {
+	height: 80px;
+}
+.chart {
+	width: 640px;
+}
+span {
+	display:block;
+	transform: rotate(90deg);
+}
+</style>
+
+<table id="low-barrel">
+	<tr class="main-row">
+		<td class="chart"></td>
+		<td>
+			<span>OHLC</span>
+		</td>
+	</tr>
+	<tr class="volume-row">
+		<td class="chart"></td>
+		<td>
+			<span>Volume</span>
+		</td>
+	</tr>
+	<tr class="navigator-row">
+		<td class="chart"></td>
+		<td></td>
+	</tr>
+</table>
