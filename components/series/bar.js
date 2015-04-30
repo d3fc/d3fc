@@ -5,8 +5,8 @@
 
         // convenience functions that return the x & y screen coords for a given point
         var x = function(d) { return bar.xScale.value(bar.xValue.value(d)); };
-        var barTop = function(d) { return bar.yScale.value(bar.baseline.value(d) + bar.yValue.value(d)); };
-        var barBottom = function(d) { return bar.yScale.value(bar.baseline.value(d)); };
+        var barTop = function(d) { return bar.yScale.value(bar.y0Value.value(d) + bar.yValue.value(d)); };
+        var barBottom = function(d) { return bar.yScale.value(bar.y0Value.value(d)); };
 
         var bar = function(selection) {
             selection.each(function(data) {
@@ -41,7 +41,7 @@
         bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
         bar.yValue = fc.utilities.property(function(d) { return d.close; });
         bar.xValue = fc.utilities.property(function(d) { return d.date; });
-        bar.baseline = fc.utilities.functorProperty(0);
+        bar.y0Value = fc.utilities.functorProperty(0);
 
         return bar;
     };

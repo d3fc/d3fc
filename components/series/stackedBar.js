@@ -12,7 +12,7 @@
                 .yScale(stackedBar.yScale.value)
                 .xValue(stackLayout.x())
                 .yValue(stackLayout.y())
-                .baseline(stackedBar.y0Value.value);
+                .y0Value(stackedBar.y0Value.value);
 
             selection.each(function(data) {
 
