@@ -8,11 +8,11 @@
         var crosshairs = function(selection) {
 
             selection.each(function() {
-                var data = this.__data__ || [];
-                if (!data.__crosshairs__) {
-                    data.__crosshairs__ = {};
-                    this.__data__ = data;
+                var data = this.__crosshairs__;
+                if (!data) {
+                    data = this.__crosshairs__ = [];
                 }
+                this.__data__ = data;
             });
 
             selection.each(function(data) {
@@ -21,11 +21,12 @@
                     .style('pointer-events', 'all')
                     .on('mouseenter.crosshairs', mouseenter);
 
-                if (!data.__crosshairs__.overlay) {
-                    container.append('rect')
-                        .style('visibility', 'hidden');
-                    data.__crosshairs__.overlay = true;
-                }
+                var overlay = container.selectAll('rect')
+                    .data([data]);
+
+                overlay.enter()
+                    .append('rect')
+                    .style('visibility', 'hidden');
 
                 // ordinal axes have a rangeExtent function, this adds any padding that
                 // was applied to the range. This functions returns the rangeExtent
