@@ -24,9 +24,7 @@
                     .attr('x', function(d) {
                         return x(d) - width / 2;
                     })
-                    .attr('y', function(d) {
-                        return barTop(d);
-                    })
+                    .attr('y', barTop)
                     .attr('width', width)
                     .attr('height', function(d) {
                         return barBottom(d) - barTop(d);
@@ -43,7 +41,7 @@
         bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
         bar.yValue = fc.utilities.property(function(d) { return d.close; });
         bar.xValue = fc.utilities.property(function(d) { return d.date; });
-        bar.baseline = fc.utilities.property(function(d) { return 0; });
+        bar.baseline = fc.utilities.functorProperty(0);
 
         return bar;
     };

@@ -23,11 +23,12 @@
                 // Pull data from series objects.
                 var layeredData = layers.map(stackLayout.values());
 
-                var series = container.selectAll('g.stacked-bar').data(layeredData);
-
-                series.enter().append('g').attr('class', 'stacked-bar');
-
-                series.call(bar);
+                var series = container.selectAll('g.stacked-bar')
+                    .data(layeredData)
+                    .enter()
+                    .append('g')
+                    .attr('class', 'stacked-bar')
+                    .call(bar);
 
                 stackedBar.decorate.value(series);
             });
