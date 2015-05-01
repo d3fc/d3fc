@@ -1,5 +1,43 @@
 ---
 layout: default
+example-code: |
+  // create some test data
+  var generator = fc.utilities.dataGenerator().filter(null);
+  var data = generator(150);
+
+  // create a chart
+  var chart = fc.charts.linearTimeSeries()
+      .xDomain(fc.utilities.extent(data, 'date'))
+      .xTicks(5)
+      .yDomain(fc.utilities.extent(data, ['high', 'low']))
+      .yNice()
+      .yTicks(5);
+
+  // Create the gridlines
+  var gridlines = fc.scale.gridlines();
+  var candlestick = fc.series.candlestick();
+  var bollingerBands = fc.indicators.bollingerBands();
+
+  var multi = fc.series.multi()
+      .series([gridlines, bollingerBands, candlestick]);
+  chart.plotArea(multi);
+
+  function renderChart() {
+    d3.select('#top-chart')
+        .datum(data)
+        .call(chart);
+  }
+
+  setInterval(function() {
+    var datum = generator(1)[0];
+    data.push(datum);
+    data.shift();
+
+    chart.xDomain(fc.utilities.extent(data, 'date'))
+        .yDomain(fc.utilities.extent(data, ['high', 'low']))
+
+    renderChart();
+  }, 200);
 ---
 <div class="jumbotron" id="jumbo1">
 	<div class="row">
@@ -21,10 +59,34 @@ layout: default
 <div class="jumbotron" id="jumbo2">
 	<div class="row">
 		<div class="col-md-12">
-			<h2>Something interesting / visual goes here ...</h2>
+			<svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
+			<div class="accordion" id="accordion2">
+			  <div class="accordion-group">
+			    <div class="accordion-heading">
+			      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+			        View sourcecode &#8964;
+			      </a>
+			    </div>
+			    <div id="collapseOne" class="accordion-body collapse">
+			      <div class="accordion-inner">
+			        {% highlight javascript %}
+							{{ page.example-code }}
+							{% endhighlight %}
+			      </div>
+			    </div>
+			  </div>
+			</div>
 		</div>
+
 	</div>
 </div>
+
+<script type="text/javascript">
+(function() {
+	{{ page.example-code }}
+  window.onresize = renderChart;
+}());
+</script>
 
 <div class="row">
 	<div class="col-sm-3">
@@ -67,16 +129,17 @@ layout: default
 	<div class="col-md-6 col-sm-6 ">
 		<h3>Download D3FC</h3>
 		<p>Download the latest JavaScript distribution <a href="https://github.com/ScottLogic/d3-financial-components/tree/master/dist">from GitHub</a>, together with the associated CSS files.</p>
-		<p>You'll also need to obtain the latest version of <a href="http://d3js.org/">D3</a>.</p>
+		<p>You'll also need to obtain the latest version of <a href="http://d3js.org/">D3</a>, and the Facebook
+		<a href="https://github.com/facebook/css-layout">css-layout</a> utility - we use this for styling
+		charts with CSS flexbox.</p>
 		<h3>Pick Your Components</h3>
 		<p>Browse the <a href="components">D3FC components</a> to determine which you need in order to build your chart. You can mix an match with any D3 code you may require to produce your chart.</p>
 	</div>
 	<div class="col-md-6 col-sm-6 ">
 		<h3>Customise</h3>
 		<p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p> 
-		<h3>Need More Help?</h3>
-		<p>Take a look at our <a href="getting-started.html">Getting Started</a> guide which provides a more detailed introduction to building charts with D3FC.
 		<h3>Contribute</h3>
-		<p>Spotted a bug? Have an idea for a feature? Please <a href="https://github.com/ScottLogic/d3-financial-components">pop over to GitHub and contribute</a>.</p>
+		<p>Spotted a bug? Have an idea for a feature? Please <a href="https://github.com/ScottLogic/d3-financial-components">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
+		our <a href="https://github.com/ScottLogic/d3-financial-components/wiki">wiki page which describes the design goals</a>.</p>
 	</div>
 </div>
