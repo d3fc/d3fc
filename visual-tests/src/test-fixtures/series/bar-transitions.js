@@ -26,6 +26,7 @@
         .attr('height', height);
 
     var axisContainer = chart.append('g')
+        .attr('class', 'axis')
         .attr('transform', 'translate(0, ' + (height - axisHeight) + ')');
 
     // Create scales
