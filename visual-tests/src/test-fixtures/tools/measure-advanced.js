@@ -2,7 +2,7 @@
     'use strict';
 
     var form = document.forms['measure-1-form'];
-    var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50);
+    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
     var chart = d3.select('#measure-1'),
         chartLayout = fc.test.chartLayout();

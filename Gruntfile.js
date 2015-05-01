@@ -233,10 +233,10 @@ module.exports = function (grunt) {
                 ]
             },
             test: {
-                src: ['<%= meta.componentsJsFiles %>'],
+                src: ['dist/*.js'],
             },
             testDebug: {
-                src: ['<%= meta.componentsJsFiles %>'],
+                src: ['dist/*.js'],
                 options: {
                     keepRunner: true
                 }

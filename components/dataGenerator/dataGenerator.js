@@ -1,7 +1,7 @@
 (function(fc) {
     'use strict';
 
-    fc.utilities.dataGenerator = function() {
+    fc.dataGenerator = function() {
 
         var calculateOHLC = function(days, prices, volumes) {
             var ohlcv = [],
