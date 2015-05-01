@@ -7,39 +7,30 @@
 
         var stackedBar = function(selection) {
 
-            selection.each(function(data) {
+            var bar = fc.series.bar()
+                .xScale(stackedBar.xScale.value)
+                .yScale(stackedBar.yScale.value)
+                .xValue(stackLayout.x())
+                .yValue(stackLayout.y())
+                .y0Value(stackedBar.y0Value.value);
 
-                var container = d3.select(this);
+            selection.each(function(data) {
 
                 var layers = stackLayout(data);
 
-                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
+                var container = d3.select(this);
 
-                var bar = g.selectAll('rect')
-                    .data(function(d) { return stackLayout.values()(d); })
+                // Pull data from series objects.
+                var layeredData = layers.map(stackLayout.values());
+
+                var series = container.selectAll('g.stacked-bar')
+                    .data(layeredData)
                     .enter()
-                    .append('rect');
+                    .append('g')
+                    .attr('class', 'stacked-bar')
+                    .call(bar);
 
-                var xPositions = stackedBar.xScale.value.domain().map(stackedBar.xScale.value);
-                var width = stackedBar.barWidth.value(xPositions);
-
-                // update
-                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
-                    .attr('y', function(d) {
-                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.y0.value(d));
-                    })
-                    .attr('width', width)
-                    .attr('height', function(d) {
-                        var baselineValue = stackedBar.y0.value(d);
-                        var topValue = stackLayout.y()(d);
-
-                        var bottomPixel = stackedBar.yScale.value(baselineValue);
-                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
-
-                        return bottomPixel - topPixel;
-                    });
-
-                stackedBar.decorate.value(g);
+                stackedBar.decorate.value(series);
             });
         };
 
@@ -52,10 +43,17 @@
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
         // Implicitly dependant on the implementation of the stack layout's `out`.
-        stackedBar.y0 = fc.utilities.property(function(d) {
+        stackedBar.y0Value = fc.utilities.property(function(d) {
             return d.y0;
         });
 
-        return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
+        return fc.utilities.rebind(stackedBar, stackLayout, {
+            xValue: 'x',
+            yValue: 'y',
+            out: 'out',
+            offset: 'offset',
+            values: 'values',
+            order: 'order'
+        });
     };
 }(d3, fc));

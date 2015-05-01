@@ -18,6 +18,7 @@
                     return value === source ? target : value;
                 };
             });
+        return target;
     };
 
 }(d3, fc));

@@ -5,7 +5,8 @@
 
         // convenience functions that return the x & y screen coords for a given point
         var x = function(d) { return bar.xScale.value(bar.xValue.value(d)); };
-        var y = function(d) { return bar.yScale.value(bar.yValue.value(d)); };
+        var barTop = function(d) { return bar.yScale.value(bar.y0Value.value(d) + bar.yValue.value(d)); };
+        var barBottom = function(d) { return bar.yScale.value(bar.y0Value.value(d)); };
 
         var bar = function(selection) {
             selection.each(function(data) {
@@ -23,9 +24,11 @@
                     .attr('x', function(d) {
                         return x(d) - width / 2;
                     })
-                    .attr('y', function(d) { return y(d); })
+                    .attr('y', barTop)
                     .attr('width', width)
-                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
+                    .attr('height', function(d) {
+                        return barBottom(d) - barTop(d);
+                    });
 
                 // properties set by decorate will transition too
                 bar.decorate.value(series);
@@ -38,6 +41,7 @@
         bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
         bar.yValue = fc.utilities.property(function(d) { return d.close; });
         bar.xValue = fc.utilities.property(function(d) { return d.date; });
+        bar.y0Value = fc.utilities.functorProperty(0);
 
         return bar;
     };
