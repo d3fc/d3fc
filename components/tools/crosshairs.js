@@ -7,14 +7,6 @@
 
         var crosshairs = function(selection) {
 
-            selection.each(function() {
-                var data = this.__crosshairs__;
-                if (!data) {
-                    data = this.__crosshairs__ = [];
-                }
-                this.__data__ = data;
-            });
-
             selection.each(function(data) {
 
                 var container = d3.select(this)
