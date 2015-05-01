@@ -1,8 +1,10 @@
 project-repo-url: https://github.com/ScottLogic/d3-financial-components
 
-component-ids: [series, indicators, math, scale, utilities]
+component-ids: [chart, series, indicators, math, scale, utilities]
 
 components:
+  chart:
+    name: Chart
   series:
     name: Series
   indicators:
