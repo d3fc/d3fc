@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    var layout = fc.utilities.layout();
+    var layout = fc.layout();
 
     var chart = d3.select('#layout-test');
     chart.call(layout);
