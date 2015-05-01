@@ -34,14 +34,14 @@
             var millisecondsPerYear = 3.15569e10,
                 years = (toDate.getTime() - gen.startDate.value.getTime()) / millisecondsPerYear;
 
-            var prices = fc.math.randomWalk(
+            var prices = randomWalk(
                 years,
                 days * gen.stepsPerDay.value,
                 gen.mu.value,
                 gen.sigma.value,
                 gen.startPrice.value
             );
-            var volumes = fc.math.randomWalk(
+            var volumes = randomWalk(
                 years,
                 days,
                 0,
@@ -63,6 +63,29 @@
             return calculateOHLC(days, prices, volumes).filter(function(d) {
                 return !gen.filter.value || gen.filter.value(d.date);
             });
+        };
+
+        var randomWalk = function(period, steps, mu, sigma, initial) {
+            var randomNormal = d3.random.normal(),
+                timeStep = period / steps,
+                increments = new Array(steps + 1),
+                increment,
+                step;
+
+            // Compute step increments for the discretized GBM model.
+            for (step = 1; step < increments.length; step += 1) {
+                increment = randomNormal();
+                increment *= Math.sqrt(timeStep);
+                increment *= sigma;
+                increment += (mu - ((sigma * sigma) / 2)) * timeStep;
+                increments[step] = Math.exp(increment);
+            }
+            // Return the cumulative product of increments from initial value.
+            increments[0] = initial;
+            for (step = 1; step < increments.length; step += 1) {
+                increments[step] = increments[step - 1] * increments[step];
+            }
+            return increments;
         };
 
         gen.mu = fc.utilities.property(0.1);
