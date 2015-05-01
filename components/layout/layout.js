@@ -82,7 +82,7 @@
         function applyLayout(node) {
             node.element.setAttribute('layout-width', node.layout.width);
             node.element.setAttribute('layout-height', node.layout.height);
-            if (node.element.nodeName.toLowerCase() === 'svg') {
+            if (node.element.nodeName.match(/(?:svg|rect)/i)) {
                 node.element.setAttribute('width', node.layout.width);
                 node.element.setAttribute('height', node.layout.height);
                 node.element.setAttribute('x', node.layout.left);

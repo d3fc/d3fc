@@ -24,7 +24,7 @@
   stroke-width: 1.0;
 }
 
-.chartArea rect.background {
+.background {
   stroke: #eee;
   fill: #fefefe;
 }
