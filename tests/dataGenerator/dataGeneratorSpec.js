@@ -1,13 +1,13 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.utilities.dataGenerator', function() {
+    describe('fc.dataGenerator', function() {
 
         describe('without filter', function() {
             var dataGenerator;
 
             beforeEach(function() {
-                dataGenerator = fc.utilities.dataGenerator().filter(null);
+                dataGenerator = fc.dataGenerator().filter(null);
             });
 
             it('should return data for the requested number of days', function() {

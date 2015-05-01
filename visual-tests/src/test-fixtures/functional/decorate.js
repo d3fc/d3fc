@@ -1,9 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(95)(20);
-    var data2 = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(100)(20);
-    var data3 = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(20);
+    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(95)(20);
+    var data2 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(100)(20);
+    var data3 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(20);
 
     var width = 600, height = 250;
 
