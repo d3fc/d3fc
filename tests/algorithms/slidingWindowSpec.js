@@ -1,17 +1,17 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.math.slidingWindow', function() {
+    describe('fc.indicators.algorithms.slidingWindow', function() {
 
         it('should not call accumulator for an empty data array', function() {
-            var slidingWindow = fc.math.slidingWindow()
+            var slidingWindow = fc.indicators.algorithms.slidingWindow()
                 .accumulator(function() { throw new Error('FAIL'); })
                 .windowSize(2);
             expect(slidingWindow([])).toEqual([]);
         });
 
         it('should not call accumulator for a data array smaller than the window windowSize', function() {
-            var slidingWindow = fc.math.slidingWindow()
+            var slidingWindow = fc.indicators.algorithms.slidingWindow()
                 .accumulator(function() { throw new Error('FAIL'); })
                 .windowSize(2);
             expect(slidingWindow([0])).toEqual([]);
@@ -21,7 +21,7 @@
             var data = [0, 1];
             var accumulatedValue = {};
 
-            var slidingWindow = fc.math.slidingWindow()
+            var slidingWindow = fc.indicators.algorithms.slidingWindow()
                 .accumulator(function(d) {
                     expect(d).toEqual(data);
                     return accumulatedValue;
@@ -35,7 +35,7 @@
             var accumulatedValue = {};
             var i = 0;
 
-            var slidingWindow = fc.math.slidingWindow()
+            var slidingWindow = fc.indicators.algorithms.slidingWindow()
                 .accumulator(function(d) {
                     i++;
                     // N.B. Jasmine Spies compare arguments by reference
@@ -56,7 +56,7 @@
         it('should work with the built-in d3 accumulator functions', function() {
             var data = [0, 1, 2];
 
-            var movingAverage = fc.math.slidingWindow()
+            var movingAverage = fc.indicators.algorithms.slidingWindow()
                 .accumulator(d3.mean)
                 .windowSize(2);
             expect(movingAverage(data)).toEqual([0.5, 1.5]);

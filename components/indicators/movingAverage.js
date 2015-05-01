@@ -3,7 +3,7 @@
 
     fc.indicators.movingAverage = function() {
 
-        var algorithm = fc.math.slidingWindow()
+        var algorithm = fc.indicators.algorithms.slidingWindow()
             .accumulator(d3.mean);
 
         var averageLine = fc.series.line();

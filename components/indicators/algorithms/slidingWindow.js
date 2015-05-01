@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.math.slidingWindow = function() {
+    fc.indicators.algorithms.slidingWindow = function() {
 
         var slidingWindow = function(data) {
             var size = slidingWindow.windowSize.value.apply(this, arguments);
