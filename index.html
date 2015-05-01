@@ -13,11 +13,12 @@ example-code: |
       .yNice()
       .yTicks(5);
 
-  // Create the gridlines
+  // Create the gridlines and series
   var gridlines = fc.scale.gridlines();
   var candlestick = fc.series.candlestick();
   var bollingerBands = fc.indicators.bollingerBands();
 
+  // add them to the chart via a multi-series
   var multi = fc.series.multi()
       .series([gridlines, bollingerBands, candlestick]);
   chart.plotArea(multi);
@@ -27,15 +28,19 @@ example-code: |
         .datum(data)
         .call(chart);
   }
+  renderChart();
 
   setInterval(function() {
+    // add a new datapoint and remove an old one
     var datum = generator(1)[0];
     data.push(datum);
     data.shift();
 
+    // update the domain for both axes
     chart.xDomain(fc.utilities.extent(data, 'date'))
         .yDomain(fc.utilities.extent(data, ['high', 'low']))
 
+    // re-render the entire chart
     renderChart();
   }, 200);
 ---
