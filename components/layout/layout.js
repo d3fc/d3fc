@@ -4,7 +4,7 @@
 
 
     d3.selection.prototype.layout = function(name, value) {
-        var layout = fc.utilities.layout();
+        var layout = fc.layout();
         var n = arguments.length;
         if (n === 2) {
             if (typeof name !== 'string') {
@@ -31,7 +31,7 @@
         return this;
     };
 
-    fc.utilities.layout = function() {
+    fc.layout = function() {
 
         // parses the style attribute, converting it into a JavaScript object
         function parseStyle(style) {
