@@ -8,13 +8,16 @@
         var n = arguments.length;
         if (n === 2) {
             if (typeof name !== 'string') {
+                // layout(number, number) - sets the width and height and performs layout
                 layout.width(name).height(value);
                 this.call(layout);
             } else {
+                // layout(name, value) - sets a layout- attribute
                 this.attr('layout-css', name + ':' + value);
             }
         } else if (n === 1) {
             if (typeof name !== 'string') {
+                // layout(object) - sets the layout-css property to the given object
                 var styleObject = name;
                 var layoutCss = Object.keys(styleObject)
                     .map(function(property) {
@@ -23,9 +26,11 @@
                     .join(';');
                 this.attr('layout-css', layoutCss);
             } else {
+                // layout(name) - returns the value of the layout-name attribute
                 return Number(this.attr('layout-' + name));
             }
         } else if (n === 0) {
+            // layout() - executes layout
             this.call(layout);
         }
         return this;
