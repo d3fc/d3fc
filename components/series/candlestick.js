@@ -18,9 +18,8 @@
 
                 var g = fc.utilities.simpleDataJoin(container, 'candlestick', data, candlestick.xValue.value);
 
-                var enter = g.enter();
-                enter.append('line');
-                enter.append('rect');
+                g.enter()
+                    .append('path');
 
                 g.classed({
                         'up': function(d) {
@@ -31,24 +30,36 @@
                         }
                     });
 
-                g.select('line')
-                    .attr('x1', x)
-                    .attr('y1', yHigh)
-                    .attr('x2', x)
-                    .attr('y2', yLow);
-
                 var barWidth = candlestick.barWidth.value(data.map(x));
 
-                g.select('rect')
-                    .attr('x', function(d) {
-                        return x(d) - barWidth / 2;
-                    })
-                    .attr('y', function(d) {
-                        return Math.min(yOpen(d), yClose(d));
-                    })
-                    .attr('width', barWidth)
-                    .attr('height', function(d) {
-                        return Math.abs(yClose(d) - yOpen(d));
+                g.select('path')
+                    .attr('d', function(d) {
+                        // Move to the opening price
+                        var body = 'M' + (x(d) - barWidth / 2) + ',' + yOpen(d) +
+                        // Draw the width
+                        'h' + barWidth +
+                        // Draw to the closing price (vertically)
+                        'V' + yClose(d) +
+                        // Draw the width
+                        'h' + -barWidth +
+                        // Move back to the opening price
+                        'V' + yOpen(d) +
+                        // Close the path
+                        'z';
+
+                        // Move to the max price of close or open; draw the high wick
+                        // N.B. Math.min() is used as we're dealing with pixel values,
+                        // the lower the pixel value, the higher the price!
+                        var highWick = 'M' + x(d) + ',' + Math.min(yClose(d), yOpen(d)) +
+                        'V' + yHigh(d);
+
+                        // Move to the min price of close or open; draw the low wick
+                        // N.B. Math.max() is used as we're dealing with pixel values,
+                        // the higher the pixel value, the lower the price!
+                        var lowWick = 'M' + x(d) + ',' + Math.max(yClose(d), yOpen(d)) +
+                        'V' + yLow(d);
+
+                        return body + highWick + lowWick;
                     });
 
                 candlestick.decorate.value(g);

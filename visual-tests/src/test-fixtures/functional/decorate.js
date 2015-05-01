@@ -36,7 +36,9 @@
 
     var candlestick = fc.series.candlestick()
         .decorate(function(sel) {
-            sel.select('rect').attr('fill', function(d, i) { return color(i); });
+            sel.attr('fill', function(d, i) { return color(i); })
+                .attr('stroke', function(d, i) { return color(i); })
+                .attr('class', '');
         })
         .xScale(dateScale)
         .yScale(priceScale);

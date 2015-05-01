@@ -1,13 +1,10 @@
-.candlestick>line {
+.candlestick>path {
   stroke: #000;
 }
-.candlestick>rect {
-  stroke: #000;
-}
-.candlestick.down>rect {
+.candlestick.down>path {
   fill: #c60;
 }
-.candlestick.up>rect {
+.candlestick.up>path {
   fill: #6c0;
 }
 
