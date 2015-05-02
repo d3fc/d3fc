@@ -76,6 +76,19 @@ module.exports = function (grunt) {
             }
         },
 
+        connect: {
+            options: {
+                base: 'visual-tests/dist',
+                useAvailablePort: true
+            },
+            dev: { },
+            keepalive: {
+                options: {
+                    keepalive: true
+                }
+            }
+        },
+
         copy: {
             visualTests: {
                 files: [
@@ -258,9 +271,11 @@ module.exports = function (grunt) {
     grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'concat:visualTests', 'assemble:visualTests']);
     grunt.registerTask('build:components', ['check', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
+    grunt.registerTask('dev:serve', ['build', 'connect:dev', 'watch']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
+    grunt.registerTask('serve', ['connect:keepalive']);
     grunt.registerTask('default', ['build', 'doc']);
 };
