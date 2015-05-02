@@ -55,15 +55,18 @@ grunt
 
 ### Grunt Tasks
 
-The following Grunt tasks, found in `Gruntfile.js`, can be run from the command line:
+The following Grunt tasks, found in `Gruntfile.js`, can be run from the command line. The most commonly used tasks to build and develop the project are:
 
 - `grunt build` - generate the project's JavaScript and CSS files in the _dist_ directory (at the root of the project); build the visual tests
+- `grunt dev` - run `grunt build`, then `grunt watch`
+- `grunt dev:serve` - same as `grunt dev` but also starts a web server for viewing the visual tests
+
+Other tasks include:
+
 - `grunt check` - run JSHint and JSCS checks
 - `grunt test` - run unit tests and build the visual tests
 - `grunt watch` - watch the source files and rebuild when a change is saved
 - `grunt serve` - start a web server for viewing the visual tests
-- `grunt dev` - run `grunt build`, then `grunt watch`
-- `grunt dev:serve` - run `grunt build`, then `grunt watch` and start a web server for viewing the visual tests
 - `grunt` - check, test and build the project
 
 ### Visual Tests
