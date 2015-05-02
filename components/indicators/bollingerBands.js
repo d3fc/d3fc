@@ -3,7 +3,7 @@
 
     fc.indicators.bollingerBands = function() {
 
-        var algorithm = fc.math.bollingerBands();
+        var algorithm = fc.indicators.algorithms.bollingerBands();
 
         var readCalculatedValue = function(d) {
             return bollingerBands.readCalculatedValue.value(d) || {};

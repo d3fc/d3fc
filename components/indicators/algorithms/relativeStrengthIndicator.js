@@ -1,9 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.math.relativeStrengthIndicator = function() {
+    fc.indicators.algorithms.relativeStrengthIndicator = function() {
 
-        var slidingWindow = fc.math.slidingWindow()
+        var slidingWindow = fc.indicators.algorithms.slidingWindow()
             .windowSize(14)
             .accumulator(function(values) {
                 var downCloses = [];

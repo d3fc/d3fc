@@ -45,7 +45,7 @@
         .orient('left')
         .ticks(5);
 
-    var percentageChange = fc.math.percentageChange()
+    var percentageChange = fc.indicators.algorithms.percentageChange()
         .inputValue(function(d) { return d.close; })
         .outputValue(function(d, value) { d.percentageChange = value; });
 

@@ -1,9 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.math.bollingerBands = function() {
+    fc.indicators.algorithms.bollingerBands = function() {
 
-        var slidingWindow = fc.math.slidingWindow()
+        var slidingWindow = fc.indicators.algorithms.slidingWindow()
             .accumulator(function(values) {
                 var avg = d3.mean(values);
                 var stdDev = d3.deviation(values);

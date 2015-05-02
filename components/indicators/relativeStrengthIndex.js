@@ -3,7 +3,7 @@
 
     fc.indicators.relativeStrengthIndicator = function() {
 
-        var algorithm = fc.math.relativeStrengthIndicator();
+        var algorithm = fc.indicators.algorithms.relativeStrengthIndicator();
         var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
 

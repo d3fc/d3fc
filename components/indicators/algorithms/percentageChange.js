@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.math.percentageChange = function() {
+    fc.indicators.algorithms.percentageChange = function() {
 
         var percentageChange = function(data) {
 
