@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Relative Strength Indicator
-component: indicators/relativeStrengthIndicator.js
+component: indicators/relativeStrengthIndex.js
 
 example-code: |
 
