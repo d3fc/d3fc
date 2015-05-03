@@ -1,13 +1,13 @@
 ---
 layout: default
 title: Relative Strength Indicator
-component: math/relativeStrengthIndex.js
+component: indicators/algorithms/relativeStrengthIndex.js
 
 example-code: |
     // create some test data
-    var data = fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(30);
+    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(30);
 
-    var algorithm = fc.math.relativeStrengthIndicator();
+    var algorithm = fc.indicators.algorithms.relativeStrengthIndicator();
 
     var rsi = algorithm(data);
 

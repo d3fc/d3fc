@@ -1,6 +1,6 @@
 project-repo-url: https://github.com/ScottLogic/d3-financial-components
 
-component-ids: [chart, series, indicators, math, scale, utilities]
+component-ids: [chart, series, indicators, algorithms, scale, layout, datagenerator]
 
 components:
   chart:
@@ -9,9 +9,11 @@ components:
     name: Series
   indicators:
     name: Indicators
-  math:
-    name: Math
+  algorithms:
+    name: Algorithms
   scale:
     name: Scale
-  utilities:
-    name: Utilities
+  layout:
+    name: Layout
+  datagenerator:
+    name: Data Generator

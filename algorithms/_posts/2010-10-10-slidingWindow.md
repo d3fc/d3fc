@@ -1,11 +1,11 @@
 ---
 layout: default
 title: Sliding Window
-component: math/slidingWindow.js
+component: indicators/algorithms/slidingWindow.js
 
 example-code: |
     var data = [1, 5, 7, 3, 5, 7, 4, 2, 5, 6];
-    var algorithm = fc.math.slidingWindow()
+    var algorithm = fc.indicators.algorithms.slidingWindow()
             .windowSize(5)
             .accumulator(d3.mean);
 
@@ -18,7 +18,7 @@ advanced-example: |
         .map(function(d) { return { value: d }; });
 
     // create a moving average that reads from 'value' and writes to 'movingAverage'
-    var algorithm = fc.math.slidingWindow()
+    var algorithm = fc.indicators.algorithms.slidingWindow()
             .windowSize(5)
             .inputValue(function(obj) { return obj.value; })
             .outputValue(function(obj, value) { obj.movingAverage = value; })

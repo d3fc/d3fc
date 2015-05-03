@@ -6,7 +6,7 @@ component: chart/linearTimeSeries.js
 example-code: |
   
   // create some test data
-  var data = fc.utilities.dataGenerator()(80);
+  var data = fc.dataGenerator()(80);
 
   // create a chart
   var chart = fc.charts.linearTimeSeries()

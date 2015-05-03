@@ -1,11 +1,11 @@
 ---
 layout: default
 title: Bollinger Bands
-component: math/bollingerBands.js
+component: indicators/algorithms/bollingerBands.js
 
 example-code: |
     var data = [1, 5, 7, 3, 5, 7, 4, 2, 5, 6];
-    var algorithm = fc.math.bollingerBands()
+    var algorithm = fc.indicators.algorithms.bollingerBands()
             .windowSize(5);
 
     var bollinger = algorithm(data);

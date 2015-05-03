@@ -1,11 +1,11 @@
 ---
 layout: default
 title: Data Generator
-component: utilities/dataGenerator.js
+component: dataGenerator/dataGenerator.js
 
 example-code: |
   // construct a data generator
-  dataGenerator = fc.utilities.dataGenerator();
+  dataGenerator = fc.dataGenerator();
 
   // generate some data!
   var data = dataGenerator(10);

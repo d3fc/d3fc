@@ -1,121 +1,18 @@
 /* globals window */
 
-/**
- * A collection of components that make it easy to build interactive financial charts with D3
- *
- * @namespace fc
- */
 window.fc = {
     version: '0.0.0',
     charts: {},
-    /**
-     * Studies, trend-lines and other financial indicators that can be added to a chart
-     *
-     * @namespace fc.indicators
-     */
-    indicators: {},
-    math: {},
-    /**
-     * Useful complex scales which add to the D3 scales in terms of render quality.
-     * Also, complex financial scales that can be added to a chart
-     *
-     * @namespace fc.scale
-     */
+    indicators: {
+        algorithms: {}
+    },
     scale: {
         discontinuity: {}
     },
     series: {},
     tools: {},
-    /**
-     * Utility components to shorted long winded implementations of common operations.
-     * Also includes components for mock data generation and layout.
-     *
-     * @namespace fc.utilities
-     */
     utilities: {}
 };
-(function(fc) {
-    'use strict';
-
-    fc.utilities.dataGenerator = function() {
-
-        var calculateOHLC = function(days, prices, volumes) {
-            var ohlcv = [],
-                daySteps,
-                currentStep = 0,
-                currentIntraStep = 0,
-                stepsPerDay = gen.stepsPerDay.value;
-
-            while (ohlcv.length < days) {
-                daySteps = prices.slice(currentIntraStep, currentIntraStep + stepsPerDay);
-                ohlcv.push({
-                    date: new Date(gen.startDate.value.getTime()),
-                    open: daySteps[0],
-                    high: Math.max.apply({}, daySteps),
-                    low: Math.min.apply({}, daySteps),
-                    close: daySteps[stepsPerDay - 1],
-                    volume: volumes[currentStep]
-                });
-                currentIntraStep += stepsPerDay;
-                currentStep += 1;
-                gen.startDate.value.setUTCDate(gen.startDate.value.getUTCDate() + 1);
-            }
-            return ohlcv;
-        };
-
-        var gen = function(days) {
-            var toDate = new Date(gen.startDate.value.getTime());
-            toDate.setUTCDate(gen.startDate.value.getUTCDate() + days);
-
-            var millisecondsPerYear = 3.15569e10,
-                years = (toDate.getTime() - gen.startDate.value.getTime()) / millisecondsPerYear;
-
-            var prices = fc.math.randomWalk(
-                years,
-                days * gen.stepsPerDay.value,
-                gen.mu.value,
-                gen.sigma.value,
-                gen.startPrice.value
-            );
-            var volumes = fc.math.randomWalk(
-                years,
-                days,
-                0,
-                gen.sigma.value,
-                gen.startVolume.value
-            );
-
-            // Add random noise
-            volumes = volumes.map(function(vol) {
-                var boundedNoiseFactor = Math.min(0, Math.max(gen.volumeNoiseFactor.value, 1));
-                var multiplier = 1 + (boundedNoiseFactor * (1 - 2 * Math.random()));
-                return Math.floor(vol * multiplier);
-            });
-
-            // Save the new start values
-            gen.startPrice.value = prices[prices.length - 1];
-            gen.startVolume.value = volumes[volumes.length - 1];
-
-            return calculateOHLC(days, prices, volumes).filter(function(d) {
-                return !gen.filter.value || gen.filter.value(d.date);
-            });
-        };
-
-        gen.mu = fc.utilities.property(0.1);
-        gen.sigma = fc.utilities.property(0.1);
-        gen.startPrice = fc.utilities.property(100);
-        gen.startVolume = fc.utilities.property(100000);
-        gen.startDate = fc.utilities.property(new Date());
-        gen.stepsPerDay = fc.utilities.property(50);
-        gen.volumeNoiseFactor = fc.utilities.property(0.3);
-        gen.filter = fc.utilities.property(function(date) {
-            return !(date.getDay() === 0 || date.getDay() === 6);
-        });
-
-        return gen;
-    };
-
-}(fc));
 (function(d3, fc) {
     'use strict';
 
@@ -213,140 +110,6 @@ window.fc = {
         };
     };
 }(d3, fc));
-/* globals computeLayout */
-(function(d3, fc, cssLayout) {
-    'use strict';
-
-
-    d3.selection.prototype.layout = function(name, value) {
-        var layout = fc.utilities.layout();
-        var n = arguments.length;
-        if (n === 2) {
-            if (typeof name !== 'string') {
-                layout.width(name).height(value);
-                this.call(layout);
-            } else {
-                this.attr('layout-css', name + ':' + value);
-            }
-        } else if (n === 1) {
-            if (typeof name !== 'string') {
-                var styleObject = name;
-                var layoutCss = Object.keys(styleObject)
-                    .map(function(property) {
-                        return property + ':' + styleObject[property];
-                    })
-                    .join(';');
-                this.attr('layout-css', layoutCss);
-            } else {
-                return Number(this.attr('layout-' + name));
-            }
-        } else if (n === 0) {
-            this.call(layout);
-        }
-        return this;
-    };
-
-    fc.utilities.layout = function() {
-
-        // parses the style attribute, converting it into a JavaScript object
-        function parseStyle(style) {
-            if (!style) {
-                return {};
-            }
-            var properties = style.split(';');
-            var json = {};
-            properties.forEach(function(property) {
-                var components = property.split(':');
-                if (components.length === 2) {
-                    var name = components[0].trim();
-                    var value = components[1].trim();
-                    json[name] = isNaN(value) ? value : Number(value);
-                }
-            });
-            return json;
-        }
-
-        // creates the structure required by the layout engine
-        function createNodes(el) {
-            function getChildNodes() {
-                var children = [];
-                for (var i = 0; i < el.childNodes.length; i++) {
-                    var child = el.childNodes[i];
-                    if (child.nodeType === 1) {
-                        if (child.getAttribute('layout-css')) {
-                            children.push(createNodes(child));
-                        }
-                    }
-                }
-                return children;
-            }
-            return {
-                style: parseStyle(el.getAttribute('layout-css')),
-                children: getChildNodes(el),
-                element: el,
-                layout: {
-                    width: undefined,
-                    height: undefined,
-                    top: 0,
-                    left: 0
-                }
-            };
-        }
-
-        // takes the result of layout and applied it to the SVG elements
-        function applyLayout(node) {
-            node.element.setAttribute('layout-width', node.layout.width);
-            node.element.setAttribute('layout-height', node.layout.height);
-            if (node.element.nodeName.toLowerCase() === 'svg') {
-                node.element.setAttribute('width', node.layout.width);
-                node.element.setAttribute('height', node.layout.height);
-                node.element.setAttribute('x', node.layout.left);
-                node.element.setAttribute('y', node.layout.top);
-            } else {
-                node.element.setAttribute('transform',
-                    'translate(' + node.layout.left + ', ' + node.layout.top + ')');
-            }
-            node.children.forEach(applyLayout);
-        }
-
-        var layout = function(selection) {
-            selection.each(function(data) {
-                // compute the width and height of the SVG element
-                var style = getComputedStyle(this);
-                var width, height;
-
-                if (layout.width.value !== -1) {
-                    width = layout.width.value;
-                } else {
-                    width = parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-                }
-                if (layout.height.value !== -1) {
-                    height = layout.height.value;
-                } else {
-                    height = parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-                }
-
-                // create the layout nodes
-                var layoutNodes = createNodes(this);
-                // set the width / height of the root
-                layoutNodes.style.width = width;
-                layoutNodes.style.height = height;
-
-                // use the Facebook CSS goodness
-                cssLayout.computeLayout(layoutNodes);
-
-                // apply the resultant layout
-                applyLayout(layoutNodes);
-            });
-        };
-
-        layout.width = fc.utilities.property(-1);
-        layout.height = fc.utilities.property(-1);
-
-        return layout;
-    };
-
-}(d3, fc, computeLayout));
 (function(d3, fc) {
     'use strict';
 
@@ -445,6 +208,7 @@ window.fc = {
                     return value === source ? target : value;
                 };
             });
+        return target;
     };
 
 }(d3, fc));
@@ -605,12 +369,258 @@ window.fc = {
     };
 
 })(d3, fc);
+(function(fc) {
+    'use strict';
+
+    fc.dataGenerator = function() {
+
+        var calculateOHLC = function(days, prices, volumes) {
+            var ohlcv = [],
+                daySteps,
+                currentStep = 0,
+                currentIntraStep = 0,
+                stepsPerDay = gen.stepsPerDay.value;
+
+            while (ohlcv.length < days) {
+                daySteps = prices.slice(currentIntraStep, currentIntraStep + stepsPerDay);
+                ohlcv.push({
+                    date: new Date(gen.startDate.value.getTime()),
+                    open: daySteps[0],
+                    high: Math.max.apply({}, daySteps),
+                    low: Math.min.apply({}, daySteps),
+                    close: daySteps[stepsPerDay - 1],
+                    volume: volumes[currentStep]
+                });
+                currentIntraStep += stepsPerDay;
+                currentStep += 1;
+                gen.startDate.value.setUTCDate(gen.startDate.value.getUTCDate() + 1);
+            }
+            return ohlcv;
+        };
+
+        var gen = function(days) {
+            var toDate = new Date(gen.startDate.value.getTime());
+            toDate.setUTCDate(gen.startDate.value.getUTCDate() + days);
+
+            var millisecondsPerYear = 3.15569e10,
+                years = (toDate.getTime() - gen.startDate.value.getTime()) / millisecondsPerYear;
+
+            var prices = randomWalk(
+                years,
+                days * gen.stepsPerDay.value,
+                gen.mu.value,
+                gen.sigma.value,
+                gen.startPrice.value
+            );
+            var volumes = randomWalk(
+                years,
+                days,
+                0,
+                gen.sigma.value,
+                gen.startVolume.value
+            );
+
+            // Add random noise
+            volumes = volumes.map(function(vol) {
+                var boundedNoiseFactor = Math.min(0, Math.max(gen.volumeNoiseFactor.value, 1));
+                var multiplier = 1 + (boundedNoiseFactor * (1 - 2 * Math.random()));
+                return Math.floor(vol * multiplier);
+            });
+
+            // Save the new start values
+            gen.startPrice.value = prices[prices.length - 1];
+            gen.startVolume.value = volumes[volumes.length - 1];
+
+            return calculateOHLC(days, prices, volumes).filter(function(d) {
+                return !gen.filter.value || gen.filter.value(d.date);
+            });
+        };
+
+        var randomWalk = function(period, steps, mu, sigma, initial) {
+            var randomNormal = d3.random.normal(),
+                timeStep = period / steps,
+                increments = new Array(steps + 1),
+                increment,
+                step;
+
+            // Compute step increments for the discretized GBM model.
+            for (step = 1; step < increments.length; step += 1) {
+                increment = randomNormal();
+                increment *= Math.sqrt(timeStep);
+                increment *= sigma;
+                increment += (mu - ((sigma * sigma) / 2)) * timeStep;
+                increments[step] = Math.exp(increment);
+            }
+            // Return the cumulative product of increments from initial value.
+            increments[0] = initial;
+            for (step = 1; step < increments.length; step += 1) {
+                increments[step] = increments[step - 1] * increments[step];
+            }
+            return increments;
+        };
+
+        gen.mu = fc.utilities.property(0.1);
+        gen.sigma = fc.utilities.property(0.1);
+        gen.startPrice = fc.utilities.property(100);
+        gen.startVolume = fc.utilities.property(100000);
+        gen.startDate = fc.utilities.property(new Date());
+        gen.stepsPerDay = fc.utilities.property(50);
+        gen.volumeNoiseFactor = fc.utilities.property(0.3);
+        gen.filter = fc.utilities.property(function(date) {
+            return !(date.getDay() === 0 || date.getDay() === 6);
+        });
+
+        return gen;
+    };
+
+}(fc));
+(function(d3, fc) {
+    'use strict';
+
+    fc.indicators.algorithms.bollingerBands = function() {
+
+        var slidingWindow = fc.indicators.algorithms.slidingWindow()
+            .accumulator(function(values) {
+                var avg = d3.mean(values);
+                var stdDev = d3.deviation(values);
+                var multiplier = bollingerBands.multiplier.value.apply(this, arguments);
+                return {
+                    upper: avg + multiplier * stdDev,
+                    average: avg,
+                    lower: avg - multiplier * stdDev
+                };
+            });
+
+        var bollingerBands = function(data) {
+            return slidingWindow(data);
+        };
+
+        bollingerBands.multiplier = fc.utilities.functorProperty(2);
+
+        d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'inputValue', 'outputValue');
+
+        return bollingerBands;
+    };
+}(d3, fc));
+
+(function(d3, fc) {
+    'use strict';
+
+    fc.indicators.algorithms.percentageChange = function() {
+
+        var percentageChange = function(data) {
+
+            if (data.length === 0) {
+                return [];
+            }
+
+            var baseIndex = percentageChange.baseIndex.value(data);
+            var baseValue = percentageChange.inputValue.value(data[baseIndex]);
+
+            return data.map(function(d) {
+                    var result = (percentageChange.inputValue.value(d) - baseValue) / baseValue;
+                    return percentageChange.outputValue.value(d, result);
+                });
+        };
+
+        percentageChange.baseIndex = fc.utilities.functorProperty(0);
+        percentageChange.inputValue = fc.utilities.property(fc.utilities.fn.identity);
+        percentageChange.outputValue = fc.utilities.property(function(obj, value) { return value; });
+
+        return percentageChange;
+    };
+}(d3, fc));
+
+(function(d3, fc) {
+    'use strict';
+
+    fc.indicators.algorithms.relativeStrengthIndicator = function() {
+
+        var slidingWindow = fc.indicators.algorithms.slidingWindow()
+            .windowSize(14)
+            .accumulator(function(values) {
+                var downCloses = [];
+                var upCloses = [];
+
+                for (var i = 0, l = values.length; i < l; i++) {
+                    var value = values[i];
+
+                    var openValue = rsi.openValue.value(value);
+                    var closeValue = rsi.closeValue.value(value);
+
+                    downCloses.push(openValue > closeValue ? openValue - closeValue : 0);
+                    upCloses.push(openValue < closeValue ? closeValue - openValue : 0);
+                }
+
+                var downClosesAvg = rsi.averageAccumulator.value(downCloses);
+                if (downClosesAvg === 0) {
+                    return 100;
+                }
+
+                var rs = rsi.averageAccumulator.value(upCloses) / downClosesAvg;
+                return 100 - (100 / (1 + rs));
+            });
+
+        var rsi = function(data) {
+            return slidingWindow(data);
+        };
+
+        rsi.openValue = fc.utilities.property(function(d) { return d.open; });
+        rsi.closeValue = fc.utilities.property(function(d) { return d.close; });
+        rsi.averageAccumulator = fc.utilities.property(function(values) {
+            var alpha = 1 / values.length;
+            var result = values[0];
+            for (var i = 1, l = values.length; i < l; i++) {
+                result = alpha * values[i] + (1 - alpha) * result;
+            }
+            return result;
+        });
+
+        d3.rebind(rsi, slidingWindow, 'windowSize', 'outputValue');
+
+        return rsi;
+    };
+}(d3, fc));
+
+(function(d3, fc) {
+    'use strict';
+
+    fc.indicators.algorithms.slidingWindow = function() {
+
+        var slidingWindow = function(data) {
+            var size = slidingWindow.windowSize.value.apply(this, arguments);
+            var accumulator = slidingWindow.accumulator.value;
+            var inputValue = slidingWindow.inputValue.value;
+            var outputValue = slidingWindow.outputValue.value;
+
+            var windowData = data.slice(0, size).map(inputValue);
+            return data.slice(size - 1, data.length)
+                .map(function(d, i) {
+                    if (i > 0) {
+                        // Treat windowData as FIFO rolling buffer
+                        windowData.shift();
+                        windowData.push(inputValue(d));
+                    }
+                    var result = accumulator(windowData);
+                    return outputValue(d, result);
+                });
+        };
+
+        slidingWindow.windowSize = fc.utilities.functorProperty(10);
+        slidingWindow.accumulator = fc.utilities.property(fc.utilities.fn.noop);
+        slidingWindow.inputValue = fc.utilities.property(fc.utilities.fn.identity);
+        slidingWindow.outputValue = fc.utilities.property(function(obj, value) { return value; });
+
+        return slidingWindow;
+    };
+}(d3, fc));
+
 (function(d3, fc) {
     'use strict';
 
     fc.indicators.bollingerBands = function() {
 
-        var algorithm = fc.math.bollingerBands();
+        var algorithm = fc.indicators.algorithms.bollingerBands();
 
         var readCalculatedValue = function(d) {
             return bollingerBands.readCalculatedValue.value(d) || {};
@@ -721,7 +731,7 @@ window.fc = {
 
     fc.indicators.movingAverage = function() {
 
-        var algorithm = fc.math.slidingWindow()
+        var algorithm = fc.indicators.algorithms.slidingWindow()
             .accumulator(d3.mean);
 
         var averageLine = fc.series.line();
@@ -762,7 +772,7 @@ window.fc = {
 
     fc.indicators.relativeStrengthIndicator = function() {
 
-        var algorithm = fc.math.relativeStrengthIndicator();
+        var algorithm = fc.indicators.algorithms.relativeStrengthIndicator();
         var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
 
@@ -820,173 +830,145 @@ window.fc = {
         return rsi;
     };
 }(d3, fc));
-(function(d3, fc) {
+/* globals computeLayout */
+(function(d3, fc, cssLayout) {
     'use strict';
 
-    fc.math.bollingerBands = function() {
 
-        var slidingWindow = fc.math.slidingWindow()
-            .accumulator(function(values) {
-                var avg = d3.mean(values);
-                var stdDev = d3.deviation(values);
-                var multiplier = bollingerBands.multiplier.value.apply(this, arguments);
-                return {
-                    upper: avg + multiplier * stdDev,
-                    average: avg,
-                    lower: avg - multiplier * stdDev
-                };
-            });
-
-        var bollingerBands = function(data) {
-            return slidingWindow(data);
-        };
-
-        bollingerBands.multiplier = fc.utilities.functorProperty(2);
-
-        d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'inputValue', 'outputValue');
-
-        return bollingerBands;
-    };
-}(d3, fc));
-
-(function(d3, fc) {
-    'use strict';
-
-    fc.math.percentageChange = function() {
-
-        var percentageChange = function(data) {
-
-            if (data.length === 0) {
-                return [];
+    d3.selection.prototype.layout = function(name, value) {
+        var layout = fc.layout();
+        var n = arguments.length;
+        if (n === 2) {
+            if (typeof name !== 'string') {
+                // layout(number, number) - sets the width and height and performs layout
+                layout.width(name).height(value);
+                this.call(layout);
+            } else {
+                // layout(name, value) - sets a layout- attribute
+                this.attr('layout-css', name + ':' + value);
             }
-
-            var baseIndex = percentageChange.baseIndex.value(data);
-            var baseValue = percentageChange.inputValue.value(data[baseIndex]);
-
-            return data.map(function(d) {
-                    var result = (percentageChange.inputValue.value(d) - baseValue) / baseValue;
-                    return percentageChange.outputValue.value(d, result);
-                });
-        };
-
-        percentageChange.baseIndex = fc.utilities.functorProperty(0);
-        percentageChange.inputValue = fc.utilities.property(fc.utilities.fn.identity);
-        percentageChange.outputValue = fc.utilities.property(function(obj, value) { return value; });
-
-        return percentageChange;
-    };
-}(d3, fc));
-
-(function(d3, fc) {
-    'use strict';
-
-    fc.math.randomWalk = function(period, steps, mu, sigma, initial) {
-        var randomNormal = d3.random.normal(),
-            timeStep = period / steps,
-            increments = new Array(steps + 1),
-            increment,
-            step;
-
-        // Compute step increments for the discretized GBM model.
-        for (step = 1; step < increments.length; step += 1) {
-            increment = randomNormal();
-            increment *= Math.sqrt(timeStep);
-            increment *= sigma;
-            increment += (mu - ((sigma * sigma) / 2)) * timeStep;
-            increments[step] = Math.exp(increment);
-        }
-        // Return the cumulative product of increments from initial value.
-        increments[0] = initial;
-        for (step = 1; step < increments.length; step += 1) {
-            increments[step] = increments[step - 1] * increments[step];
-        }
-        return increments;
-    };
-}(d3, fc));
-(function(d3, fc) {
-    'use strict';
-
-    fc.math.relativeStrengthIndicator = function() {
-
-        var slidingWindow = fc.math.slidingWindow()
-            .windowSize(14)
-            .accumulator(function(values) {
-                var downCloses = [];
-                var upCloses = [];
-
-                for (var i = 0, l = values.length; i < l; i++) {
-                    var value = values[i];
-
-                    var openValue = rsi.openValue.value(value);
-                    var closeValue = rsi.closeValue.value(value);
-
-                    downCloses.push(openValue > closeValue ? openValue - closeValue : 0);
-                    upCloses.push(openValue < closeValue ? closeValue - openValue : 0);
-                }
-
-                var downClosesAvg = rsi.averageAccumulator.value(downCloses);
-                if (downClosesAvg === 0) {
-                    return 100;
-                }
-
-                var rs = rsi.averageAccumulator.value(upCloses) / downClosesAvg;
-                return 100 - (100 / (1 + rs));
-            });
-
-        var rsi = function(data) {
-            return slidingWindow(data);
-        };
-
-        rsi.openValue = fc.utilities.property(function(d) { return d.open; });
-        rsi.closeValue = fc.utilities.property(function(d) { return d.close; });
-        rsi.averageAccumulator = fc.utilities.property(function(values) {
-            var alpha = 1 / values.length;
-            var result = values[0];
-            for (var i = 1, l = values.length; i < l; i++) {
-                result = alpha * values[i] + (1 - alpha) * result;
+        } else if (n === 1) {
+            if (typeof name !== 'string') {
+                // layout(object) - sets the layout-css property to the given object
+                var styleObject = name;
+                var layoutCss = Object.keys(styleObject)
+                    .map(function(property) {
+                        return property + ':' + styleObject[property];
+                    })
+                    .join(';');
+                this.attr('layout-css', layoutCss);
+            } else {
+                // layout(name) - returns the value of the layout-name attribute
+                return Number(this.attr('layout-' + name));
             }
-            return result;
-        });
-
-        d3.rebind(rsi, slidingWindow, 'windowSize', 'outputValue');
-
-        return rsi;
+        } else if (n === 0) {
+            // layout() - executes layout
+            this.call(layout);
+        }
+        return this;
     };
-}(d3, fc));
 
-(function(d3, fc) {
-    'use strict';
+    fc.layout = function() {
 
-    fc.math.slidingWindow = function() {
+        // parses the style attribute, converting it into a JavaScript object
+        function parseStyle(style) {
+            if (!style) {
+                return {};
+            }
+            var properties = style.split(';');
+            var json = {};
+            properties.forEach(function(property) {
+                var components = property.split(':');
+                if (components.length === 2) {
+                    var name = components[0].trim();
+                    var value = components[1].trim();
+                    json[name] = isNaN(value) ? value : Number(value);
+                }
+            });
+            return json;
+        }
 
-        var slidingWindow = function(data) {
-            var size = slidingWindow.windowSize.value.apply(this, arguments);
-            var accumulator = slidingWindow.accumulator.value;
-            var inputValue = slidingWindow.inputValue.value;
-            var outputValue = slidingWindow.outputValue.value;
-
-            var windowData = data.slice(0, size).map(inputValue);
-            return data.slice(size - 1, data.length)
-                .map(function(d, i) {
-                    if (i > 0) {
-                        // Treat windowData as FIFO rolling buffer
-                        windowData.shift();
-                        windowData.push(inputValue(d));
+        // creates the structure required by the layout engine
+        function createNodes(el) {
+            function getChildNodes() {
+                var children = [];
+                for (var i = 0; i < el.childNodes.length; i++) {
+                    var child = el.childNodes[i];
+                    if (child.nodeType === 1) {
+                        if (child.getAttribute('layout-css')) {
+                            children.push(createNodes(child));
+                        }
                     }
-                    var result = accumulator(windowData);
-                    return outputValue(d, result);
-                });
+                }
+                return children;
+            }
+            return {
+                style: parseStyle(el.getAttribute('layout-css')),
+                children: getChildNodes(el),
+                element: el,
+                layout: {
+                    width: undefined,
+                    height: undefined,
+                    top: 0,
+                    left: 0
+                }
+            };
+        }
+
+        // takes the result of layout and applied it to the SVG elements
+        function applyLayout(node) {
+            node.element.setAttribute('layout-width', node.layout.width);
+            node.element.setAttribute('layout-height', node.layout.height);
+            if (node.element.nodeName.match(/(?:svg|rect)/i)) {
+                node.element.setAttribute('width', node.layout.width);
+                node.element.setAttribute('height', node.layout.height);
+                node.element.setAttribute('x', node.layout.left);
+                node.element.setAttribute('y', node.layout.top);
+            } else {
+                node.element.setAttribute('transform',
+                    'translate(' + node.layout.left + ', ' + node.layout.top + ')');
+            }
+            node.children.forEach(applyLayout);
+        }
+
+        var layout = function(selection) {
+            selection.each(function(data) {
+                // compute the width and height of the SVG element
+                var style = getComputedStyle(this);
+                var width, height;
+
+                if (layout.width.value !== -1) {
+                    width = layout.width.value;
+                } else {
+                    width = parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+                }
+                if (layout.height.value !== -1) {
+                    height = layout.height.value;
+                } else {
+                    height = parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
+                }
+
+                // create the layout nodes
+                var layoutNodes = createNodes(this);
+                // set the width / height of the root
+                layoutNodes.style.width = width;
+                layoutNodes.style.height = height;
+
+                // use the Facebook CSS goodness
+                cssLayout.computeLayout(layoutNodes);
+
+                // apply the resultant layout
+                applyLayout(layoutNodes);
+            });
         };
 
-        slidingWindow.windowSize = fc.utilities.functorProperty(10);
-        slidingWindow.accumulator = fc.utilities.property(fc.utilities.fn.noop);
-        slidingWindow.inputValue = fc.utilities.property(fc.utilities.fn.identity);
-        slidingWindow.outputValue = fc.utilities.property(function(obj, value) { return value; });
+        layout.width = fc.utilities.property(-1);
+        layout.height = fc.utilities.property(-1);
 
-        return slidingWindow;
+        return layout;
     };
-}(d3, fc));
 
+}(d3, fc, computeLayout));
 (function(d3, fc) {
     'use strict';
 
@@ -1321,7 +1303,8 @@ window.fc = {
 
         // convenience functions that return the x & y screen coords for a given point
         var x = function(d) { return bar.xScale.value(bar.xValue.value(d)); };
-        var y = function(d) { return bar.yScale.value(bar.yValue.value(d)); };
+        var barTop = function(d) { return bar.yScale.value(bar.y0Value.value(d) + bar.yValue.value(d)); };
+        var barBottom = function(d) { return bar.yScale.value(bar.y0Value.value(d)); };
 
         var bar = function(selection) {
             selection.each(function(data) {
@@ -1339,9 +1322,11 @@ window.fc = {
                     .attr('x', function(d) {
                         return x(d) - width / 2;
                     })
-                    .attr('y', function(d) { return y(d); })
+                    .attr('y', barTop)
                     .attr('width', width)
-                    .attr('height', function(d) { return bar.yScale.value(0) - y(d); });
+                    .attr('height', function(d) {
+                        return barBottom(d) - barTop(d);
+                    });
 
                 // properties set by decorate will transition too
                 bar.decorate.value(series);
@@ -1354,6 +1339,7 @@ window.fc = {
         bar.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
         bar.yValue = fc.utilities.property(function(d) { return d.close; });
         bar.xValue = fc.utilities.property(function(d) { return d.date; });
+        bar.y0Value = fc.utilities.functorProperty(0);
 
         return bar;
     };
@@ -1379,9 +1365,8 @@ window.fc = {
 
                 var g = fc.utilities.simpleDataJoin(container, 'candlestick', data, candlestick.xValue.value);
 
-                var enter = g.enter();
-                enter.append('line');
-                enter.append('rect');
+                g.enter()
+                    .append('path');
 
                 g.classed({
                         'up': function(d) {
@@ -1392,24 +1377,36 @@ window.fc = {
                         }
                     });
 
-                g.select('line')
-                    .attr('x1', x)
-                    .attr('y1', yHigh)
-                    .attr('x2', x)
-                    .attr('y2', yLow);
-
                 var barWidth = candlestick.barWidth.value(data.map(x));
 
-                g.select('rect')
-                    .attr('x', function(d) {
-                        return x(d) - barWidth / 2;
-                    })
-                    .attr('y', function(d) {
-                        return Math.min(yOpen(d), yClose(d));
-                    })
-                    .attr('width', barWidth)
-                    .attr('height', function(d) {
-                        return Math.abs(yClose(d) - yOpen(d));
+                g.select('path')
+                    .attr('d', function(d) {
+                        // Move to the opening price
+                        var body = 'M' + (x(d) - barWidth / 2) + ',' + yOpen(d) +
+                        // Draw the width
+                        'h' + barWidth +
+                        // Draw to the closing price (vertically)
+                        'V' + yClose(d) +
+                        // Draw the width
+                        'h' + -barWidth +
+                        // Move back to the opening price
+                        'V' + yOpen(d) +
+                        // Close the path
+                        'z';
+
+                        // Move to the max price of close or open; draw the high wick
+                        // N.B. Math.min() is used as we're dealing with pixel values,
+                        // the lower the pixel value, the higher the price!
+                        var highWick = 'M' + x(d) + ',' + Math.min(yClose(d), yOpen(d)) +
+                        'V' + yHigh(d);
+
+                        // Move to the min price of close or open; draw the low wick
+                        // N.B. Math.max() is used as we're dealing with pixel values,
+                        // the higher the pixel value, the lower the price!
+                        var lowWick = 'M' + x(d) + ',' + Math.max(yClose(d), yOpen(d)) +
+                        'V' + yLow(d);
+
+                        return body + highWick + lowWick;
                     });
 
                 candlestick.decorate.value(g);
@@ -1628,39 +1625,30 @@ window.fc = {
 
         var stackedBar = function(selection) {
 
-            selection.each(function(data) {
+            var bar = fc.series.bar()
+                .xScale(stackedBar.xScale.value)
+                .yScale(stackedBar.yScale.value)
+                .xValue(stackLayout.x())
+                .yValue(stackLayout.y())
+                .y0Value(stackedBar.y0Value.value);
 
-                var container = d3.select(this);
+            selection.each(function(data) {
 
                 var layers = stackLayout(data);
 
-                var g = fc.utilities.simpleDataJoin(container, 'stacked-bar', layers);
+                var container = d3.select(this);
 
-                var bar = g.selectAll('rect')
-                    .data(function(d) { return stackLayout.values()(d); })
+                // Pull data from series objects.
+                var layeredData = layers.map(stackLayout.values());
+
+                var series = container.selectAll('g.stacked-bar')
+                    .data(layeredData)
                     .enter()
-                    .append('rect');
+                    .append('g')
+                    .attr('class', 'stacked-bar')
+                    .call(bar);
 
-                var xPositions = stackedBar.xScale.value.domain().map(stackedBar.xScale.value);
-                var width = stackedBar.barWidth.value(xPositions);
-
-                // update
-                bar.attr('x', function(d) { return stackedBar.xScale.value(stackLayout.x()(d)) - width / 2; })
-                    .attr('y', function(d) {
-                        return stackedBar.yScale.value(stackLayout.y()(d) + stackedBar.y0.value(d));
-                    })
-                    .attr('width', width)
-                    .attr('height', function(d) {
-                        var baselineValue = stackedBar.y0.value(d);
-                        var topValue = stackLayout.y()(d);
-
-                        var bottomPixel = stackedBar.yScale.value(baselineValue);
-                        var topPixel = stackedBar.yScale.value(topValue + baselineValue);
-
-                        return bottomPixel - topPixel;
-                    });
-
-                stackedBar.decorate.value(g);
+                stackedBar.decorate.value(series);
             });
         };
 
@@ -1673,11 +1661,18 @@ window.fc = {
         stackedBar.yScale = fc.utilities.property(d3.scale.linear());
 
         // Implicitly dependant on the implementation of the stack layout's `out`.
-        stackedBar.y0 = fc.utilities.property(function(d) {
+        stackedBar.y0Value = fc.utilities.property(function(d) {
             return d.y0;
         });
 
-        return d3.rebind(stackedBar, stackLayout, 'x', 'y', 'out', 'offset', 'values', 'order');
+        return fc.utilities.rebind(stackedBar, stackLayout, {
+            xValue: 'x',
+            yValue: 'y',
+            out: 'out',
+            offset: 'offset',
+            values: 'values',
+            order: 'order'
+        });
     };
 }(d3, fc));
 
