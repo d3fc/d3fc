@@ -1,13 +1,23 @@
 {
   "name": "d3-financial-components",
   "version": "0.0.0",
-  "private": true,
-  "description": "",
+  "description": "A set of re-useable components for building financial charts with D3",
   "author": "Scott Logic",
   "dependencies": {
     "css-layout": "^0.0.2",
     "d3": "^3.5.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ScottLogic/d3-financial-components"
+  },
+  "keywords": [
+    "d3",
+    "financial",
+    "components",
+    "charts"
+  ],
+  "license": "MIT",
   "devDependencies": {
     "assemble": "^0.4.42",
     "bootstrap": "^3.3.2",
