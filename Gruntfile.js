@@ -257,7 +257,7 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            dist: ['dist'],
+            dist: ['dist/*', '!dist/README.md'],
             doc: ['doc'],
             visualTests: ['visual-tests/dist']
         },
