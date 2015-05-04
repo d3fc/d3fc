@@ -265,8 +265,11 @@ module.exports = function (grunt) {
         release: {
             options: {
                 beforeRelease: ['default'],
+                remote: 'upstream',
                 github: {
-                    repo: 'ScottLogic/d3-financial-components'
+                    repo: 'ScottLogic/d3-financial-components',
+                    usernameVar: 'GITHUB_USERNAME',
+                    passwordVar: 'GITHUB_PASSWORD'
                 }
             }
         }
