@@ -1,0 +1,76 @@
+.chart {
+  width: 600px;
+  height: 250px;
+  border: 1px solid #ccc;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.charts-container {
+  text-align: center;
+}
+
+.chart-small {
+  width: 300px;
+  height: 125px;
+  background: white;
+  border: 1px solid #ccc;
+  margin: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.chart-small .caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: left;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+}
+
+.chart-small:hover .caption {
+  background: rgba(0, 0, 0, 1);
+}
+
+.chart-small .caption h4 {
+  color: white;
+  margin-left: 10px;
+}
+
+.chart-small svg {
+  -webkit-transform: scale(0.5, 0.5);
+  -ms-transform: scale(0.5, 0.5);
+  transform: scale(0.5, 0.5);
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.massive-text {
+  font-size: 86px;
+  color: #aaa;
+  text-align: center;
+}
+
+.main-content {
+  margin-top: 75px;
+}
+.container section {
+  margin-bottom: 20px;
+}
+
+#jumbo1 {
+  padding: 10px 20px;
+}
+#jumbo2 {
+  padding: 20px;
+}

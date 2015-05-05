@@ -4,7 +4,8 @@ layout: default
 
 <div class="row">
 
-  <nav class="col-xs-3 bs-docs-sidebar">
+  <!-- side menu from the following fiddle: http://jsfiddle.net/gableroux/S2SMK/ -->
+  <nav class="col-sm-3 hidden-xs bs-docs-sidebar">
     <ul id="sidebar" class="nav nav-stacked fixed">
       {% for componentId in site.component-ids %}
       {% assign component = site.components[componentId] %}
@@ -20,13 +21,14 @@ layout: default
     </ul>
   </nav>
 
-  <div class="col-xs-9">
+  <div class="col-sm-9 col-xs-12">
     {% for componentId in site.component-ids %}
     {% assign component = site.components[componentId] %}
     <section>
       <h2 id="{{ componentId }}">{{ component.name }}</h2>
       {% for post in site.categories[componentId] %}
       <h3 id="{{ post.id | split:'/' | last }}">{{ post.title }}</h3>
+      <a href="{{ site.project-repo-url }}/blob/master/src/{{ post.component }}">[View the component source]</a>
       {{ post.content }}
       {% endfor %}
     </section>

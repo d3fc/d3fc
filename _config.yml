@@ -1,16 +1,21 @@
-siteurl: http://localhost:8080
+project-repo-url: https://github.com/ScottLogic/d3-financial-components
 
-component-ids: [indicators, scale, series, tools, utilities]
+component-ids: [chart, series, indicators, algorithms, scale, layout, datagenerator]
+
+highlighter: false
 
 components:
-  indicators:
-    name: Indicators
-  scale:
-    name: Scale
+  chart:
+    name: Chart
   series:
     name: Series
-  tools:
-    name: Tools  
-  utilities:
-    name: Utilities
-    
+  indicators:
+    name: Indicators
+  algorithms:
+    name: Algorithms
+  scale:
+    name: Scale
+  layout:
+    name: Layout
+  datagenerator:
+    name: Data Generator

@@ -1,0 +1,13 @@
+{% assign elementId = page.id | replace:'/','' %}
+
+<div id="{{ elementId }}" class="chart"> </div>
+<script type="text/javascript">
+(function() {
+    var f = createFixture('#{{ elementId }}', null, null, function() { return true; });
+    var container = f.container, data = f.data
+      xScale = f.xScale, yScale = f.yScale,
+      height = f.dimensions.height;
+
+    {{ page.example-code }}
+}());
+</script>
