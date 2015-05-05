@@ -117,7 +117,7 @@ example-code: |
 
 <div class="jumbotron" id="jumbo2">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 charts-container">
       {% for post in site.tags['frontpage'] %}
         {% assign elementId = post.id | replace:'/','' %}
         <a href="components.html#{{ post.id | split:'/' | last }}">
