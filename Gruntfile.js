@@ -8,7 +8,7 @@ module.exports = function (grunt) {
 
         meta: {
             componentsJsFiles: [
-                'components/**/*.js'
+                'src/**/*.js'
             ],
             testJsFiles: [
                 'tests/**/*Spec.js'
@@ -20,13 +20,12 @@ module.exports = function (grunt) {
                 'visual-tests/src/**/*.js'
             ],
             componentsCssFiles: [
-                'components/**/*.css'
+                'src/**/*.css'
             ],
             ourJsFiles: [
                 '<%= meta.componentsJsFiles %>',
                 '<%= meta.testJsFiles %>',
-                '<%= meta.visualTestJsFiles %>',
-                '!components/utilities/csslayout.js'
+                '<%= meta.visualTestJsFiles %>'
             ]
         },
 
@@ -64,7 +63,7 @@ module.exports = function (grunt) {
                 sourceMap: false
             },
             dist: {
-                src: ['components/fc.js', 'components/utilities/*.js', '<%= meta.componentsJsFiles %>'],
+                src: ['src/fc.js', 'src/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
             },
             visualTests: {
