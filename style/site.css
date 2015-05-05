@@ -30,8 +30,8 @@
   background: rgba(0, 0, 0, 0.5);
   text-align: left;
   transition: background .25s ease-in-out;
- -moz-transition: background .25s ease-in-out;
- -webkit-transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
 }
 
 .chart-small:hover .caption {
@@ -55,10 +55,22 @@
   left: 0;
 }
 
-.controls {
-  position: absolute;
-  top: 0;
+.massive-text {
+  font-size: 86px;
+  color: #aaa;
+  text-align: center;
 }
-.controls * {
-  font-size:40px;
+
+.main-content {
+  margin-top: 75px;
+}
+.container section {
+  margin-bottom: 20px;
+}
+
+#jumbo1 {
+  padding: 10px 20px;
+}
+#jumbo2 {
+  padding: 20px;
 }
