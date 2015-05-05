@@ -5,7 +5,7 @@
 
     var width = 600, height = 250;
 
-    var container = d3.select('#line')
+    var container = d3.select('#area-line-point')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
