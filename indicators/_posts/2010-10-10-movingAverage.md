@@ -2,7 +2,9 @@
 layout: default
 title: Moving Average
 component: indicators/movingAverage.js
-
+tags:
+  - frontpage
+  
 example-code: |
   // Create the point series
   var point = fc.series.point()
@@ -32,16 +34,7 @@ The example below creates a point series and a moving average:
 {{ page.example-code }}
 {% endhighlight %}
 
-<div id="indicators_movingAverage" class="chart"> </div>
-<script type="text/javascript">
-(function() {
-    var f = createFixture('#indicators_movingAverage');
-    var container = f.container, data = f.data
-      xScale = f.xScale, yScale = f.yScale;
-
-    {{ page.example-code }}
-}());
-</script>
+{% include exampleFixture.html %}
 
 You can configure the number of datapoints that are included in the moving average via the `windowSize` property, you can also change the object property that is averaged via the `yValue` property.
 

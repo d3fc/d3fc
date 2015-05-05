@@ -131,6 +131,35 @@
         margin-bottom: 15px;
       }
 
+      .chart-small {
+        width: 300px;
+        height: 125px;
+        background: white;
+        border: 1px solid #ccc;
+        margin: 10px 28px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .chart-small .caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .chart-small .caption h4 {
+        color: white;
+        margin-left: 10px;
+      }
+
+      .chart-small svg {
+        transform: scale(0.5, 0.5);
+        transform-origin: 0 0;
+        position: absolute;
+      }
+
       .controls {
         position: absolute;
         top: 0;
@@ -216,7 +245,6 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="components.html">Components</a></li>
-            <li><a href="example.html">Example</a></li>
           </ul>
         </div>
       </div>

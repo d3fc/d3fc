@@ -2,6 +2,8 @@
 layout: default
 title: Bollinger Bands
 component: indicators/bollingerBands.js
+tags:
+  - frontpage
 
 example-code: |
   // Create the point series
@@ -32,16 +34,7 @@ The example below creates a point series and a bollinger band indicator:
 {{ page.example-code }}
 {% endhighlight %}
 
-<div id="indicators_bollinger" class="chart"> </div>
-<script type="text/javascript">
-(function() {
-    var f = createFixture('#indicators_bollinger');
-    var container = f.container, data = f.data
-      xScale = f.xScale, yScale = f.yScale;
-
-    {{ page.example-code }}
-}());
-</script>
+{% include exampleFixture.html %}
 
 
 

@@ -2,6 +2,8 @@
 layout: default
 title: Relative Strength Indicator
 component: indicators/relativeStrengthIndex.js
+tags:
+  - frontpage
 
 example-code: |
 
@@ -29,16 +31,7 @@ The RSI indicator is rendered on a percent scale:
 {{ page.example-code }}
 {% endhighlight %}
 
-<div id="indicators_rsi" class="chart"> </div>
-<script type="text/javascript">
-(function() {
-    var f = createFixture('#indicators_rsi');
-    var container = f.container, data = f.data
-      xScale = f.xScale, height = f.dimensions.height;
-
-    {{ page.example-code }}
-}());
-</script>
+{% include exampleFixture.html %}
 
 You can configure the number of datapoints that are included in the RSI via the `windowSize` property, you can also change how the open and close values are read via the `openValue` and `closeValue` properties.
 

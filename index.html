@@ -45,106 +45,123 @@ example-code: |
   }, 200);
 ---
 <div class="jumbotron" id="jumbo1">
-	<div class="row">
-		<div class="col-md-8">
-			<h2>D3 Financial Components</h2>
-			<h4>A collection of components that make it easy to build interactive financial charts with D3.</h4>
-		</div>
-		<div class="col-md-4">
-			<div class="btn-group btn-group-justified" role="group" style="margin-bottom:5px;">
-				<a type="button" class="btn btn-primary btn-lg">Download (vX.X)</a>
-			</div>
-			<div class="btn-group btn-group-justified" role="group">
-				<a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
-			</div>
-		</div>  
-	</div>
+  <div class="row">
+    <div class="col-md-8">
+      <h2>D3 Financial Components</h2>
+      <h4>A collection of components that make it easy to build interactive financial charts with D3.</h4>
+    </div>
+    <div class="col-md-4">
+      <div class="btn-group btn-group-justified" role="group" style="margin-bottom:5px;">
+        <a type="button" class="btn btn-primary btn-lg">Download (vX.X)</a>
+      </div>
+      <div class="btn-group btn-group-justified" role="group">
+        <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
+      </div>
+    </div>  
+  </div>
 </div>
 
 <div class="jumbotron" id="jumbo2">
-	<div class="row">
-		<div class="col-md-12">
-			<svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
-			<div class="accordion" id="accordion2">
-			  <div class="accordion-group">
-			    <div class="accordion-heading">
-			      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-			        View sourcecode &#8964;
-			      </a>
-			    </div>
-			    <div id="collapseOne" class="accordion-body collapse">
-			      <div class="accordion-inner">
-			        {% highlight javascript %}
-							{{ page.example-code }}
-							{% endhighlight %}
-			      </div>
-			    </div>
-			  </div>
-			</div>
-		</div>
+  <div class="row">
+    <div class="col-md-12">
+      <svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
+      <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+              View sourcecode &#8964;
+            </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+              {% highlight javascript %}
+              {{ page.example-code }}
+              {% endhighlight %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-	</div>
+  </div>
 </div>
 
 <script type="text/javascript">
 (function() {
-	{{ page.example-code }}
+  {{ page.example-code }}
   window.onresize = renderChart;
 }());
 </script>
 
 <div class="row">
-	<div class="col-sm-3">
-		<h3>D3</h3>
-		<p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
-		<p>However, constructing charts with D3 can be hard work!</p>
-	</div>
-	<div class="col-sm-1 massive">
-		+
-	</div>
-	<div class="col-sm-3">
-		<h3>D3FC</h3>
-		<p>D3FC provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
-	</div>
-	<div class="col-sm-2 massive">
-		=
-	</div>
-	<div class="col-sm-3">
-		<h3>Awesome!</h3>
-		<p>Building interactive or static charts with D3FC is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
-	</div>
+  <div class="col-sm-3">
+    <h3>D3</h3>
+    <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
+    <p>However, constructing charts with D3 can be hard work!</p>
+  </div>
+  <div class="col-sm-1 massive">
+    +
+  </div>
+  <div class="col-sm-3">
+    <h3>D3FC</h3>
+    <p>D3FC provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
+  </div>
+  <div class="col-sm-2 massive">
+    =
+  </div>
+  <div class="col-sm-3">
+    <h3>Awesome!</h3>
+    <p>Building interactive or static charts with D3FC is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
+  </div>
 </div>
 
 <div class="jumbotron" id="jumbo2">
-	<div class="row">
-		<div class="col-md-12">
-			<h2>Something interesting / visual goes here ...</h2>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-md-12">
+      {% for post in site.tags['frontpage'] %}
+        {% assign elementId = post.id | replace:'/','' %}
+        <a href="components.html#{{ post.id | split:'/' | last }}">
+          <div id="{{ elementId }}" class="chart-small">
+            <div class="caption">
+              <h4>{{ post.title }}</h4>
+            </div>
+          </div>
+        </a>
+        <script type="text/javascript">
+        (function() {
+            var f = createFixture('#{{ elementId }}', null, null, function() { return true; });
+            var container = f.container, data = f.data
+              xScale = f.xScale, yScale = f.yScale, height = f.dimensions.height;
+            {{ post.example-code }}
+        }());
+        </script>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
 
 <div class="row">
-	<div class="col-md-12">
-		<h2>Quick Start</h2>
-	</div>
+  <div class="col-md-12">
+    <h2>Quick Start</h2>
+  </div>
 </div>
 
 <div class="row">
-	<div class="col-md-6 col-sm-6 ">
-		<h3>Download D3FC</h3>
-		<p>Download the latest JavaScript distribution <a href="https://github.com/ScottLogic/d3-financial-components/tree/master/dist">from GitHub</a>, together with the associated CSS files.</p>
-		<p>You'll also need to obtain the latest version of <a href="http://d3js.org/">D3</a>, and the Facebook
-		<a href="https://github.com/facebook/css-layout">css-layout</a> utility - we use this for styling
-		charts with CSS flexbox.</p>
-		<h3>Pick Your Components</h3>
-		<p>Browse the <a href="components">D3FC components</a> to determine which you need in order to build your chart. You can mix an match with any D3 code you may require to produce your chart.</p>
-	</div>
-	<div class="col-md-6 col-sm-6 ">
-		<h3>Customise</h3>
-		<p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p> 
-		<h3>Contribute</h3>
-		<p>Spotted a bug? Have an idea for a feature? Please <a href="https://github.com/ScottLogic/d3-financial-components">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
-		our <a href="https://github.com/ScottLogic/d3-financial-components/wiki">wiki page which describes the design goals</a>.</p>
-	</div>
+  <div class="col-md-6 col-sm-6 ">
+    <h3>Download D3FC</h3>
+    <p>Download the latest JavaScript distribution <a href="https://github.com/ScottLogic/d3-financial-components/tree/master/dist">from GitHub</a>, together with the associated CSS files.</p>
+    <p>You'll also need to obtain the latest version of <a href="http://d3js.org/">D3</a>, and the Facebook
+    <a href="https://github.com/facebook/css-layout">css-layout</a> utility - we use this for styling
+    charts with CSS flexbox.</p>
+    <h3>Pick Your Components</h3>
+    <p>Browse the <a href="components">D3FC components</a> to determine which you need in order to build your chart. You can mix an match with any D3 code you may require to produce your chart.</p>
+  </div>
+  <div class="col-md-6 col-sm-6 ">
+    <h3>Customise</h3>
+    <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p> 
+    <h3>Contribute</h3>
+    <p>Spotted a bug? Have an idea for a feature? Please <a href="https://github.com/ScottLogic/d3-financial-components">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
+    our <a href="https://github.com/ScottLogic/d3-financial-components/wiki">wiki page which describes the design goals</a>.</p>
+  </div>
 </div>
