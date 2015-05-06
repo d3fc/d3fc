@@ -25,6 +25,6 @@ Which gives the following:
 
 {% include exampleFixture.html %}
 
-You can configure the number of ticks via teh `xTicks` and `yTicks` poperties.
+You can configure the number of ticks via the `xTicks` and `yTicks` properties.
 
 
