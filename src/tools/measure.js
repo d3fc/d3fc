@@ -7,25 +7,18 @@
 
         var measure = function(selection) {
 
-            selection.each(function() {
-                var data = this.__data__ || [];
-                if (!data.__measure__) {
-                    data.__measure__ = {};
-                    this.__data__ = data;
-                }
-            });
-
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
                     .on('mouseenter.measure', mouseenter);
 
-                if (!data.__measure__.overlay) {
-                    container.append('rect')
-                        .style('visibility', 'hidden');
-                    data.__measure__.overlay = true;
-                }
+                var overlay = container.selectAll('rect')
+                    .data([data]);
+
+                overlay.enter()
+                    .append('rect')
+                    .style('visibility', 'hidden');
 
                 container.select('rect')
                     .attr('x', measure.xScale.value.range()[0])
