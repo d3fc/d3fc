@@ -142,11 +142,13 @@ window.fc = {
     };
 
     fc.utilities.seriesPointSnap = function(series, data) {
-        var xScale = series.xScale(),
-            yScale = series.yScale(),
-            xValue = series.xValue ? series.xValue() : function(d) { return d.date; },
-            yValue = series.yValue();
-        return fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data);
+        return function(xPixel, yPixel) {
+            var xScale = series.xScale(),
+                yScale = series.yScale(),
+                xValue = series.xValue ? series.xValue() : function(d) { return d.date; },
+                yValue = (series.yValue || series.yCloseValue).call(series);
+            return fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data)(xPixel, yPixel);
+        };
     };
 
 }(d3, fc));
@@ -363,6 +365,8 @@ window.fc = {
             yTicks: 'ticks'
         });
 
+        linearTimeSeries.xScale = function() { return xScale; };
+        linearTimeSeries.yScale = function() { return yScale; };
         linearTimeSeries.plotArea = fc.utilities.property(fc.series.line());
 
         return linearTimeSeries;
@@ -1498,9 +1502,10 @@ window.fc = {
                     .each(function() {
 
                         var series = d3.select(this.parentNode)
-                            .datum()
-                            .xScale(multi.xScale.value)
-                            .yScale(multi.yScale.value);
+                            .datum();
+
+                        (series.xScale || series.x).call(series, multi.xScale.value);
+                        (series.yScale || series.y).call(series, multi.yScale.value);
 
                         d3.select(this)
                             .datum(multi.mapping.value(data, series))
@@ -1735,25 +1740,18 @@ window.fc = {
 
         var crosshairs = function(selection) {
 
-            selection.each(function() {
-                var data = this.__data__ || [];
-                if (!data.__crosshairs__) {
-                    data.__crosshairs__ = {};
-                    this.__data__ = data;
-                }
-            });
-
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
                     .on('mouseenter.crosshairs', mouseenter);
 
-                if (!data.__crosshairs__.overlay) {
-                    container.append('rect')
-                        .style('visibility', 'hidden');
-                    data.__crosshairs__.overlay = true;
-                }
+                var overlay = container.selectAll('rect')
+                    .data([data]);
+
+                overlay.enter()
+                    .append('rect')
+                    .style('visibility', 'hidden');
 
                 // ordinal axes have a rangeExtent function, this adds any padding that
                 // was applied to the range. This functions returns the rangeExtent
