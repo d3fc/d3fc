@@ -6,6 +6,7 @@
   margin-right: auto;
   margin-top: 15px;
   margin-bottom: 15px;
+  box-sizing: content-box;
 }
 
 .charts-container {
@@ -20,6 +21,7 @@
   margin: 10px;
   position: relative;
   display: inline-block;
+  box-sizing: content-box;
 }
 
 .chart-small .caption {
@@ -59,13 +61,6 @@
   font-size: 86px;
   color: #aaa;
   text-align: center;
-}
-
-.main-content {
-  margin-top: 75px;
-}
-.container section {
-  margin-bottom: 20px;
 }
 
 #jumbo1 {
