@@ -79,6 +79,7 @@
     // Add it to the chart
     var container = chartLayout.getPlotArea()
         .append('g')
+        .datum([])
         .attr('class', 'crosshairs-container')
         .on('click', function(d) {
             d.push(d[0]);

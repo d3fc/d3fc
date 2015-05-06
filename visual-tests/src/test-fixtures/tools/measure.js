@@ -90,6 +90,7 @@
     // Add it to the chart
     chartLayout.getPlotArea()
         .append('g')
+        .datum([])
         .attr('class', 'measure-container')
         .call(measure);
 

@@ -7,25 +7,18 @@
 
         var fan = function(selection) {
 
-            selection.each(function() {
-                var data = this.__data__ || [];
-                if (!data.__fan__) {
-                    data.__fan__ = {};
-                    this.__data__ = data;
-                }
-            });
-
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
                     .on('mouseenter.fan', mouseenter);
 
-                if (!data.__fan__.overlay) {
-                    container.append('rect')
-                        .style('visibility', 'hidden');
-                    data.__fan__.overlay = true;
-                }
+                var overlay = container.selectAll('rect')
+                    .data([data]);
+
+                overlay.enter()
+                    .append('rect')
+                    .style('visibility', 'hidden');
 
                 container.select('rect')
                     .attr('x', fan.xScale.value.range()[0])
