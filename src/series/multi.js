@@ -25,9 +25,10 @@
                     .each(function() {
 
                         var series = d3.select(this.parentNode)
-                            .datum()
-                            .xScale(multi.xScale.value)
-                            .yScale(multi.yScale.value);
+                            .datum();
+
+                        (series.xScale || series.x).call(series, multi.xScale.value);
+                        (series.yScale || series.y).call(series, multi.yScale.value);
 
                         d3.select(this)
                             .datum(multi.mapping.value(data, series))

@@ -107,6 +107,8 @@
             yTicks: 'ticks'
         });
 
+        linearTimeSeries.xScale = function() { return xScale; };
+        linearTimeSeries.yScale = function() { return yScale; };
         linearTimeSeries.plotArea = fc.utilities.property(fc.series.line());
 
         return linearTimeSeries;
