@@ -1,31 +1,54 @@
-# D3 Financial Components [![Build Status](https://travis-ci.org/ScottLogic/d3-financial-components.svg?branch=master)](https://travis-ci.org/ScottLogic/d3-financial-components)
+# D3 Financial Components (D3FC) [![Build Status](https://travis-ci.org/ScottLogic/d3-financial-components.svg?branch=master)](https://travis-ci.org/ScottLogic/d3-financial-components)
 
-We are building a set of re-usable [D3](http://d3js.org) components that make it simple to create complex financial charts.
+A collection of components that make it easy to build interactive financial charts with  [D3](http://d3js.org).
 
-The project is currently under development and very much in a state of flux!
+## Installation
 
-## Examples
+D3FC and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
 
-The [Scott Logic blog](http://www.scottlogic.com/blog/) provides several posts that show some of the earlier iterations of these components:
+    npm install d3-financial-components
 
-+ [OHLC and candlestick charts](http://www.scottlogic.com/blog/2014/08/19/an-ohlc-chart-component-for-d3.html)
-+ [Line annotations and moving average trackers](http://www.scottlogic.com/blog/2014/08/26/two-line-components-for-d3-charts.html)
-+ [A bollinger band component](http://www.scottlogic.com/blog/2014/08/28/bollinger.html)
-+ [A re-based comparison chart](http://www.scottlogic.com/blog/2014/09/26/an-interactive-stock-comparison-chart-with-d3.html)
-+ [An interactive crosshairs component](http://www.scottlogic.com/blog/2014/09/29/crosshairs.html)
-+ [A Fibonacci fan component](http://www.scottlogic.com/blog/2014/10/31/fibonacci.html)
-+ [An RSI component for D3 charts](http://www.scottlogic.com/blog/2014/11/14/d3_chartcomponents_rsi.html)
+Once installed, you can reference the D3FC JavaScript, CSS and dependencies within an HTML page as follows:
 
-## Browser Compatibility
+    <script src="node_modules/d3-financial-components/node_modules/d3/d3.js"></script>
+    <script src="node_modules/d3-financial-components/node_modules/css-layout/src/Layout.js"></script>
+    <script src="node_modules/d3-financial-components/dist/d3-financial-components.js"></script>
+    
+    <link href="node_modules/d3-financial-components/dist/d3-financial-components.css" rel="stylesheet"/>
 
-The components included in this project support the following browsers:
+If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
 
-* Chrome
-* IE 9+
-* Firefox 3+
-* Android 4.4+
-* Safari 3.2+
-* Opera
+    <div id="chart"></div>
+    <script type="text/javascript">
+    var data = fc.dataGenerator()(50);
+
+    var chart = fc.charts.linearTimeSeries()
+        .xDomain(fc.utilities.extent(data, 'date'))
+        .xTicks(5)
+        .yDomain(fc.utilities.extent(data, ['high', 'low']))
+        .yNice()
+        .yTicks(5);
+
+    var gridlines = fc.scale.gridlines();
+    var candlestick = fc.series.candlestick();
+    var movingAverage = fc.indicators.movingAverage();
+
+    var multi = fc.series.multi()
+        .series([gridlines, candlestick, movingAverage]);
+    chart.plotArea(multi);
+
+    d3.select("#chart")
+        .append('svg')
+        .style({
+            height: '250px',
+            width: '600px'
+        })
+        .datum(data)
+        .call(chart);
+
+    </script>
+
+To find out more about the various components, visit the [project webpage](http://scottlogic.github.io/d3-financial-components/).
 
 ## Developing
 
