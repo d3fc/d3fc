@@ -101,20 +101,9 @@
 
         var layout = function(selection) {
             selection.each(function(data) {
-                // compute the width and height of the SVG element
-                var style = getComputedStyle(this);
-                var width, height;
-
-                if (layout.width.value !== -1) {
-                    width = layout.width.value;
-                } else {
-                    width = parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-                }
-                if (layout.height.value !== -1) {
-                    height = layout.height.value;
-                } else {
-                    height = parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-                }
+                var dimensions = fc.utilities.innerDimensions(this);
+                var width = layout.width.value !== -1 ? layout.width.value : dimensions.width;
+                var height = layout.height.value !== -1 ? layout.height.value : dimensions.height;
 
                 // create the layout nodes
                 var layoutNodes = createNodes(this);

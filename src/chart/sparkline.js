@@ -71,26 +71,16 @@
             selection.each(function(data) {
 
                 var container = d3.select(this);
+                var dimensions = fc.utilities.innerDimensions(this);
+                var margin = sparkline.radius.value;
 
-                var mainContainer = container.selectAll('g')
-                    .data([data]);
-                mainContainer.enter()
-                    .append('g')
-                    .classed('sparkline', true)
-                    .layout({
-                        flex: 1,
-                        margin: sparkline.radius.value
-                    });
-
-                container.layout();
-
-                xScale.range([0, mainContainer.layout('width')]);
-                yScale.range([mainContainer.layout('height'), 0]);
+                xScale.range([margin, dimensions.width - margin]);
+                yScale.range([dimensions.height - margin, margin]);
 
                 multi.xScale(xScale)
                     .yScale(yScale);
 
-                mainContainer.call(multi);
+                container.call(multi);
 
             });
         };
