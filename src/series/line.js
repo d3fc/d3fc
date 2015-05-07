@@ -38,6 +38,6 @@
         line.yValue = fc.utilities.property(function(d) { return d.close; });
         line.xValue = fc.utilities.property(function(d) { return d.date; });
 
-        return d3.rebind(line, lineData, 'interpolate');
+        return d3.rebind(line, lineData, 'interpolate', 'tension');
     };
 }(d3, fc));
