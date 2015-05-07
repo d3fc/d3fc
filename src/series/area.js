@@ -42,6 +42,6 @@
         area.xValue = fc.utilities.property(function(d) { return d.date; });
 
 
-        return d3.rebind(area, areaData, 'interpolate');
+        return d3.rebind(area, areaData, 'interpolate', 'tension');
     };
 }(d3, fc));
