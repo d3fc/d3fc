@@ -27,7 +27,8 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .yValue(function(d) { return d.open; })
-        .interpolate('linear');
+        .interpolate('linear')
+        .tension(0.75);
 
     // Create the area series
     var area = fc.series.area()
@@ -35,7 +36,8 @@
         .yScale(priceScale)
         .y0Value(function(d) { return d.low; })
         .y1Value(function(d) { return d.high; })
-        .interpolate('linear');
+        .interpolate('linear')
+        .tension(0.75);
 
     // Add it to the chart
     container.append('g')
@@ -43,10 +45,19 @@
         .call(line)
         .call(area);
 
-    var select =  d3.select('#interpolate-select');
-    select.on('change', function() {
-            line.interpolate(select.property('value'));
-            area.interpolate(select.property('value'));
+    var interpolateSelect =  d3.select('#interpolate-select');
+    interpolateSelect.on('change', function() {
+            line.interpolate(interpolateSelect.property('value'));
+            area.interpolate(interpolateSelect.property('value'));
+            container.select('g')
+                .call(line)
+                .call(area);
+        });
+
+    var tensionSelect =  d3.select('#tension-select');
+    tensionSelect.on('change', function() {
+            line.tension(tensionSelect.property('value'));
+            area.tension(tensionSelect.property('value'));
             container.select('g')
                 .call(line)
                 .call(area);

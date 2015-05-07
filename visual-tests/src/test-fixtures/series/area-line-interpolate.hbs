@@ -1,6 +1,6 @@
 ---
 title: "Area and Line Interpolation"
-description: "Demonstrates the Area and Line interpolation."
+description: "Demonstrates the Area and Line interpolation. Tension only affects the bundle, cardinal, cardinal-open and cardinal-closed interpolations."
 categories: series
 tags:
 - area
@@ -27,6 +27,15 @@ testScripts:
               <option value="cardinal-open">cardinal-open</option>
               <option value="cardinal-closed">cardinal-closed</option>
               <option value="monotone">monotone</option>
+          </select>
+      </label>
+      <label>tension
+          <select id="tension-select">
+              <option value="0">0</option>
+              <option value="0.25">0.25</option>
+              <option value="0.5">0.5</option>
+              <option value="0.75" selected>0.75</option>
+              <option value="1">1</option>
           </select>
       </label>
   </form>
