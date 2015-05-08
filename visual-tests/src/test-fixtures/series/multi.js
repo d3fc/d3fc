@@ -42,7 +42,6 @@
     chart.plotArea(multi);
 
     d3.select('#multi')
-        .append('svg')
         .datum(data)
         .call(chart);
 
