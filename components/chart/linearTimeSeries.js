@@ -76,6 +76,8 @@
 
                 yScale.range([yAxisContainer.layout('height'), 0]);
 
+                plotAreaContainer.call(linearTimeSeries.zoom.value);
+
                 xAxisContainer.call(xAxis);
 
                 yAxisContainer.call(yAxis);
@@ -112,6 +114,8 @@
         linearTimeSeries.xScale = fc.utilities.functorProperty(xScale);
 
         linearTimeSeries.yScale = fc.utilities.functorProperty(yScale);
+
+        linearTimeSeries.zoom = fc.utilities.property(d3.behavior.zoom());
 
         return linearTimeSeries;
     };

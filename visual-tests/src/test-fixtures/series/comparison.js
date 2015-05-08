@@ -1,9 +1,11 @@
 (function(d3, fc) {
     'use strict';
 
-    function renderData(data) {
-        d3.select('#comparison')
-            .append('svg')
+    var container = d3.select('#comparison')
+        .append('svg');
+
+    function renderData(container, data) {
+        container
             .datum(data)
             .call(chart);
     }
@@ -12,8 +14,6 @@
         fc.utilities.dataGenerator().startDate(new Date(2014, 1, 1))(50),
         fc.utilities.dataGenerator().startDate(new Date(2013, 12, 15))(50)
     ];
-
-    var zoom = d3.behavior.zoom();
 
     var findIndex = function(data, item, field) {
         // Find insertion point for item in seriesData.
@@ -37,6 +37,7 @@
         .yNice()
         .yTicks(5);
 
+
     var line = fc.series.line()
         .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.percentageChange; });
@@ -49,7 +50,7 @@
 
     chart.plotArea(multi);
 
-    renderData(data);
+    renderData(container, data);
 
     // zoom stuff!
     function zoomed() {
@@ -65,13 +66,10 @@
             return percentageChange(d);
         });
         chart.xDomain(fc.utilities.extent(comparisonData, ['percentageChange']))
-            .nice();
-        renderData(data);
+            .xNice();
+        renderData(container, data);
     }
 
-    zoom.x(chart.xScale()).on('zoom', zoomed).scaleExtent([0.5, 3]);
-
-
-
+    chart.zoom().x(chart.xScale()).on('zoom', zoomed).scaleExtent([0.5, 3]);
 
 })(d3, fc);
