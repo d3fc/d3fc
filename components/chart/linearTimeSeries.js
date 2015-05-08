@@ -109,6 +109,10 @@
 
         linearTimeSeries.plotArea = fc.utilities.property(fc.series.line());
 
+        linearTimeSeries.xScale = fc.utilities.functorProperty(xScale);
+
+        linearTimeSeries.yScale = fc.utilities.functorProperty(yScale);
+
         return linearTimeSeries;
     };
 
