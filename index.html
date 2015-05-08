@@ -121,6 +121,7 @@ example-code: |
         {% assign elementId = post.id | replace:'/','' %}
         <a href="components.html#{{ post.id | split:'/' | last }}">
           <div id="{{ elementId }}" class="chart-small">
+            {{ post.example-fixture }}
             <div class="caption">
               <h4>{{ post.title }}</h4>
             </div>

@@ -113,6 +113,18 @@ window.fc = {
 (function(d3, fc) {
     'use strict';
 
+    // returns the width and height of the given element minus the padding.
+    fc.utilities.innerDimensions = function(element) {
+        var style = getComputedStyle(element);
+        return {
+            width: parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+            height: parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)
+        };
+    };
+}(d3, fc));
+(function(d3, fc) {
+    'use strict';
+
     fc.utilities.pointSnap = function(xScale, yScale, xValue, yValue, data) {
         return function(xPixel, yPixel) {
             var x = xScale.invert(xPixel),
@@ -370,6 +382,113 @@ window.fc = {
         linearTimeSeries.plotArea = fc.utilities.property(fc.series.line());
 
         return linearTimeSeries;
+    };
+
+})(d3, fc);
+(function(d3, fc) {
+    'use strict';
+
+    fc.charts.sparkline = function() {
+
+        // creates an array with four elements, representing the high, low, open and close
+        // values of the given array
+        function highLowOpenClose(data) {
+            var xValueAccessor = sparkline.xValue(),
+                yValueAccessor = sparkline.yValue();
+
+            var high = d3.max(data, yValueAccessor);
+            var low = d3.min(data, yValueAccessor);
+
+            function elementWithYValue(value) {
+                return data.filter(function(d) {
+                    return yValueAccessor(d) === value;
+                })[0];
+            }
+
+            return [{
+                    x: xValueAccessor(data[0]),
+                    y: yValueAccessor(data[0])
+                }, {
+                    x: xValueAccessor(elementWithYValue(high)),
+                    y: high
+                }, {
+                    x: xValueAccessor(elementWithYValue(low)),
+                    y: low
+                }, {
+                    x: xValueAccessor(data[data.length - 1]),
+                    y: yValueAccessor(data[data.length - 1])
+                }];
+        }
+
+        var xScale = fc.scale.dateTime();
+        var yScale = d3.scale.linear();
+        var line = fc.series.line();
+
+        // configure the point series to render the data from the
+        // highLowOpenClose function
+        var point = fc.series.point()
+            .xValue(function(d) { return d.x; })
+            .yValue(function(d) { return d.y; })
+            .decorate(function(sel) {
+                sel.attr('class', function(d, i) {
+                    switch (i) {
+                        case 0: return 'open';
+                        case 1: return 'high';
+                        case 2: return 'low';
+                        case 3: return 'close';
+                    }
+                });
+            });
+
+        var multi = fc.series.multi()
+            .series([line, point])
+            .mapping(function(data, series) {
+                switch (series) {
+                    case point:
+                        return highLowOpenClose(data);
+                    default:
+                        return data;
+                }
+            });
+
+        var sparkline = function(selection) {
+
+            point.radius(sparkline.radius.value);
+
+            selection.each(function(data) {
+
+                var container = d3.select(this);
+                var dimensions = fc.utilities.innerDimensions(this);
+                var margin = sparkline.radius.value;
+
+                xScale.range([margin, dimensions.width - margin]);
+                yScale.range([dimensions.height - margin, margin]);
+
+                multi.xScale(xScale)
+                    .yScale(yScale);
+
+                container.call(multi);
+
+            });
+        };
+
+        fc.utilities.rebind(sparkline, xScale, {
+            xDiscontinuityProvider: 'discontinuityProvider',
+            xDomain: 'domain'
+        });
+
+        fc.utilities.rebind(sparkline, yScale, {
+            yDomain: 'domain'
+        });
+
+        fc.utilities.rebind(sparkline, line, 'xValue', 'yValue');
+
+        sparkline.xScale = function() { return xScale; };
+        sparkline.yScale = function() { return yScale; };
+
+        sparkline.radius = fc.utilities.property(2);
+
+        return sparkline;
     };
 
 })(d3, fc);
@@ -937,20 +1056,9 @@ window.fc = {
 
         var layout = function(selection) {
             selection.each(function(data) {
-                // compute the width and height of the SVG element
-                var style = getComputedStyle(this);
-                var width, height;
-
-                if (layout.width.value !== -1) {
-                    width = layout.width.value;
-                } else {
-                    width = parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-                }
-                if (layout.height.value !== -1) {
-                    height = layout.height.value;
-                } else {
-                    height = parseFloat(style.height) - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-                }
+                var dimensions = fc.utilities.innerDimensions(this);
+                var width = layout.width.value !== -1 ? layout.width.value : dimensions.width;
+                var height = layout.height.value !== -1 ? layout.height.value : dimensions.height;
 
                 // create the layout nodes
                 var layoutNodes = createNodes(this);
@@ -1875,25 +1983,18 @@ window.fc = {
 
         var fan = function(selection) {
 
-            selection.each(function() {
-                var data = this.__data__ || [];
-                if (!data.__fan__) {
-                    data.__fan__ = {};
-                    this.__data__ = data;
-                }
-            });
-
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
                     .on('mouseenter.fan', mouseenter);
 
-                if (!data.__fan__.overlay) {
-                    container.append('rect')
-                        .style('visibility', 'hidden');
-                    data.__fan__.overlay = true;
-                }
+                var overlay = container.selectAll('rect')
+                    .data([data]);
+
+                overlay.enter()
+                    .append('rect')
+                    .style('visibility', 'hidden');
 
                 container.select('rect')
                     .attr('x', fan.xScale.value.range()[0])
@@ -2069,25 +2170,18 @@ window.fc = {
 
         var measure = function(selection) {
 
-            selection.each(function() {
-                var data = this.__data__ || [];
-                if (!data.__measure__) {
-                    data.__measure__ = {};
-                    this.__data__ = data;
-                }
-            });
-
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
                     .on('mouseenter.measure', mouseenter);
 
-                if (!data.__measure__.overlay) {
-                    container.append('rect')
-                        .style('visibility', 'hidden');
-                    data.__measure__.overlay = true;
-                }
+                var overlay = container.selectAll('rect')
+                    .data([data]);
+
+                overlay.enter()
+                    .append('rect')
+                    .style('visibility', 'hidden');
 
                 container.select('rect')
                     .attr('x', measure.xScale.value.range()[0])
