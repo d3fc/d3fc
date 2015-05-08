@@ -22,7 +22,7 @@
                     .remove();
 
                 g.select('g.multi-inner')
-                    .each(function() {
+                    .each(function(d, i) {
 
                         var series = d3.select(this.parentNode)
                             .datum()
@@ -30,7 +30,7 @@
                             .yScale(multi.yScale.value);
 
                         d3.select(this)
-                            .datum(multi.mapping.value(data, series))
+                            .datum(multi.mapping.value(data, series, i))
                             .call(series);
                     });
             });
