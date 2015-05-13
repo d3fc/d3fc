@@ -3,24 +3,45 @@
 
     fc.indicators.algorithms.percentageChange = function() {
 
+        var baseIndex = d3.functor(0),
+            inputValue = fc.utilities.fn.identity,
+            outputValue = function(obj, value) { return value; };
+
         var percentageChange = function(data) {
 
             if (data.length === 0) {
                 return [];
             }
 
-            var baseIndex = percentageChange.baseIndex.value(data);
-            var baseValue = percentageChange.inputValue.value(data[baseIndex]);
+            var baseValue = inputValue(data[baseIndex(data)]);
 
             return data.map(function(d) {
-                    var result = (percentageChange.inputValue.value(d) - baseValue) / baseValue;
-                    return percentageChange.outputValue.value(d, result);
+                    var result = (inputValue(d) - baseValue) / baseValue;
+                    return outputValue(d, result);
                 });
         };
 
-        percentageChange.baseIndex = fc.utilities.functorProperty(0);
-        percentageChange.inputValue = fc.utilities.property(fc.utilities.fn.identity);
-        percentageChange.outputValue = fc.utilities.property(function(obj, value) { return value; });
+        percentageChange.baseIndex = function(x) {
+            if (!arguments.length) {
+                return baseIndex;
+            }
+            baseIndex = d3.functor(x);
+            return percentageChange;
+        };
+        percentageChange.inputValue = function(x) {
+            if (!arguments.length) {
+                return inputValue;
+            }
+            inputValue = x;
+            return percentageChange;
+        };
+        percentageChange.outputValue = function(x) {
+            if (!arguments.length) {
+                return outputValue;
+            }
+            outputValue = x;
+            return percentageChange;
+        };
 
         return percentageChange;
     };

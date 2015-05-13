@@ -3,6 +3,11 @@
 
     fc.scale.gridlines = function() {
 
+        var xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            xTicks = 10,
+            yTicks = 10;
+
         var gridlines = function(selection) {
 
             selection.each(function() {
@@ -10,7 +15,7 @@
                 var container = d3.select(this);
 
                 var xLines = fc.utilities.simpleDataJoin(container, 'x',
-                    gridlines.xScale.value.ticks(gridlines.xTicks.value));
+                    xScale.ticks(xTicks));
 
                 xLines.enter()
                     .append('line')
@@ -18,14 +23,14 @@
 
                 xLines.select('line')
                     .attr({
-                        'x1': gridlines.xScale.value,
-                        'x2': gridlines.xScale.value,
-                        'y1': gridlines.yScale.value.range()[0],
-                        'y2': gridlines.yScale.value.range()[1]
+                        'x1': xScale,
+                        'x2': xScale,
+                        'y1': yScale.range()[0],
+                        'y2': yScale.range()[1]
                     });
 
                 var yLines = fc.utilities.simpleDataJoin(container, 'y',
-                    gridlines.yScale.value.ticks(gridlines.yTicks.value));
+                    yScale.ticks(yTicks));
 
                 yLines.enter()
                     .append('line')
@@ -33,20 +38,44 @@
 
                 yLines.select('line')
                     .attr({
-                        'x1': gridlines.xScale.value.range()[0],
-                        'x2': gridlines.xScale.value.range()[1],
-                        'y1': gridlines.yScale.value,
-                        'y2': gridlines.yScale.value
+                        'x1': xScale.range()[0],
+                        'x2': xScale.range()[1],
+                        'y1': yScale,
+                        'y2': yScale
                     });
 
 
             });
         };
 
-        gridlines.xScale = fc.utilities.property(d3.time.scale());
-        gridlines.yScale = fc.utilities.property(d3.scale.linear());
-        gridlines.xTicks = fc.utilities.property(10);
-        gridlines.yTicks = fc.utilities.property(10);
+        gridlines.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return gridlines;
+        };
+        gridlines.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return gridlines;
+        };
+        gridlines.xTicks = function(x) {
+            if (!arguments.length) {
+                return xTicks;
+            }
+            xTicks = x;
+            return gridlines;
+        };
+        gridlines.yTicks = function(x) {
+            if (!arguments.length) {
+                return yTicks;
+            }
+            yTicks = x;
+            return gridlines;
+        };
 
 
         return gridlines;

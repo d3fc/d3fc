@@ -3,7 +3,14 @@
 
     fc.tools.crosshairs = function() {
 
-        var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend');
+        var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            snap = function(x, y) { return {x: x, y: y}; },
+            decorate = fc.utilities.fn.noop,
+            xLabel = d3.functor(''),
+            yLabel = d3.functor(''),
+            padding = d3.functor(2);
 
         var crosshairs = function(selection) {
 
@@ -23,24 +30,15 @@
                 // ordinal axes have a rangeExtent function, this adds any padding that
                 // was applied to the range. This functions returns the rangeExtent
                 // if present, or range otherwise
-                function rangeForScale(scaleProperty) {
-                    return scaleProperty.value.rangeExtent ?
-                        scaleProperty.value.rangeExtent() : scaleProperty.value.range();
-                }
-
-                function rangeStart(scaleProperty) {
-                    return rangeForScale(scaleProperty)[0];
-                }
-
-                function rangeEnd(scaleProperty) {
-                    return rangeForScale(scaleProperty)[1];
+                function range(scale) {
+                    return scale.rangeExtent ? scale.rangeExtent() : scale.range();
                 }
 
                 container.select('rect')
-                    .attr('x', rangeStart(crosshairs.xScale))
-                    .attr('y', rangeEnd(crosshairs.yScale))
-                    .attr('width', rangeEnd(crosshairs.xScale))
-                    .attr('height', rangeStart(crosshairs.yScale));
+                    .attr('x', range(xScale)[0])
+                    .attr('y', range(yScale)[1])
+                    .attr('width', range(xScale)[1])
+                    .attr('height', range(yScale)[0]);
 
                 var g = fc.utilities.simpleDataJoin(container, 'crosshairs', data);
 
@@ -55,34 +53,34 @@
                     .attr('class', 'vertical');
 
                 g.select('line.horizontal')
-                    .attr('x1', rangeStart(crosshairs.xScale))
-                    .attr('x2', rangeEnd(crosshairs.xScale))
+                    .attr('x1', range(xScale)[0])
+                    .attr('x2', range(xScale)[1])
                     .attr('y1', function(d) { return d.y; })
                     .attr('y2', function(d) { return d.y; });
 
                 g.select('line.vertical')
-                    .attr('y1', rangeStart(crosshairs.yScale))
-                    .attr('y2', rangeEnd(crosshairs.yScale))
+                    .attr('y1', range(yScale)[0])
+                    .attr('y2', range(yScale)[1])
                     .attr('x1', function(d) { return d.x; })
                     .attr('x2', function(d) { return d.x; });
 
-                var paddingValue = crosshairs.padding.value.apply(this, arguments);
+                var paddingValue = padding.apply(this, arguments);
 
                 g.select('text.horizontal')
-                    .attr('x', rangeEnd(crosshairs.xScale) - paddingValue)
+                    .attr('x', range(xScale)[1] - paddingValue)
                     .attr('y', function(d) {
                         return d.y - paddingValue;
                     })
-                    .text(crosshairs.yLabel.value);
+                    .text(yLabel);
 
                 g.select('text.vertical')
                     .attr('x', function(d) {
                         return d.x - paddingValue;
                     })
                     .attr('y', paddingValue)
-                    .text(crosshairs.xLabel.value);
+                    .text(xLabel);
 
-                crosshairs.decorate.value(g);
+                decorate(g);
             });
         };
 
@@ -91,7 +89,7 @@
             var container = d3.select(this)
                 .on('mousemove.crosshairs', mousemove)
                 .on('mouseleave.crosshairs', mouseleave);
-            var snapped = crosshairs.snap.value.apply(this, mouse);
+            var snapped = snap.apply(this, mouse);
             var data = container.datum();
             data.push(snapped);
             container.call(crosshairs);
@@ -101,7 +99,7 @@
         function mousemove() {
             var mouse = d3.mouse(this);
             var container = d3.select(this);
-            var snapped = crosshairs.snap.value.apply(this, mouse);
+            var snapped = snap.apply(this, mouse);
             var data = container.datum();
             data[data.length - 1] = snapped;
             container.call(crosshairs);
@@ -118,13 +116,55 @@
             event.trackingend.apply(this, arguments);
         }
 
-        crosshairs.xScale = fc.utilities.property(d3.time.scale());
-        crosshairs.yScale = fc.utilities.property(d3.scale.linear());
-        crosshairs.snap = fc.utilities.property(function(x, y) { return {x: x, y: y}; });
-        crosshairs.decorate = fc.utilities.property(fc.utilities.fn.noop);
-        crosshairs.xLabel = fc.utilities.functorProperty('');
-        crosshairs.yLabel = fc.utilities.functorProperty('');
-        crosshairs.padding = fc.utilities.functorProperty(2);
+        crosshairs.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return crosshairs;
+        };
+        crosshairs.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return crosshairs;
+        };
+        crosshairs.snap = function(x) {
+            if (!arguments.length) {
+                return snap;
+            }
+            snap = x;
+            return crosshairs;
+        };
+        crosshairs.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return crosshairs;
+        };
+        crosshairs.xLabel = function(x) {
+            if (!arguments.length) {
+                return xLabel;
+            }
+            xLabel = d3.functor(x);
+            return crosshairs;
+        };
+        crosshairs.yLabel = function(x) {
+            if (!arguments.length) {
+                return yLabel;
+            }
+            yLabel = d3.functor(x);
+            return crosshairs;
+        };
+        crosshairs.padding = function(x) {
+            if (!arguments.length) {
+                return padding;
+            }
+            padding = d3.functor(x);
+            return crosshairs;
+        };
 
         d3.rebind(crosshairs, event, 'on');
 

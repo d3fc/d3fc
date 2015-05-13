@@ -3,6 +3,17 @@
 
     fc.indicators.algorithms.relativeStrengthIndicator = function() {
 
+        var openValue = function(d) { return d.open; },
+            closeValue = function(d) { return d.close; },
+            averageAccumulator = function(values) {
+                var alpha = 1 / values.length;
+                var result = values[0];
+                for (var i = 1, l = values.length; i < l; i++) {
+                    result = alpha * values[i] + (1 - alpha) * result;
+                }
+                return result;
+            };
+
         var slidingWindow = fc.indicators.algorithms.slidingWindow()
             .windowSize(14)
             .accumulator(function(values) {
@@ -12,19 +23,19 @@
                 for (var i = 0, l = values.length; i < l; i++) {
                     var value = values[i];
 
-                    var openValue = rsi.openValue.value(value);
-                    var closeValue = rsi.closeValue.value(value);
+                    var open = openValue(value);
+                    var close = closeValue(value);
 
-                    downCloses.push(openValue > closeValue ? openValue - closeValue : 0);
-                    upCloses.push(openValue < closeValue ? closeValue - openValue : 0);
+                    downCloses.push(open > close ? open - close : 0);
+                    upCloses.push(open < close ? close - open : 0);
                 }
 
-                var downClosesAvg = rsi.averageAccumulator.value(downCloses);
+                var downClosesAvg = averageAccumulator(downCloses);
                 if (downClosesAvg === 0) {
                     return 100;
                 }
 
-                var rs = rsi.averageAccumulator.value(upCloses) / downClosesAvg;
+                var rs = averageAccumulator(upCloses) / downClosesAvg;
                 return 100 - (100 / (1 + rs));
             });
 
@@ -32,16 +43,27 @@
             return slidingWindow(data);
         };
 
-        rsi.openValue = fc.utilities.property(function(d) { return d.open; });
-        rsi.closeValue = fc.utilities.property(function(d) { return d.close; });
-        rsi.averageAccumulator = fc.utilities.property(function(values) {
-            var alpha = 1 / values.length;
-            var result = values[0];
-            for (var i = 1, l = values.length; i < l; i++) {
-                result = alpha * values[i] + (1 - alpha) * result;
+        rsi.openValue = function(x) {
+            if (!arguments.length) {
+                return openValue;
             }
-            return result;
-        });
+            openValue = x;
+            return rsi;
+        };
+        rsi.closeValue = function(x) {
+            if (!arguments.length) {
+                return closeValue;
+            }
+            closeValue = x;
+            return rsi;
+        };
+        rsi.averageAccumulator = function(x) {
+            if (!arguments.length) {
+                return averageAccumulator;
+            }
+            averageAccumulator = x;
+            return rsi;
+        };
 
         d3.rebind(rsi, slidingWindow, 'windowSize', 'outputValue');
 

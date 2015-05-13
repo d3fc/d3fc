@@ -35,6 +35,7 @@
 
         var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
+        var radius = 2;
         var line = fc.series.line();
 
         // configure the point series to render the data from the
@@ -66,13 +67,13 @@
 
         var sparkline = function(selection) {
 
-            point.radius(sparkline.radius.value);
+            point.radius(radius);
 
             selection.each(function(data) {
 
                 var container = d3.select(this);
                 var dimensions = fc.utilities.innerDimensions(this);
-                var margin = sparkline.radius.value;
+                var margin = radius;
 
                 xScale.range([margin, dimensions.width - margin]);
                 yScale.range([dimensions.height - margin, margin]);
@@ -98,8 +99,13 @@
 
         sparkline.xScale = function() { return xScale; };
         sparkline.yScale = function() { return yScale; };
-
-        sparkline.radius = fc.utilities.property(2);
+        sparkline.radius = function(x) {
+            if (!arguments.length) {
+                return radius;
+            }
+            radius = x;
+            return sparkline;
+        };
 
         return sparkline;
     };

@@ -3,17 +3,28 @@
 
     fc.dataGenerator = function() {
 
+        var mu = 0.1,
+            sigma = 0.1,
+            startPrice = 100,
+            startVolume = 100000,
+            startDate = new Date(),
+            stepsPerDay = 50,
+            volumeNoiseFactor = 0.3,
+            filter = function(date) {
+                return !(date.getDay() === 0 || date.getDay() === 6);
+            };
+
         var calculateOHLC = function(days, prices, volumes) {
+
             var ohlcv = [],
                 daySteps,
                 currentStep = 0,
-                currentIntraStep = 0,
-                stepsPerDay = gen.stepsPerDay.value;
+                currentIntraStep = 0;
 
             while (ohlcv.length < days) {
                 daySteps = prices.slice(currentIntraStep, currentIntraStep + stepsPerDay);
                 ohlcv.push({
-                    date: new Date(gen.startDate.value.getTime()),
+                    date: new Date(startDate.getTime()),
                     open: daySteps[0],
                     high: Math.max.apply({}, daySteps),
                     low: Math.min.apply({}, daySteps),
@@ -22,46 +33,46 @@
                 });
                 currentIntraStep += stepsPerDay;
                 currentStep += 1;
-                gen.startDate.value.setUTCDate(gen.startDate.value.getUTCDate() + 1);
+                startDate.setUTCDate(startDate.getUTCDate() + 1);
             }
             return ohlcv;
         };
 
         var gen = function(days) {
-            var toDate = new Date(gen.startDate.value.getTime());
-            toDate.setUTCDate(gen.startDate.value.getUTCDate() + days);
+            var toDate = new Date(startDate.getTime());
+            toDate.setUTCDate(startDate.getUTCDate() + days);
 
             var millisecondsPerYear = 3.15569e10,
-                years = (toDate.getTime() - gen.startDate.value.getTime()) / millisecondsPerYear;
+                years = (toDate.getTime() - startDate.getTime()) / millisecondsPerYear;
 
             var prices = randomWalk(
                 years,
-                days * gen.stepsPerDay.value,
-                gen.mu.value,
-                gen.sigma.value,
-                gen.startPrice.value
+                days * stepsPerDay,
+                mu,
+                sigma,
+                startPrice
             );
             var volumes = randomWalk(
                 years,
                 days,
                 0,
-                gen.sigma.value,
-                gen.startVolume.value
+                sigma,
+                startVolume
             );
 
             // Add random noise
             volumes = volumes.map(function(vol) {
-                var boundedNoiseFactor = Math.min(0, Math.max(gen.volumeNoiseFactor.value, 1));
+                var boundedNoiseFactor = Math.min(0, Math.max(volumeNoiseFactor, 1));
                 var multiplier = 1 + (boundedNoiseFactor * (1 - 2 * Math.random()));
                 return Math.floor(vol * multiplier);
             });
 
             // Save the new start values
-            gen.startPrice.value = prices[prices.length - 1];
-            gen.startVolume.value = volumes[volumes.length - 1];
+            startPrice = prices[prices.length - 1];
+            startVolume = volumes[volumes.length - 1];
 
             return calculateOHLC(days, prices, volumes).filter(function(d) {
-                return !gen.filter.value || gen.filter.value(d.date);
+                return !filter || filter(d.date);
             });
         };
 
@@ -88,16 +99,62 @@
             return increments;
         };
 
-        gen.mu = fc.utilities.property(0.1);
-        gen.sigma = fc.utilities.property(0.1);
-        gen.startPrice = fc.utilities.property(100);
-        gen.startVolume = fc.utilities.property(100000);
-        gen.startDate = fc.utilities.property(new Date());
-        gen.stepsPerDay = fc.utilities.property(50);
-        gen.volumeNoiseFactor = fc.utilities.property(0.3);
-        gen.filter = fc.utilities.property(function(date) {
-            return !(date.getDay() === 0 || date.getDay() === 6);
-        });
+        gen.mu = function(x) {
+            if (!arguments.length) {
+                return mu;
+            }
+            mu = x;
+            return gen;
+        };
+        gen.sigma = function(x) {
+            if (!arguments.length) {
+                return sigma;
+            }
+            sigma = x;
+            return gen;
+        };
+        gen.startPrice = function(x) {
+            if (!arguments.length) {
+                return startPrice;
+            }
+            startPrice = x;
+            return gen;
+        };
+        gen.startVolume = function(x) {
+            if (!arguments.length) {
+                return startVolume;
+            }
+            startVolume = x;
+            return gen;
+        };
+        gen.startDate = function(x) {
+            if (!arguments.length) {
+                return startDate;
+            }
+            startDate = x;
+            return gen;
+        };
+        gen.stepsPerDay = function(x) {
+            if (!arguments.length) {
+                return stepsPerDay;
+            }
+            stepsPerDay = x;
+            return gen;
+        };
+        gen.volumeNoiseFactor = function(x) {
+            if (!arguments.length) {
+                return volumeNoiseFactor;
+            }
+            volumeNoiseFactor = x;
+            return gen;
+        };
+        gen.filter = function(x) {
+            if (!arguments.length) {
+                return filter;
+            }
+            filter = x;
+            return gen;
+        };
 
         return gen;
     };

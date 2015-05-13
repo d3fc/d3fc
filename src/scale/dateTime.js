@@ -41,8 +41,6 @@
             discontinuityProvider = fc.scale.discontinuity.identity();
         }
 
-        function discontinuities() { return scale.discontinuityProvider.value; }
-
         function scale(date) {
             var domain = adaptedScale.domain();
             var range = adaptedScale.range();
@@ -51,8 +49,8 @@
             // along a scale that has discontinuities (i.e. sections that have been removed).
             // the scale for the given point 'x' is calculated as the ratio of the discontinuous distance
             // over the domain of this axis, versus the discontinuous distance to 'x'
-            var totalDomainDistance = discontinuities().distance(domain[0], domain[1]);
-            var distanceToX = discontinuities().distance(domain[0], date);
+            var totalDomainDistance = discontinuityProvider.distance(domain[0], domain[1]);
+            var distanceToX = discontinuityProvider.distance(domain[0], date);
             var ratioToX = distanceToX / totalDomainDistance;
             var scaledByRange = ratioToX * (range[1] - range[0]) + range[0];
             return scaledByRange;
@@ -63,9 +61,9 @@
             var range = adaptedScale.range();
 
             var ratioToX = (x - range[0]) / (range[1] - range[0]);
-            var totalDomainDistance = discontinuities().distance(domain[0], domain[1]);
+            var totalDomainDistance = discontinuityProvider.distance(domain[0], domain[1]);
             var distanceToX = ratioToX * totalDomainDistance;
-            return discontinuities().offset(domain[0], distanceToX);
+            return discontinuityProvider.offset(domain[0], distanceToX);
         };
 
         scale.domain = function(x) {
@@ -74,8 +72,8 @@
             }
             // clamp the upper and lower domain values to ensure they
             // do not fall within a discontinuity
-            var domainLower = discontinuities().clampUp(x[0]);
-            var domainUpper = discontinuities().clampDown(x[1]);
+            var domainLower = discontinuityProvider.clampUp(x[0]);
+            var domainUpper = discontinuityProvider.clampDown(x[1]);
             adaptedScale.domain([domainLower, domainUpper]);
             return scale;
         };
@@ -83,22 +81,28 @@
         scale.nice = function() {
             adaptedScale.nice();
             var domain = adaptedScale.domain();
-            var domainLower = discontinuities().clampUp(domain[0]);
-            var domainUpper = discontinuities().clampDown(domain[1]);
+            var domainLower = discontinuityProvider.clampUp(domain[0]);
+            var domainUpper = discontinuityProvider.clampDown(domain[1]);
             adaptedScale.domain([domainLower, domainUpper]);
             return scale;
         };
 
         scale.ticks = function() {
             var ticks = adaptedScale.ticks.apply(this, arguments);
-            return fc.scale.dateTime.tickTransformer(ticks, discontinuities(), scale.domain());
+            return fc.scale.dateTime.tickTransformer(ticks, discontinuityProvider, scale.domain());
         };
 
         scale.copy = function() {
-            return dateTimeScale(adaptedScale.copy(), discontinuities().copy());
+            return dateTimeScale(adaptedScale.copy(), discontinuityProvider.copy());
         };
 
-        scale.discontinuityProvider = fc.utilities.property(discontinuityProvider);
+        scale.discontinuityProvider = function(x) {
+            if (!arguments.length) {
+                return discontinuityProvider;
+            }
+            discontinuityProvider = x;
+            return scale;
+        };
 
         return d3.rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp',
             'tickFormat');
