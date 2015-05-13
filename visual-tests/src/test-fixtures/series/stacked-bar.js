@@ -141,6 +141,7 @@
         // Add it to the chart
         chartLayout.getPlotArea()
           .append('g')
+          .datum([])
           .attr('class', 'crosshairs-container')
           .call(crosshairs);
     });

@@ -3,7 +3,11 @@
 
     fc.tools.fibonacciFan = function() {
 
-        var event = d3.dispatch('fansource', 'fantarget', 'fanclear');
+        var event = d3.dispatch('fansource', 'fantarget', 'fanclear'),
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            snap = function(x, y) { return {x: x, y: y}; },
+            decorate = fc.utilities.fn.noop;
 
         var fan = function(selection) {
 
@@ -21,15 +25,15 @@
                     .style('visibility', 'hidden');
 
                 container.select('rect')
-                    .attr('x', fan.xScale.value.range()[0])
-                    .attr('y', fan.yScale.value.range()[1])
-                    .attr('width', fan.xScale.value.range()[1])
-                    .attr('height', fan.yScale.value.range()[0]);
+                    .attr('x', xScale.range()[0])
+                    .attr('y', yScale.range()[1])
+                    .attr('width', xScale.range()[1])
+                    .attr('height', yScale.range()[0]);
 
                 var g = fc.utilities.simpleDataJoin(container, 'fan', data);
 
                 g.each(function(d) {
-                    d.x = fan.xScale.value.range()[1];
+                    d.x = xScale.range()[1];
                     d.ay = d.by = d.cy = d.target.y;
 
                     if (d.source.x !== d.target.x) {
@@ -97,7 +101,7 @@
                     })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
-                fan.decorate.value(g);
+                decorate(g);
             });
         };
 
@@ -106,7 +110,7 @@
             var datum = container.datum()[0];
             if (datum.state !== 'DONE') {
                 var mouse = d3.mouse(this);
-                var snapped = fan.snap.value.apply(this, mouse);
+                var snapped = snap.apply(this, mouse);
                 if (datum.state === 'SELECT_SOURCE') {
                     datum.source = datum.target = snapped;
                 } else if (datum.state === 'SELECT_TARGET') {
@@ -174,10 +178,34 @@
             container.call(fan);
         }
 
-        fan.xScale = fc.utilities.property(d3.time.scale());
-        fan.yScale = fc.utilities.property(d3.scale.linear());
-        fan.snap = fc.utilities.property(function(x, y) { return {x: x, y: y}; });
-        fan.decorate = fc.utilities.property(fc.utilities.fn.noop);
+        fan.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return fan;
+        };
+        fan.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return fan;
+        };
+        fan.snap = function(x) {
+            if (!arguments.length) {
+                return snap;
+            }
+            snap = x;
+            return fan;
+        };
+        fan.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return fan;
+        };
 
         d3.rebind(fan, event, 'on');
 

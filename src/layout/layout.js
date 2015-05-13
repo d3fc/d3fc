@@ -38,6 +38,9 @@
 
     fc.layout = function() {
 
+        var width = -1,
+            height = -1;
+
         // parses the style attribute, converting it into a JavaScript object
         function parseStyle(style) {
             if (!style) {
@@ -102,14 +105,13 @@
         var layout = function(selection) {
             selection.each(function(data) {
                 var dimensions = fc.utilities.innerDimensions(this);
-                var width = layout.width.value !== -1 ? layout.width.value : dimensions.width;
-                var height = layout.height.value !== -1 ? layout.height.value : dimensions.height;
 
                 // create the layout nodes
                 var layoutNodes = createNodes(this);
+
                 // set the width / height of the root
-                layoutNodes.style.width = width;
-                layoutNodes.style.height = height;
+                layoutNodes.style.width = width !== -1 ? width : dimensions.width;
+                layoutNodes.style.height = height !== -1 ? height : dimensions.height;
 
                 // use the Facebook CSS goodness
                 cssLayout.computeLayout(layoutNodes);
@@ -119,8 +121,20 @@
             });
         };
 
-        layout.width = fc.utilities.property(-1);
-        layout.height = fc.utilities.property(-1);
+        layout.width = function(x) {
+            if (!arguments.length) {
+                return width;
+            }
+            width = x;
+            return layout;
+        };
+        layout.height = function(x) {
+            if (!arguments.length) {
+                return height;
+            }
+            height = x;
+            return layout;
+        };
 
         return layout;
     };

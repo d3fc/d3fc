@@ -3,6 +3,11 @@
 
     fc.series.multi = function() {
 
+        var xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            series = [],
+            mapping = fc.utilities.fn.identity;
+
         var multi = function(selection) {
 
             selection.each(function(data) {
@@ -10,7 +15,7 @@
                 var container = d3.select(this);
 
                 var g = container.selectAll('g.multi-outer')
-                    .data(multi.series.value);
+                    .data(series);
 
                 g.enter()
                     .append('g')
@@ -27,20 +32,44 @@
                         var series = d3.select(this.parentNode)
                             .datum();
 
-                        (series.xScale || series.x).call(series, multi.xScale.value);
-                        (series.yScale || series.y).call(series, multi.yScale.value);
+                        (series.xScale || series.x).call(series, xScale);
+                        (series.yScale || series.y).call(series, yScale);
 
                         d3.select(this)
-                            .datum(multi.mapping.value(data, series))
+                            .datum(mapping(data, series))
                             .call(series);
                     });
             });
         };
 
-        multi.xScale = fc.utilities.property(d3.time.scale());
-        multi.yScale = fc.utilities.property(d3.scale.linear());
-        multi.series = fc.utilities.property([]);
-        multi.mapping = fc.utilities.property(fc.utilities.fn.identity);
+        multi.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return multi;
+        };
+        multi.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return multi;
+        };
+        multi.series = function(x) {
+            if (!arguments.length) {
+                return series;
+            }
+            series = x;
+            return multi;
+        };
+        multi.mapping = function(x) {
+            if (!arguments.length) {
+                return mapping;
+            }
+            mapping = x;
+            return multi;
+        };
 
         return multi;
     };

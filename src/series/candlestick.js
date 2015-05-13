@@ -3,12 +3,23 @@
 
     fc.series.candlestick = function() {
 
+        var decorate = fc.utilities.fn.noop,
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            xValue = function(d) { return d.date; },
+            yOpenValue = function(d) { return d.open; },
+            yHighValue = function(d) { return d.high; },
+            yLowValue = function(d) { return d.low; },
+            yCloseValue = function(d) { return d.close; },
+            barWidth = fc.utilities.fractionalBarWidth(0.75);
+
+
         // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return candlestick.xScale.value(candlestick.xValue.value(d)); };
-        var yOpen = function(d) { return candlestick.yScale.value(candlestick.yOpenValue.value(d)); };
-        var yHigh = function(d) { return candlestick.yScale.value(candlestick.yHighValue.value(d)); };
-        var yLow = function(d) { return candlestick.yScale.value(candlestick.yLowValue.value(d)); };
-        var yClose = function(d) { return candlestick.yScale.value(candlestick.yCloseValue.value(d)); };
+        var x = function(d) { return xScale(xValue(d)); };
+        var yOpen = function(d) { return yScale(yOpenValue(d)); };
+        var yHigh = function(d) { return yScale(yHighValue(d)); };
+        var yLow = function(d) { return yScale(yLowValue(d)); };
+        var yClose = function(d) { return yScale(yCloseValue(d)); };
 
         var candlestick = function(selection) {
 
@@ -16,32 +27,32 @@
 
                 var container = d3.select(this);
 
-                var g = fc.utilities.simpleDataJoin(container, 'candlestick', data, candlestick.xValue.value);
+                var g = fc.utilities.simpleDataJoin(container, 'candlestick', data, xValue);
 
                 g.enter()
                     .append('path');
 
                 g.classed({
                         'up': function(d) {
-                            return candlestick.yCloseValue.value(d) > candlestick.yOpenValue.value(d);
+                            return yCloseValue(d) > yOpenValue(d);
                         },
                         'down': function(d) {
-                            return candlestick.yCloseValue.value(d) < candlestick.yOpenValue.value(d);
+                            return yCloseValue(d) < yOpenValue(d);
                         }
                     });
 
-                var barWidth = candlestick.barWidth.value(data.map(x));
+                var width = barWidth(data.map(x));
 
                 g.select('path')
                     .attr('d', function(d) {
                         // Move to the opening price
-                        var body = 'M' + (x(d) - barWidth / 2) + ',' + yOpen(d) +
+                        var body = 'M' + (x(d) - width / 2) + ',' + yOpen(d) +
                         // Draw the width
-                        'h' + barWidth +
+                        'h' + width +
                         // Draw to the closing price (vertically)
                         'V' + yClose(d) +
                         // Draw the width
-                        'h' + -barWidth +
+                        'h' + -width +
                         // Move back to the opening price
                         'V' + yOpen(d) +
                         // Close the path
@@ -62,19 +73,73 @@
                         return body + highWick + lowWick;
                     });
 
-                candlestick.decorate.value(g);
+                decorate(g);
             });
         };
 
-        candlestick.decorate = fc.utilities.property(fc.utilities.fn.noop);
-        candlestick.xScale = fc.utilities.property(d3.time.scale());
-        candlestick.yScale = fc.utilities.property(d3.scale.linear());
-        candlestick.barWidth = fc.utilities.functorProperty(fc.utilities.fractionalBarWidth(0.75));
-        candlestick.yOpenValue = fc.utilities.property(function(d) { return d.open; });
-        candlestick.yHighValue = fc.utilities.property(function(d) { return d.high; });
-        candlestick.yLowValue = fc.utilities.property(function(d) { return d.low; });
-        candlestick.yCloseValue = fc.utilities.property(function(d) { return d.close; });
-        candlestick.xValue = fc.utilities.property(function(d) { return d.date; });
+        candlestick.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return candlestick;
+        };
+        candlestick.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return candlestick;
+        };
+        candlestick.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return candlestick;
+        };
+        candlestick.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return candlestick;
+        };
+        candlestick.yOpenValue = function(x) {
+            if (!arguments.length) {
+                return yOpenValue;
+            }
+            yOpenValue = x;
+            return candlestick;
+        };
+        candlestick.yHighValue = function(x) {
+            if (!arguments.length) {
+                return yHighValue;
+            }
+            yHighValue = x;
+            return candlestick;
+        };
+        candlestick.yLowValue = function(x) {
+            if (!arguments.length) {
+                return yLowValue;
+            }
+            yLowValue = x;
+            return candlestick;
+        };
+        candlestick.yValue = candlestick.yCloseValue = function(x) {
+            if (!arguments.length) {
+                return yCloseValue;
+            }
+            yCloseValue = x;
+            return candlestick;
+        };
+        candlestick.barWidth = function(x) {
+            if (!arguments.length) {
+                return barWidth;
+            }
+            barWidth = d3.functor(x);
+            return candlestick;
+        };
 
         return candlestick;
 

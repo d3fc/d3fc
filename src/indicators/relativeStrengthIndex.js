@@ -3,21 +3,29 @@
 
     fc.indicators.relativeStrengthIndicator = function() {
 
+        var xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            xValue = function(d) { return d.date; },
+            writeCalculatedValue = function(d, value) { d.rsi = value; },
+            readCalculatedValue = function(d) { return d.rsi; },
+            upperValue = d3.functor(70),
+            lowerValue = d3.functor(30);
+
         var algorithm = fc.indicators.algorithms.relativeStrengthIndicator();
         var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
 
         var rsi = function(selection) {
 
-            algorithm.outputValue(rsi.writeCalculatedValue.value);
+            algorithm.outputValue(writeCalculatedValue);
 
-            annotations.xScale(rsi.xScale.value)
-                .yScale(rsi.yScale.value);
+            annotations.xScale(xScale)
+                .yScale(yScale);
 
-            rsiLine.xScale(rsi.xScale.value)
-                .yScale(rsi.yScale.value)
-                .xValue(rsi.xValue.value)
-                .yValue(rsi.readCalculatedValue.value);
+            rsiLine.xScale(xScale)
+                .yScale(yScale)
+                .xValue(xValue)
+                .yValue(readCalculatedValue);
 
             selection.each(function(data) {
                 algorithm(data);
@@ -26,9 +34,9 @@
 
                 var annotationsContainer = container.selectAll('g.annotations')
                     .data([[
-                        rsi.upperValue.value.apply(this, arguments),
+                        upperValue.apply(this, arguments),
                         50,
-                        rsi.lowerValue.value.apply(this, arguments)
+                        lowerValue.apply(this, arguments)
                     ]]);
 
                 annotationsContainer.enter()
@@ -48,13 +56,55 @@
             });
         };
 
-        rsi.xScale = fc.utilities.property(d3.time.scale());
-        rsi.yScale = fc.utilities.property(d3.scale.linear());
-        rsi.xValue = fc.utilities.property(function(d) { return d.date; });
-        rsi.writeCalculatedValue = fc.utilities.property(function(d, value) { d.rsi = value; });
-        rsi.readCalculatedValue = fc.utilities.property(function(d) { return d.rsi; });
-        rsi.upperValue = fc.utilities.functorProperty(70);
-        rsi.lowerValue = fc.utilities.functorProperty(30);
+        rsi.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return rsi;
+        };
+        rsi.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return rsi;
+        };
+        rsi.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return rsi;
+        };
+        rsi.writeCalculatedValue = function(x) {
+            if (!arguments.length) {
+                return writeCalculatedValue;
+            }
+            writeCalculatedValue = x;
+            return rsi;
+        };
+        rsi.readCalculatedValue = function(x) {
+            if (!arguments.length) {
+                return readCalculatedValue;
+            }
+            readCalculatedValue = x;
+            return rsi;
+        };
+        rsi.upperValue = function(x) {
+            if (!arguments.length) {
+                return upperValue;
+            }
+            upperValue = d3.functor(x);
+            return rsi;
+        };
+        rsi.lowerValue = function(x) {
+            if (!arguments.length) {
+                return lowerValue;
+            }
+            lowerValue = d3.functor(x);
+            return rsi;
+        };
 
         d3.rebind(rsi, algorithm, 'openValue', 'closeValue', 'windowSize');
 

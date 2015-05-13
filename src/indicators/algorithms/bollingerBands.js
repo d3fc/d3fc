@@ -3,15 +3,17 @@
 
     fc.indicators.algorithms.bollingerBands = function() {
 
+        var multiplier = d3.functor(2);
+
         var slidingWindow = fc.indicators.algorithms.slidingWindow()
             .accumulator(function(values) {
                 var avg = d3.mean(values);
                 var stdDev = d3.deviation(values);
-                var multiplier = bollingerBands.multiplier.value.apply(this, arguments);
+                var multiplierValue = multiplier.apply(this, arguments);
                 return {
-                    upper: avg + multiplier * stdDev,
+                    upper: avg + multiplierValue * stdDev,
                     average: avg,
-                    lower: avg - multiplier * stdDev
+                    lower: avg - multiplierValue * stdDev
                 };
             });
 
@@ -19,7 +21,13 @@
             return slidingWindow(data);
         };
 
-        bollingerBands.multiplier = fc.utilities.functorProperty(2);
+        bollingerBands.multiplier = function(x) {
+            if (!arguments.length) {
+                return multiplier;
+            }
+            multiplier = d3.functor(x);
+            return bollingerBands;
+        };
 
         d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'inputValue', 'outputValue');
 

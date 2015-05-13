@@ -3,9 +3,16 @@
 
     fc.series.point = function() {
 
+        var decorate = fc.utilities.fn.noop,
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            yValue = function(d) { return d.close; },
+            xValue = function(d) { return d.date; },
+            radius = d3.functor(5);
+
         // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return point.xScale.value(point.xValue.value(d)); };
-        var y = function(d) { return point.yScale.value(point.yValue.value(d)); };
+        var x = function(d) { return xScale(xValue(d)); };
+        var y = function(d) { return yScale(yValue(d)); };
 
         var point = function(selection) {
 
@@ -13,7 +20,7 @@
 
                 var container = d3.select(this);
 
-                var g = fc.utilities.simpleDataJoin(container, 'point', data, point.xValue.value);
+                var g = fc.utilities.simpleDataJoin(container, 'point', data, xValue);
 
                 g.enter()
                     .append('circle');
@@ -21,18 +28,55 @@
                 g.select('circle')
                     .attr('cx', x)
                     .attr('cy', y)
-                    .attr('r', point.radius.value);
+                    .attr('r', radius);
 
-                point.decorate.value(g);
+                decorate(g);
             });
         };
 
-        point.decorate = fc.utilities.property(fc.utilities.fn.noop);
-        point.xScale = fc.utilities.property(d3.time.scale());
-        point.yScale = fc.utilities.property(d3.scale.linear());
-        point.yValue = fc.utilities.property(function(d) { return d.close; });
-        point.xValue = fc.utilities.property(function(d) { return d.date; });
-        point.radius = fc.utilities.functorProperty(5);
+        point.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return point;
+        };
+        point.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return point;
+        };
+        point.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return point;
+        };
+        point.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return point;
+        };
+        point.yValue = function(x) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = x;
+            return point;
+        };
+
+        point.radius = function(x) {
+            if (!arguments.length) {
+                return radius;
+            }
+            radius = x;
+            return point;
+        };
 
         return point;
     };

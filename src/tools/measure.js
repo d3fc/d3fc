@@ -3,7 +3,14 @@
 
     fc.tools.measure = function() {
 
-        var event = d3.dispatch('measuresource', 'measuretarget', 'measureclear');
+        var event = d3.dispatch('measuresource', 'measuretarget', 'measureclear'),
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            snap = function(x, y) { return {x: x, y: y}; },
+            decorate = fc.utilities.fn.noop,
+            xLabel = d3.functor(''),
+            yLabel = d3.functor(''),
+            padding = d3.functor(2);
 
         var measure = function(selection) {
 
@@ -21,10 +28,10 @@
                     .style('visibility', 'hidden');
 
                 container.select('rect')
-                    .attr('x', measure.xScale.value.range()[0])
-                    .attr('y', measure.yScale.value.range()[1])
-                    .attr('width', measure.xScale.value.range()[1])
-                    .attr('height', measure.yScale.value.range()[0]);
+                    .attr('x', xScale.range()[0])
+                    .attr('y', yScale.range()[1])
+                    .attr('width', xScale.range()[1])
+                    .attr('height', yScale.range()[0]);
 
                 var g = fc.utilities.simpleDataJoin(container, 'measure', data);
 
@@ -60,21 +67,21 @@
                     .attr('y2', function(d) { return d.source.y; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
-                var paddingValue = measure.padding.value.apply(this, arguments);
+                var paddingValue = padding.apply(this, arguments);
 
                 g.select('text.horizontal')
                     .attr('x', function(d) { return d.source.x + (d.target.x - d.source.x) / 2; })
                     .attr('y', function(d) { return d.source.y - paddingValue; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
-                    .text(measure.xLabel.value);
+                    .text(xLabel);
 
                 g.select('text.vertical')
                     .attr('x', function(d) { return d.target.x + paddingValue; })
                     .attr('y', function(d) { return d.source.y + (d.target.y - d.source.y) / 2; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
-                    .text(measure.yLabel.value);
+                    .text(yLabel);
 
-                measure.decorate.value(g);
+                decorate(g);
             });
         };
 
@@ -83,7 +90,7 @@
             var datum = container.datum()[0];
             if (datum.state !== 'DONE') {
                 var mouse = d3.mouse(this);
-                var snapped = measure.snap.value.apply(this, mouse);
+                var snapped = snap.apply(this, mouse);
                 if (datum.state === 'SELECT_SOURCE') {
                     datum.source = datum.target = snapped;
                 } else if (datum.state === 'SELECT_TARGET') {
@@ -151,13 +158,55 @@
             container.call(measure);
         }
 
-        measure.xScale = fc.utilities.property(d3.time.scale());
-        measure.yScale = fc.utilities.property(d3.scale.linear());
-        measure.snap = fc.utilities.property(function(x, y) { return {x: x, y: y}; });
-        measure.decorate = fc.utilities.property(fc.utilities.fn.noop);
-        measure.xLabel = fc.utilities.functorProperty('');
-        measure.yLabel = fc.utilities.functorProperty('');
-        measure.padding = fc.utilities.functorProperty(2);
+        measure.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return measure;
+        };
+        measure.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return measure;
+        };
+        measure.snap = function(x) {
+            if (!arguments.length) {
+                return snap;
+            }
+            snap = x;
+            return measure;
+        };
+        measure.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return measure;
+        };
+        measure.xLabel = function(x) {
+            if (!arguments.length) {
+                return xLabel;
+            }
+            xLabel = d3.functor(x);
+            return measure;
+        };
+        measure.yLabel = function(x) {
+            if (!arguments.length) {
+                return yLabel;
+            }
+            yLabel = d3.functor(x);
+            return measure;
+        };
+        measure.padding = function(x) {
+            if (!arguments.length) {
+                return padding;
+            }
+            padding = d3.functor(x);
+            return measure;
+        };
 
         d3.rebind(measure, event, 'on');
 

@@ -3,6 +3,7 @@
 
     fc.charts.linearTimeSeries = function() {
 
+        var plotArea = fc.series.line();
         var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
         var xAxis = d3.svg.axis()
@@ -80,7 +81,6 @@
 
                 yAxisContainer.call(yAxis);
 
-                var plotArea = linearTimeSeries.plotArea.value;
                 plotArea.xScale(xScale)
                     .yScale(yScale);
                 plotAreaContainer.call(plotArea);
@@ -109,7 +109,13 @@
 
         linearTimeSeries.xScale = function() { return xScale; };
         linearTimeSeries.yScale = function() { return yScale; };
-        linearTimeSeries.plotArea = fc.utilities.property(fc.series.line());
+        linearTimeSeries.plotArea = function(x) {
+            if (!arguments.length) {
+                return plotArea;
+            }
+            plotArea = x;
+            return linearTimeSeries;
+        };
 
         return linearTimeSeries;
     };

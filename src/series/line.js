@@ -3,9 +3,15 @@
 
     fc.series.line = function() {
 
+        var decorate = fc.utilities.fn.noop,
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            yValue = function(d) { return d.close; },
+            xValue = function(d) { return d.date; };
+
         // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return line.xScale.value(line.xValue.value(d)); };
-        var y = function(d) { return line.yScale.value(line.yValue.value(d)); };
+        var x = function(d) { return xScale(xValue(d)); };
+        var y = function(d) { return yScale(yValue(d)); };
 
         var lineData = d3.svg.line()
             .defined(function(d) {
@@ -28,15 +34,45 @@
 
                 path.attr('d', lineData);
 
-                line.decorate.value(path);
+                decorate(path);
             });
         };
 
-        line.decorate = fc.utilities.property(fc.utilities.fn.noop);
-        line.xScale = fc.utilities.property(d3.time.scale());
-        line.yScale = fc.utilities.property(d3.scale.linear());
-        line.yValue = fc.utilities.property(function(d) { return d.close; });
-        line.xValue = fc.utilities.property(function(d) { return d.date; });
+        line.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return line;
+        };
+        line.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return line;
+        };
+        line.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return line;
+        };
+        line.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return line;
+        };
+        line.yValue = function(x) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = x;
+            return line;
+        };
 
         return d3.rebind(line, lineData, 'interpolate', 'tension');
     };

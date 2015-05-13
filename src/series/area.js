@@ -3,10 +3,17 @@
 
     fc.series.area = function() {
 
+        var decorate = fc.utilities.fn.noop,
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            y0Value = d3.functor(0),
+            y1Value = function(d) { return d.close; },
+            xValue = function(d) { return d.date; };
+
         // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return area.xScale.value(area.xValue.value(d)); };
-        var y0 = function(d) { return area.yScale.value(area.y0Value.value(d)); };
-        var y1 = function(d) { return area.yScale.value(area.y1Value.value(d)); };
+        var x = function(d) { return xScale(xValue(d)); };
+        var y0 = function(d) { return yScale(y0Value(d)); };
+        var y1 = function(d) { return yScale(y1Value(d)); };
 
         var areaData = d3.svg.area()
             .defined(function(d) {
@@ -30,17 +37,52 @@
 
                 path.attr('d', areaData);
 
-                area.decorate.value(path);
+                decorate(path);
             });
         };
 
-        area.decorate = fc.utilities.property(fc.utilities.fn.noop);
-        area.xScale = fc.utilities.property(d3.time.scale());
-        area.yScale = fc.utilities.property(d3.scale.linear());
-        area.y0Value = fc.utilities.functorProperty(0);
-        area.y1Value = fc.utilities.property(function(d) { return d.close; });
-        area.xValue = fc.utilities.property(function(d) { return d.date; });
-
+        area.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return area;
+        };
+        area.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return area;
+        };
+        area.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return area;
+        };
+        area.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return area;
+        };
+        area.y0Value = function(x) {
+            if (!arguments.length) {
+                return y0Value;
+            }
+            y0Value = d3.functor(x);
+            return area;
+        };
+        area.yValue = area.y1Value = function(x) {
+            if (!arguments.length) {
+                return y1Value;
+            }
+            y1Value = x;
+            return area;
+        };
 
         return d3.rebind(area, areaData, 'interpolate', 'tension');
     };

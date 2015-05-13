@@ -3,11 +3,13 @@
 
     fc.indicators.bollingerBands = function() {
 
-        var algorithm = fc.indicators.algorithms.bollingerBands();
-
-        var readCalculatedValue = function(d) {
-            return bollingerBands.readCalculatedValue.value(d) || {};
-        };
+        var algorithm = fc.indicators.algorithms.bollingerBands(),
+            xScale = d3.time.scale(),
+            yScale = d3.scale.linear(),
+            yValue = function(d) { return d.close; },
+            xValue = function(d) { return d.date; },
+            writeCalculatedValue = function(d, value) { d.bollingerBands = value; },
+            readCalculatedValue = function(d) { return d.bollingerBands || {}; };
 
         var area = fc.series.area()
             .y0Value(function(d) {
@@ -34,24 +36,24 @@
 
         var bollingerBands = function(selection) {
 
-            algorithm.inputValue(bollingerBands.yValue.value)
-                .outputValue(bollingerBands.writeCalculatedValue.value);
+            algorithm.inputValue(yValue)
+                .outputValue(writeCalculatedValue);
 
-            area.xScale(bollingerBands.xScale.value)
-                .yScale(bollingerBands.yScale.value)
-                .xValue(bollingerBands.xValue.value);
+            area.xScale(xScale)
+                .yScale(yScale)
+                .xValue(xValue);
 
-            upperLine.xScale(bollingerBands.xScale.value)
-                .yScale(bollingerBands.yScale.value)
-                .xValue(bollingerBands.xValue.value);
+            upperLine.xScale(xScale)
+                .yScale(yScale)
+                .xValue(xValue);
 
-            averageLine.xScale(bollingerBands.xScale.value)
-                .yScale(bollingerBands.yScale.value)
-                .xValue(bollingerBands.xValue.value);
+            averageLine.xScale(xScale)
+                .yScale(yScale)
+                .xValue(xValue);
 
-            lowerLine.xScale(bollingerBands.xScale.value)
-                .yScale(bollingerBands.yScale.value)
-                .xValue(bollingerBands.xValue.value);
+            lowerLine.xScale(xScale)
+                .yScale(yScale)
+                .xValue(xValue);
 
             selection.each(function(data) {
                 algorithm(data);
@@ -96,12 +98,48 @@
             });
         };
 
-        bollingerBands.xScale = fc.utilities.property(d3.time.scale());
-        bollingerBands.yScale = fc.utilities.property(d3.scale.linear());
-        bollingerBands.yValue = fc.utilities.property(function(d) { return d.close; });
-        bollingerBands.xValue = fc.utilities.property(function(d) { return d.date; });
-        bollingerBands.writeCalculatedValue = fc.utilities.property(function(d, value) { d.bollingerBands = value; });
-        bollingerBands.readCalculatedValue = fc.utilities.property(function(d) { return d.bollingerBands; });
+        bollingerBands.xScale = function(x) {
+            if (!arguments.length) {
+                return xScale;
+            }
+            xScale = x;
+            return bollingerBands;
+        };
+        bollingerBands.yScale = function(x) {
+            if (!arguments.length) {
+                return yScale;
+            }
+            yScale = x;
+            return bollingerBands;
+        };
+        bollingerBands.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return bollingerBands;
+        };
+        bollingerBands.yValue = function(x) {
+            if (!arguments.length) {
+                return yValue;
+            }
+            yValue = x;
+            return bollingerBands;
+        };
+        bollingerBands.writeCalculatedValue = function(x) {
+            if (!arguments.length) {
+                return writeCalculatedValue;
+            }
+            writeCalculatedValue = x;
+            return bollingerBands;
+        };
+        bollingerBands.readCalculatedValue = function(x) {
+            if (!arguments.length) {
+                return readCalculatedValue;
+            }
+            readCalculatedValue = x;
+            return bollingerBands;
+        };
 
         d3.rebind(bollingerBands, algorithm, 'multiplier', 'windowSize');
 
