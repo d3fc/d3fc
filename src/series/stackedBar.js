@@ -8,7 +8,7 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             // Implicitly dependant on the implementation of the stack layout's `out`.
-            y0Value = function(d) { return d.y0; };
+            y0Value = function(d, i) { return d.y0; };
 
         var stackLayout = d3.layout.stack();
 

@@ -6,20 +6,14 @@
         var decorate = fc.utilities.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            xValue = function(d) { return d.date; },
-            yOpenValue = function(d) { return d.open; },
-            yHighValue = function(d) { return d.high; },
-            yLowValue = function(d) { return d.low; },
-            yCloseValue = function(d) { return d.close; },
+            xValue = function(d, i) { return d.date; },
+            yOpenValue = function(d, i) { return d.open; },
+            yHighValue = function(d, i) { return d.high; },
+            yLowValue = function(d, i) { return d.low; },
+            yCloseValue = function(d, i) { return d.close; },
             barWidth = fc.utilities.fractionalBarWidth(0.75);
 
-
-        // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return xScale(xValue(d)); };
-        var yOpen = function(d) { return yScale(yOpenValue(d)); };
-        var yHigh = function(d) { return yScale(yHighValue(d)); };
-        var yLow = function(d) { return yScale(yLowValue(d)); };
-        var yClose = function(d) { return yScale(yCloseValue(d)); };
+        var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
         var candlestick = function(selection) {
 
@@ -32,46 +26,56 @@
                 g.enter()
                     .append('path');
 
-                g.classed({
-                        'up': function(d) {
-                            return yCloseValue(d) > yOpenValue(d);
-                        },
-                        'down': function(d) {
-                            return yCloseValue(d) < yOpenValue(d);
-                        }
-                    });
+                var width = barWidth(data.map(xValueScaled));
 
-                var width = barWidth(data.map(x));
+                g.each(function(d, i) {
+                    var yCloseRaw = yCloseValue(d, i),
+                        yOpenRaw = yOpenValue(d, i),
+                        x = xValueScaled(d, i),
+                        yOpen = yScale(yOpenRaw),
+                        yHigh = yScale(yHighValue(d, i)),
+                        yLow = yScale(yLowValue(d, i)),
+                        yClose = yScale(yCloseRaw);
 
-                g.select('path')
-                    .attr('d', function(d) {
-                        // Move to the opening price
-                        var body = 'M' + (x(d) - width / 2) + ',' + yOpen(d) +
-                        // Draw the width
-                        'h' + width +
-                        // Draw to the closing price (vertically)
-                        'V' + yClose(d) +
-                        // Draw the width
-                        'h' + -width +
-                        // Move back to the opening price
-                        'V' + yOpen(d) +
-                        // Close the path
-                        'z';
+                    var g = d3.select(this)
+                        .classed({
+                            'up': function(d, i) {
+                                return yCloseRaw > yOpenRaw;
+                            },
+                            'down': function(d, i) {
+                                return yCloseRaw < yOpenRaw;
+                            }
+                        });
+                    g.select('path')
+                        .attr('d', function(d, i) {
+                            // Move to the opening price
+                            var body = 'M' + (x - width / 2) + ',' + yOpen +
+                            // Draw the width
+                            'h' + width +
+                            // Draw to the closing price (vertically)
+                            'V' + yClose +
+                            // Draw the width
+                            'h' + -width +
+                            // Move back to the opening price
+                            'V' + yOpen +
+                            // Close the path
+                            'z';
 
-                        // Move to the max price of close or open; draw the high wick
-                        // N.B. Math.min() is used as we're dealing with pixel values,
-                        // the lower the pixel value, the higher the price!
-                        var highWick = 'M' + x(d) + ',' + Math.min(yClose(d), yOpen(d)) +
-                        'V' + yHigh(d);
+                            // Move to the max price of close or open; draw the high wick
+                            // N.B. Math.min() is used as we're dealing with pixel values,
+                            // the lower the pixel value, the higher the price!
+                            var highWick = 'M' + x + ',' + Math.min(yClose, yOpen) +
+                            'V' + yHigh;
 
-                        // Move to the min price of close or open; draw the low wick
-                        // N.B. Math.max() is used as we're dealing with pixel values,
-                        // the higher the pixel value, the lower the price!
-                        var lowWick = 'M' + x(d) + ',' + Math.max(yClose(d), yOpen(d)) +
-                        'V' + yLow(d);
+                            // Move to the min price of close or open; draw the low wick
+                            // N.B. Math.max() is used as we're dealing with pixel values,
+                            // the higher the pixel value, the lower the price!
+                            var lowWick = 'M' + x + ',' + Math.max(yClose, yOpen) +
+                            'V' + yLow;
 
-                        return body + highWick + lowWick;
-                    });
+                            return body + highWick + lowWick;
+                        });
+                });
 
                 decorate(g);
             });

@@ -6,19 +6,14 @@
         var decorate = fc.utilities.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            xValue = function(d) { return d.date; },
-            yOpenValue = function(d) { return d.open; },
-            yHighValue = function(d) { return d.high; },
-            yLowValue = function(d) { return d.low; },
-            yCloseValue = function(d) { return d.close; },
+            xValue = function(d, i) { return d.date; },
+            yOpenValue = function(d, i) { return d.open; },
+            yHighValue = function(d, i) { return d.high; },
+            yLowValue = function(d, i) { return d.low; },
+            yCloseValue = function(d, i) { return d.close; },
             barWidth = fc.utilities.fractionalBarWidth(0.75);
 
-        // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return xScale(xValue(d)); };
-        var yOpen = function(d) { return yScale(yOpenValue(d)); };
-        var yHigh = function(d) { return yScale(yHighValue(d)); };
-        var yLow = function(d) { return yScale(yLowValue(d)); };
-        var yClose = function(d) { return yScale(yCloseValue(d)); };
+        var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
         var ohlc = function(selection) {
             selection.each(function(data) {
@@ -30,26 +25,36 @@
                 g.enter()
                     .append('path');
 
-                g.classed({
-                        'up': function(d) {
-                            return yCloseValue(d) > yOpenValue(d);
-                        },
-                        'down': function(d) {
-                            return yCloseValue(d) < yOpenValue(d);
-                        }
-                    });
-
-                var width = barWidth(data.map(x));
+                var width = barWidth(data.map(xValueScaled));
                 var halfWidth = width / 2;
 
-                g.select('path')
-                    .attr('d', function(d) {
-                        var moveToLow = 'M' + x(d) + ',' + yLow(d),
-                            verticalToHigh = 'V' + yHigh(d),
-                            openTick = 'M' + x(d) + ',' + yOpen(d) + 'h' + (-halfWidth),
-                            closeTick = 'M' + x(d) + ',' + yClose(d) + 'h' + halfWidth;
-                        return moveToLow + verticalToHigh + openTick + closeTick;
-                    });
+                g.each(function(d, i) {
+                    var yCloseRaw = yCloseValue(d, i),
+                        yOpenRaw = yOpenValue(d, i),
+                        x = xValueScaled(d, i),
+                        yOpen = yScale(yOpenRaw),
+                        yHigh = yScale(yHighValue(d, i)),
+                        yLow = yScale(yLowValue(d, i)),
+                        yClose = yScale(yCloseRaw);
+
+                    var g = d3.select(this)
+                        .classed({
+                            'up': function(d, i) {
+                                return yCloseRaw > yOpenRaw;
+                            },
+                            'down': function(d, i) {
+                                return yCloseRaw < yOpenRaw;
+                            }
+                        });
+                    g.select('path')
+                        .attr('d', function(d) {
+                            var moveToLow = 'M' + x + ',' + yLow,
+                            verticalToHigh = 'V' + yHigh,
+                            openTick = 'M' + x + ',' + yOpen + 'h' + (-halfWidth),
+                            closeTick = 'M' + x + ',' + yClose + 'h' + halfWidth;
+                            return moveToLow + verticalToHigh + openTick + closeTick;
+                        });
+                });
 
                 decorate(g);
             });

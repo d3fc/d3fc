@@ -6,16 +6,16 @@
         var decorate = fc.utilities.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            yValue = function(d) { return d.close; },
-            xValue = function(d) { return d.date; };
+            yValue = function(d, i) { return d.close; },
+            xValue = function(d, i) { return d.date; };
 
         // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return xScale(xValue(d)); };
-        var y = function(d) { return yScale(yValue(d)); };
+        var x = function(d, i) { return xScale(xValue(d, i)); };
+        var y = function(d, i) { return yScale(yValue(d, i)); };
 
         var lineData = d3.svg.line()
-            .defined(function(d) {
-                return !isNaN(y(d));
+            .defined(function(d, i) {
+                return !isNaN(y(d, i));
             })
             .x(x)
             .y(y);
