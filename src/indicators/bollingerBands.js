@@ -6,38 +6,35 @@
         var algorithm = fc.indicators.algorithms.bollingerBands(),
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            yValue = function(d) { return d.close; },
-            xValue = function(d) { return d.date; },
-            writeCalculatedValue = function(d, value) { d.bollingerBands = value; },
-            readCalculatedValue = function(d) { return d.bollingerBands || {}; };
+            yValue = function(d, i) { return d.close; },
+            xValue = function(d, i) { return d.date; };
 
         var area = fc.series.area()
-            .y0Value(function(d) {
-                return readCalculatedValue(d).upper;
+            .y0Value(function(d, i) {
+                return d.upper;
             })
-            .y1Value(function(d) {
-                return readCalculatedValue(d).lower;
+            .y1Value(function(d, i) {
+                return d.lower;
             });
 
         var upperLine = fc.series.line()
-            .yValue(function(d) {
-                return readCalculatedValue(d).upper;
+            .yValue(function(d, i) {
+                return d.upper;
             });
 
         var averageLine = fc.series.line()
-            .yValue(function(d) {
-                return readCalculatedValue(d).average;
+            .yValue(function(d, i) {
+                return d.average;
             });
 
         var lowerLine = fc.series.line()
-            .yValue(function(d) {
-                return readCalculatedValue(d).lower;
+            .yValue(function(d, i) {
+                return d.lower;
             });
 
         var bollingerBands = function(selection) {
 
-            algorithm.inputValue(yValue)
-                .outputValue(writeCalculatedValue);
+            algorithm.value(yValue);
 
             area.xScale(xScale)
                 .yScale(yScale)
@@ -56,7 +53,14 @@
                 .xValue(xValue);
 
             selection.each(function(data) {
-                algorithm(data);
+
+                data = d3.zip(data, algorithm(data))
+                    .map(function(tuple) {
+                        tuple[0].upper = tuple[1].upper;
+                        tuple[0].average = tuple[1].average;
+                        tuple[0].lower = tuple[1].lower;
+                        return tuple[0];
+                    });
 
                 var container = d3.select(this);
 
@@ -124,20 +128,6 @@
                 return yValue;
             }
             yValue = x;
-            return bollingerBands;
-        };
-        bollingerBands.writeCalculatedValue = function(x) {
-            if (!arguments.length) {
-                return writeCalculatedValue;
-            }
-            writeCalculatedValue = x;
-            return bollingerBands;
-        };
-        bollingerBands.readCalculatedValue = function(x) {
-            if (!arguments.length) {
-                return readCalculatedValue;
-            }
-            readCalculatedValue = x;
             return bollingerBands;
         };
 

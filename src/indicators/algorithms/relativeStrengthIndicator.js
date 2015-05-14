@@ -3,8 +3,8 @@
 
     fc.indicators.algorithms.relativeStrengthIndicator = function() {
 
-        var openValue = function(d) { return d.open; },
-            closeValue = function(d) { return d.close; },
+        var open = function(d, i) { return d.open; },
+            close = function(d, i) { return d.close; },
             averageAccumulator = function(values) {
                 var alpha = 1 / values.length;
                 var result = values[0];
@@ -23,11 +23,11 @@
                 for (var i = 0, l = values.length; i < l; i++) {
                     var value = values[i];
 
-                    var open = openValue(value);
-                    var close = closeValue(value);
+                    var openValue = open(value);
+                    var closeValue = close(value);
 
-                    downCloses.push(open > close ? open - close : 0);
-                    upCloses.push(open < close ? close - open : 0);
+                    downCloses.push(openValue > closeValue ? openValue - closeValue : 0);
+                    upCloses.push(openValue < closeValue ? closeValue - openValue : 0);
                 }
 
                 var downClosesAvg = averageAccumulator(downCloses);
@@ -43,18 +43,18 @@
             return slidingWindow(data);
         };
 
-        rsi.openValue = function(x) {
+        rsi.open = function(x) {
             if (!arguments.length) {
-                return openValue;
+                return open;
             }
-            openValue = x;
+            open = x;
             return rsi;
         };
-        rsi.closeValue = function(x) {
+        rsi.close = function(x) {
             if (!arguments.length) {
-                return closeValue;
+                return close;
             }
-            closeValue = x;
+            close = x;
             return rsi;
         };
         rsi.averageAccumulator = function(x) {
@@ -65,7 +65,7 @@
             return rsi;
         };
 
-        d3.rebind(rsi, slidingWindow, 'windowSize', 'outputValue');
+        d3.rebind(rsi, slidingWindow, 'windowSize');
 
         return rsi;
     };

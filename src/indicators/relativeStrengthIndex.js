@@ -6,8 +6,6 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             xValue = function(d) { return d.date; },
-            writeCalculatedValue = function(d, value) { d.rsi = value; },
-            readCalculatedValue = function(d) { return d.rsi; },
             upperValue = d3.functor(70),
             lowerValue = d3.functor(30);
 
@@ -17,18 +15,21 @@
 
         var rsi = function(selection) {
 
-            algorithm.outputValue(writeCalculatedValue);
-
             annotations.xScale(xScale)
                 .yScale(yScale);
 
             rsiLine.xScale(xScale)
                 .yScale(yScale)
                 .xValue(xValue)
-                .yValue(readCalculatedValue);
+                .yValue(function(d, i) { return d.rsi; });
 
             selection.each(function(data) {
-                algorithm(data);
+
+                data = d3.zip(data, algorithm(data))
+                    .map(function(tuple) {
+                        tuple[0].rsi = tuple[1];
+                        return tuple[0];
+                    });
 
                 var container = d3.select(this);
 
@@ -77,20 +78,6 @@
             xValue = x;
             return rsi;
         };
-        rsi.writeCalculatedValue = function(x) {
-            if (!arguments.length) {
-                return writeCalculatedValue;
-            }
-            writeCalculatedValue = x;
-            return rsi;
-        };
-        rsi.readCalculatedValue = function(x) {
-            if (!arguments.length) {
-                return readCalculatedValue;
-            }
-            readCalculatedValue = x;
-            return rsi;
-        };
         rsi.upperValue = function(x) {
             if (!arguments.length) {
                 return upperValue;
@@ -106,7 +93,11 @@
             return rsi;
         };
 
-        d3.rebind(rsi, algorithm, 'openValue', 'closeValue', 'windowSize');
+        fc.utilities.rebind(rsi, algorithm, {
+            'closeValue': 'close',
+            'openValue': 'open',
+            'windowSize': 'windowSize'
+        });
 
         return rsi;
     };

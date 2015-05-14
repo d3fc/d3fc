@@ -14,7 +14,7 @@
             var slidingWindow = fc.indicators.algorithms.slidingWindow()
                 .accumulator(function() { throw new Error('FAIL'); })
                 .windowSize(2);
-            expect(slidingWindow([0])).toEqual([]);
+            expect(slidingWindow([0])).toEqual([undefined]);
         });
 
         it('should call accumulator once for a data array equal in length to the window windowSize', function() {
@@ -27,7 +27,7 @@
                     return accumulatedValue;
                 })
                 .windowSize(2);
-            expect(slidingWindow(data)).toEqual([accumulatedValue]);
+            expect(slidingWindow(data)).toEqual([undefined, accumulatedValue]);
         });
 
         it('should call accumulator multiple times for data arrays longer than window windowSize', function() {
@@ -50,7 +50,7 @@
                     return accumulatedValue;
                 })
                 .windowSize(2);
-            expect(slidingWindow(data)).toEqual([accumulatedValue, accumulatedValue]);
+            expect(slidingWindow(data)).toEqual([undefined, accumulatedValue, accumulatedValue]);
         });
 
         it('should work with the built-in d3 accumulator functions', function() {
@@ -59,7 +59,7 @@
             var movingAverage = fc.indicators.algorithms.slidingWindow()
                 .accumulator(d3.mean)
                 .windowSize(2);
-            expect(movingAverage(data)).toEqual([0.5, 1.5]);
+            expect(movingAverage(data)).toEqual([undefined, 0.5, 1.5]);
         });
     });
 

@@ -5,21 +5,21 @@
 
         var windowSize = d3.functor(10),
             accumulator = fc.utilities.fn.noop,
-            inputValue = fc.utilities.fn.identity,
-            outputValue = function(obj, value) { return value; };
+            value = fc.utilities.fn.identity;
 
         var slidingWindow = function(data) {
             var size = windowSize.apply(this, arguments);
-            var windowData = data.slice(0, size).map(inputValue);
-            return data.slice(size - 1, data.length)
-                .map(function(d, i) {
-                    if (i > 0) {
+            var windowData = data.slice(0, size).map(value);
+            return data.map(function(d, i) {
+                    if (i < size - 1) {
+                        return undefined;
+                    }
+                    if (i >= size) {
                         // Treat windowData as FIFO rolling buffer
                         windowData.shift();
-                        windowData.push(inputValue(d));
+                        windowData.push(value(d, i));
                     }
-                    var result = accumulator(windowData);
-                    return outputValue(d, result);
+                    return accumulator(windowData);
                 });
         };
 
@@ -37,18 +37,11 @@
             accumulator = x;
             return slidingWindow;
         };
-        slidingWindow.inputValue = function(x) {
+        slidingWindow.value = function(x) {
             if (!arguments.length) {
-                return inputValue;
+                return value;
             }
-            inputValue = x;
-            return slidingWindow;
-        };
-        slidingWindow.outputValue = function(x) {
-            if (!arguments.length) {
-                return outputValue;
-            }
-            outputValue = x;
+            value = x;
             return slidingWindow;
         };
 
