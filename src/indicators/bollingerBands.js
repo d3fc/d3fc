@@ -56,9 +56,11 @@
 
                 data = d3.zip(data, algorithm(data))
                     .map(function(tuple) {
-                        tuple[0].upper = tuple[1].upper;
-                        tuple[0].average = tuple[1].average;
-                        tuple[0].lower = tuple[1].lower;
+                        if (tuple[1]) {
+                            tuple[0].upper = tuple[1].upper;
+                            tuple[0].average = tuple[1].average;
+                            tuple[0].lower = tuple[1].lower;
+                        }
                         return tuple[0];
                     });
 
