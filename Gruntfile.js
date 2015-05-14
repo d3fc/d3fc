@@ -270,6 +270,12 @@ module.exports = function (grunt) {
                     passwordVar: 'GITHUB_PASSWORD'
                 }
             }
+        },
+
+        version: {
+            defaults: {
+                src: ['src/fc.js']
+            }
         }
     });
 
@@ -282,7 +288,7 @@ module.exports = function (grunt) {
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
     grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'concat:visualTests', 'assemble:visualTests']);
-    grunt.registerTask('build:components', ['check', 'clean:dist', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
+    grunt.registerTask('build:components', ['check', 'clean:dist', 'version', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['build', 'connect:dev', 'watch']);
     grunt.registerTask('dev', ['build', 'watch']);
