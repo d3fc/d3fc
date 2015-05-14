@@ -17,7 +17,7 @@
                 {open: 3, close: 2}
             ];
 
-            expect(rsi(data)).toEqual([0]);
+            expect(rsi(data)).toEqual([undefined, undefined, 0]);
         });
 
         it('should calculate a constant up period', function() {
@@ -27,7 +27,7 @@
                 {open: 2, close: 3}
             ];
 
-            expect(rsi(data)).toEqual([100]);
+            expect(rsi(data)).toEqual([undefined, undefined, 100]);
         });
 
         describe('with a constant mixed period [+1,-1,+1]', function() {
@@ -49,12 +49,12 @@
 
             it('should calculate correctly with a windowSize of 2', function() {
                 rsi.windowSize(2);
-                expect(rsi(data)).toEqual([50, 50]);
+                expect(rsi(data)).toEqual([undefined, 50, 50]);
             });
 
             it('should calculate correctly with a windowSize of 3', function() {
                 rsi.windowSize(3);
-                expect(rsi(data)).toEqual([77.77777777777777]);
+                expect(rsi(data)).toEqual([undefined, undefined, 77.77777777777777]);
             });
         });
 
@@ -77,12 +77,12 @@
 
             it('should calculate correctly with a windowSize of 2', function() {
                 rsi.windowSize(2);
-                expect(rsi(data)).toEqual([50, 50]);
+                expect(rsi(data)).toEqual([undefined, 50, 50]);
             });
 
             it('should calculate correctly with a windowSize of 3', function() {
                 rsi.windowSize(3);
-                expect(rsi(data)).toEqual([22.222222222222214]);
+                expect(rsi(data)).toEqual([undefined, undefined, 22.222222222222214]);
             });
         });
     });

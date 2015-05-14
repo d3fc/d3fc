@@ -6,9 +6,7 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = function(d) { return d.close; },
-            xValue = function(d) { return d.date; },
-            writeCalculatedValue = function(d, value) { d.movingAverage = value; },
-            readCalculatedValue = function(d) { return d.movingAverage; };
+            xValue = function(d) { return d.date; };
 
         var algorithm = fc.indicators.algorithms.slidingWindow()
             .accumulator(d3.mean);
@@ -17,18 +15,23 @@
 
         var movingAverage = function(selection) {
 
-            algorithm.inputValue(yValue)
-                .outputValue(writeCalculatedValue);
+            algorithm.value(yValue);
 
             averageLine.xScale(xScale)
                 .yScale(yScale)
                 .xValue(xValue)
-                .yValue(readCalculatedValue);
+                .yValue(function(d, i) { return d.movingAverage; });
 
             selection.each(function(data) {
-                algorithm(data);
+
+                data = d3.zip(data, algorithm(data))
+                    .map(function(tuple) {
+                        tuple[0].movingAverage = tuple[1];
+                        return tuple[0];
+                    });
 
                 d3.select(this)
+                    .datum(data)
                     .call(averageLine);
             });
         };
@@ -60,20 +63,6 @@
                 return yValue;
             }
             yValue = x;
-            return movingAverage;
-        };
-        movingAverage.writeCalculatedValue = function(x) {
-            if (!arguments.length) {
-                return writeCalculatedValue;
-            }
-            writeCalculatedValue = x;
-            return movingAverage;
-        };
-        movingAverage.readCalculatedValue = function(x) {
-            if (!arguments.length) {
-                return readCalculatedValue;
-            }
-            readCalculatedValue = x;
             return movingAverage;
         };
 

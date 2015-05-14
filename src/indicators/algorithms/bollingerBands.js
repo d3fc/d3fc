@@ -29,7 +29,7 @@
             return bollingerBands;
         };
 
-        d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'inputValue', 'outputValue');
+        d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'value');
 
         return bollingerBands;
     };

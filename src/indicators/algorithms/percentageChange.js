@@ -4,8 +4,7 @@
     fc.indicators.algorithms.percentageChange = function() {
 
         var baseIndex = d3.functor(0),
-            inputValue = fc.utilities.fn.identity,
-            outputValue = function(obj, value) { return value; };
+            value = fc.utilities.fn.identity;
 
         var percentageChange = function(data) {
 
@@ -13,11 +12,10 @@
                 return [];
             }
 
-            var baseValue = inputValue(data[baseIndex(data)]);
+            var baseValue = value(data[baseIndex(data)]);
 
-            return data.map(function(d) {
-                    var result = (inputValue(d) - baseValue) / baseValue;
-                    return outputValue(d, result);
+            return data.map(function(d, i) {
+                    return (value(d, i) - baseValue) / baseValue;
                 });
         };
 
@@ -28,18 +26,11 @@
             baseIndex = d3.functor(x);
             return percentageChange;
         };
-        percentageChange.inputValue = function(x) {
+        percentageChange.value = function(x) {
             if (!arguments.length) {
-                return inputValue;
+                return value;
             }
-            inputValue = x;
-            return percentageChange;
-        };
-        percentageChange.outputValue = function(x) {
-            if (!arguments.length) {
-                return outputValue;
-            }
-            outputValue = x;
+            value = x;
             return percentageChange;
         };
 
