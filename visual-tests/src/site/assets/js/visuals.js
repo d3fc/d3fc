@@ -1,9 +1,22 @@
 (function(d3) {
     'use strict';
 
+    var seed = location.search.split('seed=')[1];
+
     var tests = d3.select('#tests')
         .selectAll('.test-fixture')
         .datum(function() { return this.dataset; });
+
+    // Update the links to the test fixtures to include the seed
+    if (seed) {
+        tests.each(function(d) {
+            var test = d3.select(this);
+            test.select('.test-link')
+                .attr('href', function(d) {
+                    return d.visuals + '?seed=' + seed;
+                });
+        });
+    }
 
     // When an iframe is loaded, hide the loading message and automatically adjust its height for its content
     tests.selectAll('.panel-body').select('iframe').on('load', function() {
@@ -25,7 +38,7 @@
             test.select('iframe')
                 .attr('height', 0)
                 .style('display', 'block')
-                .attr('src', d.visuals);
+                .attr('src', seed ? d.visuals + '?seed=' + seed : d.visuals);
         });
     };
 

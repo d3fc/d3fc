@@ -37,7 +37,8 @@
     "grunt-release": "^0.12.0",
     "grunt-version": "^1.0.0",
     "jquery": "^1.11.2",
-    "matchdep": "^0.3.0"
+    "matchdep": "^0.3.0",
+    "seedrandom": "^2.4.0"
   },
   "scripts": {
     "test": "grunt ci"
