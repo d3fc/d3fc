@@ -6,15 +6,12 @@
         var decorate = fc.utilities.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            y1Value = function(d) { return d.close; },
-            xValue = function(d) { return d.date; },
+            y1Value = function(d, i) { return d.close; },
+            xValue = function(d, i) { return d.date; },
             y0Value = d3.functor(0),
             barWidth = fc.utilities.fractionalBarWidth(0.75);
 
-        // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return xScale(xValue(d)); };
-        var barTop = function(d) { return yScale(y0Value(d) + y1Value(d)); };
-        var barBottom = function(d) { return yScale(y0Value(d)); };
+        var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
         var bar = function(selection) {
             selection.each(function(data) {
@@ -25,20 +22,27 @@
                 series.enter()
                     .append('rect');
 
-                var width = barWidth(data.map(x));
+                var width = barWidth(data.map(xValueScaled)),
+                    halfWidth = width / 2;
 
                 // update
                 series.select('rect')
-                    .attr('x', function(d) {
-                        return x(d) - width / 2;
-                    })
-                    .attr('y', barTop)
-                    .attr('width', width)
-                    .attr('height', function(d) {
-                        return barBottom(d) - barTop(d);
+                    .each(function(d, i) {
+
+                        var x = xValueScaled(d, i),
+                            y0 = y0Value(d, i),
+                            barBottom = yScale(y0),
+                            barTop = yScale(y0 + y1Value(d, i));
+
+                        d3.transition(d3.select(this))
+                            .attr({
+                                x: x - halfWidth,
+                                y: barTop,
+                                width: width,
+                                height: barBottom - barTop
+                            });
                     });
 
-                // properties set by decorate will transition too
                 decorate(series);
             });
         };

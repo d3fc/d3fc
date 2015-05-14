@@ -6,13 +6,9 @@
         var decorate = fc.utilities.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            yValue = function(d) { return d.close; },
-            xValue = function(d) { return d.date; },
+            yValue = function(d, i) { return d.close; },
+            xValue = function(d, i) { return d.date; },
             radius = d3.functor(5);
-
-        // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return xScale(xValue(d)); };
-        var y = function(d) { return yScale(yValue(d)); };
 
         var point = function(selection) {
 
@@ -26,8 +22,8 @@
                     .append('circle');
 
                 g.select('circle')
-                    .attr('cx', x)
-                    .attr('cy', y)
+                    .attr('cx', function(d, i) { return xScale(xValue(d, i)); })
+                    .attr('cy', function(d, i) { return yScale(yValue(d, i)); })
                     .attr('r', radius);
 
                 decorate(g);

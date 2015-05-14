@@ -7,17 +7,17 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             y0Value = d3.functor(0),
-            y1Value = function(d) { return d.close; },
-            xValue = function(d) { return d.date; };
+            y1Value = function(d, i) { return d.close; },
+            xValue = function(d, i) { return d.date; };
 
         // convenience functions that return the x & y screen coords for a given point
-        var x = function(d) { return xScale(xValue(d)); };
-        var y0 = function(d) { return yScale(y0Value(d)); };
-        var y1 = function(d) { return yScale(y1Value(d)); };
+        var x = function(d, i) { return xScale(xValue(d, i)); };
+        var y0 = function(d, i) { return yScale(y0Value(d, i)); };
+        var y1 = function(d, i) { return yScale(y1Value(d, i)); };
 
         var areaData = d3.svg.area()
-            .defined(function(d) {
-                return !isNaN(y0(d)) && !isNaN(y1(d));
+            .defined(function(d, i) {
+                return !isNaN(y0(d, i)) && !isNaN(y1(d, i));
             })
             .x(x)
             .y0(y0)
