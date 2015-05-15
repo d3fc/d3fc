@@ -3,28 +3,22 @@
 
     fc.utilities.pointSnap = function(xScale, yScale, xValue, yValue, data) {
         return function(xPixel, yPixel) {
-            var x = xScale.invert(xPixel),
-                y = yScale.invert(yPixel),
-                nearest = null,
-                minDiff = Number.MAX_VALUE;
-            for (var i = 0, l = data.length; i < l; i++) {
-                var d = data[i],
-                    dx = x - xValue(d),
-                    dy = y - yValue(d),
-                    diff = Math.sqrt(dx * dx + dy * dy);
-
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    nearest = d;
-                } else {
-                    break;
-                }
-            }
+            var nearest = data.map(function(d) {
+                    var dx = xPixel - xScale(xValue(d)),
+                        dy = yPixel - yScale(yValue(d)),
+                        diff = Math.sqrt(dx * dx + dy * dy);
+                    return [diff, d];
+                })
+                .reduce(function(accumulator, value) {
+                    return accumulator[0] > value[0] ? value : accumulator;
+                }, [Number.MAX_VALUE, null])[1];
 
             return {
                 datum: nearest,
-                x: nearest ? xScale(xValue(nearest)) : xPixel,
-                y: nearest ? yScale(yValue(nearest)) : yPixel
+                x: nearest ? xValue(nearest) : xPixel,
+                scaleX: Boolean(nearest),
+                y: nearest ? yValue(nearest) : yPixel,
+                scaleY: Boolean(nearest)
             };
         };
     };
