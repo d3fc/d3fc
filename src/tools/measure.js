@@ -6,11 +6,16 @@
         var event = d3.dispatch('measuresource', 'measuretarget', 'measureclear'),
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            snap = function(x, y) { return {x: x, y: y}; },
+            snap = function(x, y) {
+                return fc.utilities.noSnap(xScale, yScale)(x, y);
+            },
             decorate = fc.utilities.fn.noop,
             xLabel = d3.functor(''),
             yLabel = d3.functor(''),
             padding = d3.functor(2);
+
+        var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
+            y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
         var measure = function(selection) {
 
@@ -48,36 +53,36 @@
                     .attr('class', 'vertical');
 
                 g.select('line.tangent')
-                    .attr('x1', function(d) { return d.source.x; })
-                    .attr('y1', function(d) { return d.source.y; })
-                    .attr('x2', function(d) { return d.target.x; })
-                    .attr('y2', function(d) { return d.target.y; });
+                    .attr('x1', function(d) { return x(d.source); })
+                    .attr('y1', function(d) { return y(d.source); })
+                    .attr('x2', function(d) { return x(d.target); })
+                    .attr('y2', function(d) { return y(d.target); });
 
                 g.select('line.horizontal')
-                    .attr('x1', function(d) { return d.source.x; })
-                    .attr('y1', function(d) { return d.source.y; })
-                    .attr('x2', function(d) { return d.target.x; })
-                    .attr('y2', function(d) { return d.source.y; })
+                    .attr('x1', function(d) { return x(d.source); })
+                    .attr('y1', function(d) { return y(d.source); })
+                    .attr('x2', function(d) { return x(d.target); })
+                    .attr('y2', function(d) { return y(d.source); })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
                 g.select('line.vertical')
-                    .attr('x1', function(d) { return d.target.x; })
-                    .attr('y1', function(d) { return d.target.y; })
-                    .attr('x2', function(d) { return d.target.x; })
-                    .attr('y2', function(d) { return d.source.y; })
+                    .attr('x1', function(d) { return x(d.target); })
+                    .attr('y1', function(d) { return y(d.target); })
+                    .attr('x2', function(d) { return x(d.target); })
+                    .attr('y2', function(d) { return y(d.source); })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
                 var paddingValue = padding.apply(this, arguments);
 
                 g.select('text.horizontal')
-                    .attr('x', function(d) { return d.source.x + (d.target.x - d.source.x) / 2; })
-                    .attr('y', function(d) { return d.source.y - paddingValue; })
+                    .attr('x', function(d) { return x(d.source) + (x(d.target) - x(d.source)) / 2; })
+                    .attr('y', function(d) { return y(d.source) - paddingValue; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
                     .text(xLabel);
 
                 g.select('text.vertical')
-                    .attr('x', function(d) { return d.target.x + paddingValue; })
-                    .attr('y', function(d) { return d.source.y + (d.target.y - d.source.y) / 2; })
+                    .attr('x', function(d) { return x(d.target) + paddingValue; })
+                    .attr('y', function(d) { return y(d.source) + (y(d.target) - y(d.source)) / 2; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
                     .text(yLabel);
 
