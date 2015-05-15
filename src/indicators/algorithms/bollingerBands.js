@@ -6,6 +6,11 @@
         var multiplier = d3.functor(2);
 
         var slidingWindow = fc.indicators.algorithms.slidingWindow()
+            .undefinedValue({
+                upper: undefined,
+                average: undefined,
+                lower: undefined
+            })
             .accumulator(function(values) {
                 var avg = d3.mean(values);
                 var stdDev = d3.deviation(values);

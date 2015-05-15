@@ -3,7 +3,8 @@
 
     fc.indicators.algorithms.slidingWindow = function() {
 
-        var windowSize = d3.functor(10),
+        var undefinedValue = d3.functor(undefined),
+            windowSize = d3.functor(10),
             accumulator = fc.utilities.fn.noop,
             value = fc.utilities.fn.identity;
 
@@ -12,7 +13,7 @@
             var windowData = data.slice(0, size).map(value);
             return data.map(function(d, i) {
                     if (i < size - 1) {
-                        return undefined;
+                        return undefinedValue(d, i);
                     }
                     if (i >= size) {
                         // Treat windowData as FIFO rolling buffer
@@ -23,6 +24,13 @@
                 });
         };
 
+        slidingWindow.undefinedValue = function(x) {
+            if (!arguments.length) {
+                return undefinedValue;
+            }
+            undefinedValue = d3.functor(x);
+            return slidingWindow;
+        };
         slidingWindow.windowSize = function(x) {
             if (!arguments.length) {
                 return windowSize;

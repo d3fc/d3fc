@@ -17,6 +17,14 @@
             expect(slidingWindow([0])).toEqual([undefined]);
         });
 
+        it('should return custom undefinedValue for items less than the window windowSize', function() {
+            var slidingWindow = fc.indicators.algorithms.slidingWindow()
+                .undefinedValue('bob')
+                .accumulator(function() { throw new Error('FAIL'); })
+                .windowSize(2);
+            expect(slidingWindow([0])).toEqual(['bob']);
+        });
+
         it('should call accumulator once for a data array equal in length to the window windowSize', function() {
             var data = [0, 1];
             var accumulatedValue = {};
