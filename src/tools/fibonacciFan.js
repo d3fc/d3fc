@@ -7,25 +7,12 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             snap = function(x, y) {
-                // ordinal axes don't invert pixel values (interpolation doesn't
-                // always make senese) so we support two modes. One we're we record
-                // the pixel value and another where we record the data value and
-                // scale it before using it
-                var result = {scaleX: false, scaleY: false, x: x, y: y};
-                if (xScale.invert) {
-                    result.scaleX = true;
-                    result.x = xScale.invert(x);
-                }
-                if (yScale.invert) {
-                    result.scaleY = true;
-                    result.y = yScale.invert(y);
-                }
-                return result;
+                return fc.utilities.noSnap(xScale, yScale)(x, y);
             },
             decorate = fc.utilities.fn.noop;
 
-        var x = function(d) { return d.scaleX ? xScale(d.x) : d.x; },
-            y = function(d) { return d.scaleY ? yScale(d.y) : d.y; };
+        var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
+            y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
         var fan = function(selection) {
 

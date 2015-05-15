@@ -1,6 +1,30 @@
 (function(d3, fc) {
     'use strict';
 
+    fc.utilities.noSnap = function(xScale, yScale) {
+        return function(xPixel, yPixel) {
+            // ordinal axes don't invert pixel values (interpolation doesn't
+            // always make sense) so we support two modes. One we're we record
+            // the pixel value and another where we record the data value and
+            // scale it before using it
+            var result = {
+                xInDomainUnits: false,
+                x: xPixel,
+                yInDomainUnits: false,
+                y: yPixel
+            };
+            if (xScale.invert) {
+                result.xInDomainUnits = true;
+                result.x = xScale.invert(xPixel);
+            }
+            if (yScale.invert) {
+                result.yInDomainUnits = true;
+                result.y = yScale.invert(yPixel);
+            }
+            return result;
+        };
+    };
+
     fc.utilities.pointSnap = function(xScale, yScale, xValue, yValue, data) {
         return function(xPixel, yPixel) {
             var nearest = data.map(function(d) {
@@ -16,9 +40,9 @@
             return {
                 datum: nearest,
                 x: nearest ? xValue(nearest) : xPixel,
-                scaleX: Boolean(nearest),
+                xInDomainUnits: Boolean(nearest),
                 y: nearest ? yValue(nearest) : yPixel,
-                scaleY: Boolean(nearest)
+                yInDomainUnits: Boolean(nearest)
             };
         };
     };
