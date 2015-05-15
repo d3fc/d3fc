@@ -102,7 +102,6 @@
         }
 
         function mouseenter() {
-            console.log('enter');
             var container = d3.select(this)
                 .on('click.measure', mouseclick)
                 .on('mousemove.measure', mousemove)
@@ -118,14 +117,12 @@
         }
 
         function mousemove() {
-            console.log('move');
             var container = d3.select(this);
             updatePositions.call(this);
             container.call(measure);
         }
 
         function mouseleave() {
-            console.log('leave');
             var container = d3.select(this);
             var data = container.datum();
             if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
@@ -137,7 +134,6 @@
         }
 
         function mouseclick() {
-            console.log('click');
             var container = d3.select(this);
             var datum = container.datum()[0];
             switch (datum.state) {
