@@ -1,14 +1,14 @@
 (function(d3, fc) {
     'use strict';
 
-    var chartLayout = fc.test.chartLayout();
+    var width = 600, height = 250;
 
-    // Setup the chart
-    var chart = d3.select('#stacked-bar')
-        .call(chartLayout);
+    var container = d3.select('#stacked-bar')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
 
     d3.csv('stackedBarData.csv', function(error, data) {
-
         /*  Build series objects for each series in the data set.
             Assumption: first data object holds all series keys. */
         var series = Object.keys(data[0])
@@ -32,36 +32,24 @@
             });
         });
 
+        series.crosshairs = [];
+
         // Collect the X values.
         var xCategories = data.map(function(d) { return d.State; });
 
         // create scales
         var x = d3.scale.ordinal()
             .domain(xCategories)
-            .rangePoints([0, chartLayout.getPlotAreaWidth()], 1);
+            .rangePoints([0, width], 1);
 
         var color = d3.scale.category10();
 
         var y = d3.scale.linear()
           .domain([0, 40000000])
           .nice()
-          .range([chartLayout.getPlotAreaHeight(), 0]);
-
-        // add axes
-        var bottomAxis = d3.svg.axis()
-            .scale(x)
-            .orient('bottom');
-        chartLayout.getAxisContainer('bottom').call(bottomAxis);
-
-        var rightAxis = d3.svg.axis()
-            .scale(y)
-            .orient('right')
-            .ticks(5);
-        chartLayout.getAxisContainer('right').call(rightAxis);
+          .range([height, 0]);
 
         var stack = fc.series.stackedBar()
-            .xScale(x)
-            .yScale(y)
             .values(function(d) { return d.data; })
             .xValue(function(d) { return d.state; })
             .yValue(function(d) { return d.value; })
@@ -70,12 +58,6 @@
                     return color(i);
                 });
             });
-
-        chartLayout.getPlotArea(chart)
-          .append('g')
-          .attr('class', 'series')
-          .datum(series)
-          .call(stack);
 
         function findClosest(arr, minimize) {
             var nearestIndex = 0,
@@ -129,8 +111,6 @@
 
         // Create a crosshairs tool
         var crosshairs = fc.tools.crosshairs()
-          .xScale(x)
-          .yScale(y)
           .padding(8)
           .xLabel(function(d) {
               return d.datum.x;
@@ -139,11 +119,21 @@
           .snap(pixelSnap);
 
         // Add it to the chart
-        chartLayout.getPlotArea()
-          .append('g')
-          .datum([])
-          .attr('class', 'crosshairs-container')
-          .call(crosshairs);
+        var multi = fc.series.multi()
+            .xScale(x)
+            .yScale(y)
+            .series([stack, crosshairs])
+            .mapping(function(data, series) {
+                switch (series) {
+                    case stack:
+                        return data;
+                    case crosshairs:
+                        return data.crosshairs;
+                }
+            });
+
+        container.datum(series)
+            .call(multi);
     });
 
 })(d3, fc);
