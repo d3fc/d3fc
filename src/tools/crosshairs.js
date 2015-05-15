@@ -6,11 +6,29 @@
         var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            snap = function(x, y) { return {x: x, y: y}; },
+            snap = function(x, y) {
+                // ordinal axes don't invert pixel values (interpolation doesn't
+                // always make senese) so we support two modes. One we're we record
+                // the pixel value and another where we record the data value and
+                // scale it before using it
+                var result = {scaleX: false, scaleY: false, x: x, y: y};
+                if (xScale.invert) {
+                    result.scaleX = true;
+                    result.x = xScale.invert(x);
+                }
+                if (yScale.invert) {
+                    result.scaleY = true;
+                    result.y = yScale.invert(y);
+                }
+                return result;
+            },
             decorate = fc.utilities.fn.noop,
             xLabel = d3.functor(''),
             yLabel = d3.functor(''),
             padding = d3.functor(2);
+
+        var x = function(d) { return d.scaleX ? xScale(d.x) : d.x; },
+            y = function(d) { return d.scaleY ? yScale(d.y) : d.y; };
 
         var crosshairs = function(selection) {
 
@@ -55,27 +73,27 @@
                 g.select('line.horizontal')
                     .attr('x1', range(xScale)[0])
                     .attr('x2', range(xScale)[1])
-                    .attr('y1', function(d) { return d.y; })
-                    .attr('y2', function(d) { return d.y; });
+                    .attr('y1', y)
+                    .attr('y2', y);
 
                 g.select('line.vertical')
                     .attr('y1', range(yScale)[0])
                     .attr('y2', range(yScale)[1])
-                    .attr('x1', function(d) { return d.x; })
-                    .attr('x2', function(d) { return d.x; });
+                    .attr('x1', x)
+                    .attr('x2', x);
 
                 var paddingValue = padding.apply(this, arguments);
 
                 g.select('text.horizontal')
                     .attr('x', range(xScale)[1] - paddingValue)
                     .attr('y', function(d) {
-                        return d.y - paddingValue;
+                        return y(d) - paddingValue;
                     })
                     .text(yLabel);
 
                 g.select('text.vertical')
                     .attr('x', function(d) {
-                        return d.x - paddingValue;
+                        return x(d) - paddingValue;
                     })
                     .attr('y', paddingValue)
                     .text(xLabel);
