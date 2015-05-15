@@ -19,6 +19,22 @@ module.exports = function (grunt) {
             visualTestJsFiles: [
                 'visual-tests/src/**/*.js'
             ],
+            visualTestSiteFiles: [
+                // Index page
+                {
+                    expand: true,
+                    cwd: 'visual-tests/src/site/pages/',
+                    src: ['index.hbs'],
+                    dest: 'visual-tests/dist/'
+                },
+                // Test fixtures
+                {
+                    expand: true,
+                    cwd: 'visual-tests/src/test-fixtures/',
+                    src: ['**/*.hbs'],
+                    dest: 'visual-tests/dist/'
+                }
+            ],
             componentsCssFiles: [
                 'src/**/*.css'
             ],
@@ -33,28 +49,11 @@ module.exports = function (grunt) {
             options: {
                 assets: 'visual-tests/dist/assets',
                 partials: 'visual-tests/src/site/templates/includes/*.hbs',
-                layoutdir: 'visual-tests/src/site/templates/layouts'
+                layoutdir: 'visual-tests/src/site/templates/layouts',
+                layout: 'test.hbs'
             },
             visualTests: {
-                files : [
-                    // Index page
-                    {
-                        expand: true,
-                        cwd: 'visual-tests/src/site/pages/',
-                        src: ['index.hbs'],
-                        dest: 'visual-tests/dist/'
-                    },
-                    // Visual tests
-                    {
-                        expand: true,
-                        cwd: 'visual-tests/src/test-fixtures/',
-                        src: ['**/*.hbs'],
-                        dest: 'visual-tests/dist/'
-                    }
-                ],
-                options: {
-                    layout: 'test.hbs'
-                }
+                files: '<%= meta.visualTestSiteFiles %>'
             }
         },
 
@@ -65,13 +64,6 @@ module.exports = function (grunt) {
             dist: {
                 src: ['src/fc.js', 'src/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
-            },
-            visualTests: {
-                options: {
-                    sourceMap: true
-                },
-                src: 'visual-tests/src/site/assets/js/**/*.js',
-                dest: 'visual-tests/dist/assets/index.js',
             }
         },
 
@@ -93,8 +85,8 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: 'visual-tests/src/site/assets/css',
-                        src: ['**/*.css'],
+                        cwd: 'visual-tests/src/site/assets/',
+                        src: ['**/*.css', '**/*.js'],
                         dest: 'visual-tests/dist/assets/',
                     },
                     {
@@ -132,6 +124,12 @@ module.exports = function (grunt) {
                         cwd: 'visual-tests/src/test-fixtures/',
                         src: ['**/*', '!**/*.hbs'],
                         dest: 'visual-tests/dist/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/seedrandom/',
+                        src: ['seedrandom.min.js'],
+                        dest: 'visual-tests/dist/assets/',
                     }
                 ]
             }
@@ -287,7 +285,7 @@ module.exports = function (grunt) {
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
-    grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'concat:visualTests', 'assemble:visualTests']);
+    grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
     grunt.registerTask('build:components', ['check', 'clean:dist', 'version', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['build', 'connect:dev', 'watch']);
