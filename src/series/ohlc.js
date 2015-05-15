@@ -13,8 +13,6 @@
             yCloseValue = function(d, i) { return d.close; },
             barWidth = fc.utilities.fractionalBarWidth(0.75);
 
-        var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
-
         var ohlc = function(selection) {
             selection.each(function(data) {
 
@@ -25,35 +23,33 @@
                 g.enter()
                     .append('path');
 
-                var width = barWidth(data.map(xValueScaled));
-                var halfWidth = width / 2;
+                var width = barWidth(data.map(function(d, i) { return xScale(xValue(d, i)); }));
+
+                // we need to fake the array index because the array passed to
+                // pathGenerator only ever contains one item
+                var j = 0;
+                var pathGenerator = fc.svg.ohlc()
+                    .x(function(d, i) { return xScale(xValue(d, j)); })
+                    .open(function(d, i) { return yScale(yOpenValue(d, j)); })
+                    .high(function(d, i) { return yScale(yHighValue(d, j)); })
+                    .low(function(d, i) { return yScale(yLowValue(d, j)); })
+                    .close(function(d, i) { return yScale(yCloseValue(d, j)); })
+                    .width(width);
 
                 g.each(function(d, i) {
                     var yCloseRaw = yCloseValue(d, i),
-                        yOpenRaw = yOpenValue(d, i),
-                        x = xValueScaled(d, i),
-                        yOpen = yScale(yOpenRaw),
-                        yHigh = yScale(yHighValue(d, i)),
-                        yLow = yScale(yLowValue(d, i)),
-                        yClose = yScale(yCloseRaw);
+                        yOpenRaw = yOpenValue(d, i);
 
-                    var g = d3.select(this)
+                    // see comment above about faking the index
+                    j = i;
+
+                    d3.select(this)
                         .classed({
-                            'up': function(d, i) {
-                                return yCloseRaw > yOpenRaw;
-                            },
-                            'down': function(d, i) {
-                                return yCloseRaw < yOpenRaw;
-                            }
-                        });
-                    g.select('path')
-                        .attr('d', function(d) {
-                            var moveToLow = 'M' + x + ',' + yLow,
-                            verticalToHigh = 'V' + yHigh,
-                            openTick = 'M' + x + ',' + yOpen + 'h' + (-halfWidth),
-                            closeTick = 'M' + x + ',' + yClose + 'h' + halfWidth;
-                            return moveToLow + verticalToHigh + openTick + closeTick;
-                        });
+                            'up': yCloseRaw > yOpenRaw,
+                            'down': yCloseRaw < yOpenRaw
+                        })
+                        .select('path')
+                        .attr('d', pathGenerator([d]));
                 });
 
                 decorate(g);

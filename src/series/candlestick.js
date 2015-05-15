@@ -13,8 +13,6 @@
             yCloseValue = function(d, i) { return d.close; },
             barWidth = fc.utilities.fractionalBarWidth(0.75);
 
-        var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
-
         var candlestick = function(selection) {
 
             selection.each(function(data) {
@@ -26,55 +24,33 @@
                 g.enter()
                     .append('path');
 
-                var width = barWidth(data.map(xValueScaled));
+                var width = barWidth(data.map(function(d, i) { return xScale(xValue(d, i)); }));
+
+                // we need to fake the array index because the array passed to
+                // pathGenerator only ever contains one item
+                var j = 0;
+                var pathGenerator = fc.svg.candlestick()
+                    .x(function(d, i) { return xScale(xValue(d, j)); })
+                    .open(function(d, i) { return yScale(yOpenValue(d, j)); })
+                    .high(function(d, i) { return yScale(yHighValue(d, j)); })
+                    .low(function(d, i) { return yScale(yLowValue(d, j)); })
+                    .close(function(d, i) { return yScale(yCloseValue(d, j)); })
+                    .width(width);
 
                 g.each(function(d, i) {
                     var yCloseRaw = yCloseValue(d, i),
-                        yOpenRaw = yOpenValue(d, i),
-                        x = xValueScaled(d, i),
-                        yOpen = yScale(yOpenRaw),
-                        yHigh = yScale(yHighValue(d, i)),
-                        yLow = yScale(yLowValue(d, i)),
-                        yClose = yScale(yCloseRaw);
+                        yOpenRaw = yOpenValue(d, i);
 
-                    var g = d3.select(this)
+                    // see comment above about faking the index
+                    j = i;
+
+                    d3.select(this)
                         .classed({
-                            'up': function(d, i) {
-                                return yCloseRaw > yOpenRaw;
-                            },
-                            'down': function(d, i) {
-                                return yCloseRaw < yOpenRaw;
-                            }
-                        });
-                    g.select('path')
-                        .attr('d', function(d, i) {
-                            // Move to the opening price
-                            var body = 'M' + (x - width / 2) + ',' + yOpen +
-                            // Draw the width
-                            'h' + width +
-                            // Draw to the closing price (vertically)
-                            'V' + yClose +
-                            // Draw the width
-                            'h' + -width +
-                            // Move back to the opening price
-                            'V' + yOpen +
-                            // Close the path
-                            'z';
-
-                            // Move to the max price of close or open; draw the high wick
-                            // N.B. Math.min() is used as we're dealing with pixel values,
-                            // the lower the pixel value, the higher the price!
-                            var highWick = 'M' + x + ',' + Math.min(yClose, yOpen) +
-                            'V' + yHigh;
-
-                            // Move to the min price of close or open; draw the low wick
-                            // N.B. Math.max() is used as we're dealing with pixel values,
-                            // the higher the pixel value, the lower the price!
-                            var lowWick = 'M' + x + ',' + Math.max(yClose, yOpen) +
-                            'V' + yLow;
-
-                            return body + highWick + lowWick;
-                        });
+                            'up': yCloseRaw > yOpenRaw,
+                            'down': yCloseRaw < yOpenRaw
+                        })
+                        .select('path')
+                        .attr('d', pathGenerator([d]));
                 });
 
                 decorate(g);
