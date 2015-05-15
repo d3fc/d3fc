@@ -7,9 +7,13 @@
     ];
 
     var percentageChange = fc.indicators.algorithms.percentageChange()
-        .inputValue(function(d) { return d.close; })
-        .outputValue(function(d, value) { d.percentageChange = value; });
-    data.forEach(percentageChange);
+        .value(function(d) { return d.close; });
+    data.forEach(function(d) {
+        d3.zip(d, percentageChange(d))
+            .forEach(function(tuple) {
+                tuple[0].percentageChange = tuple[1];
+            });
+    });
 
     var width = 600, height = 250;
 
@@ -67,7 +71,10 @@
                 }
                 percentageChange.baseIndex(leftIndex);
                 comparisonData.push(d.slice(leftIndex, rightIndex + 1));
-                return percentageChange(d);
+                d3.zip(d, percentageChange(d))
+                    .forEach(function(tuple) {
+                        tuple[0].percentageChange = tuple[1];
+                    });
             });
             priceScale.domain(fc.utilities.extent(comparisonData, ['percentageChange']))
                 .nice();
