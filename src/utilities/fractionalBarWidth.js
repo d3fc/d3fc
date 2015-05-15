@@ -15,20 +15,11 @@
 
             pixelValues.sort();
 
-            // creates a new array as a result of applying the 'fn' function to
-            // the consecutive pairs of items in the source array
-            function pair(arr, fn) {
-                var res = [];
-                for (var i = 1; i < arr.length; i++) {
-                    res.push(fn(arr[i], arr[i - 1]));
-                }
-                return res;
-            }
-
             // compute the distance between neighbouring items
-            var neighbourDistances = pair(pixelValues, function(first, second) {
-                return Math.abs(first - second);
-            });
+            var neighbourDistances = d3.pairs(pixelValues)
+                .map(function(tuple) {
+                    return Math.abs(tuple[0] - tuple[1]);
+                });
 
             var minDistance = d3.min(neighbourDistances);
             return fraction * minDistance;
