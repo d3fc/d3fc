@@ -225,15 +225,6 @@ module.exports = function (grunt) {
             }
         },
 
-        jsdoc : {
-            dist : {
-                src: ['<%= meta.componentsJsFiles %>'],
-                options: {
-                    destination: 'doc'
-                }
-            }
-        },
-
         jasmine: {
             options: {
                 specs: '<%= meta.testJsFiles %>',
@@ -255,7 +246,6 @@ module.exports = function (grunt) {
 
         clean: {
             dist: ['dist/*', '!dist/README.md'],
-            doc: ['doc'],
             visualTests: ['visual-tests/dist']
         },
 
@@ -290,10 +280,9 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['build', 'connect:dev', 'watch']);
     grunt.registerTask('dev', ['build', 'watch']);
-    grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
-    grunt.registerTask('default', ['build', 'doc']);
+    grunt.registerTask('default', ['build']);
     grunt.registerTask('release', ['default', '_release']);
 };
