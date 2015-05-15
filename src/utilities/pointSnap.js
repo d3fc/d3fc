@@ -33,7 +33,7 @@
         return function(xPixel, yPixel) {
             var xScale = series.xScale(),
                 yScale = series.yScale(),
-                xValue = series.xValue ? series.xValue() : function(d) { return d.date; },
+                xValue = series.xValue(),
                 yValue = (series.yValue || series.yCloseValue).call(series);
             return fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data)(xPixel, yPixel);
         };
