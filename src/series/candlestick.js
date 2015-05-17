@@ -13,6 +13,8 @@
             yCloseValue = function(d, i) { return d.close; },
             barWidth = fc.utilities.fractionalBarWidth(0.75);
 
+        var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
+
         var candlestick = function(selection) {
 
             selection.each(function(data) {
@@ -24,32 +26,31 @@
                 g.enter()
                     .append('path');
 
-                var width = barWidth(data.map(function(d, i) { return xScale(xValue(d, i)); }));
-
-                // we need to fake the array index because the array passed to
-                // pathGenerator only ever contains one item
-                var j = 0;
                 var pathGenerator = fc.svg.candlestick()
-                    .x(function(d, i) { return xScale(xValue(d, j)); })
-                    .open(function(d, i) { return yScale(yOpenValue(d, j)); })
-                    .high(function(d, i) { return yScale(yHighValue(d, j)); })
-                    .low(function(d, i) { return yScale(yLowValue(d, j)); })
-                    .close(function(d, i) { return yScale(yCloseValue(d, j)); })
-                    .width(width);
+                        .width(barWidth(data.map(xValueScaled)));
 
                 g.each(function(d, i) {
                     var yCloseRaw = yCloseValue(d, i),
-                        yOpenRaw = yOpenValue(d, i);
+                        yOpenRaw = yOpenValue(d, i),
+                        x = xValueScaled(d, i),
+                        yOpen = yScale(yOpenRaw),
+                        yHigh = yScale(yHighValue(d, i)),
+                        yLow = yScale(yLowValue(d, i)),
+                        yClose = yScale(yCloseRaw);
 
-                    // see comment above about faking the index
-                    j = i;
-
-                    d3.select(this)
+                    var g = d3.select(this)
                         .classed({
                             'up': yCloseRaw > yOpenRaw,
                             'down': yCloseRaw < yOpenRaw
-                        })
-                        .select('path')
+                        });
+
+                    pathGenerator.x(function() { return x; })
+                        .open(function() { return yOpen; })
+                        .high(function() { return yHigh; })
+                        .low(function() { return yLow; })
+                        .close(function() { return yClose; });
+
+                    g.select('path')
                         .attr('d', pathGenerator([d]));
                 });
 

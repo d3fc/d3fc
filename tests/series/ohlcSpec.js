@@ -36,15 +36,11 @@
                     expect(call.args[1]).toEqual(i % data.length);
                 });
 
-            // both the group element and the path generator invoke the
-            // open accessor, therefore it is invoked twice for each data
-            // point
-
-            expect(yOpenValueSpy.calls.count()).toEqual(data.length * 2);
+            expect(yOpenValueSpy.calls.count()).toEqual(data.length);
             yOpenValueSpy.calls.all()
                 .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[Math.floor(i / 2)]);
-                    expect(call.args[1]).toEqual(Math.floor(i / 2));
+                    expect(call.args[0]).toEqual(data[i]);
+                    expect(call.args[1]).toEqual(i);
                 });
 
             expect(yHighValueSpy.calls.count()).toEqual(data.length);
@@ -61,15 +57,11 @@
                     expect(call.args[1]).toEqual(i);
                 });
 
-            // both the group element and the path generator invoke the
-            // open accessor, therefore it is invoked twice for each data
-            // point
-
-            expect(yCloseValueSpy.calls.count()).toEqual(data.length * 2);
+            expect(yCloseValueSpy.calls.count()).toEqual(data.length);
             yCloseValueSpy.calls.all()
                 .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[Math.floor(i / 2)]);
-                    expect(call.args[1]).toEqual(Math.floor(i / 2));
+                    expect(call.args[0]).toEqual(data[i]);
+                    expect(call.args[1]).toEqual(i);
                 });
         });
     });
