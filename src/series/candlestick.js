@@ -26,7 +26,8 @@
                 g.enter()
                     .append('path');
 
-                var width = barWidth(data.map(xValueScaled));
+                var pathGenerator = fc.svg.candlestick()
+                        .width(barWidth(data.map(xValueScaled)));
 
                 g.each(function(d, i) {
                     var yCloseRaw = yCloseValue(d, i),
@@ -39,42 +40,18 @@
 
                     var g = d3.select(this)
                         .classed({
-                            'up': function(d, i) {
-                                return yCloseRaw > yOpenRaw;
-                            },
-                            'down': function(d, i) {
-                                return yCloseRaw < yOpenRaw;
-                            }
+                            'up': yCloseRaw > yOpenRaw,
+                            'down': yCloseRaw < yOpenRaw
                         });
+
+                    pathGenerator.x(function() { return x; })
+                        .open(function() { return yOpen; })
+                        .high(function() { return yHigh; })
+                        .low(function() { return yLow; })
+                        .close(function() { return yClose; });
+
                     g.select('path')
-                        .attr('d', function(d, i) {
-                            // Move to the opening price
-                            var body = 'M' + (x - width / 2) + ',' + yOpen +
-                            // Draw the width
-                            'h' + width +
-                            // Draw to the closing price (vertically)
-                            'V' + yClose +
-                            // Draw the width
-                            'h' + -width +
-                            // Move back to the opening price
-                            'V' + yOpen +
-                            // Close the path
-                            'z';
-
-                            // Move to the max price of close or open; draw the high wick
-                            // N.B. Math.min() is used as we're dealing with pixel values,
-                            // the lower the pixel value, the higher the price!
-                            var highWick = 'M' + x + ',' + Math.min(yClose, yOpen) +
-                            'V' + yHigh;
-
-                            // Move to the min price of close or open; draw the low wick
-                            // N.B. Math.max() is used as we're dealing with pixel values,
-                            // the higher the pixel value, the lower the price!
-                            var lowWick = 'M' + x + ',' + Math.max(yClose, yOpen) +
-                            'V' + yLow;
-
-                            return body + highWick + lowWick;
-                        });
+                        .attr('d', pathGenerator([d]));
                 });
 
                 decorate(g);

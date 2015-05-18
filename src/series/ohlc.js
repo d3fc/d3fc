@@ -25,8 +25,8 @@
                 g.enter()
                     .append('path');
 
-                var width = barWidth(data.map(xValueScaled));
-                var halfWidth = width / 2;
+                var pathGenerator = fc.svg.ohlc()
+                        .width(barWidth(data.map(xValueScaled)));
 
                 g.each(function(d, i) {
                     var yCloseRaw = yCloseValue(d, i),
@@ -39,21 +39,18 @@
 
                     var g = d3.select(this)
                         .classed({
-                            'up': function(d, i) {
-                                return yCloseRaw > yOpenRaw;
-                            },
-                            'down': function(d, i) {
-                                return yCloseRaw < yOpenRaw;
-                            }
+                            'up': yCloseRaw > yOpenRaw,
+                            'down': yCloseRaw < yOpenRaw
                         });
+
+                    pathGenerator.x(function() { return x; })
+                        .open(function() { return yOpen; })
+                        .high(function() { return yHigh; })
+                        .low(function() { return yLow; })
+                        .close(function() { return yClose; });
+
                     g.select('path')
-                        .attr('d', function(d) {
-                            var moveToLow = 'M' + x + ',' + yLow,
-                            verticalToHigh = 'V' + yHigh,
-                            openTick = 'M' + x + ',' + yOpen + 'h' + (-halfWidth),
-                            closeTick = 'M' + x + ',' + yClose + 'h' + halfWidth;
-                            return moveToLow + verticalToHigh + openTick + closeTick;
-                        });
+                        .attr('d', pathGenerator([d]));
                 });
 
                 decorate(g);

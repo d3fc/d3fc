@@ -20,6 +20,7 @@
             discontinuity: {}
         },
         series: {},
+        svg: {},
         tools: {},
         utilities: {}
     };
