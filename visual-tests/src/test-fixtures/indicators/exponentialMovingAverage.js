@@ -5,7 +5,7 @@
 
     var width = 600, height = 250;
 
-    var container = d3.select('#moving-average')
+    var container = d3.select('#exponential-moving-average')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -32,26 +32,16 @@
         .datum(data)
         .call(ohlc);
 
-    // Create the moving average component
-    var ma10 = fc.indicators.movingAverage()
+    // Create the Bollinger bands component
+    var movingAverage = fc.indicators.exponentialMovingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
-        .outputValueKey('sma10')
-        .windowSize(10);
-
-    var ma5 = fc.indicators.movingAverage()
-        .xScale(dateScale)
-        .yScale(priceScale)
-        .outputValueKey('sma5')
-        .windowSize(5);
+        .yValue(function(d) { return d.high; })
+        .windowSize(3);
 
     // Add it to the chart
     container.append('g')
         .datum(data)
-        .call(ma10);
-
-    container.append('g')
-        .datum(data)
-        .call(ma5);
+        .call(movingAverage);
 
 })(d3, fc);
