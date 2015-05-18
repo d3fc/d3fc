@@ -5,10 +5,11 @@
 
         var algorithm = fc.indicators.algorithms.exponentialMovingAverage();
 
-        var indicator = fc.indicators.singleValuedIndicator(algorithm);
+        var indicator = fc.indicators.singleValuedIndicator()
+            .algorithm(algorithm);
 
         var exponentialMovingAverage = function(selection) {
-            indicator(selection);
+            selection.call(indicator);
         };
 
         d3.rebind(exponentialMovingAverage, algorithm, 'windowSize');

@@ -14,15 +14,15 @@
 
             return data.map(function(d, i) {
                     if (i < windowSize - 1) {
-                        initialAccumulator += d;
+                        initialAccumulator += value(d, i);
                         return undefined;
                     } else if (i === windowSize - 1) {
-                        initialAccumulator += d;
+                        initialAccumulator += value(d, i);
                         var initialValue = initialAccumulator / windowSize;
                         previous = initialValue;
                         return initialValue;
                     } else {
-                        var nextValue = value(d) * alpha + (1 - alpha) * previous;
+                        var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
                         previous = nextValue;
                         return nextValue;
                     }

@@ -1,12 +1,13 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.singleValuedIndicator = function(algorithm) {
+    fc.indicators.singleValuedIndicator = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = function(d) { return d.close; },
-            xValue = function(d) { return d.date; };
+            xValue = function(d) { return d.date; },
+            algorithm = fc.indicators.algorithms.slidingWindow();
 
         var outputLine = fc.series.line();
 
@@ -21,14 +22,12 @@
 
             selection.each(function(data) {
 
-                data = d3.zip(data, algorithm(data))
-                    .map(function(tuple) {
+                d3.zip(data, algorithm(data))
+                    .forEach(function(tuple) {
                         tuple[0].singleValuedIndicator = tuple[1];
-                        return tuple[0];
                     });
 
                 d3.select(this)
-                    .datum(data)
                     .call(outputLine);
             });
         };
@@ -64,9 +63,9 @@
         };
         singleValuedIndicator.algorithm = function(x) {
             if (!arguments.length) {
-                return yValue;
+                return algorithm;
             }
-            yValue = x;
+            algorithm = x;
             return singleValuedIndicator;
         };
 
