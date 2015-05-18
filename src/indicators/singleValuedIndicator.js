@@ -7,6 +7,7 @@
             yScale = d3.scale.linear(),
             yValue = function(d) { return d.close; },
             xValue = function(d) { return d.date; },
+            outputValueKey = 'outputValue',
             algorithm = fc.indicators.algorithms.slidingWindow();
 
         var outputLine = fc.series.line();
@@ -18,13 +19,13 @@
             outputLine.xScale(xScale)
                 .yScale(yScale)
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.singleValuedIndicator; });
+                .yValue(function(d, i) { return d[outputValueKey]; });
 
             selection.each(function(data) {
 
                 d3.zip(data, algorithm(data))
                     .forEach(function(tuple) {
-                        tuple[0].singleValuedIndicator = tuple[1];
+                        tuple[0][outputValueKey] = tuple[1];
                     });
 
                 d3.select(this)
@@ -33,6 +34,13 @@
         };
 
 
+        singleValuedIndicator.outputValueKey = function(x) {
+            if (!arguments.length) {
+                return outputValueKey;
+            }
+            outputValueKey = x;
+            return singleValuedIndicator;
+        };
         singleValuedIndicator.xScale = function(x) {
             if (!arguments.length) {
                 return xScale;

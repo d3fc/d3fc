@@ -32,15 +32,26 @@
         .datum(data)
         .call(ohlc);
 
-    // Create the Bollinger bands component
+    // Create the moving average component
     var movingAverage = fc.indicators.movingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
+        .outputValueKey('sma10')
         .windowSize(10);
+
+    var exponentialMovingAverage = fc.indicators.movingAverage()
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .outputValueKey('sma5')
+        .windowSize(5);
 
     // Add it to the chart
     container.append('g')
         .datum(data)
         .call(movingAverage);
+
+    container.append('g')
+        .datum(data)
+        .call(exponentialMovingAverage);
 
 })(d3, fc);

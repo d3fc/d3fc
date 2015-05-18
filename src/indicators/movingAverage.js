@@ -7,14 +7,15 @@
             .accumulator(d3.mean);
 
         var indicator = fc.indicators.singleValuedIndicator()
-            .algorithm(algorithm);
+            .algorithm(algorithm)
+            .outputValueKey('ma');
 
         var movingAverage = function(selection) {
             selection.call(indicator);
         };
 
         d3.rebind(movingAverage, algorithm, 'windowSize');
-        d3.rebind(movingAverage, indicator, 'xValue', 'yValue', 'xScale', 'yScale');
+        d3.rebind(movingAverage, indicator, 'xValue', 'yValue', 'xScale', 'yScale', 'outputValueKey');
 
         return movingAverage;
     };
