@@ -11,7 +11,7 @@
             indicator(selection);
         };
 
-        d3.rebind(exponentialMovingAverage, algorithm, 'days');
+        d3.rebind(exponentialMovingAverage, algorithm, 'windowSize');
         d3.rebind(exponentialMovingAverage, indicator, 'xValue', 'yValue', 'xScale', 'yScale');
 
         return exponentialMovingAverage;

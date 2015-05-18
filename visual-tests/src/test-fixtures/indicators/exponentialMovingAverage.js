@@ -37,7 +37,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .yValue(function(d) { return d.high; })
-        .days(3);
+        .windowSize(3);
 
     // Add it to the chart
     container.append('g')
