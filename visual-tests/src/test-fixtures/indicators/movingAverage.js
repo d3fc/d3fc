@@ -33,13 +33,13 @@
         .call(ohlc);
 
     // Create the moving average component
-    var movingAverage = fc.indicators.movingAverage()
+    var ma10 = fc.indicators.movingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
         .outputValueKey('sma10')
         .windowSize(10);
 
-    var exponentialMovingAverage = fc.indicators.movingAverage()
+    var ma5 = fc.indicators.movingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
         .outputValueKey('sma5')
@@ -48,10 +48,10 @@
     // Add it to the chart
     container.append('g')
         .datum(data)
-        .call(movingAverage);
+        .call(ma10);
 
     container.append('g')
         .datum(data)
-        .call(exponentialMovingAverage);
+        .call(ma5);
 
 })(d3, fc);
