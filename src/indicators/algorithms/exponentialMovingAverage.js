@@ -6,26 +6,27 @@
         var windowSize = 9,
             value = fc.utilities.fn.identity;
 
-        function undefinedArrayOfLength(length) {
-            return Array.apply(undefined, new Array(length));
-        }
-
         var exponentialMovingAverage = function(data) {
-            if (data.length < windowSize) {
-                return undefinedArrayOfLength(data.length);
-            }
-            var ema = undefinedArrayOfLength(windowSize - 1);
-            var previous = d3.mean(data.slice(0, windowSize).map(value));
-            ema.push(previous);
 
             var alpha = 2 / (windowSize + 1);
-            for (var index = windowSize; index < data.length; index++) {
-                var nextValue = value(data[index]) * alpha + (1 - alpha) * previous;
-                ema.push(nextValue);
-                previous = nextValue;
-            }
+            var previous;
+            var initialAccumulator = 0;
 
-            return ema;
+            return data.map(function(d, i) {
+                    if (i < windowSize - 1) {
+                        initialAccumulator += d;
+                        return undefined;
+                    } else if (i === windowSize - 1) {
+                        initialAccumulator += d;
+                        var initialValue = initialAccumulator / windowSize;
+                        previous = initialValue;
+                        return initialValue;
+                    } else {
+                        var nextValue = value(d) * alpha + (1 - alpha) * previous;
+                        previous = nextValue;
+                        return nextValue;
+                    }
+                });
         };
 
         exponentialMovingAverage.windowSize = function(x) {
