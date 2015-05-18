@@ -36,7 +36,8 @@
     var movingAverage = fc.indicators.exponentialMovingAverage()
         .xScale(dateScale)
         .yScale(priceScale)
-        .days(10);
+        .yValue(function(d) { return d.high; })
+        .days(3);
 
     // Add it to the chart
     container.append('g')
