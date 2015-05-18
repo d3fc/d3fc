@@ -47,7 +47,8 @@
 
                 var g = fc.utilities.simpleDataJoin(container, 'crosshairs', data);
 
-                var enter = g.enter();
+                var enter = g.enter()
+                    .style('pointer-events', 'none');
                 enter.append('line')
                     .attr('class', 'horizontal');
                 enter.append('line')
