@@ -32,14 +32,21 @@
                         var x = xValueScaled(d, i),
                             y0 = y0Value(d, i),
                             barBottom = yScale(y0),
-                            barTop = yScale(y0 + y1Value(d, i));
+                            barTop = yScale(y0 + y1Value(d, i)),
+                            height = barBottom - barTop;
+
+                        // for negative values, invert the rectangle
+                        if (height < 0) {
+                            barTop += height;
+                            height = -height;
+                        }
 
                         d3.transition(d3.select(this))
                             .attr({
                                 x: x - halfWidth,
                                 y: barTop,
                                 width: width,
-                                height: barBottom - barTop
+                                height: height
                             });
                     });
 
