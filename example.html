@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-
 <style>
 .main-row>td {
   height: 240px;
@@ -220,6 +219,16 @@ rect.extent {
             .plotArea(multi);
 
         selection.call(chart);
+
+        var zoom = d3.behavior.zoom()
+            .x(chart.xScale())
+            .on('zoom', function() {
+                data.dateDomain[0] = chart.xDomain()[0];
+                data.dateDomain[1] = chart.xDomain()[1];
+                render();
+            });
+
+        selection.call(zoom);
     }
 
     function volumeChart(selection) {
@@ -342,8 +351,6 @@ rect.extent {
 
         container.select('svg.navigator')
             .call(navigatorChart);
-
-        // TODO: Add pan/zoom behaviour
     }
 
     render();
