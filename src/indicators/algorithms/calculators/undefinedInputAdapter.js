@@ -4,9 +4,9 @@
     // Indicator algorithms are not designed to accomodate leading 'undefined' value.
     // This adapter adds that functionality by adding a corresponding number
     // of 'undefined' values to the output.
-    fc.indicators.algorithms.undefinedInputAdapter = function() {
+    fc.indicators.algorithms.calculators.undefinedInputAdapter = function() {
 
-        var algorithm = fc.indicators.algorithms.slidingWindow()
+        var algorithm = fc.indicators.algorithms.calculators.slidingWindow()
             .accumulator(d3.mean);
         var undefinedValue = d3.functor(undefined),
             isValueUndefined = function(value) { return value === undefined; };

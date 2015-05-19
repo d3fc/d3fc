@@ -3,38 +3,18 @@
 
     fc.indicators.algorithms.macd = function() {
 
-        var fastEMA = fc.indicators.algorithms.exponentialMovingAverage()
-            .windowSize(12);
-        var slowEMA = fc.indicators.algorithms.exponentialMovingAverage()
-            .windowSize(29);
-        var average = fc.indicators.algorithms.exponentialMovingAverage()
-            .windowSize(9);
-        var avg = fc.indicators.algorithms.undefinedInputAdapter()
-            .algorithm(average);
+        var macdAlgorithm = fc.indicators.algorithms.calculators.macd()
+            .value(function(d) { return d.close; });
+
+        var mergedAlgorithm = fc.indicators.algorithms.merge()
+                .algorithm(macdAlgorithm)
+                .merge(function(datum, macd) { datum.macd = macd; });
 
         var macd = function(data) {
-            var diff = d3.zip(fastEMA(data), slowEMA(data))
-                .map(function(d) {
-                    if (d[0] !== undefined && d[1] !== undefined) {
-                        return d[0] - d[1];
-                    } else {
-                        return undefined;
-                    }
-                });
-
-            var average = avg(diff);
-
-            var macd = d3.zip(diff, average)
-                .map(function(d) {
-                    return {
-                        macd: d[0],
-                        signal: d[1],
-                        divergence: d[0] - d[1]
-                    };
-                });
-
-            return macd;
+            return mergedAlgorithm(data);
         };
+
+        d3.rebind(macd, mergedAlgorithm, 'merge');
 
         return macd;
     };

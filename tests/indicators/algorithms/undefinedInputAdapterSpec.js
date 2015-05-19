@@ -3,10 +3,10 @@
 
     describe('fc.indicators.algorithms.undefinedInputAdapter', function() {
 
-        var algorithm = fc.indicators.algorithms.slidingWindow()
+        var algorithm = fc.indicators.algorithms.calculators.slidingWindow()
                 .accumulator(d3.mean)
                 .windowSize(2);
-        var adaptedAlgorithm = fc.indicators.algorithms.undefinedInputAdapter()
+        var adaptedAlgorithm = fc.indicators.algorithms.calculators.undefinedInputAdapter()
                 .algorithm(algorithm);
 
         it('should leave the output un-affacted when there are no leading undefined values', function() {
@@ -40,7 +40,7 @@
         it('should allow configuration of the undefined value', function() {
             var data = [undefined, undefined, 1, 2];
 
-            var nothingUndefinedAdapter = fc.indicators.algorithms.undefinedInputAdapter()
+            var nothingUndefinedAdapter = fc.indicators.algorithms.calculators.undefinedInputAdapter()
                 .algorithm(algorithm)
                 .undefinedValue('nothing');
 
@@ -51,7 +51,7 @@
         it('should allow configuration of the input undefined value', function() {
             var data = ['nowt', 'nowt', 1, 2];
 
-            var nullUndefinedAdapter = fc.indicators.algorithms.undefinedInputAdapter()
+            var nullUndefinedAdapter = fc.indicators.algorithms.calculators.undefinedInputAdapter()
                 .algorithm(algorithm)
                 .undefinedValue('nuffin')
                 .isValueUndefined(function(d) { return d === 'nowt'; });
