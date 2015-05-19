@@ -1,6 +1,6 @@
 {
   "name": "d3-financial-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A set of re-useable components for building financial charts with D3",
   "author": "Scott Logic",
   "dependencies": {
