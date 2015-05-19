@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "description": "The website for d3-financial-components",
   "dependencies": {
-    "d3-financial-components": "0.1.0"
+    "d3-financial-components": "0.1.1"
   }
 }
