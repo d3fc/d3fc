@@ -6,7 +6,8 @@
         var algorithm = fc.indicators.algorithms.slidingWindow()
                 .accumulator(d3.mean)
                 .windowSize(2);
-        var adaptedAlgorithm = fc.indicators.algorithms.undefinedInputAdapter(algorithm);
+        var adaptedAlgorithm = fc.indicators.algorithms.undefinedInputAdapter()
+                .algorithm(algorithm);
 
         it('should leave the output un-affacted when there are no leading undefined values', function() {
             var data = [1, 2, 3, 4, 5, 6];
@@ -34,6 +35,29 @@
 
             expect(adaptedAlgorithm(data))
                 .toEqual([]);
+        });
+
+        it('should allow configuration of the undefined value', function() {
+            var data = [undefined, undefined, 1, 2];
+
+            var nothingUndefinedAdapter = fc.indicators.algorithms.undefinedInputAdapter()
+                .algorithm(algorithm)
+                .undefinedValue('nothing');
+
+            expect(nothingUndefinedAdapter(data))
+                .toEqual(['nothing', 'nothing', undefined, 1.5]);
+        });
+
+        it('should allow configuration of the input undefined value', function() {
+            var data = ['nowt', 'nowt', 1, 2];
+
+            var nullUndefinedAdapter = fc.indicators.algorithms.undefinedInputAdapter()
+                .algorithm(algorithm)
+                .undefinedValue('nuffin')
+                .isValueUndefined(function(d) { return d === 'nowt'; });
+
+            expect(nullUndefinedAdapter(data))
+                .toEqual(['nuffin', 'nuffin', undefined, 1.5]);
         });
 
     });
