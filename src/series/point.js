@@ -21,9 +21,13 @@
                 g.enter()
                     .append('circle');
 
+                g.attr('transform', function(d, i) {
+                    var x = xScale(xValue(d, i)),
+                        y = yScale(yValue(d, i));
+                    return 'translate(' + x + ', ' + y + ')';
+                });
+
                 g.select('circle')
-                    .attr('cx', function(d, i) { return xScale(xValue(d, i)); })
-                    .attr('cy', function(d, i) { return yScale(yValue(d, i)); })
                     .attr('r', radius);
 
                 decorate(g);

@@ -41,13 +41,14 @@
                         .classed({
                             'up': yCloseRaw > yOpenRaw,
                             'down': yCloseRaw < yOpenRaw
-                        });
+                        })
+                        .attr('transform', 'translate(' + x + ', ' + yHigh + ')');
 
-                    pathGenerator.x(function() { return x; })
-                        .open(function() { return yOpen; })
-                        .high(function() { return yHigh; })
-                        .low(function() { return yLow; })
-                        .close(function() { return yClose; });
+                    pathGenerator.x(function() { return 0; })
+                        .open(function() { return yOpen - yHigh; })
+                        .high(function() { return yHigh - yHigh; })
+                        .low(function() { return yLow - yHigh; })
+                        .close(function() { return yClose - yHigh; });
 
                     g.select('path')
                         .attr('d', pathGenerator([d]));
