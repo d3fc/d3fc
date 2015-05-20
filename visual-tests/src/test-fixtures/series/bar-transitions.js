@@ -6,11 +6,11 @@
         {name: 'Bob', age: 22},
         {name: 'Frank', age: 18},
         {name: 'Jim', age: 18},
-        {name: 'Brian', age: 35},
+        {name: 'Brian', age: -35},
         {name: 'Jane', age: 17},
         {name: 'Katherine', age: 37},
-        {name: 'Alice', age: 22},
-        {name: 'Rachel', age: 27},
+        {name: 'Alice', age: -22},
+        {name: 'Rachel', age: -27},
         {name: 'Jenny', age: 32}
     ];
 
@@ -35,11 +35,11 @@
         .rangePoints([0, width], 1);
 
     var yScale = d3.scale.linear()
-        .domain([0, 40])
+        .domain([-40, 40])
         .range([height - axisHeight, 0]);
 
     var colour = d3.scale.linear()
-        .domain([0, 100])
+        .domain([-50, 50])
         .range(['blue', 'red']);
 
     // Create the axes
@@ -88,7 +88,10 @@
 
         // Update scale domains
         xScale.domain(data.map(function(d) { return d.name; }));
-        yScale.domain([0, d3.max(data, function(d) { return d.age; })]);
+        yScale.domain([
+            d3.min(data, function(d) { return d.age; }),
+            d3.max(data, function(d) { return d.age; })
+        ]);
 
         // Update axes
         axisContainer
@@ -101,9 +104,9 @@
             .call(bar);
     }, 5000);
 
-    // Create a random integer in the range 0-100
+    // Create a random integer in the range -50 - 50
     function randomAge() {
-        return Math.floor(Math.random() * 100);
+        return Math.floor(Math.random() * 100) - 50;
     }
 
 })(d3, fc);

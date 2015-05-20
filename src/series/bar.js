@@ -16,34 +16,37 @@
         var bar = function(selection) {
             selection.each(function(data) {
                 var container = d3.select(this);
-                var series = fc.utilities.simpleDataJoin(container, 'bar', data, xValue);
+                var g = fc.utilities.simpleDataJoin(container, 'bar', data, xValue);
 
                 // enter
-                series.enter()
-                    .append('rect');
+                g.enter()
+                    .append('path');
 
                 var width = barWidth(data.map(xValueScaled)),
                     halfWidth = width / 2;
 
-                // update
-                series.select('rect')
-                    .each(function(d, i) {
+                var pathGenerator = fc.svg.bar()
+                    .width(width);
 
-                        var x = xValueScaled(d, i),
-                            y0 = y0Value(d, i),
-                            barBottom = yScale(y0),
-                            barTop = yScale(y0 + y1Value(d, i));
+                g.each(function(d, i) {
 
-                        d3.transition(d3.select(this))
-                            .attr({
-                                x: x - halfWidth,
-                                y: barTop,
-                                width: width,
-                                height: barBottom - barTop
-                            });
-                    });
+                    var x = xValueScaled(d, i),
+                        y0 = y0Value(d, i),
+                        barBottom = yScale(y0),
+                        barTop = yScale(y0 + y1Value(d, i));
 
-                decorate(series);
+                    var g = d3.select(this)
+                        .attr('transform', 'translate(' + (x - halfWidth) + ', ' + barTop + ')');
+
+                    pathGenerator.x(d3.functor(0))
+                        .y(d3.functor(0))
+                        .height(function() { return barBottom - barTop; });
+
+                    g.select('path')
+                        .attr('d', pathGenerator([d]));
+                });
+
+                decorate(g);
             });
         };
 

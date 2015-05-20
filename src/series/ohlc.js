@@ -44,7 +44,7 @@
                         })
                         .attr('transform', 'translate(' + x + ', ' + yHigh + ')');
 
-                    pathGenerator.x(function() { return 0; })
+                    pathGenerator.x(d3.functor(0))
                         .open(function() { return yOpen - yHigh; })
                         .high(function() { return yHigh - yHigh; })
                         .low(function() { return yLow - yHigh; })

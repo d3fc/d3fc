@@ -1,6 +1,9 @@
 (function(d3, fc) {
     'use strict';
 
+    // Renders a candlestick as an SVG path based on the given array of datapoints. Each
+    // candlestick has a fixed width, whilst the x, open, high, low and close positions are
+    // obtained from each point via the supplied accessor functions.
     fc.svg.candlestick = function() {
 
         var x = function(d, i) { return d.date; },

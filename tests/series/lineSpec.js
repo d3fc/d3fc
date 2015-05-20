@@ -3,7 +3,7 @@
 
     describe('line', function() {
 
-        it('should invoke data accessors appropriately', function() {
+        it('should invoke data accessors with datum and index', function() {
 
             var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.utilities.fn.identity),
                 yValueSpy = jasmine.createSpy('yValue').and.callFake(fc.utilities.fn.identity);
