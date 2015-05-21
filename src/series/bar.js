@@ -22,8 +22,7 @@
                 g.enter()
                     .append('path');
 
-                var width = barWidth(data.map(xValueScaled)),
-                    halfWidth = width / 2;
+                var width = barWidth(data.map(xValueScaled));
 
                 var pathGenerator = fc.svg.bar()
                     .width(width);
@@ -36,7 +35,7 @@
                         barTop = yScale(y0 + y1Value(d, i));
 
                     var g = d3.select(this)
-                        .attr('transform', 'translate(' + (x - halfWidth) + ', ' + barTop + ')');
+                        .attr('transform', 'translate(' + x + ', ' + barTop + ')');
 
                     pathGenerator.x(d3.functor(0))
                         .y(d3.functor(0))

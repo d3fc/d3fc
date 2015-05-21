@@ -19,8 +19,10 @@
                     barHeight = height(d, i),
                     barWidth = width(d, i);
 
+                var halfWidth = barWidth / 2;
+
                 // Move to the start location
-                var body = 'M' + xValue + ',' + yValue +
+                var body = 'M' + (xValue - halfWidth) + ',' + yValue +
                     // Draw the width
                     'h' + barWidth +
                     // Draw to the top
