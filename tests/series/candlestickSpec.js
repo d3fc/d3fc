@@ -3,7 +3,7 @@
 
     describe('candlestick', function() {
 
-        it('should invoke data accessors appropriately', function() {
+        it('should invoke data accessors with datum and index', function() {
 
             var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.utilities.fn.identity),
                 yOpenValueSpy = jasmine.createSpy('yOpenValue').and.callFake(fc.utilities.fn.identity),
