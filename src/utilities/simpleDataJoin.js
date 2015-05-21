@@ -18,19 +18,19 @@
             .data(data, dataKey || fc.utilities.fn.index);
 
         // enter
-        // entering elements fade in (from transparent to opaque)
+        // when 'parent' is a transition, entering elements fade in (from transparent to opaque)
         var enterSelection = updateSelection.enter()
             .append('g')
             .classed(className, true)
             .style('opacity', effectivelyZero);
 
         // exit
-        // exiting elements fade out (from opaque to transparent)
+        // when 'parent' is a transition, exiting elements fade out (from opaque to transparent)
         var exitSelection = d3.transition(updateSelection.exit())
             .style('opacity', effectivelyZero)
             .remove();
 
-        // all properties of the selection (which can be interpolated) will transition
+        // when 'parent' is a transition, all properties of the transition (which can be interpolated) will transition
         updateSelection = d3.transition(updateSelection)
             .style('opacity', 1);
 
