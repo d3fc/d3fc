@@ -1,9 +1,10 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(95)(20);
-    var data2 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(100)(20);
-    var data3 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(20);
+    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(95)(40);
+    var data2 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(100)(40);
+    var data3 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(40);
+    var data4 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(40);
 
     var width = 600, height = 250;
 
@@ -15,41 +16,85 @@
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
         .domain(fc.utilities.extent(data, 'date'))
-        .range([0, width])
-        .nice();
+        .range([0, width]);
+
+    var heightFraction = height / 4;
 
     // Create scale for y axis
-    var priceScale = d3.scale.linear()
-        .domain([90, 110])
-        .range([height, 0])
-        .nice();
+    var candleScale = d3.scale.linear()
+        .domain(fc.utilities.extent(data3, ['high', 'low']))
+        .range([heightFraction, 0]);
+
+    var ohlcScale = d3.scale.linear()
+        .domain(fc.utilities.extent(data2, ['high', 'low']))
+        .range([heightFraction * 2, heightFraction]);
+
+    // offset the close price to give some negative values
+    var extent = fc.utilities.extent(data, ['close']);
+    var offset = extent[0] + (extent[1] - extent[0]) / 2;
+    data.forEach(function(datum) {
+        datum.close = datum.close - offset;
+    });
+
+    var barScale = d3.scale.linear()
+        .domain(fc.utilities.extent(data, ['close']))
+        .range([heightFraction * 3, heightFraction * 2]);
+
+    var pointScale = d3.scale.linear()
+        .domain(fc.utilities.extent(data4, ['high', 'low']))
+        .range([heightFraction * 4, heightFraction * 3]);
 
     var color = d3.scale.category10();
 
     var bar = fc.series.bar()
         .decorate(function(sel) {
-            sel.attr('fill', function(d, i) { return color(i); });
+            sel.select('path')
+                .style('fill', function(d, i) { return color(i); });
+
+            sel.append('circle')
+                .attr('r', 2.0)
+                .attr('fill', 'black');
         })
-        .yValue(function(d) { return d.low - 0.2; })
+        .yValue(function(d) { return d.close; })
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(barScale);
 
     var candlestick = fc.series.candlestick()
         .decorate(function(sel) {
             sel.attr('fill', function(d, i) { return color(i); })
                 .attr('stroke', function(d, i) { return color(i); })
                 .attr('class', '');
+
+            sel.append('circle')
+                .attr('r', 2.0)
+                .attr('fill', 'black');
         })
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(candleScale);
+
+    var point = fc.series.point()
+        .decorate(function(sel) {
+            sel.select('circle')
+                .style('fill', function(d, i) { return color(i); });
+
+            sel.append('circle')
+                .attr('r', 2.0)
+                .style('fill', 'black');
+        })
+        .xScale(dateScale)
+        .yScale(pointScale);
 
     var ohlc = fc.series.ohlc()
         .decorate(function(sel) {
             sel.attr('stroke', function(d, i) { return color(i); })
                 .attr('class', '');
+
+            sel.append('circle')
+                .attr('r', 2.0)
+                .attr('fill', 'black');
         })
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(ohlcScale);
 
     // manually managing series in order to join with different datasets
     container.append('g')
@@ -63,5 +108,9 @@
     container.append('g')
         .datum(data3)
         .call(candlestick);
+
+    container.append('g')
+        .datum(data4)
+        .call(point);
 
 })(d3, fc);
