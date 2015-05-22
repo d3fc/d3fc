@@ -51,7 +51,7 @@
                 expect(skipWeekends.clampDown(date)).toEqual(endOfWeek);
             });
 
-            it('should clamp saturday up to 00:00 on monday', function() {
+            it('should clamp any time on saturday down to 00:00 on saturday', function() {
                 var endOfWeek = new Date(2015, 0, 17); // saturday 00:00 hours
                 var date = new Date(2015, 0, 17, 12); // mid-day saturday
                 expect(skipWeekends.clampDown(date)).toEqual(endOfWeek);
