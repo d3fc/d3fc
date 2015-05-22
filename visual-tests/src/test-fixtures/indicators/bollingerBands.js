@@ -14,19 +14,14 @@
     var dateScale = fc.scale.dateTime()
         .domain(fc.utilities.extent(data, 'date'))
         .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
-        .range([0, width])
-        .nice();
+        .range([0, width]);
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data, ['high', 'low']))
-        .range([height, 0])
-        .nice();
+        .range([height, 0]);
 
     // Create the OHLC series
-    var ohlc = fc.series.ohlc()
-        .xScale(dateScale)
-        .yScale(priceScale);
+    var ohlc = fc.series.ohlc();
 
     // Add the primary OHLC series
     container.append('g')
@@ -34,15 +29,21 @@
         .call(ohlc);
 
     // Create the Bollinger bands component
-    var bollinger = fc.indicators.bollingerBands()
+    var bollingerComputer = fc.indicators.computers.bollingerBands();
+    bollingerComputer(data);
+
+    priceScale.domain(fc.utilities.extent(data, ['high', 'low', 'upper', 'lower']));
+
+    var bollingerRenderer = fc.indicators.bollingerBands();
+
+    var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .windowSize(4)
-        .multiplier(2);
+        .series([bollingerRenderer, ohlc]);
 
     // Add it to the chart
     container.append('g')
         .datum(data)
-        .call(bollinger);
+        .call(multi);
 
 })(d3, fc);

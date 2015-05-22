@@ -3,8 +3,7 @@
 
     fc.indicators.bollingerBands = function() {
 
-        var algorithm = fc.indicators.algorithms.bollingerBands(),
-            xScale = d3.time.scale(),
+        var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = function(d, i) { return d.close; },
             xValue = function(d, i) { return d.date; };
@@ -34,8 +33,6 @@
 
         var bollingerBands = function(selection) {
 
-            algorithm.value(yValue);
-
             area.xScale(xScale)
                 .yScale(yScale)
                 .xValue(xValue);
@@ -53,14 +50,6 @@
                 .xValue(xValue);
 
             selection.each(function(data) {
-
-                data = d3.zip(data, algorithm(data))
-                    .map(function(tuple) {
-                        tuple[0].upper = tuple[1].upper;
-                        tuple[0].average = tuple[1].average;
-                        tuple[0].lower = tuple[1].lower;
-                        return tuple[0];
-                    });
 
                 var container = d3.select(this);
 
@@ -130,8 +119,6 @@
             yValue = x;
             return bollingerBands;
         };
-
-        d3.rebind(bollingerBands, algorithm, 'multiplier', 'windowSize');
 
         return bollingerBands;
     };
