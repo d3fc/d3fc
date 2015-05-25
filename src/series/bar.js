@@ -18,30 +18,40 @@
                 var container = d3.select(this);
                 var g = fc.utilities.simpleDataJoin(container, 'bar', data, xValue);
 
-                // enter
-                g.enter()
-                    .append('path');
-
                 var width = barWidth(data.map(xValueScaled));
 
                 var pathGenerator = fc.svg.bar()
                     .width(width);
 
+                var x = function(d, i) { return xValueScaled(d, i); },
+                    y0 = function(d, i) { return y0Value(d, i); },
+                    barTop = function(d, i) { return yScale(y0(d, i) + y1Value(d, i)); },
+                    barBottom = function(d, i) { return yScale(y0(d, i)); };
+
+                g.enter()
+                    .each(function(d, i) {
+                        d3.select(this)
+                            .attr('transform', 'translate(' + x(d, i) + ', ' + barBottom(d, i) + ')');
+                    })
+                    .append('path')
+                    .each(function(d, i) {
+                        pathGenerator.x(0)
+                            .y(0)
+                            .height(0);
+
+                        d3.select(this)
+                            .attr('d', pathGenerator([d]));
+                    });
+
                 g.each(function(d, i) {
-
-                    var x = xValueScaled(d, i),
-                        y0 = y0Value(d, i),
-                        barBottom = yScale(y0),
-                        barTop = yScale(y0 + y1Value(d, i));
-
-                    pathGenerator.x(d3.functor(0))
-                        .y(d3.functor(0))
-                        .height(function() { return barBottom - barTop; });
+                    pathGenerator.x(0)
+                        .y(0)
+                        .height(function() { return barBottom(d, i) - barTop(d, i); });
 
                     var barGroup = d3.select(this);
 
                     d3.transition(barGroup)
-                        .attr('transform', 'translate(' + x + ', ' + barTop + ')')
+                        .attr('transform', 'translate(' + x(d, i) + ', ' + barTop(d, i) + ')')
                         .select('path')
                         .attr('d', pathGenerator([d]));
                 });
