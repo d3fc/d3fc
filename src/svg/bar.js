@@ -40,14 +40,14 @@
             if (!arguments.length) {
                 return x;
             }
-            x = _x;
+            x = d3.functor(_x);
             return bar;
         };
         bar.y = function(x) {
             if (!arguments.length) {
                 return y;
             }
-            y = x;
+            y = d3.functor(x);
             return bar;
         };
         bar.width = function(x) {
@@ -61,7 +61,7 @@
             if (!arguments.length) {
                 return height;
             }
-            height = x;
+            height = d3.functor(x);
             return bar;
         };
         return bar;
