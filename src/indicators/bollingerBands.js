@@ -33,61 +33,20 @@
 
         var bollingerBands = function(selection) {
 
-            area.xScale(xScale)
+            var multi = fc.series.multi()
+                .xScale(xScale)
                 .yScale(yScale)
-                .xValue(xValue);
+                .series([area, upperLine, lowerLine, averageLine]);
 
-            upperLine.xScale(xScale)
-                .yScale(yScale)
-                .xValue(xValue);
-
-            averageLine.xScale(xScale)
-                .yScale(yScale)
-                .xValue(xValue);
-
-            lowerLine.xScale(xScale)
-                .yScale(yScale)
-                .xValue(xValue);
+            area.xValue(xValue);
+            upperLine.xValue(xValue);
+            averageLine.xValue(xValue);
+            lowerLine.xValue(xValue);
 
             selection.each(function(data) {
-
-                var container = d3.select(this);
-
-                var areaContianer = container.selectAll('g.area')
-                    .data([data]);
-
-                areaContianer.enter()
-                    .append('g')
-                    .attr('class', 'area');
-
-                areaContianer.call(area);
-
-                var upperLineContainer = container.selectAll('g.upper')
-                    .data([data]);
-
-                upperLineContainer.enter()
-                    .append('g')
-                    .attr('class', 'upper');
-
-                upperLineContainer.call(upperLine);
-
-                var averageLineContainer = container.selectAll('g.average')
-                    .data([data]);
-
-                averageLineContainer.enter()
-                    .append('g')
-                    .attr('class', 'average');
-
-                averageLineContainer.call(averageLine);
-
-                var lowerLineContainer = container.selectAll('g.lower')
-                    .data([data]);
-
-                lowerLineContainer.enter()
-                    .append('g')
-                    .attr('class', 'lower');
-
-                lowerLineContainer.call(lowerLine);
+                d3.select(this)
+                    .data([data])
+                    .call(multi);
             });
         };
 
