@@ -38,7 +38,7 @@
     // a fully configured moving average
     var ma15 = fc.indicators.computers.movingAverage()
         .windowSize(15)
-        .yValue(function(d) { return d.open; })
+        .value(function(d) { return d.open; })
         .merge(function(data, ma) { data.ma15 = ma; });
 
     // the application of multiple indicators
