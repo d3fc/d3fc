@@ -48,7 +48,7 @@
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        bottom: 20,
+                        bottom: 0,
                         left: 0
                     });
 
@@ -61,21 +61,15 @@
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        bottom: 20
+                        bottom: 0
                     });
 
-                var xAxisContainer = mainContainer.selectAll('g.x-axis')
+                var xAxisContainer = container.selectAll('g.x-axis')
                     .data([data]);
                 xAxisContainer.enter()
                     .append('g')
                     .attr('class', 'axis x-axis')
-                    .layout({
-                        height: 20,
-                        position: 'absolute',
-                        right: 0,
-                        bottom: 0,
-                        left: 0
-                    });
+                    .layout('height', 20);
 
                 container.layout();
 
