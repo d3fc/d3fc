@@ -3,6 +3,8 @@
 
     fc.charts.linearTimeSeries = function() {
 
+        var X_AXIS_HEIGHT = 20;
+
         var plotArea = fc.series.line();
         var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
@@ -19,14 +21,7 @@
 
                 var container = d3.select(this);
 
-                var mainContainer = container.selectAll('svg')
-                    .data([data]);
-                mainContainer.enter()
-                    .append('svg')
-                    .attr('overflow', 'hidden')
-                    .layout('flex', 1);
-
-                var background = mainContainer.selectAll('rect.background')
+                var background = container.selectAll('rect.background')
                     .data([data]);
                 background.enter()
                     .append('rect')
@@ -35,15 +30,18 @@
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        bottom: 0,
+                        bottom: X_AXIS_HEIGHT,
                         left: 0
                     });
 
-                var plotAreaContainer = mainContainer.selectAll('g.plot-area')
+                var plotAreaContainer = container.selectAll('svg.plot-area')
                     .data([data]);
                 plotAreaContainer.enter()
-                    .append('g')
-                    .attr('class', 'plot-area')
+                    .append('svg')
+                    .attr({
+                        'class': 'plot-area',
+                        'overflow': 'hidden'
+                    })
                     .layout({
                         position: 'absolute',
                         top: 0,
@@ -52,7 +50,20 @@
                         left: 0
                     });
 
-                var yAxisContainer = mainContainer.selectAll('g.y-axis')
+                var xAxisContainer = container.selectAll('g.x-axis')
+                    .data([data]);
+                xAxisContainer.enter()
+                    .append('g')
+                    .attr('class', 'axis x-axis')
+                    .layout({
+                        position: 'absolute',
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        height: X_AXIS_HEIGHT
+                    });
+
+                var yAxisContainer = container.selectAll('g.y-axis')
                     .data([data]);
                 yAxisContainer.enter()
                     .append('g')
@@ -61,15 +72,8 @@
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        bottom: 0
+                        bottom: X_AXIS_HEIGHT
                     });
-
-                var xAxisContainer = container.selectAll('g.x-axis')
-                    .data([data]);
-                xAxisContainer.enter()
-                    .append('g')
-                    .attr('class', 'axis x-axis')
-                    .layout('height', 20);
 
                 container.layout();
 
