@@ -1,10 +1,10 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.algorithms.relativeStrengthIndicator = function() {
+    fc.indicators.algorithms.relativeStrengthIndex = function() {
 
-        var open = function(d, i) { return d.open; },
-            close = function(d, i) { return d.close; },
+        var openValue = function(d, i) { return d.open; },
+            closeValue = function(d, i) { return d.close; },
             averageAccumulator = function(values) {
                 var alpha = 1 / values.length;
                 var result = values[0];
@@ -23,11 +23,11 @@
                 for (var i = 0, l = values.length; i < l; i++) {
                     var value = values[i];
 
-                    var openValue = open(value);
-                    var closeValue = close(value);
+                    var open = openValue(value);
+                    var close = closeValue(value);
 
-                    downCloses.push(openValue > closeValue ? openValue - closeValue : 0);
-                    upCloses.push(openValue < closeValue ? closeValue - openValue : 0);
+                    downCloses.push(open > close ? open - close : 0);
+                    upCloses.push(open < close ? close - open : 0);
                 }
 
                 var downClosesAvg = averageAccumulator(downCloses);
@@ -43,25 +43,18 @@
             return slidingWindow(data);
         };
 
-        rsi.open = function(x) {
+        rsi.openValue = function(x) {
             if (!arguments.length) {
-                return open;
+                return openValue;
             }
-            open = x;
+            openValue = x;
             return rsi;
         };
-        rsi.close = function(x) {
+        rsi.closeValue = function(x) {
             if (!arguments.length) {
-                return close;
+                return closeValue;
             }
-            close = x;
-            return rsi;
-        };
-        rsi.averageAccumulator = function(x) {
-            if (!arguments.length) {
-                return averageAccumulator;
-            }
-            averageAccumulator = x;
+            closeValue = x;
             return rsi;
         };
 

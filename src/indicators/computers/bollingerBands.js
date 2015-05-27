@@ -20,6 +20,14 @@
             computer(data);
         };
 
+        bollingerBands.merge = function(x) {
+            if (!arguments.length) {
+                return merge;
+            }
+            merge = x;
+            return bollingerBands;
+        };
+
         d3.rebind(bollingerBands, bollingerAlgorithm, 'windowSize', 'value', 'multiplier');
 
         return bollingerBands;

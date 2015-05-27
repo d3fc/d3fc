@@ -1,6 +1,8 @@
 (function(d3, fc) {
     'use strict';
 
+    // applies an algorithm to an array, merging the result back into
+    // the source array using the given merge function.
     fc.indicators.computers.merge = function() {
 
         var merge = fc.utilities.fn.noop,

@@ -22,26 +22,26 @@
         .range([height, 0])
         .nice();
 
-    // Create the OHLC series
-    var ohlc = fc.series.ohlc()
-        .xScale(dateScale)
-        .yScale(priceScale);
+    // Create the moving average bands component
+    var movingAverage = fc.indicators.computers.exponentialMovingAverage()
+        .value(function(d) { return d.high; })
+        .windowSize(3);
 
-    // Add the primary OHLC series
-    container.append('g')
-        .datum(data)
-        .call(ohlc);
+    movingAverage(data);
 
-    // Create the Bollinger bands component
-    var movingAverage = fc.indicators.exponentialMovingAverage()
+    // create the series
+    var ohlc = fc.series.ohlc();
+    var line = fc.series.line()
+        .yValue(function(d) { return d.exponentialMovingAverage; });
+
+    var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.high; })
-        .windowSize(3);
+        .series([line, ohlc]);
 
     // Add it to the chart
     container.append('g')
         .datum(data)
-        .call(movingAverage);
+        .call(multi);
 
 })(d3, fc);

@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.relativeStrengthIndicator = function() {
+    fc.indicators.relativeStrengthIndex = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
@@ -9,7 +9,6 @@
             upperValue = d3.functor(70),
             lowerValue = d3.functor(30);
 
-        var algorithm = fc.indicators.algorithms.relativeStrengthIndicator();
         var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
 
@@ -24,12 +23,6 @@
                 .yValue(function(d, i) { return d.rsi; });
 
             selection.each(function(data) {
-
-                data = d3.zip(data, algorithm(data))
-                    .map(function(tuple) {
-                        tuple[0].rsi = tuple[1];
-                        return tuple[0];
-                    });
 
                 var container = d3.select(this);
 
@@ -92,12 +85,6 @@
             lowerValue = d3.functor(x);
             return rsi;
         };
-
-        fc.utilities.rebind(rsi, algorithm, {
-            'closeValue': 'close',
-            'openValue': 'open',
-            'windowSize': 'windowSize'
-        });
 
         return rsi;
     };

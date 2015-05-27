@@ -6,6 +6,7 @@
         var ma = fc.indicators.algorithms.slidingWindow()
                 .accumulator(d3.mean)
                 .value(function(d) { return d.close; });
+
         var merge = function(datum, ma) { datum.movingAverage = ma; };
 
         var movingAverage = function(data) {
