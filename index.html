@@ -1,48 +1,48 @@
 ---
 layout: default
 example-code: |
-// create some test data
-var generator = fc.dataGenerator().filter(null);
-var data = generator(110);
-
-function renderChart() {
-  // add a new datapoint and remove an old one
-  var datum = generator(1)[0];
-  data.push(datum);
-  data.shift();
-
-  // Offset the range to include the full bar for the latest value
-  var dateRange = fc.utilities.extent(data, 'date');
-  dateRange[1] = d3.time.day.offset(dateRange[1], 1);
-
-  // create a chart
-  var chart = fc.charts.linearTimeSeries()
-      .xDomain(dateRange)
-      .xTicks(5)
-      .yDomain(fc.utilities.extent(data, ['high', 'low']))
-      .yNice()
-      .yTicks(5);
-
-  // Create the gridlines and series
-  var gridlines = fc.scale.gridlines();
-  var candlestick = fc.series.candlestick();
-  var bollingerBands = fc.indicators.bollingerBands();
-
-  // add them to the chart via a multi-series
-  var multi = fc.series.multi()
-      .series([gridlines, bollingerBands, candlestick]);
-  chart.plotArea(multi);
-
-
-  d3.select('svg')
-      .datum(data)
-      .call(chart);
-}
-renderChart();
-
-setInterval(renderChart, 200);
-
-addEventListener('resize', renderChart);
+ // create some test data
+ var generator = fc.dataGenerator().filter(null);
+ var data = generator(110);
+ 
+ function renderChart() {
+   // add a new datapoint and remove an old one
+   var datum = generator(1)[0];
+   data.push(datum);
+   data.shift();
+ 
+   // Offset the range to include the full bar for the latest value
+   var dateRange = fc.utilities.extent(data, 'date');
+   dateRange[1] = d3.time.day.offset(dateRange[1], 1);
+ 
+   // create a chart
+   var chart = fc.charts.linearTimeSeries()
+       .xDomain(dateRange)
+       .xTicks(5)
+       .yDomain(fc.utilities.extent(data, ['high', 'low']))
+       .yNice()
+       .yTicks(5);
+ 
+   // Create the gridlines and series
+   var gridlines = fc.scale.gridlines();
+   var candlestick = fc.series.candlestick();
+   var bollingerBands = fc.indicators.bollingerBands();
+ 
+   // add them to the chart via a multi-series
+   var multi = fc.series.multi()
+       .series([gridlines, bollingerBands, candlestick]);
+   chart.plotArea(multi);
+ 
+ 
+   d3.select('svg')
+       .datum(data)
+       .call(chart);
+ }
+ renderChart();
+ 
+ setInterval(renderChart, 200);
+ 
+ addEventListener('resize', renderChart);
 ---
 <div class="jumbotron" id="jumbo1">
   <div class="row">
