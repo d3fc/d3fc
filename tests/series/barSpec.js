@@ -25,26 +25,26 @@
             // the x value accessor, therefore it is invoked three times
             // for each data point
 
-            expect(xValueSpy.calls.count()).toEqual(data.length * 3);
+            expect(xValueSpy.calls.count()).toEqual(data.length * 4);
             xValueSpy.calls.all()
                 .forEach(function(call, i) {
                     expect(call.args[0]).toEqual(data[i % data.length]);
                     expect(call.args[1]).toEqual(i % data.length);
                 });
 
-            expect(y0ValueSpy.calls.count()).toEqual(data.length);
-            y0ValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            expect(y0ValueSpy.calls.count()).toEqual(data.length * 4);
+            expect(y0ValueSpy.calls.argsFor(0)).toEqual([0, 0]);
+            expect(y0ValueSpy.calls.argsFor(1)).toEqual([2, 1]);
+            expect(y0ValueSpy.calls.argsFor(2)).toEqual([4, 2]);
+            expect(y0ValueSpy.calls.argsFor(3)).toEqual([8, 3]);
+            expect(y0ValueSpy.calls.argsFor(4)).toEqual([16, 4]);
 
-            expect(y1ValueSpy.calls.count()).toEqual(data.length);
-            y1ValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            expect(y1ValueSpy.calls.count()).toEqual(data.length * 2);
+            expect(y1ValueSpy.calls.argsFor(0)).toEqual([0, 0]);
+            expect(y1ValueSpy.calls.argsFor(2)).toEqual([2, 1]);
+            expect(y1ValueSpy.calls.argsFor(4)).toEqual([4, 2]);
+            expect(y1ValueSpy.calls.argsFor(6)).toEqual([8, 3]);
+            expect(y1ValueSpy.calls.argsFor(8)).toEqual([16, 4]);
         });
     });
 
