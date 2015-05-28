@@ -6,8 +6,8 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             xValue = function(d) { return d.date; },
-            upperValue = d3.functor(70),
-            lowerValue = d3.functor(30);
+            upperValue = 70,
+            lowerValue = 30;
 
         var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
@@ -28,9 +28,9 @@
 
                 var annotationsContainer = container.selectAll('g.annotations')
                     .data([[
-                        upperValue.apply(this, arguments),
+                        upperValue,
                         50,
-                        lowerValue.apply(this, arguments)
+                        lowerValue
                     ]]);
 
                 annotationsContainer.enter()
@@ -75,14 +75,14 @@
             if (!arguments.length) {
                 return upperValue;
             }
-            upperValue = d3.functor(x);
+            upperValue = x;
             return rsi;
         };
         rsi.lowerValue = function(x) {
             if (!arguments.length) {
                 return lowerValue;
             }
-            lowerValue = d3.functor(x);
+            lowerValue = x;
             return rsi;
         };
 

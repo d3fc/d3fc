@@ -9,7 +9,7 @@
             algorithm = fc.indicators.algorithms.calculators.slidingWindow();
 
         var mergeCompute = function(data) {
-            d3.zip(data, algorithm(data))
+            return d3.zip(data, algorithm(data))
                 .forEach(function(tuple) {
                     merge(tuple[0], tuple[1]);
                 });

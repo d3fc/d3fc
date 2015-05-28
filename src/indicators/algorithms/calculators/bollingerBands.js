@@ -3,7 +3,7 @@
 
     fc.indicators.algorithms.calculators.bollingerBands = function() {
 
-        var multiplier = d3.functor(2);
+        var multiplier = 2;
 
         var slidingWindow = fc.indicators.algorithms.calculators.slidingWindow()
             .undefinedValue({
@@ -30,7 +30,7 @@
             if (!arguments.length) {
                 return multiplier;
             }
-            multiplier = d3.functor(x);
+            multiplier = x;
             return bollingerBands;
         };
 

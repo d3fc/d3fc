@@ -7,24 +7,17 @@
                 .accumulator(d3.mean)
                 .value(function(d) { return d.close; });
 
-        var merge = function(datum, ma) { datum.movingAverage = ma; };
+        var mergeFunction = function(datum, ma) { datum.movingAverage = ma; };
+
+        var mergedAlgorithm = fc.indicators.algorithms.merge()
+                .algorithm(ma)
+                .merge(mergeFunction);
 
         var movingAverage = function(data) {
-            var algorithm = fc.indicators.algorithms.merge()
-                .algorithm(ma)
-                .merge(merge);
-
-            algorithm(data);
+            return mergedAlgorithm(data);
         };
 
-        movingAverage.merge = function(x) {
-            if (!arguments.length) {
-                return merge;
-            }
-            merge = x;
-            return movingAverage;
-        };
-
+        d3.rebind(movingAverage, mergedAlgorithm, 'merge');
         d3.rebind(movingAverage, ma, 'windowSize', 'undefinedValue', 'value');
 
         return movingAverage;

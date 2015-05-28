@@ -29,10 +29,15 @@
         .call(ohlc);
 
     // Create the Bollinger bands component
-    var bollingerComputer = fc.indicators.algorithms.bollingerBands();
+    var bollingerComputer = fc.indicators.algorithms.bollingerBands()
+        .windowSize(5)
+        .multiplier(3);
     bollingerComputer(data);
 
-    priceScale.domain(fc.utilities.extent(data, ['high', 'low', 'upper', 'lower']));
+    priceScale.domain(fc.utilities.extent(data, [
+        function(d) { return d.bollingerBands.upper; },
+        function(d) { return d.bollingerBands.lower; }
+    ]));
 
     var bollingerRenderer = fc.indicators.renderers.bollingerBands();
 

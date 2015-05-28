@@ -6,28 +6,17 @@
         var bollingerAlgorithm = fc.indicators.algorithms.calculators.bollingerBands()
             .value(function(d) { return d.close; });
 
-        var merge = function(datum, boll) {
-                datum.upper = boll.upper;
-                datum.lower = boll.lower;
-                datum.average = boll.average;
-            };
+        var mergeFunction = function(datum, boll) { datum.bollingerBands = boll; };
+
+        var mergedAlgorithm = fc.indicators.algorithms.merge()
+                .algorithm(bollingerAlgorithm)
+                .merge(mergeFunction);
 
         var bollingerBands = function(data) {
-            var algorithm = fc.indicators.algorithms.merge()
-                .algorithm(bollingerAlgorithm)
-                .merge(merge);
-
-            algorithm(data);
+            return mergedAlgorithm(data);
         };
 
-        bollingerBands.merge = function(x) {
-            if (!arguments.length) {
-                return merge;
-            }
-            merge = x;
-            return bollingerBands;
-        };
-
+        d3.rebind(bollingerBands, mergedAlgorithm, 'merge');
         d3.rebind(bollingerBands, bollingerAlgorithm, 'windowSize', 'value', 'multiplier');
 
         return bollingerBands;

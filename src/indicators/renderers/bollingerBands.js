@@ -10,25 +10,25 @@
 
         var area = fc.series.area()
             .y0Value(function(d, i) {
-                return d.upper;
+                return d.bollingerBands.upper;
             })
             .y1Value(function(d, i) {
-                return d.lower;
+                return d.bollingerBands.lower;
             });
 
         var upperLine = fc.series.line()
             .yValue(function(d, i) {
-                return d.upper;
+                return d.bollingerBands.upper;
             });
 
         var averageLine = fc.series.line()
             .yValue(function(d, i) {
-                return d.average;
+                return d.bollingerBands.average;
             });
 
         var lowerLine = fc.series.line()
             .yValue(function(d, i) {
-                return d.lower;
+                return d.bollingerBands.lower;
             });
 
         var bollingerBands = function(selection) {
