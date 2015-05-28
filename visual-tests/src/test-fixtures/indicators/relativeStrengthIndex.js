@@ -23,10 +23,10 @@
         .nice();
 
     // Create the relative strength indicator component
-    var rsiAlgo = fc.indicators.computers.relativeStrengthIndex();
+    var rsiAlgo = fc.indicators.algorithms.relativeStrengthIndex();
     rsiAlgo(data);
 
-    var rsi = fc.indicators.relativeStrengthIndex()
+    var rsi = fc.indicators.renderers.relativeStrengthIndex()
         .xScale(dateScale)
         .yScale(priceScale);
 

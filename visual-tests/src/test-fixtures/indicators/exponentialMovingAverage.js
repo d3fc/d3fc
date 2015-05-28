@@ -23,7 +23,7 @@
         .nice();
 
     // Create the moving average bands component
-    var movingAverage = fc.indicators.computers.exponentialMovingAverage()
+    var movingAverage = fc.indicators.algorithms.exponentialMovingAverage()
         .value(function(d) { return d.high; })
         .windowSize(3);
 

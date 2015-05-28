@@ -1,11 +1,11 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.indicators.algorithms.percentageChange', function() {
+    describe('fc.indicators.algorithms.calculators.percentageChange', function() {
 
         it('should return the percentage change', function() {
             var data = [1, 2, 3];
-            var percentageChange = fc.indicators.algorithms.percentageChange();
+            var percentageChange = fc.indicators.algorithms.calculators.percentageChange();
 
             expect(percentageChange(data))
                 .toEqual([0, 1, 2]);
@@ -13,7 +13,7 @@
 
         it('should return the percentage change for an a baseIndex > 0', function() {
             var data = [1, 2, 3];
-            var percentageChange = fc.indicators.algorithms.percentageChange()
+            var percentageChange = fc.indicators.algorithms.calculators.percentageChange()
                 .baseIndex(1);
 
             expect(percentageChange(data))

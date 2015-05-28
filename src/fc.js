@@ -14,8 +14,10 @@
         version: version,
         charts: {},
         indicators: {
-            algorithms: {},
-            computers: {}
+            algorithms: {
+                calculators: {}
+            },
+            renderers: {}
         },
         scale: {
             discontinuity: {}

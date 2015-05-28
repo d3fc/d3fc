@@ -29,12 +29,12 @@
         .call(ohlc);
 
     // Create the Bollinger bands component
-    var bollingerComputer = fc.indicators.computers.bollingerBands();
+    var bollingerComputer = fc.indicators.algorithms.bollingerBands();
     bollingerComputer(data);
 
     priceScale.domain(fc.utilities.extent(data, ['high', 'low', 'upper', 'lower']));
 
-    var bollingerRenderer = fc.indicators.bollingerBands();
+    var bollingerRenderer = fc.indicators.renderers.bollingerBands();
 
     var multi = fc.series.multi()
         .xScale(dateScale)

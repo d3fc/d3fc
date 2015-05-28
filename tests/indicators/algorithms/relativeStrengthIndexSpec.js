@@ -1,12 +1,12 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.indicators.algorithms.relativeStrengthIndex', function() {
+    describe('fc.indicators.algorithms.calculators.relativeStrengthIndex', function() {
 
         var rsi;
 
         beforeEach(function() {
-            rsi = fc.indicators.algorithms.relativeStrengthIndex()
+            rsi = fc.indicators.algorithms.calculators.relativeStrengthIndex()
                 .windowSize(3);
         });
 

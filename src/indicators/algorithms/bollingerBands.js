@@ -3,38 +3,32 @@
 
     fc.indicators.algorithms.bollingerBands = function() {
 
-        var multiplier = d3.functor(2);
+        var bollingerAlgorithm = fc.indicators.algorithms.calculators.bollingerBands()
+            .value(function(d) { return d.close; });
 
-        var slidingWindow = fc.indicators.algorithms.slidingWindow()
-            .undefinedValue({
-                upper: undefined,
-                average: undefined,
-                lower: undefined
-            })
-            .accumulator(function(values) {
-                var avg = d3.mean(values);
-                var stdDev = d3.deviation(values);
-                var multiplierValue = multiplier.apply(this, arguments);
-                return {
-                    upper: avg + multiplierValue * stdDev,
-                    average: avg,
-                    lower: avg - multiplierValue * stdDev
-                };
-            });
+        var merge = function(datum, boll) {
+                datum.upper = boll.upper;
+                datum.lower = boll.lower;
+                datum.average = boll.average;
+            };
 
         var bollingerBands = function(data) {
-            return slidingWindow(data);
+            var algorithm = fc.indicators.algorithms.merge()
+                .algorithm(bollingerAlgorithm)
+                .merge(merge);
+
+            algorithm(data);
         };
 
-        bollingerBands.multiplier = function(x) {
+        bollingerBands.merge = function(x) {
             if (!arguments.length) {
-                return multiplier;
+                return merge;
             }
-            multiplier = d3.functor(x);
+            merge = x;
             return bollingerBands;
         };
 
-        d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'value');
+        d3.rebind(bollingerBands, bollingerAlgorithm, 'windowSize', 'value', 'multiplier');
 
         return bollingerBands;
     };

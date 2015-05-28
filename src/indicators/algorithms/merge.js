@@ -3,10 +3,10 @@
 
     // applies an algorithm to an array, merging the result back into
     // the source array using the given merge function.
-    fc.indicators.computers.merge = function() {
+    fc.indicators.algorithms.merge = function() {
 
         var merge = fc.utilities.fn.noop,
-            algorithm = fc.indicators.algorithms.slidingWindow();
+            algorithm = fc.indicators.algorithms.calculators.slidingWindow();
 
         var mergeCompute = function(data) {
             d3.zip(data, algorithm(data))

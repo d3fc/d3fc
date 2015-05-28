@@ -3,47 +3,29 @@
 
     fc.indicators.algorithms.exponentialMovingAverage = function() {
 
-        var windowSize = 9,
-            value = fc.utilities.fn.identity;
+        var ema = fc.indicators.algorithms.calculators.slidingWindow()
+                .accumulator(d3.mean)
+                .value(function(d) { return d.close; });
+
+        var merge = function(datum, ma) { datum.exponentialMovingAverage = ma; };
 
         var exponentialMovingAverage = function(data) {
+            var algorithm = fc.indicators.algorithms.merge()
+                .algorithm(ema)
+                .merge(merge);
 
-            var alpha = 2 / (windowSize + 1);
-            var previous;
-            var initialAccumulator = 0;
-
-            return data.map(function(d, i) {
-                    if (i < windowSize - 1) {
-                        initialAccumulator += value(d, i);
-                        return undefined;
-                    } else if (i === windowSize - 1) {
-                        initialAccumulator += value(d, i);
-                        var initialValue = initialAccumulator / windowSize;
-                        previous = initialValue;
-                        return initialValue;
-                    } else {
-                        var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
-                        previous = nextValue;
-                        return nextValue;
-                    }
-                });
+            algorithm(data);
         };
 
-        exponentialMovingAverage.windowSize = function(x) {
+        exponentialMovingAverage.merge = function(x) {
             if (!arguments.length) {
-                return windowSize;
+                return merge;
             }
-            windowSize = x;
+            merge = x;
             return exponentialMovingAverage;
         };
 
-        exponentialMovingAverage.value = function(x) {
-            if (!arguments.length) {
-                return value;
-            }
-            value = x;
-            return exponentialMovingAverage;
-        };
+        d3.rebind(exponentialMovingAverage, ema, 'windowSize', 'value');
 
         return exponentialMovingAverage;
     };

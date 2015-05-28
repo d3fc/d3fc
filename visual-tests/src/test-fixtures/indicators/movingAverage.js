@@ -33,10 +33,10 @@
     // ========================================================= Moving Average
 
     // an out-of-the-box moving average
-    var ma = fc.indicators.computers.movingAverage();
+    var ma = fc.indicators.algorithms.movingAverage();
 
     // a fully configured moving average
-    var ma15 = fc.indicators.computers.movingAverage()
+    var ma15 = fc.indicators.algorithms.movingAverage()
         .windowSize(15)
         .value(function(d) { return d.open; })
         .merge(function(data, ma) { data.ma15 = ma; });

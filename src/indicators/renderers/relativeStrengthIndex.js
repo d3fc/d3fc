@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.relativeStrengthIndex = function() {
+    fc.indicators.renderers.relativeStrengthIndex = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),

@@ -1,20 +1,20 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.computers.movingAverage = function() {
+    fc.indicators.algorithms.movingAverage = function() {
 
-        var ma = fc.indicators.algorithms.slidingWindow()
+        var ma = fc.indicators.algorithms.calculators.slidingWindow()
                 .accumulator(d3.mean)
                 .value(function(d) { return d.close; });
 
         var merge = function(datum, ma) { datum.movingAverage = ma; };
 
         var movingAverage = function(data) {
-            var computer = fc.indicators.computers.merge()
+            var algorithm = fc.indicators.algorithms.merge()
                 .algorithm(ma)
                 .merge(merge);
 
-            computer(data);
+            algorithm(data);
         };
 
         movingAverage.merge = function(x) {

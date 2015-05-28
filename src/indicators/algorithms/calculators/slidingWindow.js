@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.algorithms.slidingWindow = function() {
+    fc.indicators.algorithms.calculators.slidingWindow = function() {
 
         var undefinedValue = d3.functor(undefined),
             windowSize = d3.functor(10),

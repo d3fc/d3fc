@@ -3,63 +3,28 @@
 
     fc.indicators.algorithms.relativeStrengthIndex = function() {
 
-        var openValue = function(d, i) { return d.open; },
-            closeValue = function(d, i) { return d.close; },
-            averageAccumulator = function(values) {
-                var alpha = 1 / values.length;
-                var result = values[0];
-                for (var i = 1, l = values.length; i < l; i++) {
-                    result = alpha * values[i] + (1 - alpha) * result;
-                }
-                return result;
-            };
+        var rsi = fc.indicators.algorithms.calculators.relativeStrengthIndex();
 
-        var slidingWindow = fc.indicators.algorithms.slidingWindow()
-            .windowSize(14)
-            .accumulator(function(values) {
-                var downCloses = [];
-                var upCloses = [];
+        var merge = function(datum, rsi) { datum.rsi = rsi; };
 
-                for (var i = 0, l = values.length; i < l; i++) {
-                    var value = values[i];
+        var relativeStrengthIndex = function(data) {
+            var algorithm = fc.indicators.algorithms.merge()
+                .algorithm(rsi)
+                .merge(merge);
 
-                    var open = openValue(value);
-                    var close = closeValue(value);
-
-                    downCloses.push(open > close ? open - close : 0);
-                    upCloses.push(open < close ? close - open : 0);
-                }
-
-                var downClosesAvg = averageAccumulator(downCloses);
-                if (downClosesAvg === 0) {
-                    return 100;
-                }
-
-                var rs = averageAccumulator(upCloses) / downClosesAvg;
-                return 100 - (100 / (1 + rs));
-            });
-
-        var rsi = function(data) {
-            return slidingWindow(data);
+            algorithm(data);
         };
 
-        rsi.openValue = function(x) {
+        relativeStrengthIndex.merge = function(x) {
             if (!arguments.length) {
-                return openValue;
+                return merge;
             }
-            openValue = x;
-            return rsi;
-        };
-        rsi.closeValue = function(x) {
-            if (!arguments.length) {
-                return closeValue;
-            }
-            closeValue = x;
-            return rsi;
+            merge = x;
+            return relativeStrengthIndex;
         };
 
-        d3.rebind(rsi, slidingWindow, 'windowSize');
+        d3.rebind(relativeStrengthIndex, rsi, 'windowSize', 'open', 'close');
 
-        return rsi;
+        return relativeStrengthIndex;
     };
 }(d3, fc));
