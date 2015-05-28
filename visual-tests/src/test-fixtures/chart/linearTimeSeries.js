@@ -32,6 +32,11 @@
     chart.plotArea(multi);
 
     d3.select('#linear-time-series')
+        .append('svg')
+        .style({
+            height: '240px',
+            width: '320px'
+        })
         .datum(data)
         .call(chart);
 
