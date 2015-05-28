@@ -1,13 +1,23 @@
 ---
 layout: default
 example-code: |
-  // create some test data
-  var generator = fc.dataGenerator().filter(null);
-  var data = generator(150);
+// create some test data
+var generator = fc.dataGenerator().filter(null);
+var data = generator(110);
+
+function renderChart() {
+  // add a new datapoint and remove an old one
+  var datum = generator(1)[0];
+  data.push(datum);
+  data.shift();
+
+  // Offset the range to include the full bar for the latest value
+  var dateRange = fc.utilities.extent(data, 'date');
+  dateRange[1] = d3.time.day.offset(dateRange[1], 1);
 
   // create a chart
   var chart = fc.charts.linearTimeSeries()
-      .xDomain(fc.utilities.extent(data, 'date'))
+      .xDomain(dateRange)
       .xTicks(5)
       .yDomain(fc.utilities.extent(data, ['high', 'low']))
       .yNice()
@@ -23,32 +33,22 @@ example-code: |
       .series([gridlines, bollingerBands, candlestick]);
   chart.plotArea(multi);
 
-  function renderChart() {
-    d3.select('#top-chart')
-        .datum(data)
-        .call(chart);
-  }
-  renderChart();
 
-  setInterval(function() {
-    // add a new datapoint and remove an old one
-    var datum = generator(1)[0];
-    data.push(datum);
-    data.shift();
+  d3.select('svg')
+      .datum(data)
+      .call(chart);
+}
+renderChart();
 
-    // update the domain for both axes
-    chart.xDomain(fc.utilities.extent(data, 'date'))
-        .yDomain(fc.utilities.extent(data, ['high', 'low']))
+setInterval(renderChart, 200);
 
-    // re-render the entire chart
-    renderChart();
-  }, 200);
+addEventListener('resize', renderChart);
 ---
 <div class="jumbotron" id="jumbo1">
   <div class="row">
     <div class="col-sm-12">
       <h2>D3 Financial Components</h2>
-    </div>  
+    </div>
     <div class="col-sm-8">
       <h4>A collection of components that make it easy to build interactive financial charts with D3.</h4>
     </div>
@@ -56,7 +56,7 @@ example-code: |
       <div class="btn-group btn-group-justified" role="group">
         <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
       </div>
-    </div>  
+    </div>
   </div>
 </div>
 
@@ -157,7 +157,7 @@ example-code: |
   </div>
   <div class="col-md-6 col-sm-6 ">
     <h3>Customise</h3>
-    <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p> 
+    <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p>
     <h3>Contribute</h3>
     <p>Spotted a bug? Have an idea for a feature? Please <a href="{{ site.project-repo-url }}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
     our <a href="{{ site.project-repo-url }}/wiki">wiki page which describes the design goals</a>.</p>
