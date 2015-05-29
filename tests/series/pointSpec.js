@@ -14,7 +14,7 @@
 
             var element = document.createElement('svg'),
                 container = d3.select(element),
-                data = [0, 2, 4, 8, 16];
+                data = [0.1, 2.5, 4.3, 8.4, 16.4];
 
             container.datum(data)
                 .call(point);
@@ -22,18 +22,10 @@
             // the data join also invokes the x value accessor,
             // therefore it is invoked twice for each data point
             expect(xValueSpy.calls.count()).toEqual(data.length * 2);
-            xValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i % data.length]);
-                    expect(call.args[1]).toEqual(i % data.length);
-                });
+            this.utils.verifyAccessorCalls(xValueSpy, data);
 
             expect(yValueSpy.calls.count()).toEqual(data.length);
-            yValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(yValueSpy, data);
         });
     });
 

@@ -231,7 +231,8 @@ module.exports = function (grunt) {
                 vendor: [
                     'node_modules/d3/d3.js',
                     'node_modules/css-layout/src/Layout.js'
-                ]
+                ],
+                helpers: 'tests/beforeEachSpec.js'
             },
             test: {
                 src: ['dist/*.js'],

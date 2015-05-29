@@ -22,28 +22,16 @@
                 .call(area);
 
             expect(xValueSpy.calls.count()).toEqual(data.length);
-            xValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(xValueSpy, data);
 
             // the defined call also invokes the y value accessors,
             // therefore they are invoked twice for each data point
 
             expect(y0ValueSpy.calls.count()).toEqual(data.length * 2);
-            y0ValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[Math.floor(i / 2)]);
-                    expect(call.args[1]).toEqual(Math.floor(i / 2));
-                });
+            this.utils.verifyAccessorCalls(y0ValueSpy, data);
 
             expect(y1ValueSpy.calls.count()).toEqual(data.length * 2);
-            y1ValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[Math.floor(i / 2)]);
-                    expect(call.args[1]).toEqual(Math.floor(i / 2));
-                });
+            this.utils.verifyAccessorCalls(y1ValueSpy, data);
         });
     });
 
