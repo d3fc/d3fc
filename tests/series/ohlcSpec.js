@@ -20,7 +20,7 @@
 
             var element = document.createElement('svg'),
                 container = d3.select(element),
-                data = [0, 2, 4, 8, 16];
+                data = [0.2, 2.4, 4.3, 8.2, 16.3];
 
             container.datum(data)
                 .call(ohlc);
@@ -30,39 +30,19 @@
             // for each data point
 
             expect(xValueSpy.calls.count()).toEqual(data.length * 3);
-            xValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i % data.length]);
-                    expect(call.args[1]).toEqual(i % data.length);
-                });
+            this.utils.verifyAccessorCalls(xValueSpy, data);
 
             expect(yOpenValueSpy.calls.count()).toEqual(data.length);
-            yOpenValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(yOpenValueSpy, data);
 
             expect(yHighValueSpy.calls.count()).toEqual(data.length);
-            yHighValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(yHighValueSpy, data);
 
             expect(yLowValueSpy.calls.count()).toEqual(data.length);
-            yLowValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(yLowValueSpy, data);
 
             expect(yCloseValueSpy.calls.count()).toEqual(data.length);
-            yCloseValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(yCloseValueSpy, data);
         });
     });
 

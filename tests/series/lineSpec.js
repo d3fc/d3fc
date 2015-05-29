@@ -14,27 +14,19 @@
 
             var element = document.createElement('svg'),
                 container = d3.select(element),
-                data = [0, 2, 4, 8, 16];
+                data = [0.2, 2.4, 4.5, 8.6, 16.7];
 
             container.datum(data)
                 .call(line);
 
             expect(xValueSpy.calls.count()).toEqual(data.length);
-            xValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[i]);
-                    expect(call.args[1]).toEqual(i);
-                });
+            this.utils.verifyAccessorCalls(xValueSpy, data);
 
             // the defined call also invokes the y value accessor,
             // therefore it is invoked twice for each data point
 
             expect(yValueSpy.calls.count()).toEqual(data.length * 2);
-            yValueSpy.calls.all()
-                .forEach(function(call, i) {
-                    expect(call.args[0]).toEqual(data[Math.floor(i / 2)]);
-                    expect(call.args[1]).toEqual(Math.floor(i / 2));
-                });
+            this.utils.verifyAccessorCalls(yValueSpy, data);
         });
     });
 
