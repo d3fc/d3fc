@@ -18,30 +18,35 @@
                 var container = d3.select(this);
                 var g = fc.utilities.simpleDataJoin(container, 'bar', data, xValue);
 
-                // enter
-                g.enter()
-                    .append('path');
-
                 var width = barWidth(data.map(xValueScaled));
 
                 var pathGenerator = fc.svg.bar()
-                    .width(width);
+                    .x(0)
+                    .y(0)
+                    .width(width)
+                    .height(0);
+
+                var x = function(d, i) { return xValueScaled(d, i); },
+                    y0 = function(d, i) { return y0Value(d, i); },
+                    barTop = function(d, i) { return yScale(y0(d, i) + y1Value(d, i)); },
+                    barBottom = function(d, i) { return yScale(y0(d, i)); };
+
+                pathGenerator.height(0);
+
+                g.enter()
+                    .attr('transform', function(d, i) {
+                        return 'translate(' + x(d, i) + ', ' + barBottom(d, i) + ')';
+                    })
+                    .append('path')
+                    .attr('d', function(d) { return pathGenerator([d]); });
 
                 g.each(function(d, i) {
+                    pathGenerator.height(barBottom(d, i) - barTop(d, i));
 
-                    var x = xValueScaled(d, i),
-                        y0 = y0Value(d, i),
-                        barBottom = yScale(y0),
-                        barTop = yScale(y0 + y1Value(d, i));
-
-                    var g = d3.select(this)
-                        .attr('transform', 'translate(' + x + ', ' + barTop + ')');
-
-                    pathGenerator.x(d3.functor(0))
-                        .y(d3.functor(0))
-                        .height(function() { return barBottom - barTop; });
-
-                    g.select('path')
+                    var barGroup = d3.select(this);
+                    d3.transition(barGroup)
+                        .attr('transform', 'translate(' + x(d, i) + ', ' + barTop(d, i) + ')')
+                        .select('path')
                         .attr('d', pathGenerator([d]));
                 });
 

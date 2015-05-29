@@ -1,6 +1,8 @@
 (function(d3, fc) {
     'use strict';
 
+    var transitionDuration = 2500;
+
     var dataset = [
         {name: 'Fred', age: 24},
         {name: 'Bob', age: 22},
@@ -25,32 +27,18 @@
         .attr('width', width)
         .attr('height', height);
 
-    var axisContainer = chart.append('g')
-        .attr('class', 'axis')
-        .attr('transform', 'translate(0, ' + (height - axisHeight) + ')');
-
     // Create scales
     var xScale = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.name; }))
         .rangePoints([0, width], 1);
 
     var yScale = d3.scale.linear()
-        .domain([-40, 40])
+        .domain([-50, 50])
         .range([height - axisHeight, 0]);
 
     var colour = d3.scale.linear()
         .domain([-50, 50])
         .range(['blue', 'red']);
-
-    // Create the axes
-    var xAxis = d3.svg.axis()
-        .scale(xScale)
-        .orient('bottom');
-
-    // Add the axes to the chart
-    axisContainer
-        .transition().duration(2500)
-        .call(xAxis);
 
     // Create the bar series
     var bar = fc.series.bar()
@@ -59,14 +47,33 @@
         .xScale(xScale)
         .yScale(yScale)
         .decorate(function(sel) {
-            sel.attr('fill', function(d, i) { return colour(d.age); });
+            sel.select('path')
+                .style('fill', function(d, i) { return colour(d.age); })
+                .style('stroke', 'none');
         });
 
     // Add the bar series to the chart
-    var seriesContainer = chart.append('g')
-        .datum(data);
+    var seriesContainer = chart.append('g');
 
-    seriesContainer.call(bar);
+    seriesContainer.datum(data)
+        .transition()
+        .duration(transitionDuration)
+        .call(bar);
+
+    var axisContainer = chart.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(0, ' + (yScale(0)) + ')');
+
+    // Create the axis
+    var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient('bottom');
+
+    // Add the axis to the chart
+    axisContainer
+        .transition()
+        .duration(transitionDuration)
+        .call(xAxis);
 
     // Update the chart every 5 seconds (animation lasts 2.5 seconds)
     // Y values are randomised
@@ -86,21 +93,19 @@
         // Remove a random number of entries
         data.splice(0, Math.floor(Math.random() * (data.length - 1)));
 
-        // Update scale domains
+        // Update x scale domain
         xScale.domain(data.map(function(d) { return d.name; }));
-        yScale.domain([
-            d3.min(data, function(d) { return d.age; }),
-            d3.max(data, function(d) { return d.age; })
-        ]);
 
-        // Update axes
+        // Update axis
         axisContainer
-            .transition().duration(2500)
+            .transition()
+            .duration(transitionDuration)
             .call(xAxis);
 
         // Update bar series
         seriesContainer.datum(data)
-            .transition().duration(2500)
+            .transition()
+            .duration(transitionDuration)
             .call(bar);
     }, 5000);
 
