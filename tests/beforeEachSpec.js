@@ -9,8 +9,8 @@ beforeEach(function() {
                 .forEach(function(call, i) {
                     // check that the first argument is always an element from the data array
                     expect(data.indexOf(call.args[0])).not.toEqual(-1);
-                    // check that the second argument is awlays an integer
-                    expect(call.args[1]).toEqual(parseInt(Number(call.args[1])));
+                    // check that the second argument is always an integer
+                    expect(call.args[1]).toEqual(Math.round(call.args[1]));
                 });
         }
     };
