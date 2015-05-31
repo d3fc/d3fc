@@ -6,7 +6,7 @@
         fc.dataGenerator().startDate(new Date(2013, 12, 15))(50)
     ];
 
-    var percentageChange = fc.indicators.algorithms.percentageChange()
+    var percentageChange = fc.indicators.algorithms.calculators.percentageChange()
         .value(function(d) { return d.close; });
     data.forEach(function(d) {
         d3.zip(d, percentageChange(d))
