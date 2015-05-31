@@ -1,6 +1,11 @@
 (function(d3, fc) {
     'use strict';
 
+    Array.prototype.call = function(fn) {
+        fn(this);
+        return this;
+    };
+
     var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
 
     var width = 600, height = 250;
@@ -23,35 +28,38 @@
         .nice();
 
     // Create the OHLC series
-    var ohlc = fc.series.ohlc()
-        .xScale(dateScale)
-        .yScale(priceScale);
+    var ohlc = fc.series.ohlc();
 
-    // Add the primary OHLC series
-    container.append('g')
-        .datum(data)
-        .call(ohlc);
+    // ========================================================= Moving Average
 
-    // Create the moving average component
-    var ma10 = fc.indicators.movingAverage()
+    // an out-of-the-box moving average
+    var ma = fc.indicators.algorithms.movingAverage();
+
+    // a fully configured moving average
+    var ma15 = fc.indicators.algorithms.movingAverage()
+        .windowSize(15)
+        .value(function(d) { return d.open; })
+        .merge(function(data, ma) { data.ma15 = ma; });
+
+    // the application of multiple indicators
+    data.call(ma)
+        .call(ma15);
+
+    // the visual components
+    var line = fc.series.line()
+        .yValue(function(d) { return d.movingAverage; });
+
+    var line15 = fc.series.line()
+        .yValue(function(d) { return d.ma15; });
+
+    var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .outputValueKey('sma10')
-        .windowSize(10);
-
-    var ma5 = fc.indicators.movingAverage()
-        .xScale(dateScale)
-        .yScale(priceScale)
-        .outputValueKey('sma5')
-        .windowSize(5);
+        .series([line, line15, ohlc]);
 
     // Add it to the chart
     container.append('g')
         .datum(data)
-        .call(ma10);
-
-    container.append('g')
-        .datum(data)
-        .call(ma5);
+        .call(multi);
 
 })(d3, fc);

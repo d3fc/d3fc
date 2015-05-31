@@ -3,38 +3,19 @@
 
     fc.indicators.algorithms.bollingerBands = function() {
 
-        var multiplier = d3.functor(2);
+        var bollingerAlgorithm = fc.indicators.algorithms.calculators.bollingerBands()
+            .value(function(d) { return d.close; });
 
-        var slidingWindow = fc.indicators.algorithms.slidingWindow()
-            .undefinedValue({
-                upper: undefined,
-                average: undefined,
-                lower: undefined
-            })
-            .accumulator(function(values) {
-                var avg = d3.mean(values);
-                var stdDev = d3.deviation(values);
-                var multiplierValue = multiplier.apply(this, arguments);
-                return {
-                    upper: avg + multiplierValue * stdDev,
-                    average: avg,
-                    lower: avg - multiplierValue * stdDev
-                };
-            });
+        var mergedAlgorithm = fc.indicators.algorithms.merge()
+                .algorithm(bollingerAlgorithm)
+                .merge(function(datum, boll) { datum.bollingerBands = boll; });
 
         var bollingerBands = function(data) {
-            return slidingWindow(data);
+            return mergedAlgorithm(data);
         };
 
-        bollingerBands.multiplier = function(x) {
-            if (!arguments.length) {
-                return multiplier;
-            }
-            multiplier = d3.functor(x);
-            return bollingerBands;
-        };
-
-        d3.rebind(bollingerBands, slidingWindow, 'windowSize', 'value');
+        d3.rebind(bollingerBands, mergedAlgorithm, 'merge');
+        d3.rebind(bollingerBands, bollingerAlgorithm, 'windowSize', 'value', 'multiplier');
 
         return bollingerBands;
     };

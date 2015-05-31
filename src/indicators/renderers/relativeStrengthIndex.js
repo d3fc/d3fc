@@ -1,15 +1,14 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.relativeStrengthIndicator = function() {
+    fc.indicators.renderers.relativeStrengthIndex = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             xValue = function(d) { return d.date; },
-            upperValue = d3.functor(70),
-            lowerValue = d3.functor(30);
+            upperValue = 70,
+            lowerValue = 30;
 
-        var algorithm = fc.indicators.algorithms.relativeStrengthIndicator();
         var annotations = fc.tools.annotation();
         var rsiLine = fc.series.line();
 
@@ -25,19 +24,13 @@
 
             selection.each(function(data) {
 
-                data = d3.zip(data, algorithm(data))
-                    .map(function(tuple) {
-                        tuple[0].rsi = tuple[1];
-                        return tuple[0];
-                    });
-
                 var container = d3.select(this);
 
                 var annotationsContainer = container.selectAll('g.annotations')
                     .data([[
-                        upperValue.apply(this, arguments),
+                        upperValue,
                         50,
-                        lowerValue.apply(this, arguments)
+                        lowerValue
                     ]]);
 
                 annotationsContainer.enter()
@@ -82,22 +75,16 @@
             if (!arguments.length) {
                 return upperValue;
             }
-            upperValue = d3.functor(x);
+            upperValue = x;
             return rsi;
         };
         rsi.lowerValue = function(x) {
             if (!arguments.length) {
                 return lowerValue;
             }
-            lowerValue = d3.functor(x);
+            lowerValue = x;
             return rsi;
         };
-
-        fc.utilities.rebind(rsi, algorithm, {
-            'closeValue': 'close',
-            'openValue': 'open',
-            'windowSize': 'windowSize'
-        });
 
         return rsi;
     };

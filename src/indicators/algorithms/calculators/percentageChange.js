@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.indicators.algorithms.percentageChange = function() {
+    fc.indicators.algorithms.calculators.percentageChange = function() {
 
         var baseIndex = d3.functor(0),
             value = fc.utilities.fn.identity;
