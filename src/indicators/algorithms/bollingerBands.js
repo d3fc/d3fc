@@ -6,11 +6,9 @@
         var bollingerAlgorithm = fc.indicators.algorithms.calculators.bollingerBands()
             .value(function(d) { return d.close; });
 
-        var mergeFunction = function(datum, boll) { datum.bollingerBands = boll; };
-
         var mergedAlgorithm = fc.indicators.algorithms.merge()
                 .algorithm(bollingerAlgorithm)
-                .merge(mergeFunction);
+                .merge(function(datum, boll) { datum.bollingerBands = boll; });
 
         var bollingerBands = function(data) {
             return mergedAlgorithm(data);

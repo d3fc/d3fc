@@ -7,11 +7,9 @@
                 .accumulator(d3.mean)
                 .value(function(d) { return d.close; });
 
-        var mergeFunction = function(datum, ma) { datum.exponentialMovingAverage = ma; };
-
         var mergedAlgorithm = fc.indicators.algorithms.merge()
                 .algorithm(ema)
-                .merge(mergeFunction);
+                .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
 
         var exponentialMovingAverage = function(data) {
             return mergedAlgorithm(data);

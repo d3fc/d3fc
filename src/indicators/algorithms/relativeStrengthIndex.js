@@ -5,11 +5,9 @@
 
         var rsi = fc.indicators.algorithms.calculators.relativeStrengthIndex();
 
-        var mergeFunction = function(datum, rsi) { datum.rsi = rsi; };
-
         var mergedAlgorithm = fc.indicators.algorithms.merge()
                 .algorithm(rsi)
-                .merge(mergeFunction);
+                .merge(function(datum, rsi) { datum.rsi = rsi; });
 
         var relativeStrengthIndex = function(data) {
             return mergedAlgorithm(data);

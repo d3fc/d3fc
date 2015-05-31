@@ -14,11 +14,10 @@
             .accumulator(function(values) {
                 var avg = d3.mean(values);
                 var stdDev = d3.deviation(values);
-                var multiplierValue = multiplier.apply(this, arguments);
                 return {
-                    upper: avg + multiplierValue * stdDev,
+                    upper: avg + multiplier * stdDev,
                     average: avg,
-                    lower: avg - multiplierValue * stdDev
+                    lower: avg - multiplier * stdDev
                 };
             });
 
