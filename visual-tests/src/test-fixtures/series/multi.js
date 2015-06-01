@@ -36,18 +36,32 @@
     var point = fc.series.point()
         .yValue(function(d) { return d.close; });
 
+    // add a bollinger - which results in a nested mutli-series
+    var bollingerComputer = fc.indicators.algorithms.bollingerBands();
+    bollingerComputer(data);
+    var bollingerRenderer = fc.indicators.renderers.bollingerBands();
+
     // Create the multi series
     var multi = fc.series.multi()
-        .series([gridlines, line, area, point]);
+        .series([gridlines, bollingerRenderer, line, area, point]);
     chart.plotArea(multi);
 
-    d3.select('#multi')
-        .append('svg')
-        .style({
-            height: '240px',
-            width: '320px'
-        })
-        .datum(data)
-        .call(chart);
+    var svg = d3.select('#multi')
+            .append('svg')
+            .style({
+                height: '240px',
+                width: '320px'
+            });
+
+    function render() {
+        svg.datum(data)
+            .call(chart);
+    }
+
+    // issues with nested multi-series only manifest themselves when
+    // the data-join is evaluated a second time, hence we render
+    // twice in this test
+    render();
+    render();
 
 })(d3, fc);

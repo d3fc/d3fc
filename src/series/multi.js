@@ -14,7 +14,12 @@
 
                 var container = d3.select(this);
 
+                // in order to support nested multi-series, this selector
+                // is filtered to only return immediate children of the container
                 var g = container.selectAll('g.multi-outer')
+                    .filter(function() {
+                        return this.parentNode === container.node();
+                    })
                     .data(series);
 
                 g.enter()
