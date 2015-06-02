@@ -21,14 +21,11 @@
             container.datum(data)
                 .call(bar);
 
-            // the data join and the bar width calculations also invoke
-            // the x value accessor, therefore it is invoked four times
-            // for each data point
             expect(xValueSpy.calls.count()).toEqual(data.length * 4);
             this.utils.verifyAccessorCalls(xValueSpy, data);
 
 
-            expect(y0ValueSpy.calls.count()).toEqual(data.length * 4);
+            expect(y0ValueSpy.calls.count()).toEqual(data.length * 2);
             this.utils.verifyAccessorCalls(y0ValueSpy, data);
 
             expect(y1ValueSpy.calls.count()).toEqual(data.length * 2);

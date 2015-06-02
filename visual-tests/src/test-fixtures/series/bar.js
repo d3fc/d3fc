@@ -25,18 +25,32 @@
     });
 
     // Create scale for y axis
-    var priceScale = d3.scale.linear()
+    var priceScale1 = d3.scale.linear()
         .domain(fc.utilities.extent(data, ['close']))
-        .range([height, 0])
-        .nice();
+        .range([0, height / 2]);
 
-    var bar = fc.series.bar()
+    var bar1 = fc.series.bar()
+        .y0Value((extent[1] - extent[0]) / 3)
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale1);
 
     // Add it to the chart
     container.append('g')
         .datum(data)
-        .call(bar);
+        .call(bar1);
+
+    // Create scale for y axis
+    var priceScale2 = d3.scale.linear()
+        .domain(fc.utilities.extent(data, ['close']))
+        .range([height / 2, height]);
+
+    var bar2 = fc.series.bar()
+        .xScale(dateScale)
+        .yScale(priceScale2);
+
+    // Add it to the chart
+    container.append('g')
+        .datum(data)
+        .call(bar2);
 
 })(d3, fc);
