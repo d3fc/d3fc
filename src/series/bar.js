@@ -27,24 +27,24 @@
                     .height(0);
 
                 var x = function(d, i) { return xValueScaled(d, i); },
-                    barTop = function(d, i) { return yScale(y1Value(d, i)); },
-                    barBottom = function(d, i) { return yScale(y0Value(d, i)); };
+                    y1 = function(d, i) { return yScale(y1Value(d, i)); },
+                    y0 = function(d, i) { return yScale(y0Value(d, i)); };
 
                 pathGenerator.height(0);
 
                 g.enter()
                     .attr('transform', function(d, i) {
-                        return 'translate(' + x(d, i) + ', ' + barBottom(d, i) + ')';
+                        return 'translate(' + x(d, i) + ', ' + y0(d, i) + ')';
                     })
                     .append('path')
                     .attr('d', function(d) { return pathGenerator([d]); });
 
                 g.each(function(d, i) {
-                    pathGenerator.height(barBottom(d, i) - barTop(d, i));
+                    pathGenerator.height(y0(d, i) - y1(d, i));
 
                     var barGroup = d3.select(this);
                     d3.transition(barGroup)
-                        .attr('transform', 'translate(' + x(d, i) + ', ' + barTop(d, i) + ')')
+                        .attr('transform', 'translate(' + x(d, i) + ', ' + y1(d, i) + ')')
                         .select('path')
                         .attr('d', pathGenerator([d]));
                 });
