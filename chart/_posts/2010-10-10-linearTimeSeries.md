@@ -16,13 +16,11 @@ example-code: |
       .yNice()
       .yTicks(5);
 
-  // Create the gridlines
   var gridlines = fc.scale.gridlines();
   var candlestick = fc.series.candlestick();
-  var movingAverage = fc.indicators.movingAverage();
 
   var multi = fc.series.multi()
-      .series([gridlines, candlestick, movingAverage]);
+      .series([gridlines, candlestick]);
   chart.plotArea(multi);
 
   d3.select('#linear-time-series')

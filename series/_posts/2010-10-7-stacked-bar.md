@@ -53,8 +53,10 @@ example-code: |
     .xValue(function(d) { return d.state; })
     .yValue(function(d) { return d.value; })
     .decorate(function(sel) {
-        sel.attr('fill', function(d, i) {
-            return color(i);
+        sel.each(function(d, i) {
+            d3.select(this)
+              .selectAll('path')
+              .style({'fill': color(i), 'stroke-width' : 0, 'fill-opacity' : 1});
         });
     });
 

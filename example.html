@@ -117,6 +117,25 @@ rect.extent {
     // Assigning to fc is nasty but there's not a lot of choice I don't think...
     fc.tooltip = function() {
 
+        var formatters = {
+            date: d3.time.format('%A, %b %e, %Y'),
+            price: d3.format('.2f'),
+            volume: d3.format('0,5p')
+        };
+
+        function format(type, value) {
+            return formatters[type](value);
+        }
+
+        var items = [
+            function(d) { return format('date', d.date); },
+            function(d) { return 'Open: ' + format('price', d.open); },
+            function(d) { return 'High: ' + format('price', d.high); },
+            function(d) { return 'Low: ' + format('price', d.low); },
+            function(d) { return 'Close: ' + format('price', d.close); },
+            function(d) { return 'Volume: ' + format('volume', d.volume); }
+        ];
+
         var tooltip = function(selection) {
 
             var container = selection.enter()
@@ -141,7 +160,7 @@ rect.extent {
 
             var tspan = container.select('text')
                 .selectAll('tspan')
-                .data(tooltip.items.value);
+                .data(items);
 
             tspan.enter()
                 .append('tspan')
@@ -152,24 +171,6 @@ rect.extent {
                 return d(container.datum().datum);
             });
         };
-
-        function format(type, value) {
-            return tooltip.formatters.value[type](value);
-        }
-
-        tooltip.items = fc.utilities.property([
-            function(d) { return format('date', d.date); },
-            function(d) { return 'Open: ' + format('price', d.open); },
-            function(d) { return 'High: ' + format('price', d.high); },
-            function(d) { return 'Low: ' + format('price', d.low); },
-            function(d) { return 'Close: ' + format('price', d.close); },
-            function(d) { return 'Volume: ' + format('volume', d.volume); }
-        ]);
-        tooltip.formatters = fc.utilities.property({
-            date: d3.time.format('%A, %b %e, %Y'),
-            price: d3.format('.2f'),
-            volume: d3.format('0,5p')
-        });
 
         return tooltip;
     };
@@ -235,6 +236,8 @@ rect.extent {
 
         var data = selection.datum();
 
+        
+
         var gridlines = fc.scale.gridlines()
             .yTicks(2);
 
@@ -244,6 +247,8 @@ rect.extent {
         var crosshairs = fc.tools.crosshairs()
             .snap(fc.utilities.seriesPointSnap(bar, data))
             .on('trackingmove.link', render);
+
+        var volumeExtent = fc.utilities.extent(data, 'volume');
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
@@ -256,9 +261,11 @@ rect.extent {
                 }
             });
 
+        
+
         var chart = fc.charts.linearTimeSeries()
             .xDomain(data.dateDomain)
-            .yDomain(fc.utilities.extent(data, 'volume'))
+            .yDomain(volumeExtent)
             .yNice()
             .yTicks(2)
             .plotArea(multi);
@@ -285,7 +292,8 @@ rect.extent {
 
         var line = fc.series.line();
 
-        var area = fc.series.area();
+        var area = fc.series.area()
+            .y0Value(yDomain[0]);
 
         var brush = d3.svg.brush()
             .on('brush', function() {

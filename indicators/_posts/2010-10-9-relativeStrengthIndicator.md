@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Relative Strength Indicator
+title: Relative Strength Index
 component: indicators/relativeStrengthIndex.js
 tags:
   - frontpage
@@ -12,8 +12,12 @@ example-code: |
         .domain([0, 100])
         .range([height, 0]);
 
-  // Create the RSI component
-  var rsi = fc.indicators.relativeStrengthIndicator()
+  // Create and apply the RSI algorithm
+  var rsiAlgorithm = fc.indicators.algorithms.relativeStrengthIndex();
+  rsiAlgorithm(data);
+
+  // Create the renderer
+  var rsi = fc.indicators.renderers.relativeStrengthIndex()
       .xScale(xScale)
       .yScale(yScale);
 
@@ -23,7 +27,7 @@ example-code: |
       .call(rsi);
 ---
 
-A [Relative Strength Indicator](http://en.wikipedia.org/wiki/Relative_strength_index) is an indicator that plots the historical strength or weakness of a stock based on opening and closing prices. It is typically plotted on a 14-day timeframe and is displayed next to overbought (70%) and oversold lines (30%) lines.
+A [Relative Strength Index](http://en.wikipedia.org/wiki/Relative_strength_index) is an indicator that plots the historical strength or weakness of a stock based on opening and closing prices. It is typically plotted on a 14-day timeframe and is displayed next to overbought (70%) and oversold lines (30%) lines.
 
 The RSI indicator is rendered on a percent scale:
 
