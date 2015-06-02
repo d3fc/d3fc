@@ -27,9 +27,8 @@
                     .height(0);
 
                 var x = function(d, i) { return xValueScaled(d, i); },
-                    y0 = function(d, i) { return y0Value(d, i); },
-                    barTop = function(d, i) { return yScale(y0(d, i) + y1Value(d, i)); },
-                    barBottom = function(d, i) { return yScale(y0(d, i)); };
+                    barTop = function(d, i) { return yScale(y1Value(d, i)); },
+                    barBottom = function(d, i) { return yScale(y0Value(d, i)); };
 
                 pathGenerator.height(0);
 
