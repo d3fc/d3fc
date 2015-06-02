@@ -15,8 +15,12 @@ example-code: |
       .datum(data)
       .call(point);
 
-  // Create the bollinger component
-  var bollinger = fc.indicators.bollingerBands()
+  // Create and apply the bollinger algorithm
+  var bollingerAlgorithm = fc.indicators.algorithms.bollingerBands();
+  bollingerAlgorithm(data);
+
+  // Create the renderer
+  var bollinger = fc.indicators.renderers.bollingerBands()
       .xScale(xScale)
       .yScale(yScale);
 

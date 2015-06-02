@@ -19,20 +19,27 @@ example-code: |
    var chart = fc.charts.linearTimeSeries()
        .xDomain(dateRange)
        .xTicks(5)
-       .yDomain(fc.utilities.extent(data, ['high', 'low']))
        .yNice()
        .yTicks(5);
- 
+
+   // compute the bollinger bands and update the y-axis domain
+   var bollingerAlgorithm = fc.indicators.algorithms.bollingerBands();
+   bollingerAlgorithm(data);
+
+   chart.yDomain(fc.utilities.extent(data, [
+      function(d) { return d.bollingerBands.upper; },
+      function(d) { return d.bollingerBands.lower; }
+   ]));
+
    // Create the gridlines and series
    var gridlines = fc.scale.gridlines();
    var candlestick = fc.series.candlestick();
-   var bollingerBands = fc.indicators.bollingerBands();
+   var bollingerBands = fc.indicators.renderers.bollingerBands();
  
    // add them to the chart via a multi-series
    var multi = fc.series.multi()
        .series([gridlines, bollingerBands, candlestick]);
    chart.plotArea(multi);
- 
  
    d3.select('svg')
        .datum(data)
