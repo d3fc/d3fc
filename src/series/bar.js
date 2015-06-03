@@ -16,9 +16,16 @@
         var bar = function(selection) {
             selection.each(function(data) {
                 var container = d3.select(this);
-                var g = fc.utilities.simpleDataJoin(container, 'bar', data, xValue);
 
-                var width = barWidth(data.map(xValueScaled));
+                var filteredData = data.filter(function(d, i) {
+                    return y0Value(d, i) !== undefined &&
+                        y1Value(d, i) !== undefined &&
+                        xValue(d, i) !== undefined;
+                });
+
+                var g = fc.utilities.simpleDataJoin(container, 'bar', filteredData, xValue);
+
+                var width = barWidth(filteredData.map(xValueScaled));
 
                 var pathGenerator = fc.svg.bar()
                     .x(0)
@@ -26,11 +33,11 @@
                     .width(width)
                     .height(0);
 
+                pathGenerator.height(0);
+
                 var x = function(d, i) { return xValueScaled(d, i); },
                     y1 = function(d, i) { return yScale(y1Value(d, i)); },
                     y0 = function(d, i) { return yScale(y0Value(d, i)); };
-
-                pathGenerator.height(0);
 
                 g.enter()
                     .attr('transform', function(d, i) {

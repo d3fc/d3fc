@@ -54,7 +54,7 @@
             var nullUndefinedAdapter = fc.indicators.algorithms.calculators.undefinedInputAdapter()
                 .algorithm(algorithm)
                 .undefinedValue('nuffin')
-                .isValueUndefined(function(d) { return d === 'nowt'; });
+                .defined(function(d) { return d === 'nowt'; });
 
             expect(nullUndefinedAdapter(data))
                 .toEqual(['nuffin', 'nuffin', undefined, 1.5]);

@@ -16,21 +16,21 @@
 
             macdLine
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.macd; })
+                .yValue(function(d, i) { return d.macd.macd; })
                 .decorate(function(path) {
                     path.classed('macd', true);
                 });
 
             signalLine
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.signal; })
+                .yValue(function(d, i) { return d.macd.signal; })
                 .decorate(function(path) {
                     path.classed('signal', true);
                 });
 
             divergenceBar
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.divergence; });
+                .yValue(function(d, i) { return d.macd.divergence; });
 
             multiSeries
                 .xScale(xScale)

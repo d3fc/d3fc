@@ -21,14 +21,14 @@
             container.datum(data)
                 .call(bar);
 
-            expect(xValueSpy.calls.count()).toEqual(data.length * 4);
+            expect(xValueSpy.calls.count()).toEqual(data.length * 5);
             this.utils.verifyAccessorCalls(xValueSpy, data);
 
 
-            expect(y0ValueSpy.calls.count()).toEqual(data.length * 2);
+            expect(y0ValueSpy.calls.count()).toEqual(data.length * 3);
             this.utils.verifyAccessorCalls(y0ValueSpy, data);
 
-            expect(y1ValueSpy.calls.count()).toEqual(data.length * 2);
+            expect(y1ValueSpy.calls.count()).toEqual(data.length * 3);
             this.utils.verifyAccessorCalls(y1ValueSpy, data);
         });
     });

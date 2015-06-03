@@ -15,6 +15,7 @@
         };
 
         d3.rebind(macd, mergedAlgorithm, 'merge');
+        d3.rebind(macd, macdAlgorithm, 'fastPeriod', 'slowPeriod', 'signalPeriod', 'value');
 
         return macd;
     };

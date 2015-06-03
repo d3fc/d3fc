@@ -9,7 +9,7 @@
         var algorithm = fc.indicators.algorithms.calculators.slidingWindow()
             .accumulator(d3.mean);
         var undefinedValue = d3.functor(undefined),
-            isValueUndefined = function(value) { return value === undefined; };
+            defined = function(value) { return value === undefined; };
 
         function undefinedArrayOfLength(length) {
             return Array.apply(null, new Array(length)).map(undefinedValue);
@@ -17,7 +17,7 @@
 
         var undefinedInputAdapter = function(data) {
             var undefinedCount = 0;
-            while (isValueUndefined(data[undefinedCount]) && undefinedCount < data.length) {
+            while (defined(data[undefinedCount]) && undefinedCount < data.length) {
                 undefinedCount ++;
             }
 
@@ -40,11 +40,11 @@
             undefinedValue = d3.functor(x);
             return undefinedInputAdapter;
         };
-        undefinedInputAdapter.isValueUndefined = function(x) {
+        undefinedInputAdapter.defined = function(x) {
             if (!arguments.length) {
-                return isValueUndefined;
+                return defined;
             }
-            isValueUndefined = x;
+            defined = x;
             return undefinedInputAdapter;
         };
 

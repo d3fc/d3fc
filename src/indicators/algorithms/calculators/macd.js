@@ -9,10 +9,10 @@
             .windowSize(12);
         var slowEMA = fc.indicators.algorithms.calculators.exponentialMovingAverage()
             .windowSize(29);
-        var average = fc.indicators.algorithms.calculators.exponentialMovingAverage()
+        var signalEMA = fc.indicators.algorithms.calculators.exponentialMovingAverage()
             .windowSize(9);
-        var avg = fc.indicators.algorithms.calculators.undefinedInputAdapter()
-            .algorithm(average);
+        var adaptedSignalEMA = fc.indicators.algorithms.calculators.undefinedInputAdapter()
+            .algorithm(signalEMA);
 
         var macd = function(data) {
 
@@ -28,9 +28,9 @@
                     }
                 });
 
-            var average = avg(diff);
+            var averageDiff = adaptedSignalEMA(diff);
 
-            var macd = d3.zip(diff, average)
+            var macd = d3.zip(diff, averageDiff)
                 .map(function(d) {
                     return {
                         macd: d[0],
@@ -49,6 +49,18 @@
             value = x;
             return macd;
         };
+
+        fc.utilities.rebind(macd, fastEMA, {
+            fastPeriod: 'windowSize'
+        });
+
+        fc.utilities.rebind(macd, slowEMA, {
+            slowPeriod: 'windowSize'
+        });
+
+        fc.utilities.rebind(macd, signalEMA, {
+            signalPeriod: 'windowSize'
+        });
 
         return macd;
     };

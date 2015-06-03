@@ -19,27 +19,26 @@
         .range([0, width])
         .nice();
 
-    var macdAlgo = fc.indicators.algorithms.macd()
-        .value(function(d) { return d.close; });
-
-    var result = macdAlgo(data);
-
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain(fc.utilities.extent(result, 'macd'))
         .range([height, 0])
         .nice();
 
-    // Create the relative strength indicator component
-    var macd = fc.indicators.computers.macd();
-    macd(data);
+    // Create the macd algorithm
+    var macdAlgo = fc.indicators.algorithms.macd()
+        .fastPeriod(4)
+        .slowPeriod(10)
+        .signalPeriod(5)
+        .value(function(d) { return d.open; });
+    macdAlgo(data);
 
-    var extent = fc.utilities.extent(data, ['macd', 'divergence', 'signal']);
+    // compute the extents
+    var extent = fc.utilities.extent(data, function(d) { return d.macd.macd; });
     var maxExtent = d3.max([-extent[0], extent[1]]);
     extent = [-maxExtent, maxExtent];
     priceScale.domain(extent);
 
-    var macdRenderer = fc.indicators.macd()
+    var macdRenderer = fc.indicators.renderers.macd()
         .xScale(dateScale)
         .yScale(priceScale);
 
