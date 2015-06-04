@@ -33,10 +33,8 @@
     macdAlgo(data);
 
     // compute the extents
-    var extent = fc.utilities.extent(data, function(d) { return d.macd.macd; });
-    var maxExtent = d3.max([-extent[0], extent[1]]);
-    extent = [-maxExtent, maxExtent];
-    priceScale.domain(extent);
+    var maxExtent = d3.max(data, function(d) { return Math.abs(d.macd.macd); });
+    priceScale.domain([-maxExtent, maxExtent]);
 
     var macdRenderer = fc.indicators.renderers.macd()
         .xScale(dateScale)

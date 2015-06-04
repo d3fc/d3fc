@@ -33,8 +33,6 @@
                     .width(width)
                     .height(0);
 
-                pathGenerator.height(0);
-
                 var x = function(d, i) { return xValueScaled(d, i); },
                     y1 = function(d, i) { return yScale(y1Value(d, i)); },
                     y0 = function(d, i) { return yScale(y0Value(d, i)); };

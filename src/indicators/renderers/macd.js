@@ -41,7 +41,6 @@
                 d3.select(this)
                     .append('g')
                     .classed('macd-indicator', true)
-                    .datum(data)
                     .call(multiSeries);
             });
         };
