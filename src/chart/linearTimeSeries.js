@@ -20,18 +20,20 @@
 
                 var container = d3.select(this);
 
+                var plotAreaLayout = {
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    bottom: xAxisHeight,
+                    left: 0
+                };
+
                 var background = container.selectAll('rect.background')
                     .data([data]);
                 background.enter()
                     .append('rect')
                     .attr('class', 'background')
-                    .layout({
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: xAxisHeight,
-                        left: 0
-                    });
+                    .layout(plotAreaLayout);
 
                 var plotAreaContainer = container.selectAll('svg.plot-area')
                     .data([data]);
@@ -41,13 +43,7 @@
                         'class': 'plot-area',
                         'overflow': 'hidden'
                     })
-                    .layout({
-                        position: 'absolute',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0
-                    });
+                    .layout(plotAreaLayout);
 
                 var xAxisContainer = container.selectAll('g.x-axis')
                     .data([data]);

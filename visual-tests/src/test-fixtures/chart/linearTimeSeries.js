@@ -23,12 +23,14 @@
     // Create the gridlines
     var gridlines = fc.scale.gridlines();
 
-    // Create the line series
+    // Create the line and area series
     var line = fc.series.line()
+        .yValue(function(d) { return d.open; });
+    var area = fc.series.area()
         .yValue(function(d) { return d.open; });
 
     var multi = fc.series.multi()
-        .series([gridlines, line]);
+        .series([gridlines, area, line]);
     chart.plotArea(multi);
 
     d3.select('#linear-time-series')
