@@ -10,7 +10,8 @@
             lowerValue = 30;
 
         var annotations = fc.tools.annotation();
-        var rsiLine = fc.series.line();
+        var rsiLine = fc.series.line()
+            .yValue(function(d, i) { return d.rsi; });
 
         var rsi = function(selection) {
 
@@ -19,8 +20,7 @@
 
             rsiLine.xScale(xScale)
                 .yScale(yScale)
-                .xValue(xValue)
-                .yValue(function(d, i) { return d.rsi; });
+                .xValue(xValue);
 
             selection.each(function(data) {
 
@@ -85,6 +85,8 @@
             lowerValue = x;
             return rsi;
         };
+
+        d3.rebind(rsi, rsiLine, 'yValue');
 
         return rsi;
     };

@@ -6,29 +6,30 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = function(d, i) { return d.close; },
-            xValue = function(d, i) { return d.date; };
+            xValue = function(d, i) { return d.date; },
+            root = function(d) { return d.bollingerBands; };
 
         var area = fc.series.area()
             .y0Value(function(d, i) {
-                return d.bollingerBands.upper;
+                return root(d).upper;
             })
             .y1Value(function(d, i) {
-                return d.bollingerBands.lower;
+                return root(d).lower;
             });
 
         var upperLine = fc.series.line()
             .yValue(function(d, i) {
-                return d.bollingerBands.upper;
+                return root(d).upper;
             });
 
         var averageLine = fc.series.line()
             .yValue(function(d, i) {
-                return d.bollingerBands.average;
+                return root(d).average;
             });
 
         var lowerLine = fc.series.line()
             .yValue(function(d, i) {
-                return d.bollingerBands.lower;
+                return root(d).lower;
             });
 
         var bollingerBands = function(selection) {
@@ -76,6 +77,13 @@
                 return yValue;
             }
             yValue = x;
+            return bollingerBands;
+        };
+        bollingerBands.root = function(x) {
+            if (!arguments.length) {
+                return root;
+            }
+            root = x;
             return bollingerBands;
         };
 

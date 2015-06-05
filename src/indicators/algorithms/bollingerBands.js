@@ -14,6 +14,10 @@
             return mergedAlgorithm(data);
         };
 
+        bollingerBands.root = function(d) {
+            return d.bollingerBands;
+        };
+
         d3.rebind(bollingerBands, mergedAlgorithm, 'merge');
         d3.rebind(bollingerBands, bollingerAlgorithm, 'windowSize', 'value', 'multiplier');
 

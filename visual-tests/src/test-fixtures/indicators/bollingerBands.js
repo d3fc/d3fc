@@ -31,15 +31,17 @@
     // Create the Bollinger bands component
     var bollingerComputer = fc.indicators.algorithms.bollingerBands()
         .windowSize(5)
-        .multiplier(3);
+        .multiplier(3)
+        .merge(function(datum, boll) { datum.boll = boll; });
     bollingerComputer(data);
 
     priceScale.domain(fc.utilities.extent(data, [
-        function(d) { return d.bollingerBands.upper; },
-        function(d) { return d.bollingerBands.lower; }
+        function(d) { return d.boll.upper; },
+        function(d) { return d.boll.lower; }
     ]));
 
-    var bollingerRenderer = fc.indicators.renderers.bollingerBands();
+    var bollingerRenderer = fc.indicators.renderers.bollingerBands()
+        .root(function(d) { return d.boll; });
 
     var multi = fc.series.multi()
         .xScale(dateScale)

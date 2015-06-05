@@ -5,9 +5,9 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            xValue = function(d) { return d.date; };
-
-        var macdLine = fc.series.line(),
+            xValue = function(d) { return d.date; },
+            root = function(d) { return d.macd; },
+            macdLine = fc.series.line(),
             signalLine = fc.series.line(),
             divergenceBar = fc.series.bar(),
             multiSeries = fc.series.multi();
@@ -16,21 +16,21 @@
 
             macdLine
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.macd.macd; })
+                .yValue(function(d, i) { return root(d).macd; })
                 .decorate(function(path) {
                     path.classed('macd', true);
                 });
 
             signalLine
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.macd.signal; })
+                .yValue(function(d, i) { return root(d).signal; })
                 .decorate(function(path) {
                     path.classed('signal', true);
                 });
 
             divergenceBar
                 .xValue(xValue)
-                .yValue(function(d, i) { return d.macd.divergence; });
+                .yValue(function(d, i) { return root(d).divergence; });
 
             multiSeries
                 .xScale(xScale)
@@ -58,6 +58,14 @@
                 return yScale;
             }
             yScale = x;
+            return macd;
+        };
+
+        macd.root = function(x) {
+            if (!arguments.length) {
+                return root;
+            }
+            root = x;
             return macd;
         };
 

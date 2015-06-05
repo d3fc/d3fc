@@ -29,16 +29,18 @@
         .fastPeriod(4)
         .slowPeriod(10)
         .signalPeriod(5)
-        .value(function(d) { return d.open; });
+        .value(function(d) { return d.open; })
+        .merge(function(datum, md) { datum.md = md; });
     macdAlgo(data);
 
     // compute the extents
-    var maxExtent = d3.max(data, function(d) { return Math.abs(d.macd.macd); });
+    var maxExtent = d3.max(data, function(d) { return Math.abs(d.md.macd); });
     priceScale.domain([-maxExtent, maxExtent]);
 
     var macdRenderer = fc.indicators.renderers.macd()
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale)
+        .root(function(d) { return d.md; });
 
     // Add it to the chart
     container.append('g')
