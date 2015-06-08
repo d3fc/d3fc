@@ -30,18 +30,17 @@
 
                 g.each(function(d, i) {
 
-                    var x = d,
-                        datum = dataByX[x],
-                        xValue = xScale(x),
-                        range = [xValue - halfWidth, xValue + halfWidth];
+                    var g = d3.select(this);
 
-                    (subScale.rangeBands || subScale.range)(range);
+                    g.attr('transform', 'translate(' + xScale(d) + ', 0)');
+
+                    (subScale.rangeBands || subScale.range)([-halfWidth, halfWidth]);
 
                     subSeries.xScale(subScale)
                         .yScale(yScale);
 
                     d3.select(this)
-                        .datum(datum)
+                        .datum(dataByX[d])
                         .call(subSeries);
 
                 });
