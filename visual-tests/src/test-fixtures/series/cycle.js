@@ -27,19 +27,6 @@
 
     function render(data) {
 
-        var meanValues = d3.nest()
-            .key(function(d) { return d.Month; })
-            .entries(data)
-            .map(function(d) {
-                var mean = d3.mean(d.values, function(d) { return d.Station; });
-                // Cheekily stick the mean value onto each data point while we're on
-                d.values.forEach(function(d) { d.Mean = mean; });
-                return {
-                    Month: d.key,
-                    Mean: mean
-                };
-            });
-
         var monthScale = d3.scale.linear()
             .domain([0, 13])
             .range([0, width]);
@@ -55,11 +42,11 @@
 
         var colorScale = d3.scale.category20();
 
-        var meanLine = fc.series.line()
-            .xValue(function(d) { return d.Year; })
-            .yValue(function(d) { return d.Mean; })
-            .decorate(function(path) {
-                path.attr('class', 'axis');
+        var subAxis = fc.series.axis()
+            .tickSize(0)
+            .ticks(0)
+            .baseline(function(d) {
+                return d3.mean(d, function(d) { return d.Station; });
             });
 
         var line = fc.series.line()
@@ -72,7 +59,7 @@
             .yValue(function(d) { return d.Station; });
 
         var subMulti = fc.series.multi()
-            .series([meanLine, line, point]);
+            .series([subAxis, line, point]);
 
         var cycle = fc.series.cycle()
             .barWidth(fc.utilities.fractionalBarWidth(0.9))
@@ -87,9 +74,16 @@
                     });
             });
 
+        var meanValues = d3.nest()
+            .key(function(d) { return d.Month; })
+            .rollup(function(d) {
+                return d3.mean(d, function(d) { return d.Station; });
+            })
+            .entries(data);
+
         var trendLine = fc.series.line()
-            .yValue(function(d) { return d.Mean; })
-            .xValue(function(d) { return d.Month; })
+            .xValue(function(d) { return d.key; })
+            .yValue(function(d) { return d.values; })
             .interpolate('cardinal')
             .decorate(function(path) {
                 path.attr('class', 'trendline');
@@ -108,8 +102,7 @@
                 }
             });
 
-        container.append('g')
-            .datum(data)
+        container.datum(data)
             .call(multi);
     }
 
