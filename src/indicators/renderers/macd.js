@@ -53,6 +53,14 @@
             return macd;
         };
 
+        macd.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return macd;
+        };
+
         macd.yScale = function(x) {
             if (!arguments.length) {
                 return yScale;

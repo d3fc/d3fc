@@ -86,7 +86,7 @@
             return rsi;
         };
 
-        d3.rebind(rsi, rsiLine, 'yValue');
+        d3.rebind(rsi, rsiLine, 'yValue', 'xValue');
 
         return rsi;
     };
