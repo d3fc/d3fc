@@ -27,9 +27,9 @@
 
     function render(data) {
 
-        var monthScale = d3.scale.linear()
-            .domain([0, 13])
-            .range([0, width]);
+        var monthScale = d3.scale.ordinal()
+            .domain([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+            .rangePoints([0, width], 1);
 
         var yearScale = d3.scale.linear()
             .domain(fc.utilities.extent(data, 'Year'))
