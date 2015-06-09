@@ -51,8 +51,11 @@
         .decorate(function(selection) {
             selection.select('line')
                 .style('stroke', 'red');
-            selection.select('text')
-                .attr('x', dateScale.range()[1]);
+            selection.enter()
+                .select('g.left-handle')
+                .append('circle')
+                .attr('r', 5)
+                .attr('fill', 'black');
         })
         .label(function(d) {
             return 'Animated: ' + d3.format('.3f')(d);

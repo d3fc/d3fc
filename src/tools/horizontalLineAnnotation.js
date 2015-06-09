@@ -3,7 +3,6 @@
 
     fc.tools.horizontalLineAnnotation = function() {
 
-
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = fc.utilities.fn.identity,
@@ -21,22 +20,31 @@
                 // Create a group for each horizontalLineAnnotation
                 var g = fc.utilities.simpleDataJoin(container, 'annotation', data, keyValue);
 
-                // Added the required elements - each annotation consists of a line and text label
+                // create the outer container and line
                 var enter = g.enter();
-                enter.append('line');
-                enter.append('text');
+                enter.append('line')
+                    .attr('x2', xScaleRange[1] - xScaleRange[0]);
+                // create an empty left container
+                enter.append('g')
+                    .classed('left-handle', true);
+                // create a right container with a text label
+                enter.append('g')
+                    .classed('right-handle', true)
+                    .attr('transform', function(d) {
+                        return 'translate(' + (xScaleRange[1] - xScaleRange[0]) + ', 0)';
+                    })
+                    .append('text')
+                    .attr('transform', 'translate(-5, -5)');
 
-                // Update the line
-                g.select('line')
-                    .attr('x1', xScaleRange[0])
-                    .attr('y1', y)
-                    .attr('x2', xScaleRange[1])
-                    .attr('y2', y);
+                // Update
 
-                // Update the text label - TODO: Add padding
+                // translate the parent container to the left hand edge of the annotation
+                g.attr('transform', function(d) {
+                    return 'translate(' + xScaleRange[0] + ', ' + y(d) + ')';
+                });
+
+                // Update the text label
                 g.select('text')
-                    .attr('x', xScaleRange[1])
-                    .attr('y', function(d) { return y(d); })
                     .text(label);
 
                 decorate(g);
