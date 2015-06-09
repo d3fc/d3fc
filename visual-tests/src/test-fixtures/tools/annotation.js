@@ -33,21 +33,19 @@
         .call(ohlc);
 
     // Create the annotations
-    var annotation = fc.tools.annotation()
+    var annotation = fc.tools.horizontalLineAnnotation()
         .xScale(dateScale)
-        .yScale(priceScale)
-        .padding(10);
+        .yScale(priceScale);
 
-    var lastCloseAnnotation = fc.tools.annotation()
+    var lastCloseAnnotation = fc.tools.horizontalLineAnnotation()
         .yValue(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
-        .padding(7)
         .label(function(d) {
             return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
-    var annotationDecimal = fc.tools.annotation()
+    var annotationDecimal = fc.tools.horizontalLineAnnotation()
         .xScale(dateScale)
         .yScale(priceScale)
         .decorate(function(selection) {

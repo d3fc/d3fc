@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.tools.annotation = function() {
+    fc.tools.horizontalLineAnnotation = function() {
 
 
         var xScale = d3.time.scale(),
@@ -9,17 +9,16 @@
             yValue = fc.utilities.fn.identity,
             keyValue = fc.utilities.fn.index,
             label = yValue,
-            padding = d3.functor(2),
             decorate = fc.utilities.fn.noop;
 
-        var annotation = function(selection) {
+        var horizontalLineAnnotation = function(selection) {
             selection.each(function(data) {
                 var xScaleRange = xScale.range(),
                     y = function(d) { return yScale(yValue(d)); };
 
                 var container = d3.select(this);
 
-                // Create a group for each annotation
+                // Create a group for each horizontalLineAnnotation
                 var g = fc.utilities.simpleDataJoin(container, 'annotation', data, keyValue);
 
                 // Added the required elements - each annotation consists of a line and text label
@@ -34,68 +33,60 @@
                     .attr('x2', xScaleRange[1])
                     .attr('y2', y);
 
-                // Update the text label
-                var paddingValue = padding.apply(this, arguments);
+                // Update the text label - TODO: Add padding
                 g.select('text')
-                    .attr('x', xScaleRange[1] - paddingValue)
-                    .attr('y', function(d) { return y(d) - paddingValue; })
+                    .attr('x', xScaleRange[1])
+                    .attr('y', function(d) { return y(d); })
                     .text(label);
 
                 decorate(g);
             });
         };
 
-        annotation.xScale = function(x) {
+        horizontalLineAnnotation.xScale = function(x) {
             if (!arguments.length) {
                 return xScale;
             }
             xScale = x;
-            return annotation;
+            return horizontalLineAnnotation;
         };
-        annotation.yScale = function(x) {
+        horizontalLineAnnotation.yScale = function(x) {
             if (!arguments.length) {
                 return yScale;
             }
             yScale = x;
-            return annotation;
+            return horizontalLineAnnotation;
         };
-        annotation.yValue = function(x) {
+        horizontalLineAnnotation.yValue = function(x) {
             if (!arguments.length) {
                 return yValue;
             }
             yValue = d3.functor(x);
-            return annotation;
+            return horizontalLineAnnotation;
         };
-        annotation.keyValue = function(x) {
+        horizontalLineAnnotation.keyValue = function(x) {
             if (!arguments.length) {
                 return keyValue;
             }
             keyValue = d3.functor(x);
-            return annotation;
+            return horizontalLineAnnotation;
         };
-        annotation.label = function(x) {
+        horizontalLineAnnotation.label = function(x) {
             if (!arguments.length) {
                 return label;
             }
             label = d3.functor(x);
-            return annotation;
+            return horizontalLineAnnotation;
         };
-        annotation.padding = function(x) {
-            if (!arguments.length) {
-                return padding;
-            }
-            padding = d3.functor(x);
-            return annotation;
-        };
-        annotation.decorate = function(x) {
+        horizontalLineAnnotation.decorate = function(x) {
             if (!arguments.length) {
                 return decorate;
             }
             decorate = x;
-            return annotation;
+            return horizontalLineAnnotation;
         };
 
-        return annotation;
+        return horizontalLineAnnotation;
     };
 
 }(d3, fc));
