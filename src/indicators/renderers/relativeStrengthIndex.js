@@ -5,7 +5,6 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            xValue = function(d) { return d.date; },
             upperValue = 70,
             lowerValue = 30;
 
@@ -19,8 +18,7 @@
                 .yScale(yScale);
 
             rsiLine.xScale(xScale)
-                .yScale(yScale)
-                .xValue(xValue);
+                .yScale(yScale);
 
             selection.each(function(data) {
 
@@ -62,13 +60,6 @@
                 return yScale;
             }
             yScale = x;
-            return rsi;
-        };
-        rsi.xValue = function(x) {
-            if (!arguments.length) {
-                return xValue;
-            }
-            xValue = x;
             return rsi;
         };
         rsi.upperValue = function(x) {
