@@ -8,40 +8,39 @@
             series = [],
             mapping = fc.utilities.fn.identity;
 
+        var dataJoin = fc.utilities.dataJoin()
+            .children(true)
+            .selector('g.multi')
+            .element('g')
+            .attrs({'class': 'multi'})
+            .key(function(d) { return d.__series__; });
+
         var multi = function(selection) {
 
             selection.each(function(data) {
 
-                var container = d3.select(this);
+                // Prototypically inherit the mapped data for a series and augment the object
+                // with a series property. This allows us to data-bind without requiring a nested
+                // element (i.e. an outer element bound to the series and an inner element bound
+                // to the data containing the series).
 
-                // in order to support nested multi-series, this selector
-                // is filtered to only return immediate children of the container
-                var g = container.selectAll('g.multi-outer')
-                    .filter(function() {
-                        return this.parentNode === container.node();
-                    })
-                    .data(series);
+                var seriesData = series.map(function(series, i) {
+                    return Object.create(mapping(data, series, i), {
+                        __series__: {
+                            value: series
+                        }
+                    });
+                });
 
-                g.enter()
-                    .append('g')
-                    .attr('class', 'multi-outer')
-                    .append('g')
-                    .attr('class', 'multi-inner');
-
-                g.exit()
-                    .remove();
-
-                g.select('g.multi-inner')
+                dataJoin(this, seriesData)
                     .each(function(d, i) {
 
-                        var series = d3.select(this.parentNode)
-                            .datum();
+                        var series = d.__series__;
 
                         (series.xScale || series.x).call(series, xScale);
                         (series.yScale || series.y).call(series, yScale);
 
                         d3.select(this)
-                            .datum(mapping(data, series, i))
                             .call(series);
                     });
             });
