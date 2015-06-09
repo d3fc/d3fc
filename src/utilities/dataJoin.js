@@ -43,7 +43,7 @@
             // enter
             // when container is a transition, entering elements fade in (from transparent to opaque)
             var enterSelection = updateSelection.enter()
-                .append(element)
+                .append(element) // <<<--- this is the secret sauce of this whole file
                 .attr(attrs)
                 .style('opacity', effectivelyZero);
 
