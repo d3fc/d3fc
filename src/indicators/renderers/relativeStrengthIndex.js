@@ -5,12 +5,12 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            xValue = function(d) { return d.date; },
             upperValue = 70,
             lowerValue = 30;
 
         var annotations = fc.tools.annotation();
-        var rsiLine = fc.series.line();
+        var rsiLine = fc.series.line()
+            .yValue(function(d, i) { return d.rsi; });
 
         var rsi = function(selection) {
 
@@ -18,9 +18,7 @@
                 .yScale(yScale);
 
             rsiLine.xScale(xScale)
-                .yScale(yScale)
-                .xValue(xValue)
-                .yValue(function(d, i) { return d.rsi; });
+                .yScale(yScale);
 
             selection.each(function(data) {
 
@@ -64,13 +62,6 @@
             yScale = x;
             return rsi;
         };
-        rsi.xValue = function(x) {
-            if (!arguments.length) {
-                return xValue;
-            }
-            xValue = x;
-            return rsi;
-        };
         rsi.upperValue = function(x) {
             if (!arguments.length) {
                 return upperValue;
@@ -85,6 +76,8 @@
             lowerValue = x;
             return rsi;
         };
+
+        d3.rebind(rsi, rsiLine, 'yValue', 'xValue');
 
         return rsi;
     };

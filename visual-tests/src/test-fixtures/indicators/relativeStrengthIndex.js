@@ -24,12 +24,14 @@
 
     // Create the relative strength indicator component
     var rsiAlgo = fc.indicators.algorithms.relativeStrengthIndex()
-        .windowSize(5);
+        .windowSize(5)
+        .merge(function(datum, rsi) { datum.rsiValue = rsi; });
     rsiAlgo(data);
 
     var rsi = fc.indicators.renderers.relativeStrengthIndex()
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale)
+        .yValue(function(d) { return d.rsiValue; });
 
     // Add it to the chart
     container.append('g')
