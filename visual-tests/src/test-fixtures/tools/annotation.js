@@ -13,7 +13,7 @@
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
         .domain(fc.utilities.extent(data, 'date'))
-        .range([0, width])
+        .range([100, width])
         .nice();
 
     // Create scale for y axis
@@ -33,28 +33,29 @@
         .call(ohlc);
 
     // Create the annotations
-    var annotation = fc.tools.annotation()
+    var annotation = fc.tools.horizontalLine()
         .xScale(dateScale)
-        .yScale(priceScale)
-        .padding(10);
+        .yScale(priceScale);
 
-    var lastCloseAnnotation = fc.tools.annotation()
+    var lastCloseAnnotation = fc.tools.horizontalLine()
         .yValue(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
-        .padding(7)
         .label(function(d) {
             return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
-    var annotationDecimal = fc.tools.annotation()
+    var annotationDecimal = fc.tools.horizontalLine()
         .xScale(dateScale)
         .yScale(priceScale)
         .decorate(function(selection) {
             selection.select('line')
                 .style('stroke', 'red');
-            selection.select('text')
-                .attr('x', dateScale.range()[1]);
+            selection.enter()
+                .select('g.left-handle')
+                .append('circle')
+                .attr('r', 5)
+                .attr('fill', 'black');
         })
         .label(function(d) {
             return 'Animated: ' + d3.format('.3f')(d);

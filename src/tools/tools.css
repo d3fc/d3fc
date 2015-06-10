@@ -53,7 +53,7 @@
   stroke-width: 1;
   stroke-dasharray: 3, 3;
 }
-.annotation>text {
+.annotation text {
   font: 10px sans-serif;
   text-anchor: end;
 }
