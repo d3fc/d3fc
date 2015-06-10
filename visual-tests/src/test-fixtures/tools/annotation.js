@@ -33,19 +33,19 @@
         .call(ohlc);
 
     // Create the annotations
-    var annotation = fc.tools.horizontalLine()
+    var annotation = fc.tools.line()
         .xScale(dateScale)
         .yScale(priceScale);
 
-    var lastCloseAnnotation = fc.tools.horizontalLine()
-        .yValue(function(d) { return d.close; })
+    var lastCloseAnnotation = fc.tools.line()
+        .value(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
         .label(function(d) {
             return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
-    var annotationDecimal = fc.tools.horizontalLine()
+    var annotationDecimal = fc.tools.line()
         .xScale(dateScale)
         .yScale(priceScale)
         .decorate(function(selection) {
@@ -59,6 +59,14 @@
         })
         .label(function(d) {
             return 'Animated: ' + d3.format('.3f')(d);
+        });
+
+    var verticalAnnotation = fc.tools.line()
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .orient('vertical')
+        .label(function(d) {
+            return d3.time.format('%Y-%m-%d')(d);
         });
 
     // Add the annotations to the chart
@@ -79,6 +87,12 @@
         .attr('id', 'annotationDecimal')
         .datum([100.675])
         .call(annotationDecimal);
+
+    container
+        .append('g')
+        .attr('id', 'verticalAnnotation')
+        .datum([data[20].date, data[10].date])
+        .call(verticalAnnotation);
 
     setInterval(function() {
         // Update an annotation
