@@ -9,13 +9,26 @@
             snap = function(x, y) {
                 return fc.utilities.noSnap(xScale, yScale)(x, y);
             },
-            decorate = fc.utilities.fn.noop,
-            xLabel = d3.functor(''),
-            yLabel = d3.functor(''),
-            padding = d3.functor(2);
+            decorate = fc.utilities.fn.noop;
 
         var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
             y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
+
+        var dataJoin = fc.utilities.dataJoin()
+            .children(true)
+            .selector('g.crosshair')
+            .element('g')
+            .attrs({'class': 'crosshair'});
+
+        var horizontalLine = fc.tools.line()
+            .value(function(d) { return d.y; })
+            .label(function(d) { return d.y; });
+
+        var verticalLine = fc.tools.line()
+            .orient('vertical')
+            .value(function(d) { return d.x; })
+            .label(function(d) { return d.x; });
+
 
         var crosshairs = function(selection) {
 
@@ -45,48 +58,35 @@
                     .attr('width', range(xScale)[1])
                     .attr('height', range(yScale)[0]);
 
-                var g = fc.utilities.simpleDataJoin(container, 'crosshairs', data);
+                var crosshair = dataJoin(container, data);
 
-                var enter = g.enter()
-                    .style('pointer-events', 'none');
-                enter.append('line')
-                    .attr('class', 'horizontal');
-                enter.append('line')
-                    .attr('class', 'vertical');
-                enter.append('text')
-                    .attr('class', 'horizontal');
-                enter.append('text')
-                    .attr('class', 'vertical');
+                var trackballTranslate = function(d) {
+                    return 'translate(' + x(d) + ', ' + y(d) + ')';
+                };
+                crosshair.enter()
+                    .style('pointer-events', 'none')
+                    .append('g')
+                    .classed('trackball', true)
+                    .attr('transform', trackballTranslate)
+                    .append('circle')
+                    .attr('r', 5);
 
-                g.select('line.horizontal')
-                    .attr('x1', range(xScale)[0])
-                    .attr('x2', range(xScale)[1])
-                    .attr('y1', y)
-                    .attr('y2', y);
+                crosshair.select('g.trackball')
+                    .attr('transform', trackballTranslate);
 
-                g.select('line.vertical')
-                    .attr('y1', range(yScale)[0])
-                    .attr('y2', range(yScale)[1])
-                    .attr('x1', x)
-                    .attr('x2', x);
+                if (data.length === 1) {
+                    verticalLine.domainValue(data[0].xInDomainUnits);
+                    horizontalLine.domainValue(data[0].yInDomainUnits);
+                }
 
-                var paddingValue = padding.apply(this, arguments);
+                var multi = fc.series.multi()
+                    .series([horizontalLine, verticalLine])
+                    .xScale(xScale)
+                    .yScale(yScale);
 
-                g.select('text.horizontal')
-                    .attr('x', range(xScale)[1] - paddingValue)
-                    .attr('y', function(d) {
-                        return y(d) - paddingValue;
-                    })
-                    .text(yLabel);
+                crosshair.call(multi);
 
-                g.select('text.vertical')
-                    .attr('x', function(d) {
-                        return x(d) - paddingValue;
-                    })
-                    .attr('y', paddingValue)
-                    .text(xLabel);
-
-                decorate(g);
+                decorate(crosshair);
             });
         };
 
@@ -150,29 +150,16 @@
             decorate = x;
             return crosshairs;
         };
-        crosshairs.xLabel = function(x) {
-            if (!arguments.length) {
-                return xLabel;
-            }
-            xLabel = d3.functor(x);
-            return crosshairs;
-        };
-        crosshairs.yLabel = function(x) {
-            if (!arguments.length) {
-                return yLabel;
-            }
-            yLabel = d3.functor(x);
-            return crosshairs;
-        };
-        crosshairs.padding = function(x) {
-            if (!arguments.length) {
-                return padding;
-            }
-            padding = d3.functor(x);
-            return crosshairs;
-        };
 
         d3.rebind(crosshairs, event, 'on');
+
+        fc.utilities.rebind(crosshairs, horizontalLine, {
+            yLabel: 'label'
+        });
+
+        fc.utilities.rebind(crosshairs, verticalLine, {
+            xLabel: 'label'
+        });
 
         return crosshairs;
     };

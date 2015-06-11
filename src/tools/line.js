@@ -8,12 +8,21 @@
             value = fc.utilities.fn.identity,
             keyValue = fc.utilities.fn.index,
             label = value,
+            // specifies whether the value is domain or screen coordinates
+            domainValue = true,
             decorate = fc.utilities.fn.noop,
             orient = 'horizontal';
+
+        var dataJoin = fc.utilities.dataJoin()
+            .selector('g.annotation')
+            .element('g')
+            .attrs({'class': 'annotation'});
 
         var line = function(selection) {
             selection.each(function(data) {
 
+                // the value scale which the annotation 'value' relates to, the crossScale
+                // is the other. Which is which depends on the orienation!
                 var valueScale, crossScale, translation, lineProperty,
                     handleOne, handleTwo,
                     textAttributes = {x: -5, y: -5};
@@ -41,16 +50,29 @@
                         throw new Error('Invalid orientation');
                 }
 
-                var scaleRange = crossScale.range(),
+                // ordinal axes have a rangeExtent function, this adds any padding that
+                // was applied to the range. This functions returns the rangeExtent
+                // if present, or range otherwise
+                function range(scale) {
+                    return scale.rangeExtent ? scale.rangeExtent() : scale.range();
+                }
+
+                var scaleRange = range(crossScale),
+                    // the transform that sets the 'origin' of the annotation
                     containerTransform = function(d) {
-                        return translation(scaleRange[0], valueScale(value(d)));
+                        var transform = value(d);
+                        if (domainValue) {
+                            transform = valueScale(transform);
+                        }
+                        return translation(scaleRange[0], transform);
                     },
                     scaleWidth = scaleRange[1] - scaleRange[0];
 
                 var container = d3.select(this);
 
                 // Create a group for each line
-                var g = fc.utilities.simpleDataJoin(container, 'annotation', data, keyValue);
+                data = Array.isArray(data) ? data : [data];
+                var g = dataJoin(container, data);
 
                 // create the outer container and line
                 var enter = g.enter()
@@ -128,6 +150,13 @@
                 return orient;
             }
             orient = x;
+            return line;
+        };
+        line.domainValue = function(x) {
+            if (!arguments.length) {
+                return domainValue;
+            }
+            domainValue = x;
             return line;
         };
 
