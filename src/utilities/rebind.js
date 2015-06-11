@@ -13,6 +13,9 @@
         Object.keys(mappings)
             .forEach(function(targetName) {
                 var method = source[mappings[targetName]];
+                if (typeof method !== 'function') {
+                    throw new Error('The method ' + mappings[targetName] + ' does not exist on the source object');
+                }
                 target[targetName] = function() {
                     var value = method.apply(source, arguments);
                     return value === source ? target : value;
