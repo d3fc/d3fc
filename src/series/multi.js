@@ -12,8 +12,7 @@
             .children(true)
             .selector('g.multi')
             .element('g')
-            .attrs({'class': 'multi'})
-            .key(function(d) { return d.__series__; });
+            .attrs({'class': 'multi'});
 
         var multi = function(selection) {
 
