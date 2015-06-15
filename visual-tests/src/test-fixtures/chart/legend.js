@@ -7,14 +7,14 @@
 
         var color = d3.scale.category10();
 
-        function swatch(d, i) {
+        function swatch(i) {
             return '<span class="swatch" style="background-color: ' +
                 color(i) + '">&nbsp;</span>';
         }
 
         var legend = fc.charts.legend()
-            .items(series.map(function(d) {
-                return [swatch, d];
+            .items(series.map(function(d, i) {
+                return [swatch(i), d];
             }));
 
         d3.select('#legend2')
@@ -40,19 +40,8 @@
                 ['close', function(d) { return priceFormat(d.close); }]
             ])
             .decorate(function(sel) {
-                // on enter, add a new heading
-                sel.enter()
-                    .selectAll(function(d, i) {
-                        // select the parent of the first tr
-                        return i === 0 ? [this.parentNode] : [];
-                    })
-                    .insert('tr', ':first-child')
-                    .append('th', 'heading')
-                    .attr('colspan', 2)
-                    .text('Legend Heading');
-
-                // on update, do some styling
-                sel.selectAll('td.value')
+                // on update, do some styling to the values
+                sel.filter(function(d, i) { return i === 1; })
                     .style('color', function(d, i) {
                         return Math.random() > 0.5 ? 'green' : 'red';
                     });

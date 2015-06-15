@@ -13,46 +13,55 @@
 
                 // map the data to include the datapoint, so that
                 // decorators have access to both the 'items' and 'data'
-                var legendData = items.map(function(item) {
-                    return {
-                        label: d3.functor(item[0]),
-                        value: d3.functor(item[1]),
-                        datum: data
-                    };
+                var legendData = items.map(function(item, i) {
+                    return [
+                        {
+                            value: d3.functor(item[0]),
+                            index: i,
+                            datum: data,
+                            class: 'label'
+                        },
+                        {
+                            value: d3.functor(item[1]),
+                            index: i,
+                            datum: data,
+                            class: 'value'
+                        }
+                    ];
                 });
 
-                var tableEnter = container.selectAll('table')
-                    .data([legendData])
-                    .enter()
+                var table = container.selectAll('table')
+                    .data([legendData]);
+                table.enter()
                     .append('table')
                     .classed('legend', true);
 
-                var rowsUpdate = tableEnter.selectAll('tr')
-                    .data(function(d) { return d; });
+                // create the rows
+                var tr = table.selectAll('tr')
+                  .data(function(d) { return d; });
 
-                var rowsEnter = rowsUpdate.enter()
-                    .append('tr');
+                tr.enter()
+                  .append('tr');
+                tr.exit().remove();
 
-                rowsEnter.append('td')
-                    .classed('label', true);
-                rowsEnter.append('td')
-                    .classed('value', true);
+                // create the cells
+                var tdUpdate = tr.selectAll('td')
+                  .data(function(d) { return d; });
 
-                // update
-                container.selectAll('td.label')
-                    .html(function(d, i) {
-                        return d.label(d.datum, i);
-                    });
+                var tdEnter = tdUpdate.enter()
+                    .append('td')
+                    .attr('class', function(d) { return d.class; });
+                var tdExit = tdUpdate.exit()
+                    .remove();
 
-                container.selectAll('td.value')
-                    .html(function(d, i) {
-                        return d.value(d.datum, i);
-                    });
+                // update cell contents
+                tdUpdate.html(function(d) {
+                    return d.value(d.datum);
+                });
 
-                var decorateSelection = container.selectAll('tr');
-                decorateSelection.enter = d3.functor(rowsEnter);
-                decorateSelection.exit = d3.functor(rowsUpdate.exit());
-                decorate(decorateSelection);
+                tdUpdate.enter = d3.functor(tdEnter);
+                tdUpdate.exit = d3.functor(tdExit);
+                decorate(tdUpdate);
             });
         };
 
