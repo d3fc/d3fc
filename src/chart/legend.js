@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.charts.tableLegend = function() {
+    fc.charts.legend = function() {
         var decorate = fc.utilities.fn.noop,
             items = [
                 ['datum', function(d) { return d.datum; }]
@@ -12,11 +12,11 @@
                 var container = d3.select(this);
 
                 // map the data to include the datapoint, so that
-                // deocrators have access to both the 'items' and 'data'
+                // decorators have access to both the 'items' and 'data'
                 var legendData = items.map(function(item) {
                     return {
-                        label: item[0],
-                        valueFunction: item[1],
+                        label: d3.functor(item[0]),
+                        value: d3.functor(item[1]),
                         datum: data
                     };
                 });
@@ -24,26 +24,34 @@
                 var tableEnter = container.selectAll('table')
                     .data([legendData])
                     .enter()
-                    .append('table');
+                    .append('table')
+                    .classed('legend', true);
 
                 var rowsUpdate = tableEnter.selectAll('tr')
                     .data(function(d) { return d; });
 
                 var rowsEnter = rowsUpdate.enter()
-                    .append('tr')
-                    .classed('field', true);
+                    .append('tr');
 
-                rowsEnter.append('th')
-                    .text(function(d) { return d.label; });
+                rowsEnter.append('td')
+                    .classed('label', true);
                 rowsEnter.append('td')
                     .classed('value', true);
 
                 // update
-                container.selectAll('td.value')
-                    .text(function(d) { return d.valueFunction(data); });
+                container.selectAll('td.label')
+                    .html(function(d, i) {
+                        return d.label(d.datum, i);
+                    });
 
-                var decorateSelection = rowsUpdate;
+                container.selectAll('td.value')
+                    .html(function(d, i) {
+                        return d.value(d.datum, i);
+                    });
+
+                var decorateSelection = container.selectAll('tr');
                 decorateSelection.enter = d3.functor(rowsEnter);
+                decorateSelection.exit = d3.functor(rowsUpdate.exit());
                 decorate(decorateSelection);
             });
         };

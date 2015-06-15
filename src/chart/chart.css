@@ -12,3 +12,12 @@
 .sparkline .low {
   fill: red;
 }
+
+.legend {
+  border: 1px solid #999;
+  margin: 10px;
+}
+
+.legend .label {
+  font-weight: bold;
+}
