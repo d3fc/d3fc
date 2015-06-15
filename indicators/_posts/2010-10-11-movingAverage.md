@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Moving Average
-component: indicators/movingAverage.js
+component: indicators/algorithms/movingAverage.js
 tags:
   - frontpage
   
@@ -31,7 +31,14 @@ example-code: |
       .call(ma);
 ---
 
-A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator that smooths out fluctuations in data. This component draws a [simple moving average](http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) line on a chart for a given data field, averaging the previous 5 points by default.
+A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator that smooths out fluctuations in data. This component computes a [simple moving average](http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) for a given data field, averaging the previous 5 points by default.
+
+D3FC indicators are comprised of two component parts:
+
+ + The indicator algorithm, which is applied to the input data. The algorithm computes the indicator and merges the result back into the source data (although this behaviour is configurable).
+ + An optional indicator renderer, that converts the algorithm output into one or more series / annotations.
+
+Simpler indicators do not require renderer with their output readily rendered via a simple series.
 
 The example below creates a point series and a moving average:
 

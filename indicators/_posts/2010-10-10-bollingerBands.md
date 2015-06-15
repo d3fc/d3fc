@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Bollinger Bands
-component: indicators/bollingerBands.js
+component: indicators/algorithms/bollingerBands.js
 tags:
   - frontpage
 

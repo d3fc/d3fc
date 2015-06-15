@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Relative Strength Index
-component: indicators/relativeStrengthIndex.js
+component: indicators/algorithms/relativeStrengthIndex.js
 tags:
   - frontpage
 
