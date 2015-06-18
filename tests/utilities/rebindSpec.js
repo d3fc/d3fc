@@ -42,6 +42,13 @@
             expect(target.fn2())
                 .toEqual(newValue);
         });
+
+        it('should throw if a method does not exist on the source object', function() {
+            expect(function() {
+                fc.utilities.rebind(target, source, {'fn2': 'foo'});
+            })
+            .toThrow(new Error('The method foo does not exist on the source object'));
+        });
     });
 
 }(d3, fc));

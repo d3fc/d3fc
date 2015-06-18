@@ -99,11 +99,25 @@
         });
 
         fc.utilities.rebind(linearTimeSeries, xAxis, {
-            xTicks: 'ticks'
+            xTicks: 'ticks',
+            xTickValues: 'tickValues',
+            xTickSize: 'tickSize',
+            xInnerTickSize: 'innerTickSize',
+            xOuterTickSize: 'outerTickSize',
+            xTickPadding: 'tickPadding',
+            xTickFormat: 'tickFormat',
+            xOrient: 'orient'
         });
 
         fc.utilities.rebind(linearTimeSeries, yAxis, {
-            yTicks: 'ticks'
+            yTicks: 'ticks',
+            yTickValues: 'tickValues',
+            yTickSize: 'tickSize',
+            yInnerTickSize: 'innerTickSize',
+            yOuterTickSize: 'outerTickSize',
+            yTickPadding: 'tickPadding',
+            yTickFormat: 'tickFormat',
+            yOrient: 'orient'
         });
 
         linearTimeSeries.xScale = function() { return xScale; };
