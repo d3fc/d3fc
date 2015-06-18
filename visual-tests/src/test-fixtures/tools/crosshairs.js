@@ -47,20 +47,21 @@
     var crosshairs = fc.tools.crosshairs()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.utilities.seriesPointSnap(bar, data))
+        .snap(fc.utilities.seriesPointSnapXOnly(bar, data))
         .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
         .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
-        .padding(8)
         .decorate(function(selection) {
+
+            // add a coloured rectangle within the trackball
             selection.enter()
+                .select('.trackball')
                 .append('rect')
                 .attr('class', 'example')
-                .attr('width', 50)
-                .attr('height', 50)
+                .attr('width', 20)
+                .attr('height', 20)
                 .style('opacity', 0.5);
+
             selection.select('rect.example')
-                .attr('x', function(d) { return d.x - 25; })
-                .attr('y', function(d) { return d.y - 25; })
                 .style('fill', function(d) { return color(d.datum ? d.datum.date.getDay() : 0); });
         });
 

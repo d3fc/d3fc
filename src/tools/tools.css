@@ -32,18 +32,10 @@
 }
 
 /* Crosshairs Styles */
-.crosshairs>line {
-  stroke: #69f;
+.crosshair .trackball circle {
   stroke-width: 1;
-}
-
-.crosshairs>text {
-  font: 10px sans-serif;
-  text-anchor: end;
-}
-
-.crosshairs>text.vertical {
-  dominant-baseline: hanging;
+  stroke: #06c;
+  fill: transparent;
 }
 
 /* Annotations */

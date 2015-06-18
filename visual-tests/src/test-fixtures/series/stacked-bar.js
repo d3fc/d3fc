@@ -105,13 +105,14 @@
                     yValue: datum[nearestYProperty]
                 },
                 x: x.range()[nearestXIndex],
-                y: yPixels[nearestYIndex]
+                y: yPixels[nearestYIndex],
+                xInDomainUnits: false,
+                yInDomainUnits: false
             };
         }
 
         // Create a crosshairs tool
         var crosshairs = fc.tools.crosshairs()
-          .padding(8)
           .xLabel(function(d) {
               return d.datum.x;
           })

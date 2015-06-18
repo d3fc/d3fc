@@ -8,7 +8,7 @@
             upperValue = 70,
             lowerValue = 30;
 
-        var annotations = fc.tools.annotation();
+        var annotations = fc.tools.line();
         var rsiLine = fc.series.line()
             .yValue(function(d, i) { return d.rsi; });
 
