@@ -89,6 +89,12 @@
                 // translate the parent container to the left hand edge of the annotation
                 g.attr('transform', containerTransform);
 
+                // update the elements that depend on scale width
+                g.select('line')
+                    .attr(lineProperty, scaleWidth);
+                g.select('g.' + handleTwo)
+                    .attr('transform', translation(scaleWidth, 0));
+
                 // Update the text label
                 g.select('text')
                     .text(label);
