@@ -30,7 +30,7 @@ example-code: |
       .call(multi);
 ---
 
-The crosshair component renders a interactive crosshair. The component should be data-joined to an empty array which it will populate with an object that idicates the current crosshair location. This is a useful mechanism for displaying the crosshair location in some form of legend.
+The crosshair component renders an interactive crosshair. The component should be data-joined to an empty array which it will populate with an object that indicates the current crosshair location. This is a useful mechanism for displaying the crosshair location in some form of legend.
 
 The crosshair is typically rendered alongside other series. The following example uses a multi-series component to render a crosshair and a line series:
 

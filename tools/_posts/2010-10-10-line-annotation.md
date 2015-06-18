@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Line Annottion
+title: Line Annotation
 component: tools/line.js
 tags:
   - frontpage
