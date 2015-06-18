@@ -8,6 +8,7 @@
 
         var x = function(d, i) { return d.x; },
             y = function(d, i) { return d.y; },
+            centred = true,
             height = function(d, i) { return d.height; },
             width = d3.functor(3);
 
@@ -19,10 +20,10 @@
                     barHeight = height(d, i),
                     barWidth = width(d, i);
 
-                var halfWidth = barWidth / 2;
+                var offset = centred ? barWidth / 2 : 0;
 
                 // Move to the start location
-                var body = 'M' + (xValue - halfWidth) + ',' + yValue +
+                var body = 'M' + (xValue - offset) + ',' + yValue +
                     // Draw the width
                     'h' + barWidth +
                     // Draw to the top
@@ -55,6 +56,13 @@
                 return width;
             }
             width = d3.functor(x);
+            return bar;
+        };
+        bar.centred = function(x) {
+            if (!arguments.length) {
+                return centred;
+            }
+            centred = x;
             return bar;
         };
         bar.height = function(x) {
