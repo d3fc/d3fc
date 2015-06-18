@@ -33,10 +33,8 @@
         // screen coordinates. This function constructs a suitable scale for rendering
         // these annotations.
         function identityScale(scale) {
-            return d3.scale.linear()
-                // the default range is [0, 1]
-                .range(scale.range())
-                .domain(scale.range());
+            return d3.scale.identity()
+                .range(scale.range());
         }
 
 
