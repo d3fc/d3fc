@@ -66,7 +66,6 @@
                 var container = d3.select(this);
 
                 // Create a group for each line
-                data = Array.isArray(data) ? data : [data];
                 var g = dataJoin(container, data);
 
                 // create the outer container and line

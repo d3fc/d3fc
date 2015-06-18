@@ -87,7 +87,10 @@
                 var multi = fc.series.multi()
                     .series([horizontalLine, verticalLine])
                     .xScale(identityScale(xScale))
-                    .yScale(identityScale(yScale));
+                    .yScale(identityScale(yScale))
+                    .mapping(function(data) {
+                        return [data];
+                    });
 
                 crosshair.call(multi);
 
