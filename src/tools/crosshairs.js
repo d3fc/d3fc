@@ -21,13 +21,23 @@
             .attrs({'class': 'crosshair'});
 
         var horizontalLine = fc.tools.line()
-            .value(function(d) { return d.y; })
+            .value(y)
             .label(function(d) { return d.y; });
 
         var verticalLine = fc.tools.line()
             .orient('vertical')
-            .value(function(d) { return d.x; })
+            .value(x)
             .label(function(d) { return d.x; });
+
+        // the line annotations used to render the crosshair are positioned using
+        // screen coordinates. This function constructs a suitable scale for rendering
+        // these annotations.
+        function identityScale(scale) {
+            return d3.scale.linear()
+                // the default range is [0, 1]
+                .range(scale.range())
+                .domain(scale.range());
+        }
 
 
         var crosshairs = function(selection) {
@@ -74,15 +84,10 @@
                 crosshair.select('g.trackball')
                     .attr('transform', trackballTranslate);
 
-                if (data.length === 1) {
-                    verticalLine.domainValue(data[0].xInDomainUnits);
-                    horizontalLine.domainValue(data[0].yInDomainUnits);
-                }
-
                 var multi = fc.series.multi()
                     .series([horizontalLine, verticalLine])
-                    .xScale(xScale)
-                    .yScale(yScale);
+                    .xScale(identityScale(xScale))
+                    .yScale(identityScale(yScale));
 
                 crosshair.call(multi);
 

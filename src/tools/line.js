@@ -8,8 +8,6 @@
             value = fc.utilities.fn.identity,
             keyValue = fc.utilities.fn.index,
             label = value,
-            // specifies whether the value is domain or screen coordinates
-            domainValue = true,
             decorate = fc.utilities.fn.noop,
             orient = 'horizontal';
 
@@ -60,10 +58,7 @@
                 var scaleRange = range(crossScale),
                     // the transform that sets the 'origin' of the annotation
                     containerTransform = function(d) {
-                        var transform = value(d);
-                        if (domainValue) {
-                            transform = valueScale(transform);
-                        }
+                        var transform = valueScale(value(d));
                         return translation(scaleRange[0], transform);
                     },
                     scaleWidth = scaleRange[1] - scaleRange[0];
@@ -152,14 +147,6 @@
             orient = x;
             return line;
         };
-        line.domainValue = function(x) {
-            if (!arguments.length) {
-                return domainValue;
-            }
-            domainValue = x;
-            return line;
-        };
-
         return line;
     };
 
