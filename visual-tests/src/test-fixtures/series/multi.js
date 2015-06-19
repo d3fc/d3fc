@@ -37,9 +37,9 @@
         .yValue(function(d) { return d.close; });
 
     // add a bollinger - which results in a nested mutli-series
-    var bollingerComputer = fc.indicators.algorithms.bollingerBands();
+    var bollingerComputer = fc.indicator.algorithm.bollingerBands();
     bollingerComputer(data);
-    var bollingerRenderer = fc.indicators.renderers.bollingerBands();
+    var bollingerRenderer = fc.indicator.renderer.bollingerBands();
 
     // Create the multi series
     var multi = fc.series.multi()

@@ -9,11 +9,11 @@
 
     global.fc = {
         charts: {},
-        indicators: {
-            algorithms: {
-                calculators: {}
+        indicator: {
+            algorithm: {
+                calculator: {}
             },
-            renderers: {}
+            renderer: {}
         },
         scale: {
             discontinuity: {}
