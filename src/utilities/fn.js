@@ -2,6 +2,7 @@
     'use strict';
 
     fc.utilities.fn = {
+        context: function() { return this; },
         identity: function(d) { return d; },
         index: function(d, i) { return i; },
         noop: function(d) {  }

@@ -124,12 +124,12 @@
             .xScale(x)
             .yScale(y)
             .series([stack, crosshairs])
-            .mapping(function(data, series) {
+            .mapping(function(series) {
                 switch (series) {
                     case stack:
-                        return data;
+                        return this;
                     case crosshairs:
-                        return data.crosshairs;
+                        return this.crosshairs;
                 }
             });
 

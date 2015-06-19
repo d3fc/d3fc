@@ -63,12 +63,12 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, crosshairs])
-        .mapping(function(data, series) {
+        .mapping(function(series) {
             switch (series) {
                 case bar:
-                    return data;
+                    return this;
                 case crosshairs:
-                    return data.crosshairs;
+                    return this.crosshairs;
             }
         });
 

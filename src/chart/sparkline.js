@@ -56,12 +56,12 @@
 
         var multi = fc.series.multi()
             .series([line, point])
-            .mapping(function(data, series) {
+            .mapping(function(series) {
                 switch (series) {
                     case point:
-                        return highLowOpenClose(data);
+                        return highLowOpenClose(this);
                     default:
-                        return data;
+                        return this;
                 }
             });
 

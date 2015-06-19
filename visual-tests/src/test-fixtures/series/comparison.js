@@ -42,8 +42,8 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([line, line])
-        .mapping(function(data, series, i) {
-            return data[i];
+        .mapping(function(series, i) {
+            return this[i];
         });
 
     function render() {
