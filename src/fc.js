@@ -20,7 +20,7 @@
         },
         series: {},
         svg: {},
-        tools: {},
+        tool: {},
         utilities: {}
     };
 }());

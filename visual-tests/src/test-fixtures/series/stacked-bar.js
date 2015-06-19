@@ -112,7 +112,7 @@
         }
 
         // Create a crosshairs tool
-        var crosshairs = fc.tools.crosshairs()
+        var crosshairs = fc.tool.crosshairs()
           .xLabel(function(d) {
               return d.datum.x;
           })

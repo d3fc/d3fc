@@ -1,29 +1,26 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.tools.measure = function() {
+    fc.tool.fibonacciFan = function() {
 
-        var event = d3.dispatch('measuresource', 'measuretarget', 'measureclear'),
+        var event = d3.dispatch('fansource', 'fantarget', 'fanclear'),
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             snap = function(x, y) {
                 return fc.utilities.noSnap(xScale, yScale)(x, y);
             },
-            decorate = fc.utilities.fn.noop,
-            xLabel = d3.functor(''),
-            yLabel = d3.functor(''),
-            padding = d3.functor(2);
+            decorate = fc.utilities.fn.noop;
 
         var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
             y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
-        var measure = function(selection) {
+        var fan = function(selection) {
 
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
-                    .on('mouseenter.measure', mouseenter);
+                    .on('mouseenter.fan', mouseenter);
 
                 var overlay = container.selectAll('rect')
                     .data([data]);
@@ -38,53 +35,76 @@
                     .attr('width', xScale.range()[1])
                     .attr('height', yScale.range()[0]);
 
-                var g = fc.utilities.simpleDataJoin(container, 'measure', data);
+                var g = fc.utilities.simpleDataJoin(container, 'fan', data);
+
+                g.each(function(d) {
+                    d.x = xScale.range()[1];
+                    d.ay = d.by = d.cy = y(d.target);
+
+                    if (x(d.source) !== x(d.target)) {
+
+                        if (d.state === 'DONE' && x(d.source) > x(d.target)) {
+                            var temp = d.source;
+                            d.source = d.target;
+                            d.target = temp;
+                        }
+
+                        var gradient = (y(d.target) - y(d.source)) /
+                            (x(d.target) - x(d.source));
+                        var deltaX = d.x - x(d.source);
+                        var deltaY = gradient * deltaX;
+                        d.ay = 0.618 * deltaY + y(d.source);
+                        d.by = 0.500 * deltaY + y(d.source);
+                        d.cy = 0.382 * deltaY + y(d.source);
+                    }
+                });
 
                 var enter = g.enter();
                 enter.append('line')
-                    .attr('class', 'tangent');
+                    .attr('class', 'trend');
                 enter.append('line')
-                    .attr('class', 'horizontal');
+                    .attr('class', 'a');
                 enter.append('line')
-                    .attr('class', 'vertical');
-                enter.append('text')
-                    .attr('class', 'horizontal');
-                enter.append('text')
-                    .attr('class', 'vertical');
+                    .attr('class', 'b');
+                enter.append('line')
+                    .attr('class', 'c');
+                enter.append('polygon')
+                    .attr('class', 'area');
 
-                g.select('line.tangent')
+                g.select('line.trend')
                     .attr('x1', function(d) { return x(d.source); })
                     .attr('y1', function(d) { return y(d.source); })
                     .attr('x2', function(d) { return x(d.target); })
                     .attr('y2', function(d) { return y(d.target); });
 
-                g.select('line.horizontal')
+                g.select('line.a')
                     .attr('x1', function(d) { return x(d.source); })
                     .attr('y1', function(d) { return y(d.source); })
-                    .attr('x2', function(d) { return x(d.target); })
-                    .attr('y2', function(d) { return y(d.source); })
+                    .attr('x2', function(d) { return d.x; })
+                    .attr('y2', function(d) { return d.ay; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
-                g.select('line.vertical')
-                    .attr('x1', function(d) { return x(d.target); })
-                    .attr('y1', function(d) { return y(d.target); })
-                    .attr('x2', function(d) { return x(d.target); })
-                    .attr('y2', function(d) { return y(d.source); })
+                g.select('line.b')
+                    .attr('x1', function(d) { return x(d.source); })
+                    .attr('y1', function(d) { return y(d.source); })
+                    .attr('x2', function(d) { return d.x; })
+                    .attr('y2', function(d) { return d.by; })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
-                var paddingValue = padding.apply(this, arguments);
+                g.select('line.c')
+                    .attr('x1', function(d) { return x(d.source); })
+                    .attr('y1', function(d) { return y(d.source); })
+                    .attr('x2', function(d) { return d.x; })
+                    .attr('y2', function(d) { return d.cy; })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
-                g.select('text.horizontal')
-                    .attr('x', function(d) { return x(d.source) + (x(d.target) - x(d.source)) / 2; })
-                    .attr('y', function(d) { return y(d.source) - paddingValue; })
-                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
-                    .text(xLabel);
-
-                g.select('text.vertical')
-                    .attr('x', function(d) { return x(d.target) + paddingValue; })
-                    .attr('y', function(d) { return y(d.source) + (y(d.target) - y(d.source)) / 2; })
-                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; })
-                    .text(yLabel);
+                g.select('polygon.area')
+                    .attr('points', function(d) {
+                        return x(d.source) + ',' + y(d.source) + ' ' +
+                            d.x + ',' + d.ay + ' ' +
+                            d.x + ',' + d.cy;
+                    })
+                    .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
                 decorate(g);
             });
@@ -108,9 +128,9 @@
 
         function mouseenter() {
             var container = d3.select(this)
-                .on('click.measure', mouseclick)
-                .on('mousemove.measure', mousemove)
-                .on('mouseleave.measure', mouseleave);
+                .on('click.fan', mouseclick)
+                .on('mousemove.fan', mousemove)
+                .on('mouseleave.fan', mouseleave);
             var data = container.datum();
             if (data[0] == null) {
                 data.push({
@@ -118,13 +138,13 @@
                 });
             }
             updatePositions.call(this);
-            container.call(measure);
+            container.call(fan);
         }
 
         function mousemove() {
             var container = d3.select(this);
             updatePositions.call(this);
-            container.call(measure);
+            container.call(fan);
         }
 
         function mouseleave() {
@@ -133,9 +153,9 @@
             if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
                 data.pop();
             }
-            container.on('click.measure', null)
-                .on('mousemove.measure', null)
-                .on('mouseleave.measure', null);
+            container.on('click.fan', null)
+                .on('mousemove.fan', null)
+                .on('mouseleave.fan', null);
         }
 
         function mouseclick() {
@@ -144,78 +164,57 @@
             switch (datum.state) {
                 case 'SELECT_SOURCE':
                     updatePositions.call(this);
-                    event.measuresource.apply(this, arguments);
+                    event.fansource.apply(this, arguments);
                     datum.state = 'SELECT_TARGET';
                     break;
                 case 'SELECT_TARGET':
                     updatePositions.call(this);
-                    event.measuretarget.apply(this, arguments);
+                    event.fantarget.apply(this, arguments);
                     datum.state = 'DONE';
                     break;
                 case 'DONE':
-                    event.measureclear.apply(this, arguments);
+                    event.fanclear.apply(this, arguments);
                     datum.state = 'SELECT_SOURCE';
                     updatePositions.call(this);
                     break;
                 default:
                     throw new Error('Unknown state ' + datum.state);
             }
-            container.call(measure);
+            container.call(fan);
         }
 
-        measure.xScale = function(x) {
+        fan.xScale = function(x) {
             if (!arguments.length) {
                 return xScale;
             }
             xScale = x;
-            return measure;
+            return fan;
         };
-        measure.yScale = function(x) {
+        fan.yScale = function(x) {
             if (!arguments.length) {
                 return yScale;
             }
             yScale = x;
-            return measure;
+            return fan;
         };
-        measure.snap = function(x) {
+        fan.snap = function(x) {
             if (!arguments.length) {
                 return snap;
             }
             snap = x;
-            return measure;
+            return fan;
         };
-        measure.decorate = function(x) {
+        fan.decorate = function(x) {
             if (!arguments.length) {
                 return decorate;
             }
             decorate = x;
-            return measure;
-        };
-        measure.xLabel = function(x) {
-            if (!arguments.length) {
-                return xLabel;
-            }
-            xLabel = d3.functor(x);
-            return measure;
-        };
-        measure.yLabel = function(x) {
-            if (!arguments.length) {
-                return yLabel;
-            }
-            yLabel = d3.functor(x);
-            return measure;
-        };
-        measure.padding = function(x) {
-            if (!arguments.length) {
-                return padding;
-            }
-            padding = d3.functor(x);
-            return measure;
+            return fan;
         };
 
-        d3.rebind(measure, event, 'on');
+        d3.rebind(fan, event, 'on');
 
-        return measure;
+        return fan;
     };
 
 }(d3, fc));

@@ -1,13 +1,12 @@
 (function(d3, fc) {
     'use strict';
 
-    var form = document.forms['fan-form'];
     var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
-    data.fibonacciFan = [];
+    data.measure = [];
 
     var width = 600, height = 250;
 
-    var container = d3.select('#fan')
+    var container = d3.select('#measure')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -44,11 +43,20 @@
         })
         .barWidth(9);
 
-    // Create a fibonacciFan tool
-    var fibonacciFan = fc.tools.fibonacciFan()
+    // Create a measure tool
+    var measure = fc.tool.measure()
         .xScale(dateScale)
         .yScale(priceScale)
         .snap(fc.utilities.seriesPointSnap(bar, data))
+        .padding(10)
+        .xLabel(function(d) {
+            return !(d.source && d.target) ? '' :
+            d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
+        })
+        .yLabel(function(d) {
+            return !(d.source && d.target) ? '' :
+                d3.format('.2f')(d.target.datum.close - d.source.datum.close);
+        })
         .decorate(function(selection) {
             selection.enter()
                 .append('circle')
@@ -59,55 +67,23 @@
                 .attr('cx', function(d) { return d.target ? dateScale(d.target.x) : 0; })
                 .attr('cy', function(d) { return d.target ? priceScale(d.target.y) : 0; })
                 .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
-        })
-        .on('fansource', function(d) {
-            form.eventlog.value = 'fansource ' + d[0].source.x + ',' + d[0].source.y + '\n' + form.eventlog.value;
-        })
-        .on('fantarget', function(d) {
-            form.eventlog.value = 'fantarget ' + d[0].target.x + ',' + d[0].target.y + '\n' + form.eventlog.value;
-        })
-        .on('fanclear', function() {
-            form.eventlog.value = 'fanclear\n' + form.eventlog.value;
         });
-
 
     // Add it to the chart
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .series([bar, fibonacciFan])
+        .series([bar, measure])
         .mapping(function(series) {
             switch (series) {
                 case bar:
                     return this;
-                case fibonacciFan:
-                    return this.fibonacciFan;
+                case measure:
+                    return this.measure;
             }
         });
 
-    function render() {
-        container.datum(data)
-            .call(multi);
-    }
-    render();
-
-    d3.select(form.clear)
-        .on('click', function() {
-            data.fan = [];
-            render();
-            d3.event.preventDefault();
-        });
-    // Use selectAll so that the data is not propagated
-    var fanContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
-
-    d3.select(form.pointerevents)
-        .on('click', function() {
-            fanContainer.style('pointer-events', this.checked ? 'all' : 'none');
-        });
-
-    d3.select(form.display)
-        .on('click', function() {
-            fanContainer.style('display', this.checked ? '' : 'none');
-        });
+    container.datum(data)
+        .call(multi);
 
 })(d3, fc);

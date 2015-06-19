@@ -2,11 +2,11 @@
     'use strict';
 
     var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
-    data.measure = [];
+    data.crosshairs = [];
 
     var width = 600, height = 250;
 
-    var container = d3.select('#measure')
+    var container = d3.select('#crosshairs')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -43,43 +43,39 @@
         })
         .barWidth(9);
 
-    // Create a measure tool
-    var measure = fc.tools.measure()
+    // Create a crosshairs tool
+    var crosshairs = fc.tool.crosshairs()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.utilities.seriesPointSnap(bar, data))
-        .padding(10)
-        .xLabel(function(d) {
-            return !(d.source && d.target) ? '' :
-            d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
-        })
-        .yLabel(function(d) {
-            return !(d.source && d.target) ? '' :
-                d3.format('.2f')(d.target.datum.close - d.source.datum.close);
-        })
+        .snap(fc.utilities.seriesPointSnapXOnly(bar, data))
+        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
+        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
         .decorate(function(selection) {
+
+            // add a coloured rectangle within the trackball
             selection.enter()
-                .append('circle')
-                .attr('r', 6)
-                .style('stroke', 'black')
-                .style('fill', 'none');
-            selection.select('circle')
-                .attr('cx', function(d) { return d.target ? dateScale(d.target.x) : 0; })
-                .attr('cy', function(d) { return d.target ? priceScale(d.target.y) : 0; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
+                .select('.trackball')
+                .append('rect')
+                .attr('class', 'example')
+                .attr('width', 20)
+                .attr('height', 20)
+                .style('opacity', 0.5);
+
+            selection.select('rect.example')
+                .style('fill', function(d) { return color(d.datum ? d.datum.date.getDay() : 0); });
         });
 
     // Add it to the chart
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .series([bar, measure])
+        .series([bar, crosshairs])
         .mapping(function(series) {
             switch (series) {
                 case bar:
                     return this;
-                case measure:
-                    return this.measure;
+                case crosshairs:
+                    return this.crosshairs;
             }
         });
 

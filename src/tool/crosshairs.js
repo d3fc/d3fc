@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.tools.crosshairs = function() {
+    fc.tool.crosshairs = function() {
 
         var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
             xScale = d3.time.scale(),
@@ -20,11 +20,11 @@
             .element('g')
             .attrs({'class': 'crosshair'});
 
-        var horizontalLine = fc.tools.line()
+        var horizontalLine = fc.tool.line()
             .value(y)
             .label(function(d) { return d.y; });
 
-        var verticalLine = fc.tools.line()
+        var verticalLine = fc.tool.line()
             .orient('vertical')
             .value(x)
             .label(function(d) { return d.x; });

@@ -33,11 +33,11 @@
         .call(ohlc);
 
     // Create the annotations
-    var annotation = fc.tools.line()
+    var annotation = fc.tool.line()
         .xScale(dateScale)
         .yScale(priceScale);
 
-    var lastCloseAnnotation = fc.tools.line()
+    var lastCloseAnnotation = fc.tool.line()
         .value(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
@@ -45,7 +45,7 @@
             return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
-    var annotationDecimal = fc.tools.line()
+    var annotationDecimal = fc.tool.line()
         .xScale(dateScale)
         .yScale(priceScale)
         .decorate(function(selection) {
@@ -61,7 +61,7 @@
             return 'Animated: ' + d3.format('.3f')(d);
         });
 
-    var verticalAnnotation = fc.tools.line()
+    var verticalAnnotation = fc.tool.line()
         .xScale(dateScale)
         .yScale(priceScale)
         .orient('vertical')

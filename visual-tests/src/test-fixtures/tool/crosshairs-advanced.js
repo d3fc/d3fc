@@ -1,13 +1,13 @@
 (function(d3, fc) {
     'use strict';
 
-    var form = document.forms['measure-1-form'];
+    var form = document.forms['crosshairs-1-form'];
     var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
-    data.measure = [];
+    data.crosshairs = [];
 
     var width = 600, height = 250;
 
-    var container = d3.select('#measure-1')
+    var container = d3.select('#crosshairs-1')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -44,31 +44,31 @@
         })
         .barWidth(9);
 
-    // Create a measure tool
-    var measure = fc.tools.measure()
+    // Create a crosshairs tool
+    var crosshairs = fc.tool.crosshairs()
         .xScale(dateScale)
         .yScale(priceScale)
-        .on('measuresource', function(d) {
-            form.eventlog.value = 'measuresource ' + d[0].source.x + ',' + d[0].source.y + '\n' + form.eventlog.value;
+        .on('trackingstart', function(d) {
+            form.eventlog.value = 'trackingstart ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
         })
-        .on('measuretarget', function(d) {
-            form.eventlog.value = 'measuretarget ' + d[0].target.x + ',' + d[0].target.y + '\n' + form.eventlog.value;
+        .on('trackingmove', function(d) {
+            form.eventlog.value = 'trackingmove ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
         })
-        .on('measureclear', function() {
-            form.eventlog.value = 'measureclear\n' + form.eventlog.value;
+        .on('trackingend', function() {
+            form.eventlog.value = 'trackingend\n' + form.eventlog.value;
         });
 
     // Add it to the chart
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .series([bar, measure])
+        .series([bar, crosshairs])
         .mapping(function(series) {
             switch (series) {
                 case bar:
                     return this;
-                case measure:
-                    return this.measure;
+                case crosshairs:
+                    return this.crosshairs;
             }
         });
 
@@ -80,22 +80,22 @@
 
     d3.select(form.clear)
         .on('click', function() {
-            data.measure = [];
+            data.crosshairs = [];
             render();
             d3.event.preventDefault();
         });
 
     // Use selectAll so that the data is not propagated
-    var measureContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
+    var crosshairsContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
 
     d3.select(form.pointerevents)
         .on('click', function() {
-            measureContainer.style('pointer-events', this.checked ? 'all' : 'none');
+            crosshairsContainer.style('pointer-events', this.checked ? 'all' : 'none');
         });
 
     d3.select(form.display)
         .on('click', function() {
-            measureContainer.style('display', this.checked ? '' : 'none');
+            crosshairsContainer.style('display', this.checked ? '' : 'none');
         });
 
 })(d3, fc);
