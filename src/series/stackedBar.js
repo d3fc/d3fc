@@ -18,7 +18,7 @@
                 .xScale(xScale)
                 .yScale(yScale)
                 .xValue(stackLayout.x())
-                .yValue(stackLayout.y())
+                .yValue(function(d) { return y0Value(d) + stackLayout.y()(d); })
                 .y0Value(y0Value);
 
             selection.each(function(data) {
