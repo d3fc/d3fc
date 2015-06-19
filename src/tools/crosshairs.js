@@ -29,12 +29,19 @@
             .value(x)
             .label(function(d) { return d.x; });
 
+        // ordinal axes have a rangeExtent function, this adds any padding that
+        // was applied to the range. This functions returns the rangeExtent
+        // if present, or range otherwise
+        function range(scale) {
+            return scale.rangeExtent ? scale.rangeExtent() : scale.range();
+        }
+
         // the line annotations used to render the crosshair are positioned using
         // screen coordinates. This function constructs a suitable scale for rendering
         // these annotations.
         function identityScale(scale) {
             return d3.scale.identity()
-                .range(scale.range());
+                .range(range(scale));
         }
 
 
@@ -52,13 +59,6 @@
                 overlay.enter()
                     .append('rect')
                     .style('visibility', 'hidden');
-
-                // ordinal axes have a rangeExtent function, this adds any padding that
-                // was applied to the range. This functions returns the rangeExtent
-                // if present, or range otherwise
-                function range(scale) {
-                    return scale.rangeExtent ? scale.rangeExtent() : scale.range();
-                }
 
                 container.select('rect')
                     .attr('x', range(xScale)[0])
