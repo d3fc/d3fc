@@ -52,7 +52,6 @@
                 // was applied to the range. This functions returns the rangeExtent
                 // if present, or range otherwise
                 function range(scale) {
-                    console.log(scale.rangeExtent ? scale.rangeExtent() : scale.range());
                     return scale.rangeExtent ? scale.rangeExtent() : scale.range();
                 }
 
