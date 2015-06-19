@@ -8,6 +8,7 @@
     /* jshint ignore:end */
 
     global.fc = {
+        annotation: {},
         chart: {},
         indicator: {
             algorithm: {

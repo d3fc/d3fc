@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.tool.line = function() {
+    fc.annotation.line = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),

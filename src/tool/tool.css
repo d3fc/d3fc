@@ -37,15 +37,3 @@
   stroke: #06c;
   fill: transparent;
 }
-
-/* Annotations */
-.annotation>line {
-  fill: none;
-  stroke: #69f;
-  stroke-width: 1;
-  stroke-dasharray: 3, 3;
-}
-.annotation text {
-  font: 10px sans-serif;
-  text-anchor: end;
-}

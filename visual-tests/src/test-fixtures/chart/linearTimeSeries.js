@@ -21,7 +21,7 @@
         .yTicks(5);
 
     // Create the gridlines
-    var gridlines = fc.scale.gridlines();
+    var gridlines = fc.annotation.gridline();
 
     // Create the line and area series
     var line = fc.series.line()

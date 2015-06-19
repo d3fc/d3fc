@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.scale.gridlines = function() {
+    fc.annotation.gridline = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),

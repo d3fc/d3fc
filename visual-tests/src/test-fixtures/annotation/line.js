@@ -5,7 +5,7 @@
 
     var width = 600, height = 250;
 
-    var container = d3.select('#annotation')
+    var container = d3.select('#line')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -33,11 +33,11 @@
         .call(ohlc);
 
     // Create the annotations
-    var annotation = fc.tool.line()
+    var annotation = fc.annotation.line()
         .xScale(dateScale)
         .yScale(priceScale);
 
-    var lastCloseAnnotation = fc.tool.line()
+    var lastCloseAnnotation = fc.annotation.line()
         .value(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
@@ -45,7 +45,7 @@
             return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
-    var annotationDecimal = fc.tool.line()
+    var annotationDecimal = fc.annotation.line()
         .xScale(dateScale)
         .yScale(priceScale)
         .decorate(function(selection) {
@@ -61,7 +61,7 @@
             return 'Animated: ' + d3.format('.3f')(d);
         });
 
-    var verticalAnnotation = fc.tool.line()
+    var verticalAnnotation = fc.annotation.line()
         .xScale(dateScale)
         .yScale(priceScale)
         .orient('vertical')

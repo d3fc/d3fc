@@ -20,11 +20,11 @@
             .element('g')
             .attrs({'class': 'crosshair'});
 
-        var horizontalLine = fc.tool.line()
+        var horizontalLine = fc.annotation.line()
             .value(y)
             .label(function(d) { return d.y; });
 
-        var verticalLine = fc.tool.line()
+        var verticalLine = fc.annotation.line()
             .orient('vertical')
             .value(x)
             .label(function(d) { return d.x; });
