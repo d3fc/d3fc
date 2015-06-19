@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.charts.linearTimeSeries = function() {
+    fc.chart.linearTimeSeries = function() {
 
         var xAxisHeight = 20;
         var plotArea = fc.series.line();

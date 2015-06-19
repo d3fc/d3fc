@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.charts.sparkline = function() {
+    fc.chart.sparkline = function() {
 
         // creates an array with four elements, representing the high, low, open and close
         // values of the given array

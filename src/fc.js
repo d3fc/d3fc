@@ -8,7 +8,7 @@
     /* jshint ignore:end */
 
     global.fc = {
-        charts: {},
+        chart: {},
         indicator: {
             algorithm: {
                 calculator: {}

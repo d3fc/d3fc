@@ -12,7 +12,7 @@
         priceFrom = d3.min(data, function(d) { return d.low; }),
         priceTo = d3.max(data, function(d) { return d.high; });
 
-    var chart = fc.charts.linearTimeSeries()
+    var chart = fc.chart.linearTimeSeries()
         .xDomain([dateFrom, dateTo])
         .xNice()
         .xTicks(5)
