@@ -1,12 +1,13 @@
 (function(d3, fc) {
     'use strict';
 
+    var form = document.forms['crosshair-1-form'];
     var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
-    data.crosshairs = [];
+    data.crosshair = [];
 
     var width = 600, height = 250;
 
-    var container = d3.select('#crosshairs')
+    var container = d3.select('#crosshair-1')
         .append('svg')
         .attr('width', width)
         .attr('height', height);
@@ -43,43 +44,58 @@
         })
         .barWidth(9);
 
-    // Create a crosshairs tool
-    var crosshairs = fc.tool.crosshairs()
+    // Create a crosshair tool
+    var crosshair = fc.tool.crosshair()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.util.seriesPointSnapXOnly(bar, data))
-        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
-        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
-        .decorate(function(selection) {
-
-            // add a coloured rectangle within the trackball
-            selection.enter()
-                .select('.trackball')
-                .append('rect')
-                .attr('class', 'example')
-                .attr('width', 20)
-                .attr('height', 20)
-                .style('opacity', 0.5);
-
-            selection.select('rect.example')
-                .style('fill', function(d) { return color(d.datum ? d.datum.date.getDay() : 0); });
+        .on('trackingstart', function(d) {
+            form.eventlog.value = 'trackingstart ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
+        })
+        .on('trackingmove', function(d) {
+            form.eventlog.value = 'trackingmove ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
+        })
+        .on('trackingend', function() {
+            form.eventlog.value = 'trackingend\n' + form.eventlog.value;
         });
 
     // Add it to the chart
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .series([bar, crosshairs])
+        .series([bar, crosshair])
         .mapping(function(series) {
             switch (series) {
                 case bar:
                     return this;
-                case crosshairs:
-                    return this.crosshairs;
+                case crosshair:
+                    return this.crosshair;
             }
         });
 
-    container.datum(data)
-        .call(multi);
+    function render() {
+        container.datum(data)
+            .call(multi);
+    }
+    render();
+
+    d3.select(form.clear)
+        .on('click', function() {
+            data.crosshair = [];
+            render();
+            d3.event.preventDefault();
+        });
+
+    // Use selectAll so that the data is not propagated
+    var crosshairContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
+
+    d3.select(form.pointerevents)
+        .on('click', function() {
+            crosshairContainer.style('pointer-events', this.checked ? 'all' : 'none');
+        });
+
+    d3.select(form.display)
+        .on('click', function() {
+            crosshairContainer.style('display', this.checked ? '' : 'none');
+        });
 
 })(d3, fc);

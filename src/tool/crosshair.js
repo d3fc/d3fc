@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.tool.crosshairs = function() {
+    fc.tool.crosshair = function() {
 
         var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
             xScale = d3.time.scale(),
@@ -45,13 +45,13 @@
         }
 
 
-        var crosshairs = function(selection) {
+        var crosshair = function(selection) {
 
             selection.each(function(data) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
-                    .on('mouseenter.crosshairs', mouseenter);
+                    .on('mouseenter.crosshair', mouseenter);
 
                 var overlay = container.selectAll('rect')
                     .data([data]);
@@ -99,12 +99,12 @@
         function mouseenter() {
             var mouse = d3.mouse(this);
             var container = d3.select(this)
-                .on('mousemove.crosshairs', mousemove)
-                .on('mouseleave.crosshairs', mouseleave);
+                .on('mousemove.crosshair', mousemove)
+                .on('mouseleave.crosshair', mouseleave);
             var snapped = snap.apply(this, mouse);
             var data = container.datum();
             data.push(snapped);
-            container.call(crosshairs);
+            container.call(crosshair);
             event.trackingstart.apply(this, arguments);
         }
 
@@ -114,7 +114,7 @@
             var snapped = snap.apply(this, mouse);
             var data = container.datum();
             data[data.length - 1] = snapped;
-            container.call(crosshairs);
+            container.call(crosshair);
             event.trackingmove.apply(this, arguments);
         }
 
@@ -122,52 +122,52 @@
             var container = d3.select(this);
             var data = container.datum();
             data.pop();
-            container.call(crosshairs)
-                .on('mousemove.crosshairs', null)
-                .on('mouseleave.crosshairs', null);
+            container.call(crosshair)
+                .on('mousemove.crosshair', null)
+                .on('mouseleave.crosshair', null);
             event.trackingend.apply(this, arguments);
         }
 
-        crosshairs.xScale = function(x) {
+        crosshair.xScale = function(x) {
             if (!arguments.length) {
                 return xScale;
             }
             xScale = x;
-            return crosshairs;
+            return crosshair;
         };
-        crosshairs.yScale = function(x) {
+        crosshair.yScale = function(x) {
             if (!arguments.length) {
                 return yScale;
             }
             yScale = x;
-            return crosshairs;
+            return crosshair;
         };
-        crosshairs.snap = function(x) {
+        crosshair.snap = function(x) {
             if (!arguments.length) {
                 return snap;
             }
             snap = x;
-            return crosshairs;
+            return crosshair;
         };
-        crosshairs.decorate = function(x) {
+        crosshair.decorate = function(x) {
             if (!arguments.length) {
                 return decorate;
             }
             decorate = x;
-            return crosshairs;
+            return crosshair;
         };
 
-        d3.rebind(crosshairs, event, 'on');
+        d3.rebind(crosshair, event, 'on');
 
-        fc.util.rebind(crosshairs, horizontalLine, {
+        fc.util.rebind(crosshair, horizontalLine, {
             yLabel: 'label'
         });
 
-        fc.util.rebind(crosshairs, verticalLine, {
+        fc.util.rebind(crosshair, verticalLine, {
             xLabel: 'label'
         });
 
-        return crosshairs;
+        return crosshair;
     };
 
 }(d3, fc));
