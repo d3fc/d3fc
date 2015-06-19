@@ -93,10 +93,10 @@
             .series([trendLine, cycle])
             .xScale(monthScale)
             .yScale(tempScale)
-            .mapping(function(data, series) {
+            .mapping(function(series) {
                 switch (series) {
                     case cycle:
-                        return data;
+                        return this;
                     case trendLine:
                         return meanValues;
                 }

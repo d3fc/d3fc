@@ -86,8 +86,8 @@
                     .series([horizontalLine, verticalLine])
                     .xScale(identityScale(xScale))
                     .yScale(identityScale(yScale))
-                    .mapping(function(data) {
-                        return [data];
+                    .mapping(function() {
+                        return [this];
                     });
 
                 crosshair.call(multi);

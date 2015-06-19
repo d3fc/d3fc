@@ -63,12 +63,12 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, measure])
-        .mapping(function(data, series) {
+        .mapping(function(series) {
             switch (series) {
                 case bar:
-                    return data;
+                    return this;
                 case measure:
-                    return data.measure;
+                    return this.measure;
             }
         });
 

@@ -6,14 +6,14 @@
     // * Manipulate the data specified by the user
     // This is achieved by data joining the series array to the container but
     // overriding where the series value is stored on the node (__series__) and
-    // setting the node datum (__data__) to be the user supplied data.
+    // forcing the node datum (__data__) to be the user supplied data (via mapping).
 
     fc.series.multi = function() {
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             series = [],
-            mapping = fc.utilities.fn.identity,
+            mapping = fc.utilities.fn.context,
             key = fc.utilities.fn.index;
 
         var dataJoin = fc.utilities.dataJoin()
@@ -50,7 +50,7 @@
                         (series.yScale || series.y).call(series, yScale);
 
                         d3.select(this)
-                            .datum(mapping(data, series, i))
+                            .datum(mapping.call(data, series, i))
                             .call(series);
                     });
             });

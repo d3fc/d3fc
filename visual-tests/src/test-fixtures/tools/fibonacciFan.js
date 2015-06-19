@@ -76,12 +76,12 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, fibonacciFan])
-        .mapping(function(data, series) {
+        .mapping(function(series) {
             switch (series) {
                 case bar:
-                    return data;
+                    return this;
                 case fibonacciFan:
-                    return data.fibonacciFan;
+                    return this.fibonacciFan;
             }
         });
 
