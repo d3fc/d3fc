@@ -3,13 +3,13 @@
 
     fc.series.bar = function() {
 
-        var decorate = fc.utilities.fn.noop,
+        var decorate = fc.util.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             y1Value = function(d, i) { return d.close; },
             xValue = function(d, i) { return d.date; },
             y0Value = d3.functor(0),
-            barWidth = fc.utilities.fractionalBarWidth(0.75);
+            barWidth = fc.util.fractionalBarWidth(0.75);
 
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
@@ -23,7 +23,7 @@
                         xValue(d, i) !== undefined;
                 });
 
-                var g = fc.utilities.simpleDataJoin(container, 'bar', filteredData, xValue);
+                var g = fc.util.simpleDataJoin(container, 'bar', filteredData, xValue);
 
                 var width = barWidth(filteredData.map(xValueScaled));
 

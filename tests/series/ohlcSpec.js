@@ -5,11 +5,11 @@
 
         it('should invoke data accessors with datum and index', function() {
 
-            var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.utilities.fn.identity),
-                yOpenValueSpy = jasmine.createSpy('yOpenValue').and.callFake(fc.utilities.fn.identity),
-                yHighValueSpy = jasmine.createSpy('yHighValue').and.callFake(fc.utilities.fn.identity),
-                yLowValueSpy = jasmine.createSpy('yLowValue').and.callFake(fc.utilities.fn.identity),
-                yCloseValueSpy = jasmine.createSpy('yCloseValue').and.callFake(fc.utilities.fn.identity);
+            var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.util.fn.identity),
+                yOpenValueSpy = jasmine.createSpy('yOpenValue').and.callFake(fc.util.fn.identity),
+                yHighValueSpy = jasmine.createSpy('yHighValue').and.callFake(fc.util.fn.identity),
+                yLowValueSpy = jasmine.createSpy('yLowValue').and.callFake(fc.util.fn.identity),
+                yCloseValueSpy = jasmine.createSpy('yCloseValue').and.callFake(fc.util.fn.identity);
 
             var ohlc = fc.series.ohlc()
                 .xValue(xValueSpy)

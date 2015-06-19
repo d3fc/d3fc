@@ -5,9 +5,9 @@
 
         it('should invoke data accessors with datum and index', function() {
 
-            var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.utilities.fn.identity),
-                y0ValueSpy = jasmine.createSpy('y0Value').and.callFake(fc.utilities.fn.identity),
-                y1ValueSpy = jasmine.createSpy('y1Value').and.callFake(fc.utilities.fn.identity);
+            var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.util.fn.identity),
+                y0ValueSpy = jasmine.createSpy('y0Value').and.callFake(fc.util.fn.identity),
+                y1ValueSpy = jasmine.createSpy('y1Value').and.callFake(fc.util.fn.identity);
 
             var bar = fc.series.bar()
                 .xValue(xValueSpy)

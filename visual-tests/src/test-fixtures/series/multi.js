@@ -12,7 +12,7 @@
         priceFrom = d3.min(data, function(d) { return d.low; }),
         priceTo = d3.max(data, function(d) { return d.high; });
 
-    var chart = fc.charts.linearTimeSeries()
+    var chart = fc.chart.linearTimeSeries()
         .xDomain([dateFrom, dateTo])
         .xNice()
         .xTicks(5)
@@ -21,7 +21,7 @@
         .yTicks(5);
 
     // Create the gridlines
-    var gridlines = fc.scale.gridlines();
+    var gridlines = fc.annotation.gridline();
 
     // Create the line series
     var line = fc.series.line()
@@ -37,9 +37,9 @@
         .yValue(function(d) { return d.close; });
 
     // add a bollinger - which results in a nested mutli-series
-    var bollingerComputer = fc.indicators.algorithms.bollingerBands();
+    var bollingerComputer = fc.indicator.algorithm.bollingerBands();
     bollingerComputer(data);
-    var bollingerRenderer = fc.indicators.renderers.bollingerBands();
+    var bollingerRenderer = fc.indicator.renderer.bollingerBands();
 
     // Create the multi series
     var multi = fc.series.multi()

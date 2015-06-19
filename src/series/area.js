@@ -3,7 +3,7 @@
 
     fc.series.area = function() {
 
-        var decorate = fc.utilities.fn.noop,
+        var decorate = fc.util.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             y0Value = d3.functor(0),

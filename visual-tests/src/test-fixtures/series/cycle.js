@@ -32,11 +32,11 @@
             .rangePoints([0, width], 1);
 
         var yearScale = d3.scale.linear()
-            .domain(fc.utilities.extent(data, 'Year'))
+            .domain(fc.util.extent(data, 'Year'))
             .nice();
 
         var tempScale = d3.scale.linear()
-            .domain(fc.utilities.extent(data, ['Station']))
+            .domain(fc.util.extent(data, ['Station']))
             .range([height, 0])
             .nice();
 
@@ -62,7 +62,7 @@
             .series([subAxis, line, point]);
 
         var cycle = fc.series.cycle()
-            .barWidth(fc.utilities.fractionalBarWidth(0.9))
+            .barWidth(fc.util.fractionalBarWidth(0.9))
             .yScale(tempScale)
             .xValue(function(d) { return d.Month; })
             .subScale(yearScale)

@@ -3,13 +3,13 @@
 
     fc.series.cycle = function() {
 
-        var decorate = fc.utilities.fn.noop,
+        var decorate = fc.util.fn.noop,
             xScale = d3.scale.linear(),
             yScale = d3.scale.linear(),
             xValue = function(d, i) { return d.date.getDay(); },
             subScale = d3.scale.linear(),
             subSeries = fc.series.line(),
-            barWidth = fc.utilities.fractionalBarWidth(0.75);
+            barWidth = fc.util.fractionalBarWidth(0.75);
 
         var cycle = function(selection) {
 
@@ -26,7 +26,7 @@
                 var width = barWidth(xValues.map(xScale)),
                     halfWidth = width / 2;
 
-                var g = fc.utilities.simpleDataJoin(container, 'cycle', xValues);
+                var g = fc.util.simpleDataJoin(container, 'cycle', xValues);
 
                 g.each(function(d, i) {
 

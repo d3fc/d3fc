@@ -8,19 +8,20 @@
     /* jshint ignore:end */
 
     global.fc = {
-        charts: {},
-        indicators: {
-            algorithms: {
-                calculators: {}
+        annotation: {},
+        chart: {},
+        indicator: {
+            algorithm: {
+                calculator: {}
             },
-            renderers: {}
+            renderer: {}
         },
         scale: {
             discontinuity: {}
         },
         series: {},
         svg: {},
-        tools: {},
-        utilities: {}
+        tool: {},
+        util: {}
     };
 }());

@@ -3,7 +3,7 @@
 
     fc.series.point = function() {
 
-        var decorate = fc.utilities.fn.noop,
+        var decorate = fc.util.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             yValue = function(d, i) { return d.close; },
@@ -16,7 +16,7 @@
 
                 var container = d3.select(this);
 
-                var g = fc.utilities.simpleDataJoin(container, 'point', data, xValue);
+                var g = fc.util.simpleDataJoin(container, 'point', data, xValue);
 
                 g.enter()
                     .append('circle');

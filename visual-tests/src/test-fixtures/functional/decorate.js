@@ -15,33 +15,33 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.utilities.extent(data, 'date'))
+        .domain(fc.util.extent(data, 'date'))
         .range([0, width]);
 
     var heightFraction = height / 4;
 
     // Create scale for y axis
     var candleScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data3, ['high', 'low']))
+        .domain(fc.util.extent(data3, ['high', 'low']))
         .range([heightFraction, 0]);
 
     var ohlcScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data2, ['high', 'low']))
+        .domain(fc.util.extent(data2, ['high', 'low']))
         .range([heightFraction * 2, heightFraction]);
 
     // offset the close price to give some negative values
-    var extent = fc.utilities.extent(data, ['close']);
+    var extent = fc.util.extent(data, ['close']);
     var offset = extent[0] + (extent[1] - extent[0]) / 2;
     data.forEach(function(datum) {
         datum.close = datum.close - offset;
     });
 
     var barScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data, ['close']))
+        .domain(fc.util.extent(data, ['close']))
         .range([heightFraction * 3, heightFraction * 2]);
 
     var pointScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data4, ['high', 'low']))
+        .domain(fc.util.extent(data4, ['high', 'low']))
         .range([heightFraction * 4, heightFraction * 3]);
 
     var color = d3.scale.category10();

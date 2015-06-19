@@ -8,7 +8,7 @@
 
         var axis = d3.svg.axis(),
             baseline = d3.functor(0),
-            decorate = fc.utilities.fn.noop,
+            decorate = fc.util.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
@@ -18,7 +18,7 @@
 
                 var container = d3.select(this);
 
-                var g = fc.utilities.simpleDataJoin(container, 'axis-adapter', [data]);
+                var g = fc.util.simpleDataJoin(container, 'axis-adapter', [data]);
 
                 g.enter()
                     .attr('class', 'axis axis-adapter');

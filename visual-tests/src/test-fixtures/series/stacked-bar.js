@@ -32,7 +32,7 @@
             });
         });
 
-        series.crosshairs = [];
+        series.crosshair = [];
 
         // Collect the X values.
         var xCategories = data.map(function(d) { return d.State; });
@@ -111,8 +111,8 @@
             };
         }
 
-        // Create a crosshairs tool
-        var crosshairs = fc.tools.crosshairs()
+        // Create a crosshair tool
+        var crosshair = fc.tool.crosshair()
           .xLabel(function(d) {
               return d.datum.x;
           })
@@ -123,13 +123,13 @@
         var multi = fc.series.multi()
             .xScale(x)
             .yScale(y)
-            .series([stack, crosshairs])
+            .series([stack, crosshair])
             .mapping(function(series) {
                 switch (series) {
                     case stack:
                         return this;
-                    case crosshairs:
-                        return this.crosshairs;
+                    case crosshair:
+                        return this.crosshair;
                 }
             });
 

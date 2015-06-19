@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.charts.sparkline = function() {
+    fc.chart.sparkline = function() {
 
         // creates an array with four elements, representing the high, low, open and close
         // values of the given array
@@ -72,7 +72,7 @@
             selection.each(function(data) {
 
                 var container = d3.select(this);
-                var dimensions = fc.utilities.innerDimensions(this);
+                var dimensions = fc.util.innerDimensions(this);
                 var margin = radius;
 
                 xScale.range([margin, dimensions.width - margin]);
@@ -86,16 +86,16 @@
             });
         };
 
-        fc.utilities.rebind(sparkline, xScale, {
+        fc.util.rebind(sparkline, xScale, {
             xDiscontinuityProvider: 'discontinuityProvider',
             xDomain: 'domain'
         });
 
-        fc.utilities.rebind(sparkline, yScale, {
+        fc.util.rebind(sparkline, yScale, {
             yDomain: 'domain'
         });
 
-        fc.utilities.rebind(sparkline, line, 'xValue', 'yValue');
+        fc.util.rebind(sparkline, line, 'xValue', 'yValue');
 
         sparkline.xScale = function() { return xScale; };
         sparkline.yScale = function() { return yScale; };

@@ -19,11 +19,11 @@
     }
 
     var xScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data, 'theta'))
+        .domain(fc.util.extent(data, 'theta'))
         .range([0, width]);
 
     var yScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data, 'sin', 'cos'))
+        .domain(fc.util.extent(data, 'sin', 'cos'))
         .range([height, 0])
         .nice();
 
