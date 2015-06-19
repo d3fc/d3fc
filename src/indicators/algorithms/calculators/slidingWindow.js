@@ -5,8 +5,8 @@
 
         var undefinedValue = d3.functor(undefined),
             windowSize = d3.functor(10),
-            accumulator = fc.utilities.fn.noop,
-            value = fc.utilities.fn.identity;
+            accumulator = fc.util.fn.noop,
+            value = fc.util.fn.identity;
 
         var slidingWindow = function(data) {
             var size = windowSize.apply(this, arguments);

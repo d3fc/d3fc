@@ -4,7 +4,7 @@
     fc.indicators.algorithms.calculators.exponentialMovingAverage = function() {
 
         var windowSize = 9,
-            value = fc.utilities.fn.identity;
+            value = fc.util.fn.identity;
 
         var exponentialMovingAverage = function(data) {
 

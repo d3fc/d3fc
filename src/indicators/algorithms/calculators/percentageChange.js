@@ -4,7 +4,7 @@
     fc.indicators.algorithms.calculators.percentageChange = function() {
 
         var baseIndex = d3.functor(0),
-            value = fc.utilities.fn.identity;
+            value = fc.util.fn.identity;
 
         var percentageChange = function(data) {
 

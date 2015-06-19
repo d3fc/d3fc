@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.utilities.simpleDataJoin = function(parent, className, data, dataKey) {
+    fc.util.simpleDataJoin = function(parent, className, data, dataKey) {
         // "Caution: avoid interpolating to or from the number zero when the interpolator is used to generate
         // a string (such as with attr).
         // Very small values, when stringified, may be converted to scientific notation and
@@ -15,7 +15,7 @@
 
         // update
         var updateSelection = parent.selectAll('g.' + className)
-            .data(data, dataKey || fc.utilities.fn.index);
+            .data(data, dataKey || fc.util.fn.index);
 
         // enter
         // when 'parent' is a transition, entering elements fade in (from transparent to opaque)

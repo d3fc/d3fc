@@ -13,9 +13,9 @@
             return new Date(startDate.getTime() + ms);
         };
 
-        identity.clampUp = fc.utilities.fn.identity;
+        identity.clampUp = fc.util.fn.identity;
 
-        identity.clampDown = fc.utilities.fn.identity;
+        identity.clampDown = fc.util.fn.identity;
 
         identity.copy = function() { return identity; };
 

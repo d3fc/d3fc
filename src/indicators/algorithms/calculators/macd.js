@@ -3,7 +3,7 @@
 
     fc.indicators.algorithms.calculators.macd = function() {
 
-        var value = fc.utilities.fn.identity;
+        var value = fc.util.fn.identity;
 
         var fastEMA = fc.indicators.algorithms.calculators.exponentialMovingAverage()
             .windowSize(12);
@@ -50,15 +50,15 @@
             return macd;
         };
 
-        fc.utilities.rebind(macd, fastEMA, {
+        fc.util.rebind(macd, fastEMA, {
             fastPeriod: 'windowSize'
         });
 
-        fc.utilities.rebind(macd, slowEMA, {
+        fc.util.rebind(macd, slowEMA, {
             slowPeriod: 'windowSize'
         });
 
-        fc.utilities.rebind(macd, signalEMA, {
+        fc.util.rebind(macd, signalEMA, {
             signalPeriod: 'windowSize'
         });
 

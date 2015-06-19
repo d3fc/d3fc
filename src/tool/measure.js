@@ -7,9 +7,9 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             snap = function(x, y) {
-                return fc.utilities.noSnap(xScale, yScale)(x, y);
+                return fc.util.noSnap(xScale, yScale)(x, y);
             },
-            decorate = fc.utilities.fn.noop,
+            decorate = fc.util.fn.noop,
             xLabel = d3.functor(''),
             yLabel = d3.functor(''),
             padding = d3.functor(2);
@@ -38,7 +38,7 @@
                     .attr('width', xScale.range()[1])
                     .attr('height', yScale.range()[0]);
 
-                var g = fc.utilities.simpleDataJoin(container, 'measure', data);
+                var g = fc.util.simpleDataJoin(container, 'measure', data);
 
                 var enter = g.enter();
                 enter.append('line')

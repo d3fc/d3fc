@@ -104,7 +104,7 @@
 
         var layout = function(selection) {
             selection.each(function(data) {
-                var dimensions = fc.utilities.innerDimensions(this);
+                var dimensions = fc.util.innerDimensions(this);
 
                 // create the layout nodes
                 var layoutNodes = createNodes(this);

@@ -5,7 +5,7 @@
     // array of x values, returns a suitable width. This function creates a width which is
     // equal to the smallest distance between neighbouring datapoints multiplied
     // by the given factor
-    fc.utilities.fractionalBarWidth = function(fraction) {
+    fc.util.fractionalBarWidth = function(fraction) {
 
         return function(pixelValues) {
             // return some default value if there are not enough datapoints to compute the width

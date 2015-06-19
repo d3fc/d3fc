@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.utilities.noSnap = function(xScale, yScale) {
+    fc.util.noSnap = function(xScale, yScale) {
         return function(xPixel, yPixel) {
             // ordinal axes don't invert pixel values (interpolation doesn't
             // always make sense) so we support two modes. One we're we record
@@ -25,7 +25,7 @@
         };
     };
 
-    fc.utilities.pointSnap = function(xScale, yScale, xValue, yValue, data, pointDistance) {
+    fc.util.pointSnap = function(xScale, yScale, xValue, yValue, data, pointDistance) {
         // a default function that computes the distance between two points
         pointDistance = pointDistance || function(x, y, cx, cy) {
             var dx = x - cx,
@@ -52,29 +52,29 @@
         };
     };
 
-    fc.utilities.seriesPointSnapXOnly = function(series, data) {
+    fc.util.seriesPointSnapXOnly = function(series, data) {
         function pointDistance(x, y, cx, cy) {
             var dx = x - cx;
             return Math.abs(dx);
         }
-        return fc.utilities.seriesPointSnap(series, data, pointDistance);
+        return fc.util.seriesPointSnap(series, data, pointDistance);
     };
 
-    fc.utilities.seriesPointSnapYOnly = function(series, data) {
+    fc.util.seriesPointSnapYOnly = function(series, data) {
         function pointDistance(x, y, cx, cy) {
             var dy = y - cy;
             return Math.abs(dy);
         }
-        return fc.utilities.seriesPointSnap(series, data, pointDistance);
+        return fc.util.seriesPointSnap(series, data, pointDistance);
     };
 
-    fc.utilities.seriesPointSnap = function(series, data, pointDistance) {
+    fc.util.seriesPointSnap = function(series, data, pointDistance) {
         return function(xPixel, yPixel) {
             var xScale = series.xScale(),
                 yScale = series.yScale(),
                 xValue = series.xValue(),
                 yValue = (series.yValue || series.yCloseValue).call(series);
-            return fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data, pointDistance)(xPixel, yPixel);
+            return fc.util.pointSnap(xScale, yScale, xValue, yValue, data, pointDistance)(xPixel, yPixel);
         };
     };
 

@@ -16,12 +16,12 @@
     // This is achieved by appending the element to the enter selection before exposing it.
     // A default transition of fade in/out is also implicitly added but can be modified.
 
-    fc.utilities.dataJoin = function() {
+    fc.util.dataJoin = function() {
         var selector = 'g',
             children = false,
             element = 'g',
             attrs = {},
-            key = fc.utilities.fn.index;
+            key = fc.util.fn.index;
 
         var dataJoin = function(container, data) {
 

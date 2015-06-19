@@ -13,10 +13,10 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             series = [],
-            mapping = fc.utilities.fn.context,
-            key = fc.utilities.fn.index;
+            mapping = fc.util.fn.context,
+            key = fc.util.fn.index;
 
-        var dataJoin = fc.utilities.dataJoin()
+        var dataJoin = fc.util.dataJoin()
             .children(true)
             .selector('g.multi')
             .element('g')

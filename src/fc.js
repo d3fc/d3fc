@@ -21,6 +21,6 @@
         series: {},
         svg: {},
         tool: {},
-        utilities: {}
+        util: {}
     };
 }());

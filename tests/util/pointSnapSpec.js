@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.utilities.snap', function() {
+    describe('fc.util.snap', function() {
 
         var xScale, yScale;
 
@@ -10,12 +10,12 @@
             yScale = d3.scale.identity();
         });
 
-        describe('fc.utilities.noSnap', function() {
+        describe('fc.util.noSnap', function() {
 
             var noSnap;
 
             beforeEach(function() {
-                noSnap = fc.utilities.noSnap(xScale, yScale);
+                noSnap = fc.util.noSnap(xScale, yScale);
             });
 
             it('should work for scales with invert', function() {
@@ -40,7 +40,7 @@
         });
 
 
-        describe('fc.utilities.pointSnap', function() {
+        describe('fc.util.pointSnap', function() {
             var xValue, yValue, xScale, yScale, data;
 
             beforeEach(function() {
@@ -56,7 +56,7 @@
             });
 
             it('should work with no data', function() {
-                var pointSnap = fc.utilities.pointSnap(xScale, yScale, xValue, yValue, []);
+                var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, []);
                 expect(pointSnap(4, 4)).toEqual({
                     datum: null,
                     x: 4,
@@ -67,7 +67,7 @@
             });
 
             it('should work for scales with invert', function() {
-                var pointSnap = fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data);
+                var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);
                 expect(pointSnap(4, 4)).toEqual({
                     datum: [5, 5],
                     x: 5,
@@ -80,7 +80,7 @@
             it('should work for scales without invert', function() {
                 xScale.invert = null;
                 yScale.invert = null;
-                var pointSnap = fc.utilities.pointSnap(xScale, yScale, xValue, yValue, data);
+                var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);
                 expect(pointSnap(4, 4)).toEqual({
                     datum: [5, 5],
                     x: 5,

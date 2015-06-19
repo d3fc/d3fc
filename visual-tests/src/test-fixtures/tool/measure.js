@@ -47,7 +47,7 @@
     var measure = fc.tool.measure()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.utilities.seriesPointSnap(bar, data))
+        .snap(fc.util.seriesPointSnap(bar, data))
         .padding(10)
         .xLabel(function(d) {
             return !(d.source && d.target) ? '' :

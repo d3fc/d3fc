@@ -47,7 +47,7 @@
     var crosshairs = fc.tool.crosshairs()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.utilities.seriesPointSnapXOnly(bar, data))
+        .snap(fc.util.seriesPointSnapXOnly(bar, data))
         .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
         .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
         .decorate(function(selection) {

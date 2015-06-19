@@ -7,9 +7,9 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             snap = function(x, y) {
-                return fc.utilities.noSnap(xScale, yScale)(x, y);
+                return fc.util.noSnap(xScale, yScale)(x, y);
             },
-            decorate = fc.utilities.fn.noop;
+            decorate = fc.util.fn.noop;
 
         var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
             y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
@@ -35,7 +35,7 @@
                     .attr('width', xScale.range()[1])
                     .attr('height', yScale.range()[0]);
 
-                var g = fc.utilities.simpleDataJoin(container, 'fan', data);
+                var g = fc.util.simpleDataJoin(container, 'fan', data);
 
                 g.each(function(d) {
                     d.x = xScale.range()[1];

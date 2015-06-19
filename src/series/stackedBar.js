@@ -3,8 +3,8 @@
 
     fc.series.stackedBar = function() {
 
-        var decorate = fc.utilities.fn.noop,
-            barWidth = fc.utilities.fractionalBarWidth(0.75),
+        var decorate = fc.util.fn.noop,
+            barWidth = fc.util.fractionalBarWidth(0.75),
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             // Implicitly dependant on the implementation of the stack layout's `out`.
@@ -77,7 +77,7 @@
             return stackedBar;
         };
 
-        return fc.utilities.rebind(stackedBar, stackLayout, {
+        return fc.util.rebind(stackedBar, stackLayout, {
             xValue: 'x',
             yValue: 'y',
             out: 'out',

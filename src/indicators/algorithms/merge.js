@@ -5,7 +5,7 @@
     // the source array using the given merge function.
     fc.indicators.algorithms.merge = function() {
 
-        var merge = fc.utilities.fn.noop,
+        var merge = fc.util.fn.noop,
             algorithm = fc.indicators.algorithms.calculators.slidingWindow();
 
         var mergeCompute = function(data) {

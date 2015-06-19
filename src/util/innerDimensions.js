@@ -2,7 +2,7 @@
     'use strict';
 
     // returns the width and height of the given element minus the padding.
-    fc.utilities.innerDimensions = function(element) {
+    fc.util.innerDimensions = function(element) {
         var style = getComputedStyle(element);
         return {
             width: parseFloat(style.width) - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),

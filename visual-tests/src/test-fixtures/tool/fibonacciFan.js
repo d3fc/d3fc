@@ -48,7 +48,7 @@
     var fibonacciFan = fc.tool.fibonacciFan()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.utilities.seriesPointSnap(bar, data))
+        .snap(fc.util.seriesPointSnap(bar, data))
         .decorate(function(selection) {
             selection.enter()
                 .append('circle')

@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.utilities.fn = {
+    fc.util.fn = {
         context: function() { return this; },
         identity: function(d) { return d; },
         index: function(d, i) { return i; },

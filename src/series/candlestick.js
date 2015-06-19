@@ -3,7 +3,7 @@
 
     fc.series.candlestick = function() {
 
-        var decorate = fc.utilities.fn.noop,
+        var decorate = fc.util.fn.noop,
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             xValue = function(d, i) { return d.date; },
@@ -11,7 +11,7 @@
             yHighValue = function(d, i) { return d.high; },
             yLowValue = function(d, i) { return d.low; },
             yCloseValue = function(d, i) { return d.close; },
-            barWidth = fc.utilities.fractionalBarWidth(0.75);
+            barWidth = fc.util.fractionalBarWidth(0.75);
 
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
@@ -21,7 +21,7 @@
 
                 var container = d3.select(this);
 
-                var g = fc.utilities.simpleDataJoin(container, 'candlestick', data, xValue);
+                var g = fc.util.simpleDataJoin(container, 'candlestick', data, xValue);
 
                 g.enter()
                     .append('path');

@@ -12,7 +12,7 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.utilities.extent(data, 'date'))
+        .domain(fc.util.extent(data, 'date'))
         .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
         .range([0, width]);
 
@@ -35,7 +35,7 @@
         .merge(function(datum, boll) { datum.boll = boll; });
     bollingerComputer(data);
 
-    priceScale.domain(fc.utilities.extent(data, [
+    priceScale.domain(fc.util.extent(data, [
         function(d) { return d.boll.upper; },
         function(d) { return d.boll.lower; }
     ]));

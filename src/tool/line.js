@@ -5,13 +5,13 @@
 
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            value = fc.utilities.fn.identity,
-            keyValue = fc.utilities.fn.index,
+            value = fc.util.fn.identity,
+            keyValue = fc.util.fn.index,
             label = value,
-            decorate = fc.utilities.fn.noop,
+            decorate = fc.util.fn.noop,
             orient = 'horizontal';
 
-        var dataJoin = fc.utilities.dataJoin()
+        var dataJoin = fc.util.dataJoin()
             .selector('g.annotation')
             .element('g')
             .attrs({'class': 'annotation'});

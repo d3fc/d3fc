@@ -7,14 +7,14 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             snap = function(x, y) {
-                return fc.utilities.noSnap(xScale, yScale)(x, y);
+                return fc.util.noSnap(xScale, yScale)(x, y);
             },
-            decorate = fc.utilities.fn.noop;
+            decorate = fc.util.fn.noop;
 
         var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
             y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
-        var dataJoin = fc.utilities.dataJoin()
+        var dataJoin = fc.util.dataJoin()
             .children(true)
             .selector('g.crosshair')
             .element('g')
@@ -159,11 +159,11 @@
 
         d3.rebind(crosshairs, event, 'on');
 
-        fc.utilities.rebind(crosshairs, horizontalLine, {
+        fc.util.rebind(crosshairs, horizontalLine, {
             yLabel: 'label'
         });
 
-        fc.utilities.rebind(crosshairs, verticalLine, {
+        fc.util.rebind(crosshairs, verticalLine, {
             xLabel: 'label'
         });
 

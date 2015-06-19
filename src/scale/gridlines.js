@@ -14,7 +14,7 @@
 
                 var container = d3.select(this);
 
-                var xLines = fc.utilities.simpleDataJoin(container, 'x',
+                var xLines = fc.util.simpleDataJoin(container, 'x',
                     xScale.ticks(xTicks));
 
                 xLines.enter()
@@ -29,7 +29,7 @@
                         'y2': yScale.range()[1]
                     });
 
-                var yLines = fc.utilities.simpleDataJoin(container, 'y',
+                var yLines = fc.util.simpleDataJoin(container, 'y',
                     yScale.ticks(yTicks));
 
                 yLines.enter()

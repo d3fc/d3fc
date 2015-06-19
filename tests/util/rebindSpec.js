@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.utilities.rebind', function() {
+    describe('fc.util.rebind', function() {
 
         var source, target, value;
 
@@ -20,7 +20,7 @@
         });
 
         it('should have the same behaviour as d3.rebind', function() {
-            fc.utilities.rebind(target, source, 'fn');
+            fc.util.rebind(target, source, 'fn');
             expect(target.fn())
                 .toEqual(value);
 
@@ -32,7 +32,7 @@
         });
 
         it('should allow a mapping object to be used', function() {
-            fc.utilities.rebind(target, source, {'fn2': 'fn'});
+            fc.util.rebind(target, source, {'fn2': 'fn'});
             expect(target.fn2())
                 .toEqual(value);
 
@@ -45,7 +45,7 @@
 
         it('should throw if a method does not exist on the source object', function() {
             expect(function() {
-                fc.utilities.rebind(target, source, {'fn2': 'foo'});
+                fc.util.rebind(target, source, {'fn2': 'foo'});
             })
             .toThrow(new Error('The method foo does not exist on the source object'));
         });

@@ -12,13 +12,13 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.utilities.extent(data, 'date'))
+        .domain(fc.util.extent(data, 'date'))
         .range([0, width])
         .nice();
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain(fc.utilities.extent(data, ['high', 'low']))
+        .domain(fc.util.extent(data, ['high', 'low']))
         .range([height, 0])
         .nice();
 

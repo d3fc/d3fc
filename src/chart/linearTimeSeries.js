@@ -87,18 +87,18 @@
             });
         };
 
-        fc.utilities.rebind(linearTimeSeries, xScale, {
+        fc.util.rebind(linearTimeSeries, xScale, {
             xDiscontinuityProvider: 'discontinuityProvider',
             xDomain: 'domain',
             xNice: 'nice'
         });
 
-        fc.utilities.rebind(linearTimeSeries, yScale, {
+        fc.util.rebind(linearTimeSeries, yScale, {
             yDomain: 'domain',
             yNice: 'nice'
         });
 
-        fc.utilities.rebind(linearTimeSeries, xAxis, {
+        fc.util.rebind(linearTimeSeries, xAxis, {
             xTicks: 'ticks',
             xTickValues: 'tickValues',
             xTickSize: 'tickSize',
@@ -109,7 +109,7 @@
             xOrient: 'orient'
         });
 
-        fc.utilities.rebind(linearTimeSeries, yAxis, {
+        fc.util.rebind(linearTimeSeries, yAxis, {
             yTicks: 'ticks',
             yTickValues: 'tickValues',
             yTickSize: 'tickSize',
