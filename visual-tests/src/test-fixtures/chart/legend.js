@@ -12,7 +12,7 @@
                 color(i) + '">&nbsp;</span>';
         }
 
-        var legend = fc.charts.legend()
+        var legend = fc.chart.legend()
             .items(series.map(function(d, i) {
                 return [swatch(i), d];
             }));
@@ -32,19 +32,25 @@
         };
 
         var priceFormat = d3.format('.2f');
-        var legend = fc.charts.legend()
+        var legend = fc.chart.legend()
             .items([
                 ['open', function(d) { return priceFormat(d.open); }],
                 ['high', function(d) { return priceFormat(d.high); }],
                 ['low', function(d) { return priceFormat(d.low); }],
                 ['close', function(d) { return priceFormat(d.close); }]
             ])
-            .decorate(function(sel) {
-                // on update, do some styling to the values
-                sel.filter(function(d, i) { return i === 1; })
+            .rowDecorate(function(sel) {
+                sel.select('td')
                     .style('color', function(d, i) {
-                        return Math.random() > 0.5 ? 'green' : 'red';
+                        return (d[0].datum.close - Math.floor(d[0].datum.close)) > 0.5 ? 'green' : 'red';
                     });
+            })
+            .tableDecorate(function(sel) {
+                sel.enter()
+                    .insert('tr', ':first-child')
+                    .append('th')
+                    .attr('colspan', 2)
+                    .text('I am Legend');
             });
 
         function renderLegend() {

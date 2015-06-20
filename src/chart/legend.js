@@ -1,76 +1,64 @@
 (function(d3, fc) {
     'use strict';
 
-    fc.charts.legend = function() {
-        var decorate = fc.utilities.fn.noop,
-            items = [
+    fc.chart.legend = function() {
+        var tableDecorate = fc.util.fn.noop,
+            rowDecorate = fc.util.fn.noop;
+
+        var items = [
                 ['datum', function(d) { return d.datum; }]
             ];
+
+        var tableDataJoin = fc.util.dataJoin()
+            .selector('table.legend')
+            .element('table')
+            .attrs({'class': 'legend'});
+
+        var rowDataJoin = fc.util.dataJoin()
+            .selector('tr.row')
+            .element('tr')
+            .attrs({'class': 'row'});
 
         var legend = function(selection) {
             selection.each(function(data) {
                 var container = d3.select(this);
 
-                // map the data to include the datapoint, so that
-                // decorators have access to both the 'items' and 'data'
                 var legendData = items.map(function(item, i) {
                     return [
                         {
                             value: d3.functor(item[0]),
                             index: i,
-                            datum: data,
-                            class: 'label'
+                            datum: data
                         },
                         {
                             value: d3.functor(item[1]),
                             index: i,
-                            datum: data,
-                            class: 'value'
+                            datum: data
                         }
                     ];
                 });
 
-                var table = container.selectAll('table')
-                    .data([legendData]);
-                table.enter()
-                    .append('table')
-                    .classed('legend', true);
+                var table = tableDataJoin(container, [legendData]);
 
-                // create the rows
-                var tr = table.selectAll('tr')
-                  .data(function(d) { return d; });
+                var trUpdate = rowDataJoin(table);
 
-                tr.enter()
-                  .append('tr');
-                tr.exit().remove();
+                var trEnter = trUpdate.enter();
+                trEnter.append('th');
+                trEnter.append('td');
 
-                // create the cells
-                var tdUpdate = tr.selectAll('td')
-                  .data(function(d) { return d; });
+                trUpdate.select('th')
+                    .html(function(d) {
+                        return d[0].value(d[0].datum);
+                    });
 
-                var tdEnter = tdUpdate.enter()
-                    .append('td')
-                    .attr('class', function(d) { return d.class; });
-                var tdExit = tdUpdate.exit()
-                    .remove();
+                trUpdate.select('td')
+                    .html(function(d) {
+                        return d[1].value(d[1].datum);
+                    });
 
-                // update cell contents
-                tdUpdate.html(function(d) {
-                    return d.value(d.datum);
-                });
-
-                tdUpdate.enter = d3.functor(tdEnter);
-                tdUpdate.exit = d3.functor(tdExit);
-                decorate(tdUpdate);
+                tableDecorate(table);
+                rowDecorate(trUpdate);
             });
-        };
-
-        legend.decorate = function(x) {
-            if (!arguments.length) {
-                return decorate;
-            }
-            decorate = x;
-            return legend;
         };
 
         legend.items = function(x) {
@@ -78,6 +66,22 @@
                 return items;
             }
             items = x;
+            return legend;
+        };
+
+        legend.rowDecorate = function(x) {
+            if (!arguments.length) {
+                return rowDecorate;
+            }
+            rowDecorate = x;
+            return legend;
+        };
+
+        legend.tableDecorate = function(x) {
+            if (!arguments.length) {
+                return tableDecorate;
+            }
+            tableDecorate = x;
             return legend;
         };
 
