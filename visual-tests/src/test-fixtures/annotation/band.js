@@ -36,9 +36,8 @@
     var verticalBand = fc.annotation.band()
         .xScale(dateScale)
         .yScale(priceScale)
-        .orient('vertical')
-        .value0(function(d) { return d[0].date; })
-        .value1(function(d) { return d[1].date; });
+        .x0(function(d) { return d[0].date; })
+        .x1(function(d) { return d[1].date; });
 
     container
         .append('g')
@@ -51,8 +50,8 @@
     var horizontalBand = fc.annotation.band()
         .xScale(dateScale)
         .yScale(priceScale)
-        .value0(function(d) { return d.high; })
-        .value1(function(d) { return d.low; });
+        .y0(function(d) { return d.high; })
+        .y1(function(d) { return d.low; });
 
     container
         .append('g')

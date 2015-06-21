@@ -3,47 +3,35 @@
 
     fc.annotation.band = function() {
 
+        var defaultValue = {},
+            defaultFn = function(d, i) {
+                return defaultValue;
+            };
+
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
-            value0 = fc.util.fn.identity,
-            value1 = fc.util.fn.identity,
-            decorate = fc.util.fn.noop,
-            orient = 'horizontal';
+            x0 = defaultFn,
+            y0 = defaultFn,
+            x1 = defaultFn,
+            y1 = defaultFn,
+            decorate = fc.util.fn.noop;
 
         var dataJoin = fc.util.dataJoin()
             .selector('g.annotation')
             .element('g')
             .attrs({'class': 'annotation'});
 
-        function pickFirst(a, d) { return a; }
-        function pickSecond(a, d) { return d; }
-
         var band = function(selection) {
             selection.each(function(data) {
 
-                // the value scale which the annotation 'value' relates to, the crossScale
-                // is the other. Which is which depends on the orientation!
-                var valueScale, crossScale, translation, height, width;
-                switch (orient) {
-                    case 'horizontal':
-                        translation = function(a, b) { return 'translate(' + a + ', ' + b + ')'; };
-                        height = pickFirst;
-                        width = pickSecond;
-                        crossScale = xScale;
-                        valueScale = yScale;
-                        break;
+                var container = d3.select(this);
 
-                    case 'vertical':
-                        translation = function(a, b) { return 'translate(' + b + ', ' + a + ')'; };
-                        height = pickSecond;
-                        width = pickFirst;
-                        crossScale = yScale;
-                        valueScale = xScale;
-                        break;
+                // Create a group for each band
+                var g = dataJoin(container, data);
 
-                    default:
-                        throw new Error('Invalid orientation');
-                }
+                g.enter()
+                    .append('path')
+                    .classed('band', true);
 
                 // ordinal axes have a rangeExtent function, this adds any padding that
                 // was applied to the range. This functions returns the rangeExtent
@@ -51,37 +39,28 @@
                 function range(scale) {
                     return scale.rangeExtent ? scale.rangeExtent() : scale.range();
                 }
+                var xScaleRange = range(xScale),
+                    yScaleRange = range(yScale);
 
-                var scaleRange = range(crossScale),
-                    // the transform that sets the 'origin' of the annotation
-                    containerTransform = function(d) {
-                        var transform = valueScale(value1(d));
-                        return translation(scaleRange[0], transform);
-                    },
-                    valueWidth = function(d) {
-                        var v0 = valueScale(value0(d));
-                        var v1 = valueScale(value1(d));
-                        return v0 - v1;
-                    },
-                    scaleWidth = scaleRange[1] - scaleRange[0];
-
-                var container = d3.select(this);
-
-                // Create a group for each band
-                var g = dataJoin(container, data);
-
-                // create the outer container and band path
-                var enter = g.enter()
-                    .attr('transform', containerTransform);
-                enter.append('path')
-                    .classed('band', true);
+                function get(d, i, accessor, scale, def) {
+                    var value = accessor(d, i);
+                    return value !== defaultValue ? scale(value) : def;
+                }
 
                 var pathGenerator = fc.svg.bar()
-                    .x(0)
-                    .y(0)
                     .centred(false)
-                    .height(height(valueWidth, scaleWidth))
-                    .width(width(valueWidth, scaleWidth));
+                    .x(function(d, i) {
+                        return get(d, i, x0, xScale, xScaleRange(0));
+                    })
+                    .y(function(d, i) {
+                        return get(d, i, y0, yScale, yScaleRange(0));
+                    })
+                    .height(function(d, i) {
+                        return get(d, i, y1, yScaleRange(1)) - get(d, i, y0, yScaleRange(0));
+                    })
+                    .width(function(d, i) {
+                        return get(d, i, x1, xScaleRange(1)) - get(d, i, x0, xScaleRange(0));
+                    });
 
                 g.select('path')
                     .attr('d', function(d) { return pathGenerator([d]); });
@@ -104,20 +83,6 @@
             yScale = x;
             return band;
         };
-        band.value1 = function(x) {
-            if (!arguments.length) {
-                return value1;
-            }
-            value1 = x;
-            return band;
-        };
-        band.value0 = function(x) {
-            if (!arguments.length) {
-                return value0;
-            }
-            value0 = d3.functor(x);
-            return band;
-        };
         band.decorate = function(x) {
             if (!arguments.length) {
                 return decorate;
@@ -125,11 +90,32 @@
             decorate = x;
             return band;
         };
-        band.orient = function(x) {
+        band.x0 = function(x) {
             if (!arguments.length) {
-                return orient;
+                return x0;
             }
-            orient = x;
+            x0 = x;
+            return band;
+        };
+        band.x1 = function(x) {
+            if (!arguments.length) {
+                return x1;
+            }
+            x1 = x;
+            return band;
+        };
+        band.y0 = function(x) {
+            if (!arguments.length) {
+                return y0;
+            }
+            y0 = x;
+            return band;
+        };
+        band.y1 = function(x) {
+            if (!arguments.length) {
+                return y1;
+            }
+            y1 = x;
             return band;
         };
         return band;
