@@ -1,4 +1,4 @@
-# D3 Financial Components (D3FC) [![Build Status](https://travis-ci.org/ScottLogic/d3-financial-components.svg?branch=master)](https://travis-ci.org/ScottLogic/d3-financial-components)
+# D3 Financial Components (D3FC) [![Build Status](https://travis-ci.org/ScottLogic/d3fc.svg?branch=master)](https://travis-ci.org/ScottLogic/d3fc)
 
 A collection of components that make it easy to build interactive financial charts with  [D3](http://d3js.org).
 
@@ -6,7 +6,7 @@ A collection of components that make it easy to build interactive financial char
 
 D3FC and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
 
-    npm install d3-financial-components
+    npm install d3fc
 
 Once installed, you can reference the D3FC JavaScript, CSS and dependencies within an HTML page as follows:
 
