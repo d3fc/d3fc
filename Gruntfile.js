@@ -104,7 +104,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: 'dist',
-                        src: ['d3-financial-components.js', 'd3-financial-components.css'],
+                        src: ['d3fc.js', 'd3fc.css'],
                         dest: 'visual-tests/dist/assets/',
                     },
                     {
@@ -254,7 +254,7 @@ module.exports = function (grunt) {
             options: {
                 remote: 'upstream',
                 github: {
-                    repo: 'ScottLogic/d3-financial-components',
+                    repo: 'ScottLogic/d3fc',
                     usernameVar: 'GITHUB_USERNAME',
                     passwordVar: 'GITHUB_PASSWORD'
                 }
