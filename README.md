@@ -4,17 +4,17 @@ A collection of components that make it easy to build interactive financial char
 
 ## Installation
 
-D3FC and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
+d3fc and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
 
     npm install d3fc
 
-Once installed, you can reference the D3FC JavaScript, CSS and dependencies within an HTML page as follows:
+Once installed, you can reference the d3fc JavaScript, CSS and dependencies within an HTML page as follows:
 
-    <script src="node_modules/d3-financial-components/node_modules/d3/d3.js"></script>
-    <script src="node_modules/d3-financial-components/node_modules/css-layout/src/Layout.js"></script>
-    <script src="node_modules/d3-financial-components/dist/d3-financial-components.js"></script>
+    <script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
+    <script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
+    <script src="node_modules/d3fc/dist/d3fc.js"></script>
     
-    <link href="node_modules/d3-financial-components/dist/d3-financial-components.css" rel="stylesheet"/>
+    <link href="node_modules/d3-financial-components/dist/d3fc.css" rel="stylesheet"/>
 
 If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
 
@@ -48,7 +48,7 @@ If you want a quick verification that everything has installed correctly, the fo
 
     </script>
 
-To find out more about the various components, visit the [project webpage](http://scottlogic.github.io/d3-financial-components/).
+To find out more about the various components, visit the [project webpage](http://scottlogic.github.io/d3fc/).
 
 ## Developing
 
