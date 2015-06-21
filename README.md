@@ -1,4 +1,4 @@
-# D3 Financial Components (D3FC) [![Build Status](https://travis-ci.org/ScottLogic/d3fc.svg?branch=master)](https://travis-ci.org/ScottLogic/d3fc)
+# d3fc [![Build Status](https://travis-ci.org/ScottLogic/d3fc.svg?branch=master)](https://travis-ci.org/ScottLogic/d3fc)
 
 A collection of components that make it easy to build interactive financial charts with  [D3](http://d3js.org).
 
