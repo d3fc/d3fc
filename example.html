@@ -195,14 +195,14 @@ rect.extent {
 
         var candlestick = fc.series.candlestick();
 
-        var crosshairs = fc.tools.crosshairs()
+        var crosshairs = fc.tool.crosshair()
             .decorate(fc.tooltip())
             .snap(fc.util.seriesPointSnap(candlestick, data))
             .on('trackingmove.link', render);
 
         var multi = fc.series.multi()
             .series([gridlines, candlestick, crosshairs])
-            .mapping(function(data, series) {
+            .mapping(function(series) {
                 switch (series) {
                     case crosshairs:
                         return data.crosshairs;
@@ -250,7 +250,7 @@ rect.extent {
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
-            .mapping(function(data, series) {
+            .mapping(function(series) {
                 switch (series) {
                     case crosshairs:
                         return data.crosshairs;
@@ -303,7 +303,7 @@ rect.extent {
 
         var multi = fc.series.multi()
             .series([gridlines, line, area, brush])
-            .mapping(function(data, series) {
+            .mapping(function(series) {
                 // Need to set the extent AFTER the scales
                 // are set AND their ranges defined
                 if (series === brush) {
