@@ -1,9 +1,8 @@
 ---
 layout: default
-title: Moving Average
-component: indicator/algorithm/movingAverage.js
+title: Exponential Moving Average
+component: indicator/algorithm/exponentialMovingAverage.js
 tags:
-  - frontpage
 
 example-code: |
   // Create the point series
@@ -15,13 +14,13 @@ example-code: |
       .datum(data)
       .call(point);
 
-  // Create and apply the Moving Average
-  var movingAverage = fc.indicator.algorithm.movingAverage()
+  // Create and apply the EMA
+  var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
   movingAverage(data);
 
   // Create a line that renders the result
   var ma = fc.series.line()
-      .yValue(function(d) { return d.movingAverage; })
+      .yValue(function(d) { return d.exponentialMovingAverage; })
       .xScale(xScale)
       .yScale(yScale);
 
@@ -31,9 +30,9 @@ example-code: |
       .call(ma);
 ---
 
-A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator that smooths out fluctuations in data. This component draws a [simple moving average](http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) line on a chart for a given data field, averaging the previous 5 points by default.
+An [Exponential Moving Average](https://en.wikipedia.org/?title=Moving_average#Exponential_moving_average) (EMA) is an indicator that smooths out fluctuations in data.
 
-The example below creates a point series and a moving average:
+The example below creates a point series and an EMA:
 
 {% highlight javascript %}
 {{ page.example-code }}
