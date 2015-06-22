@@ -6,7 +6,7 @@ tags:
   - frontpage
 
 example-code: |
-  var gridlines = fc.scale.gridlines()
+  var gridlines = fc.annotation.gridline()
       .xScale(xScale)
       .yScale(yScale);
 
@@ -15,7 +15,7 @@ example-code: |
       .call(gridlines);
 ---
 
-This component renders horizontal and vertical gridlines. 
+This component renders horizontal and vertical gridlines.
 
 {% highlight javascript %}
 {{ page.example-code }}

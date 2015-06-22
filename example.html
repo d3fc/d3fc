@@ -190,7 +190,7 @@ rect.extent {
 
         var data = selection.datum();
 
-        var gridlines = fc.scale.gridlines()
+        var gridlines = fc.annotation.gridline()
             .yTicks(3);
 
         var candlestick = fc.series.candlestick();
@@ -238,7 +238,7 @@ rect.extent {
 
 
 
-        var gridlines = fc.scale.gridlines()
+        var gridlines = fc.annotation.gridline()
             .yTicks(2);
 
         var bar = fc.series.bar()
@@ -286,7 +286,7 @@ rect.extent {
             .xTicks(3)
             .yTicks(0);
 
-        var gridlines = fc.scale.gridlines()
+        var gridlines = fc.annotation.gridline()
             .xTicks(3)
             .yTicks(0);
 

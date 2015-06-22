@@ -16,7 +16,7 @@ example-code: |
       .yNice()
       .yTicks(5);
 
-  var gridlines = fc.scale.gridlines();
+  var gridlines = fc.annotation.gridline();
   var candlestick = fc.series.candlestick();
 
   var multi = fc.series.multi()
