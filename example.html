@@ -236,15 +236,13 @@ rect.extent {
 
         var data = selection.datum();
 
-
-
         var gridlines = fc.annotation.gridline()
             .yTicks(2);
 
         var bar = fc.series.bar()
             .yValue(function(d) { return d.volume; });
 
-        var crosshairs = fc.tools.crosshairs()
+        var crosshairs = fc.tool.crosshair()
             .snap(fc.util.seriesPointSnap(bar, data))
             .on('trackingmove.link', render);
 
@@ -260,8 +258,6 @@ rect.extent {
                         return data;
                 }
             });
-
-
 
         var chart = fc.chart.linearTimeSeries()
             .xDomain(data.dateDomain)
