@@ -39,7 +39,6 @@
     "seedrandom": "^2.4.0"
   },
   "scripts": {
-    "test": "grunt ci",
-    "version": "grunt clean build"
+    "test": "grunt ci"
   }
 }
