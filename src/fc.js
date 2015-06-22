@@ -10,6 +10,9 @@
     global.fc = {
         annotation: {},
         chart: {},
+        data: {
+            random: {}
+        },
         indicator: {
             algorithm: {
                 calculator: {}

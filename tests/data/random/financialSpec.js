@@ -1,13 +1,13 @@
 (function(d3, fc) {
     'use strict';
 
-    describe('fc.dataGenerator', function() {
+    describe('fc.data.random.financial', function() {
 
         describe('without filter', function() {
             var dataGenerator;
 
             beforeEach(function() {
-                dataGenerator = fc.dataGenerator().filter(null);
+                dataGenerator = fc.data.random.financial().filter(null);
             });
 
             it('should return data for the requested number of days', function() {
