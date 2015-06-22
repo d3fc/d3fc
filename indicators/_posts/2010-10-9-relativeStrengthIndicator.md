@@ -13,11 +13,11 @@ example-code: |
         .range([height, 0]);
 
   // Create and apply the RSI algorithm
-  var rsiAlgorithm = fc.indicators.algorithms.relativeStrengthIndex();
+  var rsiAlgorithm = fc.indicator.algorithm.relativeStrengthIndex();
   rsiAlgorithm(data);
 
   // Create the renderer
-  var rsi = fc.indicators.renderers.relativeStrengthIndex()
+  var rsi = fc.indicator.renderer.relativeStrengthIndex()
       .xScale(xScale)
       .yScale(yScale);
 

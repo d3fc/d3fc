@@ -4,7 +4,7 @@ title: Moving Average
 component: indicators/movingAverage.js
 tags:
   - frontpage
-  
+
 example-code: |
   // Create the point series
   var point = fc.series.point()
@@ -16,7 +16,7 @@ example-code: |
       .call(point);
 
   // Create and apply the Moving Average
-  var movingAverage = fc.indicators.algorithms.movingAverage()
+  var movingAverage = fc.indicator.algorithm.movingAverage()
   movingAverage(data);
 
   // Create a line that renders the result

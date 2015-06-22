@@ -16,11 +16,11 @@ example-code: |
       .call(point);
 
   // Create and apply the bollinger algorithm
-  var bollingerAlgorithm = fc.indicators.algorithms.bollingerBands();
+  var bollingerAlgorithm = fc.indicator.algorithm.bollingerBands();
   bollingerAlgorithm(data);
 
   // Create the renderer
-  var bollinger = fc.indicators.renderers.bollingerBands()
+  var bollinger = fc.indicator.renderer.bollingerBands()
       .xScale(xScale)
       .yScale(yScale);
 

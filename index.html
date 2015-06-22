@@ -23,7 +23,7 @@ example-code: |
        .yTicks(5);
 
    // compute the bollinger bands and update the y-axis domain
-   var bollingerAlgorithm = fc.indicators.algorithms.bollingerBands();
+   var bollingerAlgorithm = fc.indicator.algorithm.bollingerBands();
    bollingerAlgorithm(data);
 
    chart.yDomain(fc.util.extent(data, [
@@ -34,7 +34,7 @@ example-code: |
    // Create the gridlines and series
    var gridlines = fc.annotation.gridline();
    var candlestick = fc.series.candlestick();
-   var bollingerBands = fc.indicators.renderers.bollingerBands();
+   var bollingerBands = fc.indicator.renderer.bollingerBands();
 
    // add them to the chart via a multi-series
    var multi = fc.series.multi()
