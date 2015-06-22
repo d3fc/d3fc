@@ -1,0 +1,23 @@
+{
+    "preset": "google",
+
+    "disallowKeywordsOnNewLine": ["else"],
+    "disallowMultipleLineBreaks": null,
+    "disallowSpaceAfterObjectKeys": true,
+    "disallowTrailingComma": true,
+
+    "maximumLineLength": {
+        "value": 120
+    },
+
+    "requireBlocksOnNewline": 1,
+    "requireCommaBeforeLineBreak": true,
+    "requireDotNotation": true,
+    "requireLineFeedAtFileEnd": null,
+
+    "safeContextKeyword": "self",
+
+    "validateIndentation": 4,
+
+    "disallowMultipleVarDecl": null
+}

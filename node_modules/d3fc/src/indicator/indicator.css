@@ -1,0 +1,15 @@
+.macd-indicator .bar>path {
+  stroke: grey;
+  fill: grey;
+  fill-opacity: 1.0;
+}
+
+.macd-indicator .signal {
+  fill: none;
+  stroke: red;
+}
+
+.macd-indicator .macd {
+  fill: none;
+  stroke: #06c;
+}

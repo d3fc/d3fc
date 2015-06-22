@@ -76,7 +76,7 @@ rect.extent {
 
 <div class="row">
   <div class="col-md-4">
-    <p>The example on this page shows how a more complex chart can be built using the D3FC components.</p>
+    <p>The example on this page shows how a more complex chart can be built using the d3fc components.</p>
     <p>The three charts that make up this example are each <a href="components.html#linearTimeSeries">linear time series</a> charts. The top-most chart uses the <a href="components.html#candlestick">gridlines</a>, crosshairs and <a href="components.html#candlestick">candlestick</a> components, rendered via the <a href="components.html#multi">multi-series</a> component. The volume and navigator charts uses a similar mix of components.</p>
     <p>These charts all share the same underlying data, however, this is enhanced with the data that represents the current interactive state.</p>
     <p>The top-most chart uses a tooltip component that was written specifically for this example application. It is added as a 'decoration' of the crosshair.</p>
@@ -190,14 +190,14 @@ rect.extent {
 
         var data = selection.datum();
 
-        var gridlines = fc.scale.gridlines()
+        var gridlines = fc.annotation.gridline()
             .yTicks(3);
 
         var candlestick = fc.series.candlestick();
 
         var crosshairs = fc.tools.crosshairs()
             .decorate(fc.tooltip())
-            .snap(fc.utilities.seriesPointSnap(candlestick, data))
+            .snap(fc.util.seriesPointSnap(candlestick, data))
             .on('trackingmove.link', render);
 
         var multi = fc.series.multi()
@@ -211,10 +211,10 @@ rect.extent {
                 }
             });
 
-        var chart = fc.charts.linearTimeSeries()
+        var chart = fc.chart.linearTimeSeries()
             .xDomain(data.dateDomain)
             .xTicks(0)
-            .yDomain(fc.utilities.extent(data, ['high', 'low']))
+            .yDomain(fc.util.extent(data, ['high', 'low']))
             .yNice()
             .yTicks(3)
             .plotArea(multi);
@@ -236,19 +236,17 @@ rect.extent {
 
         var data = selection.datum();
 
-        
-
-        var gridlines = fc.scale.gridlines()
+        var gridlines = fc.annotation.gridline()
             .yTicks(2);
 
         var bar = fc.series.bar()
             .yValue(function(d) { return d.volume; });
 
-        var crosshairs = fc.tools.crosshairs()
-            .snap(fc.utilities.seriesPointSnap(bar, data))
+        var crosshairs = fc.tool.crosshair()
+            .snap(fc.util.seriesPointSnap(bar, data))
             .on('trackingmove.link', render);
 
-        var volumeExtent = fc.utilities.extent(data, 'volume');
+        var volumeExtent = fc.util.extent(data, 'volume');
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
@@ -261,9 +259,7 @@ rect.extent {
                 }
             });
 
-        
-
-        var chart = fc.charts.linearTimeSeries()
+        var chart = fc.chart.linearTimeSeries()
             .xDomain(data.dateDomain)
             .yDomain(volumeExtent)
             .yNice()
@@ -277,16 +273,16 @@ rect.extent {
 
         var data = selection.datum();
 
-        var yDomain = fc.utilities.extent(data, 'close');
+        var yDomain = fc.util.extent(data, 'close');
 
-        var chart = fc.charts.linearTimeSeries()
-            .xDomain(fc.utilities.extent(data, 'date'))
+        var chart = fc.chart.linearTimeSeries()
+            .xDomain(fc.util.extent(data, 'date'))
             .yDomain(yDomain)
             .yNice()
             .xTicks(3)
             .yTicks(0);
 
-        var gridlines = fc.scale.gridlines()
+        var gridlines = fc.annotation.gridline()
             .xTicks(3)
             .yTicks(0);
 
@@ -332,7 +328,7 @@ rect.extent {
             data.crosshairs = [];
         }
         if (data.dateDomain == null) {
-            var maxDate = fc.utilities.extent(container.datum(), 'date')[1];
+            var maxDate = fc.util.extent(container.datum(), 'date')[1];
             var dateScale = d3.time.scale()
                 .domain([maxDate - 50 * 24 * 60 * 60 * 1000, maxDate])
                 .nice();

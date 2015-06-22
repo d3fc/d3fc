@@ -1,0 +1,7 @@
+a.out
+*.class
+/**/java/out/*
+/**/.idea/workspace.xml
+/lib/
+/node_modules/
+npm-debug.log
