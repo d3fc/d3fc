@@ -4,17 +4,17 @@ example-code: |
  // create some test data
  var generator = fc.dataGenerator().filter(null);
  var data = generator(110);
- 
+
  function renderChart() {
    // add a new datapoint and remove an old one
    var datum = generator(1)[0];
    data.push(datum);
    data.shift();
- 
+
    // Offset the range to include the full bar for the latest value
    var dateRange = fc.utilities.extent(data, 'date');
    dateRange[1] = d3.time.day.offset(dateRange[1], 1);
- 
+
    // create a chart
    var chart = fc.charts.linearTimeSeries()
        .xDomain(dateRange)
@@ -35,20 +35,20 @@ example-code: |
    var gridlines = fc.scale.gridlines();
    var candlestick = fc.series.candlestick();
    var bollingerBands = fc.indicators.renderers.bollingerBands();
- 
+
    // add them to the chart via a multi-series
    var multi = fc.series.multi()
        .series([gridlines, bollingerBands, candlestick]);
    chart.plotArea(multi);
- 
+
    d3.select('svg')
        .datum(data)
        .call(chart);
  }
  renderChart();
- 
+
  setInterval(renderChart, 200);
- 
+
  addEventListener('resize', renderChart);
 ---
 <div class="jumbotron" id="jumbo1">
@@ -61,7 +61,7 @@ example-code: |
     </div>
     <div class="col-sm-4">
       <div class="btn-group btn-group-justified" role="group">
-        <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3-financial-components">View on GitHub</a>
+        <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3fc">View on GitHub</a>
       </div>
     </div>
   </div>
@@ -109,15 +109,15 @@ example-code: |
     +
   </div>
   <div class="col-sm-3">
-    <h3>D3FC</h3>
-    <p>D3FC provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
+    <h3>d3fc</h3>
+    <p>d3fc provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
   </div>
   <div class="col-sm-2 massive-text">
     =
   </div>
   <div class="col-sm-3">
     <h3>Awesome!</h3>
-    <p>Building interactive or static charts with D3FC is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
+    <p>Building interactive or static charts with d3fc is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
   </div>
 </div>
 
@@ -157,10 +157,10 @@ example-code: |
 
 <div class="row">
   <div class="col-md-6 col-sm-6 ">
-    <h3>Install D3FC</h3>
-    <p>A complete set of instructions for obtaining D3FC and its dependencies are available on the <a href="{{ site.project-repo-url }}">GitHub project website</a>.</p>
+    <h3>Install d3fc</h3>
+    <p>A complete set of instructions for obtaining d3fc and its dependencies are available on the <a href="{{ site.project-repo-url }}">GitHub project website</a>.</p>
     <h3>Pick Your Components</h3>
-    <p>Browse the <a href="components">D3FC components</a> to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
+    <p>Browse the <a href="components">d3fc components</a> to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
   </div>
   <div class="col-md-6 col-sm-6 ">
     <h3>Customise</h3>
@@ -169,4 +169,4 @@ example-code: |
     <p>Spotted a bug? Have an idea for a feature? Please <a href="{{ site.project-repo-url }}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
     our <a href="{{ site.project-repo-url }}/wiki">wiki page which describes the design goals</a>.</p>
   </div>
-</div> 
+</div>

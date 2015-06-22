@@ -4,7 +4,7 @@ title: Linear Time Series
 component: chart/linearTimeSeries.js
 
 example-code: |
-  
+
   // create some test data
   var data = fc.dataGenerator()(80);
 
@@ -33,7 +33,7 @@ example-code: |
       .call(chart);
 ---
 
-The linear time series is a 'top level' D3FC component that has been assembled from a number of other smaller components. The linear time series has a date time x-axis and a linear y-axis, with the domain, ticks and other properties re-bound so that they are exposed on the linear time series chart directly.
+The linear time series is a 'top level' d3fc component that has been assembled from a number of other smaller components. The linear time series has a date time x-axis and a linear y-axis, with the domain, ticks and other properties re-bound so that they are exposed on the linear time series chart directly.
 
 The chart has a `plotArea` property which is used to supply the series, or any other component that is rendered within the plot area.
 
