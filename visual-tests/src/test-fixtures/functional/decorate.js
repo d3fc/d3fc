@@ -1,10 +1,10 @@
 (function(d3, fc) {
     'use strict';
 
-    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(95)(40);
-    var data2 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(100)(40);
-    var data3 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(40);
-    var data4 = fc.dataGenerator().startDate(new Date(2014, 1, 1)).startPrice(105)(40);
+    var data = fc.data.random.financial().startDate(new Date(2014, 1, 1)).startPrice(95)(40);
+    var data2 = fc.data.random.financial().startDate(new Date(2014, 1, 1)).startPrice(100)(40);
+    var data3 = fc.data.random.financial().startDate(new Date(2014, 1, 1)).startPrice(105)(40);
+    var data4 = fc.data.random.financial().startDate(new Date(2014, 1, 1)).startPrice(105)(40);
 
     var width = 600, height = 250;
 

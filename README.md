@@ -20,7 +20,7 @@ If you want a quick verification that everything has installed correctly, the fo
 
     <div id="chart"></div>
     <script type="text/javascript">
-    var data = fc.dataGenerator()(50);
+    var data = fc.data.random.financial()(50);
 
     var chart = fc.charts.linearTimeSeries()
         .xDomain(fc.utilities.extent(data, 'date'))

@@ -4,3 +4,4 @@ node_modules
 .*
 visual-tests/dist
 _SpecRunner.html
+.grunt

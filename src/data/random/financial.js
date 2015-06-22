@@ -1,7 +1,7 @@
 (function(fc) {
     'use strict';
 
-    fc.dataGenerator = function() {
+    fc.data.random.financial = function() {
 
         var mu = 0.1,
             sigma = 0.1,
@@ -45,14 +45,14 @@
             var millisecondsPerYear = 3.15569e10,
                 years = (toDate.getTime() - startDate.getTime()) / millisecondsPerYear;
 
-            var prices = randomWalk(
+            var prices = fc.data.random.walk(
                 years,
                 days * stepsPerDay,
                 mu,
                 sigma,
                 startPrice
             );
-            var volumes = randomWalk(
+            var volumes = fc.data.random.walk(
                 years,
                 days,
                 0,
@@ -74,29 +74,6 @@
             return calculateOHLC(days, prices, volumes).filter(function(d) {
                 return !filter || filter(d.date);
             });
-        };
-
-        var randomWalk = function(period, steps, mu, sigma, initial) {
-            var randomNormal = d3.random.normal(),
-                timeStep = period / steps,
-                increments = new Array(steps + 1),
-                increment,
-                step;
-
-            // Compute step increments for the discretized GBM model.
-            for (step = 1; step < increments.length; step += 1) {
-                increment = randomNormal();
-                increment *= Math.sqrt(timeStep);
-                increment *= sigma;
-                increment += (mu - ((sigma * sigma) / 2)) * timeStep;
-                increments[step] = Math.exp(increment);
-            }
-            // Return the cumulative product of increments from initial value.
-            increments[0] = initial;
-            for (step = 1; step < increments.length; step += 1) {
-                increments[step] = increments[step - 1] * increments[step];
-            }
-            return increments;
         };
 
         gen.mu = function(x) {
