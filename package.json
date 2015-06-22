@@ -40,6 +40,6 @@
   },
   "scripts": {
     "test": "grunt ci",
-    "postversion": "grunt clean build"
+    "version": "grunt clean build"
   }
 }
