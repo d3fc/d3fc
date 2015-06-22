@@ -10,7 +10,7 @@
     var width = plotArea.attr('layout-width'),
         height = plotArea.attr('layout-height');
 
-    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
+    var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds

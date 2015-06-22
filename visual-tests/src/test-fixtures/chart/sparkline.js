@@ -10,7 +10,7 @@
             // data for the specific sparkline - here we use dummy data instead
 
             // var stock = sparkline.attr('data-ticker');
-            var data = fc.dataGenerator()(50);
+            var data = fc.data.random.financial()(50);
 
             var chart = fc.chart.sparkline()
                 .xDomain(fc.util.extent(data, 'date'))

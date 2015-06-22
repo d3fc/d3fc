@@ -2,7 +2,7 @@
     'use strict';
 
     var form = document.forms['measure-1-form'];
-    var data = fc.dataGenerator().startDate(new Date(2014, 1, 1))(50);
+    var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
     data.measure = [];
 
     var width = 600, height = 250;

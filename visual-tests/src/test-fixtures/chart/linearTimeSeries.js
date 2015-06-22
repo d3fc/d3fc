@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    var dataGenerator = fc.dataGenerator()
+    var dataGenerator = fc.data.random.financial()
         .startDate(new Date(2014, 1, 1));
     var data = dataGenerator(50);
 

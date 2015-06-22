@@ -2,8 +2,8 @@
     'use strict';
 
     var data = [
-        fc.dataGenerator().startDate(new Date(2014, 1, 1))(50),
-        fc.dataGenerator().startDate(new Date(2013, 12, 15))(50)
+        fc.data.random.financial().startDate(new Date(2014, 1, 1))(50),
+        fc.data.random.financial().startDate(new Date(2013, 12, 15))(50)
     ];
 
     var percentageChange = fc.indicator.algorithm.calculator.percentageChange()
