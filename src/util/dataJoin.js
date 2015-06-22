@@ -25,6 +25,8 @@
 
         var dataJoin = function(container, data) {
 
+            var joinedData = data || fc.util.fn.identity;
+
             if (!(container instanceof d3.selection)) {
                 container = d3.select(container);
             }
@@ -38,7 +40,7 @@
                     return this.parentNode === container.node();
                 });
             }
-            var updateSelection = selection.data(data, key);
+            var updateSelection = selection.data(joinedData, key);
 
             // enter
             // when container is a transition, entering elements fade in (from transparent to opaque)
