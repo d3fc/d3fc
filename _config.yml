@@ -1,6 +1,6 @@
 project-repo-url: https://github.com/ScottLogic/d3fc
 
-component-ids: [annotation, chart, series, indicator, scale, layout, datagenerator]
+component-ids: [annotation, chart, series, indicator, scale, tools, layout, datagenerator]
 
 components:
   annotation:
@@ -13,6 +13,8 @@ components:
     name: Indicators
   scale:
     name: Scale
+  tools:
+    name: Tools
   layout:
     name: Layout
   datagenerator:
