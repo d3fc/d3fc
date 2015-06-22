@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Moving Average
-component: indicators/movingAverage.js
+component: indicator/algorithm/movingAverage.js
 tags:
   - frontpage
 

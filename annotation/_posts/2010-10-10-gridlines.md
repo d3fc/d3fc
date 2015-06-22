@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Gridlines
-component: scale/gridlines.js
+component: annotation/gridlines.js
 tags:
   - frontpage
 
