@@ -6,7 +6,7 @@ component: tool/crosshair.js
 example-code: |
   // create a line series and a crosshair
   var line = fc.series.line();
-  var crosshair = fc.tools.crosshair();
+  var crosshair = fc.tool.crosshair();
 
   // create an array which will hold the crosshair datapoint
   var crosshairData = [];
@@ -16,7 +16,7 @@ example-code: |
     .series([line, crosshair])
     .xScale(xScale)
     .yScale(yScale)
-    .mapping(function(data, series) {
+    .mapping(function(series) {
         switch (series) {
             case line:
                 return data;
@@ -47,7 +47,7 @@ You can control the snapping behaviour of the crosshair by supplying a snapping 
 You can configure X and Y labels via the `xLabel` and `yLabel` properties. The following example formats the Y value to 2 decimal places:
 
 {% highlight javascript %}
-var crosshairs = fc.tool.crosshairs()
+var crosshairs = fc.tool.crosshair()
   .yLabel(function(d) { return d3.format('.2f')(d.datum.close); });
 {% endhighlight %}
 
