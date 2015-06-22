@@ -13,8 +13,8 @@ Once installed, you can reference the d3fc JavaScript, CSS and dependencies with
     <script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
     <script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
     <script src="node_modules/d3fc/dist/d3fc.js"></script>
-    
-    <link href="node_modules/d3-financial-components/dist/d3fc.css" rel="stylesheet"/>
+
+    <link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
 
 If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
 
