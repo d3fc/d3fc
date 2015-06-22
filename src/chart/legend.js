@@ -24,18 +24,11 @@
                 var container = d3.select(this);
 
                 var legendData = items.map(function(item, i) {
-                    return [
-                        {
-                            value: d3.functor(item[0]),
-                            index: i,
-                            datum: data
-                        },
-                        {
-                            value: d3.functor(item[1]),
-                            index: i,
-                            datum: data
-                        }
-                    ];
+                    return {
+                        datum: data,
+                        header: d3.functor(item[0]),
+                        value: d3.functor(item[1])
+                    };
                 });
 
                 var table = tableDataJoin(container, [legendData]);
@@ -47,13 +40,13 @@
                 trEnter.append('td');
 
                 trUpdate.select('th')
-                    .html(function(d) {
-                        return d[0].value(d[0].datum);
+                    .html(function(d, i) {
+                        return d.header.call(this, d.datum, i);
                     });
 
                 trUpdate.select('td')
-                    .html(function(d) {
-                        return d[1].value(d[1].datum);
+                    .html(function(d, i) {
+                        return d.value.call(this, d.datum, i);
                     });
 
                 tableDecorate(table);

@@ -42,7 +42,7 @@
             .rowDecorate(function(sel) {
                 sel.select('td')
                     .style('color', function(d, i) {
-                        return (d[0].datum.close - Math.floor(d[0].datum.close)) > 0.5 ? 'green' : 'red';
+                        return (d.datum.close - Math.floor(d.datum.close)) > 0.5 ? 'green' : 'red';
                     });
             })
             .tableDecorate(function(sel) {
