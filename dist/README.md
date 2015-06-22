@@ -1,10 +1,23 @@
-Releases can be found on [npm](https://www.npmjs.com/package/d3-financial-components).
+Releases can be found on [npm](https://www.npmjs.com/package/d3fc).
 
-#Process
+#Release Process (for devs)
 
-* Setup [npm author info](https://docs.npmjs.com/getting-started/publishing-npm-packages) and ensure you're listed as a [collaborator on the repository](https://www.npmjs.com/package/d3-financial-components).
-* Create a [GitHub personal access token](https://github.com/settings/tokens) and configure the environment variables `GITHUB_USERNAME` (your username) and `GITHUB_PASSWORD` (the access token).
-* Checkout the master branch. `git checkout master`
-* Fetch the latest changes from upstream. `git fetch upstream`
-* Reset the local branch to match upstream master. `git reset --HARD upstream/master`
-* Run the release task. `grunt release`
+##Pre-requisites
+
+As well as the standard development instructions -
+
+* Setup [npm author info](https://docs.npmjs.com/getting-started/publishing-npm-packages) and ensure you're listed as a [collaborator on the repository](https://www.npmjs.com/package/d3fc).
+
+##Process
+
+```bash
+read -p "Version:" version
+
+git checkout master
+git reset --HARD upstream/master
+
+npm version $version
+git push upstream $version master
+grunt
+npm publish
+```
