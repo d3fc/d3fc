@@ -1,8 +1,8 @@
 {
-  "name": "d3-financial-components-website",
+  "name": "d3fc-website",
   "version": "0.0.0",
-  "description": "The website for d3-financial-components",
+  "description": "The website for d3fc",
   "dependencies": {
-    "d3-financial-components": "0.2.2"
+    "d3fc": "0.2.5"
   }
 }

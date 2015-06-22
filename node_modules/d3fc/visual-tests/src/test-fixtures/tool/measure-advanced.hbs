@@ -1,0 +1,21 @@
+---
+title: Measure Advanced
+description: "Demonstrates measure events and how they can be controlled."
+categories: tool
+tags:
+- measure
+- bar
+testScripts:
+- measure-advanced.js
+---
+
+<div style="display:flex;height:300px">
+  <div id="measure-1" style="flex:1"></div>
+  <form id="measure-1-form" style="width:200px">
+    <p>Container</p>
+    <label>pointer-events (all/none)<input name="pointerevents" type="checkbox" checked/></label>
+    <label>display (inherit/none)<input name="display" type="checkbox" checked/></label>
+    <button name="clear">clear</button>
+    <textarea name="eventlog" style="display:block;width:200px;height:200px"></textarea>
+  </form>
+</div>

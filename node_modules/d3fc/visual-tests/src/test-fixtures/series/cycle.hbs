@@ -1,0 +1,28 @@
+---
+title: Cycle
+description: "Demonstrates the cycle component."
+categories: series
+tags:
+- cycle, line, ordinal
+testScripts:
+- cycle.js
+---
+<style>
+	.point>circle {
+		stroke: inherit;
+		fill: white;
+		fill-opacity: 1;
+	}
+	path.line {
+		stroke: inherit;
+	}
+	path.axis {
+		stroke: grey;
+	}
+	path.trendline {
+		fill: none;
+		stroke: grey;
+		stroke-dasharray: 5, 10;
+	}
+</style>
+<div id="cycle"></div>
