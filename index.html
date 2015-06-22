@@ -12,11 +12,11 @@ example-code: |
    data.shift();
 
    // Offset the range to include the full bar for the latest value
-   var dateRange = fc.utilities.extent(data, 'date');
+   var dateRange = fc.util.extent(data, 'date');
    dateRange[1] = d3.time.day.offset(dateRange[1], 1);
 
    // create a chart
-   var chart = fc.charts.linearTimeSeries()
+   var chart = fc.chart.linearTimeSeries()
        .xDomain(dateRange)
        .xTicks(5)
        .yNice()
@@ -26,7 +26,7 @@ example-code: |
    var bollingerAlgorithm = fc.indicators.algorithms.bollingerBands();
    bollingerAlgorithm(data);
 
-   chart.yDomain(fc.utilities.extent(data, [
+   chart.yDomain(fc.util.extent(data, [
       function(d) { return d.bollingerBands.upper; },
       function(d) { return d.bollingerBands.lower; }
    ]));

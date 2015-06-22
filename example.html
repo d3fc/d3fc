@@ -197,7 +197,7 @@ rect.extent {
 
         var crosshairs = fc.tools.crosshairs()
             .decorate(fc.tooltip())
-            .snap(fc.utilities.seriesPointSnap(candlestick, data))
+            .snap(fc.util.seriesPointSnap(candlestick, data))
             .on('trackingmove.link', render);
 
         var multi = fc.series.multi()
@@ -211,10 +211,10 @@ rect.extent {
                 }
             });
 
-        var chart = fc.charts.linearTimeSeries()
+        var chart = fc.chart.linearTimeSeries()
             .xDomain(data.dateDomain)
             .xTicks(0)
-            .yDomain(fc.utilities.extent(data, ['high', 'low']))
+            .yDomain(fc.util.extent(data, ['high', 'low']))
             .yNice()
             .yTicks(3)
             .plotArea(multi);
@@ -245,10 +245,10 @@ rect.extent {
             .yValue(function(d) { return d.volume; });
 
         var crosshairs = fc.tools.crosshairs()
-            .snap(fc.utilities.seriesPointSnap(bar, data))
+            .snap(fc.util.seriesPointSnap(bar, data))
             .on('trackingmove.link', render);
 
-        var volumeExtent = fc.utilities.extent(data, 'volume');
+        var volumeExtent = fc.util.extent(data, 'volume');
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
@@ -263,7 +263,7 @@ rect.extent {
 
 
 
-        var chart = fc.charts.linearTimeSeries()
+        var chart = fc.chart.linearTimeSeries()
             .xDomain(data.dateDomain)
             .yDomain(volumeExtent)
             .yNice()
@@ -277,10 +277,10 @@ rect.extent {
 
         var data = selection.datum();
 
-        var yDomain = fc.utilities.extent(data, 'close');
+        var yDomain = fc.util.extent(data, 'close');
 
-        var chart = fc.charts.linearTimeSeries()
-            .xDomain(fc.utilities.extent(data, 'date'))
+        var chart = fc.chart.linearTimeSeries()
+            .xDomain(fc.util.extent(data, 'date'))
             .yDomain(yDomain)
             .yNice()
             .xTicks(3)
@@ -332,7 +332,7 @@ rect.extent {
             data.crosshairs = [];
         }
         if (data.dateDomain == null) {
-            var maxDate = fc.utilities.extent(container.datum(), 'date')[1];
+            var maxDate = fc.util.extent(container.datum(), 'date')[1];
             var dateScale = d3.time.scale()
                 .domain([maxDate - 50 * 24 * 60 * 60 * 1000, maxDate])
                 .nice();

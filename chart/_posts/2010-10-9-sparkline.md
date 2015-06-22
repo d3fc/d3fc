@@ -19,9 +19,9 @@ example-code: |
           // var stock = sparkline.attr('data-ticker');
           var data = fc.dataGenerator()(50);
 
-          var chart = fc.charts.sparkline()
-              .xDomain(fc.utilities.extent(data, 'date'))
-              .yDomain(fc.utilities.extent(data, 'low'))
+          var chart = fc.chart.sparkline()
+              .xDomain(fc.util.extent(data, 'date'))
+              .yDomain(fc.util.extent(data, 'low'))
               .radius(2)
               .yValue(function(d) { return d.low; });
 
