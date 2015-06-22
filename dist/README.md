@@ -13,11 +13,20 @@ As well as the standard development instructions -
 ```bash
 read -p "Version:" version
 
+git clean -fd
+git fetch upstream
 git checkout master
-git reset --HARD upstream/master
+git reset --hard upstream/master
 
-npm version $version
+# n.b. don't tag at this point, we need to bump the version in the source
+npm version $version --no-git-tag-version
+
+grunt clean build
+
+git add --all
+git commit -m "Release version $version"
+git tag -a $version -m "Release version $version"
 git push upstream $version master
-grunt
+
 npm publish
 ```
