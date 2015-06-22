@@ -44,7 +44,7 @@
                     .classed('band', true);
 
                 var pathGenerator = fc.svg.bar()
-                    .centred(false)
+                    .align('right')
                     .x(x0Scaled)
                     .y(y0Scaled)
                     .height(function() {
