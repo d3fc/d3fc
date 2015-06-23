@@ -19,7 +19,9 @@
         scale: {
             discontinuity: {}
         },
-        series: {},
+        series: {
+            stacked: {}
+        },
         svg: {},
         tool: {},
         util: {}
