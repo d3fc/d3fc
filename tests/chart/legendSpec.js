@@ -34,7 +34,8 @@
                 close: 56.78
             };
 
-            d3.select(element).data([datum])
+            d3.select(element)
+                .datum(datum)
                 .call(legend);
 
             verifyLegend([
@@ -58,7 +59,8 @@
                 open: 45.67
             };
 
-            d3.select(element).data([datum])
+            d3.select(element)
+                .datum(datum)
                 .call(legend);
 
             expect(labelSpy.calls.count()).toEqual(2);
@@ -77,7 +79,7 @@
             expect(valueSpy.calls.all()[1].object.nodeName).toEqual('TD');
         });
 
-        it('should invoke the decorate unction with the correct parameters and context', function() {
+        it('should invoke the decorate function with the correct parameters and context', function() {
 
             var decorateSpy = jasmine.createSpy('decorate');
 
@@ -91,7 +93,8 @@
                 open: 45.67
             };
 
-            d3.select(element).data([datum])
+            d3.select(element)
+                .datum(datum)
                 .call(legend);
 
             expect(decorateSpy.calls.count()).toEqual(1);
