@@ -55,7 +55,11 @@
                     });
 
                 g.select('path')
-                    .attr('d', function(d) { return pathGenerator([d]); });
+                    .attr('d', function(d, i) {
+                        // the path generator is being used to render a single path, hence
+                        // an explicit index is provided
+                        return pathGenerator.call(this, [d], i);
+                    });
 
                 decorate(g);
             });
@@ -86,7 +90,7 @@
             if (!arguments.length) {
                 return x0;
             }
-            x0 = x;
+            x0 = d3.functor(x);
             x0Scaled = function() {
                 return xScale(x0.apply(this, arguments));
             };
@@ -96,7 +100,7 @@
             if (!arguments.length) {
                 return x1;
             }
-            x1 = x;
+            x1 = d3.functor(x);
             x1Scaled = function() {
                 return xScale(x1.apply(this, arguments));
             };
@@ -106,7 +110,7 @@
             if (!arguments.length) {
                 return y0;
             }
-            y0 = x;
+            y0 = d3.functor(x);
             y0Scaled = function() {
                 return yScale(y0.apply(this, arguments));
             };
@@ -116,7 +120,7 @@
             if (!arguments.length) {
                 return y1;
             }
-            y1 = x;
+            y1 = d3.functor(x);
             y1Scaled = function() {
                 return yScale(y1.apply(this, arguments));
             };

@@ -12,13 +12,13 @@
             height = function(d, i) { return d.height; },
             width = d3.functor(3);
 
-        var bar = function(data) {
+        var bar = function(data, index) {
 
             return data.map(function(d, i) {
-                var xValue = x(d, i),
-                    yValue = y(d, i),
-                    barHeight = height(d, i),
-                    barWidth = width(d, i);
+                var xValue = x.call(this, d, index || i),
+                    yValue = y.call(this, d, index || i),
+                    barHeight = height.call(this, d, index || i),
+                    barWidth = width.call(this, d, index || i);
 
                 var offset;
 
@@ -47,7 +47,7 @@
                     // Close the path
                     'z';
                 return body;
-            })
+            }, this)
             .join('');
         };
 
