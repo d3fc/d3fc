@@ -2,7 +2,7 @@
 layout: default
 example-code: |
  // create some test data
- var generator = fc.dataGenerator().filter(null);
+ var generator = fc.data.random.financial().filter(null);
  var data = generator(110);
 
  function renderChart() {
