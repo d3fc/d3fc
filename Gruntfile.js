@@ -236,9 +236,6 @@ module.exports = function (grunt) {
             },
             test: {
                 src: ['dist/*.js'],
-            },
-            testDebug: {
-                src: ['dist/*.js'],
                 options: {
                     keepRunner: true
                 }
