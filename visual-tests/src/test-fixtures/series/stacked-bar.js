@@ -8,7 +8,7 @@
         .attr('width', width)
         .attr('height', height);
 
-    d3.csv('stackedBarData.csv', function(error, data) {
+    function renderChart(data, offset, yDomain) {
         /*  Build series objects for each series in the data set.
             Assumption: first data object holds all series keys. */
         var series = Object.keys(data[0])
@@ -32,7 +32,13 @@
             });
         });
 
-        series.crosshair = [];
+        var stackLayout = d3.layout.stack()
+            .offset(offset)
+            .x(function(d) { return d.state; })
+            .y(function(d) { return d.value; });
+
+        var stackedData = stackLayout(series.map(function(d) { return d.data; }));
+        stackedData.crosshair = [];
 
         // Collect the X values.
         var xCategories = data.map(function(d) { return d.State; });
@@ -45,14 +51,14 @@
         var color = d3.scale.category10();
 
         var y = d3.scale.linear()
-          .domain([0, 40000000])
+          .domain(yDomain)
           .nice()
           .range([height, 0]);
 
-        var stack = fc.series.stackedBar()
-            .values(function(d) { return d.data; })
+        var stackedBar = fc.series.stacked.bar()
+            .xScale(x)
+            .yScale(y)
             .xValue(function(d) { return d.state; })
-            .yValue(function(d) { return d.value; })
             .decorate(function(sel) {
                 sel.attr('fill', function(d, i) {
                     return color(i);
@@ -72,16 +78,7 @@
             return nearestIndex;
         }
 
-        function runningTotal(arr) {
-            var total = 0, result = [];
-            for (var i = 0, l = arr.length; i < l; i++) {
-                total += arr[i];
-                result.push(total);
-            }
-            return result;
-        }
-
-        function pixelSnap(xPixel, yPixel) {
+        function pixelSnap(stackedData, xPixel, yPixel) {
             // find the nearest x location
             var nearestXIndex = findClosest(x.range(), function(arr, index) {
                 return Math.abs(arr[index] - xPixel);
@@ -90,14 +87,17 @@
 
             // create an array of y pixel locations for each stacked bar
             var keys = Object.keys(datum).filter(function(p) { return p !== 'State'; });
-            var yValues = keys.map(function(d) { return +datum[d]; });
-            var yPixels = runningTotal(yValues).map(y);
+            var yPixels = stackedData.map(function(d) {
+                var datum = d[nearestXIndex];
+                return y(datum.y0 + datum.y);
+            });
 
             // find the nearest y index
             var nearestYIndex = findClosest(yPixels, function(arr, index) {
                 return Math.abs(arr[index] - yPixel);
             });
             var nearestYProperty = keys[nearestYIndex];
+
             return {
                 datum: {
                     x: x.domain()[nearestXIndex],
@@ -117,24 +117,39 @@
               return d.datum.x;
           })
           .yLabel(function(d) { return d.datum.yProperty + ' : ' + d.datum.yValue; })
-          .snap(pixelSnap);
+          .snap(pixelSnap.bind(null, stackedData));
 
         // Add it to the chart
         var multi = fc.series.multi()
             .xScale(x)
             .yScale(y)
-            .series([stack, crosshair])
+            .series([stackedBar, crosshair])
             .mapping(function(series) {
                 switch (series) {
-                    case stack:
+                    case stackedBar:
                         return this;
                     case crosshair:
                         return this.crosshair;
                 }
             });
 
-        container.datum(series)
+        container.datum(stackedData)
             .call(multi);
+    }
+
+    var csvData;
+    d3.csv('stackedBarData.csv', function(error, data) {
+        csvData = data;
+
+
+        var zeroRadio = document.getElementById('zero');
+        zeroRadio.addEventListener('click', renderChart.bind(null, csvData, 'zero', [0, 40000000]));
+        zeroRadio.setAttribute('checked', true);
+
+        document.getElementById('expand')
+            .addEventListener('click', renderChart.bind(null, csvData, 'expand', [0, 1]));
+
+        renderChart(data, 'zero', [0, 40000000]);
     });
 
 })(d3, fc);
