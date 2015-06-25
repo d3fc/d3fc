@@ -26,22 +26,22 @@
   <body>
 
     <!-- Page layout based on sticky footer example http://getbootstrap.com/2.3.2/examples/sticky-footer.html -->
-    <nav class="navbar navbar-inverse ">
+    <nav class="navbar navbar-inverse">
       <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="index.html">d3fc</a>
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="components.html">Components</a></li>
-            <li><a href="example.html">Example</a></li>
-          </ul>
-        </div>
+          <div class="navbar-header">
+            <a class="navbar-brand" href="index.html"><img src="images/Logo-02.png" /></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li{% if page.url == '/components.html' %} class="active"{% endif %}><a href="components.html">COMPONENTS</a></li>
+              <li{% if page.url == '/example.html' %} class="active"{% endif %}><a href="example.html">EXAMPLE</a></li>
+            </ul>
+          </div>
       </div>
     </nav>
 
@@ -57,7 +57,7 @@
 
     <div id="footer">
       <div class="container">
-        <p class="muted credit">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
       </div>
     </div>
 

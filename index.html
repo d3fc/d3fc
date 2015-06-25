@@ -51,9 +51,18 @@ example-code: |
 
  addEventListener('resize', renderChart);
 ---
-<div class="jumbotron" id="jumbo1">
+<div>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-md-12">
+      <svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
+    </div>
+
+  </div>
+</div>
+
+<div class="jumbotron text-center" id="jumbo1">
+  <div class="row">
+    <div class="col-sm-12">
       <h2>d3fc - Charting Components</h2>
     </div>
     <div class="col-sm-4">
@@ -61,31 +70,6 @@ example-code: |
         <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3fc">View on GitHub</a>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="jumbotron" id="jumbo2">
-  <div class="row">
-    <div class="col-md-12">
-      <svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
-      <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-          <div class="accordion-heading">
-            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-              View sourcecode &#8964;
-            </a>
-          </div>
-          <div id="collapseOne" class="accordion-body collapse">
-            <div class="accordion-inner">
-              {% highlight javascript %}
-              {{ page.example-code }}
-              {% endhighlight %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -97,29 +81,6 @@ example-code: |
 </script>
 
 <div class="row">
-  <div class="col-sm-3">
-    <h3>D3</h3>
-    <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
-    <p>However, constructing charts with D3 can be hard work!</p>
-  </div>
-  <div class="col-sm-1 massive-text">
-    +
-  </div>
-  <div class="col-sm-3">
-    <h3>d3fc</h3>
-    <p>d3fc provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
-  </div>
-  <div class="col-sm-2 massive-text">
-    =
-  </div>
-  <div class="col-sm-3">
-    <h3>Awesome!</h3>
-    <p>Building interactive or static charts with d3fc is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
-  </div>
-</div>
-
-<div class="jumbotron" id="jumbo2">
-  <div class="row">
     <div class="col-md-12 charts-container">
       {% for post in site.tags['frontpage'] %}
         {% assign elementId = post.id | replace:'/','' %}
@@ -133,7 +94,7 @@ example-code: |
         </a>
         <script type="text/javascript">
         (function() {
-            var f = createFixture('#{{ elementId }}', null, null, function() { return true; });
+            var f = createFixture('#{{ elementId }}', 800, null, null, function() { return true; });
             var container = f.container, data = f.data
               xScale = f.xScale, yScale = f.yScale,
               height = f.dimensions.height, width = f.dimensions.width;
@@ -142,28 +103,60 @@ example-code: |
         </script>
       {% endfor %}
     </div>
+</div>
+
+<div class="quick-start">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="text-center">QUICK START</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3 ">
+      <h3>Install d3fc</h3>
+      <p>A complete set of instructions for obtaining d3fc and its dependencies are available on the <a href="{{ site.project-repo-url }}">GitHub project website</a>.</p>
+    </div>
+    <div class="col-sm-3 ">
+      <h3>Pick Your Components</h3>
+      <p>Browse the <a href="components">d3fc components</a> to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
+    </div>
+    <div class="col-sm-3 ">
+      <h3>Customise</h3>
+      <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p>
+    </div>
+    <div class="col-sm-3 ">
+      <h3>Contribute</h3>
+      <p>Spotted a bug? Have an idea for a feature? Please <a href="{{ site.project-repo-url }}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
+      our <a href="{{ site.project-repo-url }}/wiki">wiki page which describes the design goals</a>.</p>
+    </div>
   </div>
 </div>
 
-
-<div class="row">
-  <div class="col-md-12">
-    <h2>Quick Start</h2>
-  </div>
+<div class="d3-d3fc-awesome">
+  <div class="row">
+    <div class="col-sm-6">
+      <div>
+        <h3>D3</h3>
+        <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
+        <p>However, constructing charts with D3 can be hard work!</p>
+      </div>
+      <div class="massive-text">
+        <span class="vertically-central">+</span>
+      </div>
+      <div>
+        <h3>d3fc</h3>
+        <p>d3fc provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
+      </div>
+    </div>
+    <div class="col-sm-2 vertically-central-except-mobile">
+      <div class="massive-text">
+        <span class="vertically-central">=</span>
+      </div>
+    </div>
+    <div class="col-sm-4 vertically-central-except-mobile">
+      <h3>Awesome!</h3>
+      <p>Building interactive or static charts with d3fc is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
+    </div>
 </div>
-
-<div class="row">
-  <div class="col-md-6 col-sm-6 ">
-    <h3>Install d3fc</h3>
-    <p>A complete set of instructions for obtaining d3fc and its dependencies are available on the <a href="{{ site.project-repo-url }}">GitHub project website</a>.</p>
-    <h3>Pick Your Components</h3>
-    <p>Browse the <a href="components">d3fc components</a> to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
-  </div>
-  <div class="col-md-6 col-sm-6 ">
-    <h3>Customise</h3>
-    <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p>
-    <h3>Contribute</h3>
-    <p>Spotted a bug? Have an idea for a feature? Please <a href="{{ site.project-repo-url }}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
-    our <a href="{{ site.project-repo-url }}/wiki">wiki page which describes the design goals</a>.</p>
-  </div>
 </div>
