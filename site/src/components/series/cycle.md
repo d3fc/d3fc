@@ -1,0 +1,67 @@
+---
+layout: component
+title: Cycle Series
+component: series/cycle.js
+tags:
+  - frontpage
+namespace: series
+
+example-code: |
+  var data = [{"date":"20130603","sales":41},{"date":"20130604","sales":70},{"date":"20130605","sales":84},{"date":"20130606","sales":63},{"date":"20130607","sales":63},{"date":"20130608","sales":32},{"date":"20130609","sales":34},{"date":"20130610","sales":46},{"date":"20130611","sales":68},{"date":"20130612","sales":84},{"date":"20130613","sales":61},{"date":"20130614","sales":61},{"date":"20130615","sales":34},{"date":"20130616","sales":32},{"date":"20130617","sales":48},{"date":"20130618","sales":66},{"date":"20130619","sales":86},{"date":"20130620","sales":65},{"date":"20130621","sales":65},{"date":"20130622","sales":37},{"date":"20130623","sales":35},{"date":"20130624","sales":49},{"date":"20130625","sales":65},{"date":"20130626","sales":89},{"date":"20130627","sales":60},{"date":"20130628","sales":63},{"date":"20130629","sales":39},{"date":"20130630","sales":32},{"date":"20130701","sales":54},{"date":"20130702","sales":64},{"date":"20130703","sales":92},{"date":"20130704","sales":66},{"date":"20130705","sales":59},{"date":"20130706","sales":33},{"date":"20130707","sales":34},{"date":"20130708","sales":56},{"date":"20130709","sales":63},{"date":"20130710","sales":95},{"date":"20130711","sales":60},{"date":"20130712","sales":66},{"date":"20130713","sales":34},{"date":"20130714","sales":37},{"date":"20130715","sales":62},{"date":"20130716","sales":58},{"date":"20130717","sales":104},{"date":"20130718","sales":65},{"date":"20130719","sales":65},{"date":"20130720","sales":37},{"date":"20130721","sales":33},{"date":"20130722","sales":70},{"date":"20130723","sales":57},{"date":"20130724","sales":112},{"date":"20130725","sales":64},{"date":"20130726","sales":63},{"date":"20130727","sales":34},{"date":"20130728","sales":34}];
+
+  var parseDate = d3.time.format('%Y%m%d').parse;
+  data.forEach(function(d) {
+      d.date = parseDate(d.date);
+  });
+
+  var dayScale = d3.scale.ordinal()
+      .domain([0, 1, 2, 3, 4, 5, 6])
+      .rangePoints([0, width], 1.0);
+
+  var salesScale = d3.scale.linear()
+      .domain(fc.util.extent(data, 'sales'))
+      .range([height, 0])
+      .nice();
+
+  var subScale = d3.scale.linear()
+      .domain(fc.util.extent(data, 'date'));
+
+  var subAxis = fc.series.axis()
+      .tickSize(0)
+      .ticks(0)
+      .baseline(function(d) {
+          return d3.mean(d, function(d) { return d.sales; });
+      });
+
+  var lineSeries = fc.series.line()
+      .xValue(function(d) { return d.date; })
+      .yValue(function(d) { return d.sales; });
+
+  var multiSeries = fc.series.multi()
+          .series([subAxis, lineSeries]);
+
+  var cycle = fc.series.cycle()
+      .barWidth(fc.util.fractionalBarWidth(0.9))
+      .yScale(salesScale)
+      .xScale(dayScale)
+      .xValue(function(d) { return d.date.getDay(); })
+      .subScale(subScale)
+      .subSeries(multiSeries);
+
+  container.datum(data)
+      .call(cycle);
+---
+
+The cycle series component allows the creation of cycle plots which can help identify cyclical patterns nested in time series data. As well as an `xScale` and a `yScale`, it also accepts a `subScale` and a `subSeries`. The `xScale` is the 'outer' scale, with the cycle series' `xValue` mapping the data onto this scale. While the `subScale` is the inner scale, with the `xValue` of the `subSeries` corresponding to this scale.
+
+This example also demonstrates a use of the axis series which adapts a d3 axis and allows it to be used as a series. In this case the `baseline` of the axis series is set to the mean of the weekday's values.
+
+These are used The following example shows some arbitrary sales data grouped by weekday:
+
+```js
+{{{example-code}}}
+```
+
+Which gives the following:
+
+{{>example-fixture}}

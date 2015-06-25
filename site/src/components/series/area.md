@@ -1,0 +1,56 @@
+---
+layout: component
+title: Area Series
+component: series/area.js
+tags:
+  - frontpage
+namespace: series
+
+example-code: |
+  var area = fc.series.area()
+      .xScale(xScale)
+      .yScale(yScale);
+
+  container.append('g')
+      .datum(data)
+      .call(area);
+
+example-band-code: |
+  var area = fc.series.area()
+      .xScale(xScale)
+      .yScale(yScale)
+      .y1Value(function (d) { return d.high; } )
+      .y0Value(function (d) { return d.low; } );
+
+  container.append('g')
+      .datum(data)
+      .call(area);
+---
+
+The area series renders the given data as a filled area, constructed from an SVG `path`:
+
+```js
+{{{example-code}}}
+```
+
+Which gives the following:
+
+{{>example-fixture}}
+
+This series has the same `xValue`, `yValue` and `decorate` properties as the [point series](#point). You can also render this series as a band by specifying `y0Value` and `y1Value` properties:
+
+```js
+{{{example-band-code}}}
+```js
+
+Which gives the following:
+
+<div id="series_area_band" class="chart band"> </div>
+<script type="text/javascript">
+(function() {
+    var f = createFixture('#series_area_band', null, null, null, function() { return true; });
+    var container = f.container, data = f.data
+      xScale = f.xScale, yScale = f.yScale;
+    {{{example-band-code}}}
+}());
+</script>

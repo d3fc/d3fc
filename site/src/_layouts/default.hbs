@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>d3fc</title>
+
+    <!-- TODO: Minimise! -->
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/node_modules/d3/d3.js"></script>
+    <script src="/node_modules/css-layout/src/Layout.js"></script>
+    <script src="/dist/d3fc.js"></script>
+
+    <link rel="stylesheet" href="/site/src/lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="/site/src/lib/pygments-github.css" />
+    <link rel="stylesheet" href="/dist/d3fc.css"/>
+    <link rel="stylesheet" href="/site/src/style/site.css" />
+    <link rel="stylesheet" href="/site/src/style/side-menu.css" />
+    <link rel="stylesheet" href="/site/src/style/sticky-footer.css" />
+  </head>
+  <body>
+
+    <!-- Page layout based on sticky footer example http://getbootstrap.com/2.3.2/examples/sticky-footer.html -->
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/site/dist/"><img src="/site/src/images/Logo-02.png" /></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="{{#is layout 'component'}}active{{/is}}"><a href="/site/dist/components">COMPONENTS</a></li>
+              <li class="{{#is layout 'example'}}active{{/is}}"><a href="/site/dist/examples">EXAMPLE</a></li>
+            </ul>
+          </div>
+      </div>
+    </nav>
+
+    <script type="text/javascript" src="/site/src/lib/init.js"></script>
+
+    <div id="wrap">
+      <div class="container main-content">
+        {{> body}}
+      </div>
+    </div>
+
+    <div id="push"></div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/site/src/lib/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    $('body').scrollspy({
+      target: '.bs-docs-sidebar',
+      offset: 40
+    });
+    </script>
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

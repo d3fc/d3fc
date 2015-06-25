@@ -1,0 +1,231 @@
+.chart {
+  width: 600px;
+  height: 250px;
+  border: 1px solid #ccc;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  box-sizing: content-box;
+}
+
+.charts-container {
+  /* Remove horizontal space between examples */
+  line-height: 0;
+}
+
+.charts-container a:nth-child(n+6) div.chart-small {
+  border-top: 0px;   
+}
+
+.charts-container a {
+  display: inline-block;
+  margin-right: -5px;
+}
+
+.chart-small {
+  width: 380px;
+  height: 150px;
+  background: white;
+  border: 1px solid #ccc;
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 20px;
+}
+
+.chart-small .caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(123, 159, 161, 0.75);
+  text-align: left;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+}
+
+.chart-small:hover .caption {
+  background: rgba(38, 51, 55, 1);
+}
+
+.chart-small .caption h4 {
+  color: white;
+  margin-left: 10px;  
+}
+
+.chart-small>svg {
+  -webkit-transform: scale(0.5, 0.5);
+  -ms-transform: scale(0.5, 0.5);
+  transform: scale(0.5, 0.5);
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.massive-text {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: rgb(123, 159, 161);
+  font-size: 50px;
+  color: white;
+  text-align: center;
+  padding: 0 0;
+  line-height: 0;
+}
+
+.vertically-central {
+  display: block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+}
+
+@media (min-width: 768px) {
+  .vertically-central-except-mobile {
+    display: block;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+  } 
+}
+
+/******************* main-content ********************************/
+
+.main-content {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.main-content h2 {
+  font-size: 40px;
+}
+
+.main-content p {
+  font-size: 18px;
+}
+/******************* #intro ********************************/
+#jumbo1 {
+  background-color: rgb(38, 51, 55);
+  color: white;
+  border-radius: 0;
+}
+
+#jumbo1 p {
+  font-size: 12px;
+}
+
+#jumbo1 .col-sm-4 {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#jumbo1 a[type="button"] {
+  background-color: transparent;
+  border-color: white;
+  border-radius: 25px;
+}
+
+#jumbo1 a[type="button"]:hover {
+  background-color: white;
+  color: rgb(38,51,55);
+}
+
+/****************** navbar *********************************/
+.navbar.navbar-inverse {
+  border-color: transparent;
+  background-color: transparent;
+}
+
+.navbar.navbar-inverse .navbar-header, .navbar.navbar-inverse .navbar-collapse {
+  background-color: rgb(38, 51, 55);
+}
+ .navbar>.container .navbar-brand {
+  /* positions logo in line with body container */
+  margin-left: 0;
+  padding: 0 0 0 0;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  padding-left: 5px;
+  padding-right: 5px;
+  color: white;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover {
+  color: rgb(123, 159, 161);
+}
+
+.navbar-inverse .navbar-nav>.active>a {
+  background-color: transparent;
+  color: rgb(123, 159, 161);
+}
+
+.navbar-inverse .navbar-nav>.active>a:hover {
+  background-color: transparent;
+  color: rgb(123, 159, 161);
+}
+
+@media (min-width: 768px) {
+  ul.navbar-nav li~li:before {
+    content: "|";
+    line-height:  20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: absolute;
+    left: -2px;
+    color: white;
+  }
+}
+
+ul.navbar-nav li:last-child {
+  padding-right: 15px;   
+}
+
+/****************** quick start *********************************/
+.quick-start {
+  margin-top: 20px;
+  padding: 15px 15px;
+  background-color: rgb(123, 159, 161);
+  color: white;
+}
+
+.quick-start h3 {
+  margin-bottom: 20px;
+}
+
+.quick-start a {
+  color: rgb(67, 88, 98);
+}
+
+/****************** d3+d3fc=awesome ******************************/
+.d3-d3fc-awesome {
+  padding: 40px 40px;
+}
+
+@media (min-width: 768px) {
+  .d3-d3fc-awesome .row {
+    height: 350px;
+  }
+}
+
+.d3-d3fc-awesome h3 {
+  font-size: 40px;
+  margin-top: 10px;
+  color: rgb(123, 159, 161);
+}
+
+.d3-d3fc-awesome a {
+  color: rgb(123, 159, 161);
+}

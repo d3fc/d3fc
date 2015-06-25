@@ -42,18 +42,36 @@ module.exports = function (grunt) {
                 '<%= meta.componentsJsFiles %>',
                 '<%= meta.testJsFiles %>',
                 '<%= meta.visualTestJsFiles %>'
+            ],
+            siteFiles: [
+                {
+                    expand: true,
+                    cwd: 'site/src',
+                    src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
+                    dest: 'site/dist'
+                }
             ]
         },
 
         assemble: {
-            options: {
-                assets: 'visual-tests/dist/assets',
-                partials: 'visual-tests/src/site/templates/includes/*.hbs',
-                layoutdir: 'visual-tests/src/site/templates/layouts',
-                layout: 'test.hbs'
-            },
             visualTests: {
+                options: {
+                    assets: 'visual-tests/dist/assets',
+                    partials: 'visual-tests/src/site/templates/includes/*.hbs',
+                    layoutdir: 'visual-tests/src/site/templates/layouts',
+                    layout: 'test.hbs'
+                },
                 files: '<%= meta.visualTestSiteFiles %>'
+            },
+            site: {
+                options: {
+                    data: ['package.json', 'site/src/_config.yml'],
+                    partials: 'site/src/_includes/*.hbs',
+                    layoutdir: 'site/src/_layouts',
+                    layout: 'default',
+                    layoutext: '.hbs'
+                },
+                files: '<%= meta.siteFiles %>'
             }
         },
 
@@ -69,10 +87,18 @@ module.exports = function (grunt) {
 
         connect: {
             options: {
-                base: 'visual-tests/dist',
                 useAvailablePort: true
             },
-            dev: { },
+            dev: {
+                options: {
+                    base: 'visual-tests/dist'
+                }
+            },
+            site: {
+                options: {
+                    base: '.'
+                }
+            },
             keepalive: {
                 options: {
                     keepalive: true
@@ -182,8 +208,16 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['build:visual-tests']
             },
+            site: {
+                files: [
+                    'Gruntfile.js',
+                    'site/src/**/*'
+                ],
+                tasks: ['site']
+            },
             options: {
-                livereload: true
+                livereload: true,
+                atBegin: true
             }
         },
 
@@ -244,7 +278,8 @@ module.exports = function (grunt) {
 
         clean: {
             dist: ['dist/*', '!dist/README.md'],
-            visualTests: ['visual-tests/dist']
+            visualTests: ['visual-tests/dist'],
+            site: ['site/dist']
         },
 
         version: {
@@ -263,10 +298,12 @@ module.exports = function (grunt) {
     grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
     grunt.registerTask('build:components', ['check', 'clean:dist', 'version', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
-    grunt.registerTask('dev:serve', ['build', 'connect:dev', 'watch']);
+    grunt.registerTask('dev:serve', ['connect:dev', 'watch:dev']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
+    grunt.registerTask('site', ['clean:site', 'assemble:site']);
+    grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
     grunt.registerTask('default', ['build']);
 };

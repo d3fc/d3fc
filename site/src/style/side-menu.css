@@ -1,0 +1,114 @@
+/* side menu from the following fiddle: http://jsfiddle.net/gableroux/S2SMK/ */
+.group {
+    background: yellow;
+    width: 200px;
+    height: 500px;
+}
+.group .subgroup {
+    background: orange;
+    width: 150px;
+    height: 200px;
+}
+.fixed {
+    position: fixed;
+    top: 100px;
+}
+
+.nav-tabs {
+  margin-top: 10px;
+}
+.tab-pane>pre {
+  margin-top: 10px;
+  max-height: 350px;
+  overflow: auto;
+}
+
+/* sidebar */
+.bs-docs-sidebar {
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* all links */
+.bs-docs-sidebar>ul {
+  width: 280px;
+}
+
+.bs-docs-sidebar .nav>li>a {
+    padding: 4px 4px;
+    font-weight: 400;
+}
+
+/* top level links */
+.bs-docs-sidebar>.nav>li>a {
+    text-transform: uppercase;
+    font-size: 16px;
+    color: #7b9fa0;
+}
+
+.bs-docs-sidebar hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-width: 2px;
+}
+
+/* nested links */
+.bs-docs-sidebar .nav .nav>li {
+    display: inline-block;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.bs-docs-sidebar .nav .nav>li:not(:last-child) {
+    border-right: 1px solid #435862;
+    margin-right: -2px;
+}
+
+.bs-docs-sidebar .nav .nav>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    font-size: 14px;
+    color: #435862;
+}
+
+/* active & hover links */
+.bs-docs-sidebar .nav>.active>a,
+.bs-docs-sidebar .nav>li>a:hover,
+.bs-docs-sidebar .nav>li>a:focus {
+    color: #7b9fa0;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.bs-docs-sidebar .nav .nav>.active>a {
+    color: white;
+    text-decoration: none;
+    background-color: #7b9fa0;
+}
+
+/* all active links */
+.bs-docs-sidebar .nav>.active>a,
+.bs-docs-sidebar .nav>.active:hover>a,
+.bs-docs-sidebar .nav>.active:focus>a {
+    font-weight: 700;
+}
+/* nested active links */
+.bs-docs-sidebar .nav .nav>.active>a,
+.bs-docs-sidebar .nav .nav>.active:hover>a,
+.bs-docs-sidebar .nav .nav>.active:focus>a {
+    font-weight: 500;
+}
+
+/* hide inactive nested list */
+/*.bs-docs-sidebar .nav ul.nav {
+    display: none;
+}*/
+
+/* show active nested list */
+.bs-docs-sidebar .nav>.active>ul.nav {
+    display: block;
+}

@@ -1,0 +1,40 @@
+---
+layout: default
+title: Components
+---
+
+<div class="row">
+
+  <nav class="col-sm-3 hidden-xs bs-docs-sidebar">
+    <ul id="sidebar" class="nav nav-stacked fixed">
+      {{#each _config.component-ids}}
+        <li>
+          {{#each ../_config.components}}
+            {{#is @key ../this}}
+              <a>{{name}}</a>
+            {{/is}}
+          {{/each}}
+          <ul class="nav nav-stacked">
+            {{#each ../pages}}
+              {{#is data.namespace ../this}}
+                  <li class="{{#if this.isCurrentPage}}active{{/if}}">
+                    <a href="{{this.relativeLink}}">
+                      {{data.title}}
+                    </a>
+                  </li>
+              {{/is}}
+            {{/each}}
+          </ul>
+        </li>
+      {{/each}}
+    </ul>
+  </nav>
+
+  <div class="col-sm-9 col-xs-12">
+    <h3>{{title}}</h3>
+    {{#markdown }}
+      {{> body  }}
+    {{/markdown }}
+  </div>
+
+</div>
