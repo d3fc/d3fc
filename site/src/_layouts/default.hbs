@@ -7,18 +7,9 @@
 
     <title>d3fc</title>
 
-    <!-- TODO: Minimise! -->
-    <script src="/node_modules/jquery/dist/jquery.js"></script>
-    <script src="/node_modules/d3/d3.js"></script>
-    <script src="/node_modules/css-layout/src/Layout.js"></script>
-    <script src="/dist/d3fc.js"></script>
+    <script src="{{assets}}/scripts.js"></script>
 
-    <link rel="stylesheet" href="/site/src/lib/bootstrap.min.css" />
-    <link rel="stylesheet" href="/site/src/lib/pygments-github.css" />
-    <link rel="stylesheet" href="/dist/d3fc.css"/>
-    <link rel="stylesheet" href="/site/src/style/site.css" />
-    <link rel="stylesheet" href="/site/src/style/side-menu.css" />
-    <link rel="stylesheet" href="/site/src/style/sticky-footer.css" />
+    <link rel="stylesheet" href="{{assets}}/styles.css" />
   </head>
   <body>
 
@@ -26,7 +17,7 @@
     <nav class="navbar navbar-inverse">
       <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="/site/dist/"><img src="/site/src/images/Logo-02.png" /></a>
+            <a class="navbar-brand" href="{{assets}}/"><img src="{{assets}}/images/Logo-02.png" /></a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -35,14 +26,12 @@
             </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li class="{{#is layout 'component'}}active{{/is}}"><a href="/site/dist/components">COMPONENTS</a></li>
-              <li class="{{#is layout 'example'}}active{{/is}}"><a href="/site/dist/examples">EXAMPLE</a></li>
+              <li class="{{#is layout 'component'}}active{{/is}}"><a href="{{assets}}/components">COMPONENTS</a></li>
+              <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{assets}}/examples">EXAMPLE</a></li>
             </ul>
           </div>
       </div>
     </nav>
-
-    <script type="text/javascript" src="/site/src/lib/init.js"></script>
 
     <div id="wrap">
       <div class="container main-content">

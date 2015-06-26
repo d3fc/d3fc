@@ -65,6 +65,7 @@ module.exports = function (grunt) {
             },
             site: {
                 options: {
+                    assets: 'site/dist',
                     data: ['package.json', 'site/src/_config.yml'],
                     partials: 'site/src/_includes/*.hbs',
                     layoutdir: 'site/src/_layouts',
@@ -82,6 +83,16 @@ module.exports = function (grunt) {
             dist: {
                 src: ['src/fc.js', 'src/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
+            },
+            site: {
+                src: [
+                        'node_modules/d3/d3.js',
+                        'node_modules/css-layout/src/Layout.js',
+                        'dist/d3fc.js',
+                        'node_modules/jquery/dist/jquery.js',
+                        'site/src/lib/init.js',
+                ],
+                dest: 'site/dist/scripts.js'
             }
         },
 
@@ -158,6 +169,16 @@ module.exports = function (grunt) {
                         dest: 'visual-tests/dist/assets/',
                     }
                 ]
+            },
+            site: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'site/src/images/',
+                        src: ['*'],
+                        dest: 'site/dist/images/',
+                    }
+                ]
             }
         },
 
@@ -170,6 +191,11 @@ module.exports = function (grunt) {
                 files: {
                     'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
                 }
+            },
+            site: {
+                files: {
+                    'site/dist/scripts.js': 'site/dist/scripts.js'
+                }
             }
         },
 
@@ -178,6 +204,17 @@ module.exports = function (grunt) {
             all: {
                 src: ['<%= meta.componentsCssFiles %>'],
                 dest: 'dist/<%= pkg.name %>.css'
+            },
+            site: {
+                src: [
+                    'site/src/lib/bootstrap.min.css',
+                    'site/src/lib/pygments-github.css',
+                    'dist/d3fc.css',
+                    'site/src/style/site.css',
+                    'site/src/style/side-menu.css',
+                    'site/src/style/sticky-footer.css'
+                ],
+                dest: 'site/dist/styles.css'
             }
         },
 
@@ -213,7 +250,7 @@ module.exports = function (grunt) {
                     'Gruntfile.js',
                     'site/src/**/*'
                 ],
-                tasks: ['site']
+                tasks: ['site:dev']
             },
             options: {
                 livereload: true,
@@ -303,7 +340,8 @@ module.exports = function (grunt) {
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
-    grunt.registerTask('site', ['clean:site', 'assemble:site']);
+    grunt.registerTask('site:dev', ['clean:site', 'copy:site', 'concat:site', 'concat_css:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
+    grunt.registerTask('site', ['site:dev', 'uglify:site']);
     grunt.registerTask('default', ['build']);
 };
