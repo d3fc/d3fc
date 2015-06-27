@@ -204,17 +204,6 @@ module.exports = function (grunt) {
             all: {
                 src: ['<%= meta.componentsCssFiles %>'],
                 dest: 'dist/<%= pkg.name %>.css'
-            },
-            site: {
-                src: [
-                    'site/src/lib/bootstrap.min.css',
-                    'site/src/lib/pygments-github.css',
-                    'dist/d3fc.css',
-                    'site/src/style/site.css',
-                    'site/src/style/side-menu.css',
-                    'site/src/style/sticky-footer.css'
-                ],
-                dest: 'site/dist/styles.css'
             }
         },
 
@@ -323,6 +312,17 @@ module.exports = function (grunt) {
             defaults: {
                 src: ['src/fc.js']
             }
+        },
+
+        less: {
+            site: {
+                // options: {
+                //     paths: ["site/css"]
+                // },
+                files: {
+                    "site/dist/styles.css": "site/src/style/styles.less"
+                }
+            }
         }
     });
 
@@ -340,7 +340,7 @@ module.exports = function (grunt) {
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
-    grunt.registerTask('site:dev', ['clean:site', 'copy:site', 'concat:site', 'concat_css:site', 'assemble:site']);
+    grunt.registerTask('site:dev', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
     grunt.registerTask('site', ['site:dev', 'uglify:site']);
     grunt.registerTask('default', ['build']);
