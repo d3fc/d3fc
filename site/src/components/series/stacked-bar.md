@@ -34,6 +34,13 @@ example-code: |
           };
       });
 
+  var stackLayout = d3.layout.stack()
+      .offset('zero')
+      .x(function(d) { return d.state; })
+      .y(function(d) { return d.value; });
+
+  var stackedData = stackLayout(series.map(function(d) { return d.data; }));
+
   var xCategories = data.map(function(d) { return d.State; });
 
   // create scales
@@ -47,22 +54,20 @@ example-code: |
     .domain([0, 6000])
     .range([height, 0]);
 
-  var stack = fc.series.stackedBar()
+  var stack = fc.series.stacked.bar()
     .xScale(x)
     .yScale(y)
-    .values(function(d) { return d.data; })
     .xValue(function(d) { return d.state; })
-    .yValue(function(d) { return d.value; })
     .decorate(function(sel) {
         sel.each(function(d, i) {
             d3.select(this)
               .selectAll('path')
-              .style({'fill': color(i), 'stroke-width' : 0, 'fill-opacity' : 1});
+              .style({'fill': color(i), 'stroke' : color(i)});
         });
     });
 
   container.append('g')
-      .datum(series)
+      .datum(stackedData)
       .call(stack);
 ---
 

@@ -7,7 +7,7 @@ tags:
 namespace: chart
 
 example-fixture: |
-  <div style="padding: 3px; text-align: left; color: rgb(51, 51, 51);">Lorem ipsum dolor sit amet, <span class='sparkline'></span>  consectetur adipiscing elit. Morbi feugiat nunc <span class='sparkline'></span> lacus, id laoreet erat volutpat nec. Sed ac vestibulum lacus. Quisque porttitor accumsan neque <span class='sparkline'></span> tincidunt aliquam. Nam iaculis eros eu tincidunt dapibus. Donec pellentesque orci eu egestas <span class='sparkline'></span> pretium. Vestibulum elementum metus nec ipsum rhoncus, id iaculis libero euismod. Etiam et ultricies eros, sollicitudin porta neque.</div>
+  <p>Lorem ipsum dolor sit amet, <span class='sparkline'></span>  consectetur adipiscing elit. Morbi feugiat nunc <span class='sparkline'></span> lacus, id laoreet erat volutpat nec. Sed ac vestibulum lacus. Quisque porttitor accumsan neque <span class='sparkline'></span> tincidunt aliquam. Nam iaculis eros eu tincidunt dapibus. Donec pellentesque orci eu egestas <span class='sparkline'></span> pretium. Vestibulum elementum metus nec ipsum rhoncus, id iaculis libero euismod. Etiam et ultricies eros, sollicitudin porta neque.</p>
 
 example-code: |
   d3.selectAll('.sparkline')
@@ -30,7 +30,8 @@ example-code: |
               .append('svg')
               .style({
                   height: '15px',
-                  width: '80px'
+                  width: '80px',
+                  display: 'inline'
               })
               .datum(data)
               .call(chart);
