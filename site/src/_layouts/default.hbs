@@ -12,40 +12,36 @@
     <link rel="stylesheet" href="{{assets}}/styles.css" />
   </head>
   <body>
+    <div class="content">
 
-    <!-- Page layout based on sticky footer example http://getbootstrap.com/2.3.2/examples/sticky-footer.html -->
-    <nav class="navbar navbar-inverse">
-      <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="{{assets}}/"><img src="{{assets}}/images/Logo-02.png" /></a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="{{assets}}/"><img class="navbar-logo" src="{{assets}}/images/logo.png" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="{{#is layout 'component'}}active{{/is}}"><a href="{{assets}}/components">Components</a></li>
+                <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{assets}}/examples">Examples</a></li>
+                <li><a href="{{package.repository.url}}">GitHub</a></li>
+              </ul>
             </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              <li class="{{#is layout 'component'}}active{{/is}}"><a href="{{assets}}/components">COMPONENTS</a></li>
-              <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{assets}}/examples">EXAMPLE</a></li>
-            </ul>
-          </div>
-      </div>
-    </nav>
+        </div>
+      </nav>
 
-    <div id="wrap">
-      <div class="container main-content">
-        {{> body}}
-      </div>
+      {{> body}}
+
     </div>
-
-    <div id="push"></div>
-
-    <div id="footer">
+    <footer>
       <div class="container">
         <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
       </div>
-    </div>
+    </footer>
 
     <script src="//localhost:35729/livereload.js"></script>
   </body>

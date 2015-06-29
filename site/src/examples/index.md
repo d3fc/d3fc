@@ -70,7 +70,7 @@ rect.extent {
 
 <div class="row">
   <div class="col-md-12">
-    <h2 style="margin-bottom: 30px">Advanced Charting Example</h2>
+    <h1>Advanced Charting Example</h1>
   </div>
 </div>
 

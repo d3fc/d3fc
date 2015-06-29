@@ -47,11 +47,11 @@ example-code: |
  }
  renderChart();
 
- setInterval(renderChart, 200);
+ //setInterval(renderChart, 200);
 
  addEventListener('resize', renderChart);
 ---
-<div>
+<div class="top-chart container">
   <div class="row">
     <div class="col-md-12">
       <svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
@@ -61,16 +61,9 @@ example-code: |
 </div>
 
 <div class="jumbotron text-center" id="jumbo1">
-  <div class="row">
-    <div class="col-sm-12">
-      <h2>d3fc - Charting Components</h2>
-    </div>
-    <div class="col-sm-4">
-      <div class="btn-group btn-group-justified" role="group">
-        <a type="button" class="btn btn-primary btn-lg" a href="https://github.com/ScottLogic/d3fc">View on GitHub</a>
-      </div>
-    </div>
-  </div>
+  <img src="{{assets}}/images/logo.png" />
+  <p>A collection of components that make it easy to build interactive charts with D3.</p>
+  <a class="jumbotron-btn" a href="https://github.com/ScottLogic/d3fc">View on GitHub</a>
 </div>
 
 <script type="text/javascript">
@@ -80,21 +73,22 @@ example-code: |
 }());
 </script>
 
-<div class="row">
-  <div class="col-md-12 charts-container">
-
+<div class="previews container">
+  <div class="row">
     {{#each tags}}
       {{#is tag "frontpage"}}
         {{#each pages}}
-          {{! the components/ is a hack around ASSemble }}
-          <a href="components/{{this.relativeLink}}">
-            <div id="{{>component-id data.component}}" class="chart-small">
-              {{{data.example-fixture}}}
-              <div class="caption">
-                <h4>{{data.title}}</h4>
+          <div class="col-xs-4">
+            {{! the components/ is a hack around ASSemble }}
+            <a href="components/{{this.relativeLink}}">
+              <div id="{{>component-id data.component}}" class="chart-small">
+                {{{data.example-fixture}}}
+                <div class="caption">
+                  <h4>{{data.title}}</h4>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
           <script type="text/javascript">
           (function() {
               var f = createFixture('#{{>component-id data.component}}', 800, null, null, function() { return true; });
@@ -111,57 +105,56 @@ example-code: |
 </div>
 
 <div class="quick-start">
-  <div class="row">
-    <div class="col-md-12">
-      <h2 class="text-center">QUICK START</h2>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">QUICK START</h1>
+      </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-sm-3 ">
-      <h3>Install d3fc</h3>
-      <p>A complete set of instructions for obtaining d3fc and its dependencies are available on the <a href="{{package.repository.url}}">GitHub project website</a>.</p>
-    </div>
-    <div class="col-sm-3 ">
-      <h3>Pick Your Components</h3>
-      <p>Browse the <a href="components">d3fc components</a> to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
-    </div>
-    <div class="col-sm-3 ">
-      <h3>Customise</h3>
-      <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p>
-    </div>
-    <div class="col-sm-3 ">
-      <h3>Contribute</h3>
-      <p>Spotted a bug? Have an idea for a feature? Please <a href="{{package.repository.url}}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
-      our <a href="{{package.repository.url}}/wiki">wiki page which describes the design goals</a>.</p>
+    <div class="row">
+      <div class="col-sm-3 ">
+        <h3>Install</h3>
+        <p>A complete set of instructions for obtaining d3fc and its dependencies are available on the <a href="{{package.repository.url}}">GitHub project website</a>.</p>
+      </div>
+      <div class="col-sm-3 ">
+        <h3>Learn</h3>
+        <p>Browse the <a href="components">d3fc components</a> to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
+      </div>
+      <div class="col-sm-3 ">
+        <h3>Customise</h3>
+        <p>The components are primarily customised via CSS, allowing you to change colors, stroke, fill and layout. However, more structural customisation is also possible via JavaScript.</p>
+      </div>
+      <div class="col-sm-3 ">
+        <h3>Contribute</h3>
+        <p>Spotted a bug? Have an idea for a feature? Please <a href="{{package.repository.url}}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
+        our <a href="{{package.repository.url}}/wiki">wiki page which describes the design goals</a>.</p>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="d3-d3fc-awesome">
-  <div class="row">
-    <div class="col-sm-6">
-      <div>
-        <h3>D3</h3>
-        <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered.</p>
-        <p>However, constructing charts with D3 can be hard work!</p>
+<div class="awesome">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5">
+        <h1>D3</h1>
+        <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered. However, constructing charts with D3 can be hard work!</p>
       </div>
-      <div class="massive-text">
-        <span class="vertically-central">+</span>
+      <div class="col-sm-2 text-center symbol">
+        <h1>+</h1>
       </div>
-      <div>
-        <h3>d3fc</h3>
+      <div class="col-sm-5">
+        <h1>d3fc</h1>
         <p>d3fc provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
       </div>
-    </div>
-    <div class="col-sm-2 vertically-central-except-mobile">
-      <div class="massive-text">
-        <span class="vertically-central">=</span>
+      <div class="col-sm-offset-1 col-sm-2 text-center symbol">
+        <h1>=</h1>
+      </div>
+      <div class="col-sm-8">
+        <h1>Awesome!</h1>
+        <p>Building interactive or static charts with d3fc is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
       </div>
     </div>
-    <div class="col-sm-4 vertically-central-except-mobile">
-      <h3>Awesome!</h3>
-      <p>Building interactive or static charts with d3fc is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
-    </div>
-</div>
+  </div>
 </div>

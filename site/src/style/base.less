@@ -1,0 +1,47 @@
+svg {
+	display: block;
+}
+
+.content {
+	background: @brand-offwhite;
+	padding-bottom: @navbar-margin-bottom;
+}
+
+.navbar-logo {
+	@padding: 10px;
+	margin: @padding 0;
+	height: @navbar-height - 2 * @padding;
+}
+
+.navbar-nav {
+	text-transform: uppercase;
+}
+
+.section(@content-padding: 0) {
+	padding-top: @section-vertical-padding - @content-padding;
+	padding-bottom: @section-vertical-padding - @content-padding;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+h1 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+footer {
+	background: @brand-background;
+	color: white;
+
+	a {
+		color: white;
+
+		&:hover {
+			color: @gray-lighter;
+		}
+	}
+
+	p {
+		margin: 10px 0;
+	}
+}
