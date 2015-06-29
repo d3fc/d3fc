@@ -1,5 +1,6 @@
 ---
 layout: example
+title: Examples
 ---
 <style>
 .main-row>td {
