@@ -15,7 +15,7 @@ git reset --hard upstream/master
 
 grunt clean build site
 
-git add --all
+git add -f site/dist
 git commit -m "Update website"
 git branch -D gh-pages
 
