@@ -6,7 +6,10 @@ layout: default
   <div class="row">
 
     <div class="col-sm-9 col-xs-12">
-      <h1>{{title}}</h1>
+      <h1>
+        {{title}}
+        <a href="{{package.repository.url}}/blob/master/src/{{component}}">View component source</a>
+      </h1>
       {{#markdown }}
         {{> body  }}
       {{/markdown }}
