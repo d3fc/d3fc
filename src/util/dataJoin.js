@@ -90,7 +90,16 @@
             if (!arguments.length) {
                 return attrs;
             }
-            attrs = x;
+
+            if (arguments.length === 1) {
+                attrs = arguments[0];
+            } else if (arguments.length === 2) {
+                var key = arguments[0];
+                var value = arguments[1];
+
+                attrs[key] = value;
+            }
+
             return dataJoin;
         };
         dataJoin.key = function(x) {
