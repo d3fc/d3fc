@@ -20,14 +20,12 @@ module.exports = function (grunt) {
                 'visual-tests/src/**/*.js'
             ],
             visualTestSiteFiles: [
-                // Index page
                 {
                     expand: true,
                     cwd: 'visual-tests/src/site/pages/',
                     src: ['index.hbs'],
                     dest: 'visual-tests/dist/'
                 },
-                // Test fixtures
                 {
                     expand: true,
                     cwd: 'visual-tests/src/test-fixtures/',
@@ -317,9 +315,6 @@ module.exports = function (grunt) {
 
         less: {
             site: {
-                // options: {
-                //     paths: ["site/css"]
-                // },
                 files: {
                     "site/dist/styles.css": "site/src/style/styles.less"
                 }
