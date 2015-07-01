@@ -10,9 +10,29 @@ layout: default
         {{title}}
         <a href="{{package.repository.url}}/blob/master/src/{{component}}">View source on GitHub</a>
       </h1>
+
       {{#markdown }}
         {{> body  }}
       {{/markdown }}
+
+      <nav>
+        <ul class="pager">
+          {{#each pages}}
+            {{#is data.layout 'component'}}
+              {{#if this.isCurrentPage}}
+                {{#each ../../../pages}}
+                  {{#is index ../prev}}
+                    <li class="previous"><a href="{{relativeLink}}"><span aria-hidden="true">&larr;</span> {{data.title}}</a></li>
+                  {{/is}}
+                  {{#is index ../next}}
+                    <li class="next"><a href="{{relativeLink}}">{{data.title}} <span aria-hidden="true">&rarr;</span></a></li>
+                  {{/is}}
+                {{/each}}
+              {{/if}}
+            {{/is}}
+          {{/each}}
+        </ul>
+      </nav>
     </div>
 
     <nav class="col-sm-3 hidden-xs">
