@@ -7,7 +7,9 @@ tags:
 namespace: chart
 
 example-fixture: |
-  <p>Lorem ipsum dolor sit amet, <span class='sparkline'></span>  consectetur adipiscing elit. Morbi feugiat nunc <span class='sparkline'></span> lacus, id laoreet erat volutpat nec. Sed ac vestibulum lacus. Quisque porttitor accumsan neque <span class='sparkline'></span> tincidunt aliquam. Nam iaculis eros eu tincidunt dapibus. Donec pellentesque orci eu egestas <span class='sparkline'></span> pretium. Vestibulum elementum metus nec ipsum rhoncus, id iaculis libero euismod. Etiam et ultricies eros, sollicitudin porta neque.</p>
+  <p style="padding: 10px">The FTSE 100 rose 53.96 points, or 0.8%, to 6,574.94 <span class='sparkline'></span>.
+  Elsewhere in Europe, Germany's Dax index was up 1.1% <span class='sparkline'></span>, while in France, the Cac 40 index climbed 1% <span class='sparkline'></span>.
+  On the currency markets, the euro fell 0.3% against the dollar to $1.1111 <span class='sparkline'></span>. The pound rose 0.2% against the euro to €1.4138 <span class='sparkline'></span> and was flat against the dollar at $1.5711 <span class='sparkline'></span>.</p>
 
 example-code: |
   d3.selectAll('.sparkline')
