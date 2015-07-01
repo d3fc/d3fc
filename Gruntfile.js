@@ -20,14 +20,12 @@ module.exports = function (grunt) {
                 'visual-tests/src/**/*.js'
             ],
             visualTestSiteFiles: [
-                // Index page
                 {
                     expand: true,
                     cwd: 'visual-tests/src/site/pages/',
                     src: ['index.hbs'],
                     dest: 'visual-tests/dist/'
                 },
-                // Test fixtures
                 {
                     expand: true,
                     cwd: 'visual-tests/src/test-fixtures/',
@@ -42,18 +40,37 @@ module.exports = function (grunt) {
                 '<%= meta.componentsJsFiles %>',
                 '<%= meta.testJsFiles %>',
                 '<%= meta.visualTestJsFiles %>'
+            ],
+            siteFiles: [
+                {
+                    expand: true,
+                    cwd: 'site/src',
+                    src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
+                    dest: 'site/dist'
+                }
             ]
         },
 
         assemble: {
-            options: {
-                assets: 'visual-tests/dist/assets',
-                partials: 'visual-tests/src/site/templates/includes/*.hbs',
-                layoutdir: 'visual-tests/src/site/templates/layouts',
-                layout: 'test.hbs'
-            },
             visualTests: {
+                options: {
+                    assets: 'visual-tests/dist/assets',
+                    partials: 'visual-tests/src/site/templates/includes/*.hbs',
+                    layoutdir: 'visual-tests/src/site/templates/layouts',
+                    layout: 'test.hbs'
+                },
                 files: '<%= meta.visualTestSiteFiles %>'
+            },
+            site: {
+                options: {
+                    assets: 'site/dist',
+                    data: ['package.json', 'site/src/_config.yml'],
+                    partials: 'site/src/_includes/*.hbs',
+                    layoutdir: 'site/src/_layouts',
+                    layout: 'default',
+                    layoutext: '.hbs'
+                },
+                files: '<%= meta.siteFiles %>'
             }
         },
 
@@ -64,15 +81,34 @@ module.exports = function (grunt) {
             dist: {
                 src: ['src/fc.js', 'src/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
+            },
+            site: {
+                src: [
+                        'node_modules/d3/d3.js',
+                        'node_modules/css-layout/src/Layout.js',
+                        'dist/d3fc.js',
+                        'node_modules/jquery/dist/jquery.js',
+                        'node_modules/bootstrap/js/collapse.js',
+                        'site/src/lib/init.js',
+                ],
+                dest: 'site/dist/scripts.js'
             }
         },
 
         connect: {
             options: {
-                base: 'visual-tests/dist',
                 useAvailablePort: true
             },
-            dev: { },
+            dev: {
+                options: {
+                    base: 'visual-tests/dist'
+                }
+            },
+            site: {
+                options: {
+                    base: 'site/dist'
+                }
+            },
             keepalive: {
                 options: {
                     keepalive: true
@@ -132,6 +168,16 @@ module.exports = function (grunt) {
                         dest: 'visual-tests/dist/assets/',
                     }
                 ]
+            },
+            site: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'site/src/images/',
+                        src: ['*'],
+                        dest: 'site/dist/images/',
+                    }
+                ]
             }
         },
 
@@ -143,6 +189,11 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                }
+            },
+            site: {
+                files: {
+                    'site/dist/scripts.js': 'site/dist/scripts.js'
                 }
             }
         },
@@ -182,8 +233,16 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['build:visual-tests']
             },
+            site: {
+                files: [
+                    'Gruntfile.js',
+                    'site/src/**/*'
+                ],
+                tasks: ['site:dev']
+            },
             options: {
-                livereload: true
+                livereload: true,
+                atBegin: true
             }
         },
 
@@ -244,12 +303,21 @@ module.exports = function (grunt) {
 
         clean: {
             dist: ['dist/*', '!dist/README.md'],
-            visualTests: ['visual-tests/dist']
+            visualTests: ['visual-tests/dist'],
+            site: ['site/dist']
         },
 
         version: {
             defaults: {
                 src: ['src/fc.js']
+            }
+        },
+
+        less: {
+            site: {
+                files: {
+                    "site/dist/styles.css": "site/src/style/styles.less"
+                }
             }
         }
     });
@@ -263,10 +331,13 @@ module.exports = function (grunt) {
     grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
     grunt.registerTask('build:components', ['check', 'clean:dist', 'version', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
-    grunt.registerTask('dev:serve', ['build', 'connect:dev', 'watch']);
+    grunt.registerTask('dev:serve', ['connect:dev', 'watch:dev']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
+    grunt.registerTask('site:dev', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
+    grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
+    grunt.registerTask('site', ['site:dev', 'uglify:site']);
     grunt.registerTask('default', ['build']);
 };

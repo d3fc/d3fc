@@ -1,0 +1,19 @@
+component-ids: [annotation, chart, series, indicator, scale, tool, layout, data]
+
+components:
+  annotation:
+    name: Annotations
+  chart:
+    name: Chart
+  series:
+    name: Series
+  indicator:
+    name: Indicators
+  scale:
+    name: Scale
+  tool:
+    name: Tools
+  layout:
+    name: Layout
+  data:
+    name: Data

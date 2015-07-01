@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{default title 'd3fc'}}</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="{{assets}}/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="{{assets}}/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{assets}}/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{assets}}/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="{{assets}}/styles.css" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="{{assets}}/"><img class="navbar-logo" alt="d3fc" src="{{assets}}/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{assets}}#quick-start">Quick Start</a></li>
+                <li class="{{#is layout 'component'}}active{{/is}}"><a href="{{assets}}/components">Components</a></li>
+                <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{assets}}/examples">Examples</a></li>
+                <li><a href="{{package.repository.url}}">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      {{> body}}
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
+      </div>
+    </footer>
+
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

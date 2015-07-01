@@ -1,0 +1,48 @@
+.component {
+
+	h1>a {
+		float: right;
+		font-size: @font-size-base;
+		padding-top: 20px;
+	}
+
+	#sidebar {
+		margin-top: 10px;
+		margin-left: 30px;
+	}
+
+	.nav-stacked > li {
+
+		h4 {
+			color: @brand-primary;
+			margin-top: 15px;
+			margin-bottom: 5px;
+		}
+
+		&.active {
+			a {
+				font-weight: bold;
+			}
+		}
+
+		> a {
+
+			&:hover {
+				background: none;
+				color: @brand-secondary;
+			}
+		}
+
+		.nav-stacked > li > a  {
+			padding: 0 0 0 15px;
+			font-size: @font-size-small;
+			text-transform: none;
+		}
+	}
+
+	.chart>svg {
+		margin-left: auto;
+		margin-right: auto;
+		border: 1px solid #ccc;
+	}
+}
