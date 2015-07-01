@@ -20,7 +20,7 @@ svg {
   width: 100%;
   height: 100%;
 }
-span {
+#low-barrel span {
   display:block;
   transform: rotate(90deg);
 }
