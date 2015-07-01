@@ -88,7 +88,7 @@ module.exports = function (grunt) {
                         'node_modules/css-layout/src/Layout.js',
                         'dist/d3fc.js',
                         'node_modules/jquery/dist/jquery.js',
-                        'node_modules/bootstrap/js/affix.js',
+                        'node_modules/bootstrap/js/collapse.js',
                         'site/src/lib/init.js',
                 ],
                 dest: 'site/dist/scripts.js'
