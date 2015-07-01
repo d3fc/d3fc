@@ -11,3 +11,8 @@ matrix:
   allow_failures:
   - node_js: "0.11"
   - node_js: "iojs"
+env:
+  global:
+  - GH_REF: github.com/ScottLogic/d3fc.git
+  - secure: "dimY26/YND+hamNAH6lwjYqkmc4qEkSDPl8xwe7wJxliR8k8cPM8lRw8c/Iwtmq3NiG5cZoiKAkALA4PTl3zQ7YOj7rSL9pGmi4qJvtObqWljclJjY/0sNprPc/RrRTgpBcnI3Pa7fofiT2uLNp+a0mT/KV9KZNxjQIw8PA2RkY="
+after_success: bash ./site/deploy.sh

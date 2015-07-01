@@ -333,7 +333,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['connect:dev', 'watch:dev']);
     grunt.registerTask('dev', ['build', 'watch']);
-    grunt.registerTask('ci', ['default']);
+    grunt.registerTask('ci', ['default', 'site']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
     grunt.registerTask('site:dev', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
