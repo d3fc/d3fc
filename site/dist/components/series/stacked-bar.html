@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Stacked Bar Series</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="../../scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="../../"><img class="navbar-logo" alt="d3fc" src="../../images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="../..#quick-start">Quick Start</a></li>
+                <li class="active"><a href="../../components">Components</a></li>
+                <li class=""><a href="../../examples">Examples</a></li>
+                <li><a href="https://github.com/ScottLogic/d3fc">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Stacked Bar Series
+        <a href="https://github.com/ScottLogic/d3fc/blob/master/src/series/stackedBar.js">View source on GitHub</a>
+      </h1>
+
+      <p>The stacked bar series renders multiple series of data in a stacked form. The data needs to be presented to the component as multiple distinct series. You can specify how each series is mapped to an array of values via the <code>values</code> property, and for each datum within the array you can specify how the x and y values are extracted via the <code>xValue</code> and <code>yValue</code> properties.</p>
+<p>The following example shows how to manipulate some data into the required form, then configures the bar series accordingly:</p>
+<pre><code class="language-js"><span class="keyword">var</span> data = [
+ {<span class="string">"State"</span>:<span class="string">"AL"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"310"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"552"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"259"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"450"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"1215"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"641"</span>},
+ {<span class="string">"State"</span>:<span class="string">"AK"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"52"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"85"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"42"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"74"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"183"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"50"</span>},
+ {<span class="string">"State"</span>:<span class="string">"AZ"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"515"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"828"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"362"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"601"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"1804"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"1523"</span>},
+ {<span class="string">"State"</span>:<span class="string">"AR"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"202"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"343"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"157"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"264"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"754"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"727"</span>},
+ {<span class="string">"State"</span>:<span class="string">"CO"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"358"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"587"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"261"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"466"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"1464"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"1290"</span>},
+ {<span class="string">"State"</span>:<span class="string">"CT"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"211"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"403"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"196"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"325"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"916"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"968"</span>},
+ {<span class="string">"State"</span>:<span class="string">"DE"</span>,<span class="string">"Under 5 Years"</span>:<span class="string">"59"</span>,<span class="string">"5 to 13 Years"</span>:<span class="string">"99"</span>,<span class="string">"14 to 17 Years"</span>:<span class="string">"47"</span>,<span class="string">"18 to 24 Years"</span>:<span class="string">"84"</span>,<span class="string">"25 to 44 Years"</span>:<span class="string">"230"</span>,<span class="string">"45 to 64 Years"</span>:<span class="string">"230"</span>}
+];
+
+<span class="comment">// Transform the data into a number of distinct series, one for each category of data</span>
+<span class="keyword">var</span> series = Object.keys(data[<span class="number">0</span>])
+    .filter(<span class="function"><span class="keyword">function</span><span class="params">(key)</span> {</span>
+        <span class="keyword">return</span> key !== <span class="string">'State'</span>;
+    })
+    .map(<span class="function"><span class="keyword">function</span><span class="params">(key)</span> {</span>
+        <span class="keyword">return</span> {
+            name: key,
+            data: data.map(<span class="function"><span class="keyword">function</span><span class="params">(d)</span> {</span>
+              <span class="keyword">return</span> {
+                state: d.State,
+                value: parseInt(d[key])
+              };
+            })
+        };
+    });
+
+<span class="keyword">var</span> stackLayout = d3.layout.stack()
+    .offset(<span class="string">'zero'</span>)
+    .x(<span class="function"><span class="keyword">function</span><span class="params">(d)</span> {</span> <span class="keyword">return</span> d.state; })
+    .y(<span class="function"><span class="keyword">function</span><span class="params">(d)</span> {</span> <span class="keyword">return</span> d.value; });
+
+<span class="keyword">var</span> stackedData = stackLayout(series.map(<span class="function"><span class="keyword">function</span><span class="params">(d)</span> {</span> <span class="keyword">return</span> d.data; }));
+
+<span class="keyword">var</span> xCategories = data.map(<span class="function"><span class="keyword">function</span><span class="params">(d)</span> {</span> <span class="keyword">return</span> d.State; });
+
+<span class="comment">// create scales</span>
+<span class="keyword">var</span> x = d3.scale.ordinal()
+    .domain(xCategories)
+    .rangePoints([<span class="number">0</span>, width], <span class="number">1</span>);
+
+<span class="keyword">var</span> color = d3.scale.category10();
+
+<span class="keyword">var</span> y = d3.scale.linear()
+  .domain([<span class="number">0</span>, <span class="number">6000</span>])
+  .range([height, <span class="number">0</span>]);
+
+<span class="keyword">var</span> stack = fc.series.stacked.bar()
+  .xScale(x)
+  .yScale(y)
+  .xValue(<span class="function"><span class="keyword">function</span><span class="params">(d)</span> {</span> <span class="keyword">return</span> d.state; })
+  .decorate(<span class="function"><span class="keyword">function</span><span class="params">(sel)</span> {</span>
+      sel.each(<span class="function"><span class="keyword">function</span><span class="params">(d, i)</span> {</span>
+          d3.select(<span class="keyword">this</span>)
+            .selectAll(<span class="string">'path'</span>)
+            .style({<span class="string">'fill'</span>: color(i), <span class="string">'stroke'</span> : color(i)});
+      });
+  });
+
+container.append(<span class="string">'g'</span>)
+    .datum(stackedData)
+    .call(stack);</code></pre>
+<p>Which gives the following:</p>
+<p><div id="series-stackedBar-js" class="chart"> </div></p>
+<script type="text/javascript">
+(function() {
+    var f = createFixture('#series-stackedBar-js', null, null, null, function() { return true; });
+    var container = f.container, data = f.data
+      xScale = f.xScale, yScale = f.yScale,
+      height = f.dimensions.height, width = f.dimensions.width;
+
+    var data = [
+ {"State":"AL","Under 5 Years":"310","5 to 13 Years":"552","14 to 17 Years":"259","18 to 24 Years":"450","25 to 44 Years":"1215","45 to 64 Years":"641"},
+ {"State":"AK","Under 5 Years":"52","5 to 13 Years":"85","14 to 17 Years":"42","18 to 24 Years":"74","25 to 44 Years":"183","45 to 64 Years":"50"},
+ {"State":"AZ","Under 5 Years":"515","5 to 13 Years":"828","14 to 17 Years":"362","18 to 24 Years":"601","25 to 44 Years":"1804","45 to 64 Years":"1523"},
+ {"State":"AR","Under 5 Years":"202","5 to 13 Years":"343","14 to 17 Years":"157","18 to 24 Years":"264","25 to 44 Years":"754","45 to 64 Years":"727"},
+ {"State":"CO","Under 5 Years":"358","5 to 13 Years":"587","14 to 17 Years":"261","18 to 24 Years":"466","25 to 44 Years":"1464","45 to 64 Years":"1290"},
+ {"State":"CT","Under 5 Years":"211","5 to 13 Years":"403","14 to 17 Years":"196","18 to 24 Years":"325","25 to 44 Years":"916","45 to 64 Years":"968"},
+ {"State":"DE","Under 5 Years":"59","5 to 13 Years":"99","14 to 17 Years":"47","18 to 24 Years":"84","25 to 44 Years":"230","45 to 64 Years":"230"}
+];
+
+// Transform the data into a number of distinct series, one for each category of data
+var series = Object.keys(data[0])
+    .filter(function(key) {
+        return key !== 'State';
+    })
+    .map(function(key) {
+        return {
+            name: key,
+            data: data.map(function(d) {
+              return {
+                state: d.State,
+                value: parseInt(d[key])
+              };
+            })
+        };
+    });
+
+var stackLayout = d3.layout.stack()
+    .offset('zero')
+    .x(function(d) { return d.state; })
+    .y(function(d) { return d.value; });
+
+var stackedData = stackLayout(series.map(function(d) { return d.data; }));
+
+var xCategories = data.map(function(d) { return d.State; });
+
+// create scales
+var x = d3.scale.ordinal()
+    .domain(xCategories)
+    .rangePoints([0, width], 1);
+
+var color = d3.scale.category10();
+
+var y = d3.scale.linear()
+  .domain([0, 6000])
+  .range([height, 0]);
+
+var stack = fc.series.stacked.bar()
+  .xScale(x)
+  .yScale(y)
+  .xValue(function(d) { return d.state; })
+  .decorate(function(sel) {
+      sel.each(function(d, i) {
+          d3.select(this)
+            .selectAll('path')
+            .style({'fill': color(i), 'stroke' : color(i)});
+      });
+  });
+
+container.append('g')
+    .datum(stackedData)
+    .call(stack);
+
+}());
+</script>
+
+
+
+
+
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                    <li class="previous"><a href="point.html"><span aria-hidden="true">&larr;</span> Point Series</a></li>
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                    <li class="next"><a href="../tool/crosshairs.html">Crosshairs <span aria-hidden="true">&rarr;</span></a></li>
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+              
+            
+          
+            
+              
+            
+          
+            
+          
+            
+          
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul id="sidebar" class="nav nav-stacked fixed">
+        
+          <li>
+            
+              
+                <h4>Annotations</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../annotation/gridlines.html">
+                        Gridlines
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../annotation/line.html">
+                        Line Annotation
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+                <h4>Chart</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../chart/linearTimeSeries.html">
+                        Linear Time Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../chart/sparkline.html">
+                        Sparkline
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+                <h4>Series</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="area.html">
+                        Area Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="bar.html">
+                        Bar Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="candlestick.html">
+                        Candlestick Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="cycle.html">
+                        Cycle Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="line.html">
+                        Line Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="multi.html">
+                        Multi Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="ohlc.html">
+                        OHLC Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="point.html">
+                        Point Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="active">
+                      <a href="stacked-bar.html">
+                        Stacked Bar Series
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Indicators</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/bollingerBands.html">
+                        Bollinger Bands
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/exponentialMovingAverage.html">
+                        Exponential Moving Average
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/macd.html">
+                        MACD
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/movingAverage.html">
+                        Moving Average
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/relativeStrengthIndicator.html">
+                        Relative Strength Index
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Scale</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+                    <li class="">
+                      <a href="../scale/dateTime.html">
+                        Date Time Scale
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Tools</h4>
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../tool/crosshairs.html">
+                        Crosshairs
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Layout</h4>
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../layout/layout.html">
+                        Flexbox Layout
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Data</h4>
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../data/dataGenerator.html">
+                        Data Generator
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+
+  </div>
+
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
+      </div>
+    </footer>
+
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

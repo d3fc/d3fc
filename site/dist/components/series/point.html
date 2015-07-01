@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Point Series</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="../../scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="../../images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="../../images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="../../"><img class="navbar-logo" alt="d3fc" src="../../images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="../..#quick-start">Quick Start</a></li>
+                <li class="active"><a href="../../components">Components</a></li>
+                <li class=""><a href="../../examples">Examples</a></li>
+                <li><a href="https://github.com/ScottLogic/d3fc">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Point Series
+        <a href="https://github.com/ScottLogic/d3fc/blob/master/src/series/point.js">View source on GitHub</a>
+      </h1>
+
+      <p>The point series renders the given data as a series of circles:</p>
+<pre><code>var point = fc.series.point()
+    .xScale(xScale)
+    .yScale(yScale);
+
+container.append(&#39;g&#39;)
+    .datum(data)
+    .call(point);</code></pre>
+<p>Which gives the following:</p>
+<p><div id="series_point" class="chart"> </div></p>
+<script type="text/javascript">
+(function() {
+    var f = createFixture('#series_point', null, null, null, function() { return true; });
+    var container = f.container, data = f.data
+      xScale = f.xScale, yScale = f.yScale;
+    var point = fc.series.point()
+    .xScale(xScale)
+    .yScale(yScale);
+
+container.append('g')
+    .datum(data)
+    .call(point);
+
+}());
+</script>
+
+<p>The series assumes that each object has a <code>date</code> property which defines its x-location, and a <code>close</code> property which defines its y-location. However, these can be changed via the <code>xValue</code> and <code>yValue</code> properties.</p>
+<p>You can supply a function via the <code>radius</code> property that specifies the radius for each point. You can also modify how the series is rendered via the <code>decorate</code> function which is supplied the selection containing the <code>g</code> element that is the parent for each <code>circle</code>:</p>
+<pre><code class="language-js"><span class="keyword">var</span> color = d3.scale.category10();
+
+<span class="keyword">var</span> point = fc.series.point()
+    .xScale(xScale)
+    .yScale(yScale)
+    .radius(<span class="function"><span class="keyword">function</span><span class="params">(d, i)</span> {</span> <span class="keyword">return</span> i; })
+    .decorate(<span class="function"><span class="keyword">function</span><span class="params">(sel)</span> {</span>
+      sel.select(<span class="string">'circle'</span>)
+        .attr(<span class="string">'style'</span>, <span class="function"><span class="keyword">function</span><span class="params">(d, i)</span> {</span> <span class="keyword">return</span> <span class="string">'fill: '</span> + color(i); });
+    });
+
+container.append(<span class="string">'g'</span>)
+    .datum(data)
+    .call(point);</code></pre>
+<p>Which results in the following (slightly odd looking) series:</p>
+<p><div id="series-point-js" class="chart"> </div></p>
+<script type="text/javascript">
+(function() {
+    var f = createFixture('#series-point-js', null, null, null, function() { return true; });
+    var container = f.container, data = f.data
+      xScale = f.xScale, yScale = f.yScale,
+      height = f.dimensions.height, width = f.dimensions.width;
+
+    var color = d3.scale.category10();
+
+var point = fc.series.point()
+    .xScale(xScale)
+    .yScale(yScale)
+    .radius(function(d, i) { return i; })
+    .decorate(function(sel) {
+      sel.select('circle')
+        .attr('style', function(d, i) { return 'fill: ' + color(i); });
+    });
+
+container.append('g')
+    .datum(data)
+    .call(point);
+
+}());
+</script>
+
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+              
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                    <li class="previous"><a href="ohlc.html"><span aria-hidden="true">&larr;</span> OHLC Series</a></li>
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                    <li class="next"><a href="stacked-bar.html">Stacked Bar Series <span aria-hidden="true">&rarr;</span></a></li>
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+                  
+                  
+                
+              
+            
+          
+            
+              
+            
+          
+            
+              
+            
+          
+            
+          
+            
+          
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul id="sidebar" class="nav nav-stacked fixed">
+        
+          <li>
+            
+              
+                <h4>Annotations</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../annotation/gridlines.html">
+                        Gridlines
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../annotation/line.html">
+                        Line Annotation
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+                <h4>Chart</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../chart/linearTimeSeries.html">
+                        Linear Time Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../chart/sparkline.html">
+                        Sparkline
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+                <h4>Series</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="area.html">
+                        Area Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="bar.html">
+                        Bar Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="candlestick.html">
+                        Candlestick Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="cycle.html">
+                        Cycle Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="line.html">
+                        Line Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="multi.html">
+                        Multi Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="ohlc.html">
+                        OHLC Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="active">
+                      <a href="point.html">
+                        Point Series
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="stacked-bar.html">
+                        Stacked Bar Series
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Indicators</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/bollingerBands.html">
+                        Bollinger Bands
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/exponentialMovingAverage.html">
+                        Exponential Moving Average
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/macd.html">
+                        MACD
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/movingAverage.html">
+                        Moving Average
+                      </a>
+                    </li>
+                
+              
+                
+                    <li class="">
+                      <a href="../indicator/relativeStrengthIndicator.html">
+                        Relative Strength Index
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Scale</h4>
+              
+            
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+                    <li class="">
+                      <a href="../scale/dateTime.html">
+                        Date Time Scale
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Tools</h4>
+              
+            
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../tool/crosshairs.html">
+                        Crosshairs
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Layout</h4>
+              
+            
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../layout/layout.html">
+                        Flexbox Layout
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+          <li>
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+            
+              
+                <h4>Data</h4>
+              
+            
+            <ul class="nav nav-stacked">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                    <li class="">
+                      <a href="../data/dataGenerator.html">
+                        Data Generator
+                      </a>
+                    </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            </ul>
+          </li>
+        
+      </ul>
+    </nav>
+
+  </div>
+
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a></p>
+      </div>
+    </footer>
+
+    <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>
