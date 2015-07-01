@@ -3,7 +3,6 @@ layout: component
 title: Gridlines
 component: annotation/gridline.js
 tags:
-  - frontpage
 namespace: annotation
 
 example-code: |

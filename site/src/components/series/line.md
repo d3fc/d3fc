@@ -3,7 +3,6 @@ layout: component
 title: Line Series
 component: series/line.js
 tags:
-  - frontpage
 namespace: series
 
 example-code: |

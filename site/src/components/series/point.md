@@ -3,7 +3,6 @@ layout: component
 title: Point Series
 component: series/point.js
 tags:
-  - frontpage
 namespace: series
 
 example2-code: |

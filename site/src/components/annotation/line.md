@@ -3,7 +3,6 @@ layout: component
 title: Line Annotation
 component: tool/line.js
 tags:
-  - frontpage
 namespace: annotation
 
 example-code: |

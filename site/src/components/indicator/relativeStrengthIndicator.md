@@ -3,7 +3,6 @@ layout: component
 title: Relative Strength Index
 component: indicator/algorithm/relativeStrengthIndex.js
 tags:
-  - frontpage
 namespace: indicator
 
 example-code: |

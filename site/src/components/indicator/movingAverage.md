@@ -3,7 +3,6 @@ layout: component
 title: Moving Average
 component: indicator/algorithm/movingAverage.js
 tags:
-  - frontpage
 namespace: indicator
 
 example-code: |

@@ -16,7 +16,7 @@ example-code: |
   var bollinger = fc.indicator.renderer.bollingerBands();
 
   var multi = fc.series.multi()
-      .series([gridlines, candlestick, bollinger])
+      .series([gridlines, bollinger, candlestick])
       .xScale(xScale)
       .yScale(yScale);
 

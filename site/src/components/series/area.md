@@ -3,7 +3,6 @@ layout: component
 title: Area Series
 component: series/area.js
 tags:
-  - frontpage
 namespace: series
 
 example-code: |

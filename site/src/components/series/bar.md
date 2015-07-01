@@ -3,7 +3,6 @@ layout: component
 title: Bar Series
 component: series/bar.js
 tags:
-  - frontpage
 namespace: series
 
 example-code: |

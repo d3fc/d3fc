@@ -3,7 +3,6 @@ layout: component
 title: Candlestick Series
 component: series/candlestick.js
 tags:
-  - frontpage
 namespace: series
 
 example-code: |

@@ -3,7 +3,6 @@ layout: component
 title: OHLC Series
 component: series/ohlc.js
 tags:
-  - frontpage
 namespace: series
 
 example-code: |
