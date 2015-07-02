@@ -27,7 +27,8 @@
 
             var joinedData = data || fc.util.fn.identity;
 
-            if (!(container instanceof d3.selection)) {
+            // Can't use instanceof d3.selection (see #458)
+            if (!(container.selectAll && container.node)) {
                 container = d3.select(container);
             }
 
