@@ -13,11 +13,8 @@ title: Examples
 .navigator-row>td {
   height: 80px;
 }
-.chart {
-  width: 640px;
-}
 svg {
-  width: 100%;
+  width: 640px;
   height: 100%;
 }
 #low-barrel span {
@@ -85,7 +82,7 @@ rect.extent {
   <div class="col-md-8">
     <table id="low-barrel">
       <tr class="main-row">
-        <td class="chart">
+        <td>
           <svg class="main"></svg>
         </td>
         <td>
@@ -93,7 +90,7 @@ rect.extent {
         </td>
       </tr>
       <tr class="volume-row">
-        <td class="chart">
+        <td>
           <svg class="volume"></svg>
         </td>
         <td>
@@ -101,7 +98,7 @@ rect.extent {
         </td>
       </tr>
       <tr class="navigator-row">
-        <td class="chart">
+        <td>
           <svg class="navigator"></svg>
         </td>
         <td></td>
