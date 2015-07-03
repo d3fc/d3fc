@@ -14,6 +14,7 @@
         annotation: {},
         chart: {},
         data: {
+            feed: {},
             random: {}
         },
         indicator: {
