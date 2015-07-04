@@ -51,7 +51,9 @@
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
-                    .on('mouseenter.crosshair', mouseenter);
+                    .on('mouseenter.crosshair', mouseenter)
+                    .on('mousemove.crosshair', mousemove)
+                    .on('mouseleave.crosshair', mouseleave);
 
                 var overlay = container.selectAll('rect')
                     .data([data]);
@@ -98,9 +100,7 @@
 
         function mouseenter() {
             var mouse = d3.mouse(this);
-            var container = d3.select(this)
-                .on('mousemove.crosshair', mousemove)
-                .on('mouseleave.crosshair', mouseleave);
+            var container = d3.select(this);
             var snapped = snap.apply(this, mouse);
             var data = container.datum();
             data.push(snapped);
@@ -122,9 +122,7 @@
             var container = d3.select(this);
             var data = container.datum();
             data.pop();
-            container.call(crosshair)
-                .on('mousemove.crosshair', null)
-                .on('mouseleave.crosshair', null);
+            container.call(crosshair);
             event.trackingend.apply(this, arguments);
         }
 

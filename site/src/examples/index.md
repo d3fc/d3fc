@@ -56,10 +56,10 @@ rect.extent {
 .crosshairs .horizontal {
     display: none;
 }
-.crosshairs .info {
+.info {
     font: 10px sans-serif;
 }
-.crosshairs .info rect {
+.info rect {
     fill: rgba(249, 249, 249, 0.85);
     stroke: rgba(124, 181, 236, 1);
     stroke-width: 1px;
@@ -138,23 +138,20 @@ rect.extent {
 
             var container = selection.enter()
                 .append('g')
-                .attr('class', 'info');
+                .attr({
+                    'class': 'info',
+                    'transform': 'translate(5, 5)'
+                });
 
             container.append('rect')
                 .attr({
                     width: 130,
-                    height: 76,
-                    fill: 'white'
+                    height: 76
                 });
 
             container.append('text');
 
-            container = selection.select('g.info')
-                .attr('transform', function(d) {
-                    var dx = Number(d.x);
-                    var x = dx < 150 ? dx + 10 : dx - 150 + 10;
-                    return 'translate(' + x + ',' + 10 + ')';
-                });
+            container = selection.select('g.info');
 
             var tspan = container.select('text')
                 .selectAll('tspan')
@@ -193,10 +190,16 @@ rect.extent {
 
         var candlestick = fc.series.candlestick();
 
+        var tooltip = fc.tooltip();
+
         var crosshairs = fc.tool.crosshair()
-            .decorate(fc.tooltip())
+            .decorate(tooltip)
             .snap(fc.util.seriesPointSnap(candlestick, data))
-            .on('trackingmove.link', render);
+            .on('trackingstart.link', render)
+            .on('trackingmove.link', render)
+            .on('trackingend.link', render)
+            .xLabel('')
+            .yLabel('');
 
         var multi = fc.series.multi()
             .series([gridlines, candlestick, crosshairs])
@@ -234,17 +237,26 @@ rect.extent {
 
         var data = selection.datum();
 
+        var chart = fc.chart.linearTimeSeries()
+            .xDomain(data.dateDomain)
+            .yDomain(fc.util.extent(data, 'volume'))
+            .yNice()
+            .yTicks(2);
+
         var gridlines = fc.annotation.gridline()
             .yTicks(2);
 
         var bar = fc.series.bar()
-            .yValue(function(d) { return d.volume; });
+            .yValue(function(d) { return d.volume; })
+            .y0Value(chart.yDomain()[0]);
 
         var crosshairs = fc.tool.crosshair()
             .snap(fc.util.seriesPointSnap(bar, data))
-            .on('trackingmove.link', render);
-
-        var volumeExtent = fc.util.extent(data, 'volume');
+            .xLabel('')
+            .yLabel('')
+            .on('trackingstart.link', render)
+            .on('trackingmove.link', render)
+            .on('trackingend.link', render);
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
@@ -257,12 +269,7 @@ rect.extent {
                 }
             });
 
-        var chart = fc.chart.linearTimeSeries()
-            .xDomain(data.dateDomain)
-            .yDomain(volumeExtent)
-            .yNice()
-            .yTicks(2)
-            .plotArea(multi);
+        chart.plotArea(multi);
 
         selection.call(chart);
     }
@@ -271,11 +278,9 @@ rect.extent {
 
         var data = selection.datum();
 
-        var yDomain = fc.util.extent(data, 'close');
-
         var chart = fc.chart.linearTimeSeries()
             .xDomain(fc.util.extent(data, 'date'))
-            .yDomain(yDomain)
+            .yDomain(fc.util.extent(data, 'close'))
             .yNice()
             .xTicks(3)
             .yTicks(0);
@@ -287,7 +292,7 @@ rect.extent {
         var line = fc.series.line();
 
         var area = fc.series.area()
-            .y0Value(yDomain[0]);
+            .y0Value(chart.yDomain()[0]);
 
         var brush = d3.svg.brush()
             .on('brush', function() {
