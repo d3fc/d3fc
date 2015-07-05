@@ -40,8 +40,7 @@
                 plotAreaContainer.enter()
                     .append('svg')
                     .attr({
-                        'class': 'plot-area',
-                        'overflow': 'hidden'
+                        'class': 'plot-area'
                     })
                     .layout(plotAreaLayout);
 
