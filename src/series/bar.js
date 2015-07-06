@@ -14,7 +14,7 @@
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
         var bar = function(selection) {
-            selection.each(function(data) {
+            selection.each(function(data, index) {
                 var container = d3.select(this);
 
                 var filteredData = data.filter(function(d, i) {
@@ -54,7 +54,7 @@
                         .attr('d', pathGenerator([d]));
                 });
 
-                decorate(g);
+                decorate(g, index);
             });
         };
 
