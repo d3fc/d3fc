@@ -14,35 +14,26 @@
 
         var macd = function(selection) {
 
-            macdLine
-                .xValue(xValue)
-                .yValue(function(d, i) { return root(d).macd; })
-                .decorate(function(path) {
-                    path.classed('macd', true);
-                });
+            macdLine.xValue(xValue)
+                .yValue(function(d, i) { return root(d).macd; });
 
-            signalLine
-                .xValue(xValue)
-                .yValue(function(d, i) { return root(d).signal; })
-                .decorate(function(path) {
-                    path.classed('signal', true);
-                });
+            signalLine.xValue(xValue)
+                .yValue(function(d, i) { return root(d).signal; });
 
-            divergenceBar
-                .xValue(xValue)
+            divergenceBar.xValue(xValue)
                 .yValue(function(d, i) { return root(d).divergence; });
 
-            multiSeries
-                .xScale(xScale)
+            multiSeries.xScale(xScale)
                 .yScale(yScale)
-                .series([divergenceBar, macdLine, signalLine]);
+                .series([divergenceBar, macdLine, signalLine])
+                .decorate(function(g) {
+                    g.enter()
+                        .attr('class', function(d, i) {
+                            return ['divergence', 'macd', 'signal'][i];
+                        });
+                });
 
-            selection.each(function(data) {
-                d3.select(this)
-                    .append('g')
-                    .classed('macd-indicator', true)
-                    .call(multiSeries);
-            });
+            selection.call(multiSeries);
         };
 
         macd.xScale = function(x) {

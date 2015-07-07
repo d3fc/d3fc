@@ -1,15 +1,15 @@
-.macd-indicator .bar>path {
+.divergence .bar>path {
   stroke: grey;
   fill: grey;
   fill-opacity: 1.0;
 }
 
-.macd-indicator .signal {
+.signal path.line {
   fill: none;
   stroke: red;
 }
 
-.macd-indicator .macd {
+.macd path.line {
   fill: none;
   stroke: #06c;
 }

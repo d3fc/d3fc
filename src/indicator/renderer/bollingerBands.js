@@ -37,18 +37,20 @@
             var multi = fc.series.multi()
                 .xScale(xScale)
                 .yScale(yScale)
-                .series([area, upperLine, lowerLine, averageLine]);
+                .series([area, upperLine, lowerLine, averageLine])
+                .decorate(function(g) {
+                    g.enter()
+                        .attr('class', function(d, i) {
+                            return ['area', 'upper', 'lower', 'average'][i];
+                        });
+                });
 
             area.xValue(xValue);
             upperLine.xValue(xValue);
             averageLine.xValue(xValue);
             lowerLine.xValue(xValue);
 
-            selection.each(function(data) {
-                d3.select(this)
-                    .data([data])
-                    .call(multi);
-            });
+            selection.call(multi);
         };
 
         bollingerBands.xScale = function(x) {
