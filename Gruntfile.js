@@ -331,7 +331,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
     grunt.registerTask('build:components', ['check', 'clean:dist', 'version', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
-    grunt.registerTask('dev:serve', ['connect:dev', 'watch:dev']);
+    grunt.registerTask('dev:serve', ['connect:dev', 'watch:components']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('ci', ['default', 'site']);
     grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
