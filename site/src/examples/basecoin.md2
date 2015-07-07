@@ -1,0 +1,270 @@
+---
+title: An Adventure in SVG Filter Land
+---
+
+I've been working on an open-source charting library called [d3fc](http://scottlogic.github.io/d3fc) and [following Colin's lead](http://blog.scottlogic.com/2015/07/08/yahoo-finance-chart.html), was looking for a creative example to replicate: I think I found it...
+
+# Once upon a time
+
+The story starts with [Coinbase](https://www.coinbase.com/), a well-known(/funded) Bitcoin company. I was hunting for a freely available streaming data feed that we could use to provide some more realistic examples. A Bitcoin feed is the obvious choice, they're generally a lot more accessible without onerous licensing agreements and despite (because of?) recent turbulent times, are far more interesting than most financial products!
+
+As you'd expect, the [Coinbase Exchange](https://exchange.coinbase.com/) has an [API](https://docs.exchange.coinbase.com/) and the [public market data](https://docs.exchange.coinbase.com/#market-data) is freely-available in historic and streaming forms. I quickly knocked up a [little wrapper](http://scottlogic.github.io/d3fc/components/data/coinbase.html) to make the historic API easier to deal with and was about to start on a pretty boring example then noticed the tab I still had open -
+
+<img src="coinbase.png" alt="Coinbase Exchange homepage screenshot" width="878" height="555"/>
+
+Now that chart in the background looks a bit more exciting!
+
+# Where to start
+
+I dug in to the source and found that the chart was in fact a looping [video](https://d39t78klvcw2nr.cloudfront.net/price_chart_anime.mp4). Here's a screenshot -
+
+<img src="video.png" alt="Video screenshot" width="878" height="555"/>
+
+I'm going to go out on a limb and assume this isn't a real chart from their platform (I'd love to be proved wrong though!). However, it does contain a number of recognisable components from real charts -
+
+* Candlestick series
+* Indicator lines
+* Gridlines
+* An upward trending dataset
+* Vertical annotation lines
+* Free-floating labels with arrows
+* Fixed label annotation (green 965.33)
+
+Also missing from the static screenshot are the parrallax (elements moving over each other as the camera moves) and depth of field (blurring of elements outside of the camera's focus are) effects. Now this isn't exactly the kind of a chart d3fc is designed for but we do claim that it's flexible, let's see how far we can get.
+
+# Data
+
+Let's just say that the dataset used in the video is optimistic. I don't think we can rely on a real stream to give us results like that! We could just use some hard-coded data but the library comes with a configurable random data generator so let's use that.
+
+The [fc.data.random.financial component](http://scottlogic.github.io/d3fc/components/data/financial.html) uses a [GBM model](https://en.wikipedia.org/wiki/Geometric_Brownian_motion). The model includes two configurable properties the percentage drift (`mu`) and the percentage volatility (`sigma`). [This tool](http://turingfinance.com/interactive-stochastic-processes/) lets you play with and see the effect of these values. In this case we want a relatively high positive drift with relatively low volatility -
+
+```js
+var dataGenerator = fc.data.random.financial()
+    .mu(0.2)                     // % drift
+    .sigma(0.05)                 // % volatility
+    .filter(fc.util.fn.identity) // don't filter weekends
+    .startDate(new Date(2014, 1, 1));
+var data = dataGenerator(150);
+```
+
+# Series
+
+Next up we need a candlestick series. In d3fc (and D3) before we can add a series, we need some scales to control how to map the domain values (e.g. dates, prices) into screen values (i.e. pixels) -
+
+```js
+// SVG viewbox constants
+var WIDTH = 1024, HEIGHT = 576;
+
+var xScale = d3.time.scale()
+    .domain([data[0].date, data[data.length - 1].date])
+    // Modify the range so that the series only takes up left half the width
+    .range([0, WIDTH * 0.5]);
+
+var yScale = d3.scale.linear()
+    .domain(fc.util.extent(data, ['low', 'high']))
+    // Modify the range so that the series only takes up middle third of the the width
+    .range([HEIGHT * 0.66, HEIGHT * 0.33]);
+```
+
+Then we just wire up the candlestick series -
+
+```js
+var candlestick = fc.series.candlestick()
+    .xScale(xScale)
+    .yScale(yScale);
+
+d3.select('#series')
+    .datum(data)
+    .call(candlestick);
+```
+
+And sprinkle on some CSS -
+
+```css
+svg {
+    background: black;
+}
+
+.candlestick.up>path {
+    fill: white;
+    stroke: rgba(77, 175, 74, 1);
+}
+.candlestick.down>path {
+    fill: black;
+    stroke: rgba(77, 175, 74, 1);
+}
+```
+
+Our progress so far -
+
+<img src="series.png" alt="Series screenshot" width="878" height="494"/>
+
+# Indicators
+
+Unfortunately, I don't recognise the algorithm behind the indicator lines but I'm happy to put that down to my own ignorance rather than imply they're made up! To me they look a little bit like Bollinger Bands (blue/green) with an EMA (red) running through them, let's go with that.
+
+In d3fc indicators are normally composed of two parts, algorithms which augment the data with the derived indicator values and renderers which provide a default representation of those values. Some simple indicators (such as EMA) don't have associated renderers, in those cases we just use a line series -
+
+```js
+fc.indicator.algorithm.bollingerBands()
+    // Modify the window size so that we more closely track the data
+    .windowSize(8)
+    // Modify the multiplier to narrow the gap between the bands
+    .multiplier(1)(data);
+
+fc.indicator.algorithm.exponentialMovingAverage()
+    // Use a different window size so that the indicators occasionally touch
+    .windowSize(3)(data);
+
+var bollingerBands = fc.indicator.renderer.bollingerBands();
+
+var ema = fc.series.line()
+    // Reference the value computed by the EMA algorithm
+    .yValue(function(d) { return d.exponentialMovingAverage; });
+```
+
+Now that we have multiple series to add to the chart, rather than manually creating containers for each of them we can use a `multi` series. The `multi` series will also take care of propagating through the scales and allow us to `decorate` the created containers will appropriate class names we can use later for styling -
+
+```js
+var multi = fc.series.multi()
+    .xScale(xScale)
+    .yScale(yScale)
+    .series([candlestick, bollingerBands, ema])
+    .decorate(function(g) {
+        g.enter()
+            .attr('class', function(d, i) {
+                return ['candlestick', 'bollinger-bands', 'ema'][i];
+            });
+    });
+```
+
+The styling this time is a little bit more involved becaue we need to hide the `area` and `average` elements which the `bollingerBands` component creates. Of course another option would be to wire up two line series to the calculated values rather than use the renderer.
+
+```css
+
+.bollinger-bands>.area,
+.bollinger-bands>.average {
+    visibility: hidden;
+}
+.bollinger-bands>.upper>path {
+    stroke: rgba(55, 126, 184, 1);
+    stroke-width: 2px;
+}
+.bollinger-bands>.lower>path {
+    stroke: rgba(77, 175, 74, 1);
+    stroke-width: 2px;
+}
+
+.ema>path {
+    stroke: rgba(228, 26, 28, 1);
+    stroke-width: 2px;
+}
+```
+
+It's not quite the same but I think it looks close enough at this stage -
+
+<img src="indicators.png" alt="Indicators screenshot" width="878" height="494"/>
+
+# Components
+
+Just before we jump in and add any more functionality, it's worth restructuring our code so that we don't end up with spaghetti. The easiest way to do this is to adopt the d3 component pattern that is also used by the d3fc library. A component is just a factory which returns a function which operates on a selection, so the existing code becomes -
+
+```js
+// Obviously you should use ES6 modules and mutiple files for this. I'm
+// trying to keep the example as simple (and copy/paste-able) as possible.
+var basecoin = {};
+
+basecoin.series = function() {
+
+    return function(selection) {
+
+        selection.each(function(data) {
+
+            var xScale = d3.time.scale()
+
+            // ...
+
+            d3.select(this)
+                .call(multi);
+        });
+    };
+};
+
+// ...
+
+var series = basecoin.series();
+
+d3.select('#series')
+    .datum(data)
+    .call(series);
+```
+
+# Gridlines
+
+The easiest thing to do now would be to add a new `gridlines` component to the `multi`. Only that's not going to give us quite the effect we're looking for. We want the gridlines to span the entire area of the SVG and we want them to remain static rather than moving with the data. So instead we'll add a new sibling `g` element to contain the crosshairs and define a separate set of scales incorporating the whole of the SVG.
+
+Firstly, the DOM changes -
+
+```html
+<svg viewbox="0 0 1024 576">
+    <g id="gridlines"/>
+    <g id="series"/>
+</svg>
+```
+
+Our new gridlines component is incredibly simple -
+
+```js
+basecoin.gridlines = function() {
+
+    return function(selection) {
+
+        selection.each(function(data) {
+
+            // Use the simplest scale we can get away with
+            var xScale = d3.scale.linear()
+                // Define an arbitrary domain
+                .domain([0, 1])
+                // Use the full width
+                .range([0, WIDTH]);
+
+            // Use the simplest scale we can get away with
+            var yScale = d3.scale.linear()
+                // Define an arbitrary domain
+                .domain([0, 1])
+                // Use the full height
+                .range([HEIGHT, 0]);
+
+            var gridline = fc.annotation.gridline()
+                .xScale(xScale)
+                .yScale(yScale)
+                .xTicks(40)
+                .yTicks(20);
+
+            d3.select(this)
+                .call(gridline);
+        });
+    };
+};
+```
+
+And finally the styling -
+
+```css
+.gridline {
+    stroke: white;
+    stroke-width: 0.5;
+    stroke-opacity: 0.5;
+    stroke-dasharray: 3, 5;
+}
+```
+
+It's looking a little cluttered at the minute, but we're be adding in some transforms shortly which should help sort things out -
+
+<img src="indicators.png" alt="Indicators screenshot" width="878" height="494"/>
+
+# Annotations and labels
+
+Let's start with the vertical line annotations. Normally they're used to highlight events such as relevant news stories or instrument events. However, I can't see any such context in this case. They do look like they follow a fibonacci seqeuence though so let's use that as the starting point for our version.
+
+
