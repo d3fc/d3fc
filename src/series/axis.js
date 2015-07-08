@@ -14,7 +14,7 @@
 
         var axisAdapter = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this);
 
@@ -42,7 +42,7 @@
 
                 g.call(axis);
 
-                decorate(g);
+                decorate(g, data, index);
             });
         };
 

@@ -22,7 +22,7 @@
 
         var line = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var path = d3.select(this)
                     .selectAll('path.line')
@@ -34,7 +34,7 @@
 
                 path.attr('d', lineData);
 
-                decorate(path);
+                decorate(path, data, index);
             });
         };
 

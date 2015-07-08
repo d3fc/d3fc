@@ -54,7 +54,7 @@
                         .attr('d', pathGenerator([d]));
                 });
 
-                decorate(g, index);
+                decorate(g, data, index);
             });
         };
 

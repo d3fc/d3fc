@@ -47,7 +47,7 @@
 
         var crosshair = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
@@ -94,7 +94,7 @@
 
                 crosshair.call(multi);
 
-                decorate(crosshair);
+                decorate(crosshair, data, index);
             });
         };
 
