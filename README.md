@@ -6,47 +6,53 @@ A collection of components that make it easy to build interactive financial char
 
 d3fc and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
 
-    npm install d3fc
+```
+npm install d3fc
+```
 
 Once installed, you can reference the d3fc JavaScript, CSS and dependencies within an HTML page as follows:
 
-    <script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
-    <script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
-    <script src="node_modules/d3fc/dist/d3fc.js"></script>
+```html
+<script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
+<script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
+<script src="node_modules/d3fc/dist/d3fc.js"></script>
 
-    <link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
+<link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
+```
 
 If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
 
-    <div id="chart"></div>
-    <script type="text/javascript">
-    var data = fc.data.random.financial()(50);
+```html
+<div id="chart"></div>
+<script type="text/javascript">
+var data = fc.data.random.financial()(50);
 
-    var chart = fc.charts.linearTimeSeries()
-        .xDomain(fc.utilities.extent(data, 'date'))
-        .xTicks(5)
-        .yDomain(fc.utilities.extent(data, ['high', 'low']))
-        .yNice()
-        .yTicks(5);
+var chart = fc.charts.linearTimeSeries()
+    .xDomain(fc.utilities.extent(data, 'date'))
+    .xTicks(5)
+    .yDomain(fc.utilities.extent(data, ['high', 'low']))
+    .yNice()
+    .yTicks(5);
 
-    var gridlines = fc.scale.gridlines();
-    var candlestick = fc.series.candlestick();
-    var movingAverage = fc.indicators.movingAverage();
+var gridlines = fc.scale.gridlines();
+var candlestick = fc.series.candlestick();
+var movingAverage = fc.indicators.movingAverage();
 
-    var multi = fc.series.multi()
-        .series([gridlines, candlestick, movingAverage]);
-    chart.plotArea(multi);
+var multi = fc.series.multi()
+    .series([gridlines, candlestick, movingAverage]);
+chart.plotArea(multi);
 
-    d3.select("#chart")
-        .append('svg')
-        .style({
-            height: '250px',
-            width: '600px'
-        })
-        .datum(data)
-        .call(chart);
+d3.select("#chart")
+    .append('svg')
+    .style({
+        height: '250px',
+        width: '600px'
+    })
+    .datum(data)
+    .call(chart);
 
-    </script>
+</script>
+```
 
 To find out more about the various components, visit the [project webpage](http://scottlogic.github.io/d3fc/).
 
