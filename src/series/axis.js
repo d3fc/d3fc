@@ -12,16 +12,16 @@
             xScale = d3.time.scale(),
             yScale = d3.scale.linear();
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.axis-adapter')
+            .element('g')
+            .attrs({'class': 'axis axis-adapter'});
+
         var axisAdapter = function(selection) {
 
             selection.each(function(data, index) {
 
-                var container = d3.select(this);
-
-                var g = fc.util.simpleDataJoin(container, 'axis-adapter', [data]);
-
-                g.enter()
-                    .attr('class', 'axis axis-adapter');
+                var g = dataJoin(this, [data]);
 
                 switch (axisAdapter.orient()) {
                     case 'top':
