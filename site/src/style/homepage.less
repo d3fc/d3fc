@@ -82,12 +82,16 @@
 		}
 	}
 
-	a:hover {
-		text-decoration: none;
+	a {
+		color: @text-color;
 
-		.chart-small {
-			.caption {
-				background: @brand-background;
+		&:hover {
+			text-decoration: none;
+
+			.chart-small {
+				.caption {
+					background: @brand-background;
+				}
 			}
 		}
 	}
@@ -133,5 +137,9 @@
 
 	p {
 		font-size: @font-size-h4;
+	}
+
+	a {
+		color: @brand-secondary;
 	}
 }
