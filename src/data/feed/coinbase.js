@@ -24,7 +24,8 @@
             var url = 'https://api.exchange.coinbase.com/products/' + product + '/candles?' + params.join('&');
             d3.json(url, function(error, data) {
                 if (error) {
-                    return cb(error);
+                    cb(error);
+                    return;
                 }
                 data = data.map(function(d) {
                     return {
