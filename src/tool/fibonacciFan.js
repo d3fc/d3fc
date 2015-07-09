@@ -16,7 +16,7 @@
 
         var fan = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this)
                     .style('pointer-events', 'all')
@@ -106,7 +106,7 @@
                     })
                     .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
-                decorate(g);
+                decorate(g, data, index);
             });
         };
 

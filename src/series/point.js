@@ -12,7 +12,7 @@
 
         var point = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this);
 
@@ -30,7 +30,7 @@
                 g.select('circle')
                     .attr('r', radius);
 
-                decorate(g);
+                decorate(g, data, index);
             });
         };
 

@@ -20,7 +20,7 @@
             .attrs({'class': 'row'});
 
         var legend = function(selection) {
-            selection.each(function(data) {
+            selection.each(function(data, index) {
                 var container = d3.select(this);
 
                 var legendData = items.map(function(item, i) {
@@ -49,8 +49,8 @@
                         return d.value.call(this, d.datum, i);
                     });
 
-                tableDecorate(table);
-                rowDecorate(trUpdate);
+                tableDecorate(table, data, index);
+                rowDecorate(trUpdate, data, index);
             });
         };
 

@@ -33,7 +33,7 @@
             .attrs({'class': 'annotation'});
 
         var band = function(selection) {
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this);
 
@@ -61,7 +61,7 @@
                         return pathGenerator.call(this, [d], i);
                     });
 
-                decorate(g);
+                decorate(g, data, index);
             });
         };
 

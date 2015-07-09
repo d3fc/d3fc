@@ -13,7 +13,7 @@
 
         var cycle = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this);
 
@@ -45,7 +45,7 @@
 
                 });
 
-                decorate(g);
+                decorate(g, data, index);
             });
         };
 

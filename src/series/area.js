@@ -25,7 +25,7 @@
 
         var area = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var path = d3.select(this)
                     .selectAll('path.area')
@@ -37,7 +37,7 @@
 
                 path.attr('d', areaData);
 
-                decorate(path);
+                decorate(path, data, index);
             });
         };
 

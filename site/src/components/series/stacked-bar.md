@@ -58,12 +58,9 @@ example-code: |
     .xScale(x)
     .yScale(y)
     .xValue(function(d) { return d.state; })
-    .decorate(function(sel) {
-        sel.each(function(d, i) {
-            d3.select(this)
-              .selectAll('path')
-              .style({'fill': color(i), 'stroke' : color(i)});
-        });
+    .decorate(function(sel, index) {
+        sel.select('path')
+            .style('fill', color(index));
     });
 
   container.append('g')
@@ -71,7 +68,7 @@ example-code: |
       .call(stack);
 ---
 
-The stacked bar series renders multiple series of data in a stacked form. The data needs to be presented to the component as multiple distinct series. You can specify how each series is mapped to an array of values via the `values` property, and for each datum within the array you can specify how the x and y values are extracted via the `xValue` and `yValue` properties.
+The stacked bar series renders multiple series of data in a stacked form. The data needs to be presented to the component as multiple distinct series, where each datapoint exposes a `y` and `y0` property, where the `y0` property indicates the offset required to stack the series. The easiest way to add the required offset to a series is via the `d3.layout.stack` component.
 
 The following example shows how to manipulate some data into the required form, then configures the bar series accordingly:
 

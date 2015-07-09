@@ -17,7 +17,7 @@
 
         var candlestick = function(selection) {
 
-            selection.each(function(data) {
+            selection.each(function(data, index) {
 
                 var container = d3.select(this);
 
@@ -56,7 +56,7 @@
                         .attr('d', pathGenerator([d]));
                 });
 
-                decorate(g);
+                decorate(g, data, index);
             });
         };
 
