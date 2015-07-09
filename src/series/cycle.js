@@ -11,11 +11,14 @@
             subSeries = fc.series.line(),
             barWidth = fc.util.fractionalBarWidth(0.75);
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.cycle')
+            .element('g')
+            .attrs({'class': 'cycle'});
+
         var cycle = function(selection) {
 
             selection.each(function(data, index) {
-
-                var container = d3.select(this);
 
                 var dataByX = d3.nest()
                     .key(xValue)
@@ -26,7 +29,7 @@
                 var width = barWidth(xValues.map(xScale)),
                     halfWidth = width / 2;
 
-                var g = fc.util.simpleDataJoin(container, 'cycle', xValues);
+                var g = dataJoin(this, xValues);
 
                 g.each(function(d, i) {
 
@@ -45,7 +48,7 @@
 
                 });
 
-                decorate(g, data, index);
+                decorate(g, xValues, index);
             });
         };
 

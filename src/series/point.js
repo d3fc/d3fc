@@ -10,13 +10,16 @@
             xValue = function(d, i) { return d.date; },
             radius = d3.functor(5);
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.point')
+            .element('g')
+            .attrs({'class': 'point'});
+
         var point = function(selection) {
 
             selection.each(function(data, index) {
 
-                var container = d3.select(this);
-
-                var g = fc.util.simpleDataJoin(container, 'point', data, xValue);
+                var g = dataJoin(this, data);
 
                 g.enter()
                     .append('circle');
