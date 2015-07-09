@@ -21,7 +21,7 @@
             container.datum(data)
                 .call(bar);
 
-            expect(xValueSpy.calls.count()).toEqual(data.length * 4);
+            expect(xValueSpy.calls.count()).toEqual(data.length * 5);
             this.utils.verifyAccessorCalls(xValueSpy, data);
 
 
