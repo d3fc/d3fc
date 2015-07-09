@@ -19,7 +19,7 @@
 
             selection.each(function(data, index) {
 
-                var g = dataJoin(this, data);
+                var g = dataJoin.key(xValue)(this, data);
 
                 g.enter()
                     .append('circle');

@@ -27,7 +27,7 @@
                         xValue(d, i) !== undefined;
                 });
 
-                var g = dataJoin(this, filteredData);
+                var g = dataJoin.key(xValue)(this, filteredData);
 
                 var width = barWidth(filteredData.map(xValueScaled));
 
