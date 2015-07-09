@@ -25,11 +25,11 @@
             container.datum(data)
                 .call(ohlc);
 
-            // the data join and the bar width calculations also invoke
-            // the x value accessor, therefore it is invoked three times
+            // the bar width calculations also invoke
+            // the x value accessor, therefore it is invoked two times
             // for each data point
 
-            expect(xValueSpy.calls.count()).toEqual(data.length * 3);
+            expect(xValueSpy.calls.count()).toEqual(data.length * 2);
             this.utils.verifyAccessorCalls(xValueSpy, data);
 
             expect(yOpenValueSpy.calls.count()).toEqual(data.length);
