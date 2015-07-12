@@ -18,8 +18,9 @@
             decorate = fc.util.fn.noop;
 
         var dataJoin = fc.util.dataJoin()
-            .selector('g')
+            .selector('g.multi')
             .children(true)
+            .attrs({'class': 'multi'})
             .element('g')
             .key(function(d, i) {
                 // This function is invoked twice, the first pass is to pull the key
