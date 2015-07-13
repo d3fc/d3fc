@@ -15,12 +15,15 @@
 
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.ohlc')
+            .element('g')
+            .attrs({'class': 'ohlc'});
+
         var ohlc = function(selection) {
             selection.each(function(data, index) {
 
-                var container = d3.select(this);
-
-                var g = fc.util.simpleDataJoin(container, 'ohlc', data, xValue);
+                var g = dataJoin.key(xValue)(this, data);
 
                 g.enter()
                     .append('path');

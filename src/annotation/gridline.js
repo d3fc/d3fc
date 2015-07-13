@@ -8,42 +8,46 @@
             xTicks = 10,
             yTicks = 10;
 
+        var xDecorate = fc.util.fn.noop,
+            yDecorate = fc.util.fn.noop;
+
+        var xLineDataJoin = fc.util.dataJoin()
+            .selector('line.x')
+            .element('line')
+            .attrs({'class': 'x gridline'});
+
+        var yLineDataJoin = fc.util.dataJoin()
+            .selector('line.y')
+            .element('line')
+            .attrs({'class': 'y gridline'});
+
         var gridlines = function(selection) {
 
-            selection.each(function() {
+            selection.each(function(data, index) {
 
-                var container = d3.select(this);
+                var xData = xScale.ticks(xTicks);
+                var xLines = xLineDataJoin(this, xData);
 
-                var xLines = fc.util.simpleDataJoin(container, 'x',
-                    xScale.ticks(xTicks));
-
-                xLines.enter()
-                    .append('line')
-                    .attr('class', 'gridline');
-
-                xLines.select('line')
-                    .attr({
+                xLines.attr({
                         'x1': xScale,
                         'x2': xScale,
                         'y1': yScale.range()[0],
                         'y2': yScale.range()[1]
                     });
 
-                var yLines = fc.util.simpleDataJoin(container, 'y',
-                    yScale.ticks(yTicks));
+                xDecorate(xLines, xData, index);
 
-                yLines.enter()
-                    .append('line')
-                    .attr('class', 'gridline');
+                var yData = yScale.ticks(yTicks);
+                var yLines = yLineDataJoin(this, yData);
 
-                yLines.select('line')
-                    .attr({
+                yLines.attr({
                         'x1': xScale.range()[0],
                         'x2': xScale.range()[1],
                         'y1': yScale,
                         'y2': yScale
                     });
 
+                yDecorate(yLines, yData, index);
 
             });
         };
@@ -74,6 +78,20 @@
                 return yTicks;
             }
             yTicks = x;
+            return gridlines;
+        };
+        gridlines.yDecorate = function(x) {
+            if (!arguments.length) {
+                return yDecorate;
+            }
+            yDecorate = x;
+            return gridlines;
+        };
+        gridlines.xDecorate = function(x) {
+            if (!arguments.length) {
+                return xDecorate;
+            }
+            xDecorate = x;
             return gridlines;
         };
 

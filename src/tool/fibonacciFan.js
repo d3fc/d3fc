@@ -14,6 +14,11 @@
         var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
             y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.fan')
+            .element('g')
+            .attrs({'class': 'fan'});
+
         var fan = function(selection) {
 
             selection.each(function(data, index) {
@@ -35,7 +40,7 @@
                     .attr('width', xScale.range()[1])
                     .attr('height', yScale.range()[0]);
 
-                var g = fc.util.simpleDataJoin(container, 'fan', data);
+                var g = dataJoin(container, data);
 
                 g.each(function(d) {
                     d.x = xScale.range()[1];

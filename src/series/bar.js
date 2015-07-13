@@ -11,11 +11,15 @@
             y0Value = d3.functor(0),
             barWidth = fc.util.fractionalBarWidth(0.75);
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.bar')
+            .element('g')
+            .attrs({'class': 'bar'});
+
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
         var bar = function(selection) {
             selection.each(function(data, index) {
-                var container = d3.select(this);
 
                 var filteredData = data.filter(function(d, i) {
                     return y0Value(d, i) !== undefined &&
@@ -23,7 +27,7 @@
                         xValue(d, i) !== undefined;
                 });
 
-                var g = fc.util.simpleDataJoin(container, 'bar', filteredData, xValue);
+                var g = dataJoin.key(xValue)(this, filteredData);
 
                 var width = barWidth(filteredData.map(xValueScaled));
 
@@ -54,7 +58,7 @@
                         .attr('d', pathGenerator([d]));
                 });
 
-                decorate(g, data, index);
+                decorate(g, filteredData, index);
             });
         };
 

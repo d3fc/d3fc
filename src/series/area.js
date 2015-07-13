@@ -23,18 +23,16 @@
             .y0(y0)
             .y1(y1);
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('path.area')
+            .element('path')
+            .attrs({'class': 'area'});
+
         var area = function(selection) {
 
             selection.each(function(data, index) {
 
-                var path = d3.select(this)
-                    .selectAll('path.area')
-                    .data([data]);
-
-                path.enter()
-                    .append('path')
-                    .attr('class', 'area');
-
+                var path = dataJoin(this, [data]);
                 path.attr('d', areaData);
 
                 decorate(path, data, index);

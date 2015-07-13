@@ -20,18 +20,16 @@
             .x(x)
             .y(y);
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('path.line')
+            .element('path')
+            .attrs({'class': 'line'});
+
         var line = function(selection) {
 
             selection.each(function(data, index) {
 
-                var path = d3.select(this)
-                    .selectAll('path.line')
-                    .data([data]);
-
-                path.enter()
-                    .append('path')
-                    .attr('class', 'line');
-
+                var path = dataJoin(this, [data]);
                 path.attr('d', lineData);
 
                 decorate(path, data, index);

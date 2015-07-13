@@ -19,8 +19,9 @@
             container.datum(data)
                 .call(point);
 
-            // the data join also invokes the x value accessor,
-            // therefore it is invoked twice for each data point
+            // the data join also invokes
+            // the x value accessor, therefore it is invoked two times
+            // for each data point
             expect(xValueSpy.calls.count()).toEqual(data.length * 2);
             this.utils.verifyAccessorCalls(xValueSpy, data);
 

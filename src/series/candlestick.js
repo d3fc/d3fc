@@ -13,15 +13,18 @@
             yCloseValue = function(d, i) { return d.close; },
             barWidth = fc.util.fractionalBarWidth(0.75);
 
+        var dataJoin = fc.util.dataJoin()
+            .selector('g.candlestick')
+            .element('g')
+            .attrs({'class': 'candlestick'});
+
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
         var candlestick = function(selection) {
 
             selection.each(function(data, index) {
 
-                var container = d3.select(this);
-
-                var g = fc.util.simpleDataJoin(container, 'candlestick', data, xValue);
+                var g = dataJoin.key(xValue)(this, data);
 
                 g.enter()
                     .append('path');
