@@ -1,18 +1,34 @@
 language: node_js
-node_js:
-  - "0.10" # stable
-  - "0.11" # development release, may be unstable
-  - "0.12" # stable
-  - "iojs"
+node_js: stable
+
 before_install: npm install -g grunt-cli
 install: npm install
-matrix:
-  fast_finish: true
-  allow_failures:
-  - node_js: "0.11"
-  - node_js: "iojs"
+
 env:
   global:
   - GH_REF: github.com/ScottLogic/d3fc.git
   - secure: "dimY26/YND+hamNAH6lwjYqkmc4qEkSDPl8xwe7wJxliR8k8cPM8lRw8c/Iwtmq3NiG5cZoiKAkALA4PTl3zQ7YOj7rSL9pGmi4qJvtObqWljclJjY/0sNprPc/RrRTgpBcnI3Pa7fofiT2uLNp+a0mT/KV9KZNxjQIw8PA2RkY="
 after_success: bash ./site/deploy.sh
+
+deploy:
+  - provider: npm
+    email: price.c@gmail.com
+    api_key:
+      secure: "NUByunpFY/ypWaEYTswauvvqyHzD+U568v0d7Nby76ea3VhywqX8QgfdWKGMwAZlPWVt09uiFuxhdTivt+kC8Hbg2ASc8Aukiq8tqZzBnLJ3imf0Xg3mQX1j6cwgv38iLFrk/LI6MsLJj74xgK8GKcys5E9VFh3Erf2Kpuw+GtQ="
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+  - provider: releases
+    api_key:
+      secure: "anji1SlRHf9kXmQ4M1L0/Y3s+vXtvDuKKk02VBsWPcIBDFPcSmK+C9DBRAKUq6953C1cImUf/GvKlh1zHKkiLz0mG0zoovufrflThk2rxQqnIJ9Ec6Igmh5us32DVxEcTNyXBJFNeHsMB1Wg5PkOffYbEr+e+wxgoCQKpDXMR7k="
+    file:
+      - "dist/d3fc.css"
+      - "dist/d3fc.js"
+      - "dist/d3fc.min.css"
+      - "dist/d3fc.min.js"
+      - "dist/d3fc.min.js.map"
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
