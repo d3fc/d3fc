@@ -41,7 +41,7 @@
                 .decorate(function(g) {
                     g.enter()
                         .attr('class', function(d, i) {
-                            return ['area', 'upper', 'lower', 'average'][i];
+                            return 'multi ' + ['area', 'upper', 'lower', 'average'][i];
                         });
                 });
 
