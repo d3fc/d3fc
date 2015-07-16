@@ -3,19 +3,11 @@ layout: example
 title: Examples
 ---
 <style>
-.main-row>td {
-  height: 240px;
-}
 .volume-row>td {
-  height: 160px;
   padding-bottom: 20px;
 }
-.navigator-row>td {
-  height: 80px;
-}
-svg {
-  width: 640px;
-  height: 100%;
+svg, #low-barrel {
+  width: 100%;
 }
 #low-barrel span {
   display:block;
@@ -83,7 +75,7 @@ rect.extent {
     <table id="low-barrel">
       <tr class="main-row">
         <td>
-          <svg class="main"></svg>
+          <svg class="main" viewBox="0 0 640 220"></svg>
         </td>
         <td>
           <span>OHLC</span>
@@ -91,7 +83,7 @@ rect.extent {
       </tr>
       <tr class="volume-row">
         <td>
-          <svg class="volume"></svg>
+          <svg class="volume" viewBox="0 0 640 140"></svg>
         </td>
         <td>
           <span>Volume</span>
@@ -99,7 +91,7 @@ rect.extent {
       </tr>
       <tr class="navigator-row">
         <td>
-          <svg class="navigator"></svg>
+          <svg class="navigator" viewBox="0 0 640 80"></svg>
         </td>
         <td></td>
       </tr>
@@ -348,16 +340,24 @@ rect.extent {
         visibleData.dateDomain = data.dateDomain;
         visibleData.crosshairs = data.crosshairs;
 
+        //update viewBox values on the svg elements now that they've been sized properly
+        function generateViewBox($el) {
+            return '0 0 ' + $el.width() + ' ' + $el.height();
+        }
+
         container.select('svg.main')
             .datum(visibleData)
-            .call(mainChart);
+            .call(mainChart)
+            .attr('viewBox', generateViewBox($('svg.main')));
 
         container.select('svg.volume')
             .datum(visibleData)
-            .call(volumeChart);
+            .call(volumeChart)
+            .attr('viewBox', generateViewBox($('svg.volume')));
 
         container.select('svg.navigator')
-            .call(navigatorChart);
+            .call(navigatorChart)
+            .attr('viewBox', generateViewBox($('svg.navigator')));
     }
 
     render();
