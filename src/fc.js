@@ -2,7 +2,7 @@
     'use strict';
 
     // Needs to be defined like this so that the grunt task can update it
-    var version = '0.2.5';
+    var version = 'development';
 
     // Crazyness to get a strict mode compliant reference to the global object
     var global = null;

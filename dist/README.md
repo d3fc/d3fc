@@ -1,24 +1,9 @@
-Releases can be found on [npm](https://www.npmjs.com/package/d3fc).
+Releases can be found on [npm](https://www.npmjs.com/package/d3fc) and [github](https://github.com/ScottLogic/d3fc/releases).
 
 #Release Process (for devs)
 
 ```bash
-read -p "Version:" version
-
-git clean -fd
-git fetch upstream
-git checkout master
-git reset --hard upstream/master
-
-# n.b. don't tag at this point, we need to bump the version in the source
-npm version $version --no-git-tag-version
-
-grunt clean build
-
-git add --all
-git commit -m "Release version $version"
-git tag -a $version -m "Release version $version"
-git push upstream $version master
+read -p "version:" version && git fetch upstream master && git tag -a -m "Release $version" $version FETCH_HEAD && git push upstream $version
 
 # travis will take care of publishing to npm and github releases
 
