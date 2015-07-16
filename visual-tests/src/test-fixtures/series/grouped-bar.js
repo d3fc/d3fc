@@ -89,6 +89,7 @@
             .subSeries(bar)
             .xValue(function(d) { return d.flavour; })
             .groupValue(function(d) { return d.size; })
+            .offset(fc.util.intervalGroupOffset(20))
             .decorate(function(g) {
                 g.enter()
                     .attr('fill', function(d, i) {

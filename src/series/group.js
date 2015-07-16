@@ -8,9 +8,8 @@
             yScale = d3.scale.linear(),
             xValue = function(d, i) { return d.x; },
             groupValue = function(d, i) { return d.group;},
-            subScale = d3.scale.ordinal(),
-            subSeries = fc.series.bar(),
-            groupSize = fc.util.fractionalBarWidth(0.25);
+            offset = fc.util.fractionalGroupOffset(0.25),
+            subSeries = fc.series.bar();
 
         var dataJoin = fc.util.dataJoin()
             .selector('g.group')
@@ -26,9 +25,7 @@
                     .map(data);
 
                 var xValues = Object.keys(dataByX);
-
-                var width = groupSize(xValues.map(xScale)),
-                    halfWidth = width / 2;
+                var xPixels = xValues.map(xScale);
 
                 var dataByGroup = d3.nest()
                     .key(groupValue)
@@ -36,17 +33,13 @@
 
                 var groupedValues = Object.keys(dataByGroup);
 
-                subScale.domain(groupedValues);
-
                 var g = dataJoin(this, groupedValues);
 
                 g.each(function(d, i) {
 
-                    subScale.rangePoints([-halfWidth, halfWidth]);
-
                     var g = d3.select(this);
 
-                    g.attr('transform', 'translate(' + subScale(d) + ', 0)');
+                    g.attr('transform', 'translate(' + offset(d, i, groupedValues, xPixels) + ', 0)');
 
                     subSeries.xScale(xScale)
                         .yScale(yScale);
@@ -103,11 +96,11 @@
             subSeries = x;
             return group;
         };
-        group.groupSize = function(x) {
+        group.offset = function(x) {
             if (!arguments.length) {
-                return groupSize;
+                return offset;
             }
-            groupSize = d3.functor(x);
+            offset = d3.functor(x);
             return group;
         };
 
