@@ -6,7 +6,7 @@ namespace: layout
 
 example-html: |
   <svg id="layout-test"
-     style="width: 600px; height: 350px; margin: 10px; background: yellow"
+     style="width: 90%; height: 350px; margin: 10px; background: yellow"
      layout-css="paddingLeft: 10">
     <g layout-css="height: 30; justifyContent: center; flexDirection: row;">
     </g>
