@@ -16,7 +16,7 @@ deploy:
   - provider: npm
     email: price.c@gmail.com
     api_key:
-      secure: "NUByunpFY/ypWaEYTswauvvqyHzD+U568v0d7Nby76ea3VhywqX8QgfdWKGMwAZlPWVt09uiFuxhdTivt+kC8Hbg2ASc8Aukiq8tqZzBnLJ3imf0Xg3mQX1j6cwgv38iLFrk/LI6MsLJj74xgK8GKcys5E9VFh3Erf2Kpuw+GtQ="
+      secure: "Gwmjd5ME1V//uTFs0BwxEwXwD06QXZHUpUjw0SRYEhQdQHHXZLb+FYex2KXsOI+rPbZ+SPQ9ByAcsUdDgUuahpJLwpAS59j1dpYC223to8G4E5eMhZN605iJgeVLu4uyOphISBKJYaWMjfLKApazvCfzvUe7Nbg+w9OtOQohGNw="
     skip_cleanup: true
     on:
       branch: master
