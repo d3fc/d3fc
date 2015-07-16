@@ -41,6 +41,8 @@
     "seedrandom": "^2.4.0"
   },
   "scripts": {
-    "test": "grunt ci"
+    "test": "grunt ci",
+    "preversion": "git fetch upstream master && git checkout FETCH_HEAD",
+    "postversion": "git push --tags upstream HEAD:master"
   }
 }
