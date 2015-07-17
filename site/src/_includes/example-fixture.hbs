@@ -1,8 +1,10 @@
 <div id="{{>component-id component}}" class="chart"> </div>
 <script type="text/javascript">
 (function() {
-    var f = createFixture('#{{>component-id component}}', null, null, null, function() { return true; });
-    var container = f.container, data = f.data
+    var desiredWidth = $('#{{>component-id component}}').width(),
+        desiredHeight = desiredWidth / 2.4; //keeps the width-height ratio at 600-250 (defaults for createFixture)
+    var f = createFixture('#{{>component-id component}}', desiredWidth, desiredHeight, null, function() { return true; });
+    var container = f.container, data = f.data,
       xScale = f.xScale, yScale = f.yScale,
       height = f.dimensions.height, width = f.dimensions.width;
 
