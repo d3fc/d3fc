@@ -3,6 +3,10 @@ layout: example
 title: Examples
 ---
 <style>
+iframe {
+  border: 0;
+}
+
 .volume-row>td {
   padding-bottom: 20px;
 }
@@ -60,18 +64,18 @@ rect.extent {
 
 <div class="row">
   <div class="col-md-12">
-    <h1>Advanced Charting Example</h1>
+    <h1>Linked Charts Example</h1>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-4">
-    <p>The example on this page shows how a more complex chart can be built using the d3fc components.</p>
+<div class="row example-left">
+  <div class="col-md-4 description">
+    <p>This example shows how a more complex chart can be built using the d3fc components.</p>
     <p>The three charts that make up this example are each <a href="../components/chart/linearTimeSeries.html">linear time series</a> charts. The top-most chart uses the <a href="../components/annotation/gridlines.html">gridlines</a>, <a href="../components/tool/crosshairs.html">crosshairs</a> and <a href="../components/series/candlestick.html">candlestick</a> components, rendered via the <a href="../components/series/multi.html">multi-series</a> component. The volume and navigator charts uses a similar mix of components.</p>
     <p>These charts all share the same underlying data, however, this is enhanced with the data that represents the current interactive state.</p>
     <p>The top-most chart uses a tooltip component that was written specifically for this example application. It is added as a 'decoration' of the crosshair.</p>
   </div>
-  <div class="col-md-8">
+  <div class="col-md-8 chart">
     <table id="low-barrel">
       <tr class="main-row">
         <td>
@@ -96,6 +100,24 @@ rect.extent {
         <td></td>
       </tr>
     </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h1>Yahoo Finance Chart</h1>
+  </div>
+</div>
+
+<div class="row example-right">
+  <div class="col-md-8 chart">
+    <iframe src='http://bl.ocks.org/ColinEberhardt/raw/875bb098218a94cad7f5/' width='640px' height='300px'></iframe>
+    <br/><small>View the <a href="http://bl.ocks.org/ColinEberhardt/875bb098218a94cad7f5">full code for this example</a> via D3 bl.ocks.</small>
+  </div>
+  <div class="col-md-4 description">
+    <p>This example shows how d3fc components can be used to recreate the complex <a href="s%3Dyhoo%2BInteractive%23%7B%22showEma%22%3Atrue%2C%22emaColors%22%3A%22%23cc0000%22%2C%22emaPeriods%22%3A%2250%22%2C%22emaWidths%22%3A%221%22%2C%22emaGhosting%22%3A%220%22%2C%22range%22%3A%225d%22%2C%22allowChartStacking%22%3Atrue%7D">Yahoo Finance Chart</a></p>
+    <p>This example makes use of a number of components, including the legend, crosshair, annotations and bands. It also includes a custom discontinuity provider for rendering an axis which excludes non-trading hours.</p>
+    <p>For a detailed overview of how this chart was implemented, pop over to the Scott Logic blog which covers the details via a two-part blog series (<a href="http://blog.scottlogic.com/2015/07/08/yahoo-finance-chart.html">part one</a>, <a href="http://blog.scottlogic.com/2015/07/22/yahoo-finance-chart-part-two.html">part two</a>).</p>
   </div>
 </div>
 
