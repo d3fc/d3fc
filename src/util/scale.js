@@ -6,11 +6,11 @@
         // was applied to the range. This functions returns the rangeExtent
         // if present, or range otherwise
         range: function(scale) {
-            return scale.rangeExtent ? scale.rangeExtent() : scale.range();
+            return fc.util.scale.isOrdinal(scale) ? scale.rangeExtent() : scale.range();
         },
 
         isOrdinal: function(scale) {
-            return scale.rangeBands;
+            return scale.rangeExtent;
         }
     };
 }(d3, fc));

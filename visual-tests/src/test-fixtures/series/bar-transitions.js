@@ -61,7 +61,6 @@
         .call(bar);
 
     var axisContainer = chart.append('g')
-        .attr('class', 'axis')
         .attr('transform', 'translate(0, ' + (yScale(0)) + ')');
 
     // Create the axis
