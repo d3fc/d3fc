@@ -8,17 +8,6 @@
   fill-opacity: 0;
 }
 
-/* Default Axis Styles */
-.axis .domain,
-.axis .tick line {
-  fill: none;
-  stroke-width: 1.0;
-  stroke: #bbb;
-}
-.axis text {
-  font: 10px sans-serif;
-}
-
 .background {
   stroke: #eee;
   fill: #fefefe;

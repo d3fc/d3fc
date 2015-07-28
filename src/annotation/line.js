@@ -48,14 +48,7 @@
                         throw new Error('Invalid orientation');
                 }
 
-                // ordinal axes have a rangeExtent function, this adds any padding that
-                // was applied to the range. This functions returns the rangeExtent
-                // if present, or range otherwise
-                function range(scale) {
-                    return scale.rangeExtent ? scale.rangeExtent() : scale.range();
-                }
-
-                var scaleRange = range(crossScale),
+                var scaleRange = fc.util.scale.range(crossScale),
                     // the transform that sets the 'origin' of the annotation
                     containerTransform = function(d) {
                         var transform = valueScale(value(d));

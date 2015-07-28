@@ -32,12 +32,12 @@
         .nice();
 
     // Create the axes
-    var dateAxis = d3.svg.axis()
+    var dateAxis = fc.svg.axis()
         .scale(dateScale)
         .orient('bottom')
         .ticks(5);
 
-    var priceAxis = d3.svg.axis()
+    var priceAxis = fc.svg.axis()
         .scale(priceScale)
         .orient('right')
         .ticks(5);

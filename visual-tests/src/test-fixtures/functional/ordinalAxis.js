@@ -30,7 +30,7 @@
         .range([height - axisHeight, 0]);
 
     // Create the axes
-    var xAxis = d3.svg.axis()
+    var xAxis = fc.svg.axis()
         .scale(xScale)
         .orient('bottom');
 

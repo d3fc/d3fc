@@ -1,0 +1,33 @@
+.axis .domain,
+.axis .tick line,
+.axis .tick path {
+  fill: none;
+  stroke-width: 1.0;
+  stroke: #bbb;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis .orient-bottom text,
+.axis .orient-top text {
+  text-anchor: middle;
+}
+
+.axis .orient-left text,
+.axis .orient-right text {
+  dominant-baseline: middle;
+}
+
+.axis .orient-left text {
+  text-anchor: end;
+}
+
+.axis .orient-right text {
+  text-anchor: start;
+}
+
+.axis .orient-bottom text {
+ dominant-baseline: hanging;
+}

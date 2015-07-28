@@ -1,12 +1,12 @@
 (function(d3, fc) {
     'use strict';
 
-    // Adapts a d3.svg.axis for use as a series (i.e. accepts xScale/yScale). Only required when
+    // Adapts a fc.svg.axis for use as a series (i.e. accepts xScale/yScale). Only required when
     // you want an axis to appear in the middle of a chart e.g. as part of a cycle plot. Otherwise
-    // prefer using the d3.svg.axis directly.
+    // prefer using the fc.svg.axis directly.
     fc.series.axis = function() {
 
-        var axis = d3.svg.axis(),
+        var axis = fc.svg.axis(),
             baseline = d3.functor(0),
             decorate = fc.util.fn.noop,
             xScale = d3.time.scale(),

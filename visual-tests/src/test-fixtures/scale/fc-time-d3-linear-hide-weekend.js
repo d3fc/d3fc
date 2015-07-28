@@ -18,7 +18,7 @@
         .range([0, width]);
 
     // Create the axes
-    var dateAxis = d3.svg.axis()
+    var dateAxis = fc.svg.axis()
         .scale(dateScale)
         .orient('bottom')
         .ticks(10);
