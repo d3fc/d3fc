@@ -37,6 +37,14 @@ layout: default
 
     <nav class="col-sm-3 hidden-xs">
       <ul id="sidebar" class="nav nav-stacked fixed">
+        <li>
+          <h4>Into to d3fc</h4>
+          <ul class="nav nav-stacked">
+            <li><a href="{{assets}}/components/index.html">Getting Started</a></li>
+            <li><a href="{{assets}}/components/decorate-pattern.html">Decorate Pattern</a></li>
+            <li><a href="{{assets}}/components/component-design.html">Component Design</a></li>
+          </ul>
+        </li>
         {{#each _config.component-ids}}
           <li>
             {{#each ../_config.components}}

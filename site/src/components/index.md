@@ -1,32 +1,71 @@
 ---
 layout: component
-title: Components
+title: Getting Started
+
+example-code: |
+
+    var data = fc.data.random.financial()(50);
+
+    var chart = fc.chart.linearTimeSeries()
+        .xDomain(fc.util.extent(data, 'date'))
+        .yDomain(fc.util.extent(data, ['high', 'low']));
+
+    var gridlines = fc.annotation.gridline();
+    var candlestick = fc.series.candlestick();
+
+    var multi = fc.series.multi()
+        .series([gridlines, candlestick]);
+    chart.plotArea(multi);
+
+    d3.select('#chart')
+        .append('svg')
+        .style({
+            height: '250px',
+            width: '600px'
+        })
+        .datum(data)
+        .call(chart);
 ---
 
-A full description and example of each component can found in the navigation menu.
+## Grabbing the code
 
-##Design
+d3fc and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
 
-**This library is opinionated.**
+```
+npm install d3fc
+```
 
-Listed below are the conscious design decisions and trade-offs which you should be aware of.
+Once installed, you can reference the d3fc JavaScript, CSS and dependencies within an HTML page as follows:
 
-### Re-use
+```html
+<script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
+<script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
+<script src="node_modules/d3fc/dist/d3fc.js"></script>
 
-**Over everything else.**
+<link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
+```
 
-Components have no internal state. They can be called on multiple selections without needing to clear down any internal state. Additionally, the render lifecycle is identical whether creating or updating components.
+## A quick chart
 
-### Composition
+If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
 
-**Over customisability.**
+```html
+<div id="chart"></div>
+```
 
-Components offer a basic set of customisation options but to keep the API as clean as possible, they do not allow every possible detail to be customised. For example, they will rebind selected properties of sub-components rather than expose them directly.
+```js
+{{{example-code}}}
+```
 
-If you do wish to heavily customise a component, you are expected to create your own implementation re-using the sub-components of the original.
+Here is how the chart should look:
 
-### Simplicity
+<div id="chart"></div>
+<script type="text/javascript">
+(function() {
+    {{{example-code}}}
+}());
+</script>
 
-**Over performance.**
+## Next steps
 
-Components do not cache the results of any calculations nor attempt any other performance optimisations (beyond [d3's update pattern](http://bost.ocks.org/mike/selection/)). For example, every call will recalculate everything from the supplied data.
+The next step is to browse the d3fc components to determine which you need for your chart or visualisation. You should also read about the <a href="decorate-pattern.html">decorate pattern</a> which allows you to customise the d3fc components.

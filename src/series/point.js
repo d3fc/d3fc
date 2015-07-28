@@ -15,6 +15,12 @@
             .element('g')
             .attrs({'class': 'point'});
 
+        var containerTransform = function(d, i) {
+            var x = xScale(xValue(d, i)),
+                y = yScale(yValue(d, i));
+            return 'translate(' + x + ', ' + y + ')';
+        };
+
         var point = function(selection) {
 
             selection.each(function(data, index) {
@@ -22,13 +28,10 @@
                 var g = dataJoin(this, data);
 
                 g.enter()
+                    .attr('transform', containerTransform)
                     .append('circle');
 
-                g.attr('transform', function(d, i) {
-                    var x = xScale(xValue(d, i)),
-                        y = yScale(yValue(d, i));
-                    return 'translate(' + x + ', ' + y + ')';
-                });
+                g.attr('transform', containerTransform);
 
                 g.select('circle')
                     .attr('r', radius);
