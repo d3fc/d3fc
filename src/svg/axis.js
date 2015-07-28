@@ -21,6 +21,11 @@
             .key(fc.util.fn.identity)
             .attrs({'class': 'tick'});
 
+        var domainPathDataJoin = fc.util.dataJoin()
+            .selector('path.domain')
+            .element('path')
+            .attrs({'class': 'domain'});
+
         // returns a function that creates a translation based on
         // the bound data
         function containerTranslate(s, trans) {
@@ -78,13 +83,7 @@
                       [range[1], sign * outerTickSize]
                     ]);
 
-                var domainLine = container.selectAll('path.domain')
-                    .data([data]);
-
-                domainLine.enter()
-                    .append('path')
-                    .classed('domain', true);
-
+                var domainLine = domainPathDataJoin(container, [data]);
                 d3.transition(domainLine)
                     .attr('d', svgDomainLine(domainPathData));
 
