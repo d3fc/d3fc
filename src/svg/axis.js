@@ -204,6 +204,14 @@
             return axis;
         };
 
+        axis.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
+            return axis;
+        };
+
         return axis;
 
     };
