@@ -35,17 +35,21 @@
         }
 
         function translate(x, y) {
-            return 'translate(' + x + ', ' + y + ')';
+            if (isVertical()) {
+                return 'translate(' + y + ', ' + x + ')';
+            } else {
+                return 'translate(' + x + ', ' + y + ')';
+            }
         }
 
-        function translateTransposed(x, y) {
-            return 'translate(' + y + ', ' + x + ')';
-        }
-
-        function transposeArray(arr) {
-            return arr.map(function(d) {
-                return [d[1], d[0]];
-            });
+        function pathTranspose(arr) {
+            if (isVertical()) {
+                return arr.map(function(d) {
+                    return [d[1], d[0]];
+                });
+            } else {
+                return arr;
+            }
         }
 
         function isVertical() {
@@ -66,12 +70,7 @@
 
                 var ticksArray = tickValues == null ? tryApply('ticks', scale.domain()) : tickValues;
                 var tickFormatter = tickFormat == null ? tryApply('tickFormat', fc.util.fn.identity) : tickFormat;
-
-                // orientation logic
                 var sign = orient === 'bottom' || orient === 'right' ? 1 : -1;
-                var pathTranspose = isVertical() ? transposeArray : fc.util.fn.identity;
-                var transform = isVertical() ? translateTransposed : translate;
-
                 var container = d3.select(this);
 
                 // add the domain line
@@ -93,7 +92,7 @@
                     // set the initial tick position based on the previous scale
                     // in order to get the correct enter transition - however, for ordinal
                     // scales the tick will not exist on the old scale, so use the current position
-                    'transform': containerTranslate(fc.util.scale.isOrdinal(scale) ? scale : scaleOld, transform)
+                    'transform': containerTranslate(fc.util.scale.isOrdinal(scale) ? scale : scaleOld, translate)
                 });
 
                 var g = dataJoin(container, ticksArray);
@@ -104,10 +103,10 @@
                 g.enter().append('path');
                 g.enter()
                     .append('text')
-                    .attr('transform', transform(0, labelOffset));
+                    .attr('transform', translate(0, labelOffset));
 
                 // update
-                g.attr('transform', containerTranslate(scale, transform));
+                g.attr('transform', containerTranslate(scale, translate));
 
                 g.selectAll('path')
                     .attr('d', function(d) {
@@ -117,13 +116,13 @@
                     });
 
                 g.selectAll('text')
-                   .attr('transform', transform(0, labelOffset))
+                   .attr('transform', translate(0, labelOffset))
                    .text(tickFormatter);
 
                 // for non ordinal scales, exit by animating the tick to its new location
                 if (!fc.util.scale.isOrdinal(scale)) {
                     g.exit()
-                        .attr('transform', containerTranslate(scale, transform));
+                        .attr('transform', containerTranslate(scale, translate));
                 }
 
                 decorate(g, data, index);
