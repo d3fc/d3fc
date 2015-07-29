@@ -88,7 +88,6 @@
 
                 // datajoin and construct the ticks / label
                 dataJoin.attrs({
-                    'class': 'tick',
                     // set the initial tick position based on the previous scale
                     // in order to get the correct enter transition - however, for ordinal
                     // scales the tick will not exist on the old scale, so use the current position
@@ -98,14 +97,16 @@
                 var g = dataJoin(container, ticksArray);
 
                 // enter
-                var labelOffset = sign * (innerTickSize + tickPadding);
-                g.enter().classed('orient-' + orient, true);
                 g.enter().append('path');
+
+                var labelOffset = sign * (innerTickSize + tickPadding);
                 g.enter()
                     .append('text')
                     .attr('transform', translate(0, labelOffset));
 
                 // update
+                g.attr('class', 'tick orient-' + orient);
+
                 g.attr('transform', containerTranslate(scale, translate));
 
                 g.selectAll('path')
@@ -119,7 +120,7 @@
                    .attr('transform', translate(0, labelOffset))
                    .text(tickFormatter);
 
-                // for non ordinal scales, exit by animating the tick to its new location
+                // exit - for non ordinal scales, exit by animating the tick to its new location
                 if (!fc.util.scale.isOrdinal(scale)) {
                     g.exit()
                         .attr('transform', containerTranslate(scale, translate));
