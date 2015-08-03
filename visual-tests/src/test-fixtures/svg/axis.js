@@ -19,7 +19,7 @@
     function render() {
         var scale = d3.scale.linear()
             .domain([0, tick % 2 === 0 ? 50 : 200])
-            .range([0, width])
+            .range([0, width - (tick % 2 === 0 ? 50 : 0)])
             .nice();
 
         var axis = fc.svg.axis()

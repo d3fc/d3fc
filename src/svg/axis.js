@@ -56,6 +56,10 @@
             return orient === 'left' || orient === 'right';
         }
 
+        function tryApply(fn, defaultVal) {
+            return scale[fn] ? scale[fn].apply(scale, tickArguments) : defaultVal;
+        }
+
         var axis = function(selection) {
 
             selection.each(function(data, index) {
@@ -63,10 +67,6 @@
                 // Stash a snapshot of the new scale, and retrieve the old snapshot.
                 var scaleOld = this.__chart__ || scale;
                 this.__chart__ = scale.copy();
-
-                function tryApply(fn, defaultVal) {
-                    return scale[fn] ? scale[fn].apply(scale, tickArguments) : defaultVal;
-                }
 
                 var ticksArray = tickValues == null ? tryApply('ticks', scale.domain()) : tickValues;
                 var tickFormatter = tickFormat == null ? tryApply('tickFormat', fc.util.fn.identity) : tickFormat;
@@ -83,7 +83,7 @@
                     ]);
 
                 var domainLine = domainPathDataJoin(container, [data]);
-                d3.transition(domainLine)
+                domainLine
                     .attr('d', svgDomainLine(domainPathData));
 
                 // datajoin and construct the ticks / label
