@@ -14,7 +14,7 @@ fixture-code: |
     .nice();
 
   var ordinalScale = d3.scale.ordinal()
-    .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles', 'Aubergines', 'Artichokes', 'Spinach', 'Cuccumber'])
+    .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles', 'Aubergines', 'Artichokes', 'Spinach', 'Cucumber'])
     .rangePoints([0, width], 1);
 
 example-code-one: |
