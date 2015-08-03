@@ -7,10 +7,10 @@
         var plotArea = fc.series.line();
         var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
-        var xAxis = d3.svg.axis()
+        var xAxis = fc.svg.axis()
             .scale(xScale)
             .orient('bottom');
-        var yAxis = d3.svg.axis()
+        var yAxis = fc.svg.axis()
             .scale(yScale)
             .orient('left');
 

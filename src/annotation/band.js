@@ -3,27 +3,20 @@
 
     fc.annotation.band = function() {
 
-        // ordinal axes have a rangeExtent function, this adds any padding that
-        // was applied to the range. This functions returns the rangeExtent
-        // if present, or range otherwise
-        function range(scale) {
-            return scale.rangeExtent ? scale.rangeExtent() : scale.range();
-        }
-
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             x0, x1, y0, y1,
             x0Scaled = function() {
-                return range(xScale)[0];
+                return fc.util.scale.range(xScale)[0];
             },
             x1Scaled = function() {
-                return range(xScale)[1];
+                return fc.util.scale.range(xScale)[1];
             },
             y0Scaled = function() {
-                return range(yScale)[0];
+                return fc.util.scale.range(yScale)[0];
             },
             y1Scaled = function() {
-                return range(yScale)[1];
+                return fc.util.scale.range(yScale)[1];
             },
             decorate = fc.util.fn.noop;
 

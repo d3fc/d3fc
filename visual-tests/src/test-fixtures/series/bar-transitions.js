@@ -61,11 +61,10 @@
         .call(bar);
 
     var axisContainer = chart.append('g')
-        .attr('class', 'axis')
         .attr('transform', 'translate(0, ' + (yScale(0)) + ')');
 
     // Create the axis
-    var xAxis = d3.svg.axis()
+    var xAxis = fc.svg.axis()
         .scale(xScale)
         .orient('bottom');
 
