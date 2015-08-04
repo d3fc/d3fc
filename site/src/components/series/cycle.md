@@ -54,14 +54,12 @@ example-code: |
 
 The cycle series component allows the creation of cycle plots which can help identify cyclical patterns nested in time series data. As well as an `xScale` and a `yScale`, it also accepts a `subScale` and a `subSeries`. The `xScale` is the 'outer' scale, with the cycle series' `xValue` mapping the data onto this scale. While the `subScale` is the inner scale, with the `xValue` of the `subSeries` corresponding to this scale.
 
-This example also demonstrates a use of the axis series which adapts a d3 axis and allows it to be used as a series. In this case the `baseline` of the axis series is set to the mean of the weekday's values.
+The following example shows some arbitrary sales data grouped by weekday:
 
-These are used The following example shows some arbitrary sales data grouped by weekday:
+{{>example-fixture}}
+
+This example also demonstrates a use of the axis series which adapts a d3 axis and allows it to be used as a series. In this case the `baseline` of the axis series is set to the mean of the weekday's values.
 
 ```js
 {{{example-code}}}
 ```
-
-Which gives the following:
-
-{{>example-fixture}}
