@@ -24,7 +24,7 @@
 
             selection.each(function(data, index) {
 
-                var g = dataJoin.key(xValue)(this, data);
+                var g = dataJoin(this, data);
 
                 g.enter()
                     .append('path');
@@ -126,6 +126,8 @@
             barWidth = d3.functor(x);
             return candlestick;
         };
+
+        d3.rebind(candlestick, dataJoin, 'key');
 
         return candlestick;
 

@@ -82,6 +82,9 @@
             return area;
         };
 
-        return d3.rebind(area, areaData, 'interpolate', 'tension');
+        d3.rebind(area, dataJoin, 'key');
+        d3.rebind(area, areaData, 'interpolate', 'tension');
+
+        return area;
     };
 }(d3, fc));

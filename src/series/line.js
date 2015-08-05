@@ -72,6 +72,9 @@
             return line;
         };
 
-        return d3.rebind(line, lineData, 'interpolate', 'tension');
+        d3.rebind(line, dataJoin, 'key');
+        d3.rebind(line, lineData, 'interpolate', 'tension');
+
+        return line;
     };
 }(d3, fc));

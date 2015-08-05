@@ -19,7 +19,7 @@
 
             selection.each(function(data, index) {
 
-                var g = dataJoin.key(xValue)(this, data);
+                var g = dataJoin(this, data);
 
                 g.enter()
                     .append('circle');
@@ -80,6 +80,8 @@
             radius = x;
             return point;
         };
+
+        d3.rebind(point, dataJoin, 'key');
 
         return point;
     };
