@@ -165,7 +165,7 @@
                     .decorate(function(g) {
                         g.enter()
                             .attr('class', function(d, i) {
-                                return ['candlestick', 'bollinger-bands', 'ema'][i];
+                                return 'multi ' + ['candlestick', 'bollinger-bands', 'ema'][i];
                             });
                     });
 

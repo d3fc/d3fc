@@ -76,10 +76,11 @@ namespace: examples
     </div>
 </div>
 
+This example shows how d3fc components can be used to recreate an approximation of the background video on the [Coinbase exchange](https://exchange.coinbase.com/) homepage.
 
-The story starts with [Coinbase](https://www.coinbase.com/), a well-known(/funded) Bitcoin company. I was hunting for a freely available streaming data feed that we could use to provide some more realistic examples. A Bitcoin feed is the obvious choice, they're generally a lot more accessible without onerous licensing agreements and despite (because of?) recent turbulent times, are far more interesting than most financial products.
+This example makes use of a number of components, including the data generator, series and indicators. It also mixes in some SVG filter effects and 3D transforms for good measure.
 
-[Read more in this blog post](http://blog.scottlogic.com/blog/2015/08/06/an-adventure-in-svg-filter-land.html)
+For a detailed overview of how this chart was implemented, pop over to the Scott Logic blog which covers the details [in this blog post](http://blog.scottlogic.com/blog/2015/08/06/an-adventure-in-svg-filter-land.html).
 
 
 <script src="index.js"></script>
