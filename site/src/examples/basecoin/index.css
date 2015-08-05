@@ -1,4 +1,5 @@
 #viewport {
+    margin: 20px auto;
     background: black;
     overflow: hidden;
     perspective: 100px;
