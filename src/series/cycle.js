@@ -102,6 +102,8 @@
             return cycle;
         };
 
+        d3.rebind(cycle, dataJoin, 'key');
+
         return cycle;
 
     };

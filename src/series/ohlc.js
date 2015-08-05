@@ -23,7 +23,7 @@
         var ohlc = function(selection) {
             selection.each(function(data, index) {
 
-                var g = dataJoin.key(xValue)(this, data);
+                var g = dataJoin(this, data);
 
                 g.enter()
                     .append('path');
@@ -124,6 +124,8 @@
             barWidth = d3.functor(x);
             return ohlc;
         };
+
+        d3.rebind(ohlc, dataJoin, 'key');
 
         return ohlc;
     };

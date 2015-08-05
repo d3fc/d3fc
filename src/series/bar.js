@@ -27,7 +27,7 @@
                         xValue(d, i) !== undefined;
                 });
 
-                var g = dataJoin.key(xValue)(this, filteredData);
+                var g = dataJoin(this, filteredData);
 
                 var width = barWidth(filteredData.map(xValueScaled));
 
@@ -111,6 +111,8 @@
             barWidth = d3.functor(x);
             return bar;
         };
+
+        d3.rebind(bar, dataJoin, 'key');
 
         return bar;
     };

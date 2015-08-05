@@ -42,8 +42,9 @@
 
     // Create the bar series
     var bar = fc.series.bar()
-        .xValue(function(d) { return d.name; })
         .yValue(function(d) { return d.age; })
+        .xValue(function(d) { return d.name; })
+        .key(function(d) { return d.name; })
         .xScale(xScale)
         .yScale(yScale)
         .decorate(function(sel) {
