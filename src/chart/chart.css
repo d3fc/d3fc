@@ -20,3 +20,14 @@
 .plot-area {
   overflow: hidden;
 }
+
+.y-axis .label,
+.x-axis .label,
+.title .label {
+    dominant-baseline: middle;
+    text-anchor: middle;
+}
+
+.cartesianChart {
+  overflow: visible;
+}
