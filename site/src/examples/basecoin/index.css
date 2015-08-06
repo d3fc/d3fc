@@ -1,0 +1,78 @@
+#viewport {
+    margin: 20px auto;
+    background: black;
+    overflow: hidden;
+    perspective: 100px;
+    transform-style: preserve-3d;
+}
+
+@keyframes camera-path {
+    from {
+        transform: rotateX(13deg) rotateY(9deg) translate3d(165px, -4px, 26px);
+    }
+    to {
+        transform: rotateX(-1deg) rotateY(8deg) translate3d(165px, -4px, 52px);
+    }
+}
+
+#camera {
+    padding-bottom: 56.25%;
+    transform-style: preserve-3d;
+    animation: camera-path 15s linear 0s infinite alternate;
+}
+
+#background {
+    position: absolute;
+    transform: translateZ(-30px);
+}
+
+#midground {
+    position: absolute;
+}
+
+#foreground {
+    position: absolute;
+    transform: translateZ(20px);
+}
+
+.annotation>line {
+    stroke: rgb(255, 255, 51);
+    stroke-dasharray: 0;
+    stroke-opacity: 0.5;
+}
+
+.gridline {
+    stroke: white;
+    stroke-dasharray: 1, 2;
+}
+
+.candlestick>.up {
+    fill: white;
+    stroke: rgba(77, 175, 74, 1);
+}
+.candlestick>.down {
+    fill: black;
+    stroke: rgba(77, 175, 74, 1);
+}
+
+.bollinger-bands>.area,
+.bollinger-bands>.average {
+    visibility: hidden;
+}
+.bollinger-bands>.upper>path {
+    stroke: rgba(55, 126, 184, 1);
+    stroke-width: 2px;
+}
+.bollinger-bands>.lower>path {
+    stroke: rgba(77, 175, 74, 1);
+    stroke-width: 2px;
+}
+
+.ema>path {
+    stroke: rgba(228, 26, 28, 1);
+    stroke-width: 2px;
+}
+
+.label {
+    stroke: white;
+}

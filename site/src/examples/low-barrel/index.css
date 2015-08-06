@@ -1,0 +1,65 @@
+#low-barrel {
+  margin: 20px auto;
+}
+
+.main-row>td {
+  height: 240px;
+}
+.volume-row>td {
+  height: 160px;
+  padding-bottom: 20px;
+}
+.navigator-row>td {
+  height: 80px;
+}
+svg {
+  width: 640px;
+  height: 100%;
+}
+#low-barrel span {
+  display:block;
+  transform: rotate(90deg);
+}
+
+
+rect.background {
+    fill: none;
+    stroke: #C0C0C0;
+}
+.gridlines line {
+    stroke: #C0C0C0;
+    stroke-width: 0.5px;
+}
+.candlestick.up rect {
+    fill: #fff;
+}
+.candlestick.down rect {
+    fill: #7CB5EC;
+}
+rect.extent {
+    fill: rgba(128, 179, 236, 0.3);
+    stroke: #C0C0C0;
+    stroke-width: 1px;
+}
+.line {
+    stroke: rgba(128, 179, 236, 1);
+    stroke-width: 1px;
+}
+.area {
+    fill: rgba(128, 179, 236, 0.05);
+}
+.crosshairs .vertical {
+    stroke: #C0C0C0;
+    stroke-width: 1px;
+}
+.crosshairs .horizontal {
+    display: none;
+}
+.info {
+    font: 10px sans-serif;
+}
+.info rect {
+    fill: rgba(249, 249, 249, 0.85);
+    stroke: rgba(124, 181, 236, 1);
+    stroke-width: 1px;
+}

@@ -21,3 +21,9 @@ components:
     name: Layout
   data:
     name: Data
+
+example-ids: [examples]
+
+examples:
+  examples:
+    name: Examples
