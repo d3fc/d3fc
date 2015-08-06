@@ -1,6 +1,7 @@
 ---
 layout: component
 title: Decorate Pattern
+namespace: introduction
 
 axis-example-code: |
   var axis = fc.svg.axis()

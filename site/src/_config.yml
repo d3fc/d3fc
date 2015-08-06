@@ -1,6 +1,8 @@
-component-ids: [chart, series, indicator, scale, svg, annotation, tool, layout, data]
+component-ids: [introduction, chart, series, indicator, scale, svg, annotation, tool, layout, data]
 
 components:
+  introduction:
+    name: Introduction
   annotation:
     name: Annotations
   chart:

@@ -1,6 +1,7 @@
 ---
 layout: component
 title: Getting Started
+namespace: introduction
 
 example-code: |
 
