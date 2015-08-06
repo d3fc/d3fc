@@ -20,7 +20,7 @@
         var selector = 'g',
             children = false,
             element = 'g',
-            attrs = {},
+            attr = {},
             key = fc.util.fn.index;
 
         var dataJoin = function(container, data) {
@@ -47,7 +47,7 @@
             // when container is a transition, entering elements fade in (from transparent to opaque)
             var enterSelection = updateSelection.enter()
                 .append(element) // <<<--- this is the secret sauce of this whole file
-                .attr(attrs)
+                .attr(attr)
                 .style('opacity', effectivelyZero);
 
             // exit
@@ -87,18 +87,18 @@
             element = x;
             return dataJoin;
         };
-        dataJoin.attrs = function(x) {
+        dataJoin.attr = function(x) {
             if (!arguments.length) {
-                return attrs;
+                return attr;
             }
 
             if (arguments.length === 1) {
-                attrs = arguments[0];
+                attr = arguments[0];
             } else if (arguments.length === 2) {
                 var key = arguments[0];
                 var value = arguments[1];
 
-                attrs[key] = value;
+                attr[key] = value;
             }
 
             return dataJoin;

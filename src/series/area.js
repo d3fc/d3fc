@@ -26,7 +26,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('path.area')
             .element('path')
-            .attrs({'class': 'area'});
+            .attr({'class': 'area'});
 
         var area = function(selection) {
 

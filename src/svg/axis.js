@@ -19,12 +19,12 @@
             .selector('g.tick')
             .element('g')
             .key(fc.util.fn.identity)
-            .attrs({'class': 'tick'});
+            .attr({'class': 'tick'});
 
         var domainPathDataJoin = fc.util.dataJoin()
             .selector('path.domain')
             .element('path')
-            .attrs({'class': 'domain'});
+            .attr({'class': 'domain'});
 
         // returns a function that creates a translation based on
         // the bound data
@@ -87,7 +87,7 @@
                     .attr('d', svgDomainLine(domainPathData));
 
                 // datajoin and construct the ticks / label
-                dataJoin.attrs({
+                dataJoin.attr({
                     // set the initial tick position based on the previous scale
                     // in order to get the correct enter transition - however, for ordinal
                     // scales the tick will not exist on the old scale, so use the current position

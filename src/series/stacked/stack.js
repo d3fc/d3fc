@@ -14,7 +14,7 @@
                 var dataJoin = fc.util.dataJoin()
                     .selector('g.stacked')
                     .element('g')
-                    .attrs({'class': 'stacked'});
+                    .attr({'class': 'stacked'});
 
                 dataJoin(container, data)
                     .call(series);

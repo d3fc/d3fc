@@ -20,7 +20,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.measure')
             .element('g')
-            .attrs({'class': 'measure'});
+            .attr({'class': 'measure'});
 
         var measure = function(selection) {
 

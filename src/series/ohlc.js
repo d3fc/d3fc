@@ -18,7 +18,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.ohlc')
             .element('g')
-            .attrs({'class': 'ohlc'});
+            .attr({'class': 'ohlc'});
 
         var ohlc = function(selection) {
             selection.each(function(data, index) {
