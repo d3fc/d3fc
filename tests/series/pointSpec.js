@@ -19,10 +19,10 @@
             container.datum(data)
                 .call(point);
 
-            expect(xValueSpy.calls.count()).toEqual(data.length);
+            expect(xValueSpy.calls.count()).toEqual(data.length * 2);
             this.utils.verifyAccessorCalls(xValueSpy, data);
 
-            expect(yValueSpy.calls.count()).toEqual(data.length);
+            expect(yValueSpy.calls.count()).toEqual(data.length * 2);
             this.utils.verifyAccessorCalls(yValueSpy, data);
         });
     });

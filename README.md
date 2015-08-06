@@ -4,56 +4,7 @@ A collection of components that make it easy to build interactive charts with D3
 
 ## Installation
 
-d3fc and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
-
-```
-npm install d3fc
-```
-
-Once installed, you can reference the d3fc JavaScript, CSS and dependencies within an HTML page as follows:
-
-```html
-<script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
-<script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
-<script src="node_modules/d3fc/dist/d3fc.js"></script>
-
-<link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
-```
-
-If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
-
-```html
-<div id="chart"></div>
-<script type="text/javascript">
-var data = fc.data.random.financial()(50);
-
-var chart = fc.chart.linearTimeSeries()
-    .xDomain(fc.util.extent(data, 'date'))
-    .xTicks(5)
-    .yDomain(fc.util.extent(data, ['high', 'low']))
-    .yNice()
-    .yTicks(5);
-
-var gridlines = fc.annotation.gridline();
-var candlestick = fc.series.candlestick();
-
-var multi = fc.series.multi()
-    .series([gridlines, candlestick]);
-chart.plotArea(multi);
-
-d3.select('#chart')
-    .append('svg')
-    .style({
-        height: '250px',
-        width: '600px'
-    })
-    .datum(data)
-    .call(chart);
-
-</script>
-```
-
-To find out more about the various components, visit the [project webpage](http://scottlogic.github.io/d3fc/).
+For details of installation and general usage, visit the [project webpage](http://scottlogic.github.io/d3fc/).
 
 ## Developing
 
