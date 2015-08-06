@@ -80,7 +80,7 @@ This example shows how d3fc components can be used to recreate an approximation 
 
 This example makes use of a number of components, including the data generator, series and indicators. It also mixes in some SVG filter effects and 3D transforms for good measure.
 
-For a detailed overview of how this chart was implemented, pop over to the Scott Logic blog which covers the details [in this blog post](http://blog.scottlogic.com/blog/2015/08/06/an-adventure-in-svg-filter-land.html).
+For a detailed overview of how this chart was implemented, pop over to the Scott Logic blog which covers the details [in this blog post](http://blog.scottlogic.com/2015/08/06/an-adventure-in-svg-filter-land.html).
 
 
 <script src="index.js"></script>
