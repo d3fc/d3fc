@@ -24,7 +24,7 @@ path.ema {
   opacity: 0.7;
 }
 
-.plot-area {
+svg.plot-area {
   overflow: visible;
 }
 
@@ -80,4 +80,17 @@ path.ema {
 .crosshair .bottom-handle text {
   text-anchor: middle;
   dominant-baseline: central;
+}
+
+.tick.orient-bottom text {
+  text-anchor: start;
+  dominant-baseline: central;
+}
+
+.tick.orient-right text {
+  text-anchor: end;
+}
+
+td, th {
+  padding: 3px;
 }

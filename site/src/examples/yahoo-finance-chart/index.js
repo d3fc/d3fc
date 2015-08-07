@@ -145,6 +145,19 @@ function renderChart(data) {
         .xTickSize(xAxisHeight)
         .xTicks(3);
 
+  // customise the axis
+  chart.xDecorate(function(sel) {
+    sel.enter()
+      .select('text')
+      .attr('transform', 'translate(3, ' + (xAxisHeight / 2) + ' )');
+  });
+
+  chart.yDecorate(function(sel) {
+    sel.enter()
+      .select('text')
+      .attr('transform', 'translate(' + (yAxisWidth - 1) + ', -6)');
+  });
+
   // create the line annotations
   var emaClose = fc.annotation.line()
     .value(function(d) { return d.exponentialMovingAverage; })
@@ -285,14 +298,4 @@ function renderChart(data) {
 
   // render the legend
   renderLegend(data[data.length - 1]);
-
-  // customise the D3 axis
-  d3.selectAll('.y-axis text')
-      .style('text-anchor', 'end')
-      .attr('transform', 'translate(-3, -8)');
-
-  d3.selectAll('.x-axis text')
-      .attr('dy', undefined)
-      .style({'text-anchor': 'start', 'dominant-baseline': 'central'})
-      .attr('transform', 'translate(3, -' + (xAxisHeight / 2 + 3) + ' )');
 }

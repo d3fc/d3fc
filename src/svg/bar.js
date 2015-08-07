@@ -41,7 +41,7 @@
                     // Draw the width
                     'h' + barWidth +
                     // Draw to the top
-                    'V' + barHeight +
+                    'v' + barHeight +
                     // Draw the width
                     'h' + -barWidth +
                     // Close the path
