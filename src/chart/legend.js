@@ -12,12 +12,12 @@
         var tableDataJoin = fc.util.dataJoin()
             .selector('table.legend')
             .element('table')
-            .attrs({'class': 'legend'});
+            .attr('class', 'legend');
 
         var rowDataJoin = fc.util.dataJoin()
             .selector('tr.row')
             .element('tr')
-            .attrs({'class': 'row'});
+            .attr('class', 'row');
 
         var legend = function(selection) {
             selection.each(function(data, index) {

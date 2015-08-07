@@ -18,7 +18,7 @@
             .children(true)
             .selector('g.crosshair')
             .element('g')
-            .attrs({'class': 'crosshair'});
+            .attr('class', 'crosshair');
 
         var horizontalLine = fc.annotation.line()
             .value(y)

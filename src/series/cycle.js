@@ -14,7 +14,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.cycle')
             .element('g')
-            .attrs({'class': 'cycle'});
+            .attr('class', 'cycle');
 
         var cycle = function(selection) {
 

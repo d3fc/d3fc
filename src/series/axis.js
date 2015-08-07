@@ -15,7 +15,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.axis-adapter')
             .element('g')
-            .attrs({'class': 'axis axis-adapter'});
+            .attr({'class': 'axis axis-adapter'});
 
         var axisAdapter = function(selection) {
 

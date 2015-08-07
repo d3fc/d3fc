@@ -3,16 +3,16 @@
 
     describe('fc.util.dataJoin', function() {
 
-        describe('attrs', function() {
+        describe('attr', function() {
 
             it('should replace attributes when object is provided', function() {
-                var attrs = {key: 'value'};
+                var attr = {key: 'value'};
 
                 var observedAttrs = fc.util.dataJoin()
-                    .attrs(attrs)
-                    .attrs();
+                    .attr(attr)
+                    .attr();
 
-                expect(observedAttrs).toEqual(attrs);
+                expect(observedAttrs).toEqual(attr);
             });
 
             it('should add attributes when key value is provided', function() {
@@ -20,8 +20,8 @@
                 var value = 'value';
 
                 var observedAttrs = fc.util.dataJoin()
-                    .attrs(key, value)
-                    .attrs();
+                    .attr(key, value)
+                    .attr();
 
                 var expected = {};
                 expected[key] = value;
@@ -33,9 +33,9 @@
                 var value = 'newValue';
 
                 var observedAttrs = fc.util.dataJoin()
-                    .attrs(key, 'originalValue')
-                    .attrs(key, value)
-                    .attrs();
+                    .attr(key, 'originalValue')
+                    .attr(key, value)
+                    .attr();
 
                 var expected = {};
                 expected[key] = value;
@@ -47,9 +47,9 @@
                 var value = 'value';
 
                 var observedAttrs = fc.util.dataJoin()
-                    .attrs('anotherAttr', 'anotherValue')
-                    .attrs(key, value)
-                    .attrs();
+                    .attr('anotherAttr', 'anotherValue')
+                    .attr(key, value)
+                    .attr();
 
                 var expected = {};
                 expected[key] = value;

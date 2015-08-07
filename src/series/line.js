@@ -23,7 +23,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('path.line')
             .element('path')
-            .attrs({'class': 'line'});
+            .attr('class', 'line');
 
         var line = function(selection) {
 
