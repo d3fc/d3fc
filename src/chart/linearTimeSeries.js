@@ -105,7 +105,8 @@
             xOuterTickSize: 'outerTickSize',
             xTickPadding: 'tickPadding',
             xTickFormat: 'tickFormat',
-            xOrient: 'orient'
+            xOrient: 'orient',
+            xDecorate: 'decorate'
         });
 
         fc.util.rebind(linearTimeSeries, yAxis, {
@@ -116,7 +117,8 @@
             yOuterTickSize: 'outerTickSize',
             yTickPadding: 'tickPadding',
             yTickFormat: 'tickFormat',
-            yOrient: 'orient'
+            yOrient: 'orient',
+            yDecorate: 'decorate'
         });
 
         linearTimeSeries.xScale = function() { return xScale; };
