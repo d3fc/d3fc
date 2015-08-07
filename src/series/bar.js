@@ -14,7 +14,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.bar')
             .element('g')
-            .attr({'class': 'bar'});
+            .attr('class', 'bar');
 
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 

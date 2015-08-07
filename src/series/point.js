@@ -13,7 +13,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.point')
             .element('g')
-            .attr({'class': 'point'});
+            .attr('class', 'point');
 
         var containerTransform = function(d, i) {
             var x = xScale(xValue(d, i)),

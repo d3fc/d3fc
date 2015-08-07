@@ -16,7 +16,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.candlestick')
             .element('g')
-            .attr({'class': 'candlestick'});
+            .attr('class', 'candlestick');
 
         var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 

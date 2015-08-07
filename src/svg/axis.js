@@ -19,12 +19,12 @@
             .selector('g.tick')
             .element('g')
             .key(fc.util.fn.identity)
-            .attr({'class': 'tick'});
+            .attr('class', 'tick');
 
         var domainPathDataJoin = fc.util.dataJoin()
             .selector('path.domain')
             .element('path')
-            .attr({'class': 'domain'});
+            .attr('class', 'domain');
 
         // returns a function that creates a translation based on
         // the bound data

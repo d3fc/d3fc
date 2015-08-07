@@ -17,7 +17,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.fan')
             .element('g')
-            .attr({'class': 'fan'});
+            .attr('class', 'fan');
 
         var fan = function(selection) {
 

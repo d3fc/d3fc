@@ -86,12 +86,12 @@
         var upDataJoin = fc.util.dataJoin()
             .selector('path.up')
             .element('path')
-            .attr({'class': 'up'});
+            .attr('class', 'up');
 
         var downDataJoin = fc.util.dataJoin()
             .selector('path.down')
             .element('path')
-            .attr({'class': 'down'});
+            .attr('class', 'down');
 
         var optimisedCandlestick = function(selection) {
             selection.each(function(data) {

@@ -14,7 +14,7 @@
         var dataJoin = fc.util.dataJoin()
             .selector('g.annotation')
             .element('g')
-            .attr({'class': 'annotation'});
+            .attr('class', 'annotation');
 
         var line = function(selection) {
             selection.each(function(data, index) {
