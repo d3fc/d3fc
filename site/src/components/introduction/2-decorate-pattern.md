@@ -62,7 +62,7 @@ Most chart APIs are complex and expansive in order to provide flexibility. With 
 
 One of the most powerful features of D3 is the [data join](http://bost.ocks.org/mike/join/), where DOM elements are constructed via data-binding. Furthermore, the [general update pattern](http://bl.ocks.org/3808218) allows you to define exactly how these data-bound elements are modified as items are added, remove or updated.
 
-Unfortunately the [D3 component pattern](http://bost.ocks.org/mike/chart/), where re-useable units are encapsulated as functions, also encapsulates the data-join, hiding its power. For example, the [D3 axis component](https://github.com/mbostock/d3/wiki/SVG-Axes) uses a data-join internally, but as a consumer of this component you cannot add extra logic to the enter selection. The decorate pattern addresses this issue, by allowing the construction of components in such a way that their internal data join is 'exposed'.
+Unfortunately the [D3 component pattern](http://bost.ocks.org/mike/chart/), where reusable units are encapsulated as functions, also encapsulates the data-join, hiding its power. For example, the [D3 axis component](https://github.com/mbostock/d3/wiki/SVG-Axes) uses a data-join internally, but as a consumer of this component you cannot add extra logic to the enter selection. The decorate pattern addresses this issue, by allowing the construction of components in such a way that their internal data join is 'exposed'.
 
 Components that implement the decorate pattern expose a `decorate` property which is passed the data join selection used to construct the component's DOM. This allows users of the component to add extra logic to the enter, update and exit selections.
 

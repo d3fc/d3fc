@@ -1,0 +1,37 @@
+# markdown-spellcheck spelling configuration file
+# Format - lines begining # are comments
+# global dictionary is at the start, file overrides afterwards
+# one word per line, to define a file override use ' - filename'
+# where filename is relative to this configuration file
+npm
+github
+package.json
+Gruntfile
+gridlines
+max
+d3fc
+sparklines
+sparkline
+coinbase
+n.b.
+bollinger
+datapoints
+timeframe
+css-layout
+color
+datapoint
+lifecycle
+D3's
+Flexbox
+flexbox
+accessor
+programmatically
+datetime
+D3
+crosshair
+trackingstart
+trackingmove
+trackingend
+crosshairs
+ - site/src/components/indicator/relativeStrengthIndicator.md
+14-day
