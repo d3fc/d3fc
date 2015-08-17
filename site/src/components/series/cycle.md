@@ -58,7 +58,7 @@ The following example shows some arbitrary sales data grouped by weekday:
 
 {{>example-fixture}}
 
-This example also demonstrates a use of the axis series which adapts a d3 axis and allows it to be used as a series. In this case the `baseline` of the axis series is set to the mean of the weekday's values.
+This example also demonstrates a use of the axis series which adapts a D3 axis and allows it to be used as a series. In this case the `baseline` of the axis series is set to the mean of the weekday's values.
 
 ```js
 {{{example-code}}}

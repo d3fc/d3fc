@@ -30,4 +30,4 @@ If you do wish to heavily customise a component, you are expected to create your
 
 **Over performance.**
 
-Components do not cache the results of any calculations nor attempt any other performance optimisations (beyond [d3's update pattern](http://bost.ocks.org/mike/selection/)). For example, every call will recalculate everything from the supplied data.
+Components do not cache the results of any calculations nor attempt any other performance optimisations (beyond [D3's update pattern](http://bost.ocks.org/mike/selection/)). For example, every call will recalculate everything from the supplied data.
