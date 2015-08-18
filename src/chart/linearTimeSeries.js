@@ -4,6 +4,7 @@
     fc.chart.linearTimeSeries = function() {
 
         var xAxisHeight = 20;
+        var yAxisWidth = 40;
         var plotArea = fc.series.line();
         var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
@@ -23,7 +24,7 @@
                 var plotAreaLayout = {
                     position: 'absolute',
                     top: 0,
-                    right: 0,
+                    right: yAxisWidth,
                     bottom: xAxisHeight,
                     left: 0
                 };
@@ -53,7 +54,7 @@
                         position: 'absolute',
                         left: 0,
                         bottom: 0,
-                        right: 0,
+                        right: yAxisWidth,
                         height: xAxisHeight
                     });
 
@@ -66,7 +67,8 @@
                         position: 'absolute',
                         top: 0,
                         right: 0,
-                        bottom: xAxisHeight
+                        bottom: xAxisHeight,
+                        width: yAxisWidth
                     });
 
                 container.layout();
@@ -135,6 +137,13 @@
                 return xAxisHeight;
             }
             xAxisHeight = x;
+            return linearTimeSeries;
+        };
+        linearTimeSeries.yAxisWidth = function(x) {
+            if (!arguments.length) {
+                return yAxisWidth;
+            }
+            yAxisWidth = x;
             return linearTimeSeries;
         };
 
