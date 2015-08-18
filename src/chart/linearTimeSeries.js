@@ -4,7 +4,7 @@
     fc.chart.linearTimeSeries = function() {
 
         var xAxisHeight = 20;
-        var yAxisWidth = 40;
+        var yAxisWidth = 0;
         var plotArea = fc.series.line();
         var xScale = fc.scale.dateTime();
         var yScale = d3.scale.linear();
