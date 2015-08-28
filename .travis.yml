@@ -3,7 +3,7 @@ node_js: stable
 
 sudo: false
 
-before_install: npm install -g grunt-cli
+before_install: npm install -g grunt-cli npm@'>=2.13.5'
 install: npm install
 
 env:
@@ -16,7 +16,8 @@ deploy:
   - provider: npm
     email: price.c@gmail.com
     api_key:
-      secure: "WHlr3IPiXKzdYiLchEASazOzQzZlbYA43FxPjWMCrNUPHjEfRBWsyh6T0GfH6PPtc22HcFlWj3PFo/ZaMDSmQmBO/1yg3MwnLdz/peuWsslqeyxKklRcAlBk0ZdVxU6JffrsEDxXGOSI91b7tcgonj/8gMYOxxqJLvERvLy+6hY="
+      secure: "cvRVw4OTcHl6HggXfYqaQMXRgPLRPeWkuU1EfDWGM7r8oLdkGvs21A2h4vq3J8Ed0Dy7tWnwYrPruQHouK6zVcb06gGCT8TgLNWBvUezavnhBE+bQHFK7qsuLQt0+ZgTqXvyFqKJHVm
+  KxjxrF+N0+uDXrYHY3jOzUYb5s+xxlHs="
     skip_cleanup: true
     on:
       branch: master
