@@ -29,7 +29,7 @@
                 .decorate(function(g) {
                     g.enter()
                         .attr('class', function(d, i) {
-                            return ['divergence', 'macd', 'signal'][i];
+                            return 'multi ' + ['divergence', 'macd', 'signal'][i];
                         });
                 });
 
