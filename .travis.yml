@@ -1,10 +1,11 @@
 language: node_js
-node_js: stable
 
 sudo: false
 
-before_install: npm install -g grunt-cli npm@'>=2.13.5'
-install: npm install
+install: 
+- npm install
+- npm install -g grunt-cli
+- npm install -g npm@'>=2.13.5'
 
 env:
   global:
