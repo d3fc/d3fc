@@ -206,6 +206,22 @@
                     ]);
                 }
                 return data;
+            })
+            .decorate(function(sel) {
+                var height = Math.abs(chart.yScale().range()[0] - chart.yScale().range()[1]);
+                sel.enter()
+                    .selectAll('.resize.e>rect, .resize.w>rect')
+                    .style('visibility', 'visible')
+                    .attr('y', height / 4)
+                    .attr('rx', 4)
+                    .attr('ry', 4);
+
+                // As a y scale is set on the brush (multi does this),
+                // the brush component resets the height of the rect on every redraw,
+                // as such it has to be overridden within the update selection,
+                // rather than the enter selection
+                sel.selectAll('.resize.e>rect, .resize.w>rect')
+                    .attr('height', height / 2);
             });
 
         chart.plotArea(multi);
@@ -223,8 +239,7 @@
         if (data.dateDomain == null) {
             var maxDate = fc.util.extent(container.datum(), 'date')[1];
             var dateScale = d3.time.scale()
-                .domain([maxDate - 50 * 24 * 60 * 60 * 1000, maxDate])
-                .nice();
+                .domain([maxDate - 50 * 24 * 60 * 60 * 1000, maxDate]);
             data.dateDomain = dateScale.domain();
         }
 
