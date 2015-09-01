@@ -30,7 +30,11 @@ example-code: |
 
 ## Grabbing the code
 
-d3fc and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm. Simply install as follows:
+d3fc and its dependencies (D3, [css-layout](https://github.com/facebook/css-layout)) are available via npm or cdnjs.
+
+### Installing with npm
+
+You can install d3fc and its dependencies via npm as follows:
 
 ```
 npm install d3fc
@@ -40,10 +44,22 @@ Once installed, you can reference the d3fc JavaScript, CSS and dependencies with
 
 ```html
 <script src="node_modules/d3fc/node_modules/d3/d3.js"></script>
-<script src="node_modules/d3fc/node_modules/css-layout/src/Layout.js"></script>
+<script src="node_modules/d3fc/node_modules/css-layout/dist/css-layout.js"></script>
 <script src="node_modules/d3fc/dist/d3fc.js"></script>
 
 <link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
+```
+
+### Using cdnjs
+
+Alternatively you can link to d3fc and its dependencies directly via cdnjs:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/0.5.7/d3fc.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/css-layout/0.0.6/css-layout.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/0.5.7/d3fc.css" rel="stylesheet"/>
 ```
 
 ## A quick chart
