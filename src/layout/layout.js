@@ -1,5 +1,5 @@
 /* globals computeLayout */
-(function(d3, fc, cssLayout) {
+(function(d3, fc, computeLayout) {
     'use strict';
 
 
@@ -76,13 +76,7 @@
             return {
                 style: parseStyle(el.getAttribute('layout-css')),
                 children: getChildNodes(el),
-                element: el,
-                layout: {
-                    width: undefined,
-                    height: undefined,
-                    top: 0,
-                    left: 0
-                }
+                element: el
             };
         }
 
@@ -114,7 +108,7 @@
                 layoutNodes.style.height = height !== -1 ? height : dimensions.height;
 
                 // use the Facebook CSS goodness
-                cssLayout.computeLayout(layoutNodes);
+                computeLayout(layoutNodes);
 
                 // apply the resultant layout
                 applyLayout(layoutNodes);
