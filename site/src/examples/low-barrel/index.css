@@ -41,6 +41,11 @@ rect.extent {
     stroke: #C0C0C0;
     stroke-width: 1px;
 }
+.resize>rect {
+    fill: #435862;
+    stroke: #C0C0C0;
+    stroke-width: 1px;
+}
 .line {
     stroke: rgba(128, 179, 236, 1);
     stroke-width: 1px;
