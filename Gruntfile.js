@@ -122,25 +122,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: 'visual-tests/src/site/assets/',
-                        src: ['**/*.css', '**/*.js'],
-                        dest: 'visual-tests/dist/assets/',
-                    },
-                    {
-                        expand: true,
-                        cwd: 'node_modules/d3/',
-                        src: ['d3.js'],
-                        dest: 'visual-tests/dist/assets/',
-                    },
-                    {
-                        expand: true,
-                        cwd: 'node_modules/css-layout/dist/',
-                        src: ['css-layout.js'],
-                        dest: 'visual-tests/dist/assets/',
-                    },
-                    {
-                        expand: true,
-                        cwd: 'dist',
-                        src: ['d3fc.js', 'd3fc.css'],
+                        src: ['**'],
                         dest: 'visual-tests/dist/assets/',
                     },
                     {
@@ -151,21 +133,21 @@ module.exports = function (grunt) {
                     },
                     {
                         expand: true,
-                        cwd: 'node_modules/jquery/dist/',
-                        src: ['jquery.min.*'],
-                        dest: 'visual-tests/dist/assets/',
-                    },
-                    {
-                        expand: true,
                         cwd: 'visual-tests/src/test-fixtures/',
                         src: ['**/*', '!**/*.hbs'],
                         dest: 'visual-tests/dist/',
                     },
                     {
-                        expand: true,
-                        cwd: 'node_modules/seedrandom/',
-                        src: ['seedrandom.min.js'],
+                        src: [
+                            'node_modules/css-layout/dist/css-layout.js',
+                            'dist/d3fc.js',
+                            'dist/d3fc.css',
+                            'node_modules/jquery/dist/jquery.js',
+                            'node_modules/d3/d3.js',
+                            'node_modules/seedrandom/seedrandom.min.js'],
                         dest: 'visual-tests/dist/assets/',
+                        flatten: true,
+                        expand: true
                     }
                 ]
             },
