@@ -4,7 +4,7 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "author": "Scott Logic",
   "dependencies": {
-    "css-layout": "^0.0.2",
+    "css-layout": "^0.0.6",
     "d3": "^3.5.4"
   },
   "repository": {
