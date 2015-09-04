@@ -3,6 +3,26 @@
 
     describe('fc.util.dataJoin', function() {
 
+        it('should insert new elements in an order consistent with the data', function() {
+            var dataJoin = fc.util.dataJoin();
+            var element = document.createElement('svg');
+            var container = d3.select(element);
+            var data = [1, 2, 3];
+
+            dataJoin(container, data);
+            expect(element.childNodes.length).toBe(3);
+            expect(element.childNodes[0].__data__).toBe(1);
+            expect(element.childNodes[1].__data__).toBe(2);
+            expect(element.childNodes[2].__data__).toBe(3);
+
+            data = [1, 4, 2];
+            dataJoin(container, data);
+            expect(element.childNodes.length).toBe(3);
+            expect(element.childNodes[0].__data__).toBe(1);
+            expect(element.childNodes[1].__data__).toBe(4);
+            expect(element.childNodes[2].__data__).toBe(2);
+        });
+
         describe('attr', function() {
 
             it('should replace attributes when object is provided', function() {
