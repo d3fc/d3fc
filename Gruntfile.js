@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
         meta: {
             componentsJsFiles: [
-                'src/**/*.js'
+                'src/*/**/*.js'
             ],
             testJsFiles: [
                 'tests/**/*Spec.js'
@@ -81,7 +81,11 @@ module.exports = function(grunt) {
                 sourceMap: false
             },
             dist: {
-                src: ['src/fc.js', 'src/utilities/*.js', '<%= meta.componentsJsFiles %>'],
+                src: [
+                    'src/head.js',
+                    '<%= meta.componentsJsFiles %>',
+                    'src/tail.js'
+                ],
                 dest: 'dist/<%= pkg.name %>.js'
             },
             site: {
@@ -278,7 +282,7 @@ module.exports = function(grunt) {
                 helpers: 'tests/beforeEachSpec.js'
             },
             test: {
-                src: ['dist/*.js'],
+                src: ['dist/d3fc.min.js'],
                 options: {
                     keepRunner: true
                 }
