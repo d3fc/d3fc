@@ -68,7 +68,8 @@ module.exports = function (grunt) {
                     partials: 'site/src/_includes/*.hbs',
                     layoutdir: 'site/src/_layouts',
                     layout: 'default',
-                    layoutext: '.hbs'
+                    layoutext: '.hbs',
+                    helpers: ['handlebars-helpers']
                 },
                 files: '<%= meta.siteFiles %>'
             }
