@@ -20,6 +20,10 @@
             .element('g')
             .attr('class', 'crosshair');
 
+        var pointSeries = fc.series.point()
+            .xValue(x)
+            .yValue(y);
+
         var horizontalLine = fc.annotation.line()
             .value(y)
             .label(function(d) { return d.y; });
@@ -36,7 +40,6 @@
             return d3.scale.identity()
                 .range(fc.util.scale.range(scale));
         }
-
 
         var crosshair = function(selection) {
 
@@ -63,22 +66,11 @@
 
                 var crosshair = dataJoin(container, data);
 
-                var trackballTranslate = function(d) {
-                    return 'translate(' + x(d) + ', ' + y(d) + ')';
-                };
                 crosshair.enter()
-                    .style('pointer-events', 'none')
-                    .append('g')
-                    .classed('trackball', true)
-                    .attr('transform', trackballTranslate)
-                    .append('circle')
-                    .attr('r', 5);
-
-                crosshair.select('g.trackball')
-                    .attr('transform', trackballTranslate);
+                    .style('pointer-events', 'none');
 
                 var multi = fc.series.multi()
-                    .series([horizontalLine, verticalLine])
+                    .series([horizontalLine, verticalLine, pointSeries])
                     .xScale(identityScale(xScale))
                     .yScale(identityScale(yScale))
                     .mapping(function() {
