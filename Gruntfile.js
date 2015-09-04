@@ -1,6 +1,6 @@
 /* global module */
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     'use strict';
 
     grunt.initConfig({
@@ -37,6 +37,7 @@ module.exports = function (grunt) {
                 'src/**/*.css'
             ],
             ourJsFiles: [
+                'Gruntfile.js',
                 '<%= meta.componentsJsFiles %>',
                 '<%= meta.testJsFiles %>',
                 '<%= meta.visualTestJsFiles %>'
@@ -90,7 +91,7 @@ module.exports = function (grunt) {
                         'dist/d3fc.js',
                         'node_modules/jquery/dist/jquery.js',
                         'node_modules/bootstrap/js/collapse.js',
-                        'site/src/lib/init.js',
+                        'site/src/lib/init.js'
                 ],
                 dest: 'site/dist/scripts.js'
             }
@@ -124,19 +125,19 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: 'visual-tests/src/site/assets/',
                         src: ['**'],
-                        dest: 'visual-tests/dist/assets/',
+                        dest: 'visual-tests/dist/assets/'
                     },
                     {
                         expand: true,
                         cwd: 'node_modules/bootstrap/dist/',
                         src: ['**'],
-                        dest: 'visual-tests/dist/assets/bootstrap/',
+                        dest: 'visual-tests/dist/assets/bootstrap/'
                     },
                     {
                         expand: true,
                         cwd: 'visual-tests/src/test-fixtures/',
                         src: ['**/*', '!**/*.hbs'],
-                        dest: 'visual-tests/dist/',
+                        dest: 'visual-tests/dist/'
                     },
                     {
                         src: [
@@ -158,7 +159,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: 'site/src/',
                         src: ['**/*', '!_*', '!**/*.hbs', '!**/*.md', '!**/*.yml'],
-                        dest: 'site/dist/',
+                        dest: 'site/dist/'
                     }
                 ]
             }
@@ -181,7 +182,7 @@ module.exports = function (grunt) {
             }
         },
 
-        concat_css: {
+        concatCss: {
             options: {},
             all: {
                 src: ['<%= meta.componentsCssFiles %>'],
@@ -299,7 +300,7 @@ module.exports = function (grunt) {
         less: {
             site: {
                 files: {
-                    "site/dist/styles.css": "site/src/style/styles.less"
+                    'site/dist/styles.css': 'site/src/style/styles.less'
                 }
             }
         }
@@ -308,11 +309,17 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
     grunt.loadNpmTasks('assemble');
 
+    grunt.renameTask('concat_css', 'concatCss');
+
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
     grunt.registerTask('check', ['check:failOnError']);
-    grunt.registerTask('build:visual-tests', ['check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
-    grunt.registerTask('build:components', ['check', 'clean:dist', 'concat:dist', 'version', 'uglify:dist', 'concat_css:all', 'cssmin:dist', 'jasmine:test']);
+    grunt.registerTask('build:visual-tests', [
+        'check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests'
+    ]);
+    grunt.registerTask('build:components', [
+        'check', 'clean:dist', 'concat:dist', 'version', 'uglify:dist', 'concatCss:all', 'cssmin:dist', 'jasmine:test'
+    ]);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['connect:dev', 'watch:components']);
     grunt.registerTask('dev', ['build', 'watch']);
