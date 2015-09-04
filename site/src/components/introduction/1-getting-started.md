@@ -55,11 +55,11 @@ Once installed, you can reference the d3fc JavaScript, CSS and dependencies with
 Alternatively you can link to d3fc and its dependencies directly via cdnjs:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/0.5.7/d3fc.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/css-layout/0.0.6/css-layout.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/css-layout/{{ slice package.dependencies.css-layout 1 }}/css-layout.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/{{ slice package.dependencies.d3 1 }}/d3.js"></script>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/0.5.7/d3fc.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.css" rel="stylesheet"/>
 ```
 
 ## A quick chart
