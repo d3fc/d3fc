@@ -7,7 +7,8 @@
             yScale = d3.scale.linear(),
             yValue = function(d, i) { return d.close; },
             xValue = function(d, i) { return d.date; },
-            root = function(d) { return d.bollingerBands; };
+            root = function(d) { return d.bollingerBands; },
+            decorate = fc.util.fn.noop;
 
         var area = fc.series.area()
             .y0Value(function(d, i) {
@@ -38,11 +39,12 @@
                 .xScale(xScale)
                 .yScale(yScale)
                 .series([area, upperLine, lowerLine, averageLine])
-                .decorate(function(g) {
+                .decorate(function(g, data, index) {
                     g.enter()
                         .attr('class', function(d, i) {
                             return 'multi ' + ['area', 'upper', 'lower', 'average'][i];
                         });
+                    decorate(g, data, index);
                 });
 
             area.xValue(xValue);
@@ -86,6 +88,13 @@
                 return root;
             }
             root = x;
+            return bollingerBands;
+        };
+        bollingerBands.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
             return bollingerBands;
         };
 
