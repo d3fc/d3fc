@@ -10,7 +10,8 @@
             macdLine = fc.series.line(),
             signalLine = fc.series.line(),
             divergenceBar = fc.series.bar(),
-            multiSeries = fc.series.multi();
+            multiSeries = fc.series.multi(),
+            decorate = fc.util.fn.noop;
 
         var macd = function(selection) {
 
@@ -26,11 +27,12 @@
             multiSeries.xScale(xScale)
                 .yScale(yScale)
                 .series([divergenceBar, macdLine, signalLine])
-                .decorate(function(g) {
+                .decorate(function(g, data, index) {
                     g.enter()
                         .attr('class', function(d, i) {
                             return 'multi ' + ['divergence', 'macd', 'signal'][i];
                         });
+                    decorate(g, data, index);
                 });
 
             selection.call(multiSeries);
@@ -43,7 +45,6 @@
             xScale = x;
             return macd;
         };
-
         macd.xValue = function(x) {
             if (!arguments.length) {
                 return xValue;
@@ -51,7 +52,6 @@
             xValue = x;
             return macd;
         };
-
         macd.yScale = function(x) {
             if (!arguments.length) {
                 return yScale;
@@ -59,12 +59,18 @@
             yScale = x;
             return macd;
         };
-
         macd.root = function(x) {
             if (!arguments.length) {
                 return root;
             }
             root = x;
+            return macd;
+        };
+        macd.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
             return macd;
         };
 

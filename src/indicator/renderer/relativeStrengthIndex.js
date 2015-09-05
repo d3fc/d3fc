@@ -6,7 +6,9 @@
         var xScale = d3.time.scale(),
             yScale = d3.scale.linear(),
             upperValue = 70,
-            lowerValue = 30;
+            lowerValue = 30,
+            multiSeries = fc.series.multi(),
+            decorate = fc.util.fn.noop;
 
         var annotations = fc.annotation.line();
         var rsiLine = fc.series.line()
@@ -14,38 +16,28 @@
 
         var rsi = function(selection) {
 
-            annotations.xScale(xScale)
-                .yScale(yScale);
+            multiSeries.xScale(xScale)
+                .yScale(yScale)
+                .series([annotations, rsiLine])
+                .mapping(function(series) {
+                    if (series === annotations) {
+                        return [
+                            upperValue,
+                            50,
+                            lowerValue
+                        ];
+                    }
+                    return this;
+                })
+                .decorate(function(g, data, index) {
+                    g.enter()
+                        .attr('class', function(d, i) {
+                            return 'multi ' + ['annotations', 'indicator'][i];
+                        });
+                    decorate(g, data, index);
+                });
 
-            rsiLine.xScale(xScale)
-                .yScale(yScale);
-
-            selection.each(function(data) {
-
-                var container = d3.select(this);
-
-                var annotationsContainer = container.selectAll('g.annotations')
-                    .data([[
-                        upperValue,
-                        50,
-                        lowerValue
-                    ]]);
-
-                annotationsContainer.enter()
-                    .append('g')
-                    .attr('class', 'annotations');
-
-                annotationsContainer.call(annotations);
-
-                var rsiLineContainer = container.selectAll('g.indicator')
-                    .data([data]);
-
-                rsiLineContainer.enter()
-                    .append('g')
-                    .attr('class', 'indicator');
-
-                rsiLineContainer.call(rsiLine);
-            });
+            selection.call(multiSeries);
         };
 
         rsi.xScale = function(x) {
@@ -74,6 +66,13 @@
                 return lowerValue;
             }
             lowerValue = x;
+            return rsi;
+        };
+        rsi.decorate = function(x) {
+            if (!arguments.length) {
+                return decorate;
+            }
+            decorate = x;
             return rsi;
         };
 
