@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
         meta: {
             componentsJsFiles: [
-                'src/**/*.js'
+                'src/*/**/*.js'
             ],
             testJsFiles: [
                 'tests/**/*Spec.js'
@@ -81,7 +81,10 @@ module.exports = function(grunt) {
                 sourceMap: false
             },
             dist: {
-                src: ['src/fc.js', 'src/utilities/*.js', '<%= meta.componentsJsFiles %>'],
+                src: [
+                    'src/fc.js',
+                    '<%= meta.componentsJsFiles %>'
+                ],
                 dest: 'dist/<%= pkg.name %>.js'
             },
             site: {
@@ -278,7 +281,7 @@ module.exports = function(grunt) {
                 helpers: 'tests/beforeEachSpec.js'
             },
             test: {
-                src: ['dist/*.js'],
+                src: ['dist/d3fc.min.js'],
                 options: {
                     keepRunner: true
                 }
@@ -303,7 +306,23 @@ module.exports = function(grunt) {
                     'site/dist/styles.css': 'site/src/style/styles.less'
                 }
             }
+        },
+
+        umd: {
+            dist: {
+                options: {
+                    src: 'dist/d3fc.js',
+                    objectToExport: 'fc',
+                    deps: {
+                        'default': ['d3', 'cssLayout'],
+                        cjs: ['d3', 'css-layout'],
+                        amd: ['d3', 'css-layout'],
+                        global: ['d3', 'computeLayout']
+                    }
+                }
+            }
         }
+
     });
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -318,7 +337,8 @@ module.exports = function(grunt) {
         'check', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests'
     ]);
     grunt.registerTask('build:components', [
-        'check', 'clean:dist', 'concat:dist', 'version', 'uglify:dist', 'concatCss:all', 'cssmin:dist', 'jasmine:test'
+        'check', 'clean:dist', 'concat:dist', 'umd:dist', 'version',
+        'uglify:dist', 'concatCss:all', 'cssmin:dist', 'jasmine:test'
     ]);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['connect:dev', 'watch:components']);
