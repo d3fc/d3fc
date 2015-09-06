@@ -99,29 +99,11 @@
             yNice: 'nice'
         });
 
-        fc.util.rebind(linearTimeSeries, xAxis, {
-            xTicks: 'ticks',
-            xTickValues: 'tickValues',
-            xTickSize: 'tickSize',
-            xInnerTickSize: 'innerTickSize',
-            xOuterTickSize: 'outerTickSize',
-            xTickPadding: 'tickPadding',
-            xTickFormat: 'tickFormat',
-            xOrient: 'orient',
-            xDecorate: 'decorate'
-        });
+        var axisReboundProperties = ['ticks', 'tickValues', 'tickSize', 'innerTickSize',
+            'outerTickSize', 'tickPadding', 'tickFormat', 'orient', 'decorate'];
 
-        fc.util.rebind(linearTimeSeries, yAxis, {
-            yTicks: 'ticks',
-            yTickValues: 'tickValues',
-            yTickSize: 'tickSize',
-            yInnerTickSize: 'innerTickSize',
-            yOuterTickSize: 'outerTickSize',
-            yTickPadding: 'tickPadding',
-            yTickFormat: 'tickFormat',
-            yOrient: 'orient',
-            yDecorate: 'decorate'
-        });
+        fc.util.rebindProperties(linearTimeSeries, xAxis, axisReboundProperties, 'x');
+        fc.util.rebindProperties(linearTimeSeries, yAxis, axisReboundProperties, 'y');
 
         linearTimeSeries.xScale = function() { return xScale; };
         linearTimeSeries.yScale = function() { return yScale; };

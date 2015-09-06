@@ -25,22 +25,6 @@
             .scale(yScale)
             .orient('right');
 
-        var scaleReboundProperties = ['nice', 'domain'];
-        var axisReboundProperties = ['ticks', 'tickValues', 'tickSize', 'innerTickSize',
-            'outerTickSize', 'tickPadding', 'tickFormat', 'orient'];
-
-        function capitalizeFirstLetter(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        function rebind(component, properties, prefix) {
-            var bindings = {};
-            properties.forEach(function(property) {
-                bindings[prefix + capitalizeFirstLetter(property)] = property;
-            });
-            fc.util.rebind(cartesianChart, component, bindings);
-        }
-
         var containerDataJoin = fc.util.dataJoin()
             .selector('svg.cartesianChart')
             .element('svg')
@@ -160,10 +144,16 @@
             });
         };
 
-        rebind(xScale, scaleReboundProperties, 'x');
-        rebind(yScale, scaleReboundProperties, 'y');
-        rebind(xAxis, axisReboundProperties, 'x');
-        rebind(yAxis, axisReboundProperties, 'y');
+        var scaleReboundProperties = ['nice', 'domain'];
+
+        fc.util.rebindProperties(cartesianChart, xScale, scaleReboundProperties, 'x');
+        fc.util.rebindProperties(cartesianChart, yScale, scaleReboundProperties, 'y');
+
+        var axisReboundProperties = ['ticks', 'tickValues', 'tickSize', 'innerTickSize',
+            'outerTickSize', 'tickPadding', 'tickFormat', 'orient', 'decorate'];
+
+        fc.util.rebindProperties(cartesianChart, xAxis, axisReboundProperties, 'x');
+        fc.util.rebindProperties(cartesianChart, yAxis, axisReboundProperties, 'y');
 
         cartesianChart.titleHeight = function(x) {
             if (!arguments.length) {

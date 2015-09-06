@@ -24,4 +24,19 @@
         return target;
     };
 
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    /**
+     * Rebinds multiple properties from the source component, adding the given prefix.
+     */
+    fc.util.rebindProperties = function(target, source, properties, prefix) {
+        var bindings = {};
+        properties.forEach(function(property) {
+            bindings[prefix + capitalizeFirstLetter(property)] = property;
+        });
+        fc.util.rebind(target, source, bindings);
+    };
+
 }(d3, fc));
