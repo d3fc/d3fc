@@ -26,9 +26,9 @@
             .orient('right');
 
         var containerDataJoin = fc.util.dataJoin()
-            .selector('svg.cartesianChart')
+            .selector('svg.cartesian-chart')
             .element('svg')
-            .attr({'class': 'cartesianChart', 'layout-css': 'flex: 1'});
+            .attr({'class': 'cartesian-chart', 'layout-css': 'flex: 1'});
 
         var cartesianChart = function(selection) {
 
