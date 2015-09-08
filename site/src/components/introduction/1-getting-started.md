@@ -4,7 +4,6 @@ title: Getting Started
 namespace: introduction
 
 example-code: |
-
     var data = fc.data.random.financial()(50);
 
     var chart = fc.chart.linearTimeSeries()
@@ -55,9 +54,9 @@ Once installed, you can reference the d3fc JavaScript, CSS and dependencies with
 Alternatively you can link to d3fc and its dependencies directly via cdnjs:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/css-layout/{{ slice package.dependencies.css-layout 1 }}/css-layout.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/{{ slice package.dependencies.d3 1 }}/d3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/css-layout/{{ slice package.dependencies.css-layout 1 }}/css-layout.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.js"></script>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.css" rel="stylesheet"/>
 ```
