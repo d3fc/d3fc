@@ -12,8 +12,8 @@
         {label: 'y axis label width', value: config.yAxisLabelWidth()},
         {label: 'x axis height', value: config.xAxisHeight()},
         {label: 'y axis width', value: config.yAxisWidth()},
-        {label: 'title', value: 'I am a chart'},
-        {label: 'title height', value: config.titleHeight()}
+        {label: 'chart label', value: config.chartLabel()},
+        {label: 'chart label height', value: config.chartLabelHeight()}
     ];
 
     var chartContainer = d3.select('#chart');
@@ -68,8 +68,8 @@
             .yAxisLabelWidth(Number(chartConfig[4].value))
             .xAxisHeight(Number(chartConfig[5].value))
             .yAxisWidth(Number(chartConfig[6].value))
-            .title(chartConfig[7].value)
-            .titleHeight(Number(chartConfig[8].value));
+            .chartLabel(chartConfig[7].value)
+            .chartLabelHeight(Number(chartConfig[8].value));
 
         // Create the line and area series
         var line = fc.series.line()

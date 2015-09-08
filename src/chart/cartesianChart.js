@@ -10,10 +10,10 @@
             yAxisWidth = 40,
             yAxisLabelWidth = 20,
             xAxisLabelHeight = 20,
-            titleHeight = 20,
+            chartLabelHeight = 20,
             yAxisLabel = 'y-axis',
             xAxisLabel = 'x-axis',
-            title = 'Chart Title',
+            chartLabel = 'Chart',
             plotArea = fc.series.line(),
             decorate = fc.util.fn.noop;
 
@@ -101,7 +101,7 @@
 
                 // position the title
                 svg.select('.title')
-                    .layout({'height': titleHeight, 'alignItems': 'center', 'justifyContent': 'center',
+                    .layout({'height': chartLabelHeight, 'alignItems': 'center', 'justifyContent': 'center',
                         'marginLeft': marginLeft, 'marginRight': marginRight});
 
                 // perform the flexbox / css layout
@@ -109,7 +109,7 @@
 
                 // update the label text
                 svg.select('.title .label')
-                    .text(title);
+                    .text(chartLabel);
 
                 svg.select('.x-axis .label')
                     .text(xAxisLabel);
@@ -155,18 +155,18 @@
         fc.util.rebindProperties(cartesianChart, xAxis, axisReboundProperties, 'x');
         fc.util.rebindProperties(cartesianChart, yAxis, axisReboundProperties, 'y');
 
-        cartesianChart.titleHeight = function(x) {
+        cartesianChart.chartLabelHeight = function(x) {
             if (!arguments.length) {
-                return titleHeight;
+                return chartLabelHeight;
             }
-            titleHeight = x;
+            chartLabelHeight = x;
             return cartesianChart;
         };
-        cartesianChart.title = function(x) {
+        cartesianChart.chartLabel = function(x) {
             if (!arguments.length) {
-                return title;
+                return chartLabel;
             }
-            title = x;
+            chartLabel = x;
             return cartesianChart;
         };
         cartesianChart.plotArea = function(x) {
