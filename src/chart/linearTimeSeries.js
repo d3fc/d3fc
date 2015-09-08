@@ -99,11 +99,12 @@
             yNice: 'nice'
         });
 
-        var axisReboundProperties = ['ticks', 'tickValues', 'tickSize', 'innerTickSize',
-            'outerTickSize', 'tickPadding', 'tickFormat', 'orient', 'decorate'];
-
-        fc.util.rebindProperties(linearTimeSeries, xAxis, axisReboundProperties, 'x');
-        fc.util.rebindProperties(linearTimeSeries, yAxis, axisReboundProperties, 'y');
+        var axisExclusions = [
+            'scale', // the scale is set to this component's scale
+            'orient' // the component layout does not support changes of orientation
+        ];
+        fc.util.rebindAll(linearTimeSeries, xAxis, 'x', axisExclusions);
+        fc.util.rebindAll(linearTimeSeries, yAxis, 'y', axisExclusions);
 
         linearTimeSeries.xScale = function() { return xScale; };
         linearTimeSeries.yScale = function() { return yScale; };

@@ -51,4 +51,48 @@
         });
     });
 
+    describe('fc.util.rebindAll', function() {
+
+        var source, target, value;
+
+        beforeEach(function() {
+            value = {};
+            source = d3.svg.axis();
+            target = {};
+        });
+
+        it('should rebind all properties with the given prefix', function() {
+            fc.util.rebindAll(target, source, 'x');
+            expect(target.xScale()).toEqual(source.scale());
+            expect(target.xOrient()).toEqual(source.orient());
+            expect(target.xTickValues()).toEqual(source.tickValues());
+            expect(target.xTickFormat()).toEqual(source.tickFormat());
+            expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
+            expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
+            expect(target.xTickPadding()).toEqual(source.tickPadding());
+            expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
+        });
+
+        it('should rebind exclude the indicated properties', function() {
+            fc.util.rebindAll(target, source, 'x', ['scale', 'orient']);
+
+            expect(target.xScale).not.toBeDefined();
+            expect(target.xOrient).not.toBeDefined();
+
+            expect(target.xTickValues()).toEqual(source.tickValues());
+            expect(target.xTickFormat()).toEqual(source.tickFormat());
+            expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
+            expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
+            expect(target.xTickPadding()).toEqual(source.tickPadding());
+            expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
+        });
+
+        it('should throw if an excluded property does not exist on the source', function() {
+            expect(function() {
+                fc.util.rebindAll(target, source, 'x', ['fish']);
+            })
+            .toThrow(new Error('The method fish does not exist on the source object'));
+        });
+    });
+
 }(d3, fc));

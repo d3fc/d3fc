@@ -144,16 +144,17 @@
             });
         };
 
-        var scaleReboundProperties = ['nice', 'domain'];
+        var scaleExclusions = [
+            'range', 'rangeRound', // the scale range is set via the component layout
+            'tickFormat'           // use axis.tickFormat instead
+        ];
+        fc.util.rebindAll(cartesianChart, xScale, 'x', scaleExclusions);
+        fc.util.rebindAll(cartesianChart, yScale, 'y', scaleExclusions);
 
-        fc.util.rebindProperties(cartesianChart, xScale, scaleReboundProperties, 'x');
-        fc.util.rebindProperties(cartesianChart, yScale, scaleReboundProperties, 'y');
-
-        var axisReboundProperties = ['ticks', 'tickValues', 'tickSize', 'innerTickSize',
-            'outerTickSize', 'tickPadding', 'tickFormat', 'orient', 'decorate'];
-
-        fc.util.rebindProperties(cartesianChart, xAxis, axisReboundProperties, 'x');
-        fc.util.rebindProperties(cartesianChart, yAxis, axisReboundProperties, 'y');
+        // exclude scale because this component associates the scale with the axis, and
+        // exclude x axis orientation, as only y axis can be repositions to the left / right
+        fc.util.rebindAll(cartesianChart, xAxis, 'x', ['scale', 'orient']);
+        fc.util.rebindAll(cartesianChart, yAxis, 'y', ['scale']);
 
         cartesianChart.chartLabelHeight = function(x) {
             if (!arguments.length) {

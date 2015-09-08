@@ -25,18 +25,29 @@
     };
 
     function capitalizeFirstLetter(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
+        return str[0].toUpperCase() + str.slice(1);
     }
 
     /**
-     * Rebinds multiple properties from the source component, adding the given prefix.
+     * Rebinds all the methods from the source component, adding the given prefix. An
+     * optional exclusions parameter can be used to specify methods which should not
+     * be rebound.
      */
-    fc.util.rebindProperties = function(target, source, properties, prefix) {
-        var bindings = {};
-        properties.forEach(function(property) {
-            bindings[prefix + capitalizeFirstLetter(property)] = property;
+    fc.util.rebindAll = function(target, source, prefix, exclusions) {
+        exclusions = exclusions || [];
+
+        exclusions.forEach(function(property) {
+            if (!source.hasOwnProperty(property)) {
+                throw new Error('The method ' + property + ' does not exist on the source object');
+            }
         });
+
+        var bindings = {};
+        for (var property in source) {
+            if (source.hasOwnProperty(property) && exclusions.indexOf(property) === -1) {
+                bindings[prefix + capitalizeFirstLetter(property)] = property;
+            }
+        }
         fc.util.rebind(target, source, bindings);
     };
-
 }(d3, fc));
