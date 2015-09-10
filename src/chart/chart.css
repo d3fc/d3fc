@@ -21,6 +21,10 @@
   overflow: hidden;
 }
 
+.axes-container {
+  overflow: visible;
+}
+
 .y-axis .label,
 .x-axis .label,
 .title .label {

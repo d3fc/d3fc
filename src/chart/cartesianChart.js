@@ -17,13 +17,22 @@
             plotArea = fc.series.line(),
             decorate = fc.util.fn.noop;
 
-        var xAxis = fc.svg.axis()
-            .scale(xScale)
-            .orient('bottom');
+        var xAxis = fc.series.axis()
+            .orient('bottom')
+            .baseline(function() {
+                var domain = yScale.domain();
+                return xAxis.orient() === 'bottom' ? domain[0] : domain[1];
+            });
 
-        var yAxis = fc.svg.axis()
-            .scale(yScale)
-            .orient('right');
+        var yAxis = fc.series.axis()
+            .orient('right')
+            .baseline(function() {
+                var domain = xScale.domain();
+                return yAxis.orient() === 'right' ? domain[1] : domain[0];
+            });
+
+        var axesSeries = fc.series.multi()
+            .series([xAxis, yAxis]);
 
         var containerDataJoin = fc.util.dataJoin()
             .selector('svg.cartesian-chart')
@@ -51,7 +60,12 @@
                             <g class="padding"/> \
                             <g class="axis" layout-css="width: 0"/> \
                         </g> \
-                        <svg class="plot-area" layout-css="flex: 1"/> \
+                        <g class="plot-area-container" layout-css="flex: 1"> \
+                            <svg class="axes-container" \
+                                layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
+                            <svg class="plot-area" \
+                                layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
+                        </g> \
                         <g class="y-axis right"> \
                             <g class="axis" layout-css="width: 0"/> \
                             <g class="padding"/> \
@@ -121,19 +135,13 @@
                     .text('');
 
                 var plotAreaContainer = svg.select('.plot-area');
-
-                // configure the scales and render the axes
-                var xAxisContainer = container.select('.x-axis .axis');
                 xScale.range([0, plotAreaContainer.layout('width')]);
-                xAxisContainer.call(xAxis);
-
-                var yAxisContainer = svg.select('.y-axis.' + yAxis.orient() + ' .axis');
                 yScale.range([plotAreaContainer.layout('height'), 0]);
-                yAxisContainer.call(yAxis);
 
-                // remove the y axis from the opposing orientation
-                svg.select('.y-axis.' + opposingOrientation + ' .axis')
-                    .selectAll('*').remove();
+                var axesContainer = svg.select('.axes-container');
+                axesSeries.xScale(xScale)
+                    .yScale(yScale);
+                axesContainer.call(axesSeries);
 
                 // render the plot area
                 plotArea.xScale(xScale)
@@ -153,8 +161,8 @@
 
         // exclude scale because this component associates the scale with the axis, and
         // exclude x axis orientation, as only y axis can be repositions to the left / right
-        fc.util.rebindAll(cartesianChart, xAxis, 'x', ['scale', 'orient']);
-        fc.util.rebindAll(cartesianChart, yAxis, 'y', ['scale']);
+        fc.util.rebindAll(cartesianChart, xAxis, 'x');
+        fc.util.rebindAll(cartesianChart, yAxis, 'y');
 
         cartesianChart.chartLabelHeight = function(x) {
             if (!arguments.length) {

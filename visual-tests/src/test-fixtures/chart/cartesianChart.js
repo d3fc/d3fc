@@ -6,6 +6,7 @@
 
     var chartConfig = [
         {label: 'y orient', value: 'right'},
+        {label: 'x orient', value: 'bottom'},
         {label: 'y label', value: 'log(sin)'},
         {label: 'x label', value: 'value'},
         {label: 'x axis label height', value: config.xAxisLabelHeight()},
@@ -52,24 +53,25 @@
         var data = d3.range(20).map(function(d) {
             return {
                 x: d,
-                y: (Math.sin(d) + 1.1) * 10000
+                y: (Math.sin(d) + 1.1)
             };
         });
 
         var chart = fc.chart.cartesianChart(
                 d3.scale.linear(),
-                d3.scale.log())
+                d3.scale.linear())
             .xDomain(fc.util.extent(data, 'x'))
             .yDomain(fc.util.extent(data, 'y'))
             .yOrient(chartConfig[0].value)
-            .yAxisLabel(chartConfig[1].value)
-            .xAxisLabel(chartConfig[2].value)
-            .xAxisLabelHeight(Number(chartConfig[3].value))
-            .yAxisLabelWidth(Number(chartConfig[4].value))
-            .xAxisHeight(Number(chartConfig[5].value))
-            .yAxisWidth(Number(chartConfig[6].value))
-            .chartLabel(chartConfig[7].value)
-            .chartLabelHeight(Number(chartConfig[8].value));
+            .xOrient(chartConfig[1].value)
+            .yAxisLabel(chartConfig[2].value)
+            .xAxisLabel(chartConfig[3].value)
+            .xAxisLabelHeight(Number(chartConfig[4].value))
+            .yAxisLabelWidth(Number(chartConfig[5].value))
+            .xAxisHeight(Number(chartConfig[6].value))
+            .yAxisWidth(Number(chartConfig[7].value))
+            .chartLabel(chartConfig[8].value)
+            .chartLabelHeight(Number(chartConfig[9].value));
 
         // Create the line and area series
         var line = fc.series.line()
