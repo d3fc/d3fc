@@ -1,6 +1,7 @@
 import area from './area';
 import axis from './axis';
 import bar from './bar';
+import column from './column';
 import candlestick from './candlestick';
 import cycle from './cycle';
 import line from './line';
@@ -19,5 +20,6 @@ export default {
     multi: multi,
     ohlc: ohlc,
     point: point,
-    stacked: stacked
+    stacked: stacked,
+    column: column
 };

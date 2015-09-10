@@ -3,6 +3,7 @@ import _dataJoin from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import {noop} from '../util/fn';
 import svgBar from '../svg/bar';
+import {rebind} from '../util/rebind';
 
 export default function() {
 
@@ -19,7 +20,16 @@ export default function() {
         .element('g')
         .attr('class', 'bar');
 
-    var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
+    var x = function(d, i) { return xScale(xValue(d, i)); },
+        y1 = function(d, i) { return yScale(y1Value(d, i)); },
+        y0 = function(d, i) { return yScale(y0Value(d, i)); };
+
+    var containerTranslation = function(d, i) {
+        return 'translate(' + x(d, i) + ', ' + y0(d, i) + ')';
+    };
+
+    var pathGenerator = svgBar()
+        .verticalAlign('top');
 
     var bar = function(selection) {
         selection.each(function(data, index) {
@@ -32,34 +42,26 @@ export default function() {
 
             var g = dataJoin(this, filteredData);
 
-            var width = barWidth(filteredData.map(xValueScaled));
+            var width = barWidth(filteredData.map(x));
 
-            var pathGenerator = svgBar()
-                .x(0)
+            pathGenerator.x(0)
                 .y(0)
                 .width(width)
                 .height(0);
 
-            var x = function(d, i) { return xValueScaled(d, i); },
-                y1 = function(d, i) { return yScale(y1Value(d, i)); },
-                y0 = function(d, i) { return yScale(y0Value(d, i)); };
-
+            // within the enter selection the pathGenerator creates a zero
+            // height bar. As a result, when used with a transition the bar grows
+            // from y0 to y1
             g.enter()
-                .attr('transform', function(d, i) {
-                    return 'translate(' + x(d, i) + ', ' + y0(d, i) + ')';
-                })
+                .attr('transform', containerTranslation)
                 .append('path')
                 .attr('d', function(d) { return pathGenerator([d]); });
 
-            g.each(function(d, i) {
-                pathGenerator.height(y0(d, i) - y1(d, i));
+            pathGenerator.height(function(d, i) { return y1(d, i) - y0(d, i); });
 
-                var barGroup = d3.select(this);
-                d3.transition(barGroup)
-                    .attr('transform', 'translate(' + x(d, i) + ', ' + y1(d, i) + ')')
-                    .select('path')
-                    .attr('d', pathGenerator([d]));
-            });
+            g.attr('transform', containerTranslation)
+                .select('path')
+                .attr('d', function(d) { return pathGenerator([d]); });
 
             decorate(g, filteredData, index);
         });
@@ -116,6 +118,7 @@ export default function() {
     };
 
     d3.rebind(bar, dataJoin, 'key');
+    rebind(bar, pathGenerator, {'align': 'horizontalAlign'});
 
     return bar;
 }

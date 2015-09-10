@@ -18,14 +18,16 @@ describe('bar', function() {
         container.datum(data)
             .call(bar);
 
-        expect(xValueSpy.calls.count()).toEqual(data.length * 4);
+        expect(xValueSpy.calls.count()).toEqual(data.length * 4,
+            'the xValue accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(xValueSpy, data);
 
-
-        expect(y0ValueSpy.calls.count()).toEqual(data.length * 3);
+        expect(y0ValueSpy.calls.count()).toEqual(data.length * 4,
+            'the y0Value accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(y0ValueSpy, data);
 
-        expect(y1ValueSpy.calls.count()).toEqual(data.length * 3);
+        expect(y1ValueSpy.calls.count()).toEqual(data.length * 2,
+            'the y1Value accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(y1ValueSpy, data);
     });
 });

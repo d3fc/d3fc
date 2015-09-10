@@ -7,7 +7,8 @@ export default function() {
 
     var x = function(d, i) { return d.x; },
         y = function(d, i) { return d.y; },
-        align = 'center',
+        horizontalAlign = 'center',
+        verticalAlign = 'center',
         height = function(d, i) { return d.height; },
         width = d3.functor(3);
 
@@ -19,24 +20,38 @@ export default function() {
                 barHeight = height.call(this, d, index || i),
                 barWidth = width.call(this, d, index || i);
 
-            var offset;
-
-            switch (align) {
+            var horizontalOffset;
+            switch (horizontalAlign) {
                 case 'left':
-                    offset = barWidth;
+                    horizontalOffset = barWidth;
                     break;
                 case 'right':
-                    offset = 0;
+                    horizontalOffset = 0;
                     break;
                 case 'center':
-                    offset = barWidth / 2;
+                    horizontalOffset = barWidth / 2;
                     break;
                 default:
-                    throw new Error('Invalid alignment');
+                    throw new Error('Invalid horizontal alignment ' + horizontalAlign);
+            }
+
+            var verticalOffset;
+            switch (verticalAlign) {
+                case 'bottom':
+                    verticalOffset = -barHeight;
+                    break;
+                case 'top':
+                    verticalOffset = 0;
+                    break;
+                case 'center':
+                    verticalOffset = barHeight / 2;
+                    break;
+                default:
+                    throw new Error('Invalid vertical alignment ' + verticalAlign);
             }
 
             // Move to the start location
-            var body = 'M' + (xValue - offset) + ',' + yValue +
+            var body = 'M' + (xValue - horizontalOffset) + ',' + (yValue - verticalOffset) +
                 // Draw the width
                 'h' + barWidth +
                 // Draw to the top
@@ -71,11 +86,11 @@ export default function() {
         width = d3.functor(x);
         return bar;
     };
-    bar.align = function(x) {
+    bar.horizontalAlign = function(x) {
         if (!arguments.length) {
-            return align;
+            return horizontalAlign;
         }
-        align = x;
+        horizontalAlign = x;
         return bar;
     };
     bar.height = function(x) {
@@ -83,6 +98,13 @@ export default function() {
             return height;
         }
         height = d3.functor(x);
+        return bar;
+    };
+    bar.verticalAlign = function(x) {
+        if (!arguments.length) {
+            return verticalAlign;
+        }
+        verticalAlign = x;
         return bar;
     };
     return bar;
