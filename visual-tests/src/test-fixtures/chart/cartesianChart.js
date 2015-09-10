@@ -9,12 +9,10 @@
         {label: 'x orient', value: 'bottom'},
         {label: 'y label', value: 'log(sin)'},
         {label: 'x label', value: 'value'},
-        {label: 'x axis label height', value: config.xAxisLabelHeight()},
-        {label: 'y axis label width', value: config.yAxisLabelWidth()},
-        {label: 'x axis height', value: config.xAxisHeight()},
-        {label: 'y axis width', value: config.yAxisWidth()},
         {label: 'chart label', value: config.chartLabel()},
-        {label: 'chart label height', value: config.chartLabelHeight()}
+        {label: 'chart margin', value: JSON.stringify(config.plotAreaMargin())},
+        {label: 'x axis baseline', value: ''},
+        {label: 'y axis baseline', value: ''}
     ];
 
     var chartContainer = d3.select('#chart');
@@ -66,12 +64,16 @@
             .xOrient(chartConfig[1].value)
             .yAxisLabel(chartConfig[2].value)
             .xAxisLabel(chartConfig[3].value)
-            .xAxisLabelHeight(Number(chartConfig[4].value))
-            .yAxisLabelWidth(Number(chartConfig[5].value))
-            .xAxisHeight(Number(chartConfig[6].value))
-            .yAxisWidth(Number(chartConfig[7].value))
-            .chartLabel(chartConfig[8].value)
-            .chartLabelHeight(Number(chartConfig[9].value));
+            .chartLabel(chartConfig[4].value)
+            .plotAreaMargin(JSON.parse(chartConfig[5].value));
+
+        if (chartConfig[6].value) {
+            chart.xBaseline(Number(chartConfig[6].value));
+        }
+
+        if (chartConfig[7].value) {
+            chart.yBaseline(Number(chartConfig[7].value));
+        }
 
         // Create the line and area series
         var line = fc.series.line()
