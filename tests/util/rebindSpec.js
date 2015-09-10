@@ -73,8 +73,36 @@
             expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
         });
 
-        it('should rebind exclude the indicated properties', function() {
+        it('should rebind excluding the indicated array of properties', function() {
             fc.util.rebindAll(target, source, 'x', ['scale', 'orient']);
+
+            expect(target.xScale).not.toBeDefined();
+            expect(target.xOrient).not.toBeDefined();
+
+            expect(target.xTickValues()).toEqual(source.tickValues());
+            expect(target.xTickFormat()).toEqual(source.tickFormat());
+            expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
+            expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
+            expect(target.xTickPadding()).toEqual(source.tickPadding());
+            expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
+        });
+
+        it('should rebind excluding the indicated property', function() {
+            fc.util.rebindAll(target, source, 'x', 'scale');
+
+            expect(target.xScale).not.toBeDefined();
+
+            expect(target.xOrient()).toEqual(source.orient());
+            expect(target.xTickValues()).toEqual(source.tickValues());
+            expect(target.xTickFormat()).toEqual(source.tickFormat());
+            expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
+            expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
+            expect(target.xTickPadding()).toEqual(source.tickPadding());
+            expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
+        });
+
+        it('should rebind excluding the indicated properties var-args', function() {
+            fc.util.rebindAll(target, source, 'x', 'scale', 'orient');
 
             expect(target.xScale).not.toBeDefined();
             expect(target.xOrient).not.toBeDefined();

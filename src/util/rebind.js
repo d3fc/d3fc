@@ -34,7 +34,20 @@
      * be rebound.
      */
     fc.util.rebindAll = function(target, source, prefix, exclusions) {
-        exclusions = exclusions || [];
+        if (arguments.length === 3) {
+            // if only three args are supplied, there are no exclusions
+            exclusions = [];
+        } else if (arguments.length === 4) {
+            // if four args are supplied, check exclusions is an array, if not
+            // assume it is a single string and construct an array
+            if (!Array.isArray(exclusions)) {
+                exclusions = [exclusions];
+            }
+        } else {
+            // for > 4 args, construct the exclusions
+            var args = Array.prototype.slice.call(arguments);
+            exclusions = args.slice(3);
+        }
 
         exclusions.forEach(function(property) {
             if (!source.hasOwnProperty(property)) {
