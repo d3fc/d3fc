@@ -5,6 +5,7 @@
     "disallowMultipleLineBreaks": null,
     "disallowSpaceAfterObjectKeys": true,
     "disallowTrailingComma": true,
+    "disallowMultipleLineStrings": null,
 
     "maximumLineLength": {
         "value": 120

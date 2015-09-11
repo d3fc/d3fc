@@ -99,29 +99,12 @@
             yNice: 'nice'
         });
 
-        fc.util.rebind(linearTimeSeries, xAxis, {
-            xTicks: 'ticks',
-            xTickValues: 'tickValues',
-            xTickSize: 'tickSize',
-            xInnerTickSize: 'innerTickSize',
-            xOuterTickSize: 'outerTickSize',
-            xTickPadding: 'tickPadding',
-            xTickFormat: 'tickFormat',
-            xOrient: 'orient',
-            xDecorate: 'decorate'
-        });
-
-        fc.util.rebind(linearTimeSeries, yAxis, {
-            yTicks: 'ticks',
-            yTickValues: 'tickValues',
-            yTickSize: 'tickSize',
-            yInnerTickSize: 'innerTickSize',
-            yOuterTickSize: 'outerTickSize',
-            yTickPadding: 'tickPadding',
-            yTickFormat: 'tickFormat',
-            yOrient: 'orient',
-            yDecorate: 'decorate'
-        });
+        var axisExclusions = [
+            'scale', // the scale is set to this component's scale
+            'orient' // the component layout does not support changes of orientation
+        ];
+        fc.util.rebindAll(linearTimeSeries, xAxis, 'x', axisExclusions);
+        fc.util.rebindAll(linearTimeSeries, yAxis, 'y', axisExclusions);
 
         linearTimeSeries.xScale = function() { return xScale; };
         linearTimeSeries.yScale = function() { return yScale; };

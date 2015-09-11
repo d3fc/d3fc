@@ -24,4 +24,43 @@
         return target;
     };
 
+    function capitalizeFirstLetter(str) {
+        return str[0].toUpperCase() + str.slice(1);
+    }
+
+    /**
+     * Rebinds all the methods from the source component, adding the given prefix. An
+     * optional exclusions parameter can be used to specify methods which should not
+     * be rebound.
+     */
+    fc.util.rebindAll = function(target, source, prefix, exclusions) {
+        if (arguments.length === 3) {
+            // if only three args are supplied, there are no exclusions
+            exclusions = [];
+        } else if (arguments.length === 4) {
+            // if four args are supplied, check exclusions is an array, if not
+            // assume it is a single string and construct an array
+            if (!Array.isArray(exclusions)) {
+                exclusions = [exclusions];
+            }
+        } else {
+            // for > 4 args, construct the exclusions
+            var args = Array.prototype.slice.call(arguments);
+            exclusions = args.slice(3);
+        }
+
+        exclusions.forEach(function(property) {
+            if (!source.hasOwnProperty(property)) {
+                throw new Error('The method ' + property + ' does not exist on the source object');
+            }
+        });
+
+        var bindings = {};
+        for (var property in source) {
+            if (source.hasOwnProperty(property) && exclusions.indexOf(property) === -1) {
+                bindings[prefix + capitalizeFirstLetter(property)] = property;
+            }
+        }
+        fc.util.rebind(target, source, bindings);
+    };
 }(d3, fc));

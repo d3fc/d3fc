@@ -20,3 +20,26 @@
 .plot-area {
   overflow: hidden;
 }
+
+.axes-container {
+  overflow: visible;
+}
+
+.label {
+  text-anchor: middle;
+}
+
+.y-axis.right .label,
+.x-axis.top .label,
+.title .label {
+  dominant-baseline: hanging;
+}
+
+.y-axis.left .label,
+.x-axis.bottom .label {
+  dominant-baseline: ideographic;
+}
+
+.cartesian-chart {
+  overflow: visible;
+}
