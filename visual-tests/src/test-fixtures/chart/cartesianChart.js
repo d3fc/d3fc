@@ -1,16 +1,13 @@
 (function(d3, fc) {
     'use strict';
 
-    // create a chart instance simply to grab the default values
-    var config = fc.chart.cartesianChart();
-
     var chartConfig = [
         {label: 'y orient', value: 'right'},
         {label: 'x orient', value: 'bottom'},
-        {label: 'y label', value: 'log(sin)'},
+        {label: 'y label', value: 'sin'},
         {label: 'x label', value: 'value'},
-        {label: 'chart label', value: config.chartLabel()},
-        {label: 'chart margin', value: JSON.stringify(config.plotAreaMargin())},
+        {label: 'chart label', value: 'A sine wave'},
+        {label: 'margin', value: JSON.stringify({bottom: 40, right: 40, top: 20})},
         {label: 'x axis baseline', value: ''},
         {label: 'y axis baseline', value: ''}
     ];
@@ -62,10 +59,10 @@
             .yDomain(fc.util.extent(data, 'y'))
             .yOrient(chartConfig[0].value)
             .xOrient(chartConfig[1].value)
-            .yAxisLabel(chartConfig[2].value)
-            .xAxisLabel(chartConfig[3].value)
+            .yLabel(chartConfig[2].value)
+            .xLabel(chartConfig[3].value)
             .chartLabel(chartConfig[4].value)
-            .plotAreaMargin(JSON.parse(chartConfig[5].value));
+            .margin(JSON.parse(chartConfig[5].value));
 
         if (chartConfig[6].value) {
             chart.xBaseline(Number(chartConfig[6].value));

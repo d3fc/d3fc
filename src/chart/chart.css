@@ -25,11 +25,19 @@
   overflow: visible;
 }
 
-.y-axis .label,
-.x-axis .label,
+.label {
+  text-anchor: middle;
+}
+
+.y-axis.right .label,
+.x-axis.top .label,
 .title .label {
-    dominant-baseline: middle;
-    text-anchor: middle;
+  dominant-baseline: hanging;
+}
+
+.y-axis.left .label,
+.x-axis.bottom .label {
+  dominant-baseline: ideographic;
 }
 
 .cartesian-chart {

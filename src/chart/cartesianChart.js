@@ -6,15 +6,13 @@
         xScale = xScale || d3.scale.linear();
         yScale = yScale || d3.scale.linear();
 
-        var plotAreaMargin = {
-                top: 20,
+        var margin = {
                 bottom: 30,
-                left: 0,
-                right: 40
+                right: 30
             },
-            yAxisLabel = 'y-axis',
-            xAxisLabel = 'x-axis',
-            chartLabel = 'Chart',
+            yLabel = '',
+            xLabel = '',
+            chartLabel = '',
             plotArea = fc.series.line(),
             decorate = fc.util.fn.noop;
 
@@ -55,7 +53,7 @@
                     </g> \
                     <g class="y-axis"> \
                         <g layout-css="height: 0; width: 0"> \
-                            <text class="label" transform="rotate(-90)"/> \
+                            <text class="label"/> \
                         </g> \
                     </g> \
                     <g class="x-axis"> \
@@ -64,21 +62,23 @@
                         </g> \
                     </g> \
                     <g class="plot-area-container"> \
+                        <rect class="background" \
+                            layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                         <svg class="axes-container" \
                             layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                         <svg class="plot-area" \
                             layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                     </g>');
 
-                var margin = fc.util.expandMargin(plotAreaMargin);
+                var expandedMargin = fc.util.expandMargin(margin);
 
                 svg.select('.plot-area-container')
                     .layout({
                         position: 'absolute',
-                        top: margin.top,
-                        left: margin.left,
-                        bottom: margin.bottom,
-                        right: margin.right
+                        top: expandedMargin.top,
+                        left: expandedMargin.left,
+                        bottom: expandedMargin.bottom,
+                        right: expandedMargin.right
                     });
 
                 svg.select('.title')
@@ -86,37 +86,31 @@
                         position: 'absolute',
                         top: 0,
                         alignItems: 'center',
-                        left: margin.left,
-                        right: margin.right
+                        left: expandedMargin.left,
+                        right: expandedMargin.right
                     });
 
                 var yAxisLayout = {
                     position: 'absolute',
-                    top: margin.top,
-                    bottom: margin.bottom,
+                    top: expandedMargin.top,
+                    bottom: expandedMargin.bottom,
                     alignItems: 'center',
                     flexDirection: 'row'
                 };
-                if (yAxis.orient() === 'right') {
-                    yAxisLayout.right = 0;
-                } else {
-                    yAxisLayout.left = 0;
-                }
+                yAxisLayout[yAxis.orient()] = 0;
                 svg.select('.y-axis')
+                    .attr('class', 'y-axis ' + yAxis.orient())
                     .layout(yAxisLayout);
 
                 var xAxisLayout = {
                     position: 'absolute',
-                    left: margin.left,
-                    right: margin.right,
+                    left: expandedMargin.left,
+                    right: expandedMargin.right,
                     alignItems: 'center'
                 };
-                if (xAxis.orient() === 'bottom') {
-                    xAxisLayout.bottom = 0;
-                } else {
-                    xAxisLayout.top = 0;
-                }
+                xAxisLayout[xAxis.orient()] = 0;
                 svg.select('.x-axis')
+                    .attr('class', 'x-axis ' + xAxis.orient())
                     .layout(xAxisLayout);
 
                 // perform the flexbox / css layout
@@ -127,10 +121,11 @@
                     .text(chartLabel);
 
                 svg.select('.y-axis .label')
-                    .text(yAxisLabel);
+                    .text(yLabel)
+                    .attr('transform', yAxis.orient() === 'right' ? 'rotate(90)' : 'rotate(-90)');
 
                 svg.select('.x-axis .label')
-                    .text(xAxisLabel);
+                    .text(xLabel);
 
                 // set the axis ranges
                 var plotAreaContainer = svg.select('.plot-area');
@@ -176,25 +171,25 @@
             plotArea = x;
             return cartesianChart;
         };
-        cartesianChart.xAxisLabel = function(x) {
+        cartesianChart.xLabel = function(x) {
             if (!arguments.length) {
-                return xAxisLabel;
+                return xLabel;
             }
-            xAxisLabel = x;
+            xLabel = x;
             return cartesianChart;
         };
-        cartesianChart.plotAreaMargin = function(x) {
+        cartesianChart.margin = function(x) {
             if (!arguments.length) {
-                return plotAreaMargin;
+                return margin;
             }
-            plotAreaMargin = x;
+            margin = x;
             return cartesianChart;
         };
-        cartesianChart.yAxisLabel = function(x) {
+        cartesianChart.yLabel = function(x) {
             if (!arguments.length) {
-                return yAxisLabel;
+                return yLabel;
             }
-            yAxisLabel = x;
+            yLabel = x;
             return cartesianChart;
         };
         cartesianChart.decorate = function(x) {
