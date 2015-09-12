@@ -1,110 +1,113 @@
-(function(d3, fc) {
-    'use strict';
+import d3 from 'd3';
+import _dataJoin from '../util/dataJoin';
+import fractionalBarWidth from '../util/fractionalBarWidth';
+import line from '../series/line';
+import {noop} from '../util/fn';
 
-    fc.series.cycle = function() {
 
-        var decorate = fc.util.fn.noop,
-            xScale = d3.scale.linear(),
-            yScale = d3.scale.linear(),
-            xValue = function(d, i) { return d.date.getDay(); },
-            subScale = d3.scale.linear(),
-            subSeries = fc.series.line(),
-            barWidth = fc.util.fractionalBarWidth(0.75);
+export default function() {
 
-        var dataJoin = fc.util.dataJoin()
-            .selector('g.cycle')
-            .element('g')
-            .attr('class', 'cycle');
+    var decorate = noop,
+        xScale = d3.scale.linear(),
+        yScale = d3.scale.linear(),
+        xValue = function(d, i) { return d.date.getDay(); },
+        subScale = d3.scale.linear(),
+        subSeries = line(),
+        barWidth = fractionalBarWidth(0.75);
 
-        var cycle = function(selection) {
+    var dataJoin = _dataJoin()
+        .selector('g.cycle')
+        .element('g')
+        .attr('class', 'cycle');
 
-            selection.each(function(data, index) {
+    var cycle = function(selection) {
 
-                var dataByX = d3.nest()
-                    .key(xValue)
-                    .map(data);
+        selection.each(function(data, index) {
 
-                var xValues = Object.keys(dataByX);
+            var dataByX = d3.nest()
+                .key(xValue)
+                .map(data);
 
-                var width = barWidth(xValues.map(xScale)),
-                    halfWidth = width / 2;
+            var xValues = Object.keys(dataByX);
 
-                var g = dataJoin(this, xValues);
+            var width = barWidth(xValues.map(xScale)),
+                halfWidth = width / 2;
 
-                g.each(function(d, i) {
+            var g = dataJoin(this, xValues);
 
-                    var g = d3.select(this);
+            g.each(function(d, i) {
 
-                    g.attr('transform', 'translate(' + xScale(d) + ', 0)');
+                var g = d3.select(this);
 
-                    (subScale.rangeBands || subScale.range)([-halfWidth, halfWidth]);
+                g.attr('transform', 'translate(' + xScale(d) + ', 0)');
 
-                    subSeries.xScale(subScale)
-                        .yScale(yScale);
+                (subScale.rangeBands || subScale.range)([-halfWidth, halfWidth]);
 
-                    d3.select(this)
-                        .datum(dataByX[d])
-                        .call(subSeries);
+                subSeries.xScale(subScale)
+                    .yScale(yScale);
 
-                });
+                d3.select(this)
+                    .datum(dataByX[d])
+                    .call(subSeries);
 
-                decorate(g, xValues, index);
             });
-        };
 
-        cycle.decorate = function(x) {
-            if (!arguments.length) {
-                return decorate;
-            }
-            decorate = x;
-            return cycle;
-        };
-        cycle.xScale = function(x) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = x;
-            return cycle;
-        };
-        cycle.yScale = function(x) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = x;
-            return cycle;
-        };
-        cycle.xValue = function(x) {
-            if (!arguments.length) {
-                return xValue;
-            }
-            xValue = x;
-            return cycle;
-        };
-        cycle.subScale = function(x) {
-            if (!arguments.length) {
-                return subScale;
-            }
-            subScale = x;
-            return cycle;
-        };
-        cycle.subSeries = function(x) {
-            if (!arguments.length) {
-                return subSeries;
-            }
-            subSeries = x;
-            return cycle;
-        };
-        cycle.barWidth = function(x) {
-            if (!arguments.length) {
-                return barWidth;
-            }
-            barWidth = d3.functor(x);
-            return cycle;
-        };
-
-        d3.rebind(cycle, dataJoin, 'key');
-
-        return cycle;
-
+            decorate(g, xValues, index);
+        });
     };
-}(d3, fc));
+
+    cycle.decorate = function(x) {
+        if (!arguments.length) {
+            return decorate;
+        }
+        decorate = x;
+        return cycle;
+    };
+    cycle.xScale = function(x) {
+        if (!arguments.length) {
+            return xScale;
+        }
+        xScale = x;
+        return cycle;
+    };
+    cycle.yScale = function(x) {
+        if (!arguments.length) {
+            return yScale;
+        }
+        yScale = x;
+        return cycle;
+    };
+    cycle.xValue = function(x) {
+        if (!arguments.length) {
+            return xValue;
+        }
+        xValue = x;
+        return cycle;
+    };
+    cycle.subScale = function(x) {
+        if (!arguments.length) {
+            return subScale;
+        }
+        subScale = x;
+        return cycle;
+    };
+    cycle.subSeries = function(x) {
+        if (!arguments.length) {
+            return subSeries;
+        }
+        subSeries = x;
+        return cycle;
+    };
+    cycle.barWidth = function(x) {
+        if (!arguments.length) {
+            return barWidth;
+        }
+        barWidth = d3.functor(x);
+        return cycle;
+    };
+
+    d3.rebind(cycle, dataJoin, 'key');
+
+    return cycle;
+
+}

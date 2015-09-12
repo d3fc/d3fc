@@ -1,10 +1,13 @@
-(function(d3, fc) {
-    'use strict';
+export function context() {
+    return this;
+}
 
-    fc.util.fn = {
-        context: function() { return this; },
-        identity: function(d) { return d; },
-        index: function(d, i) { return i; },
-        noop: function(d) {  }
-    };
-}(d3, fc));
+export function identity(d) {
+    return d;
+}
+
+export function index(d, i) {
+    return i;
+}
+
+export function noop(d) {}
