@@ -7,7 +7,7 @@
     "latedef": true,
     "newcap": true,
     "noarg": true,
-    "strict": true,
+    "strict": false,
     "undef": true,
     "unused": "vars",
     "validthis": true,
@@ -19,7 +19,6 @@
 
     "globals": {
         "d3": false,
-        "fc": false,
-        "require": false
+        "fc": false
     }
 }

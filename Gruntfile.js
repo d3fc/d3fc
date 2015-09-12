@@ -1,4 +1,4 @@
-/* global module */
+/* global module, require */
 
 module.exports = function(grunt) {
     'use strict';
@@ -271,20 +271,16 @@ module.exports = function(grunt) {
             }
         },
 
-        jasmine: {
+        jasmineNodejs: {
             options: {
-                specs: '<%= meta.testJsFiles %>',
-                vendor: [
-                    'node_modules/d3/d3.js',
-                    'node_modules/css-layout/dist/css-layout.js'
-                ],
-                helpers: 'tests/beforeEachSpec.js'
+                reporters: {
+                    console: {
+                        verbosity: false
+                    }
+                }
             },
             test: {
-                src: ['dist/d3fc.min.js'],
-                options: {
-                    keepRunner: true
-                }
+                specs: '<%= meta.testJsFiles %>'
             }
         },
 
@@ -314,7 +310,7 @@ module.exports = function(grunt) {
                     src: 'dist/d3fc.js',
                     objectToExport: 'fc',
                     deps: {
-                        'default': ['d3', 'cssLayout'],
+                        'default': ['d3', 'computeLayout'],
                         cjs: ['d3', 'css-layout'],
                         amd: ['d3', 'css-layout'],
                         global: ['d3', 'computeLayout']
@@ -329,6 +325,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('assemble');
 
     grunt.renameTask('concat_css', 'concatCss');
+    grunt.renameTask('jasmine_nodejs', 'jasmineNodejs');
 
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
@@ -338,13 +335,13 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('build:components', [
         'check', 'clean:dist', 'concat:dist', 'umd:dist', 'version',
-        'uglify:dist', 'concatCss:all', 'cssmin:dist', 'jasmine:test'
+        'uglify:dist', 'concatCss:all', 'cssmin:dist', 'jasmineNodejs:test'
     ]);
     grunt.registerTask('build', ['build:components', 'build:visual-tests']);
     grunt.registerTask('dev:serve', ['connect:dev', 'watch:components']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('ci', ['default', 'site']);
-    grunt.registerTask('test', ['jasmine:test', 'build:visual-tests']);
+    grunt.registerTask('test', ['jasmineNodejs:test', 'build:visual-tests']);
     grunt.registerTask('serve', ['connect:keepalive']);
     grunt.registerTask('site:dev', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
