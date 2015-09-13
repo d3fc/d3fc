@@ -99,12 +99,10 @@
             yNice: 'nice'
         });
 
-        var axisExclusions = [
-            'scale', // the scale is set to this component's scale
-            'orient' // the component layout does not support changes of orientation
-        ];
-        fc.util.rebindAll(linearTimeSeries, xAxis, 'x', axisExclusions);
-        fc.util.rebindAll(linearTimeSeries, yAxis, 'y', axisExclusions);
+        // Exclude scale when rebinding the axis properties because this component
+        // is responsible for providing the required scale.
+        fc.util.rebindAll(linearTimeSeries, xAxis, 'x', 'scale');
+        fc.util.rebindAll(linearTimeSeries, yAxis, 'y', 'scale');
 
         linearTimeSeries.xScale = function() { return xScale; };
         linearTimeSeries.yScale = function() { return yScale; };
