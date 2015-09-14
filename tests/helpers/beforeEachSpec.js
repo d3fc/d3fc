@@ -1,6 +1,13 @@
-beforeEach(function() {
-    'use strict';
+/* global global, require, d3:true, fc:true */
+var jsdom = require('jsdom');
+var d3 = require('d3');
+var fc = require('../..');
 
+global.document = jsdom.jsdom();
+global.d3 = d3;
+global.fc = fc;
+
+beforeEach(function() {
     this.utils = {
         // verifies that each time a property accessor is called that the first arg is a datapoint
         // from the given array of data, and that the second arg is an integer
