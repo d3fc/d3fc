@@ -243,7 +243,7 @@ module.exports = function(grunt) {
                     src: ['<%= meta.testJsFiles %>']
                 }
             },
-            visualTest: {
+            visualTests: {
                 files: {
                     src: ['<%= meta.visualTestJsFiles %>']
                 }
@@ -269,7 +269,7 @@ module.exports = function(grunt) {
                     src: ['<%= meta.testJsFiles %>']
                 }
             },
-            visualTest: {
+            visualTests: {
                 files: {
                     src: ['<%= meta.visualTestJsFiles %>']
                 }
