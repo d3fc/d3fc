@@ -26,31 +26,18 @@ npm install -g grunt-cli
 npm install
 ```
 
-- Perform an initial build:
-
-```
-grunt
-```
-
 ### Grunt Tasks
 
 The following Grunt tasks, found in `Gruntfile.js`, can be run from the command line. The most commonly used tasks to build and develop the project are:
 
-- `grunt build` - generate the project's JavaScript and CSS files in the _dist_ directory (at the root of the project); build the visual tests
-- `grunt dev` - run `grunt build`, then `grunt watch`
-- `grunt dev:serve` - same as `grunt dev` but also starts a web server for viewing the visual tests
-
-Other tasks include:
-
-- `grunt check` - run JSHint and JSCS checks
-- `grunt test` - run unit tests and build the visual tests
-- `grunt watch` - watch the source files and rebuild when a change is saved
-- `grunt serve` - start a web server for viewing the visual tests
-- `grunt` - check, test and build the project
+- `grunt` - start a watcher which will automatically generate the project's JavaScript and CSS files in the _dist_ directory (at the root of the project) and run unit tests when files change.
+- `grunt visualTests:serve` - start a watcher which will automatically generate the visual tests and serve them at http://localhost:8000/ when files change.
+- `grunt site:serve` - start a watcher which will automatically generate the website and serve it at http://localhost:8000/ when files change.
+- `grunt ci` - the full build run by the CI server
 
 ### Visual Tests
 
-The project includes a number of unit tests, however, because these components are visual in nature, unit testing is not enough. This project contains a number of ad-hoc visual tests that are found within the `visual-tests` folder. The visual tests are compiled, via [assemble](http://assemble.io/), to create a simple website. To view this site, run `grunt serve` or a [static server](https://gist.github.com/willurd/5720255) from the `visual-tests\dist` folder.
+The project includes a number of unit tests, however, because these components are visual in nature, unit testing is not enough. This project contains a number of ad-hoc visual tests that are found within the `visual-tests` folder. The visual tests are compiled, via [assemble](http://assemble.io/), to create a simple website. To view this site, run `grunt visualTests:serve`.
 
 ## License
 
