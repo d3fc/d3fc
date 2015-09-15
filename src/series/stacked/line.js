@@ -1,25 +1,24 @@
-(function(d3, fc) {
-    'use strict';
+import _line from '../line';
+import _stack from './stack';
+import {rebind} from '../../util/rebind';
 
-    fc.series.stacked.line = function() {
+export default function() {
 
-        var line = fc.series.line()
-            .yValue(function(d) { return d.y0 + d.y; });
+    var line = _line()
+        .yValue(function(d) { return d.y0 + d.y; });
 
-        var stack = fc.series.stacked.stack()
-            .series(line);
+    var stack = _stack()
+        .series(line);
 
-        var stackedLine = function(selection) {
-            selection.call(stack);
-        };
-
-        return fc.util.rebind(stackedLine, line, {
-            decorate: 'decorate',
-            xScale: 'xScale',
-            yScale: 'yScale',
-            xValue: 'xValue',
-            yValue: 'yValue'
-        });
+    var stackedLine = function(selection) {
+        selection.call(stack);
     };
 
-}(d3, fc));
+    return rebind(stackedLine, line, {
+        decorate: 'decorate',
+        xScale: 'xScale',
+        yScale: 'yScale',
+        xValue: 'xValue',
+        yValue: 'yValue'
+    });
+}

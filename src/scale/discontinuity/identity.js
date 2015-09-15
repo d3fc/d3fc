@@ -1,24 +1,22 @@
-(function(d3, fc) {
-    'use strict';
+import {identity as _identity} from '../../util/fn';
 
-    fc.scale.discontinuity.identity = function() {
+export default function() {
 
-        var identity = {};
+    var identity = {};
 
-        identity.distance = function(startDate, endDate) {
-            return endDate.getTime() - startDate.getTime();
-        };
-
-        identity.offset = function(startDate, ms) {
-            return new Date(startDate.getTime() + ms);
-        };
-
-        identity.clampUp = fc.util.fn.identity;
-
-        identity.clampDown = fc.util.fn.identity;
-
-        identity.copy = function() { return identity; };
-
-        return identity;
+    identity.distance = function(startDate, endDate) {
+        return endDate.getTime() - startDate.getTime();
     };
-}(d3, fc));
+
+    identity.offset = function(startDate, ms) {
+        return new Date(startDate.getTime() + ms);
+    };
+
+    identity.clampUp = _identity;
+
+    identity.clampDown = _identity;
+
+    identity.copy = function() { return identity; };
+
+    return identity;
+}

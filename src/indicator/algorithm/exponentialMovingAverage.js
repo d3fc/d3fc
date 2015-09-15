@@ -1,23 +1,23 @@
-(function(d3, fc) {
-    'use strict';
+import calculator from './calculator/slidingWindow';
+import d3 from 'd3';
+import merge from './merge';
 
-    fc.indicator.algorithm.exponentialMovingAverage = function() {
+export default function() {
 
-        var ema = fc.indicator.algorithm.calculator.slidingWindow()
-                .accumulator(d3.mean)
-                .value(function(d) { return d.close; });
+    var ema = calculator()
+            .accumulator(d3.mean)
+            .value(function(d) { return d.close; });
 
-        var mergedAlgorithm = fc.indicator.algorithm.merge()
-                .algorithm(ema)
-                .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
+    var mergedAlgorithm = merge()
+            .algorithm(ema)
+            .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
 
-        var exponentialMovingAverage = function(data) {
-            return mergedAlgorithm(data);
-        };
-
-        d3.rebind(exponentialMovingAverage, mergedAlgorithm, 'merge');
-        d3.rebind(exponentialMovingAverage, ema, 'windowSize', 'value');
-
-        return exponentialMovingAverage;
+    var exponentialMovingAverage = function(data) {
+        return mergedAlgorithm(data);
     };
-}(d3, fc));
+
+    d3.rebind(exponentialMovingAverage, mergedAlgorithm, 'merge');
+    d3.rebind(exponentialMovingAverage, ema, 'windowSize', 'value');
+
+    return exponentialMovingAverage;
+}

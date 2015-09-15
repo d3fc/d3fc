@@ -1,29 +1,28 @@
-(function(d3, fc) {
-    'use strict';
+import _bar from '../bar';
+import _stack from './stack';
+import {rebind} from '../../util/rebind';
 
-    fc.series.stacked.bar = function() {
+export default function() {
 
-        var bar = fc.series.bar()
-            .yValue(function(d) { return d.y0 + d.y; })
-            .y0Value(function(d) { return d.y0; });
+    var bar = _bar()
+        .yValue(function(d) { return d.y0 + d.y; })
+        .y0Value(function(d) { return d.y0; });
 
-        var stack = fc.series.stacked.stack()
-            .series(bar);
+    var stack = _stack()
+        .series(bar);
 
-        var stackedBar = function(selection) {
-            selection.call(stack);
-        };
-
-        return fc.util.rebind(stackedBar, bar, {
-            decorate: 'decorate',
-            xScale: 'xScale',
-            yScale: 'yScale',
-            xValue: 'xValue',
-            y0Value: 'y0Value',
-            y1Value: 'y1Value',
-            yValue: 'yValue',
-            barWidth: 'barWidth'
-        });
+    var stackedBar = function(selection) {
+        selection.call(stack);
     };
 
-}(d3, fc));
+    return rebind(stackedBar, bar, {
+        decorate: 'decorate',
+        xScale: 'xScale',
+        yScale: 'yScale',
+        xValue: 'xValue',
+        y0Value: 'y0Value',
+        y1Value: 'y1Value',
+        yValue: 'yValue',
+        barWidth: 'barWidth'
+    });
+}

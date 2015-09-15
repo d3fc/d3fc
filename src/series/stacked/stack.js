@@ -1,34 +1,34 @@
-(function(d3, fc) {
-    'use strict';
+import d3 from 'd3';
+import _dataJoin from '../../util/dataJoin';
+import {noop} from '../../util/fn';
 
-    fc.series.stacked.stack = function() {
+export default function() {
 
-        var series = fc.util.fn.noop;
+    var series = noop;
 
-        var stack = function(selection) {
+    var stack = function(selection) {
 
-            selection.each(function(data) {
+        selection.each(function(data) {
 
-                var container = d3.select(this);
+            var container = d3.select(this);
 
-                var dataJoin = fc.util.dataJoin()
-                    .selector('g.stacked')
-                    .element('g')
-                    .attr('class', 'stacked');
+            var dataJoin = _dataJoin()
+                .selector('g.stacked')
+                .element('g')
+                .attr('class', 'stacked');
 
-                dataJoin(container, data)
-                    .call(series);
-            });
-        };
+            dataJoin(container, data)
+                .call(series);
+        });
+    };
 
-        stack.series = function(x) {
-            if (!arguments.length) {
-                return series;
-            }
-            series = x;
-            return stack;
-        };
-
+    stack.series = function(x) {
+        if (!arguments.length) {
+            return series;
+        }
+        series = x;
         return stack;
     };
-}(d3, fc));
+
+    return stack;
+}

@@ -1,28 +1,27 @@
-(function(d3, fc) {
-    'use strict';
+import _area from '../area';
+import _stack from './stack';
+import {rebind} from '../../util/rebind';
 
-    fc.series.stacked.area = function() {
+export default function() {
 
-        var area = fc.series.area()
-            .yValue(function(d) { return d.y0 + d.y; })
-            .y0Value(function(d) { return d.y0; });
+    var area = _area()
+        .yValue(function(d) { return d.y0 + d.y; })
+        .y0Value(function(d) { return d.y0; });
 
-        var stack = fc.series.stacked.stack()
-            .series(area);
+    var stack = _stack()
+        .series(area);
 
-        var stackedArea = function(selection) {
-            selection.call(stack);
-        };
-
-        return fc.util.rebind(stackedArea, area, {
-            decorate: 'decorate',
-            xScale: 'xScale',
-            yScale: 'yScale',
-            xValue: 'xValue',
-            y0Value: 'y0Value',
-            y1Value: 'y1Value',
-            yValue: 'yValue'
-        });
+    var stackedArea = function(selection) {
+        selection.call(stack);
     };
 
-}(d3, fc));
+    return rebind(stackedArea, area, {
+        decorate: 'decorate',
+        xScale: 'xScale',
+        yScale: 'yScale',
+        xValue: 'xValue',
+        y0Value: 'y0Value',
+        y1Value: 'y1Value',
+        yValue: 'yValue'
+    });
+}

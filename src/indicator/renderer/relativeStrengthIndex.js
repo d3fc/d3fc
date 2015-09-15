@@ -1,83 +1,85 @@
-(function(d3, fc) {
-    'use strict';
+import d3 from 'd3';
+import annotationLine from '../../annotation/line';
+import _multi from '../../series/multi';
+import {noop} from '../../util/fn';
+import seriesLine from '../../series/line';
 
-    fc.indicator.renderer.relativeStrengthIndex = function() {
+export default function() {
 
-        var xScale = d3.time.scale(),
-            yScale = d3.scale.linear(),
-            upperValue = 70,
-            lowerValue = 30,
-            multiSeries = fc.series.multi(),
-            decorate = fc.util.fn.noop;
+    var xScale = d3.time.scale(),
+        yScale = d3.scale.linear(),
+        upperValue = 70,
+        lowerValue = 30,
+        multiSeries = _multi(),
+        decorate = noop;
 
-        var annotations = fc.annotation.line();
-        var rsiLine = fc.series.line()
-            .yValue(function(d, i) { return d.rsi; });
+    var annotations = annotationLine();
+    var rsiLine = seriesLine()
+        .yValue(function(d, i) { return d.rsi; });
 
-        var rsi = function(selection) {
+    var rsi = function(selection) {
 
-            multiSeries.xScale(xScale)
-                .yScale(yScale)
-                .series([annotations, rsiLine])
-                .mapping(function(series) {
-                    if (series === annotations) {
-                        return [
-                            upperValue,
-                            50,
-                            lowerValue
-                        ];
-                    }
-                    return this;
-                })
-                .decorate(function(g, data, index) {
-                    g.enter()
-                        .attr('class', function(d, i) {
-                            return 'multi ' + ['annotations', 'indicator'][i];
-                        });
-                    decorate(g, data, index);
-                });
+        multiSeries.xScale(xScale)
+            .yScale(yScale)
+            .series([annotations, rsiLine])
+            .mapping(function(series) {
+                if (series === annotations) {
+                    return [
+                        upperValue,
+                        50,
+                        lowerValue
+                    ];
+                }
+                return this;
+            })
+            .decorate(function(g, data, index) {
+                g.enter()
+                    .attr('class', function(d, i) {
+                        return 'multi ' + ['annotations', 'indicator'][i];
+                    });
+                decorate(g, data, index);
+            });
 
-            selection.call(multiSeries);
-        };
+        selection.call(multiSeries);
+    };
 
-        rsi.xScale = function(x) {
-            if (!arguments.length) {
-                return xScale;
-            }
-            xScale = x;
-            return rsi;
-        };
-        rsi.yScale = function(x) {
-            if (!arguments.length) {
-                return yScale;
-            }
-            yScale = x;
-            return rsi;
-        };
-        rsi.upperValue = function(x) {
-            if (!arguments.length) {
-                return upperValue;
-            }
-            upperValue = x;
-            return rsi;
-        };
-        rsi.lowerValue = function(x) {
-            if (!arguments.length) {
-                return lowerValue;
-            }
-            lowerValue = x;
-            return rsi;
-        };
-        rsi.decorate = function(x) {
-            if (!arguments.length) {
-                return decorate;
-            }
-            decorate = x;
-            return rsi;
-        };
-
-        d3.rebind(rsi, rsiLine, 'yValue', 'xValue');
-
+    rsi.xScale = function(x) {
+        if (!arguments.length) {
+            return xScale;
+        }
+        xScale = x;
         return rsi;
     };
-}(d3, fc));
+    rsi.yScale = function(x) {
+        if (!arguments.length) {
+            return yScale;
+        }
+        yScale = x;
+        return rsi;
+    };
+    rsi.upperValue = function(x) {
+        if (!arguments.length) {
+            return upperValue;
+        }
+        upperValue = x;
+        return rsi;
+    };
+    rsi.lowerValue = function(x) {
+        if (!arguments.length) {
+            return lowerValue;
+        }
+        lowerValue = x;
+        return rsi;
+    };
+    rsi.decorate = function(x) {
+        if (!arguments.length) {
+            return decorate;
+        }
+        decorate = x;
+        return rsi;
+    };
+
+    d3.rebind(rsi, rsiLine, 'yValue', 'xValue');
+
+    return rsi;
+}

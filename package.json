@@ -22,6 +22,7 @@
   "devDependencies": {
     "assemble": "^0.4.42",
     "bootstrap": "^3.3.5",
+    "d3-bundler": "^0.2.7",
     "grunt": "^0.4.5",
     "grunt-concat-css": "^0.3.1",
     "grunt-contrib-clean": "^0.6.0",
@@ -29,13 +30,14 @@
     "grunt-contrib-connect": "^0.10.1",
     "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-cssmin": "^0.10.0",
-    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-jshint": "^0.11.3",
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-jasmine-node": "^0.3.1",
     "grunt-jasmine-nodejs": "^1.4.3",
     "grunt-jscs": "^1.8.0",
+    "grunt-rollup": "0.0.1",
     "grunt-umd": "^2.3.3",
     "grunt-version": "^1.0.0",
     "handlebars-helpers": "ColinEberhardt/handlebars-helpers",
@@ -43,7 +45,8 @@
     "jsdom": "^6.3.0",
     "matchdep": "^0.3.0",
     "seedrandom": "^2.4.0",
-    "time-grunt": "^1.2.1"
+    "time-grunt": "^1.2.1",
+    "rollup": "^0.15.0"
   },
   "scripts": {
     "test": "grunt ci",

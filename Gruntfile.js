@@ -80,13 +80,6 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: false
             },
-            components: {
-                src: [
-                    'src/fc.js',
-                    '<%= meta.componentsJsFiles %>'
-                ],
-                dest: 'dist/<%= pkg.name %>.js'
-            },
             site: {
                 src: [
                         'node_modules/d3/d3.js',
@@ -316,17 +309,15 @@ module.exports = function(grunt) {
             }
         },
 
-        umd: {
+        rollup: {
             components: {
+                files: {
+                    'dist/d3fc.js': ['src/fc.js']
+                },
                 options: {
-                    src: 'dist/d3fc.js',
-                    objectToExport: 'fc',
-                    deps: {
-                        'default': ['d3', 'computeLayout'],
-                        cjs: ['d3', 'css-layout'],
-                        amd: ['d3', 'css-layout'],
-                        global: ['d3', 'computeLayout']
-                    }
+                    external: ['css-layout', 'd3'],
+                    format: 'umd',
+                    moduleName: 'fc'
                 }
             }
         }
@@ -340,7 +331,7 @@ module.exports = function(grunt) {
     grunt.renameTask('jasmine_nodejs', 'jasmineNodejs');
 
     grunt.registerTask('components', [
-        'jshint:components', 'jscs:components', 'clean:components', 'concat:components', 'umd:components', 'version',
+        'jshint:components', 'jscs:components', 'clean:components', 'rollup:components', 'version',
         'concatCss:components', 'cssmin:components', 'jshint:test', 'jscs:test', 'jasmineNodejs:test'
     ]);
 

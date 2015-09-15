@@ -7,7 +7,6 @@
     "latedef": true,
     "newcap": true,
     "noarg": true,
-    "strict": false,
     "undef": true,
     "unused": "vars",
     "validthis": true,
