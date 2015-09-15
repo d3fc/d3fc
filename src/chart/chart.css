@@ -31,11 +31,11 @@
 
 .y-axis.right .label,
 .x-axis.top .label,
+.y-axis.left .label,
 .title .label {
   dominant-baseline: hanging;
 }
 
-.y-axis.left .label,
 .x-axis.bottom .label {
   dominant-baseline: ideographic;
 }
