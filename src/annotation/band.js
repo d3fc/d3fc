@@ -40,7 +40,8 @@ export default function() {
                 .classed('band', true);
 
             var pathGenerator = bar()
-                .align('right')
+                .horizontalAlign('right')
+                .verticalAlign('top')
                 .x(x0Scaled)
                 .y(y0Scaled)
                 .height(function() {
