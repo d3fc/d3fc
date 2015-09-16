@@ -60,11 +60,11 @@
             .filter(d3.functor(true))
             (15);
 
-        // offset the close price to give some negative values
-        var extent = fc.util.extent(data, ['close']);
+        // offset the low price to give some negative values
+        var extent = fc.util.extent(data, ['low']);
         var offset = extent[0] + (extent[1] - extent[0]) / 2;
         data.forEach(function(datum) {
-            datum.close = datum.close - offset;
+            datum.low = datum.low - offset;
         });
 
         var width = 250, height = 250;
@@ -81,11 +81,12 @@
 
         // Create scale for x axis
         var priceScale = d3.scale.linear()
-            .domain(fc.util.extent(data, ['close']))
+            .domain(fc.util.extent(data, ['low']))
             .range([0, width]);
 
         var bar = fc.series.bar()
             .orient('horizontal')
+            .xValue(function(d) { return d.low; })
             .xScale(priceScale)
             .yScale(dateScale);
 

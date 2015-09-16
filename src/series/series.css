@@ -34,7 +34,7 @@ path.area {
   fill-opacity: 0.5;
 }
 
-.bar>path, .column>path {
+.bar>path {
   stroke: #06c;
   fill: #9cf;
   fill-opacity: 0.5;
