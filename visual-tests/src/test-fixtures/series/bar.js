@@ -84,7 +84,8 @@
             .domain(fc.util.extent(data, ['close']))
             .range([0, width]);
 
-        var bar = fc.series.column()
+        var bar = fc.series.bar()
+            .orient('horizontal')
             .xScale(priceScale)
             .yScale(dateScale);
 
