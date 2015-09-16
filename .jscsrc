@@ -13,6 +13,7 @@
     },
 
     "requireBlocksOnNewline": 1,
+    "requireCamelCaseOrUpperCaseIdentifiers": null,
     "requireCommaBeforeLineBreak": true,
     "requireDotNotation": true,
     "requireLineFeedAtFileEnd": null,

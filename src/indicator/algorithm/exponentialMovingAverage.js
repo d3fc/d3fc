@@ -1,14 +1,13 @@
-import calculator from './calculator/slidingWindow';
 import d3 from 'd3';
-import merge from './merge';
+import indicator_algorithm_calculator_exponentialMovingAverage from './calculator/exponentialMovingAverage';
+import indicator_algorithm_merge from './merge';
 
 export default function() {
 
-    var ema = calculator()
-            .accumulator(d3.mean)
+    var ema = indicator_algorithm_calculator_exponentialMovingAverage()
             .value(function(d) { return d.close; });
 
-    var mergedAlgorithm = merge()
+    var mergedAlgorithm = indicator_algorithm_merge()
             .algorithm(ema)
             .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
 
