@@ -2,6 +2,16 @@ svg {
 	display: block;
 }
 
+// reset the bootstrap styling which suppressed svg overflow
+svg:not(:root) {
+	overflow: initial;
+}
+
+// however, for a number of our examples, we do not want overflow!
+.chart svg {
+	overflow: hidden;
+}
+
 .content {
 	background: @brand-offwhite;
 	padding-bottom: @navbar-margin-bottom;
