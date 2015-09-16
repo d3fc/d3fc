@@ -156,7 +156,7 @@ export default function() {
         if (!arguments.length) {
             return x0Value;
         }
-        x0Value = x;
+        x0Value = d3.functor(x);
         return bar;
     };
     bar.yValue = bar.y1Value = function(x) {
