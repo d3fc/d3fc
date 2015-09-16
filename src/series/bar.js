@@ -4,7 +4,7 @@ import fractionalBarWidth from '../util/fractionalBarWidth';
 import {noop} from '../util/fn';
 import svgBar from '../svg/bar';
 
-// the bar series renders a vertical (column) or horizontal (bar) series. In order
+// The bar series renders a vertical (column) or horizontal (bar) series. In order
 // to provide a common implementation there are a number of functions that specialise
 // the rendering logic based on the 'orient' property.
 export default function() {
