@@ -1,13 +1,13 @@
 import d3 from 'd3';
-import indicator_algorithm_calculator_exponentialMovingAverage from './calculator/exponentialMovingAverage';
-import indicator_algorithm_merge from './merge';
+import exponentialMovingAverageCalculator from './calculator/exponentialMovingAverage';
+import merge from './merge';
 
 export default function() {
 
-    var ema = indicator_algorithm_calculator_exponentialMovingAverage()
+    var ema = exponentialMovingAverageCalculator()
             .value(function(d) { return d.close; });
 
-    var mergedAlgorithm = indicator_algorithm_merge()
+    var mergedAlgorithm = merge()
             .algorithm(ema)
             .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
 
