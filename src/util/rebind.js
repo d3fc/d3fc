@@ -49,16 +49,35 @@ export function rebindAll(target, source, prefix, exclusions) {
         exclusions = args.slice(3);
     }
 
-    exclusions.forEach(function(property) {
+    var stringExclusions = exclusions.filter(function(exclusion) {
+        return typeof(exclusion) === 'string';
+    });
+
+    var regexExclusions = exclusions.filter(function(exclusion) {
+        return typeof(exclusion) !== 'string';
+    });
+
+    stringExclusions.forEach(function(property) {
         if (!source.hasOwnProperty(property)) {
             throw new Error('The method ' + property + ' does not exist on the source object');
         }
     });
 
+    function findMatchingExclusions(property) {
+        return regexExclusions.filter(function(exclusion) {
+            return property.match(exclusion);
+        });
+    }
+
     var bindings = {};
     for (var property in source) {
-        if (source.hasOwnProperty(property) && exclusions.indexOf(property) === -1) {
-            bindings[prefix + capitalizeFirstLetter(property)] = property;
+        if (source.hasOwnProperty(property)) {
+            var matchesString = stringExclusions.indexOf(property) !== -1;
+            var matchesRegex = findMatchingExclusions(property).length > 0;
+
+            if (!matchesString && !matchesRegex) {
+                bindings[prefix + capitalizeFirstLetter(property)] = property;
+            }
         }
     }
     rebind(target, source, bindings);

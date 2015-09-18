@@ -118,4 +118,18 @@ describe('fc.util.rebindAll', function() {
         })
         .toThrow(new Error('The method fish does not exist on the source object'));
     });
+
+    it('should support regular expression exclusions', function() {
+        fc.util.rebindAll(target, source, 'x', 'scale', /tick[\w]*/);
+
+        expect(target.xScale).not.toBeDefined();
+        expect(target.xTickValues).not.toBeDefined();
+        expect(target.xTickFormat).not.toBeDefined();
+        expect(target.xTickPadding).not.toBeDefined();
+        expect(target.xTickSubdivide).not.toBeDefined();
+
+        expect(target.xOrient()).toEqual(source.orient());
+        expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
+        expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
+    });
 });

@@ -9,7 +9,8 @@
         {label: 'chart label', value: 'A sine wave'},
         {label: 'margin', value: JSON.stringify({bottom: 40, right: 40, top: 20})},
         {label: 'x axis baseline', value: ''},
-        {label: 'y axis baseline', value: ''}
+        {label: 'y axis baseline', value: ''},
+        {label: 'ordinal', value: false, type: 'checkbox'}
     ];
 
     var chartContainer = d3.select('#chart');
@@ -34,10 +35,16 @@
 
         row.append('td')
             .append('input')
-            .attr({'type': 'text'})
+            .attr('type', function(d) { return d.type || 'text'; })
             .on('blur', function(d) {
-                d.value = this.value;
-                render();
+                d.value = this.type === 'checkbox' ? this.checked : this.value;
+                renderChart();
+            })
+            .on('click', function(d) {
+                if (this.type === 'checkbox') {
+                    d.value = this.checked;
+                    renderChart();
+                }
             });
 
         yOrientationConfig.select('input')
@@ -45,18 +52,31 @@
     }
 
     function renderChart() {
-        var data = d3.range(20).map(function(d) {
-            return {
-                x: d,
-                y: (Math.sin(d) + 1.1)
-            };
-        });
+
+        var data;
+
+        var isOrdinal = chartConfig[8].value;
+
+        if (isOrdinal) {
+            data = [
+                {name: 'bob', size: 45},
+                {name: 'bill', size: 12},
+                {name: 'frank', size: 33}
+            ];
+        } else {
+            data = d3.range(20).map(function(d) {
+                return {
+                    x: d,
+                    y: (Math.sin(d) + 1.1)
+                };
+            });
+        }
 
         var chart = fc.chart.cartesianChart(
-                d3.scale.linear(),
+                isOrdinal ? d3.scale.ordinal() : d3.scale.linear(),
                 d3.scale.linear())
-            .xDomain(fc.util.extent(data, 'x'))
-            .yDomain(fc.util.extent(data, 'y'))
+            .xDomain(isOrdinal ? data.map(function(d) { return d.name; }) : fc.util.extent(data, 'x'))
+            .yDomain(isOrdinal ? [0, 50] : fc.util.extent(data, 'y'))
             .yOrient(chartConfig[0].value)
             .xOrient(chartConfig[1].value)
             .yLabel(chartConfig[2].value)
@@ -73,11 +93,11 @@
         }
 
         // Create the line and area series
-        var line = fc.series.line()
-            .xValue(function(d) { return d.x; })
-            .yValue(function(d) { return d.y; });
+        var bar = fc.series.bar()
+            .xValue(function(d) { return isOrdinal ? d.name : d.x; })
+            .yValue(function(d) { return isOrdinal ? d.size : d.y; });
 
-        chart.plotArea(line);
+        chart.plotArea(bar);
 
         chartContainer.datum(data)
             .call(chart);
