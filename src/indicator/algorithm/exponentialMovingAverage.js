@@ -1,11 +1,10 @@
-import calculator from './calculator/slidingWindow';
 import d3 from 'd3';
+import exponentialMovingAverageCalculator from './calculator/exponentialMovingAverage';
 import merge from './merge';
 
 export default function() {
 
-    var ema = calculator()
-            .accumulator(d3.mean)
+    var ema = exponentialMovingAverageCalculator()
             .value(function(d) { return d.close; });
 
     var mergedAlgorithm = merge()
