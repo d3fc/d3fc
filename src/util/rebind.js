@@ -34,51 +34,33 @@ function capitalizeFirstLetter(str) {
  * be rebound.
  */
 export function rebindAll(target, source, prefix, exclusions) {
-    if (arguments.length === 3) {
-        // if only three args are supplied, there are no exclusions
-        exclusions = [];
-    } else if (arguments.length === 4) {
-        // if four args are supplied, check exclusions is an array, if not
-        // assume it is a single string and construct an array
-        if (!Array.isArray(exclusions)) {
-            exclusions = [exclusions];
-        }
-    } else {
-        // for > 4 args, construct the exclusions
-        var args = Array.prototype.slice.call(arguments);
-        exclusions = args.slice(3);
+    // if exclusions isn't an array, construct it
+    if (!(arguments.length === 4 && Array.isArray(exclusions))) {
+        exclusions = Array.prototype.slice.call(arguments, 3);
     }
 
-    var stringExclusions = exclusions.filter(function(exclusion) {
-        return typeof(exclusion) === 'string';
-    });
-
-    var regexExclusions = exclusions.filter(function(exclusion) {
-        return typeof(exclusion) !== 'string';
-    });
-
-    stringExclusions.forEach(function(property) {
-        if (!source.hasOwnProperty(property)) {
-            throw new Error('The method ' + property + ' does not exist on the source object');
+    exclusions = exclusions.map(function(exclusion) {
+        if (typeof(exclusion) === 'string') {
+            if (!source.hasOwnProperty(exclusion)) {
+                throw new Error('The method ' + exclusion + ' does not exist on the source object');
+            }
+            exclusion = new RegExp('^' + exclusion + '$');
         }
+        return exclusion;
     });
 
-    function findMatchingExclusions(property) {
-        return regexExclusions.filter(function(exclusion) {
+    function exclude(property) {
+        return exclusions.some(function(exclusion) {
             return property.match(exclusion);
         });
     }
 
     var bindings = {};
     for (var property in source) {
-        if (source.hasOwnProperty(property)) {
-            var matchesString = stringExclusions.indexOf(property) !== -1;
-            var matchesRegex = findMatchingExclusions(property).length > 0;
-
-            if (!matchesString && !matchesRegex) {
-                bindings[prefix + capitalizeFirstLetter(property)] = property;
-            }
+        if (source.hasOwnProperty(property) && !exclude(property)) {
+            bindings[prefix + capitalizeFirstLetter(property)] = property;
         }
     }
+
     rebind(target, source, bindings);
 }
