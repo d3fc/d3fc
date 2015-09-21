@@ -20,6 +20,11 @@
         renderChart();
     }
 
+    function updateModel(d) {
+        d.value = this.type === 'checkbox' ? this.checked : this.value;
+        renderChart();
+    }
+
     function renderControls() {
         var container = d3.select('#controls');
 
@@ -36,16 +41,8 @@
         row.append('td')
             .append('input')
             .attr('type', function(d) { return d.type || 'text'; })
-            .on('blur', function(d) {
-                d.value = this.type === 'checkbox' ? this.checked : this.value;
-                renderChart();
-            })
-            .on('click', function(d) {
-                if (this.type === 'checkbox') {
-                    d.value = this.checked;
-                    renderChart();
-                }
-            });
+            .on('blur', updateModel)
+            .on('click', updateModel);
 
         yOrientationConfig.select('input')
             .attr('value', function(d) { return d.value; });
@@ -85,14 +82,13 @@
             .margin(JSON.parse(chartConfig[5].value));
 
         if (chartConfig[6].value) {
-            chart.xBaseline(Number(chartConfig[6].value));
+            chart.xBaseline(chartConfig[6].value);
         }
 
         if (chartConfig[7].value) {
-            chart.yBaseline(Number(chartConfig[7].value));
+            chart.yBaseline(chartConfig[7].value);
         }
 
-        // Create the line and area series
         var bar = fc.series.bar()
             .xValue(function(d) { return isOrdinal ? d.name : d.x; })
             .yValue(function(d) { return isOrdinal ? d.size : d.y; });

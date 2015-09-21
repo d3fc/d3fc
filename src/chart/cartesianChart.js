@@ -6,7 +6,7 @@ import dataJoin from '../util/dataJoin';
 import expandMargin from '../util/expandMargin';
 import {noop} from '../util/fn';
 import {rebindAll} from '../util/rebind';
-import {isOrdinal} from '../util/scale';
+import {isOrdinal, range} from '../util/scale';
 
 export default function(xScale, yScale) {
 
@@ -19,30 +19,36 @@ export default function(xScale, yScale) {
         },
         yLabel = '',
         xLabel = '',
+        xBaseline = noop,
+        yBaseline = noop,
         chartLabel = '',
         plotArea = line(),
         decorate = noop;
 
-    // The axes have a baseline that is defined in the coordinate system of the
-    // opposing axis. If the opposing axis is linear, the baseline is expressed
-    // in the opposing axis domain coordinate system. If it is ordinal, the baseline
-    // is expressed in the range coordinate system.
-    function baselineExtent(scale) {
-        return isOrdinal(scale) ? scale.rangeExtent() : scale.domain();
-    }
-
+    // Each axis-series has a cross-scale which is defined as an identity
+    // scale. If no baseline function is supplied, the axis is positioned
+    // using the cross-scale range extents. If a baseline function is supplied
+    // it is transformed via the respective scale.
     var xAxis = axis()
         .orient('bottom')
         .baseline(function() {
-            var r = baselineExtent(yScale);
-            return xAxis.orient() === 'bottom' ? r[0] : r[1];
+            if (xBaseline !== noop) {
+                return yScale(xBaseline.apply(this, arguments));
+            } else {
+                var r = range(yScale);
+                return xAxis.orient() === 'bottom' ? r[0] : r[1];
+            }
         });
 
     var yAxis = axis()
         .orient('right')
         .baseline(function() {
-            var r = baselineExtent(xScale);
-            return yAxis.orient() === 'left' ? r[0] : r[1];
+            if (yBaseline !== noop) {
+                return xScale(yBaseline.apply(this, arguments));
+            } else {
+                var r = range(xScale);
+                return yAxis.orient() === 'left' ? r[0] : r[1];
+            }
         });
 
     var containerDataJoin = dataJoin()
@@ -50,7 +56,7 @@ export default function(xScale, yScale) {
         .element('svg')
         .attr({'class': 'cartesian-chart', 'layout-css': 'flex: 1'});
 
-    // Ordinal and linear scales have different methods for setting the range. This
+    // Ordinal and quantitative scales have different methods for setting the range. This
     // function detects the scale type and sets the range accordingly.
     function setScaleRange(scale, range) {
         if (isOrdinal(scale)) {
@@ -159,10 +165,10 @@ export default function(xScale, yScale) {
 
             // render the axes
             xAxis.xScale(xScale)
-                .yScale(isOrdinal(yScale) ? d3.scale.identity() : yScale);
+                .yScale(d3.scale.identity());
 
             yAxis.yScale(yScale)
-                .xScale(isOrdinal(xScale) ? d3.scale.identity() : xScale);
+                .xScale(d3.scale.identity());
 
             svg.select('.axes-container .x-axis')
                 .call(xAxis);
@@ -186,9 +192,23 @@ export default function(xScale, yScale) {
     rebindAll(cartesianChart, xScale, 'x', scaleExclusions);
     rebindAll(cartesianChart, yScale, 'y', scaleExclusions);
 
-    rebindAll(cartesianChart, xAxis, 'x');
-    rebindAll(cartesianChart, yAxis, 'y');
+    rebindAll(cartesianChart, xAxis, 'x', 'baseline');
+    rebindAll(cartesianChart, yAxis, 'y', 'baseline');
 
+    cartesianChart.xBaseline = function(x) {
+        if (!arguments.length) {
+            return xBaseline;
+        }
+        xBaseline = d3.functor(x);
+        return cartesianChart;
+    };
+    cartesianChart.yBaseline = function(x) {
+        if (!arguments.length) {
+            return yBaseline;
+        }
+        yBaseline = d3.functor(x);
+        return cartesianChart;
+    };
     cartesianChart.chartLabel = function(x) {
         if (!arguments.length) {
             return chartLabel;
