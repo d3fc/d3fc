@@ -2,11 +2,11 @@ import d3 from 'd3';
 import axis from '../series/axis';
 import '../layout/layout'; // import side-effects
 import line from '../series/line';
-import multi from '../series/multi';
 import dataJoin from '../util/dataJoin';
 import expandMargin from '../util/expandMargin';
 import {noop} from '../util/fn';
 import {rebindAll} from '../util/rebind';
+import {isOrdinal, range} from '../util/scale';
 
 export default function(xScale, yScale) {
 
@@ -19,31 +19,52 @@ export default function(xScale, yScale) {
         },
         yLabel = '',
         xLabel = '',
+        xBaseline = null,
+        yBaseline = null,
         chartLabel = '',
         plotArea = line(),
         decorate = noop;
 
+    // Each axis-series has a cross-scale which is defined as an identity
+    // scale. If no baseline function is supplied, the axis is positioned
+    // using the cross-scale range extents. If a baseline function is supplied
+    // it is transformed via the respective scale.
     var xAxis = axis()
         .orient('bottom')
         .baseline(function() {
-            var domain = yScale.domain();
-            return xAxis.orient() === 'bottom' ? domain[0] : domain[1];
+            if (xBaseline !== null) {
+                return yScale(xBaseline.apply(this, arguments));
+            } else {
+                var r = range(yScale);
+                return xAxis.orient() === 'bottom' ? r[0] : r[1];
+            }
         });
 
     var yAxis = axis()
         .orient('right')
         .baseline(function() {
-            var domain = xScale.domain();
-            return yAxis.orient() === 'right' ? domain[1] : domain[0];
+            if (yBaseline !== null) {
+                return xScale(yBaseline.apply(this, arguments));
+            } else {
+                var r = range(xScale);
+                return yAxis.orient() === 'left' ? r[0] : r[1];
+            }
         });
-
-    var axesSeries = multi()
-        .series([xAxis, yAxis]);
 
     var containerDataJoin = dataJoin()
         .selector('svg.cartesian-chart')
         .element('svg')
         .attr({'class': 'cartesian-chart', 'layout-css': 'flex: 1'});
+
+    // Ordinal and quantitative scales have different methods for setting the range. This
+    // function detects the scale type and sets the range accordingly.
+    function setScaleRange(scale, range) {
+        if (isOrdinal(scale)) {
+            scale.rangePoints(range, 1);
+        } else {
+            scale.range(range);
+        }
+    }
 
     var cartesianChart = function(selection) {
 
@@ -72,7 +93,10 @@ export default function(xScale, yScale) {
                     <rect class="background" \
                         layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                     <svg class="axes-container" \
-                        layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
+                        layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"> \
+                        <g class="x-axis" layout-css="height: 0; width: 0"/> \
+                        <g class="y-axis" layout-css="height: 0; width: 0"/> \
+                    </svg> \
                     <svg class="plot-area" \
                         layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                 </g>');
@@ -136,14 +160,21 @@ export default function(xScale, yScale) {
 
             // set the axis ranges
             var plotAreaContainer = svg.select('.plot-area');
-            xScale.range([0, plotAreaContainer.layout('width')]);
-            yScale.range([plotAreaContainer.layout('height'), 0]);
+            setScaleRange(xScale, [0, plotAreaContainer.layout('width')]);
+            setScaleRange(yScale, [plotAreaContainer.layout('height'), 0]);
 
             // render the axes
-            var axesContainer = svg.select('.axes-container');
-            axesSeries.xScale(xScale)
-                .yScale(yScale);
-            axesContainer.call(axesSeries);
+            xAxis.xScale(xScale)
+                .yScale(d3.scale.identity());
+
+            yAxis.yScale(yScale)
+                .xScale(d3.scale.identity());
+
+            svg.select('.axes-container .x-axis')
+                .call(xAxis);
+
+            svg.select('.axes-container .y-axis')
+                .call(yAxis);
 
             // render the plot area
             plotArea.xScale(xScale)
@@ -155,15 +186,29 @@ export default function(xScale, yScale) {
     };
 
     var scaleExclusions = [
-        'range', 'rangeRound', // the scale range is set via the component layout
-        'tickFormat'           // use axis.tickFormat instead
+        /range\w*/,   // the scale range is set via the component layout
+        /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
     ];
     rebindAll(cartesianChart, xScale, 'x', scaleExclusions);
     rebindAll(cartesianChart, yScale, 'y', scaleExclusions);
 
-    rebindAll(cartesianChart, xAxis, 'x');
-    rebindAll(cartesianChart, yAxis, 'y');
+    rebindAll(cartesianChart, xAxis, 'x', 'baseline');
+    rebindAll(cartesianChart, yAxis, 'y', 'baseline');
 
+    cartesianChart.xBaseline = function(x) {
+        if (!arguments.length) {
+            return xBaseline;
+        }
+        xBaseline = d3.functor(x);
+        return cartesianChart;
+    };
+    cartesianChart.yBaseline = function(x) {
+        if (!arguments.length) {
+            return yBaseline;
+        }
+        yBaseline = d3.functor(x);
+        return cartesianChart;
+    };
     cartesianChart.chartLabel = function(x) {
         if (!arguments.length) {
             return chartLabel;
