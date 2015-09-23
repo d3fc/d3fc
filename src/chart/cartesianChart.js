@@ -19,8 +19,8 @@ export default function(xScale, yScale) {
         },
         yLabel = '',
         xLabel = '',
-        xBaseline = noop,
-        yBaseline = noop,
+        xBaseline = null,
+        yBaseline = null,
         chartLabel = '',
         plotArea = line(),
         decorate = noop;
@@ -32,7 +32,7 @@ export default function(xScale, yScale) {
     var xAxis = axis()
         .orient('bottom')
         .baseline(function() {
-            if (xBaseline !== noop) {
+            if (xBaseline !== null) {
                 return yScale(xBaseline.apply(this, arguments));
             } else {
                 var r = range(yScale);
@@ -43,7 +43,7 @@ export default function(xScale, yScale) {
     var yAxis = axis()
         .orient('right')
         .baseline(function() {
-            if (yBaseline !== noop) {
+            if (yBaseline !== null) {
                 return xScale(yBaseline.apply(this, arguments));
             } else {
                 var r = range(xScale);
