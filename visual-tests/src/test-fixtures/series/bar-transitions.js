@@ -1,7 +1,7 @@
 (function(d3, fc) {
     'use strict';
 
-    var transitionDuration = 2500;
+    //var transitionDuration = 2500;
 
     var dataset = [
         {name: 'Fred', age: 24},
@@ -9,71 +9,54 @@
         {name: 'Frank', age: 18},
         {name: 'Jim', age: 18},
         {name: 'Brian', age: -35},
-        {name: 'Jane', age: 17},
-        {name: 'Katherine', age: 37},
-        {name: 'Alice', age: -22},
-        {name: 'Rachel', age: -27},
-        {name: 'Jenny', age: 32}
+        {name: 'Jane', age: 17}
     ];
 
     // Make a copy of the dataset
     var data = dataset.slice();
 
-    // Setup the chart area
-    var width = 600, height = 250, axisHeight = 25;
+    function clampRange(range) {
+        if (range[0] > 0) {
+            return [0, range[1]];
+        } else if (range[1] < 0) {
+            return [range[0], 0];
+        } else {
+            return range;
+        }
+    }
 
-    var chart = d3.select('#bar-transitions')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height);
+    function renderChart() {
+        // Create scales
+        var colour = d3.scale.linear()
+            .domain([-50, 50])
+            .range(['blue', 'red']);
 
-    // Create scales
-    var xScale = d3.scale.ordinal()
-        .domain(data.map(function(d) { return d.name; }))
-        .rangePoints([0, width], 1);
+        var chart = fc.chart.cartesianChart(
+                d3.scale.ordinal(), d3.scale.linear())
+            .xBaseline(0)
+            .xDomain(data.map(function(d) { return d.name; }))
+            .yDomain(clampRange(fc.util.extent(data, 'age')));
 
-    var yScale = d3.scale.linear()
-        .domain([-50, 50])
-        .range([height - axisHeight, 0]);
+        // Create the bar series
+        var bar = fc.series.bar()
+            .yValue(function(d) { return d.age; })
+            .xValue(function(d) { return d.name; })
+            .key(function(d) { return d.name; })
+            .decorate(function(sel) {
+                sel.select('path')
+                    .style('fill', function(d, i) { return colour(d.age); });
+            });
 
-    var colour = d3.scale.linear()
-        .domain([-50, 50])
-        .range(['blue', 'red']);
+        chart.plotArea(bar);
 
-    // Create the bar series
-    var bar = fc.series.bar()
-        .yValue(function(d) { return d.age; })
-        .xValue(function(d) { return d.name; })
-        .key(function(d) { return d.name; })
-        .xScale(xScale)
-        .yScale(yScale)
-        .decorate(function(sel) {
-            sel.select('path')
-                .style('fill', function(d, i) { return colour(d.age); })
-                .style('stroke', 'none');
-        });
+        d3.select('#bar-transitions')
+            .datum(data)
+            .transition()
+            .duration(1000)
+            .call(chart);
+    }
 
-    // Add the bar series to the chart
-    var seriesContainer = chart.append('g');
-
-    seriesContainer.datum(data)
-        .transition()
-        .duration(transitionDuration)
-        .call(bar);
-
-    var axisContainer = chart.append('g')
-        .attr('transform', 'translate(0, ' + (yScale(0)) + ')');
-
-    // Create the axis
-    var xAxis = fc.svg.axis()
-        .scale(xScale)
-        .orient('bottom');
-
-    // Add the axis to the chart
-    axisContainer
-        .transition()
-        .duration(transitionDuration)
-        .call(xAxis);
+    renderChart();
 
     // Update the chart every 5 seconds (animation lasts 2.5 seconds)
     // Y values are randomised
@@ -93,21 +76,8 @@
         // Remove a random number of entries
         data.splice(0, Math.floor(Math.random() * (data.length - 1)));
 
-        // Update x scale domain
-        xScale.domain(data.map(function(d) { return d.name; }));
-
-        // Update axis
-        axisContainer
-            .transition()
-            .duration(transitionDuration)
-            .call(xAxis);
-
-        // Update bar series
-        seriesContainer.datum(data)
-            .transition()
-            .duration(transitionDuration)
-            .call(bar);
-    }, 5000);
+        renderChart();
+    }, 2000);
 
     // Create a random integer in the range -50 - 50
     function randomAge() {

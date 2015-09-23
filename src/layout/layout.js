@@ -99,7 +99,7 @@ function _layout() {
     return layout;
 }
 
-d3.selection.prototype.layout = function(name, value) {
+function layoutAdapter(name, value) {
     var layout = _layout();
     var n = arguments.length;
     if (n === 2) {
@@ -109,7 +109,7 @@ d3.selection.prototype.layout = function(name, value) {
             this.call(layout);
         } else {
             // layout(name, value) - sets a layout- attribute
-            this.attr('layout-css', name + ':' + value);
+            this.node().setAttribute('layout-css', name + ':' + value);
         }
     } else if (n === 1) {
         if (typeof name !== 'string') {
@@ -120,16 +120,19 @@ d3.selection.prototype.layout = function(name, value) {
                     return property + ':' + styleObject[property];
                 })
                 .join(';');
-            this.attr('layout-css', layoutCss);
+            this.node().setAttribute('layout-css', layoutCss);
         } else {
             // layout(name) - returns the value of the layout-name attribute
-            return Number(this.attr('layout-' + name));
+            return Number(this.node().getAttribute('layout-' + name));
         }
     } else if (n === 0) {
         // layout() - executes layout
         this.call(layout);
     }
     return this;
-};
+}
+
+d3.selection.prototype.layout = layoutAdapter;
+d3.transition.prototype.layout = layoutAdapter;
 
 export default _layout;
