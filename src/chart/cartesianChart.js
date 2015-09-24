@@ -192,8 +192,12 @@ export default function(xScale, yScale) {
     rebindAll(cartesianChart, xScale, 'x', scaleExclusions);
     rebindAll(cartesianChart, yScale, 'y', scaleExclusions);
 
-    rebindAll(cartesianChart, xAxis, 'x', 'baseline');
-    rebindAll(cartesianChart, yAxis, 'y', 'baseline');
+    var axisExclusions = [
+        'baseline',         // the axis baseline is adapted so is not exposed directly
+        'xScale', 'yScale'  // these are set by this components
+    ];
+    rebindAll(cartesianChart, xAxis, 'x', axisExclusions);
+    rebindAll(cartesianChart, yAxis, 'y', axisExclusions);
 
     cartesianChart.xBaseline = function(x) {
         if (!arguments.length) {
