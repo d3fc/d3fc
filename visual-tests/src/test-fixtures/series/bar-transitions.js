@@ -1,8 +1,6 @@
 (function(d3, fc) {
     'use strict';
 
-    //var transitionDuration = 2500;
-
     var dataset = [
         {name: 'Fred', age: 24},
         {name: 'Bob', age: 22},
