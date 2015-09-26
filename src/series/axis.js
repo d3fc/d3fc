@@ -25,22 +25,26 @@ export default function() {
 
             var g = dataJoin(this, [data]);
 
+            var translation;
             switch (axisAdapter.orient()) {
                 case 'top':
                 case 'bottom':
-                    g.attr('transform', 'translate(0,' + yScale(baseline(data)) + ')');
+                    translation = 'translate(0,' + yScale(baseline(data)) + ')';
                     axis.scale(xScale);
                     break;
 
                 case 'left':
                 case 'right':
-                    g.attr('transform', 'translate(' + xScale(baseline(data)) + ',0)');
+                    translation = 'translate(' + xScale(baseline(data)) + ',0)';
                     axis.scale(yScale);
                     break;
 
                 default:
                     throw new Error('Invalid orientation');
             }
+
+            g.enter().attr('transform', translation);
+            g.attr('transform', translation);
 
             g.call(axis);
 
