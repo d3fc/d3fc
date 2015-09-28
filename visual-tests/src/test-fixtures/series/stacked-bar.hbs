@@ -19,6 +19,16 @@ testScripts:
 
 <div id="stacked-bar" style="width: 1000px; height: 300px;"></div>
 <form>
-    <input id="zero" type="radio" name="offset" value="zero"> Zero
-    <input id="expand" type="radio" name="offset" value="expand"> Expand
+    offset: <select id='offset'>
+        <option value='zero'>zero</option>
+        <option value='expand'>expand</option>
+        <option value='wiggle'>wiggle</option>
+        <option value='silhouette'>silhouette</option>
+    </select>
+
+    order: <select id='order'>
+        <option value='default'>default</option>
+        <option value='reverse'>reverse</option>
+        <option value='inside-out'>inside-out</option>
+    </select>
 </form>

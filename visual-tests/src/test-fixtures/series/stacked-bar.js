@@ -5,6 +5,11 @@
 
     var color = d3.scale.category10();
 
+    function getSelectedOption(id) {
+        var e = document.getElementById(id);
+        return e.options[e.selectedIndex].value;
+    }
+
     function sortData(data) {
         function total(row) {
             return d3.sum(Object.keys(row).filter(function(key) { return key !== 'State'; })
@@ -15,13 +20,14 @@
         });
     }
 
-    function renderChart(data, offset) {
+    function renderChart(data, offset, order) {
 
         sortData(data);
 
         var transpose = transposeCsv()
             .xValueKey('State')
             .offset(offset)
+            .order(order)
             .stacked(true);
 
         var series = transpose(data);
@@ -31,7 +37,7 @@
                 d3.scale.linear())
             .xDomain(data.map(function(d) { return d.State; }))
             .yDomain(fc.util.extent(series, [function(d) { return 0; }, function(d) { return d.y + d.y0; }]))
-            .margin({left: 50, bottom: 20});
+            .margin({left: 50, bottom: 50});
 
         var stackedBar = fc.series.stacked.bar()
             .xValue(function(d) { return d.x; })
@@ -46,18 +52,13 @@
             .call(chart);
     }
 
-    var csvData;
     d3.csv('stackedBarData.csv', function(error, data) {
-        csvData = data;
-
-        var zeroRadio = document.getElementById('zero');
-        zeroRadio.addEventListener('click', renderChart.bind(null, csvData, 'zero'));
-        zeroRadio.setAttribute('checked', true);
-
-        document.getElementById('expand')
-            .addEventListener('click', renderChart.bind(null, csvData, 'expand'));
-
-        renderChart(data, 'zero');
+        function render() {
+            renderChart(data, getSelectedOption('offset'), getSelectedOption('order'));
+        }
+        d3.select('#offset').on('change', render);
+        d3.select('#order').on('change', render);
+        render();
     });
 
     // the D3 CSV loader / parser converts each row into an object with property names
