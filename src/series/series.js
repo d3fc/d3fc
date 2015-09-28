@@ -8,6 +8,7 @@ import multi from './multi';
 import ohlc from './ohlc';
 import point from './point';
 import stacked from './stacked/stacked';
+import groupedBar from './groupedBar';
 
 export default {
     area: area,
@@ -19,5 +20,6 @@ export default {
     multi: multi,
     ohlc: ohlc,
     point: point,
-    stacked: stacked
+    stacked: stacked,
+    groupedBar: groupedBar
 };

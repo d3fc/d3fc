@@ -2,42 +2,51 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stacked Bar - d3fc Visual Tests</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stacked Bar - d3fc Visual Tests</title>
 
-<link href="../assets/d3fc.css" rel="stylesheet">
+    <link href="../assets/d3fc.css" rel="stylesheet">
+
+    <style>
+    .bar>path {
+      stroke-width: 0;
+      fill-opacity: 1;
+    }
+    </style>
 
   </head>
   <body>
-    
+    <div id="stacked-bar"></div>
+    <form>
+        offset: <select id='offset'>
+            <option value='zero'>zero</option>
+            <option value='expand'>expand</option>
+            <option value='wiggle'>wiggle</option>
+            <option value='silhouette'>silhouette</option>
+        </select>
 
-<style>
-.bar>path {
-  stroke-width: 0;
-  fill-opacity: 1;
-}
-</style>
+        order: <select id='order'>
+            <option value='default'>default</option>
+            <option value='reverse'>reverse</option>
+            <option value='inside-out'>inside-out</option>
+        </select>
 
-<div id="stacked-bar"></div>
-<form>
-    <input id="zero" type="radio" name="offset" value="zero"> Zero
-    <input id="expand" type="radio" name="offset" value="expand"> Expand
-</form>
+        series: <select id='series'>
+            <option value='bar'>bar</option>
+            <option value='area'>area</option>
+            <option value='line'>line</option>
+        </select>
+    </form>
 
     <footer>
       <script src="../assets/d3.js"></script>
-<script src="../assets/css-layout.js"></script>
-<script src="../assets/d3fc.js"></script>
-<script src="../assets/seedrandom.min.js"></script>
-<script src="../setup.js"></script> 
-
-  
-    <script src="stacked-bar.js"></script>
-  
-
-<script src="//localhost:35729/livereload.js"></script>
-
+      <script src="../assets/css-layout.js"></script>
+      <script src="../assets/d3fc.js"></script>
+      <script src="../assets/seedrandom.min.js"></script>
+      <script src="../setup.js"></script>
+      <script src="stacked-bar.js"></script>
+      <script src="//localhost:35729/livereload.js"></script>
     </footer>
   </body>
 </html>

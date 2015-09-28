@@ -1,6 +1,6 @@
 import _line from '../line';
 import _stack from './stack';
-import {rebind} from '../../util/rebind';
+import {rebindAll} from '../../util/rebind';
 
 export default function() {
 
@@ -14,11 +14,7 @@ export default function() {
         selection.call(stack);
     };
 
-    return rebind(stackedLine, line, {
-        decorate: 'decorate',
-        xScale: 'xScale',
-        yScale: 'yScale',
-        xValue: 'xValue',
-        yValue: 'yValue'
-    });
+    rebindAll(stackedLine, line);
+
+    return stackedLine;
 }
