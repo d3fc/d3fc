@@ -1,54 +1,39 @@
 (function(d3, fc) {
     'use strict';
 
-    var width = 600, height = 250;
+    var container = d3.select('#stacked-bar');
 
-    var container = d3.select('#stacked-bar')
-        .append('svg')
-        .attr('width', width)
-        .attr('height', height);
+    var color = d3.scale.category10();
 
     function renderChart(data, offset, yDomain) {
 
         var transpose = transposeCsv()
-            .xValue('State');
+            .xValueKey('State')
+            .stack(offset);
 
         var series = transpose(data);
-
-        var stackLayout = d3.layout.stack()
-            .offset(offset)
-            .x(function(d) { return d.state; })
-            .y(function(d) { return d.value; });
-
-        var stackedData = stackLayout(series.map(function(d) { return d.data; }));
-        stackedData.crosshair = [];
 
         // Collect the X values.
         var xCategories = data.map(function(d) { return d.State; });
 
-        // create scales
-        var x = d3.scale.ordinal()
-            .domain(xCategories)
-            .rangePoints([0, width], 1);
-
-        var color = d3.scale.category10();
-
-        var y = d3.scale.linear()
-          .domain(yDomain)
-          .nice()
-          .range([height, 0]);
+        var chart = fc.chart.cartesianChart(
+                d3.scale.ordinal(),
+                d3.scale.linear())
+            .xDomain(xCategories)
+            .yDomain(fc.util.extent(series, ['y', 'y0']))
+            .margin(50);
 
         var stackedBar = fc.series.stacked.bar()
-            .xScale(x)
-            .yScale(y)
-            .xValue(function(d) { return d.state; })
+            .xValue(function(d) { return d.x; })
             .decorate(function(sel, data, index) {
                 sel.select('path')
                     .style('fill', color(index));
             });
 
-        container.datum(stackedData)
-            .call(stackedBar);
+        chart.plotArea(stackedBar);
+
+        container.datum(series)
+            .call(chart);
     }
 
     var csvData;
@@ -71,31 +56,50 @@
     // array of series, one per 'heading'
     function transposeCsv() {
 
-        var xValue;
+        var xValueKey = '';
+
+        var stack = 'none';
 
         var transpose = function(data) {
-            return Object.keys(data[0])
+            var series = Object.keys(data[0])
                 .filter(function(key) {
-                    return key !== xValue;
+                    return key !== xValueKey;
                 })
                 .map(function(key) {
                     return {
                         name: key,
                         data: data.map(function(row) {
                             return {
-                                state: row[xValue],
-                                value: Number(row[key])
+                                x: row[xValueKey],
+                                y: Number(row[key])
                             };
                         })
                     };
                 });
+
+            if (stack !== 'none') {
+                var stackLayout = d3.layout.stack()
+                    .offset(stack);
+
+                series = stackLayout(series.map(function(d) { return d.data; }));
+            }
+
+            return series;
         };
 
-        transpose.xValue = function(x) {
+        transpose.stack = function(x) {
             if (!arguments.length) {
-                return xValue;
+                return stack;
             }
-            xValue = x;
+            stack = x;
+            return transpose;
+        };
+
+        transpose.xValueKey = function(x) {
+            if (!arguments.length) {
+                return xValueKey;
+            }
+            xValueKey = x;
             return transpose;
         };
 
