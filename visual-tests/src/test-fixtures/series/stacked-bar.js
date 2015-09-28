@@ -9,28 +9,11 @@
         .attr('height', height);
 
     function renderChart(data, offset, yDomain) {
-        /*  Build series objects for each series in the data set.
-            Assumption: first data object holds all series keys. */
-        var series = Object.keys(data[0])
-            .filter(function(key) {
-                return key !== 'State';
-            })
-            .map(function(key) {
-                return {
-                    name: key,
-                    data: []
-                };
-            });
 
-        // Populate these series objects.
-        data.forEach(function(datum) {
-            series.forEach(function(series) {
-                series.data.push({
-                    state: datum.State,
-                    value: parseInt(datum[series.name])
-                });
-            });
-        });
+        var transpose = transposeCsv()
+            .xValue('State');
+
+        var series = transpose(data);
 
         var stackLayout = d3.layout.stack()
             .offset(offset)
@@ -64,76 +47,8 @@
                     .style('fill', color(index));
             });
 
-        function findClosest(arr, minimize) {
-            var nearestIndex = 0,
-              nearestDiff = Number.MAX_VALUE;
-            for (var i = 0, l = arr.length; i < l; i++) {
-                var diff = minimize(arr, i);
-                if (diff < nearestDiff) {
-                    nearestDiff = diff;
-                    nearestIndex = i;
-                }
-            }
-            return nearestIndex;
-        }
-
-        function pixelSnap(stackedData, xPixel, yPixel) {
-            // find the nearest x location
-            var nearestXIndex = findClosest(x.range(), function(arr, index) {
-                return Math.abs(arr[index] - xPixel);
-            });
-            var datum = data[nearestXIndex];
-
-            // create an array of y pixel locations for each stacked bar
-            var keys = Object.keys(datum).filter(function(p) { return p !== 'State'; });
-            var yPixels = stackedData.map(function(d) {
-                var datum = d[nearestXIndex];
-                return y(datum.y0 + datum.y);
-            });
-
-            // find the nearest y index
-            var nearestYIndex = findClosest(yPixels, function(arr, index) {
-                return Math.abs(arr[index] - yPixel);
-            });
-            var nearestYProperty = keys[nearestYIndex];
-
-            return {
-                datum: {
-                    x: x.domain()[nearestXIndex],
-                    yProperty: nearestYProperty,
-                    yValue: datum[nearestYProperty]
-                },
-                x: x.range()[nearestXIndex],
-                y: yPixels[nearestYIndex],
-                xInDomainUnits: false,
-                yInDomainUnits: false
-            };
-        }
-
-        // Create a crosshair tool
-        var crosshair = fc.tool.crosshair()
-          .xLabel(function(d) {
-              return d.datum.x;
-          })
-          .yLabel(function(d) { return d.datum.yProperty + ' : ' + d.datum.yValue; })
-          .snap(pixelSnap.bind(null, stackedData));
-
-        // Add it to the chart
-        var multi = fc.series.multi()
-            .xScale(x)
-            .yScale(y)
-            .series([stackedBar, crosshair])
-            .mapping(function(series) {
-                switch (series) {
-                    case stackedBar:
-                        return this;
-                    case crosshair:
-                        return this.crosshair;
-                }
-            });
-
         container.datum(stackedData)
-            .call(multi);
+            .call(stackedBar);
     }
 
     var csvData;
@@ -150,5 +65,41 @@
 
         renderChart(data, 'zero', [0, 40000000]);
     });
+
+    // the D3 CSV loader / parser converts each row into an object with property names
+    // derived from the headings in the CSV. The transpose function converts this into an
+    // array of series, one per 'heading'
+    function transposeCsv() {
+
+        var xValue;
+
+        var transpose = function(data) {
+            return Object.keys(data[0])
+                .filter(function(key) {
+                    return key !== xValue;
+                })
+                .map(function(key) {
+                    return {
+                        name: key,
+                        data: data.map(function(row) {
+                            return {
+                                state: row[xValue],
+                                value: Number(row[key])
+                            };
+                        })
+                    };
+                });
+        };
+
+        transpose.xValue = function(x) {
+            if (!arguments.length) {
+                return xValue;
+            }
+            xValue = x;
+            return transpose;
+        };
+
+        return transpose;
+    }
 
 })(d3, fc);
