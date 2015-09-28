@@ -100,6 +100,10 @@ function _layout() {
 }
 
 function layoutAdapter(name, value) {
+    // Quick bodge to fix #568
+    if (this.node() == null) {
+        return this;
+    }
     var layout = _layout();
     var n = arguments.length;
     if (n === 2) {
