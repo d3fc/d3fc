@@ -5,23 +5,33 @@
 
     var color = d3.scale.category10();
 
-    function renderChart(data, offset, yDomain) {
+    function sortData(data) {
+        function total(row) {
+            return d3.sum(Object.keys(row).filter(function(key) { return key !== 'State'; })
+                .map(function(key) { return Number(row[key]); }));
+        }
+        data.sort(function(a, b) {
+            return total(b) - total(a);
+        });
+    }
+
+    function renderChart(data, offset) {
+
+        sortData(data);
 
         var transpose = transposeCsv()
             .xValueKey('State')
-            .stack(offset);
+            .offset(offset)
+            .stacked(true);
 
         var series = transpose(data);
-
-        // Collect the X values.
-        var xCategories = data.map(function(d) { return d.State; });
 
         var chart = fc.chart.cartesianChart(
                 d3.scale.ordinal(),
                 d3.scale.linear())
-            .xDomain(xCategories)
-            .yDomain(fc.util.extent(series, ['y', 'y0']))
-            .margin(50);
+            .xDomain(data.map(function(d) { return d.State; }))
+            .yDomain(fc.util.extent(series, [function(d) { return 0; }, function(d) { return d.y + d.y0; }]))
+            .margin({left: 50, bottom: 20});
 
         var stackedBar = fc.series.stacked.bar()
             .xValue(function(d) { return d.x; })
@@ -40,15 +50,14 @@
     d3.csv('stackedBarData.csv', function(error, data) {
         csvData = data;
 
-
         var zeroRadio = document.getElementById('zero');
-        zeroRadio.addEventListener('click', renderChart.bind(null, csvData, 'zero', [0, 40000000]));
+        zeroRadio.addEventListener('click', renderChart.bind(null, csvData, 'zero'));
         zeroRadio.setAttribute('checked', true);
 
         document.getElementById('expand')
-            .addEventListener('click', renderChart.bind(null, csvData, 'expand', [0, 1]));
+            .addEventListener('click', renderChart.bind(null, csvData, 'expand'));
 
-        renderChart(data, 'zero', [0, 40000000]);
+        renderChart(data, 'zero');
     });
 
     // the D3 CSV loader / parser converts each row into an object with property names
@@ -56,9 +65,9 @@
     // array of series, one per 'heading'
     function transposeCsv() {
 
-        var xValueKey = '';
-
-        var stack = 'none';
+        var xValueKey = '',
+            stacked = false,
+            stackLayout = d3.layout.stack();
 
         var transpose = function(data) {
             var series = Object.keys(data[0])
@@ -77,21 +86,18 @@
                     };
                 });
 
-            if (stack !== 'none') {
-                var stackLayout = d3.layout.stack()
-                    .offset(stack);
-
+            if (stacked) {
                 series = stackLayout(series.map(function(d) { return d.data; }));
             }
 
             return series;
         };
 
-        transpose.stack = function(x) {
+        transpose.stacked = function(x) {
             if (!arguments.length) {
-                return stack;
+                return stacked;
             }
-            stack = x;
+            stacked = x;
             return transpose;
         };
 
@@ -102,6 +108,8 @@
             xValueKey = x;
             return transpose;
         };
+
+        d3.rebind(transpose, stackLayout, 'order', 'offset', 'out');
 
         return transpose;
     }
