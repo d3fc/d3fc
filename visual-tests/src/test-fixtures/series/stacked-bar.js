@@ -20,15 +20,23 @@
         });
     }
 
+    // TODO: construct a transpose component
+    // TODO: check which properties the stacked series expose.
+    // TODO: refactor stack to use rebindAll
+    // TODO: bar / column - default to x / y?
+
+    var renderOffsetBar = true;
+
     function renderChart(data, offset, order) {
 
+        data = data.slice(-10);
         sortData(data);
 
         var transpose = transposeCsv()
             .xValueKey('State')
+            .stacked(true)
             .offset(offset)
-            .order(order)
-            .stacked(true);
+            .order(order);
 
         var series = transpose(data);
 
@@ -39,14 +47,31 @@
             .yDomain(fc.util.extent(series, [function(d) { return 0; }, function(d) { return d.y + d.y0; }]))
             .margin({left: 50, bottom: 50});
 
-        var stackedBar = fc.series.stacked.bar()
-            .xValue(function(d) { return d.x; })
-            .decorate(function(sel, data, index) {
-                sel.select('path')
-                    .style('fill', color(index));
-            });
+        if (renderOffsetBar) {
 
-        chart.plotArea(stackedBar);
+            chart.yDomain(fc.util.extent(series, [function(d) { return 0; }, function(d) { return d.y; }]));
+
+            var offsetBar = fc.series.stacked.offsetBar()
+                .xValue(function(d) { return d.x; })
+                .yValue(function(d) { return d.y; })
+                .decorate(function(sel, data, index) {
+                    sel.select('path')
+                        .style('fill', color(index));
+                });
+
+            chart.plotArea(offsetBar);
+
+        } else {
+
+            var stackedBar = fc.series.stacked.bar()
+                .xValue(function(d) { return d.x; })
+                .decorate(function(sel, data, index) {
+                    sel.select('path')
+                        .style('fill', color(index));
+                });
+
+            chart.plotArea(stackedBar);
+        }
 
         container.datum(series)
             .call(chart);
