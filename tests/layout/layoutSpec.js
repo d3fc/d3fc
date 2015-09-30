@@ -75,5 +75,49 @@ describe('layout', function() {
         expect(rect.node().getAttribute('height')).toEqual('300');
     });
 
+    it('should should perform layout on selections containing multiple elements', function() {
+        var div = document.createElement('div');
+        var svgElement1 = document.createElement('svg');
+        var svgElement2 = document.createElement('svg');
+        div.appendChild(svgElement1);
+        div.appendChild(svgElement2);
+        document.body.appendChild(div);
+
+        var svg = d3.select(div).selectAll('svg')
+            .layout('justifyContent', 'flex-end');
+
+        var rects = svg.append('rect')
+            .layout('flex', 1);
+
+        svg.layout(800, 300);
+
+        expect(rects[0][0].getAttribute('width')).toEqual('800');
+        expect(rects[0][0].getAttribute('height')).toEqual('300');
+        expect(rects[0][1].getAttribute('width')).toEqual('800');
+        expect(rects[0][1].getAttribute('height')).toEqual('300');
+    });
+
+    it('should should perform layout on enter selections', function() {
+        var div = document.createElement('div');
+        document.body.appendChild(div);
+
+        var svgs = d3.select(div).selectAll('svg')
+            .data([1, 2]);
+
+        svgs.enter()
+            .append('svg')
+            .layout('justifyContent', 'flex-end')
+            .append('rect')
+            .layout('flex', 1);
+
+        svgs.layout(800, 300);
+
+        var rects = d3.select(div).selectAll('rect');
+
+        expect(rects[0][0].getAttribute('width')).toEqual('800');
+        expect(rects[0][0].getAttribute('height')).toEqual('300');
+        expect(rects[0][1].getAttribute('width')).toEqual('800');
+        expect(rects[0][1].getAttribute('height')).toEqual('300');
+    });
 
 });
