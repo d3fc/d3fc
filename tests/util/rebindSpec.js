@@ -70,6 +70,30 @@ describe('fc.util.rebindAll', function() {
         expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
     });
 
+    it('should rebind all properties without a prefix', function() {
+        fc.util.rebindAll(target, source, '');
+        expect(target.scale()).toEqual(source.scale());
+        expect(target.orient()).toEqual(source.orient());
+        expect(target.tickValues()).toEqual(source.tickValues());
+        expect(target.tickFormat()).toEqual(source.tickFormat());
+        expect(target.innerTickSize()).toEqual(source.innerTickSize());
+        expect(target.outerTickSize()).toEqual(source.outerTickSize());
+        expect(target.tickPadding()).toEqual(source.tickPadding());
+        expect(target.tickSubdivide()).toEqual(source.tickSubdivide());
+    });
+
+    it('should rebind all properties without a prefix if no prefix is supplied', function() {
+        fc.util.rebindAll(target, source);
+        expect(target.scale()).toEqual(source.scale());
+        expect(target.orient()).toEqual(source.orient());
+        expect(target.tickValues()).toEqual(source.tickValues());
+        expect(target.tickFormat()).toEqual(source.tickFormat());
+        expect(target.innerTickSize()).toEqual(source.innerTickSize());
+        expect(target.outerTickSize()).toEqual(source.outerTickSize());
+        expect(target.tickPadding()).toEqual(source.tickPadding());
+        expect(target.tickSubdivide()).toEqual(source.tickSubdivide());
+    });
+
     it('should rebind excluding the indicated array of properties', function() {
         fc.util.rebindAll(target, source, 'x', ['scale', 'orient']);
 

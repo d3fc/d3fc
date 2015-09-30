@@ -1,6 +1,6 @@
 import _area from '../area';
 import _stack from './stack';
-import {rebind} from '../../util/rebind';
+import {rebindAll} from '../../util/rebind';
 
 export default function() {
 
@@ -15,13 +15,7 @@ export default function() {
         selection.call(stack);
     };
 
-    return rebind(stackedArea, area, {
-        decorate: 'decorate',
-        xScale: 'xScale',
-        yScale: 'yScale',
-        xValue: 'xValue',
-        y0Value: 'y0Value',
-        y1Value: 'y1Value',
-        yValue: 'yValue'
-    });
+    rebindAll(stackedArea, area);
+
+    return stackedArea;
 }
