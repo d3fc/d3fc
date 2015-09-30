@@ -2,7 +2,7 @@ import d3 from 'd3';
 
 // the D3 CSV loader / parser converts each row into an object with property names
 // derived from the headings in the CSV. The transpose function converts this into an
-// array of series, one per 'heading'
+// array of series, one per column
 export default function transposeCsv() {
 
     var xValueKey = '',
