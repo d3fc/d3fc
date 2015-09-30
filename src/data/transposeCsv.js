@@ -15,19 +15,18 @@ export default function transposeCsv() {
                 return key !== xValueKey;
             })
             .map(function(key) {
-                return {
-                    name: key,
-                    data: data.map(function(row) {
-                        return {
-                            x: row[xValueKey],
-                            y: Number(row[key])
-                        };
-                    })
-                };
+                var series = data.map(function(row) {
+                    return {
+                        x: row[xValueKey],
+                        y: Number(row[key])
+                    };
+                });
+                series.name = key;
+                return series;
             });
 
         if (stacked) {
-            series = stackLayout(series.map(function(d) { return d.data; }));
+            series = stackLayout(series);
         }
 
         return series;

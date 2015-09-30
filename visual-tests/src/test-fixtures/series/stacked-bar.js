@@ -20,13 +20,9 @@
         });
     }
 
-    // TODO: construct a transpose component
-    // TODO: check which properties the stacked series expose.
-    // TODO: refactor stack to use rebindAll
-    // TODO: bar / column - default to x / y?
-
     function renderChart(data, offset, order, seriesType) {
 
+        // see #574 - wiping out the chart each time to clear the plot-area
         container.html('');
 
         data = data.slice(-20);
@@ -39,13 +35,14 @@
             .order(order);
 
         var series = transpose(data);
+        series.seriesType = seriesType;
 
         var chart = fc.chart.cartesianChart(
                 d3.scale.ordinal(),
                 d3.scale.linear())
             .xDomain(data.map(function(d) { return d.State; }))
             .yDomain(fc.util.extent(series, [function(d) { return 0; }, function(d) { return d.y + d.y0; }]))
-            .margin({left: 50, bottom: 50});
+            .margin({right: 50, bottom: 50});
 
         var stackedBar = fc.series.stacked[seriesType]()
             .xValue(function(d) { return d.x; })
@@ -62,7 +59,11 @@
                 }
             });
 
-        chart.plotArea(stackedBar);
+        var multi = fc.series.multi()
+            .key(function(d) { return d.seriesType; })
+            .series([stackedBar]);
+
+        chart.plotArea(multi);
 
         container.datum(series)
             .call(chart);

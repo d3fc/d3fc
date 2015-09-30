@@ -1,18 +1,15 @@
-import _bar from '../bar';
+import _bar from './bar';
 import d3 from 'd3';
-import _dataJoin from '../../util/dataJoin';
-import {noop} from '../../util/fn';
-import fractionalBarWidth from '../../util/fractionalBarWidth';
+import _dataJoin from '../util/dataJoin';
+import {noop} from '../util/fn';
+import fractionalBarWidth from '../util/fractionalBarWidth';
 
 export default function() {
 
-    var bar = _bar();
-
-    var barWidth = fractionalBarWidth(0.75);
-
-    var decorate = noop;
-
-    var offsetScale = d3.scale.linear();
+    var bar = _bar(),
+        barWidth = fractionalBarWidth(0.75),
+        decorate = noop,
+        offsetScale = d3.scale.linear();
 
     var x = function(d, i) { return bar.xScale()(bar.xValue()(d, i)); };
 
