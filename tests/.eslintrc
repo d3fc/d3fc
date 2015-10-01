@@ -1,0 +1,16 @@
+{
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "expect": true,
+        "fc": true,
+        "it": true,
+        "describe": true,
+        "d3": true,
+        "beforeEach": true,
+        "jasmine": true
+    },
+    "rules": {
+    }
+}

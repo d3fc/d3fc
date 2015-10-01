@@ -218,6 +218,18 @@ module.exports = function(grunt) {
             }
         },
 
+        eslint: {
+            components: {
+                src: ['<%= meta.componentsJsFiles %>']
+            },
+            test: {
+                src: ['<%= meta.testJsFiles %>']
+            },
+            visualTests: {
+                src: ['<%= meta.visualTestJsFiles %>']
+            }
+        },
+
         jshint: {
             options: {
                 jshintrc: true
@@ -299,12 +311,12 @@ module.exports = function(grunt) {
     require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
-        'jshint:components', 'jscs:components', 'clean:components', 'rollup:components', 'version',
-        'concat_css:components', 'cssmin:components', 'jshint:test', 'jscs:test', 'jasmine_nodejs:test'
+        'eslint:components', 'clean:components', 'rollup:components', 'version',
+        'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
     ]);
 
     grunt.registerTask('visualTests', [
-        'jshint:visualTests', 'jscs:visualTests', 'clean:visualTests', 'copy:visualTests'
+        'eslint:visualTests', 'clean:visualTests', 'copy:visualTests'
     ]);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
