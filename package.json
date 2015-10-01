@@ -41,12 +41,13 @@
     "grunt-umd": "^2.3.3",
     "grunt-version": "^1.0.0",
     "handlebars-helpers": "ColinEberhardt/handlebars-helpers",
+    "jit-grunt": "^0.9.1",
     "jquery": "^1.11.2",
     "jsdom": "^6.3.0",
     "matchdep": "^0.3.0",
+    "rollup": "^0.15.0",
     "seedrandom": "^2.4.0",
-    "time-grunt": "^1.2.1",
-    "rollup": "^0.15.0"
+    "time-grunt": "^1.2.1"
   },
   "scripts": {
     "test": "grunt ci",

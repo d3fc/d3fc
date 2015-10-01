@@ -140,7 +140,7 @@ module.exports = function(grunt) {
             }
         },
 
-        concatCss: {
+        concat_css: {
             options: {},
             components: {
                 src: ['<%= meta.componentsCssFiles %>'],
@@ -244,7 +244,7 @@ module.exports = function(grunt) {
             }
         },
 
-        jasmineNodejs: {
+        jasmine_nodejs: {
             options: {
                 reporters: {
                     console: {
@@ -292,15 +292,11 @@ module.exports = function(grunt) {
 
     });
 
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    grunt.loadNpmTasks('assemble');
-
-    grunt.renameTask('concat_css', 'concatCss');
-    grunt.renameTask('jasmine_nodejs', 'jasmineNodejs');
+    require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
         'jshint:components', 'jscs:components', 'clean:components', 'rollup:components', 'version',
-        'concatCss:components', 'cssmin:components', 'jshint:test', 'jscs:test', 'jasmineNodejs:test'
+        'concat_css:components', 'cssmin:components', 'jshint:test', 'jscs:test', 'jasmine_nodejs:test'
     ]);
 
     grunt.registerTask('visualTests', [
