@@ -120,4 +120,14 @@ describe('layout', function() {
         expect(rects[0][1].getAttribute('height')).toEqual('300');
     });
 
+    it('should not blow up on width / height accessors on enter', function() {
+        var div = document.createElement('div');
+        document.body.appendChild(div);
+
+        var svgs = d3.select(div).selectAll('svg')
+            .data([1, 2]);
+
+        svgs.enter().append('g').layout('width');
+    });
+
 });
