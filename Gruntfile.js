@@ -177,7 +177,7 @@ module.exports = function(grunt) {
                     'visual-tests/**/*',
                     '!visual-tests/assets/**/*'
                 ],
-                tasks: ['components', 'visualTests']
+                tasks: ['concurrent:visual']
             },
             site: {
                 files: [
@@ -288,6 +288,10 @@ module.exports = function(grunt) {
                     moduleName: 'fc'
                 }
             }
+        },
+
+        concurrent: {
+            visual: ['components', 'visualTests']
         }
 
     });
