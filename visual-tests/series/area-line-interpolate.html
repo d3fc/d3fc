@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Area and Line Interpolation - d3fc Visual Tests</title>
+
+<link href="../assets/d3fc.css" rel="stylesheet">
+
+  </head>
+  <body>
+    
+
+<div style="display:flex;width:600px;height:400px">
+  <div id="area-line-interpolate"style="flex:1"></div>
+    <form id="area-line-interpolate-form" style="width:150px">
+      <label>interpolation
+          <select id="interpolate-select">
+              <option value="linear">linear</option>
+              <option value="linear-closed">linear-closed</option>
+              <option value="step">step</option>
+              <option value="step-before">step-before</option>
+              <option value="step-after">step-after</option>
+              <option value="basis">basis</option>
+              <option value="basis-open">basis-open</option>
+              <option value="basis-closed">basis-closed</option>
+              <option value="bundle">bundle</option>
+              <option value="cardinal">cardinal</option>
+              <option value="cardinal-open">cardinal-open</option>
+              <option value="cardinal-closed">cardinal-closed</option>
+              <option value="monotone">monotone</option>
+          </select>
+      </label>
+      <label>tension
+          <select id="tension-select">
+              <option value="0">0</option>
+              <option value="0.25">0.25</option>
+              <option value="0.5">0.5</option>
+              <option value="0.75" selected>0.75</option>
+              <option value="1">1</option>
+          </select>
+      </label>
+  </form>
+</div>
+
+
+    <footer>
+      <script src="../assets/d3.js"></script>
+<script src="../assets/css-layout.js"></script>
+<script src="../assets/d3fc.js"></script>
+<script src="../assets/seedrandom.min.js"></script>
+<script src="../setup.js"></script> 
+
+  
+    <script src="area-line-interpolate.js"></script>
+  
+
+<script src="//localhost:35729/livereload.js"></script>
+
+    </footer>
+  </body>
+</html>

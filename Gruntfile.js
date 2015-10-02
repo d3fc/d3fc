@@ -22,7 +22,8 @@ module.exports = function(grunt) {
                 'tests/**/*Spec.js'
             ],
             visualTestJsFiles: [
-                'visual-tests/src/**/*.js'
+                'visual-tests/**/*.js',
+                '!visual-tests/assets/**/*.js'
             ],
             ourJsFiles: [
                 '<%= meta.metaJsFiles %>',
@@ -33,28 +34,6 @@ module.exports = function(grunt) {
         },
 
         assemble: {
-            visualTests: {
-                options: {
-                    assets: 'visual-tests/dist/assets',
-                    partials: 'visual-tests/src/site/templates/includes/*.hbs',
-                    layoutdir: 'visual-tests/src/site/templates/layouts',
-                    layout: 'test.hbs'
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'visual-tests/src/site/pages/',
-                        src: ['index.hbs'],
-                        dest: 'visual-tests/dist/'
-                    },
-                    {
-                        expand: true,
-                        cwd: 'visual-tests/src/test-fixtures/',
-                        src: ['**/*.hbs'],
-                        dest: 'visual-tests/dist/'
-                    }
-                ]
-            },
             site: {
                 options: {
                     assets: 'site/dist',
@@ -99,7 +78,7 @@ module.exports = function(grunt) {
             },
             visualTests: {
                 options: {
-                    base: 'visual-tests/dist'
+                    base: 'visual-tests'
                 }
             },
             site: {
@@ -114,21 +93,9 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: 'visual-tests/src/site/assets/',
-                        src: ['**'],
-                        dest: 'visual-tests/dist/assets/'
-                    },
-                    {
-                        expand: true,
                         cwd: 'node_modules/bootstrap/dist/',
                         src: ['**'],
-                        dest: 'visual-tests/dist/assets/bootstrap/'
-                    },
-                    {
-                        expand: true,
-                        cwd: 'visual-tests/src/test-fixtures/',
-                        src: ['**/*', '!**/*.hbs'],
-                        dest: 'visual-tests/dist/'
+                        dest: 'visual-tests/assets/bootstrap/'
                     },
                     {
                         src: [
@@ -138,7 +105,7 @@ module.exports = function(grunt) {
                             'node_modules/jquery/dist/jquery.js',
                             'node_modules/d3/d3.js',
                             'node_modules/seedrandom/seedrandom.min.js'],
-                        dest: 'visual-tests/dist/assets/',
+                        dest: 'visual-tests/assets/',
                         flatten: true,
                         expand: true
                     }
@@ -207,7 +174,8 @@ module.exports = function(grunt) {
                     '<%= meta.componentsJsFiles %>',
                     '<%= meta.testJsFiles %>',
                     '<%= meta.componentsCssFiles %>',
-                    'visual-tests/src/**/*'
+                    'visual-tests/**/*',
+                    '!visual-tests/assets/**/*'
                 ],
                 tasks: ['components', 'visualTests']
             },
@@ -336,7 +304,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('visualTests', [
-        'jshint:visualTests', 'jscs:visualTests', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests'
+        'jshint:visualTests', 'jscs:visualTests', 'clean:visualTests', 'copy:visualTests'
     ]);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 

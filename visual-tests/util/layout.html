@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout - d3fc Visual Tests</title>
+
+<link href="../assets/d3fc.css" rel="stylesheet">
+
+  </head>
+  <body>
+    
+
+<div style="width: 600px; height: 350px; padding: 20px">
+  <svg id="layout-test" style="height: 100%; width: 100%; margin: 10px">
+    <g layout-css="height: 30; justifyContent: center; flexDirection: row">
+      <text layout-css="width: 0;" text-anchor="middle" dy="1em" font-size="20">
+        Awesome Chart Layout Example!
+      </text>
+    </g>
+    <g layout-css="flex: 1; flexDirection: row; marginLeft: 20">
+      <g layout-css="flex: 1;" class="plotArea">
+        <rect layout-css="width: 150; height: 100; margin: 10; alignSelf: flex-end" fill="red"></rect>
+      </g>
+      <g layout-css="width: 50;" class="axis right"></g>
+      <g layout-css="width: 30; justifyContent: center;">
+        <g layout-css="height: 0;">
+          <text transform="rotate(90)">Price</text>
+        </g>
+      </g>
+    </g>
+    <g layout-css="height: 30; flexDirection: row">
+      <g layout-css="flex: 1; marginRight: 80; marginLeft: 20" class="axis bottom"></g>
+    </g>
+    <g layout-css="height: 30; justifyContent: center; flexDirection: row">
+      <text layout-css="width: 0; marginRight: 80" text-anchor="middle" dy="1em">Date</text>
+    </g>
+  </svg>
+</div>
+
+    <footer>
+      <script src="../assets/d3.js"></script>
+<script src="../assets/css-layout.js"></script>
+<script src="../assets/d3fc.js"></script>
+<script src="../assets/seedrandom.min.js"></script>
+<script src="../setup.js"></script> 
+
+  
+    <script src="layout.js"></script>
+  
+
+<script src="//localhost:35729/livereload.js"></script>
+
+    </footer>
+  </body>
+</html>

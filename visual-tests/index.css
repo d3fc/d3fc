@@ -1,0 +1,29 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,500,700);
+
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-weight: 700;
+}
+
+iframe {
+  display: block;
+  width: 100%;
+  max-width: 940px;
+  border: 1px solid #ddd;
+  margin: 0 auto;
+  box-sizing: content-box;
+}
