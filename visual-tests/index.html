@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>d3fc Visual Tests</title>
+    <link href="assets/d3fc.css" rel="stylesheet">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="main" class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>d3fc Visual Tests</h1>
+          <p>To seed the random number generator, used to generate the data in some of the tests, a query string can be added to the URL, like this:</p>
+          <pre><code>?seed=yourseed</code></pre>
+
+          <section>
+            <h2>Annotation</h2>
+
+            <article data-href="annotation/line.html">
+              <h3>Line</h3>
+              <p>Demonstrates the use of a static line annotation, an updating annotation and animated annotations.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Chart</h2>
+
+            <article data-href="chart/cartesianChart.html">
+              <h3>Cartesian Chart</h3>
+              <p>Demonstrates the Cartesian Chart component.</p>
+            </article>
+
+            <article data-href="chart/legend.html">
+              <h3>Legend</h3>
+              <p>Demonstrates the Legend component.</p>
+            </article>
+
+            <article data-href="chart/linearTimeSeries.html">
+              <h3>Linear Time Series</h3>
+              <p>Demonstrates the Linear Time Series component.</p>
+            </article>
+
+            <article data-href="chart/sparkline.html">
+              <h3>Sparkline</h3>
+              <p>Demonstrates the Sparkline component.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Functional</h2>
+
+            <article data-href="functional/decorate.html">
+              <h3>Decorate</h3>
+              <p>Tests decorate by performing a simple specialisation on each series type. It also marks the &#x27;origin&#x27; of the container which is the parent for each datapoint.</p>
+            </article>
+
+            <article data-href="functional/ordinalAxis.html">
+              <h3>Ordinal Axis</h3>
+              <p>Demonstrates the bar series and line series with an ordinal axis.</p>
+            </article>
+
+            <article data-href="functional/update.html">
+              <h3>Update</h3>
+              <p>A slightly crude test that the series correctly implement the data-join pattern. The series below has points added, removed and updated. A visual inspection of the SVG should show no un-expected elements.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Indicator</h2>
+
+            <article data-href="indicator/bollingerBands.html">
+              <h3>Bollinger Bands</h3>
+              <p>Demonstrates the Bollinger Bands on a static OHLC chart.</p>
+            </article>
+
+            <article data-href="indicator/exponentialMovingAverage.html">
+              <h3>Exponential Moving Average</h3>
+              <p>Demonstrates the EMA component on a static OHLC chart.</p>
+            </article>
+
+            <article data-href="indicator/macd.html">
+              <h3>MACD</h3>
+              <p>Demonstrates the MACD component.</p>
+            </article>
+
+            <article data-href="indicator/movingAverage.html">
+              <h3>Moving Average</h3>
+              <p>Demonstrates the moving average component on a static OHLC chart.</p>
+            </article>
+
+            <article data-href="indicator/relativeStrengthIndex.html">
+              <h3>Relative Strength Index</h3>
+              <p>Demonstrates the RSI component.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Scale</h2>
+
+            <article data-href="scale/fc-time-d3-linear-hide-weekend.html">
+              <h3>fc.scale.dateTime</h3>
+              <p>Demonstrates the D3FC date time axis with the skip weekend discontinuity provider.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Series</h2>
+
+            <article data-href="series/area-line-interpolate.html">
+              <h3>Area and Line Interpolation</h3>
+              <p>Demonstrates the Area and Line interpolation. Tension only affects the bundle, cardinal, cardinal-open and cardinal-closed interpolations.</p>
+            </article>
+
+            <article data-href="series/area-line-point.html">
+              <h3>Area, Line and Point</h3>
+              <p>Demonstrates the Area, Line and Point components.</p>
+            </article>
+
+            <article data-href="series/axis.html">
+              <h3>Axis</h3>
+              <p>Demonstrates the axis component.</p>
+            </article>
+
+            <article data-href="series/bar.html">
+              <h3>Bar / Column</h3>
+              <p>A column series and a pair of bar series, both rendering the same data with negative values. The top bar has a y0 value set to position it one-third of the way up the chart.</p>
+            </article>
+
+            <article data-href="series/bar-transitions.html">
+              <h3>Bar Transitions</h3>
+              <p>Demonstrates the component&#x27;s transition support.</p>
+            </article>
+
+            <article data-href="series/candlestick.html">
+              <h3>Candlestick</h3>
+              <p>A simple, static candlestick chart.</p>
+            </article>
+
+            <article data-href="series/comparison.html">
+              <h3>Comparison</h3>
+              <p>A basic comparison chart.</p>
+            </article>
+
+            <article data-href="series/cycle.html">
+              <h3>Cycle</h3>
+              <p>Demonstrates the cycle component.</p>
+            </article>
+
+            <article data-href="series/multi.html">
+              <h3>Multi</h3>
+              <p>Demonstrates the Area, Line and Point components.</p>
+            </article>
+
+            <article data-href="series/ohlc.html">
+              <h3>OHLC</h3>
+              <p>A simple, static OHLC chart.</p>
+            </article>
+
+            <article data-href="series/stacked-area.html">
+              <h3>Stacked Area</h3>
+              <p>Data is loaded from a CSV file.</p>
+            </article>
+
+            <article data-href="series/stacked-bar.html">
+              <h3>Stacked Bar</h3>
+              <p>Data is loaded from a CSV file.</p>
+            </article>
+
+            <article data-href="series/stacked-line.html">
+              <h3>Stacked Line</h3>
+              <p>Data is loaded from a CSV file.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Svg</h2>
+
+            <article data-href="svg/axis.html">
+              <h3>Axis</h3>
+              <p>Demonstrates decoration and axis transitions</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Tool</h2>
+
+            <article data-href="tool/crosshair.html">
+              <h3>Crosshair</h3>
+              <p>Demonstrates basic crosshair functionality: snapping, padding, labels and decoration.</p>
+            </article>
+
+            <article data-href="tool/crosshair-advanced.html">
+              <h3>Crosshair Advanced</h3>
+              <p>Demonstrates crosshair freezing, events and how they can be controlled.</p>
+            </article>
+
+            <article data-href="tool/fibonacciFan.html">
+              <h3>Fibonacci Fan</h3>
+              <p>Demonstrates basic fan functionality: snapping, events and decoration.</p>
+            </article>
+
+            <article data-href="tool/measure.html">
+              <h3>Measure</h3>
+              <p>Demonstrates basic measure functionality: snapping, padding, labels and decoration.</p>
+            </article>
+
+            <article data-href="tool/measure-advanced.html">
+              <h3>Measure Advanced</h3>
+              <p>Demonstrates measure events and how they can be controlled.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Tools</h2>
+
+            <article data-href="annotation/band.html">
+              <h3>Band Annotation</h3>
+              <p>Demonstrates the use of the band annotation.</p>
+            </article>
+
+          </section>
+          <section>
+            <h2>Util</h2>
+
+            <article data-href="util/layout.html">
+              <h3>Layout</h3>
+              <p>Demonstrates the Layout component, applies the CSS flexbox layout to SVG in order to simplify the task of constructing charts.</p>
+            </article>
+
+            <article data-href="util/layoutProgrammatic.html">
+              <h3>Layout Programmatic</h3>
+              <p>Constructs a layout programmatically.</p>
+            </article>
+
+          </section>
+
+        </div>
+      </div>
+    </div>
+    <footer>
+      <script src="assets/jquery.js"></script>
+      <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+      <script src="assets/d3.js"></script>
+      <script src="assets/css-layout.js"></script>
+      <script src="assets/d3fc.js"></script>
+      <script src="assets/seedrandom.min.js"></script>
+
+      <script src="setup.js"></script>
+
+      <script src="//localhost:35729/livereload.js"></script>
+
+    </footer>
+  </body>
+</html>
