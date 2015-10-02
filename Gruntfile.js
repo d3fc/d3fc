@@ -192,32 +192,6 @@ module.exports = function(grunt) {
             }
         },
 
-        jscs: {
-            options: {
-                config: '.jscsrc'
-            },
-            meta: {
-                files: {
-                    src: ['<%= meta.metaJsFiles %>']
-                }
-            },
-            components: {
-                files: {
-                    src: ['<%= meta.componentsJsFiles %>']
-                }
-            },
-            test: {
-                files: {
-                    src: ['<%= meta.testJsFiles %>']
-                }
-            },
-            visualTests: {
-                files: {
-                    src: ['<%= meta.visualTestJsFiles %>']
-                }
-            }
-        },
-
         eslint: {
             components: {
                 src: ['<%= meta.componentsJsFiles %>']
@@ -227,32 +201,6 @@ module.exports = function(grunt) {
             },
             visualTests: {
                 src: ['<%= meta.visualTestJsFiles %>']
-            }
-        },
-
-        jshint: {
-            options: {
-                jshintrc: true
-            },
-            meta: {
-                files: {
-                    src: ['<%= meta.metaJsFiles %>']
-                }
-            },
-            components: {
-                files: {
-                    src: ['<%= meta.componentsJsFiles %>']
-                }
-            },
-            test: {
-                files: {
-                    src: ['<%= meta.testJsFiles %>']
-                }
-            },
-            visualTests: {
-                files: {
-                    src: ['<%= meta.visualTestJsFiles %>']
-                }
             }
         },
 
@@ -323,7 +271,7 @@ module.exports = function(grunt) {
     grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
-    grunt.registerTask('ci', ['jshint:meta', 'jscs:meta', 'components', 'uglify:components', 'site', 'uglify:site']);
+    grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site']);
 
     grunt.registerTask('default', ['watch:components']);
 };
