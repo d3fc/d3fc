@@ -70,8 +70,8 @@ export default function() {
             var scaleOld = this.__chart__ || scale;
             this.__chart__ = scale.copy();
 
-            var ticksArray = tickValues == null ? tryApply('ticks', scale.domain()) : tickValues;
-            var tickFormatter = tickFormat == null ? tryApply('tickFormat', identity) : tickFormat;
+            var ticksArray = tickValues === null ? tryApply('ticks', scale.domain()) : tickValues;
+            var tickFormatter = tickFormat === null ? tryApply('tickFormat', identity) : tickFormat;
             var sign = orient === 'bottom' || orient === 'right' ? 1 : -1;
             var container = d3.select(this);
 

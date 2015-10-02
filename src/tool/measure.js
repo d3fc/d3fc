@@ -119,7 +119,7 @@ export default function() {
             .on('mousemove.measure', mousemove)
             .on('mouseleave.measure', mouseleave);
         var data = container.datum();
-        if (data[0] == null) {
+        if (data[0] === null) {
             data.push({
                 state: 'SELECT_SOURCE'
             });
@@ -137,7 +137,7 @@ export default function() {
     function mouseleave() {
         var container = d3.select(this);
         var data = container.datum();
-        if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
+        if (data[0] !== null && data[0].state === 'SELECT_SOURCE') {
             data.pop();
         }
         container.on('click.measure', null)

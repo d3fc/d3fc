@@ -233,10 +233,10 @@
         var data = container.datum();
 
         // Enhance data with interactive state
-        if (data.crosshairs == null) {
+        if (data.crosshairs === null) {
             data.crosshairs = [];
         }
-        if (data.dateDomain == null) {
+        if (data.dateDomain === null) {
             var maxDate = fc.util.extent(container.datum(), 'date')[1];
             var dateScale = d3.time.scale()
                 .domain([maxDate - 50 * 24 * 60 * 60 * 1000, maxDate]);
