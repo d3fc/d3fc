@@ -12,16 +12,16 @@ export default function() {
         var size = windowSize.apply(this, arguments);
         var windowData = data.slice(0, size).map(value);
         return data.map(function(d, i) {
-                if (i < size - 1) {
-                    return undefinedValue(d, i);
-                }
-                if (i >= size) {
-                    // Treat windowData as FIFO rolling buffer
-                    windowData.shift();
-                    windowData.push(value(d, i));
-                }
-                return accumulator(windowData);
-            });
+            if (i < size - 1) {
+                return undefinedValue(d, i);
+            }
+            if (i >= size) {
+                // Treat windowData as FIFO rolling buffer
+                windowData.shift();
+                windowData.push(value(d, i));
+            }
+            return accumulator(windowData);
+        });
     };
 
     slidingWindow.undefinedValue = function(x) {

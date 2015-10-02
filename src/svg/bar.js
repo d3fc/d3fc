@@ -22,32 +22,32 @@ export default function() {
 
             var horizontalOffset;
             switch (horizontalAlign) {
-                case 'left':
-                    horizontalOffset = barWidth;
-                    break;
-                case 'right':
-                    horizontalOffset = 0;
-                    break;
-                case 'center':
-                    horizontalOffset = barWidth / 2;
-                    break;
-                default:
-                    throw new Error('Invalid horizontal alignment ' + horizontalAlign);
+            case 'left':
+                horizontalOffset = barWidth;
+                break;
+            case 'right':
+                horizontalOffset = 0;
+                break;
+            case 'center':
+                horizontalOffset = barWidth / 2;
+                break;
+            default:
+                throw new Error('Invalid horizontal alignment ' + horizontalAlign);
             }
 
             var verticalOffset;
             switch (verticalAlign) {
-                case 'bottom':
-                    verticalOffset = -barHeight;
-                    break;
-                case 'top':
-                    verticalOffset = 0;
-                    break;
-                case 'center':
-                    verticalOffset = barHeight / 2;
-                    break;
-                default:
-                    throw new Error('Invalid vertical alignment ' + verticalAlign);
+            case 'bottom':
+                verticalOffset = -barHeight;
+                break;
+            case 'top':
+                verticalOffset = 0;
+                break;
+            case 'center':
+                verticalOffset = barHeight / 2;
+                break;
+            default:
+                throw new Error('Invalid vertical alignment ' + verticalAlign);
             }
 
             // Move to the start location

@@ -7,8 +7,8 @@ export default function() {
         rowDecorate = noop;
 
     var items = [
-            ['datum', function(d) { return d.datum; }]
-        ];
+        ['datum', function(d) { return d.datum; }]
+    ];
 
     var tableDataJoin = dataJoin()
         .selector('table.legend')
@@ -81,4 +81,3 @@ export default function() {
 
     return legend;
 }
-

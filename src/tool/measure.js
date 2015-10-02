@@ -149,23 +149,23 @@ export default function() {
         var container = d3.select(this);
         var datum = container.datum()[0];
         switch (datum.state) {
-            case 'SELECT_SOURCE':
-                updatePositions.call(this);
-                event.measuresource.apply(this, arguments);
-                datum.state = 'SELECT_TARGET';
-                break;
-            case 'SELECT_TARGET':
-                updatePositions.call(this);
-                event.measuretarget.apply(this, arguments);
-                datum.state = 'DONE';
-                break;
-            case 'DONE':
-                event.measureclear.apply(this, arguments);
-                datum.state = 'SELECT_SOURCE';
-                updatePositions.call(this);
-                break;
-            default:
-                throw new Error('Unknown state ' + datum.state);
+        case 'SELECT_SOURCE':
+            updatePositions.call(this);
+            event.measuresource.apply(this, arguments);
+            datum.state = 'SELECT_TARGET';
+            break;
+        case 'SELECT_TARGET':
+            updatePositions.call(this);
+            event.measuretarget.apply(this, arguments);
+            datum.state = 'DONE';
+            break;
+        case 'DONE':
+            event.measureclear.apply(this, arguments);
+            datum.state = 'SELECT_SOURCE';
+            updatePositions.call(this);
+            break;
+        default:
+            throw new Error('Unknown state ' + datum.state);
         }
         container.call(measure);
     }

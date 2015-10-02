@@ -15,8 +15,8 @@ export default function() {
         var baseValue = value(data[baseIndex(data)]);
 
         return data.map(function(d, i) {
-                return (value(d, i) - baseValue) / baseValue;
-            });
+            return (value(d, i) - baseValue) / baseValue;
+        });
     };
 
     percentageChange.baseIndex = function(x) {

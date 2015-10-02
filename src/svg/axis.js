@@ -7,15 +7,15 @@ import {range as scaleRange, isOrdinal} from '../util/scale';
 export default function() {
 
     var scale = d3.scale.identity(),
-          decorate = noop,
-          orient = 'bottom',
-          tickArguments = [10],
-          tickValues = null,
-          tickFormat = null,
-          outerTickSize = 6,
-          innerTickSize = 6,
-          tickPadding = 3,
-          svgDomainLine = d3.svg.line();
+        decorate = noop,
+        orient = 'bottom',
+        tickArguments = [10],
+        tickValues = null,
+        tickFormat = null,
+        outerTickSize = 6,
+        innerTickSize = 6,
+        tickPadding = 3,
+        svgDomainLine = d3.svg.line();
 
     var dataJoin = _dataJoin()
         .selector('g.tick')
@@ -78,11 +78,11 @@ export default function() {
             // add the domain line
             var range = scaleRange(scale);
             var domainPathData = pathTranspose([
-                  [range[0], sign * outerTickSize],
-                  [range[0], 0],
-                  [range[1], 0],
-                  [range[1], sign * outerTickSize]
-                ]);
+                [range[0], sign * outerTickSize],
+                [range[0], 0],
+                [range[1], 0],
+                [range[1], sign * outerTickSize]
+            ]);
 
             var domainLine = domainPathDataJoin(container, [data]);
             domainLine

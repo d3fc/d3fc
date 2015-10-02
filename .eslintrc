@@ -107,7 +107,7 @@
         "eol-last": 0,
         "func-names": 0,
         "func-style": 0,
-        "indent": 0,
+        "indent": 2,
         "key-spacing": 2,
         "linebreak-style": 2,
         "new-cap": 2,

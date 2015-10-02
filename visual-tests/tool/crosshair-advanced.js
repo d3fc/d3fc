@@ -65,10 +65,10 @@
         .series([bar, crosshair])
         .mapping(function(series) {
             switch (series) {
-                case bar:
-                    return this;
-                case crosshair:
-                    return this.crosshair;
+            case bar:
+                return this;
+            case crosshair:
+                return this.crosshair;
             }
         });
 
