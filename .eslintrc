@@ -132,7 +132,7 @@
         "operator-linebreak": 0,
         "padded-blocks": 0,
         "quote-props": 0,
-        "quotes": 0,
+        "quotes": [2, "single"],
         "semi-spacing": 2,
         "semi": 2,
         "sort-vars": 0,
