@@ -2,7 +2,8 @@ import computeLayout from 'css-layout';
 import d3 from 'd3';
 import innerDimensions from '../util/innerDimensions';
 
-function _layout() {
+// the layout component performs flex-box layout on single DOM elements
+function layoutComponent() {
 
     var width = -1,
         height = -1;
@@ -62,23 +63,21 @@ function _layout() {
         node.children.forEach(applyLayout);
     }
 
-    var layout = function(selection) {
-        selection.each(function(data) {
-            var dimensions = innerDimensions(this);
+    var layout = function(node) {
+        var dimensions = innerDimensions(node);
 
-            // create the layout nodes
-            var layoutNodes = createNodes(this);
+        // create the layout nodes
+        var layoutNodes = createNodes(node);
 
-            // set the width / height of the root
-            layoutNodes.style.width = width !== -1 ? width : dimensions.width;
-            layoutNodes.style.height = height !== -1 ? height : dimensions.height;
+        // set the width / height of the root
+        layoutNodes.style.width = width !== -1 ? width : dimensions.width;
+        layoutNodes.style.height = height !== -1 ? height : dimensions.height;
 
-            // use the Facebook CSS goodness
-            computeLayout(layoutNodes);
+        // use the Facebook CSS goodness
+        computeLayout(layoutNodes);
 
-            // apply the resultant layout
-            applyLayout(layoutNodes);
-        });
+        // apply the resultant layout
+        applyLayout(layoutNodes);
     };
 
     layout.width = function(x) {
@@ -99,44 +98,47 @@ function _layout() {
     return layout;
 }
 
-function layoutAdapter(name, value) {
-    // Quick bodge to fix #568
-    if (this.node() === null) {
-        return this;
+function layoutSelection(name, value) {
+    var argsLength = arguments.length;
+
+    // For layout(string), return the lyout value for the first node
+    if (argsLength === 1 && typeof name === 'string') {
+        var node = this.node();
+        return Number(node.getAttribute('layout-' + name));
     }
-    var layout = _layout();
-    var n = arguments.length;
-    if (n === 2) {
-        if (typeof name !== 'string') {
-            // layout(number, number) - sets the width and height and performs layout
-            layout.width(name).height(value);
-            this.call(layout);
-        } else {
-            // layout(name, value) - sets a layout- attribute
-            this.node().setAttribute('layout-css', name + ':' + value);
+
+    // for all other invocations, iterate over each item in the selection
+    return this.each(function() {
+
+        var layout = layoutComponent();
+        if (argsLength === 2) {
+            if (typeof name !== 'string') {
+                // layout(number, number) - sets the width and height and performs layout
+                layout.width(name).height(value);
+                layout(this);
+            } else {
+                // layout(name, value) - sets a layout- attribute
+                this.setAttribute('layout-css', name + ':' + value);
+            }
+        } else if (argsLength === 1) {
+            if (typeof name !== 'string') {
+                // layout(object) - sets the layout-css property to the given object
+                var styleObject = name;
+                var layoutCss = Object.keys(styleObject)
+                    .map(function(property) {
+                        return property + ':' + styleObject[property];
+                    })
+                    .join(';');
+                this.setAttribute('layout-css', layoutCss);
+            }
+        } else if (argsLength === 0) {
+            // layout() - executes layout
+            layout(this);
         }
-    } else if (n === 1) {
-        if (typeof name !== 'string') {
-            // layout(object) - sets the layout-css property to the given object
-            var styleObject = name;
-            var layoutCss = Object.keys(styleObject)
-                .map(function(property) {
-                    return property + ':' + styleObject[property];
-                })
-                .join(';');
-            this.node().setAttribute('layout-css', layoutCss);
-        } else {
-            // layout(name) - returns the value of the layout-name attribute
-            return Number(this.node().getAttribute('layout-' + name));
-        }
-    } else if (n === 0) {
-        // layout() - executes layout
-        this.call(layout);
-    }
-    return this;
+    });
 }
 
-d3.selection.prototype.layout = layoutAdapter;
-d3.transition.prototype.layout = layoutAdapter;
+d3.selection.prototype.layout = layoutSelection;
+d3.transition.prototype.layout = layoutSelection;
 
-export default _layout;
+export default layoutComponent;
