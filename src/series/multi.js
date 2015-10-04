@@ -56,6 +56,8 @@ export default function() {
                     .call(series);
             });
 
+            g.order();
+
             decorate(g);
         });
     };
