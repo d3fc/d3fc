@@ -61,12 +61,12 @@ module.exports = function(grunt) {
             },
             site: {
                 src: [
-                        'node_modules/d3/d3.js',
-                        'node_modules/css-layout/dist/css-layout.js',
-                        'dist/d3fc.js',
-                        'node_modules/jquery/dist/jquery.js',
-                        'node_modules/bootstrap/js/collapse.js',
-                        'site/src/lib/init.js'
+                    'node_modules/d3/d3.js',
+                    'node_modules/css-layout/dist/css-layout.js',
+                    'dist/d3fc.js',
+                    'node_modules/jquery/dist/jquery.js',
+                    'node_modules/bootstrap/js/collapse.js',
+                    'site/src/lib/init.js'
                 ],
                 dest: 'site/dist/scripts.js'
             }
@@ -140,7 +140,7 @@ module.exports = function(grunt) {
             }
         },
 
-        concatCss: {
+        concat_css: {
             options: {},
             components: {
                 src: ['<%= meta.componentsCssFiles %>'],
@@ -192,59 +192,19 @@ module.exports = function(grunt) {
             }
         },
 
-        jscs: {
-            options: {
-                config: '.jscsrc'
-            },
-            meta: {
-                files: {
-                    src: ['<%= meta.metaJsFiles %>']
-                }
-            },
+        eslint: {
             components: {
-                files: {
-                    src: ['<%= meta.componentsJsFiles %>']
-                }
+                src: ['<%= meta.componentsJsFiles %>']
             },
             test: {
-                files: {
-                    src: ['<%= meta.testJsFiles %>']
-                }
+                src: ['<%= meta.testJsFiles %>']
             },
             visualTests: {
-                files: {
-                    src: ['<%= meta.visualTestJsFiles %>']
-                }
+                src: ['<%= meta.visualTestJsFiles %>']
             }
         },
 
-        jshint: {
-            options: {
-                jshintrc: true
-            },
-            meta: {
-                files: {
-                    src: ['<%= meta.metaJsFiles %>']
-                }
-            },
-            components: {
-                files: {
-                    src: ['<%= meta.componentsJsFiles %>']
-                }
-            },
-            test: {
-                files: {
-                    src: ['<%= meta.testJsFiles %>']
-                }
-            },
-            visualTests: {
-                files: {
-                    src: ['<%= meta.visualTestJsFiles %>']
-                }
-            }
-        },
-
-        jasmineNodejs: {
+        jasmine_nodejs: {
             options: {
                 reporters: {
                     console: {
@@ -289,29 +249,24 @@ module.exports = function(grunt) {
                 }
             }
         }
-
     });
 
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-    grunt.loadNpmTasks('assemble');
-
-    grunt.renameTask('concat_css', 'concatCss');
-    grunt.renameTask('jasmine_nodejs', 'jasmineNodejs');
+    require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
-        'jshint:components', 'jscs:components', 'clean:components', 'rollup:components', 'version',
-        'concatCss:components', 'cssmin:components', 'jshint:test', 'jscs:test', 'jasmineNodejs:test'
+        'eslint:components', 'clean:components', 'rollup:components', 'version',
+        'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
     ]);
 
     grunt.registerTask('visualTests', [
-        'jshint:visualTests', 'jscs:visualTests', 'clean:visualTests', 'copy:visualTests'
+        'eslint:visualTests', 'clean:visualTests', 'copy:visualTests'
     ]);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
     grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
-    grunt.registerTask('ci', ['jshint:meta', 'jscs:meta', 'components', 'uglify:components', 'site', 'uglify:site']);
+    grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site']);
 
     grunt.registerTask('default', ['watch:components']);
 };

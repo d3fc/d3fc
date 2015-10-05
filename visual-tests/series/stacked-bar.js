@@ -66,7 +66,7 @@
 
         function findClosest(arr, minimize) {
             var nearestIndex = 0,
-              nearestDiff = Number.MAX_VALUE;
+                nearestDiff = Number.MAX_VALUE;
             for (var i = 0, l = arr.length; i < l; i++) {
                 var diff = minimize(arr, i);
                 if (diff < nearestDiff) {
@@ -125,10 +125,10 @@
             .series([stackedBar, crosshair])
             .mapping(function(series) {
                 switch (series) {
-                    case stackedBar:
-                        return this;
-                    case crosshair:
-                        return this.crosshair;
+                case stackedBar:
+                    return this;
+                case crosshair:
+                    return this.crosshair;
                 }
             });
 

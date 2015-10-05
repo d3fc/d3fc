@@ -201,12 +201,12 @@
 
         return function(xPixel, yPixel) {
             var nearest = data.map(function(d) {
-                    var diff = pointDistance(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
-                    return [diff, d];
-                })
-                .reduce(function(accumulator, value) {
-                    return accumulator[0] > value[0] ? value : accumulator;
-                }, [Number.MAX_VALUE, null])[1];
+                var diff = pointDistance(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
+                return [diff, d];
+            })
+            .reduce(function(accumulator, value) {
+                return accumulator[0] > value[0] ? value : accumulator;
+            }, [Number.MAX_VALUE, null])[1];
 
             return {
                 datum: nearest,
@@ -708,23 +708,23 @@
             var container = d3.select(this);
             var datum = container.datum()[0];
             switch (datum.state) {
-                case 'SELECT_SOURCE':
-                    updatePositions.call(this);
-                    event.measuresource.apply(this, arguments);
-                    datum.state = 'SELECT_TARGET';
-                    break;
-                case 'SELECT_TARGET':
-                    updatePositions.call(this);
-                    event.measuretarget.apply(this, arguments);
-                    datum.state = 'DONE';
-                    break;
-                case 'DONE':
-                    event.measureclear.apply(this, arguments);
-                    datum.state = 'SELECT_SOURCE';
-                    updatePositions.call(this);
-                    break;
-                default:
-                    throw new Error('Unknown state ' + datum.state);
+            case 'SELECT_SOURCE':
+                updatePositions.call(this);
+                event.measuresource.apply(this, arguments);
+                datum.state = 'SELECT_TARGET';
+                break;
+            case 'SELECT_TARGET':
+                updatePositions.call(this);
+                event.measuretarget.apply(this, arguments);
+                datum.state = 'DONE';
+                break;
+            case 'DONE':
+                event.measureclear.apply(this, arguments);
+                datum.state = 'SELECT_SOURCE';
+                updatePositions.call(this);
+                break;
+            default:
+                throw new Error('Unknown state ' + datum.state);
             }
             container.call(measure);
         }
@@ -950,23 +950,23 @@
             var container = d3.select(this);
             var datum = container.datum()[0];
             switch (datum.state) {
-                case 'SELECT_SOURCE':
-                    updatePositions.call(this);
-                    event.fansource.apply(this, arguments);
-                    datum.state = 'SELECT_TARGET';
-                    break;
-                case 'SELECT_TARGET':
-                    updatePositions.call(this);
-                    event.fantarget.apply(this, arguments);
-                    datum.state = 'DONE';
-                    break;
-                case 'DONE':
-                    event.fanclear.apply(this, arguments);
-                    datum.state = 'SELECT_SOURCE';
-                    updatePositions.call(this);
-                    break;
-                default:
-                    throw new Error('Unknown state ' + datum.state);
+            case 'SELECT_SOURCE':
+                updatePositions.call(this);
+                event.fansource.apply(this, arguments);
+                datum.state = 'SELECT_TARGET';
+                break;
+            case 'SELECT_TARGET':
+                updatePositions.call(this);
+                event.fantarget.apply(this, arguments);
+                datum.state = 'DONE';
+                break;
+            case 'DONE':
+                event.fanclear.apply(this, arguments);
+                datum.state = 'SELECT_SOURCE';
+                updatePositions.call(this);
+                break;
+            default:
+                throw new Error('Unknown state ' + datum.state);
             }
             container.call(fan);
         }
@@ -1133,27 +1133,27 @@
                     handleOne, handleTwo,
                     textAttributes = {x: -5, y: -5};
                 switch (orient) {
-                    case 'horizontal':
-                        translation = function(a, b) { return 'translate(' + a + ', ' + b + ')'; };
-                        lineProperty = 'x2';
-                        crossScale = xScale;
-                        valueScale = yScale;
-                        handleOne = 'left-handle';
-                        handleTwo = 'right-handle';
-                        break;
+                case 'horizontal':
+                    translation = function(a, b) { return 'translate(' + a + ', ' + b + ')'; };
+                    lineProperty = 'x2';
+                    crossScale = xScale;
+                    valueScale = yScale;
+                    handleOne = 'left-handle';
+                    handleTwo = 'right-handle';
+                    break;
 
-                    case 'vertical':
-                        translation = function(a, b) { return 'translate(' + b + ', ' + a + ')'; };
-                        lineProperty = 'y2';
-                        crossScale = yScale;
-                        valueScale = xScale;
-                        textAttributes.transform = 'rotate(-90)';
-                        handleOne = 'bottom-handle';
-                        handleTwo = 'top-handle';
-                        break;
+                case 'vertical':
+                    translation = function(a, b) { return 'translate(' + b + ', ' + a + ')'; };
+                    lineProperty = 'y2';
+                    crossScale = yScale;
+                    valueScale = xScale;
+                    textAttributes.transform = 'rotate(-90)';
+                    handleOne = 'bottom-handle';
+                    handleTwo = 'top-handle';
+                    break;
 
-                    default:
-                        throw new Error('Invalid orientation');
+                default:
+                    throw new Error('Invalid orientation');
                 }
 
                 var scaleRange = range(crossScale),
@@ -1701,32 +1701,32 @@
 
                 var horizontalOffset;
                 switch (horizontalAlign) {
-                    case 'left':
-                        horizontalOffset = barWidth;
-                        break;
-                    case 'right':
-                        horizontalOffset = 0;
-                        break;
-                    case 'center':
-                        horizontalOffset = barWidth / 2;
-                        break;
-                    default:
-                        throw new Error('Invalid horizontal alignment ' + horizontalAlign);
+                case 'left':
+                    horizontalOffset = barWidth;
+                    break;
+                case 'right':
+                    horizontalOffset = 0;
+                    break;
+                case 'center':
+                    horizontalOffset = barWidth / 2;
+                    break;
+                default:
+                    throw new Error('Invalid horizontal alignment ' + horizontalAlign);
                 }
 
                 var verticalOffset;
                 switch (verticalAlign) {
-                    case 'bottom':
-                        verticalOffset = -barHeight;
-                        break;
-                    case 'top':
-                        verticalOffset = 0;
-                        break;
-                    case 'center':
-                        verticalOffset = barHeight / 2;
-                        break;
-                    default:
-                        throw new Error('Invalid vertical alignment ' + verticalAlign);
+                case 'bottom':
+                    verticalOffset = -barHeight;
+                    break;
+                case 'top':
+                    verticalOffset = 0;
+                    break;
+                case 'center':
+                    verticalOffset = barHeight / 2;
+                    break;
+                default:
+                    throw new Error('Invalid vertical alignment ' + verticalAlign);
                 }
 
                 // Move to the start location
@@ -1794,15 +1794,15 @@
     function axis() {
 
         var scale = d3.scale.identity(),
-              decorate = noop,
-              orient = 'bottom',
-              tickArguments = [10],
-              tickValues = null,
-              tickFormat = null,
-              outerTickSize = 6,
-              innerTickSize = 6,
-              tickPadding = 3,
-              svgDomainLine = d3.svg.line();
+            decorate = noop,
+            orient = 'bottom',
+            tickArguments = [10],
+            tickValues = null,
+            tickFormat = null,
+            outerTickSize = 6,
+            innerTickSize = 6,
+            tickPadding = 3,
+            svgDomainLine = d3.svg.line();
 
         var dataJoin$$ = dataJoin()
             .selector('g.tick')
@@ -1865,11 +1865,11 @@
                 // add the domain line
                 var range$$ = range(scale);
                 var domainPathData = pathTranspose([
-                      [range$$[0], sign * outerTickSize],
-                      [range$$[0], 0],
-                      [range$$[1], 0],
-                      [range$$[1], sign * outerTickSize]
-                    ]);
+                    [range$$[0], sign * outerTickSize],
+                    [range$$[0], 0],
+                    [range$$[1], 0],
+                    [range$$[1], sign * outerTickSize]
+                ]);
 
                 var domainLine = domainPathDataJoin(container, [data]);
                 domainLine
@@ -2864,20 +2864,20 @@
 
                 var translation;
                 switch (axisAdapter.orient()) {
-                    case 'top':
-                    case 'bottom':
-                        translation = 'translate(0,' + yScale(baseline(data)) + ')';
-                        axis$$.scale(xScale);
-                        break;
+                case 'top':
+                case 'bottom':
+                    translation = 'translate(0,' + yScale(baseline(data)) + ')';
+                    axis$$.scale(xScale);
+                    break;
 
-                    case 'left':
-                    case 'right':
-                        translation = 'translate(' + xScale(baseline(data)) + ',0)';
-                        axis$$.scale(yScale);
-                        break;
+                case 'left':
+                case 'right':
+                    translation = 'translate(' + xScale(baseline(data)) + ',0)';
+                    axis$$.scale(yScale);
+                    break;
 
-                    default:
-                        throw new Error('Invalid orientation');
+                default:
+                    throw new Error('Invalid orientation');
                 }
 
                 g.enter().attr('transform', translation);
@@ -3436,16 +3436,16 @@
             var size = windowSize.apply(this, arguments);
             var windowData = data.slice(0, size).map(value);
             return data.map(function(d, i) {
-                    if (i < size - 1) {
-                        return undefinedValue(d, i);
-                    }
-                    if (i >= size) {
-                        // Treat windowData as FIFO rolling buffer
-                        windowData.shift();
-                        windowData.push(value(d, i));
-                    }
-                    return accumulator(windowData);
-                });
+                if (i < size - 1) {
+                    return undefinedValue(d, i);
+                }
+                if (i >= size) {
+                    // Treat windowData as FIFO rolling buffer
+                    windowData.shift();
+                    windowData.push(value(d, i));
+                }
+                return accumulator(windowData);
+            });
         };
 
         slidingWindow.undefinedValue = function(x) {
@@ -3675,20 +3675,20 @@
             var initialAccumulator = 0;
 
             return data.map(function(d, i) {
-                    if (i < windowSize - 1) {
-                        initialAccumulator += value(d, i);
-                        return undefined;
-                    } else if (i === windowSize - 1) {
-                        initialAccumulator += value(d, i);
-                        var initialValue = initialAccumulator / windowSize;
-                        previous = initialValue;
-                        return initialValue;
-                    } else {
-                        var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
-                        previous = nextValue;
-                        return nextValue;
-                    }
-                });
+                if (i < windowSize - 1) {
+                    initialAccumulator += value(d, i);
+                    return undefined;
+                } else if (i === windowSize - 1) {
+                    initialAccumulator += value(d, i);
+                    var initialValue = initialAccumulator / windowSize;
+                    previous = initialValue;
+                    return initialValue;
+                } else {
+                    var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
+                    previous = nextValue;
+                    return nextValue;
+                }
+            });
         };
 
         exponentialMovingAverage.windowSize = function(x) {
@@ -3826,8 +3826,8 @@
             var baseValue = value(data[baseIndex(data)]);
 
             return data.map(function(d, i) {
-                    return (value(d, i) - baseValue) / baseValue;
-                });
+                return (value(d, i) - baseValue) / baseValue;
+            });
         };
 
         percentageChange.baseIndex = function(x) {
@@ -4194,18 +4194,18 @@
             }
 
             return [{
-                    x: xValueAccessor(data[0]),
-                    y: yValueAccessor(data[0])
-                }, {
-                    x: xValueAccessor(elementWithYValue(high)),
-                    y: high
-                }, {
-                    x: xValueAccessor(elementWithYValue(low)),
-                    y: low
-                }, {
-                    x: xValueAccessor(data[data.length - 1]),
-                    y: yValueAccessor(data[data.length - 1])
-                }];
+                x: xValueAccessor(data[0]),
+                y: yValueAccessor(data[0])
+            }, {
+                x: xValueAccessor(elementWithYValue(high)),
+                y: high
+            }, {
+                x: xValueAccessor(elementWithYValue(low)),
+                y: low
+            }, {
+                x: xValueAccessor(data[data.length - 1]),
+                y: yValueAccessor(data[data.length - 1])
+            }];
         }
 
         var xScale = exportedScale();
@@ -4221,10 +4221,10 @@
             .decorate(function(sel) {
                 sel.attr('class', function(d, i) {
                     switch (i) {
-                        case 0: return 'open';
-                        case 1: return 'high';
-                        case 2: return 'low';
-                        case 3: return 'close';
+                    case 0: return 'open';
+                    case 1: return 'high';
+                    case 2: return 'low';
+                    case 3: return 'close';
                     }
                 });
             });
@@ -4233,10 +4233,10 @@
             .series([line, point$$])
             .mapping(function(series) {
                 switch (series) {
-                    case point$$:
-                        return highLowOpenClose(this);
-                    default:
-                        return this;
+                case point$$:
+                    return highLowOpenClose(this);
+                default:
+                    return this;
                 }
             });
 
@@ -4420,8 +4420,8 @@
             rowDecorate = noop;
 
         var items = [
-                ['datum', function(d) { return d.datum; }]
-            ];
+            ['datum', function(d) { return d.datum; }]
+        ];
 
         var tableDataJoin = dataJoin()
             .selector('table.legend')
@@ -4781,11 +4781,11 @@
                 var xLines = xLineDataJoin(this, xData);
 
                 xLines.attr({
-                        'x1': xScale,
-                        'x2': xScale,
-                        'y1': yScale.range()[0],
-                        'y2': yScale.range()[1]
-                    });
+                    'x1': xScale,
+                    'x2': xScale,
+                    'y1': yScale.range()[0],
+                    'y2': yScale.range()[1]
+                });
 
                 xDecorate(xLines, xData, index);
 
@@ -4793,11 +4793,11 @@
                 var yLines = yLineDataJoin(this, yData);
 
                 yLines.attr({
-                        'x1': xScale.range()[0],
-                        'x2': xScale.range()[1],
-                        'y1': yScale,
-                        'y2': yScale
-                    });
+                    'x1': xScale.range()[0],
+                    'x2': xScale.range()[1],
+                    'y1': yScale,
+                    'y2': yScale
+                });
 
                 yDecorate(yLines, yData, index);
 

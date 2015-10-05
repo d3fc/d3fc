@@ -78,10 +78,10 @@
         .series([bar, fibonacciFan])
         .mapping(function(series) {
             switch (series) {
-                case bar:
-                    return this;
-                case fibonacciFan:
-                    return this.fibonacciFan;
+            case bar:
+                return this;
+            case fibonacciFan:
+                return this.fibonacciFan;
             }
         });
 

@@ -36,9 +36,9 @@ describe('legend', function() {
             .call(legend);
 
         verifyLegend([
-                ['open', '45.67'],
-                ['close', '56.78']
-            ]);
+            ['open', '45.67'],
+            ['close', '56.78']
+        ]);
     });
 
     it('should invoke legend item and label functions with correct parameters and context', function() {

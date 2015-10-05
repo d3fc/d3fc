@@ -30,11 +30,11 @@ export default function() {
             var xLines = xLineDataJoin(this, xData);
 
             xLines.attr({
-                    'x1': xScale,
-                    'x2': xScale,
-                    'y1': yScale.range()[0],
-                    'y2': yScale.range()[1]
-                });
+                'x1': xScale,
+                'x2': xScale,
+                'y1': yScale.range()[0],
+                'y2': yScale.range()[1]
+            });
 
             xDecorate(xLines, xData, index);
 
@@ -42,11 +42,11 @@ export default function() {
             var yLines = yLineDataJoin(this, yData);
 
             yLines.attr({
-                    'x1': xScale.range()[0],
-                    'x2': xScale.range()[1],
-                    'y1': yScale,
-                    'y2': yScale
-                });
+                'x1': xScale.range()[0],
+                'x2': xScale.range()[1],
+                'y1': yScale,
+                'y2': yScale
+            });
 
             yDecorate(yLines, yData, index);
 

@@ -12,20 +12,20 @@ export default function() {
         var initialAccumulator = 0;
 
         return data.map(function(d, i) {
-                if (i < windowSize - 1) {
-                    initialAccumulator += value(d, i);
-                    return undefined;
-                } else if (i === windowSize - 1) {
-                    initialAccumulator += value(d, i);
-                    var initialValue = initialAccumulator / windowSize;
-                    previous = initialValue;
-                    return initialValue;
-                } else {
-                    var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
-                    previous = nextValue;
-                    return nextValue;
-                }
-            });
+            if (i < windowSize - 1) {
+                initialAccumulator += value(d, i);
+                return undefined;
+            } else if (i === windowSize - 1) {
+                initialAccumulator += value(d, i);
+                var initialValue = initialAccumulator / windowSize;
+                previous = initialValue;
+                return initialValue;
+            } else {
+                var nextValue = value(d, i) * alpha + (1 - alpha) * previous;
+                previous = nextValue;
+                return nextValue;
+            }
+        });
     };
 
     exponentialMovingAverage.windowSize = function(x) {

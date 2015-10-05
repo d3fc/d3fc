@@ -27,20 +27,20 @@ export default function() {
 
             var translation;
             switch (axisAdapter.orient()) {
-                case 'top':
-                case 'bottom':
-                    translation = 'translate(0,' + yScale(baseline(data)) + ')';
-                    axis.scale(xScale);
-                    break;
+            case 'top':
+            case 'bottom':
+                translation = 'translate(0,' + yScale(baseline(data)) + ')';
+                axis.scale(xScale);
+                break;
 
-                case 'left':
-                case 'right':
-                    translation = 'translate(' + xScale(baseline(data)) + ',0)';
-                    axis.scale(yScale);
-                    break;
+            case 'left':
+            case 'right':
+                translation = 'translate(' + xScale(baseline(data)) + ',0)';
+                axis.scale(yScale);
+                break;
 
-                default:
-                    throw new Error('Invalid orientation');
+            default:
+                throw new Error('Invalid orientation');
             }
 
             g.enter().attr('transform', translation);

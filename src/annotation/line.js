@@ -27,27 +27,27 @@ export default function() {
                 handleOne, handleTwo,
                 textAttributes = {x: -5, y: -5};
             switch (orient) {
-                case 'horizontal':
-                    translation = function(a, b) { return 'translate(' + a + ', ' + b + ')'; };
-                    lineProperty = 'x2';
-                    crossScale = xScale;
-                    valueScale = yScale;
-                    handleOne = 'left-handle';
-                    handleTwo = 'right-handle';
-                    break;
+            case 'horizontal':
+                translation = function(a, b) { return 'translate(' + a + ', ' + b + ')'; };
+                lineProperty = 'x2';
+                crossScale = xScale;
+                valueScale = yScale;
+                handleOne = 'left-handle';
+                handleTwo = 'right-handle';
+                break;
 
-                case 'vertical':
-                    translation = function(a, b) { return 'translate(' + b + ', ' + a + ')'; };
-                    lineProperty = 'y2';
-                    crossScale = yScale;
-                    valueScale = xScale;
-                    textAttributes.transform = 'rotate(-90)';
-                    handleOne = 'bottom-handle';
-                    handleTwo = 'top-handle';
-                    break;
+            case 'vertical':
+                translation = function(a, b) { return 'translate(' + b + ', ' + a + ')'; };
+                lineProperty = 'y2';
+                crossScale = yScale;
+                valueScale = xScale;
+                textAttributes.transform = 'rotate(-90)';
+                handleOne = 'bottom-handle';
+                handleTwo = 'top-handle';
+                break;
 
-                default:
-                    throw new Error('Invalid orientation');
+            default:
+                throw new Error('Invalid orientation');
             }
 
             var scaleRange = range(crossScale),

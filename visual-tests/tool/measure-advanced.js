@@ -65,10 +65,10 @@
         .series([bar, measure])
         .mapping(function(series) {
             switch (series) {
-                case bar:
-                    return this;
-                case measure:
-                    return this.measure;
+            case bar:
+                return this;
+            case measure:
+                return this.measure;
             }
         });
 

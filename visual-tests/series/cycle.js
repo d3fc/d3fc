@@ -95,10 +95,10 @@
             .yScale(tempScale)
             .mapping(function(series) {
                 switch (series) {
-                    case cycle:
-                        return this;
-                    case trendLine:
-                        return meanValues;
+                case cycle:
+                    return this;
+                case trendLine:
+                    return meanValues;
                 }
             });
 

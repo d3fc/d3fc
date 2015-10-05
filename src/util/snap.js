@@ -32,12 +32,12 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, pointDistance) {
 
     return function(xPixel, yPixel) {
         var nearest = data.map(function(d) {
-                var diff = pointDistance(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
-                return [diff, d];
-            })
-            .reduce(function(accumulator, value) {
-                return accumulator[0] > value[0] ? value : accumulator;
-            }, [Number.MAX_VALUE, null])[1];
+            var diff = pointDistance(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
+            return [diff, d];
+        })
+        .reduce(function(accumulator, value) {
+            return accumulator[0] > value[0] ? value : accumulator;
+        }, [Number.MAX_VALUE, null])[1];
 
         return {
             datum: nearest,

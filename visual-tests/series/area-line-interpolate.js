@@ -47,20 +47,20 @@
 
     var interpolateSelect =  d3.select('#interpolate-select');
     interpolateSelect.on('change', function() {
-            line.interpolate(interpolateSelect.property('value'));
-            area.interpolate(interpolateSelect.property('value'));
-            container.select('g')
-                .call(line)
-                .call(area);
-        });
+        line.interpolate(interpolateSelect.property('value'));
+        area.interpolate(interpolateSelect.property('value'));
+        container.select('g')
+            .call(line)
+            .call(area);
+    });
 
     var tensionSelect =  d3.select('#tension-select');
     tensionSelect.on('change', function() {
-            line.tension(tensionSelect.property('value'));
-            area.tension(tensionSelect.property('value'));
-            container.select('g')
-                .call(line)
-                .call(area);
-        });
+        line.tension(tensionSelect.property('value'));
+        area.tension(tensionSelect.property('value'));
+        container.select('g')
+            .call(line)
+            .call(area);
+    });
 
 })(d3, fc);

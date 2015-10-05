@@ -24,18 +24,18 @@ export default function() {
         }
 
         return [{
-                x: xValueAccessor(data[0]),
-                y: yValueAccessor(data[0])
-            }, {
-                x: xValueAccessor(elementWithYValue(high)),
-                y: high
-            }, {
-                x: xValueAccessor(elementWithYValue(low)),
-                y: low
-            }, {
-                x: xValueAccessor(data[data.length - 1]),
-                y: yValueAccessor(data[data.length - 1])
-            }];
+            x: xValueAccessor(data[0]),
+            y: yValueAccessor(data[0])
+        }, {
+            x: xValueAccessor(elementWithYValue(high)),
+            y: high
+        }, {
+            x: xValueAccessor(elementWithYValue(low)),
+            y: low
+        }, {
+            x: xValueAccessor(data[data.length - 1]),
+            y: yValueAccessor(data[data.length - 1])
+        }];
     }
 
     var xScale = dateTime();
@@ -51,10 +51,10 @@ export default function() {
         .decorate(function(sel) {
             sel.attr('class', function(d, i) {
                 switch (i) {
-                    case 0: return 'open';
-                    case 1: return 'high';
-                    case 2: return 'low';
-                    case 3: return 'close';
+                case 0: return 'open';
+                case 1: return 'high';
+                case 2: return 'low';
+                case 3: return 'close';
                 }
             });
         });
@@ -63,10 +63,10 @@ export default function() {
         .series([line, point])
         .mapping(function(series) {
             switch (series) {
-                case point:
-                    return highLowOpenClose(this);
-                default:
-                    return this;
+            case point:
+                return highLowOpenClose(this);
+            default:
+                return this;
             }
         });
 
