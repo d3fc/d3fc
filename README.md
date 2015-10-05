@@ -37,7 +37,7 @@ The following Grunt tasks, found in `Gruntfile.js`, can be run from the command 
 
 ### Visual Tests
 
-The project includes a number of unit tests, however, because these components are visual in nature, unit testing is not enough. This project contains a number of ad-hoc visual tests that are found within the `visual-tests` folder. The visual tests are compiled, via [assemble](http://assemble.io/), to create a simple website. To view this site, run `grunt visualTests:serve`.
+The project includes a number of unit tests, however, because these components are visual in nature, unit testing is not enough. This project contains a number of ad-hoc visual tests that are found within the `visual-tests` folder. To view this site, run `grunt visualTests:serve`.
 
 ## License
 

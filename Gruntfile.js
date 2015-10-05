@@ -219,7 +219,7 @@ module.exports = function(grunt) {
 
         clean: {
             components: ['dist/*', '!dist/README.md'],
-            visualTests: ['visual-tests/dist'],
+            visualTests: ['visual-tests/assets'],
             site: ['site/dist']
         },
 
