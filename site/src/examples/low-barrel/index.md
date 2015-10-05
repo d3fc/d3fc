@@ -5,7 +5,7 @@ namespace: examples
 ---
 <style>@import "index.css";</style>
 
-<table id="low-barrel">
+<table id="low-barrel" class="chart">
   <tr class="main-row">
     <td>
       <svg class="main"></svg>
