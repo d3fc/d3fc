@@ -2,6 +2,6 @@ doc
 dist
 node_modules
 .*
-visual-tests/dist
+visual-tests/assets
 _SpecRunner.html
 .grunt
