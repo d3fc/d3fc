@@ -16,14 +16,26 @@ export default function(data, fields) {
     if (!Array.isArray(data[0])) {
         data = [data];
     }
-    // the fields parameter must be an array of field names, but we can pass non-array types in
-    if (!Array.isArray(fields)) {
-        fields = [fields];
+    if (arguments.length === 2) {
+        // the fields parameter must be an array of field names, but we can pass non-array types in
+        if (!Array.isArray(fields)) {
+            fields = [fields];
+        }
+    } else {
+        // for > 2 args, construct the fields
+        var args = Array.prototype.slice.call(arguments);
+        fields = args.slice(1);
     }
-    // the fields can be an array of property names or accessor functions
-    if (typeof(fields[0]) !== 'function') {
-        fields = fields.map(function(f) { return function(d) { return d[f]; }; });
-    }
+
+    // the fields can be a mixed array of property names or accessor functions
+    fields = fields.map(function(field) {
+        if (typeof field !== 'string') {
+            return field;
+        }
+        return function(d) {
+            return d[field];
+        };
+    });
 
     // Return the smallest and largest
     return [
