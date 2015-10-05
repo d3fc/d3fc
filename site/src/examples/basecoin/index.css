@@ -75,4 +75,5 @@
 
 .label {
     stroke: white;
+    text-anchor: initial;
 }
