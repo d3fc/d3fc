@@ -678,7 +678,7 @@
                 .on('mousemove.measure', mousemove)
                 .on('mouseleave.measure', mouseleave);
             var data = container.datum();
-            if (data[0] === null) {
+            if (data[0] == null) {
                 data.push({
                     state: 'SELECT_SOURCE'
                 });
@@ -696,7 +696,7 @@
         function mouseleave() {
             var container = d3.select(this);
             var data = container.datum();
-            if (data[0] !== null && data[0].state === 'SELECT_SOURCE') {
+            if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
                 data.pop();
             }
             container.on('click.measure', null)
@@ -920,7 +920,7 @@
                 .on('mousemove.fan', mousemove)
                 .on('mouseleave.fan', mouseleave);
             var data = container.datum();
-            if (data[0] === null) {
+            if (data[0] == null) {
                 data.push({
                     state: 'SELECT_SOURCE'
                 });
@@ -938,7 +938,7 @@
         function mouseleave() {
             var container = d3.select(this);
             var data = container.datum();
-            if (data[0] !== null && data[0].state === 'SELECT_SOURCE') {
+            if (data[0] != null && data[0].state === 'SELECT_SOURCE') {
                 data.pop();
             }
             container.on('click.fan', null)
@@ -1857,8 +1857,8 @@
                 var scaleOld = this.__chart__ || scale;
                 this.__chart__ = scale.copy();
 
-                var ticksArray = tickValues === null ? tryApply('ticks', scale.domain()) : tickValues;
-                var tickFormatter = tickFormat === null ? tryApply('tickFormat', identity) : tickFormat;
+                var ticksArray = tickValues == null ? tryApply('ticks', scale.domain()) : tickValues;
+                var tickFormatter = tickFormat == null ? tryApply('tickFormat', identity) : tickFormat;
                 var sign = orient === 'bottom' || orient === 'right' ? 1 : -1;
                 var container = d3.select(this);
 
@@ -4106,13 +4106,13 @@
 
         var coinbase = function(cb) {
             var params = [];
-            if (start !== null) {
+            if (start != null) {
                 params.push('start=' + start.toISOString());
             }
-            if (end !== null) {
+            if (end != null) {
                 params.push('end=' + end.toISOString());
             }
-            if (granularity !== null) {
+            if (granularity != null) {
                 params.push('granularity=' + granularity);
             }
             var url = 'https://api.exchange.coinbase.com/products/' + product + '/candles?' + params.join('&');

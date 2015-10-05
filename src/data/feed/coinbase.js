@@ -10,13 +10,13 @@ export default function() {
 
     var coinbase = function(cb) {
         var params = [];
-        if (start !== null) {
+        if (start != null) {
             params.push('start=' + start.toISOString());
         }
-        if (end !== null) {
+        if (end != null) {
             params.push('end=' + end.toISOString());
         }
-        if (granularity !== null) {
+        if (granularity != null) {
             params.push('granularity=' + granularity);
         }
         var url = 'https://api.exchange.coinbase.com/products/' + product + '/candles?' + params.join('&');
