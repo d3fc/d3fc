@@ -61,12 +61,12 @@ module.exports = function(grunt) {
             },
             site: {
                 src: [
-                        'node_modules/d3/d3.js',
-                        'node_modules/css-layout/dist/css-layout.js',
-                        'dist/d3fc.js',
-                        'node_modules/jquery/dist/jquery.js',
-                        'node_modules/bootstrap/js/collapse.js',
-                        'site/src/lib/init.js'
+                    'node_modules/d3/d3.js',
+                    'node_modules/css-layout/dist/css-layout.js',
+                    'dist/d3fc.js',
+                    'node_modules/jquery/dist/jquery.js',
+                    'node_modules/bootstrap/js/collapse.js',
+                    'site/src/lib/init.js'
                 ],
                 dest: 'site/dist/scripts.js'
             }

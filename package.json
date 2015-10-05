@@ -20,6 +20,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "assemble": "^0.4.42",
     "bootstrap": "^3.3.5",
     "d3-bundler": "^0.2.7",
     "grunt": "^0.4.5",
