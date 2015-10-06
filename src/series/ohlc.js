@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import {noop} from '../util/fn';
 import svgOhlc from '../svg/ohlc';
@@ -18,7 +18,7 @@ export default function(drawMethod) {
 
     var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.ohlc')
         .element('g')
         .attr('class', 'ohlc');

@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import xyBase from './xyBase';
 
@@ -10,6 +10,7 @@ export default function() {
 
     var base = xyBase();
 
+    var dataJoin = dataJoinUtil()
         .selector('g.point')
         .element('g')
         .attr('class', 'point');

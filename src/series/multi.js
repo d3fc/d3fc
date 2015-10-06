@@ -1,6 +1,6 @@
 import {context, index, noop} from '../util/fn';
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 
 // The multi series does some data-join gymnastics to ensure we don't -
 // * Create unnecessary intermediate DOM nodes
@@ -18,7 +18,7 @@ export default function() {
         key = index,
         decorate = noop;
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.multi')
         .children(true)
         .attr('class', 'multi')

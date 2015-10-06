@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import {rebindAll} from '../util/rebind';
 import {noop} from '../util/fn';
@@ -20,7 +20,7 @@ export default function() {
       .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
       .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.bar')
         .element('g');
 

@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import xyBase from './xyBase';
 
@@ -14,7 +14,7 @@ export default function() {
         .x(base.x)
         .y(base.y);
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('path.line')
         .element('path')
         .attr('class', 'line');
