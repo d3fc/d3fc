@@ -4,7 +4,7 @@ import fractionalBarWidth from '../util/fractionalBarWidth';
 import {rebindAll} from '../util/rebind';
 import {noop} from '../util/fn';
 import svgBar from '../svg/bar';
-import baseSeries from './base';
+import xyBase from './xyBase';
 
 // The bar series renders a vertical (column) or horizontal (bar) series. In order
 // to provide a common implementation there are a number of functions that specialise
@@ -16,7 +16,7 @@ export default function() {
         orient = 'vertical',
         pathGenerator = svgBar();
 
-    var base = baseSeries()
+    var base = xyBase()
       .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
       .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
 
@@ -69,7 +69,7 @@ export default function() {
 
             dataJoin.attr('class', 'bar ' + orient);
 
-            var filteredData = data.filter(base.isValid);
+            var filteredData = data.filter(base.defined);
 
             pathGenerator.x(0)
                 .y(0)
@@ -129,7 +129,7 @@ export default function() {
         return bar;
     };
 
-    rebindAll(bar, base, null, ['x0', 'y0', 'x', 'y', 'isValid']);
+    d3.rebind(bar, base, 'xScale', 'xValue', 'x1Value', 'x0Value', 'yScale', 'yValue', 'y1Value', 'y0Value');
     d3.rebind(bar, dataJoin, 'key');
 
     return bar;

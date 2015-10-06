@@ -23,7 +23,7 @@ export default function() {
     base.y = function(d, i) {
         return yScale(yValue(d, i));
     };
-    base.isValid = function(d, i) {
+    base.defined = function(d, i) {
         return !isNaN(x0Value(d, i)) && !isNaN(y0Value(d, i)) &&
             !isNaN(xValue(d, i)) && !isNaN(yValue(d, i));
     };
