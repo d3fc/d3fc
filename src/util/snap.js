@@ -22,17 +22,17 @@ export function noSnap(xScale, yScale) {
     };
 }
 
-export function pointSnap(xScale, yScale, xValue, yValue, data, pointDistance) {
+export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunction) {
     // a default function that computes the distance between two points
-    pointDistance = pointDistance || function(x, y, cx, cy) {
+    objectiveFunction = objectiveFunction || function(x, y, cx, cy) {
         var dx = x - cx,
             dy = y - cy;
-        return Math.sqrt(dx * dx + dy * dy);
+        return dx * dx + dy * dy;
     };
 
     return function(xPixel, yPixel) {
         var nearest = data.map(function(d) {
-            var diff = pointDistance(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
+            var diff = objectiveFunction(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
             return [diff, d];
         })
         .reduce(function(accumulator, value) {
@@ -49,28 +49,28 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, pointDistance) {
     };
 }
 
-export function seriesPointSnap(series, data, pointDistance) {
+export function seriesPointSnap(series, data, objectiveFunction) {
     return function(xPixel, yPixel) {
         var xScale = series.xScale(),
             yScale = series.yScale(),
             xValue = series.xValue(),
             yValue = (series.yValue || series.yCloseValue).call(series);
-        return pointSnap(xScale, yScale, xValue, yValue, data, pointDistance)(xPixel, yPixel);
+        return pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunction)(xPixel, yPixel);
     };
 }
 
 export function seriesPointSnapXOnly(series, data) {
-    function pointDistance(x, y, cx, cy) {
+    function objectiveFunction(x, y, cx, cy) {
         var dx = x - cx;
         return Math.abs(dx);
     }
-    return seriesPointSnap(series, data, pointDistance);
+    return seriesPointSnap(series, data, objectiveFunction);
 }
 
 export function seriesPointSnapYOnly(series, data) {
-    function pointDistance(x, y, cx, cy) {
+    function objectiveFunction(x, y, cx, cy) {
         var dy = y - cy;
         return Math.abs(dy);
     }
-    return seriesPointSnap(series, data, pointDistance);
+    return seriesPointSnap(series, data, objectiveFunction);
 }
