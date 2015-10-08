@@ -58,7 +58,8 @@ export function rebindAll(target, source, prefix, exclusions) {
     var bindings = {};
     for (var property in source) {
         if (source.hasOwnProperty(property) && !exclude(property)) {
-            bindings[prefix + capitalizeFirstLetter(property)] = property;
+            var targetPropertyName = prefix ? prefix + capitalizeFirstLetter(property) : property;
+            bindings[targetPropertyName] = property;
         }
     }
 

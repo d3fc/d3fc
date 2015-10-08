@@ -1,8 +1,10 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
+import {rebindAll} from '../util/rebind';
 import {noop} from '../util/fn';
 import svgBar from '../svg/bar';
+import xyBase from './xyBase';
 
 // The bar series renders a vertical (column) or horizontal (bar) series. In order
 // to provide a common implementation there are a number of functions that specialise
@@ -10,50 +12,31 @@ import svgBar from '../svg/bar';
 export default function() {
 
     var decorate = noop,
-        xScale = d3.time.scale(),
-        yScale = d3.scale.linear(),
-        xValue = function(d, i) { return orient === 'vertical' ? d.date : d.close; },
-        yValue = function(d, i) { return orient === 'vertical' ? d.close : d.date; },
-        y0Value = d3.functor(0),
-        x0Value = d3.functor(0),
         barWidth = fractionalBarWidth(0.75),
         orient = 'vertical',
         pathGenerator = svgBar();
 
-    var dataJoin = _dataJoin()
+    var base = xyBase()
+      .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
+      .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
+
+    var dataJoin = dataJoinUtil()
         .selector('g.bar')
         .element('g');
 
-    var x = function(d, i) { return xScale(xValue(d, i)); },
-        y = function(d, i) { return yScale(yValue(d, i)); },
-        y0 = function(d, i) { return yScale(y0Value(d, i)); },
-        x0 = function(d, i) { return xScale(x0Value(d, i)); };
-
     function containerTranslation(d, i) {
         if (orient === 'vertical') {
-            return 'translate(' + x(d, i) + ', ' + y0(d, i) + ')';
+            return 'translate(' + base.x(d, i) + ', ' + base.y0(d, i) + ')';
         } else {
-            return 'translate(' + x0(d, i) + ', ' + y(d, i) + ')';
+            return 'translate(' + base.x0(d, i) + ', ' + base.y(d, i) + ')';
         }
     }
 
     function barHeight(d, i) {
         if (orient === 'vertical') {
-            return y(d, i) - y0(d, i);
+            return base.y(d, i) - base.y0(d, i);
         } else {
-            return x(d, i) - x0(d, i);
-        }
-    }
-
-    function isDatapointValid(d, i) {
-        if (orient === 'vertical') {
-            return y0Value(d, i) !== undefined &&
-                yValue(d, i) !== undefined &&
-                xValue(d, i) !== undefined;
-        } else {
-            return x0Value(d, i) !== undefined &&
-                xValue(d, i) !== undefined &&
-                yValue(d, i) !== undefined;
+            return base.x(d, i) - base.x0(d, i);
         }
     }
 
@@ -74,7 +57,7 @@ export default function() {
     }
 
     function crossAxisValueFunction() {
-        return orient === 'vertical' ? x : y;
+        return orient === 'vertical' ? base.x : base.y;
     }
 
     var bar = function(selection) {
@@ -86,7 +69,7 @@ export default function() {
 
             dataJoin.attr('class', 'bar ' + orient);
 
-            var filteredData = data.filter(isDatapointValid);
+            var filteredData = data.filter(base.defined);
 
             pathGenerator.x(0)
                 .y(0)
@@ -107,7 +90,7 @@ export default function() {
 
             // within the enter selection the pathGenerator creates a zero
             // height bar. As a result, when used with a transition the bar grows
-            // from y0 to y1 (y)
+            // from y0 to y (y)
             g.enter()
                 .attr('transform', containerTranslation)
                 .append('path')
@@ -131,48 +114,6 @@ export default function() {
         decorate = x;
         return bar;
     };
-    bar.xScale = function(x) {
-        if (!arguments.length) {
-            return xScale;
-        }
-        xScale = x;
-        return bar;
-    };
-    bar.yScale = function(x) {
-        if (!arguments.length) {
-            return yScale;
-        }
-        yScale = x;
-        return bar;
-    };
-    bar.y0Value = function(x) {
-        if (!arguments.length) {
-            return y0Value;
-        }
-        y0Value = d3.functor(x);
-        return bar;
-    };
-    bar.x0Value = function(x) {
-        if (!arguments.length) {
-            return x0Value;
-        }
-        x0Value = d3.functor(x);
-        return bar;
-    };
-    bar.yValue = bar.y1Value = function(x) {
-        if (!arguments.length) {
-            return yValue;
-        }
-        yValue = x;
-        return bar;
-    };
-    bar.xValue = bar.x1Value = function(x) {
-        if (!arguments.length) {
-            return xValue;
-        }
-        xValue = x;
-        return bar;
-    };
     bar.barWidth = function(x) {
         if (!arguments.length) {
             return barWidth;
@@ -188,6 +129,7 @@ export default function() {
         return bar;
     };
 
+    d3.rebind(bar, base, 'xScale', 'xValue', 'x1Value', 'x0Value', 'yScale', 'yValue', 'y1Value', 'y0Value');
     d3.rebind(bar, dataJoin, 'key');
 
     return bar;

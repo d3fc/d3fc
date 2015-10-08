@@ -1,27 +1,21 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import {noop} from '../util/fn';
-import svgCandlestick from '../svg/candlestick';
+import candlestickSvg from '../svg/candlestick';
+import ohlcBase from './ohlcBase';
 
 export default function() {
 
     var decorate = noop,
-        xScale = d3.time.scale(),
-        yScale = d3.scale.linear(),
-        xValue = function(d, i) { return d.date; },
-        yOpenValue = function(d, i) { return d.open; },
-        yHighValue = function(d, i) { return d.high; },
-        yLowValue = function(d, i) { return d.low; },
-        yCloseValue = function(d, i) { return d.close; },
         barWidth = fractionalBarWidth(0.75);
 
-    var dataJoin = _dataJoin()
+    var base = ohlcBase();
+
+    var dataJoin = dataJoinUtil()
         .selector('g.candlestick')
         .element('g')
         .attr('class', 'candlestick');
-
-    var xValueScaled = function(d, i) { return xScale(xValue(d, i)); };
 
     var candlestick = function(selection) {
 
@@ -32,23 +26,17 @@ export default function() {
             g.enter()
                 .append('path');
 
-            var pathGenerator = svgCandlestick()
-                    .width(barWidth(data.map(xValueScaled)));
+            var pathGenerator = candlestickSvg()
+                    .width(barWidth(data.map(base.x)));
 
             g.each(function(d, i) {
 
-                var yCloseRaw = yCloseValue(d, i),
-                    yOpenRaw = yOpenValue(d, i),
-                    x = xValueScaled(d, i),
-                    yOpen = yScale(yOpenRaw),
-                    yHigh = yScale(yHighValue(d, i)),
-                    yLow = yScale(yLowValue(d, i)),
-                    yClose = yScale(yCloseRaw);
+                var yCloseRaw = base.yCloseValue()(d, i),
+                    yOpenRaw = base.yOpenValue()(d, i);
 
                 var g = d3.select(this)
-                    .classed({
-                        'up': yCloseRaw > yOpenRaw,
-                        'down': yCloseRaw < yOpenRaw
+                    .attr('class', function(d, i) {
+                        return 'candlestick ' + base.upDown(d, i);
                     })
                     .attr('transform', 'translate(' + x + ', ' + yHigh + ')');
 
