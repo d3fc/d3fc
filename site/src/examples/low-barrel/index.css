@@ -1,26 +1,8 @@
 #low-barrel {
   margin: 20px auto;
+  width: 100%;
+  height: 400px;
 }
-
-.main-row>td {
-  height: 240px;
-}
-.volume-row>td {
-  height: 160px;
-  padding-bottom: 20px;
-}
-.navigator-row>td {
-  height: 80px;
-}
-svg {
-  width: 640px;
-  height: 100%;
-}
-#low-barrel span {
-  display:block;
-  transform: rotate(90deg);
-}
-
 
 rect.background {
     fill: none;

@@ -63,8 +63,19 @@ function layoutComponent() {
         node.children.forEach(applyLayout);
     }
 
+    function computeDimensions(node) {
+        if (node.hasAttribute('layout-width') && node.hasAttribute('layout-height')) {
+            return {
+                width: Number(node.getAttribute('layout-width')),
+                height: Number(node.getAttribute('layout-height'))
+            };
+        } else {
+            return innerDimensions(node);
+        }
+    }
+
     var layout = function(node) {
-        var dimensions = innerDimensions(node);
+        var dimensions = computeDimensions(node);
 
         // create the layout nodes
         var layoutNodes = createNodes(node);

@@ -5,31 +5,20 @@ namespace: examples
 ---
 <style>@import "index.css";</style>
 
-<table id="low-barrel" class="chart">
-  <tr class="main-row">
-    <td>
-      <svg class="main"></svg>
-    </td>
-    <td>
-      <span>OHLC</span>
-    </td>
-  </tr>
-  <tr class="volume-row">
-    <td>
-      <svg class="volume"></svg>
-    </td>
-    <td>
-      <span>Volume</span>
-    </td>
-  </tr>
-  <tr class="navigator-row">
-    <td>
-      <svg class="navigator"></svg>
-    </td>
-    <td></td>
-  </tr>
-</table>
-
+<svg id="low-barrel">
+  <g layout-css="flex: 0.65; flexDirection: row">
+    <svg class="main" layout-css="flex: 1"></svg>
+    <text layout-css="width: 50">OHLC</text>
+  </g>
+  <g layout-css="flex: 0.2; flexDirection: row">
+    <svg class="volume" layout-css="flex: 1"></svg>
+    <text layout-css="width: 50">Volume</text>
+  </g>
+  <g layout-css="flex: 0.15; flexDirection: row">
+    <svg class="navigator" layout-css="flex: 1"></svg>
+    <text layout-css="width: 50"></text>
+  </g>
+</svg>
 
 This example shows how a more complex chart can be built using the d3fc components.
 
