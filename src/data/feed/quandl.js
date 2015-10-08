@@ -1,8 +1,5 @@
 import d3 from 'd3';
 
-// ToDo: Periodicity
-// ToDo: Adjusted Rescale
-
 //  https://www.quandl.com/docs/api#datasets
 export default function() {
 
@@ -18,6 +15,7 @@ export default function() {
         end = null,
         rows = null,
         descending = false,
+        collapse = null,
         columnNameMap = _columnNameMap;
 
     var quandl = function(cb) {
@@ -36,6 +34,9 @@ export default function() {
         }
         if (!descending) {
             params.push('order=asc');
+        }
+        if (collapse != null) {
+            params.push('collapse=' + collapse);
         }
 
         var url = 'https://www.quandl.com/api/v3/datasets';
@@ -123,6 +124,14 @@ export default function() {
             return descending;
         }
         descending = x;
+        return quandl;
+    };
+    // Periodicity of Data (daily | weekly | monthly | quarterly | annual)
+    quandl.collapse = function(x) {
+        if (!arguments.length) {
+            return collapse;
+        }
+        collapse = x;
         return quandl;
     };
     // Function Used to Normalise the Quandl Column Name To Field Name, Return Null To Skip Field
