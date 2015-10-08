@@ -50,7 +50,7 @@ export default function() {
             }
 
             data = data.dataset_data;
-            var colNames = data.columnNames.map(columnNameMap);
+            var colNames = data.column_names.map(columnNameMap);
 
             data = data.data.map(function(d) {
                 var output = {};
