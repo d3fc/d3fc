@@ -3,10 +3,9 @@ import d3 from 'd3';
 //  https://www.quandl.com/docs/api#datasets
 export default function() {
 
-    var _columnNameMap = function(colName) {
-        colName = colName.replace(/[\s()-.]/g, '');
-        return colName.substr(0, 1).toLowerCase() + colName.substr(1);
-    };
+    function defaultColumnNameMap(colName) {
+        return colName[0].toLowerCase() + colName.substr(1);
+    }
 
     var database = 'YAHOO',
         dataset = 'GOOG',
@@ -16,7 +15,7 @@ export default function() {
         rows = null,
         descending = false,
         collapse = null,
-        columnNameMap = _columnNameMap;
+        columnNameMap = defaultColumnNameMap;
 
     var quandl = function(cb) {
         var params = [];
@@ -39,9 +38,7 @@ export default function() {
             params.push('collapse=' + collapse);
         }
 
-        var url = 'https://www.quandl.com/api/v3/datasets';
-        url += ('/' + database + '/' + dataset + '/').replace(/\/\//g, '');
-        url += 'data.json?' + params.join('&');
+        var url = 'https://www.quandl.com/api/v3/datasets/' + database + '/' + dataset + '/data.json?' + params.join('&');
 
         d3.json(url, function(error, data) {
             if (error) {
@@ -49,23 +46,22 @@ export default function() {
                 return;
             }
 
-            data = data.dataset_data;
-            var colNames = data.column_names.map(columnNameMap);
+            var datasetData = data.dataset_data;
 
-            data = data.data.map(function(d) {
+            var nameMapping = columnNameMap || function(n) { return n; };
+            var colNames = datasetData.column_names
+                .map(function(n, i) { return [i, nameMapping(n)]; })
+                .filter(function(v) { return [v][1]; });
+
+            var mappedData = datasetData.data.map(function(d) {
                 var output = {};
-
-                output[colNames[0]] = new Date(d[0]);
-                for (var i = 1; i < colNames.length; i++) {
-                    if (colNames[i] != null) {
-                        output[colNames[i]] = d[i];
-                    }
-                }
-
+                colNames.forEach(function(v) {
+                    output[v[1]] = v[0] === 0 ? new Date(d[v[0]]) : d[v[0]];
+                });
                 return output;
             });
 
-            cb(error, data);
+            cb(error, mappedData);
         });
     };
 
@@ -138,9 +134,11 @@ export default function() {
         if (!arguments.length) {
             return columnNameMap;
         }
-        columnNameMap = x || _columnNameMap;
+        columnNameMap = x;
         return quandl;
     };
+    // Expose default column name map
+    quandl.defaultColumnNameMap = defaultColumnNameMap;
 
     return quandl;
 }
