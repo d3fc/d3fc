@@ -44,7 +44,7 @@
     "jquery": "^1.11.2",
     "jsdom": "^6.3.0",
     "matchdep": "^0.3.0",
-    "rollup": "^0.15.0",
+    "rollup": "^0.18.0",
     "seedrandom": "^2.4.0",
     "time-grunt": "^1.2.1"
   },
