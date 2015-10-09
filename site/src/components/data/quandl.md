@@ -28,7 +28,7 @@ The data returned can be limited either by date range using `start` and `end` (b
 
 The frequency of points can be controlled using the `collapse` property. Valid values for this are shown on the Quandl docs.
 
-In order to shape the returned data, you can provide a function to `columnNameMap` which maps the column name to the required property name. If this returns `null` for a column it will be skipped. By default the feed will lower case the first letter (i.e. map Close to close), this can be disabled by setting `columnNameMap` to `null`.
+In order to shape the returned data, you can provide a function to `columnNameMap` which maps the column name to the required property name. If this returns `null` for a column, then it will be skipped. By default, the feed will lower case the first letter (i.e. map Close to close). This can be disabled by setting `columnNameMap` to `null`.
  
 ```js
 {{{example-code}}}
