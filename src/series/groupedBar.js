@@ -9,9 +9,15 @@ export default function() {
     var bar = _bar(),
         barWidth = fractionalBarWidth(0.75),
         decorate = noop,
+        xScale = d3.scale.linear(),
         offsetScale = d3.scale.linear();
 
-    var x = function(d, i) { return bar.xScale()(bar.xValue()(d, i)); };
+    var dataJoin = _dataJoin()
+        .selector('g.stacked')
+        .element('g')
+        .attr('class', 'stacked');
+
+    var x = function(d, i) { return xScale(bar.xValue()(d, i)); };
 
     var groupedBar = function(selection) {
         selection.each(function(data) {
@@ -24,21 +30,24 @@ export default function() {
             offsetScale.domain([0, data.length - 1])
                 .range([-halfWidth, halfWidth]);
 
-            var dataJoin = _dataJoin()
-                .selector('g.stacked')
-                .element('g')
-                .attr('class', 'stacked');
-
             var g = dataJoin(this, data);
 
-            bar.decorate(function(sel, data, index) {
-                sel.select('path')
-                    .attr('transform', 'translate(' + offsetScale(index) + ',0)');
+            g.each(function(series, index) {
+                var container = d3.select(this);
 
-                decorate(sel, data, index);
+                // create a composite scale that applies the required offset
+                var compositeScale = function(x) {
+                    return xScale(x) + offsetScale(index);
+                };
+                bar.xScale(compositeScale);
+
+                // adapt the decorate function to give each series teh correct index
+                bar.decorate(function(s, d) {
+                    decorate(s, d, index);
+                });
+
+                container.call(bar);
             });
-
-            g.call(bar);
         });
     };
 
@@ -49,8 +58,15 @@ export default function() {
         decorate = x;
         return groupedBar;
     };
+    groupedBar.xScale = function(x) {
+        if (!arguments.length) {
+            return xScale;
+        }
+        xScale = x;
+        return groupedBar;
+    };
 
-    d3.rebind(groupedBar, bar, 'yValue', 'xValue', 'xScale', 'yScale');
+    d3.rebind(groupedBar, bar, 'yValue', 'xValue', 'yScale');
 
     return groupedBar;
 }

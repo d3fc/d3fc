@@ -10,7 +10,7 @@
         // see #574 - wiping out the chart each time to clear the plot-area
         container.html('');
 
-        data = data.slice(-20);
+        data = data.slice(-10);
 
         var spreadCsv = fc.data.spreadCsv()
             .xValueKey('State');
