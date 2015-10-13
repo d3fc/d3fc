@@ -106,6 +106,10 @@
         var xScale = fc.scale.dateTime();
 
         var chart = fc.chart.cartesianChart(xScale)
+            .margin({
+                bottom: 20,
+                right: 60
+            })
             .xDomain(data.dateDomain)
             .xTicks(0)
             .yDomain(fc.util.extent(data, ['high', 'low']))
@@ -131,6 +135,10 @@
         var data = selection.datum();
 
         var chart = fc.chart.cartesianChart(fc.scale.dateTime())
+            .margin({
+                bottom: 20,
+                right: 60
+            })
             .xDomain(data.dateDomain)
             .yDomain(fc.util.extent(data, 'volume'))
             .yNice()
@@ -172,6 +180,11 @@
         var data = selection.datum();
 
         var chart = fc.chart.cartesianChart(fc.scale.dateTime())
+            .margin({
+                top: 10,
+                bottom: 20,
+                right: 60
+            })
             .xDomain(fc.util.extent(data, 'date'))
             .yDomain(fc.util.extent(data, 'close'))
             .yNice()
