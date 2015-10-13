@@ -16,11 +16,11 @@ describe('line', function() {
         container.datum(data)
             .call(line);
 
-        expect(xValueSpy.calls.count()).toEqual(data.length);
-        this.utils.verifyAccessorCalls(xValueSpy, data);
-
-        // the defined call also invokes the y value accessor,
+        // the defined call also invokes the value accessors,
         // therefore it is invoked twice for each data point
+
+        expect(xValueSpy.calls.count()).toEqual(data.length * 2);
+        this.utils.verifyAccessorCalls(xValueSpy, data);
 
         expect(yValueSpy.calls.count()).toEqual(data.length * 2);
         this.utils.verifyAccessorCalls(yValueSpy, data);
