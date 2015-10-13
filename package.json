@@ -6,7 +6,8 @@
   "main": "dist/d3fc.js",
   "dependencies": {
     "css-layout": "^0.0.6",
-    "d3": "^3.5.4"
+    "d3": "^3.5.4",
+    "svg-innerhtml": "^1.1.0"
   },
   "repository": {
     "type": "git",
