@@ -27,6 +27,10 @@ describe('skipWeekends', function() {
             var date = new Date(2015, 0, 17, 12); // mid-day saturday
             expect(skipWeekends.clampUp(date)).toEqual(startOfWeek);
         });
+
+        it('should return undefined for undefined', function() {
+            expect(skipWeekends.clampUp(undefined)).not.toBeDefined();
+        });
     });
 
     describe('clampDown', function() {
@@ -52,6 +56,10 @@ describe('skipWeekends', function() {
             var endOfWeek = new Date(2015, 0, 17); // saturday 00:00 hours
             var date = new Date(2015, 0, 17, 12); // mid-day saturday
             expect(skipWeekends.clampDown(date)).toEqual(endOfWeek);
+        });
+
+        it('should return undefined for undefined', function() {
+            expect(skipWeekends.clampDown(undefined)).not.toBeDefined();
         });
     });
 

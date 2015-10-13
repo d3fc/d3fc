@@ -12,7 +12,7 @@ export default function() {
     }
 
     skipWeekends.clampDown = function(date) {
-        if (isWeekend(date)) {
+        if (date && isWeekend(date)) {
             var daysToSubtract = date.getDay() === 0 ? 2 : 1;
             // round the date up to midnight
             var newDate = d3.time.day.ceil(date);
@@ -24,7 +24,7 @@ export default function() {
     };
 
     skipWeekends.clampUp = function(date) {
-        if (isWeekend(date)) {
+        if (date && isWeekend(date)) {
             var daysToAdd = date.getDay() === 0 ? 1 : 2;
             // round the date down to midnight
             var newDate = d3.time.day.floor(date);
