@@ -47,21 +47,19 @@
     chart.plotArea(multi);
 
     var svg = d3.select('#multi')
+            .datum(data)
             .append('svg')
             .style({
                 height: '240px',
                 width: '320px'
-            });
-
-    function render() {
-        svg.datum(data)
-            .call(chart);
-    }
+            })
+            // ensure it works on transitions
+            .transition();
 
     // issues with nested multi-series only manifest themselves when
     // the data-join is evaluated a second time, hence we render
     // twice in this test
-    render();
-    render();
+    svg.call(chart);
+    svg.call(chart);
 
 })(d3, fc);
