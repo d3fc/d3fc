@@ -2,6 +2,7 @@
 layout: example
 title: Low Barrel
 namespace: examples
+script: index.js
 ---
 <style>@import "index.css";</style>
 
@@ -27,5 +28,3 @@ The three charts that make up this example are each [linear time series](../../c
 These charts all share the same underlying data, however, this is enhanced with the data that represents the current interactive state.
 
 The top-most chart uses a tooltip component that was written specifically for this example application. It is added as a 'decoration' of the crosshair.
-
-<script src="index.js"></script>
