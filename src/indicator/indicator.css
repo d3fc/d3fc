@@ -13,3 +13,13 @@
   fill: none;
   stroke: #06c;
 }
+
+.dStochastic path.line {
+  fill: none;
+  stroke: red;
+}
+
+.kStochastic path.line {
+  fill: none;
+  stroke: #06c;
+}
