@@ -1,30 +1,21 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
+import xyBase from './xyBase';
 
 export default function() {
 
-    var decorate = noop,
-        xScale = d3.time.scale(),
-        yScale = d3.scale.linear(),
-        y0Value = d3.functor(0),
-        y1Value = function(d, i) { return d.close; },
-        xValue = function(d, i) { return d.date; };
+    var decorate = noop;
 
-    // convenience functions that return the x & y screen coords for a given point
-    var x = function(d, i) { return xScale(xValue(d, i)); };
-    var y0 = function(d, i) { return yScale(y0Value(d, i)); };
-    var y1 = function(d, i) { return yScale(y1Value(d, i)); };
+    var base = xyBase();
 
     var areaData = d3.svg.area()
-        .defined(function(d, i) {
-            return !isNaN(y0(d, i)) && !isNaN(y1(d, i));
-        })
-        .x(x)
-        .y0(y0)
-        .y1(y1);
+        .defined(base.defined)
+        .x(base.x)
+        .y0(base.y0)
+        .y1(base.y1);
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('path.area')
         .element('path')
         .attr('class', 'area');
@@ -47,42 +38,8 @@ export default function() {
         decorate = x;
         return area;
     };
-    area.xScale = function(x) {
-        if (!arguments.length) {
-            return xScale;
-        }
-        xScale = x;
-        return area;
-    };
-    area.yScale = function(x) {
-        if (!arguments.length) {
-            return yScale;
-        }
-        yScale = x;
-        return area;
-    };
-    area.xValue = function(x) {
-        if (!arguments.length) {
-            return xValue;
-        }
-        xValue = x;
-        return area;
-    };
-    area.y0Value = function(x) {
-        if (!arguments.length) {
-            return y0Value;
-        }
-        y0Value = d3.functor(x);
-        return area;
-    };
-    area.yValue = area.y1Value = function(x) {
-        if (!arguments.length) {
-            return y1Value;
-        }
-        y1Value = x;
-        return area;
-    };
 
+    d3.rebind(area, base, 'xScale', 'xValue', 'yScale', 'yValue', 'y1Value', 'y0Value');
     d3.rebind(area, dataJoin, 'key');
     d3.rebind(area, areaData, 'interpolate', 'tension');
 

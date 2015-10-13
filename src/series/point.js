@@ -1,32 +1,31 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
+import xyBase from './xyBase';
 
 export default function() {
 
     var decorate = noop,
-        xScale = d3.time.scale(),
-        yScale = d3.scale.linear(),
-        yValue = function(d, i) { return d.close; },
-        xValue = function(d, i) { return d.date; },
         radius = d3.functor(5);
 
-    var dataJoin = _dataJoin()
+    var base = xyBase();
+
+    var dataJoin = dataJoinUtil()
         .selector('g.point')
         .element('g')
         .attr('class', 'point');
 
     var containerTransform = function(d, i) {
-        var x = xScale(xValue(d, i)),
-            y = yScale(yValue(d, i));
-        return 'translate(' + x + ', ' + y + ')';
+        return 'translate(' + base.x(d, i) + ', ' + base.y(d, i) + ')';
     };
 
     var point = function(selection) {
 
         selection.each(function(data, index) {
 
-            var g = dataJoin(this, data);
+            var filteredData = data.filter(base.defined);
+
+            var g = dataJoin(this, filteredData);
 
             g.enter()
                 .attr('transform', containerTransform)
@@ -48,35 +47,6 @@ export default function() {
         decorate = x;
         return point;
     };
-    point.xScale = function(x) {
-        if (!arguments.length) {
-            return xScale;
-        }
-        xScale = x;
-        return point;
-    };
-    point.yScale = function(x) {
-        if (!arguments.length) {
-            return yScale;
-        }
-        yScale = x;
-        return point;
-    };
-    point.xValue = function(x) {
-        if (!arguments.length) {
-            return xValue;
-        }
-        xValue = x;
-        return point;
-    };
-    point.yValue = function(x) {
-        if (!arguments.length) {
-            return yValue;
-        }
-        yValue = x;
-        return point;
-    };
-
     point.radius = function(x) {
         if (!arguments.length) {
             return radius;
@@ -85,6 +55,7 @@ export default function() {
         return point;
     };
 
+    d3.rebind(point, base, 'xScale', 'xValue', 'yScale', 'yValue');
     d3.rebind(point, dataJoin, 'key');
 
     return point;
