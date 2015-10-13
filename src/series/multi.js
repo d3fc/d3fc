@@ -56,7 +56,8 @@ export default function() {
                     .call(series);
             });
 
-            g.order();
+            // order is not available on a transition selection
+            d3.selection.prototype.order.call(g);
 
             decorate(g);
         });
