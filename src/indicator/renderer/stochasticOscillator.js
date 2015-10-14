@@ -1,8 +1,8 @@
 import d3 from 'd3';
-import annotationLine from '../../annotation/line';
-import _multi from '../../series/multi';
+import lineAnnotation from '../../annotation/line';
+import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
-import seriesLine from '../../series/line';
+import lineSeries from '../../series/line';
 
 export default function () {
 
@@ -10,16 +10,16 @@ export default function () {
         yScale = d3.scale.linear(),
         upperValue = 80,
         lowerValue = 20,
-        multiSeries = _multi(),
+        multiSeries = multiSeries(),
         decorate = noop;
 
-    var annotations = annotationLine();
-    var dLine = seriesLine()
+    var annotations = lineAnnotation();
+    var dLine = lineSeries()
         .yValue(function (d, i) {
             return d.stochastic.d;
         });
 
-    var kLine = seriesLine()
+    var kLine = lineSeries()
         .yValue(function (d, i) {
             return d.stochastic.k;
         });
@@ -41,7 +41,7 @@ export default function () {
             .decorate(function (g, data, index) {
                 g.enter()
                     .attr('class', function (d, i) {
-                        return 'multi ' + ['annotations', 'dStochastic', 'kStochastic'][i];
+                        return 'multi ' + ['annotations', 'stochastic-d', 'stochastic-k'][i];
                     });
                 decorate(g, data, index);
             });

@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _slidingWindow from './slidingWindow';
+import slidingWindow from './slidingWindow';
 import {rebind} from '../../../util/rebind';
 
 export default function() {
@@ -8,7 +8,7 @@ export default function() {
         highValue = function(d, i) { return d.high; },
         lowValue = function(d, i) { return d.low; };
 
-    var kWindow = _slidingWindow()
+    var kWindow = slidingWindow()
         .windowSize(5)
         .accumulator(function(values) {
             var maxHigh = d3.max(values, highValue);
@@ -16,7 +16,7 @@ export default function() {
             return 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
         });
 
-    var dWindow = _slidingWindow()
+    var dWindow = slidingWindow()
         .windowSize(3)
         .accumulator(function(values) {
             if (values[0] === undefined) {

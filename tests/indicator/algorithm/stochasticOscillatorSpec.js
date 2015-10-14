@@ -18,18 +18,13 @@ describe('fc.indicator.algorithm.calculator.stochasticOscillator', function() {
             {high: 114.57, low: 112.44, close: 112.44}];
     });
 
-    it('should exist', function() {
-        expect(stoc).toBeDefined();
-    });
     it('should have a kWindowSize property defaulted to 5', function() {
-        var func = stoc.kWindowSize();
-        expect(typeof func).toBe('function');
-        expect(func()).toBe(5);
+        var func = stoc.kWindowSize()();
+        expect(func).toBe(5);
     });
     it('should have a dWindowSize property defaulted to 3', function() {
-        var func = stoc.dWindowSize();
-        expect(typeof func).toBe('function');
-        expect(func()).toBe(3);
+        var func = stoc.dWindowSize()();
+        expect(func).toBe(3);
     });
     it('should return a data set same length as input', function() {
         var result = stoc(testData);
@@ -44,11 +39,11 @@ describe('fc.indicator.algorithm.calculator.stochasticOscillator', function() {
     });
     it('should calculate a %k value of about 63.1449 for the point 5', function() {
         var result = stoc(testData);
-        expect(Math.abs(result[4].k - 63.1449)).toBeLessThan(0.0001);
+        expect(result[4].k).toBeCloseTo(63.1449, 0.0001);
     });
     it('should calculate a %k value of about 70.6612 for the point 9', function() {
         var result = stoc(testData);
-        expect(Math.abs(result[9].k - 70.6612)).toBeLessThan(0.0001);
+        expect(result[9].k).toBeCloseTo(70.6612, 0.0001);
     });
     it('should have undefined %d value for first 6 points', function() {
         var result = stoc(testData);
@@ -61,10 +56,10 @@ describe('fc.indicator.algorithm.calculator.stochasticOscillator', function() {
     });
     it('should calculate a %d value of about 60.3678 for the point 6', function() {
         var result = stoc(testData);
-        expect(Math.abs(result[6].d - 60.3678)).toBeLessThan(0.0001);
+        expect(result[6].d).toBeCloseTo(60.3678, 0.0001);
     });
     it('should calculate a %d value of about 55.4604 for the point 9', function() {
         var result = stoc(testData);
-        expect(Math.abs(result[9].d - 55.4604)).toBeLessThan(0.0001);
+        expect(result[9].d).toBeCloseTo(55.4604, 0.0001);
     });
 });

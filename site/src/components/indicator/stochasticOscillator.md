@@ -34,7 +34,7 @@ The window lengths can be changed using the `kWindowSize` and `dWindowSize` prop
 
 By default, the results from the calculation will be stored as a `stochastic` property on each point in the data set. The way the values are merged, can be altered using the `merge` property.
 
-The following is a simple example of the Stochastic oscillator. The %K window has been set to
+The following is a simple example of the Stochastic oscillator. The %K window has been set to 14 data points.
 
 ```js
 {{{example-code}}}
