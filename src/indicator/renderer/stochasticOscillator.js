@@ -10,7 +10,7 @@ export default function () {
         yScale = d3.scale.linear(),
         upperValue = 80,
         lowerValue = 20,
-        multiSeries = multiSeries(),
+        multi = multiSeries(),
         decorate = noop;
 
     var annotations = lineAnnotation();
@@ -26,7 +26,7 @@ export default function () {
 
     var stochastic = function (selection) {
 
-        multiSeries.xScale(xScale)
+        multi.xScale(xScale)
             .yScale(yScale)
             .series([annotations, dLine, kLine])
             .mapping(function (series) {
@@ -46,7 +46,7 @@ export default function () {
                 decorate(g, data, index);
             });
 
-        selection.call(multiSeries);
+        selection.call(multi);
     };
 
     stochastic.xScale = function (x) {
