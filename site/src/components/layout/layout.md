@@ -26,7 +26,7 @@ example-html: |
 example-code: |
   // apply the flexbox layout
   var layout = fc.layout();
-  d3.select('#layout-test').call(layout);
+  d3.select('#layout-test').layout();
 
   // This code simply creates some coloured rectangles so that you can
   // see the layout without reaching for your developer tools!
