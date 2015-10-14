@@ -1,4 +1,4 @@
-/* global d3:false, fc:false */
+/* global d3:false, fc:false, requestAnimationFrame:false */
 (function(d3, fc) {
     'use strict';
 
@@ -279,6 +279,8 @@
 
         container.select('svg.navigator')
             .call(navigatorChart);
+
+        container.layoutSuspended(true);
     }
 
     render();
