@@ -59,12 +59,18 @@ module.exports = function(grunt) {
             options: {
                 sourceMap: false
             },
+            components: {
+                src: [
+                    'node_modules/d3/d3.js',
+                    'node_modules/css-layout/dist/css-layout.js',
+                    'node_modules/svg-innerhtml/svg-innerhtml.js',
+                    'dist/d3fc.js'
+                ],
+                dest: 'dist/d3fc.bundle.js'
+            },
             site: {
                 src: [
-                    'node_modules/css-layout/dist/css-layout.js',
-                    'node_modules/d3/d3.js',
-                    'node_modules/svg-innerhtml/svg-innerhtml.js',
-                    'dist/d3fc.js',
+                    'dist/d3fc.bundle.js',
                     'node_modules/jquery/dist/jquery.js',
                     'node_modules/bootstrap/js/collapse.js',
                     'site/src/lib/init.js'
@@ -131,7 +137,8 @@ module.exports = function(grunt) {
             },
             components: {
                 files: {
-                    'dist/d3fc.min.js': ['dist/d3fc.js']
+                    'dist/d3fc.min.js': ['dist/d3fc.js'],
+                    'dist/d3fc.bundle.min.js': ['dist/d3fc.bundle.js']
                 }
             },
             site: {
@@ -255,7 +262,7 @@ module.exports = function(grunt) {
     require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
-        'eslint:components', 'clean:components', 'rollup:components', 'version',
+        'eslint:components', 'clean:components', 'rollup:components', 'version', 'concat:components',
         'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
     ]);
 
