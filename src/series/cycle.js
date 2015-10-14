@@ -1,9 +1,8 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import line from '../series/line';
 import {noop} from '../util/fn';
-
 
 export default function() {
 
@@ -15,7 +14,7 @@ export default function() {
         subSeries = line(),
         barWidth = fractionalBarWidth(0.75);
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.cycle')
         .element('g')
         .attr('class', 'cycle');

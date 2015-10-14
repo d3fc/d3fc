@@ -1,8 +1,8 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import {noop} from '../util/fn';
-import svgCandlestick from '../svg/candlestick';
+import candlestickSvg from '../svg/candlestick';
 
 export default function() {
 
@@ -16,7 +16,7 @@ export default function() {
         yCloseValue = function(d, i) { return d.close; },
         barWidth = fractionalBarWidth(0.75);
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.candlestick')
         .element('g')
         .attr('class', 'candlestick');
@@ -32,7 +32,7 @@ export default function() {
             g.enter()
                 .append('path');
 
-            var pathGenerator = svgCandlestick()
+            var pathGenerator = candlestickSvg()
                     .width(barWidth(data.map(xValueScaled)));
 
             g.each(function(d, i) {

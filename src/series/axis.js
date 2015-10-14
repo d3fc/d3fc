@@ -1,6 +1,6 @@
-import _axis from '../svg/axis';
+import axisSvg from '../svg/axis';
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 
 // Adapts a fc.svg.axis for use as a series (i.e. accepts xScale/yScale). Only required when
@@ -8,13 +8,13 @@ import {noop} from '../util/fn';
 // prefer using the fc.svg.axis directly.
 export default function() {
 
-    var axis = _axis(),
+    var axis = axisSvg(),
         baseline = d3.functor(0),
         decorate = noop,
         xScale = d3.time.scale(),
         yScale = d3.scale.linear();
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.axis-adapter')
         .element('g')
         .attr({'class': 'axis axis-adapter'});
