@@ -1,9 +1,9 @@
 import feed from './feed/feed';
 import random from './random/random';
-import spreadCsv from './spreadCsv';
+import spread from './spread';
 
 export default {
     feed: feed,
     random: random,
-    spreadCsv: spreadCsv
+    spread: spread
 };

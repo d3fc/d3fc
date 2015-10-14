@@ -28,13 +28,13 @@
         data = data.slice(-20);
         sortData(data);
 
-        var spreadCsv = fc.data.spreadCsv()
+        var spread = fc.data.spread()
             .xValueKey('State');
         var stack = d3.layout.stack()
             .offset(offset)
             .order(order);
 
-        var series = stack(spreadCsv(data));
+        var series = stack(spread(data));
         series.seriesType = seriesType;
 
         var chart = fc.chart.cartesianChart(

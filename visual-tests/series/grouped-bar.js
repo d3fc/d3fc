@@ -12,10 +12,10 @@
 
         data = data.slice(-10);
 
-        var spreadCsv = fc.data.spreadCsv()
+        var spread = fc.data.spread()
             .xValueKey('State');
 
-        var series = spreadCsv(data);
+        var series = spread(data);
 
         var chart = fc.chart.cartesianChart(
                 d3.scale.ordinal(),

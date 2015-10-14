@@ -1,18 +1,18 @@
-import _bar from './bar';
+import barSeries from './bar';
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 
 export default function() {
 
-    var bar = _bar(),
+    var bar = barSeries(),
         barWidth = fractionalBarWidth(0.75),
         decorate = noop,
         xScale = d3.scale.linear(),
         offsetScale = d3.scale.linear();
 
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .selector('g.stacked')
         .element('g')
         .attr('class', 'stacked');

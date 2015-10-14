@@ -1,12 +1,12 @@
 
 // the D3 CSV loader / parser converts each row into an object with property names
-// derived from the headings in the CSV. The spreadCsv component converts this into an
+// derived from the headings in the CSV. The spread component converts this into an
 // array of series, one per column
-export default function spreadCsv() {
+export default function spread() {
 
     var xValueKey = '';
     var yValue = function(row, key) {
-        // D3 CSV returns all keys as strings, this converts them to numbers
+        // D3 CSV returns all values as strings, this converts them to numbers
         // by default.
         return row[key] ? Number(row[key]) : 0;
     };
@@ -23,7 +23,7 @@ export default function spreadCsv() {
                         y: yValue(row, key)
                     };
                 });
-                series.name = key;
+                series.key = key;
                 return series;
             });
         return series;

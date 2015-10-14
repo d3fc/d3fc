@@ -1,9 +1,9 @@
-describe('fc.data.spreadCsv', function() {
+describe('fc.data.spread', function() {
 
     var spread;
 
     beforeEach(function() {
-        spread = fc.data.spreadCsv()
+        spread = fc.data.spread()
           .xValueKey('Make');
     });
 
@@ -51,7 +51,7 @@ describe('fc.data.spreadCsv', function() {
                 'y': 54
             }
         ];
-        speedSeries.name = 'Speed';
+        speedSeries.key = 'Speed';
         expect(series[0]).toEqual(speedSeries);
     });
 
@@ -68,7 +68,7 @@ describe('fc.data.spreadCsv', function() {
                 'y': 56
             }
         ];
-        colourSeries.name = 'Size';
+        colourSeries.key = 'Size';
         expect(series[1]).toEqual(colourSeries);
     });
 
@@ -85,7 +85,7 @@ describe('fc.data.spreadCsv', function() {
                 'y': 0 // <-- the missing value becomes a zero
             }
         ];
-        speedSeries.name = 'Speed';
+        speedSeries.key = 'Speed';
         expect(series.length).toEqual(2);
         expect(series[0]).toEqual(speedSeries);
     });
@@ -106,7 +106,7 @@ describe('fc.data.spreadCsv', function() {
                 'y': '56-fish'
             }
         ];
-        speedSeries.name = 'Size';
+        speedSeries.key = 'Size';
         expect(series[1]).toEqual(speedSeries);
     });
 });
