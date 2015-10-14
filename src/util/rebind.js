@@ -34,6 +34,8 @@ function capitalizeFirstLetter(str) {
  * be rebound.
  */
 export function rebindAll(target, source, prefix, exclusions) {
+    prefix = typeof prefix !== 'undefined' ? prefix : '';
+
     // if exclusions isn't an array, construct it
     if (!(arguments.length === 4 && Array.isArray(exclusions))) {
         exclusions = Array.prototype.slice.call(arguments, 3);
@@ -55,10 +57,14 @@ export function rebindAll(target, source, prefix, exclusions) {
         });
     }
 
+    function reboundPropertyName(property) {
+        return prefix !== '' ? prefix + capitalizeFirstLetter(property) : property;
+    }
+
     var bindings = {};
     for (var property in source) {
         if (source.hasOwnProperty(property) && !exclude(property)) {
-            bindings[prefix + capitalizeFirstLetter(property)] = property;
+            bindings[reboundPropertyName(property)] = property;
         }
     }
 
