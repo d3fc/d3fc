@@ -1,4 +1,4 @@
-
+/* global d3:false, fc:false */
 (function(d3, fc) {
     'use strict';
 
@@ -60,7 +60,7 @@
         return tooltip;
     };
 
-})(d3, fc);
+}(d3, fc));
 
 (function(d3, fc) {
     'use strict';
@@ -69,7 +69,8 @@
         .startDate(new Date(2014, 1, 1));
 
     var container = d3.select('#low-barrel')
-        .datum(dataGenerator(250));
+        .datum(dataGenerator(250))
+        .layout();
 
     function mainChart(selection) {
 
@@ -95,14 +96,20 @@
             .series([gridlines, candlestick, crosshairs])
             .mapping(function(series) {
                 switch (series) {
-                    case crosshairs:
-                        return data.crosshairs;
-                    default:
-                        return data;
+                case crosshairs:
+                    return data.crosshairs;
+                default:
+                    return data;
                 }
             });
 
-        var chart = fc.chart.linearTimeSeries()
+        var xScale = fc.scale.dateTime();
+
+        var chart = fc.chart.cartesianChart(xScale)
+            .margin({
+                bottom: 20,
+                right: 60
+            })
             .xDomain(data.dateDomain)
             .xTicks(0)
             .yDomain(fc.util.extent(data, ['high', 'low']))
@@ -113,7 +120,7 @@
         selection.call(chart);
 
         var zoom = d3.behavior.zoom()
-            .x(chart.xScale())
+            .x(xScale)
             .on('zoom', function() {
                 data.dateDomain[0] = chart.xDomain()[0];
                 data.dateDomain[1] = chart.xDomain()[1];
@@ -127,7 +134,11 @@
 
         var data = selection.datum();
 
-        var chart = fc.chart.linearTimeSeries()
+        var chart = fc.chart.cartesianChart(fc.scale.dateTime())
+            .margin({
+                bottom: 20,
+                right: 60
+            })
             .xDomain(data.dateDomain)
             .yDomain(fc.util.extent(data, 'volume'))
             .yNice()
@@ -152,10 +163,10 @@
             .series([gridlines, bar, crosshairs])
             .mapping(function(series) {
                 switch (series) {
-                    case crosshairs:
-                        return data.crosshairs;
-                    default:
-                        return data;
+                case crosshairs:
+                    return data.crosshairs;
+                default:
+                    return data;
                 }
             });
 
@@ -168,7 +179,12 @@
 
         var data = selection.datum();
 
-        var chart = fc.chart.linearTimeSeries()
+        var chart = fc.chart.cartesianChart(fc.scale.dateTime())
+            .margin({
+                top: 10,
+                bottom: 20,
+                right: 60
+            })
             .xDomain(fc.util.extent(data, 'date'))
             .yDomain(fc.util.extent(data, 'close'))
             .yNice()
@@ -208,7 +224,7 @@
                 return data;
             })
             .decorate(function(sel) {
-                var height = Math.abs(chart.yScale().range()[0] - chart.yScale().range()[1]);
+                var height = d3.select(sel.node().parentNode).layout('height');
                 sel.enter()
                     .selectAll('.resize.e>rect, .resize.w>rect')
                     .style('visibility', 'visible')
@@ -267,4 +283,4 @@
 
     render();
 
-})(d3, fc);
+}(d3, fc));

@@ -1,6 +1,7 @@
+import 'svg-innerhtml';
 import d3 from 'd3';
 import axis from '../series/axis';
-import '../layout/layout'; // import side-effects
+import '../layout/layout';
 import line from '../series/line';
 import dataJoin from '../util/dataJoin';
 import expandMargin from '../util/expandMargin';
