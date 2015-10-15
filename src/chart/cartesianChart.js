@@ -55,7 +55,7 @@ export default function(xScale, yScale) {
     var containerDataJoin = dataJoin()
         .selector('svg.cartesian-chart')
         .element('svg')
-        .attr({'class': 'cartesian-chart', 'layout-css': 'flex: 1'});
+        .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
 
     // Ordinal and quantitative scales have different methods for setting the range. This
     // function detects the scale type and sets the range accordingly.
@@ -76,30 +76,30 @@ export default function(xScale, yScale) {
             var svg = containerDataJoin(container, [data]);
             svg.enter().html(
                 '<g class="title"> \
-                    <g layout-css="height: 0; width: 0"> \
+                    <g layout-style="height: 0; width: 0"> \
                         <text class="label"/> \
                     </g> \
                 </g> \
                 <g class="y-axis"> \
-                    <g layout-css="height: 0; width: 0"> \
+                    <g layout-style="height: 0; width: 0"> \
                         <text class="label"/> \
                     </g> \
                 </g> \
                 <g class="x-axis"> \
-                    <g layout-css="height: 0; width: 0"> \
+                    <g layout-style="height: 0; width: 0"> \
                         <text class="label"/> \
                     </g> \
                 </g> \
                 <g class="plot-area-container"> \
                     <rect class="background" \
-                        layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
+                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                     <svg class="axes-container" \
-                        layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"> \
-                        <g class="x-axis" layout-css="height: 0; width: 0"/> \
-                        <g class="y-axis" layout-css="height: 0; width: 0"/> \
+                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"> \
+                        <g class="x-axis" layout-style="height: 0; width: 0"/> \
+                        <g class="y-axis" layout-style="height: 0; width: 0"/> \
                     </svg> \
                     <svg class="plot-area" \
-                        layout-css="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
+                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                 </g>');
 
             var expandedMargin = expandMargin(margin);
