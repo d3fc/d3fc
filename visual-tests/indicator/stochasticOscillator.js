@@ -24,7 +24,7 @@
 
     // Create the stochastic oscillator component
     var stochasticAlgo = fc.indicator.algorithm.stochasticOscillator()
-        .kWindowSize(5);
+        .kWindowSize(5); //Can be customised, 5 is the default
 
     stochasticAlgo(data);
 
