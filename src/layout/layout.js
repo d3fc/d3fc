@@ -33,7 +33,7 @@ function layoutComponent() {
             for (var i = 0; i < el.childNodes.length; i++) {
                 var child = el.childNodes[i];
                 if (child.nodeType === 1) {
-                    if (child.getAttribute('layout-css')) {
+                    if (child.getAttribute('layout-style')) {
                         children.push(createNodes(child));
                     }
                 }
@@ -41,7 +41,7 @@ function layoutComponent() {
             return children;
         }
         return {
-            style: parseStyle(el.getAttribute('layout-css')),
+            style: parseStyle(el.getAttribute('layout-style')),
             children: getChildNodes(el),
             element: el
         };
@@ -129,18 +129,18 @@ function layoutSelection(name, value) {
                 layout(this);
             } else {
                 // layout(name, value) - sets a layout- attribute
-                this.setAttribute('layout-css', name + ':' + value);
+                this.setAttribute('layout-style', name + ':' + value);
             }
         } else if (argsLength === 1) {
             if (typeof name !== 'string') {
-                // layout(object) - sets the layout-css property to the given object
+                // layout(object) - sets the layout-style property to the given object
                 var styleObject = name;
                 var layoutCss = Object.keys(styleObject)
                     .map(function(property) {
                         return property + ':' + styleObject[property];
                     })
                     .join(';');
-                this.setAttribute('layout-css', layoutCss);
+                this.setAttribute('layout-style', layoutCss);
             }
         } else if (argsLength === 0) {
             // layout() - executes layout
