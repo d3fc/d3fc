@@ -6,19 +6,19 @@
 
     /*
     <svg id="chart" style="height: 100%; width: 100%; margin: 10px">
-      <g layout-css="height: 30; justifyContent: center; flexDirection: row">
+      <g layout-style="height: 30; justifyContent: center; flexDirection: row">
       </g>
-      <g layout-css="flex: 1; flexDirection: row; marginLeft: 20">
-        <g layout-css="flex: 1;" class="plotArea"></g>
-        <g layout-css="width: 50;" class="axis right"></g>
-        <g layout-css="width: 30; justifyContent: center;">
+      <g layout-style="flex: 1; flexDirection: row; marginLeft: 20">
+        <g layout-style="flex: 1;" class="plotArea"></g>
+        <g layout-style="width: 50;" class="axis right"></g>
+        <g layout-style="width: 30; justifyContent: center;">
         </g>
       </g>
-      <g layout-css="height: 30; flexDirection: row">
-        <g layout-css="flex: 1; marginRight: 80; marginLeft: 20" class="axis bottom">
+      <g layout-style="height: 30; flexDirection: row">
+        <g layout-style="flex: 1; marginRight: 80; marginLeft: 20" class="axis bottom">
         </g>
       </g>
-      <g layout-css="height: 30; justifyContent: center; flexDirection: row">
+      <g layout-style="height: 30; justifyContent: center; flexDirection: row">
       </g>
     </svg>
     */
