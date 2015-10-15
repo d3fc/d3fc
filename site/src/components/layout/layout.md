@@ -7,20 +7,20 @@ namespace: layout
 example-html: |
   <svg id="layout-test"
      style="width: 90%; height: 350px; margin: 10px; background: yellow"
-     layout-css="paddingLeft: 10">
-    <g layout-css="height: 30; justifyContent: center; flexDirection: row;">
+     layout-style="paddingLeft: 10">
+    <g layout-style="height: 30; justifyContent: center; flexDirection: row;">
     </g>
-    <g layout-css="flex: 1; flexDirection: row;">
-      <g layout-css="flex: 1; flexDirection: row; justifyContent: flex-end;">
-        <g layout-css="width: 100; height: 100; margin: 10"></g>
+    <g layout-style="flex: 1; flexDirection: row;">
+      <g layout-style="flex: 1; flexDirection: row; justifyContent: flex-end;">
+        <g layout-style="width: 100; height: 100; margin: 10"></g>
       </g>
-      <g layout-css="width: 50;"></g>
-      <g layout-css="width: 30; justifyContent: center;"></g>
+      <g layout-style="width: 50;"></g>
+      <g layout-style="width: 30; justifyContent: center;"></g>
     </g>
-    <g layout-css="height: 30; flexDirection: row">
-      <g layout-css="flex: 1; marginRight: 80;"></g>
+    <g layout-style="height: 30; flexDirection: row">
+      <g layout-style="flex: 1; marginRight: 80;"></g>
     </g>
-    <g layout-css="height: 30; flexDirection: row"></g>
+    <g layout-style="height: 30; flexDirection: row"></g>
   </svg>
 
 example-code: |
@@ -45,7 +45,7 @@ example-code: |
 
 The layout component allows you to structure your SVG using CSS Flexbox. This removes much of the manual layout calculations that are typically required for D3 charts, [as described in this blog post](http://blog.scottlogic.com/2015/02/02/svg-layout-flexbox.html).
 
-In order to use this layout approach, add the `layout-css` attribute to the elements within your `SVG` container. This component uses Facebook's css-layout project, which re-implements flexbox in JavaScript, [refer to their project page](https://github.com/facebook/css-layout) for supported properties.
+In order to use this layout approach, add the `layout-style` attribute to the elements within your `SVG` container. This component uses Facebook's css-layout project, which re-implements flexbox in JavaScript, [refer to their project page](https://github.com/facebook/css-layout) for supported properties.
 
 Here's an example SVG with group elements that have a layout suitable for chart construction (axes, legend, etc ...):
 

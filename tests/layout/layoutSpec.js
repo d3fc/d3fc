@@ -4,16 +4,16 @@ describe('layout', function() {
         var svg = document.createElement('svg');
 
         d3.select(svg).layout('height', 30);
-        expect(svg.getAttribute('layout-css')).toEqual('height:30');
+        expect(svg.getAttribute('layout-style')).toEqual('height:30');
 
         d3.select(svg).layout('flexDirection', 'row');
-        expect(svg.getAttribute('layout-css')).toEqual('flexDirection:row');
+        expect(svg.getAttribute('layout-style')).toEqual('flexDirection:row');
     });
 
     it('should allow attributes to be set as an object', function() {
         var svg = document.createElement('svg');
         d3.select(svg).layout({'height': 30, 'flexDirection': 'row'});
-        expect(svg.getAttribute('layout-css')).toEqual('height:30;flexDirection:row');
+        expect(svg.getAttribute('layout-style')).toEqual('height:30;flexDirection:row');
     });
 
     it('should provide access to layout- prefixed properties', function() {
