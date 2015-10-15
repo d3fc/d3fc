@@ -22,3 +22,6 @@ A collection of more advanced examples.
     </a>
   </div>
 </div>
+
+Examples for specific components can be found in the [Documentation](../components/introduction/1-getting-started.html) section
+of the website.
