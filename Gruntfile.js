@@ -33,6 +33,12 @@ module.exports = function(grunt) {
             ]
         },
 
+        webdriver: {
+            test: {
+                configFile: './tests/wdio.conf.js'
+            }
+        },
+
         assemble: {
             site: {
                 options: {
@@ -252,6 +258,8 @@ module.exports = function(grunt) {
     });
 
     require('jit-grunt')(grunt);
+
+    grunt.loadNpmTasks('grunt-selenium-webdriver');
 
     grunt.registerTask('components', [
         'eslint:components', 'clean:components', 'rollup:components', 'version',

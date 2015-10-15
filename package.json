@@ -37,8 +37,10 @@
     "grunt-jasmine-node": "^0.3.1",
     "grunt-jasmine-nodejs": "^1.4.3",
     "grunt-rollup": "0.0.1",
+    "grunt-selenium-webdriver": "^0.2.451",
     "grunt-umd": "^2.3.3",
     "grunt-version": "^1.0.0",
+    "grunt-webdriver": "^1.0.0",
     "handlebars-helpers": "ColinEberhardt/handlebars-helpers",
     "jit-grunt": "^0.9.1",
     "jquery": "^1.11.2",
@@ -46,7 +48,8 @@
     "matchdep": "^0.3.0",
     "rollup": "^0.18.0",
     "seedrandom": "^2.4.0",
-    "time-grunt": "^1.2.1"
+    "time-grunt": "^1.2.1",
+    "webdriverio": "^3.2.5"
   },
   "scripts": {
     "test": "grunt ci",
