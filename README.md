@@ -4,7 +4,7 @@ A collection of components that make it easy to build interactive charts with D3
 
 ## Installation
 
-For details of installation and general usage, visit the [project webpage](http://scottlogic.github.io/d3fc/).
+For details of installation and general usage, visit the [project webpage](http://d3fc.io/).
 
 ## Developing
 
