@@ -7,25 +7,25 @@ script: index.js
 <style>@import "index.css";</style>
 
 <svg id="low-barrel">
-  <g layout-css="flex: 0.65; flexDirection: row">
-    <svg class="main" layout-css="flex: 1"></svg>
-    <g layout-css="width: 20; justifyContent: center">
-      <g layout-css="height: 0">
+  <g layout-style="flex: 0.65; flexDirection: row">
+    <svg class="main" layout-style="flex: 1"></svg>
+    <g layout-style="width: 20; justifyContent: center">
+      <g layout-style="height: 0">
         <text text-anchor="middle" transform="rotate(90)">OHLC</text>
       </g>
     </g>
   </g>
-  <g layout-css="flex: 0.2; flexDirection: row">
-    <svg class="volume" layout-css="flex: 1"></svg>
-    <g layout-css="width: 20; justifyContent: center">
-      <g layout-css="height: 0">
+  <g layout-style="flex: 0.2; flexDirection: row">
+    <svg class="volume" layout-style="flex: 1"></svg>
+    <g layout-style="width: 20; justifyContent: center">
+      <g layout-style="height: 0">
         <text text-anchor="middle" transform="rotate(90)">Volume</text>
       </g>
     </g>
   </g>
-  <g layout-css="flex: 0.15; flexDirection: row">
-    <svg class="navigator" layout-css="flex: 1"></svg>
-    <text layout-css="width: 20"></text>
+  <g layout-style="flex: 0.15; flexDirection: row">
+    <svg class="navigator" layout-style="flex: 1"></svg>
+    <text layout-style="width: 20"></text>
   </g>
 </svg>
 
