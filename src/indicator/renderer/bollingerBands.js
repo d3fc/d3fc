@@ -45,7 +45,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi ' + ['area', 'upper', 'lower', 'average'][i];
+                        return 'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i];
                     });
                 decorate(g, data, index);
             });
