@@ -185,8 +185,8 @@
                 bottom: 20,
                 right: 60
             })
-            .xDomain(fc.util.extent(data, 'date'))
-            .yDomain(fc.util.extent(data, 'close'))
+            .xDomain(data.navigatorDateDomain)
+            .yDomain(data.navigatorYDomain)
             .yNice()
             .xTicks(3)
             .yTicks(0);
@@ -257,6 +257,9 @@
             var dateScale = d3.time.scale()
                 .domain([maxDate - 50 * 24 * 60 * 60 * 1000, maxDate]);
             data.dateDomain = dateScale.domain();
+
+             data.navigatorDateDomain = fc.util.extent(data, 'date');
+             data.navigatorYDomain = fc.util.extent(data, 'close');
         }
 
         // Calculate visible data for main/volume charts
