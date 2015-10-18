@@ -19,13 +19,15 @@ export default function() {
 
         selection.each(function(data, index) {
 
-            var g = dataJoin(this, data);
+            var filteredData = data.filter(base.defined);
+
+            var g = dataJoin(this, filteredData);
 
             g.enter()
                 .append('path');
 
             var pathGenerator = candlestickSvg()
-                    .width(base.computeWidth(data));
+                    .width(base.computeWidth(filteredData));
 
             g.each(function(d, i) {
 

@@ -18,13 +18,15 @@ export default function(drawMethod) {
     var ohlc = function(selection) {
         selection.each(function(data, index) {
 
-            var g = dataJoin(this, data);
+            var filteredData = data.filter(base.defined);
+
+            var g = dataJoin(this, filteredData);
 
             g.enter()
                 .append('path');
 
             var pathGenerator = svgOhlc()
-                    .width(base.computeWidth(data));
+                    .width(base.computeWidth(filteredData));
 
             g.each(function(d, i) {
                 var values = base.computeValues(d, i);

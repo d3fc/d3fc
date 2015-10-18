@@ -21,6 +21,12 @@ export default function() {
         return barWidth(data.map(xValueScaled));
     };
 
+    base.defined = function(d, i) {
+        return xValue(d, i) != null && yOpenValue(d, i) != null &&
+            yLowValue(d, i) != null && yHighValue(d, i) != null &&
+            yCloseValue(d, i) != null;
+    };
+
     base.computeValues = function(d, i) {
         var yCloseRaw = yCloseValue(d, i);
         var yOpenRaw = yOpenValue(d, i);
