@@ -35,13 +35,11 @@ export default function() {
         var yHigh = yScale(yHighValue(d, i));
         var yLow = yScale(yLowValue(d, i));
         var yClose = yScale(yCloseRaw);
-        var classed = '';
-        if (yCloseRaw > yOpenRaw) {
-            classed = 'up';
-        }
-        if (yCloseRaw < yOpenRaw) {
-            classed = 'down';
-        }
+        var classed = {
+            'up': yCloseRaw > yOpenRaw,
+            'down': yCloseRaw < yOpenRaw
+        };
+
 
         return {
             x: x,

@@ -32,7 +32,7 @@ export default function(drawMethod) {
                 var values = base.computeValues(d, i);
 
                 var g = d3.select(this)
-                    .classed(values.classed, true)
+                    .classed(values.classed)
                     .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
 
                 pathGenerator.x(d3.functor(0))
