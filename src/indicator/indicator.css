@@ -23,3 +23,7 @@
   fill: none;
   stroke: #06c;
 }
+
+.bollinger path.area {
+  fill-opacity: 0.5;
+}

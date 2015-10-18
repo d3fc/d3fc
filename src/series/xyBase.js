@@ -24,8 +24,8 @@ export default function() {
         return yScale(yValue(d, i));
     };
     base.defined = function(d, i) {
-        return !isNaN(x0Value(d, i)) && !isNaN(y0Value(d, i)) &&
-            !isNaN(xValue(d, i)) && !isNaN(yValue(d, i));
+        return x0Value(d, i) != null && y0Value(d, i) != null &&
+            xValue(d, i) != null && yValue(d, i) != null;
     };
 
     base.xScale = function(x) {
