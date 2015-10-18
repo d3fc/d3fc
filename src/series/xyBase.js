@@ -24,8 +24,8 @@ export default function() {
         return yScale(yValue(d, i));
     };
     base.defined = function(d, i) {
-        return x0Value(d, i) !== undefined && y0Value(d, i) !== undefined &&
-            xValue(d, i) !== undefined && yValue(d, i) !== undefined;
+        return x0Value(d, i) != null && y0Value(d, i) != null &&
+            xValue(d, i) != null && yValue(d, i) != null;
     };
 
     base.xScale = function(x) {
