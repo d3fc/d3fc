@@ -1,7 +1,7 @@
 ---
 layout: component
-title: Stacked Bar Series
-component: series/stackedBar.js
+title: Stacked Series
+component: series/stacked
 tags:
   - frontpage
 namespace: series
@@ -17,60 +17,46 @@ example-code: |
    {"State":"DE","Under 5 Years":"59","5 to 13 Years":"99","14 to 17 Years":"47","18 to 24 Years":"84","25 to 44 Years":"230","45 to 64 Years":"230"}
   ];
 
-  // Transform the data into a number of distinct series, one for each category of data
-  var series = Object.keys(data[0])
-      .filter(function(key) {
-          return key !== 'State';
-      })
-      .map(function(key) {
-          return {
-              name: key,
-              data: data.map(function(d) {
-                return {
-                  state: d.State,
-                  value: parseInt(d[key])
-                };
-              })
-          };
-      });
+  // manipulate the data into stacked series
+  var spread = fc.data.spread()
+      .xValueKey('State');
+  var stack = d3.layout.stack();
 
-  var stackLayout = d3.layout.stack()
-      .offset('zero')
-      .x(function(d) { return d.state; })
-      .y(function(d) { return d.value; });
-
-  var stackedData = stackLayout(series.map(function(d) { return d.data; }));
-
-  var xCategories = data.map(function(d) { return d.State; });
+  var series = stack(spread(data));
 
   // create scales
   var x = d3.scale.ordinal()
-      .domain(xCategories)
+      .domain(data.map(function(d) { return d.State; }))
       .rangePoints([0, width], 1);
 
   var color = d3.scale.category10();
 
   var y = d3.scale.linear()
-    .domain([0, 6000])
+    .domain(fc.util.extent(series, function(d) { return 0; },
+                            function(d) { return d.y + d.y0; }))
     .range([height, 0]);
 
+  // create the stacked bar series (this could also be line or area)
   var stack = fc.series.stacked.bar()
     .xScale(x)
     .yScale(y)
-    .xValue(function(d) { return d.state; })
+    .xValue(function(d) { return d.x; })
     .decorate(function(sel, data, index) {
         sel.select('path')
             .style('fill', color(index));
     });
 
+  // render
   container.append('g')
-      .datum(stackedData)
+      .datum(series)
       .call(stack);
 ---
 
-The stacked bar series renders multiple series of data in a stacked form. The data needs to be presented to the component as multiple distinct series, where each datapoint exposes a `y` and `y0` property, where the `y0` property indicates the offset required to stack the series. The easiest way to add the required offset to a series is via the `d3.layout.stack` component.
+The stacked series (bar, area and line) components render multiple series of data in a stacked form. The data needs to be presented to the component as multiple distinct series, where each datapoint exposes `y` and `y0` properties, where the `y0` property indicates the offset required to stack the series.
 
-The following example shows how to manipulate some data into the required form, then configures the bar series accordingly:
+If the data is loaded via `d3.csv`, it is converted to an array of objects, one per row, with properties names derived from the CSV 'column' headings. The easiest way to manipulate the data into multiple series (one per 'column'), is to use [`d3.data.spread`](/components/data/spread.html) component. Following this `d3.layout.stack` can be used to stack the data, providing the required `y0` property.
+
+The following example shows how to manipulate some data into the required form, then configures the stacked bar series accordingly:
 
 ```js
 {{{example-code}}}
@@ -79,7 +65,3 @@ The following example shows how to manipulate some data into the required form, 
 Which gives the following:
 
 {{>example-fixture}}
-
-
-
-
