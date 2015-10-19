@@ -27,14 +27,14 @@ export default function() {
                 .append('path');
 
             var pathGenerator = candlestickSvg()
-                    .width(base.computeWidth(filteredData));
+                    .width(base.width(filteredData));
 
             g.each(function(d, i) {
 
-                var values = base.computeValues(d, i);
+                var values = base.values(d, i);
 
                 var g = d3.select(this)
-                    .classed(values.classed)
+                    .attr('class', 'candlestick ' + values.direction)
                     .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
 
                 pathGenerator.x(d3.functor(0))

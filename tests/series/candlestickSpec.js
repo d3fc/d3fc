@@ -58,10 +58,6 @@ describe('candlestick', function() {
         container.datum(data)
             .call(candlestick);
 
-        // the data join and the bar width calculations also invoke
-        // the x value accessor, therefore it is invoked multiple times
-        // for each data point
-
         expect(xValueSpy.calls.count()).toEqual(data.length * 3);
         this.utils.verifyAccessorCalls(xValueSpy, data);
 

@@ -17,7 +17,7 @@ export default function() {
 
     function base() { }
 
-    base.computeWidth = function(data) {
+    base.width = function(data) {
         return barWidth(data.map(xValueScaled));
     };
 
@@ -27,27 +27,24 @@ export default function() {
             yCloseValue(d, i) != null;
     };
 
-    base.computeValues = function(d, i) {
-        var yCloseRaw = yCloseValue(d, i);
-        var yOpenRaw = yOpenValue(d, i);
-        var x = xValueScaled(d, i);
-        var yOpen = yScale(yOpenRaw);
-        var yHigh = yScale(yHighValue(d, i));
-        var yLow = yScale(yLowValue(d, i));
-        var yClose = yScale(yCloseRaw);
-        var classed = {
-            'up': yCloseRaw > yOpenRaw,
-            'down': yCloseRaw < yOpenRaw
-        };
+    base.values = function(d, i) {
+        var yCloseRaw = yCloseValue(d, i),
+            yOpenRaw = yOpenValue(d, i);
 
+        var direction = '';
+        if (yCloseRaw > yOpenRaw) {
+            direction = 'up';
+        } else if (yCloseRaw < yOpenRaw) {
+            direction = 'down';
+        }
 
         return {
-            x: x,
-            yOpen: yOpen,
-            yHigh: yHigh,
-            yLow: yLow,
-            yClose: yClose,
-            classed: classed
+            x: xValueScaled(d, i),
+            yOpen: yScale(yOpenRaw),
+            yHigh: yScale(yHighValue(d, i)),
+            yLow: yScale(yLowValue(d, i)),
+            yClose: yScale(yCloseRaw),
+            direction: direction
         };
     };
 
