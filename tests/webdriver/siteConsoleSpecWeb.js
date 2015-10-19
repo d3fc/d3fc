@@ -1,6 +1,6 @@
 describe('Visit all pages, check for no console errors', function () {
 
-    it('iterate through the documentation', function (done) {
+    it('site pages contains no logs / errors', function (done) {
 
         var urls = [];
 
@@ -9,10 +9,15 @@ describe('Visit all pages, check for no console errors', function () {
                 browser.call(done);
                 return;
             }
-            browser.url(urls.pop()).getTitle()
+            var url = urls.pop();
+            browser.url(url)
                 .then(function (err, res) {
-                    testNextPage();
-                })
+                    browser.log('browser').then(function (f) {
+                        expect(f.value.length).toEqual(0, 'Errors/console logs in the url: '+url);
+                        testNextPage();
+                    });
+
+                });
         }
 
         return browser

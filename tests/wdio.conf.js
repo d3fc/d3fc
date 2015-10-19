@@ -8,8 +8,8 @@ exports.config = {
     // should work too though). These services define specific user and key (or access key)
     // values you need to put in here in order to connect to these services.
     //
-    user: 'x', //Username from https://www.browserstack.com/accounts/automate
-    key: 'x', //Access Key from https://www.browserstack.com/accounts/automate
+    user: process.env.BROWSERSTACK_USER, //Username from https://www.browserstack.com/accounts/automate
+    key: process.env.BROWSERSTACK_KEY, //Access Key from https://www.browserstack.com/accounts/automate
 
     //
     // If you are using Sauce Labs, WebdriverIO takes care to update the job information
@@ -48,23 +48,7 @@ exports.config = {
     //
     capabilities: [
         {
-            browserName: 'firefox',
-            'browserstack.local': true
-        },
-        {
             browserName: 'chrome',
-            'browserstack.local': true
-        },
-        {
-            browserName: 'internet explorer',
-            'browserstack.local': true
-        },
-        {
-            browserName: 'safari',
-            'browserstack.local': true
-        },
-        {
-            browserName: 'iPhone',
             'browserstack.local': true
         }
     ],
@@ -129,7 +113,7 @@ exports.config = {
     jasmineNodeOpts: {
         //
         // Jasmine default timeout
-        defaultTimeoutInterval: 100000,
+        defaultTimeoutInterval: 300000,
         //
         // The Jasmine framework allows it to intercept each assertion in order to log the state of the application
         // or website depending on the result. For example it is pretty handy to take a screenshot everytime

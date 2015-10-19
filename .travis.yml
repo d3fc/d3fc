@@ -14,6 +14,26 @@ env:
   global:
   - GH_REF: github.com/ScottLogic/d3fc.git
   - secure: "dimY26/YND+hamNAH6lwjYqkmc4qEkSDPl8xwe7wJxliR8k8cPM8lRw8c/Iwtmq3NiG5cZoiKAkALA4PTl3zQ7YOj7rSL9pGmi4qJvtObqWljclJjY/0sNprPc/RrRTgpBcnI3Pa7fofiT2uLNp+a0mT/KV9KZNxjQIw8PA2RkY="
+  - SELENIUM_HOST: hub.browserstack.com
+  - SELENIUM_PORT: 80
+  - BS_AUTOMATE_PROJECT: "$TRAVIS_REPO_SLUG"
+  - BS_AUTOMATE_BUILD: "Travis build No. $TRAVIS_BUILD_NUMBER for $TRAVIS_REPO_SLUG"
+  - secure: "CLhQ/Rw3CN3xhIYdaykerJ9bauvh/LZA3VQ1D/bdV4EWul8sSg27xZflmLKCmvkKnKazolXu49m+EqcN26FdzNFJEh9ChM6pi2jV6grUmx5eeneP6wtOiNIh/xobe2oytrjKEerQok+kCYistAOYHW/Ox/U9Yi2sW/ftjiNNoj6zTB/JUbbtyApaU4BZmxqCHRY9i92Uf1IPw/V95WCKADuqQwiqxxnnv4dzHqIcx0jipChPFsG3wbKgI8TBXPQAyuMy91ctI5Y014GF3iD1jjtW8xqVCur8df19mRmZBxhKThRob8vcyjKKGjMxpDIT9wVvZU/i1fOLyxNgq0GIVQlZX9f7PS2viJGoYk/Z2fZM9XDr8ztJvl86E1kMj9VKxBobo5epXCFM7cjAT6X+jBbV7WGNrLSm/9N2KBOfAlREBoQoPkjCDJt1hFmDvsP2y68fpyugya54ZMuQjkG/Gocz5so35T8aXkfr7QdNZn/UOTlL4hWFtfDTUC0EWNsOpicipJk6nwFSRnoQpa5n/UHdfrOSbf/F+AJLrMAanLaOdnH3yhjirT20krmjyFlZUUs8IVWgQAYcpwHSx6c0pKJp9zRXlaOW6DEpXCO4HUTYg3IJnHPaxSMYl9Gnly0ABZ3Y+0rHxoFHVSlxximG8/06X17JPFK0JQ+MzpZcXRI"
+  - secure: "AIpFlu67qB9vCjqaF6CgJtEzkPiGzxGyBv3d+8sDdT2Nr7VRE4jcIjfw5mczLQLs8oITljVFURjq4excy29eZGMjxYFwOVju41lCUBZAInE7tVyvcGr43hrf2RgTWmO3rvMm2Kp5/X3UVDAKT12hn+U6yCSbW1P+MUjn8bx8PSPLdpsq+UE38kyeuwpaU6xwFgLB4mG8XYwpitJ0a6RQx3aGTiQM0kqHqjDPezKW9kNSw3+PYBtRSO5//6QVXMax64NP0PLAF/AHOtfEcxlv23dAr1ZcuAYL3wcw63/zWrlZIbRwXywnXQ7AIigITguIOeJUDQvvKUITbfpuow3n+6LlWDD2SlH5RKwxcwRgPC+WJFCkmvJoQMeRFKQDNGWJ2yJgGRlQoG/phnNmY2LPCJ8LgPb8k7+Fga3ZieSh0IrA9VYsC43764Lq9vK4mxpb+vX6jhqXdkz7cqMcYtunYPJOe/bJ4HdQXSiCkVgFn8OL/3DslzCJl/KdoTJFVlzI06jh8cIcikKCFwcKcnWshTC5JQ7+ZJ6Ggv1MVzCewd3MPyAS9LreBdVrXWvI4J/hoCWgqLKnoTbYMXICHZwd5FVJH8n1/kTyiRK3oZZlTSBvIszkm81FMkkR8x5xPPPMiFy+R04OTYVzOxoOIK3vktRx3I45zp+fhD+HvG0UuXE"
+
+before_script:
+- wget https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
+- unzip BrowserStackLocal-linux-x64.zip
+- ./BrowserStackLocal -v -onlyAutomate -forcelocal $BROWSERSTACK_KEY &
+- sleep 3
+- npm install jasmine
+- grunt ci
+- grunt site:serve &
+- sleep 10
+
+script:
+- grunt webdriver
+
 after_success: bash ./site/deploy.sh
 
 deploy:
