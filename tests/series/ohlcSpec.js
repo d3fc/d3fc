@@ -1,5 +1,41 @@
 describe('ohlc', function() {
 
+    var element, data;
+
+    beforeEach(function() {
+        element = document.createElement('svg');
+        data = fc.data.random.financial()
+            .filter(function() { return true; })(10);
+    });
+
+    it('should render a path for each datapoint', function() {
+        var ohlc = fc.series.ohlc();
+
+        d3.select(element)
+            .datum(data)
+            .call(ohlc);
+
+        var paths = d3.select(element)
+            .selectAll('path');
+
+        expect(paths.size()).toBe(10);
+    });
+
+    it('should filter datapoints that are not defined', function() {
+        data[2].date = undefined;
+
+        var ohlc = fc.series.ohlc();
+
+        d3.select(element)
+            .datum(data)
+            .call(ohlc);
+
+        var paths = d3.select(element)
+            .selectAll('path');
+
+        expect(paths.size()).toBe(9);
+    });
+
     it('should invoke data accessors with datum and index', function() {
 
         var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.util.fn.identity),
@@ -22,23 +58,19 @@ describe('ohlc', function() {
         container.datum(data)
             .call(ohlc);
 
-        // the data join and the bar width calculations also invoke
-        // the x value accessor, therefore it is invoked multiple times
-        // for each data point
-
-        expect(xValueSpy.calls.count()).toEqual(data.length * 2);
+        expect(xValueSpy.calls.count()).toEqual(data.length * 3);
         this.utils.verifyAccessorCalls(xValueSpy, data);
 
-        expect(yOpenValueSpy.calls.count()).toEqual(data.length);
+        expect(yOpenValueSpy.calls.count()).toEqual(data.length * 2);
         this.utils.verifyAccessorCalls(yOpenValueSpy, data);
 
-        expect(yHighValueSpy.calls.count()).toEqual(data.length);
+        expect(yHighValueSpy.calls.count()).toEqual(data.length * 2);
         this.utils.verifyAccessorCalls(yHighValueSpy, data);
 
-        expect(yLowValueSpy.calls.count()).toEqual(data.length);
+        expect(yLowValueSpy.calls.count()).toEqual(data.length * 2);
         this.utils.verifyAccessorCalls(yLowValueSpy, data);
 
-        expect(yCloseValueSpy.calls.count()).toEqual(data.length);
+        expect(yCloseValueSpy.calls.count()).toEqual(data.length * 2);
         this.utils.verifyAccessorCalls(yCloseValueSpy, data);
     });
 });
