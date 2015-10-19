@@ -21,7 +21,7 @@ export default function() {
     var dataJoin = dataJoinUtil()
         .selector('g.multi')
         .children(true)
-        .attr('class', 'multi')
+        .attr('class', function(d, i) { return 'multi item' + ((i % 8) + 1); })
         .element('g')
         .key(function(d, i) {
             // This function is invoked twice, the first pass is to pull the key

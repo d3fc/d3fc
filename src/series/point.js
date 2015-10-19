@@ -13,7 +13,7 @@ export default function() {
     var dataJoin = dataJoinUtil()
         .selector('g.point')
         .element('g')
-        .attr('class', 'point');
+        .attr('class', 'point series');
 
     var containerTransform = function(d, i) {
         return 'translate(' + base.x(d, i) + ', ' + base.y(d, i) + ')';

@@ -17,7 +17,7 @@ export default function() {
     var dataJoin = dataJoinUtil()
         .selector('path.line')
         .element('path')
-        .attr('class', 'line');
+        .attr('class', 'line series');
 
     var line = function(selection) {
 

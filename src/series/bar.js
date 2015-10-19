@@ -66,7 +66,7 @@ export default function() {
                 throw new Error('The bar series does not support an orientation of ' + orient);
             }
 
-            dataJoin.attr('class', 'bar ' + orient);
+            dataJoin.attr('class', 'bar series ' + orient);
 
             var filteredData = data.filter(base.defined);
 
