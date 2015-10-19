@@ -9,6 +9,8 @@ import ohlc from './ohlc';
 import point from './point';
 import stacked from './stacked/stacked';
 import groupedBar from './groupedBar';
+import xyBase from './xyBase';
+import ohlcBase from './ohlcBase';
 
 export default {
     area: area,
@@ -21,5 +23,7 @@ export default {
     ohlc: ohlc,
     point: point,
     stacked: stacked,
-    groupedBar: groupedBar
+    groupedBar: groupedBar,
+    xyBase: xyBase,
+    ohlcBase: ohlcBase
 };

@@ -37,6 +37,23 @@ rect.extent {
   overflow: visible;
 }
 
+.candlestick {
+  stroke: #000;
+}
+
+.candlestick.up {
+  fill: #6c0;
+}
+
+.candlestick.down {
+  fill: #c60;
+}
+
+.bar {
+  stroke: #06c;
+  fill: #9cf;
+}
+
 .area, .line {
   shape-rendering: auto;
 }

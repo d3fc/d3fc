@@ -63,6 +63,51 @@
 }(d3, fc));
 
 (function (d3, fc) {
+    fc.candlestickSeries = function() {
+
+        var base = fc.series.ohlcBase();
+
+        var candlestick = fc.svg.candlestick()
+            .x(function(d) { return d.x; })
+            .open(function(d) { return d.yOpen; })
+            .high(function(d) { return d.yHigh; })
+            .low(function(d) { return d.yLow; })
+            .close(function(d) { return d.yClose; });
+
+        var fractionalBarWidth = fc.util.fractionalBarWidth(0.75);
+
+        var nest = d3.nest()
+            .key(function(d) { return d.direction; });
+
+        var dataJoin = fc.util.dataJoin()
+            .selector('path')
+            .element('path');
+
+        function candlestickSeries(selection) {
+            selection.each(function(data) {
+                data = data.filter(base.defined);
+
+                candlestick.width(base.width(data));
+
+                dataJoin(this, nest.entries(data.map(base.values)))
+                    .attr({
+                        'd': function(d) {
+                            return candlestick(d.values);
+                        },
+                        'class': function(d) {
+                            return 'candlestick ' + d.key;
+                        }
+                    });
+            });
+        }
+
+        d3.rebind(candlestickSeries, base, 'xScale', 'yScale', 'xValue', 'yValue');
+
+        return candlestickSeries;
+    };
+}(d3, fc));
+
+(function (d3, fc) {
     fc.mainChart = function() {
 
         var event = d3.dispatch('crosshair', 'zoom');
@@ -70,7 +115,7 @@
         var gridlines = fc.annotation.gridline()
             .yTicks(3);
 
-        var candlestick = fc.series.candlestick();
+        var candlestick = fc.candlestickSeries();
 
         var tooltip = fc.tooltip();
 
@@ -136,6 +181,43 @@
 }(d3, fc));
 
 (function (d3, fc) {
+    fc.barSeries = function() {
+
+        var base = fc.series.xyBase();
+
+        var bar = fc.svg.bar()
+            .verticalAlign('top')
+            .x(base.x)
+            .height(function(d) { return base.y(d) - base.y0(d); })
+            .y(base.y0);
+
+        var fractionalBarWidth = fc.util.fractionalBarWidth(0.75);
+
+        var dataJoin = fc.util.dataJoin()
+            .selector('path')
+            .element('path');
+
+        function barSeries(selection) {
+            selection.each(function(data) {
+                data = data.filter(base.defined);
+
+                bar.width(fractionalBarWidth(data.map(base.x)));
+
+                dataJoin(this, [data])
+                    .attr({
+                      'd': bar,
+                      'class': 'bar'
+                    });
+            });
+        }
+
+        d3.rebind(barSeries, base, 'xScale', 'yScale', 'xValue', 'yValue', 'y0Value');
+
+        return barSeries;
+    };
+}(d3, fc));
+
+(function (d3, fc) {
     fc.volumeChart = function() {
 
         var event = d3.dispatch('crosshair');
@@ -150,7 +232,7 @@
         var gridlines = fc.annotation.gridline()
             .yTicks(2);
 
-        var bar = fc.series.bar()
+        var bar = fc.barSeries()
             .yValue(function(d) { return d.volume; });
 
         var crosshairs = fc.tool.crosshair()
