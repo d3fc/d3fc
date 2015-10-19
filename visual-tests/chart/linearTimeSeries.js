@@ -30,7 +30,8 @@
         .yValue(function(d) { return d.open; });
 
     var multi = fc.series.multi()
-        .series([gridlines, area, line]);
+        .series([gridlines, area, line])
+        .seriesIndex(function() { return 1; });
     chart.plotArea(multi);
 
     d3.select('#linear-time-series')

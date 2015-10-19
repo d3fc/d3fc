@@ -18,7 +18,7 @@ export default function() {
     var dataJoin = dataJoinUtil()
         .selector('path.area')
         .element('path')
-        .attr('class', 'area');
+        .attr('class', 'area series');
 
     var area = function(selection) {
 

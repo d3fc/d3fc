@@ -23,37 +23,37 @@
   fill: #9cf;
 }
 
-g.multi.item2 .series {
+.multi.item2 .series {
   stroke: #c60;
   fill: #c96;
 }
 
-g.multi.item3 .series {
+.multi.item3 .series {
   stroke: #60c;
   fill: #96c;
 }
 
-g.multi.item4 .series {
+.multi.item4 .series {
   stroke: #0c0;
   fill: #6c6;
 }
 
-g.multi.item5 .series {
+.multi.item5 .series {
   stroke: #c00;
   fill: #c66;
 }
 
-g.multi.item6 .series {
+.multi.item6 .series {
   stroke: #00c;
   fill: #66c;
 }
 
-g.multi.item7 .series {
+.multi.item7 .series {
   stroke: #cc6;
   fill: #cc9;
 }
 
-g.multi.item8 .series {
+.multi.item8 .series {
   stroke: #c0c;
   fill: #c6c;
 }
