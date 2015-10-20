@@ -6,7 +6,7 @@ namespace: chart
 
 example-fixture: |
 
-  <div id="legend"></div>
+  <div id="legend" style="margin:15px;"></div>
 
 example-code: |
   function renderLegendComponent() {
@@ -73,18 +73,12 @@ example-code: |
   renderLegendComponent();
 ---
 
-Legend component is used for creating a simple legend for any chart. The `legend` content is provided by supplying 
-`items` array with relevant static or dynamic data. The component can be styled by invoking `tabeDecorate`. This is
-also the place to set up the legend header. 
+The `legend` component creates a simple legend panel for any chart. The content is controlled by setting the `items` property, to an array consisting of headers and data (which can be either static values or dynamic functions). The component can be styled using `tableDecorate` property (using the [decorate pattern](../introduction/2-decorate-pattern.html)). Should you want to have a table header, it can also be done using this property.
 
-Below is an example with a dynamically generated data and a standalone
-`legend` component usage. For using legend dynamically with a chart, please see this [example](../../examples/yahoo-finance-chart/).
+The following example show a standalone `legend` using dynamically generated data. For an example of using a legend within a chart, please see the [Yahoo finance example](../../examples/yahoo-finance-chart/).
 
 
 {{{example-fixture}}}
-
-
-The code for the supplied example follows:
 
 ```js
 {{{example-code}}}
