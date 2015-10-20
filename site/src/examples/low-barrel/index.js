@@ -1,4 +1,4 @@
-/* global d3:false, fc:false, requestAnimationFrame:false */
+/* global d3:false, fc:false */
 (function(d3, fc, example) {
     'use strict';
 
@@ -363,14 +363,20 @@
     data.navigatorYDomain = fc.util.extent(data, 'close');
 
     var mainChart = example.mainChart()
-        .on('crosshair', render)
+        .on('crosshair', function() {
+            // Need wrapper, render undefined at this point
+            render();
+        })
         .on('zoom', function(domain) {
             data.dateDomain = domain;
             render();
         });
 
     var volumeChart = example.volumeChart()
-        .on('crosshair', render);
+        .on('crosshair', function() {
+            // Need wrapper, render undefined at this point
+            render();
+        });
 
     var navigatorChart = example.navigatorChart()
         .on('brush', function(domain) {
@@ -379,12 +385,9 @@
         });
 
     var container = d3.select('#low-barrel')
-        .datum(data)
         .layout();
 
-    function renderInternal() {
-        var data = container.datum();
-
+    var render = fc.util.render(function() {
         // Calculate visible data for main/volume charts
         var bisector = d3.bisector(function(d) { return d.date; });
         var visibleData = data.slice(
@@ -404,21 +407,12 @@
             .call(volumeChart);
 
         container.select('svg.navigator')
+            .datum(data)
             .call(navigatorChart);
 
         container.layoutSuspended(true);
-    }
+    });
 
-    var rafId = null;
-    function render() {
-        if (rafId == null) {
-            rafId = requestAnimationFrame(function() {
-                rafId = null;
-                renderInternal();
-            });
-        }
-    }
-
-    renderInternal();
+    render();
 
 }(d3, fc, {}));
