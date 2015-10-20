@@ -350,69 +350,87 @@
         return navigatorChart;
     };
 
-    var dataGenerator = fc.data.random.financial()
-        .startDate(new Date(2014, 1, 1));
+    example.lowBarrel = function() {
+        var event = d3.dispatch('navigate', 'crosshair');
 
-    var data = dataGenerator(250);
-
-    // Enhance data with interactive state
-    data.crosshairs = [];
-    var maxDate = fc.util.extent(data, 'date')[1];
-    var minDate = new Date(maxDate - 50 * 24 * 60 * 60 * 1000);
-    data.dateDomain = [minDate, maxDate];
-    data.navigatorDateDomain = fc.util.extent(data, 'date');
-    data.navigatorYDomain = fc.util.extent(data, 'close');
-
-    var mainChart = example.mainChart();
-
-    var volumeChart = example.volumeChart();
-
-    var navigatorChart = example.navigatorChart();
-
-    var container = d3.select('#low-barrel')
-        .layout();
-
-    var render = fc.util.render(function() {
-        // Calculate visible data for main/volume charts
         var bisector = d3.bisector(function(d) { return d.date; });
-        var visibleData = data.slice(
-            // Pad and clamp the bisector values to ensure extents can be calculated
-            Math.max(0, bisector.left(data, data.dateDomain[0]) - 1),
-            Math.min(bisector.right(data, data.dateDomain[1]) + 1, data.length)
-        );
-        visibleData.dateDomain = data.dateDomain;
-        visibleData.crosshairs = data.crosshairs;
 
-        container.select('svg.main')
-            .datum(visibleData)
-            .call(mainChart);
+        var mainChart = example.mainChart()
+            .on('crosshair', event.crosshair)
+            .on('zoom', event.navigate);
 
-        container.select('svg.volume')
-            .datum(visibleData)
-            .call(volumeChart);
+        var volumeChart = example.volumeChart()
+            .on('crosshair', event.crosshair);
 
-        container.select('svg.navigator')
-            .datum(data)
-            .call(navigatorChart);
+        var navigatorChart = example.navigatorChart()
+            .on('brush', event.navigate);
 
-        container.layoutSuspended(true);
-    });
+        function lowBarrel(selection) {
 
-    function updateDateDomain(domain) {
-        data.dateDomain = [
-            new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
-            new Date(Math.min(domain[1], data.navigatorDateDomain[1]))
-        ];
+            selection.each(function(data) {
+                // Calculate visible data for main/volume charts
+                var visibleData = data.slice(
+                    // Pad and clamp the bisector values to ensure extents can be calculated
+                    Math.max(0, bisector.left(data, data.dateDomain[0]) - 1),
+                    Math.min(bisector.right(data, data.dateDomain[1]) + 1, data.length)
+                );
+                visibleData.dateDomain = data.dateDomain;
+                visibleData.crosshairs = data.crosshairs;
+
+                var container = d3.select(this);
+
+                container.select('svg.main')
+                    .datum(visibleData)
+                    .call(mainChart);
+
+                container.select('svg.volume')
+                    .datum(visibleData)
+                    .call(volumeChart);
+
+                container.select('svg.navigator')
+                    .datum(data)
+                    .call(navigatorChart);
+            });
+        }
+
+        d3.rebind(lowBarrel, event, 'on');
+
+        return lowBarrel;
+    };
+
+    // Wrap in function to demonstrate no global access to state variables
+    (function() {
+        var data = fc.data.random.financial()
+            .startDate(new Date(2014, 1, 1))(250);
+
+        // Enhance data with interactive state
+        data.crosshairs = [];
+        var maxDate = fc.util.extent(data, 'date')[1];
+        var minDate = new Date(maxDate - 50 * 24 * 60 * 60 * 1000);
+        data.dateDomain = [minDate, maxDate];
+        data.navigatorDateDomain = fc.util.extent(data, 'date');
+        data.navigatorYDomain = fc.util.extent(data, 'close');
+
+        var container = d3.select('#low-barrel')
+            .layout();
+
+        var render = fc.util.render(function() {
+            container.datum(data)
+                .call(lowBarrel)
+                .layoutSuspended(true);
+        });
+
+        var lowBarrel = example.lowBarrel()
+            .on('crosshair', render)
+            .on('navigate', function(domain) {
+                data.dateDomain = [
+                    new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
+                    new Date(Math.min(domain[1], data.navigatorDateDomain[1]))
+                ];
+                render();
+            });
+
         render();
-    }
-
-    mainChart.on('crosshair', render)
-        .on('zoom', updateDateDomain);
-
-    volumeChart.on('crosshair', render);
-
-    navigatorChart.on('brush', updateDateDomain);
-
-    render();
+    }());
 
 }(d3, fc, {}));
