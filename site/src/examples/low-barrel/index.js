@@ -147,7 +147,7 @@
 
             selection.each(function(data) {
 
-                crosshairs.snap(fc.util.seriesPointSnap(candlestick, data));
+                crosshairs.snap(fc.util.seriesPointSnapXOnly(candlestick, data));
 
                 chart.xDomain(data.dateDomain)
                     .yDomain(fc.util.extent(data, ['high', 'low']))
@@ -255,7 +255,7 @@
 
                 bar.y0Value(chart.yDomain()[0]);
 
-                crosshairs.snap(fc.util.seriesPointSnap(bar, data));
+                crosshairs.snap(fc.util.seriesPointSnapXOnly(bar, data));
 
                 d3.select(this)
                     .call(chart);
@@ -287,6 +287,7 @@
 
         var area = fc.series.area();
 
+        // TODO: the brush causes a partial render which can glitch things
         var brush = d3.svg.brush()
             .on('brush', function() {
                 var domain = [brush.extent()[0][0], brush.extent()[1][0]];
@@ -362,15 +363,20 @@
     data.navigatorDateDomain = fc.util.extent(data, 'date');
     data.navigatorYDomain = fc.util.extent(data, 'close');
 
+    function updateDateDomain(domain) {
+        data.dateDomain = [
+            new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
+            new Date(Math.min(domain[1], data.navigatorDateDomain[1]))
+        ];
+        render();
+    }
+
     var mainChart = example.mainChart()
         .on('crosshair', function() {
             // Need wrapper, render undefined at this point
             render();
         })
-        .on('zoom', function(domain) {
-            data.dateDomain = domain;
-            render();
-        });
+        .on('zoom', updateDateDomain);
 
     var volumeChart = example.volumeChart()
         .on('crosshair', function() {
@@ -379,10 +385,7 @@
         });
 
     var navigatorChart = example.navigatorChart()
-        .on('brush', function(domain) {
-            data.dateDomain = domain;
-            render();
-        });
+        .on('brush', updateDateDomain);
 
     var container = d3.select('#low-barrel')
         .layout();
