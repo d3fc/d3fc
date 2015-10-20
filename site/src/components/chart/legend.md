@@ -65,9 +65,7 @@ example-code: |
       }
   
       renderLegend();
-      setInterval(function () {
-          renderLegend();
-      }, 1000);
+      setInterval(renderLegend(), 1000);
   }
   
   renderLegendComponent();
