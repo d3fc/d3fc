@@ -130,4 +130,12 @@ describe('layout', function() {
         svgs.enter().append('g').layout('width');
     });
 
+    it('should not set layout-width/height attributes on root node', function() {
+        var svg = document.createElement('svg');
+        d3.select(svg)
+            .layout();
+        expect(svg.hasAttribute('layout-width')).toBe(false);
+        expect(svg.hasAttribute('layout-height')).toBe(false);
+    });
+
 });

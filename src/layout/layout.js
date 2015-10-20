@@ -12,9 +12,6 @@ function ownerSVGElement(node) {
 // the layout component performs flex-box layout on single DOM elements
 function layoutComponent() {
 
-    var width = -1,
-        height = -1;
-
     // parses the style attribute, converting it into a JavaScript object
     function parseStyle(style) {
         if (!style) {
@@ -55,9 +52,12 @@ function layoutComponent() {
     }
 
     // takes the result of layout and applied it to the SVG elements
-    function applyLayout(node) {
-        node.element.setAttribute('layout-width', node.layout.width);
-        node.element.setAttribute('layout-height', node.layout.height);
+    function applyLayout(node, subtree) {
+        // don't set layout-width/height on layout root node
+        if (subtree) {
+            node.element.setAttribute('layout-width', node.layout.width);
+            node.element.setAttribute('layout-height', node.layout.height);
+        }
         if (node.element.nodeName.match(/(?:svg|rect)/i)) {
             node.element.setAttribute('width', node.layout.width);
             node.element.setAttribute('height', node.layout.height);
@@ -67,7 +67,9 @@ function layoutComponent() {
             node.element.setAttribute('transform',
                 'translate(' + node.layout.left + ', ' + node.layout.top + ')');
         }
-        node.children.forEach(applyLayout);
+        node.children.forEach(function(node) {
+            applyLayout(node, true);
+        });
     }
 
     function computeDimensions(node) {
@@ -92,29 +94,14 @@ function layoutComponent() {
         var layoutNodes = createNodes(node);
 
         // set the width / height of the root
-        layoutNodes.style.width = width !== -1 ? width : dimensions.width;
-        layoutNodes.style.height = height !== -1 ? height : dimensions.height;
+        layoutNodes.style.width = dimensions.width;
+        layoutNodes.style.height = dimensions.height;
 
         // use the Facebook CSS goodness
         computeLayout(layoutNodes);
 
         // apply the resultant layout
         applyLayout(layoutNodes);
-    };
-
-    layout.width = function(x) {
-        if (!arguments.length) {
-            return width;
-        }
-        width = x;
-        return layout;
-    };
-    layout.height = function(x) {
-        if (!arguments.length) {
-            return height;
-        }
-        height = x;
-        return layout;
     };
 
     return layout;
@@ -148,7 +135,8 @@ function layoutSelection(name, value) {
         if (argsLength === 2) {
             if (typeof name !== 'string') {
                 // layout(number, number) - sets the width and height and performs layout
-                layout.width(name).height(value);
+                this.setAttribute('layout-width', name);
+                this.setAttribute('layout-height', value);
                 layout(this);
             } else {
                 // layout(name, value) - sets a layout- attribute
