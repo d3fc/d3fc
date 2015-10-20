@@ -40,7 +40,8 @@
         .yScale(priceScale)
         .yValue(function(d) { return d.close; })
         .decorate(function(sel) {
-            sel.style('fill', function(d) { return color(d.date.getDay()); });
+            sel.selectAll('path')
+                .style('fill', function(d) { return color(d.date.getDay()); });
         })
         .barWidth(9);
 
