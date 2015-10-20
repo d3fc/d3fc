@@ -197,8 +197,8 @@
 
                 dataJoin(this, [data])
                     .attr({
-                      'd': bar,
-                      'class': 'bar'
+                        'd': bar,
+                        'class': 'bar'
                     });
             });
         }
@@ -283,9 +283,13 @@
             .xTicks(3)
             .yTicks(0);
 
-        var line = fc.series.line();
-
-        var area = fc.series.area();
+        var area = fc.series.area()
+            .decorate(function (sel) {
+                sel.enter().style({
+                    stroke: '#06c',
+                    fill: '#9cf',
+                    'stroke-opacity': '1'});
+            });
 
         // TODO: the brush causes a partial render which can glitch things
         var brush = d3.svg.brush()
@@ -298,7 +302,7 @@
             });
 
         var multi = fc.series.multi()
-            .series([gridlines, line, area, brush])
+            .series([gridlines, area, brush])
             .mapping(function(series) {
                 // Need to set the extent AFTER the scales
                 // are set AND their ranges defined

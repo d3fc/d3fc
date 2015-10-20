@@ -47,7 +47,8 @@ example-code-three: |
     .scale(linearScale)
     .decorate(function(s) {
       s.enter()
-        .attr('fill', function(d) {
+        .select('text')
+        .style('fill', function(d) {
           return d >= 100 ? 'red' : 'black';
         });
     });
