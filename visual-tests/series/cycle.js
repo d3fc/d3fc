@@ -69,8 +69,12 @@
             .subSeries(subMulti)
             .decorate(function(g) {
                 g.enter()
-                    .attr('stroke', function(d, i) {
-                        return colorScale(i);
+                    .each(function(d, i) {
+                        d3.select(this)
+                            .selectAll('.series')
+                            .style('stroke', function() {
+                                return colorScale(i);
+                            });
                     });
             });
 
@@ -91,6 +95,7 @@
 
         var multi = fc.series.multi()
             .series([trendLine, cycle])
+            .seriesIndex(function() { return 1; })
             .xScale(monthScale)
             .yScale(tempScale)
             .mapping(function(series) {

@@ -18,21 +18,46 @@
   stroke: #6c0;
 }
 
-path.line {
+.series {
+  stroke: #06c;
+  fill: #9cf;
+}
+
+.multi.item2 .series {
+  stroke: #c60;
+  fill: #fc9;
+}
+
+.multi.item3 .series {
+  stroke: #60c;
+  fill: #c9f;
+}
+
+.multi.item4 .series {
+  stroke: #0c0;
+  fill: #9f9;
+}
+
+.multi.item5 .series {
+  stroke: #c00;
+  fill: #f99;
+}
+
+.multi.item6 .series {
+  stroke: #00c;
+  fill: #99f;
+}
+
+.multi.item7 .series {
+  stroke: #cc6;
+  fill: #ffc;
+}
+
+.multi.item8 .series {
+  stroke: #c0c;
+  fill: #f9f;
+}
+
+path.series.line, .multi path.series.line {
   fill: none;
-  stroke: #06c;
-}
-
-path.area {
-  fill: #9cf;
-}
-
-.point>circle {
-  stroke: #06c;
-  fill: #9cf;
-}
-
-.bar>path {
-  stroke: #06c;
-  fill: #9cf;
 }

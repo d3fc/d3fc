@@ -16,12 +16,13 @@ export default function() {
         series = [],
         mapping = context,
         key = index,
-        decorate = noop;
+        decorate = noop,
+        seriesIndex = function(s, i) { return ((i % 8) + 1); };
 
     var dataJoin = dataJoinUtil()
         .selector('g.multi')
         .children(true)
-        .attr('class', 'multi')
+        .attr('class', function(d, i) { return 'multi' + (seriesIndex ? ' item' + seriesIndex(d, i) : ''); })
         .element('g')
         .key(function(d, i) {
             // This function is invoked twice, the first pass is to pull the key
@@ -103,6 +104,13 @@ export default function() {
             return decorate;
         }
         decorate = x;
+        return multi;
+    };
+    multi.seriesIndex = function(x) {
+        if (!arguments.length) {
+            return seriesIndex;
+        }
+        seriesIndex = x;
         return multi;
     };
 

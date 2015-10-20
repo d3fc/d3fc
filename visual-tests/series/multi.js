@@ -43,7 +43,8 @@
 
     // Create the multi series
     var multi = fc.series.multi()
-        .series([gridlines, bollingerRenderer, line, area, point]);
+        .series([gridlines, bollingerRenderer, line, area, point])
+        .seriesIndex(function() { return 1; });
     chart.plotArea(multi);
 
     var svg = d3.select('#multi')
