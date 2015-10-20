@@ -15,6 +15,7 @@
 
 .legend {
   border: 1px solid #999;
+  border-collapse: separate;
 }
 
 .plot-area {
