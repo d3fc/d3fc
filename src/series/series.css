@@ -25,37 +25,37 @@
 
 .multi.item2 .series {
   stroke: #c60;
-  fill: #c96;
+  fill: #fc9;
 }
 
 .multi.item3 .series {
   stroke: #60c;
-  fill: #96c;
+  fill: #c9f;
 }
 
 .multi.item4 .series {
   stroke: #0c0;
-  fill: #6c6;
+  fill: #9f9;
 }
 
 .multi.item5 .series {
   stroke: #c00;
-  fill: #c66;
+  fill: #f99;
 }
 
 .multi.item6 .series {
   stroke: #00c;
-  fill: #66c;
+  fill: #99f;
 }
 
 .multi.item7 .series {
   stroke: #cc6;
-  fill: #cc9;
+  fill: #ffc;
 }
 
 .multi.item8 .series {
   stroke: #c0c;
-  fill: #c6c;
+  fill: #f9f;
 }
 
 path.series.line, .multi path.series.line {

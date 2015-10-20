@@ -26,4 +26,5 @@
 
 .bollinger path.area {
   fill-opacity: 0.5;
+  stroke: none;
 }
