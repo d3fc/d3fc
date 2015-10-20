@@ -122,7 +122,7 @@ function layoutComponent() {
 
 function layoutSuspended(x) {
     if (!arguments.length) {
-        return ownerSVGElement(this.node()).__layout__;
+        return Boolean(ownerSVGElement(this.node()).__layout__);
     }
     return this.each(function() {
         ownerSVGElement(this).__layout__ = x ? 'suspended' : '';
