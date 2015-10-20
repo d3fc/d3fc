@@ -3,7 +3,6 @@ import chart from './chart/chart';
 import data from './data/data';
 import indicator from './indicator/indicator';
 import './layout/layout'; // import side-effects
-import layout from './layout/layout';
 import scale from './scale/scale';
 import series from './series/series';
 import svg from './svg/svg';
@@ -18,7 +17,6 @@ export default {
     chart: chart,
     data: data,
     indicator: indicator,
-    layout: layout,
     scale: scale,
     series: series,
     svg: svg,
