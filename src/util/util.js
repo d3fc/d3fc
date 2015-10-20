@@ -7,6 +7,7 @@ import innerDimensions from './innerDimensions';
 import {rebind, rebindAll} from './rebind';
 import * as scale from './scale';
 import {noSnap, pointSnap, seriesPointSnap, seriesPointSnapXOnly, seriesPointSnapYOnly} from './snap';
+import render from './render';
 
 export default {
     dataJoin: dataJoin,
@@ -22,5 +23,6 @@ export default {
     pointSnap: pointSnap,
     seriesPointSnap: seriesPointSnap,
     seriesPointSnapXOnly: seriesPointSnapXOnly,
-    seriesPointSnapYOnly: seriesPointSnapYOnly
+    seriesPointSnapYOnly: seriesPointSnapYOnly,
+    render: render
 };

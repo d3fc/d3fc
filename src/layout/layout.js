@@ -2,6 +2,13 @@ import computeLayout from 'css-layout';
 import d3 from 'd3';
 import innerDimensions from '../util/innerDimensions';
 
+function ownerSVGElement(node) {
+    while (node.ownerSVGElement) {
+        node = node.ownerSVGElement;
+    }
+    return node;
+}
+
 // the layout component performs flex-box layout on single DOM elements
 function layoutComponent() {
 
@@ -75,6 +82,10 @@ function layoutComponent() {
     }
 
     var layout = function(node) {
+        if (ownerSVGElement(node).__layout__ === 'suspended') {
+            return;
+        }
+
         var dimensions = computeDimensions(node);
 
         // create the layout nodes
@@ -108,6 +119,18 @@ function layoutComponent() {
 
     return layout;
 }
+
+function layoutSuspended(x) {
+    if (!arguments.length) {
+        return ownerSVGElement(this.node()).__layout__;
+    }
+    return this.each(function() {
+        ownerSVGElement(this).__layout__ = x ? 'suspended' : '';
+    });
+}
+
+d3.selection.prototype.layoutSuspended = layoutSuspended;
+d3.transition.prototype.layoutSuspended = layoutSuspended;
 
 function layoutSelection(name, value) {
     var argsLength = arguments.length;
