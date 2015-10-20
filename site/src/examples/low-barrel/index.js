@@ -1,9 +1,8 @@
 /* global d3:false, fc:false, requestAnimationFrame:false */
-(function(d3, fc) {
+(function(d3, fc, example) {
     'use strict';
 
-    // Assigning to fc is nasty but there's not a lot of choice I don't think...
-    fc.tooltip = function() {
+    example.tooltip = function() {
 
         var formatters = {
             date: d3.time.format('%A, %b %e, %Y'),
@@ -60,10 +59,7 @@
         return tooltip;
     };
 
-}(d3, fc));
-
-(function (d3, fc) {
-    fc.candlestickSeries = function() {
+    example.candlestickSeries = function() {
 
         var base = fc.series.ohlcBase();
 
@@ -105,19 +101,17 @@
 
         return candlestickSeries;
     };
-}(d3, fc));
 
-(function (d3, fc) {
-    fc.mainChart = function() {
+    example.mainChart = function() {
 
         var event = d3.dispatch('crosshair', 'zoom');
 
         var gridlines = fc.annotation.gridline()
             .yTicks(3);
 
-        var candlestick = fc.candlestickSeries();
+        var candlestick = example.candlestickSeries();
 
-        var tooltip = fc.tooltip();
+        var tooltip = example.tooltip();
 
         var crosshairs = fc.tool.crosshair()
             .decorate(tooltip)
@@ -178,10 +172,8 @@
 
         return mainChart;
     };
-}(d3, fc));
 
-(function (d3, fc) {
-    fc.barSeries = function() {
+    example.barSeries = function() {
 
         var base = fc.series.xyBase();
 
@@ -215,10 +207,8 @@
 
         return barSeries;
     };
-}(d3, fc));
 
-(function (d3, fc) {
-    fc.volumeChart = function() {
+    example.volumeChart = function() {
 
         var event = d3.dispatch('crosshair');
 
@@ -232,7 +222,7 @@
         var gridlines = fc.annotation.gridline()
             .yTicks(2);
 
-        var bar = fc.barSeries()
+        var bar = example.barSeries()
             .yValue(function(d) { return d.volume; });
 
         var crosshairs = fc.tool.crosshair()
@@ -276,10 +266,8 @@
 
         return volumeChart;
     };
-}(d3, fc));
 
-(function (d3, fc) {
-    fc.navigatorChart = function() {
+    example.navigatorChart = function() {
         var event = d3.dispatch('brush');
 
         var chart = fc.chart.cartesianChart(fc.scale.dateTime())
@@ -360,10 +348,6 @@
 
         return navigatorChart;
     };
-}(d3, fc));
-
-(function(d3, fc) {
-    'use strict';
 
     var dataGenerator = fc.data.random.financial()
         .startDate(new Date(2014, 1, 1));
@@ -378,17 +362,17 @@
     data.navigatorDateDomain = fc.util.extent(data, 'date');
     data.navigatorYDomain = fc.util.extent(data, 'close');
 
-    var mainChart = fc.mainChart()
+    var mainChart = example.mainChart()
         .on('crosshair', render)
         .on('zoom', function(domain) {
             data.dateDomain = domain;
             render();
         });
 
-    var volumeChart = fc.volumeChart()
+    var volumeChart = example.volumeChart()
         .on('crosshair', render);
 
-    var navigatorChart = fc.navigatorChart()
+    var navigatorChart = example.navigatorChart()
         .on('brush', function(domain) {
             data.dateDomain = domain;
             render();
@@ -437,4 +421,4 @@
 
     renderInternal();
 
-}(d3, fc));
+}(d3, fc, {}));
