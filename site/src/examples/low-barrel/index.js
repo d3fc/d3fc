@@ -363,29 +363,11 @@
     data.navigatorDateDomain = fc.util.extent(data, 'date');
     data.navigatorYDomain = fc.util.extent(data, 'close');
 
-    function updateDateDomain(domain) {
-        data.dateDomain = [
-            new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
-            new Date(Math.min(domain[1], data.navigatorDateDomain[1]))
-        ];
-        render();
-    }
+    var mainChart = example.mainChart();
 
-    var mainChart = example.mainChart()
-        .on('crosshair', function() {
-            // Need wrapper, render undefined at this point
-            render();
-        })
-        .on('zoom', updateDateDomain);
+    var volumeChart = example.volumeChart();
 
-    var volumeChart = example.volumeChart()
-        .on('crosshair', function() {
-            // Need wrapper, render undefined at this point
-            render();
-        });
-
-    var navigatorChart = example.navigatorChart()
-        .on('brush', updateDateDomain);
+    var navigatorChart = example.navigatorChart();
 
     var container = d3.select('#low-barrel')
         .layout();
@@ -415,6 +397,21 @@
 
         container.layoutSuspended(true);
     });
+
+    function updateDateDomain(domain) {
+        data.dateDomain = [
+            new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
+            new Date(Math.min(domain[1], data.navigatorDateDomain[1]))
+        ];
+        render();
+    }
+
+    mainChart.on('crosshair', render)
+        .on('zoom', updateDateDomain);
+
+    volumeChart.on('crosshair', render);
+
+    navigatorChart.on('brush', updateDateDomain);
 
     render();
 
