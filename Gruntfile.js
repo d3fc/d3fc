@@ -273,9 +273,6 @@ module.exports = function(grunt) {
 
     require('jit-grunt')(grunt);
 
-    grunt.loadNpmTasks('grunt-selenium-webdriver');
-    grunt.loadNpmTasks('grunt-browserstacktunnel-wrapper');
-
     grunt.registerTask('components', [
         'eslint:components', 'clean:components', 'rollup:components', 'version',
         'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
