@@ -13,7 +13,15 @@ describe('Visit all pages, check for no console errors', function () {
             browser.url(url)
                 .then(function (err, res) {
                     browser.log('browser').then(function (f) {
-                        expect(f.value.length).toEqual(0, 'Errors/console logs in the url: '+url);
+                        var errors = [];
+                        while(f.value.length > 0){
+                            var err = f.value.pop();
+                            //Excluding liverload errors
+                            if(err.message.indexOf(":35729/livereload.js") <= -1 ){
+                                errors.push(err);
+                            }
+                        }
+                        expect(errors.length).toEqual(0, 'Errors/console logs in the url: '+url);
                         testNextPage();
                     });
 
