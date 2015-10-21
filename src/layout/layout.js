@@ -55,6 +55,8 @@ function applyLayout(node, subtree) {
         node.element.setAttribute('layout-width', node.layout.width);
         node.element.setAttribute('layout-height', node.layout.height);
     }
+    node.element.setAttribute('layout-x', node.layout.left);
+    node.element.setAttribute('layout-y', node.layout.top);
     if (node.element.nodeName.match(/(?:svg|rect)/i)) {
         node.element.setAttribute('width', node.layout.width);
         node.element.setAttribute('height', node.layout.height);
@@ -80,6 +82,17 @@ function computeDimensions(node) {
     }
 }
 
+function computePosition(node) {
+    if (node.hasAttribute('layout-x') && node.hasAttribute('layout-y')) {
+        return {
+            x: Number(node.getAttribute('layout-x')),
+            y: Number(node.getAttribute('layout-y'))
+        };
+    } else {
+        return { x: 0, y: 0 };
+    }
+}
+
 function layout(node) {
     if (ownerSVGElement(node).__layout__ === 'suspended') {
         return;
@@ -87,12 +100,16 @@ function layout(node) {
 
     var dimensions = computeDimensions(node);
 
+    var position = computePosition(node);
+
     // create the layout nodes
     var layoutNodes = createNodes(node);
 
-    // set the width / height of the root
+    // set the dimensions / position of the root
     layoutNodes.style.width = dimensions.width;
     layoutNodes.style.height = dimensions.height;
+    layoutNodes.style.left = position.x;
+    layoutNodes.style.top = position.y;
 
     // use the Facebook CSS goodness
     computeLayout(layoutNodes);
