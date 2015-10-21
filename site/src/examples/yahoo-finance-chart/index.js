@@ -121,7 +121,6 @@ function renderChart(data) {
           left: 0
       });
 
-  var layout = fc.layout();
   container.layout();
 
   var volumeScale = d3.scale.linear()
