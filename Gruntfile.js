@@ -33,6 +33,26 @@ module.exports = function(grunt) {
             ]
         },
 
+        webdriver: {
+            test: {
+                configFile: './tests/wdio.conf.js'
+            }
+        },
+
+        'browserstacktunnel-wrapper': {
+            options: {
+                key: process.env.BROWSERSTACK_KEY,
+                hosts: [{
+                    name: 'localhost',
+                    port: 8000,
+                    sslFlag: 0
+                }],
+                forcelocal: true,
+                onlyAutomate: true,
+                v: true
+            }
+        },
+
         assemble: {
             site: {
                 options: {
@@ -274,7 +294,11 @@ module.exports = function(grunt) {
     grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
-    grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site']);
+    grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site', 'webTest:full']);
+
+    grunt.registerTask('webTest', ['browserstacktunnel-wrapper', 'webdriver']);
+
+    grunt.registerTask('webTest:full', ['connect:site', 'webTest']);
 
     grunt.registerTask('default', ['watch:components']);
 };
