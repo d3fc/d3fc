@@ -32,11 +32,11 @@
             .rangePoints([0, width], 1);
 
         var yearScale = d3.scale.linear()
-            .domain(fc.util.extent(data, 'Year'))
+            .domain(fc.util.extent()(data, 'Year'))
             .nice();
 
         var tempScale = d3.scale.linear()
-            .domain(fc.util.extent(data, ['Station']))
+            .domain(fc.util.extent()(data, ['Station']))
             .range([height, 0])
             .nice();
 

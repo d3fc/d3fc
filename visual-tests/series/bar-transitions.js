@@ -33,7 +33,7 @@
                 d3.scale.ordinal(), d3.scale.linear())
             .xBaseline(0)
             .xDomain(data.map(function(d) { return d.name; }))
-            .yDomain(clampRange(fc.util.extent(data, 'age')));
+            .yDomain(clampRange(fc.util.extent()(data, 'age')));
 
         // Create the bar series
         var bar = fc.series.bar()

@@ -11,9 +11,9 @@ example-code: |
 
   // create a chart
   var chart = fc.chart.linearTimeSeries()
-      .xDomain(fc.util.extent(data, 'date'))
+      .xDomain(fc.util.extent()(data, 'date'))
       .xTicks(5)
-      .yDomain(fc.util.extent(data, ['high', 'low']))
+      .yDomain(fc.util.extent()(data, ['high', 'low']))
       .yNice()
       .yTicks(5);
 
