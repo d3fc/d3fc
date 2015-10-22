@@ -6,17 +6,17 @@ tags:
 namespace: indicator
 
 example-code: |
-
-  // Create and apply the RSI algorithm
+  // Create and apply the Force Index algorithm
   var forceAlgorithm = fc.indicator.algorithm.forceIndex();
   forceAlgorithm(data);
   
-  var aboluteMax = Math.max(Math.abs(d3.min(data, function(d) { return d.force; })),
-    d3.max(data, function(d) { return d.force; }));
+  // Calculate the maximum absolute value of the index
+  var absoluteMax = d3.max(data, function(d) { return Math.abs(d.force); })
   
+  //Scaling the display using the maximum absolute value of the Index
   var yScale = d3.scale.linear()
-          .domain([-aboluteMax, aboluteMax])
-          .range([height - 10, 10]);
+      .domain([-absoluteMax, absoluteMax])
+      .range([height, 0]).nice();
 
   // Create the renderer
   var force = fc.indicator.renderer.forceIndex()
@@ -29,16 +29,16 @@ example-code: |
       .call(force);
 ---
 
-A [Relative Strength Index](http://en.wikipedia.org/wiki/Relative_strength_index) is an indicator that plots the historical strength or weakness of a stock based on opening and closing prices. It is typically plotted on a 14-day timeframe and is displayed next to overbought (70%) and oversold lines (30%) lines.
+A [Force Index](http://en.wikipedia.org/wiki/Force_index) is an indicator that illustrates how strong the actual buying
+or selling pressure is. It is calculated by subtracting today's closing price from yesterday's and
+multiplying the result by today's volume. The 13 day [Exponential Moving Average](/components/indicator/exponentialMovingAverage) 
+of the Force Index is often used. The Force Index is typically plotted on a chart centered around the 0 line.
+Attention is given to the relative size and trends in the Index.
 
-The RSI indicator is rendered on a percent scale:
+The Force Index rendered on a linear scale:
 
 ```js
 {{{example-code}}}
 ```
 
 {{>example-fixture}}
-
-You can configure the number of datapoints that are included in the RSI via the `windowSize` property, you can also change how the open and close values are read via the `openValue` and `closeValue` properties.
-
-

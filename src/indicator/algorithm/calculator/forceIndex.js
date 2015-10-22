@@ -9,7 +9,7 @@ export default function() {
     var slidingWindow = _slidingWindow()
         .windowSize(2)
         .accumulator(function(values) {
-            return (values[1].closeValue - values[0].closeValue) * values[1].volumeValue;
+            return (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]);
         });
 
     var force = function(data) {
