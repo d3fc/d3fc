@@ -48,4 +48,5 @@ These components are licensed under the [MIT License](http://opensource.org/lice
 Project supported by [Scott Logic](http://www.scottlogic.com).
 
 Browser testing provided by -
-[![BrowserStack](https://raw.githubusercontent.com/ScottLogic/d3fc/master/site/src/images/browser-stack.svg)](https://browserstack.com)
+
+[![BrowserStack](https://scottlogic.github.io/d3fc/images/browser-stack.svg)](https://browserstack.com)
