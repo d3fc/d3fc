@@ -15,8 +15,8 @@ describe('Visit all pages, check for no console errors', function() {
                     browser.log('browser')
                         .then(function(result) {
                             result.value.filter(function(e) {
-                                //Excluding liverload errors
-                                return e.message.indexOf('livereload') === -1;
+                                return e.message.indexOf('livereload') === -1 //Excluding liverload errors
+                                    && e.message.indexOf('https://www.quandl.com/api/v3/') === -1; // Excluding Quandl API Issues (limited number of requests per day)
                             }).forEach(function(e) {
                                 expect(e).toBeUndefined('Errors/console logs in the url: ' + url);
                             });
