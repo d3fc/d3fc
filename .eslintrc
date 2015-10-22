@@ -154,6 +154,8 @@
         "max-params": 0,
         "max-statements": 0,
         "no-bitwise": 2,
-        "no-plusplus": 0
+        "no-plusplus": 0,
+        "eol-last": 2,
+        "space-before-function-paren": [2, "never"]
     }
 }
