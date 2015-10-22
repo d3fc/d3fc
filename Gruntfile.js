@@ -5,6 +5,8 @@ module.exports = function(grunt) {
 
     require('time-grunt')(grunt);
 
+    var browserstackKey = process.env.BROWSERSTACK_KEY;
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
@@ -41,7 +43,7 @@ module.exports = function(grunt) {
 
         'browserstacktunnel-wrapper': {
             options: {
-                key: process.env.BROWSERSTACK_KEY,
+                key: browserstackKey,
                 hosts: [{
                     name: 'localhost',
                     port: 8000,
@@ -297,7 +299,9 @@ module.exports = function(grunt) {
     grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
-    grunt.registerTask('webdriverTests', ['eslint:webdriverTests', 'connect:site', 'browserstacktunnel-wrapper', 'webdriver']);
+    grunt.registerTask('webdriverTests:browserstack', browserstackKey ?
+        ['connect:site', 'browserstacktunnel-wrapper', 'webdriver'] : []);
+    grunt.registerTask('webdriverTests', ['eslint:webdriverTests', 'webdriverTests:browserstack']);
 
     grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site', 'webdriverTests']);
 
