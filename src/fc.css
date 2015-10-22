@@ -19,11 +19,6 @@ text {
   fill-opacity: 0;
 }
 
-.background {
-  stroke: #eee;
-  fill: #fefefe;
-}
-
 /* Chart Defaults */
 .sparkline .line {
   stroke: #999;
@@ -71,8 +66,18 @@ text {
   dominant-baseline: ideographic;
 }
 
-.cartesian-chart {
+.chart {
   overflow: visible;
+}
+
+.cartesian .background {
+  stroke: #eee;
+  fill: #fefefe;
+}
+
+.multiples .background {
+  stroke: transparent;
+  fill: transparent;
 }
 
 /* Axis */

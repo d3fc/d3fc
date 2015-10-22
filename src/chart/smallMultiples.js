@@ -55,7 +55,7 @@ export default function(xScale, yScale) {
                 .append('svg')
                 .layout('flex', 1)
                 .append('g')
-                .attr('class', 'small-multiples');
+                .attr('class', 'chart multiples');
 
             var plotAreaContainer = svg.select('g')
                 .layout(expandedMargin);
@@ -94,6 +94,7 @@ export default function(xScale, yScale) {
             inner.append('g')
                 .attr('transform', 'translate(' + (multipleWidth / 2) + ', 0)')
                 .append('text')
+                .attr('class', 'label')
                 .text(key);
 
             // on update, call the plotArea and size the rect element
