@@ -17,6 +17,10 @@ env:
   - secure: "P0k9RiBmmEd9b6nnP1SVKmt6nu8qpzPr62dA2x33PJ+IyTYlDS63RrowpWBihOzcqufJ9rL1m5e7lsHwMvXKiX4iYrZSeSsqXuFmpr2DhxQe/TRW6joadkK6fLn0j7TGa+fA3z0pecxu8yG9YJYqlQcjjEAl2ppgn0fIPuXLY3I="
   - secure: "frnRQCKJjvouehihdCv/j0cKxtiOjUn3b0y/a7PYmyU/UZNP6FXya8y1pp7+7LsAWpnsK7oFKvZ5QoUVtloRO0wDHcAuetoF1BVEybcuYYkJPnMDSzm3+oiCDi6IaQgOfC2c5xcU0QHz4zqi8wHvyBuPJQ28VdhlRlX7DY5FjEI="
 
+before_script:
+  - printenv
+  - export
+
 after_success: bash ./site/deploy.sh
 
 deploy:
