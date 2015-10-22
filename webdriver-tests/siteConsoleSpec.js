@@ -1,6 +1,6 @@
-describe('Visit all pages, check for no console errors', function () {
+describe('Visit all pages, check for no console errors', function() {
 
-    it('site pages contains no logs / errors', function (done) {
+    it('site pages contains no logs / errors', function(done) {
 
         var urls = [];
 
@@ -28,7 +28,7 @@ describe('Visit all pages, check for no console errors', function () {
 
         return browser.url('/components/introduction/1-getting-started.html')
             .getAttribute('.nav-stacked a', 'href')
-            .then(function (attr) {
+            .then(function(attr) {
                 urls = attr; //iterate over it using the thing im in
                 return testNextPage();
             });
