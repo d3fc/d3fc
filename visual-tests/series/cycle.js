@@ -69,8 +69,12 @@
             .subSeries(subMulti)
             .decorate(function(g) {
                 g.enter()
-                    .attr('stroke', function(d, i) {
-                        return colorScale(i);
+                    .each(function(d, i) {
+                        d3.select(this)
+                            .selectAll('.multi')
+                            .style('stroke', function() {
+                                return colorScale(i);
+                            });
                     });
             });
 

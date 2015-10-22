@@ -25,7 +25,7 @@
         var axis = fc.svg.axis()
             .scale(scale)
             .decorate(function(sel) {
-                sel.attr('fill', color);
+                sel.select('text').style('fill', color);
                 sel.select('path').style('stroke', color);
             });
 

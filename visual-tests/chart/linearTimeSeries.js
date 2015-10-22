@@ -25,9 +25,15 @@
 
     // Create the line and area series
     var line = fc.series.line()
-        .yValue(function(d) { return d.open; });
+        .yValue(function(d) { return d.open; })
+        .decorate(function(sel) {
+            sel.enter().style('stroke', '#06c');
+        });
     var area = fc.series.area()
-        .yValue(function(d) { return d.open; });
+        .yValue(function(d) { return d.open; })
+        .decorate(function(sel) {
+            sel.enter().style('fill', '#9cf');
+        });
 
     var multi = fc.series.multi()
         .series([gridlines, area, line]);

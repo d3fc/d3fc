@@ -21,7 +21,7 @@ export default function() {
 
         multiSeries.xScale(xScale)
             .yScale(yScale)
-            .series([annotations, rsiLine])
+            .series([rsiLine, annotations])
             .mapping(function(series) {
                 if (series === annotations) {
                     return [
@@ -35,7 +35,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi ' + ['annotations', 'indicator'][i];
+                        return 'multi rsi ' + ['indicator', 'annotations'][i];
                     });
                 decorate(g, data, index);
             });

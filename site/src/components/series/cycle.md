@@ -38,7 +38,7 @@ example-code: |
       .yValue(function(d) { return d.sales; });
 
   var multiSeries = fc.series.multi()
-          .series([subAxis, lineSeries]);
+          .series([lineSeries, subAxis]);
 
   var cycle = fc.series.cycle()
       .barWidth(fc.util.fractionalBarWidth(0.9))

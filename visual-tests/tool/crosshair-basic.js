@@ -31,47 +31,27 @@
         .range([height, 0])
         .nice();
 
-    var color = d3.scale.category10();
-
     // Create the bar series
-    var bar = fc.series.bar()
+    var line = fc.series.line()
         .xScale(dateScale)
-        .yScale(priceScale)
-        .yValue(function(d) { return d.close; })
-        .decorate(function(sel) {
-            sel.selectAll('path')
-                .style('fill', function(d) { return color(d.date.getDay()); });
-        })
-        .barWidth(9);
+        .yScale(priceScale);
 
     // Create a crosshair tool
     var crosshair = fc.tool.crosshair()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.util.seriesPointSnapXOnly(bar, data))
+        .snap(fc.util.seriesPointSnapXOnly(line, data))
         .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
-        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
-        .decorate(function(selection) {
-
-            // add a coloured rectangle within the trackball
-            selection
-                .select('.point')
-                .style({
-                    fill: function(d) { return color(d.datum ? d.datum.date.getDay() : 0); },
-                    stroke: '#333',
-                    'stroke-opactiy': 0.8,
-                    'fill-opacity': 0.6
-                });
-        });
+        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); });
 
     // Add it to the chart
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
-        .series([bar, crosshair])
+        .series([line, crosshair])
         .mapping(function(series) {
             switch (series) {
-            case bar:
+            case line:
                 return this;
             case crosshair:
                 return this.crosshair;

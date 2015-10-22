@@ -33,7 +33,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi ' + ['divergence', 'macd', 'signal'][i];
+                        return 'multi ' + ['macd-divergence', 'macd', 'macd-signal'][i];
                     });
                 decorate(g, data, index);
             });

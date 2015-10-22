@@ -25,8 +25,6 @@ example-code: |
       .domain(data.map(function(d) { return d.State; }))
       .rangePoints([0, width], 1);
 
-  var color = d3.scale.category10();
-
   var y = d3.scale.linear()
     .domain(fc.util.extent(series, function(d) { return 0; }, 'y'))
     .range([height, 0]);
@@ -36,11 +34,7 @@ example-code: |
     .xScale(x)
     .yScale(y)
     .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; })
-    .decorate(function(sel, data, index) {
-        sel.select('path')
-            .style('fill', color(index));
-    });
+    .yValue(function(d) { return d.y; });
 
   // render
   container.append('g')

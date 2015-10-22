@@ -29,8 +29,6 @@ example-code: |
       .domain(data.map(function(d) { return d.State; }))
       .rangePoints([0, width], 1);
 
-  var color = d3.scale.category10();
-
   var y = d3.scale.linear()
     .domain(fc.util.extent(series, function(d) { return 0; },
                             function(d) { return d.y + d.y0; }))
@@ -40,11 +38,7 @@ example-code: |
   var stack = fc.series.stacked.bar()
     .xScale(x)
     .yScale(y)
-    .xValue(function(d) { return d.x; })
-    .decorate(function(sel, data, index) {
-        sel.select('path')
-            .style('fill', color(index));
-    });
+    .xValue(function(d) { return d.x; });
 
   // render
   container.append('g')

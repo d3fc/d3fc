@@ -3,8 +3,6 @@
 
     var container = d3.select('#stacked-bar');
 
-    var color = d3.scale.category10();
-
     function getSelectedOption(id) {
         var e = document.getElementById(id);
         return e.options[e.selectedIndex].value;
@@ -45,19 +43,7 @@
             .margin({right: 50, bottom: 50});
 
         var stackedBar = fc.series.stacked[seriesType]()
-            .xValue(function(d) { return d.x; })
-            .decorate(function(sel, data, index) {
-                if (seriesType === 'bar') {
-                    sel.select('path')
-                        .style('fill', color(index));
-                }
-                if (seriesType === 'line') {
-                    sel.style('stroke', color(index));
-                }
-                if (seriesType === 'area') {
-                    sel.style('fill', color(index));
-                }
-            });
+            .xValue(function(d) { return d.x; });
 
         var multi = fc.series.multi()
             .key(function(d) { return d.seriesType; })

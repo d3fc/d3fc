@@ -41,7 +41,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi ' + ['annotations', 'stochastic-d', 'stochastic-k'][i];
+                        return 'multi stochastic ' + ['annotations', 'stochastic-d', 'stochastic-k'][i];
                     });
                 decorate(g, data, index);
             });
