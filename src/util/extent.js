@@ -1,4 +1,5 @@
 import d3 from 'd3';
+import {noop} from './fn';
 
 /**
  * The extent function enhances the functionality of the equivalent D3 extent function, allowing
@@ -9,6 +10,9 @@ import d3 from 'd3';
  * @memberof fc.util
  */
 export default function() {
+
+    var include = noop,
+        pad = d3.functor(0);
 
     /**
     * @param {array} data an array of data points, or an array of arrays of data points
@@ -42,23 +46,59 @@ export default function() {
             };
         });
 
+        var dataMin = d3.min(data, function(d0) {
+            return d3.min(d0, function(d1) {
+                return d3.min(fields.map(function(f) {
+                    return f(d1);
+                }));
+            });
+        });
+
+        var dataMax = d3.max(data, function(d0) {
+            return d3.max(d0, function(d1) {
+                return d3.max(fields.map(function(f) {
+                    return f(d1);
+                }));
+            });
+        });
+
+        var min = dataMin;
+        var max = dataMax;
+
+        // Scale the range for the given padding
+        if (typeof dataMin === 'number' && typeof dataMax === 'number') {
+            var rangeDelta = pad() * (dataMax - dataMin) / 2;
+
+            min -= rangeDelta;
+            max += rangeDelta;
+        }
+
+        // Include the specified point in the range
+        var extraPoint = include();
+        if (extraPoint < min) {
+            min = extraPoint;
+        } else if (extraPoint > max) {
+            max = extraPoint;
+        }
+
         // Return the smallest and largest
-        return [
-            d3.min(data, function(d0) {
-                return d3.min(d0, function(d1) {
-                    return d3.min(fields.map(function(f) {
-                        return f(d1);
-                    }));
-                });
-            }),
-            d3.max(data, function(d0) {
-                return d3.max(d0, function(d1) {
-                    return d3.max(fields.map(function(f) {
-                        return f(d1);
-                    }));
-                });
-            })
-        ];
+        return [min, max];
+    };
+
+    extents.include = function(x) {
+        if (!arguments.length) {
+            return include;
+        }
+        include = d3.functor(x);
+        return extents;
+    };
+
+    extents.pad = function(x) {
+        if (!arguments.length) {
+            return pad;
+        }
+        pad = d3.functor(x);
+        return extents;
     };
 
     return extents;

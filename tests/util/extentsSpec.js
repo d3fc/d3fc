@@ -53,4 +53,77 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 115]);
     });
 
+    it('should support including a max value in the range', function() {
+        var data = [obj(1), obj(2)];
+
+        var extents = fc.util.extent()
+            .include(10)(data, 'high');
+        expect(extents).toEqual([6, 10]);
+    });
+
+    it('should support including a min value in the range', function() {
+        var data = [obj(1), obj(2)];
+
+        var extents = fc.util.extent()
+            .include(0)(data, 'high');
+        expect(extents).toEqual([0, 7]);
+    });
+
+    it('should support including a value within the range', function() {
+        var data = [obj(1), obj(3)];
+
+        var extents = fc.util.extent()
+            .include(7)(data, 'high');
+        expect(extents).toEqual([6, 8]);
+    });
+
+    it('should support increasing the range', function() {
+        var data = [obj(5), obj(15)];
+
+        var extents = fc.util.extent()
+            .pad(1)(data, 'high');
+        expect(extents).toEqual([5, 25]);
+    });
+
+    it('should support padding an empty dataset', function() {
+        var data = [];
+
+        var extents = fc.util.extent()
+            .pad(2)(data, 'high');
+        expect(isNaN(extents[0])).toBe(true);
+        expect(isNaN(extents[1])).toBe(true);
+    });
+
+    it('should support padding zero as an identity', function() {
+        var data = [obj(1), obj(2)];
+
+        var extents = fc.util.extent()
+            .pad(0)(data, 'high');
+        expect(extents).toEqual([6, 7]);
+    });
+
+    it('should pad the range, then include the extra point', function() {
+        var data = [obj(5), obj(15)];
+
+        var extents = fc.util.extent()
+            .include(0)
+            .pad(1)(data, 'high');
+        expect(extents).toEqual([0, 25]);
+
+        extents = fc.util.extent()
+            .include(30)
+            .pad(1)(data, 'high');
+        expect(extents).toEqual([5, 30]);
+    });
+
+    it('should only pad numbers', function() {
+        var date1 = new Date(2014, 0);
+        var date2 = new Date(2015, 0);
+        var data = [{date: date1}, {date: date2}];
+
+        var extents = fc.util.extent()
+            .pad(1)(data, 'date');
+        expect(extents).toEqual([date1, date2]);
+    });
+
 });
