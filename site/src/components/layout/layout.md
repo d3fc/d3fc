@@ -86,12 +86,14 @@ When building high performance charts e.g. when targeting 60fps, `selection.layo
 
 At a high level, when a node is laid-out -
 
-* if it has not previously been laid-out it, its inner dimensions are measured. These are then combined with its `layout-style` and those of its descendants. After running these through the `css-layout` algorithm, the results are then applied node-by-node to the subtree.
+* if it has not previously been laid-out it, its inner dimensions are measured. These are then collected, along with its `layout-style` and those of its descendants. After running these through the `css-layout` algorithm, the results are then applied node-by-node to the subtree.
 
 * if it has previously been laid-out, its inner dimensions are not measured. Instead the `layout-width`, `layout-height`, `layout-x` and `layout-y` attributes, set on it when one of its ancestors was laid-out, will be used as the basis for the algorithm. These are combined with the `layout-style` attributes of the node and its descendants then applied to the subtree as above.
+
+Once a descendant node has been laid-out, to avoid triggering further browser reflows, dimensions should be read from the `layout-width` and `layout-height` attributes. As described above `selection.layout('width')` and `selection.layout('height')` provide a convenient way of accessing these values.
 
 It should be noted that `layout-width` and `layout-height` attributes are explicitly **not** set on the node which is being laid-out (typically the top level SVG node). By doing so the layout ensures that it will measure the top level node's inner dimensions on every call and is thus able to respond to resizing etc..
 
 For optimal performance, it is therefore best to first layout the root node of your chart and then call layout as required on its descendants. This technique allows for optimal rendering by preventing the interlacing of reflow-triggering DOM reads and writes.
 
-Whilst this will ensure that layout runs as fast as possible, it still has a non-zero cost, so when possible it is best to avoid running it completely. Helpfully layout is generally only required in a handful of cases e.g. when a chart is first rendered, when resizing or when panels are added or removed. It is therefore possible to programmatically suspend all layout within an SVG by using `selection.layoutSuspended(true)`. Subsequent calls to `selection.layout()` will be no-ops until `selection.layoutSuspended(false)` is invoked.
+Whilst this will ensure that layout runs as fast as possible, it still has a non-zero cost, so when possible it is best to avoid running it completely. Helpfully layout is generally only required in a handful of cases e.g. when a chart is first rendered, when resizing or when panels are added or removed. It is therefore possible to programmatically suspend the work done by all `selection.layout()` operations within an SVG by using `selection.layoutSuspended(true)`. Subsequent calls to `selection.layout()` will be no-ops until `selection.layoutSuspended(false)` is invoked.
