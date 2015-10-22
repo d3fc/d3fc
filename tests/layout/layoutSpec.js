@@ -130,12 +130,65 @@ describe('layout', function() {
         svgs.enter().append('g').layout('width');
     });
 
+
+    it('should not measure using innerDimensions if layout-width/height are set', function() {
+        var svg = document.createElement('svg');
+
+        var g = document.createElement('g');
+        g.setAttribute('layout-style', 'flex: 1');
+        svg.appendChild(g);
+
+        expect(Number(g.getAttribute('layout-width'))).toEqual(0);
+        expect(Number(g.getAttribute('layout-height'))).toEqual(0);
+
+        d3.select(g)
+            .layout();
+
+        d3.select(svg)
+            .layout(100, 100);
+
+        expect(Number(g.getAttribute('layout-width'))).toEqual(100);
+        expect(Number(g.getAttribute('layout-height'))).toEqual(100);
+
+        d3.select(g)
+            .layout();
+
+        expect(Number(g.getAttribute('layout-width'))).toEqual(100);
+        expect(Number(g.getAttribute('layout-height'))).toEqual(100);
+    });
+
     it('should not set layout-width/height attributes on root node', function() {
         var svg = document.createElement('svg');
         d3.select(svg)
             .layout();
         expect(svg.hasAttribute('layout-width')).toBe(false);
         expect(svg.hasAttribute('layout-height')).toBe(false);
+    });
+
+    it('should not re-position nodes within a nested layout', function() {
+        var svg = document.createElement('svg');
+
+        var g1 = document.createElement('g');
+        g1.setAttribute('layout-style', 'flex: 1');
+        svg.appendChild(g1);
+
+        var g2 = document.createElement('g');
+        g2.setAttribute('layout-style', 'flex: 1');
+        svg.appendChild(g2);
+
+        d3.select(svg)
+            .layout(100, 100);
+
+        expect(Number(g1.getAttribute('layout-x'))).toEqual(0);
+        expect(Number(g1.getAttribute('layout-y'))).toEqual(0);
+        expect(Number(g2.getAttribute('layout-x'))).toEqual(0);
+        expect(Number(g2.getAttribute('layout-y'))).toEqual(50);
+
+        d3.select(g2)
+            .layout();
+
+        expect(Number(g2.getAttribute('layout-x'))).toEqual(0);
+        expect(Number(g2.getAttribute('layout-y'))).toEqual(50);
     });
 
 });
