@@ -67,7 +67,7 @@ export default function(xScale, yScale) {
         }
     }
 
-    var cartesianChart = function(selection) {
+    var cartesian = function(selection) {
 
         selection.each(function(data, index) {
 
@@ -190,72 +190,72 @@ export default function(xScale, yScale) {
         /range\w*/,   // the scale range is set via the component layout
         /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
     ];
-    rebindAll(cartesianChart, xScale, 'x', scaleExclusions);
-    rebindAll(cartesianChart, yScale, 'y', scaleExclusions);
+    rebindAll(cartesian, xScale, 'x', scaleExclusions);
+    rebindAll(cartesian, yScale, 'y', scaleExclusions);
 
     var axisExclusions = [
         'baseline',         // the axis baseline is adapted so is not exposed directly
         'xScale', 'yScale'  // these are set by this components
     ];
-    rebindAll(cartesianChart, xAxis, 'x', axisExclusions);
-    rebindAll(cartesianChart, yAxis, 'y', axisExclusions);
+    rebindAll(cartesian, xAxis, 'x', axisExclusions);
+    rebindAll(cartesian, yAxis, 'y', axisExclusions);
 
-    cartesianChart.xBaseline = function(x) {
+    cartesian.xBaseline = function(x) {
         if (!arguments.length) {
             return xBaseline;
         }
         xBaseline = d3.functor(x);
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.yBaseline = function(x) {
+    cartesian.yBaseline = function(x) {
         if (!arguments.length) {
             return yBaseline;
         }
         yBaseline = d3.functor(x);
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.chartLabel = function(x) {
+    cartesian.chartLabel = function(x) {
         if (!arguments.length) {
             return chartLabel;
         }
         chartLabel = x;
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.plotArea = function(x) {
+    cartesian.plotArea = function(x) {
         if (!arguments.length) {
             return plotArea;
         }
         plotArea = x;
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.xLabel = function(x) {
+    cartesian.xLabel = function(x) {
         if (!arguments.length) {
             return xLabel;
         }
         xLabel = x;
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.margin = function(x) {
+    cartesian.margin = function(x) {
         if (!arguments.length) {
             return margin;
         }
         margin = x;
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.yLabel = function(x) {
+    cartesian.yLabel = function(x) {
         if (!arguments.length) {
             return yLabel;
         }
         yLabel = x;
-        return cartesianChart;
+        return cartesian;
     };
-    cartesianChart.decorate = function(x) {
+    cartesian.decorate = function(x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
-        return cartesianChart;
+        return cartesian;
     };
 
-    return cartesianChart;
+    return cartesian;
 }

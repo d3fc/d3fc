@@ -69,7 +69,7 @@
             });
         }
 
-        var chart = fc.chart.cartesianChart(
+        var chart = fc.chart.cartesian(
                 isOrdinal ? d3.scale.ordinal() : d3.scale.linear(),
                 d3.scale.linear())
             .xDomain(isOrdinal ? data.map(function(d) { return d.name; }) : fc.util.extent(data, 'x'))
