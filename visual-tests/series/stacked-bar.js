@@ -29,17 +29,21 @@
         var spread = fc.data.spread()
             .xValueKey('State');
         var stack = d3.layout.stack()
+            .values(function(d) { return d.values; })
             .offset(offset)
             .order(order);
 
         var series = stack(spread(data));
         series.seriesType = seriesType;
 
+        var yDomain = fc.util.extent(series.map(function(d) { return d.values; }), function(d) { return 0; }, function(d) { return d.y + d.y0; });
+        var xDomain = series[0].values.map(function(d) { return d.x; });
+
         var chart = fc.chart.cartesian(
                 d3.scale.ordinal(),
                 d3.scale.linear())
-            .xDomain(data.map(function(d) { return d.State; }))
-            .yDomain(fc.util.extent().include(0)(series, function(d) { return d.y + d.y0; }))
+            .xDomain(xDomain)
+            .yDomain(yDomain)
             .margin({right: 50, bottom: 50});
 
         var stackedBar = fc.series.stacked[seriesType]()

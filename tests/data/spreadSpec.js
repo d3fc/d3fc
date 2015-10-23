@@ -41,51 +41,57 @@ describe('fc.data.spread', function() {
     it('should correctly spread the series data', function() {
         var series = spread(data);
 
-        var speedSeries = [
-            {
-                'x': 'Porsche',
-                'y': 254
-            },
-            {
-                'x': 'Skoda',
-                'y': 54
-            }
-        ];
-        speedSeries.key = 'Speed';
+        var speedSeries = {
+            key: 'Speed',
+            values: [
+                {
+                    'x': 'Porsche',
+                    'y': 254
+                },
+                {
+                    'x': 'Skoda',
+                    'y': 54
+                }
+            ]
+        };
         expect(series[0]).toEqual(speedSeries);
     });
 
     it('should convert strings to numbers', function() {
         var series = spread(data);
 
-        var colourSeries = [
-            {
-                'x': 'Porsche',
-                'y': 55
-            },
-            {
-                'x': 'Skoda',
-                'y': 56
-            }
-        ];
-        colourSeries.key = 'Size';
+        var colourSeries = {
+            key: 'Size',
+            values: [
+                {
+                    'x': 'Porsche',
+                    'y': 55
+                },
+                {
+                    'x': 'Skoda',
+                    'y': 56
+                }
+            ]
+        };
         expect(series[1]).toEqual(colourSeries);
     });
 
     it('should handle partial data', function() {
         var series = spread(partialData);
 
-        var speedSeries = [
-            {
-                'x': 'Porsche',
-                'y': 254
-            },
-            {
-                'x': 'Skoda',
-                'y': 0 // <-- the missing value becomes a zero
-            }
-        ];
-        speedSeries.key = 'Speed';
+        var speedSeries = {
+            key: 'Speed',
+            values: [
+                {
+                    'x': 'Porsche',
+                    'y': 254
+                },
+                {
+                    'x': 'Skoda',
+                    'y': 0 // <-- the missing value becomes a zero
+                }
+            ]
+        };
         expect(series.length).toEqual(2);
         expect(series[0]).toEqual(speedSeries);
     });
@@ -96,17 +102,19 @@ describe('fc.data.spread', function() {
         });
         var series = spread(partialData);
 
-        var speedSeries = [
-            {
-                'x': 'Porsche',
-                'y': '55-fish'
-            },
-            {
-                'x': 'Skoda',
-                'y': '56-fish'
-            }
-        ];
-        speedSeries.key = 'Size';
+        var speedSeries = {
+            key: 'Size',
+            values: [
+                {
+                    'x': 'Porsche',
+                    'y': '55-fish'
+                },
+                {
+                    'x': 'Skoda',
+                    'y': '56-fish'
+                }
+            ]
+        };
         expect(series[1]).toEqual(speedSeries);
     });
 });

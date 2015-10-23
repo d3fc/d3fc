@@ -70,7 +70,7 @@ text {
   overflow: visible;
 }
 
-.cartesian .background {
+.cartesian .background, .time-series .background {
   stroke: #eee;
   fill: #fefefe;
 }

@@ -17,14 +17,15 @@ export default function spread() {
                 return key !== xValueKey;
             })
             .map(function(key) {
-                var series = data.map(function(row) {
-                    return {
-                        x: row[xValueKey],
-                        y: yValue(row, key)
-                    };
-                });
-                series.key = key;
-                return series;
+                return {
+                    key: key,
+                    values: data.map(function(row) {
+                        return {
+                            x: row[xValueKey],
+                            y: yValue(row, key)
+                        };
+                    })
+                };
             });
         return series;
     };

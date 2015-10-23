@@ -4,7 +4,8 @@ import {noop} from '../../util/fn';
 
 export default function() {
 
-    var series = noop;
+    var series = noop,
+        values = function(d) { return d.values; };
 
     var stack = function(selection) {
 
@@ -17,7 +18,11 @@ export default function() {
                 .element('g')
                 .attr('class', 'stacked');
 
-            dataJoin(container, data)
+            var g = dataJoin(container, data);
+
+            g.enter().append('g');
+            g.select('g')
+                .datum(values)
                 .call(series);
         });
     };
@@ -27,6 +32,13 @@ export default function() {
             return series;
         }
         series = x;
+        return stack;
+    };
+    stack.values = function(x) {
+        if (!arguments.length) {
+            return values;
+        }
+        values = x;
         return stack;
     };
 
