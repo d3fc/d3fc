@@ -44,20 +44,17 @@ export default function() {
         var millisecondsPerYear = 3.15569e10,
             years = (toDate.getTime() - startDate.getTime()) / millisecondsPerYear;
 
-        var prices = walk(
-            years,
-            days * stepsPerDay,
-            mu,
-            sigma,
-            startPrice
-        );
-        var volumes = walk(
-            years,
-            days,
-            0,
-            sigma,
-            startVolume
-        );
+        var prices = walk()
+            .period(years)
+            .steps(days * stepsPerDay)
+            .mu(mu)
+            .sigma(sigma)(startPrice);
+
+        var volumes = walk()
+            .period(years)
+            .steps(days)
+            .mu(0)
+            .sigma(sigma)(startVolume);
 
         // Add random noise
         volumes = volumes.map(function(vol) {
