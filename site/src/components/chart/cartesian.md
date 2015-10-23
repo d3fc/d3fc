@@ -1,7 +1,7 @@
 ---
 layout: component
-title: Cartesian Chart
-component: chart/cartesianChart.js
+title: Cartesian
+component: chart/cartesian.js
 namespace: chart
 
 example-code: |
@@ -15,7 +15,7 @@ example-code: |
   });
 
   // create a chart with two linear axes
-  var chart = fc.chart.cartesianChart(
+  var chart = fc.chart.cartesian(
                 d3.scale.linear(),
                 d3.scale.linear())
             .xDomain(fc.util.extent(data, 'x'))
@@ -45,7 +45,7 @@ example-code-2: |
   });
 
   // create a chart
-  var chart = fc.chart.cartesianChart(
+  var chart = fc.chart.cartesian(
                 d3.scale.linear(),
                 d3.scale.linear())
             .margin({left: 50, bottom: 20})

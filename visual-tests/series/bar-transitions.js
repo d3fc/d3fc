@@ -29,7 +29,7 @@
             .domain([-50, 50])
             .range(['blue', 'red']);
 
-        var chart = fc.chart.cartesianChart(
+        var chart = fc.chart.cartesian(
                 d3.scale.ordinal(), d3.scale.linear())
             .xBaseline(0)
             .xDomain(data.map(function(d) { return d.name; }))

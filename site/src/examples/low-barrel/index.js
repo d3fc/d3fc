@@ -134,7 +134,7 @@
 
         var xScale = fc.scale.dateTime();
 
-        var chart = fc.chart.cartesianChart(xScale)
+        var chart = fc.chart.cartesian(xScale)
             .margin({
                 bottom: 20,
                 right: 60
@@ -212,7 +212,7 @@
 
         var event = d3.dispatch('crosshair');
 
-        var chart = fc.chart.cartesianChart(fc.scale.dateTime())
+        var chart = fc.chart.cartesian(fc.scale.dateTime())
             .margin({
                 bottom: 20,
                 right: 60
@@ -270,7 +270,7 @@
     example.navigatorChart = function() {
         var event = d3.dispatch('brush');
 
-        var chart = fc.chart.cartesianChart(fc.scale.dateTime())
+        var chart = fc.chart.cartesian(fc.scale.dateTime())
             .margin({
                 top: 10,
                 bottom: 20,

@@ -1,10 +1,10 @@
-import cartesianChart from './cartesianChart';
+import cartesian from './cartesian';
 import legend from './legend';
 import linearTimeSeries from './linearTimeSeries';
 import sparkline from './sparkline';
 
 export default {
-    cartesianChart: cartesianChart,
+    cartesian: cartesian,
     legend: legend,
     linearTimeSeries: linearTimeSeries,
     sparkline: sparkline

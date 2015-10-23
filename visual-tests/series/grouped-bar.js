@@ -17,7 +17,7 @@
 
         var series = spread(data);
 
-        var chart = fc.chart.cartesianChart(
+        var chart = fc.chart.cartesian(
                 d3.scale.ordinal(),
                 d3.scale.linear())
             .xDomain(data.map(function(d) { return d.State; }))
