@@ -6,6 +6,7 @@ import relativeStrengthIndex from './relativeStrengthIndex';
 import stochasticOscillator from './stochasticOscillator';
 import slidingWindow from './slidingWindow';
 import undefinedInputAdapter from './undefinedInputAdapter';
+import forceIndex from './forceIndex';
 
 export default {
     bollingerBands: bollingerBands,
@@ -15,5 +16,6 @@ export default {
     relativeStrengthIndex: relativeStrengthIndex,
     stochasticOscillator: stochasticOscillator,
     slidingWindow: slidingWindow,
-    undefinedInputAdapter: undefinedInputAdapter
+    undefinedInputAdapter: undefinedInputAdapter,
+    forceIndex: forceIndex
 };

@@ -6,6 +6,7 @@ import merge from './merge';
 import movingAverage from './movingAverage';
 import relativeStrengthIndex from './relativeStrengthIndex';
 import stochasticOscillator from './stochasticOscillator';
+import forceIndex from './forceIndex';
 
 export default {
     bollingerBands: bollingerBands,
@@ -15,5 +16,6 @@ export default {
     merge: merge,
     movingAverage: movingAverage,
     relativeStrengthIndex: relativeStrengthIndex,
-    stochasticOscillator: stochasticOscillator
+    stochasticOscillator: stochasticOscillator,
+    forceIndex: forceIndex
 };
