@@ -308,7 +308,6 @@
                 }
                 return sum;
             }, 0);
-            console.log('avg', sum / (frameTimings.length - 1));
             frameTimings.length = 0;
         }
 
