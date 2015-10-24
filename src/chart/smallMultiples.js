@@ -27,7 +27,7 @@ export default function(xScale, yScale) {
     var xAxis = axis()
         .ticks(2);
     var yAxis = axis()
-        .orient('left')
+        .orient('right')
         .ticks(3);
 
     function classedDataJoin(clazz) {
@@ -63,13 +63,13 @@ export default function(xScale, yScale) {
             container.layout();
 
             var rows = Math.ceil(data.length / columns);
-            var multipleWidth = plotAreaContainer.layout('width') / columns - padding * 2;
-            var multipleHeight = plotAreaContainer.layout('height') / rows - padding * 2;
+            var multipleWidth = plotAreaContainer.layout('width') / columns - padding;
+            var multipleHeight = plotAreaContainer.layout('height') / rows - padding;
 
             function translationForMultiple(row, column) {
                 return {
-                    xOffset: padding + (multipleWidth + padding) * row,
-                    yOffset: padding + (multipleHeight + padding) * column
+                    xOffset: (multipleWidth + padding) * row,
+                    yOffset: (multipleHeight + padding) * column
                 };
             }
 

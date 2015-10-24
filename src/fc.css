@@ -66,6 +66,10 @@ text {
   dominant-baseline: ideographic;
 }
 
+.multiples .label {
+  dominant-baseline: hanging;
+}
+
 .chart {
   overflow: visible;
 }

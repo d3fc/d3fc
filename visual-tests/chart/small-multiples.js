@@ -1,12 +1,14 @@
 (function(d3, fc) {
     'use strict';
 
+    var defaultMultiple = fc.chart.smallMultiples();
+
     var chartConfig = [
-        {label: 'padding', value: 10},
-        {label: 'margin', value: JSON.stringify({bottom: 40, right: 40, top: 40, left: 40})},
-        {label: 'columns', value: 10},
-        {label: 'y orient', value: 'right'},
-        {label: 'x orient', value: 'bottom'},
+        {label: 'padding', value: defaultMultiple.padding()},
+        {label: 'margin', value: JSON.stringify(defaultMultiple.margin())},
+        {label: 'columns', value: defaultMultiple.columns()},
+        {label: 'y orient', value: defaultMultiple.yOrient()},
+        {label: 'x orient', value: defaultMultiple.xOrient()},
         {label: 'dataset', value: 'bottom', type: 'checkbox'}
     ];
 
