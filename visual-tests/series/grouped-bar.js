@@ -21,7 +21,7 @@
                 d3.scale.ordinal(),
                 d3.scale.linear())
             .xDomain(data.map(function(d) { return d.State; }))
-            .yDomain(fc.util.extent(series, function(d) { return 0; }, 'y'))
+            .yDomain(fc.util.extent().include(0)(series, 'y'))
             .margin({right: 50, bottom: 50});
 
         var groupedBar = fc.series.groupedBar()

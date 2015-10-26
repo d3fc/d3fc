@@ -30,8 +30,8 @@ example-mapping: |
     bar: fc.data.random.financial()(25)
   };
 
-  xScale.domain(fc.util.extent([data.foo, data.bar], ['date']))
-  yScale.domain(fc.util.extent([data.foo, data.bar], ['high', 'low']));
+  xScale.domain(fc.util.extent()([data.foo, data.bar], ['date']))
+  yScale.domain(fc.util.extent()([data.foo, data.bar], ['high', 'low']));
 
   var line = fc.series.line();
   var area = fc.series.area();

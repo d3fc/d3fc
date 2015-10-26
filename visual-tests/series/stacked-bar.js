@@ -39,7 +39,7 @@
                 d3.scale.ordinal(),
                 d3.scale.linear())
             .xDomain(data.map(function(d) { return d.State; }))
-            .yDomain(fc.util.extent(series, function(d) { return 0; }, function(d) { return d.y + d.y0; }))
+            .yDomain(fc.util.extent().include(0)(series, function(d) { return d.y + d.y0; }))
             .margin({right: 50, bottom: 50});
 
         var stackedBar = fc.series.stacked[seriesType]()

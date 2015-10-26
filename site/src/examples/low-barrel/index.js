@@ -150,7 +150,7 @@
                 crosshairs.snap(fc.util.seriesPointSnapXOnly(candlestick, data));
 
                 chart.xDomain(data.dateDomain)
-                    .yDomain(fc.util.extent(data, ['high', 'low']))
+                    .yDomain(fc.util.extent()(data, ['high', 'low']))
                     .yNice();
 
                 var container = d3.select(this)
@@ -250,7 +250,7 @@
             selection.each(function(data) {
 
                 chart.xDomain(data.dateDomain)
-                    .yDomain(fc.util.extent(data, 'volume'))
+                    .yDomain(fc.util.extent()(data, 'volume'))
                     .yNice();
 
                 bar.y0Value(chart.yDomain()[0]);
@@ -409,11 +409,11 @@
 
         // Enhance data with interactive state
         data.crosshairs = [];
-        var maxDate = fc.util.extent(data, 'date')[1];
+        var maxDate = fc.util.extent()(data, 'date')[1];
         var minDate = new Date(maxDate - 50 * 24 * 60 * 60 * 1000);
         data.dateDomain = [minDate, maxDate];
-        data.navigatorDateDomain = fc.util.extent(data, 'date');
-        data.navigatorYDomain = fc.util.extent(data, 'close');
+        data.navigatorDateDomain = fc.util.extent()(data, 'date');
+        data.navigatorYDomain = fc.util.extent()(data, 'close');
 
         var container = d3.select('#low-barrel')
             .layout();
