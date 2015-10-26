@@ -116,14 +116,14 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([5, 30]);
     });
 
-    it('should only pad numbers', function() {
-        var date1 = new Date(2014, 0);
-        var date2 = new Date(2015, 0);
+    it('should pad dates', function() {
+        var date1 = new Date(2014, 0, 10);
+        var date2 = new Date(2014, 0, 20);
         var data = [{date: date1}, {date: date2}];
 
         var extents = fc.util.extent()
             .pad(1)(data, 'date');
-        expect(extents).toEqual([date1, date2]);
+        expect(extents).toEqual([new Date(2014, 0, 5), new Date(2014, 0, 25)]);
     });
 
 });

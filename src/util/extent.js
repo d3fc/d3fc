@@ -1,5 +1,4 @@
 import d3 from 'd3';
-import {noop} from './fn';
 
 /**
  * The extent function enhances the functionality of the equivalent D3 extent function, allowing
@@ -11,8 +10,8 @@ import {noop} from './fn';
  */
 export default function() {
 
-    var include = noop,
-        pad = d3.functor(0);
+    var extraPoint = null,
+        padding = 0;
 
     /**
     * @param {array} data an array of data points, or an array of arrays of data points
@@ -64,21 +63,31 @@ export default function() {
 
         var min = dataMin;
         var max = dataMax;
+        var delta;
 
         // Scale the range for the given padding
         if (typeof dataMin === 'number' && typeof dataMax === 'number') {
-            var rangeDelta = pad() * (dataMax - dataMin) / 2;
+            delta = padding * (dataMax - dataMin) / 2;
 
-            min -= rangeDelta;
-            max += rangeDelta;
+            min -= delta;
+            max += delta;
+        } else if (Object.prototype.toString.call(dataMin) === '[object Date]') {
+            var oldMin = min.getTime();
+            var oldMax = max.getTime();
+
+            delta = padding * (oldMax - oldMin) / 2;
+
+            min = new Date(oldMin - delta);
+            max = new Date(oldMax + delta);
         }
 
         // Include the specified point in the range
-        var extraPoint = include();
-        if (extraPoint < min) {
-            min = extraPoint;
-        } else if (extraPoint > max) {
-            max = extraPoint;
+        if (extraPoint !== null) {
+            if (extraPoint < min) {
+                min = extraPoint;
+            } else if (extraPoint > max) {
+                max = extraPoint;
+            }
         }
 
         // Return the smallest and largest
@@ -87,17 +96,17 @@ export default function() {
 
     extents.include = function(x) {
         if (!arguments.length) {
-            return include;
+            return extraPoint;
         }
-        include = d3.functor(x);
+        extraPoint = x;
         return extents;
     };
 
     extents.pad = function(x) {
         if (!arguments.length) {
-            return pad;
+            return padding;
         }
-        pad = d3.functor(x);
+        padding = x;
         return extents;
     };
 
