@@ -31,7 +31,7 @@ npm install
 The following Grunt tasks, found in `Gruntfile.js`, can be run from the command line. The most commonly used tasks to build and develop the project are:
 
 - `grunt` - start a watcher which will automatically generate the project's JavaScript and CSS files in the _dist_ directory (at the root of the project) and run unit tests when files change.
-- `grunt visualTests:serve` - start a watcher which will automatically generate the visual tests and serve them at http://localhost:8000/ when files change.
+- `grunt visualTests:serve` - start a watcher which will automatically generate the visual tests and serve them at http://localhost:9000/ when files change.
 - `grunt site:serve` - start a watcher which will automatically generate the website and serve it at http://localhost:8000/ when files change.
 - `grunt ci` - the full build run by the CI server
 
