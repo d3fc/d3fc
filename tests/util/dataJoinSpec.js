@@ -1,6 +1,6 @@
-describe('fc.util.dataJoin', function() {
+describe('fc.util.dataJoin', function () {
 
-    it('should insert new elements in an order consistent with the data', function() {
+    it('should insert new elements in an order consistent with the data', function () {
         var dataJoin = fc.util.dataJoin();
         var element = document.createElement('svg');
         var container = d3.select(element);
@@ -20,9 +20,9 @@ describe('fc.util.dataJoin', function() {
         expect(element.childNodes[2].__data__).toBe(2);
     });
 
-    describe('attr', function() {
+    describe('attr', function () {
 
-        it('should replace attributes when object is provided', function() {
+        it('should replace attributes when object is provided', function () {
             var attr = {key: 'value'};
 
             var observedAttrs = fc.util.dataJoin()
@@ -32,7 +32,7 @@ describe('fc.util.dataJoin', function() {
             expect(observedAttrs).toEqual(attr);
         });
 
-        it('should add attributes when key value is provided', function() {
+        it('should add attributes when key value is provided', function () {
             var key = 'key';
             var value = 'value';
 
@@ -45,7 +45,7 @@ describe('fc.util.dataJoin', function() {
             expect(observedAttrs).toEqual(expected);
         });
 
-        it('should replace attributes when key value is provided', function() {
+        it('should replace attributes when key value is provided', function () {
             var key = 'key';
             var value = 'newValue';
 
@@ -59,7 +59,7 @@ describe('fc.util.dataJoin', function() {
             expect(observedAttrs).toEqual(expected);
         });
 
-        it('should not alter other attributes than specified when key value is provided', function() {
+        it('should not alter other attributes than specified when key value is provided', function () {
             var key = 'key';
             var value = 'value';
 

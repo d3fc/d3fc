@@ -1,6 +1,6 @@
-describe('fc.util.expandMargin', function() {
+describe('fc.util.expandMargin', function () {
 
-    it('should expand integers', function() {
+    it('should expand integers', function () {
         var margin = fc.util.expandMargin(10);
 
         expect(margin).toEqual({
@@ -11,7 +11,7 @@ describe('fc.util.expandMargin', function() {
         });
     });
 
-    it('should fill missing properties', function() {
+    it('should fill missing properties', function () {
         var margin = fc.util.expandMargin({
             top: 10
         });
@@ -24,7 +24,7 @@ describe('fc.util.expandMargin', function() {
         });
     });
 
-    it('should not alter already complete margins', function() {
+    it('should not alter already complete margins', function () {
         var margin = fc.util.expandMargin({
             top: 1,
             bottom: 2,

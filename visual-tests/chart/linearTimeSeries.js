@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var dataGenerator = fc.data.random.financial()
@@ -7,10 +7,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     var chart = fc.chart.linearTimeSeries()
         .xDomain([dateFrom, dateTo])
@@ -25,13 +25,13 @@
 
     // Create the line and area series
     var line = fc.series.line()
-        .yValue(function(d) { return d.open; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.open; })
+        .decorate(function (sel) {
             sel.enter().style('stroke', '#06c');
         });
     var area = fc.series.area()
-        .yValue(function(d) { return d.open; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.open; })
+        .decorate(function (sel) {
             sel.enter().style('fill', '#9cf');
         });
 

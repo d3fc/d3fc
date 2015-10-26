@@ -1,22 +1,22 @@
-describe('fc.data.random.financial', function() {
+describe('fc.data.random.financial', function () {
 
-    describe('without filter', function() {
+    describe('without filter', function () {
         var dataGenerator;
 
-        beforeEach(function() {
+        beforeEach(function () {
             dataGenerator = fc.data.random.financial().filter(null);
         });
 
-        it('should return data for the requested number of days', function() {
+        it('should return data for the requested number of days', function () {
             expect(dataGenerator(10).length)
                 .toEqual(10);
         });
-        it('should return an initial open value equal to the set startPrice', function() {
+        it('should return an initial open value equal to the set startPrice', function () {
             dataGenerator.startPrice(50);
             expect(dataGenerator(10)[0].open)
                 .toEqual(50);
         });
-        it('should return an initial volume equal to the set startVolume', function() {
+        it('should return an initial volume equal to the set startVolume', function () {
             dataGenerator.startVolume(100);
             expect(dataGenerator(10)[0].volume)
                 .toEqual(100);

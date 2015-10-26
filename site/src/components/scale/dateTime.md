@@ -52,7 +52,7 @@ The financial data being rendered doesn't have data-points for the weekends:
 
 <div id="scale_dateTime" class="chart" style="height: 100px"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
     var f = createFixture('#scale_dateTime', null, 100, 15);
     var container = f.container, data = f.data
       yScale = f.yScale, width = f.dimensions.width;
@@ -69,7 +69,7 @@ By providing a discontinuity provider that skips weekends, `fc.scale.discontinui
 
 <div id="scale_dateTime2" class="chart" style="height: 100px"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
     var f = createFixture('#scale_dateTime2', null, 100, 15);
     var container = f.container, data = f.data
       yScale = f.yScale, width = f.dimensions.width;

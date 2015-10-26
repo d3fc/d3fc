@@ -1,14 +1,14 @@
-describe('candlestick', function() {
+describe('candlestick', function () {
 
     var element, data;
 
-    beforeEach(function() {
+    beforeEach(function () {
         element = document.createElement('svg');
         data = fc.data.random.financial()
-            .filter(function() { return true; })(10);
+            .filter(function () { return true; })(10);
     });
 
-    it('should render a path for each datapoint', function() {
+    it('should render a path for each datapoint', function () {
         var ohlc = fc.series.candlestick();
 
         d3.select(element)
@@ -21,7 +21,7 @@ describe('candlestick', function() {
         expect(paths.size()).toBe(10);
     });
 
-    it('should filter datapoints that are not defined', function() {
+    it('should filter datapoints that are not defined', function () {
         data[2].date = undefined;
 
         var ohlc = fc.series.candlestick();
@@ -36,7 +36,7 @@ describe('candlestick', function() {
         expect(paths.size()).toBe(9);
     });
 
-    it('should invoke data accessors with datum and index', function() {
+    it('should invoke data accessors with datum and index', function () {
 
         var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.util.fn.identity),
             yOpenValueSpy = jasmine.createSpy('yOpenValue').and.callFake(fc.util.fn.identity),

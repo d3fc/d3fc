@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -13,10 +13,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -37,10 +37,10 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.close; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.close; })
+        .decorate(function (sel) {
             sel.selectAll('path')
-                .style('fill', function(d) { return color(d.date.getDay()); });
+                .style('fill', function (d) { return color(d.date.getDay()); });
         })
         .barWidth(9);
 
@@ -49,15 +49,15 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .snap(fc.util.seriesPointSnapXOnly(bar, data))
-        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
-        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
-        .decorate(function(selection) {
+        .xLabel(function (d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
+        .yLabel(function (d) { return d.datum && d3.format('.2f')(d.datum.close); })
+        .decorate(function (selection) {
 
             // add a coloured rectangle within the trackball
             selection
                 .select('.point')
                 .style({
-                    fill: function(d) { return color(d.datum ? d.datum.date.getDay() : 0); },
+                    fill: function (d) { return color(d.datum ? d.datum.date.getDay() : 0); },
                     stroke: '#333',
                     'stroke-opactiy': 0.8,
                     'fill-opacity': 0.6
@@ -69,7 +69,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, crosshair])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case bar:
                 return this;

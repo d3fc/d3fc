@@ -11,12 +11,12 @@ export function rebind(target, source, mappings) {
         return d3.rebind.apply(d3, arguments);
     }
     Object.keys(mappings)
-        .forEach(function(targetName) {
+        .forEach(function (targetName) {
             var method = source[mappings[targetName]];
             if (typeof method !== 'function') {
                 throw new Error('The method ' + mappings[targetName] + ' does not exist on the source object');
             }
-            target[targetName] = function() {
+            target[targetName] = function () {
                 var value = method.apply(source, arguments);
                 return value === source ? target : value;
             };
@@ -41,7 +41,7 @@ export function rebindAll(target, source, prefix, exclusions) {
         exclusions = Array.prototype.slice.call(arguments, 3);
     }
 
-    exclusions = exclusions.map(function(exclusion) {
+    exclusions = exclusions.map(function (exclusion) {
         if (typeof(exclusion) === 'string') {
             if (!source.hasOwnProperty(exclusion)) {
                 throw new Error('The method ' + exclusion + ' does not exist on the source object');
@@ -52,7 +52,7 @@ export function rebindAll(target, source, prefix, exclusions) {
     });
 
     function exclude(property) {
-        return exclusions.some(function(exclusion) {
+        return exclusions.some(function (exclusion) {
             return property.match(exclusion);
         });
     }

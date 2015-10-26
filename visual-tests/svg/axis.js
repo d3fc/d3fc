@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var width = 600, height = 250;
@@ -12,7 +12,7 @@
     var tick = 0;
 
     var c = d3.scale.category10();
-    var color = function(d, i) {
+    var color = function (d, i) {
         return c(i);
     };
 
@@ -24,7 +24,7 @@
 
         var axis = fc.svg.axis()
             .scale(scale)
-            .decorate(function(sel) {
+            .decorate(function (sel) {
                 sel.select('text').style('fill', color);
                 sel.select('path').style('stroke', color);
             });

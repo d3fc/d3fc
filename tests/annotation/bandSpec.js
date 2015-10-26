@@ -1,12 +1,12 @@
-describe('band', function() {
+describe('band', function () {
 
     var element;
 
-    beforeEach(function() {
+    beforeEach(function () {
         element = document.createElement('svg');
     });
 
-    it('should cover the entire chart if no coordinates are provided', function() {
+    it('should cover the entire chart if no coordinates are provided', function () {
         var xScale = d3.scale.linear()
             .range([0, 20]);
         var yScale = d3.scale.linear()
@@ -24,7 +24,7 @@ describe('band', function() {
         expect(path.getAttribute('d')).toEqual('M0,0h20v20h-20z');
     });
 
-    it('should support function properties', function() {
+    it('should support function properties', function () {
         var xScale = d3.scale.linear()
             .range([0, 20])
             .domain([0, 10]);
@@ -35,10 +35,10 @@ describe('band', function() {
         var band = fc.annotation.band()
             .xScale(xScale)
             .yScale(yScale)
-            .x0(function() { return 2; })
-            .x1(function() { return 4; })
-            .y0(function() { return 6; })
-            .y1(function() { return 8; });
+            .x0(function () { return 2; })
+            .x1(function () { return 4; })
+            .y0(function () { return 6; })
+            .y1(function () { return 8; });
 
         d3.select(element)
             .datum([{}])
@@ -48,7 +48,7 @@ describe('band', function() {
         expect(path.getAttribute('d')).toEqual('M4,12h4v4h-4z');
     });
 
-    it('should support literal properties via functors', function() {
+    it('should support literal properties via functors', function () {
         var xScale = d3.scale.linear()
             .range([0, 20])
             .domain([0, 10]);
@@ -72,7 +72,7 @@ describe('band', function() {
         expect(path.getAttribute('d')).toEqual('M4,12h4v4h-4z');
     });
 
-    it('should invoke coordinate functions with correct parameters and context', function() {
+    it('should invoke coordinate functions with correct parameters and context', function () {
 
         function verifyCall(spy, callIndex, contextNode, data, index) {
             var call = spy.calls.all()[callIndex];

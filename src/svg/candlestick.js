@@ -3,18 +3,18 @@ import d3 from 'd3';
 // Renders a candlestick as an SVG path based on the given array of datapoints. Each
 // candlestick has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
-export default function() {
+export default function () {
 
-    var x = function(d, i) { return d.date; },
-        open = function(d, i) { return d.open; },
-        high = function(d, i) { return d.high; },
-        low = function(d, i) { return d.low; },
-        close = function(d, i) { return d.close; },
+    var x = function (d, i) { return d.date; },
+        open = function (d, i) { return d.open; },
+        high = function (d, i) { return d.high; },
+        low = function (d, i) { return d.low; },
+        close = function (d, i) { return d.close; },
         width = d3.functor(3);
 
-    var candlestick = function(data) {
+    var candlestick = function (data) {
 
-        return data.map(function(d, i) {
+        return data.map(function (d, i) {
             var xValue = x(d, i),
                 yOpen = open(d, i),
                 yHigh = high(d, i),
@@ -52,42 +52,42 @@ export default function() {
         .join('');
     };
 
-    candlestick.x = function(_x) {
+    candlestick.x = function (_x) {
         if (!arguments.length) {
             return x;
         }
         x = _x;
         return candlestick;
     };
-    candlestick.open = function(x) {
+    candlestick.open = function (x) {
         if (!arguments.length) {
             return open;
         }
         open = x;
         return candlestick;
     };
-    candlestick.high = function(x) {
+    candlestick.high = function (x) {
         if (!arguments.length) {
             return high;
         }
         high = x;
         return candlestick;
     };
-    candlestick.low = function(x) {
+    candlestick.low = function (x) {
         if (!arguments.length) {
             return low;
         }
         low = x;
         return candlestick;
     };
-    candlestick.close = function(x) {
+    candlestick.close = function (x) {
         if (!arguments.length) {
             return close;
         }
         close = x;
         return candlestick;
     };
-    candlestick.width = function(x) {
+    candlestick.width = function (x) {
         if (!arguments.length) {
             return width;
         }

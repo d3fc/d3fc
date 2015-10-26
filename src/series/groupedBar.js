@@ -4,7 +4,7 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 
-export default function() {
+export default function () {
 
     var bar = barSeries(),
         barWidth = fractionalBarWidth(0.75),
@@ -17,10 +17,10 @@ export default function() {
         .element('g')
         .attr('class', 'stacked');
 
-    var x = function(d, i) { return xScale(bar.xValue()(d, i)); };
+    var x = function (d, i) { return xScale(bar.xValue()(d, i)); };
 
-    var groupedBar = function(selection) {
-        selection.each(function(data) {
+    var groupedBar = function (selection) {
+        selection.each(function (data) {
 
             var width = barWidth(data[0].map(x));
             var subBarWidth = width / (data.length - 1);
@@ -32,17 +32,17 @@ export default function() {
 
             var g = dataJoin(this, data);
 
-            g.each(function(series, index) {
+            g.each(function (series, index) {
                 var container = d3.select(this);
 
                 // create a composite scale that applies the required offset
-                var compositeScale = function(x) {
+                var compositeScale = function (x) {
                     return xScale(x) + offsetScale(index);
                 };
                 bar.xScale(compositeScale);
 
                 // adapt the decorate function to give each series teh correct index
-                bar.decorate(function(s, d) {
+                bar.decorate(function (s, d) {
                     decorate(s, d, index);
                 });
 
@@ -51,14 +51,14 @@ export default function() {
         });
     };
 
-    groupedBar.decorate = function(x) {
+    groupedBar.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
         return groupedBar;
     };
-    groupedBar.xScale = function(x) {
+    groupedBar.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }

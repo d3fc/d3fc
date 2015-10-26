@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var form = document.forms['fan-form'];
@@ -14,10 +14,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -38,10 +38,10 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.close; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.close; })
+        .decorate(function (sel) {
             sel.selectAll('path')
-                .style('fill', function(d) { return color(d.date.getDay()); });
+                .style('fill', function (d) { return color(d.date.getDay()); });
         })
         .barWidth(9);
 
@@ -50,24 +50,24 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .snap(fc.util.seriesPointSnap(bar, data))
-        .decorate(function(selection) {
+        .decorate(function (selection) {
             selection.enter()
                 .append('circle')
                 .attr('r', 6)
                 .style('stroke', 'black')
                 .style('fill', 'none');
             selection.select('circle')
-                .attr('cx', function(d) { return d.target ? dateScale(d.target.x) : 0; })
-                .attr('cy', function(d) { return d.target ? priceScale(d.target.y) : 0; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
+                .attr('cx', function (d) { return d.target ? dateScale(d.target.x) : 0; })
+                .attr('cy', function (d) { return d.target ? priceScale(d.target.y) : 0; })
+                .style('visibility', function (d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
         })
-        .on('fansource', function(d) {
+        .on('fansource', function (d) {
             form.eventlog.value = 'fansource ' + d[0].source.x + ',' + d[0].source.y + '\n' + form.eventlog.value;
         })
-        .on('fantarget', function(d) {
+        .on('fantarget', function (d) {
             form.eventlog.value = 'fantarget ' + d[0].target.x + ',' + d[0].target.y + '\n' + form.eventlog.value;
         })
-        .on('fanclear', function() {
+        .on('fanclear', function () {
             form.eventlog.value = 'fanclear\n' + form.eventlog.value;
         });
 
@@ -77,7 +77,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, fibonacciFan])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case bar:
                 return this;
@@ -93,7 +93,7 @@
     render();
 
     d3.select(form.clear)
-        .on('click', function() {
+        .on('click', function () {
             data.fan = [];
             render();
             d3.event.preventDefault();
@@ -102,12 +102,12 @@
     var fanContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
 
     d3.select(form.pointerevents)
-        .on('click', function() {
+        .on('click', function () {
             fanContainer.style('pointer-events', this.checked ? 'all' : 'none');
         });
 
     d3.select(form.display)
-        .on('click', function() {
+        .on('click', function () {
             fanContainer.style('display', this.checked ? '' : 'none');
         });
 

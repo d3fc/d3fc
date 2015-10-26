@@ -1,6 +1,6 @@
-describe('dateTime', function() {
+describe('dateTime', function () {
 
-    it('should support copy', function() {
+    it('should support copy', function () {
         var start = new Date(2015, 0, 8); // thursday
         var end = new Date(2015, 0, 15); // thursday
 
@@ -18,8 +18,8 @@ describe('dateTime', function() {
         expect(clone.domain()[1]).toEqual(end);
     });
 
-    describe('tick calculations', function() {
-        it('should ensure ticks are not within discontinuities', function() {
+    describe('tick calculations', function () {
+        it('should ensure ticks are not within discontinuities', function () {
             var start = new Date(2015, 0, 9); // friday
             var end = new Date(2015, 0, 12); // monday
 
@@ -30,13 +30,13 @@ describe('dateTime', function() {
             var ticks = dateTime.ticks();
             expect(ticks.length).toEqual(5);
 
-            var weekendTicks = ticks.filter(function(tick) {
+            var weekendTicks = ticks.filter(function (tick) {
                 return tick.getDay() === 0 || tick.getDay() === 6;
             });
             expect(weekendTicks.length).toEqual(0);
         });
 
-        it('should support arguments being passed to ticks', function() {
+        it('should support arguments being passed to ticks', function () {
             var start = new Date(2015, 0, 9); // friday
             var end = new Date(2015, 0, 12); // monday
 
@@ -47,13 +47,13 @@ describe('dateTime', function() {
             var ticks = dateTime.ticks(100);
             expect(ticks.length).toEqual(25);
 
-            var weekendTicks = ticks.filter(function(tick) {
+            var weekendTicks = ticks.filter(function (tick) {
                 return tick.getDay() === 0 || tick.getDay() === 6;
             });
             expect(weekendTicks.length).toEqual(0);
         });
 
-        it('should remove duplicates', function() {
+        it('should remove duplicates', function () {
             var start = new Date(2015, 0, 6); // tuesday
             var end = new Date(2015, 0, 9); // friday
 
@@ -67,7 +67,7 @@ describe('dateTime', function() {
             expect(filtered.length).toEqual(3);
         });
 
-        it('should clamp both ends inwards', function() {
+        it('should clamp both ends inwards', function () {
             var start = new Date(2015, 0, 4); // sunday
             var end = new Date(2015, 0, 11); // sunday
 
@@ -80,7 +80,7 @@ describe('dateTime', function() {
         });
     });
 
-    describe('without discontinuities', function() {
+    describe('without discontinuities', function () {
 
         var range = [0, 100];
         var start = new Date(2015, 0, 18); // sunday
@@ -94,7 +94,7 @@ describe('dateTime', function() {
             .domain([start, end])
             .range(range);
 
-        it('should match the scale functionality of a d3 time scale', function() {
+        it('should match the scale functionality of a d3 time scale', function () {
             var date = new Date(2015, 0, 19);
             expect(dateTime(date)).toEqual(referenceScale(date));
 
@@ -105,16 +105,16 @@ describe('dateTime', function() {
             expect(dateTime(end)).toEqual(referenceScale(end));
         });
 
-        it('should match the invert functionality of a d3 time scale', function() {
+        it('should match the invert functionality of a d3 time scale', function () {
             expect(dateTime.invert(0)).toEqual(referenceScale.invert(0));
             expect(dateTime.invert(50)).toEqual(referenceScale.invert(50));
             expect(dateTime.invert(100)).toEqual(referenceScale.invert(100));
         });
     });
 
-    describe('with weekends skipped', function() {
+    describe('with weekends skipped', function () {
 
-        it('should clamp the domain', function() {
+        it('should clamp the domain', function () {
 
             var endOfWeek = new Date(2015, 0, 24); // saturday 00:00 hours
             var end = new Date(2015, 0, 25, 12); // mid-day sunday
@@ -131,7 +131,7 @@ describe('dateTime', function() {
 
         });
 
-        it('should scale with weekends skipped', function() {
+        it('should scale with weekends skipped', function () {
 
             var start = new Date(2015, 0, 8); // thursday
             var end = new Date(2015, 0, 15); // thursday
@@ -158,7 +158,7 @@ describe('dateTime', function() {
 
         });
 
-        it('should invert with weekends skipped', function() {
+        it('should invert with weekends skipped', function () {
 
             // four calendar weeks = 20 week days
             var start = new Date(2015, 0, 1); // thursday

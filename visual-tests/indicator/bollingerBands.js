@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -32,16 +32,16 @@
     var bollingerComputer = fc.indicator.algorithm.bollingerBands()
         .windowSize(5)
         .multiplier(3)
-        .merge(function(datum, boll) { datum.boll = boll; });
+        .merge(function (datum, boll) { datum.boll = boll; });
     bollingerComputer(data);
 
     priceScale.domain(fc.util.extent()(data, [
-        function(d) { return d.boll.upper; },
-        function(d) { return d.boll.lower; }
+        function (d) { return d.boll.upper; },
+        function (d) { return d.boll.lower; }
     ]));
 
     var bollingerRenderer = fc.indicator.renderer.bollingerBands()
-        .root(function(d) { return d.boll; });
+        .root(function (d) { return d.boll; });
 
     var multi = fc.series.multi()
         .xScale(dateScale)

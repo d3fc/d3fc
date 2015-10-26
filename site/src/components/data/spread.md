@@ -30,7 +30,7 @@ Which results in the following:
 
 <pre id="spread"></pre>
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
     d3.select("#spread")
       .text(JSON.stringify(series, null, 2));

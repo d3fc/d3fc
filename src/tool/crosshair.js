@@ -8,18 +8,18 @@ import point from '../series/point';
 import {range} from '../util/scale';
 import {rebind} from '../util/rebind';
 
-export default function() {
+export default function () {
 
     var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
         xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        snap = function(x, y) {
+        snap = function (x, y) {
             return noSnap(xScale, yScale)(x, y);
         },
         decorate = noop;
 
-    var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
-        y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
+    var x = function (d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
+        y = function (d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
     var dataJoin = _dataJoin()
         .children(true)
@@ -33,12 +33,12 @@ export default function() {
 
     var horizontalLine = line()
         .value(y)
-        .label(function(d) { return d.y; });
+        .label(function (d) { return d.y; });
 
     var verticalLine = line()
         .orient('vertical')
         .value(x)
-        .label(function(d) { return d.x; });
+        .label(function (d) { return d.x; });
 
     // the line annotations used to render the crosshair are positioned using
     // screen coordinates. This function constructs a suitable scale for rendering
@@ -48,9 +48,9 @@ export default function() {
             .range(range(scale));
     }
 
-    var crosshair = function(selection) {
+    var crosshair = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var container = d3.select(this)
                 .style('pointer-events', 'all')
@@ -80,7 +80,7 @@ export default function() {
                 .series([horizontalLine, verticalLine, pointSeries])
                 .xScale(identityScale(xScale))
                 .yScale(identityScale(yScale))
-                .mapping(function() {
+                .mapping(function () {
                     return [this];
                 });
 
@@ -118,28 +118,28 @@ export default function() {
         event.trackingend.apply(this, arguments);
     }
 
-    crosshair.xScale = function(x) {
+    crosshair.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return crosshair;
     };
-    crosshair.yScale = function(x) {
+    crosshair.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return crosshair;
     };
-    crosshair.snap = function(x) {
+    crosshair.snap = function (x) {
         if (!arguments.length) {
             return snap;
         }
         snap = x;
         return crosshair;
     };
-    crosshair.decorate = function(x) {
+    crosshair.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

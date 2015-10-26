@@ -1,5 +1,5 @@
 export function noSnap(xScale, yScale) {
-    return function(xPixel, yPixel) {
+    return function (xPixel, yPixel) {
         // ordinal axes don't invert pixel values (interpolation doesn't
         // always make sense) so we support two modes. One we're we record
         // the pixel value and another where we record the data value and
@@ -24,18 +24,18 @@ export function noSnap(xScale, yScale) {
 
 export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunction) {
     // a default function that computes the distance between two points
-    objectiveFunction = objectiveFunction || function(x, y, cx, cy) {
+    objectiveFunction = objectiveFunction || function (x, y, cx, cy) {
         var dx = x - cx,
             dy = y - cy;
         return dx * dx + dy * dy;
     };
 
-    return function(xPixel, yPixel) {
-        var nearest = data.map(function(d) {
+    return function (xPixel, yPixel) {
+        var nearest = data.map(function (d) {
             var diff = objectiveFunction(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
             return [diff, d];
         })
-        .reduce(function(accumulator, value) {
+        .reduce(function (accumulator, value) {
             return accumulator[0] > value[0] ? value : accumulator;
         }, [Number.MAX_VALUE, null])[1];
 
@@ -50,7 +50,7 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunctio
 }
 
 export function seriesPointSnap(series, data, objectiveFunction) {
-    return function(xPixel, yPixel) {
+    return function (xPixel, yPixel) {
         var xScale = series.xScale(),
             yScale = series.yScale(),
             xValue = series.xValue(),

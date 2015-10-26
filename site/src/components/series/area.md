@@ -46,10 +46,10 @@ Which gives the following:
 
 <div id="series_area_band" class="chart band"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
     var desiredWidth = $('#series_area_band').width(),
         desiredHeight = desiredWidth / 2.4; //keeps the width-height ratio at 600-250 (defaults for createFixture)
-    var f = createFixture('#series_area_band', desiredWidth, desiredHeight, null, function() { return true; });
+    var f = createFixture('#series_area_band', desiredWidth, desiredHeight, null, function () { return true; });
     var container = f.container, data = f.data,
       xScale = f.xScale, yScale = f.yScale;
     {{{example-band-code}}}

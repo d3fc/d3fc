@@ -1,7 +1,7 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
-    fc.scale.discontinuity.tradedHours = function() {
+    fc.scale.discontinuity.tradedHours = function () {
 
         var tradedHours = {};
         var trades = [];
@@ -36,7 +36,7 @@
             return extentsMappedByDay[Math.floor(date / millisPerDay)];
         }
 
-        tradedHours.distance = function(startDate, endDate) {
+        tradedHours.distance = function (startDate, endDate) {
             var millis = 0;
 
             if (sameDay(startDate, endDate)) {
@@ -71,19 +71,19 @@
             // add the time for all the days inbetween
             var afterStart = d3.time.day.ceil(startDate);
             var beforeEnd = d3.time.day.floor(endDate);
-            var daysInBetween = orderedExtents.filter(function(d) {
+            var daysInBetween = orderedExtents.filter(function (d) {
                 return afterStart < d.start && beforeEnd > d.end;
             });
-            millis += d3.sum(daysInBetween, function(d) { return d.duration; });
+            millis += d3.sum(daysInBetween, function (d) { return d.duration; });
 
             return millis;
         };
 
-        tradedHours.offset = function(startDate, ms) {
+        tradedHours.offset = function (startDate, ms) {
             return new Date(startDate.getTime() + ms);
         };
 
-        tradedHours.clampUp = function(date) {
+        tradedHours.clampUp = function (date) {
             var extents = getTradingExtentsForDay(date);
 
             function clampToNextTradingDay() {
@@ -92,7 +92,7 @@
                     return date;
                 } else {
                     // otherwise find the start of trading on the next active day
-                    var futureDates = orderedExtents.filter(function(d) {
+                    var futureDates = orderedExtents.filter(function (d) {
                         return d.start > date;
                     });
                     return first(futureDates).start;
@@ -112,7 +112,7 @@
             }
         };
 
-        tradedHours.clampDown = function(date) {
+        tradedHours.clampDown = function (date) {
             var extents = getTradingExtentsForDay(date);
 
             function clampToPreviousTradingDay() {
@@ -121,7 +121,7 @@
                     return date;
                 } else {
                     // otherwise find the end of trading on the previous active day
-                    var earlierDates = orderedExtents.filter(function(d) {
+                    var earlierDates = orderedExtents.filter(function (d) {
                         return d.end < date;
                     });
                     return last(earlierDates).end;
@@ -141,13 +141,13 @@
             }
         };
 
-        tradedHours.copy = function() { return tradedHours; };
+        tradedHours.copy = function () { return tradedHours; };
 
-        tradedHours.orderedExtents = function() {
+        tradedHours.orderedExtents = function () {
             return orderedExtents;
         };
 
-        tradedHours.trades = function(x) {
+        tradedHours.trades = function (x) {
             if (!arguments.length) {
                 return trades;
             }
@@ -155,11 +155,11 @@
 
             // sort the trades
             var sortedTrades = x.slice();
-            sortedTrades.sort(function(a, b) { return a - b; });
+            sortedTrades.sort(function (a, b) { return a - b; });
 
             // compute the extents for each day
             orderedExtents = [];
-            sortedTrades.forEach(function(date) {
+            sortedTrades.forEach(function (date) {
                 var lastExtents = last(orderedExtents);
                 if (lastExtents  && sameDay(lastExtents.start, date)) {
                     lastExtents.end = date;

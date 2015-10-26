@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -38,17 +38,17 @@
         .yScale(priceScale);
 
     var lastCloseAnnotation = fc.annotation.line()
-        .value(function(d) { return d.close; })
+        .value(function (d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale)
-        .label(function(d) {
+        .label(function (d) {
             return '[Static] Last close: ' + d3.format('.6f')(d.close);
         });
 
     var annotationDecimal = fc.annotation.line()
         .xScale(dateScale)
         .yScale(priceScale)
-        .decorate(function(selection) {
+        .decorate(function (selection) {
             selection.select('line')
                 .style('stroke', 'red');
             selection.enter()
@@ -57,7 +57,7 @@
                 .attr('r', 5)
                 .attr('fill', 'black');
         })
-        .label(function(d) {
+        .label(function (d) {
             return 'Animated: ' + d3.format('.3f')(d);
         });
 
@@ -65,7 +65,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .orient('vertical')
-        .label(function(d) {
+        .label(function (d) {
             return d3.time.format('%Y-%m-%d')(d);
         });
 
@@ -94,7 +94,7 @@
         .datum([data[20].date, data[10].date])
         .call(verticalAnnotation);
 
-    setInterval(function() {
+    setInterval(function () {
         // Update an annotation
         container
             .select('#annotation')

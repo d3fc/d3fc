@@ -16,7 +16,7 @@ function parseStyle(style) {
     }
     var properties = style.split(';');
     var json = {};
-    properties.forEach(function(property) {
+    properties.forEach(function (property) {
         var components = property.split(':');
         if (components.length === 2) {
             var name = components[0].trim();
@@ -66,7 +66,7 @@ function applyLayout(node, subtree) {
         node.element.setAttribute('transform',
             'translate(' + node.layout.left + ', ' + node.layout.top + ')');
     }
-    node.children.forEach(function(node) {
+    node.children.forEach(function (node) {
         applyLayout(node, true);
     });
 }
@@ -122,7 +122,7 @@ function layoutSuspended(x) {
     if (!arguments.length) {
         return Boolean(ownerSVGElement(this.node()).__layout__);
     }
-    return this.each(function() {
+    return this.each(function () {
         ownerSVGElement(this).__layout__ = x ? 'suspended' : '';
     });
 }
@@ -140,7 +140,7 @@ function layoutSelection(name, value) {
     }
 
     // for all other invocations, iterate over each item in the selection
-    return this.each(function() {
+    return this.each(function () {
         if (argsLength === 2) {
             if (typeof name !== 'string') {
                 // layout(number, number) - sets the width and height and performs layout
@@ -156,7 +156,7 @@ function layoutSelection(name, value) {
                 // layout(object) - sets the layout-style property to the given object
                 var styleObject = name;
                 var layoutCss = Object.keys(styleObject)
-                    .map(function(property) {
+                    .map(function (property) {
                         return property + ':' + styleObject[property];
                     })
                     .join(';');

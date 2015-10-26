@@ -5,7 +5,7 @@ import {identity} from '../../../util/fn';
 import {rebind} from '../../../util/rebind';
 
 
-export default function() {
+export default function () {
 
     var value = identity;
 
@@ -18,13 +18,13 @@ export default function() {
     var adaptedSignalEMA = undefinedInputAdapter()
         .algorithm(signalEMA);
 
-    var macd = function(data) {
+    var macd = function (data) {
 
         fastEMA.value(value);
         slowEMA.value(value);
 
         var diff = d3.zip(fastEMA(data), slowEMA(data))
-            .map(function(d) {
+            .map(function (d) {
                 if (d[0] !== undefined && d[1] !== undefined) {
                     return d[0] - d[1];
                 } else {
@@ -35,7 +35,7 @@ export default function() {
         var averageDiff = adaptedSignalEMA(diff);
 
         var macd = d3.zip(diff, averageDiff)
-            .map(function(d) {
+            .map(function (d) {
                 return {
                     macd: d[0],
                     signal: d[1],
@@ -46,7 +46,7 @@ export default function() {
         return macd;
     };
 
-    macd.value = function(x) {
+    macd.value = function (x) {
         if (!arguments.length) {
             return value;
         }

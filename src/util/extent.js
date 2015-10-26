@@ -8,7 +8,7 @@ import d3 from 'd3';
  *
  * @memberof fc.util
  */
-export default function() {
+export default function () {
 
     var extraPoint = null,
         padding = 0;
@@ -17,7 +17,7 @@ export default function() {
     * @param {array} data an array of data points, or an array of arrays of data points
     * @param {array} fields the names of object properties that represent field values, or accessor functions.
     */
-    var extents = function(data, fields) {
+    var extents = function (data, fields) {
 
         // we need an array of arrays if we don't have one already
         if (!Array.isArray(data[0])) {
@@ -36,26 +36,26 @@ export default function() {
         }
 
         // the fields can be a mixed array of property names or accessor functions
-        fields = fields.map(function(field) {
+        fields = fields.map(function (field) {
             if (typeof field !== 'string') {
                 return field;
             }
-            return function(d) {
+            return function (d) {
                 return d[field];
             };
         });
 
-        var dataMin = d3.min(data, function(d0) {
-            return d3.min(d0, function(d1) {
-                return d3.min(fields.map(function(f) {
+        var dataMin = d3.min(data, function (d0) {
+            return d3.min(d0, function (d1) {
+                return d3.min(fields.map(function (f) {
                     return f(d1);
                 }));
             });
         });
 
-        var dataMax = d3.max(data, function(d0) {
-            return d3.max(d0, function(d1) {
-                return d3.max(fields.map(function(f) {
+        var dataMax = d3.max(data, function (d0) {
+            return d3.max(d0, function (d1) {
+                return d3.max(fields.map(function (f) {
                     return f(d1);
                 }));
             });
@@ -94,7 +94,7 @@ export default function() {
         return [min, max];
     };
 
-    extents.include = function(x) {
+    extents.include = function (x) {
         if (!arguments.length) {
             return extraPoint;
         }
@@ -102,7 +102,7 @@ export default function() {
         return extents;
     };
 
-    extents.pad = function(x) {
+    extents.pad = function (x) {
         if (!arguments.length) {
             return padding;
         }

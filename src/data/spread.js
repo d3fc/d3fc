@@ -5,19 +5,19 @@
 export default function spread() {
 
     var xValueKey = '';
-    var yValue = function(row, key) {
+    var yValue = function (row, key) {
         // D3 CSV returns all values as strings, this converts them to numbers
         // by default.
         return row[key] ? Number(row[key]) : 0;
     };
 
-    var spread = function(data) {
+    var spread = function (data) {
         var series = Object.keys(data[0])
-            .filter(function(key) {
+            .filter(function (key) {
                 return key !== xValueKey;
             })
-            .map(function(key) {
-                var series = data.map(function(row) {
+            .map(function (key) {
+                var series = data.map(function (row) {
                     return {
                         x: row[xValueKey],
                         y: yValue(row, key)
@@ -29,7 +29,7 @@ export default function spread() {
         return series;
     };
 
-    spread.xValueKey = function(x) {
+    spread.xValueKey = function (x) {
         if (!arguments.length) {
             return xValueKey;
         }
@@ -37,7 +37,7 @@ export default function spread() {
         return spread;
     };
 
-    spread.yValue = function(x) {
+    spread.yValue = function (x) {
         if (!arguments.length) {
             return yValue;
         }

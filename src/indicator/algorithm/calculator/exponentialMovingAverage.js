@@ -1,17 +1,17 @@
 import {identity} from '../../../util/fn';
 
-export default function() {
+export default function () {
 
     var windowSize = 9,
         value = identity;
 
-    var exponentialMovingAverage = function(data) {
+    var exponentialMovingAverage = function (data) {
 
         var alpha = 2 / (windowSize + 1);
         var previous;
         var initialAccumulator = 0;
 
-        return data.map(function(d, i) {
+        return data.map(function (d, i) {
             if (i < windowSize - 1) {
                 initialAccumulator += value(d, i);
                 return undefined;
@@ -28,7 +28,7 @@ export default function() {
         });
     };
 
-    exponentialMovingAverage.windowSize = function(x) {
+    exponentialMovingAverage.windowSize = function (x) {
         if (!arguments.length) {
             return windowSize;
         }
@@ -36,7 +36,7 @@ export default function() {
         return exponentialMovingAverage;
     };
 
-    exponentialMovingAverage.value = function(x) {
+    exponentialMovingAverage.value = function (x) {
         if (!arguments.length) {
             return value;
         }

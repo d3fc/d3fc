@@ -8,7 +8,7 @@ example-code: |
   var feed = fc.data.feed.coinbase();
 
   // fetch some data!
-  feed(function(error, data) {
+  feed(function (error, data) {
     d3.select("#coinbase")
       .text(JSON.stringify(error ? error : data, null, 2));
   });
@@ -22,7 +22,7 @@ The coinbase component fetches data from the [Coinbase exchange API](https://doc
 
 <pre id="coinbase">Loading...</pre>
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
 }());
 </script>

@@ -2,20 +2,20 @@ import calculator from './calculator/bollingerBands';
 import d3 from 'd3';
 import merge from './merge';
 
-export default function() {
+export default function () {
 
     var bollingerAlgorithm = calculator()
-        .value(function(d) { return d.close; });
+        .value(function (d) { return d.close; });
 
     var mergedAlgorithm = merge()
             .algorithm(bollingerAlgorithm)
-            .merge(function(datum, boll) { datum.bollingerBands = boll; });
+            .merge(function (datum, boll) { datum.bollingerBands = boll; });
 
-    var bollingerBands = function(data) {
+    var bollingerBands = function (data) {
         return mergedAlgorithm(data);
     };
 
-    bollingerBands.root = function(d) {
+    bollingerBands.root = function (d) {
         return d.bollingerBands;
     };
 

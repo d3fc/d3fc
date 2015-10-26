@@ -1,21 +1,21 @@
-describe('fc.util.snap', function() {
+describe('fc.util.snap', function () {
 
     var xScale, yScale;
 
-    beforeEach(function() {
+    beforeEach(function () {
         xScale = d3.scale.identity();
         yScale = d3.scale.identity();
     });
 
-    describe('fc.util.noSnap', function() {
+    describe('fc.util.noSnap', function () {
 
         var noSnap;
 
-        beforeEach(function() {
+        beforeEach(function () {
             noSnap = fc.util.noSnap(xScale, yScale);
         });
 
-        it('should work for scales with invert', function() {
+        it('should work for scales with invert', function () {
             expect(noSnap(4, 4)).toEqual({
                 x: 4,
                 xInDomainUnits: true,
@@ -24,7 +24,7 @@ describe('fc.util.snap', function() {
             });
         });
 
-        it('should work for scales without invert', function() {
+        it('should work for scales without invert', function () {
             xScale.invert = null;
             yScale.invert = null;
             expect(noSnap(4, 4)).toEqual({
@@ -37,12 +37,12 @@ describe('fc.util.snap', function() {
     });
 
 
-    describe('fc.util.pointSnap', function() {
+    describe('fc.util.pointSnap', function () {
         var xValue, yValue, xScale, yScale, data;
 
-        beforeEach(function() {
-            xValue = function(d) { return d[0]; };
-            yValue = function(d) { return d[1]; };
+        beforeEach(function () {
+            xValue = function (d) { return d[0]; };
+            yValue = function (d) { return d[1]; };
             xScale = d3.scale.identity();
             yScale = d3.scale.identity();
             data = [
@@ -52,7 +52,7 @@ describe('fc.util.snap', function() {
             ];
         });
 
-        it('should work with no data', function() {
+        it('should work with no data', function () {
             var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, []);
             expect(pointSnap(4, 4)).toEqual({
                 datum: null,
@@ -63,7 +63,7 @@ describe('fc.util.snap', function() {
             });
         });
 
-        it('should work for scales with invert', function() {
+        it('should work for scales with invert', function () {
             var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);
             expect(pointSnap(4, 4)).toEqual({
                 datum: [5, 5],
@@ -74,7 +74,7 @@ describe('fc.util.snap', function() {
             });
         });
 
-        it('should work for scales without invert', function() {
+        it('should work for scales without invert', function () {
             xScale.invert = null;
             yScale.invert = null;
             var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);

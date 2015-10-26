@@ -26,18 +26,18 @@ example-code: |
 
   // create scales
   var x = d3.scale.ordinal()
-      .domain(data.map(function(d) { return d.State; }))
+      .domain(data.map(function (d) { return d.State; }))
       .rangePoints([0, width], 1);
 
   var y = d3.scale.linear()
-    .domain(fc.util.extent().include(0)(series, function(d) { return d.y + d.y0; }))
+    .domain(fc.util.extent().include(0)(series, function (d) { return d.y + d.y0; }))
     .range([height, 0]);
 
   // create the stacked bar series (this could also be line or area)
   var stack = fc.series.stacked.bar()
     .xScale(x)
     .yScale(y)
-    .xValue(function(d) { return d.x; });
+    .xValue(function (d) { return d.x; });
 
   // render
   container.append('g')

@@ -4,7 +4,7 @@ import _multi from '../../series/multi';
 import {noop} from '../../util/fn';
 import seriesLine from '../../series/line';
 
-export default function() {
+export default function () {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
@@ -15,14 +15,14 @@ export default function() {
 
     var annotations = annotationLine();
     var rsiLine = seriesLine()
-        .yValue(function(d, i) { return d.rsi; });
+        .yValue(function (d, i) { return d.rsi; });
 
-    var rsi = function(selection) {
+    var rsi = function (selection) {
 
         multiSeries.xScale(xScale)
             .yScale(yScale)
             .series([rsiLine, annotations])
-            .mapping(function(series) {
+            .mapping(function (series) {
                 if (series === annotations) {
                     return [
                         upperValue,
@@ -32,9 +32,9 @@ export default function() {
                 }
                 return this;
             })
-            .decorate(function(g, data, index) {
+            .decorate(function (g, data, index) {
                 g.enter()
-                    .attr('class', function(d, i) {
+                    .attr('class', function (d, i) {
                         return 'multi rsi ' + ['indicator', 'annotations'][i];
                     });
                 decorate(g, data, index);
@@ -43,35 +43,35 @@ export default function() {
         selection.call(multiSeries);
     };
 
-    rsi.xScale = function(x) {
+    rsi.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return rsi;
     };
-    rsi.yScale = function(x) {
+    rsi.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return rsi;
     };
-    rsi.upperValue = function(x) {
+    rsi.upperValue = function (x) {
         if (!arguments.length) {
             return upperValue;
         }
         upperValue = x;
         return rsi;
     };
-    rsi.lowerValue = function(x) {
+    rsi.lowerValue = function (x) {
         if (!arguments.length) {
             return lowerValue;
         }
         lowerValue = x;
         return rsi;
     };
-    rsi.decorate = function(x) {
+    rsi.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

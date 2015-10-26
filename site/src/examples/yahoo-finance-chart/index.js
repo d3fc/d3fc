@@ -1,7 +1,7 @@
-d3.json('yahoo.json', function(error, json) {
+d3.json('yahoo.json', function (error, json) {
     var chartData = json.chart.result[0];
     var quoteData = chartData.indicators.quote[0];
-    var data = chartData.timestamp.map(function(d, i) {
+    var data = chartData.timestamp.map(function (d, i) {
         var date = new Date(d * 1000 - 5 * 1000 * 60 * 60);
         return {
             date: date,
@@ -16,7 +16,7 @@ d3.json('yahoo.json', function(error, json) {
     // select a subset of data
     data = data.slice(0, 600);
     // filter out any data that is > 2 hours outside of trading
-    data = data.filter(function(d) {
+    data = data.filter(function (d) {
         return d.date.getHours() > 7 && d.date.getHours() < 19;
     });
     renderChart(data);
@@ -75,16 +75,16 @@ function addXCallout(sel) {
 
     xLabelContainer.append('text')
         .attr('y', xAxisHeight / 2)
-        .text(function(d) { return dateFormat(d.x); });
+        .text(function (d) { return dateFormat(d.x); });
 }
 
 var legend = fc.chart.legend()
     .items([
-        ['open', function(d) { return priceFormat(d.open); }],
-        ['high', function(d) { return priceFormat(d.high); }],
-        ['low', function(d) { return priceFormat(d.low); }],
-        ['close', function(d) { return priceFormat(d.close); }],
-        ['volume', function(d) { return volumeFormat(d.volume); }]
+        ['open', function (d) { return priceFormat(d.open); }],
+        ['high', function (d) { return priceFormat(d.high); }],
+        ['low', function (d) { return priceFormat(d.low); }],
+        ['close', function (d) { return priceFormat(d.close); }],
+        ['volume', function (d) { return volumeFormat(d.volume); }]
     ]);
 
 function renderLegend(datapoint) {
@@ -99,7 +99,7 @@ function renderChart(data) {
 
   // add a moving average to the data
   var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
-        .value(function(d) { return d.close; })
+        .value(function (d) { return d.close; })
         .windowSize(20);
 
   movingAverage(data);
@@ -128,7 +128,7 @@ function renderChart(data) {
     .range([volumeContainer.layout('height'), 0]);
 
   var discontinuity = fc.scale.discontinuity.tradedHours()
-          .trades(data.map(function(d) { return d.date; }));
+          .trades(data.map(function (d) { return d.date; }));
 
   // add a time series components
   var chart = fc.chart.linearTimeSeries()
@@ -145,13 +145,13 @@ function renderChart(data) {
         .xTicks(3);
 
   // customise the axis
-  chart.xDecorate(function(sel) {
+  chart.xDecorate(function (sel) {
     sel.enter()
       .select('text')
       .attr('transform', 'translate(3, ' + (xAxisHeight / 2) + ' )');
   });
 
-  chart.yDecorate(function(sel) {
+  chart.yDecorate(function (sel) {
     sel.enter()
       .select('text')
       .attr('transform', 'translate(' + (yAxisWidth - 1) + ', -6)');
@@ -159,17 +159,17 @@ function renderChart(data) {
 
   // create the line annotations
   var emaClose = fc.annotation.line()
-    .value(function(d) { return d.exponentialMovingAverage; })
-    .label(function(d) { return priceFormat(d.exponentialMovingAverage); })
-    .decorate(function(sel) {
+    .value(function (d) { return d.exponentialMovingAverage; })
+    .label(function (d) { return priceFormat(d.exponentialMovingAverage); })
+    .decorate(function (sel) {
       addCallout(sel);
       sel.enter().classed('ema', true);
     });
 
   var lastClose = fc.annotation.line()
-      .value(function(d) { return d.close; })
-      .label(function(d) { return priceFormat(d.close); })
-      .decorate(function(sel) {
+      .value(function (d) { return d.close; })
+      .label(function (d) { return priceFormat(d.close); })
+      .decorate(function (sel) {
         addCallout(sel);
         sel.enter().classed('close', true);
       });
@@ -177,14 +177,14 @@ function renderChart(data) {
   // create the series
   var area = fc.series.area()
         .y0Value(chart.yDomain()[0])
-        .yValue(function(d) { return d.open; });
+        .yValue(function (d) { return d.open; });
 
   var line = fc.series.line()
-        .yValue(function(d) { return d.open; });
+        .yValue(function (d) { return d.open; });
 
   var emaLine = fc.series.line()
-        .yValue(function(d) { return d.exponentialMovingAverage; })
-        .decorate(function(g) {
+        .yValue(function (d) { return d.exponentialMovingAverage; })
+        .decorate(function (g) {
           g.classed('ema', true);
         });
 
@@ -195,23 +195,23 @@ function renderChart(data) {
   // add a crosshair
   var crosshair = fc.tool.crosshair()
             .snap(fc.util.seriesPointSnapXOnly(line, data))
-            .xLabel(function(d) { return dateFormat(d.datum.date); })
-            .yLabel(function(d) { return priceFormat(d.datum.close); })
-            .decorate(function(sel) {
+            .xLabel(function (d) { return dateFormat(d.datum.date); })
+            .yLabel(function (d) { return priceFormat(d.datum.close); })
+            .decorate(function (sel) {
                 sel.enter().select('circle').attr('r', 3);
                 addCallout(sel);
                 addXCallout(sel);
             })
-            .on('trackingmove', function(crosshairData) {
+            .on('trackingmove', function (crosshairData) {
                 renderLegend(crosshairData[0].datum);
             })
-            .on('trackingend', function() {
+            .on('trackingend', function () {
                 renderLegend(data[data.length - 1]);
             });
 
   // add vertical lines and bands
   var tradingHourMarkers = discontinuity.orderedExtents()
-    .map(function(extent) {
+    .map(function (extent) {
         var open = d3.time.day.floor(extent.start);
         var close = d3.time.day.floor(extent.start);
         open.setHours(9);
@@ -238,25 +238,25 @@ function renderChart(data) {
 
   var verticalLines = fc.annotation.line()
       .orient('vertical')
-      .value(function(d) { return d.date; })
-      .label(function(d) { return ''; })
-      .decorate(function(sel) {
+      .value(function (d) { return d.date; })
+      .label(function (d) { return ''; })
+      .decorate(function (sel) {
           sel.enter()
               .select('.bottom-handle')
               .append('use')
               .attr('transform', 'translate(0, -15)')
-              .attr('xlink:href', function(d) { return d.type; });
+              .attr('xlink:href', function (d) { return d.type; });
       });
 
   var verticalBands = fc.annotation.band()
-      .x0(function(d) { return d[0][2].date; })
-      .x1(function(d) { return d[1][1].date; });
+      .x0(function (d) { return d[0][2].date; })
+      .x1(function (d) { return d[1][1].date; });
 
   // combine the series with a 'multi'
   var multi = fc.series.multi()
         .series([gridlines, area, emaLine, line, emaClose, lastClose, crosshair,
             verticalLines, verticalBands])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
               case emaClose:
               case lastClose:
@@ -283,10 +283,10 @@ function renderChart(data) {
   var volume = fc.series.bar()
       .xScale(chart.xScale())
       .yScale(volumeScale)
-      .yValue(function(d) { return d.volume; })
-      .decorate(function(sel) {
+      .yValue(function (d) { return d.volume; })
+      .decorate(function (sel) {
         sel.select('path')
-          .style('stroke', function(d, i) {
+          .style('stroke', function (d, i) {
             return d.close > d.open ? 'red' : 'green';
           });
       });

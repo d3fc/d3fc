@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var form = document.forms['crosshair-1-form'];
@@ -14,10 +14,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -38,10 +38,10 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.close; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.close; })
+        .decorate(function (sel) {
             sel.selectAll('path')
-                .style('fill', function(d) { return color(d.date.getDay()); });
+                .style('fill', function (d) { return color(d.date.getDay()); });
         })
         .barWidth(9);
 
@@ -49,13 +49,13 @@
     var crosshair = fc.tool.crosshair()
         .xScale(dateScale)
         .yScale(priceScale)
-        .on('trackingstart', function(d) {
+        .on('trackingstart', function (d) {
             form.eventlog.value = 'trackingstart ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
         })
-        .on('trackingmove', function(d) {
+        .on('trackingmove', function (d) {
             form.eventlog.value = 'trackingmove ' + d[0].x + ',' + d[0].y + '\n' + form.eventlog.value;
         })
-        .on('trackingend', function() {
+        .on('trackingend', function () {
             form.eventlog.value = 'trackingend\n' + form.eventlog.value;
         });
 
@@ -64,7 +64,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, crosshair])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case bar:
                 return this;
@@ -80,7 +80,7 @@
     render();
 
     d3.select(form.clear)
-        .on('click', function() {
+        .on('click', function () {
             data.crosshair = [];
             render();
             d3.event.preventDefault();
@@ -90,12 +90,12 @@
     var crosshairContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
 
     d3.select(form.pointerevents)
-        .on('click', function() {
+        .on('click', function () {
             crosshairContainer.style('pointer-events', this.checked ? 'all' : 'none');
         });
 
     d3.select(form.display)
-        .on('click', function() {
+        .on('click', function () {
             crosshairContainer.style('display', this.checked ? '' : 'none');
         });
 

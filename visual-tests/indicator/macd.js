@@ -1,9 +1,9 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial()
         .startDate(new Date(2014, 1, 1))
-        .filter(function() { return true; })
+        .filter(function () { return true; })
         (100);
 
     var width = 600, height = 250;
@@ -29,18 +29,18 @@
         .fastPeriod(4)
         .slowPeriod(10)
         .signalPeriod(5)
-        .value(function(d) { return d.open; })
-        .merge(function(datum, md) { datum.md = md; });
+        .value(function (d) { return d.open; })
+        .merge(function (datum, md) { datum.md = md; });
     macdAlgo(data);
 
     // compute the extents
-    var maxExtent = d3.max(data, function(d) { return Math.abs(d.md.macd); });
+    var maxExtent = d3.max(data, function (d) { return Math.abs(d.md.macd); });
     priceScale.domain([-maxExtent, maxExtent]);
 
     var macdRenderer = fc.indicator.renderer.macd()
         .xScale(dateScale)
         .yScale(priceScale)
-        .root(function(d) { return d.md; });
+        .root(function (d) { return d.md; });
 
     // Add it to the chart
     container.append('g')

@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -24,7 +24,7 @@
 
     // Create the moving average bands component
     var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
-        .value(function(d) { return d.high; })
+        .value(function (d) { return d.high; })
         .windowSize(3);
 
     movingAverage(data);
@@ -32,7 +32,7 @@
     // create the series
     var ohlc = fc.series.ohlc();
     var line = fc.series.line()
-        .yValue(function(d) { return d.exponentialMovingAverage; });
+        .yValue(function (d) { return d.exponentialMovingAverage; });
 
     var multi = fc.series.multi()
         .xScale(dateScale)

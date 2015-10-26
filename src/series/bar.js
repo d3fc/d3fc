@@ -8,7 +8,7 @@ import xyBase from './xyBase';
 // The bar series renders a vertical (column) or horizontal (bar) series. In order
 // to provide a common implementation there are a number of functions that specialise
 // the rendering logic based on the 'orient' property.
-export default function() {
+export default function () {
 
     var decorate = noop,
         barWidth = fractionalBarWidth(0.75),
@@ -16,8 +16,8 @@ export default function() {
         pathGenerator = svgBar();
 
     var base = xyBase()
-      .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
-      .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
+      .xValue(function (d, i) { return orient === 'vertical' ? d.date : d.close; })
+      .yValue(function (d, i) { return orient === 'vertical' ? d.close : d.date; });
 
     var dataJoin = dataJoinUtil()
         .selector('g.bar')
@@ -59,8 +59,8 @@ export default function() {
         return orient === 'vertical' ? base.x : base.y;
     }
 
-    var bar = function(selection) {
-        selection.each(function(data, index) {
+    var bar = function (selection) {
+        selection.each(function (data, index) {
 
             if (orient !== 'vertical' && orient !== 'horizontal') {
                 throw new Error('The bar series does not support an orientation of ' + orient);
@@ -93,34 +93,34 @@ export default function() {
             g.enter()
                 .attr('transform', containerTranslation)
                 .append('path')
-                .attr('d', function(d) { return pathGenerator([d]); });
+                .attr('d', function (d) { return pathGenerator([d]); });
 
             // set the bar to its correct height
             valueAxisDimension(pathGenerator)(barHeight);
 
             g.attr('transform', containerTranslation)
                 .select('path')
-                .attr('d', function(d) { return pathGenerator([d]); });
+                .attr('d', function (d) { return pathGenerator([d]); });
 
             decorate(g, filteredData, index);
         });
     };
 
-    bar.decorate = function(x) {
+    bar.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
         return bar;
     };
-    bar.barWidth = function(x) {
+    bar.barWidth = function (x) {
         if (!arguments.length) {
             return barWidth;
         }
         barWidth = d3.functor(x);
         return bar;
     };
-    bar.orient = function(x) {
+    bar.orient = function (x) {
         if (!arguments.length) {
             return orient;
         }

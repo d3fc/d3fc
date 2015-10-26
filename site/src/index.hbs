@@ -27,8 +27,8 @@ example-code: |
    bollingerAlgorithm(data);
 
    chart.yDomain(fc.util.extent()(data, [
-      function(d) { return d.bollingerBands.upper; },
-      function(d) { return d.bollingerBands.lower; }
+      function (d) { return d.bollingerBands.upper; },
+      function (d) { return d.bollingerBands.lower; }
    ]));
 
    // Create the gridlines and series
@@ -67,7 +67,7 @@ example-code: |
 </div>
 
 <script type="text/javascript">
-(function() {
+(function () {
   {{{ page.example-code }}}
   window.onresize = renderChart;
 }());
@@ -90,8 +90,8 @@ example-code: |
             </a>
           </div>
           <script type="text/javascript">
-          (function() {
-              var f = createFixture('#{{>component-id data.component}}', 800, null, null, function() { return true; });
+          (function () {
+              var f = createFixture('#{{>component-id data.component}}', 800, null, null, function () { return true; });
               var container = f.container, data = f.data
                 xScale = f.xScale, yScale = f.yScale,
                 height = f.dimensions.height, width = f.dimensions.width;

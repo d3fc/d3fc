@@ -2,13 +2,13 @@ import d3 from 'd3';
 import _dataJoin from '../../util/dataJoin';
 import {noop} from '../../util/fn';
 
-export default function() {
+export default function () {
 
     var series = noop;
 
-    var stack = function(selection) {
+    var stack = function (selection) {
 
-        selection.each(function(data) {
+        selection.each(function (data) {
 
             var container = d3.select(this);
 
@@ -22,7 +22,7 @@ export default function() {
         });
     };
 
-    stack.series = function(x) {
+    stack.series = function (x) {
         if (!arguments.length) {
             return series;
         }

@@ -1,6 +1,6 @@
 import d3 from 'd3';
 
-export default function() {
+export default function () {
     var millisPerDay = 24 * 3600 * 1000;
     var millisPerWorkWeek = millisPerDay * 5;
     var millisPerWeek = millisPerDay * 7;
@@ -11,7 +11,7 @@ export default function() {
         return date.getDay() === 0 || date.getDay() === 6;
     }
 
-    skipWeekends.clampDown = function(date) {
+    skipWeekends.clampDown = function (date) {
         if (date && isWeekend(date)) {
             var daysToSubtract = date.getDay() === 0 ? 2 : 1;
             // round the date up to midnight
@@ -23,7 +23,7 @@ export default function() {
         }
     };
 
-    skipWeekends.clampUp = function(date) {
+    skipWeekends.clampUp = function (date) {
         if (date && isWeekend(date)) {
             var daysToAdd = date.getDay() === 0 ? 1 : 2;
             // round the date down to midnight
@@ -37,7 +37,7 @@ export default function() {
 
     // returns the number of included milliseconds (i.e. those which do not fall)
     // within discontinuities, along this scale
-    skipWeekends.distance = function(startDate, endDate) {
+    skipWeekends.distance = function (startDate, endDate) {
         startDate = skipWeekends.clampUp(startDate);
         endDate = skipWeekends.clampDown(endDate);
 
@@ -59,7 +59,7 @@ export default function() {
         return weeks * millisPerWorkWeek + msAdded - msRemoved;
     };
 
-    skipWeekends.offset = function(startDate, ms) {
+    skipWeekends.offset = function (startDate, ms) {
         var date = isWeekend(startDate) ? skipWeekends.clampUp(startDate) : startDate;
         var remainingms = ms;
 
@@ -86,7 +86,7 @@ export default function() {
         return date;
     };
 
-    skipWeekends.copy = function() { return skipWeekends; };
+    skipWeekends.copy = function () { return skipWeekends; };
 
     return skipWeekends;
 }

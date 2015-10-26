@@ -17,7 +17,7 @@ example-code: |
     .series([line, crosshair])
     .xScale(xScale)
     .yScale(yScale)
-    .mapping(function(series) {
+    .mapping(function (series) {
         switch (series) {
             case line:
                 return data;
@@ -49,7 +49,7 @@ You can configure X and Y labels via the `xLabel` and `yLabel` properties. The f
 
 ```js
 var crosshairs = fc.tool.crosshair()
-  .yLabel(function(d) { return d3.format('.2f')(d.datum.close); });
+  .yLabel(function (d) { return d3.format('.2f')(d.datum.close); });
 ```
 
 The crosshair emits 'trackingstart', 'trackingmove' and 'trackingend' events which can be used to add further interactively. You can also modify the crosshair UI via the `decorate` property.

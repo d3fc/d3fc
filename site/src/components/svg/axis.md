@@ -20,7 +20,7 @@ fixture-code: |
 example-code-one: |
   var axis = fc.svg.axis()
     .scale(ordinalScale)
-    .decorate(function(s) {
+    .decorate(function (s) {
       s.enter().select('text')
         .style('text-anchor', 'start')
         .attr('transform', 'rotate(45 -10 10)');
@@ -32,9 +32,9 @@ example-code-one: |
 example-code-two: |
   var axis = fc.svg.axis()
     .scale(ordinalScale)
-    .decorate(function(s) {
+    .decorate(function (s) {
       s.enter().select('text')
-        .attr('transform', function(d, i) {
+        .attr('transform', function (d, i) {
           return 'translate(0, ' + (i % 2 === 0 ? 25 : 10) + ')';
         });
     });
@@ -45,10 +45,10 @@ example-code-two: |
 example-code-three: |
   var axis = fc.svg.axis()
     .scale(linearScale)
-    .decorate(function(s) {
+    .decorate(function (s) {
       s.enter()
         .select('text')
-        .style('fill', function(d) {
+        .style('fill', function (d) {
           return d >= 100 ? 'red' : 'black';
         });
     });
@@ -74,7 +74,7 @@ For example, the decorate pattern can be used to rotate the tick labels:
 
 <svg class="axis-container" id="example-one"></svg>
 <script type="text/javascript">
-(function() {
+(function () {
   var elementId = '#example-one';
   {{{fixture-code}}}
   {{{example-code-one}}}
@@ -89,7 +89,7 @@ Or alternatively the tick index can be used to offset alternating labels:
 
 <svg class="axis-container" id="example-two"></svg>
 <script type="text/javascript">
-(function() {
+(function () {
   var elementId = '#example-two';
   {{{fixture-code}}}
   {{{example-code-two}}}
@@ -104,7 +104,7 @@ In the example below, the value bound to each tick is used to colour values grea
 
 <svg class="axis-container" id="example-three"></svg>
 <script type="text/javascript">
-(function() {
+(function () {
   var elementId = '#example-three';
   {{{fixture-code}}}
   {{{example-code-three}}}

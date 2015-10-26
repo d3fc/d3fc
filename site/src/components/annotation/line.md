@@ -13,8 +13,8 @@ example-code: |
   // create an array that contains the highest, lowest and most recent price
   var priceMarkers = [
     data[data.length - 1].close,
-    d3.min(data, function(d) { return d.high; }),
-    d3.max(data, function(d) { return d.low; })
+    d3.min(data, function (d) { return d.high; }),
+    d3.max(data, function (d) { return d.low; })
   ]
 
   container.append('g')

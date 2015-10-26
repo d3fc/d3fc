@@ -1,7 +1,7 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
-    Array.prototype.call = function(fn) {
+    Array.prototype.call = function (fn) {
         fn(this);
         return this;
     };
@@ -38,8 +38,8 @@
     // a fully configured moving average
     var ma15 = fc.indicator.algorithm.movingAverage()
         .windowSize(15)
-        .value(function(d) { return d.open; })
-        .merge(function(data, ma) { data.ma15 = ma; });
+        .value(function (d) { return d.open; })
+        .merge(function (data, ma) { data.ma15 = ma; });
 
     // the application of multiple indicators
     data.call(ma)
@@ -47,10 +47,10 @@
 
     // the visual components
     var line = fc.series.line()
-        .yValue(function(d) { return d.movingAverage; });
+        .yValue(function (d) { return d.movingAverage; });
 
     var line15 = fc.series.line()
-        .yValue(function(d) { return d.ma15; });
+        .yValue(function (d) { return d.ma15; });
 
     var multi = fc.series.multi()
         .xScale(dateScale)

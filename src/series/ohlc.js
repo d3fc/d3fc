@@ -5,7 +5,7 @@ import svgOhlc from '../svg/ohlc';
 import ohlcBase from './ohlcBase';
 import {rebindAll} from '../util/rebind';
 
-export default function(drawMethod) {
+export default function (drawMethod) {
 
     var decorate = noop,
         base = ohlcBase();
@@ -15,8 +15,8 @@ export default function(drawMethod) {
         .element('g')
         .attr('class', 'ohlc');
 
-    var ohlc = function(selection) {
-        selection.each(function(data, index) {
+    var ohlc = function (selection) {
+        selection.each(function (data, index) {
 
             var filteredData = data.filter(base.defined);
 
@@ -28,7 +28,7 @@ export default function(drawMethod) {
             var pathGenerator = svgOhlc()
                     .width(base.width(filteredData));
 
-            g.each(function(d, i) {
+            g.each(function (d, i) {
                 var values = base.values(d, i);
 
                 var g = d3.select(this)
@@ -36,10 +36,10 @@ export default function(drawMethod) {
                     .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
 
                 pathGenerator.x(d3.functor(0))
-                    .open(function() { return values.yOpen - values.yHigh; })
-                    .high(function() { return values.yHigh - values.yHigh; })
-                    .low(function() { return values.yLow - values.yHigh; })
-                    .close(function() { return values.yClose - values.yHigh; });
+                    .open(function () { return values.yOpen - values.yHigh; })
+                    .high(function () { return values.yHigh - values.yHigh; })
+                    .low(function () { return values.yLow - values.yHigh; })
+                    .close(function () { return values.yClose - values.yHigh; });
 
                 g.select('path')
                     .attr('d', pathGenerator([d]));
@@ -49,7 +49,7 @@ export default function(drawMethod) {
         });
     };
 
-    ohlc.decorate = function(x) {
+    ohlc.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

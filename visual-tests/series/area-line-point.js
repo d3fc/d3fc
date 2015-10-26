@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -26,20 +26,20 @@
     var line = fc.series.line()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.open; });
+        .yValue(function (d) { return d.open; });
 
     // Create the area series
     var area = fc.series.area()
         .xScale(dateScale)
         .yScale(priceScale)
-        .y0Value(function(d) { return d.low; })
-        .y1Value(function(d) { return d.high; });
+        .y0Value(function (d) { return d.low; })
+        .y1Value(function (d) { return d.high; });
 
     // Create the point series
     var point = fc.series.point()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.close; });
+        .yValue(function (d) { return d.close; });
 
     // Add it to the chart
     container.append('g')

@@ -1,17 +1,17 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     // Data taken from http://data.giss.nasa.gov/gistemp/graphs_v3/Fig.C.txt
     // Monthly Mean Surface Temperature Anomaly (C)
     d3.csv('cycle-nasa-temp-data.csv')
-        .row(function(d) {
+        .row(function (d) {
             Object.keys(d)
-                .forEach(function(k) {
+                .forEach(function (k) {
                     d[k] = Number(d[k]);
                 });
             return d;
         })
-        .get(function(error, rows) {
+        .get(function (error, rows) {
             if (error) {
                 return console.error('Failed to load data');
             }
@@ -45,18 +45,18 @@
         var subAxis = fc.series.axis()
             .tickSize(0)
             .ticks(0)
-            .baseline(function(d) {
-                return d3.mean(d, function(d) { return d.Station; });
+            .baseline(function (d) {
+                return d3.mean(d, function (d) { return d.Station; });
             });
 
         var line = fc.series.line()
-            .xValue(function(d) { return d.Year; })
-            .yValue(function(d) { return d.Station; });
+            .xValue(function (d) { return d.Year; })
+            .yValue(function (d) { return d.Station; });
 
         var point = fc.series.point()
             .radius(2)
-            .xValue(function(d) { return d.Year; })
-            .yValue(function(d) { return d.Station; });
+            .xValue(function (d) { return d.Year; })
+            .yValue(function (d) { return d.Station; });
 
         var subMulti = fc.series.multi()
             .series([subAxis, line, point]);
@@ -64,32 +64,32 @@
         var cycle = fc.series.cycle()
             .barWidth(fc.util.fractionalBarWidth(0.9))
             .yScale(tempScale)
-            .xValue(function(d) { return d.Month; })
+            .xValue(function (d) { return d.Month; })
             .subScale(yearScale)
             .subSeries(subMulti)
-            .decorate(function(g) {
+            .decorate(function (g) {
                 g.enter()
-                    .each(function(d, i) {
+                    .each(function (d, i) {
                         d3.select(this)
                             .selectAll('.multi')
-                            .style('stroke', function() {
+                            .style('stroke', function () {
                                 return colorScale(i);
                             });
                     });
             });
 
         var meanValues = d3.nest()
-            .key(function(d) { return d.Month; })
-            .rollup(function(d) {
-                return d3.mean(d, function(d) { return d.Station; });
+            .key(function (d) { return d.Month; })
+            .rollup(function (d) {
+                return d3.mean(d, function (d) { return d.Station; });
             })
             .entries(data);
 
         var trendLine = fc.series.line()
-            .xValue(function(d) { return d.key; })
-            .yValue(function(d) { return d.values; })
+            .xValue(function (d) { return d.key; })
+            .yValue(function (d) { return d.values; })
             .interpolate('cardinal')
-            .decorate(function(path) {
+            .decorate(function (path) {
                 path.attr('class', 'trendline');
             });
 
@@ -97,7 +97,7 @@
             .series([trendLine, cycle])
             .xScale(monthScale)
             .yScale(tempScale)
-            .mapping(function(series) {
+            .mapping(function (series) {
                 switch (series) {
                 case cycle:
                     return this;

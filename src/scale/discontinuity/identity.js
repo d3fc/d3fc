@@ -1,14 +1,14 @@
 import {identity as _identity} from '../../util/fn';
 
-export default function() {
+export default function () {
 
     var identity = {};
 
-    identity.distance = function(startDate, endDate) {
+    identity.distance = function (startDate, endDate) {
         return endDate.getTime() - startDate.getTime();
     };
 
-    identity.offset = function(startDate, ms) {
+    identity.offset = function (startDate, ms) {
         return new Date(startDate.getTime() + ms);
     };
 
@@ -16,7 +16,7 @@ export default function() {
 
     identity.clampDown = _identity;
 
-    identity.copy = function() { return identity; };
+    identity.copy = function () { return identity; };
 
     return identity;
 }

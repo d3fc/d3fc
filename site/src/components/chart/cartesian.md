@@ -7,7 +7,7 @@ namespace: chart
 example-code: |
 
   // create some test data
-  var data = d3.range(50).map(function(d) {
+  var data = d3.range(50).map(function (d) {
       return {
           x: d / 3,
           y: Math.sin(d / 3)
@@ -23,8 +23,8 @@ example-code: |
 
   // create a series and associate it with the plot area
   var line = fc.series.line()
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; });
+    .xValue(function (d) { return d.x; })
+    .yValue(function (d) { return d.y; });
 
   chart.plotArea(line);
 
@@ -36,7 +36,7 @@ example-code: |
 example-code-2: |
 
   // create some test data
-  var data = d3.range(50).map(function(d) {
+  var data = d3.range(50).map(function (d) {
       return {
           x: d / 4,
           y: Math.sin(d / 4),
@@ -59,12 +59,12 @@ example-code-2: |
 
   // create a pair of series and some gridlines
   var sinLine = fc.series.line()
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; });
+    .xValue(function (d) { return d.x; })
+    .yValue(function (d) { return d.y; });
 
   var cosLine = fc.series.line()
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.z; });
+    .xValue(function (d) { return d.x; })
+    .yValue(function (d) { return d.z; });
 
   var gridlines = fc.annotation.gridline();
 
@@ -92,7 +92,7 @@ This results in the following chart:
 
 <div id="cartesian-chart"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
   {{{example-code}}}
 }());
 </script>
@@ -107,7 +107,7 @@ And here is how that example looks:
 
 <div id="cartesian-chart-2" style="height: 250px; width: 400px;"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
   {{{example-code-2}}}
 }());
 </script>

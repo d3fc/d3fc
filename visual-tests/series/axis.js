@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var width = 400, height = 400;
@@ -34,12 +34,12 @@
         .orient('left');
 
     var sinLine = fc.series.line()
-        .xValue(function(d) { return d.theta; })
-        .yValue(function(d) { return d.sin; });
+        .xValue(function (d) { return d.theta; })
+        .yValue(function (d) { return d.sin; });
 
     var cosLine = fc.series.line()
-        .xValue(function(d) { return d.theta; })
-        .yValue(function(d) { return d.cos; });
+        .xValue(function (d) { return d.theta; })
+        .yValue(function (d) { return d.cos; });
 
     var multi = fc.series.multi()
         .series([xAxis, yAxis, sinLine, cosLine])

@@ -2,15 +2,15 @@ import d3 from 'd3';
 import slidingWindow from './slidingWindow';
 import {rebind} from '../../../util/rebind';
 
-export default function() {
+export default function () {
 
-    var closeValue = function(d, i) { return d.close; },
-        highValue = function(d, i) { return d.high; },
-        lowValue = function(d, i) { return d.low; };
+    var closeValue = function (d, i) { return d.close; },
+        highValue = function (d, i) { return d.high; },
+        lowValue = function (d, i) { return d.low; };
 
     var kWindow = slidingWindow()
         .windowSize(5)
-        .accumulator(function(values) {
+        .accumulator(function (values) {
             var maxHigh = d3.max(values, highValue);
             var minLow = d3.min(values, lowValue);
             return 100 * (closeValue(values[values.length - 1]) - minLow) / (maxHigh - minLow);
@@ -18,37 +18,37 @@ export default function() {
 
     var dWindow = slidingWindow()
         .windowSize(3)
-        .accumulator(function(values) {
+        .accumulator(function (values) {
             if (values[0] === undefined) {
                 return undefined;
             }
             return d3.mean(values);
         });
 
-    var stochastic = function(data) {
+    var stochastic = function (data) {
         var kValues = kWindow(data);
         var dValues = dWindow(kValues);
-        return kValues.map(function(k, i) {
+        return kValues.map(function (k, i) {
             var d = dValues[i];
             return { k: k, d: d };
         });
     };
 
-    stochastic.closeValue = function(x) {
+    stochastic.closeValue = function (x) {
         if (!arguments.length) {
             return closeValue;
         }
         closeValue = x;
         return stochastic;
     };
-    stochastic.highValue = function(x) {
+    stochastic.highValue = function (x) {
         if (!arguments.length) {
             return highValue;
         }
         highValue = x;
         return stochastic;
     };
-    stochastic.lowValue = function(x) {
+    stochastic.lowValue = function (x) {
         if (!arguments.length) {
             return highValue;
         }

@@ -9,7 +9,7 @@ import dataJoinUtil from '../util/dataJoin';
 // overriding where the series value is stored on the node (__series__) and
 // forcing the node datum (__data__) to be the user supplied data (via mapping).
 
-export default function() {
+export default function () {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
@@ -23,7 +23,7 @@ export default function() {
         .children(true)
         .attr('class', 'multi')
         .element('g')
-        .key(function(d, i) {
+        .key(function (d, i) {
             // This function is invoked twice, the first pass is to pull the key
             // value from the DOM nodes and the second pass is to pull the key
             // value from the data values.
@@ -35,13 +35,13 @@ export default function() {
             return key.call(this, series, i);
         });
 
-    var multi = function(selection) {
+    var multi = function (selection) {
 
-        selection.each(function(data) {
+        selection.each(function (data) {
 
             var g = dataJoin(this, series);
 
-            g.each(function(series, i) {
+            g.each(function (series, i) {
                 // We must always assign the series to the node, as the order
                 // may have changed. N.B. in such a case the output is most
                 // likely garbage (containers should not be re-used) but by
@@ -63,42 +63,42 @@ export default function() {
         });
     };
 
-    multi.xScale = function(x) {
+    multi.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return multi;
     };
-    multi.yScale = function(x) {
+    multi.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return multi;
     };
-    multi.series = function(x) {
+    multi.series = function (x) {
         if (!arguments.length) {
             return series;
         }
         series = x;
         return multi;
     };
-    multi.mapping = function(x) {
+    multi.mapping = function (x) {
         if (!arguments.length) {
             return mapping;
         }
         mapping = x;
         return multi;
     };
-    multi.key = function(x) {
+    multi.key = function (x) {
         if (!arguments.length) {
             return key;
         }
         key = x;
         return multi;
     };
-    multi.decorate = function(x) {
+    multi.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

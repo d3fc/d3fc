@@ -2,16 +2,16 @@ import d3 from 'd3';
 import exponentialMovingAverageCalculator from './calculator/exponentialMovingAverage';
 import merge from './merge';
 
-export default function() {
+export default function () {
 
     var ema = exponentialMovingAverageCalculator()
-            .value(function(d) { return d.close; });
+            .value(function (d) { return d.close; });
 
     var mergedAlgorithm = merge()
             .algorithm(ema)
-            .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
+            .merge(function (datum, ma) { datum.exponentialMovingAverage = ma; });
 
-    var exponentialMovingAverage = function(data) {
+    var exponentialMovingAverage = function (data) {
         return mergedAlgorithm(data);
     };
 

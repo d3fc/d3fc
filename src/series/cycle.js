@@ -4,12 +4,12 @@ import fractionalBarWidth from '../util/fractionalBarWidth';
 import line from '../series/line';
 import {noop} from '../util/fn';
 
-export default function() {
+export default function () {
 
     var decorate = noop,
         xScale = d3.scale.linear(),
         yScale = d3.scale.linear(),
-        xValue = function(d, i) { return d.date.getDay(); },
+        xValue = function (d, i) { return d.date.getDay(); },
         subScale = d3.scale.linear(),
         subSeries = line(),
         barWidth = fractionalBarWidth(0.75);
@@ -19,9 +19,9 @@ export default function() {
         .element('g')
         .attr('class', 'cycle');
 
-    var cycle = function(selection) {
+    var cycle = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var dataByX = d3.nest()
                 .key(xValue)
@@ -34,7 +34,7 @@ export default function() {
 
             var g = dataJoin(this, xValues);
 
-            g.each(function(d, i) {
+            g.each(function (d, i) {
 
                 var g = d3.select(this);
 
@@ -55,49 +55,49 @@ export default function() {
         });
     };
 
-    cycle.decorate = function(x) {
+    cycle.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
         return cycle;
     };
-    cycle.xScale = function(x) {
+    cycle.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return cycle;
     };
-    cycle.yScale = function(x) {
+    cycle.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return cycle;
     };
-    cycle.xValue = function(x) {
+    cycle.xValue = function (x) {
         if (!arguments.length) {
             return xValue;
         }
         xValue = x;
         return cycle;
     };
-    cycle.subScale = function(x) {
+    cycle.subScale = function (x) {
         if (!arguments.length) {
             return subScale;
         }
         subScale = x;
         return cycle;
     };
-    cycle.subSeries = function(x) {
+    cycle.subSeries = function (x) {
         if (!arguments.length) {
             return subSeries;
         }
         subSeries = x;
         return cycle;
     };
-    cycle.barWidth = function(x) {
+    cycle.barWidth = function (x) {
         if (!arguments.length) {
             return barWidth;
         }

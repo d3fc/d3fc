@@ -4,7 +4,7 @@ import identity from './discontinuity/identity';
 // obtains the ticks from the given scale, transforming the result to ensure
 // it does not include any discontinuities
 export function tickTransformer(ticks, discontinuityProvider, domain) {
-    var clampedTicks = ticks.map(function(tick, index) {
+    var clampedTicks = ticks.map(function (tick, index) {
         if (index < ticks.length - 1) {
             return discontinuityProvider.clampUp(tick);
         } else {
@@ -13,8 +13,8 @@ export function tickTransformer(ticks, discontinuityProvider, domain) {
                 clampedTick : discontinuityProvider.clampDown(tick);
         }
     });
-    var uniqueTicks = clampedTicks.reduce(function(arr, tick) {
-        if (arr.filter(function(f) { return f.getTime() === tick.getTime(); }).length === 0) {
+    var uniqueTicks = clampedTicks.reduce(function (arr, tick) {
+        if (arr.filter(function (f) { return f.getTime() === tick.getTime(); }).length === 0) {
             arr.push(tick);
         }
         return arr;
@@ -52,7 +52,7 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         return scaledByRange;
     }
 
-    scale.invert = function(x) {
+    scale.invert = function (x) {
         var domain = adaptedScale.domain();
         var range = adaptedScale.range();
 
@@ -62,7 +62,7 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         return discontinuityProvider.offset(domain[0], distanceToX);
     };
 
-    scale.domain = function(x) {
+    scale.domain = function (x) {
         if (!arguments.length) {
             return adaptedScale.domain();
         }
@@ -74,7 +74,7 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         return scale;
     };
 
-    scale.nice = function() {
+    scale.nice = function () {
         adaptedScale.nice();
         var domain = adaptedScale.domain();
         var domainLower = discontinuityProvider.clampUp(domain[0]);
@@ -83,16 +83,16 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         return scale;
     };
 
-    scale.ticks = function() {
+    scale.ticks = function () {
         var ticks = adaptedScale.ticks.apply(this, arguments);
         return tickTransformer(ticks, discontinuityProvider, scale.domain());
     };
 
-    scale.copy = function() {
+    scale.copy = function () {
         return dateTimeScale(adaptedScale.copy(), discontinuityProvider.copy());
     };
 
-    scale.discontinuityProvider = function(x) {
+    scale.discontinuityProvider = function (x) {
         if (!arguments.length) {
             return discontinuityProvider;
         }

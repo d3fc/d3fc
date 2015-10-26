@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -26,7 +26,7 @@
     var line = fc.series.line()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.open; })
+        .yValue(function (d) { return d.open; })
         .interpolate('linear')
         .tension(0.75);
 
@@ -34,8 +34,8 @@
     var area = fc.series.area()
         .xScale(dateScale)
         .yScale(priceScale)
-        .y0Value(function(d) { return d.low; })
-        .y1Value(function(d) { return d.high; })
+        .y0Value(function (d) { return d.low; })
+        .y1Value(function (d) { return d.high; })
         .interpolate('linear')
         .tension(0.75);
 
@@ -46,7 +46,7 @@
         .call(area);
 
     var interpolateSelect =  d3.select('#interpolate-select');
-    interpolateSelect.on('change', function() {
+    interpolateSelect.on('change', function () {
         line.interpolate(interpolateSelect.property('value'));
         area.interpolate(interpolateSelect.property('value'));
         container.select('g')
@@ -55,7 +55,7 @@
     });
 
     var tensionSelect =  d3.select('#tension-select');
-    tensionSelect.on('change', function() {
+    tensionSelect.on('change', function () {
         line.tension(tensionSelect.property('value'));
         area.tension(tensionSelect.property('value'));
         container.select('g')

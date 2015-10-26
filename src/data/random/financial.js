@@ -1,6 +1,6 @@
 import walk from './walk';
 
-export default function() {
+export default function () {
 
     var mu = 0.1,
         sigma = 0.1,
@@ -9,11 +9,11 @@ export default function() {
         startDate = new Date(),
         stepsPerDay = 50,
         volumeNoiseFactor = 0.3,
-        filter = function(date) {
+        filter = function (date) {
             return !(date.getDay() === 0 || date.getDay() === 6);
         };
 
-    var calculateOHLC = function(days, prices, volumes) {
+    var calculateOHLC = function (days, prices, volumes) {
 
         var ohlcv = [],
             daySteps,
@@ -37,7 +37,7 @@ export default function() {
         return ohlcv;
     };
 
-    var gen = function(days) {
+    var gen = function (days) {
         var toDate = new Date(startDate.getTime());
         toDate.setUTCDate(startDate.getUTCDate() + days);
 
@@ -57,7 +57,7 @@ export default function() {
             .sigma(sigma)(startVolume);
 
         // Add random noise
-        volumes = volumes.map(function(vol) {
+        volumes = volumes.map(function (vol) {
             var boundedNoiseFactor = Math.min(0, Math.max(volumeNoiseFactor, 1));
             var multiplier = 1 + (boundedNoiseFactor * (1 - 2 * Math.random()));
             return Math.floor(vol * multiplier);
@@ -67,61 +67,61 @@ export default function() {
         startPrice = prices[prices.length - 1];
         startVolume = volumes[volumes.length - 1];
 
-        return calculateOHLC(days, prices, volumes).filter(function(d) {
+        return calculateOHLC(days, prices, volumes).filter(function (d) {
             return !filter || filter(d.date);
         });
     };
 
-    gen.mu = function(x) {
+    gen.mu = function (x) {
         if (!arguments.length) {
             return mu;
         }
         mu = x;
         return gen;
     };
-    gen.sigma = function(x) {
+    gen.sigma = function (x) {
         if (!arguments.length) {
             return sigma;
         }
         sigma = x;
         return gen;
     };
-    gen.startPrice = function(x) {
+    gen.startPrice = function (x) {
         if (!arguments.length) {
             return startPrice;
         }
         startPrice = x;
         return gen;
     };
-    gen.startVolume = function(x) {
+    gen.startVolume = function (x) {
         if (!arguments.length) {
             return startVolume;
         }
         startVolume = x;
         return gen;
     };
-    gen.startDate = function(x) {
+    gen.startDate = function (x) {
         if (!arguments.length) {
             return startDate;
         }
         startDate = x;
         return gen;
     };
-    gen.stepsPerDay = function(x) {
+    gen.stepsPerDay = function (x) {
         if (!arguments.length) {
             return stepsPerDay;
         }
         stepsPerDay = x;
         return gen;
     };
-    gen.volumeNoiseFactor = function(x) {
+    gen.volumeNoiseFactor = function (x) {
         if (!arguments.length) {
             return volumeNoiseFactor;
         }
         volumeNoiseFactor = x;
         return gen;
     };
-    gen.filter = function(x) {
+    gen.filter = function (x) {
         if (!arguments.length) {
             return filter;
         }

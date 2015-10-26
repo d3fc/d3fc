@@ -3,18 +3,18 @@ import d3 from 'd3';
 // Renders a bar series as an SVG path based on the given array of datapoints. Each
 // bar has a fixed width, whilst the x, y and height are obtained from each data
 // point via the supplied accessor functions.
-export default function() {
+export default function () {
 
-    var x = function(d, i) { return d.x; },
-        y = function(d, i) { return d.y; },
+    var x = function (d, i) { return d.x; },
+        y = function (d, i) { return d.y; },
         horizontalAlign = 'center',
         verticalAlign = 'center',
-        height = function(d, i) { return d.height; },
+        height = function (d, i) { return d.height; },
         width = d3.functor(3);
 
-    var bar = function(data, index) {
+    var bar = function (data, index) {
 
-        return data.map(function(d, i) {
+        return data.map(function (d, i) {
             var xValue = x.call(this, d, index || i),
                 yValue = y.call(this, d, index || i),
                 barHeight = height.call(this, d, index || i),
@@ -65,42 +65,42 @@ export default function() {
         .join('');
     };
 
-    bar.x = function(_x) {
+    bar.x = function (_x) {
         if (!arguments.length) {
             return x;
         }
         x = d3.functor(_x);
         return bar;
     };
-    bar.y = function(x) {
+    bar.y = function (x) {
         if (!arguments.length) {
             return y;
         }
         y = d3.functor(x);
         return bar;
     };
-    bar.width = function(x) {
+    bar.width = function (x) {
         if (!arguments.length) {
             return width;
         }
         width = d3.functor(x);
         return bar;
     };
-    bar.horizontalAlign = function(x) {
+    bar.horizontalAlign = function (x) {
         if (!arguments.length) {
             return horizontalAlign;
         }
         horizontalAlign = x;
         return bar;
     };
-    bar.height = function(x) {
+    bar.height = function (x) {
         if (!arguments.length) {
             return height;
         }
         height = d3.functor(x);
         return bar;
     };
-    bar.verticalAlign = function(x) {
+    bar.verticalAlign = function (x) {
         if (!arguments.length) {
             return verticalAlign;
         }

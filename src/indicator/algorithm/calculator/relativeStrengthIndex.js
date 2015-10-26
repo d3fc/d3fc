@@ -1,11 +1,11 @@
 import d3 from 'd3';
 import _slidingWindow from './slidingWindow';
 
-export default function() {
+export default function () {
 
-    var openValue = function(d, i) { return d.open; },
-        closeValue = function(d, i) { return d.close; },
-        averageAccumulator = function(values) {
+    var openValue = function (d, i) { return d.open; },
+        closeValue = function (d, i) { return d.close; },
+        averageAccumulator = function (values) {
             var alpha = 1 / values.length;
             var result = values[0];
             for (var i = 1, l = values.length; i < l; i++) {
@@ -16,7 +16,7 @@ export default function() {
 
     var slidingWindow = _slidingWindow()
         .windowSize(14)
-        .accumulator(function(values) {
+        .accumulator(function (values) {
             var downCloses = [];
             var upCloses = [];
 
@@ -39,18 +39,18 @@ export default function() {
             return 100 - (100 / (1 + rs));
         });
 
-    var rsi = function(data) {
+    var rsi = function (data) {
         return slidingWindow(data);
     };
 
-    rsi.openValue = function(x) {
+    rsi.openValue = function (x) {
         if (!arguments.length) {
             return openValue;
         }
         openValue = x;
         return rsi;
     };
-    rsi.closeValue = function(x) {
+    rsi.closeValue = function (x) {
         if (!arguments.length) {
             return closeValue;
         }

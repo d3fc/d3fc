@@ -1,12 +1,12 @@
-describe('fc.indicator.algorithm.calculator.forceIndex', function() {
+describe('fc.indicator.algorithm.calculator.forceIndex', function () {
 
     var force;
 
-    beforeEach(function() {
+    beforeEach(function () {
         force = fc.indicator.algorithm.calculator.forceIndex();
     });
 
-    it('should calculate a positive force', function() {
+    it('should calculate a positive force', function () {
         var data = [
             {close: 0, volume: 10},
             {close: 1, volume: 20},
@@ -16,7 +16,7 @@ describe('fc.indicator.algorithm.calculator.forceIndex', function() {
         expect(force(data)).toEqual([undefined, 20, 60]);
     });
 
-    it('should calculate a negative force', function() {
+    it('should calculate a negative force', function () {
         var data = [
             {close: 7, volume: 10},
             {close: 4, volume: 20},
@@ -26,7 +26,7 @@ describe('fc.indicator.algorithm.calculator.forceIndex', function() {
         expect(force(data)).toEqual([undefined, -60, -45]);
     });
 
-    it('should calculate a zero force', function() {
+    it('should calculate a zero force', function () {
         var data = [
             {close: 4, volume: 10},
             {close: 4, volume: 20},
@@ -36,7 +36,7 @@ describe('fc.indicator.algorithm.calculator.forceIndex', function() {
         expect(force(data)).toEqual([undefined, 0, 0]);
     });
 
-    it('should calculate force in a longer sequence', function() {
+    it('should calculate force in a longer sequence', function () {
         var data = [
             {close: 0, volume: 10},
             {close: 4, volume: 20},

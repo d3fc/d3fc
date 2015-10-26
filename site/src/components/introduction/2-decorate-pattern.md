@@ -6,7 +6,7 @@ namespace: introduction
 axis-example-code: |
   var axis = fc.svg.axis()
     .scale(ordinalScale)
-    .decorate(function(s) {
+    .decorate(function (s) {
       s.enter()
         .select('text')
         .style('text-anchor', 'start')
@@ -19,10 +19,10 @@ bar-example-code: |
   var bar = fc.series.bar()
       .xScale(xScale)
       .yScale(yScale)
-      .decorate(function(s) {
+      .decorate(function (s) {
         s.enter()
           .select('path')
-          .style('fill', function(d, i) {
+          .style('fill', function (d, i) {
             return color(i);
           });
       });
@@ -31,21 +31,21 @@ point-example-code: |
   var point = fc.series.point()
       .xScale(xScale)
       .yScale(yScale)
-      .decorate(function(s) {
+      .decorate(function (s) {
         s.enter()
           .append('text')
           .style('text-anchor', 'middle')
           .attr('transform', 'translate(0, -10)')
-          .text(function(d) { return d3.format(".2f")(d.close); });
+          .text(function (d) { return d3.format(".2f")(d.close); });
       });
 
 enter-exit-example-code: |
   var point = fc.series.point()
     .xScale(xScale)
     .yScale(yScale)
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; })
-    .decorate(function(s) {
+    .xValue(function (d) { return d.x; })
+    .yValue(function (d) { return d.y; })
+    .decorate(function (s) {
       s.enter()
         .select('circle')
         .attr('r', 40);
@@ -87,7 +87,7 @@ In this example the axis labels are rotated by adding a transform to the `text` 
 <svg class="axis-container" id="axis-example"></svg>
 
 <script type="text/javascript">
-(function() {
+(function () {
   var width = $("#axis-example").width();
 
   var linearScale = d3.scale.linear()
@@ -127,8 +127,8 @@ The example below shows how a bar series can be styled to cycle through a color 
 <div id="bar-example" class="chart" style="height: 200px"> </div>
 
 <script type="text/javascript">
-(function() {
-  var f = createFixture('#bar-example', null, 200, 10, function() { return true; });
+(function () {
+  var f = createFixture('#bar-example', null, 200, 10, function () { return true; });
   var container = f.container, data = f.data,
     xScale = f.xScale, yScale = f.yScale;
 
@@ -155,8 +155,8 @@ In the example below datapoint labels are added via decorate:
 <div id="label-example" class="chart" style="height: 200px"> </div>
 
 <script type="text/javascript">
-(function() {
-  var f = createFixture('#label-example', null, 200, 10, function() { return true; });
+(function () {
+  var f = createFixture('#label-example', null, 200, 10, function () { return true; });
   var container = f.container, data = f.data,
     xScale = f.xScale, yScale = f.yScale;
 
@@ -182,7 +182,7 @@ In this (slightly contrived) example the mouse location is plotted via a point s
 <div id="enter-exit-example" class="chart" style="height: 300px"> </div>
 
 <script type="text/javascript">
-(function() {
+(function () {
 
   var width = 600, height = 300;
   var container = d3.select('#enter-exit-example')
@@ -203,7 +203,7 @@ In this (slightly contrived) example the mouse location is plotted via a point s
 
   var mouseX = 50, mouseY = 50;
 
-  document.onmousemove = function(evt) {
+  document.onmousemove = function (evt) {
     mouseX = evt.clientX * 100 / $(window).width();
     mouseY = evt.clientY * 100 / $(window).height();
   }

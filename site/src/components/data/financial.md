@@ -24,7 +24,7 @@ N.B. There is a default skip weekends filter applied after the data is generated
 
 <pre id="financial"></pre>
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
 }());
 </script>

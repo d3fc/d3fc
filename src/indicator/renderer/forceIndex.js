@@ -4,7 +4,7 @@ import _multi from '../../series/multi';
 import {noop} from '../../util/fn';
 import seriesLine from '../../series/line';
 
-export default function() {
+export default function () {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
@@ -14,16 +14,16 @@ export default function() {
     var annotations = annotationLine();
 
     var forceLine = seriesLine()
-        .yValue(function(d, i) {
+        .yValue(function (d, i) {
             return d.force;
         });
 
-    var force = function(selection) {
+    var force = function (selection) {
 
         multiSeries.xScale(xScale)
             .yScale(yScale)
             .series([annotations, forceLine])
-            .mapping(function(series) {
+            .mapping(function (series) {
                 if (series === annotations) {
                     return [
                         0
@@ -31,9 +31,9 @@ export default function() {
                 }
                 return this;
             })
-            .decorate(function(g, data, index) {
+            .decorate(function (g, data, index) {
                 g.enter()
-                    .attr('class', function(d, i) {
+                    .attr('class', function (d, i) {
                         return 'multi ' + ['annotations', 'indicator'][i];
                     });
                 decorate(g, data, index);
@@ -42,7 +42,7 @@ export default function() {
         selection.call(multiSeries);
     };
 
-    force.xScale = function(x) {
+    force.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
@@ -50,7 +50,7 @@ export default function() {
         annotations.xScale(x);
         return force;
     };
-    force.yScale = function(x) {
+    force.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
@@ -58,7 +58,7 @@ export default function() {
         annotations.yScale(x);
         return force;
     };
-    force.decorate = function(x) {
+    force.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
