@@ -19,7 +19,7 @@ example-code: |
 ---
 
 The random walk component creates a random series of values based on a [Geometric Brownian Motion](http://stuartreid.co.za/interactive-stochastic-processes/). It 
-is useful for generating arbitrary sets of data. The [random financial](./financial.html) component uses it to generate two series of points, which are then converted into a price bar series. 
+is useful for generating arbitrary sets of data. The [random financial](./financial.html) component uses this component to create a random price series and a random volume series.
 
 ```js
 {{{example-code}}}
