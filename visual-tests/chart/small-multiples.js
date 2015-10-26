@@ -62,11 +62,15 @@
     }
 
     function renderPopulationChart() {
+        if (!populationSeries) {
+            return;
+        }
+
         var bar = fc.series.bar()
             .orient('horizontal')
             .barWidth(fc.util.fractionalBarWidth(1))
-            .xValue(function(d) { return d.yValue; })
-            .yValue(function(d) { return d.age; });
+            .xValue(function(d) { return d.y; })
+            .yValue(function(d) { return d.x; });
 
         var smallMultiples = fc.chart.smallMultiples(
                 d3.scale.linear(),
@@ -77,14 +81,18 @@
             .yOrient(chartConfig[3].value)
             .xOrient(chartConfig[4].value)
             .plotArea(bar)
-            .xDomain(fc.util.extent(populationSeries.map(function(d) { return d.values; }), function() { return 0;}, 'yValue'))
-            .yDomain(populationSeries[0].values.map(function(d) { return d.age; }));
+            .xDomain(fc.util.extent(populationSeries.map(function(d) { return d.values; }), function() { return 0;}, 'y'))
+            .yDomain(populationSeries[0].values.map(function(d) { return d.x; }));
 
         container.datum(populationSeries)
             .call(smallMultiples);
     }
 
     function renderTemperatureChart() {
+        if (!temperatureSeries) {
+            return;
+        }
+
         var stationLine = fc.series.line()
             .xValue(function(d) { return d.MonthName; })
             .yValue(function(d) { return d.Station; });
@@ -117,21 +125,14 @@
     }
 
     d3.csv('../series/stackedBarData.csv', function(error, data) {
-        var keys = Object.keys(data[0]).filter(function(d) {
-            return d !== 'State';
-        });
 
-        populationSeries = data.map(function(datum) {
-            return {
-                key: datum.State,
-                values: keys.map(function(yValueName) {
-                    return {
-                        yValue: Number(datum[yValueName]) / 100000,
-                        age: yValueName
-                    };
-                })
-            };
-        });
+        var spread = fc.data.spread()
+            .orient('horizontal')
+            .xValueKey('State')
+            .yValue(function(row, key) {
+                return Number(row[key]) / 100000;
+            });
+        populationSeries = spread(data);
 
         renderChart();
     });
