@@ -55,7 +55,7 @@ export default function(xScale, yScale) {
                 .append('svg')
                 .layout('flex', 1)
                 .append('g')
-                .attr('class', 'chart multiples');
+                .attr('class', 'multiples-chart');
 
             var plotAreaContainer = svg.select('g')
                 .layout(expandedMargin);

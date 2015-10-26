@@ -53,9 +53,9 @@ export default function(xScale, yScale) {
         });
 
     var containerDataJoin = dataJoin()
-        .selector('svg.cartesian')
+        .selector('svg.cartesian-chart')
         .element('svg')
-        .attr({'class': 'cartesian chart', 'layout-style': 'flex: 1'});
+        .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
 
 
     var cartesian = function(selection) {
