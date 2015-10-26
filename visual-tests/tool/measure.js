@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -13,10 +13,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -37,10 +37,10 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.close; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.close; })
+        .decorate(function (sel) {
             sel.selectAll('path')
-                .style('fill', function(d) { return color(d.date.getDay()); });
+                .style('fill', function (d) { return color(d.date.getDay()); });
         })
         .barWidth(9);
 
@@ -50,24 +50,24 @@
         .yScale(priceScale)
         .snap(fc.util.seriesPointSnap(bar, data))
         .padding(10)
-        .xLabel(function(d) {
+        .xLabel(function (d) {
             return !(d.source && d.target) ? '' :
             d3.time.day.range(d.source.datum.date, d.target.datum.date).length + ' days';
         })
-        .yLabel(function(d) {
+        .yLabel(function (d) {
             return !(d.source && d.target) ? '' :
                 d3.format('.2f')(d.target.datum.close - d.source.datum.close);
         })
-        .decorate(function(selection) {
+        .decorate(function (selection) {
             selection.enter()
                 .append('circle')
                 .attr('r', 6)
                 .style('stroke', 'black')
                 .style('fill', 'none');
             selection.select('circle')
-                .attr('cx', function(d) { return d.target ? dateScale(d.target.x) : 0; })
-                .attr('cy', function(d) { return d.target ? priceScale(d.target.y) : 0; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
+                .attr('cx', function (d) { return d.target ? dateScale(d.target.x) : 0; })
+                .attr('cy', function (d) { return d.target ? priceScale(d.target.y) : 0; })
+                .style('visibility', function (d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
         });
 
     // Add it to the chart
@@ -75,7 +75,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, measure])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case bar:
                 return this;

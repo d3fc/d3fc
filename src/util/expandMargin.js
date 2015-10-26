@@ -3,7 +3,7 @@
 // property equals the given value. Also, a margin may have properties missing, in
 // which case they default to zero.
 // This function expand an integer to a margin and fills missing properties.
-export default function(margin) {
+export default function (margin) {
     var expandedMargin = margin;
     if (typeof(expandedMargin) === 'number') {
         expandedMargin = {
@@ -13,7 +13,7 @@ export default function(margin) {
             right: margin
         };
     }
-    ['top', 'bottom', 'left', 'right'].forEach(function(direction) {
+    ['top', 'bottom', 'left', 'right'].forEach(function (direction) {
         if (!expandedMargin[direction]) {
             expandedMargin[direction] = 0;
         }

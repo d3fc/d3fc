@@ -1,8 +1,8 @@
 /* global d3:false, fc:false */
-(function(d3, fc, example) {
+(function (d3, fc, example) {
     'use strict';
 
-    example.tooltip = function() {
+    example.tooltip = function () {
 
         var formatters = {
             date: d3.time.format('%A, %b %e, %Y'),
@@ -15,15 +15,15 @@
         }
 
         var items = [
-            function(d) { return format('date', d.date); },
-            function(d) { return 'Open: ' + format('price', d.open); },
-            function(d) { return 'High: ' + format('price', d.high); },
-            function(d) { return 'Low: ' + format('price', d.low); },
-            function(d) { return 'Close: ' + format('price', d.close); },
-            function(d) { return 'Volume: ' + format('volume', d.volume); }
+            function (d) { return format('date', d.date); },
+            function (d) { return 'Open: ' + format('price', d.open); },
+            function (d) { return 'High: ' + format('price', d.high); },
+            function (d) { return 'Low: ' + format('price', d.low); },
+            function (d) { return 'Close: ' + format('price', d.close); },
+            function (d) { return 'Volume: ' + format('volume', d.volume); }
         ];
 
-        var tooltip = function(selection) {
+        var tooltip = function (selection) {
 
             var container = selection.enter()
                 .append('g')
@@ -51,7 +51,7 @@
                 .attr('x', 4)
                 .attr('dy', 12);
 
-            tspan.text(function(d) {
+            tspan.text(function (d) {
                 return d(container.datum().datum);
             });
         };
@@ -59,38 +59,38 @@
         return tooltip;
     };
 
-    example.candlestickSeries = function() {
+    example.candlestickSeries = function () {
 
         var base = fc.series.ohlcBase();
 
         var candlestick = fc.svg.candlestick()
-            .x(function(d) { return d.x; })
-            .open(function(d) { return d.yOpen; })
-            .high(function(d) { return d.yHigh; })
-            .low(function(d) { return d.yLow; })
-            .close(function(d) { return d.yClose; });
+            .x(function (d) { return d.x; })
+            .open(function (d) { return d.yOpen; })
+            .high(function (d) { return d.yHigh; })
+            .low(function (d) { return d.yLow; })
+            .close(function (d) { return d.yClose; });
 
         var fractionalBarWidth = fc.util.fractionalBarWidth(0.75);
 
         var nest = d3.nest()
-            .key(function(d) { return d.direction; });
+            .key(function (d) { return d.direction; });
 
         var dataJoin = fc.util.dataJoin()
             .selector('path')
             .element('path');
 
         function candlestickSeries(selection) {
-            selection.each(function(data) {
+            selection.each(function (data) {
                 data = data.filter(base.defined);
 
                 candlestick.width(base.width(data));
 
                 dataJoin(this, nest.entries(data.map(base.values)))
                     .attr({
-                        'd': function(d) {
+                        'd': function (d) {
                             return candlestick(d.values);
                         },
-                        'class': function(d) {
+                        'class': function (d) {
                             return 'candlestick ' + d.key;
                         }
                     });
@@ -102,7 +102,7 @@
         return candlestickSeries;
     };
 
-    example.mainChart = function() {
+    example.mainChart = function () {
 
         var event = d3.dispatch('crosshair', 'zoom');
 
@@ -123,7 +123,7 @@
 
         var multi = fc.series.multi()
             .series([gridlines, candlestick, crosshairs])
-            .mapping(function(series) {
+            .mapping(function (series) {
                 switch (series) {
                 case crosshairs:
                     return this.crosshairs;
@@ -145,7 +145,7 @@
 
         function mainChart(selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 crosshairs.snap(fc.util.seriesPointSnapXOnly(candlestick, data));
 
@@ -159,7 +159,7 @@
                 // Zoom goes nuts if you re-use an instance and also can't set
                 // the scale on zoom until it's been initialised by chart.
                 var zoom = d3.behavior.zoom()
-                    .on('zoom', function() {
+                    .on('zoom', function () {
                         event.zoom.call(this, xScale.domain());
                     })
                     .x(xScale);
@@ -173,14 +173,14 @@
         return mainChart;
     };
 
-    example.barSeries = function() {
+    example.barSeries = function () {
 
         var base = fc.series.xyBase();
 
         var bar = fc.svg.bar()
             .verticalAlign('top')
             .x(base.x)
-            .height(function(d) { return base.y(d) - base.y0(d); })
+            .height(function (d) { return base.y(d) - base.y0(d); })
             .y(base.y0);
 
         var fractionalBarWidth = fc.util.fractionalBarWidth(0.75);
@@ -190,7 +190,7 @@
             .element('path');
 
         function barSeries(selection) {
-            selection.each(function(data) {
+            selection.each(function (data) {
                 data = data.filter(base.defined);
 
                 bar.width(fractionalBarWidth(data.map(base.x)));
@@ -208,7 +208,7 @@
         return barSeries;
     };
 
-    example.volumeChart = function() {
+    example.volumeChart = function () {
 
         var event = d3.dispatch('crosshair');
 
@@ -223,7 +223,7 @@
             .yTicks(2);
 
         var bar = example.barSeries()
-            .yValue(function(d) { return d.volume; });
+            .yValue(function (d) { return d.volume; });
 
         var crosshairs = fc.tool.crosshair()
             .xLabel('')
@@ -234,7 +234,7 @@
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
-            .mapping(function(series) {
+            .mapping(function (series) {
                 switch (series) {
                 case crosshairs:
                     return this.crosshairs;
@@ -247,7 +247,7 @@
 
         function volumeChart(selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 chart.xDomain(data.dateDomain)
                     .yDomain(fc.util.extent()(data, 'volume'))
@@ -267,7 +267,7 @@
         return volumeChart;
     };
 
-    example.navigatorChart = function() {
+    example.navigatorChart = function () {
         var event = d3.dispatch('brush');
 
         var chart = fc.chart.cartesian(fc.scale.dateTime())
@@ -293,7 +293,7 @@
 
         // TODO: the brush causes a partial render which can glitch things
         var brush = d3.svg.brush()
-            .on('brush', function() {
+            .on('brush', function () {
                 var domain = [brush.extent()[0][0], brush.extent()[1][0]];
                 // Scales with a domain delta of 0 === NaN
                 if (domain[0] - domain[1] !== 0) {
@@ -303,7 +303,7 @@
 
         var multi = fc.series.multi()
             .series([gridlines, area, brush])
-            .mapping(function(series) {
+            .mapping(function (series) {
                 // Need to set the extent AFTER the scales
                 // are set AND their ranges defined
                 if (series === brush) {
@@ -315,7 +315,7 @@
                 }
                 return this;
             })
-            .decorate(function(sel) {
+            .decorate(function (sel) {
                 var height = d3.select(sel.node().parentNode).layout('height');
                 sel.enter()
                     .selectAll('.resize.e>rect, .resize.w>rect')
@@ -336,7 +336,7 @@
 
         function navigatorChart(selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 chart.xDomain(data.navigatorDateDomain)
                     .yDomain(data.navigatorYDomain)
@@ -354,10 +354,10 @@
         return navigatorChart;
     };
 
-    example.lowBarrel = function() {
+    example.lowBarrel = function () {
         var event = d3.dispatch('navigate', 'crosshair');
 
-        var bisector = d3.bisector(function(d) { return d.date; });
+        var bisector = d3.bisector(function (d) { return d.date; });
 
         var mainChart = example.mainChart()
             .on('crosshair', event.crosshair)
@@ -371,7 +371,7 @@
 
         function lowBarrel(selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
                 // Calculate visible data for main/volume charts
                 var visibleData = data.slice(
                     // Pad and clamp the bisector values to ensure extents can be calculated
@@ -403,7 +403,7 @@
     };
 
     // Wrap in function to demonstrate no global access to state variables
-    (function() {
+    (function () {
         var data = fc.data.random.financial()
             .startDate(new Date(2014, 1, 1))(250);
 
@@ -418,7 +418,7 @@
         var container = d3.select('#low-barrel')
             .layout();
 
-        var render = fc.util.render(function() {
+        var render = fc.util.render(function () {
             container.datum(data)
                 .call(lowBarrel)
                 .layoutSuspended(true);
@@ -426,7 +426,7 @@
 
         var lowBarrel = example.lowBarrel()
             .on('crosshair', render)
-            .on('navigate', function(domain) {
+            .on('navigate', function (domain) {
                 data.dateDomain = [
                     new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
                     new Date(Math.min(domain[1], data.navigatorDateDomain[1]))

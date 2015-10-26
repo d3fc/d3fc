@@ -2,7 +2,7 @@ import d3 from 'd3';
 import dataJoin from '../util/dataJoin';
 import {noop} from '../util/fn';
 
-export default function() {
+export default function () {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
@@ -22,9 +22,9 @@ export default function() {
         .element('line')
         .attr('class', 'y gridline');
 
-    var gridlines = function(selection) {
+    var gridlines = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var xData = xScale.ticks(xTicks);
             var xLines = xLineDataJoin(this, xData);
@@ -53,42 +53,42 @@ export default function() {
         });
     };
 
-    gridlines.xScale = function(x) {
+    gridlines.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return gridlines;
     };
-    gridlines.yScale = function(x) {
+    gridlines.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return gridlines;
     };
-    gridlines.xTicks = function(x) {
+    gridlines.xTicks = function (x) {
         if (!arguments.length) {
             return xTicks;
         }
         xTicks = x;
         return gridlines;
     };
-    gridlines.yTicks = function(x) {
+    gridlines.yTicks = function (x) {
         if (!arguments.length) {
             return yTicks;
         }
         yTicks = x;
         return gridlines;
     };
-    gridlines.yDecorate = function(x) {
+    gridlines.yDecorate = function (x) {
         if (!arguments.length) {
             return yDecorate;
         }
         yDecorate = x;
         return gridlines;
     };
-    gridlines.xDecorate = function(x) {
+    gridlines.xDecorate = function (x) {
         if (!arguments.length) {
             return xDecorate;
         }

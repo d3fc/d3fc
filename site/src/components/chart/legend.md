@@ -85,7 +85,7 @@ The following example show a standalone `legend` using dynamically generated dat
 
 
 <script type="text/javascript">
-(function() {
+(function () {
   {{{example-code}}}
 }());
 </script>

@@ -6,7 +6,7 @@ import _multi from '../series/multi';
 import _point from '../series/point';
 import {rebind} from '../util/rebind';
 
-export default function() {
+export default function () {
 
     // creates an array with four elements, representing the high, low, open and close
     // values of the given array
@@ -18,7 +18,7 @@ export default function() {
         var low = d3.min(data, yValueAccessor);
 
         function elementWithYValue(value) {
-            return data.filter(function(d) {
+            return data.filter(function (d) {
                 return yValueAccessor(d) === value;
             })[0];
         }
@@ -46,10 +46,10 @@ export default function() {
     // configure the point series to render the data from the
     // highLowOpenClose function
     var point = _point()
-        .xValue(function(d) { return d.x; })
-        .yValue(function(d) { return d.y; })
-        .decorate(function(sel) {
-            sel.attr('class', function(d, i) {
+        .xValue(function (d) { return d.x; })
+        .yValue(function (d) { return d.y; })
+        .decorate(function (sel) {
+            sel.attr('class', function (d, i) {
                 switch (i) {
                 case 0: return 'open';
                 case 1: return 'high';
@@ -61,7 +61,7 @@ export default function() {
 
     var multi = _multi()
         .series([line, point])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case point:
                 return highLowOpenClose(this);
@@ -70,11 +70,11 @@ export default function() {
             }
         });
 
-    var sparkline = function(selection) {
+    var sparkline = function (selection) {
 
         point.radius(radius);
 
-        selection.each(function(data) {
+        selection.each(function (data) {
 
             var container = d3.select(this);
             var dimensions = innerDimensions(this);
@@ -102,9 +102,9 @@ export default function() {
 
     rebind(sparkline, line, 'xValue', 'yValue');
 
-    sparkline.xScale = function() { return xScale; };
-    sparkline.yScale = function() { return yScale; };
-    sparkline.radius = function(x) {
+    sparkline.xScale = function () { return xScale; };
+    sparkline.yScale = function () { return yScale; };
+    sparkline.radius = function (x) {
         if (!arguments.length) {
             return radius;
         }

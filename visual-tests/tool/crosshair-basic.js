@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -13,10 +13,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -41,15 +41,15 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .snap(fc.util.seriesPointSnapXOnly(line, data))
-        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
-        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); });
+        .xLabel(function (d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
+        .yLabel(function (d) { return d.datum && d3.format('.2f')(d.datum.close); });
 
     // Add it to the chart
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
         .series([line, crosshair])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case line:
                 return this;

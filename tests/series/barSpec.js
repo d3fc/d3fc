@@ -1,6 +1,6 @@
-describe('bar - vertical', function() {
+describe('bar - vertical', function () {
 
-    it('should invoke data accessors with datum and index', function() {
+    it('should invoke data accessors with datum and index', function () {
 
         var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.util.fn.identity),
             y0ValueSpy = jasmine.createSpy('y0Value').and.callFake(fc.util.fn.identity),
@@ -33,9 +33,9 @@ describe('bar - vertical', function() {
 
 });
 
-describe('bar - horizontal', function() {
+describe('bar - horizontal', function () {
 
-    it('should invoke data accessors with datum and index', function() {
+    it('should invoke data accessors with datum and index', function () {
 
         var yValueSpy = jasmine.createSpy('yValue').and.callFake(fc.util.fn.identity),
             x0ValueSpy = jasmine.createSpy('x0Value').and.callFake(fc.util.fn.identity),

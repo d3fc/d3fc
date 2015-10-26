@@ -1,7 +1,7 @@
 import d3 from 'd3';
 
 //  https://www.quandl.com/docs/api#datasets
-export default function() {
+export default function () {
 
     function defaultColumnNameMap(colName) {
         return colName[0].toLowerCase() + colName.substr(1);
@@ -17,7 +17,7 @@ export default function() {
         collapse = null,
         columnNameMap = defaultColumnNameMap;
 
-    var quandl = function(cb) {
+    var quandl = function (cb) {
         var params = [];
         if (apiKey != null) {
             params.push('api_key=' + apiKey);
@@ -40,7 +40,7 @@ export default function() {
 
         var url = 'https://www.quandl.com/api/v3/datasets/' + database + '/' + dataset + '/data.json?' + params.join('&');
 
-        d3.json(url, function(error, data) {
+        d3.json(url, function (error, data) {
             if (error) {
                 cb(error);
                 return;
@@ -48,14 +48,14 @@ export default function() {
 
             var datasetData = data.dataset_data;
 
-            var nameMapping = columnNameMap || function(n) { return n; };
+            var nameMapping = columnNameMap || function (n) { return n; };
             var colNames = datasetData.column_names
-                .map(function(n, i) { return [i, nameMapping(n)]; })
-                .filter(function(v) { return v[1]; });
+                .map(function (n, i) { return [i, nameMapping(n)]; })
+                .filter(function (v) { return v[1]; });
 
-            var mappedData = datasetData.data.map(function(d) {
+            var mappedData = datasetData.data.map(function (d) {
                 var output = {};
-                colNames.forEach(function(v) {
+                colNames.forEach(function (v) {
                     output[v[1]] = v[0] === 0 ? new Date(d[v[0]]) : d[v[0]];
                 });
                 return output;
@@ -66,7 +66,7 @@ export default function() {
     };
 
     // Unique Database Code (e.g. WIKI)
-    quandl.database = function(x) {
+    quandl.database = function (x) {
         if (!arguments.length) {
             return database;
         }
@@ -74,7 +74,7 @@ export default function() {
         return quandl;
     };
     // Unique Dataset Code (e.g. AAPL)
-    quandl.dataset = function(x) {
+    quandl.dataset = function (x) {
         if (!arguments.length) {
             return dataset;
         }
@@ -82,7 +82,7 @@ export default function() {
         return quandl;
     };
     // Set To Use API Key In Request (needed for premium set or high frequency requests)
-    quandl.apiKey = function(x) {
+    quandl.apiKey = function (x) {
         if (!arguments.length) {
             return apiKey;
         }
@@ -90,7 +90,7 @@ export default function() {
         return quandl;
     };
     // Start Date of Data Series
-    quandl.start = function(x) {
+    quandl.start = function (x) {
         if (!arguments.length) {
             return start;
         }
@@ -98,7 +98,7 @@ export default function() {
         return quandl;
     };
     // End Date of Data Series
-    quandl.end = function(x) {
+    quandl.end = function (x) {
         if (!arguments.length) {
             return end;
         }
@@ -106,7 +106,7 @@ export default function() {
         return quandl;
     };
     // Limit Number of Rows
-    quandl.rows = function(x) {
+    quandl.rows = function (x) {
         if (!arguments.length) {
             return rows;
         }
@@ -114,7 +114,7 @@ export default function() {
         return quandl;
     };
     // Return Results In Descending Order (true) or Ascending (false)
-    quandl.descending = function(x) {
+    quandl.descending = function (x) {
         if (!arguments.length) {
             return descending;
         }
@@ -122,7 +122,7 @@ export default function() {
         return quandl;
     };
     // Periodicity of Data (daily | weekly | monthly | quarterly | annual)
-    quandl.collapse = function(x) {
+    quandl.collapse = function (x) {
         if (!arguments.length) {
             return collapse;
         }
@@ -130,7 +130,7 @@ export default function() {
         return quandl;
     };
     // Function Used to Normalise the Quandl Column Name To Field Name, Return Null To Skip Field
-    quandl.columnNameMap = function(x) {
+    quandl.columnNameMap = function (x) {
         if (!arguments.length) {
             return columnNameMap;
         }

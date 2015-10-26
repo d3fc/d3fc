@@ -4,7 +4,7 @@ import {identity, noop} from '../util/fn';
 import {range as scaleRange, isOrdinal} from '../util/scale';
 
 // A drop-in replacement for the D3 axis, supporting the decorate pattern.
-export default function() {
+export default function () {
 
     var scale = d3.scale.identity(),
         decorate = noop,
@@ -31,7 +31,7 @@ export default function() {
     // returns a function that creates a translation based on
     // the bound data
     function containerTranslate(s, trans) {
-        return function(d) {
+        return function (d) {
             return trans(s(d), 0);
         };
     }
@@ -46,7 +46,7 @@ export default function() {
 
     function pathTranspose(arr) {
         if (isVertical()) {
-            return arr.map(function(d) {
+            return arr.map(function (d) {
                 return [d[1], d[0]];
             });
         } else {
@@ -62,9 +62,9 @@ export default function() {
         return scale[fn] ? scale[fn].apply(scale, tickArguments) : defaultVal;
     }
 
-    var axis = function(selection) {
+    var axis = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             // Stash a snapshot of the new scale, and retrieve the old snapshot.
             var scaleOld = this.__chart__ || scale;
@@ -112,7 +112,7 @@ export default function() {
             g.attr('transform', containerTranslate(scale, translate));
 
             g.selectAll('path')
-                .attr('d', function(d) {
+                .attr('d', function (d) {
                     return svgDomainLine(pathTranspose([
                         [0, 0], [0, sign * innerTickSize]
                     ]));
@@ -132,7 +132,7 @@ export default function() {
         });
     };
 
-    axis.scale = function(x) {
+    axis.scale = function (x) {
         if (!arguments.length) {
             return scale;
         }
@@ -140,7 +140,7 @@ export default function() {
         return axis;
     };
 
-    axis.ticks = function(x) {
+    axis.ticks = function (x) {
         if (!arguments.length) {
             return tickArguments;
         }
@@ -148,7 +148,7 @@ export default function() {
         return axis;
     };
 
-    axis.tickValues = function(x) {
+    axis.tickValues = function (x) {
         if (!arguments.length) {
             return tickValues;
         }
@@ -156,7 +156,7 @@ export default function() {
         return axis;
     };
 
-    axis.tickFormat = function(x) {
+    axis.tickFormat = function (x) {
         if (!arguments.length) {
             return tickFormat;
         }
@@ -164,7 +164,7 @@ export default function() {
         return axis;
     };
 
-    axis.tickSize = function(x) {
+    axis.tickSize = function (x) {
         var n = arguments.length;
         if (!n) {
             return innerTickSize;
@@ -174,7 +174,7 @@ export default function() {
         return axis;
     };
 
-    axis.innerTickSize = function(x) {
+    axis.innerTickSize = function (x) {
         if (!arguments.length) {
             return innerTickSize;
         }
@@ -182,7 +182,7 @@ export default function() {
         return axis;
     };
 
-    axis.outerTickSize = function(x) {
+    axis.outerTickSize = function (x) {
         if (!arguments.length) {
             return outerTickSize;
         }
@@ -190,7 +190,7 @@ export default function() {
         return axis;
     };
 
-    axis.tickPadding = function(x) {
+    axis.tickPadding = function (x) {
         if (!arguments.length) {
             return tickPadding;
         }
@@ -198,7 +198,7 @@ export default function() {
         return axis;
     };
 
-    axis.orient = function(x) {
+    axis.orient = function (x) {
         if (!arguments.length) {
             return orient;
         }
@@ -206,7 +206,7 @@ export default function() {
         return axis;
     };
 
-    axis.decorate = function(x) {
+    axis.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

@@ -3,7 +3,7 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import xyBase from './xyBase';
 
-export default function() {
+export default function () {
 
     var decorate = noop;
 
@@ -20,9 +20,9 @@ export default function() {
         .element('path')
         .attr('class', 'area');
 
-    var area = function(selection) {
+    var area = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var path = dataJoin(this, [data]);
             path.attr('d', areaData);
@@ -31,7 +31,7 @@ export default function() {
         });
     };
 
-    area.decorate = function(x) {
+    area.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

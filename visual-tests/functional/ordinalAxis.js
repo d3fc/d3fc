@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = [
@@ -22,7 +22,7 @@
 
     // Create scale for x axis
     var xScale = d3.scale.ordinal()
-        .domain(data.map(function(d) { return d.name; }))
+        .domain(data.map(function (d) { return d.name; }))
         .rangePoints([0, width], 1);
 
     var yScale = d3.scale.linear()
@@ -38,14 +38,14 @@
     axisContainer.call(xAxis);
 
     var bar = fc.series.bar()
-        .xValue(function(d) { return d.name; })
-        .yValue(function(d) { return d.age; })
+        .xValue(function (d) { return d.name; })
+        .yValue(function (d) { return d.age; })
         .xScale(xScale)
         .yScale(yScale);
 
     var line = fc.series.line()
-        .xValue(function(d) { return d.name; })
-        .yValue(function(d) { return d.age - 2.0; })
+        .xValue(function (d) { return d.name; })
+        .yValue(function (d) { return d.age - 2.0; })
         .xScale(xScale)
         .yScale(yScale);
 

@@ -3,7 +3,7 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import xyBase from './xyBase';
 
-export default function() {
+export default function () {
 
     var decorate = noop,
         radius = d3.functor(5);
@@ -15,13 +15,13 @@ export default function() {
         .element('g')
         .attr('class', 'point');
 
-    var containerTransform = function(d, i) {
+    var containerTransform = function (d, i) {
         return 'translate(' + base.x(d, i) + ', ' + base.y(d, i) + ')';
     };
 
-    var point = function(selection) {
+    var point = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var filteredData = data.filter(base.defined);
 
@@ -40,14 +40,14 @@ export default function() {
         });
     };
 
-    point.decorate = function(x) {
+    point.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
         return point;
     };
-    point.radius = function(x) {
+    point.radius = function (x) {
         if (!arguments.length) {
             return radius;
         }

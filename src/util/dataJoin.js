@@ -16,14 +16,14 @@ var effectivelyZero = 1e-6;
 // This is achieved by appending the element to the enter selection before exposing it.
 // A default transition of fade in/out is also implicitly added but can be modified.
 
-export default function() {
+export default function () {
     var selector = 'g',
         children = false,
         element = 'g',
         attr = {},
         key = index;
 
-    var dataJoin = function(container, data) {
+    var dataJoin = function (container, data) {
 
         var joinedData = data || identity;
 
@@ -37,7 +37,7 @@ export default function() {
         if (children) {
             // in order to support nested selections, they can be filtered
             // to only return immediate children of the container
-            selection = selection.filter(function() {
+            selection = selection.filter(function () {
                 return this.parentNode === container.node();
             });
         }
@@ -72,28 +72,28 @@ export default function() {
         return updateSelection;
     };
 
-    dataJoin.selector = function(x) {
+    dataJoin.selector = function (x) {
         if (!arguments.length) {
             return selector;
         }
         selector = x;
         return dataJoin;
     };
-    dataJoin.children = function(x) {
+    dataJoin.children = function (x) {
         if (!arguments.length) {
             return children;
         }
         children = x;
         return dataJoin;
     };
-    dataJoin.element = function(x) {
+    dataJoin.element = function (x) {
         if (!arguments.length) {
             return element;
         }
         element = x;
         return dataJoin;
     };
-    dataJoin.attr = function(x) {
+    dataJoin.attr = function (x) {
         if (!arguments.length) {
             return attr;
         }
@@ -109,7 +109,7 @@ export default function() {
 
         return dataJoin;
     };
-    dataJoin.key = function(x) {
+    dataJoin.key = function (x) {
         if (!arguments.length) {
             return key;
         }

@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     function renderColumnSeries() {
@@ -21,7 +21,7 @@
         // offset the close price to give some negative values
         var extent = fc.util.extent()(data, ['close']);
         var offset = extent[0] + (extent[1] - extent[0]) / 2;
-        data.forEach(function(datum) {
+        data.forEach(function (datum) {
             datum.close = datum.close - offset;
         });
 
@@ -63,7 +63,7 @@
         // offset the low price to give some negative values
         var extent = fc.util.extent()(data, ['low']);
         var offset = extent[0] + (extent[1] - extent[0]) / 2;
-        data.forEach(function(datum) {
+        data.forEach(function (datum) {
             datum.low = datum.low - offset;
         });
 
@@ -86,7 +86,7 @@
 
         var bar = fc.series.bar()
             .orient('horizontal')
-            .xValue(function(d) { return d.low; })
+            .xValue(function (d) { return d.low; })
             .xScale(priceScale)
             .yScale(dateScale);
 

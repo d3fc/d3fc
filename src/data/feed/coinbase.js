@@ -1,14 +1,14 @@
 import d3 from 'd3';
 
 // https://docs.exchange.coinbase.com/#market-data
-export default function() {
+export default function () {
 
     var product = 'BTC-USD',
         start = null,
         end = null,
         granularity = null;
 
-    var coinbase = function(cb) {
+    var coinbase = function (cb) {
         var params = [];
         if (start != null) {
             params.push('start=' + start.toISOString());
@@ -20,12 +20,12 @@ export default function() {
             params.push('granularity=' + granularity);
         }
         var url = 'https://api.exchange.coinbase.com/products/' + product + '/candles?' + params.join('&');
-        d3.json(url, function(error, data) {
+        d3.json(url, function (error, data) {
             if (error) {
                 cb(error);
                 return;
             }
-            data = data.map(function(d) {
+            data = data.map(function (d) {
                 return {
                     date: new Date(d[0] * 1000),
                     open: d[3],
@@ -39,28 +39,28 @@ export default function() {
         });
     };
 
-    coinbase.product = function(x) {
+    coinbase.product = function (x) {
         if (!arguments.length) {
             return product;
         }
         product = x;
         return coinbase;
     };
-    coinbase.start = function(x) {
+    coinbase.start = function (x) {
         if (!arguments.length) {
             return start;
         }
         start = x;
         return coinbase;
     };
-    coinbase.end = function(x) {
+    coinbase.end = function (x) {
         if (!arguments.length) {
             return end;
         }
         end = x;
         return coinbase;
     };
-    coinbase.granularity = function(x) {
+    coinbase.granularity = function (x) {
         if (!arguments.length) {
             return granularity;
         }

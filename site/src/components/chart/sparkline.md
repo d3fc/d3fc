@@ -13,7 +13,7 @@ example-fixture: |
 
 example-code: |
   d3.selectAll('.sparkline')
-      .each(function() {
+      .each(function () {
           var sparkline = d3.select(this);
 
           // typically at this point you would fetch or look-up the
@@ -26,7 +26,7 @@ example-code: |
               .xDomain(fc.util.extent()(data, 'date'))
               .yDomain(fc.util.extent()(data, 'low'))
               .radius(2)
-              .yValue(function(d) { return d.low; });
+              .yValue(function (d) { return d.low; });
 
           sparkline
               .append('svg')
@@ -51,7 +51,7 @@ The following code selects all of these elements, using this component to constr
 ```
 
 <script type="text/javascript">
-(function() {
+(function () {
   {{{example-code}}}
 }());
 </script>

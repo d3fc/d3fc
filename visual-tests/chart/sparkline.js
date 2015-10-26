@@ -1,9 +1,9 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
 
     d3.selectAll('.sparkline')
-        .each(function() {
+        .each(function () {
             var sparkline = d3.select(this);
 
             // typically at this point you would fetch or look-up the
@@ -16,7 +16,7 @@
                 .xDomain(fc.util.extent()(data, 'date'))
                 .yDomain(fc.util.extent()(data, 'low'))
                 .radius(2)
-                .yValue(function(d) { return d.low; });
+                .yValue(function (d) { return d.low; });
 
             sparkline
                 .append('svg')

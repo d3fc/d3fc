@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     function renderLegendTwo() {
@@ -13,7 +13,7 @@
         }
 
         var legend = fc.chart.legend()
-            .items(series.map(function(d, i) {
+            .items(series.map(function (d, i) {
                 return [swatch(i), d];
             }));
 
@@ -34,18 +34,18 @@
         var priceFormat = d3.format('.2f');
         var legend = fc.chart.legend()
             .items([
-                ['open', function(d) { return priceFormat(d.open); }],
-                ['high', function(d) { return priceFormat(d.high); }],
-                ['low', function(d) { return priceFormat(d.low); }],
-                ['close', function(d) { return priceFormat(d.close); }]
+                ['open', function (d) { return priceFormat(d.open); }],
+                ['high', function (d) { return priceFormat(d.high); }],
+                ['low', function (d) { return priceFormat(d.low); }],
+                ['close', function (d) { return priceFormat(d.close); }]
             ])
-            .rowDecorate(function(sel) {
+            .rowDecorate(function (sel) {
                 sel.select('td')
-                    .style('color', function(d, i) {
+                    .style('color', function (d, i) {
                         return (d.datum.close - Math.floor(d.datum.close)) > 0.5 ? 'green' : 'red';
                     });
             })
-            .tableDecorate(function(sel) {
+            .tableDecorate(function (sel) {
                 sel.enter()
                     .insert('tr', ':first-child')
                     .append('th')
@@ -68,7 +68,7 @@
         }
 
         renderLegend();
-        setInterval(function() {
+        setInterval(function () {
             renderLegend();
         }, 1000);
     }

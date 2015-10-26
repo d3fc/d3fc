@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = [
@@ -7,10 +7,10 @@
     ];
 
     var percentageChange = fc.indicator.algorithm.calculator.percentageChange()
-        .value(function(d) { return d.close; });
-    data.forEach(function(d) {
+        .value(function (d) { return d.close; });
+    data.forEach(function (d) {
         d3.zip(d, percentageChange(d))
-            .forEach(function(tuple) {
+            .forEach(function (tuple) {
                 tuple[0].percentageChange = tuple[1];
             });
     });
@@ -35,14 +35,14 @@
         .nice();
 
     var line = fc.series.line()
-        .xValue(function(d) { return d.date; })
-        .yValue(function(d) { return d.percentageChange; });
+        .xValue(function (d) { return d.date; })
+        .yValue(function (d) { return d.percentageChange; });
 
     var multi = fc.series.multi()
         .xScale(dateScale)
         .yScale(priceScale)
         .series([line, line])
-        .mapping(function(series, i) {
+        .mapping(function (series, i) {
             return this[i];
         });
 
@@ -57,13 +57,13 @@
             function findIndex(data, item, field) {
                 // Find insertion point for item in seriesData.
                 var bisect = d3.bisector(
-                    function(d) {
+                    function (d) {
                         return d[field];
                     }).left;
                 return bisect(data, item);
             }
             var comparisonData = [];
-            data.forEach(function(d) {
+            data.forEach(function (d) {
                 var leftIndex = findIndex(d, dateScale.domain()[0], 'date'),
                     rightIndex = findIndex(d, dateScale.domain()[1], 'date');
                 if (leftIndex !== 0) {
@@ -72,7 +72,7 @@
                 percentageChange.baseIndex(leftIndex);
                 comparisonData.push(d.slice(leftIndex, rightIndex + 1));
                 d3.zip(d, percentageChange(d))
-                    .forEach(function(tuple) {
+                    .forEach(function (tuple) {
                         tuple[0].percentageChange = tuple[1];
                     });
             });

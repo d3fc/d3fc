@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var chartConfig = [
@@ -36,16 +36,16 @@
 
         row.append('th')
             .append('span')
-            .html(function(d) { return d.label; });
+            .html(function (d) { return d.label; });
 
         row.append('td')
             .append('input')
-            .attr('type', function(d) { return d.type || 'text'; })
+            .attr('type', function (d) { return d.type || 'text'; })
             .on('blur', updateModel)
             .on('click', updateModel);
 
         yOrientationConfig.select('input')
-            .attr('value', function(d) { return d.value; });
+            .attr('value', function (d) { return d.value; });
     }
 
     function renderChart() {
@@ -61,7 +61,7 @@
                 {name: 'frank', size: 33}
             ];
         } else {
-            data = d3.range(20).map(function(d) {
+            data = d3.range(20).map(function (d) {
                 return {
                     x: d,
                     y: (Math.sin(d) + 1.1)
@@ -72,7 +72,7 @@
         var chart = fc.chart.cartesian(
                 isOrdinal ? d3.scale.ordinal() : d3.scale.linear(),
                 d3.scale.linear())
-            .xDomain(isOrdinal ? data.map(function(d) { return d.name; }) : fc.util.extent()(data, 'x'))
+            .xDomain(isOrdinal ? data.map(function (d) { return d.name; }) : fc.util.extent()(data, 'x'))
             .yDomain(isOrdinal ? [0, 50] : fc.util.extent()(data, 'y'))
             .yOrient(chartConfig[0].value)
             .xOrient(chartConfig[1].value)
@@ -90,8 +90,8 @@
         }
 
         var bar = fc.series.bar()
-            .xValue(function(d) { return isOrdinal ? d.name : d.x; })
-            .yValue(function(d) { return isOrdinal ? d.size : d.y; });
+            .xValue(function (d) { return isOrdinal ? d.name : d.x; })
+            .yValue(function (d) { return isOrdinal ? d.size : d.y; });
 
         chart.plotArea(bar);
 

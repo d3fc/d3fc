@@ -1,9 +1,9 @@
-describe('fc.indicator.algorithm.calculator.stochasticOscillator', function() {
+describe('fc.indicator.algorithm.calculator.stochasticOscillator', function () {
 
     var stoc;
     var testData;
 
-    beforeEach(function() {
+    beforeEach(function () {
         stoc = fc.indicator.algorithm.calculator.stochasticOscillator();
         testData = [
             {high: 112.28, low: 109.49, close: 112.12},
@@ -18,34 +18,34 @@ describe('fc.indicator.algorithm.calculator.stochasticOscillator', function() {
             {high: 114.57, low: 112.44, close: 112.44}];
     });
 
-    it('should have a kWindowSize property defaulted to 5', function() {
+    it('should have a kWindowSize property defaulted to 5', function () {
         var func = stoc.kWindowSize()();
         expect(func).toBe(5);
     });
-    it('should have a dWindowSize property defaulted to 3', function() {
+    it('should have a dWindowSize property defaulted to 3', function () {
         var func = stoc.dWindowSize()();
         expect(func).toBe(3);
     });
-    it('should return a data set same length as input', function() {
+    it('should return a data set same length as input', function () {
         var result = stoc(testData);
         expect(result.length).toBe(testData.length);
     });
-    it('should have undefined %k value for first 4 points', function() {
+    it('should have undefined %k value for first 4 points', function () {
         var result = stoc(testData);
         expect(result[0].k).not.toBeDefined('index = 0');
         expect(result[1].k).not.toBeDefined('index = 1');
         expect(result[2].k).not.toBeDefined('index = 2');
         expect(result[3].k).not.toBeDefined('index = 3');
     });
-    it('should calculate a %k value of about 63.1449 for the point 5', function() {
+    it('should calculate a %k value of about 63.1449 for the point 5', function () {
         var result = stoc(testData);
         expect(result[4].k).toBeCloseTo(63.1449, 0.0001);
     });
-    it('should calculate a %k value of about 70.6612 for the point 9', function() {
+    it('should calculate a %k value of about 70.6612 for the point 9', function () {
         var result = stoc(testData);
         expect(result[9].k).toBeCloseTo(70.6612, 0.0001);
     });
-    it('should have undefined %d value for first 6 points', function() {
+    it('should have undefined %d value for first 6 points', function () {
         var result = stoc(testData);
         expect(result[0].d).not.toBeDefined('index = 0');
         expect(result[1].d).not.toBeDefined('index = 1');
@@ -54,11 +54,11 @@ describe('fc.indicator.algorithm.calculator.stochasticOscillator', function() {
         expect(result[4].d).not.toBeDefined('index = 4');
         expect(result[5].d).not.toBeDefined('index = 5');
     });
-    it('should calculate a %d value of about 60.3678 for the point 6', function() {
+    it('should calculate a %d value of about 60.3678 for the point 6', function () {
         var result = stoc(testData);
         expect(result[6].d).toBeCloseTo(60.3678, 0.0001);
     });
-    it('should calculate a %d value of about 55.4604 for the point 9', function() {
+    it('should calculate a %d value of about 55.4604 for the point 9', function () {
         var result = stoc(testData);
         expect(result[9].d).toBeCloseTo(55.4604, 0.0001);
     });

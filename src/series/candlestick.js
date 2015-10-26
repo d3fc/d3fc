@@ -5,7 +5,7 @@ import candlestickSvg from '../svg/candlestick';
 import ohlcBase from './ohlcBase';
 import {rebindAll} from '../util/rebind';
 
-export default function() {
+export default function () {
 
     var decorate = noop,
         base = ohlcBase();
@@ -15,9 +15,9 @@ export default function() {
         .element('g')
         .attr('class', 'candlestick');
 
-    var candlestick = function(selection) {
+    var candlestick = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var filteredData = data.filter(base.defined);
 
@@ -29,7 +29,7 @@ export default function() {
             var pathGenerator = candlestickSvg()
                     .width(base.width(filteredData));
 
-            g.each(function(d, i) {
+            g.each(function (d, i) {
 
                 var values = base.values(d, i);
 
@@ -38,10 +38,10 @@ export default function() {
                     .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
 
                 pathGenerator.x(d3.functor(0))
-                    .open(function() { return values.yOpen - values.yHigh; })
-                    .high(function() { return values.yHigh - values.yHigh; })
-                    .low(function() { return values.yLow - values.yHigh; })
-                    .close(function() { return values.yClose - values.yHigh; });
+                    .open(function () { return values.yOpen - values.yHigh; })
+                    .high(function () { return values.yHigh - values.yHigh; })
+                    .low(function () { return values.yLow - values.yHigh; })
+                    .close(function () { return values.yClose - values.yHigh; });
 
                 g.select('path')
                     .attr('d', pathGenerator([d]));
@@ -51,7 +51,7 @@ export default function() {
         });
     };
 
-    candlestick.decorate = function(x) {
+    candlestick.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

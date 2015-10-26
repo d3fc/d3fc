@@ -1,6 +1,6 @@
-describe('fc.indicator.algorithm.calculator.percentageChange', function() {
+describe('fc.indicator.algorithm.calculator.percentageChange', function () {
 
-    it('should return the percentage change', function() {
+    it('should return the percentage change', function () {
         var data = [1, 2, 3];
         var percentageChange = fc.indicator.algorithm.calculator.percentageChange();
 
@@ -8,7 +8,7 @@ describe('fc.indicator.algorithm.calculator.percentageChange', function() {
             .toEqual([0, 1, 2]);
     });
 
-    it('should return the percentage change for an a baseIndex > 0', function() {
+    it('should return the percentage change for an a baseIndex > 0', function () {
         var data = [1, 2, 3];
         var percentageChange = fc.indicator.algorithm.calculator.percentageChange()
             .baseIndex(1);

@@ -1,29 +1,29 @@
 import d3 from 'd3';
 import _slidingWindow from './slidingWindow';
 
-export default function() {
+export default function () {
 
-    var volumeValue = function(d, i) { return d.volume; },
-        closeValue = function(d, i) { return d.close; };
+    var volumeValue = function (d, i) { return d.volume; },
+        closeValue = function (d, i) { return d.close; };
 
     var slidingWindow = _slidingWindow()
         .windowSize(2)
-        .accumulator(function(values) {
+        .accumulator(function (values) {
             return (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]);
         });
 
-    var force = function(data) {
+    var force = function (data) {
         return slidingWindow(data);
     };
 
-    force.volumeValue = function(x) {
+    force.volumeValue = function (x) {
         if (!arguments.length) {
             return volumeValue;
         }
         volumeValue = x;
         return force;
     };
-    force.closeValue = function(x) {
+    force.closeValue = function (x) {
         if (!arguments.length) {
             return closeValue;
         }

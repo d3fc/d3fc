@@ -40,7 +40,7 @@ example-mapping: |
     .xScale(xScale)
     .yScale(yScale)
     .series([area, line])
-    .mapping(function(series) {
+    .mapping(function (series) {
       switch(series) {
         case line:
           return this.bar;
@@ -72,10 +72,10 @@ Which gives the following:
 
 <div id="mapping-example" class="chart"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
     var desiredWidth = $('#mapping-example').width(),
         desiredHeight = desiredWidth / 2.4; //keeps the width-height ratio at 600-250 (defaults for createFixture)
-    var f = createFixture('#mapping-example', desiredWidth, desiredHeight, null, function() { return true; });
+    var f = createFixture('#mapping-example', desiredWidth, desiredHeight, null, function () { return true; });
     var container = f.container, data = f.data,
       xScale = f.xScale, yScale = f.yScale;
     {{{example-mapping }}}

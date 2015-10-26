@@ -3,7 +3,7 @@ import _dataJoin from '../util/dataJoin';
 import {identity, index, noop} from '../util/fn';
 import {range} from '../util/scale';
 
-export default function() {
+export default function () {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
@@ -18,8 +18,8 @@ export default function() {
         .element('g')
         .attr('class', 'annotation');
 
-    var line = function(selection) {
-        selection.each(function(data, index) {
+    var line = function (selection) {
+        selection.each(function (data, index) {
 
             // the value scale which the annotation 'value' relates to, the crossScale
             // is the other. Which is which depends on the orienation!
@@ -28,7 +28,7 @@ export default function() {
                 textAttributes = {x: -5, y: -5};
             switch (orient) {
             case 'horizontal':
-                translation = function(a, b) { return 'translate(' + a + ', ' + b + ')'; };
+                translation = function (a, b) { return 'translate(' + a + ', ' + b + ')'; };
                 lineProperty = 'x2';
                 crossScale = xScale;
                 valueScale = yScale;
@@ -37,7 +37,7 @@ export default function() {
                 break;
 
             case 'vertical':
-                translation = function(a, b) { return 'translate(' + b + ', ' + a + ')'; };
+                translation = function (a, b) { return 'translate(' + b + ', ' + a + ')'; };
                 lineProperty = 'y2';
                 crossScale = yScale;
                 valueScale = xScale;
@@ -52,7 +52,7 @@ export default function() {
 
             var scaleRange = range(crossScale),
                 // the transform that sets the 'origin' of the annotation
-                containerTransform = function(d) {
+                containerTransform = function (d) {
                     var transform = valueScale(value(d));
                     return translation(scaleRange[0], transform);
                 },
@@ -98,49 +98,49 @@ export default function() {
         });
     };
 
-    line.xScale = function(x) {
+    line.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return line;
     };
-    line.yScale = function(x) {
+    line.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return line;
     };
-    line.value = function(x) {
+    line.value = function (x) {
         if (!arguments.length) {
             return value;
         }
         value = d3.functor(x);
         return line;
     };
-    line.keyValue = function(x) {
+    line.keyValue = function (x) {
         if (!arguments.length) {
             return keyValue;
         }
         keyValue = d3.functor(x);
         return line;
     };
-    line.label = function(x) {
+    line.label = function (x) {
         if (!arguments.length) {
             return label;
         }
         label = d3.functor(x);
         return line;
     };
-    line.decorate = function(x) {
+    line.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
         return line;
     };
-    line.orient = function(x) {
+    line.orient = function (x) {
         if (!arguments.length) {
             return orient;
         }

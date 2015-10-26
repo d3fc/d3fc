@@ -1,6 +1,6 @@
-describe('layout', function() {
+describe('layout', function () {
 
-    it('should allow attributes to be set as name / value pairs', function() {
+    it('should allow attributes to be set as name / value pairs', function () {
         var svg = document.createElement('svg');
 
         d3.select(svg).layout('height', 30);
@@ -10,19 +10,19 @@ describe('layout', function() {
         expect(svg.getAttribute('layout-style')).toEqual('flexDirection:row');
     });
 
-    it('should allow attributes to be set as an object', function() {
+    it('should allow attributes to be set as an object', function () {
         var svg = document.createElement('svg');
         d3.select(svg).layout({'height': 30, 'flexDirection': 'row'});
         expect(svg.getAttribute('layout-style')).toEqual('height:30;flexDirection:row');
     });
 
-    it('should provide access to layout- prefixed properties', function() {
+    it('should provide access to layout- prefixed properties', function () {
         var svg = document.createElement('svg');
         svg.setAttribute('layout-width', '30');
         expect(d3.select(svg).layout('width')).toEqual(30);
     });
 
-    it('should permit layout with an explicit width / height', function() {
+    it('should permit layout with an explicit width / height', function () {
         var div = document.createElement('div');
         var svgElement = document.createElement('svg');
         div.appendChild(svgElement);
@@ -43,7 +43,7 @@ describe('layout', function() {
         expect(row2.layout('height')).toEqual(200);
     });
 
-    it('should set the width and height attributes of the svg element', function() {
+    it('should set the width and height attributes of the svg element', function () {
         var div = document.createElement('div');
         var svgElement = document.createElement('svg');
         div.appendChild(svgElement);
@@ -57,7 +57,7 @@ describe('layout', function() {
         expect(svgElement.getAttribute('height')).toEqual('300');
     });
 
-    it('should set the width / height of rect elements', function() {
+    it('should set the width / height of rect elements', function () {
         var div = document.createElement('div');
         var svgElement = document.createElement('svg');
         div.appendChild(svgElement);
@@ -75,7 +75,7 @@ describe('layout', function() {
         expect(rect.node().getAttribute('height')).toEqual('300');
     });
 
-    it('should should perform layout on selections containing multiple elements', function() {
+    it('should should perform layout on selections containing multiple elements', function () {
         var div = document.createElement('div');
         var svgElement1 = document.createElement('svg');
         var svgElement2 = document.createElement('svg');
@@ -97,7 +97,7 @@ describe('layout', function() {
         expect(rects[0][1].getAttribute('height')).toEqual('300');
     });
 
-    it('should should perform layout on enter selections', function() {
+    it('should should perform layout on enter selections', function () {
         var div = document.createElement('div');
         document.body.appendChild(div);
 
@@ -120,7 +120,7 @@ describe('layout', function() {
         expect(rects[0][1].getAttribute('height')).toEqual('300');
     });
 
-    it('should not blow up on width / height accessors on enter', function() {
+    it('should not blow up on width / height accessors on enter', function () {
         var div = document.createElement('div');
         document.body.appendChild(div);
 
@@ -131,7 +131,7 @@ describe('layout', function() {
     });
 
 
-    it('should not measure using innerDimensions if layout-width/height are set', function() {
+    it('should not measure using innerDimensions if layout-width/height are set', function () {
         var svg = document.createElement('svg');
 
         var g = document.createElement('g');
@@ -157,7 +157,7 @@ describe('layout', function() {
         expect(Number(g.getAttribute('layout-height'))).toEqual(100);
     });
 
-    it('should not set layout-width/height attributes on root node', function() {
+    it('should not set layout-width/height attributes on root node', function () {
         var svg = document.createElement('svg');
         d3.select(svg)
             .layout();
@@ -165,7 +165,7 @@ describe('layout', function() {
         expect(svg.hasAttribute('layout-height')).toBe(false);
     });
 
-    it('should not re-position nodes within a nested layout', function() {
+    it('should not re-position nodes within a nested layout', function () {
         var svg = document.createElement('svg');
 
         var g1 = document.createElement('g');

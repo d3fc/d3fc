@@ -2,12 +2,12 @@ import d3 from 'd3';
 import dataJoin from '../util/dataJoin';
 import {noop} from '../util/fn';
 
-export default function() {
+export default function () {
     var tableDecorate = noop,
         rowDecorate = noop;
 
     var items = [
-        ['datum', function(d) { return d.datum; }]
+        ['datum', function (d) { return d.datum; }]
     ];
 
     var tableDataJoin = dataJoin()
@@ -20,11 +20,11 @@ export default function() {
         .element('tr')
         .attr('class', 'row');
 
-    var legend = function(selection) {
-        selection.each(function(data, index) {
+    var legend = function (selection) {
+        selection.each(function (data, index) {
             var container = d3.select(this);
 
-            var legendData = items.map(function(item, i) {
+            var legendData = items.map(function (item, i) {
                 return {
                     datum: data,
                     header: d3.functor(item[0]),
@@ -41,12 +41,12 @@ export default function() {
             trEnter.append('td');
 
             trUpdate.select('th')
-                .html(function(d, i) {
+                .html(function (d, i) {
                     return d.header.call(this, d.datum, i);
                 });
 
             trUpdate.select('td')
-                .html(function(d, i) {
+                .html(function (d, i) {
                     return d.value.call(this, d.datum, i);
                 });
 
@@ -55,7 +55,7 @@ export default function() {
         });
     };
 
-    legend.items = function(x) {
+    legend.items = function (x) {
         if (!arguments.length) {
             return items;
         }
@@ -63,7 +63,7 @@ export default function() {
         return legend;
     };
 
-    legend.rowDecorate = function(x) {
+    legend.rowDecorate = function (x) {
         if (!arguments.length) {
             return rowDecorate;
         }
@@ -71,7 +71,7 @@ export default function() {
         return legend;
     };
 
-    legend.tableDecorate = function(x) {
+    legend.tableDecorate = function (x) {
         if (!arguments.length) {
             return tableDecorate;
         }

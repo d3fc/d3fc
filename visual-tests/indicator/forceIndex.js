@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -20,7 +20,7 @@
     forceAlgorithm(data);
 
     // Calculate the maximum absolute value of the index
-    var absoluteMax = d3.max(data, function(d) { return Math.abs(d.force); });
+    var absoluteMax = d3.max(data, function (d) { return Math.abs(d.force); });
 
     //Scailing the display using the maximum absolute value of the Index
     var yScale = d3.scale.linear()

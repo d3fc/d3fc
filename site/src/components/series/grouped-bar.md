@@ -22,7 +22,7 @@ example-code: |
 
   // create scales
   var x = d3.scale.ordinal()
-      .domain(data.map(function(d) { return d.State; }))
+      .domain(data.map(function (d) { return d.State; }))
       .rangePoints([0, width], 1);
 
   var y = d3.scale.linear()
@@ -33,8 +33,8 @@ example-code: |
   var groupedBar = fc.series.groupedBar()
     .xScale(x)
     .yScale(y)
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; });
+    .xValue(function (d) { return d.x; })
+    .yValue(function (d) { return d.y; });
 
   // render
   container.append('g')

@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var dataset = [
@@ -32,17 +32,17 @@
         var chart = fc.chart.cartesian(
                 d3.scale.ordinal(), d3.scale.linear())
             .xBaseline(0)
-            .xDomain(data.map(function(d) { return d.name; }))
+            .xDomain(data.map(function (d) { return d.name; }))
             .yDomain(clampRange(fc.util.extent()(data, 'age')));
 
         // Create the bar series
         var bar = fc.series.bar()
-            .yValue(function(d) { return d.age; })
-            .xValue(function(d) { return d.name; })
-            .key(function(d) { return d.name; })
-            .decorate(function(sel) {
+            .yValue(function (d) { return d.age; })
+            .xValue(function (d) { return d.name; })
+            .key(function (d) { return d.name; })
+            .decorate(function (sel) {
                 sel.select('path')
-                    .style('fill', function(d, i) { return colour(d.age); });
+                    .style('fill', function (d, i) { return colour(d.age); });
             });
 
         chart.plotArea(bar);
@@ -59,7 +59,7 @@
     // Update the chart every 5 seconds (animation lasts 2.5 seconds)
     // Y values are randomised
     // X values are added, removed, and their order shuffled
-    setInterval(function() {
+    setInterval(function () {
         // Start with a copy of the inital dataset
         data = dataset.slice();
 
@@ -67,7 +67,7 @@
         d3.shuffle(data);
 
         // Randomise the ages
-        data.forEach(function(person) {
+        data.forEach(function (person) {
             person.age = randomAge();
         });
 

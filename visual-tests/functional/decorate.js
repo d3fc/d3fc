@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1)).startPrice(95)(40);
@@ -32,7 +32,7 @@
     // offset the close price to give some negative values
     var extent = fc.util.extent()(data, ['close']);
     var offset = extent[0] + (extent[1] - extent[0]) / 2;
-    data.forEach(function(datum) {
+    data.forEach(function (datum) {
         datum.close = datum.close - offset;
     });
 
@@ -47,22 +47,22 @@
     var color = d3.scale.category10();
 
     var bar = fc.series.bar()
-        .decorate(function(sel) {
+        .decorate(function (sel) {
             sel.select('path')
-                .style('fill', function(d, i) { return color(i); });
+                .style('fill', function (d, i) { return color(i); });
 
             sel.append('circle')
                 .attr('r', 2.0)
                 .attr('fill', 'black');
         })
-        .yValue(function(d) { return d.close; })
+        .yValue(function (d) { return d.close; })
         .xScale(dateScale)
         .yScale(barScale);
 
     var candlestick = fc.series.candlestick()
-        .decorate(function(sel) {
-            sel.attr('fill', function(d, i) { return color(i); })
-                .attr('stroke', function(d, i) { return color(i); })
+        .decorate(function (sel) {
+            sel.attr('fill', function (d, i) { return color(i); })
+                .attr('stroke', function (d, i) { return color(i); })
                 .attr('class', '');
 
             sel.append('circle')
@@ -73,9 +73,9 @@
         .yScale(candleScale);
 
     var point = fc.series.point()
-        .decorate(function(sel) {
+        .decorate(function (sel) {
             sel.select('circle')
-                .style('fill', function(d, i) { return color(i); });
+                .style('fill', function (d, i) { return color(i); });
 
             sel.append('circle')
                 .attr('r', 2.0)
@@ -85,8 +85,8 @@
         .yScale(pointScale);
 
     var ohlc = fc.series.ohlc()
-        .decorate(function(sel) {
-            sel.attr('stroke', function(d, i) { return color(i); })
+        .decorate(function (sel) {
+            sel.attr('stroke', function (d, i) { return color(i); })
                 .attr('class', '');
 
             sel.append('circle')

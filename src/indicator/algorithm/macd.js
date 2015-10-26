@@ -2,16 +2,16 @@ import calculator from './calculator/macd';
 import d3 from 'd3';
 import merge from './merge';
 
-export default function() {
+export default function () {
 
     var macdAlgorithm = calculator()
-        .value(function(d) { return d.close; });
+        .value(function (d) { return d.close; });
 
     var mergedAlgorithm = merge()
             .algorithm(macdAlgorithm)
-            .merge(function(datum, macd) { datum.macd = macd; });
+            .merge(function (datum, macd) { datum.macd = macd; });
 
-    var macd = function(data) {
+    var macd = function (data) {
         return mergedAlgorithm(data);
     };
 

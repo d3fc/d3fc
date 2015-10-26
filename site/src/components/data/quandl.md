@@ -13,7 +13,7 @@ example-code: |
     .collapse('weekly');
 
   // fetch some data!
-  feed(function(error, data) {
+  feed(function (error, data) {
     d3.select("#quandl")
       .text(JSON.stringify(error ? error : data, null, 2));
   });
@@ -36,7 +36,7 @@ In order to shape the returned data, you can provide a function to `columnNameMa
 
 <pre id="quandl">Loading...</pre>
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
 }());
 </script>

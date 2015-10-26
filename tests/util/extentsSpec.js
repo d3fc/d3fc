@@ -1,4 +1,4 @@
-describe('fc.util.extent', function() {
+describe('fc.util.extent', function () {
 
     function obj(val) {
         return {
@@ -7,7 +7,7 @@ describe('fc.util.extent', function() {
         };
     }
 
-    it('should compute extents based on the supplied fields', function() {
+    it('should compute extents based on the supplied fields', function () {
         var data = [obj(1), obj(2), obj(10)];
 
         var extents = fc.util.extent()(data, ['high']);
@@ -17,14 +17,14 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([-4, 15]);
     });
 
-    it('should support a single field name', function() {
+    it('should support a single field name', function () {
         var data = [obj(1), obj(2), obj(10)];
 
         var extents = fc.util.extent()(data, 'high');
         expect(extents).toEqual([6, 15]);
     });
 
-    it('should support arrays of arrays', function() {
+    it('should support arrays of arrays', function () {
         var data = [obj(2), obj(1)];
         var data2 = [obj(4), obj(5)];
 
@@ -32,28 +32,28 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 10]);
     });
 
-    it('should support accessor functions', function() {
+    it('should support accessor functions', function () {
         var data = [obj(1), obj(2), obj(10)];
 
-        var extents = fc.util.extent()(data, [function(d) { return d.high + 100; }]);
+        var extents = fc.util.extent()(data, [function (d) { return d.high + 100; }]);
         expect(extents).toEqual([106, 115]);
     });
 
-    it('should support varargs field names', function() {
+    it('should support varargs field names', function () {
         var data = [obj(1), obj(2), obj(10)];
 
         var extents = fc.util.extent()(data, 'low', 'high');
         expect(extents).toEqual([-4, 15]);
     });
 
-    it('should support mixed field names and accessor functions', function() {
+    it('should support mixed field names and accessor functions', function () {
         var data = [obj(1), obj(2), obj(10)];
 
-        var extents = fc.util.extent()(data, 'high', function(d) { return d.high + 100; });
+        var extents = fc.util.extent()(data, 'high', function (d) { return d.high + 100; });
         expect(extents).toEqual([6, 115]);
     });
 
-    it('should support including a max value in the range', function() {
+    it('should support including a max value in the range', function () {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
@@ -61,7 +61,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 10]);
     });
 
-    it('should support including a min value in the range', function() {
+    it('should support including a min value in the range', function () {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
@@ -69,7 +69,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([0, 7]);
     });
 
-    it('should support including a value within the range', function() {
+    it('should support including a value within the range', function () {
         var data = [obj(1), obj(3)];
 
         var extents = fc.util.extent()
@@ -77,7 +77,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 8]);
     });
 
-    it('should support increasing the range', function() {
+    it('should support increasing the range', function () {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
@@ -85,7 +85,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([5, 25]);
     });
 
-    it('should support padding an empty dataset', function() {
+    it('should support padding an empty dataset', function () {
         var data = [];
 
         var extents = fc.util.extent()
@@ -94,7 +94,7 @@ describe('fc.util.extent', function() {
         expect(isNaN(extents[1])).toBe(true);
     });
 
-    it('should support padding zero as an identity', function() {
+    it('should support padding zero as an identity', function () {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
@@ -102,7 +102,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 7]);
     });
 
-    it('should pad the range, then include the extra point', function() {
+    it('should pad the range, then include the extra point', function () {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
@@ -116,7 +116,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([5, 30]);
     });
 
-    it('should pad dates', function() {
+    it('should pad dates', function () {
         var date1 = new Date(2014, 0, 10);
         var date2 = new Date(2014, 0, 20);
         var data = [{date: date1}, {date: date2}];

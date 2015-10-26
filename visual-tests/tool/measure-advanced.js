@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var form = document.forms['measure-1-form'];
@@ -14,10 +14,10 @@
 
     // Calculate the scale domain
     var day = 8.64e7, // One day in milliseconds
-        dateFrom = new Date(d3.min(data, function(d) { return d.date; }).getTime() - day),
-        dateTo = new Date(d3.max(data, function(d) { return d.date; }).getTime() + day),
-        priceFrom = d3.min(data, function(d) { return d.low; }),
-        priceTo = d3.max(data, function(d) { return d.high; });
+        dateFrom = new Date(d3.min(data, function (d) { return d.date; }).getTime() - day),
+        dateTo = new Date(d3.max(data, function (d) { return d.date; }).getTime() + day),
+        priceFrom = d3.min(data, function (d) { return d.low; }),
+        priceTo = d3.max(data, function (d) { return d.high; });
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -38,10 +38,10 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .yValue(function(d) { return d.close; })
-        .decorate(function(sel) {
+        .yValue(function (d) { return d.close; })
+        .decorate(function (sel) {
             sel.selectAll('path')
-                .style('fill', function(d) { return color(d.date.getDay()); });
+                .style('fill', function (d) { return color(d.date.getDay()); });
         })
         .barWidth(9);
 
@@ -49,13 +49,13 @@
     var measure = fc.tool.measure()
         .xScale(dateScale)
         .yScale(priceScale)
-        .on('measuresource', function(d) {
+        .on('measuresource', function (d) {
             form.eventlog.value = 'measuresource ' + d[0].source.x + ',' + d[0].source.y + '\n' + form.eventlog.value;
         })
-        .on('measuretarget', function(d) {
+        .on('measuretarget', function (d) {
             form.eventlog.value = 'measuretarget ' + d[0].target.x + ',' + d[0].target.y + '\n' + form.eventlog.value;
         })
-        .on('measureclear', function() {
+        .on('measureclear', function () {
             form.eventlog.value = 'measureclear\n' + form.eventlog.value;
         });
 
@@ -64,7 +64,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .series([bar, measure])
-        .mapping(function(series) {
+        .mapping(function (series) {
             switch (series) {
             case bar:
                 return this;
@@ -80,7 +80,7 @@
     render();
 
     d3.select(form.clear)
-        .on('click', function() {
+        .on('click', function () {
             data.measure = [];
             render();
             d3.event.preventDefault();
@@ -90,12 +90,12 @@
     var measureContainer = container.selectAll('g.multi-outer:last-child > g.multi-inner');
 
     d3.select(form.pointerevents)
-        .on('click', function() {
+        .on('click', function () {
             measureContainer.style('pointer-events', this.checked ? 'all' : 'none');
         });
 
     d3.select(form.display)
-        .on('click', function() {
+        .on('click', function () {
             measureContainer.style('display', this.checked ? '' : 'none');
         });
 

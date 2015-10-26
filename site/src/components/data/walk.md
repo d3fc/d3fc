@@ -29,7 +29,7 @@ The data generated is returned as a simple numeric array.
 
 <pre id="walk"></pre>
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
 }());
 </script>

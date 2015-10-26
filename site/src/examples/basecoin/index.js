@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     // SVG viewbox constants
@@ -8,11 +8,11 @@
     // trying to keep the example as simple (and copy/paste-able) as possible.
     var basecoin = {};
 
-    basecoin.verticalLines = function() {
+    basecoin.verticalLines = function () {
 
-        return function(selection) {
+        return function (selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 var xScale = d3.time.scale()
                     .domain(data.xDomain)
@@ -27,7 +27,7 @@
                     .range([HEIGHT, 0]);
 
                 var line = fc.annotation.line()
-                    .value(function(d) { return d.date; })
+                    .value(function (d) { return d.date; })
                     .orient('vertical')
                     .xScale(xScale)
                     .yScale(yScale);
@@ -39,11 +39,11 @@
         };
     };
 
-    basecoin.gridlines = function() {
+    basecoin.gridlines = function () {
 
-        return function(selection) {
+        return function (selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 // Use the simplest scale we can get away with
                 var xScale = d3.scale.linear()
@@ -70,17 +70,17 @@
         };
     };
 
-    basecoin.candlestick = function() {
+    basecoin.candlestick = function () {
 
         var xScale = fc.scale.dateTime(),
             yScale = d3.scale.linear();
 
         var candlestick = fc.svg.candlestick()
-            .x(function(d) { return xScale(d.date); })
-            .open(function(d) { return yScale(d.open); })
-            .high(function(d) { return yScale(d.high); })
-            .low(function(d) { return yScale(d.low); })
-            .close(function(d) { return yScale(d.close); })
+            .x(function (d) { return xScale(d.date); })
+            .open(function (d) { return yScale(d.open); })
+            .high(function (d) { return yScale(d.high); })
+            .low(function (d) { return yScale(d.low); })
+            .close(function (d) { return yScale(d.close); })
             .width(5);
 
         var upDataJoin = fc.util.dataJoin()
@@ -93,10 +93,10 @@
             .element('path')
             .attr('class', 'down');
 
-        var optimisedCandlestick = function(selection) {
-            selection.each(function(data) {
-                var upData = data.filter(function(d) { return d.open < d.close; }),
-                    downData = data.filter(function(d) { return d.open >= d.close; });
+        var optimisedCandlestick = function (selection) {
+            selection.each(function (data) {
+                var upData = data.filter(function (d) { return d.open < d.close; }),
+                    downData = data.filter(function (d) { return d.open >= d.close; });
 
                 upDataJoin(this, [upData])
                     .attr('d', candlestick);
@@ -106,14 +106,14 @@
             });
         };
 
-        optimisedCandlestick.xScale = function(x) {
+        optimisedCandlestick.xScale = function (x) {
             if (!arguments.length) {
                 return xScale;
             }
             xScale = x;
             return optimisedCandlestick;
         };
-        optimisedCandlestick.yScale = function(x) {
+        optimisedCandlestick.yScale = function (x) {
             if (!arguments.length) {
                 return yScale;
             }
@@ -124,11 +124,11 @@
         return optimisedCandlestick;
     };
 
-    basecoin.series = function() {
+    basecoin.series = function () {
 
-        return function(selection) {
+        return function (selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 var xScale = d3.time.scale()
                     .domain([data[0].date, data[data.length - 1].date])
@@ -156,15 +156,15 @@
 
                 var ema = fc.series.line()
                     // Reference the value computed by the EMA algorithm
-                    .yValue(function(d) { return d.exponentialMovingAverage; });
+                    .yValue(function (d) { return d.exponentialMovingAverage; });
 
                 var multi = fc.series.multi()
                     .xScale(xScale)
                     .yScale(yScale)
                     .series([candlestick, bollingerBands, ema])
-                    .decorate(function(g) {
+                    .decorate(function (g) {
                         g.enter()
-                            .attr('class', function(d, i) {
+                            .attr('class', function (d, i) {
                                 return 'multi ' + ['candlestick', 'bollinger-bands', 'ema'][i];
                             });
                     });
@@ -175,11 +175,11 @@
         };
     };
 
-    basecoin.labels = function() {
+    basecoin.labels = function () {
 
-        return function(selection) {
+        return function (selection) {
 
-            selection.each(function(data) {
+            selection.each(function (data) {
 
                 var xScale = d3.time.scale()
                     .domain(data.xDomain)
@@ -199,7 +199,7 @@
                     // Create any missing as g elements
                     .element('g')
                     // Key the nodes on the x value
-                    .key(function(d) { return d.date; });
+                    .key(function (d) { return d.date; });
 
                 var update = dataJoin(this, data);
 
@@ -208,11 +208,11 @@
                 // Add a path element only when a g first enters the document
                 enter.append('path')
                     // Pick between a down arrow or an up arrow and colour appropriately
-                    .attr('d', function(d) {
+                    .attr('d', function (d) {
                         return d.open < d.close ?
                             'M 0 14 L 8 0 L 15 14 Z' : 'M 0 0 L 8 14 L 15 0 Z';
                     })
-                    .attr('fill', function(d) {
+                    .attr('fill', function (d) {
                         return d.open < d.close ?
                             'green' : 'red';
                     });
@@ -225,12 +225,12 @@
                         'x': 18,
                         'y': 12
                     })
-                    .text(function(d) {
+                    .text(function (d) {
                         return d.close.toFixed(3);
                     });
 
                 // Position the g on every invocation
-                update.attr('transform', function(d) {
+                update.attr('transform', function (d) {
                     return 'translate(' + xScale(d.date) + ',' + yScale(d.offset) + ')';
                 });
             });
@@ -270,7 +270,7 @@
         data.push(d);
 
         // Filter to only show vertical lines and labels for the marked data points
-        var highlightedData = data.filter(function(d) {
+        var highlightedData = data.filter(function (d) {
             return d.highlight;
         });
         // Scales which receive a subset of the data still it's full extent
@@ -292,7 +292,7 @@
 
         d3.select('#series')
             // Filter to only show the series for the first half of the data
-            .datum(data.filter(function(d, i) { return i < 150; }))
+            .datum(data.filter(function (d, i) { return i < 150; }))
             .call(series);
 
         var labels = basecoin.labels();
@@ -302,7 +302,7 @@
             .call(labels);
 
         if (frame % 300 === 0) {
-            var sum = frameTimings.reduce(function(sum, d, i, arr) {
+            var sum = frameTimings.reduce(function (sum, d, i, arr) {
                 if (i < arr.length - 1) {
                     sum += arr[i + 1] - d;
                 }

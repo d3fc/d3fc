@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import _slidingWindow from './slidingWindow';
 
-export default function() {
+export default function () {
 
     var multiplier = 2;
 
@@ -11,7 +11,7 @@ export default function() {
             average: undefined,
             lower: undefined
         })
-        .accumulator(function(values) {
+        .accumulator(function (values) {
             var avg = d3.mean(values);
             var stdDev = d3.deviation(values);
             return {
@@ -21,11 +21,11 @@ export default function() {
             };
         });
 
-    var bollingerBands = function(data) {
+    var bollingerBands = function (data) {
         return slidingWindow(data);
     };
 
-    bollingerBands.multiplier = function(x) {
+    bollingerBands.multiplier = function (x) {
         if (!arguments.length) {
             return multiplier;
         }

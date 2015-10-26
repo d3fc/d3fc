@@ -1,8 +1,8 @@
-describe('legend', function() {
+describe('legend', function () {
 
     var element;
 
-    beforeEach(function() {
+    beforeEach(function () {
         element = document.createElement('div');
     });
 
@@ -19,11 +19,11 @@ describe('legend', function() {
         }
     }
 
-    it('should render the given items', function() {
+    it('should render the given items', function () {
         var legend = fc.chart.legend()
             .items([
-                ['open', function(d) { return d.open; }],
-                ['close', function(d) { return d.close; }]
+                ['open', function (d) { return d.open; }],
+                ['close', function (d) { return d.close; }]
             ]);
 
         var datum = {
@@ -41,7 +41,7 @@ describe('legend', function() {
         ]);
     });
 
-    it('should invoke legend item and label functions with correct parameters and context', function() {
+    it('should invoke legend item and label functions with correct parameters and context', function () {
 
         var labelSpy = jasmine.createSpy('label'),
             valueSpy = jasmine.createSpy('value');
@@ -76,7 +76,7 @@ describe('legend', function() {
         expect(valueSpy.calls.all()[1].object.nodeName).toEqual('TD');
     });
 
-    it('should invoke the decorate function with the correct parameters and context', function() {
+    it('should invoke the decorate function with the correct parameters and context', function () {
 
         var decorateSpy = jasmine.createSpy('decorate');
 

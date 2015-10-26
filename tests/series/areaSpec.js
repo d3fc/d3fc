@@ -1,6 +1,6 @@
-describe('area', function() {
+describe('area', function () {
 
-    it('should invoke data accessors with datum and index', function() {
+    it('should invoke data accessors with datum and index', function () {
 
         var xValueSpy = jasmine.createSpy('xValue').and.callFake(fc.util.fn.identity),
             y0ValueSpy = jasmine.createSpy('y0Value').and.callFake(fc.util.fn.identity),

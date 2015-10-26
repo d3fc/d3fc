@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
@@ -36,8 +36,8 @@
     var verticalBand = fc.annotation.band()
         .xScale(dateScale)
         .yScale(priceScale)
-        .x0(function(d) { return d[0].date; })
-        .x1(function(d) { return d[1].date; });
+        .x0(function (d) { return d[0].date; })
+        .x1(function (d) { return d[1].date; });
 
     container
         .append('g')
@@ -50,8 +50,8 @@
     var horizontalBand = fc.annotation.band()
         .xScale(dateScale)
         .yScale(priceScale)
-        .y0(function(d) { return d.high; })
-        .y1(function(d) { return d.low; });
+        .y0(function (d) { return d.high; })
+        .y1(function (d) { return d.low; });
 
     container
         .append('g')

@@ -3,27 +3,27 @@ import _dataJoin from '../util/dataJoin';
 import {noop} from '../util/fn';
 import {noSnap} from '../util/snap';
 
-export default function() {
+export default function () {
 
     var event = d3.dispatch('fansource', 'fantarget', 'fanclear'),
         xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        snap = function(x, y) {
+        snap = function (x, y) {
             return noSnap(xScale, yScale)(x, y);
         },
         decorate = noop;
 
-    var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
-        y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
+    var x = function (d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
+        y = function (d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
     var dataJoin = _dataJoin()
         .selector('g.fan')
         .element('g')
         .attr('class', 'fan');
 
-    var fan = function(selection) {
+    var fan = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var container = d3.select(this)
                 .style('pointer-events', 'all')
@@ -44,7 +44,7 @@ export default function() {
 
             var g = dataJoin(container, data);
 
-            g.each(function(d) {
+            g.each(function (d) {
                 d.x = xScale.range()[1];
                 d.ay = d.by = d.cy = y(d.target);
 
@@ -79,39 +79,39 @@ export default function() {
                 .attr('class', 'area');
 
             g.select('line.trend')
-                .attr('x1', function(d) { return x(d.source); })
-                .attr('y1', function(d) { return y(d.source); })
-                .attr('x2', function(d) { return x(d.target); })
-                .attr('y2', function(d) { return y(d.target); });
+                .attr('x1', function (d) { return x(d.source); })
+                .attr('y1', function (d) { return y(d.source); })
+                .attr('x2', function (d) { return x(d.target); })
+                .attr('y2', function (d) { return y(d.target); });
 
             g.select('line.a')
-                .attr('x1', function(d) { return x(d.source); })
-                .attr('y1', function(d) { return y(d.source); })
-                .attr('x2', function(d) { return d.x; })
-                .attr('y2', function(d) { return d.ay; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+                .attr('x1', function (d) { return x(d.source); })
+                .attr('y1', function (d) { return y(d.source); })
+                .attr('x2', function (d) { return d.x; })
+                .attr('y2', function (d) { return d.ay; })
+                .style('visibility', function (d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
             g.select('line.b')
-                .attr('x1', function(d) { return x(d.source); })
-                .attr('y1', function(d) { return y(d.source); })
-                .attr('x2', function(d) { return d.x; })
-                .attr('y2', function(d) { return d.by; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+                .attr('x1', function (d) { return x(d.source); })
+                .attr('y1', function (d) { return y(d.source); })
+                .attr('x2', function (d) { return d.x; })
+                .attr('y2', function (d) { return d.by; })
+                .style('visibility', function (d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
             g.select('line.c')
-                .attr('x1', function(d) { return x(d.source); })
-                .attr('y1', function(d) { return y(d.source); })
-                .attr('x2', function(d) { return d.x; })
-                .attr('y2', function(d) { return d.cy; })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+                .attr('x1', function (d) { return x(d.source); })
+                .attr('y1', function (d) { return y(d.source); })
+                .attr('x2', function (d) { return d.x; })
+                .attr('y2', function (d) { return d.cy; })
+                .style('visibility', function (d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
             g.select('polygon.area')
-                .attr('points', function(d) {
+                .attr('points', function (d) {
                     return x(d.source) + ',' + y(d.source) + ' ' +
                         d.x + ',' + d.ay + ' ' +
                         d.x + ',' + d.cy;
                 })
-                .style('visibility', function(d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
+                .style('visibility', function (d) { return d.state !== 'DONE' ? 'hidden' : 'visible'; });
 
             decorate(g, data, index);
         });
@@ -190,28 +190,28 @@ export default function() {
         container.call(fan);
     }
 
-    fan.xScale = function(x) {
+    fan.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return fan;
     };
-    fan.yScale = function(x) {
+    fan.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }
         yScale = x;
         return fan;
     };
-    fan.snap = function(x) {
+    fan.snap = function (x) {
         if (!arguments.length) {
             return snap;
         }
         snap = x;
         return fan;
     };
-    fan.decorate = function(x) {
+    fan.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }

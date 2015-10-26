@@ -6,7 +6,7 @@ import {noop} from '../util/fn';
 // Adapts a fc.svg.axis for use as a series (i.e. accepts xScale/yScale). Only required when
 // you want an axis to appear in the middle of a chart e.g. as part of a cycle plot. Otherwise
 // prefer using the fc.svg.axis directly.
-export default function() {
+export default function () {
 
     var axis = axisSvg(),
         baseline = d3.functor(0),
@@ -19,9 +19,9 @@ export default function() {
         .element('g')
         .attr({'class': 'axis axis-adapter'});
 
-    var axisAdapter = function(selection) {
+    var axisAdapter = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var g = dataJoin(this, [data]);
 
@@ -52,28 +52,28 @@ export default function() {
         });
     };
 
-    axisAdapter.baseline = function(x) {
+    axisAdapter.baseline = function (x) {
         if (!arguments.length) {
             return baseline;
         }
         baseline = d3.functor(x);
         return axisAdapter;
     };
-    axisAdapter.decorate = function(x) {
+    axisAdapter.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
         decorate = x;
         return axisAdapter;
     };
-    axisAdapter.xScale = function(x) {
+    axisAdapter.xScale = function (x) {
         if (!arguments.length) {
             return xScale;
         }
         xScale = x;
         return axisAdapter;
     };
-    axisAdapter.yScale = function(x) {
+    axisAdapter.yScale = function (x) {
         if (!arguments.length) {
             return yScale;
         }

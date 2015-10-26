@@ -21,7 +21,7 @@ example-code: |
 
   // Create a line that renders the result
   var ma = fc.series.line()
-      .yValue(function(d) { return d.exponentialMovingAverage; })
+      .yValue(function (d) { return d.exponentialMovingAverage; })
       .xScale(xScale)
       .yScale(yScale);
 

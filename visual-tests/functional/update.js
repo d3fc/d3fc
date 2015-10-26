@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     var generator = fc.data.random.financial().startDate(new Date(2014, 1, 1));
@@ -29,12 +29,12 @@
         .yScale(priceScale);
 
     var bar = fc.series.bar()
-        .yValue(function(d) { return d.low - 0.2; })
+        .yValue(function (d) { return d.low - 0.2; })
         .xScale(dateScale)
         .yScale(priceScale);
 
     var line = fc.series.line()
-        .yValue(function(d) { return d.low - 0.2; })
+        .yValue(function (d) { return d.low - 0.2; })
         .xScale(dateScale)
         .yScale(priceScale);
 
@@ -65,14 +65,14 @@
 
     render();
 
-    setInterval(function() {
+    setInterval(function () {
         var datum;
         while (!datum) {
             datum = generator(1)[0];
         }
         data.push(datum);
         data.shift();
-        data.forEach(function(d) {
+        data.forEach(function (d) {
             d.low = d.low - 0.1;
         });
         dateScale.domain(fc.util.extent()(data, 'date'));

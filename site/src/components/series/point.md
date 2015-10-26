@@ -20,10 +20,10 @@ example-code: |
   var point = fc.series.point()
       .xScale(xScale)
       .yScale(yScale)
-      .radius(function(d, i) { return i; })
-      .decorate(function(sel) {
+      .radius(function (d, i) { return i; })
+      .decorate(function (sel) {
         sel.select('circle')
-          .attr('style', function(d, i) { return 'fill: ' + color(i); });
+          .attr('style', function (d, i) { return 'fill: ' + color(i); });
       });
 
   container.append('g')
@@ -41,10 +41,10 @@ Which gives the following:
 
 <div id="series_point" class="chart"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
     var desiredWidth = $('#series_point').width(),
         desiredHeight = desiredWidth / 2.4; //keeps the width-height ratio at 600-250 (defaults for createFixture)
-    var f = createFixture('#series_point', desiredWidth, desiredHeight, null, function() { return true; });
+    var f = createFixture('#series_point', desiredWidth, desiredHeight, null, function () { return true; });
     var container = f.container, data = f.data,
       xScale = f.xScale, yScale = f.yScale;
     {{{example2-code }}}

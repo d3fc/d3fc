@@ -76,7 +76,7 @@ Here is how the chart should look:
 
 <div id="chart"></div>
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
 }());
 </script>

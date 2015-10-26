@@ -5,7 +5,7 @@ import '../layout/layout'; // import side-effects
 import line from '../series/line';
 import {rebind, rebindAll} from '../util/rebind';
 
-export default function() {
+export default function () {
 
     var xAxisHeight = 20;
     var yAxisWidth = 0;
@@ -19,9 +19,9 @@ export default function() {
         .scale(yScale)
         .orient('left');
 
-    var linearTimeSeries = function(selection) {
+    var linearTimeSeries = function (selection) {
 
-        selection.each(function(data) {
+        selection.each(function (data) {
 
             var container = d3.select(this);
 
@@ -108,23 +108,23 @@ export default function() {
     rebindAll(linearTimeSeries, xAxis, 'x', 'scale');
     rebindAll(linearTimeSeries, yAxis, 'y', 'scale');
 
-    linearTimeSeries.xScale = function() { return xScale; };
-    linearTimeSeries.yScale = function() { return yScale; };
-    linearTimeSeries.plotArea = function(x) {
+    linearTimeSeries.xScale = function () { return xScale; };
+    linearTimeSeries.yScale = function () { return yScale; };
+    linearTimeSeries.plotArea = function (x) {
         if (!arguments.length) {
             return plotArea;
         }
         plotArea = x;
         return linearTimeSeries;
     };
-    linearTimeSeries.xAxisHeight = function(x) {
+    linearTimeSeries.xAxisHeight = function (x) {
         if (!arguments.length) {
             return xAxisHeight;
         }
         xAxisHeight = x;
         return linearTimeSeries;
     };
-    linearTimeSeries.yAxisWidth = function(x) {
+    linearTimeSeries.yAxisWidth = function (x) {
         if (!arguments.length) {
             return yAxisWidth;
         }

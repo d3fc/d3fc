@@ -50,7 +50,7 @@ Here is what the rendered chart looks like:
 
 <div id="linear-time-series" class="chart"> </div>
 <script type="text/javascript">
-(function() {
+(function () {
   {{{example-code}}}
 }());
 </script>

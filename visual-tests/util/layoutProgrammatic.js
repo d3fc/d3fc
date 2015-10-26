@@ -1,4 +1,4 @@
-(function(d3, fc) {
+(function (d3, fc) {
     'use strict';
 
     // programmatically mimicking the following structure:
@@ -73,16 +73,16 @@
     // add rect elements so that we can visualise the layout
     var c10 = d3.scale.category10();
 
-    svg.selectAll('g').filter(function(d) {
+    svg.selectAll('g').filter(function (d) {
         return this.childElementCount === 0;
     })
     .append('rect')
-    .attr('stroke', function(d, i) { return c10(i); })
-    .attr('fill', function(d, i) { return c10(i); })
-    .attr('width', function() {
+    .attr('stroke', function (d, i) { return c10(i); })
+    .attr('fill', function (d, i) { return c10(i); })
+    .attr('width', function () {
         return d3.select(this.parentNode).layout('width');
     })
-    .attr('height', function() {
+    .attr('height', function () {
         return d3.select(this.parentNode).layout('height');
     });
 

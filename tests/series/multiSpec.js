@@ -5,11 +5,11 @@ function createSeriesSpy() {
     return series;
 }
 
-describe('multi', function() {
+describe('multi', function () {
 
     var multi, element, container, data;
 
-    beforeEach(function() {
+    beforeEach(function () {
         multi = fc.series.multi();
         element = document.createElement('svg');
         container = d3.select(element);
@@ -18,7 +18,7 @@ describe('multi', function() {
         container.datum(data);
     });
 
-    it('should support n series', function() {
+    it('should support n series', function () {
 
         var series = createSeriesSpy();
 
@@ -30,7 +30,7 @@ describe('multi', function() {
         expect(element.childNodes.length).toBe(2);
     });
 
-    it('should support adding a series', function() {
+    it('should support adding a series', function () {
 
         var series = createSeriesSpy();
 
@@ -51,7 +51,7 @@ describe('multi', function() {
         expect(element.childNodes.length).toBe(3);
     });
 
-    it('should support removing a series', function() {
+    it('should support removing a series', function () {
 
         var series = createSeriesSpy();
 
@@ -72,7 +72,7 @@ describe('multi', function() {
         expect(element.childNodes.length).toBe(1);
     });
 
-    it('should support re-ordering with key', function() {
+    it('should support re-ordering with key', function () {
 
         var seriesA = createSeriesSpy();
         seriesA.id = 'seriesA';
@@ -80,7 +80,7 @@ describe('multi', function() {
         var seriesB = createSeriesSpy();
         seriesB.id = 'seriesB';
 
-        multi.key(function(series) {
+        multi.key(function (series) {
             return series.id;
         });
 
@@ -110,19 +110,19 @@ describe('multi', function() {
         expect(seriesB.calls.mostRecent().args[0].node()).toBe(seriesBContainer);
     });
 
-    describe('ordering of series containers', function() {
+    describe('ordering of series containers', function () {
 
         var seriesA, seriesB, seriesC;
 
         function verifyContainers(element, series) {
             expect(element.childNodes.length).toBe(series.length);
-            series.forEach(function(series, i) {
+            series.forEach(function (series, i) {
                 var seriesContainer = series.calls.mostRecent().args[0].node();
                 expect(element.childNodes[i]).toBe(seriesContainer);
             });
         }
 
-        beforeEach(function() {
+        beforeEach(function () {
             seriesA = createSeriesSpy();
             seriesA.id = 'seriesA';
 
@@ -132,12 +132,12 @@ describe('multi', function() {
             seriesC = createSeriesSpy();
             seriesC.id = 'seriesC';
 
-            multi.key(function(series) {
+            multi.key(function (series) {
                 return series.id;
             });
         });
 
-        it('should not create series containers for no series', function() {
+        it('should not create series containers for no series', function () {
 
             var series = [];
             multi.series(series);
@@ -145,7 +145,7 @@ describe('multi', function() {
             verifyContainers(element, series);
         });
 
-        it('should create a single container for a single series', function() {
+        it('should create a single container for a single series', function () {
 
             var series = [seriesA];
             multi.series(series);
@@ -153,7 +153,7 @@ describe('multi', function() {
             verifyContainers(element, series);
         });
 
-        it('should order series containers in an order consistent with the series', function() {
+        it('should order series containers in an order consistent with the series', function () {
 
             var series = [seriesA, seriesB];
             multi.series(series);
@@ -161,7 +161,7 @@ describe('multi', function() {
             verifyContainers(element, series);
         });
 
-        it('should insert new series containers in an order consistent with the series', function() {
+        it('should insert new series containers in an order consistent with the series', function () {
 
             var series = [seriesA, seriesB];
             multi.series(series);
@@ -174,7 +174,7 @@ describe('multi', function() {
             verifyContainers(element, series);
         });
 
-        it('should order series containers in an order consistent with the series when removing a series', function() {
+        it('should order series containers in an order consistent with the series when removing a series', function () {
 
             var series = [seriesA, seriesB, seriesC];
             multi.series(series);
@@ -187,7 +187,7 @@ describe('multi', function() {
             verifyContainers(element, series);
         });
 
-        it('should re-order series containers in an order consistent with the series array', function() {
+        it('should re-order series containers in an order consistent with the series array', function () {
 
             var series = [seriesA, seriesB, seriesC];
             multi.series(series);

@@ -30,16 +30,16 @@ example-code: |
   // This code simply creates some coloured rectangles so that you can
   // see the layout without reaching for your developer tools!
   var c10 = d3.scale.category10();
-  d3.selectAll("g").filter(function(d) {
+  d3.selectAll("g").filter(function (d) {
       return this.childElementCount === 0;
     })
     .append('rect')
-    .attr('stroke', function(d, i) { return c10(i); })
-    .attr('fill', function(d, i) { return c10(i); })
-    .attr('width', function() {
+    .attr('stroke', function (d, i) { return c10(i); })
+    .attr('fill', function (d, i) { return c10(i); })
+    .attr('width', function () {
       return d3.select(this.parentNode).layout('width');
     })
-    .attr('height', function() {
+    .attr('height', function () {
       return d3.select(this.parentNode).layout('height')}
     );
 ---
@@ -66,7 +66,7 @@ The above code produces the following:
 
 {{{example-html}}}
 <script type="text/javascript">
-(function() {
+(function () {
     {{{example-code}}}
 }());
 </script>
