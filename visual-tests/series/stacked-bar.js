@@ -36,7 +36,8 @@
         var series = stack(spread(data));
         series.seriesType = seriesType;
 
-        var yDomain = fc.util.extent(series.map(function(d) { return d.values; }), function(d) { return 0; }, function(d) { return d.y + d.y0; });
+        var extent = fc.util.extent().include(0);
+        var yDomain = extent(series.map(function(d) { return d.values; }), function(d) { return d.y + d.y0; });
         var xDomain = series[0].values.map(function(d) { return d.x; });
 
         var chart = fc.chart.cartesian(
