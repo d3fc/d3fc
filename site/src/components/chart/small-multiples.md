@@ -17,9 +17,9 @@ example-code: |
       .yValue(function(d) { return d.sales; });
 
   var smallMultiples = fc.chart.smallMultiples(d3.time.scale(), d3.scale.linear())
-      .yDomain(fc.util.extent(data, function() { return 0; }, 'sales'))
+      .yDomain(fc.util.extent()(data, function() { return 0; }, 'sales'))
       .yNice()
-      .xDomain(fc.util.extent(data, 'date'))
+      .xDomain(fc.util.extent()(data, 'date'))
       .xTicks(0)
       .margin({right: 30})
       .columns(7)
@@ -54,7 +54,7 @@ example-code2: |
             .series([landOceanLine, stationLine]);
 
         var xDomain = data.map(function(d) { return d.MonthName; });
-        var yDomain = fc.util.extent(data, function() { return 0; }, 'Station', 'Land+Ocean');
+        var yDomain = fc.util.extent()(data, function() { return 0; }, 'Station', 'Land+Ocean');
 
         var smallMultiples = fc.chart.smallMultiples(
                 d3.scale.ordinal(),
