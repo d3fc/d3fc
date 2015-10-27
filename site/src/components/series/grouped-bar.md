@@ -26,7 +26,7 @@ example-code: |
       .rangePoints([0, width], 1);
 
   var y = d3.scale.linear()
-    .domain(fc.util.extent().include(0)(series, 'y'))
+    .domain(fc.util.extent(series.map(function(d) { return d.values; }), function(d) { return 0; }, 'y'))
     .range([height, 0]);
 
   // create the grouped bar series

@@ -10,7 +10,8 @@ export default function() {
         barWidth = fractionalBarWidth(0.75),
         decorate = noop,
         xScale = d3.scale.linear(),
-        offsetScale = d3.scale.linear();
+        offsetScale = d3.scale.linear(),
+        values = function(d) { return d.values; };
 
     var dataJoin = dataJoinUtil()
         .selector('g.stacked')
@@ -22,7 +23,7 @@ export default function() {
     var groupedBar = function(selection) {
         selection.each(function(data) {
 
-            var width = barWidth(data[0].map(x));
+            var width = barWidth(values(data[0]).map(x));
             var subBarWidth = width / (data.length - 1);
             bar.barWidth(subBarWidth);
 
@@ -32,22 +33,26 @@ export default function() {
 
             var g = dataJoin(this, data);
 
-            g.each(function(series, index) {
-                var container = d3.select(this);
+            g.enter().append('g');
 
-                // create a composite scale that applies the required offset
-                var compositeScale = function(x) {
-                    return xScale(x) + offsetScale(index);
-                };
-                bar.xScale(compositeScale);
+            g.select('g')
+                .datum(values)
+                .each(function(series, index) {
+                    var container = d3.select(this);
 
-                // adapt the decorate function to give each series teh correct index
-                bar.decorate(function(s, d) {
-                    decorate(s, d, index);
+                    // create a composite scale that applies the required offset
+                    var compositeScale = function(x) {
+                        return xScale(x) + offsetScale(index);
+                    };
+                    bar.xScale(compositeScale);
+
+                    // adapt the decorate function to give each series the correct index
+                    bar.decorate(function(s, d) {
+                        decorate(s, d, index);
+                    });
+
+                    container.call(bar);
                 });
-
-                container.call(bar);
-            });
         });
     };
 
@@ -63,6 +68,13 @@ export default function() {
             return xScale;
         }
         xScale = x;
+        return groupedBar;
+    };
+    groupedBar.values = function(x) {
+        if (!arguments.length) {
+            return values;
+        }
+        values = x;
         return groupedBar;
     };
 

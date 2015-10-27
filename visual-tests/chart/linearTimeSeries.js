@@ -41,6 +41,7 @@
 
     d3.select('#linear-time-series')
         .append('svg')
+        .attr('class', 'chart time-series')
         .style({
             height: '240px',
             width: '320px'

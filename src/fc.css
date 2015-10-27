@@ -71,8 +71,17 @@ text {
   dominant-baseline: ideographic;
 }
 
-.cartesian-chart {
+.cartesian-chart, .multiples-chart {
   overflow: visible;
+}
+
+.multiples-chart .label {
+  dominant-baseline: hanging;
+}
+
+.multiples-chart .background {
+  stroke: transparent;
+  fill: transparent;
 }
 
 /* Axis */

@@ -17,11 +17,15 @@
 
         var series = spread(data);
 
+        var extent = fc.util.extent().include(0);
+        var yDomain = extent(series.map(function(d) { return d.values; }), 'y');
+        var xDomain = series[0].values.map(function(d) { return d.x; });
+
         var chart = fc.chart.cartesian(
                 d3.scale.ordinal(),
                 d3.scale.linear())
-            .xDomain(data.map(function(d) { return d.State; }))
-            .yDomain(fc.util.extent().include(0)(series, 'y'))
+            .xDomain(xDomain)
+            .yDomain(yDomain)
             .margin({right: 50, bottom: 50});
 
         var groupedBar = fc.series.groupedBar()

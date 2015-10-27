@@ -7,7 +7,7 @@ import dataJoin from '../util/dataJoin';
 import expandMargin from '../util/expandMargin';
 import {noop} from '../util/fn';
 import {rebindAll} from '../util/rebind';
-import {isOrdinal, range} from '../util/scale';
+import {isOrdinal, range, setRange} from '../util/scale';
 
 export default function(xScale, yScale) {
 
@@ -57,15 +57,6 @@ export default function(xScale, yScale) {
         .element('svg')
         .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
 
-    // Ordinal and quantitative scales have different methods for setting the range. This
-    // function detects the scale type and sets the range accordingly.
-    function setScaleRange(scale, range) {
-        if (isOrdinal(scale)) {
-            scale.rangePoints(range, 1);
-        } else {
-            scale.range(range);
-        }
-    }
 
     var cartesian = function(selection) {
 
@@ -161,8 +152,8 @@ export default function(xScale, yScale) {
 
             // set the axis ranges
             var plotAreaContainer = svg.select('.plot-area');
-            setScaleRange(xScale, [0, plotAreaContainer.layout('width')]);
-            setScaleRange(yScale, [plotAreaContainer.layout('height'), 0]);
+            setRange(xScale, [0, plotAreaContainer.layout('width')]);
+            setRange(yScale, [plotAreaContainer.layout('height'), 0]);
 
             // render the axes
             xAxis.xScale(xScale)

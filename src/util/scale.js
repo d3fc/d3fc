@@ -8,3 +8,13 @@ export function isOrdinal(scale) {
 export function range(scale) {
     return isOrdinal(scale) ? scale.rangeExtent() : scale.range();
 }
+
+// Ordinal and quantitative scales have different methods for setting the range. This
+// function detects the scale type and sets the range accordingly.
+export function setRange(scale, range) {
+    if (isOrdinal(scale)) {
+        scale.rangePoints(range, 1);
+    } else {
+        scale.range(range);
+    }
+}

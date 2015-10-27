@@ -20,7 +20,8 @@ example-code: |
   // manipulate the data into stacked series
   var spread = fc.data.spread()
       .xValueKey('State');
-  var stack = d3.layout.stack();
+  var stack = d3.layout.stack()
+      .values(function(d) { return d.values; });
 
   var series = stack(spread(data));
 
@@ -30,7 +31,12 @@ example-code: |
       .rangePoints([0, width], 1);
 
   var y = d3.scale.linear()
+<<<<<<< HEAD
     .domain(fc.util.extent().include(0)(series, function(d) { return d.y + d.y0; }))
+=======
+    .domain(fc.util.extent(series.map(function(d) { return d.values; }), function(d) { return 0; },
+                            function(d) { return d.y + d.y0; }))
+>>>>>>> Added small multiples to the website
     .range([height, 0]);
 
   // create the stacked bar series (this could also be line or area)
