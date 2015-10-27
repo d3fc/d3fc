@@ -54,7 +54,7 @@
             .yValue(function(d) { return d.Station; });
 
         var point = fc.series.point()
-            .radius(2)
+            .size(2 * 2 * 3.14)
             .xValue(function(d) { return d.Year; })
             .yValue(function(d) { return d.Station; });
 

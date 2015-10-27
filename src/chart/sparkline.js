@@ -72,7 +72,7 @@ export default function() {
 
     var sparkline = function(selection) {
 
-        point.radius(radius);
+        point.size(radius * radius * 3.14);
 
         selection.each(function(data) {
 

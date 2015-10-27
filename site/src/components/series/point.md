@@ -20,9 +20,9 @@ example-code: |
   var point = fc.series.point()
       .xScale(xScale)
       .yScale(yScale)
-      .radius(function(d, i) { return i; })
+      .size(function(d, i) { return i * i * 3.14; }) //Size is specified in pixels area
       .decorate(function(sel) {
-        sel.select('circle')
+        sel.select('path')
           .attr('style', function(d, i) { return 'fill: ' + color(i); });
       });
 
@@ -53,7 +53,7 @@ Which gives the following:
 
 The series assumes that each object has a `date` property which defines its x-location, and a `close` property which defines its y-location. However, these can be changed via the `xValue` and `yValue` properties.
 
-You can supply a function via the `radius` property that specifies the radius for each point. You can also modify how the series is rendered via the `decorate` function which is supplied the selection containing the `g` element that is the parent for each `circle`:
+You can supply a function via the `size` property that specifies the size for each point. You can also modify how the series is rendered via the `decorate` function which is supplied the selection containing the `g` element that is the parent for each `circle`:
 
 ```js
 {{{example-code}}}
