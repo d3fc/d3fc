@@ -47,14 +47,14 @@ enter-exit-example-code: |
     .yValue(function(d) { return d.y; })
     .decorate(function(s) {
       s.enter()
-        .select('circle')
-        .attr('r', 40);
+        .select('path')
+        .attr('d', 'M0,50A50,50 0 1,1 0,-50A50,50 0 1,1 0,50Z');
 
-      s.attr('r', 5);
+      s.select('path').attr('d', 'M0,5A5,5 0 1,1 0,-5A5,5 0 1,1 0,5Z');
 
       s.exit()
-        .select('circle')
-        .attr('r', 40);
+        .select('path')
+        .attr('d', 'M0,50A50,50 0 1,1 0,-50A50,50 0 1,1 0,50Z');
     });
 ---
 
@@ -173,7 +173,7 @@ In the example below datapoint labels are added via decorate:
 
 The examples so far have all acted on the enter selection, which is the selection that is executed when new items are initially added to the bound data. Via data join it is also possible to add logic to the exit and update selections.
 
-In this (slightly contrived) example the mouse location is plotted via a point series. The exit and enter selections are used to add transitions to the circle radius:
+In this (slightly contrived) example the mouse location is plotted via a point series. The exit and enter selections are used to add transitions to the path size:
 
 ```js
 {{{enter-exit-example-code}}}

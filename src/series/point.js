@@ -7,8 +7,8 @@ export default function() {
 
     var decorate = noop,
         symbol = d3.svg.symbol(),
-        size = d3.functor(5 * 5 * 3.14),
-        type = d3.functor('circle');
+        size = 64,
+        type = 'circle';
 
     var base = xyBase();
 
