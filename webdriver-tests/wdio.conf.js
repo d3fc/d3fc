@@ -10,7 +10,6 @@ exports.config = {
             'browserstack.local': true
         }
     ],
-    baseUrl: 'http://localhost:8000',
     waitforTimeout: 100000,
     framework: 'jasmine',
     reporter: 'dot',

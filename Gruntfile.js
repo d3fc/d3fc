@@ -48,6 +48,11 @@ module.exports = function(grunt) {
                     name: 'localhost',
                     port: 8000,
                     sslFlag: 0
+                },
+                {
+                    name: 'localhost',
+                    port: 9000,
+                    sslFlag: 0
                 }],
                 forcelocal: true,
                 onlyAutomate: true,
@@ -107,7 +112,8 @@ module.exports = function(grunt) {
             },
             visualTests: {
                 options: {
-                    base: 'visual-tests'
+                    base: 'visual-tests',
+                    port: 9000
                 }
             },
             site: {
@@ -300,11 +306,11 @@ module.exports = function(grunt) {
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?
-        ['connect:site', 'browserstacktunnel-wrapper', 'webdriver'] : []);
+        ['connect:site', 'connect:visualTests', 'browserstacktunnel-wrapper', 'webdriver'] : []);
     grunt.registerTask('webdriverTests', ['eslint:webdriverTests', 'webdriverTests:browserstack']);
 
-    grunt.registerTask('ci', ['eslint:visualTests', 'components', 'uglify:components', 'site',
-        'uglify:site', 'webdriverTests']);
+    grunt.registerTask('ci', ['components', 'uglify:components', 'site',
+        'uglify:site', 'visualTests', 'webdriverTests']);
 
     grunt.registerTask('default', ['watch:components']);
 };
