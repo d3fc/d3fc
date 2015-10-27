@@ -20,8 +20,9 @@ example-code-2: |
   var point = fc.series.point()
       .xScale(xScale)
       .yScale(yScale)
-      .size(function(d, i) { return i * i * 3.14; }) //Size is specified in pixels area
+      .size(200) // increase the area to 200 pixels
       .decorate(function(sel) {
+        // use decorate to set the fill color based on index
         sel.select('path')
           .attr('style', function(d, i) { return 'fill: ' + color(i); });
       });
@@ -29,44 +30,23 @@ example-code-2: |
   container.append('g')
       .datum(data)
       .call(point);
-      
+
 example-code-3: |
   var point = fc.series.point()
       .xScale(xScale)
       .yScale(yScale)
       .type(function(d, i) {
-          var type;
-          switch(i%6) {
-              case 0:
-                  type = 'circle';
-                  break;
-              case 1:
-                  type = 'cross';
-                  break;
-              case 2:
-                  type = 'diamond';
-                  break;
-              case 3:
-                  type = 'square';
-                  break;
-              case 4:
-                  type = 'triangle-down';
-                  break;
-              case 5:
-                  type = 'triangle-up';
-                  break;          
-          }
-          return type;
+          // pick a symbol type based on index
+          return ['circle', 'cross', 'diamond', 'square'][i % 4];
       });
-      
+
   container.append('g')
         .datum(data)
         .call(point);
-      
+
 ---
 
-The point series renders the given data as series of symbols. The symbols are based on the `d3.svg.symbol` element. 
-By default, it renders circles with an area of 64 pixels.
+The point series renders the given data as a series of symbols which are produced via the [`d3.svg.symbol`](https://github.com/mbostock/d3/wiki/SVG-Shapes#symbol) generator.  By default, it renders circles with an area of 64 pixels.
 
 ```js
 {{{example-code-1}}}
@@ -86,18 +66,17 @@ Which gives the following:
 }());
 </script>
 
-The series assumes that each object has a `date` property which defines its x-location, and a `close` property which 
+The series assumes that each object has a `date` property which defines its x-location, and a `close` property which
 defines its y-location. However, these can be changed via the `xValue` and `yValue` properties.
 
-You can supply a function via the `size` property that specifies the area of each point. You can also modify how 
-the series is rendered via the `decorate` function which is supplied the selection containing the `g` element that is 
+You can supply a constant value, or a function via the `size` property that specifies the area of each point. You can also modify how  the series is rendered via the `decorate` function which is supplied the selection containing the `g` element that is
 the parent for each `path`:
 
 ```js
 {{{example-code-2}}}
 ```
 
-Which results in the following (slightly odd looking) series:
+Which results in the following series:
 
 <div id="series_point_2" class="chart"> </div>
 <script type="text/javascript">
@@ -120,7 +99,7 @@ As the series is built using the `d3.svg.symbol`, the following symbol `types` a
 * triangle-down - a downward-pointing equilateral triangle.
 * triangle-up - an upward-pointing equilateral triangle.
 
-These can be accessed via the `type` property:
+You can specify the symbol via `type` property, e.g. `type('diamond')`, or provide a function as illustrated in the example below:
 
 ```js
 {{{example-code-3}}}
