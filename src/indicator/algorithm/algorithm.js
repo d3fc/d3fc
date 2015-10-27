@@ -7,6 +7,7 @@ import movingAverage from './movingAverage';
 import relativeStrengthIndex from './relativeStrengthIndex';
 import stochasticOscillator from './stochasticOscillator';
 import forceIndex from './forceIndex';
+import envelope from './envelope';
 
 export default {
     bollingerBands: bollingerBands,
@@ -17,5 +18,6 @@ export default {
     movingAverage: movingAverage,
     relativeStrengthIndex: relativeStrengthIndex,
     stochasticOscillator: stochasticOscillator,
-    forceIndex: forceIndex
+    forceIndex: forceIndex,
+    envelope: envelope
 };

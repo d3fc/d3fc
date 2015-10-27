@@ -7,6 +7,7 @@ import stochasticOscillator from './stochasticOscillator';
 import slidingWindow from './slidingWindow';
 import undefinedInputAdapter from './undefinedInputAdapter';
 import forceIndex from './forceIndex';
+import envelope from './envelope';
 
 export default {
     bollingerBands: bollingerBands,
@@ -17,5 +18,6 @@ export default {
     stochasticOscillator: stochasticOscillator,
     slidingWindow: slidingWindow,
     undefinedInputAdapter: undefinedInputAdapter,
-    forceIndex: forceIndex
+    forceIndex: forceIndex,
+    envelope: envelope
 };
