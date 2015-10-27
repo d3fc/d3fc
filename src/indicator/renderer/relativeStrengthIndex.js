@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import annotationLine from '../../annotation/line';
-import _multi from '../../series/multi';
+import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
 import seriesLine from '../../series/line';
 
@@ -10,7 +10,7 @@ export default function() {
         yScale = d3.scale.linear(),
         upperValue = 70,
         lowerValue = 30,
-        multiSeries = _multi(),
+        multi = multiSeries('rsi'),
         decorate = noop;
 
     var annotations = annotationLine();
@@ -19,9 +19,17 @@ export default function() {
 
     var rsi = function(selection) {
 
-        multiSeries.xScale(xScale)
+        multi
+            .xScale(xScale)
             .yScale(yScale)
-            .series([rsiLine, annotations])
+            .series([annotations, rsiLine])
+            .decorate(function(g, data, index) {
+                g.enter()
+                    .attr('class', function(d, i) {
+                        return 'rsi ' + ['', 'signal'][i];
+                    });
+                decorate(g, data, index);
+            })
             .mapping(function(series) {
                 if (series === annotations) {
                     return [
@@ -31,16 +39,9 @@ export default function() {
                     ];
                 }
                 return this;
-            })
-            .decorate(function(g, data, index) {
-                g.enter()
-                    .attr('class', function(d, i) {
-                        return 'multi rsi ' + ['indicator', 'annotations'][i];
-                    });
-                decorate(g, data, index);
             });
 
-        selection.call(multiSeries);
+        selection.call(multi);
     };
 
     rsi.xScale = function(x) {

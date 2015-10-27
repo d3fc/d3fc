@@ -180,35 +180,20 @@ text {
 }
 
 /* Indicators */
-.macd-divergence .bar {
-  stroke: grey;
+.indicator .bar {
   fill: grey;
-  fill-opacity: 1.0;
 }
 
-.macd-signal .line {
-  stroke: red;
+.signal .line {
+  stroke-width: 2px;
 }
 
-.macd .line {
-  stroke: #06c;
+.indicator .line {
+  stroke-dasharray: 2, 2;
 }
 
-.stochastic-d .line {
-  stroke: red;
-}
-
-.stochastic-k .line {
-  stroke: #06c;
-}
-
-.bollinger .area {
-  fill: #9cf;
+.indicator .area {
   fill-opacity: 0.5;
-}
-
-.bollinger .line {
-  stroke: #06c;
 }
 
 /* Annotations */
