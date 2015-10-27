@@ -4,6 +4,7 @@ title: OHLC Series
 component: series/ohlc.js
 tags:
   - frontpage
+  - playground
 namespace: series
 
 example-code: |
@@ -27,5 +28,3 @@ Which gives the following:
 {{>example-fixture}}
 
 The OHLC series shares the same configuration options as the [candlestick series](#candlestick).
-
-
