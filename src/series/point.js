@@ -6,7 +6,7 @@ import xyBase from './xyBase';
 export default function() {
 
     var decorate = noop,
-        radius = d3.functor(5);
+        symbol = d3.svg.symbol();
 
     var base = xyBase();
 
@@ -26,15 +26,12 @@ export default function() {
             var filteredData = data.filter(base.defined);
 
             var g = dataJoin(this, filteredData);
-
             g.enter()
                 .attr('transform', containerTransform)
-                .append('circle');
+                .append('path')
+                .attr('d', symbol);
 
             g.attr('transform', containerTransform);
-
-            g.select('circle')
-                .attr('r', radius);
 
             decorate(g, data, index);
         });
@@ -47,16 +44,10 @@ export default function() {
         decorate = x;
         return point;
     };
-    point.radius = function(x) {
-        if (!arguments.length) {
-            return radius;
-        }
-        radius = x;
-        return point;
-    };
 
     d3.rebind(point, base, 'xScale', 'xValue', 'yScale', 'yValue');
     d3.rebind(point, dataJoin, 'key');
+    d3.rebind(point, symbol, 'size', 'type');
 
     return point;
 }

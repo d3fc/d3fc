@@ -74,7 +74,7 @@
 
     var point = fc.series.point()
         .decorate(function(sel) {
-            sel.select('circle')
+            sel.select('path')
                 .style('fill', function(d, i) { return color(i); });
 
             sel.append('circle')

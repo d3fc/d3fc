@@ -38,24 +38,6 @@ point-example-code: |
           .attr('transform', 'translate(0, -10)')
           .text(function(d) { return d3.format(".2f")(d.close); });
       });
-
-enter-exit-example-code: |
-  var point = fc.series.point()
-    .xScale(xScale)
-    .yScale(yScale)
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; })
-    .decorate(function(s) {
-      s.enter()
-        .select('circle')
-        .attr('r', 40);
-
-      s.attr('r', 5);
-
-      s.exit()
-        .select('circle')
-        .attr('r', 40);
-    });
 ---
 
 Most chart APIs are complex and expansive in order to provide flexibility. With d3fc we have taken a different approach ...
@@ -81,7 +63,7 @@ In this example the axis labels are rotated by adding a transform to the `text` 
 <style type="text/css">
   .tick text {
     font-size: 13px;
-  } 
+  }
 </style>
 
 <svg class="axis-container" id="axis-example"></svg>
@@ -121,7 +103,7 @@ The example below shows how a bar series can be styled to cycle through a color 
 <style type="text/css">
   .bar path {
     stroke-width: 0;
-  } 
+  }
 </style>
 
 <div id="bar-example" class="chart" style="height: 200px"> </div>
@@ -165,66 +147,5 @@ In the example below datapoint labels are added via decorate:
   container.append('g')
       .datum(data)
       .call(point);
-}());
-</script>
-
-
-## Enter and exit transitions
-
-The examples so far have all acted on the enter selection, which is the selection that is executed when new items are initially added to the bound data. Via data join it is also possible to add logic to the exit and update selections.
-
-In this (slightly contrived) example the mouse location is plotted via a point series. The exit and enter selections are used to add transitions to the circle radius:
-
-```js
-{{{enter-exit-example-code}}}
-```
-
-<div id="enter-exit-example" class="chart" style="height: 300px"> </div>
-
-<script type="text/javascript">
-(function() {
-
-  var width = 600, height = 300;
-  var container = d3.select('#enter-exit-example')
-        .insert('svg', 'div')
-        .attr('width', width)
-        .attr('height', height);
-  var series = container.append('g');
-
-  var xScale = d3.scale.linear()
-    .domain([0, 100])
-    .range([0, width]);
-
-  var yScale = d3.scale.linear()
-    .domain([0, 100])
-    .range([0, height]);
-
-  var data = [];
-
-  var mouseX = 50, mouseY = 50;
-
-  document.onmousemove = function(evt) {
-    mouseX = evt.clientX * 100 / $(window).width();
-    mouseY = evt.clientY * 100 / $(window).height();
-  }
-
-  function render() {
-
-    data.push({x: mouseX, y: mouseY});
-
-    if (data.length > 20) {
-      data = data.slice(1);
-    }
-
-    {{{enter-exit-example-code}}}
-
-      series.datum(data)
-        .transition()
-        .duration(500)
-        .call(point);
-  }
-
-  setInterval(render, 200);
-
 }());
 </script>
