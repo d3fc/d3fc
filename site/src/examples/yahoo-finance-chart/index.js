@@ -132,9 +132,9 @@ function renderChart(data) {
 
   // add a time series components
   var chart = fc.chart.linearTimeSeries()
-        .xDomain(fc.util.extent()(data, 'date'))
+        .xDomain(fc.util.extent().fields('date')(data))
         .xDiscontinuityProvider(discontinuity)
-        .yDomain(fc.util.extent()(data, ['open', 'close']))
+        .yDomain(fc.util.extent().fields(['open', 'close'])(data))
         .xTickFormat(dateFormat)
         .yTickFormat(priceFormat)
         .yTicks(5)

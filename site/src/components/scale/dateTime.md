@@ -7,13 +7,13 @@ namespace: scale
 example-code: |
   // create the d3fc scale
   var dateScale = fc.scale.dateTime()
-      .domain(fc.util.extent()(data, 'date'))
+      .domain(fc.util.extent().fields('date')(data))
       .range([0, width]);
 
 example2-code: |
   // create the d3fc scale
   var dateScale = fc.scale.dateTime()
-      .domain(fc.util.extent()(data, 'date'))
+      .domain(fc.util.extent().fields('date')(data))
       .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
       .range([0, width]);
 

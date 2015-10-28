@@ -18,7 +18,7 @@
         var series = spread(data);
 
         var extent = fc.util.extent().include(0);
-        var yDomain = extent(series.map(function(d) { return d.values; }), 'y');
+        var yDomain = extent.fields('y')(series.map(function(d) { return d.values; }));
         var xDomain = series[0].values.map(function(d) { return d.x; });
 
         var chart = fc.chart.cartesian(

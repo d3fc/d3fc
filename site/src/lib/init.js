@@ -19,12 +19,12 @@ function createFixture(elementId, desiredWidth, desiredHeight, numPoints, filter
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.util.extent()(data, 'date'))
+        .domain(fc.util.extent().fields('date')(data))
         .range([0, width]);
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain(fc.util.extent()(data, ['high', 'low']))
+        .domain(fc.util.extent().fields(['high', 'low'])(data))
         .range([height, 0])
         .nice();
 
