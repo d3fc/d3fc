@@ -51,9 +51,9 @@ describe('ohlc', function() {
             .yLowValue(yLowValueSpy)
             .yCloseValue(yCloseValueSpy);
 
-        var element = document.createElement('svg'),
-            container = d3.select(element),
-            data = [0.2, 2.4, 4.3, 8.2, 16.3];
+        var container = d3.select(element);
+        element = document.createElement('svg');
+        data = [0.2, 2.4, 4.3, 8.2, 16.3];
 
         container.datum(data)
             .call(ohlc);

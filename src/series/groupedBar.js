@@ -41,8 +41,8 @@ export default function() {
                     var container = d3.select(this);
 
                     // create a composite scale that applies the required offset
-                    var compositeScale = function(x) {
-                        return xScale(x) + offsetScale(index);
+                    var compositeScale = function(_x) {
+                        return xScale(_x) + offsetScale(index);
                     };
                     bar.xScale(compositeScale);
 
@@ -56,25 +56,25 @@ export default function() {
         });
     };
 
-    groupedBar.decorate = function(x) {
+    groupedBar.decorate = function(_x) {
         if (!arguments.length) {
             return decorate;
         }
-        decorate = x;
+        decorate = _x;
         return groupedBar;
     };
-    groupedBar.xScale = function(x) {
+    groupedBar.xScale = function(_x) {
         if (!arguments.length) {
             return xScale;
         }
-        xScale = x;
+        xScale = _x;
         return groupedBar;
     };
-    groupedBar.values = function(x) {
+    groupedBar.values = function(_x) {
         if (!arguments.length) {
             return values;
         }
-        values = x;
+        values = _x;
         return groupedBar;
     };
 

@@ -114,11 +114,11 @@ describe('multi', function() {
 
         var seriesA, seriesB, seriesC;
 
-        function verifyContainers(element, series) {
-            expect(element.childNodes.length).toBe(series.length);
-            series.forEach(function(series, i) {
-                var seriesContainer = series.calls.mostRecent().args[0].node();
-                expect(element.childNodes[i]).toBe(seriesContainer);
+        function verifyContainers(testElement, series) {
+            expect(testElement.childNodes.length).toBe(series.length);
+            series.forEach(function(testSeries, i) {
+                var seriesContainer = testSeries.calls.mostRecent().args[0].node();
+                expect(testElement.childNodes[i]).toBe(seriesContainer);
             });
         }
 

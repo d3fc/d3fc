@@ -8,8 +8,8 @@ export default function() {
     var event = d3.dispatch('measuresource', 'measuretarget', 'measureclear'),
         xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        snap = function(x, y) {
-            return noSnap(xScale, yScale)(x, y);
+        snap = function(_x, _y) {
+            return noSnap(xScale, yScale)(_x, _y);
         },
         decorate = noop,
         xLabel = d3.functor(''),
@@ -170,53 +170,53 @@ export default function() {
         container.call(measure);
     }
 
-    measure.xScale = function(x) {
+    measure.xScale = function(_x) {
         if (!arguments.length) {
             return xScale;
         }
-        xScale = x;
+        xScale = _x;
         return measure;
     };
-    measure.yScale = function(x) {
+    measure.yScale = function(_x) {
         if (!arguments.length) {
             return yScale;
         }
-        yScale = x;
+        yScale = _x;
         return measure;
     };
-    measure.snap = function(x) {
+    measure.snap = function(_x) {
         if (!arguments.length) {
             return snap;
         }
-        snap = x;
+        snap = _x;
         return measure;
     };
-    measure.decorate = function(x) {
+    measure.decorate = function(_x) {
         if (!arguments.length) {
             return decorate;
         }
-        decorate = x;
+        decorate = _x;
         return measure;
     };
-    measure.xLabel = function(x) {
+    measure.xLabel = function(_x) {
         if (!arguments.length) {
             return xLabel;
         }
-        xLabel = d3.functor(x);
+        xLabel = d3.functor(_x);
         return measure;
     };
-    measure.yLabel = function(x) {
+    measure.yLabel = function(_x) {
         if (!arguments.length) {
             return yLabel;
         }
-        yLabel = d3.functor(x);
+        yLabel = d3.functor(_x);
         return measure;
     };
-    measure.padding = function(x) {
+    measure.padding = function(_x) {
         if (!arguments.length) {
             return padding;
         }
-        padding = d3.functor(x);
+        padding = d3.functor(_x);
         return measure;
     };
 

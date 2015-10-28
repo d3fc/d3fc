@@ -9,7 +9,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(ema)
-            .merge(function(datum, ma) { datum.exponentialMovingAverage = ma; });
+            .merge(function(datum, indicator) { datum.exponentialMovingAverage = indicator; });
 
     var exponentialMovingAverage = function(data) {
         return mergedAlgorithm(data);

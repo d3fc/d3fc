@@ -10,7 +10,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(ma)
-            .merge(function(datum, ma) { datum.movingAverage = ma; });
+            .merge(function(datum, indicator) { datum.movingAverage = indicator; });
 
     var movingAverage = function(data) {
         return mergedAlgorithm(data);

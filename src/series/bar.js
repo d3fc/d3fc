@@ -39,19 +39,19 @@ export default function() {
         }
     }
 
-    function valueAxisDimension(pathGenerator) {
+    function valueAxisDimension(generator) {
         if (orient === 'vertical') {
-            return pathGenerator.height;
+            return generator.height;
         } else {
-            return pathGenerator.width;
+            return generator.width;
         }
     }
 
-    function crossAxisDimension(pathGenerator) {
+    function crossAxisDimension(generator) {
         if (orient === 'vertical') {
-            return pathGenerator.width;
+            return generator.width;
         } else {
-            return pathGenerator.height;
+            return generator.height;
         }
     }
 

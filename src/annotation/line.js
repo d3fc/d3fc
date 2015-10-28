@@ -19,7 +19,7 @@ export default function() {
         .attr('class', 'annotation');
 
     var line = function(selection) {
-        selection.each(function(data, index) {
+        selection.each(function(data, selectionIndex) {
 
             // the value scale which the annotation 'value' relates to, the crossScale
             // is the other. Which is which depends on the orienation!
@@ -94,7 +94,7 @@ export default function() {
             g.select('text')
                 .text(label);
 
-            decorate(g, data, index);
+            decorate(g, data, selectionIndex);
         });
     };
 

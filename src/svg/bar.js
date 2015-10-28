@@ -72,39 +72,39 @@ export default function() {
         x = d3.functor(_x);
         return bar;
     };
-    bar.y = function(x) {
+    bar.y = function(_x) {
         if (!arguments.length) {
             return y;
         }
-        y = d3.functor(x);
+        y = d3.functor(_x);
         return bar;
     };
-    bar.width = function(x) {
+    bar.width = function(_x) {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(x);
+        width = d3.functor(_x);
         return bar;
     };
-    bar.horizontalAlign = function(x) {
+    bar.horizontalAlign = function(_x) {
         if (!arguments.length) {
             return horizontalAlign;
         }
-        horizontalAlign = x;
+        horizontalAlign = _x;
         return bar;
     };
-    bar.height = function(x) {
+    bar.height = function(_x) {
         if (!arguments.length) {
             return height;
         }
-        height = d3.functor(x);
+        height = d3.functor(_x);
         return bar;
     };
-    bar.verticalAlign = function(x) {
+    bar.verticalAlign = function(_x) {
         if (!arguments.length) {
             return verticalAlign;
         }
-        verticalAlign = x;
+        verticalAlign = _x;
         return bar;
     };
     return bar;

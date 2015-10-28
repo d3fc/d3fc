@@ -31,8 +31,8 @@ export default function() {
             // look for that first and if we find it assume we're being called
             // during the first pass. Otherwise we assume it's the second pass
             // and pull the series from the data value.
-            var series = this.__series__ || d;
-            return key.call(this, series, i);
+            var dataSeries = this.__series__ || d;
+            return key.call(this, dataSeries, i);
         });
 
     var multi = function(selection) {
@@ -41,19 +41,19 @@ export default function() {
 
             var g = dataJoin(this, series);
 
-            g.each(function(series, i) {
+            g.each(function(dataSeries, i) {
                 // We must always assign the series to the node, as the order
                 // may have changed. N.B. in such a case the output is most
                 // likely garbage (containers should not be re-used) but by
                 // doing this we at least make it debuggable garbage :)
-                this.__series__ = series;
+                this.__series__ = dataSeries;
 
-                (series.xScale || series.x).call(series, xScale);
-                (series.yScale || series.y).call(series, yScale);
+                (dataSeries.xScale || dataSeries.x).call(dataSeries, xScale);
+                (dataSeries.yScale || dataSeries.y).call(dataSeries, yScale);
 
                 d3.select(this)
-                    .datum(mapping.call(data, series, i))
-                    .call(series);
+                    .datum(mapping.call(data, dataSeries, i))
+                    .call(dataSeries);
             });
 
             // order is not available on a transition selection

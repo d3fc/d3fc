@@ -36,9 +36,8 @@ describe('fc.util.snap', function() {
         });
     });
 
-
     describe('fc.util.pointSnap', function() {
-        var xValue, yValue, xScale, yScale, data;
+        var xValue, yValue, data;
 
         beforeEach(function() {
             xValue = function(d) { return d[0]; };

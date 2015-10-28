@@ -51,9 +51,9 @@ describe('candlestick', function() {
             .yLowValue(yLowValueSpy)
             .yCloseValue(yCloseValueSpy);
 
-        var element = document.createElement('svg'),
-            container = d3.select(element),
-            data = [0.1, 2.2, 4.3, 8.4, 16.5];
+        var container = d3.select(element);
+        element = document.createElement('svg');
+        data = [0.1, 2.2, 4.3, 8.4, 16.5];
 
         container.datum(data)
             .call(candlestick);

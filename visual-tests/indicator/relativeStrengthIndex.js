@@ -25,7 +25,7 @@
     // Create the relative strength indicator component
     var rsiAlgo = fc.indicator.algorithm.relativeStrengthIndex()
         .windowSize(5)
-        .merge(function(datum, rsi) { datum.rsiValue = rsi; });
+        .merge(function(datum, indicator) { datum.rsiValue = indicator; });
     rsiAlgo(data);
 
     var rsi = fc.indicator.renderer.relativeStrengthIndex()

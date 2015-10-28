@@ -31,7 +31,7 @@ export default function(drawMethod) {
             g.each(function(d, i) {
                 var values = base.values(d, i);
 
-                var g = d3.select(this)
+                var graph = d3.select(this)
                     .attr('class', 'ohlc ' + values.direction)
                     .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
 
@@ -41,7 +41,7 @@ export default function(drawMethod) {
                     .low(function() { return values.yLow - values.yHigh; })
                     .close(function() { return values.yClose - values.yHigh; });
 
-                g.select('path')
+                graph.select('path')
                     .attr('d', pathGenerator([d]));
             });
 

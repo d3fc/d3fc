@@ -39,7 +39,7 @@
     var ma15 = fc.indicator.algorithm.movingAverage()
         .windowSize(15)
         .value(function(d) { return d.open; })
-        .merge(function(data, ma) { data.ma15 = ma; });
+        .merge(function(d, m) { d.ma15 = m; });
 
     // the application of multiple indicators
     data.call(ma)

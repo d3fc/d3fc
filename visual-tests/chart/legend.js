@@ -54,8 +54,8 @@
             });
 
         function renderLegend() {
-            function updateField(datum, fieldName) {
-                datum[fieldName] = datum[fieldName] + Math.random() * 4 - 2;
+            function updateField(d, fieldName) {
+                d[fieldName] = d[fieldName] + Math.random() * 4 - 2;
             }
             updateField(datum, 'open');
             updateField(datum, 'close');

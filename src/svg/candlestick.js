@@ -59,39 +59,39 @@ export default function() {
         x = d3.functor(_x);
         return candlestick;
     };
-    candlestick.open = function(x) {
+    candlestick.open = function(_x) {
         if (!arguments.length) {
             return open;
         }
-        open = d3.functor(x);
+        open = d3.functor(_x);
         return candlestick;
     };
-    candlestick.high = function(x) {
+    candlestick.high = function(_x) {
         if (!arguments.length) {
             return high;
         }
-        high = d3.functor(x);
+        high = d3.functor(_x);
         return candlestick;
     };
-    candlestick.low = function(x) {
+    candlestick.low = function(_x) {
         if (!arguments.length) {
             return low;
         }
-        low = d3.functor(x);
+        low = d3.functor(_x);
         return candlestick;
     };
-    candlestick.close = function(x) {
+    candlestick.close = function(_x) {
         if (!arguments.length) {
             return close;
         }
-        close = d3.functor(x);
+        close = d3.functor(_x);
         return candlestick;
     };
-    candlestick.width = function(x) {
+    candlestick.width = function(_x) {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(x);
+        width = d3.functor(_x);
         return candlestick;
     };
 

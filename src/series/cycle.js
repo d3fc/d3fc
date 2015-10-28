@@ -36,9 +36,9 @@ export default function() {
 
             g.each(function(d, i) {
 
-                var g = d3.select(this);
+                var graph = d3.select(this);
 
-                g.attr('transform', 'translate(' + xScale(d) + ', 0)');
+                graph.attr('transform', 'translate(' + xScale(d) + ', 0)');
 
                 (subScale.rangeBands || subScale.range)([-halfWidth, halfWidth]);
 
