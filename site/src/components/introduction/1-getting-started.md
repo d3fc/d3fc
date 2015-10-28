@@ -7,8 +7,8 @@ example-code: |
     var data = fc.data.random.financial()(50);
 
     var chart = fc.chart.linearTimeSeries()
-        .xDomain(fc.util.extent()(data, 'date'))
-        .yDomain(fc.util.extent()(data, ['high', 'low']));
+        .xDomain(fc.util.extent().fields('date')(data))
+        .yDomain(fc.util.extent().fields(['high', 'low'])(data));
 
     var gridlines = fc.annotation.gridline();
     var candlestick = fc.series.candlestick();

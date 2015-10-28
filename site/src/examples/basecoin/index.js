@@ -136,7 +136,7 @@
                     .range([0, WIDTH * 0.5]);
 
                 var yScale = d3.scale.linear()
-                    .domain(fc.util.extent()(data, ['low', 'high']))
+                    .domain(fc.util.extent().fields(['high', 'low'])(data))
                     // Modify the range so that the series only takes up middle third of the the width
                     .range([HEIGHT * 0.66, HEIGHT * 0.33]);
 

@@ -18,8 +18,8 @@ example-code: |
   var chart = fc.chart.cartesian(
                 d3.scale.linear(),
                 d3.scale.linear())
-            .xDomain(fc.util.extent()(data, 'x'))
-            .yDomain(fc.util.extent()(data, 'y'));
+            .xDomain(fc.util.extent().fields('x')(data))
+            .yDomain(fc.util.extent().fields('y')(data));
 
   // create a series and associate it with the plot area
   var line = fc.series.line()
@@ -49,10 +49,10 @@ example-code-2: |
                 d3.scale.linear(),
                 d3.scale.linear())
             .margin({left: 50, bottom: 20})
-            .xDomain(fc.util.extent()(data, 'x'))
+            .xDomain(fc.util.extent().fields('x')(data))
             .xLabel('value')
             .xBaseline(0)
-            .yDomain(fc.util.extent()(data, ['y', 'z']))
+            .yDomain(fc.util.extent().fields(['y', 'z'])(data))
             .yNice()
             .yOrient('left')
             .yLabel('Sine / Cosine');

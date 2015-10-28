@@ -15,11 +15,11 @@
 
         // Create scale for x axis
         var dateScale = fc.scale.dateTime()
-            .domain(fc.util.extent()(data, 'date'))
+            .domain(fc.util.extent().fields('date')(data))
             .range([0, width]);
 
         // offset the close price to give some negative values
-        var extent = fc.util.extent()(data, ['close']);
+        var extent = fc.util.extent().fields('close')(data);
         var offset = extent[0] + (extent[1] - extent[0]) / 2;
         data.forEach(function(datum) {
             datum.close = datum.close - offset;
@@ -27,7 +27,7 @@
 
         // Create scale for y axis
         var priceScale1 = d3.scale.linear()
-            .domain(fc.util.extent()(data, ['close']))
+            .domain(fc.util.extent().fields('close')(data))
             .range([0, height / 2]);
 
         var bar1 = fc.series.bar()
@@ -42,7 +42,7 @@
 
         // Create scale for y axis
         var priceScale2 = d3.scale.linear()
-            .domain(fc.util.extent()(data, ['close']))
+            .domain(fc.util.extent().fields('close')(data))
             .range([height / 2, height]);
 
         var bar2 = fc.series.bar()
@@ -61,7 +61,7 @@
             (15);
 
         // offset the low price to give some negative values
-        var extent = fc.util.extent()(data, ['low']);
+        var extent = fc.util.extent().fields('low')(data);
         var offset = extent[0] + (extent[1] - extent[0]) / 2;
         data.forEach(function(datum) {
             datum.low = datum.low - offset;
@@ -76,12 +76,12 @@
 
         // Create scale for y axis
         var dateScale = fc.scale.dateTime()
-            .domain(fc.util.extent()(data, 'date'))
+            .domain(fc.util.extent().fields('date')(data))
             .range([0, height]);
 
         // Create scale for x axis
         var priceScale = d3.scale.linear()
-            .domain(fc.util.extent()(data, ['low']))
+            .domain(fc.util.extent().fields('low')(data))
             .range([0, width]);
 
         var bar = fc.series.bar()
