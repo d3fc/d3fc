@@ -2,6 +2,10 @@
 function createPlayground() {
     'use strict';
 
+    var scriptTarget,
+        editor,
+        editorHTML;
+
     function setUpEditor(divId) {
         var editor = ace.edit(divId);
         editor.$blockScrolling = Infinity;
@@ -9,7 +13,7 @@ function createPlayground() {
         editor.setShowPrintMargin(false);
         editor.setOption('enableBasicAutocompletion', true);
         editor.getSession().on('change', function(e) {
-            if (output.autoRun()) {
+            if (output.autoRun) {
                 output.run();
             }
         });
@@ -33,18 +37,18 @@ function createPlayground() {
             editorHTML.getSession().setMode('ace/mode/html');
 
             // Resize Preview Pane Based On Content
-            output.previewFrame()()
+            output.previewFrame()
                 .addEventListener('load', function() {
                     this.style.height = this.contentWindow.document.body.offsetHeight + 'px';
                 });
 
             // Connect Buttons
-            output.runButton()()
+            output.runButton()
                 .addEventListener('click', function(e) {
                     e.preventDefault();
                     output.run();
                 });
-            output.autoRunButton()()
+            output.autoRunButton()
                 .addEventListener('click', function(e) {
                     e.preventDefault();
                     output.autoRun(!output.autoRun());
@@ -55,33 +59,21 @@ function createPlayground() {
         });
     };
 
-    var _autoRunButton = function() { return document.getElementById('btnAuto'); };
-    output.autoRunButton = function(x) {
-        if (!arguments.length) {
-            return _autoRunButton;
-        }
-        _autoRunButton = x;
-        return output;
+    output.autoRunButton = function() {
+        return document.getElementById('btnAuto');
     };
 
-    var _runButton = function() { return document.getElementById('btnRun'); };
-    output.runButton = function(x) {
-        if (!arguments.length) {
-            return _runButton;
-        }
-        _runButton = x;
-        return output;
+    output.runButton = function() {
+        return document.getElementById('btnRun');
     };
 
-    var _previewFrame = function() { return document.getElementById('preview'); };
-    output.previewFrame = function(x) {
-        if (!arguments.length) {
-            return _previewFrame;
-        }
-
-        _previewFrame = x;
-        return output;
+    output.previewFrame = function() {
+        return document.getElementById('preview');
     };
+
+    output.useLocal = false;
+    output.autoRun = false;
+    output.singleFile = true;
 
     output.wireUpExamples = function(examples) {
         var exampleCallback = function(e) {
@@ -93,38 +85,6 @@ function createPlayground() {
         }
         return output;
     };
-
-    var _useLocal = false;
-    output.useLocal = function(x) {
-        if (!arguments.length) {
-            return _useLocal;
-        }
-        _useLocal = x;
-        return output;
-    };
-
-    var _autoRun = false;
-    output.autoRun = function(x) {
-        if (!arguments.length) {
-            return _autoRun;
-        }
-
-        _autoRun = x;
-        var btn = _autoRunButton();
-        if (_autoRun) {
-            btn.className = btn.className.replace('btn-default', 'btn-primary');
-            output.run();
-        } else {
-            btn.className = btn.className.replace('btn-primary', 'btn-default');
-        }
-
-        return output;
-    };
-
-    var scriptTarget,
-        editor,
-        editorHTML;
-
 
     output.run = function() {
         var currentHTML = editorHTML.getSession().getValue();
@@ -143,7 +103,7 @@ function createPlayground() {
         merged += currentJS;
         merged += currentHTML.substr(endIndex);
 
-        setIFrame(output.previewFrame()(), merged);
+        setIFrame(output.previewFrame(), merged);
     };
 
     output.loadJavaScript = function(script) {
@@ -160,10 +120,25 @@ function createPlayground() {
 
     output.loadHTML = function(html) {
         // Switch to local d3fc if available
-        if (output.useLocal()) {
-            html = html.replace(/<!-- (<script [^>]*><\/script>) -->/, function(m, p1) { return p1; });
-            html = html.replace(/"https:([^"])*\/d3fc.bundle.min.css"/, '"http://localhost:9000/assets/d3fc.css"');
-            html = html.replace(/"https:([^"])*\/d3fc.min.js"/, '"http://localhost:9000/assets/d3fc.js"');
+        if (output.useLocal) {
+            html = html.replace(/<!-- (<script [^>]*><\/script>) -->/g, function(m, p1) {
+                return p1;
+            });
+            html = html.replace(/"https:([^"])*\/d3fc.min.css"/, '"http://localhost:9000/assets/d3fc.css"');
+            html = html.replace(/"https:([^"])*\/d3fc.bundle.min.js"/, '"http://localhost:9000/assets/d3fc.js"');
+        } else {
+            html = html.replace(/[ \t]*<!-- (<script [^>]*><\/script>) -->\n/g, '');
+        }
+
+        if (html.match(/<script data-src="/)) {
+            // Single File
+            html = html.replace(
+                /<script data-src="([^"]*)">([\s\S]+?)<\/script>/,
+                function(match, p1, p2) {
+                    scriptTarget = p1;
+                    output.loadJavaScript(p2);
+                    return '<script src="' + p1 + '"></script>';
+                });
         }
 
         editorHTML.getSession().setValue(html);
@@ -179,9 +154,11 @@ function createPlayground() {
 
     output.loadExample = function(exampleName) {
         scriptTarget = exampleName + '.js';
-        output.loadJavaScriptAJAX('examples/' + exampleName + '.js');
+        if (!output.singleFile) {
+            output.loadJavaScriptAJAX('examples/' + exampleName + '.js');
+        }
         output.loadHTMLAJAX('examples/' + exampleName + '.html');
-        setIFrame('<HTML><Body>Loading ...</Body></HTML>');
+        setIFrame(output.previewFrame(), '<HTML><Body>Loading ...</Body></HTML>');
     };
 
     return output;
