@@ -40,7 +40,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi envelope ' + ['area', 'upperEnvelope', 'lowerEnvelope'][i];
+                        return 'multi envelope ' + ['area', 'upper', 'lower'][i];
                     });
                 decorate(g, data, index);
             });

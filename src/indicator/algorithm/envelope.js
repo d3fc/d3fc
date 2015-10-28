@@ -4,8 +4,7 @@ import merge from './merge';
 
 export default function() {
 
-    var envelopeAlgorithm = calculator()
-        .midValue(function(d) { return d.close; });
+    var envelopeAlgorithm = calculator();
 
     var mergedAlgorithm = merge()
             .algorithm(envelopeAlgorithm)
@@ -20,7 +19,7 @@ export default function() {
     };
 
     d3.rebind(envelope, mergedAlgorithm, 'merge');
-    d3.rebind(envelope, envelopeAlgorithm, 'midValue', 'channel');
+    d3.rebind(envelope, envelopeAlgorithm, 'value', 'factor');
 
     return envelope;
 }

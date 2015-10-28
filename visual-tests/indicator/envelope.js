@@ -23,7 +23,7 @@
         .nice();
 
     // Create the envelope component
-    var envelope = fc.indicator.algorithm.envelope().channel(0.01);
+    var envelope = fc.indicator.algorithm.envelope().factor(0.01).value(function(d) {return d.close;});
 
     envelope(data);
 

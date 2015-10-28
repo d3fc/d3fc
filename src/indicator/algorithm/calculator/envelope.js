@@ -1,34 +1,38 @@
 import d3 from 'd3';
+import undefinedInputAdapter from './undefinedInputAdapter';
 
 export default function() {
 
-    var channel = 0.1;
-    var midValue = function(d) {
-        return d.value;
+    var factor = 0.1;
+    var value = function(d) {
+        return d;
+    };
+    var envelopeFactor = function(valueData) {
+        return valueData.map(function(s) {
+            return {
+                lowerEnvelope: s * (1.0 - factor),
+                upperEnvelope: s * (1.0 + factor)
+            };
+        });
     };
     var envelope = function(data) {
-        data.forEach(function(s) {
-            if (midValue(s) !== undefined) {
-                s.lowerEnvelope = midValue(s) * (1.0 - channel);
-                s.upperEnvelope = midValue(s) * (1.0 + channel);
-            }
-        });
-        return data;
+        return undefinedInputAdapter().undefinedValue({}).algorithm(envelopeFactor)(
+            data.map(function(d) {return value(d);}));
     };
 
-    envelope.channel = function(x) {
+    envelope.factor = function(x) {
         if (!arguments.length) {
-            return channel;
+            return factor;
         }
-        channel = x;
+        factor = x;
         return envelope;
     };
 
-    envelope.midValue = function(x) {
+    envelope.value = function(x) {
         if (!arguments.length) {
-            return midValue;
+            return value;
         }
-        midValue = d3.functor(x);
+        value = d3.functor(x);
         return envelope;
     };
 

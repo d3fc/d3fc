@@ -17,8 +17,8 @@ example-code: |
 
   // Create and apply the envelopes algorithm
   var envelopeAlgorithm = fc.indicator.algorithm.envelope()
-      .channel(0.01)
-      .midValue(function (d){return d.close});
+      .factor(0.01)
+      .value(function (d){return d.close});
   envelopeAlgorithm(data);
 
   // Create the renderer
@@ -38,24 +38,24 @@ example-code-2: |
       .yScale(yScale);
         
   // Create and apply the EMA
-    var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
-    movingAverage(data);
+  var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
+  movingAverage(data);
   
-    // Create a line that renders the result
-    var ema = fc.series.line()
-        .yValue(function(d) { return d.exponentialMovingAverage; })
-        .xScale(xScale)
-        .yScale(yScale);
+  // Create a line that renders the result
+  var ema = fc.series.line()
+      .yValue(function(d) { return d.exponentialMovingAverage; })
+      .xScale(xScale)
+      .yScale(yScale);
   
-    // Add it to the container
-    container.append('g')
-        .datum(data)
-        .call(ema);
+  // Add it to the container
+  container.append('g')
+      .datum(data)
+      .call(ema);
 
   // Create and apply the envelopes algorithm to the exponential moving average
   var envelopeAlgorithm = fc.indicator.algorithm.envelope()
-        .channel(0.01)
-        .midValue(function (d){return d.exponentialMovingAverage});
+      .factor(0.01)
+      .value(function (d){return d.exponentialMovingAverage});
   envelopeAlgorithm(data);
 
   // Create the renderer
@@ -70,12 +70,12 @@ example-code-2: |
       
   // Adding candlestick to the container
   container.append('g')
-        .datum(data)
-        .call(candlestick );
+      .datum(data)
+      .call(candlestick );
 ---
 
-Envelope is an indicator that defines upper and lower `channel` for a given time series. It can be used on any
-value series by specifying the `midValue` function.  The `channel` size can also be easily specified.
+Envelope is an indicator that defines upper and lower envelope for a given time series. It can be used on any
+value series by specifying the `value` function.  The channel size can also be easily specified with `factor`.
 
 The example below creates a line series and an envelope indicator:
 
@@ -105,4 +105,3 @@ and an envelope indicator:
     {{{example-code-2}}}
 }());
 </script>
-
