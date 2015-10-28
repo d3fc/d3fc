@@ -3,7 +3,6 @@ layout: component
 title: Envelope
 component: indicator/algorithm/envelope.js
 tags:
-  - frontpage
 namespace: indicator
 
 example-code: |
@@ -37,11 +36,7 @@ example-code-2: |
   var candlestick  = fc.series.candlestick ()
       .xScale(xScale)
       .yScale(yScale);
-
-  container.append('g')
-      .datum(data)
-      .call(candlestick );
-      
+        
   // Create and apply the EMA
     var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
     movingAverage(data);
@@ -72,6 +67,11 @@ example-code-2: |
   container.append('g')
       .datum(data)
       .call(envelope);
+      
+  // Adding candlestick to the container
+  container.append('g')
+        .datum(data)
+        .call(candlestick );
 ---
 
 Envelope is an indicator that defines upper and lower `channel` for a given time series. It can be used on any
