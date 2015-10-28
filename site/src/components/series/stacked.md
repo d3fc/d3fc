@@ -30,8 +30,12 @@ example-code: |
       .domain(data.map(function(d) { return d.State; }))
       .rangePoints([0, width], 1);
 
+  var yExtent = fc.util.extent()
+      .include(0)
+      .fields(function(d) { return d.y + d.y0; });
+
   var y = d3.scale.linear()
-      .domain(fc.util.extent().fields(function(d) { return d.y + d.y0; })(series.map(function(d) { return d.values; }), function(d) { return 0; }))
+      .domain(yExtent(series.map(function(d) { return d.values; })))
       .range([height, 0]);
 
   // create the stacked bar series (this could also be line or area)

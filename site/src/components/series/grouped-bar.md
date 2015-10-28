@@ -25,8 +25,12 @@ example-code: |
       .domain(data.map(function(d) { return d.State; }))
       .rangePoints([0, width], 1);
 
+  var yExtent = fc.util.extent()
+      .fields('y')
+      .include(0);
+
   var y = d3.scale.linear()
-      .domain(fc.util.extent().fields('y')(series.map(function(d) { return d.values; }), function(d) { return 0; }))
+      .domain(yExtent(series.map(function(d) { return d.values; })))
       .range([height, 0]);
 
   // create the grouped bar series
