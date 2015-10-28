@@ -35,35 +35,35 @@ export default function() {
         if (!arguments.length) {
             return x;
         }
-        x = _x;
+        x = d3.functor(_x);
         return ohlc;
     };
     ohlc.open = function(x) {
         if (!arguments.length) {
             return open;
         }
-        open = x;
+        open = d3.functor(x);
         return ohlc;
     };
     ohlc.high = function(x) {
         if (!arguments.length) {
             return high;
         }
-        high = x;
+        high = d3.functor(x);
         return ohlc;
     };
     ohlc.low = function(x) {
         if (!arguments.length) {
             return low;
         }
-        low = x;
+        low = d3.functor(x);
         return ohlc;
     };
     ohlc.close = function(x) {
         if (!arguments.length) {
             return close;
         }
-        close = x;
+        close = d3.functor(x);
         return ohlc;
     };
     ohlc.width = function(x) {

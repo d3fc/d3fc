@@ -56,35 +56,35 @@ export default function() {
         if (!arguments.length) {
             return x;
         }
-        x = _x;
+        x = d3.functor(_x);
         return candlestick;
     };
     candlestick.open = function(x) {
         if (!arguments.length) {
             return open;
         }
-        open = x;
+        open = d3.functor(x);
         return candlestick;
     };
     candlestick.high = function(x) {
         if (!arguments.length) {
             return high;
         }
-        high = x;
+        high = d3.functor(x);
         return candlestick;
     };
     candlestick.low = function(x) {
         if (!arguments.length) {
             return low;
         }
-        low = x;
+        low = d3.functor(x);
         return candlestick;
     };
     candlestick.close = function(x) {
         if (!arguments.length) {
             return close;
         }
-        close = x;
+        close = d3.functor(x);
         return candlestick;
     };
     candlestick.width = function(x) {
