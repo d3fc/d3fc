@@ -1,23 +1,19 @@
 import d3 from 'd3';
-import undefinedInputAdapter from './undefinedInputAdapter';
+import {identity} from '../../../util/fn';
+
 
 export default function() {
 
-    var factor = 0.1;
-    var value = function(d) {
-        return d;
-    };
-    var envelopeFactor = function(valueData) {
-        return valueData.map(function(s) {
+    var factor = 0.1,
+        value = identity;
+
+    var envelope = function(data) {
+        return data.map(function(s) {
             return {
-                lowerEnvelope: s * (1.0 - factor),
-                upperEnvelope: s * (1.0 + factor)
+                lower: value(s) * (1.0 - factor),
+                upper: value(s) * (1.0 + factor)
             };
         });
-    };
-    var envelope = function(data) {
-        return undefinedInputAdapter().undefinedValue({}).algorithm(envelopeFactor)(
-            data.map(function(d) {return value(d);}));
     };
 
     envelope.factor = function(x) {

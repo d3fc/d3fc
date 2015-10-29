@@ -1,13 +1,21 @@
-import calculator from './calculator/envelope';
+import envelopeCalculator from './calculator/envelope';
+import undefinedInputAdapter from './calculator/undefinedInputAdapter';
 import d3 from 'd3';
 import merge from './merge';
 
 export default function() {
 
-    var envelopeAlgorithm = calculator();
+    var envelopeAlgorithm = envelopeCalculator();
+
+    var adaptedEnvelope = undefinedInputAdapter()
+        .undefinedValue({
+            lower: undefined,
+            upper: undefined
+        })
+        .algorithm(envelopeAlgorithm);
 
     var mergedAlgorithm = merge()
-            .algorithm(envelopeAlgorithm)
+            .algorithm(adaptedEnvelope)
             .merge(function(datum, env) { datum.envelope = env; });
 
     var envelope = function(data) {

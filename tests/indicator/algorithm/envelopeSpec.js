@@ -10,9 +10,9 @@ describe('fc.indicator.algorithm.calculator.envelope', function() {
         var data = [10, 20, 60];
 
         expect(envelope(data)).toEqual([
-            {lowerEnvelope: 9, upperEnvelope: 11},
-            {lowerEnvelope: 18, upperEnvelope: 22},
-            {lowerEnvelope: 54, upperEnvelope: 66}
+            {lower: 9, upper: 11},
+            {lower: 18, upper: 22},
+            {lower: 54, upper: 66}
         ]);
     });
 
@@ -21,9 +21,9 @@ describe('fc.indicator.algorithm.calculator.envelope', function() {
         var data = [10, 20, 60];
 
         expect(envelope(data)).toEqual([
-            {lowerEnvelope: 8, upperEnvelope: 12},
-            {lowerEnvelope: 16, upperEnvelope: 24},
-            {lowerEnvelope: 48, upperEnvelope: 72}
+            {lower: 8, upper: 12},
+            {lower: 16, upper: 24},
+            {lower: 48, upper: 72}
         ]);
     });
 
@@ -38,9 +38,9 @@ describe('fc.indicator.algorithm.calculator.envelope', function() {
         ];
 
         expect(envelope(data)).toEqual([
-            {lowerEnvelope: 9, upperEnvelope: 11},
-            {lowerEnvelope: 18, upperEnvelope: 22},
-            {lowerEnvelope: 54, upperEnvelope: 66}
+            {lower: 9, upper: 11},
+            {lower: 18, upper: 22},
+            {lower: 54, upper: 66}
         ]);
     });
 });

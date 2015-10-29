@@ -22,22 +22,44 @@
         .range([height, 0])
         .nice();
 
-    // Create the envelope component
-    var envelope = fc.indicator.algorithm.envelope().factor(0.01).value(function(d) {return d.close;});
-
-    envelope(data);
-
-    // create the series
-    var ohlc = fc.series.ohlc();
-    var envelopeSeries = fc.indicator.renderer.envelope();
-    var multi = fc.series.multi()
+    // Create the candlestick series
+    var candlestick  = fc.series.candlestick ()
         .xScale(dateScale)
-        .yScale(priceScale)
-        .series([envelopeSeries, ohlc]);
+        .yScale(priceScale);
 
-    // Add it to the chart
+    // Create and apply the EMA
+    var movingAverage = fc.indicator.algorithm.exponentialMovingAverage();
+    movingAverage(data);
+
+    // Create a line that renders the result
+    var ema = fc.series.line()
+        .yValue(function(d) { return d.exponentialMovingAverage; })
+        .xScale(dateScale)
+        .yScale(priceScale);
+
+    // Add it to the container
     container.append('g')
         .datum(data)
-        .call(multi);
+        .call(ema);
 
+    // Create and apply the envelopes algorithm to the exponential moving average
+    var envelopeAlgorithm = fc.indicator.algorithm.envelope()
+        .factor(0.01)
+        .value(function(d) { return d.exponentialMovingAverage; });
+    envelopeAlgorithm(data);
+
+    // Create the renderer
+    var envelope = fc.indicator.renderer.envelope()
+        .xScale(dateScale)
+        .yScale(priceScale);
+
+    // Add it to the container
+    container.append('g')
+        .datum(data)
+        .call(envelope);
+
+    // Adding candlestick to the container
+    container.append('g')
+        .datum(data)
+        .call(candlestick);
 })(d3, fc);

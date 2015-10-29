@@ -15,20 +15,20 @@ export default function() {
 
     var area = _area()
         .y0Value(function(d, i) {
-            return root(d).upperEnvelope;
+            return root(d).upper;
         })
         .y1Value(function(d, i) {
-            return root(d).lowerEnvelope;
+            return root(d).lower;
         });
 
     var upperLine = _line()
         .yValue(function(d, i) {
-            return root(d).upperEnvelope;
+            return root(d).upper;
         });
 
     var lowerLine = _line()
         .yValue(function(d, i) {
-            return root(d).lowerEnvelope;
+            return root(d).lower;
         });
 
     var envelope = function(selection) {
