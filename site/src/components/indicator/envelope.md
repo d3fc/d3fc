@@ -74,8 +74,7 @@ example-code-2: |
       .call(candlestick );
 ---
 
-Envelope is an indicator that defines upper and lower envelope for a given time series. It can be used on any
-value series by specifying the `value` function.  The channel size can also be easily specified with `factor`.
+An [Envelope](http://www.investopedia.com/terms/e/envelope.asp?optm=sa_v2) is an indicator that defines an upper and a lower level for a given timeseries. It can be used on any timeseries by specifying the `value` property. The width of channel can also be controlled using `factor` property.
 
 The example below creates a line series and an envelope indicator:
 
@@ -85,9 +84,9 @@ The example below creates a line series and an envelope indicator:
 
 {{>example-fixture}}
 
-Envelopes are most often used with [Exponential Moving Averages](./exponentialMovingAverage) as breaking out
-of the price from such a channel defines either buy or sell signal. The example below creates a 
-[candlestick chart](../series/candlestick) with [exponential moving average](./exponentialMovingAverage) 
+Envelopes are most often used with [Exponential Moving Averages](./exponentialMovingAverage), as the price breaking out
+of the channel constitutes either a buy or a sell signal. The following example creates a 
+[candlestick chart](../series/candlestick), an [exponential moving average](./exponentialMovingAverage) 
 and an envelope indicator:
 
 ```js
