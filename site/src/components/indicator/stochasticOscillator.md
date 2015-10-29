@@ -4,7 +4,7 @@ title: Stochastic Oscillator
 component: indicator/algorithm/stochasticOscillator.js
 tags:
   - frontpage
-  - playground  
+  - playground 
 namespace: indicator
 
 example-code: |

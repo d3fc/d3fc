@@ -78,9 +78,8 @@ example-code: |
     {{#each tags}}
       {{#is tag "frontpage"}}
         {{#each pages}}
-          <div class="col-xs-4">
-            {{! the components/ is a hack around ASSemble }}
-            <a href="components/{{this.relativeLink}}">
+          <div class="col-sm-4">
+            <a href="{{replace this.dest 'site/dist/' ''}}">
               <div id="{{>component-id data.component}}" class="chart-small">
                 {{{data.example-fixture}}}
                 <div class="caption">

@@ -3,7 +3,7 @@ layout: component
 title: Candlestick Series
 component: series/candlestick.js
 tags:
- - playground
+  - playground
 namespace: series
 
 example-code: |

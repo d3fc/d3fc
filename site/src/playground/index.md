@@ -7,9 +7,8 @@ title: Playground Gallery
     {{#each tags}}
       {{#is tag "playground"}}
         {{#each pages}}
-          <div class="col-xs-4">
-            {{! the components/ is a hack around ASSemble }}
-            <a href="playground.html?example={{replace this.relativeLink '../../' ''}}">
+          <div class="col-sm-4">
+            <a href="playground.html?example={{replace (replace this.relativeLink '../../' '') '.html' ''}}">
               <div id="{{>component-id data.component}}" class="chart-small">
                 {{{data.example-fixture}}}
                 <div class="caption">

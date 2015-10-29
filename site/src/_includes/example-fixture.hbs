@@ -1,3 +1,9 @@
+{{#if page.tags}}{{#inArray page.tags 'playground'}}
+<div class="text-right">
+    <a href="{{assets}}/playground/playground.html?example={{replace dirname 'site/dist/' ''}}/{{basename}}">View in the Playground</a>
+</div>
+{{/inArray}}{{/if}}
+
 <div id="{{>component-id component}}" class="chart"> </div>
 <script type="text/javascript">
 (function() {

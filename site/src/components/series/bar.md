@@ -3,7 +3,7 @@ layout: component
 title: Bar Series
 component: series/bar.js
 tags:
- - playground
+  - playground
 namespace: series
 
 example-code: |

@@ -172,7 +172,7 @@ function createPlayground() {
         if (!output.singleFile) {
             output.loadJavaScriptAJAX('examples/' + exampleName + '.js');
         }
-        output.loadHTMLAJAX('examples/' + exampleName.replace(/.html$/, '') + '.html');
+        output.loadHTMLAJAX('examples/' + exampleName + '.html');
         setIFrame(output.previewFrame(), '<HTML><Body>Loading ...</Body></HTML>');
     };
 

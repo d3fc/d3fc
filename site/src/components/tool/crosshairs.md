@@ -3,6 +3,7 @@ layout: component
 title: Crosshairs
 component: tool/crosshair.js
 namespace: tool
+tags:
 
 example-code: |
   // create a line series and a crosshair
@@ -53,5 +54,3 @@ var crosshairs = fc.tool.crosshair()
 ```
 
 The crosshair emits 'trackingstart', 'trackingmove' and 'trackingend' events which can be used to add further interactively. You can also modify the crosshair UI via the `decorate` property.
-
-
