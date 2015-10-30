@@ -38,14 +38,14 @@ export default function() {
 
     var bollingerBands = function(selection) {
 
-        var multi = _multi()
+        var multi = _multi('bollinger')
             .xScale(xScale)
             .yScale(yScale)
             .series([area, upperLine, lowerLine, averageLine])
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i];
+                        return 'bollinger ' + ['indicator', 'upper', 'lower', 'average'][i];
                     });
                 decorate(g, data, index);
             });
