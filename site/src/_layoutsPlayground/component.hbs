@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>{{default title 'd3fc'}}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.min.css" rel="stylesheet" />
 </head>
-
 <body>
     <svg id="chart" width="100%" height="300px"></svg>
 
@@ -14,8 +12,9 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/css-layout/{{ slice package.dependencies.css-layout 1 }}/css-layout.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.bundle.min.js"></script>
     <script data-src="{{basename}}.js">
-var width = document.getElementById('chart').getBoundingClientRect().width || 600,
-    height = document.getElementById('chart').getBoundingClientRect().height || 250;
+var extent = fc.util.innerDimensions(document.getElementById('chart'));
+var width = extent.width,
+    height = extent.height;
 
 var dataGenerator = fc.data.random.financial()
     .startDate(new Date(2014, 1, 1))
@@ -41,5 +40,4 @@ var yScale = d3.scale.linear()
 {{{example-code}}}
     </script>
 </body>
-
 </html>

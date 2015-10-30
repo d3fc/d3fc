@@ -123,7 +123,7 @@ function createPlayground() {
     };
 
     output.loadJavaScript = function(script) {
-        editor.getSession().setValue(script);
+        editor.getSession().setValue(script.trim());
         editor.setReadOnly(false);
         output.run();
     };
@@ -157,7 +157,7 @@ function createPlayground() {
                 });
         }
 
-        editorHTML.getSession().setValue(html);
+        editorHTML.getSession().setValue(html.trim());
         editorHTML.setReadOnly(false);
         output.run();
     };

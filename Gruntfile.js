@@ -94,12 +94,6 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'site/src',
-                        src: ['playground/examples/**/*.md'],
-                        dest: 'site/dist'
-                    },
-                    {
-                        expand: true,
-                        cwd: 'site/src',
                         src: ['components/**/*.md'],
                         dest: 'site/dist/playground/examples'
                     }
