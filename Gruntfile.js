@@ -213,7 +213,12 @@ module.exports = function(grunt) {
                     'visual-tests/**/*',
                     '!visual-tests/assets/**/*'
                 ],
-                tasks: ['components', 'visualTests']
+                tasks: ['components', 'visualTests'],
+                options: {
+                    livereload: {
+                        port: 36729
+                    }
+                }
             },
             site: {
                 files: [
