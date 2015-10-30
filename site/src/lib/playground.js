@@ -12,6 +12,7 @@ function createPlayground() {
         editor.setTheme('ace/theme/crimson_editor');
         editor.setShowPrintMargin(false);
         editor.setOption('enableBasicAutocompletion', true);
+        editor.setOption('maxLines', 'Infinity');
         editor.getSession().on('change', function(e) {
             if (output.autoRun()) {
                 output.run();

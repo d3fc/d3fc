@@ -13,32 +13,39 @@ script-extra: |
 css-extra: |
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 ---
-<div class="container-fluid playground" id="main">
+<div class="container playground" id="main">
+    <h1>
+        Playground
+        <div class="pull-right">
+            <a id="btnRun" class="btn btn-default">
+                <i class="fa fa-play"></i> Run
+            </a>
+            <a id="btnAuto" class="btn btn-default">
+                <i class="fa fa-forward"></i> AutoRun
+            </a>
+        </div>
+    </h1>
     <div class="row">
-        <div class="col-md-12 text-right">
-            <a id="btnRun" class="btn btn-default"><i class="fa fa-play"></i> Run</a>
-            <a id="btnAuto" class="btn btn-default"><i class="fa fa-forward"></i> AutoRun</a>
+        <div class="col-md-12">
+            <iframe id="preview" scrolling="no" style="border:none; width: 100%;"></iframe>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5 col-md-push-7">
-            <h3>Preview</h3>
-            <iframe id="preview" scrolling="no" style="border:none; width: 100%;">
-            </iframe>
-        </div>
-        <div class="col-md-7 col-md-pull-5">
-            <h3>HTML</h3>
+        <div class="col-md-12">
+            <h2>JavaScript</h2>
             <div class="editorContainer">
-                <div id="editorHTML" style="width:100%; height: 300px;">
+                <div id="editor">
                     Loading ...
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>HTML</h2>
             <div class="editorContainer">
-                <h3>JavaScript</h3>
-                <div id="editor" style="width:100%; height: 300px;">
+                <div id="editorHTML">
                     Loading ...
-                </div>
-                <div>
                 </div>
             </div>
         </div>
