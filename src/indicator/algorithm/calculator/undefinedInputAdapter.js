@@ -9,7 +9,9 @@ export default function() {
     var algorithm = slidingWindow()
         .accumulator(d3.mean);
     var undefinedValue = d3.functor(undefined),
-        defined = function(value) { return value === undefined; };
+        defined = function(value) {
+            return algorithm.value()(value) == null;
+        };
 
     function undefinedArrayOfLength(length) {
         return Array.apply(null, new Array(length)).map(undefinedValue);

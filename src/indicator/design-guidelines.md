@@ -15,6 +15,7 @@ The following is a brief set of design guidelines for indicators:
  - Algorithms should rebind any calculator configuration.
  - Algorithms should provide a domain-specific value accessor, for example replacing the calculators identity function with one that extracts the 'close' value.
  - The output of calculators that result in multiple values should not be flattened, they should instead be stored as a 'child' object of each datapoint.
+ - If the output of a calculator is undefined, this undefined output should still be merged into the source array. This allows series that render the output to use their built-in 'defined' concept in order to filter out undefined values.
 
 ## Renderers
 

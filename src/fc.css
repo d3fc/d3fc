@@ -211,6 +211,15 @@ text {
   stroke: #06c;
 }
 
+.envelope .area {
+  fill: #9cf;
+  fill-opacity: 0.5;
+}
+
+.envelope .line {
+  stroke: #06c;
+}
+
 /* Annotations */
 .annotation>line {
   fill-opacity: 0;
