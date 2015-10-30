@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import annotationLine from '../../annotation/line';
-import _multi from '../../series/multi';
+import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
 import seriesLine from '../../series/line';
 
@@ -8,7 +8,7 @@ export default function() {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        multiSeries = _multi(),
+        multi = multiSeries('force'),
         decorate = noop;
 
     var annotations = annotationLine();
@@ -20,7 +20,8 @@ export default function() {
 
     var force = function(selection) {
 
-        multiSeries.xScale(xScale)
+        multi
+            .xScale(xScale)
             .yScale(yScale)
             .series([annotations, forceLine])
             .mapping(function(series) {
@@ -34,12 +35,12 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi ' + ['annotations', 'indicator'][i];
+                        return 'force ' + ['annotations', 'indicator'][i];
                     });
                 decorate(g, data, index);
             });
 
-        selection.call(multiSeries);
+        selection.call(multi);
     };
 
     force.xScale = function(x) {

@@ -1,7 +1,7 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import line from '../annotation/line';
-import _multi from '../series/multi';
+import multiSeries from '../series/multi';
 import {noop} from '../util/fn';
 import {noSnap} from '../util/snap';
 import point from '../series/point';
@@ -21,11 +21,8 @@ export default function() {
     var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
         y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
-    var dataJoin = _dataJoin()
-        .children(true)
-        .selector('g.crosshair')
-        .element('g')
-        .attr('class', 'crosshair');
+    var dataJoin = dataJoinUtil('crosshair')
+        .children(true);
 
     var pointSeries = point()
         .xValue(x)
@@ -76,7 +73,7 @@ export default function() {
             crosshair.enter()
                 .style('pointer-events', 'none');
 
-            var multi = _multi()
+            var multi = multiSeries()
                 .series([horizontalLine, verticalLine, pointSeries])
                 .xScale(identityScale(xScale))
                 .yScale(identityScale(yScale))

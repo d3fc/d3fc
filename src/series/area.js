@@ -15,10 +15,7 @@ export default function() {
         .y0(base.y0)
         .y1(base.y1);
 
-    var dataJoin = dataJoinUtil()
-        .selector('path.area')
-        .element('path')
-        .attr('class', 'area');
+    var dataJoin = dataJoinUtil('area', 'path');
 
     var area = function(selection) {
 

@@ -20,11 +20,8 @@ export default function(className) {
 
     className = className || 'multi';
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.' + className)
+    var dataJoin = dataJoinUtil(className)
         .children(true)
-        .attr('class', className)
-        .element('g')
         .key(function(d, i) {
             // This function is invoked twice, the first pass is to pull the key
             // value from the DOM nodes and the second pass is to pull the key

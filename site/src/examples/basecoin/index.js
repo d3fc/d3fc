@@ -83,15 +83,8 @@
             .close(function(d) { return yScale(d.close); })
             .width(5);
 
-        var upDataJoin = fc.util.dataJoin()
-            .selector('path.up')
-            .element('path')
-            .attr('class', 'up');
-
-        var downDataJoin = fc.util.dataJoin()
-            .selector('path.down')
-            .element('path')
-            .attr('class', 'down');
+        var upDataJoin = fc.util.dataJoin('up', 'path');
+        var downDataJoin = fc.util.dataJoin('down', 'path');
 
         var optimisedCandlestick = function(selection) {
             selection.each(function(data) {
@@ -194,10 +187,6 @@
                     .range([HEIGHT - 14, 0]);
 
                 var dataJoin = fc.util.dataJoin()
-                    // Join on any g descendents
-                    .selector('g')
-                    // Create any missing as g elements
-                    .element('g')
                     // Key the nodes on the x value
                     .key(function(d) { return d.date; });
 

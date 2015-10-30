@@ -1,7 +1,7 @@
 import _bar from '../../series/bar';
 import d3 from 'd3';
 import _line from '../../series/line';
-import _multi from '../../series/multi';
+import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
 
 export default function() {
@@ -13,7 +13,7 @@ export default function() {
         macdLine = _line(),
         signalLine = _line(),
         divergenceBar = _bar(),
-        multiSeries = _multi('macd'),
+        multi = multiSeries('macd'),
         decorate = noop;
 
     var macd = function(selection) {
@@ -27,18 +27,19 @@ export default function() {
         divergenceBar.xValue(xValue)
             .yValue(function(d, i) { return root(d).divergence; });
 
-        multiSeries.xScale(xScale)
+        multi
+            .xScale(xScale)
             .yScale(yScale)
             .series([divergenceBar, macdLine, signalLine])
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'macd ' + ['indicator', 'indicator', 'signal'][i];
+                        return 'macd ' + ['divergence', '', 'signal'][i];
                     });
                 decorate(g, data, index);
             });
 
-        selection.call(multiSeries);
+        selection.call(multi);
     };
 
     macd.xScale = function(x) {

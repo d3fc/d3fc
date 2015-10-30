@@ -180,19 +180,36 @@ text {
 }
 
 /* Indicators */
-.bollinger .line {
+.macd.divergence .bar {
+  stroke: grey;
+  fill: grey;
+  fill-opacity: 1.0;
+}
+
+.macd.signal .line {
+  stroke: red;
+}
+
+.macd .line {
   stroke: #06c;
 }
 
-.envelope .area {
+.stochastic.d .line {
+  stroke: red;
+}
+
+.stochastic.k .line {
+  stroke: #06c;
+}
+
+.bollinger .area {
   fill: #9cf;
   fill-opacity: 0.5;
 }
 
-.envelope .line {
+.bollinger .line {
   stroke: #06c;
 }
-
 /* Annotations */
 .annotation>line {
   fill-opacity: 0;

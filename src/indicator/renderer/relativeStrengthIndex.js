@@ -26,7 +26,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'rsi ' + ['', 'signal'][i];
+                        return 'rsi ' + ['annotations', 'indicator'][i];
                     });
                 decorate(g, data, index);
             })

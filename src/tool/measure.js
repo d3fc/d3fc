@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import {noSnap} from '../util/snap';
 
@@ -19,10 +19,7 @@ export default function() {
     var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
         y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
 
-    var dataJoin = _dataJoin()
-        .selector('g.measure')
-        .element('g')
-        .attr('class', 'measure');
+    var dataJoin = dataJoinUtil('measure');
 
     var measure = function(selection) {
 

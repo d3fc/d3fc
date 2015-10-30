@@ -30,16 +30,9 @@ export default function(xScale, yScale) {
         .orient('right')
         .ticks(3);
 
-    function classedDataJoin(clazz) {
-        return dataJoinUtil()
-            .selector('g.' + clazz)
-            .element('g')
-            .attr('class', clazz);
-    }
-
-    var dataJoin = classedDataJoin('multiple'),
-        xAxisDataJoin = classedDataJoin('x-axis'),
-        yAxisDataJoin = classedDataJoin('y-axis');
+    var dataJoin = dataJoinUtil('multiple'),
+        xAxisDataJoin = dataJoinUtil('x-axis'),
+        yAxisDataJoin = dataJoinUtil('y-axis');
 
     var multiples = function(selection) {
         selection.each(function(data, index) {

@@ -14,10 +14,7 @@ export default function() {
         .x(base.x)
         .y(base.y);
 
-    var dataJoin = dataJoinUtil()
-        .selector('path.line')
-        .element('path')
-        .attr('class', 'line');
+    var dataJoin = dataJoinUtil('line', 'path');
 
     var line = function(selection) {
 

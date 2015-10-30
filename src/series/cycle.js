@@ -14,10 +14,7 @@ export default function() {
         subSeries = line(),
         barWidth = fractionalBarWidth(0.75);
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.cycle')
-        .element('g')
-        .attr('class', 'cycle');
+    var dataJoin = dataJoinUtil('cycle');
 
     var cycle = function(selection) {
 

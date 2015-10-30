@@ -33,7 +33,7 @@ export default function() {
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'stochastic ' + ['', 'signal', 'indicator'][i];
+                        return 'stochastic ' + ['annotations', 'd', 'k'][i];
                     });
                 decorate(g, data, index);
             })

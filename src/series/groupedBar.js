@@ -13,10 +13,7 @@ export default function() {
         offsetScale = d3.scale.linear(),
         values = function(d) { return d.values; };
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.stacked')
-        .element('g')
-        .attr('class', 'stacked');
+    var dataJoin = dataJoinUtil('stacked');
 
     var x = function(d, i) { return xScale(bar.xValue()(d, i)); };
 

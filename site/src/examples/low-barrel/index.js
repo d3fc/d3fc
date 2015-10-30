@@ -75,9 +75,7 @@
         var nest = d3.nest()
             .key(function(d) { return d.direction; });
 
-        var dataJoin = fc.util.dataJoin()
-            .selector('path')
-            .element('path');
+        var dataJoin = fc.util.dataJoin('', 'path');
 
         function candlestickSeries(selection) {
             selection.each(function(data) {
@@ -185,9 +183,7 @@
 
         var fractionalBarWidth = fc.util.fractionalBarWidth(0.75);
 
-        var dataJoin = fc.util.dataJoin()
-            .selector('path')
-            .element('path');
+        var dataJoin = fc.util.dataJoin('', 'path');
 
         function barSeries(selection) {
             selection.each(function(data) {

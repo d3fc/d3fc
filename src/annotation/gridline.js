@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 
 export default function() {
@@ -12,14 +12,9 @@ export default function() {
     var xDecorate = noop,
         yDecorate = noop;
 
-    var xLineDataJoin = dataJoin()
-        .selector('line.x')
-        .element('line')
+    var xLineDataJoin = dataJoinUtil('x', 'line')
         .attr('class', 'x gridline');
-
-    var yLineDataJoin = dataJoin()
-        .selector('line.y')
-        .element('line')
+    var yLineDataJoin = dataJoinUtil('y', 'line')
         .attr('class', 'y gridline');
 
     var gridlines = function(selection) {
