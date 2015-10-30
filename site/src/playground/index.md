@@ -9,7 +9,7 @@ title: Playground Gallery
         {{#each pages}}
           <div class="col-xs-4">
             {{! the components/ is a hack around ASSemble }}
-            <a href="playground.html?components/{{this.relativeLink}}">
+            <a href="playground.html?example={{replace this.relativeLink '../../' ''}}">
               <div id="{{>component-id data.component}}" class="chart-small">
                 {{{data.example-fixture}}}
                 <div class="caption">

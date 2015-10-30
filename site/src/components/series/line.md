@@ -3,6 +3,7 @@ layout: component
 title: Line Series
 component: series/line.js
 tags:
+  - playground
 namespace: series
 
 example-code: |

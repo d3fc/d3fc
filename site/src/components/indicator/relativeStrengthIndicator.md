@@ -3,6 +3,7 @@ layout: component
 title: Relative Strength Index
 component: indicator/algorithm/relativeStrengthIndex.js
 tags:
+  - playground
 namespace: indicator
 
 example-code: |
@@ -38,5 +39,3 @@ The RSI indicator is rendered on a percent scale:
 {{>example-fixture}}
 
 You can configure the number of datapoints that are included in the RSI via the `windowSize` property, you can also change how the open and close values are read via the `openValue` and `closeValue` properties.
-
-

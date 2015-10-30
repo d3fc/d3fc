@@ -4,6 +4,7 @@ title: Grouped Bar Series
 component: series/groupedBar.js
 tags:
   - frontpage
+  - playground
 namespace: series
 
 example-code: |

@@ -13,7 +13,7 @@ function createPlayground() {
         editor.setShowPrintMargin(false);
         editor.setOption('enableBasicAutocompletion', true);
         editor.getSession().on('change', function(e) {
-            if (output.autoRun) {
+            if (output.autoRun()) {
                 output.run();
             }
         });
@@ -72,8 +72,23 @@ function createPlayground() {
     };
 
     output.useLocal = false;
-    output.autoRun = false;
     output.singleFile = true;
+
+    var _autoRun = false;
+    output.autoRun = function(x) {
+        if (!arguments.length) {
+            return _autoRun;
+        }
+
+        _autoRun = x;
+        var btn = output.autoRunButton();
+        if (_autoRun) {
+            btn.className = btn.className.replace('btn-default', 'btn-primary');
+            output.run();
+        } else {
+            btn.className = btn.className.replace('btn-primary', 'btn-default');
+        }
+    };
 
     output.wireUpExamples = function(examples) {
         var exampleCallback = function(e) {
@@ -157,7 +172,7 @@ function createPlayground() {
         if (!output.singleFile) {
             output.loadJavaScriptAJAX('examples/' + exampleName + '.js');
         }
-        output.loadHTMLAJAX('examples/' + exampleName + '.html');
+        output.loadHTMLAJAX('examples/' + exampleName.replace(/.html$/, '') + '.html');
         setIFrame(output.previewFrame(), '<HTML><Body>Loading ...</Body></HTML>');
     };
 

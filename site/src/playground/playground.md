@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: playground
 title: D3FC Playground
 script-extra: |
     <script src="https://cdn.jsdelivr.net/ace/1.2.0/noconflict/ace.js"></script>

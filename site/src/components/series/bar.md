@@ -3,6 +3,7 @@ layout: component
 title: Bar Series
 component: series/bar.js
 tags:
+ - playground
 namespace: series
 
 example-code: |
@@ -26,4 +27,3 @@ Which gives the following:
 {{>example-fixture}}
 
 This series has the same `xValue`, `yValue` and `decorate` properties as the [point series](./point). You can also specify the width of the bars via the `barWidth` property.
-

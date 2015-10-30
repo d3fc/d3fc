@@ -4,6 +4,7 @@ title: Bollinger Bands
 component: indicator/algorithm/bollingerBands.js
 tags:
   - frontpage
+  - playground
 namespace: indicator
 
 example-code: |
@@ -40,6 +41,3 @@ The example below creates a point series and a bollinger band indicator:
 ```
 
 {{>example-fixture}}
-
-
-

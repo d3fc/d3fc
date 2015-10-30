@@ -4,6 +4,7 @@ title: Cycle Series
 component: series/cycle.js
 tags:
   - frontpage
+  - playground 
 namespace: series
 
 example-code: |

@@ -4,6 +4,7 @@ title: MACD
 component: indicator/algorithm/macd.js
 tags:
   - frontpage
+  - playground
 namespace: indicator
 
 example-code: |
@@ -43,5 +44,3 @@ The following is a simple example of the MACD indicator, where the fast, slow an
 Which yields the following :
 
 {{>example-fixture}}
-
-

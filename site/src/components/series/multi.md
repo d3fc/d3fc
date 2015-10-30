@@ -4,6 +4,7 @@ title: Multi Series
 component: series/multi.js
 tags:
   - frontpage
+  - playground
 namespace: series
 
 example-code: |
