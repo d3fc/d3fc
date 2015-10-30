@@ -15,16 +15,20 @@ export default function() {
         orient = 'vertical',
         pathGenerator = svgBar();
 
+    function isVertical() {
+        return orient === 'vertical';
+    }
+
     var base = xyBase()
-      .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
-      .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
+      .xValue(function(d, i) { return isVertical() ? d.date : d.close; })
+      .yValue(function(d, i) { return isVertical() ? d.close : d.date; });
 
     var dataJoin = dataJoinUtil()
         .selector('g.bar')
         .element('g');
 
     function containerTranslation(d, i) {
-        if (orient === 'vertical') {
+        if (isVertical()) {
             return 'translate(' + base.x1(d, i) + ', ' + base.y0(d, i) + ')';
         } else {
             return 'translate(' + base.x0(d, i) + ', ' + base.y1(d, i) + ')';
@@ -32,7 +36,7 @@ export default function() {
     }
 
     function barHeight(d, i) {
-        if (orient === 'vertical') {
+        if (isVertical()) {
             return base.y1(d, i) - base.y0(d, i);
         } else {
             return base.x1(d, i) - base.x0(d, i);
@@ -40,7 +44,7 @@ export default function() {
     }
 
     function valueAxisDimension(pathGenerator) {
-        if (orient === 'vertical') {
+        if (isVertical()) {
             return pathGenerator.height;
         } else {
             return pathGenerator.width;
@@ -48,7 +52,7 @@ export default function() {
     }
 
     function crossAxisDimension(pathGenerator) {
-        if (orient === 'vertical') {
+        if (isVertical()) {
             return pathGenerator.width;
         } else {
             return pathGenerator.height;
@@ -56,13 +60,13 @@ export default function() {
     }
 
     function crossAxisValueFunction() {
-        return orient === 'vertical' ? base.x : base.y;
+        return isVertical() ? base.x : base.y;
     }
 
     var bar = function(selection) {
         selection.each(function(data, index) {
 
-            if (orient !== 'vertical' && orient !== 'horizontal') {
+            if (!isVertical() && orient !== 'horizontal') {
                 throw new Error('The bar series does not support an orientation of ' + orient);
             }
 
@@ -75,7 +79,7 @@ export default function() {
                 .width(0)
                 .height(0);
 
-            if (orient === 'vertical') {
+            if (isVertical()) {
                 pathGenerator.verticalAlign('top');
             } else {
                 pathGenerator.horizontalAlign('right');
