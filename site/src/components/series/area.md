@@ -3,6 +3,7 @@ layout: component
 title: Area Series
 component: series/area.js
 tags:
+  - playground
 namespace: series
 
 example-code: |

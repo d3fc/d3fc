@@ -3,6 +3,7 @@ layout: component
 title: Exponential Moving Average
 component: indicator/algorithm/exponentialMovingAverage.js
 tags:
+  - playground
 namespace: indicator
 
 example-code: |
@@ -42,5 +43,3 @@ The example below creates a point series and an EMA:
 {{>example-fixture}}
 
 You can configure the number of datapoints that are included in the moving average via the `windowSize` property, you can also change the object property that is averaged via the `yValue` property.
-
-

@@ -4,6 +4,7 @@ title: Stacked Series
 component: series/stacked
 tags:
   - frontpage
+  - playground
 namespace: series
 
 example-code: |

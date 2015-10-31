@@ -75,8 +75,27 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'site/src',
-                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
+                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*', '!playground/examples/**'],
                         dest: 'site/dist'
+                    }
+                ]
+            },
+            playground: {
+                options: {
+                    assets: 'site/dist',
+                    data: ['package.json', 'site/src/_config.yml'],
+                    partials: 'site/src/_includes/*.hbs',
+                    layoutdir: 'site/src/_layoutsPlayground',
+                    layout: 'component',
+                    layoutext: '.hbs',
+                    helpers: ['handlebars-helpers']
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'site/src',
+                        src: ['components/**/*.md'],
+                        dest: 'site/dist/playground/examples'
                     }
                 ]
             }
@@ -100,7 +119,8 @@ module.exports = function(grunt) {
                     'dist/d3fc.bundle.js',
                     'node_modules/jquery/dist/jquery.js',
                     'node_modules/bootstrap/js/collapse.js',
-                    'site/src/lib/init.js'
+                    'site/src/lib/init.js',
+                    'site/src/lib/playground.js'
                 ],
                 dest: 'site/dist/scripts.js'
             }
@@ -176,7 +196,7 @@ module.exports = function(grunt) {
             }
         },
 
-        concat_css: {
+        'concat_css': {
             options: {},
             components: {
                 src: ['<%= meta.componentsCssFiles %>'],
@@ -248,7 +268,7 @@ module.exports = function(grunt) {
             }
         },
 
-        jasmine_nodejs: {
+        'jasmine_nodejs': {
             options: {
                 reporters: {
                     console: {
@@ -307,7 +327,7 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
-    grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site']);
+    grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site', 'assemble:playground']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?

@@ -3,6 +3,7 @@ layout: component
 title: Candlestick Series
 component: series/candlestick.js
 tags:
+  - playground
 namespace: series
 
 example-code: |
@@ -26,5 +27,3 @@ Which gives the following:
 {{>example-fixture}}
 
 You can configure how the series obtains the high, low, open close values via the `yOpenValue`, `yHighValue`, `yLowValue` and `yCloseValue` properties. You can configure the width of each candlestick via the `barWidth` property, and also modify how they are rendered via the `decorate` property.
-
-
