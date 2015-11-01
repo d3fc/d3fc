@@ -28,10 +28,11 @@ export default function() {
             var g = dataJoin(this, filteredData);
             g.enter()
                 .attr('transform', containerTransform)
-                .append('path')
-                .attr('d', symbol);
+                .append('path');
 
-            g.attr('transform', containerTransform);
+            g.attr('transform', containerTransform)
+                .select('path')
+                .attr('d', symbol);
 
             decorate(g, data, index);
         });
