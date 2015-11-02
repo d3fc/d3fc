@@ -284,11 +284,13 @@
             .yTicks(0);
 
         var area = fc.series.area()
-            .decorate(function (sel) {
-                sel.enter().style({
-                    stroke: '#06c',
-                    fill: '#9cf',
-                    'stroke-opacity': '1'});
+            .decorate(function(sel) {
+                sel.enter().style({fill: '#9cf'});
+            });
+
+        var line = fc.series.line()
+            .decorate(function(sel) {
+                sel.enter().style({stroke: '#06c'});
             });
 
         // TODO: the brush causes a partial render which can glitch things
@@ -302,7 +304,7 @@
             });
 
         var multi = fc.series.multi()
-            .series([gridlines, area, brush])
+            .series([gridlines, area, line, brush])
             .mapping(function(series) {
                 // Need to set the extent AFTER the scales
                 // are set AND their ranges defined
