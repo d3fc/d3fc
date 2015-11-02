@@ -43,7 +43,7 @@ example-code: |
 
         var legend = fc.chart.legend()
             .items(color.domain().map(function(d, i) {
-                return [swatch(i), d];
+                return [swatch(d), d];
             }));
 
         d3.select('#legend')
