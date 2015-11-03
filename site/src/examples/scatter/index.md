@@ -11,7 +11,9 @@ example-code: |
             d.sepalWidth = Number(d.sepalWidth);
         });
 
-        var color = d3.scale.category10();
+        var species = d3.set(data.map(function(d) { return d.species; }));
+        var color = d3.scale.category10()
+            .domain(species.values());
 
         var pointSeries = fc.series.point()
             .xValue(function(d) { return d.sepalWidth; })
@@ -29,26 +31,14 @@ example-code: |
             .xLabel('Sepal Width (cm)')
             .yLabel('Sepal Length (cm)')
             .yOrient('left')
+            .legend(d3.legend.color().scale(color))
+            .legendLayout({position: 'absolute', right: 80, top: 10})
             .margin({left: 50, bottom: 50})
             .plotArea(pointSeries);
 
         d3.select('#scatter-chart')
             .datum(data)
             .call(chart);
-
-        function swatch(i) {
-            return '<span class="swatch" style="background-color: ' +
-                color(i) + '">&nbsp;</span>';
-        }
-
-        var legend = fc.chart.legend()
-            .items(color.domain().map(function(d, i) {
-                return [swatch(d), d];
-            }));
-
-        d3.select('#legend')
-            .data([0])
-            .call(legend);
     });
 ---
 
@@ -58,17 +48,8 @@ example-code: |
     margin-bottom: 20px;
     width: 100%;
 }
-#legend {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-#legend td, #legend th {
-    padding: 1px 2px;
-}
-.swatch {
-    width: 10px;
-    display: block;
+.point {
+    stroke-width: 0;
 }
 </style>
 
@@ -77,7 +58,6 @@ example-code: |
 </script>
 
 <div class='example-chart'>
-    <div id='legend'></div>
     <div id='scatter-chart' style='height: 400px'></div>
 </div>
 

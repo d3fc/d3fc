@@ -109,6 +109,7 @@ module.exports = function(grunt) {
                 src: [
                     'node_modules/d3/d3.js',
                     'node_modules/css-layout/dist/css-layout.js',
+                    'node_modules/d3-svg-legend/d3-legend.js',
                     'node_modules/svg-innerhtml/svg-innerhtml.js',
                     'dist/d3fc.js'
                 ],
@@ -155,6 +156,7 @@ module.exports = function(grunt) {
                     {
                         src: [
                             'node_modules/css-layout/dist/css-layout.js',
+                            'node_modules/d3-svg-legend/d3-legend.js',
                             'dist/d3fc.js',
                             'dist/d3fc.css',
                             'node_modules/jquery/dist/jquery.js',
@@ -307,7 +309,7 @@ module.exports = function(grunt) {
                     'dist/d3fc.js': ['src/fc.js']
                 },
                 options: {
-                    external: ['css-layout', 'd3', 'svg-innerhtml'],
+                    external: ['css-layout', 'd3', 'd3-svg-legend', 'svg-innerhtml'],
                     format: 'umd',
                     moduleName: 'fc'
                 }
