@@ -57,10 +57,10 @@ example-code: |
 ---
 
 <style>
-.example-chart {
-    position: relative;
+#scatter-chart {
     margin-bottom: 20px;
     width: 100%;
+    height: 400px;
 }
 .point {
     stroke-width: 0;
@@ -71,19 +71,19 @@ example-code: |
 {{{example-code}}}
 </script>
 
-<div class='example-chart'>
-    <div id='scatter-chart' style='height: 400px'></div>
-</div>
+<div id='scatter-chart'></div>
+
 
 (based on [bl.ock #3887118](http://bl.ocks.org/mbostock/3887118#index.html) by Mike Bostock)
 
 This example demonstrates how to render a simple scatter plot with data from the [Iris flower dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set). The chart is constructed from the following components:
 
  + The `d3.tsv` component is used to load a tab-separated data file.
- + A [cartesian chart](../../components/chart/cartesian.html), with linear scales for x and y, is used to render the plot area, axes and labels.
- + A [point series](../../components/series/point.html) is used to render the data, notice the use of the decorate pattern in order to colour each points.
- + A [legend component](../../components/chart/legend.html) renders the legend based on the domain of the d3 color scale.
+ + A [cartesian chart](/components/chart/cartesian.html), with linear scales for x and y, is used to render the plot area, axes and labels.
+ + A [point series](/components/series/point.html) is used to render the data, with the [decorate pattern](/components/introduction/2-decorate-pattern.html) used to colour each point.
+ + The [decorate pattern](/components/introduction/2-decorate-pattern.html) is also used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with [svg flexbox](/components/layout/layout.html) used for positioning.
 
-```
+
+```js
 {{{example-code}}}
 ```

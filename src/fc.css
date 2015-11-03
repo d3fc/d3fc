@@ -86,7 +86,7 @@ text {
   fill: transparent;
 }
 
-.legend .swatch {
+.legendCells .swatch {
   stroke-width: 0;
 }
 
