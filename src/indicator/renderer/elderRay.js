@@ -18,25 +18,34 @@ export default function() {
 
     var elderRay = function(selection) {
 
+        function isTop(input, comparison) {
+            // The values share parity and the input is smaller than the comparison
+            return (input * comparison > 0 && Math.abs(input) < Math.abs(comparison));
+        }
+
         bullBar
             .xValue(xValue)
             .yValue(function(d, i) {
-                return root(d).bullTop ? undefined : root(d).bullPower; });
+                return isTop(root(d).bullPower, root(d).bearPower) ? undefined : root(d).bullPower;
+            });
 
         bearBar
             .xValue(xValue)
             .yValue(function(d, i) {
-                return root(d).bearTop ? undefined : root(d).bearPower; });
+                return isTop(root(d).bearPower, root(d).bullPower) ? undefined : root(d).bearPower;
+            });
 
         bullBarTop
             .xValue(xValue)
             .yValue(function(d, i) {
-                return root(d).bullTop ? root(d).bullPower : undefined; });
+                return isTop(root(d).bullPower, root(d).bearPower) ? root(d).bullPower : undefined;
+            });
 
         bearBarTop
             .xValue(xValue)
             .yValue(function(d, i) {
-                return root(d).bearTop ? root(d).bearPower : undefined; });
+                return isTop(root(d).bearPower, root(d).bullPower) ? root(d).bearPower : undefined;
+            });
 
         multi
             .xScale(xScale)

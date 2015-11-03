@@ -3,7 +3,6 @@ layout: component
 title: Elder Ray
 component: indicator/algorithm/elderRay.js
 tags:
-  - frontpage
   - playground 
 namespace: indicator
 

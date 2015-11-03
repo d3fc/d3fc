@@ -1,5 +1,6 @@
 import d3 from 'd3';
 import exponentialMovingAverage from './exponentialMovingAverage';
+import undefinedInputAdapter from './undefinedInputAdapter';
 import {identity} from '../../../util/fn';
 import {rebind} from '../../../util/rebind';
 
@@ -13,29 +14,19 @@ export default function() {
     var ema = exponentialMovingAverage()
         .windowSize(13);
 
+    var adaptedEma = undefinedInputAdapter()
+        .algorithm(ema);
+
     var elderRay = function(data) {
 
         ema.value(value);
-        var x = ema(data);
+        var x = adaptedEma(data);
 
         var elderRay = d3.zip(data, x)
             .map(function(d) {
-                var bullPower = highValue(d[0]) - d[1],
-                    bearPower = lowValue(d[0]) - d[1],
-                    bullTop = false,
-                    bearTop = false;
-
-                if (bullPower * bearPower > 0) {
-                    // The values share parity
-                    bullTop = Math.abs(bullPower) < Math.abs(bearPower);
-                    bearTop = !bullTop;
-                }
-
                 return {
-                    bullPower: bullPower,
-                    bearPower: bearPower,
-                    bullTop: bullTop,
-                    bearTop: bearTop
+                    bullPower: highValue(d[0]) - d[1],
+                    bearPower: lowValue(d[0]) - d[1]
                 };
             });
 
