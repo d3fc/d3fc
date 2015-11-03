@@ -39,10 +39,22 @@ example-code: |
             .xTicks(2, d3.format(",d"))
             .chartLabel('The Wealth & Health of Nations')
             .yOrient('left')
-            .legend(d3.legend.color().scale(color))
-            .legendLayout({position: 'absolute', right: 170, bottom: 110})
             .margin({left: 40, bottom: 40, top: 30})
-            .plotArea(pointSeries);
+            .plotArea(pointSeries)
+            .decorate(function(selection) {
+                selection.enter()
+                    .append('g')
+                    .layout({
+                        position: 'absolute',
+                        right: 10,
+                        top: 10,
+                        width: 80,
+                        height: 50
+                    })
+                    .call(legend);
+
+                selection.layout();
+            });
 
         d3.select('#bubble-chart')
             .datum(data)

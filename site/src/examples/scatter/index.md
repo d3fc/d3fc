@@ -15,6 +15,8 @@ example-code: |
         var color = d3.scale.category10()
             .domain(species.values());
 
+        var legend = d3.legend.color().scale(color);
+
         var pointSeries = fc.series.point()
             .xValue(function(d) { return d.sepalWidth; })
             .yValue(function(d) { return d.sepalLength; })
@@ -31,10 +33,22 @@ example-code: |
             .xLabel('Sepal Width (cm)')
             .yLabel('Sepal Length (cm)')
             .yOrient('left')
-            .legend(d3.legend.color().scale(color))
-            .legendLayout({position: 'absolute', right: 80, top: 10})
             .margin({left: 50, bottom: 50})
-            .plotArea(pointSeries);
+            .plotArea(pointSeries)
+            .decorate(function(selection) {
+                selection.enter()
+                    .append('g')
+                    .layout({
+                        position: 'absolute',
+                        right: 10,
+                        top: 10,
+                        width: 80,
+                        height: 50
+                    })
+                    .call(legend);
+
+                selection.layout();
+            });
 
         d3.select('#scatter-chart')
             .datum(data)

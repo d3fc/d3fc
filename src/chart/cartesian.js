@@ -24,13 +24,7 @@ export default function(xScale, yScale) {
         yBaseline = null,
         chartLabel = '',
         plotArea = line(),
-        decorate = noop,
-        legend = null,
-        legendLayout = {
-            position: 'absolute',
-            top: 5,
-            left: 5
-        };
+        decorate = noop;
 
     // Each axis-series has a cross-scale which is defined as an identity
     // scale. If no baseline function is supplied, the axis is positioned
@@ -63,10 +57,6 @@ export default function(xScale, yScale) {
         .element('svg')
         .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
 
-    var legendDataJoin = dataJoin()
-        .selector('g.legend')
-        .element('g')
-        .attr({'class': 'legend'});
 
     var cartesian = function(selection) {
 
@@ -101,7 +91,6 @@ export default function(xScale, yScale) {
                     </svg> \
                     <svg class="plot-area" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
-                    <g class="legend-container" /> \
                 </g>');
 
             var expandedMargin = expandMargin(margin);
@@ -147,9 +136,6 @@ export default function(xScale, yScale) {
                 .attr('class', 'x-axis ' + xAxis.orient())
                 .layout(xAxisLayout);
 
-            svg.select('.legend-container')
-                .layout(legendLayout);
-
             // perform the flexbox / css layout
             container.layout();
 
@@ -163,13 +149,6 @@ export default function(xScale, yScale) {
 
             svg.select('.x-axis .label')
                 .text(xLabel);
-
-            // render the legend
-            var legendContainer = legendDataJoin(container.select('.legend-container'), legend ? [data] : []);
-
-            if (legend) {
-                legendContainer.call(legend);
-            }
 
             // set the axis ranges
             var plotAreaContainer = svg.select('.plot-area');
@@ -266,20 +245,6 @@ export default function(xScale, yScale) {
             return decorate;
         }
         decorate = x;
-        return cartesian;
-    };
-    cartesian.legend = function(x) {
-        if (!arguments.length) {
-            return legend;
-        }
-        legend = x;
-        return cartesian;
-    };
-    cartesian.legendLayout = function(x) {
-        if (!arguments.length) {
-            return legendLayout;
-        }
-        legendLayout = x;
         return cartesian;
     };
 

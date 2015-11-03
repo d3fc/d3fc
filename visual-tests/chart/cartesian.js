@@ -10,8 +10,6 @@
         {label: 'margin', value: JSON.stringify({bottom: 40, right: 40, top: 20})},
         {label: 'x axis baseline', value: ''},
         {label: 'y axis baseline', value: ''},
-        {label: 'legendLayout', value: JSON.stringify({bottom: 40, right: 40, top: 20})},
-        {label: 'show legend', value: false, type: 'checkbox'},
         {label: 'ordinal', value: false, type: 'checkbox'}
     ];
 
@@ -54,8 +52,7 @@
 
         var data;
 
-        var isOrdinal = chartConfig[10].value,
-            showLegend = chartConfig[9].value;
+        var isOrdinal = chartConfig[8].value;
 
         if (isOrdinal) {
             data = [
@@ -81,7 +78,6 @@
             .xOrient(chartConfig[1].value)
             .yLabel(chartConfig[2].value)
             .xLabel(chartConfig[3].value)
-            .legend(showLegend ? d3.legend.color() : undefined)
             .chartLabel(chartConfig[4].value)
             .margin(JSON.parse(chartConfig[5].value));
 
