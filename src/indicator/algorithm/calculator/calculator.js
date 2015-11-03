@@ -8,6 +8,7 @@ import slidingWindow from './slidingWindow';
 import undefinedInputAdapter from './undefinedInputAdapter';
 import forceIndex from './forceIndex';
 import envelope from './envelope';
+import elderRay from './elderRay';
 
 export default {
     bollingerBands: bollingerBands,
@@ -19,5 +20,6 @@ export default {
     slidingWindow: slidingWindow,
     undefinedInputAdapter: undefinedInputAdapter,
     forceIndex: forceIndex,
-    envelope: envelope
+    envelope: envelope,
+    elderRay: elderRay
 };

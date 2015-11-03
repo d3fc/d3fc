@@ -8,6 +8,7 @@ import relativeStrengthIndex from './relativeStrengthIndex';
 import stochasticOscillator from './stochasticOscillator';
 import forceIndex from './forceIndex';
 import envelope from './envelope';
+import elderRay from './elderRay';
 
 export default {
     bollingerBands: bollingerBands,
@@ -19,5 +20,6 @@ export default {
     relativeStrengthIndex: relativeStrengthIndex,
     stochasticOscillator: stochasticOscillator,
     forceIndex: forceIndex,
-    envelope: envelope
+    envelope: envelope,
+    elderRay: elderRay
 };
