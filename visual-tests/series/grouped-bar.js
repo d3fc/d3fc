@@ -30,11 +30,7 @@
 
         var groupedBar = fc.series.groupedBar()
             .xValue(function(d) { return d.x; })
-            .yValue(function(d) { return d.y; })
-            .decorate(function(sel, data, index) {
-                sel.select('path')
-                    .style('fill', color(index));
-            });
+            .yValue(function(d) { return d.y; });
 
         chart.plotArea(groupedBar);
 
