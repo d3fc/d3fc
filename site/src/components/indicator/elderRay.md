@@ -3,12 +3,13 @@ layout: component
 title: Elder Ray
 component: indicator/algorithm/elderRay.js
 tags:
-  - playground 
+  - playground
 namespace: indicator
 
 example-code: |
   // Create and apply the elder ray algorithm
-  var elderRayAlgorithm = fc.indicator.algorithm.elderRay().period(6);
+  var elderRayAlgorithm = fc.indicator.algorithm.elderRay()
+      .period(6);
   elderRayAlgorithm(data);
 
   // the elder ray is rendered on its own scale
@@ -27,22 +28,20 @@ example-code: |
       .call(elderRay);
 ---
 
-An [Elder Ray](http://www.investopedia.com/articles/trading/03/022603.asp) indicator is defined as two separate indicators:
+An [Elder Ray](http://www.investopedia.com/articles/trading/03/022603.asp) indicator is composed of two distinct series:
 
 `Bull Power = Daily High - n-period Exponential Moving Average (EMA)`
 
 `Bear Power = Daily Low - n-period EMA`
 
-where the n-period defaults to 13 days.
+Where the n-period defaults to 13 days.
 
-To change the n-period the `period` property can be used on the algorithm as shown.
-
-The following is an example of the Elder Ray indicator. 
+The following shows the Elder Ray in action, where the bull and bear power series are both rendered on the same chart:
 
 ```js
 {{{example-code}}}
 ```
 
-Which yields the following :
+Which yields the following:
 
 {{>example-fixture}}

@@ -1,6 +1,5 @@
 import d3 from 'd3';
 import exponentialMovingAverage from './exponentialMovingAverage';
-import undefinedInputAdapter from './undefinedInputAdapter';
 import {identity} from '../../../util/fn';
 import {rebind} from '../../../util/rebind';
 
@@ -11,22 +10,19 @@ export default function() {
     var highValue = function(d, i) { return d.high; },
         lowValue = function(d, i) { return d.low; };
 
-    var ema = exponentialMovingAverage()
+    var emaComputer = exponentialMovingAverage()
         .windowSize(13);
-
-    var adaptedEma = undefinedInputAdapter()
-        .algorithm(ema);
 
     var elderRay = function(data) {
 
-        ema.value(value);
-        var x = adaptedEma(data);
+        emaComputer.value(value);
+        var ema = emaComputer(data);
 
-        var elderRay = d3.zip(data, x)
+        var elderRay = d3.zip(data, ema)
             .map(function(d) {
                 return {
-                    bullPower: highValue(d[0]) - d[1],
-                    bearPower: lowValue(d[0]) - d[1]
+                    bullPower: d[1] ? highValue(d[0]) - d[1] : undefined,
+                    bearPower: d[1] ? lowValue(d[0]) - d[1] : undefined
                 };
             });
 
@@ -56,7 +52,7 @@ export default function() {
         return elderRay;
     };
 
-    rebind(elderRay, ema, {
+    rebind(elderRay, emaComputer, {
         period: 'windowSize'
     });
 
