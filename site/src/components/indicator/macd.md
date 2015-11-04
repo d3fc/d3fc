@@ -17,9 +17,12 @@ example-code: |
   macdAlgorithm(data);
 
   // the MACD is rendered on its own scale, centered around zero
-  var maxExtent = d3.max(data, function(d) { return Math.abs(d.macd.macd); });
+  var yDomain = fc.util.extent()
+      .fields(function(d) { return d.macd.macd; })
+      .symmetricalAbout(0);
+
   var yScale = d3.scale.linear()
-      .domain([-maxExtent, maxExtent])
+      .domain(yDomain(data))
       .range([height, 0]);
 
   // Create the renderer

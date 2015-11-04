@@ -13,8 +13,13 @@ example-code: |
   elderRayAlgorithm(data);
 
   // the elder ray is rendered on its own scale
+  var yDomain = fc.util.extent()
+    .fields([function(d) { return d.elderRay.bullPower;}, function(d) { return d.elderRay.bearPower; }])
+    .symmetricalAbout(0)
+    .pad(0.1);
+
   var yScale = d3.scale.linear()
-      .domain([-5, 5])
+      .domain(yDomain(data))
       .range([height, 0]);
 
   // Create the renderer
