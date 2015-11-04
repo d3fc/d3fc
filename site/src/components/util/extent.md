@@ -14,6 +14,14 @@ namespace: util
   fc.util.extent().fields(fields)(data); // [10, 40]
 ```
 
+A range can be symmetrical about a given value, using the `symmetricalAbout` property. Given a range of `[0, 5]` and specifying symmetry around `0` will yield a new range of `[-5, 5]`. This property has the highest precedence, i.e. it is performed before padding and including extra points.
+
+```js
+  fc.util.extent()
+      .fields(fields)
+      .symmetricalAbout(20); // [0, 40]
+```
+
  The range can be modified by using the `pad` property. Pad will scale the calculated range by the given amount. If the calculated range is `[10, 20]` then the result of padding by '1' will be `[5, 25]`. `pad(0)` is an identity.
 
 ```js

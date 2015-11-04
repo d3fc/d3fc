@@ -12,7 +12,8 @@ export default function() {
 
     var fields = [],
         extraPoint = null,
-        padding = 0;
+        padding = 0,
+        symmetricalAbout = null;
 
     /**
     * @param {array} data an array of data points, or an array of arrays of data points
@@ -52,15 +53,25 @@ export default function() {
 
         var min = dataMin;
         var max = dataMax;
+
+        if (symmetricalAbout != null) {
+            var distanceFromMax = Math.abs(max - symmetricalAbout),
+                distanceFromMin = Math.abs(min - symmetricalAbout),
+                halfRange = Math.max(distanceFromMax, distanceFromMin);
+
+            min = symmetricalAbout - halfRange;
+            max = symmetricalAbout + halfRange;
+        }
+
         var delta;
 
         // Scale the range for the given padding
-        if (typeof dataMin === 'number' && typeof dataMax === 'number') {
-            delta = padding * (dataMax - dataMin) / 2;
+        if (typeof min === 'number' && typeof max === 'number') {
+            delta = padding * (max - min) / 2;
 
             min -= delta;
             max += delta;
-        } else if (Object.prototype.toString.call(dataMin) === '[object Date]') {
+        } else if (Object.prototype.toString.call(min) === '[object Date]') {
             var oldMin = min.getTime();
             var oldMax = max.getTime();
 
@@ -114,6 +125,14 @@ export default function() {
             return padding;
         }
         padding = x;
+        return extents;
+    };
+
+    extents.symmetricalAbout = function(x) {
+        if (!arguments.length) {
+            return symmetricalAbout;
+        }
+        symmetricalAbout = x;
         return extents;
     };
 
