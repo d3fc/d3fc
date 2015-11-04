@@ -3,18 +3,16 @@ import {identity, noop} from '../../util/fn';
 
 export default function() {
 
-    var undefinedValue = d3.functor(undefined),
-        number = d3.functor(10),
-        accumulator = noop,
-        field = identity;
+    var number = 10,
+        value = identity;
 
     var modeMedian = function(data) {
 
-        if (number() > data.length) {
+        if (number > data.length) {
             return data;
         }
 
-        var minMax = getGlobalMinMax(data);
+        var minMax = d3.extent(data);
         var buckets = getBuckets(data);
 
         var subsampledData = buckets.map(function(bucket, i) {
@@ -25,7 +23,7 @@ export default function() {
             var singleMostFrequent = true;
 
             for (var j = 0; j < bucket.length; j++) {
-                var item = field(bucket[j]);
+                var item = value(bucket[j]);
                 if (item === minMax[0] || item === minMax[1]) {
                     return bucket[j];
                 }
@@ -55,18 +53,8 @@ export default function() {
         return [].concat(data[0], subsampledData, data[data.length - 1]);
     };
 
-    var getGlobalMinMax = function(data) {
-        var min = Infinity;
-        var max = -Infinity;
-
-        min = d3.min(data, field);
-        max = d3.max(data, field);
-
-        return [min, max];
-    };
-
-    var getBuckets = function(data) {
-        var numberOfBuckets = number.apply(this, arguments) - 2;
+    function getBuckets(data) {
+        var numberOfBuckets = number - 2;
         var dataPointsPerBucket = (data.length - 2) / numberOfBuckets;
 
         // Use all but the first and last data points, as they are their own buckets.
@@ -77,28 +65,22 @@ export default function() {
             buckets.push(data.slice(1 + i * dataPointsPerBucket, 1 + (i + 1) * dataPointsPerBucket));
         }
         return buckets;
-    };
+    }
 
     modeMedian.number = function(x) {
         if (!arguments.length) {
             return number;
         }
-        number = d3.functor(x);
+        number = x;
         return modeMedian;
     };
 
-    modeMedian.field = function(x) {
+    modeMedian.value = function(x) {
         if (!arguments.length) {
-            return field;
+            return value;
         }
 
-        if (typeof x === 'string') {
-            field = function(d) {
-                return d[x];
-            };
-        } else {
-            field = x;
-        }
+        value = x;
 
         return modeMedian;
     };

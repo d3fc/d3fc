@@ -5,14 +5,19 @@ component: data/samplers/modeMedian.js
 namespace: samplers
 
 example-code: |
-    var data = fc.data.random.financial()(10000);
+    var data = fc.data.random.financial()(20);
 
-    var subsampledData = fc.data.samplers.modeMedian()
-                                         .number(5)
-                                         .field('low')(data);
+    var sampler = fc.data.samplers.modeMedian()
+                                  .number(5)
+                                  .value(function(d) { return d.low; });
+
+    var sampledData = sampler(data);
 
     d3.select('#subsampled-data')
-      .text(JSON.stringify(subsampledData, null, 2));
+      .text(JSON.stringify(sampledData, null, 2));
+
+    d3.select('#full-data')
+      .text(JSON.stringify(data, null, 2));
 
 ---
 
@@ -24,9 +29,14 @@ The example below creates large array of data points, reducing it to 5.
 {{{example-code}}}
 ```
 
-Which gives the following:
+Which gives the following subsampled data:
 
 <pre id="subsampled-data">Loading...</pre>
+
+...when given the following data:
+
+<pre id="full-data">Loading...</pre>
+
 <script type="text/javascript">
     (function() {
         {{{example-code}}}
