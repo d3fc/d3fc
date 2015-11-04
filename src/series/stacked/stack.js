@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../../util/dataJoin';
+import dataJoinUtil from '../../util/dataJoin';
 import {noop} from '../../util/fn';
 
 export default function() {
@@ -13,10 +13,7 @@ export default function() {
 
             var container = d3.select(this);
 
-            var dataJoin = _dataJoin()
-                .selector('g.stacked')
-                .element('g')
-                .attr('class', 'stacked');
+            var dataJoin = dataJoinUtil('stacked');
 
             var g = dataJoin(container, data);
 

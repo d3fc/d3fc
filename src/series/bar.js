@@ -19,9 +19,7 @@ export default function() {
       .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
       .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.bar')
-        .element('g');
+    var dataJoin = dataJoinUtil('bar');
 
     function containerTranslation(d, i) {
         if (orient === 'vertical') {

@@ -186,13 +186,13 @@ text {
 }
 
 /* Indicators */
-.macd-divergence .bar {
+.macd.divergence .bar {
   stroke: grey;
   fill: grey;
   fill-opacity: 1.0;
 }
 
-.macd-signal .line {
+.macd.signal .line {
   stroke: red;
 }
 
@@ -200,11 +200,11 @@ text {
   stroke: #06c;
 }
 
-.stochastic-d .line {
+.stochastic.d .line {
   stroke: red;
 }
 
-.stochastic-k .line {
+.stochastic.k .line {
   stroke: #06c;
 }
 
@@ -225,7 +225,6 @@ text {
 .envelope .line {
   stroke: #06c;
 }
-
 /* Annotations */
 .annotation>line {
   fill-opacity: 0;

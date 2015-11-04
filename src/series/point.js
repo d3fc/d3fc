@@ -10,10 +10,7 @@ export default function() {
 
     var base = xyBase();
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.point')
-        .element('g')
-        .attr('class', 'point');
+    var dataJoin = dataJoinUtil('point');
 
     var containerTransform = function(d, i) {
         return 'translate(' + base.x(d, i) + ', ' + base.y(d, i) + ')';

@@ -1,7 +1,7 @@
 import _area from '../../series/area';
 import d3 from 'd3';
 import _line from '../../series/line';
-import _multi from '../../series/multi';
+import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
 
 export default function() {
@@ -33,14 +33,14 @@ export default function() {
 
     var envelope = function(selection) {
 
-        var multi = _multi()
+        var multi = multiSeries('envelope')
             .xScale(xScale)
             .yScale(yScale)
             .series([area, upperLine, lowerLine])
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi envelope ' + ['area', 'upper', 'lower'][i];
+                        return 'envelope ' + ['area', 'upper', 'lower'][i];
                     });
                 decorate(g, data, index);
             });

@@ -14,9 +14,7 @@ export default function() {
         xScale = d3.time.scale(),
         yScale = d3.scale.linear();
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.axis-adapter')
-        .element('g')
+    var dataJoin = dataJoinUtil('axis-adapter')
         .attr({'class': 'axis axis-adapter'});
 
     var axisAdapter = function(selection) {

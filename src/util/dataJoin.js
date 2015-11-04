@@ -16,12 +16,19 @@ var effectivelyZero = 1e-6;
 // This is achieved by appending the element to the enter selection before exposing it.
 // A default transition of fade in/out is also implicitly added but can be modified.
 
-export default function() {
-    var selector = 'g',
+export default function(className, elementName) {
+    elementName = elementName || 'g';
+
+    var selector = elementName,
         children = false,
-        element = 'g',
+        element = elementName,
         attr = {},
         key = index;
+
+    if (className) {
+        selector = element + '.' + className;
+        attr.class = className;
+    }
 
     var dataJoin = function(container, data) {
 

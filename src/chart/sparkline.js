@@ -2,7 +2,7 @@ import d3 from 'd3';
 import dateTime from '../scale/dateTime';
 import innerDimensions from '../util/innerDimensions';
 import _line from '../series/line';
-import _multi from '../series/multi';
+import multiSeries from '../series/multi';
 import _point from '../series/point';
 import {rebind} from '../util/rebind';
 
@@ -59,7 +59,7 @@ export default function() {
             });
         });
 
-    var multi = _multi()
+    var multi = multiSeries()
         .series([line, point])
         .mapping(function(series) {
             switch (series) {

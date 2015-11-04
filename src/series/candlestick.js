@@ -10,10 +10,7 @@ export default function() {
     var decorate = noop,
         base = ohlcBase();
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.candlestick')
-        .element('g')
-        .attr('class', 'candlestick');
+    var dataJoin = dataJoinUtil('candlestick');
 
     var candlestick = function(selection) {
 

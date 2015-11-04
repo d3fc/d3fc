@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {identity, index, noop} from '../util/fn';
 import {range} from '../util/scale';
 
@@ -13,10 +13,7 @@ export default function() {
         decorate = noop,
         orient = 'horizontal';
 
-    var dataJoin = _dataJoin()
-        .selector('g.annotation')
-        .element('g')
-        .attr('class', 'annotation');
+    var dataJoin = dataJoinUtil('annotation');
 
     var line = function(selection) {
         selection.each(function(data, index) {

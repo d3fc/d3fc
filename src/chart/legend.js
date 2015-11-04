@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 
 export default function() {
@@ -10,15 +10,8 @@ export default function() {
         ['datum', function(d) { return d.datum; }]
     ];
 
-    var tableDataJoin = dataJoin()
-        .selector('table.legend')
-        .element('table')
-        .attr('class', 'legend');
-
-    var rowDataJoin = dataJoin()
-        .selector('tr.row')
-        .element('tr')
-        .attr('class', 'row');
+    var tableDataJoin = dataJoinUtil('legend', 'table');
+    var rowDataJoin = dataJoinUtil('row', 'tr');
 
     var legend = function(selection) {
         selection.each(function(data, index) {

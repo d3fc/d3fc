@@ -1,7 +1,7 @@
 import _area from '../../series/area';
 import d3 from 'd3';
 import _line from '../../series/line';
-import _multi from '../../series/multi';
+import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
 
 export default function() {
@@ -38,14 +38,14 @@ export default function() {
 
     var bollingerBands = function(selection) {
 
-        var multi = _multi()
+        var multi = multiSeries('bollinger')
             .xScale(xScale)
             .yScale(yScale)
             .series([area, upperLine, lowerLine, averageLine])
             .decorate(function(g, data, index) {
                 g.enter()
                     .attr('class', function(d, i) {
-                        return 'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i];
+                        return 'bollinger ' + ['area', 'upper', 'lower', 'average'][i];
                     });
                 decorate(g, data, index);
             });

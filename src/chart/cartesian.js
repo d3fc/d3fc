@@ -3,7 +3,7 @@ import d3 from 'd3';
 import axis from '../series/axis';
 import '../layout/layout';
 import line from '../series/line';
-import dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import expandMargin from '../util/expandMargin';
 import {noop} from '../util/fn';
 import {rebindAll} from '../util/rebind';
@@ -52,11 +52,8 @@ export default function(xScale, yScale) {
             }
         });
 
-    var containerDataJoin = dataJoin()
-        .selector('svg.cartesian-chart')
-        .element('svg')
-        .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
-
+    var containerDataJoin = dataJoinUtil('cartesian-chart', 'svg')
+        .attr('layout-style', 'flex: 1');
 
     var cartesian = function(selection) {
 

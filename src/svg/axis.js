@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import {identity, noop} from '../util/fn';
 import {range as scaleRange, isOrdinal} from '../util/scale';
 
@@ -17,16 +17,10 @@ export default function() {
         tickPadding = 3,
         svgDomainLine = d3.svg.line();
 
-    var dataJoin = _dataJoin()
-        .selector('g.tick')
-        .element('g')
-        .key(identity)
-        .attr('class', 'tick');
+    var dataJoin = dataJoinUtil('tick')
+        .key(identity);
 
-    var domainPathDataJoin = _dataJoin()
-        .selector('path.domain')
-        .element('path')
-        .attr('class', 'domain');
+    var domainPathDataJoin = dataJoinUtil('domain', 'path');
 
     // returns a function that creates a translation based on
     // the bound data
@@ -89,12 +83,11 @@ export default function() {
                 .attr('d', svgDomainLine(domainPathData));
 
             // datajoin and construct the ticks / label
-            dataJoin.attr({
+            dataJoin.attr(
                 // set the initial tick position based on the previous scale
                 // in order to get the correct enter transition - however, for ordinal
                 // scales the tick will not exist on the old scale, so use the current position
-                'transform': containerTranslate(isOrdinal(scale) ? scale : scaleOld, translate)
-            });
+                'transform', containerTranslate(isOrdinal(scale) ? scale : scaleOld, translate));
 
             var g = dataJoin(container, ticksArray);
 

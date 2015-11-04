@@ -10,10 +10,7 @@ export default function(drawMethod) {
     var decorate = noop,
         base = ohlcBase();
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.ohlc')
-        .element('g')
-        .attr('class', 'ohlc');
+    var dataJoin = dataJoinUtil('ohlc');
 
     var ohlc = function(selection) {
         selection.each(function(data, index) {

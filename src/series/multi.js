@@ -9,7 +9,7 @@ import dataJoinUtil from '../util/dataJoin';
 // overriding where the series value is stored on the node (__series__) and
 // forcing the node datum (__data__) to be the user supplied data (via mapping).
 
-export default function() {
+export default function(className) {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
@@ -18,11 +18,10 @@ export default function() {
         key = index,
         decorate = noop;
 
-    var dataJoin = dataJoinUtil()
-        .selector('g.multi')
+    className = className || 'multi';
+
+    var dataJoin = dataJoinUtil(className)
         .children(true)
-        .attr('class', 'multi')
-        .element('g')
         .key(function(d, i) {
             // This function is invoked twice, the first pass is to pull the key
             // value from the DOM nodes and the second pass is to pull the key
