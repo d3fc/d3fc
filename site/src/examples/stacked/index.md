@@ -21,9 +21,10 @@ example-code: |
         .fields(function(d) { return d.y + d.y0; });
 
     var legend = d3.legend.color()
+      .orient('horizontal')
+      .shapeWidth(70)
       .scale(color);
 
-    // create the stacked bar series (this could also be line or area)
     var stack = fc.series.stacked.bar()
         .orient('horizontal')
         .yValue(function(d) { return d.x; })
@@ -38,10 +39,11 @@ example-code: |
                       d3.scale.ordinal())
             .xDomain(yExtent(series.map(function(d) { return d.values; })))
             .yDomain(data.map(function(d) { return d.Country; }))
-            .xLabel('Sepal Width (cm)')
+            .xLabel('2013 Energy Production (million tonnes of oil equivalent)')
             .xNice()
             .yOrient('left')
-            .margin({left: 50, bottom: 50})
+            .yTickSize(0)
+            .margin({left: 100, bottom: 40})
             .plotArea(stack)
             .decorate(function(selection) {
                 selection.enter()
@@ -49,9 +51,9 @@ example-code: |
                     .layout({
                         position: 'absolute',
                         right: 10,
-                        top: 50,
-                        width: 165,
-                        height: 100
+                        top: 20,
+                        width: 358,
+                        height: 36
                     })
                     .call(legend);
 
@@ -68,12 +70,19 @@ example-code: |
 
 <style>
 #example-chart {
-    margin-bottom: 20px;
-    width: 100%;
-    height: 400px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 400px;
 }
 .bar path {
   stroke-width: 0;
+}
+.x-axis .label {
+  text-anchor: start;
+}
+.cartesian-chart .background {
+  fill: transparent;
+  stroke: transparent;
 }
 </style>
 
@@ -83,8 +92,13 @@ example-code: |
 {{{example-code}}}
 </script>
 
-http://ec.europa.eu/eurostat/statistics-explained/index.php/File:Energy_production,_2003_and_2013_(million_tonnes_of_oil_equivalent)_YB15.png
+This example demonstrates how a stacked bar chart using energy production data from [eurostat](http://ec.europa.eu/eurostat/statistics-explained/index.php). The chart is constructed from the following components:
 
+ + A [cartesian chart](/components/chart/cartesian.html), with an ordinal y axis and a linear x axis.
+ + The data is prepared using the [spread](/components/data/spread.html) component, which creates a two dimensional array of data, followed by a d3 stack layout, which stacks the 'y' values.
+ + The data is rendered via a horizontally oriented [stacked bar series](/components/series/stacked.html).
+ + The [decorate pattern](/components/introduction/2-decorate-pattern.html) is also used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with [svg flexbox](/components/layout/layout.html) used for positioning.
+ 
 ```js
 {{{example-code}}}
 ```
