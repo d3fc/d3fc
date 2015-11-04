@@ -56,7 +56,8 @@ example-code: |
                     })
                     .call(legend);
 
-                selection.layout();
+                // compute layout from the parent SVG
+                selection.enter().layout();
             });
 
         d3.select('#bubble-chart')
