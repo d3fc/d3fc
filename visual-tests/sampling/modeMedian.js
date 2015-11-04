@@ -9,7 +9,7 @@
     });
 
     var subsampledData = fc.data.samplers.modeMedian()
-                .number(subsampledDataPoints).field('y')(data);
+                .number(subsampledDataPoints).value(function(d) { return d.y; })(data);
 
     var xScale = d3.scale.linear()
                     .domain(fc.util.extent().fields('x')(subsampledData))
