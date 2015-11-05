@@ -5,36 +5,32 @@ export default function() {
 
     var x = function(d, i) { return d.x; },
         y = function(d, i) { return d.y; },
-        xHigh = function(d, i) { return d.xHigh; },
-        xLow = function(d, i) { return d.xLow; },
-        yHigh = function(d, i) { return d.yHigh; },
-        yLow = function(d, i) { return d.yLow; },
-        width = d3.functor(3);
+        errorHigh = function(d, i) { return d.errorHigh; },
+        errorLow = function(d, i) { return d.errorLow; },
+        orient = 'vertical',
+        barWidth = d3.functor(5);
 
     var errorBar = function(data) {
 
         return data.map(function(d, i) {
-            var halfWidth = width(d, i) / 2,
-                yTotal = yHigh(d, i) - yLow(d, i),
-                yBottom = y(d, i) - yLow(d, i),
-                yUpper = yHigh(d, i) - y(d, i),
-                xTotal = xHigh(d, i) - xLow(d, i),
-                xBottom = x(d, i) - xLow(d, i),
-                xUpper = xHigh(d, i) - x(d, i);
+            var halfWidth = barWidth(d, i) / 2,
+                errorTotal = errorHigh(d, i) - errorLow(d, i),
+                yBottom = y(d, i) - errorLow(d, i),
+                yTop = errorHigh(d, i) - y(d, i),
+                xBottom = x(d, i) - errorLow(d, i),
+                xTop = errorHigh(d, i) - x(d, i);
 
             var errorVertical = '';
             var errorHorizontal = '';
 
-            if (yTotal !== 0) {
+            if (orient === 'vertical') {
                 var horizontalBar = 'h' + (-halfWidth) + 'h' + (2 * halfWidth) + 'h' + (-halfWidth),
-                    verticalToHigh = 'v' + (-yTotal);
-                errorVertical = 'M0,' + yBottom + horizontalBar + verticalToHigh + horizontalBar + 'M0,' + yUpper;
-            }
-
-            if (xTotal !== 0) {
+                    verticalToHigh = 'v' + (-errorTotal);
+                errorVertical = 'M0,' + yBottom + horizontalBar + verticalToHigh + horizontalBar + 'M0,' + yTop;
+            } else {
                 var verticalBar = 'v' + (-halfWidth) + 'v' + (2 * halfWidth) + 'v' + (-halfWidth),
-                    horizontalToHigh = 'h' + (-xTotal);
-                errorHorizontal = 'M' + xBottom + ',0' + verticalBar + horizontalToHigh + verticalBar + 'M' + xUpper + ',0';
+                    horizontalToHigh = 'h' + (-errorTotal);
+                errorHorizontal = 'M' + xBottom + ',0' + verticalBar + horizontalToHigh + verticalBar + 'M' + xTop + ',0';
             }
 
             return errorVertical + errorHorizontal;
@@ -56,39 +52,32 @@ export default function() {
         y = d3.functor(_x);
         return errorBar;
     };
-    errorBar.xHigh = function(_x) {
+    errorBar.errorHigh = function(_x) {
         if (!arguments.length) {
-            return xHigh;
+            return errorHigh;
         }
-        xHigh = d3.functor(_x);
+        errorHigh = d3.functor(_x);
         return errorBar;
     };
-    errorBar.xLow = function(_x) {
+    errorBar.errorLow = function(_x) {
         if (!arguments.length) {
-            return xLow;
+            return errorLow;
         }
-        xLow = d3.functor(_x);
+        errorLow = d3.functor(_x);
         return errorBar;
     };
-    errorBar.yHigh = function(_x) {
+    errorBar.barWidth = function(_x) {
         if (!arguments.length) {
-            return yHigh;
+            return barWidth;
         }
-        yHigh = d3.functor(_x);
+        barWidth = d3.functor(_x);
         return errorBar;
     };
-    errorBar.yLow = function(_x) {
+    errorBar.orient = function(_x) {
         if (!arguments.length) {
-            return yLow;
+            return orient;
         }
-        yLow = d3.functor(_x);
-        return errorBar;
-    };
-    errorBar.width = function(_x) {
-        if (!arguments.length) {
-            return width;
-        }
-        width = d3.functor(_x);
+        orient = _x;
         return errorBar;
     };
 

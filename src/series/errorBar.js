@@ -8,6 +8,8 @@ import errorBase from './errorBase';
 export default function(drawMethod) {
 
     var decorate = noop,
+        barWidth = 5,
+        orient = 'vertical',
         base = errorBase();
 
     var dataJoin = dataJoinUtil()
@@ -16,6 +18,7 @@ export default function(drawMethod) {
         .attr('class', 'errorBar');
 
     var errorBar = function(selection) {
+        base.orient(errorBar.orient());
         selection.each(function(data, index) {
 
             var filteredData = data.filter(base.defined);
@@ -26,7 +29,8 @@ export default function(drawMethod) {
                 .append('path');
 
             var pathGenerator = svgErrorBar()
-                    .width(base.width(filteredData));
+                .orient(errorBar.orient())
+                .barWidth(base.width(filteredData));
 
             g.each(function(d, i) {
                 var values = base.values(d, i);
@@ -36,10 +40,8 @@ export default function(drawMethod) {
 
                 pathGenerator
                     .x(values.x)
-                    .xHigh(values.xHigh)
-                    .xLow(values.xLow)
-                    .yHigh(values.yHigh)
-                    .yLow(values.yLow)
+                    .errorHigh(values.errorHigh)
+                    .errorLow(values.errorLow)
                     .y(values.y);
 
                 g.select('path')
@@ -49,6 +51,22 @@ export default function(drawMethod) {
 
             decorate(g, data, index);
         });
+    };
+
+    errorBar.barWidth = function(x) {
+        if (!arguments.length) {
+            return barWidth;
+        }
+        barWidth = x;
+        return errorBar;
+    };
+
+    errorBar.orient = function(x) {
+        if (!arguments.length) {
+            return orient;
+        }
+        orient = x;
+        return errorBar;
     };
 
     errorBar.decorate = function(x) {
