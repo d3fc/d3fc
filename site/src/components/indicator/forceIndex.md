@@ -11,12 +11,13 @@ example-code: |
   var forceAlgorithm = fc.indicator.algorithm.forceIndex();
   forceAlgorithm(data);
 
-  // Calculate the maximum absolute value of the index
-  var absoluteMax = d3.max(data, function(d) { return Math.abs(d.force); })
-
   //Scaling the display using the maximum absolute value of the Index
+  var yDomain = fc.util.extent()
+      .fields(function(d) { return d.force; })
+      .symmetricalAbout(0);
+
   var yScale = d3.scale.linear()
-      .domain([-absoluteMax, absoluteMax])
+      .domain(yDomain(data))
       .range([height, 0]).nice();
 
   // Create the renderer

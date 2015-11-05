@@ -46,6 +46,16 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 115]);
     });
 
+    it('should support symmetrical domains', function() {
+        var data = [obj(1), obj(10)];
+
+        var extents = fc.util.extent().fields('high').symmetricalAbout(0)(data);
+        expect(extents).toEqual([-15, 15]);
+
+        extents = fc.util.extent().fields('high').symmetricalAbout(10)(data);
+        expect(extents).toEqual([5, 15]);
+    });
+
     it('should support including a max value in the range', function() {
         var data = [obj(1), obj(2)];
 
@@ -120,12 +130,23 @@ describe('fc.util.extent', function() {
     it('should pad dates', function() {
         var date1 = new Date(2014, 0, 10);
         var date2 = new Date(2014, 0, 20);
-        var data = [{date: date1}, {date: date2}];
+        var data = [{ date: date1 }, { date: date2 }];
 
         var extents = fc.util.extent()
             .fields('date')
             .pad(1)(data);
         expect(extents).toEqual([new Date(2014, 0, 5), new Date(2014, 0, 25)]);
+    });
+
+    it('should calculate symmetry, pad, and then include the extra point in the range', function() {
+        var data = [obj(8), obj(13)];
+
+        var extents = fc.util.extent()
+            .include(5)
+            .fields('high')
+            .pad(1)
+            .symmetricalAbout(17)(data);
+        expect(extents).toEqual([5, 25]);
     });
 
 });
