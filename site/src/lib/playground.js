@@ -26,7 +26,7 @@ function createPlayground() {
         for (var i = 0; i <= timerId; i++) {
             iframe.contentWindow.clearTimeout(i);
         }
-        
+
         iframe = iframe.contentDocument || iframe.contentWindow.document;
         iframe.open('text/html', 'replace');
         iframe.write(html);

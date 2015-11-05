@@ -124,6 +124,14 @@ module.exports = function(grunt) {
                     'site/src/lib/playground.js'
                 ],
                 dest: 'site/dist/scripts.js'
+            },
+            reloadSite: {
+                src: ['site/src/_includes/live-reload-site.hbs'],
+                dest: 'site/src/_includes/live-reload.hbs'
+            },
+            reloadNone: {
+                src: ['site/src/_includes/live-reload-none.hbs'],
+                dest: 'site/src/_includes/live-reload.hbs'
             }
         },
 
@@ -241,12 +249,7 @@ module.exports = function(grunt) {
                     'visual-tests/**/*',
                     '!visual-tests/assets/**/*'
                 ],
-                tasks: ['components', 'visualTests'],
-                options: {
-                    livereload: {
-                        port: 36729
-                    }
-                }
+                tasks: ['components', 'visualTests']
             },
             site: {
                 files: [
@@ -254,9 +257,10 @@ module.exports = function(grunt) {
                     '<%= meta.testJsFiles %>',
                     '<%= meta.componentsCssFiles %>',
                     '<%= meta.metaJsFiles %>',
-                    'site/src/**/*'
+                    'site/src/**/*',
+                    '!site/src/_includes/live-reload.hbs'
                 ],
-                tasks: ['site']
+                tasks: ['concat:reloadSite', 'site']
             },
             bothSites: {
                 files: [
@@ -266,9 +270,10 @@ module.exports = function(grunt) {
                     '<%= meta.metaJsFiles %>',
                     'site/src/**/*',
                     'visual-tests/**/*',
-                    '!visual-tests/assets/**/*'
+                    '!visual-tests/assets/**/*',
+                    '!site/src/_includes/live-reload.hbs'
                 ],
-                tasks: ['site', 'visualTests']
+                tasks: ['concat:reloadSite', 'site', 'visualTests']
             },
             options: {
                 livereload: true,
@@ -342,8 +347,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('components', [
         'eslint:components', 'clean:components', 'rollup:components', 'version', 'concat:components',
-        'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test',
-        'uglify:components'
+        'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
     ]);
 
     grunt.registerTask('visualTests', ['eslint:visualTests', 'clean:visualTests', 'copy:visualTests']);
@@ -352,13 +356,13 @@ module.exports = function(grunt) {
     grunt.registerTask('site', ['components', 'clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site', 'assemble:playground']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
-    grunt.registerTask('bothSites:serve', ['connect:site', 'connect:visualTests', 'watch:bothSites'])
+    grunt.registerTask('bothSites:serve', ['connect:site', 'connect:visualTests', 'watch:bothSites']);
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?
         ['connect:site', 'connect:visualTests', 'browserstacktunnel-wrapper', 'webdriver'] : []);
     grunt.registerTask('webdriverTests', ['eslint:webdriverTests', 'webdriverTests:browserstack']);
 
-    grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site', 'visualTests', 'webdriverTests']);
+    grunt.registerTask('ci', ['components', 'concat:reloadNone', 'uglify:components', 'site', 'uglify:site', 'visualTests', 'webdriverTests']);
 
     grunt.registerTask('default', ['watch:components']);
 };
