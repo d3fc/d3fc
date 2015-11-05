@@ -14,13 +14,13 @@ example-code: |
     .text(JSON.stringify(data, null, 2));
 ---
 
-The random financial data generator component is a useful testing utility that generates data via a random walk algorithm. You can supply a `filter` to skips days (i.e. weekends), and change the start price, volume and date.
+The random financial data generator component is a useful testing utility that generates data via a random walk algorithm.
 
 ```js
 {{{example-code}}}
 ```
 
-N.B. There is a default skip weekends filter applied after the data is generated for the specified number of days. However the output will still contain 10 items.
+To skip weekends call the `skipWeekends` property. A `filter` can be supplied to skips other days, or change the start price, volume and date.
 
 <pre id="financial"></pre>
 <script type="text/javascript">

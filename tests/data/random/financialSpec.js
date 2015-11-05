@@ -4,7 +4,7 @@ describe('fc.data.random.financial', function() {
         var dataGenerator;
 
         beforeEach(function() {
-            dataGenerator = fc.data.random.financial().filter(null);
+            dataGenerator = fc.data.random.financial();
         });
 
         it('should return data for the requested number of days', function() {
@@ -27,7 +27,7 @@ describe('fc.data.random.financial', function() {
         var dataGenerator;
 
         beforeEach(function() {
-            dataGenerator = fc.data.random.financial();
+            dataGenerator = fc.data.random.financial().skipWeekends();
         });
 
         it('should not include weekends', function() {

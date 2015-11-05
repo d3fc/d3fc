@@ -9,9 +9,8 @@ export default function() {
         startDate = new Date(),
         stepsPerDay = 50,
         volumeNoiseFactor = 0.3,
-        filter = function(date) {
-            return !(date.getDay() === 0 || date.getDay() === 6);
-        };
+        skipWeekends = function(d) { return true; },
+        filter = function(d) { return true; };
 
     var calculateOHLC = function(days, prices, volumes) {
 
@@ -75,7 +74,7 @@ export default function() {
         startVolume = volumes[volumes.length - 1];
 
         return calculateOHLC(days, prices, volumes).filter(function(d) {
-            return !filter || filter(d.date);
+            return skipWeekends(d.date) && filter(d.date);
         });
     }
 
@@ -142,6 +141,12 @@ export default function() {
             return volumeNoiseFactor;
         }
         volumeNoiseFactor = x;
+        return gen;
+    };
+    gen.skipWeekends = function() {
+        skipWeekends = function(date) {
+            return !(date.getDay() === 0 || date.getDay() === 6);
+        };
         return gen;
     };
     gen.filter = function(x) {
