@@ -12,6 +12,7 @@
         "radix": 0,
         "no-spaced-func": 0,
         "no-multi-spaces": 0,
-        "no-extend-native": 0
+        "no-extend-native": 0,
+        "no-shadow": [2, {"builtinGlobals": false, "hoist": "all"}]
     }
 }

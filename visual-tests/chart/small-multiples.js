@@ -31,9 +31,9 @@
     }
 
     function renderControls() {
-        var container = d3.select('#controls');
+        var controlsContainer = d3.select('#controls');
 
-        var yOrientationConfig = container.selectAll('tr')
+        var yOrientationConfig = controlsContainer.selectAll('tr')
             .data(chartConfig);
 
         var row = yOrientationConfig.enter()

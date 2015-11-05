@@ -9,7 +9,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(elderRayAlgorithm)
-            .merge(function(datum, elderRay) { datum.elderRay = elderRay; });
+            .merge(function(datum, indicator) { datum.elderRay = indicator; });
 
     var elderRay = function(data) {
         return mergedAlgorithm(data);

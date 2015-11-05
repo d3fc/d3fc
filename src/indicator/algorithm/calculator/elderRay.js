@@ -18,7 +18,7 @@ export default function() {
         emaComputer.value(value);
         var ema = emaComputer(data);
 
-        var elderRay = d3.zip(data, ema)
+        var indicator = d3.zip(data, ema)
             .map(function(d) {
                 return {
                     bullPower: d[1] ? highValue(d[0]) - d[1] : undefined,
@@ -26,7 +26,7 @@ export default function() {
                 };
             });
 
-        return elderRay;
+        return indicator;
     };
 
     elderRay.value = function(x) {

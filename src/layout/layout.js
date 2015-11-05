@@ -66,8 +66,8 @@ function applyLayout(node, subtree) {
         node.element.setAttribute('transform',
             'translate(' + node.layout.left + ', ' + node.layout.top + ')');
     }
-    node.children.forEach(function(node) {
-        applyLayout(node, true);
+    node.children.forEach(function(childNode) {
+        applyLayout(childNode, true);
     });
 }
 

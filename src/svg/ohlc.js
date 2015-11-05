@@ -38,39 +38,39 @@ export default function() {
         x = d3.functor(_x);
         return ohlc;
     };
-    ohlc.open = function(x) {
+    ohlc.open = function(_x) {
         if (!arguments.length) {
             return open;
         }
-        open = d3.functor(x);
+        open = d3.functor(_x);
         return ohlc;
     };
-    ohlc.high = function(x) {
+    ohlc.high = function(_x) {
         if (!arguments.length) {
             return high;
         }
-        high = d3.functor(x);
+        high = d3.functor(_x);
         return ohlc;
     };
-    ohlc.low = function(x) {
+    ohlc.low = function(_x) {
         if (!arguments.length) {
             return low;
         }
-        low = d3.functor(x);
+        low = d3.functor(_x);
         return ohlc;
     };
-    ohlc.close = function(x) {
+    ohlc.close = function(_x) {
         if (!arguments.length) {
             return close;
         }
-        close = d3.functor(x);
+        close = d3.functor(_x);
         return ohlc;
     };
-    ohlc.width = function(x) {
+    ohlc.width = function(_x) {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(x);
+        width = d3.functor(_x);
         return ohlc;
     };
 

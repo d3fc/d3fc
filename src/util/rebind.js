@@ -51,14 +51,14 @@ export function rebindAll(target, source, prefix, exclusions) {
         return exclusion;
     });
 
-    function exclude(property) {
+    function exclude(testedProperty) {
         return exclusions.some(function(exclusion) {
-            return property.match(exclusion);
+            return testedProperty.match(exclusion);
         });
     }
 
-    function reboundPropertyName(property) {
-        return prefix !== '' ? prefix + capitalizeFirstLetter(property) : property;
+    function reboundPropertyName(inputProperty) {
+        return prefix !== '' ? prefix + capitalizeFirstLetter(inputProperty) : inputProperty;
     }
 
     var bindings = {};

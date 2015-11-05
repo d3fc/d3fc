@@ -11,10 +11,10 @@ export function range(scale) {
 
 // Ordinal and quantitative scales have different methods for setting the range. This
 // function detects the scale type and sets the range accordingly.
-export function setRange(scale, range) {
+export function setRange(scale, scaleRange) {
     if (isOrdinal(scale)) {
-        scale.rangePoints(range, 1);
+        scale.rangePoints(scaleRange, 1);
     } else {
-        scale.range(range);
+        scale.range(scaleRange);
     }
 }

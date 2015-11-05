@@ -8,7 +8,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(stoc)
-            .merge(function(datum, stoc) { datum.stochastic = stoc; });
+            .merge(function(datum, indicator) { datum.stochastic = indicator; });
 
     var stochasticOscillator = function(data) {
         return mergedAlgorithm(data);

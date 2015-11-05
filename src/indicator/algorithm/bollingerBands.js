@@ -9,7 +9,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(bollingerAlgorithm)
-            .merge(function(datum, boll) { datum.bollingerBands = boll; });
+            .merge(function(datum, indicator) { datum.bollingerBands = indicator; });
 
     var bollingerBands = function(data) {
         return mergedAlgorithm(data);

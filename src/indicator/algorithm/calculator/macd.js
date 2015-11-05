@@ -34,7 +34,7 @@ export default function() {
 
         var averageDiff = adaptedSignalEMA(diff);
 
-        var macd = d3.zip(diff, averageDiff)
+        return d3.zip(diff, averageDiff)
             .map(function(d) {
                 return {
                     macd: d[0],
@@ -42,8 +42,6 @@ export default function() {
                     divergence: d[0] !== undefined && d[1] !== undefined ? d[0] - d[1] : undefined
                 };
             });
-
-        return macd;
     };
 
     macd.value = function(x) {

@@ -91,8 +91,6 @@ describe('skipWeekends', function() {
 
     describe('offset', function() {
 
-        var millisPerDay = 24 * 3600 * 1000;
-
         it('should accommodate offsets that do not cross weekend boundaries', function() {
             var d = new Date(2015, 0, 19); // monday
             expect(skipWeekends.offset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));

@@ -101,10 +101,10 @@ export default function() {
         if (arguments.length === 1) {
             attr = arguments[0];
         } else if (arguments.length === 2) {
-            var key = arguments[0];
+            var dataKey = arguments[0];
             var value = arguments[1];
 
-            attr[key] = value;
+            attr[dataKey] = value;
         }
 
         return dataJoin;

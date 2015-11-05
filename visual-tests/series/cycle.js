@@ -46,7 +46,7 @@
             .tickSize(0)
             .ticks(0)
             .baseline(function(d) {
-                return d3.mean(d, function(d) { return d.Station; });
+                return d3.mean(d, function(_d) { return _d.Station; });
             });
 
         var line = fc.series.line()
@@ -81,7 +81,7 @@
         var meanValues = d3.nest()
             .key(function(d) { return d.Month; })
             .rollup(function(d) {
-                return d3.mean(d, function(d) { return d.Station; });
+                return d3.mean(d, function(_d) { return _d.Station; });
             })
             .entries(data);
 

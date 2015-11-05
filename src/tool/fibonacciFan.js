@@ -8,8 +8,8 @@ export default function() {
     var event = d3.dispatch('fansource', 'fantarget', 'fanclear'),
         xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        snap = function(x, y) {
-            return noSnap(xScale, yScale)(x, y);
+        snap = function(_x, _y) {
+            return noSnap(xScale, yScale)(_x, _y);
         },
         decorate = noop;
 
@@ -190,32 +190,32 @@ export default function() {
         container.call(fan);
     }
 
-    fan.xScale = function(x) {
+    fan.xScale = function(_x) {
         if (!arguments.length) {
             return xScale;
         }
-        xScale = x;
+        xScale = _x;
         return fan;
     };
-    fan.yScale = function(x) {
+    fan.yScale = function(_x) {
         if (!arguments.length) {
             return yScale;
         }
-        yScale = x;
+        yScale = _x;
         return fan;
     };
-    fan.snap = function(x) {
+    fan.snap = function(_x) {
         if (!arguments.length) {
             return snap;
         }
-        snap = x;
+        snap = _x;
         return fan;
     };
-    fan.decorate = function(x) {
+    fan.decorate = function(_x) {
         if (!arguments.length) {
             return decorate;
         }
-        decorate = x;
+        decorate = _x;
         return fan;
     };
 

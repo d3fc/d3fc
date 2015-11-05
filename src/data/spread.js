@@ -2,7 +2,7 @@
 // the D3 CSV loader / parser converts each row into an object with property names
 // derived from the headings in the CSV. The spread component converts this into an
 // array of series; one per column (vertical spread), or one per row (horizontal spread).
-export default function spread() {
+export default function() {
 
     var xValueKey = '',
         orient = 'vertical',

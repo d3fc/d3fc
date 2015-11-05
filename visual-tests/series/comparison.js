@@ -54,13 +54,13 @@
     var zoom = d3.behavior.zoom()
         .x(dateScale)
         .on('zoom', function zoomed() {
-            function findIndex(data, item, field) {
+            function findIndex(d, item, field) {
                 // Find insertion point for item in seriesData.
                 var bisect = d3.bisector(
-                    function(d) {
-                        return d[field];
+                    function(_d) {
+                        return _d[field];
                     }).left;
-                return bisect(data, item);
+                return bisect(d, item);
             }
             var comparisonData = [];
             data.forEach(function(d) {

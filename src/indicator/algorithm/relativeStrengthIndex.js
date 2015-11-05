@@ -8,7 +8,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(rsi)
-            .merge(function(datum, rsi) { datum.rsi = rsi; });
+            .merge(function(datum, indicator) { datum.rsi = indicator; });
 
     var relativeStrengthIndex = function(data) {
         return mergedAlgorithm(data);

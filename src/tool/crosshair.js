@@ -13,8 +13,8 @@ export default function() {
     var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
         xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        snap = function(x, y) {
-            return noSnap(xScale, yScale)(x, y);
+        snap = function(_x, _y) {
+            return noSnap(xScale, yScale)(_x, _y);
         },
         decorate = noop;
 
@@ -71,9 +71,9 @@ export default function() {
                 .attr('width', range(xScale)[1])
                 .attr('height', range(yScale)[0]);
 
-            var crosshair = dataJoin(container, data);
+            var crosshairElement = dataJoin(container, data);
 
-            crosshair.enter()
+            crosshairElement.enter()
                 .style('pointer-events', 'none');
 
             var multi = _multi()
@@ -84,9 +84,9 @@ export default function() {
                     return [this];
                 });
 
-            crosshair.call(multi);
+            crosshairElement.call(multi);
 
-            decorate(crosshair, data, index);
+            decorate(crosshairElement, data, index);
         });
     };
 
@@ -118,32 +118,32 @@ export default function() {
         event.trackingend.apply(this, arguments);
     }
 
-    crosshair.xScale = function(x) {
+    crosshair.xScale = function(_x) {
         if (!arguments.length) {
             return xScale;
         }
-        xScale = x;
+        xScale = _x;
         return crosshair;
     };
-    crosshair.yScale = function(x) {
+    crosshair.yScale = function(_x) {
         if (!arguments.length) {
             return yScale;
         }
-        yScale = x;
+        yScale = _x;
         return crosshair;
     };
-    crosshair.snap = function(x) {
+    crosshair.snap = function(_x) {
         if (!arguments.length) {
             return snap;
         }
-        snap = x;
+        snap = _x;
         return crosshair;
     };
-    crosshair.decorate = function(x) {
+    crosshair.decorate = function(_x) {
         if (!arguments.length) {
             return decorate;
         }
-        decorate = x;
+        decorate = _x;
         return crosshair;
     };
 

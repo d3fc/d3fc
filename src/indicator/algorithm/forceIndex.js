@@ -8,8 +8,8 @@ export default function() {
 
     var mergedAlgorithm = merge()
         .algorithm(force)
-        .merge(function(datum, force) {
-            datum.force = force;
+        .merge(function(datum, indicator) {
+            datum.force = indicator;
         });
 
     var forceIndex = function(data) {

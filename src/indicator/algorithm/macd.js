@@ -9,7 +9,7 @@ export default function() {
 
     var mergedAlgorithm = merge()
             .algorithm(macdAlgorithm)
-            .merge(function(datum, macd) { datum.macd = macd; });
+            .merge(function(datum, indicator) { datum.macd = indicator; });
 
     var macd = function(data) {
         return mergedAlgorithm(data);

@@ -33,7 +33,7 @@ export default function() {
 
                 var values = base.values(d, i);
 
-                var g = d3.select(this)
+                var graph = d3.select(this)
                     .attr('class', 'candlestick ' + values.direction)
                     .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
 
@@ -43,7 +43,7 @@ export default function() {
                     .low(function() { return values.yLow - values.yHigh; })
                     .close(function() { return values.yClose - values.yHigh; });
 
-                g.select('path')
+                graph.select('path')
                     .attr('d', pathGenerator([d]));
             });
 
