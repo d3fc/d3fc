@@ -75,7 +75,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'site/src',
-                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*', '!playground/examples/**'],
+                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
                         dest: 'site/dist'
                     }
                 ]
@@ -173,8 +173,14 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'site/src/',
-                        src: ['**/*', '!_*', '!**/*.hbs', '!**/*.md', '!**/*.yml'],
+                        src: ['**/*', '!_*', '!**/*.hbs', '!**/*.md', '!**/*.yml', '!style', '!style/*.*', '!lib', '!lib/*.*'],
                         dest: 'site/dist/'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'dist/',
+                        src: ['d3fc.*'],
+                        dest: 'site/dist'
                     }
                 ]
             }
@@ -244,10 +250,25 @@ module.exports = function(grunt) {
             },
             site: {
                 files: [
+                    '<%= meta.componentsJsFiles %>',
+                    '<%= meta.testJsFiles %>',
+                    '<%= meta.componentsCssFiles %>',
                     '<%= meta.metaJsFiles %>',
                     'site/src/**/*'
                 ],
                 tasks: ['site']
+            },
+            bothSites: {
+                files: [
+                    '<%= meta.componentsJsFiles %>',
+                    '<%= meta.testJsFiles %>',
+                    '<%= meta.componentsCssFiles %>',
+                    '<%= meta.metaJsFiles %>',
+                    'site/src/**/*',
+                    'visual-tests/**/*',
+                    '!visual-tests/assets/**/*'
+                ],
+                tasks: ['site', 'visualTests']
             },
             options: {
                 livereload: true,
@@ -321,23 +342,23 @@ module.exports = function(grunt) {
 
     grunt.registerTask('components', [
         'eslint:components', 'clean:components', 'rollup:components', 'version', 'concat:components',
-        'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
+        'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test',
+        'uglify:components'
     ]);
 
-    grunt.registerTask('visualTests', [
-        'eslint:visualTests', 'clean:visualTests', 'copy:visualTests'
-    ]);
+    grunt.registerTask('visualTests', ['eslint:visualTests', 'clean:visualTests', 'copy:visualTests']);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
-    grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site', 'assemble:playground']);
+    grunt.registerTask('site', ['components', 'clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site', 'assemble:playground']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
+
+    grunt.registerTask('bothSites:serve', ['connect:site', 'connect:visualTests', 'watch:bothSites'])
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?
         ['connect:site', 'connect:visualTests', 'browserstacktunnel-wrapper', 'webdriver'] : []);
     grunt.registerTask('webdriverTests', ['eslint:webdriverTests', 'webdriverTests:browserstack']);
 
-    grunt.registerTask('ci', ['components', 'uglify:components', 'site',
-        'uglify:site', 'visualTests', 'webdriverTests']);
+    grunt.registerTask('ci', ['components', 'uglify:components', 'site', 'uglify:site', 'visualTests', 'webdriverTests']);
 
     grunt.registerTask('default', ['watch:components']);
 };
