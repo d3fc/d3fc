@@ -28,23 +28,33 @@
         d.yDownError = Math.random();
     });
 
-    var errorBar = fc.series.errorBar()
+    var errorBarV = fc.series.errorBar()
         .xScale(dateScale)
         .yScale(priceScale)
-        .xHigh(function(d, i) {
-            var newD = new Date(d.date.getTime() + (0.5 * 24 * 60 * 60 * 1000)); //add half a day
-            return newD;
-        })
-        .xLow(function(d, i) {
-            var newD = new Date(d.date.getTime() - (0.5 * 24 * 60 * 60 * 1000)); //subtract half a day
-            return newD;
-        })
-        .yLow(function(d, i) {return d.close - d.yDownError;})
-        .yHigh(function(d, i) {return d.close + d.yUpError;})
+        .errorLow(function(d, i) {return d.close - d.yDownError;})
+        .errorHigh(function(d, i) {return d.close + d.yUpError;})
         .xValue(function(d, i) {return d.date;})
         .yValue(function(d, i) {return d.close;});
 
+    var errorBarH = fc.series.errorBar()
+        .orient('horizontal')
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .errorHigh(function(d, i) {
+            return new Date(d.date.getTime() + (0.5 * 24 * 60 * 60 * 1000)); //add half a day
+        })
+        .errorLow(function(d, i) {
+            return new Date(d.date.getTime() - (0.5 * 24 * 60 * 60 * 1000)); //subtract half a day
+        })
+        .xValue(function(d, i) {return d.date;})
+        .yValue(function(d, i) {return d.close;});
+
+    var multi = fc.series.multi()
+        .series([errorBarV, errorBarH])
+        .xScale(dateScale)
+        .yScale(priceScale);
+
     container.append('g')
         .datum(data)
-        .call(errorBar);
+        .call(multi);
 })(d3, fc);

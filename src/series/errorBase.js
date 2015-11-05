@@ -1,43 +1,59 @@
 import d3 from 'd3';
-import fractionalBarWidth from '../util/fractionalBarWidth';
 
 export default function() {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        yHigh = d3.functor(0),
-        xHigh = function(d, i) { return d.date; },
-        yLow = d3.functor(0),
-        xLow = function(d, i) { return d.date; },
+        errorHigh = d3.functor(0),
+        errorLow = d3.functor(0),
         xValue = function(d, i) { return d.date; },
-        yValue = function(d, i) { return d.y; },
-        barWidth = fractionalBarWidth(0.75),
-        xValueScaled = function(d, i) {
-            return xScale(xValue(d, i));
-        };
+        yValue = function(d, i) { return d.close; },
+        orient = 'vertical',
+        barWidth = d3.functor(5);
 
     function base() { }
 
-    base.width = function(data) {
-        return barWidth(data.map(xValueScaled));
+    base.width = function(data, orient) {
+        if (orient === 'vertical') {
+            return barWidth(data.map(function(d, i) {
+                return xScale(xValue(d, i));
+            }));
+        } else {
+            return barWidth(data.map(function(d, i) {
+                return yScale(yValue(d, i));
+            }));
+        }
     };
 
     base.values = function(d, i) {
-        return {
-            x: xValueScaled(d, i),
-            y: yScale(yValue(d, i)),
-            yLow: yScale(yLow(d, i)),
-            yHigh: yScale(yHigh(d, i)),
-            xLow: xScale(xLow(d, i)),
-            xHigh: xScale(xHigh(d, i))
-        };
+        if (orient === 'vertical') {
+            return {
+                x: xScale(xValue(d, i)),
+                y: yScale(yValue(d, i)),
+                errorHigh: yScale(errorHigh(d, i)),
+                errorLow: yScale(errorLow(d, i))
+            };
+        } else {
+            return {
+                x: xScale(xValue(d, i)),
+                y: yScale(yValue(d, i)),
+                errorHigh: xScale(errorHigh(d, i)),
+                errorLow: xScale(errorLow(d, i))
+            };
+        }
     };
     base.defined = function(d, i) {
-        return yLow(d, i) != null && yHigh(d, i) != null &&
-            xValue(d, i) != null && yValue(d, i) != null
-            && xLow(d, i) != null && xHigh(d, i) != null;
+        return errorLow(d, i) != null && errorHigh(d, i) != null
+            && xValue(d, i) != null && yValue(d, i) != null;
     };
 
+    base.orient = function(x) {
+        if (!arguments.length) {
+            return orient;
+        }
+        orient = x;
+        return base;
+    };
     base.xScale = function(x) {
         if (!arguments.length) {
             return xScale;
@@ -52,32 +68,18 @@ export default function() {
         yScale = x;
         return base;
     };
-    base.xHigh = function(x) {
+    base.errorLow = function(x) {
         if (!arguments.length) {
-            return xHigh;
+            return errorLow;
         }
-        xHigh = d3.functor(x);
+        errorLow = d3.functor(x);
         return base;
     };
-    base.xLow = function(x) {
+    base.errorHigh = function(x) {
         if (!arguments.length) {
-            return xLow;
+            return errorHigh;
         }
-        xLow = d3.functor(x);
-        return base;
-    };
-    base.yLow = function(x) {
-        if (!arguments.length) {
-            return yLow;
-        }
-        yLow = d3.functor(x);
-        return base;
-    };
-    base.yHigh = function(x) {
-        if (!arguments.length) {
-            return yHigh;
-        }
-        yHigh = d3.functor(x);
+        errorHigh = d3.functor(x);
         return base;
     };
     base.xValue = function(x) {
@@ -92,6 +94,13 @@ export default function() {
             return yValue;
         }
         yValue = d3.functor(x);
+        return base;
+    };
+    base.barWidth = function(x) {
+        if (!arguments.length) {
+            return barWidth;
+        }
+        barWidth = d3.functor(x);
         return base;
     };
 
