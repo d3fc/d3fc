@@ -22,4 +22,27 @@ describe('fc.data.random.financial', function() {
                 .toEqual(100);
         });
     });
+
+    describe('with filter', function() {
+        var dataGenerator;
+
+        beforeEach(function() {
+            dataGenerator = fc.data.random.financial();
+        });
+
+        it('should not include weekends', function() {
+            var data = dataGenerator(10);
+
+            for (var i = 0, max = data.length; i < max; i += 1) {
+                var day = data[i].date.getDay();
+                expect(day).not.toBe(0);
+                expect(day).not.toBe(6);
+            }
+        });
+
+        it('should return data for the requested number of days', function() {
+            expect(dataGenerator(10).length)
+                .toEqual(10);
+        });
+    });
 });

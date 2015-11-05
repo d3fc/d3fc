@@ -37,12 +37,19 @@ export default function() {
         return ohlcv;
     };
 
-    var gen = function(days) {
+    function calculateInterval(startDate, days) {
+        var millisecondsPerYear = 3.15569e10;
+
         var toDate = new Date(startDate.getTime());
         toDate.setUTCDate(startDate.getUTCDate() + days);
 
-        var millisecondsPerYear = 3.15569e10,
-            years = (toDate.getTime() - startDate.getTime()) / millisecondsPerYear;
+        return {
+            toDate: toDate,
+            years: (toDate.getTime() - startDate.getTime()) / millisecondsPerYear
+        };
+    }
+
+    function dataGenerator(days, years) {
 
         var prices = walk()
             .period(years)
@@ -70,6 +77,22 @@ export default function() {
         return calculateOHLC(days, prices, volumes).filter(function(d) {
             return !filter || filter(d.date);
         });
+    }
+
+    var gen = function(days) {
+        var interval = calculateInterval(startDate, days),
+            result = dataGenerator(days, interval.years);
+
+        var missingDays = days - result.length;
+        if (missingDays !== 0) {
+            // The filter has removed days, so we must add extra days recursively until
+            // there is the correct amount.
+            var newInterval = calculateInterval(interval.toDate, missingDays),
+                extraData = gen(missingDays, newInterval.years);
+            result = result.concat(extraData);
+        }
+
+        return result;
     };
 
     gen.mu = function(x) {

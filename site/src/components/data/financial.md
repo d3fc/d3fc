@@ -20,7 +20,7 @@ The random financial data generator component is a useful testing utility that g
 {{{example-code}}}
 ```
 
-N.B. There is a default skip weekends filter applied after the data is generated for the specified number of days. Therefore the output will contain less than 10 items.
+N.B. There is a default skip weekends filter applied after the data is generated for the specified number of days. However the output will still contain 10 items.
 
 <pre id="financial"></pre>
 <script type="text/javascript">
