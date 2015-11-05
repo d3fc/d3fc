@@ -1,8 +1,12 @@
 (function(d3, fc) {
     'use strict';
 
-    var generator = fc.data.random.financial().startDate(new Date(2014, 1, 1));
+    var generator = fc.data.random.financial()
+        .startDate(new Date(2014, 1, 1))
+        .filter(null);
     var data = generator(20);
+
+    var key = function(d) { return d.date; };
 
     var width = 600, height = 250;
 
@@ -10,7 +14,6 @@
         .append('svg')
         .attr('width', width)
         .attr('height', height);
-
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
@@ -26,12 +29,14 @@
 
     var ohlc = fc.series.ohlc()
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale)
+        .key(key);
 
     var bar = fc.series.bar()
         .yValue(function(d) { return d.low - 0.2; })
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale)
+        .key(key);
 
     var line = fc.series.line()
         .yValue(function(d) { return d.low - 0.2; })
@@ -40,30 +45,14 @@
 
     var candle = fc.series.candlestick()
         .xScale(dateScale)
-        .yScale(priceScale);
+        .yScale(priceScale)
+        .key(key);
 
     // add the components to the chart
-    var ohlcContainer = container.append('g')
-        .datum(data);
-
-    var barContainer = container.append('g')
-        .datum(data);
-
-    var lineContainer = container.append('g')
-        .datum(data);
-
-    var candleContainer = container.append('g')
-        .datum(data);
-
-
-    function render() {
-        ohlcContainer.call(ohlc);
-        barContainer.call(bar);
-        lineContainer.call(line);
-        candleContainer.call(candle);
-    }
-
-    render();
+    var multi = fc.series.multi()
+      .series([bar, line, candle, ohlc])
+      .xScale(dateScale)
+      .yScale(priceScale);
 
     setInterval(function() {
         var datum;
@@ -77,6 +66,9 @@
         });
         dateScale.domain(fc.util.extent().fields('date')(data));
         priceScale.domain(fc.util.extent().fields(['high', 'low'])(data));
-        render();
+        container.datum(data)
+            .transition()
+            .duration(500)
+            .call(multi);
     }, 1000);
 })(d3, fc);
