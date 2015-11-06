@@ -41,10 +41,10 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .errorHigh(function(d, i) {
-            return new Date(d.date.getTime() + (0.5 * 24 * 60 * 60 * 1000)); //add half a day
+            return d3.time.hour.offset(d.date, 12);
         })
         .errorLow(function(d, i) {
-            return new Date(d.date.getTime() - (0.5 * 24 * 60 * 60 * 1000)); //subtract half a day
+            return d3.time.hour.offset(d.date, -12);
         })
         .xValue(function(d, i) {return d.date;})
         .yValue(function(d, i) {return d.close;});

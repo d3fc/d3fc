@@ -5,7 +5,7 @@ import svgErrorBar from '../svg/errorBar';
 import {rebindAll} from '../util/rebind';
 import errorBase from './errorBase';
 
-export default function(drawMethod) {
+export default function() {
 
     var decorate = noop,
         barWidth = 5,
