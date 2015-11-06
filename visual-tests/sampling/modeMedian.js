@@ -1,6 +1,6 @@
 (function(d3, fc) {
-    var dataPoints = 1000000;
-    var subsampledDataPoints = 600;
+    var dataPoints = 100000;
+    var subsampledDataPoints = 200;
     var width = 600, height = 250;
 
     var data = fc.data.random.walk().steps(dataPoints)(5000);
@@ -9,7 +9,8 @@
     });
 
     var subsampledData = fc.data.samplers.modeMedian()
-                .number(subsampledDataPoints).value(function(d) { return d.y; })(data);
+                .bucketSize(dataPoints / subsampledDataPoints)
+                .value(function(d) { return d.y; })(data);
 
     var xScale = d3.scale.linear()
                     .domain(fc.util.extent().fields('x')(subsampledData))

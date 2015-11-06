@@ -5,41 +5,37 @@ component: data/samplers/modeMedian.js
 namespace: samplers
 
 example-code: |
-    var data = fc.data.random.financial()(20);
+    var data = fc.data.random.financial()(1000);
 
     var sampler = fc.data.samplers.modeMedian()
-                                  .number(5)
+                                  .bucketSize(20)
                                   .value(function(d) { return d.low; });
 
     var sampledData = sampler(data);
 
-    d3.select('#subsampled-data')
-      .text(JSON.stringify(sampledData, null, 2));
+    xScale.domain(fc.util.extent().fields('date')(sampledData))
+    yScale.domain(fc.util.extent().fields('low')(sampledData));
 
-    d3.select('#full-data')
-      .text(JSON.stringify(data, null, 2));
+    var line = fc.series.line();
+
+    line.xScale(xScale)
+        .yScale(yScale)
+        .yValue(function (d) { return d.low; });
+
+    container.append('g')
+             .datum(sampledData)
+             .call(line);
 
 ---
 
-The mode-median sampling component is a fast method of subsampling data to improve performance with large data sets.
+The mode-median sampling component is a method of subsampling data to improve performance with large data sets.
 
-The example below creates large array of data points, reducing it to 5.
+The example below creates large array of data points, reducing it to around 50.
 
 ```js
 {{{example-code}}}
 ```
 
-Which gives the following subsampled data:
+Which gives the following:
 
-<pre id="subsampled-data">Loading...</pre>
-
-...when given the following data:
-
-<pre id="full-data">Loading...</pre>
-
-<script type="text/javascript">
-    (function() {
-        {{{example-code}}}
-    })();
-</script>
-
+{{>example-fixture}}

@@ -3,12 +3,12 @@ import {identity, noop} from '../../util/fn';
 
 export default function() {
 
-    var number = 10,
+    var bucketSize = 10,
         value = identity;
 
     var modeMedian = function(data) {
 
-        if (number > data.length) {
+        if (bucketSize > data.length) {
             return data;
         }
 
@@ -54,7 +54,7 @@ export default function() {
     };
 
     function getBuckets(data) {
-        var numberOfBuckets = number - 2;
+        var numberOfBuckets = Math.ceil((data.length - 2) / bucketSize);
         var dataPointsPerBucket = (data.length - 2) / numberOfBuckets;
 
         // Use all but the first and last data points, as they are their own buckets.
@@ -62,16 +62,16 @@ export default function() {
 
         var buckets = [];
         for (var i = 0; i < numberOfBuckets; i++) {
-            buckets.push(data.slice(1 + i * dataPointsPerBucket, 1 + (i + 1) * dataPointsPerBucket));
+            buckets.push(trimmedData.slice(i * dataPointsPerBucket, (i + 1) * dataPointsPerBucket));
         }
         return buckets;
     }
 
-    modeMedian.number = function(x) {
+    modeMedian.bucketSize = function(x) {
         if (!arguments.length) {
-            return number;
+            return bucketSize;
         }
-        number = x;
+        bucketSize = x;
         return modeMedian;
     };
 
