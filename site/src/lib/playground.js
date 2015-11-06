@@ -7,18 +7,18 @@ function createPlayground() {
         editorHTML;
 
     function setUpEditor(divId) {
-        var editor = ace.edit(divId);
-        editor.$blockScrolling = Infinity;
-        editor.setTheme('ace/theme/crimson_editor');
-        editor.setShowPrintMargin(false);
-        editor.setOption('enableBasicAutocompletion', true);
-        editor.setOption('maxLines', 'Infinity');
-        editor.getSession().on('change', function(e) {
+        var aceEdit = ace.edit(divId);
+        aceEdit.$blockScrolling = Infinity;
+        aceEdit.setTheme('ace/theme/crimson_editor');
+        aceEdit.setShowPrintMargin(false);
+        aceEdit.setOption('enableBasicAutocompletion', true);
+        aceEdit.setOption('maxLines', 'Infinity');
+        aceEdit.getSession().on('change', function(e) {
             if (output.autoRun()) {
                 output.run();
             }
         });
-        return editor;
+        return aceEdit;
     }
 
     function setIFrame(iframe, html) {
