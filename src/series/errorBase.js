@@ -13,8 +13,8 @@ export default function() {
 
     function base() { }
 
-    base.width = function(data, orient) {
-        if (orient === 'vertical') {
+    base.width = function(data, orientation) {
+        if (orientation === 'vertical') {
             return barWidth(data.map(function(d, i) {
                 return xScale(xValue(d, i));
             }));

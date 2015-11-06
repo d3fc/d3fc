@@ -35,7 +35,7 @@ export default function() {
             g.each(function(d, i) {
                 var values = base.values(d, i);
 
-                var g = d3.select(this)
+                var gErrorBar = d3.select(this)
                     .attr('transform', 'translate(' + values.x + ', ' + values.y + ')');
 
                 pathGenerator
@@ -44,7 +44,7 @@ export default function() {
                     .errorLow(values.errorLow)
                     .y(values.y);
 
-                g.select('path')
+                gErrorBar.select('path')
                     .attr('d', pathGenerator([d]))
                     .attr('stroke', 'black');
             });
