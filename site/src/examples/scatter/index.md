@@ -2,6 +2,8 @@
 layout: example
 title: Scatterplot
 namespace: examples
+tags:
+ - playground
 
 example-body: |
     <style>

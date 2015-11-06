@@ -178,6 +178,12 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
+                        cwd: 'site/src/',
+                        src: ['examples/**/*', '!**/*.md', '!**/thumbnail.png'],
+                        dest: 'site/dist/playground/examples/'
+                    },
+                    {
+                        expand: true,
                         cwd: 'dist/',
                         src: ['d3fc.*'],
                         dest: 'site/dist'

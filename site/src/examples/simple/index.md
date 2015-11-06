@@ -2,7 +2,22 @@
 layout: example
 title: Line / Area Chart
 namespace: examples
+tags:
+ - playground
 
+example-body: |
+    <style>
+    #example-chart {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 400px;
+    }
+    .area {
+      fill-opacity: 0.5;
+    }
+    </style>
+
+    <div id='example-chart'></div>
 example-code: |
   // create some test data
   var data = d3.range(50).map(function(d) {
@@ -49,18 +64,7 @@ example-code: |
       .call(chart);
 ---
 
-<style>
-#example-chart {
-    margin-bottom: 20px;
-    width: 100%;
-    height: 400px;
-}
-.area {
-  fill-opacity: 0.5;
-}
-</style>
-
-<div id='example-chart'></div>
+{{{example-body}}}
 
 <script>
 {{{example-code}}}
