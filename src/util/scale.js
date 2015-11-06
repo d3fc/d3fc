@@ -25,10 +25,10 @@ export function range(scale) {
         // we cannot detect the inverted case if the range (and domain) has
         // a single item in it.
         return extent;
-    } else {
-        var inverted = range[0] > range[1];
-        return inverted ? [extent[1], extent[0]] : extent;
     }
+
+    var inverted = range[0] > range[1];
+    return inverted ? [extent[1], extent[0]] : extent;
 }
 
 // Ordinal and quantitative scales have different methods for setting the range. This
