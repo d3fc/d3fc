@@ -29,14 +29,6 @@ rect.extent {
     stroke-width: 1px;
 }
 
-#low-barrel .plot-area {
-  overflow: hidden;
-}
-
-.navigator .plot-area {
-  overflow: visible;
-}
-
 .candlestick {
   stroke: #000;
 }

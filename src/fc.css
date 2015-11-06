@@ -48,11 +48,15 @@ text {
   border-collapse: separate;
 }
 
-.plot-area {
+/* Increase .plot-area and .axes-container rule specificity to fix conflict
+ with normalize's svg reset (svg:not(:root) { overflow: hidden; }). As
+ normalize is used by bootstrap then there's a relatively large probability
+ it's in the target page. */
+.plot-area-container>.plot-area {
   overflow: hidden;
 }
 
-.axes-container {
+.plot-area-container>.axes-container {
   overflow: visible;
 }
 
