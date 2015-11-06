@@ -6,7 +6,6 @@ script-extra: |
     <script src="https://cdn.jsdelivr.net/ace/1.2.0/noconflict/ext-language_tools.js"></script>
     <script type='text/javascript'>
         var playGround = createPlayground();
-        playGround.useLocal = document.URL.match(/[?&]local([&=]|$)/i);
         playGround('editor', 'editorHTML', (document.URL.match(/[?&]example=([^&]*)/i) || ['', 'horizon'])[1]);
     </script>
 

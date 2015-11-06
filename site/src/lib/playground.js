@@ -77,7 +77,6 @@ function createPlayground() {
         return document.getElementById('preview');
     };
 
-    output.useLocal = false;
     output.singleFile = true;
 
     var _autoRun = false;
@@ -140,17 +139,6 @@ function createPlayground() {
     };
 
     output.loadHTML = function(html) {
-        // Switch to local d3fc if available
-        if (output.useLocal) {
-            html = html.replace(/<!-- (<script [^>]*><\/script>) -->/g, function(m, p1) {
-                return p1;
-            });
-            html = html.replace(/"https:([^"])*\/d3fc.min.css"/, '"http://localhost:9000/assets/d3fc.css"');
-            html = html.replace(/"https:([^"])*\/d3fc.bundle.min.js"/, '"http://localhost:9000/assets/d3fc.js"');
-        } else {
-            html = html.replace(/[ \t]*<!-- (<script [^>]*><\/script>) -->\n/g, '');
-        }
-
         if (html.match(/<script data-src="/)) {
             // Single File
             html = html.replace(
