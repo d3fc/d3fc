@@ -75,7 +75,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'site/src',
-                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*', '!playground/examples/**'],
+                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
                         dest: 'site/dist'
                     }
                 ]
@@ -175,6 +175,12 @@ module.exports = function(grunt) {
                         cwd: 'site/src/',
                         src: ['**/*', '!_*', '!**/*.hbs', '!**/*.md', '!**/*.yml'],
                         dest: 'site/dist/'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'dist/',
+                        src: ['d3fc.*'],
+                        dest: 'site/dist'
                     }
                 ]
             }

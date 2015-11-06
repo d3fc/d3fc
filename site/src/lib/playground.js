@@ -7,21 +7,26 @@ function createPlayground() {
         editorHTML;
 
     function setUpEditor(divId) {
-        var editor = ace.edit(divId);
-        editor.$blockScrolling = Infinity;
-        editor.setTheme('ace/theme/crimson_editor');
-        editor.setShowPrintMargin(false);
-        editor.setOption('enableBasicAutocompletion', true);
-        editor.setOption('maxLines', 'Infinity');
-        editor.getSession().on('change', function(e) {
+        var aceEdit = ace.edit(divId);
+        aceEdit.$blockScrolling = Infinity;
+        aceEdit.setTheme('ace/theme/crimson_editor');
+        aceEdit.setShowPrintMargin(false);
+        aceEdit.setOption('enableBasicAutocompletion', true);
+        aceEdit.setOption('maxLines', 'Infinity');
+        aceEdit.getSession().on('change', function(e) {
             if (output.autoRun()) {
                 output.run();
             }
         });
-        return editor;
+        return aceEdit;
     }
 
     function setIFrame(iframe, html) {
+        var timerId = iframe.contentWindow.setTimeout(function() {}, 10000);
+        for (var i = 0; i <= timerId; i++) {
+            iframe.contentWindow.clearTimeout(i);
+        }
+
         iframe = iframe.contentDocument || iframe.contentWindow.document;
         iframe.open('text/html', 'replace');
         iframe.write(html);
@@ -72,7 +77,6 @@ function createPlayground() {
         return document.getElementById('preview');
     };
 
-    output.useLocal = false;
     output.singleFile = true;
 
     var _autoRun = false;
@@ -135,17 +139,6 @@ function createPlayground() {
     };
 
     output.loadHTML = function(html) {
-        // Switch to local d3fc if available
-        if (output.useLocal) {
-            html = html.replace(/<!-- (<script [^>]*><\/script>) -->/g, function(m, p1) {
-                return p1;
-            });
-            html = html.replace(/"https:([^"])*\/d3fc.min.css"/, '"http://localhost:9000/assets/d3fc.css"');
-            html = html.replace(/"https:([^"])*\/d3fc.bundle.min.js"/, '"http://localhost:9000/assets/d3fc.js"');
-        } else {
-            html = html.replace(/[ \t]*<!-- (<script [^>]*><\/script>) -->\n/g, '');
-        }
-
         if (html.match(/<script data-src="/)) {
             // Single File
             html = html.replace(
