@@ -44,7 +44,7 @@ example-code: |
 
 ---
 
-The mode-median sampling component is a method of subsampling data to improve performance with large data sets. The component take an array of data as an input, returning a smaller, sampled array. You can configure the sampling frequency by setting teh `bucketSize` property.
+The mode-median sampling component is a method of subsampling data to improve performance with large data sets. The component take an array of data as an input, returning a smaller, sampled array. You can configure the sampling frequency by setting the `bucketSize` property.
 
 The example below creates an array of 1,000 datapoints, sampling it using a bucket-size of 20:
 
