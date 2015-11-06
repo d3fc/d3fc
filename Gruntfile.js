@@ -94,7 +94,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'site/src',
-                        src: ['components/**/*.md'],
+                        src: ['components/**/*.md', 'examples/**/*.md'],
                         dest: 'site/dist/playground/examples'
                     }
                 ]
@@ -253,10 +253,12 @@ module.exports = function(grunt) {
                     '<%= meta.metaJsFiles %>',
                     'site/src/**/*'
                 ],
-                tasks: ['site']
+                tasks: ['site'],
+                options: {
+                    livereload: true
+                }
             },
             options: {
-                livereload: true,
                 atBegin: true
             }
         },
