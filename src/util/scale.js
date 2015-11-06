@@ -19,15 +19,15 @@ export function range(scale) {
     // range set on the scale. The logic below detects the inverted case.
     //
     // The d3 code that tackles the same issue doesn't have to deal with the inverted case.
-    var range = scale.range();
+    var scaleRange = scale.range();
     var extent = scale.rangeExtent();
-    if (range.length <= 1) {
+    if (scaleRange.length <= 1) {
         // we cannot detect the inverted case if the range (and domain) has
         // a single item in it.
         return extent;
     }
 
-    var inverted = range[0] > range[1];
+    var inverted = scaleRange[0] > scaleRange[1];
     return inverted ? [extent[1], extent[0]] : extent;
 }
 
