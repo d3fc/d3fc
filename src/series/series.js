@@ -11,6 +11,7 @@ import stacked from './stacked/stacked';
 import groupedBar from './groupedBar';
 import xyBase from './xyBase';
 import ohlcBase from './ohlcBase';
+import errorBar from './errorBar';
 
 export default {
     area: area,
@@ -25,5 +26,6 @@ export default {
     stacked: stacked,
     groupedBar: groupedBar,
     xyBase: xyBase,
-    ohlcBase: ohlcBase
+    ohlcBase: ohlcBase,
+    errorBar: errorBar
 };
