@@ -9,7 +9,6 @@ export default function() {
         startDate = new Date(),
         stepsPerDay = 50,
         volumeNoiseFactor = 0.3,
-        skipWeekends = function(d) { return true; },
         filter = function(d) { return true; };
 
     var calculateOHLC = function(days, prices, volumes) {
@@ -36,15 +35,15 @@ export default function() {
         return ohlcv;
     };
 
-    function calculateInterval(startDate, days) {
+    function calculateInterval(start, days) {
         var millisecondsPerYear = 3.15569e10;
 
-        var toDate = new Date(startDate.getTime());
-        toDate.setUTCDate(startDate.getUTCDate() + days);
+        var toDate = new Date(start.getTime());
+        toDate.setUTCDate(start.getUTCDate() + days);
 
         return {
             toDate: toDate,
-            years: (toDate.getTime() - startDate.getTime()) / millisecondsPerYear
+            years: (toDate.getTime() - start.getTime()) / millisecondsPerYear
         };
     }
 
@@ -74,7 +73,7 @@ export default function() {
         startVolume = volumes[volumes.length - 1];
 
         return calculateOHLC(days, prices, volumes).filter(function(d) {
-            return skipWeekends(d.date) && filter(d.date);
+            return filter(d.date);
         });
     }
 
@@ -141,12 +140,6 @@ export default function() {
             return volumeNoiseFactor;
         }
         volumeNoiseFactor = x;
-        return gen;
-    };
-    gen.skipWeekends = function() {
-        skipWeekends = function(date) {
-            return !(date.getDay() === 0 || date.getDay() === 6);
-        };
         return gen;
     };
     gen.filter = function(x) {

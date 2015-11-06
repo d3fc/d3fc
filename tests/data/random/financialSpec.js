@@ -27,7 +27,8 @@ describe('fc.data.random.financial', function() {
         var dataGenerator;
 
         beforeEach(function() {
-            dataGenerator = fc.data.random.financial().skipWeekends();
+            dataGenerator = fc.data.random.financial()
+                .filter(fc.data.random.filter.skipWeekends());
         });
 
         it('should not include weekends', function() {

@@ -20,7 +20,7 @@ The random financial data generator component is a useful testing utility that g
 {{{example-code}}}
 ```
 
-To skip weekends call the `skipWeekends` property. A `filter` can be supplied to skips other days, or change the start price, volume and date.
+A `filter` can be supplied to skips other days, or change the start price, volume and date. Pre-defined filters can be used, for example to skip weekends use `fc.data.random.filter.skipWeekends`. 
 
 <pre id="financial"></pre>
 <script type="text/javascript">
