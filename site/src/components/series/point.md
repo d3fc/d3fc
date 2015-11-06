@@ -3,6 +3,7 @@ layout: component
 title: Point Series
 component: series/point.js
 tags:
+  - playground
 namespace: series
 
 example-code-1: |
@@ -14,7 +15,7 @@ example-code-1: |
       .datum(data)
       .call(point);
 
-example-code-2: |
+example-code: |
   var color = d3.scale.category10();
 
   var point = fc.series.point()
@@ -73,22 +74,12 @@ You can supply a constant value, or a function via the `size` property that spec
 the parent for each `path`:
 
 ```js
-{{{example-code-2}}}
+{{{example-code}}}
 ```
 
 Which results in the following series:
 
-<div id="series_point_2" class="chart"> </div>
-<script type="text/javascript">
-(function() {
-    var desiredWidth = $('#series_point_2').width(),
-        desiredHeight = desiredWidth / 2.4; //keeps the width-height ratio at 600-250 (defaults for createFixture)
-    var f = createFixture('#series_point_2', desiredWidth, desiredHeight, null, function() { return true; });
-    var container = f.container, data = f.data,
-      xScale = f.xScale, yScale = f.yScale;
-    {{{example-code-2}}}
-}());
-</script>
+{{>example-fixture}}
 
 As the series is built using the `d3.svg.symbol`, the following symbol `types` are also supported:
 

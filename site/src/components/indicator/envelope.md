@@ -3,6 +3,7 @@ layout: component
 title: Envelope
 component: indicator/algorithm/envelope.js
 tags:
+ - playground
 namespace: indicator
 
 example-code: |
