@@ -55,14 +55,13 @@ export default function() {
 
     function getBuckets(data) {
         var numberOfBuckets = Math.ceil((data.length - 2) / bucketSize);
-        var dataPointsPerBucket = (data.length - 2) / numberOfBuckets;
 
         // Use all but the first and last data points, as they are their own buckets.
         var trimmedData = data.slice(1, data.length - 1);
 
         var buckets = [];
         for (var i = 0; i < numberOfBuckets; i++) {
-            buckets.push(trimmedData.slice(i * dataPointsPerBucket, (i + 1) * dataPointsPerBucket));
+            buckets.push(trimmedData.slice(i * bucketSize, (i + 1) * bucketSize));
         }
         return buckets;
     }
