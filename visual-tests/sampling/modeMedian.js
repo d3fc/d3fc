@@ -8,7 +8,7 @@
         return {x: i, y: d};
     });
 
-    var subsampledData = fc.data.samplers.modeMedian()
+    var subsampledData = fc.data.sampler.modeMedian()
                 .bucketSize(dataPoints / subsampledDataPoints)
                 .value(function(d) { return d.y; })(data);
 

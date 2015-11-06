@@ -1,4 +1,4 @@
-describe('fc.data.samplers.modeMedian', function() {
+describe('fc.data.sampler.modeMedian', function() {
 
     var data;
     var bucketGenerator;
@@ -7,7 +7,7 @@ describe('fc.data.samplers.modeMedian', function() {
 
         beforeEach(function() {
             data = [0, 1, 6, 4, 8, 4, 8, 9, 3, 5, 2, 10, 2, 4, 3, 8, 5];
-            bucketGenerator = fc.data.samplers.modeMedian()
+            bucketGenerator = fc.data.sampler.modeMedian()
                                 .value(function(d) { return d; });
         });
 
