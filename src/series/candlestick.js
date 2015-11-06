@@ -15,6 +15,10 @@ export default function() {
         .element('g')
         .attr('class', 'candlestick');
 
+    function containerTranslation(values) {
+        return 'translate(' + values.x + ', ' + values.yHigh + ')';
+    }
+
     var candlestick = function(selection) {
 
         selection.each(function(data, index) {
@@ -24,6 +28,9 @@ export default function() {
             var g = dataJoin(this, filteredData);
 
             g.enter()
+                .attr('transform', function(d, i) {
+                    return containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)';
+                })
                 .append('path');
 
             var pathGenerator = candlestickSvg()
@@ -33,9 +40,11 @@ export default function() {
 
                 var values = base.values(d, i);
 
-                var graph = d3.select(this)
-                    .attr('class', 'candlestick ' + values.direction)
-                    .attr('transform', 'translate(' + values.x + ', ' + values.yHigh + ')');
+                var graph = d3.transition(d3.select(this))
+                    .attr({
+                        'class': 'candlestick ' + values.direction,
+                        'transform': function() { return containerTranslation(values) + ' scale(1)'; }
+                    });
 
                 pathGenerator.x(d3.functor(0))
                     .open(function() { return values.yOpen - values.yHigh; })

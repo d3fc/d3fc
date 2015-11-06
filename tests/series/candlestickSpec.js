@@ -58,19 +58,19 @@ describe('candlestick', function() {
         container.datum(data)
             .call(candlestick);
 
-        expect(xValueSpy.calls.count()).toEqual(data.length * 3);
+        expect(xValueSpy.calls.count()).toEqual(data.length * 4);
         this.utils.verifyAccessorCalls(xValueSpy, data);
 
-        expect(yOpenValueSpy.calls.count()).toEqual(data.length * 2);
+        expect(yOpenValueSpy.calls.count()).toEqual(data.length * 3);
         this.utils.verifyAccessorCalls(yOpenValueSpy, data);
 
-        expect(yHighValueSpy.calls.count()).toEqual(data.length * 2);
+        expect(yHighValueSpy.calls.count()).toEqual(data.length * 3);
         this.utils.verifyAccessorCalls(yHighValueSpy, data);
 
-        expect(yLowValueSpy.calls.count()).toEqual(data.length * 2);
+        expect(yLowValueSpy.calls.count()).toEqual(data.length * 3);
         this.utils.verifyAccessorCalls(yLowValueSpy, data);
 
-        expect(yCloseValueSpy.calls.count()).toEqual(data.length * 2);
+        expect(yCloseValueSpy.calls.count()).toEqual(data.length * 3);
         this.utils.verifyAccessorCalls(yCloseValueSpy, data);
     });
 });
