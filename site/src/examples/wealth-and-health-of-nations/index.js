@@ -134,9 +134,7 @@
             });
 
         function chart(selection) {
-            selection.each(function(data) {
-                selection.call(cartesianChart);
-            });
+            selection.call(cartesianChart);
         }
 
         d3.rebind(chart, event, 'on');
