@@ -48,9 +48,13 @@
         .yScale(priceScale)
         .key(key);
 
+    var gridlines = fc.annotation.gridline()
+        .xKey(function(d) { return d; })
+        .yKey(function(d) { return d; });
+
     // add the components to the chart
     var multi = fc.series.multi()
-      .series([bar, line, candle, ohlc])
+      .series([gridlines, bar, line, candle, ohlc])
       .xScale(dateScale)
       .yScale(priceScale);
 
@@ -70,5 +74,5 @@
             .transition()
             .duration(500)
             .call(multi);
-    }, 1000);
+    }, 500);
 })(d3, fc);

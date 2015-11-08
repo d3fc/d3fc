@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import dataJoin from '../util/dataJoin';
 import {noop} from '../util/fn';
+import {rebind} from '../util/rebind';
 
 export default function() {
 
@@ -96,6 +97,8 @@ export default function() {
         return gridlines;
     };
 
+    rebind(gridlines, xLineDataJoin, {'xKey': 'key'});
+    rebind(gridlines, yLineDataJoin, {'yKey': 'key'});
 
     return gridlines;
 }

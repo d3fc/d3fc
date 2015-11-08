@@ -19,6 +19,12 @@ export default function(drawMethod) {
         return 'translate(' + values.x + ', ' + values.yHigh + ')';
     }
 
+    function xScaleFromCenter(width, scale) {
+        var center = width / 2;
+        var offset = center - scale * center;
+        return 'matrix(' + scale + ', 0, 0, 1, ' + offset + ', 0)';
+    }
+
     var ohlc = function(selection) {
         selection.each(function(data, index) {
 
@@ -26,14 +32,17 @@ export default function(drawMethod) {
 
             var g = dataJoin(this, filteredData);
 
+            var barWidth = base.width(filteredData);
+
             g.enter()
                 .attr('transform', function(d, i) {
-                    return containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)';
+                    return containerTranslation(base.values(d, i)) +
+                        xScaleFromCenter(barWidth, 1e-6);
                 })
                 .append('path');
 
             var pathGenerator = svgOhlc()
-                    .width(base.width(filteredData));
+                    .width(barWidth);
 
             g.each(function(d, i) {
                 var values = base.values(d, i);
@@ -41,7 +50,10 @@ export default function(drawMethod) {
                 var graph = d3.transition(d3.select(this))
                     .attr({
                         'class': 'ohlc ' + values.direction,
-                        'transform': function() { return containerTranslation(values) + ' scale(1)'; }
+                        'transform': function() {
+                            return containerTranslation(values) +
+                                xScaleFromCenter(barWidth, 1);
+                        }
                     });
 
                 pathGenerator.x(d3.functor(0))
