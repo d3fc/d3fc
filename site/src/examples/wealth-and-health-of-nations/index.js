@@ -95,7 +95,7 @@
         var cartesianChart = fc.chart.cartesian(d3.scale.log(), d3.scale.linear())
             .xDomain([300, 1e5])
             .yDomain([10, 85])
-            .margin({left: 30, bottom: 20})
+            .margin({top: 25, right: 25, bottom: 20, left: 30})
             .yOrient('left')
             .xTicks(12, d3.format(',d'))
             .plotArea(point)
