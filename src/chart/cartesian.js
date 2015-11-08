@@ -84,11 +84,11 @@ export default function(xScale, yScale) {
                 <g class="plot-area-container"> \
                     <rect class="background" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
-                    <svg class="axes-container" \
+                    <g class="axes-container" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"> \
                         <g class="x-axis" layout-style="height: 0; width: 0"/> \
                         <g class="y-axis" layout-style="height: 0; width: 0"/> \
-                    </svg> \
+                    </g> \
                     <svg class="plot-area" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                 </g>');
