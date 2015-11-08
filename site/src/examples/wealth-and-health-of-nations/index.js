@@ -102,17 +102,21 @@
             .xLabel('income per capita, inflation-adjusted (dollars)')
             .yLabel('life expectancy (years)')
             .decorate(function(selection, data) {
-                var xAxisWidth = selection.select('.x-axis')
-                    .layout('width');
+                var selectionEnter = selection.enter();
 
-                selection.select('.x-axis .label')
-                    .attr('transform', 'translate(' + xAxisWidth / 2 + ', -26)');
+                selectionEnter.select('.x-axis > g')
+                    .layout({
+                      'position': 'absolute',
+                      'right': 0,
+                      'bottom': 26
+                    });
 
-                var yAxisHeight = selection.select('.y-axis')
-                    .layout('height');
-
-                selection.select('.y-axis .label')
-                    .attr('transform', 'rotate(-90) translate(' + yAxisHeight / 2 + ', 36)');
+                selectionEnter.select('.y-axis > g')
+                    .layout({
+                      'position': 'absolute',
+                      'top': 0,
+                      'left': 36
+                    });
 
                 var plotAreaContainerEnter = selection.enter()
                     .select('.plot-area-container');
@@ -125,7 +129,7 @@
                             bottom: 24
                         });
 
-                plotAreaContainerEnter.layout();
+                selectionEnter.layout();
 
                 // Update the year label when updating the chart
                 selection.select('.year.label')
