@@ -25,9 +25,6 @@ text {
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.label > text {
-  fill: #777;
-}
 .year.label > text {
   font-size: 164px;
   fill: #ddd;
@@ -38,4 +35,9 @@ text {
 .background {
   fill: transparent;
   stroke: none;
+}
+.x-axis .label,
+.y-axis .label {
+  text-anchor: end;
+  fill: #777;
 }

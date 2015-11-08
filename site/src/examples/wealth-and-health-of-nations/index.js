@@ -99,33 +99,23 @@
             .yOrient('left')
             .xTicks(12, d3.format(',d'))
             .plotArea(point)
+            .xLabel('income per capita, inflation-adjusted (dollars)')
+            .yLabel('life expectancy (years)')
             .decorate(function(selection) {
+                var xAxisWidth = selection.select('.x-axis')
+                    .layout('width');
+
+                selection.select('.x-axis .label')
+                    .attr('transform', 'translate(' + xAxisWidth / 2 + ', -26)');
+
+                var yAxisHeight = selection.select('.y-axis')
+                    .layout('height');
+
+                selection.select('.y-axis .label')
+                    .attr('transform', 'rotate(-90) translate(' + yAxisHeight / 2 + ', 36)');
+
                 var plotAreaContainerEnter = selection.enter()
                     .select('.plot-area-container');
-
-                plotAreaContainerEnter.append('g')
-                    .attr('class', 'life-expectancy label')
-                    .layout({
-                        position: 'absolute',
-                        top: 0,
-                        left: 6
-                    })
-                    .append('text')
-                    .attr('text-anchor', 'end')
-                    .attr('dy', '0.75em')
-                    .attr('transform', 'rotate(-90)')
-                    .text('life expectancy (years)');
-
-                plotAreaContainerEnter.append('g')
-                    .attr('class', 'income label')
-                    .layout({
-                        position: 'absolute',
-                        right: 0,
-                        bottom: 6
-                    })
-                    .append('text')
-                    .attr('text-anchor', 'end')
-                    .text('income per capita, inflation-adjusted (dollars)');
 
                 plotAreaContainerEnter.append('g')
                         .attr('class', 'year label')
