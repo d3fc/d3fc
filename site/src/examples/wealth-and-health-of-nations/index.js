@@ -30,7 +30,7 @@
                 label.enter()
                     .attr('text-anchor', 'end');
 
-                label.text(data.year);
+                label.text(data);
 
                 var overlay = overlayDataJoin(selection, [data]);
 
@@ -101,7 +101,7 @@
             .plotArea(point)
             .xLabel('income per capita, inflation-adjusted (dollars)')
             .yLabel('life expectancy (years)')
-            .decorate(function(selection) {
+            .decorate(function(selection, data) {
                 var xAxisWidth = selection.select('.x-axis')
                     .layout('width');
 
@@ -129,6 +129,7 @@
 
                 // Update the year label when updating the chart
                 selection.select('.year.label')
+                    .datum(data.year)
                     .call(yearLabel);
             });
 
