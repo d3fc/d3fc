@@ -79,7 +79,7 @@ the parent for each `path`:
 
 Which results in the following series:
 
-{{>example-fixture}}
+{{example-fixture}}
 
 As the series is built using the `d3.svg.symbol`, the following symbol `types` are also supported:
 
