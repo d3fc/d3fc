@@ -2,9 +2,27 @@
 layout: example
 title: Bubble chart
 namespace: examples
+tags:
+ - playground
 
+example-body: |
+    <style>
+    .point path {
+        stroke-width: 0;
+    }
+    .title text {
+        font-size: 15pt;
+    }
+    #bubble-chart {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 400px;
+    }
+    </style>
+
+    <div id='bubble-chart'></div>
 example-code: |
-    d3.json('life-expectancy.json', function(error, data) {
+    d3.json('data.json', function(error, data) {
         // convert string properties to numbers
         data.forEach(function(d) {
             d.income = Number(d.income);
@@ -67,25 +85,11 @@ example-code: |
     });
 ---
 
-<style>
-.point path {
-    stroke-width: 0;
-}
-.title text {
-    font-size: 15pt;
-}
-#bubble-chart {
-    margin-bottom: 20px;
-    width: 100%;
-    height: 400px;
-}
-</style>
+{{{example-body}}}
 
 <script>
 {{{example-code}}}
 </script>
-
-<div id='bubble-chart'></div>
 
 This example demonstrates how to render a bubble chart with data that shows the relationship between life expectancy and wealth, obtained via  [Gapminder](http://www.gapminder.org/world/#$majorMode=chart$is;shi=t;ly=2003;lb=f;il=t;fs=11;al=30;stl=t;st=t;nsl=t;se=t$wst;tts=C$ts;sp=5.59290322580644;ti=2013$zpv;v=0$inc_x;mmid=XCOORDS;iid=phAwcNAVuyj1jiMAkmq1iMg;by=ind$inc_y;mmid=YCOORDS;iid=phAwcNAVuyj2tPLxKvvnNPA;by=ind$inc_s;uniValue=8.21;iid=phAwcNAVuyj0XOoBL_n5tAQ;by=ind$inc_c;uniValue=255;gid=CATID0;by=grp$map_x;scale=log;dataMin=194;dataMax=96846$map_y;scale=lin;dataMin=23;dataMax=86$map_s;sma=49;smi=2.65$cd;bd=0$inds=;modified=60). The chart is constructed from the following components:
 

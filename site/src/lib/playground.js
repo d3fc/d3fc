@@ -3,6 +3,7 @@ function createPlayground() {
     'use strict';
 
     var scriptTarget,
+        root,
         editor,
         editorHTML;
 
@@ -123,7 +124,11 @@ function createPlayground() {
         merged += currentJS;
         merged += currentHTML.substr(endIndex);
 
+        // Substitute for 'data.
+        merged = merged.replace(/'data\./g, '\'' + root + 'data.');
+
         setIFrame(output.previewFrame(), merged);
+
     };
 
     output.loadJavaScript = function(script) {
@@ -156,6 +161,9 @@ function createPlayground() {
     };
 
     output.loadHTMLAJAX = function(url) {
+        root = url.substr(0, url.lastIndexOf('/') + 1);
+
+        output.previewFrame().setAttribute('src', url);
         editorHTML.getSession().setValue('Loading ...');
         editorHTML.setReadOnly(true);
         d3.text(url, 'text/plain', output.loadHTML);

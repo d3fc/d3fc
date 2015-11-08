@@ -2,7 +2,22 @@
 layout: example
 title: Scatterplot
 namespace: examples
+tags:
+ - playground
 
+example-body: |
+    <style>
+    #scatter-chart {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 400px;
+    }
+    .point {
+        stroke-width: 0;
+    }
+    </style>
+
+    <div id="scatter-chart"></div>
 example-code: |
     d3.tsv('data.tsv', function(error, data) {
         // convert string properties to numbers
@@ -57,22 +72,11 @@ example-code: |
     });
 ---
 
-<style>
-#scatter-chart {
-    margin-bottom: 20px;
-    width: 100%;
-    height: 400px;
-}
-.point {
-    stroke-width: 0;
-}
-</style>
+{{{example-body}}}
 
 <script>
 {{{example-code}}}
 </script>
-
-<div id='scatter-chart'></div>
 
 
 (based on [bl.ock #3887118](http://bl.ocks.org/mbostock/3887118#index.html) by Mike Bostock)

@@ -2,9 +2,31 @@
 layout: example
 title: Stacked Bar
 namespace: examples
+tags:
+ - playground
 
+example-body: |
+    <style>
+    #example-chart {
+      margin-bottom: 20px;
+      width: 100%;
+      height: 400px;
+    }
+    .bar path {
+      stroke-width: 0;
+    }
+    .x-axis .label {
+      text-anchor: start;
+    }
+    .cartesian-chart .background {
+      fill: transparent;
+      stroke: transparent;
+    }
+    </style>
+
+    <div id='example-chart'></div>
 example-code: |
-  d3.csv('energy-production-2013.csv', function(error, data) {
+  d3.csv('data.csv', function(error, data) {
     // manipulate the data into stacked series
     var spread = fc.data.spread()
         .xValueKey('Country');
@@ -14,7 +36,7 @@ example-code: |
     var series = stack(spread(data));
 
     var color = d3.scale.category20()
-      .domain(series.map(function(s) { return s.key; }))
+      .domain(series.map(function(s) { return s.key; }));
 
     var yExtent = fc.util.extent()
         .include(0)
@@ -68,25 +90,7 @@ example-code: |
   });
 ---
 
-<style>
-#example-chart {
-  margin-bottom: 20px;
-  width: 100%;
-  height: 400px;
-}
-.bar path {
-  stroke-width: 0;
-}
-.x-axis .label {
-  text-anchor: start;
-}
-.cartesian-chart .background {
-  fill: transparent;
-  stroke: transparent;
-}
-</style>
-
-<div id='example-chart'></div>
+{{{example-body}}}
 
 <script>
 {{{example-code}}}

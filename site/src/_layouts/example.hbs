@@ -8,6 +8,10 @@ layout: default
     <div class="col-sm-9 col-xs-12">
       <h1>
         {{title}}
+
+        {{#if page.tags}}{{#inArray page.tags 'playground'}}
+        <a href="{{assets}}/playground/playground.html?example={{replace dirname 'site/dist/' ''}}/{{basename}}">View in the Playground</a>
+        {{/inArray}}{{/if}}
       </h1>
 
       {{#markdown }}
