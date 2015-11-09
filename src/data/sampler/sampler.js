@@ -1,9 +1,9 @@
 import modeMedian from './modeMedian';
-import largestTriangle3 from './largestTriangle3';
+import largestTriangleThreeBucket from './largestTriangleThreeBucket';
 import bucket from './bucket';
 
 export default {
     modeMedian: modeMedian,
-    largestTriangle3: largestTriangle3,
+    largestTriangleThreeBucket: largestTriangleThreeBucket,
     bucket: bucket
 };

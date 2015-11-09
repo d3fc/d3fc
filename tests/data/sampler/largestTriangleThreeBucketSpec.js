@@ -1,4 +1,4 @@
-describe('fc.data.sampler.largestTriangle3', function() {
+describe('fc.data.sampler.largestTriangleThreeBucket', function() {
 
     var data;
     var dataGenerator;
@@ -26,7 +26,7 @@ describe('fc.data.sampler.largestTriangle3', function() {
                 { x: 15, y: 4 },
                 { x: 16, y: 5 } // Bucket 7
             ];
-            dataGenerator = fc.data.sampler.largestTriangle3()
+            dataGenerator = fc.data.sampler.largestTriangleThreeBucket()
                               .bucketSize(3)
                               .xValue(function(d) { return d.x; })
                               .yValue(function(d) { return d.y; });

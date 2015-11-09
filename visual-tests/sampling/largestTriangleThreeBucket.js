@@ -8,7 +8,7 @@
         return {x: i, y: d};
     });
 
-    var subsampledData = fc.data.sampler.largestTriangle3()
+    var subsampledData = fc.data.sampler.largestTriangleThreeBucket()
                 .bucketSize(dataPoints / subsampledDataPoints)
                 .xValue(function(d) { return d.x; })
                 .yValue(function(d) { return d.y; })

@@ -1,7 +1,7 @@
 ---
 layout: component
 title: Largest Triangle 3 Buckets
-component: data/sampler/largestTriangle3.js
+component: data/sampler/largestTriangleThreeBucket.js
 namespace: samplers
 
 example-code: |
@@ -9,7 +9,7 @@ example-code: |
     var data = fc.data.random.financial()(1000);
 
     // configure the sampler
-    var sampler = fc.data.sampler.largestTriangle3()
+    var sampler = fc.data.sampler.largestTriangleThreeBucket()
         .bucketSize(20)
         .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.low; });
@@ -45,7 +45,7 @@ example-code: |
 
 ---
 
-The Largest Triangle 3 sampling component is a method of subsampling data to improve performance with large data sets. The algorithm entails calculating the largest areas between a data point and its neighbouring buckets.
+The Largest Triangle Three Bucket sampling component is a method of subsampling data to improve performance with large data sets. The algorithm entails calculating the largest areas between a data point and its neighbouring buckets.
 
 The sampler requires both the `xValue` and `yValue` properties in order to generate calculate the area. You can configure the sampling frequency by setting the `bucketSize` property.
 

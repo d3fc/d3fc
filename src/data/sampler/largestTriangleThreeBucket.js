@@ -8,7 +8,7 @@ export default function() {
         yValue = identity,
         dataBucketer = bucket();
 
-    var largestTriangle3 = function(data) {
+    var largestTriangleThreeBucket = function(data) {
 
         if (dataBucketer.bucketSize() >= data.length) {
             return data;
@@ -57,30 +57,30 @@ export default function() {
         return [].concat(data[0], subsampledData, data[data.length - 1]);
     };
 
-    largestTriangle3.bucketSize = function() {
+    largestTriangleThreeBucket.bucketSize = function() {
         dataBucketer.bucketSize.apply(this, arguments);
-        return largestTriangle3;
+        return largestTriangleThreeBucket;
     };
 
-    largestTriangle3.xValue = function(x) {
+    largestTriangleThreeBucket.xValue = function(x) {
         if (!arguments.length) {
             return xValue;
         }
 
         xValue = x;
 
-        return largestTriangle3;
+        return largestTriangleThreeBucket;
     };
 
-    largestTriangle3.yValue = function(y) {
+    largestTriangleThreeBucket.yValue = function(y) {
         if (!arguments.length) {
             return yValue;
         }
 
         yValue = y;
 
-        return largestTriangle3;
+        return largestTriangleThreeBucket;
     };
 
-    return largestTriangle3;
+    return largestTriangleThreeBucket;
 }
