@@ -2,8 +2,7 @@
     'use strict';
 
     var generator = fc.data.random.financial()
-        .startDate(new Date(2014, 1, 1))
-        .filter(null);
+        .startDate(new Date(2014, 1, 1));
     var data = generator(20);
 
     var key = function(d) { return d.date; };

@@ -2,9 +2,7 @@
     'use strict';
 
     var data = fc.data.random.financial()
-        .startDate(new Date(2014, 1, 1))
-        .filter(function() { return true; })
-        (100);
+        .startDate(new Date(2014, 1, 1))(100);
 
     var width = 600, height = 250;
 

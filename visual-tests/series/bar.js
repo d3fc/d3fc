@@ -2,9 +2,7 @@
     'use strict';
 
     function renderColumnSeries() {
-        var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))
-            .filter(d3.functor(true))
-            (30);
+        var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(30);
 
         var width = 400, height = 250;
 
@@ -56,9 +54,7 @@
     }
 
     function renderBarSeries() {
-        var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))
-            .filter(d3.functor(true))
-            (15);
+        var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(15);
 
         // offset the low price to give some negative values
         var extent = fc.util.extent().fields('low')(data);
