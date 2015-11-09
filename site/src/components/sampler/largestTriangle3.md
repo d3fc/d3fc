@@ -1,6 +1,6 @@
 ---
 layout: component
-title: Largest Triangle 3 Sampling
+title: Largest Triangle 3 Buckets
 component: data/sampler/largestTriangle3.js
 namespace: samplers
 
@@ -10,9 +10,9 @@ example-code: |
 
     // configure the sampler
     var sampler = fc.data.sampler.largestTriangle3()
-      .bucketSize(20)
-      .xValue(function(d) { return d.date; })
-      .yValue(function(d) { return d.low; });
+        .bucketSize(20)
+        .xValue(function(d) { return d.date; })
+        .yValue(function(d) { return d.low; });
 
     // sample the data
     var sampledData = sampler(data);
@@ -27,21 +27,21 @@ example-code: |
         .yValue(function (d) { return d.low; });
 
     container.append('g')
-         .datum(sampledData)
-         .call(sampledLine);
+        .datum(sampledData)
+        .call(sampledLine);
 
     // render the original data
     var originalLine = fc.series.line()
-         .xScale(xScale)
-         .yScale(yScale)
-         .yValue(function (d) { return d.low; })
-         .decorate(function(selection) {
-             selection.enter().style('stroke-opacity', '0.5');
-         });
+        .xScale(xScale)
+        .yScale(yScale)
+        .yValue(function (d) { return d.low; })
+        .decorate(function(selection) {
+            selection.enter().style('stroke-opacity', '0.5');
+        });
 
     container.append('g')
-          .datum(data)
-          .call(originalLine);
+        .datum(data)
+        .call(originalLine);
 
 ---
 
