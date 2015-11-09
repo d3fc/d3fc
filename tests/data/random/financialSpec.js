@@ -4,7 +4,7 @@ describe('fc.data.random.financial', function() {
         var dataGenerator;
 
         beforeEach(function() {
-            dataGenerator = fc.data.random.financial().filter(null);
+            dataGenerator = fc.data.random.financial();
         });
 
         it('should return data for the requested number of days', function() {
@@ -20,6 +20,30 @@ describe('fc.data.random.financial', function() {
             dataGenerator.startVolume(100);
             expect(dataGenerator(10)[0].volume)
                 .toEqual(100);
+        });
+    });
+
+    describe('with filter', function() {
+        var dataGenerator;
+
+        beforeEach(function() {
+            dataGenerator = fc.data.random.financial()
+                .filter(fc.data.random.filter.skipWeekends());
+        });
+
+        it('should not include weekends', function() {
+            var data = dataGenerator(10);
+
+            for (var i = 0, max = data.length; i < max; i += 1) {
+                var day = data[i].date.getDay();
+                expect(day).not.toBe(0);
+                expect(day).not.toBe(6);
+            }
+        });
+
+        it('should return data for the requested number of days', function() {
+            expect(dataGenerator(10).length)
+                .toEqual(10);
         });
     });
 });

@@ -9,9 +9,7 @@ export default function() {
         startDate = new Date(),
         stepsPerDay = 50,
         volumeNoiseFactor = 0.3,
-        filter = function(date) {
-            return !(date.getDay() === 0 || date.getDay() === 6);
-        };
+        filter = function(d) { return true; };
 
     var calculateOHLC = function(days, prices, volumes) {
 
@@ -37,12 +35,19 @@ export default function() {
         return ohlcv;
     };
 
-    var gen = function(days) {
-        var toDate = new Date(startDate.getTime());
-        toDate.setUTCDate(startDate.getUTCDate() + days);
+    function calculateInterval(start, days) {
+        var millisecondsPerYear = 3.15569e10;
 
-        var millisecondsPerYear = 3.15569e10,
-            years = (toDate.getTime() - startDate.getTime()) / millisecondsPerYear;
+        var toDate = new Date(start.getTime());
+        toDate.setUTCDate(start.getUTCDate() + days);
+
+        return {
+            toDate: toDate,
+            years: (toDate.getTime() - start.getTime()) / millisecondsPerYear
+        };
+    }
+
+    function dataGenerator(days, years) {
 
         var prices = walk()
             .period(years)
@@ -68,8 +73,25 @@ export default function() {
         startVolume = volumes[volumes.length - 1];
 
         return calculateOHLC(days, prices, volumes).filter(function(d) {
-            return !filter || filter(d.date);
+            return filter(d.date);
         });
+    }
+
+    var gen = function(days) {
+        var date = startDate,
+            remainingDays = days,
+            result = [],
+            interval;
+
+        do {
+            interval = calculateInterval(date, remainingDays);
+            result = result.concat(dataGenerator(remainingDays, interval.years));
+            date = interval.toDate;
+            remainingDays = days - result.length;
+        }
+        while (result.length < days);
+
+        return result;
     };
 
     gen.mu = function(x) {
