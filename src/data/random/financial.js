@@ -78,17 +78,18 @@ export default function() {
     }
 
     var gen = function(days) {
-        var interval = calculateInterval(startDate, days),
-            result = dataGenerator(days, interval.years);
+        var date = startDate,
+            remainingDays = days,
+            result = [],
+            interval;
 
-        var missingDays = days - result.length;
-        if (missingDays !== 0) {
-            // The filter has removed days, so we must add extra days recursively until
-            // there is the correct amount.
-            var newInterval = calculateInterval(interval.toDate, missingDays),
-                extraData = gen(missingDays, newInterval.years);
-            result = result.concat(extraData);
+        do {
+            interval = calculateInterval(date, remainingDays);
+            result = result.concat(dataGenerator(remainingDays, interval.years));
+            date = interval.toDate;
+            remainingDays = days - result.length;
         }
+        while (result.length < days);
 
         return result;
     };
