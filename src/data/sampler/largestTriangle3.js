@@ -1,19 +1,20 @@
 import d3 from 'd3';
 import {identity, noop} from '../../util/fn';
+import bucket from './bucket';
 
 export default function() {
 
-    var bucketSize = 10,
-        xValue = identity,
-        yValue = identity;
+    var xValue = identity,
+        yValue = identity,
+        dataBucketer = bucket();
 
     var largestTriangle3 = function(data) {
 
-        if (bucketSize >= data.length) {
+        if (dataBucketer.bucketSize() >= data.length) {
             return data;
         }
 
-        var buckets = getBuckets(data);
+        var buckets = dataBucketer(data.slice(1, data.length - 1));
         var firstBucket = data[0];
         var lastBucket = data[data.length - 1];
 
@@ -24,16 +25,16 @@ export default function() {
         var lastSelectedX = xValue(firstBucket),
             lastSelectedY = yValue(firstBucket);
 
-        var subsampledData = buckets.map(function(bucket, i) {
+        var subsampledData = buckets.map(function(thisBucket, i) {
 
             var highestArea = -Infinity;
             var highestItem;
             var nextAvgX = d3.mean(allBuckets[i + 1], xValue);
             var nextAvgY = d3.mean(allBuckets[i + 1], yValue);
 
-            for (var j = 0; j < bucket.length; j++) {
-                var x = xValue(bucket[j]),
-                    y = yValue(bucket[j]);
+            for (var j = 0; j < thisBucket.length; j++) {
+                var x = xValue(thisBucket[j]),
+                    y = yValue(thisBucket[j]);
 
                 var base = (lastSelectedX - nextAvgX) * (y - lastSelectedY);
                 var height = (lastSelectedX - x) * (nextAvgY - lastSelectedY);
@@ -42,7 +43,7 @@ export default function() {
 
                 if (area > highestArea) {
                     highestArea = area;
-                    highestItem = bucket[j];
+                    highestItem = thisBucket[j];
                 }
             }
 
@@ -56,24 +57,8 @@ export default function() {
         return [].concat(data[0], subsampledData, data[data.length - 1]);
     };
 
-    function getBuckets(data) {
-        var numberOfBuckets = (data.length - 2) / bucketSize;
-
-        // Use all but the first and last data points, as they are their own buckets.
-        var trimmedData = data.slice(1, data.length - 1);
-
-        var buckets = [];
-        for (var i = 0; i < numberOfBuckets; i++) {
-            buckets.push(trimmedData.slice(i * bucketSize, (i + 1) * bucketSize));
-        }
-        return buckets;
-    }
-
-    largestTriangle3.bucketSize = function(x) {
-        if (!arguments.length) {
-            return bucketSize;
-        }
-        bucketSize = x;
+    largestTriangle3.bucketSize = function() {
+        dataBucketer.bucketSize.apply(this, arguments);
         return largestTriangle3;
     };
 
