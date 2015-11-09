@@ -57,10 +57,7 @@ export default function() {
         return [].concat(data[0], subsampledData, data[data.length - 1]);
     };
 
-    largestTriangleThreeBucket.bucketSize = function() {
-        dataBucketer.bucketSize.apply(this, arguments);
-        return largestTriangleThreeBucket;
-    };
+    d3.rebind(largestTriangleThreeBucket, dataBucketer, 'bucketSize');
 
     largestTriangleThreeBucket.xValue = function(x) {
         if (!arguments.length) {
