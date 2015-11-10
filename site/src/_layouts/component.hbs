@@ -8,7 +8,9 @@ layout: default
     <div class="col-sm-9 col-xs-12">
       <h1>
         {{title}}
+        {{#if component}}
         <a href="{{package.repository.url}}/blob/master/src/{{component}}">View source on GitHub</a>
+        {{/if}}
       </h1>
 
       {{#markdown }}
