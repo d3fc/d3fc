@@ -59,7 +59,7 @@ Alternatively you can link to d3fc and its dependencies directly via cdnjs:
 
 ## A quick chart
 
-If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
+If you want a quick verification that everything has installed correctly, the following code will render a cartesian chart:
 
 ```html
 <div id="chart" style="width: 100%; height: 250px"></div>
