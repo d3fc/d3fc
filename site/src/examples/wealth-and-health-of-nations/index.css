@@ -1,0 +1,42 @@
+#wealth-and-health-of-nations {
+  margin: 20px auto;
+  width: 100%;
+  height: 400px;
+}
+.plot-area-container > .plot-area {
+  overflow: visible;
+}
+text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+}
+.point > path {
+  stroke: #000;
+}
+.overlay {
+  cursor: ew-resize;
+  pointer-events: all;
+  visibility: hidden;
+}
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.year.label > text {
+  font-size: 164px;
+  fill: #ddd;
+}
+.year.label > text.active {
+  fill: #aaa;
+}
+.background {
+  fill: transparent;
+  stroke: none;
+}
+.x-axis .label,
+.y-axis .label {
+  text-anchor: end;
+  fill: #777;
+}

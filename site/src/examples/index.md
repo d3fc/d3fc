@@ -47,4 +47,9 @@ A collection of more advanced examples.
       <img src="simple/thumbnail.png" alt="Simple Line / Area Series">
     </a>
   </div>
+  <div class="col-sm-6 col-md-4">
+    <a href="wealth-and-health-of-nations/" class="thumbnail">
+      <img src="wealth-and-health-of-nations/thumbnail.png" alt="The Wealth &amp; Health and Nations">
+    </a>
+  </div>
 </div>
