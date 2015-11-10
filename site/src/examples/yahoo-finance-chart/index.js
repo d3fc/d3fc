@@ -131,7 +131,10 @@ function renderChart(data) {
           .trades(data.map(function(d) { return d.date; }));
 
   // add a time series components
-  var chart = fc.chart.linearTimeSeries()
+  var chart = fc.chart.cartesian(
+            fc.scale.dateTime(),
+            d3.scale.linear()
+        )
         .xDomain(fc.util.extent().fields('date')(data))
         .xDiscontinuityProvider(discontinuity)
         .yDomain(fc.util.extent().fields(['open', 'close'])(data))
