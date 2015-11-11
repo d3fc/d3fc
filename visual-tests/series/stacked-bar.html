@@ -7,9 +7,27 @@
     <title>Stacked Bar - d3fc Visual Tests</title>
 
     <link href="../assets/d3fc.css" rel="stylesheet">
+
+    <style>
+    .crosshair .annotation.horizontal {
+        display: none;
+    }
+    .crosshair .annotation text {
+        display: none;
+    }
+    .crosshair .point path {
+        display: none;
+    }
+
+    .crosshair .container rect {
+        fill: rgba(249, 249, 249, 0.85);
+        stroke: rgba(124, 181, 236, 1);
+        stroke-width: 1px;
+    }
+    </style>
   </head>
   <body>
-    <div id="stacked-bar"></div>
+    <div id="stacked-bar" style="height: 350px"></div>
     <form>
         offset: <select id='offset'>
             <option value='zero'>zero</option>

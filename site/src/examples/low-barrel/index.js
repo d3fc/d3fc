@@ -2,61 +2,10 @@
 (function(d3, fc, example) {
     'use strict';
 
-    example.tooltip = function() {
-
-        var formatters = {
-            date: d3.time.format('%A, %b %e, %Y'),
-            price: d3.format('.2f'),
-            volume: d3.format('0,5p')
-        };
-
-        function format(type, value) {
-            return formatters[type](value);
-        }
-
-        var items = [
-            function(d) { return format('date', d.date); },
-            function(d) { return 'Open: ' + format('price', d.open); },
-            function(d) { return 'High: ' + format('price', d.high); },
-            function(d) { return 'Low: ' + format('price', d.low); },
-            function(d) { return 'Close: ' + format('price', d.close); },
-            function(d) { return 'Volume: ' + format('volume', d.volume); }
-        ];
-
-        var tooltip = function(selection) {
-
-            var container = selection.enter()
-                .append('g')
-                .attr({
-                    'class': 'info',
-                    'transform': 'translate(5, 5)'
-                });
-
-            container.append('rect')
-                .attr({
-                    width: 130,
-                    height: 76
-                });
-
-            container.append('text');
-
-            container = selection.select('g.info');
-
-            var tspan = container.select('text')
-                .selectAll('tspan')
-                .data(items);
-
-            tspan.enter()
-                .append('tspan')
-                .attr('x', 4)
-                .attr('dy', 12);
-
-            tspan.text(function(d) {
-                return d(container.datum().datum);
-            });
-        };
-
-        return tooltip;
+    var formatters = {
+        date: d3.time.format('%A, %b %e, %Y'),
+        price: d3.format('.2f'),
+        volume: d3.format('0,5p')
     };
 
     example.candlestickSeries = function() {
@@ -111,10 +60,28 @@
 
         var candlestick = example.candlestickSeries();
 
-        var tooltip = example.tooltip();
+        var tooltip = fc.chart.tooltip()
+            .items([
+                [function(d) { return formatters.date(d.datum.date); }, ''],
+                ['High:', function(d) { return formatters.price(d.datum.high); }],
+                ['Low:', function(d) { return formatters.price(d.datum.low); }],
+                ['Open:', function(d) { return formatters.price(d.datum.open); }],
+                ['Close:', function(d) { return formatters.price(d.datum.close); }],
+                ['Volume:', function(d) { return formatters.volume(d.datum.volume); }]
+            ]);
+
+        var tooltipContainer = fc.tool.container()
+            .padding(5)
+            .component(tooltip);
+
+        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.withinContainer())
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; })
+            .width(150)
+            .height(104)
+            .component(tooltipContainer);
 
         var crosshairs = fc.tool.crosshair()
-            .decorate(tooltip)
             .on('trackingstart.link', event.crosshair)
             .on('trackingmove.link', event.crosshair)
             .on('trackingend.link', event.crosshair)
@@ -122,10 +89,11 @@
             .yLabel('');
 
         var multi = fc.series.multi()
-            .series([gridlines, candlestick, crosshairs])
+            .series([gridlines, candlestick, tooltipLayout, crosshairs])
             .mapping(function(series) {
                 switch (series) {
                 case crosshairs:
+                case tooltipLayout:
                     return this.crosshairs;
                 default:
                     return this;
@@ -422,8 +390,7 @@
 
         var render = fc.util.render(function() {
             container.datum(data)
-                .call(lowBarrel)
-                .layoutSuspended(true);
+                .call(lowBarrel);
         });
 
         var lowBarrel = example.lowBarrel()

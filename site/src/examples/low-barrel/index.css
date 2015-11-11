@@ -20,10 +20,10 @@ rect.extent {
     stroke-width: 1px;
     shape-rendering: auto;
 }
-.info {
+.tooltip .cell {
     font: 10px sans-serif;
 }
-.info rect {
+.rectangle .container rect {
     fill: rgba(249, 249, 249, 0.85);
     stroke: rgba(124, 181, 236, 1);
     stroke-width: 1px;

@@ -1,24 +1,9 @@
 export function noSnap(xScale, yScale) {
     return function(xPixel, yPixel) {
-        // ordinal axes don't invert pixel values (interpolation doesn't
-        // always make sense) so we support two modes. One we're we record
-        // the pixel value and another where we record the data value and
-        // scale it before using it
-        var result = {
-            xInDomainUnits: false,
+        return {
             x: xPixel,
-            yInDomainUnits: false,
             y: yPixel
         };
-        if (xScale.invert) {
-            result.xInDomainUnits = true;
-            result.x = xScale.invert(xPixel);
-        }
-        if (yScale.invert) {
-            result.yInDomainUnits = true;
-            result.y = yScale.invert(yPixel);
-        }
-        return result;
     };
 }
 
@@ -41,10 +26,8 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunctio
 
         return {
             datum: nearest,
-            x: nearest ? xValue(nearest) : xPixel,
-            xInDomainUnits: Boolean(nearest),
-            y: nearest ? yValue(nearest) : yPixel,
-            yInDomainUnits: Boolean(nearest)
+            x: nearest ? xScale(xValue(nearest)) : xPixel,
+            y: nearest ? yScale(yValue(nearest)) : yPixel
         };
     };
 }
