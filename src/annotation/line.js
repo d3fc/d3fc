@@ -15,8 +15,7 @@ export default function() {
 
     var dataJoin = _dataJoin()
         .selector('g.annotation')
-        .element('g')
-        .attr('class', 'annotation');
+        .element('g');
 
     var line = function(selection) {
         selection.each(function(data, selectionIndex) {
@@ -61,6 +60,7 @@ export default function() {
             var container = d3.select(this);
 
             // Create a group for each line
+            dataJoin.attr('class', 'annotation ' + orient);
             var g = dataJoin(container, data);
 
             // create the outer container and line
