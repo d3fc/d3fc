@@ -6,7 +6,9 @@ namespace: introduction
 example-code: |
     var data = fc.data.random.financial()(50);
 
-    var chart = fc.chart.linearTimeSeries()
+    var chart = fc.chart.cartesian(
+            fc.scale.dateTime(),
+            d3.scale.linear())
         .xDomain(fc.util.extent().fields('date')(data))
         .yDomain(fc.util.extent().fields(['high', 'low'])(data));
 
@@ -18,11 +20,6 @@ example-code: |
     chart.plotArea(multi);
 
     d3.select('#chart')
-        .append('svg')
-        .style({
-            height: '250px',
-            width: '600px'
-        })
         .datum(data)
         .call(chart);
 ---
@@ -62,10 +59,10 @@ Alternatively you can link to d3fc and its dependencies directly via cdnjs:
 
 ## A quick chart
 
-If you want a quick verification that everything has installed correctly, the following code will render a simple time series chart:
+If you want a quick verification that everything has installed correctly, the following code will render a cartesian chart:
 
 ```html
-<div id="chart"></div>
+<div id="chart" style="width: 100%; height: 250px"></div>
 ```
 
 ```js
@@ -74,7 +71,7 @@ If you want a quick verification that everything has installed correctly, the fo
 
 Here is how the chart should look:
 
-<div id="chart"></div>
+<div id="chart" style="width: 100%; height: 250px"></div>
 <script type="text/javascript">
 (function() {
     {{{example-code}}}

@@ -16,7 +16,10 @@ example-code: |
    dateRange[1] = d3.time.day.offset(dateRange[1], 1);
 
    // create a chart
-   var chart = fc.chart.linearTimeSeries()
+   var chart = fc.chart.cartesian(
+          fc.scale.dateTime(),
+          d3.scale.linear()
+        )
        .xDomain(dateRange)
        .xTicks(5)
        .yNice()
