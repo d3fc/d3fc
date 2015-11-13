@@ -30,23 +30,18 @@ A collection of more advanced examples.
     </a>
   </div>
   <div class="col-sm-6 col-md-4">
-    <a href="yahoo-finance-chart/" class="thumbnail">
-      <img src="yahoo-finance-chart/thumbnail.png" alt="Yahoo Finance Chart">
-    </a>
-  </div>
-  <div class="col-sm-6 col-md-4">
     <a href="stacked/" class="thumbnail">
       <img src="stacked/thumbnail.png" alt="Stacked Bar">
     </a>
   </div>
-</div>
-
-<div class="row">
   <div class="col-sm-6 col-md-4">
     <a href="simple/" class="thumbnail">
       <img src="simple/thumbnail.png" alt="Simple Line / Area Series">
     </a>
   </div>
+</div>
+
+<div class="row">
   <div class="col-sm-6 col-md-4">
     <a href="wealth-and-health-of-nations/" class="thumbnail">
       <img src="wealth-and-health-of-nations/thumbnail.png" alt="The Wealth &amp; Health and Nations">
