@@ -1,8 +1,9 @@
 ---
 layout: component
 title: Line
-component: tool/line.js
+component: annotation/line.js
 tags:
+ - playground
 namespace: annotation
 
 example-code: |

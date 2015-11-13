@@ -1,7 +1,7 @@
 ---
 layout: component
 title: Band
-component: tool/band.js
+component: annotation/band.js
 tags:
  - playground
 namespace: annotation
@@ -30,7 +30,7 @@ example-code: |
       .y1(function(d) { return d[1]; });
 
   var ticks = yScale.ticks();
-  var yBands = d3.zip(ticks, ticks.slice(1))
+  var yBands = d3.pairs(ticks)
         .filter(function(d, i) { return i % 2 === 0; });
 
   container.append('g')
