@@ -3,6 +3,7 @@ layout: component
 title: Gridlines
 component: annotation/gridline.js
 tags:
+ - playground
 namespace: annotation
 
 example-code: |
@@ -26,5 +27,3 @@ Which gives the following:
 {{>example-fixture}}
 
 You can configure the number of ticks via the `xTicks` and `yTicks` properties.
-
-
