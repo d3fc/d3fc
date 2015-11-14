@@ -28,8 +28,8 @@ describe('fc.data.sampler.largestTriangleOneBucket', function() {
             ];
             dataGenerator = fc.data.sampler.largestTriangleOneBucket()
                 .bucketSize(3)
-                .xValue(function(d) { return d.x; })
-                .yValue(function(d) { return d.y; });
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; });
         });
 
         it('should return the original data set if the number is larger than the data', function() {

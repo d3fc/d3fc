@@ -5,8 +5,8 @@ import bucket from './bucket';
 export default function() {
 
     var dataBucketer = bucket(),
-        xValue = identity,
-        yValue = identity;
+        x = identity,
+        y = identity;
 
     var largestTriangleOneBucket = function(data) {
 
@@ -53,27 +53,27 @@ export default function() {
     }
 
     function getXY(point) {
-        return [xValue(point), yValue(point)];
+        return [x(point), y(point)];
     }
 
     d3.rebind(largestTriangleOneBucket, dataBucketer, 'bucketSize');
 
-    largestTriangleOneBucket.xValue = function(x) {
+    largestTriangleOneBucket.x = function(d) {
         if (!arguments.length) {
-            return xValue;
+            return x;
         }
 
-        xValue = x;
+        x = d;
 
         return largestTriangleOneBucket;
     };
 
-    largestTriangleOneBucket.yValue = function(y) {
+    largestTriangleOneBucket.y = function(d) {
         if (!arguments.length) {
-            return yValue;
+            return y;
         }
 
-        yValue = y;
+        y = d;
 
         return largestTriangleOneBucket;
     };
