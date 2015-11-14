@@ -46,7 +46,7 @@ example-code: |
 
 The Largest Triangle One Bucket component subsamples data by calculating the largest areas between a data point and its immediate neighbours.
 
-The sampler requires both the `xValue` and `yValue` properties in order to generate calculate the area. You can configure the sampling frequency by setting the `bucketSize` property.
+The sampler requires both the `xValue` and `yValue` properties in order to calculate the area. You can configure the sampling frequency by setting the `bucketSize` property.
 
 The example below creates an array of 1,000 datapoints, sampling it using a bucket-size of 20:
 
