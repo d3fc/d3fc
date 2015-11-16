@@ -1,4 +1,4 @@
-describe('fc.data.sampler.largestTriangleThreeBucket', function() {
+describe('fc.data.sampler.largestTriangleOneBucket', function() {
 
     var data;
     var dataGenerator;
@@ -26,18 +26,18 @@ describe('fc.data.sampler.largestTriangleThreeBucket', function() {
                 { x: 15, y: 4 },
                 { x: 16, y: 5 } // Bucket 7
             ];
-            dataGenerator = fc.data.sampler.largestTriangleThreeBucket()
-                              .bucketSize(3)
-                              .x(function(d) { return d.x; })
-                              .y(function(d) { return d.y; });
+            dataGenerator = fc.data.sampler.largestTriangleOneBucket()
+                .bucketSize(3)
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; });
         });
 
-        it('should return the original data set if the bucket size is larger than the data', function() {
+        it('should return the original data set if the number is larger than the data', function() {
             var sampledData = dataGenerator.bucketSize(100)(data);
             expect(sampledData).toEqual(data);
         });
 
-        it('should return the correct number of data points if the bucket size is less than the data', function() {
+        it('should return the correct number of data points if the number is less than the data', function() {
             var sampledData = dataGenerator(data);
             expect(sampledData.length).toEqual(7);
         });
@@ -50,11 +50,11 @@ describe('fc.data.sampler.largestTriangleThreeBucket', function() {
 
         it('should return values that form the largest triangle in that bucket', function() {
             var sampledData = dataGenerator(data);
-            expect(sampledData[1].x).toEqual(1);
-            expect(sampledData[2].x).toEqual(4);
-            expect(sampledData[3].x).toEqual(7);
-            expect(sampledData[4].x).toEqual(11);
-            expect(sampledData[5].x).toEqual(15);
+            expect(sampledData[1].x).toEqual(3);
+            expect(sampledData[2].x).toEqual(5);
+            expect(sampledData[3].x).toEqual(8);
+            expect(sampledData[4].x).toEqual(12);
+            expect(sampledData[5].x).toEqual(14);
         });
 
     });
