@@ -46,7 +46,7 @@ example-code: |
 
 The Largest Triangle One Bucket component subsamples data by calculating the largest areas between a data point and its immediate neighbours.
 
-The sampler requires both the `x` and `y` properties in order to calculate the area. You can configure the sampling frequency by setting the `bucketSize` property. If you're dealing with irregularly spaced data, you can call the respective scales on the accessor functions to ensure the area calculated is more representative of the data being displayed, for example:
+The sampler requires both the `x` and `y` properties in order to calculate the area. You can configure the sampling frequency by setting the `bucketSize` property. As the Largest Triangle One Bucket sampler computes areas, if you have a non-linear or discontinuous scale, the values supplied to the sampler must be scaled accordingly. You can apply the respective scales in the accessor functions as follows:
 
 ```js
     var sampler = fc.data.sampler.largestTriangleOneBucket()
