@@ -34,12 +34,16 @@ export default function() {
 
     function calculateAreaOfPoints(data) {
 
+        var xyData = data.map(function(point) {
+            return [x(point), y(point)];
+        });
+
         var pointAreas = [];
 
-        for (var i = 1; i < data.length - 1; i++) {
-            var lastPoint = getXY(data[i - 1]);
-            var thisPoint = getXY(data[i]);
-            var nextPoint = getXY(data[i + 1]);
+        for (var i = 1; i < xyData.length - 1; i++) {
+            var lastPoint = xyData[i - 1];
+            var thisPoint = xyData[i];
+            var nextPoint = xyData[i + 1];
 
             var base = (lastPoint[0] - nextPoint[0]) * (thisPoint[1] - lastPoint[1]);
             var height = (lastPoint[0] - thisPoint[0]) * (nextPoint[1] - lastPoint[1]);
@@ -50,10 +54,6 @@ export default function() {
         }
 
         return pointAreas;
-    }
-
-    function getXY(point) {
-        return [x(point), y(point)];
     }
 
     d3.rebind(largestTriangleOneBucket, dataBucketer, 'bucketSize');
