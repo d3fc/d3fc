@@ -4,8 +4,8 @@ import bucket from './bucket';
 
 export default function() {
 
-    var xValue = identity,
-        yValue = identity,
+    var x = identity,
+        y = identity,
         dataBucketer = bucket();
 
     var largestTriangleThreeBucket = function(data) {
@@ -22,22 +22,22 @@ export default function() {
         // (for the next bucket average)
         var allBuckets = [].concat(firstBucket, buckets, lastBucket);
 
-        var lastSelectedX = xValue(firstBucket),
-            lastSelectedY = yValue(firstBucket);
+        var lastSelectedX = x(firstBucket),
+            lastSelectedY = y(firstBucket);
 
         var subsampledData = buckets.map(function(thisBucket, i) {
 
             var highestArea = -Infinity;
             var highestItem;
-            var nextAvgX = d3.mean(allBuckets[i + 1], xValue);
-            var nextAvgY = d3.mean(allBuckets[i + 1], yValue);
+            var nextAvgX = d3.mean(allBuckets[i + 1], x);
+            var nextAvgY = d3.mean(allBuckets[i + 1], y);
 
             for (var j = 0; j < thisBucket.length; j++) {
-                var x = xValue(thisBucket[j]),
-                    y = yValue(thisBucket[j]);
+                var thisX = x(thisBucket[j]),
+                    thisY = y(thisBucket[j]);
 
-                var base = (lastSelectedX - nextAvgX) * (y - lastSelectedY);
-                var height = (lastSelectedX - x) * (nextAvgY - lastSelectedY);
+                var base = (lastSelectedX - nextAvgX) * (thisY - lastSelectedY);
+                var height = (lastSelectedX - thisX) * (nextAvgY - lastSelectedY);
 
                 var area = Math.abs(0.5 * base * height);
 
@@ -47,8 +47,8 @@ export default function() {
                 }
             }
 
-            lastSelectedX = xValue(highestItem);
-            lastSelectedY = yValue(highestItem);
+            lastSelectedX = x(highestItem);
+            lastSelectedY = y(highestItem);
 
             return highestItem;
         });
@@ -59,22 +59,22 @@ export default function() {
 
     d3.rebind(largestTriangleThreeBucket, dataBucketer, 'bucketSize');
 
-    largestTriangleThreeBucket.xValue = function(x) {
+    largestTriangleThreeBucket.x = function(d) {
         if (!arguments.length) {
-            return xValue;
+            return x;
         }
 
-        xValue = x;
+        x = d;
 
         return largestTriangleThreeBucket;
     };
 
-    largestTriangleThreeBucket.yValue = function(y) {
+    largestTriangleThreeBucket.y = function(d) {
         if (!arguments.length) {
-            return yValue;
+            return y;
         }
 
-        yValue = y;
+        y = d;
 
         return largestTriangleThreeBucket;
     };

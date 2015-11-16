@@ -11,8 +11,8 @@ example-code: |
     // configure the sampler
     var sampler = fc.data.sampler.largestTriangleThreeBucket()
         .bucketSize(20)
-        .xValue(function(d) { return d.date; })
-        .yValue(function(d) { return d.low; });
+        .x(function(d) { return d.date; })
+        .y(function(d) { return d.low; });
 
     // sample the data
     var sampledData = sampler(data);
@@ -47,7 +47,14 @@ example-code: |
 
 The Largest Triangle Three Bucket sampling component is a method of subsampling data to improve performance with large data sets. The algorithm entails calculating the largest areas between a data point and its neighbouring buckets.
 
-The sampler requires both the `xValue` and `yValue` properties in order to calculate the area. You can configure the sampling frequency by setting the `bucketSize` property.
+The sampler requires both the `x` and `y` properties in order to calculate the area. You can configure the sampling frequency by setting the `bucketSize` property. If you're dealing with irregularly spaced data, you can call the respective scales on the accessor functions to ensure the area calculated is more representative of the data being displayed, for example:
+
+```js
+    var sampler = fc.data.sampler.largestTriangleThreeBucket()
+        .bucketSize(20)
+        .x(function(d) { return xScale(d.date); })
+        .y(function(d) { return yScale(d.low); });
+```
 
 The example below creates an array of 1,000 datapoints, sampling it using a bucket-size of 20:
 

@@ -10,8 +10,8 @@
 
     var subsampledData = fc.data.sampler.largestTriangleThreeBucket()
                 .bucketSize(dataPoints / subsampledDataPoints)
-                .xValue(function(d) { return d.x; })
-                .yValue(function(d) { return d.y; })
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; })
                 (data);
 
     var xScale = d3.scale.linear()
