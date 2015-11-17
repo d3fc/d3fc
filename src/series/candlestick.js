@@ -19,12 +19,6 @@ export default function() {
         return 'translate(' + values.x + ', ' + values.yHigh + ')';
     }
 
-    function xScaleFromCenter(width, scale) {
-        var center = width / 2;
-        var offset = center - scale * center;
-        return 'matrix(' + scale + ', 0, 0, 1, ' + offset + ', 0)';
-    }
-
     var candlestick = function(selection) {
 
         selection.each(function(data, index) {
@@ -33,17 +27,14 @@ export default function() {
 
             var g = dataJoin(this, filteredData);
 
-            var barWidth = base.width(filteredData);
-
             g.enter()
                 .attr('transform', function(d, i) {
-                    return containerTranslation(base.values(d, i)) +
-                        xScaleFromCenter(barWidth, 1e-6);
+                    return containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)';
                 })
                 .append('path');
 
             var pathGenerator = candlestickSvg()
-                .width(barWidth);
+                    .width(base.width(filteredData));
 
             g.each(function(d, i) {
 
@@ -52,10 +43,7 @@ export default function() {
                 var graph = d3.transition(d3.select(this))
                     .attr({
                         'class': 'candlestick ' + values.direction,
-                        'transform': function() {
-                            return containerTranslation(values) +
-                                xScaleFromCenter(barWidth, 1);
-                        }
+                        'transform': function() { return containerTranslation(values) + ' scale(1)'; }
                     });
 
                 pathGenerator.x(d3.functor(0))
