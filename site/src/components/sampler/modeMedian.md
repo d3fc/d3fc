@@ -44,7 +44,9 @@ example-code: |
 
 ---
 
-The mode-median sampling component is a method of subsampling data to improve performance with large data sets. The component take an array of data as an input, returning a smaller, sampled array. You can configure the sampling frequency by setting the `bucketSize` property.
+Mode-Median Bucket is a simple algorithm. Each bucket is analysed for the frequency of y-values. If there is a single most common value (mode) in the bucket, then that y-value is chosen to represent the bucket. If there are multiple values with the same frequency, then some tie-breaking is required to choose a mode (d3fc chooses the last mode it comes across). If there is no mode, however, the median is taken.
+
+The component takes an array of data as an input, returning a smaller, sampled array. You can configure the sampling frequency by setting the `bucketSize` property.
 
 The example below creates an array of 1,000 datapoints, sampling it using a bucket-size of 20:
 
