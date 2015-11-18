@@ -154,10 +154,15 @@ function layoutSelection(name, value) {
         } else if (argsLength === 1) {
             if (typeof name !== 'string') {
                 // layout(object) - sets the layout-style property to the given object
-                var styleObject = name;
-                var layoutCss = Object.keys(styleObject)
+                var currentStyle = parseStyle(this.getAttribute('layout-style'));
+                var styleDiff = name;
+                Object.keys(styleDiff)
+                    .forEach(function(property) {
+                        currentStyle[property] = styleDiff[property];
+                    });
+                var layoutCss = Object.keys(currentStyle)
                     .map(function(property) {
-                        return property + ':' + styleObject[property];
+                        return property + ':' + currentStyle[property];
                     })
                     .join(';');
                 this.setAttribute('layout-style', layoutCss);
