@@ -8,8 +8,22 @@
     <link href="../assets/d3fc.css" rel="stylesheet">
   </head>
   <body>
-    <div id="tooltip"></div>
-
+    <div id="tooltip" style="float: left;"></div>
+    <div id="strategies" style="float: right;">
+      Use Strategy:
+      <p>
+        <input type="radio" id="noop" name="strategy" value="noop" checked>
+        <label for="noop">No-op</label>
+      </p>
+      <p>
+        <input type="radio" id="bounding-box" name="strategy" value="bounding-box">
+        <label for="bounding-box">Bounding Box</label>
+      </p>
+      <p>
+        <input type="radio" id="greedy" name="strategy" value="greedy">
+        <label for="greedy">Greedy</label>
+      </p>
+    </div>
     <footer>
       <script src="../assets/d3.js"></script>
       <script src="../assets/css-layout.js"></script>
