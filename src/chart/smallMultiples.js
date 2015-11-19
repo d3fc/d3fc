@@ -4,7 +4,7 @@ import axis from '../svg/axis';
 import line from '../series/line';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 import {rebindAll, rebind} from '../util/rebind';
-import expandMargin from '../util/expandMargin';
+import expandRect from '../util/expandRect';
 import {setRange} from '../util/scale';
 import {noop} from '../util/fn';
 
@@ -46,7 +46,7 @@ export default function(xScale, yScale) {
 
             var container = d3.select(this);
 
-            var expandedMargin = expandMargin(margin);
+            var expandedMargin = expandRect(margin);
             expandedMargin.position = 'absolute';
 
             var svg = container.selectAll('svg')

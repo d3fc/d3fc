@@ -42,7 +42,7 @@
         var xDomain = series[0].values.map(function(d) { return d.x; });
 
         var tooltip = fc.chart.tooltip()
-            .labelWidth(70)
+            .split(70)
             .items(series.map(function(s) {
                 // NOTE: I expect this code to become a helper
                 return [
@@ -57,11 +57,9 @@
             .padding(10)
             .component(tooltip);
 
-        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.withinContainer())
-            .x(function(d) { return d.x; })
-            .y(50)
-            .width(200)
-            .height(100)
+        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.boundingBox())
+            .position([function(d) { return d.x; }, 50])
+            .size([200, 100])
             .component(tooltipContainer);
 
         var xScale = d3.scale.ordinal();

@@ -74,11 +74,9 @@
             .padding(5)
             .component(tooltip);
 
-        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.withinContainer())
-            .x(function(d) { return d.x; })
-            .y(function(d) { return d.y; })
-            .width(150)
-            .height(104)
+        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.boundingBox())
+            .position([function(d) { return d.x; }, function(d) { return d.y; }])
+            .size([150, 104])
             .component(tooltipContainer);
 
         var crosshairs = fc.tool.crosshair()

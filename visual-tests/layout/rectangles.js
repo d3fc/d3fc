@@ -152,8 +152,7 @@
     var smart = fc.layout.rectangles(strategy())
         .xScale(xScale)
         .yScale(yScale)
-        .width(itemWidth)
-        .height(itemHeight)
+        .size([itemWidth, itemHeight])
         .component(label);
 
     svg.datum(data)

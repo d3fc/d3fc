@@ -57,6 +57,20 @@ describe('flexbox layout', function() {
         expect(svgElement.getAttribute('height')).toEqual('300');
     });
 
+    it('should not set the x and y attributes of root svg elements', function() {
+        var div = document.createElement('div');
+        var svgElement = document.createElement('svg');
+        div.appendChild(svgElement);
+        document.body.appendChild(div);
+
+        var svg = d3.select(svgElement);
+
+        svg.layout(800, 300);
+
+        expect(svgElement.hasAttribute('x')).toBe(false);
+        expect(svgElement.hasAttribute('y')).toBe(false);
+    });
+
     it('should set the width / height of rect elements', function() {
         var div = document.createElement('div');
         var svgElement = document.createElement('svg');

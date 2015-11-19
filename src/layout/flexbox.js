@@ -59,18 +59,26 @@ function applyLayout(node, subtree) {
     node.element.setAttribute('layout-x', node.layout.left);
     node.element.setAttribute('layout-y', node.layout.top);
 
-    //for svg / rect set the position / dimensions via x/y/width/height properties
-    if (node.element.nodeName.match(/(?:svg|rect)/i)) {
+    var rectOrSvg = node.element.nodeName.match(/(?:svg|rect)/i);
+
+    //for svg / rect set the dimensions via width/height properties
+    if (rectOrSvg) {
         node.element.setAttribute('width', node.layout.width);
         node.element.setAttribute('height', node.layout.height);
+    }
+
+    //for non-root svg / rect set the offset via x/y properties
+    if (rectOrSvg && subtree) {
         node.element.setAttribute('x', node.layout.left);
         node.element.setAttribute('y', node.layout.top);
-    } else if (subtree) {
-        // for all other elements apply a transform
-        // NOTE do not transform the root node
+    }
+
+    // for all other non-root elements apply a transform
+    if (!rectOrSvg && subtree) {
         node.element.setAttribute('transform',
             'translate(' + node.layout.left + ', ' + node.layout.top + ')');
     }
+
     node.children.forEach(function(childNode) {
         applyLayout(childNode, true);
     });

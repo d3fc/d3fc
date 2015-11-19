@@ -1,5 +1,5 @@
-import withinContainer from './withinContainer';
+import boundingBox from './boundingBox';
 
 export default {
-    withinContainer: withinContainer
+    boundingBox: boundingBox
 };

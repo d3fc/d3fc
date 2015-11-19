@@ -13,8 +13,8 @@ export default function() {
         },
         decorate = noop;
 
-    var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
-        y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
+    var x = function(d) { return d.x; },
+        y = function(d) { return d.y; };
 
     var dataJoin = _dataJoin()
         .selector('g.fan')

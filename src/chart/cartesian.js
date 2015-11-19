@@ -4,7 +4,7 @@ import axis from '../series/axis';
 import '../layout/layout';
 import line from '../series/line';
 import dataJoin from '../util/dataJoin';
-import expandMargin from '../util/expandMargin';
+import expandRect from '../util/expandRect';
 import {noop} from '../util/fn';
 import {rebindAll} from '../util/rebind';
 import {isOrdinal, range, setRange} from '../util/scale';
@@ -93,7 +93,7 @@ export default function(xScale, yScale) {
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                 </g>');
 
-            var expandedMargin = expandMargin(margin);
+            var expandedMargin = expandRect(margin);
 
             svg.select('.plot-area-container')
                 .layout({

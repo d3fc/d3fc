@@ -4,7 +4,7 @@ import {noop} from '../util/fn';
 
 export default function() {
 
-    var labelWidth = 50,
+    var split = 50,
         decorate = noop;
 
     var items = [
@@ -38,10 +38,10 @@ export default function() {
 
             g.enter().append('text')
                 .attr('class', 'label')
-                .layout('flex', labelWidth);
+                .layout('flex', split);
             g.enter().append('text')
                 .attr('class', 'value')
-                .layout('flex', 100 - labelWidth);
+                .layout('flex', 100 - split);
 
             g.select('.label')
                 .text(function(d, i) {
@@ -67,11 +67,11 @@ export default function() {
         return tooltip;
     };
 
-    tooltip.labelWidth = function(x) {
+    tooltip.split = function(x) {
         if (!arguments.length) {
-            return labelWidth;
+            return split;
         }
-        labelWidth = x;
+        split = x;
         return tooltip;
     };
 

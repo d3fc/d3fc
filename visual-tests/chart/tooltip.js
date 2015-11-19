@@ -37,10 +37,8 @@
     var candlestick = fc.series.candlestick();
 
     var rectLayout = fc.layout.rectangles()
-        .x(20)
-        .y(20)
-        .width(100)
-        .height(70)
+        .position([20, 20])
+        .size([100, 70])
         .component(tooltip);
 
     var crosshair = fc.tool.crosshair()

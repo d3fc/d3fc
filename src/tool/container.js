@@ -1,28 +1,34 @@
 import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
-import expandMargin from '../util/expandMargin';
+import expandRect from '../util/expandRect';
 
 export default function() {
 
     var padding = 0,
-        component = noop;
+        component = noop,
+        decorate = noop;
 
     var dataJoin = dataJoinUtil()
         .selector('g.container')
         .element('g')
-        .attr({'class': 'container', 'layout-style': 'flex: 1'});
+        .attr({
+            'class': 'container',
+            'layout-style': 'flex: 1'
+        });
 
     var container = function(selection) {
         selection.each(function(data, index) {
-            var expandedPadding = expandMargin(padding);
+            var expandedPadding = expandRect(padding);
 
             var g = dataJoin(this, [data]);
 
-            g.enter().append('rect')
+            g.enter()
+                .append('rect')
                 .layout('flex', 1);
-            g.enter().append('g')
-                .attr('class', 'inner')
+
+            g.enter()
+                .append('g')
                 .layout({
                     position: 'absolute',
                     top: expandedPadding.top,
@@ -33,8 +39,18 @@ export default function() {
 
             d3.select(this).layout();
 
-            g.select('.inner').call(component);
+            g.select('g').call(component);
+
+            decorate(g, data, index);
         });
+    };
+
+    container.decorate = function(x) {
+        if (!arguments.length) {
+            return decorate;
+        }
+        decorate = x;
+        return container;
     };
 
     container.padding = function(x) {
