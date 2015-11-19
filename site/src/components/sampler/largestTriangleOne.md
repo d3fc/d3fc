@@ -18,7 +18,7 @@ example-code: |
     var sampledData = sampler(data);
 
     xScale.domain(fc.util.extent().fields('date')(sampledData))
-    yScale.domain(fc.utli.extent().fields('low')(sampledData));
+    yScale.domain(fc.util.extent().fields('low')(sampledData));
 
     // render the sampled data
     var sampledLine = fc.series.line()
