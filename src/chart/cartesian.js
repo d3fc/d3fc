@@ -77,17 +77,17 @@ export default function(xScale, yScale) {
                     <svg class="plot-area" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                 </g> \
-                <g class="x-axis label"> \
+                <g class="x-axis label-container"> \
                     <g layout-style="height: 0; width: 0"> \
                         <text class="label"/> \
                     </g> \
                 </g> \
-                <g class="y-axis label"> \
+                <g class="y-axis label-container"> \
                     <g layout-style="height: 0; width: 0"> \
                         <text class="label"/> \
                     </g> \
                 </g> \
-                <g class="title"> \
+                <g class="title label-container"> \
                     <g layout-style="height: 0; width: 0"> \
                         <text class="label"/> \
                     </g> \
@@ -121,7 +121,7 @@ export default function(xScale, yScale) {
                 flexDirection: 'row'
             };
             yAxisLayout[yAxis.orient()] = 0;
-            svg.select('.y-axis.label')
+            svg.select('.y-axis.label-container')
                 .attr('class', 'y-axis ' + yAxis.orient())
                 .layout(yAxisLayout);
 
@@ -132,7 +132,7 @@ export default function(xScale, yScale) {
                 alignItems: 'center'
             };
             xAxisLayout[xAxis.orient()] = 0;
-            svg.select('.x-axis.label')
+            svg.select('.x-axis.label-container')
                 .attr('class', 'x-axis ' + xAxis.orient())
                 .layout(xAxisLayout);
 
