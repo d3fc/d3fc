@@ -16,6 +16,14 @@ describe('flexbox layout', function() {
         expect(svg.getAttribute('layout-style')).toEqual('height:30;flexDirection:row');
     });
 
+    it('should modify already set attributes when given an object', function() {
+        var svg = document.createElement('svg');
+        d3.select(svg).layout({'height': 30, 'flexDirection': 'row'});
+        expect(svg.getAttribute('layout-style')).toEqual('height:30;flexDirection:row');
+        d3.select(svg).layout({'height': 100, 'width': 90});
+        expect(svg.getAttribute('layout-style')).toEqual('height:100;flexDirection:row;width:90');
+    });
+
     it('should provide access to layout- prefixed properties', function() {
         var svg = document.createElement('svg');
         svg.setAttribute('layout-width', '30');
