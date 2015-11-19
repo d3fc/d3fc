@@ -35,13 +35,36 @@
 
         var series = stack(spread(data));
         series.seriesType = seriesType;
+        series.crosshair = [];
 
         var extent = fc.util.extent().include(0);
         var yDomain = extent.fields(function(d) { return d.y + d.y0; })(series.map(function(d) { return d.values; }));
         var xDomain = series[0].values.map(function(d) { return d.x; });
 
+        var tooltip = fc.chart.tooltip()
+            .split(70)
+            .items(series.map(function(s) {
+                // NOTE: I expect this code to become a helper
+                return [
+                    s.key,
+                    function(c) {
+                        return d3.format('0,000')(c.datum[s.key]);
+                    }
+                ];
+            }));
+
+        var tooltipContainer = fc.tool.container()
+            .padding(10)
+            .component(tooltip);
+
+        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.boundingBox())
+            .position([function(d) { return d.x; }, 50])
+            .size([200, 100])
+            .component(tooltipContainer);
+
+        var xScale = d3.scale.ordinal();
         var chart = fc.chart.cartesian(
-                d3.scale.ordinal(),
+                xScale,
                 d3.scale.linear())
             .xDomain(xDomain)
             .yDomain(yDomain)
@@ -50,14 +73,53 @@
         var stackedBar = fc.series.stacked[seriesType]()
             .xValue(function(d) { return d.x; });
 
+        var crosshair = fc.tool.crosshair()
+            .snap(function(xPixel, yPixel) {
+                // NOTE: This code will eventually become another 'snap' helper
+                var xValue = stackedBar.xValue();
+                var nearest = series[0].values.map(function(d, i) {
+                    var diff = Math.abs(xPixel - xScale(xValue(d)));
+                    return [diff, d, i];
+                })
+                .reduce(function(accumulator, value) {
+                    return accumulator[0] > value[0] ? value : accumulator;
+                }, [Number.MAX_VALUE, null]);
+
+                var datum = {};
+                series.forEach(function(d) {
+                    datum[d.key] = d.values[nearest[2]].y;
+                });
+
+                return {
+                    datum: datum,
+                    x: stackedBar.xScale()(xValue(nearest[1])),
+                    y: yPixel
+                };
+            })
+            .on('trackingmove', render)
+            .on('trackingstart', render)
+            .on('trackingend', render);
+
         var multi = fc.series.multi()
-            .key(function(d) { return d.seriesType; })
-            .series([stackedBar]);
+            //.key(function(d) { return d.seriesType; })
+            .series([stackedBar, tooltipLayout, crosshair])
+            .mapping(function(s) {
+                switch (s) {
+                case stackedBar:
+                    return this;
+                case crosshair:
+                case tooltipLayout:
+                    return this.crosshair;
+                }
+            });
 
         chart.plotArea(multi);
 
-        container.datum(series)
-            .call(chart);
+        function render() {
+            container.datum(series)
+                .call(chart);
+        }
+        render();
     }
 
     d3.csv('stackedBarData.csv', function(error, data) {

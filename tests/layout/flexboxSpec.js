@@ -1,4 +1,4 @@
-describe('layout', function() {
+describe('flexbox layout', function() {
 
     it('should allow attributes to be set as name / value pairs', function() {
         var svg = document.createElement('svg');
@@ -57,6 +57,20 @@ describe('layout', function() {
         expect(svgElement.getAttribute('height')).toEqual('300');
     });
 
+    it('should not set the x and y attributes of root svg elements', function() {
+        var div = document.createElement('div');
+        var svgElement = document.createElement('svg');
+        div.appendChild(svgElement);
+        document.body.appendChild(div);
+
+        var svg = d3.select(svgElement);
+
+        svg.layout(800, 300);
+
+        expect(svgElement.hasAttribute('x')).toBe(false);
+        expect(svgElement.hasAttribute('y')).toBe(false);
+    });
+
     it('should set the width / height of rect elements', function() {
         var div = document.createElement('div');
         var svgElement = document.createElement('svg');
@@ -75,7 +89,7 @@ describe('layout', function() {
         expect(rect.node().getAttribute('height')).toEqual('300');
     });
 
-    it('should should perform layout on selections containing multiple elements', function() {
+    it('should perform layout on selections containing multiple elements', function() {
         var div = document.createElement('div');
         var svgElement1 = document.createElement('svg');
         var svgElement2 = document.createElement('svg');
@@ -163,6 +177,13 @@ describe('layout', function() {
             .layout();
         expect(svg.hasAttribute('layout-width')).toBe(false);
         expect(svg.hasAttribute('layout-height')).toBe(false);
+    });
+
+    it('should not apply a transform to the root node', function() {
+        var g = document.createElement('g');
+        d3.select(g)
+            .layout();
+        expect(g.hasAttribute('transform')).toBe(false);
     });
 
     it('should not re-position nodes within a nested layout', function() {

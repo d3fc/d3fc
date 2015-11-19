@@ -1,5 +1,5 @@
 import dataJoin from './dataJoin';
-import expandMargin from './expandMargin';
+import expandRect from './expandRect';
 import extent from './extent';
 import * as fn from './fn';
 import fractionalBarWidth from './fractionalBarWidth';
@@ -8,10 +8,11 @@ import {rebind, rebindAll} from './rebind';
 import * as scale from './scale';
 import {noSnap, pointSnap, seriesPointSnap, seriesPointSnapXOnly, seriesPointSnapYOnly} from './snap';
 import render from './render';
+import arrayFunctor from './arrayFunctor';
 
 export default {
     dataJoin: dataJoin,
-    expandMargin: expandMargin,
+    expandRect: expandRect,
     extent: extent,
     fn: fn,
     fractionalBarWidth: fractionalBarWidth,
@@ -24,5 +25,6 @@ export default {
     seriesPointSnap: seriesPointSnap,
     seriesPointSnapXOnly: seriesPointSnapXOnly,
     seriesPointSnapYOnly: seriesPointSnapYOnly,
-    render: render
+    render: render,
+    arrayFunctor: arrayFunctor
 };

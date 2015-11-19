@@ -15,23 +15,10 @@ describe('fc.util.snap', function() {
             noSnap = fc.util.noSnap(xScale, yScale);
         });
 
-        it('should work for scales with invert', function() {
+        it('should not offset the input values', function() {
             expect(noSnap(4, 4)).toEqual({
                 x: 4,
-                xInDomainUnits: true,
-                y: 4,
-                yInDomainUnits: true
-            });
-        });
-
-        it('should work for scales without invert', function() {
-            xScale.invert = null;
-            yScale.invert = null;
-            expect(noSnap(4, 4)).toEqual({
-                x: 4,
-                xInDomainUnits: false,
-                y: 4,
-                yInDomainUnits: false
+                y: 4
             });
         });
     });
@@ -56,33 +43,16 @@ describe('fc.util.snap', function() {
             expect(pointSnap(4, 4)).toEqual({
                 datum: null,
                 x: 4,
-                xInDomainUnits: false,
-                y: 4,
-                yInDomainUnits: false
+                y: 4
             });
         });
 
-        it('should work for scales with invert', function() {
+        it('should work with data', function() {
             var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);
             expect(pointSnap(4, 4)).toEqual({
                 datum: [5, 5],
                 x: 5,
-                xInDomainUnits: true,
-                y: 5,
-                yInDomainUnits: true
-            });
-        });
-
-        it('should work for scales without invert', function() {
-            xScale.invert = null;
-            yScale.invert = null;
-            var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);
-            expect(pointSnap(4, 4)).toEqual({
-                datum: [5, 5],
-                x: 5,
-                xInDomainUnits: true,
-                y: 5,
-                yInDomainUnits: true
+                y: 5
             });
         });
     });

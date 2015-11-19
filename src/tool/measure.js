@@ -16,8 +16,8 @@ export default function() {
         yLabel = d3.functor(''),
         padding = d3.functor(2);
 
-    var x = function(d) { return d.xInDomainUnits ? xScale(d.x) : d.x; },
-        y = function(d) { return d.yInDomainUnits ? yScale(d.y) : d.y; };
+    var x = function(d) { return d.x; },
+        y = function(d) { return d.y; };
 
     var dataJoin = _dataJoin()
         .selector('g.measure')
