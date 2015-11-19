@@ -66,22 +66,7 @@ export default function(xScale, yScale) {
 
             var svg = containerDataJoin(container, [data]);
             svg.enter().html(
-                '<g class="title"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g> \
-                <g class="y-axis"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g> \
-                <g class="x-axis"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g> \
-                <g class="plot-area-container"> \
+                '<g class="plot-area-container"> \
                     <rect class="background" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
                     <g class="axes-container" \
@@ -91,6 +76,21 @@ export default function(xScale, yScale) {
                     </g> \
                     <svg class="plot-area" \
                         layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
+                </g> \
+                <g class="x-axis label-container"> \
+                    <g layout-style="height: 0; width: 0"> \
+                        <text class="label"/> \
+                    </g> \
+                </g> \
+                <g class="y-axis label-container"> \
+                    <g layout-style="height: 0; width: 0"> \
+                        <text class="label"/> \
+                    </g> \
+                </g> \
+                <g class="title label-container"> \
+                    <g layout-style="height: 0; width: 0"> \
+                        <text class="label"/> \
+                    </g> \
                 </g>');
 
             var expandedMargin = expandRect(margin);
@@ -121,7 +121,7 @@ export default function(xScale, yScale) {
                 flexDirection: 'row'
             };
             yAxisLayout[yAxis.orient()] = 0;
-            svg.select('.y-axis')
+            svg.select('.y-axis.label-container')
                 .attr('class', 'y-axis ' + yAxis.orient())
                 .layout(yAxisLayout);
 
@@ -132,7 +132,7 @@ export default function(xScale, yScale) {
                 alignItems: 'center'
             };
             xAxisLayout[xAxis.orient()] = 0;
-            svg.select('.x-axis')
+            svg.select('.x-axis.label-container')
                 .attr('class', 'x-axis ' + xAxis.orient())
                 .layout(xAxisLayout);
 
