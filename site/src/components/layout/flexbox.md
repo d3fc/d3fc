@@ -1,7 +1,7 @@
 ---
 layout: component
-title: Flexbox Layout
-component: layout/layout.js
+title: Flexbox
+component: layout/flexbox.js
 namespace: layout
 
 example-html: |
@@ -44,7 +44,7 @@ example-code: |
     );
 ---
 
-The layout functionality allows you to structure your SVG using CSS Flexbox. This removes much of the manual layout calculations that are typically required for D3 charts, [as described in this blog post](http://blog.scottlogic.com/2015/02/02/svg-layout-flexbox.html).
+The flexbox layout functionality allows you to structure your SVG using CSS Flexbox. This removes much of the manual layout calculations that are typically required for D3 charts, [as described in this blog post](http://blog.scottlogic.com/2015/02/02/svg-layout-flexbox.html).
 
 In order to use this layout approach, add the `layout-style` attribute to the elements within your `SVG` container (note the camel-cased property names). This component uses Facebook's css-layout project, which re-implements flexbox in JavaScript, [refer to their project page](https://github.com/facebook/css-layout) for supported properties.
 
