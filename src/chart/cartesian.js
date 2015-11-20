@@ -122,7 +122,7 @@ export default function(xScale, yScale) {
             };
             yAxisLayout[yAxis.orient()] = 0;
             svg.select('.y-axis.label-container')
-                .attr('class', 'y-axis ' + yAxis.orient())
+                .attr('class', 'y-axis label-container ' + yAxis.orient())
                 .layout(yAxisLayout);
 
             var xAxisLayout = {
@@ -133,7 +133,7 @@ export default function(xScale, yScale) {
             };
             xAxisLayout[xAxis.orient()] = 0;
             svg.select('.x-axis.label-container')
-                .attr('class', 'x-axis ' + xAxis.orient())
+                .attr('class', 'x-axis label-container ' + xAxis.orient())
                 .layout(xAxisLayout);
 
             // perform the flexbox / css layout
@@ -143,11 +143,11 @@ export default function(xScale, yScale) {
             svg.select('.title .label')
                 .text(chartLabel);
 
-            svg.select('.y-axis .label')
+            svg.select('.y-axis.label-container .label')
                 .text(yLabel)
                 .attr('transform', yAxis.orient() === 'right' ? 'rotate(90)' : 'rotate(-90)');
 
-            svg.select('.x-axis .label')
+            svg.select('.x-axis.label-container .label')
                 .text(xLabel);
 
             // set the axis ranges
