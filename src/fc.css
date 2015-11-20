@@ -122,13 +122,13 @@ text {
 }
 
 /* Series Type Defaults */
-.candlestick {
+.candlestick, .waterfall {
   stroke: #000;
 }
-.candlestick.down {
+.candlestick.down, .waterfall.down {
   fill: #c60;
 }
-.candlestick.up {
+.candlestick.up, .waterfall.up {
   fill: #6c0;
 }
 
