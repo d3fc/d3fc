@@ -104,14 +104,14 @@
             .decorate(function(selection, data) {
                 var selectionEnter = selection.enter();
 
-                selectionEnter.select('.x-axis > g')
+                selectionEnter.select('.x-axis.label-container > g')
                     .layout({
                       'position': 'absolute',
                       'right': 0,
                       'bottom': 26
                     });
 
-                selectionEnter.select('.y-axis > g')
+                selectionEnter.select('.y-axis.label-container > g')
                     .layout({
                       'position': 'absolute',
                       'top': 0,
