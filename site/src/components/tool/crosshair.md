@@ -58,7 +58,7 @@ example-code-2: |
   // create an array which will hold the crosshair datapoint
   var crosshairData = [];
 
-  // use a multi-series to render both the line and crosshair
+  // use a multi-series to render both the line, crosshair and tooltip
   var multi = fc.series.multi()
     .series([line, crosshair, tooltipLayout])
     .xScale(xScale)

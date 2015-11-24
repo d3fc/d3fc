@@ -49,7 +49,7 @@ example-code: |
   svg.datum(data)
       .call(layout);
 ---
-The rectangles layout component provides a mechanism for child components based on rectangular bounding boxes. It is typically used to render tooltips or labels on a chart.
+The rectangles layout component provides a mechanism for arranging child components based on their rectangular bounding boxes. It is typically used to render tooltips or labels on a chart.
 
 The component has `xScale` and `yScale` properties which it uses to determine the width and height of the overall container. Typically this component would be used with a [multi series](/components/series/multi.html) within a [cartesian chart](/components/chart/cartesian.html) hence these properties would not need to be set directly.
 

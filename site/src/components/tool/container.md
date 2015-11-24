@@ -6,8 +6,8 @@ namespace: tool
 
 example-code: |
   var tooltipContainer = fc.tool.container()
-        .padding(5)
-        .component(tooltip);
+      .padding(5)
+      .component(tooltip);
 
 ---
 

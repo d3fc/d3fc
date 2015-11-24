@@ -28,7 +28,7 @@ example-code: |
     .call(tooltip);
 ---
 
-The tooltip component renders the bound data is a table, where the mapping from the data to the tabular form is expressed via the `items` property as demonstrated below:
+The tooltip component renders the bound data as a table, where the mapping from the data to the tabular form is expressed via the `items` property as demonstrated below:
 
 ```js
 {{{example-code}}}
@@ -39,7 +39,7 @@ Which results in the following:
 <svg id="tooltip"> </svg>
 <script type="text/javascript">
 (function() {
-  {{{example-code}}}
+    {{{example-code}}}
 }());
 </script>
 
