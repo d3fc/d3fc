@@ -1,92 +1,55 @@
 ---
 layout: component
 title: Legend
-component: chart/legend.js
 namespace: chart
 
-example-fixture: |
-
-  <div id="legend" style="margin:15px;"></div>
-
 example-code: |
-  function renderLegendComponent() {
-  
-      var datum = {
-          close: 50.00,
-          open: 50.00,
-          high: 50.00,
-          low: 50.00
-      };
-  
-      var priceFormat = d3.format('.3f');
-      var legend = fc.chart.legend()
-          .items([
-              ['open', function (d) {
-                  return priceFormat(d.open);
-              }],
-              ['high', function (d) {
-                  return priceFormat(d.high);
-              }],
-              ['low', function (d) {
-                  return priceFormat(d.low);
-              }],
-              ['close', function (d) {
-                  return priceFormat(d.close);
-              }]
-          ])
-          .rowDecorate(function (sel) {
-              sel.select('td')
-                  .style('color', function (d, i) {
-                      return (d.datum.close - Math.floor(d.datum.close)) 
-                      > 0.5 ? 'green' : 'red';
-                  });
-          })
-          .tableDecorate(function (sel) {
-              sel.enter()
-                  .insert('tr', ':first-child')
-                  .append('th')
-                  .attr('colspan', 2)
-                  .text('Dynamic Legend');
-          });
-  
-      function renderLegend() {
-          function updateField(datum, fieldName) {
-              datum[fieldName] = datum[fieldName] + Math.random() * 4 - 2;
-          }
-  
-          updateField(datum, 'open');
-          updateField(datum, 'close');
-          updateField(datum, 'high');
-          updateField(datum, 'low');
-  
-          d3.select('#legend')
-              .data([datum])
-              .call(legend);
-      }
-  
-      renderLegend();
-      setInterval(renderLegend(), 1000);
-  }
-  
-  renderLegendComponent();
+  // create a scale
+  var color = d3.scale.category10()
+    .domain(['Cat', 'Dog', 'Fish']);
+
+  // construct a legend for this scale
+  var legend = d3.legend.color()
+    .scale(color);
+
+  // create a container
+  var legendContainer = fc.tool.container()
+      .padding(5)
+      .component(legend);
+
+  // create an SVG container
+  var width = 60, height = 60;
+  var svg = d3.select('#legend')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height);
+
+  // render
+  svg.call(legendContainer);
 ---
 
-The `legend` component creates a simple legend panel for any chart. The content is controlled by setting the `items` property, to an array consisting of headers and data (which can be either static values or dynamic functions). The component can be styled using `tableDecorate` property (using the [decorate pattern](../introduction/2-decorate-pattern.html)). Should you want to have a table header, it can also be done using this property.
+<style>
+.container>rect {
+  fill: white;
+  stroke: #bbb;
+}
+</style>
 
-The following example show a standalone `legend` using dynamically generated data. For an example of using a legend within a chart, please see the [Yahoo finance example](../../examples/yahoo-finance-chart/).
+Rather than write our own d3fc legend, we discovered that someone had already [created a pretty awesome one](http://d3-legend.susielu.com), so we decided to integrate that one instead! This project uses the `d3-svg-legend`, component which is included in the d3fc bundle.
 
+The d3-legend doesn't render a background, although this can easily be added via the [container component](/components/tool/container.html).
 
-{{{example-fixture}}}
+The d3-legend is constructed from a scale as shown below:
 
 ```js
 {{{example-code}}}
 ```
 
-
-
+<div id="legend"></div>
 <script type="text/javascript">
 (function() {
-  {{{example-code}}}
+    {{{example-code}}}
 }());
 </script>
 
+For further details regarding the extensive API of this component, consult the [project homepage](http://d3-legend.susielu.com).
