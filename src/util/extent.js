@@ -55,12 +55,25 @@ export default function() {
         var max = dataMax;
 
         if (symmetricalAbout != null) {
-            var distanceFromMax = Math.abs(max - symmetricalAbout),
-                distanceFromMin = Math.abs(min - symmetricalAbout),
-                halfRange = Math.max(distanceFromMax, distanceFromMin);
+            if (typeof min === 'number' && typeof max === 'number') {
+                var distanceFromMax = Math.abs(max - symmetricalAbout),
+                    distanceFromMin = Math.abs(min - symmetricalAbout),
+                    halfRange = Math.max(distanceFromMax, distanceFromMin);
 
-            min = symmetricalAbout - halfRange;
-            max = symmetricalAbout + halfRange;
+                min = symmetricalAbout - halfRange;
+                max = symmetricalAbout + halfRange;
+            } else if (Object.prototype.toString.call(symmetricalAbout) === '[object Date]') {
+                var oldMinTime = min.getTime();
+                var oldMaxTime = max.getTime();
+                var symmetricalAboutTime = symmetricalAbout.getTime();
+
+                var distanceFromMaxTime = Math.abs(oldMaxTime - symmetricalAboutTime),
+                    distanceFromMinTime = Math.abs(oldMinTime - symmetricalAboutTime),
+                    halfRangeTime = Math.max(distanceFromMaxTime, distanceFromMinTime);
+
+                min = new Date(symmetricalAboutTime - halfRangeTime);
+                max = new Date(symmetricalAboutTime + halfRangeTime);
+            }
         }
 
         var delta;

@@ -138,6 +138,17 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([new Date(2014, 0, 5), new Date(2014, 0, 25)]);
     });
 
+    it('should calculate symmetry about dates', function() {
+        var date1 = new Date(2014, 0, 10);
+        var date2 = new Date(2014, 0, 20);
+        var data = [{ date: date1 }, { date: date2 }];
+
+        var extents = fc.util.extent()
+            .fields('date')
+            .symmetricalAbout(new Date(2014, 0, 14))(data);
+        expect(extents).toEqual([new Date(2014, 0, 8), new Date(2014, 0, 20)]);
+    });
+
     it('should calculate symmetry, pad, and then include the extra point in the range', function() {
         var data = [obj(8), obj(13)];
 
