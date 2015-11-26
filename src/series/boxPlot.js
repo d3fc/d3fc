@@ -40,8 +40,8 @@ export default function() {
 
                 pathGenerator
                     .x(values.x)
-                    .errorHigh(values.errorHigh)
-                    .errorLow(values.errorLow)
+                    .whiskerHigh(values.whiskerHigh)
+                    .whiskerLow(values.whiskerLow)
                     .y(values.y);
 
                 gboxPlot.select('path')

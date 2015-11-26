@@ -7,8 +7,8 @@ export default function() {
         y = function(d, i) { return d.y; },
         boxHigh = function(d, i) { return d.boxHigh; },
         boxLow = function(d, i) { return d.boxLow; },
-        errorHigh = function(d, i) { return d.errorHigh; },
-        errorLow = function(d, i) { return d.errorLow; },
+        whiskerHigh = function(d, i) { return d.whiskerHigh; },
+        whiskerLow = function(d, i) { return d.whiskerLow; },
         orient = 'vertical',
         barWidth = d3.functor(5);
 
@@ -16,26 +16,26 @@ export default function() {
 
         return data.map(function(d, i) {
             var halfWidth = barWidth(d, i) / 2,
-                errorTotal = errorHigh(d, i) - errorLow(d, i),
-                yBottom = y(d, i) - errorLow(d, i),
-                yTop = errorHigh(d, i) - y(d, i),
-                xBottom = x(d, i) - errorLow(d, i),
-                xTop = errorHigh(d, i) - x(d, i);
+                whiskerTotal = whiskerHigh(d, i) - whiskerLow(d, i),
+                yBottom = y(d, i) - whiskerLow(d, i),
+                yTop = whiskerHigh(d, i) - y(d, i),
+                xBottom = x(d, i) - whiskerLow(d, i),
+                xTop = whiskerHigh(d, i) - x(d, i);
 
-            var errorVertical = '';
-            var errorHorizontal = '';
+            var whiskerVertical = '';
+            var whiskerHorizontal = '';
 
             if (orient === 'vertical') {
                 var horizontalBar = 'h' + (-halfWidth) + 'h' + (2 * halfWidth) + 'h' + (-halfWidth),
-                    verticalToHigh = 'v' + (-errorTotal);
-                errorVertical = 'M0,' + yBottom + horizontalBar + verticalToHigh + horizontalBar + 'M0,' + yTop;
+                    verticalToHigh = 'v' + (-whiskerTotal);
+                whiskerVertical = 'M0,' + yBottom + horizontalBar + verticalToHigh + horizontalBar + 'M0,' + yTop;
             } else {
                 var verticalBar = 'v' + (-halfWidth) + 'v' + (2 * halfWidth) + 'v' + (-halfWidth),
-                    horizontalToHigh = 'h' + (-errorTotal);
-                errorHorizontal = 'M' + xBottom + ',0' + verticalBar + horizontalToHigh + verticalBar + 'M' + xTop + ',0';
+                    horizontalToHigh = 'h' + (-whiskerTotal);
+                whiskerHorizontal = 'M' + xBottom + ',0' + verticalBar + horizontalToHigh + verticalBar + 'M' + xTop + ',0';
             }
 
-            return errorVertical + errorHorizontal;
+            return whiskerVertical + whiskerHorizontal;
         })
         .join('');
     };
@@ -68,18 +68,18 @@ export default function() {
         boxLow = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.errorHigh = function(_x) {
+    boxPlot.whiskerHigh = function(_x) {
         if (!arguments.length) {
-            return errorHigh;
+            return whiskerHigh;
         }
-        errorHigh = d3.functor(_x);
+        whiskerHigh = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.errorLow = function(_x) {
+    boxPlot.whiskerLow = function(_x) {
         if (!arguments.length) {
-            return errorLow;
+            return whiskerLow;
         }
-        errorLow = d3.functor(_x);
+        whiskerLow = d3.functor(_x);
         return boxPlot;
     };
     boxPlot.barWidth = function(_x) {

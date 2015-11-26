@@ -6,8 +6,8 @@ export default function() {
         yScale = d3.scale.linear(),
         boxHigh = d3.functor(0),
         boxLow = d3.functor(0),
-        errorHigh = d3.functor(0),
-        errorLow = d3.functor(0),
+        whiskerHigh = d3.functor(0),
+        whiskerLow = d3.functor(0),
         xValue = function(d, i) { return d.date; },
         yValue = function(d, i) { return d.close; },
         orient = 'vertical',
@@ -34,8 +34,8 @@ export default function() {
                 y: yScale(yValue(d, i)),
                 boxHigh: yScale(bowHigh(d, i)),
                 boxLow: yScale(boxLow(d, i)),
-                errorHigh: yScale(errorHigh(d, i)),
-                errorLow: yScale(errorLow(d, i))
+                whiskerHigh: yScale(whiskerHigh(d, i)),
+                whiskerLow: yScale(whiskerLow(d, i))
             };
         } else {
             return {
@@ -43,13 +43,13 @@ export default function() {
                 y: yScale(yValue(d, i)),
                 boxHigh: xScale(bowHigh(d, i)),
                 boxLow: xScale(boxLow(d, i)),
-                errorHigh: xScale(errorHigh(d, i)),
-                errorLow: xScale(errorLow(d, i))
+                whiskerHigh: xScale(whiskerHigh(d, i)),
+                whiskerLow: xScale(whiskerLow(d, i))
             };
         }
     };
     base.defined = function(d, i) {
-        return errorLow(d, i) != null && errorHigh(d, i) != null
+        return whiskerLow(d, i) != null && whiskerHigh(d, i) != null
                 && boxLow(d, i) != null && boxHigh(d, i) != null
             && xValue(d, i) != null && yValue(d, i) != null;
     };
@@ -89,18 +89,18 @@ export default function() {
         boxHigh = d3.functor(x);
         return base;
     };
-    base.errorLow = function(x) {
+    base.whiskerLow = function(x) {
         if (!arguments.length) {
-            return errorLow;
+            return whiskerLow;
         }
-        errorLow = d3.functor(x);
+        whiskerLow = d3.functor(x);
         return base;
     };
-    base.errorHigh = function(x) {
+    base.whiskerHigh = function(x) {
         if (!arguments.length) {
-            return errorHigh;
+            return whiskerHigh;
         }
-        errorHigh = d3.functor(x);
+        whiskerHigh = d3.functor(x);
         return base;
     };
     base.xValue = function(x) {
