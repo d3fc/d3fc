@@ -2,6 +2,7 @@ import dataJoin from './dataJoin';
 import expandRect from './expandRect';
 import extent from './extent';
 import * as fn from './fn';
+import minimum from './minimum';
 import fractionalBarWidth from './fractionalBarWidth';
 import innerDimensions from './innerDimensions';
 import {rebind, rebindAll} from './rebind';
@@ -15,6 +16,7 @@ export default {
     expandRect: expandRect,
     extent: extent,
     fn: fn,
+    minimum: minimum,
     fractionalBarWidth: fractionalBarWidth,
     innerDimensions: innerDimensions,
     rebind: rebind,
