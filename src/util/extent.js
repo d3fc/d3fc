@@ -51,48 +51,26 @@ export default function() {
             });
         });
 
-        var min = dataMin;
-        var max = dataMax;
+        var dateExtent = Object.prototype.toString.call(dataMin) === '[object Date]';
 
+        var min = dateExtent ? dataMin.getTime() : dataMin;
+        var max = dateExtent ? dataMax.getTime() : dataMax;
+
+        // apply symmetry rules
         if (symmetricalAbout != null) {
-            if (typeof min === 'number' && typeof max === 'number') {
-                var distanceFromMax = Math.abs(max - symmetricalAbout),
-                    distanceFromMin = Math.abs(min - symmetricalAbout),
-                    halfRange = Math.max(distanceFromMax, distanceFromMin);
+            var symmetrical = dateExtent ? symmetricalAbout.getTime() : symmetricalAbout;
+            var distanceFromMax = Math.abs(max - symmetrical),
+                distanceFromMin = Math.abs(min - symmetrical),
+                halfRange = Math.max(distanceFromMax, distanceFromMin);
 
-                min = symmetricalAbout - halfRange;
-                max = symmetricalAbout + halfRange;
-            } else if (Object.prototype.toString.call(symmetricalAbout) === '[object Date]') {
-                var oldMinTime = min.getTime();
-                var oldMaxTime = max.getTime();
-                var symmetricalAboutTime = symmetricalAbout.getTime();
-
-                var distanceFromMaxTime = Math.abs(oldMaxTime - symmetricalAboutTime),
-                    distanceFromMinTime = Math.abs(oldMinTime - symmetricalAboutTime),
-                    halfRangeTime = Math.max(distanceFromMaxTime, distanceFromMinTime);
-
-                min = new Date(symmetricalAboutTime - halfRangeTime);
-                max = new Date(symmetricalAboutTime + halfRangeTime);
-            }
+            min = symmetrical - halfRange;
+            max = symmetrical + halfRange;
         }
 
-        var delta;
-
-        // Scale the range for the given padding
-        if (typeof min === 'number' && typeof max === 'number') {
-            delta = padding * (max - min) / 2;
-
-            min -= delta;
-            max += delta;
-        } else if (Object.prototype.toString.call(min) === '[object Date]') {
-            var oldMin = min.getTime();
-            var oldMax = max.getTime();
-
-            delta = padding * (oldMax - oldMin) / 2;
-
-            min = new Date(oldMin - delta);
-            max = new Date(oldMax + delta);
-        }
+        // pad
+        var delta = padding * (max - min) / 2;
+        min -= delta;
+        max += delta;
 
         // Include the specified point in the range
         if (extraPoint !== null) {
@@ -101,6 +79,11 @@ export default function() {
             } else if (extraPoint > max) {
                 max = extraPoint;
             }
+        }
+
+        if (dateExtent) {
+            min = new Date(min);
+            max = new Date(max);
         }
 
         // Return the smallest and largest
