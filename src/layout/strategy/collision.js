@@ -1,13 +1,13 @@
 import d3 from 'd3';
 
-function isIntersecting(a, b) {
+export function isIntersecting(a, b) {
     return !(a.x >= (b.x + b.width) ||
-        (a.x + a.width) <= b.x ||
-        a.y >= (b.y + b.height) ||
-        (a.y + a.height) <= b.y);
+       (a.x + a.width) <= b.x ||
+       a.y >= (b.y + b.height) ||
+       (a.y + a.height) <= b.y);
 }
 
-function areaOfIntersection(a, b) {
+export function areaOfIntersection(a, b) {
     var left = Math.max(a.x, b.x);
     var right = Math.min(a.x + a.width, b.x + b.width);
     var top = Math.max(a.y, b.y);
@@ -15,25 +15,29 @@ function areaOfIntersection(a, b) {
     return (right - left) * (bottom - top);
 }
 
-function collideAll(data) {
-    var collisions = [];
-    for (var i = 0; i < data.length; i++) {
-        collisions = collisions.concat(collidePoint(data, i));
-    }
-    return collisions;
-}
+export function collidingWith(rectangles, index) {
+    var rectangle = rectangles[index];
 
-function collidePoint(data, pointIndex) {
-    var pointA = data[pointIndex];
-    return data.filter(isIntersecting.bind(null, pointA)).map(function(pointB) {
-        return [pointA, pointB];
+    // Filter all rectangles that aren't the selected rectangle
+    // and the filter if they intersect.
+    return rectangles.filter(function(_, i) {
+        return index !== i;
+    }).filter(function(d) {
+        return isIntersecting(d, rectangle);
     });
 }
 
-export function areaOfCollisions(data) {
-    var collisionData = collideAll(data);
-    var eachCollisionArea = collisionData.map(function(collision) {
-        return areaOfIntersection(collision[0], collision[1]);
-    });
-    return d3.sum(eachCollisionArea);
+export function collisionArea(rectangles, index) {
+    var rectangle = rectangles[index];
+    var collisions = collidingWith(rectangles, index);
+
+    return d3.sum(collisions.map(function(d) {
+        return areaOfIntersection(rectangle, d);
+    }));
+}
+
+export function totalCollisionArea(rectangles) {
+    return d3.sum(rectangles.map(function(_, i) {
+        return collisionArea(rectangles, i);
+    }));
 }
