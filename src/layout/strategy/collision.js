@@ -30,8 +30,36 @@ function collidePoint(data, pointIndex) {
     });
 }
 
-export function areaOfCollisions(data) {
-    var collisionData = collideAll(data);
+export function allWithCollisions(data) {
+    var collisions = collideAll(data);
+
+    // Convert [[a, b], [a, c]] => [a, b, c]
+    var uniqueCollisions = [];
+    collisions.forEach(function(collision) {
+        var pointA = data.indexOf(collision[0]);
+        var pointB = data.indexOf(collision[1]);
+
+        if (uniqueCollisions.indexOf(pointA) < 0) {
+            uniqueCollisions.push(pointA);
+        }
+
+        if (uniqueCollisions.indexOf(pointB) < 0) {
+            uniqueCollisions.push(pointB);
+        }
+    });
+
+    return uniqueCollisions;
+}
+
+export function areaOfCollisions(data, index) {
+    var collisionData;
+
+    if (arguments.length === 1) {
+        collisionData = collideAll(data);
+    } else {
+        collisionData = collidePoint(data, index);
+    }
+
     var eachCollisionArea = collisionData.map(function(collision) {
         return areaOfIntersection(collision[0], collision[1]);
     });
