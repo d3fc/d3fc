@@ -12,6 +12,8 @@ import groupedBar from './groupedBar';
 import xyBase from './xyBase';
 import ohlcBase from './ohlcBase';
 import errorBar from './errorBar';
+import waterfall from './waterfall';
+import algorithm from './algorithm/algorithm';
 
 export default {
     area: area,
@@ -27,5 +29,7 @@ export default {
     groupedBar: groupedBar,
     xyBase: xyBase,
     ohlcBase: ohlcBase,
-    errorBar: errorBar
+    errorBar: errorBar,
+    waterfall: waterfall,
+    algorithm: algorithm
 };

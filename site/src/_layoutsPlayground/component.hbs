@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,8 +18,7 @@ var width = extent.width,
     height = extent.height;
 
 var dataGenerator = fc.data.random.financial()
-    .startDate(new Date(2014, 1, 1))
-    .filter(function() { return true; });
+    .startDate(new Date(2014, 1, 1));
 var data = dataGenerator(50);
 
 var container = d3.select('#chart')
