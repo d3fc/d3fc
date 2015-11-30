@@ -11,7 +11,7 @@ export default function() {
         xValue = function(d, i) { return d.date; },
         yValue = function(d, i) { return d.close; },
         orient = 'vertical',
-        barWidth = d3.functor(5);
+        barWidth = d3.functor(10);
 
     function base() { }
 
@@ -32,7 +32,7 @@ export default function() {
             return {
                 x: xScale(xValue(d, i)),
                 y: yScale(yValue(d, i)),
-                boxHigh: yScale(bowHigh(d, i)),
+                boxHigh: yScale(boxHigh(d, i)),
                 boxLow: yScale(boxLow(d, i)),
                 whiskerHigh: yScale(whiskerHigh(d, i)),
                 whiskerLow: yScale(whiskerLow(d, i))
@@ -41,7 +41,7 @@ export default function() {
             return {
                 x: xScale(xValue(d, i)),
                 y: yScale(yValue(d, i)),
-                boxHigh: xScale(bowHigh(d, i)),
+                boxHigh: xScale(boxHigh(d, i)),
                 boxLow: xScale(boxLow(d, i)),
                 whiskerHigh: xScale(whiskerHigh(d, i)),
                 whiskerLow: xScale(whiskerLow(d, i))

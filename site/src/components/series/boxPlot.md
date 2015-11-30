@@ -9,10 +9,10 @@ namespace: series
 example-code: |
   //Generating the boxPlot information for the data
   data.forEach(function(d) {
-      d.yUpBox = Math.random() * 2;
-      d.yDownBox = Math.random() * 2;
-      d.yUpWhisker = d.yUpBox + Math.random() * 2;
-      d.yDownWhisker = d.yDownBox +  Math.random() * 2;
+      d.yUpBox = Math.random();
+      d.yDownBox = Math.random();
+      d.yUpWhisker = d.yUpBox + Math.random();
+      d.yDownWhisker = d.yDownBox +  Math.random();
   });
 
   var boxPlot = fc.series.boxPlot()
