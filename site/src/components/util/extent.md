@@ -30,6 +30,14 @@ A range can be symmetrical about a given value, using the `symmetricalAbout` pro
       .pad(0.5)(data); // [2.5, 47.5]
 ```
 
+ The `pad` property also supports asymmetric padding. If the calculated range is `[10, 20]` then the result of padding by '[0.5, 0.5]' will be `[5, 25]`.
+
+```js
+  fc.util.extent()
+      .fields(fields)
+      .pad([0.25, 0.5])(data); // [2.5, 55]
+```
+
  The range can be extended to include a fixed value, using the `include` property. The range is extended after padding, so the order of setting the properties is not important. If the included value was already within the range there will be no change.
 
 ```js

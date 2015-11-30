@@ -68,9 +68,15 @@ export default function() {
         }
 
         // pad
-        var delta = padding * (max - min) / 2;
-        min -= delta;
-        max += delta;
+        if (Array.isArray(padding)) {
+            var deltaArray = [padding[0] * (max - min), padding[1] * (max - min)];
+            min -= deltaArray[0];
+            max += deltaArray[1];
+        } else {
+            var delta = padding * (max - min) / 2;
+            min -= delta;
+            max += delta;
+        }
 
         // Include the specified point in the range
         if (extraPoint !== null) {
