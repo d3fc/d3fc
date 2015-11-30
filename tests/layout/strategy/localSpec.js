@@ -20,9 +20,9 @@ describe('fc.layout.strategy.local', function() {
         .containerWidth(containerWidth)
         .containerHeight(containerHeight);
 
-    var firstIteration = strategiser(data);
-    var secondIteration = strategiser.iterate();
-    var thirdIteration = strategiser.iterate();
+    var firstIteration = strategiser.iterations(1)(data);
+    var secondIteration = strategiser.iterations(2)(data);
+    var thirdIteration = strategiser.iterations(3)(data);
 
     describe('iteration one', function() {
 
