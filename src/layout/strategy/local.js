@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import {rebindAll} from '../../util/rebind';
 import minimum from '../../util/minimum';
-import {allWithCollisions, areaOfCollisions} from './collision';
+import {allCollisionIndices, areaOfCollisions} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
 
@@ -15,15 +15,19 @@ export default function() {
         var originalData = data;
         var iteratedData = data;
 
+        var thisIterationScore = Number.MAX_VALUE;
         var lastIterationScore = Infinity;
-        for (var i = 0; i < iterations; i++) {
+        var iteration = 0;
+
+        // Keep going until there's no more iterations to do or
+        // the solution is a local minimum
+        while (iteration < iterations && thisIterationScore < lastIterationScore) {
+            lastIterationScore = thisIterationScore;
+
             iteratedData = iterate(originalData, iteratedData);
 
-            // Reached a local minimum?
-            var thisIterationScore = areaOfCollisions(iteratedData);
-            if (lastIterationScore === thisIterationScore) {
-                return iteratedData;
-            }
+            thisIterationScore = areaOfCollisions(iteratedData);
+            iteration++;
         }
         return iteratedData;
     };
@@ -38,13 +42,11 @@ export default function() {
     };
 
     function iterate(originalData, iteratedData) {
-        var collidingPoints = allWithCollisions(iteratedData);
+        var collidingPoints = allCollisionIndices(iteratedData);
         var totalNoOfCollisions = areaOfCollisions(iteratedData);
 
         // Try to resolve collisions from each node which has a collision
-        for (var i = 0; i < collidingPoints.length; i++) {
-
-            var pointIndex = collidingPoints[i];
+        collidingPoints.forEach(function(pointIndex) {
             var pointA = originalData[pointIndex];
 
             var placements = getAllPlacements(pointA);
@@ -56,7 +58,7 @@ export default function() {
             if (bestScore < totalNoOfCollisions) {
                 iteratedData = bestPlacement;
             }
-        }
+        });
         return iteratedData;
     }
 

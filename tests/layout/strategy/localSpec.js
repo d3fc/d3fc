@@ -54,11 +54,11 @@ describe('fc.layout.strategy.local', function() {
     describe('iteration two', function() {
 
         it('should alter fewer data points in the second iteration', function() {
-            expect(secondIteration[2].x).toEqual(firstIteration[2].x + 5);
-            expect(secondIteration[2].y).toEqual(firstIteration[2].y);
+            expect(secondIteration[2].x).toEqual(firstIteration[2].x);
+            expect(secondIteration[2].y).toEqual(firstIteration[2].y + 5);
 
             expect(secondIteration[5].x).toEqual(firstIteration[5].x);
-            expect(secondIteration[5].y).toEqual(firstIteration[5].y - 5);
+            expect(secondIteration[5].y).toEqual(firstIteration[5].y);
 
             // The rest should be the same
             expect(secondIteration[0]).toEqual(firstIteration[0]);
