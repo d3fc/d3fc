@@ -31,6 +31,8 @@ example-code: |
 
 A [box plot series](https://en.wikipedia.org/wiki/Box_plot) is a convenient way of graphically depicting groups of 
 numerical data through their quartiles. Boxes can be renderer vertically or horizontally based on the value of the `orient` property.
+If the `orient` is chosen to be `vertical` then the box\whisker properties will be in `yScale`, if set to `horizontal`
+the `xScale` will be used.
 
 The upper and lower end of each box are defined by the `boxUpper` and `boxLower` properties.
 The upper and lower whisker of each box are defined by the `whiskerUpper` and `whiskerLower` properties.

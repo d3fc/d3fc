@@ -39,10 +39,12 @@ export default function() {
                     .attr('transform', 'translate(' + values.x + ', ' + values.y + ')');
 
                 pathGenerator
+                    .y(values.y)
                     .x(values.x)
+                    .boxHigh(values.boxHigh)
+                    .boxLow(values.boxLow)
                     .whiskerHigh(values.whiskerHigh)
-                    .whiskerLow(values.whiskerLow)
-                    .y(values.y);
+                    .whiskerLow(values.whiskerLow);
 
                 gboxPlot.select('path')
                     .attr('d', pathGenerator([d]))

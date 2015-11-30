@@ -17,25 +17,74 @@ export default function() {
         return data.map(function(d, i) {
             var halfWidth = barWidth(d, i) / 2,
                 whiskerTotal = whiskerHigh(d, i) - whiskerLow(d, i),
+                whiskerToBotBox = boxLow(d, i) - whiskerLow(d, i),
+                boxToMid = y(d, i) - boxLow(d, i),
+                midToBox = boxHigh(d, i) - y(d, i),
+                boxToWhiskerHigh = whiskerHigh(d, i) - boxHigh(d, i),
                 yBottom = y(d, i) - whiskerLow(d, i),
                 yTop = whiskerHigh(d, i) - y(d, i),
                 xBottom = x(d, i) - whiskerLow(d, i),
                 xTop = whiskerHigh(d, i) - x(d, i);
 
-            var whiskerVertical = '';
-            var whiskerHorizontal = '';
+            var boxSerieVertical = '';
+            var boxSerieHorizontal = '';
 
             if (orient === 'vertical') {
+
                 var horizontalBar = 'h' + (-halfWidth) + 'h' + (2 * halfWidth) + 'h' + (-halfWidth),
-                    verticalToHigh = 'v' + (-whiskerTotal);
-                whiskerVertical = 'M0,' + yBottom + horizontalBar + verticalToHigh + horizontalBar + 'M0,' + yTop;
+                    verticalToBotBox = 'v' + (-whiskerToBotBox),
+                    verticalToMidBox = 'v' + (-boxToMid),
+                    verticalToMidBoxDown = 'v' + (boxToMid),
+                    verticalToTopBox = 'v' + (-midToBox),
+                    verticalToTopBoxDown = 'v' + (midToBox),
+                    verticalToWhisker = 'v' + (-boxToWhiskerHigh);
+
+                boxSerieVertical = 'M0,' + yBottom
+                    + horizontalBar + verticalToBotBox
+                    + 'h' + (-halfWidth)
+                    + verticalToMidBox
+                    + 'h' + (2 * halfWidth)
+                    + verticalToMidBoxDown
+                    + 'h' + (-2 * halfWidth)
+                    + verticalToMidBox
+                    + verticalToTopBox
+                    + 'h' + (2 * halfWidth)
+                    + verticalToTopBoxDown
+                    + 'h' + (-2 * halfWidth)
+                    + verticalToTopBox
+                    + 'h' + (halfWidth)
+                    + verticalToWhisker
+                    + horizontalBar + 'M0,' + yTop;
+
             } else {
+
                 var verticalBar = 'v' + (-halfWidth) + 'v' + (2 * halfWidth) + 'v' + (-halfWidth),
-                    horizontalToHigh = 'h' + (-whiskerTotal);
-                whiskerHorizontal = 'M' + xBottom + ',0' + verticalBar + horizontalToHigh + verticalBar + 'M' + xTop + ',0';
+                    horizontalToBotBox = 'h' + (-whiskerToBotBox),
+                    horizontalToMidBox = 'h' + (-boxToMid),
+                    horizontalToMidBoxDown = 'h' + (boxToMid),
+                    horizontalToTopBox = 'h' + (-midToBox),
+                    horizontalToTopBoxDown = 'h' + (midToBox),
+                    horizontalToWhisker = 'h' + (-boxToWhiskerHigh);
+
+                boxSerieHorizontal = 'M' + xBottom + ',0'
+                    + verticalBar + horizontalToBotBox
+                    + 'v' + (-halfWidth)
+                    + horizontalToMidBox
+                    + 'v' + (2 * halfWidth)
+                    + horizontalToMidBoxDown
+                    + 'v' + (-2 * halfWidth)
+                    + horizontalToMidBox
+                    + horizontalToTopBox
+                    + 'v' + (2 * halfWidth)
+                    + horizontalToTopBoxDown
+                    + 'v' + (-2 * halfWidth)
+                    + horizontalToTopBox
+                    + 'v' + (halfWidth)
+                    + horizontalToWhisker
+                    + verticalBar + 'M' + xTop + ',0';
             }
 
-            return whiskerVertical + whiskerHorizontal;
+            return boxSerieVertical + boxSerieHorizontal;
         })
         .join('');
     };
