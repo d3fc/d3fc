@@ -74,6 +74,11 @@
         .containerWidth(width)
         .containerHeight(height);
 
+    var local = fc.layout.strategy.local()
+        .containerWidth(width)
+        .containerHeight(height)
+        .iterations(10);
+
     useStrategy(null);
 
     document.getElementById('noop')
@@ -89,6 +94,11 @@
     document.getElementById('greedy')
         .addEventListener('change', function() {
             useStrategy(greedyStrategy);
+        });
+
+    document.getElementById('local')
+        .addEventListener('change', function() {
+            useStrategy(local);
         });
 
 })(d3, fc);
