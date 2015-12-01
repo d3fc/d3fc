@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import {rebindAll} from '../../util/rebind';
 import minimum from '../../util/minimum';
-import {allCollisionIndices, collisionArea, totalCollisionArea} from './collision';
+import {collisionArea, totalCollisionArea, collidingWith} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
 
@@ -42,44 +42,38 @@ export default function() {
     };
 
     function iterate(originalData, iteratedData) {
-        var collidingPoints = allCollisionIndices(iteratedData);
-        var totalNoOfCollisions = totalCollisionArea(iteratedData);
 
-        // Try to resolve collisions from each node which has a collision
-        collidingPoints.forEach(function(pointIndex) {
-            var pointA = originalData[pointIndex];
+        // Find rectangles with collisions or are outside of the bounds of the container
+        iteratedData.map(function(d, i) {
+            return [d, i];
+        }).filter(function(d, i) {
+            return collidingWith(iteratedData, d[1]).length || !container(d[0]);
+        }).forEach(function(d) {
 
-            var placements = getAllPlacements(pointA);
-            var candidateReplacements = getCandidateReplacements(iteratedData, placements, pointIndex);
+            // Use original data to stop wandering rectangles with each iteration
+            var placements = getAllPlacements(originalData[d[1]]);
 
-            var bestPlacement = minimum(candidateReplacements, getScorer(pointIndex));
-            var bestScore = totalCollisionArea(bestPlacement);
+            // Create different states the algorithm could transition to
+            var candidateReplacements = placements.map(function(placement) {
+                var clone = iteratedData.slice();
+                clone[d[1]] = placement;
+                return clone;
+            });
 
-            if (bestScore < totalNoOfCollisions) {
-                iteratedData = bestPlacement;
-            }
+            // Choose the best state.
+            var bestPlacement = minimum(candidateReplacements, function(placement) {
+                var areaOfCollisions = collisionArea(placement, d[1]);
+                var isOnScreen = container(placement[d[1]]);
+                return areaOfCollisions + (isOnScreen ? 0 : Number.MAX_VALUE);
+            });
+
+            iteratedData = bestPlacement;
         });
         return iteratedData;
     }
 
     d3.rebind(strategy, container, 'containerWidth');
     d3.rebind(strategy, container, 'containerHeight');
-
-    function getCandidateReplacements(allPoints, placements, indexToReplace) {
-        return placements.map(function(placement) {
-            var allPointsCopy = allPoints.slice();
-            allPointsCopy[indexToReplace] = placement;
-            return allPointsCopy;
-        });
-    }
-
-    function getScorer(index) {
-        return function(placement) {
-            var areaOfCollisions = collisionArea(placement, index);
-            var isOnScreen = container(placement[index]);
-            return areaOfCollisions + (isOnScreen ? 0 : Infinity);
-        };
-    }
 
     return strategy;
 }
