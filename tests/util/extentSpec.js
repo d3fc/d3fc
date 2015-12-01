@@ -83,13 +83,40 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 8]);
     });
 
-    it('should support increasing the range', function() {
+    it('should support increasing the range symmetrically', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
             .fields('high')
             .pad(1)(data);
         expect(extents).toEqual([5, 25]);
+    });
+
+    it('should support decreasing the range symmetrically', function() {
+        var data = [obj(5), obj(15)];
+
+        var extents = fc.util.extent()
+            .fields('high')
+            .pad(-0.5)(data);
+        expect(extents).toEqual([12.5, 17.5]);
+    });
+
+    it('should support increasing the range asymmetrically', function() {
+        var data = [obj(5), obj(15)];
+
+        var extents = fc.util.extent()
+            .fields('high')
+            .pad([0.5, 1])(data);
+        expect(extents).toEqual([5, 30]);
+    });
+
+    it('should support decreasing the range asymmetrically', function() {
+        var data = [obj(5), obj(15)];
+
+        var extents = fc.util.extent()
+            .fields('high')
+            .pad([-0.5, -0.2])(data);
+        expect(extents).toEqual([15, 18]);
     });
 
     it('should support padding an empty dataset', function() {
@@ -100,6 +127,12 @@ describe('fc.util.extent', function() {
             .pad(2)(data);
         expect(isNaN(extents[0])).toBe(true);
         expect(isNaN(extents[1])).toBe(true);
+
+        extents = fc.util.extent()
+            .fields('high')
+            .pad([1, 2])(data);
+        expect(isNaN(extents[0])).toBe(true);
+        expect(isNaN(extents[1])).toBe(true);
     });
 
     it('should support padding zero as an identity', function() {
@@ -108,6 +141,11 @@ describe('fc.util.extent', function() {
         var extents = fc.util.extent()
             .fields('high')
             .pad(0)(data);
+        expect(extents).toEqual([6, 7]);
+
+        extents = fc.util.extent()
+            .fields('high')
+            .pad([0, 0])(data);
         expect(extents).toEqual([6, 7]);
     });
 
@@ -121,13 +159,25 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([0, 25]);
 
         extents = fc.util.extent()
+            .include(0)
+            .fields('high')
+            .pad([1, 0.5])(data);
+        expect(extents).toEqual([0, 25]);
+
+        extents = fc.util.extent()
             .include(30)
             .fields('high')
             .pad(1)(data);
         expect(extents).toEqual([5, 30]);
+
+        extents = fc.util.extent()
+            .include(30)
+            .fields('high')
+            .pad([0.5, 1])(data);
+        expect(extents).toEqual([5, 30]);
     });
 
-    it('should pad dates', function() {
+    it('should pad dates symmetrically', function() {
         var date1 = new Date(2014, 0, 10);
         var date2 = new Date(2014, 0, 20);
         var data = [{ date: date1 }, { date: date2 }];
@@ -136,6 +186,17 @@ describe('fc.util.extent', function() {
             .fields('date')
             .pad(1)(data);
         expect(extents).toEqual([new Date(2014, 0, 5), new Date(2014, 0, 25)]);
+    });
+
+    it('should pad dates asymmetrically', function() {
+        var date1 = new Date(2014, 0, 10);
+        var date2 = new Date(2014, 0, 20);
+        var data = [{ date: date1 }, { date: date2 }];
+
+        var extents = fc.util.extent()
+            .fields('date')
+            .pad([0.6, 0.5])(data);
+        expect(extents).toEqual([new Date(2014, 0, 4), new Date(2014, 0, 25)]);
     });
 
     it('should calculate symmetry about dates', function() {
