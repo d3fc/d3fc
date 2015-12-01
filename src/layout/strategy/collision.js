@@ -1,10 +1,7 @@
 import d3 from 'd3';
 
 function isIntersecting(a, b) {
-    return !(a.x >= (b.x + b.width) ||
-        (a.x + a.width) <= b.x ||
-        a.y >= (b.y + b.height) ||
-        (a.y + a.height) <= b.y);
+    return areaOfIntersection(a, b) > 0;
 }
 
 function areaOfIntersection(a, b) {
@@ -43,17 +40,29 @@ export function allCollisionIndices(data) {
     return uniqueCollisions;
 }
 
-export function areaOfCollisions(data, index) {
-    var collisionData;
+export function collidingWith(rectangles, index) {
+    var rectangle = rectangles[index];
 
-    if (arguments.length === 1) {
-        collisionData = collideAll(data);
-    } else {
-        collisionData = collidePoint(data, index);
-    }
-
-    var eachCollisionArea = collisionData.map(function(collision) {
-        return areaOfIntersection(collision[0], collision[1]);
+    // Filter all rectangles that aren't the selected rectangle
+    // and the filter if they intersect.
+    return rectangles.filter(function(_, i) {
+        return index !== i;
+    }).filter(function(d) {
+        return isIntersecting(d, rectangle);
     });
-    return d3.sum(eachCollisionArea);
+}
+
+export function collisionArea(rectangles, index) {
+    var rectangle = rectangles[index];
+    var collisions = collidingWith(rectangles, index);
+
+    return d3.sum(collisions.map(function(d) {
+        return areaOfIntersection(rectangle, d);
+    }));
+}
+
+export function totalCollisionArea(rectangles) {
+    return d3.sum(rectangles.map(function(_, i) {
+        return collisionArea(rectangles, i);
+    }));
 }

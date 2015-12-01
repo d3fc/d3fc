@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import {rebindAll} from '../../util/rebind';
-import {areaOfCollisions} from './collision';
+import {totalCollisionArea} from './collision';
 import containerUtils from './container';
 import minimum from '../../util/minimum';
 import {getAllPlacements} from './placement';
@@ -35,14 +35,13 @@ export default function() {
     }
 
     function scorer(placement) {
-
-        var collisionArea = areaOfCollisions(placement);
+        var areaOfCollisions = totalCollisionArea(placement);
         var isOnScreen = true;
         for (var i = 0; i < placement.length && isOnScreen; i++) {
             var point = placement[i];
             isOnScreen = container(point);
         }
-        return collisionArea + (isOnScreen ? 0 : Infinity);
+        return areaOfCollisions + (isOnScreen ? 0 : Infinity);
     }
 
     return strategy;

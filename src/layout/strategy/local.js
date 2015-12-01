@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import {rebindAll} from '../../util/rebind';
 import minimum from '../../util/minimum';
-import {allCollisionIndices, areaOfCollisions} from './collision';
+import {allCollisionIndices, collisionArea, totalCollisionArea} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
 
@@ -26,7 +26,7 @@ export default function() {
 
             iteratedData = iterate(originalData, iteratedData);
 
-            thisIterationScore = areaOfCollisions(iteratedData);
+            thisIterationScore = totalCollisionArea(iteratedData);
             iteration++;
         }
         return iteratedData;
@@ -43,7 +43,7 @@ export default function() {
 
     function iterate(originalData, iteratedData) {
         var collidingPoints = allCollisionIndices(iteratedData);
-        var totalNoOfCollisions = areaOfCollisions(iteratedData);
+        var totalNoOfCollisions = totalCollisionArea(iteratedData);
 
         // Try to resolve collisions from each node which has a collision
         collidingPoints.forEach(function(pointIndex) {
@@ -53,7 +53,7 @@ export default function() {
             var candidateReplacements = getCandidateReplacements(iteratedData, placements, pointIndex);
 
             var bestPlacement = minimum(candidateReplacements, getScorer(pointIndex));
-            var bestScore = areaOfCollisions(bestPlacement);
+            var bestScore = totalCollisionArea(bestPlacement);
 
             if (bestScore < totalNoOfCollisions) {
                 iteratedData = bestPlacement;
@@ -75,9 +75,9 @@ export default function() {
 
     function getScorer(index) {
         return function(placement) {
-            var collisionArea = areaOfCollisions(placement, index);
+            var areaOfCollisions = collisionArea(placement, index);
             var isOnScreen = container(placement[index]);
-            return collisionArea + (isOnScreen ? 0 : Infinity);
+            return areaOfCollisions + (isOnScreen ? 0 : Infinity);
         };
     }
 
