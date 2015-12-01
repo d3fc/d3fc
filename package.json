@@ -4,6 +4,7 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "author": "Scott Logic",
   "main": "dist/d3fc.js",
+  "jsnext:main": "src/fc.js",
   "dependencies": {
     "css-layout": "^1.1.0",
     "d3": "^3.5.4",
