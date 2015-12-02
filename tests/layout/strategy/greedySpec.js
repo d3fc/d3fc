@@ -22,24 +22,24 @@ describe('fc.layout.strategy.greedy', function() {
         });
 
         it('moves a label left if there is an overlap', function() {
-            data.push({x: 45, y: 50, width: elementWidth, height: elementHeight});
+            data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
-            expect(result[1].x).toEqual(35);
+            expect(result[1].x).toEqual(40);
             expect(result[1].y).toEqual(50);
         });
 
         it('moves a label up, left if there is an overlap to left', function() {
-            data.push({x: 45, y: 45, width: elementWidth, height: elementHeight});
+            data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
-            expect(result[2].x).toEqual(35);
-            expect(result[2].y).toEqual(35);
+            expect(result[2].x).toEqual(40);
+            expect(result[2].y).toEqual(40);
         });
 
         it('moves a label up if there is an overlap to up, left', function() {
-            data.push({x: 50, y: 45, width: elementWidth, height: elementHeight});
+            data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
             expect(result[3].x).toEqual(50);
-            expect(result[3].y).toEqual(35);
+            expect(result[3].y).toEqual(40);
         });
     });
 
