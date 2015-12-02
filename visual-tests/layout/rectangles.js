@@ -79,6 +79,10 @@
         .containerHeight(height)
         .iterations(10);
 
+    var annealing = fc.layout.strategy.annealing()
+        .containerWidth(width)
+        .containerHeight(height);
+
     useStrategy(null);
 
     document.getElementById('noop')
@@ -99,6 +103,11 @@
     document.getElementById('local')
         .addEventListener('change', function() {
             useStrategy(local);
+        });
+
+    document.getElementById('annealing')
+        .addEventListener('change', function() {
+            useStrategy(annealing);
         });
 
 })(d3, fc);
