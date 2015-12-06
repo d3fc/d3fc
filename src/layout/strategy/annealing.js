@@ -4,6 +4,7 @@ import minimum from '../../util/minimum';
 import {allWithCollisions, totalCollisionArea} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
+import {random, randomIndex, cloneAndReplace} from '../../util/array';
 
 export default function() {
 
@@ -58,17 +59,14 @@ export default function() {
 
     function getPotentialState(originalData, iteratedData) {
         // For one point choose a random other placement.
-        var dataClone = iteratedData.slice();
 
-        var victimLabelIndex = Math.floor(dataClone.length * Math.random());
+        var victimLabelIndex = randomIndex(originalData);
         var label = originalData[victimLabelIndex];
 
         var replacements = getAllPlacements(label);
-        var randomPlacementIndex = Math.floor(replacements.length * Math.random());
+        var replacement = random(replacements);
 
-        dataClone[victimLabelIndex] = replacements[randomPlacementIndex];
-
-        return dataClone;
+        return cloneAndReplace(iteratedData, victimLabelIndex, replacement);
     }
 
     d3.rebind(strategy, container, 'containerWidth');
