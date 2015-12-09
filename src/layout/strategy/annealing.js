@@ -4,7 +4,7 @@ import minimum from '../../util/minimum';
 import {allWithCollisions, totalCollisionArea} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
-import {random, randomIndex, cloneAndReplace} from '../../util/array';
+import {randomItem, randomIndex, cloneAndReplace} from '../../util/array';
 
 export default function() {
 
@@ -64,7 +64,7 @@ export default function() {
         var label = originalData[victimLabelIndex];
 
         var replacements = getAllPlacements(label);
-        var replacement = random(replacements);
+        var replacement = randomItem(replacements);
 
         return cloneAndReplace(iteratedData, victimLabelIndex, replacement);
     }

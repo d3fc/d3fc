@@ -1,4 +1,4 @@
-export function random(array) {
+export function randomItem(array) {
     return array[randomIndex(array)];
 }
 
