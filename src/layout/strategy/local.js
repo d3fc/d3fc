@@ -4,6 +4,7 @@ import minimum from '../../util/minimum';
 import {collisionArea, totalCollisionArea, collidingWith} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
+import {cloneAndReplace} from '../../util/array';
 
 export default function() {
 
@@ -55,9 +56,7 @@ export default function() {
 
             // Create different states the algorithm could transition to
             var candidateReplacements = placements.map(function(placement) {
-                var clone = iteratedData.slice();
-                clone[d[1]] = placement;
-                return clone;
+                return cloneAndReplace(iteratedData, d[1], placement);
             });
 
             // Choose the best state.
