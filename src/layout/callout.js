@@ -18,11 +18,15 @@ export default function(layoutStrategy) {
         .y(function(d) { return d[1]; });
 
     var callout = function(data) {
+        // Define the rebindAll exclusions
         var anchors = [];
-
-        // Define the two rebindAll exclusions
         rectangles.anchor(function(i, x, y) {
             anchors[i] = [x, y];
+        });
+
+        var translates = [];
+        rectangles.translate(function(i, x, y) {
+            translates[i] = [x, y];
         });
 
         rectangles.component(function(selection) {
@@ -33,7 +37,7 @@ export default function(layoutStrategy) {
                     // Since the rectangle changes placement, offset
                     // that placement so the origin point is fixed
                     var pointOrigin = origin(d, i).map(function(value, dimension) {
-                        return anchors[i][dimension] + value;
+                        return value - translates[i][dimension];
                     });
                     return line([anchors[i], pointOrigin]);
                 });
@@ -55,7 +59,7 @@ export default function(layoutStrategy) {
         rectangles.call(this, data);
     };
 
-    rebindAll(callout, rectangles, '', ['anchor', 'component']);
+    rebindAll(callout, rectangles, '', ['anchor', 'translate', 'component']);
 
     callout.origin = function(x) {
         if (!arguments.length) {

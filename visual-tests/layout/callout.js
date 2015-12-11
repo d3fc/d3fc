@@ -17,7 +17,6 @@
 
     var width = 600, height = 250;
     var itemWidth = 100, itemHeight = 30;
-    var anchors = [];
 
     // Add some more data
     for (var i = 0; i < 20; i++) {
@@ -30,7 +29,7 @@
 
     var calloutAnchors = [];
     for (var j = 0; j < data.length; j++) {
-        calloutAnchors.push([-20, 10]);
+        calloutAnchors.push([width / 2, height / 2]);
     }
 
     var svg = d3.select('#tooltip')
