@@ -13,6 +13,7 @@ export default function(layoutStrategy) {
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
         anchor = noop,
+        translate = noop,
         strategy = layoutStrategy || identity,
         component = noop;
 
@@ -59,6 +60,8 @@ export default function(layoutStrategy) {
 
             data.forEach(function(d, i) {
                 var pos = position(d, i);
+                var offset = layout[i];
+                translate(i, offset.x, offset.y);
                 anchor(i, pos[0] - layout[i].x, pos[1] - layout[i].y);
             });
 
@@ -95,6 +98,14 @@ export default function(layoutStrategy) {
             return anchor;
         }
         anchor = x;
+        return rectangles;
+    };
+
+    rectangles.translate = function(x) {
+        if (!arguments.length) {
+            return translate;
+        }
+        translate = x;
         return rectangles;
     };
 
