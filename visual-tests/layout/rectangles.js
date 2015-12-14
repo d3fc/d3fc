@@ -4,11 +4,11 @@
     // a very simple example component
     function label(selection) {
         selection.append('circle')
-            .attr('cx', function(d, index) {
-                return anchors[index].x;
+            .attr('cx', function(d) {
+                return d.anchor.x;
             })
-            .attr('cy', function(d, index) {
-                return anchors[index].y;
+            .attr('cy', function(d) {
+                return d.anchor.y;
             })
             .attr('r', 5);
 
@@ -28,7 +28,6 @@
 
     var width = 600, height = 250;
     var itemWidth = 100, itemHeight = 30;
-    var anchors = [];
 
     // Add some more data
     for (var i = 0; i < 20; i++) {
@@ -55,8 +54,8 @@
             .xScale(xScale)
             .yScale(yScale)
             .size([itemWidth, itemHeight])
-            .anchor(function(index, x, y) {
-                anchors[index] = {x: x, y: y};
+            .anchor(function(d, j, pos) {
+                d.anchor = {x: pos[0], y: pos[1]};
             })
             .component(label);
 

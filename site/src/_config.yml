@@ -1,4 +1,4 @@
-component-ids: [introduction, chart, series, indicator, scale, svg, annotation, tool, layout, rectangle-strategy, util, data, samplers]
+component-ids: [introduction, chart, series, indicator, scale, svg, annotation, tool, layout, util, data, samplers]
 
 components:
   introduction:
@@ -19,8 +19,6 @@ components:
     name: SVG
   layout:
     name: Layout
-  rectangle-strategy:
-    name: Rectangle Strategies
   util:
     name: Util
   data:
