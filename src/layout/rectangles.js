@@ -57,9 +57,11 @@ export default function(layoutStrategy) {
                 return 'translate(' + offset.x + ', ' + offset.y + ')';
             });
 
+            // set the anchor-point for each rectangle
             data.forEach(function(d, i) {
                 var pos = position(d, i);
-                anchor(i, pos[0] - layout[i].x, pos[1] - layout[i].y);
+                var relativeAnchorPosition = [pos[0] - layout[i].x, pos[1] - layout[i].y];
+                anchor(d, i, relativeAnchorPosition);
             });
 
             // set the layout width / height so that children can use SVG layout if required
