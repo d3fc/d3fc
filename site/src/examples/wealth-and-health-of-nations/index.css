@@ -19,14 +19,11 @@ text {
   pointer-events: all;
   visibility: hidden;
 }
-.axis path, .axis line {
+.axis path,
+.axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
-}
-.year.label > text {
-  font-size: 164px;
-  fill: #ddd;
 }
 .year.label > text.active {
   fill: #aaa;
@@ -39,4 +36,29 @@ text {
 .y-axis .label {
   text-anchor: end;
   fill: #777;
+}
+/* Year Label */
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+.year.label > text {
+  font-size: 80px;
+  fill: #ddd;
+}
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .year.label > text {
+    font-size: 110px;
+  }
+}
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .year.label > text {
+    font-size: 130px;
+  }
+}
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .year.label > text {
+    font-size: 164px;
+  }
 }
