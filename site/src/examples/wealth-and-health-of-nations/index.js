@@ -1,5 +1,5 @@
-/* global d3:false, fc:false, example: false */
-(function(d3, fc, example) {
+/* global d3:false, fc:false, example: false, window: false */
+(function(d3, fc, example, window) {
 
     // Inspired by: http://bost.ocks.org/mike/nations/
 
@@ -49,6 +49,8 @@
                         'mouseover': function() { label.classed('active', true); },
                         'mouseout': function() { label.classed('active', false); },
                         'mousemove': mousemove,
+                        'touchstart': function() { label.classed('active', true); },
+                        'touchend': function() { label.classed('active', false); },
                         'touchmove': mousemove
                     });
             });
@@ -106,16 +108,16 @@
 
                 selectionEnter.select('.x-axis.label-container > g')
                     .layout({
-                      'position': 'absolute',
-                      'right': 0,
-                      'bottom': 26
+                        'position': 'absolute',
+                        'right': 0,
+                        'bottom': 26
                     });
 
                 selectionEnter.select('.y-axis.label-container > g')
                     .layout({
-                      'position': 'absolute',
-                      'top': 0,
-                      'left': 36
+                        'position': 'absolute',
+                        'top': 0,
+                        'left': 36
                     });
 
                 var plotAreaContainerEnter = selection.enter()
@@ -138,6 +140,15 @@
             });
 
         function chart(selection) {
+            if (!selection.layoutSuspended()) {
+                var selectionWidth = fc.util.innerDimensions(selection.node()).width;
+
+                var tickFrequency = 70;
+                var xTickCount = Math.floor(selectionWidth / tickFrequency);
+                cartesianChart.xTicks(xTickCount, d3.format(',d'));
+
+                radiusScale.range([0, selectionWidth / 24]);
+            }
             selection.call(cartesianChart);
         }
 
@@ -172,54 +183,78 @@
             });
         }
 
-        d3.json('nations.json', function(nations) {
-            // A bisector since many nation's data is sparsely-defined.
-            var bisect = d3.bisector(function(d) { return d[0]; });
-            var data = interpolateData(nations, bisect, 1800);
+        var container = d3.select('#wealth-and-health-of-nations');
+        var formatPercent = d3.format('.0%');
 
-            var container = d3.select('#wealth-and-health-of-nations');
-            var chart = example.chart();
-            chart.on('yearChange', function(year) {
+        d3.json('nations.json')
+            .on('progress', function() {
+                if (d3.event.lengthComputable) {
+                    container.text('Loading... ' + formatPercent(d3.event.loaded / d3.event.total));
+                }
+            })
+            .get(function(error, nations) {
+                if (error) {
+                    container.text('Error loading data.');
+                    return;
+                }
+
+                // Remove the loading text from the container
+                container.text(null);
+
+                // A bisector since many nation's data is sparsely-defined.
+                var bisect = d3.bisector(function(d) { return d[0]; });
+                var data = interpolateData(nations, bisect, 1800);
+
+                var chart = example.chart();
+                chart.on('yearChange', function(year) {
                     enableInteraction();
                     displayYear(year);
                 });
 
-            container.transition()
-                .duration(30000)
-                .ease('linear')
-                .tween('year', tweenYear)
-                .each('end', enableInteraction);
+                container.transition()
+                    .duration(30000)
+                    .ease('linear')
+                    .tween('year', tweenYear)
+                    .each('end', enableInteraction);
 
-            var render = fc.util.render(function() {
+                var render = fc.util.render(function() {
                     container.datum(data)
                         .call(chart)
                         .layoutSuspended(true);
                 });
 
-            // Tweens the entire chart by first tweening the year, and then the data.
-            // For the interpolated data, the dots and label are redrawn.
-            function tweenYear() {
-                var year = d3.interpolateNumber(1800, 2009);
-                return function(t) { displayYear(year(t)); };
-            }
-
-            function displayYear(year) {
-                data = interpolateData(nations, bisect, year);
-                data.year = Math.round(year);
-                render();
-            }
-
-            var interactionEnabled = false;
-            function enableInteraction() {
-                if (!interactionEnabled) {
-                    interactionEnabled = true;
-
-                    // Cancel the current transition, if any.
-                    container.transition()
-                        .duration(0);
+                // Tweens the entire chart by first tweening the year, and then the data.
+                // For the interpolated data, the dots and label are redrawn.
+                function tweenYear() {
+                    var year = d3.interpolateNumber(1800, 2009);
+                    return function(t) { displayYear(year(t)); };
                 }
-            }
-        });
+
+                function displayYear(year) {
+                    data = interpolateData(nations, bisect, year);
+                    data.year = Math.round(year);
+                    render();
+                }
+
+                var interactionEnabled = false;
+                function enableInteraction() {
+                    if (!interactionEnabled) {
+                        interactionEnabled = true;
+
+                        // Cancel the current transition, if any.
+                        container.transition()
+                            .duration(0);
+                    }
+                }
+
+                function resize() {
+                    container.layoutSuspended(false);
+                    render();
+                }
+
+                d3.select(window)
+                    .on('resize', resize);
+            });
     }());
 
-}(d3, fc, {}));
+}(d3, fc, {}, window));

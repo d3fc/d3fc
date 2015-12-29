@@ -6,7 +6,7 @@ script: index.js
 ---
 <style>@import "index.css";</style>
 
-<div id="wealth-and-health-of-nations"></div>
+<div id="wealth-and-health-of-nations">Loading...</div>
 
 This example is a recreation of [Mike Bostock's recreation](http://bost.ocks.org/mike/nations/) of Gapminder’s [Wealth &amp; Health of Nations](http://www.gapminder.org/world/).
 
