@@ -48,7 +48,7 @@ export default function() {
 
                 gboxPlot.select('path')
                     .attr('d', pathGenerator([d]))
-                    .attr('stroke', 'black');
+                    .attr('class', 'boxplot');
             });
 
             decorate(g, data, index);

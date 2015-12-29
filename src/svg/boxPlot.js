@@ -26,8 +26,8 @@ export default function() {
                 xBottom = x(d, i) - whiskerLow(d, i),
                 xTop = whiskerHigh(d, i) - x(d, i);
 
-            var boxSerieVertical = '';
-            var boxSerieHorizontal = '';
+            var boxSeriesVertical = '';
+            var boxSeriesHorizontal = '';
 
             if (orient === 'vertical') {
 
@@ -39,7 +39,7 @@ export default function() {
                     verticalToTopBoxDown = 'v' + (midToBox),
                     verticalToWhisker = 'v' + (-boxToWhiskerHigh);
 
-                boxSerieVertical = 'M0,' + yBottom
+                boxSeriesVertical = 'M0,' + yBottom
                     + horizontalBar + verticalToBotBox
                     + 'h' + (-halfWidth)
                     + verticalToMidBox
@@ -66,7 +66,7 @@ export default function() {
                     horizontalToTopBoxDown = 'h' + (midToBox),
                     horizontalToWhisker = 'h' + (-boxToWhiskerHigh);
 
-                boxSerieHorizontal = 'M' + xBottom + ',0'
+                boxSeriesHorizontal = 'M' + xBottom + ',0'
                     + verticalBar + horizontalToBotBox
                     + 'v' + (-halfWidth)
                     + horizontalToMidBox
@@ -84,7 +84,7 @@ export default function() {
                     + verticalBar + 'M' + xTop + ',0';
             }
 
-            return boxSerieVertical + boxSerieHorizontal;
+            return boxSeriesVertical + boxSeriesHorizontal;
         })
         .join('');
     };
