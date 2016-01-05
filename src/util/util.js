@@ -11,7 +11,6 @@ import {noSnap, pointSnap, seriesPointSnap, seriesPointSnapXOnly, seriesPointSna
 import render from './render';
 import arrayFunctor from './arrayFunctor';
 import * as array from './array';
-import defined from './defined';
 
 export default {
     dataJoin: dataJoin,
@@ -31,6 +30,5 @@ export default {
     seriesPointSnapYOnly: seriesPointSnapYOnly,
     render: render,
     arrayFunctor: arrayFunctor,
-    array: array,
-    defined: defined
+    array: array
 };

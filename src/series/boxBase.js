@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import defined from '../util/defined';
+import {defined} from '../util/fn';
 
 export default function() {
 
@@ -49,8 +49,9 @@ export default function() {
             };
         }
     };
+
     base.defined = function(d, i) {
-        return defined(d, i, whiskerLow, whiskerHigh, boxLow, boxHigh, xValue, yValue);
+        return defined(whiskerLow, whiskerHigh, boxLow, boxHigh, xValue, yValue)(d, i);
     };
 
     base.orient = function(x) {

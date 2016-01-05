@@ -1,4 +1,5 @@
 import d3 from 'd3';
+import {defined} from '../util/fn';
 
 export default function() {
 
@@ -42,9 +43,9 @@ export default function() {
             };
         }
     };
+
     base.defined = function(d, i) {
-        return errorLow(d, i) != null && errorHigh(d, i) != null
-            && xValue(d, i) != null && yValue(d, i) != null;
+        return defined(errorLow, errorHigh, xValue, yValue)(d, i);
     };
 
     base.orient = function(x) {
