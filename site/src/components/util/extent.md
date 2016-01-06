@@ -22,19 +22,34 @@ A range can be symmetrical about a given value, using the `symmetricalAbout` pro
       .symmetricalAbout(20); // [0, 40]
 ```
 
- The range can be modified by using the `pad` property. Pad will scale the calculated range by the given amount. If the calculated range is `[10, 20]` then the result of padding by '1' will be `[5, 25]`. `pad(0)` is an identity.
+ The range can be modified by using the `pad` property, and specifying a 'padUnit' to vary the type of padding required. The padUnit can be either 'domain' for padding the domain absolutely or 'percent' for padding by a percentage. It is set by default to 'percent'. Domain padding will increase the calculated range by the amount given. If the calculated range is `[10, 20]`, with padUnit set to 'domain', then the result of setting pad to '2' will be `[8, 22]`. `pad(0)` is an identity in both cases.
 
 ```js
   fc.util.extent()
       .fields(fields)
+      .padUnit('domain')
+      .pad(5)(data); // [5, 45]
+```
+
+ Percentage padding will scale the calculated range by the given amount. If the calculated range is `[10, 20]`, then the result of setting pad to '1' will be `[5, 25]`. 
+
+```js
+  fc.util.extent()
+      .fields(fields)
+      .padUnit('percent')
       .pad(0.5)(data); // [2.5, 47.5]
 ```
 
- The `pad` property also supports asymmetric padding. If the calculated range is `[10, 20]` then the result of padding by '[0.5, 0.5]' will be `[5, 25]`.
+ In addition, both padding properties support asymmetric padding.
 
 ```js
   fc.util.extent()
       .fields(fields)
+      .padUnit('domain')
+      .pad([3, 5])(data); // [7, 45]
+  fc.util.extent()
+      .fields(fields)
+      .padUnit('percent')
       .pad([0.25, 0.5])(data); // [2.5, 55]
 ```
 

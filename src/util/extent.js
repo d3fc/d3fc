@@ -12,7 +12,8 @@ export default function() {
 
     var fields = [],
         extraPoint = null,
-        padding = 0,
+        padUnit = 'percent',
+        pad = 0,
         symmetricalAbout = null;
 
     /**
@@ -67,15 +68,26 @@ export default function() {
             max = symmetrical + halfRange;
         }
 
-        // pad
-        if (Array.isArray(padding)) {
-            var deltaArray = [padding[0] * (max - min), padding[1] * (max - min)];
-            min -= deltaArray[0];
-            max += deltaArray[1];
-        } else {
-            var delta = padding * (max - min) / 2;
-            min -= delta;
-            max += delta;
+        if (padUnit === 'domain') {
+            // pad absolutely
+            if (Array.isArray(pad)) {
+                min -= pad[0];
+                max += pad[1];
+            } else {
+                min -= pad;
+                max += pad;
+            }
+        } else if (padUnit === 'percent') {
+            // pad percentagely
+            if (Array.isArray(pad)) {
+                var deltaArray = [pad[0] * (max - min), pad[1] * (max - min)];
+                min -= deltaArray[0];
+                max += deltaArray[1];
+            } else {
+                var delta = pad * (max - min) / 2;
+                min -= delta;
+                max += delta;
+            }
         }
 
         // Include the specified point in the range
@@ -122,11 +134,19 @@ export default function() {
         return extents;
     };
 
+    extents.padUnit = function(x) {
+        if (!arguments.length) {
+            return padUnit;
+        }
+        padUnit = x;
+        return extents;
+    };
+
     extents.pad = function(x) {
         if (!arguments.length) {
-            return padding;
+            return pad;
         }
-        padding = x;
+        pad = x;
         return extents;
     };
 
