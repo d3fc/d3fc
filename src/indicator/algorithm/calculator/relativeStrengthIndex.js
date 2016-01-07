@@ -3,39 +3,49 @@ import _slidingWindow from './slidingWindow';
 
 export default function() {
 
-    var openValue = function(d, i) { return d.open; },
-        closeValue = function(d, i) { return d.close; },
-        averageAccumulator = function(values) {
-            var alpha = 1 / values.length;
-            var result = values[0];
-            for (var i = 1, l = values.length; i < l; i++) {
-                result = alpha * values[i] + (1 - alpha) * result;
-            }
+    var closeValue = function(d, i) { return d.close; },
+        wildersSmoothing = function(values, prevAvg) {
+            var result = prevAvg + ((values[values.length - 1] - prevAvg) / values.length);
             return result;
-        };
+        },
+        sum = function(a, b) { return a + b; },
+        prevClose,
+        prevDownChangesAvg,
+        prevUpChangesAvg;
 
     var slidingWindow = _slidingWindow()
         .windowSize(14)
         .accumulator(function(values) {
-            var downCloses = [];
-            var upCloses = [];
+            var closes = values.map(closeValue);
 
-            for (var i = 0, l = values.length; i < l; i++) {
-                var value = values[i];
-
-                var open = openValue(value);
-                var close = closeValue(value);
-
-                downCloses.push(open > close ? open - close : 0);
-                upCloses.push(open < close ? close - open : 0);
+            if (!prevClose) {
+                prevClose = closes[0];
+                return undefined;
             }
 
-            var downClosesAvg = averageAccumulator(downCloses);
-            if (downClosesAvg === 0) {
-                return 100;
-            }
+            var downChanges = [];
+            var upChanges = [];
 
-            var rs = averageAccumulator(upCloses) / downClosesAvg;
+            closes.forEach(function(close) {
+                var downChange = prevClose > close ? prevClose - close : 0;
+                var upChange = prevClose < close ? close - prevClose : 0;
+
+                downChanges.push(downChange);
+                upChanges.push(upChange);
+
+                prevClose = close;
+            });
+
+            var downChangesAvg = prevDownChangesAvg ? wildersSmoothing(downChanges, prevDownChangesAvg) :
+                downChanges.reduce(sum) / closes.length;
+
+            var upChangesAvg = prevUpChangesAvg ? wildersSmoothing(upChanges, prevUpChangesAvg) :
+                upChanges.reduce(sum) / closes.length;
+
+            prevDownChangesAvg = downChangesAvg;
+            prevUpChangesAvg = upChangesAvg;
+
+            var rs = upChangesAvg / downChangesAvg;
             return 100 - (100 / (1 + rs));
         });
 
@@ -43,13 +53,6 @@ export default function() {
         return slidingWindow(data);
     };
 
-    rsi.openValue = function(x) {
-        if (!arguments.length) {
-            return openValue;
-        }
-        openValue = x;
-        return rsi;
-    };
     rsi.closeValue = function(x) {
         if (!arguments.length) {
             return closeValue;

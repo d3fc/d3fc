@@ -1,86 +1,188 @@
+// Tested using data found in 'Technical Analysis from A to Z, 2nd Edition' By Steven B. Achelis (Table 71, Pg. 299)
+
 describe('fc.indicator.algorithm.calculator.relativeStrengthIndex', function() {
 
     var rsi;
 
+    function verifyResult(expected, result) {
+        expect(result.length).toEqual(expected.length);
+
+        for (var i = 0; i < expected.length; i++) {
+            if (result[i]) {
+                expect(result[i]).toBeCloseTo(expected[i], 0.001);
+            } else {
+                expect(result[i]).not.toBeDefined();
+            }
+        }
+    }
+
     beforeEach(function() {
         rsi = fc.indicator.algorithm.calculator.relativeStrengthIndex()
-            .windowSize(3);
+            .windowSize(5);
     });
 
-    it('should calculate a constant down period', function() {
+    it('should not return any RSI values when data size is zero', function() {
+        var data = [];
+
+        expect(rsi(data)).toEqual([]);
+    });
+
+    it('should return one undefined RSI value when data size is one', function() {
         var data = [
-            {open: 1, close: 0},
-            {open: 2, close: 1},
-            {open: 3, close: 2}
+            {close: 37.875}
         ];
 
-        expect(rsi(data)).toEqual([undefined, undefined, 0]);
-    });
+        var result = rsi(data);
 
-    it('should calculate a constant up period', function() {
-        var data = [
-            {open: 0, close: 1},
-            {open: 1, close: 2},
-            {open: 2, close: 3}
+        var expected = [
+            undefined
         ];
 
-        expect(rsi(data)).toEqual([undefined, undefined, 100]);
+        verifyResult(expected, result);
     });
 
-    describe('with a constant mixed period [+1,-1,+1]', function() {
+    it('should return undefined RSI values when data size is less than window size', function() {
+        var data = [
+            {close: 37.875},
+            {close: 39.5},
+            {close: 38.75},
+            {close: 39.8125}
+        ];
 
-        var data;
+        var result = rsi(data);
 
-        beforeEach(function() {
-            data = [
-                {open: 0, close: 1},
-                {open: 2, close: 1},
-                {open: 2, close: 3}
-            ];
-        });
+        var expected = [
+            undefined,
+            undefined,
+            undefined,
+            undefined
+        ];
 
-        it('should calculate correctly with a windowSize of 1', function() {
-            rsi.windowSize(1);
-            expect(rsi(data)).toEqual([100, 0, 100]);
-        });
-
-        it('should calculate correctly with a windowSize of 2', function() {
-            rsi.windowSize(2);
-            expect(rsi(data)).toEqual([undefined, 50, 50]);
-        });
-
-        it('should calculate correctly with a windowSize of 3', function() {
-            rsi.windowSize(3);
-            expect(rsi(data)).toEqual([undefined, undefined, 77.77777777777777]);
-        });
+        verifyResult(expected, result);
     });
 
-    describe('with an inverted constant mixed period [-2,+2,-2]', function() {
+    it('should return undefined RSI values when data size equals window size', function() {
+        var data = [
+            {close: 37.875},
+            {close: 39.5},
+            {close: 38.75},
+            {close: 39.8125},
+            {close: 40}
+        ];
 
-        var data;
+        var result = rsi(data);
 
-        beforeEach(function() {
-            data = [
-                {open: 2, close: 0},
-                {open: 1, close: 3},
-                {open: 2, close: 0}
-            ];
-        });
+        var expected = [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined
+        ];
 
-        it('should calculate correctly with a windowSize of 1', function() {
-            rsi.windowSize(1);
-            expect(rsi(data)).toEqual([0, 100, 0]);
-        });
+        verifyResult(expected, result);
+    });
 
-        it('should calculate correctly with a windowSize of 2', function() {
-            rsi.windowSize(2);
-            expect(rsi(data)).toEqual([undefined, 50, 50]);
-        });
+    it('should return one RSI value when data size equals window size plus 1', function() {
+        var data = [
+            {close: 37.875},
+            {close: 39.5},
+            {close: 38.75},
+            {close: 39.8125},
+            {close: 40},
+            {close: 39.875}
+        ];
 
-        it('should calculate correctly with a windowSize of 3', function() {
-            rsi.windowSize(3);
-            expect(rsi(data)).toEqual([undefined, undefined, 22.222222222222214]);
-        });
+        var result = rsi(data);
+
+        var expected = [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            76.6667
+        ];
+
+        verifyResult(expected, result);
+    });
+
+    it('should return two RSI values when data size equals window size plus 2', function() {
+        var data = [
+            {close: 37.875},
+            {close: 39.5},
+            {close: 38.75},
+            {close: 39.8125},
+            {close: 40},
+            {close: 39.875},
+            {close: 40.1875}
+        ];
+
+        var result = rsi(data);
+
+        var expected = [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            76.6667,
+            78.8679
+        ];
+
+        verifyResult(expected, result);
+    });
+
+    it('should work with test data', function() {
+        var data = [
+            {close: 37.875},
+            {close: 39.5},
+            {close: 38.75},
+            {close: 39.8125},
+            {close: 40},
+            {close: 39.875},
+            {close: 40.1875},
+            {close: 41.25},
+            {close: 41.125},
+            {close: 41.625},
+            {close: 41.25},
+            {close: 40.1875},
+            {close: 39.9375},
+            {close: 39.9375},
+            {close: 40.5},
+            {close: 41.9375},
+            {close: 42.25},
+            {close: 42.25},
+            {close: 41.875},
+            {close: 41.875}
+        ];
+
+        var result = rsi(data);
+
+        var expected = [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            76.6667,
+            78.8679,
+            84.9158,
+            81.486,
+            84.5968,
+            73.0851,
+            49.3173,
+            45.0119,
+            45.0119,
+            57.9252,
+            75.9596,
+            78.4676,
+            78.4676,
+            65.6299,
+            65.6299
+        ];
+
+        verifyResult(expected, result);
     });
 });
 
