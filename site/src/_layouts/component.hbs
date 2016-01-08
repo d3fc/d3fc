@@ -2,7 +2,6 @@
 layout: default
 ---
 <div class="container component">
-
   <div class="row">
 
     <div class="col-sm-9 col-xs-12">
@@ -12,56 +11,54 @@ layout: default
         <a href="{{package.repository.url}}/blob/master/src/{{component}}">View source on GitHub</a>
         {{/if}}
       </h1>
-
-      {{#markdown }}
-        {{> body  }}
-      {{/markdown }}
-
-      <nav class="visible-xs-block">
-        <ul class="pager">
-          {{#each pages}}
-            {{#is data.layout 'component'}}
-              {{#if this.isCurrentPage}}
-                {{#each ../../../pages}}
-                  {{#is index ../prev}}
-                    <li class="previous"><a href="{{relativeLink}}"><span aria-hidden="true">&larr;</span> {{data.title}}</a></li>
-                  {{/is}}
-                  {{#is index ../next}}
-                    <li class="next"><a href="{{relativeLink}}">{{data.title}} <span aria-hidden="true">&rarr;</span></a></li>
-                  {{/is}}
-                {{/each}}
-              {{/if}}
-            {{/is}}
-          {{/each}}
-        </ul>
-      </nav>
+      {{{body}}}
     </div>
 
     <nav class="col-sm-3 hidden-xs">
       <ul class="nav nav-stacked fixed nav-sidebar">
-        {{#each _config.component-ids}}
-          <li>
-            {{#each ../_config.components}}
-              {{#is @key ../this}}
-                <h4>{{name}}</h4>
-              {{/is}}
-            {{/each}}
-            <ul class="nav nav-stacked">
-              {{#each ../pages}}
-                {{#is data.namespace ../this}}
-                    <li class="{{#if this.isCurrentPage}}active{{/if}}">
-                      <a href="{{this.relativeLink}}">
-                        {{data.title}}
-                      </a>
-                    </li>
-                {{/is}}
-              {{/each}}
-            </ul>
-          </li>
-        {{/each}}
+         <li>
+          <h4>Introduction</h4>
+          <ul class="nav nav-stacked">
+              <li class="">
+                <a href="/components/introduction/1-getting-started.html">
+                  Getting Started
+                </a>
+              </li>
+              <li class="">
+                <a href="/components/introduction/2-decorate-pattern.html">
+                  Decorate Pattern
+                </a>
+              </li>
+              <li class="">
+                <a href="/components/introduction/3-transitions.html">
+                  Transitions
+                </a>
+              </li>
+              <li class="">
+                <a href="/components/introduction/4-component-design.html">
+                  Component Design
+                </a>
+              </li>
+          </ul>
+        </li>
+        {{#group pages by="data.namespace"}}
+          {{#if value}}
+            <li>
+              <h4>{{value}}</h4>
+              <ul class="nav nav-stacked">
+                {{#each items}}
+                  <li class="{{#if this.page.isCurrentPage}}active{{/if}}">
+                    <a href="{{this.page.destination}}">
+                      {{data.title}}
+                    </a>
+                  </li>
+                {{/each}}
+              </ul>
+            </li>
+          {{/if}}
+        {{/group}}
       </ul>
     </nav>
 
   </div>
-
 </div>

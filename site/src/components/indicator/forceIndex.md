@@ -2,33 +2,10 @@
 layout: component
 title: Force Index
 component: indicator/algorithm/forceIndex.js
-tags:
-  - playground
-namespace: indicator
-
-example-code: |
-  // Create and apply the Force Index algorithm
-  var forceAlgorithm = fc.indicator.algorithm.forceIndex();
-  forceAlgorithm(data);
-
-  //Scaling the display using the maximum absolute value of the Index
-  var yDomain = fc.util.extent()
-      .fields(function(d) { return d.force; })
-      .symmetricalAbout(0);
-
-  var yScale = d3.scale.linear()
-      .domain(yDomain(data))
-      .range([height, 0]).nice();
-
-  // Create the renderer
-  var force = fc.indicator.renderer.forceIndex()
-      .xScale(xScale)
-      .yScale(yScale);
-
-  // Add it to the container
-  container.append('g')
-      .datum(data)
-      .call(force);
+namespace: Indicator
+externals:
+  forceIndex-example-js: forceIndex-example.js
+  forceIndex-example-html: forceIndex-example.html
 ---
 
 A [Force Index](http://en.wikipedia.org/wiki/Force_index) is an indicator that illustrates how strong the actual buying
@@ -40,7 +17,12 @@ Attention is given to the relative size and trends in the Index.
 The Force Index rendered on a linear scale:
 
 ```js
-{{{example-code}}}
+{{{ codeblock forceIndex-example-js }}}
 ```
 
-{{>example-fixture}}
+{{{ dynamic-include 'codepen' html="forceIndex-example-html" js="forceIndex-example-js" }}}
+
+{{{forceIndex-example-html}}}
+<script type="text/javascript">
+{{{forceIndex-example-js}}}
+</script>

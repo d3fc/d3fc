@@ -1,7 +1,3 @@
----
-css-extra: ''
-script-extra: ''
----
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +14,6 @@ script-extra: ''
     <link rel="icon" type="image/png" href="{{assets}}/images/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="{{assets}}/images/favicon-96x96.png" sizes="96x96">
     <link rel="stylesheet" href="{{assets}}/styles.css" />
-    {{#if css-extra}} {{{css-extra}}} {{/if}}
   </head>
   <body>
     <div class="content">
@@ -35,17 +30,15 @@ script-extra: ''
               </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="{{assets}}#quick-start">Quick Start</a></li>
                 <li class="{{#is layout 'component'}}active{{/is}}"><a href="{{assets}}/components/introduction/1-getting-started.html">Documentation</a></li>
                 <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{assets}}/examples">Examples</a></li>
-                <li class="{{#is layout 'playground'}}active{{/is}}"><a href="{{assets}}/playground">Playground</a></li>
                 <li><a href="{{package.repository.url}}">GitHub</a></li>
               </ul>
             </div>
         </div>
       </nav>
 
-      {{> body}}
+      {{{body}}}
 
     </div>
     <footer>
@@ -55,8 +48,8 @@ script-extra: ''
       </div>
     </footer>
 
-    {{#if script}}<script src="{{script}}"></script>{{/if}}
-    {{#if script-extra}}{{{script-extra}}}{{/if}}
-    <script src="//localhost:35729/livereload.js"></script>
+    {{#if dev}}
+      <script src="//localhost:35729/livereload.js"></script>
+    {{/if}}
   </body>
 </html>

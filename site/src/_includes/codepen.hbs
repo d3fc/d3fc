@@ -1,0 +1,13 @@
+<div class="codepen-link">
+  <form action="http://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"{{ escape html}}",
+        "js": "{{{ escape js }}}",
+        "css": "{{#if css}}{{{ escape css }}}{{/if}}",
+        "js_external": "https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.bundle.js",
+        "css_external": "https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.min.css"}
+      '/>
+    <input type="submit" value="Open in Codepen"/>
+  </form>
+</div>

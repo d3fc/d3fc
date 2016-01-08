@@ -2,34 +2,10 @@
 layout: component
 title: Moving Average
 component: indicator/algorithm/movingAverage.js
-tags:
-  - playground
-namespace: indicator
-
-example-code: |
-  // Create the point series
-  var point = fc.series.point()
-      .xScale(xScale)
-      .yScale(yScale);
-
-  container.append('g')
-      .datum(data)
-      .call(point);
-
-  // Create and apply the Moving Average
-  var movingAverage = fc.indicator.algorithm.movingAverage()
-  movingAverage(data);
-
-  // Create a line that renders the result
-  var ma = fc.series.line()
-      .yValue(function(d) { return d.movingAverage; })
-      .xScale(xScale)
-      .yScale(yScale);
-
-  // Add it to the container
-  container.append('g')
-      .datum(data)
-      .call(ma);
+namespace: Indicator
+externals:
+  ma-example-js: movingAverage-example.js
+  ma-example-html: movingAverage-example.html
 ---
 
 A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator that smooths out fluctuations in data. This component computes a [simple moving average](http://en.wikipedia.org/wiki/Moving_average#Simple_moving_average) for a given data field, averaging the previous 5 points by default.
@@ -44,9 +20,14 @@ Simpler indicators do not require renderer with their output readily rendered vi
 The example below creates a point series and a moving average:
 
 ```js
-{{{example-code}}}
+{{{ codeblock ma-example-js }}}
 ```
 
-{{>example-fixture}}
+{{{ dynamic-include 'codepen' html="ma-example-html" js="ma-example-js" }}}
+
+{{{ma-example-html}}}
+<script type="text/javascript">
+{{{ma-example-js}}}
+</script>
 
 You can configure the number of datapoints that are included in the moving average via the `windowSize` property, you can also change the object property that is averaged via the `yValue` property.

@@ -2,7 +2,7 @@
 layout: component
 title: Tooltip
 component: chart/tooltip.js
-namespace: chart
+namespace: Chart
 
 example-code: |
   var data = {

@@ -1,4 +1,7 @@
 /* global module, require */
+var tinySSG = require('tiny-ssg');
+var process = require('process');
+var handlebars = require('handlebars');
 
 module.exports = function(grunt) {
     'use strict';
@@ -57,47 +60,6 @@ module.exports = function(grunt) {
                 forcelocal: true,
                 onlyAutomate: true,
                 v: true
-            }
-        },
-
-        assemble: {
-            site: {
-                options: {
-                    assets: 'site/dist',
-                    data: ['package.json', 'site/src/_config.yml'],
-                    partials: 'site/src/_includes/*.hbs',
-                    layoutdir: 'site/src/_layouts',
-                    layout: 'default',
-                    layoutext: '.hbs',
-                    helpers: ['handlebars-helpers']
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'site/src',
-                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
-                        dest: 'site/dist'
-                    }
-                ]
-            },
-            playground: {
-                options: {
-                    assets: 'site/dist',
-                    data: ['package.json', 'site/src/_config.yml'],
-                    partials: 'site/src/_includes/*.hbs',
-                    layoutdir: 'site/src/_layoutsPlayground',
-                    layout: 'component',
-                    layoutext: '.hbs',
-                    helpers: ['handlebars-helpers']
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'site/src',
-                        src: ['components/**/*.md', 'examples/**/*.md'],
-                        dest: 'site/dist/playground/examples'
-                    }
-                ]
             }
         },
 
@@ -178,12 +140,6 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
-                        cwd: 'site/src/',
-                        src: ['examples/**/*', '!**/*.md', '!**/thumbnail.png'],
-                        dest: 'site/dist/playground/examples/'
-                    },
-                    {
-                        expand: true,
                         cwd: 'dist/',
                         src: ['d3fc.*'],
                         dest: 'site/dist'
@@ -259,7 +215,7 @@ module.exports = function(grunt) {
                     '<%= meta.metaJsFiles %>',
                     'site/src/**/*'
                 ],
-                tasks: ['site'],
+                tasks: ['site:dev'],
                 options: {
                     livereload: {
                         port: 35729
@@ -283,6 +239,9 @@ module.exports = function(grunt) {
             },
             webdriverTests: {
                 src: ['webdriver-tests/**Spec.js']
+            },
+            site: {
+                src: ['site/src/**/*.js']
             }
         },
 
@@ -302,7 +261,7 @@ module.exports = function(grunt) {
         clean: {
             components: ['dist/*', '!dist/README.md'],
             visualTests: ['visual-tests/assets'],
-            site: ['site/dist']
+            site: ['site/dist/*']
         },
 
         version: {
@@ -333,6 +292,46 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.registerTask('tiny-ssg', 'builds the site', function() {
+        var done = this.async();
+        var globalData = {
+            package: grunt.file.readJSON('package.json'),
+            dev: grunt.task.current.flags.dev
+        };
+        process.chdir('site/src');
+
+        // for dev builds don't syntax highlight
+        if (globalData.dev) {
+            tinySSG.marked.setOptions({
+                highlight: function(code) {
+                    return code;
+                }
+            });
+        }
+
+        // load the helpers required by the site build
+        require('handlebars-helpers/lib/helpers/helpers-miscellaneous').register(tinySSG.handlebars);
+        require('handlebars-helpers/lib/helpers/helpers-comparisons').register(tinySSG.handlebars);
+        require('handlebars-group-by').register(tinySSG.handlebars);
+
+        // load the project-specific helpers
+        require('./site/handlebars-helpers/dynamic-include').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/escape').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/codeblock').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/json').register(tinySSG.handlebars);
+
+        //'./components/**/*.md',
+        tinySSG.build(['components/**/*.md', 'index.html', 'examples/**/*.md'], '../dist', globalData)
+            .then(function() {
+                process.chdir('../../');
+                done();
+            })
+            .catch(function(e) {
+                process.chdir('../../');
+                grunt.fail.warn(e);
+            });
+    });
+
     require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
@@ -345,7 +344,9 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
-    grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site', 'assemble:playground']);
+    grunt.registerTask('site:common', ['clean:site', 'copy:site', 'concat:site', 'less:site']);
+    grunt.registerTask('site', ['eslint:site', 'site:common', 'tiny-ssg']);
+    grunt.registerTask('site:dev', ['site:common', 'tiny-ssg:dev']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?
