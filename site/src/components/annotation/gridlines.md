@@ -2,28 +2,27 @@
 layout: component
 title: Gridlines
 component: annotation/gridline.js
-tags:
- - playground
-namespace: annotation
-
-example-code: |
-  var gridlines = fc.annotation.gridline()
-      .xScale(xScale)
-      .yScale(yScale);
-
-  container.append('g')
-      .datum(data)
-      .call(gridlines);
+namespace: Annotation
+externals:
+  gridlines-example-js: gridlines-example.js
+  gridlines-example-html: gridlines-example.html
 ---
 
-This component renders horizontal and vertical gridlines.
+This component renders horizontal and vertical gridlines based on the ticks supplied by the associated axes.
+
+The following is a simple example:
 
 ```js
-{{{example-code}}}
+{{{ codeblock gridlines-example-js}}}
 ```
 
 Which gives the following:
 
-{{>example-fixture}}
+{{{ dynamic-include 'codepen' html="gridlines-example-html" js="gridlines-example-js" }}}
+
+{{{gridlines-example-html}}}
+<script type="text/javascript">
+{{{gridlines-example-js}}}
+</script>
 
 You can configure the number of ticks via the `xTicks` and `yTicks` properties.

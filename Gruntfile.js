@@ -1,4 +1,6 @@
 /* global module, require */
+var tinySSG = require('tiny-ssg');
+var process = require('process');
 
 module.exports = function(grunt) {
     'use strict';
@@ -57,47 +59,6 @@ module.exports = function(grunt) {
                 forcelocal: true,
                 onlyAutomate: true,
                 v: true
-            }
-        },
-
-        assemble: {
-            site: {
-                options: {
-                    assets: 'site/dist',
-                    data: ['package.json', 'site/src/_config.yml'],
-                    partials: 'site/src/_includes/*.hbs',
-                    layoutdir: 'site/src/_layouts',
-                    layout: 'default',
-                    layoutext: '.hbs',
-                    helpers: ['handlebars-helpers']
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'site/src',
-                        src: ['**/*.md', '*.md', '**/*.hbs', '*.hbs', '!_*/*'],
-                        dest: 'site/dist'
-                    }
-                ]
-            },
-            playground: {
-                options: {
-                    assets: 'site/dist',
-                    data: ['package.json', 'site/src/_config.yml'],
-                    partials: 'site/src/_includes/*.hbs',
-                    layoutdir: 'site/src/_layoutsPlayground',
-                    layout: 'component',
-                    layoutext: '.hbs',
-                    helpers: ['handlebars-helpers']
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'site/src',
-                        src: ['components/**/*.md', 'examples/**/*.md'],
-                        dest: 'site/dist/playground/examples'
-                    }
-                ]
             }
         },
 
@@ -175,12 +136,6 @@ module.exports = function(grunt) {
                         cwd: 'site/src/',
                         src: ['**/*', '!_*', '!**/*.hbs', '!**/*.md', '!**/*.yml'],
                         dest: 'site/dist/'
-                    },
-                    {
-                        expand: true,
-                        cwd: 'site/src/',
-                        src: ['examples/**/*', '!**/*.md', '!**/thumbnail.png'],
-                        dest: 'site/dist/playground/examples/'
                     },
                     {
                         expand: true,
@@ -302,7 +257,7 @@ module.exports = function(grunt) {
         clean: {
             components: ['dist/*', '!dist/README.md'],
             visualTests: ['visual-tests/assets'],
-            site: ['site/dist']
+            site: ['site/dist/*']
         },
 
         version: {
@@ -333,6 +288,24 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.registerTask('tiny-ssg', 'builds the site', function() {
+        var done = this.async();
+        var globalData = {
+            package: grunt.file.readJSON('package.json')
+        };
+        process.chdir('site/src');
+
+        tinySSG(['./components/**/*.md', './index.html', './examples/**/*.md'], '../dist', globalData)
+            .then(function() {
+                process.chdir('../../');
+                done();
+            })
+            .catch(function(e) {
+                process.chdir('../../');
+                grunt.fail.warn(e);
+            });
+    });
+
     require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
@@ -345,7 +318,7 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
-    grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'assemble:site', 'assemble:playground']);
+    grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'tiny-ssg']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?

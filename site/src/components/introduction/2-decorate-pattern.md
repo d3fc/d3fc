@@ -1,43 +1,16 @@
 ---
 layout: component
 title: Decorate Pattern
-namespace: introduction
-
-axis-example-code: |
-  var axis = fc.svg.axis()
-    .scale(ordinalScale)
-    .decorate(function(s) {
-      s.enter()
-        .select('text')
-        .style('text-anchor', 'start')
-        .attr('transform', 'rotate(45 -10 10)');
-    });
-
-bar-example-code: |
-  var color = d3.scale.category10();
-
-  var bar = fc.series.bar()
-      .xScale(xScale)
-      .yScale(yScale)
-      .decorate(function(s) {
-        s.enter()
-          .select('path')
-          .style('fill', function(d, i) {
-            return color(i);
-          });
-      });
-
-point-example-code: |
-  var point = fc.series.point()
-      .xScale(xScale)
-      .yScale(yScale)
-      .decorate(function(s) {
-        s.enter()
-          .append('text')
-          .style('text-anchor', 'middle')
-          .attr('transform', 'translate(0, -10)')
-          .text(function(d) { return d3.format(".2f")(d.close); });
-      });
+namespace: Introduction
+externals:
+  decorate-axis-js: decorate-axis.js
+  decorate-axis-html: decorate-axis.html
+  decorate-axis-css: decorate-axis.css
+  decorate-bars-js: decorate-bars.js
+  decorate-bars-html: decorate-bars.html
+  decorate-bars-css: decorate-bars.css
+  decorate-labels-html: decorate-labels.html
+  decorate-labels-js: decorate-labels.js
 ---
 
 Most chart APIs are complex and expansive in order to provide flexibility. With d3fc we have taken a different approach ...
@@ -57,35 +30,18 @@ The d3fc axis re-implements the D3 axis to support the decorate pattern. Each ax
 In this example the axis labels are rotated by adding a transform to the `text` elements:
 
 ```js
-{{{axis-example-code}}}
+{{{ codeblock decorate-axis-js }}}
 ```
 
 <style type="text/css">
-  .tick text {
-    font-size: 13px;
-  }
+{{{decorate-axis-css}}}
 </style>
 
-<svg class="axis-container" id="axis-example"></svg>
+{{{ dynamic-include 'codepen' html="decorate-axis-html" js="decorate-axis-js" css="decorate-axis-css"}}}
 
+{{{decorate-axis-html}}}
 <script type="text/javascript">
-(function() {
-  var width = $("#axis-example").width();
-
-  var linearScale = d3.scale.linear()
-    .domain([0, 140])
-    .range([0, width])
-    .nice();
-
-  var ordinalScale = d3.scale.ordinal()
-    .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles', 'Aubergines', 'Artichokes', 'Spinach', 'Cucumber'])
-    .rangePoints([0, width], 1);
-
-  {{{axis-example-code}}}
-
-  d3.select('#axis-example')
-    .call(axis);
-}());
+{{{decorate-axis-js}}}
 </script>
 
 The data join selection passed to the `decorate` function is the update selection for the `g` elements. The above code accesses the enter selection so that the DOM updates are only applied when ticks are first created. The child `text` element is selected and rotated accordingly.
@@ -97,29 +53,18 @@ The d3fc series APIs are deliberately very simple, instead you are encouraged to
 The example below shows how a bar series can be styled to cycle through a color palette:
 
 ```js
-{{{bar-example-code}}}
+{{{ codeblock decorate-bars-js }}}
 ```
 
 <style type="text/css">
-  .bar path {
-    stroke-width: 0;
-  }
+{{{decorate-bars-css}}}
 </style>
 
-<div id="bar-example" class="chart" style="height: 200px"> </div>
+{{{ dynamic-include 'codepen' html="decorate-bars-html" js="decorate-bars-js" css="decorate-bars-css"}}}
 
+{{{decorate-bars-html}}}
 <script type="text/javascript">
-(function() {
-  var f = createFixture('#bar-example', null, 200, 10, function() { return true; });
-  var container = f.container, data = f.data,
-    xScale = f.xScale, yScale = f.yScale;
-
-  {{{bar-example-code}}}
-
-  container.append('g')
-      .datum(data)
-      .call(bar);
-}());
+{{{decorate-bars-js}}}
 </script>
 
 Again, the enter selection is used and the required child element, in this case a `path` is selected. D3 selections allow you to specify values as functions of the bound data and index, here the index is used to cycle through a color scale.
@@ -131,21 +76,12 @@ Using the decorate pattern you can also add new elements to a component via its 
 In the example below datapoint labels are added via decorate:
 
 ```js
-{{{point-example-code}}}
+{{{ codeblock decorate-labels-js }}}
 ```
 
-<div id="label-example" class="chart" style="height: 200px"> </div>
+{{{ dynamic-include 'codepen' html="decorate-labels-html" js="decorate-labels-js"}}}
 
+{{{decorate-labels-html}}}
 <script type="text/javascript">
-(function() {
-  var f = createFixture('#label-example', null, 200, 10, function() { return true; });
-  var container = f.container, data = f.data,
-    xScale = f.xScale, yScale = f.yScale;
-
-  {{{point-example-code}}}
-
-  container.append('g')
-      .datum(data)
-      .call(point);
-}());
+{{{decorate-labels-js}}}
 </script>

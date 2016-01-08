@@ -1,0 +1,8 @@
+#example-chart {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 400px;
+}
+.area {
+  fill-opacity: 0.5;
+}

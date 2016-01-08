@@ -3,31 +3,23 @@ layout: example
 title: Low Barrel
 namespace: examples
 script: index.js
+externals:
+    low-barrel-js: low-barrel.js
+    low-barrel-html: low-barrel.html
+    low-barrel-css: low-barrel.css
 ---
-<style>@import "index.css";</style>
 
-<svg id="low-barrel">
-  <g layout-style="flex: 0.65; flexDirection: row">
-    <svg class="main" layout-style="flex: 1"></svg>
-    <g layout-style="width: 20; justifyContent: center">
-      <g layout-style="height: 0">
-        <text text-anchor="middle" transform="rotate(90)">OHLC</text>
-      </g>
-    </g>
-  </g>
-  <g layout-style="flex: 0.2; flexDirection: row">
-    <svg class="volume" layout-style="flex: 1"></svg>
-    <g layout-style="width: 20; justifyContent: center">
-      <g layout-style="height: 0">
-        <text text-anchor="middle" transform="rotate(90)">Volume</text>
-      </g>
-    </g>
-  </g>
-  <g layout-style="flex: 0.15; flexDirection: row">
-    <svg class="navigator" layout-style="flex: 1"></svg>
-    <text layout-style="width: 20"></text>
-  </g>
-</svg>
+{{{ dynamic-include 'codepen' html="low-barrel-html" js="low-barrel-js" css="low-barrel-css"}}}
+
+<style>
+{{low-barrel-css}}
+</style>
+
+{{{low-barrel-html}}}
+
+<script>
+{{{low-barrel-js}}}
+</script>
 
 This example shows how a more complex chart can be built using the d3fc components.
 

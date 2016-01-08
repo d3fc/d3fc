@@ -1,7 +1,7 @@
 ---
 layout: component
 title: Component Design
-namespace: introduction
+namespace: Introduction
 ---
 
 A full description and example of each component can found in the navigation menu.

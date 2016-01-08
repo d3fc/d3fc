@@ -2,38 +2,10 @@
 layout: component
 title: MACD
 component: indicator/algorithm/macd.js
-tags:
-  - frontpage
-  - playground
-namespace: indicator
-
-example-code: |
-
-  // Create and apply the macd algorithm
-  var macdAlgorithm = fc.indicator.algorithm.macd()
-      .fastPeriod(4)
-      .slowPeriod(10)
-      .signalPeriod(5);
-  macdAlgorithm(data);
-
-  // the MACD is rendered on its own scale, centered around zero
-  var yDomain = fc.util.extent()
-      .fields(function(d) { return d.macd.macd; })
-      .symmetricalAbout(0);
-
-  var yScale = d3.scale.linear()
-      .domain(yDomain(data))
-      .range([height, 0]);
-
-  // Create the renderer
-  var macd = fc.indicator.renderer.macd()
-      .xScale(xScale)
-      .yScale(yScale);
-
-  // Add it to the container
-  container.append('g')
-      .datum(data)
-      .call(macd);
+namespace: Indicator
+externals:
+  macd-example-js: macd-example.js
+  macd-example-html: macd-example.html  
 ---
 
 A [MACD](https://en.wikipedia.org/wiki/MACD) indicator (short for Moving Average Convergence / Divergence) is computed from the difference between a fast (short period) Exponential Moving Average (EMA) and a slow (long period) EMA. It is rendered against a signal line, which is an EMA of the MACD itself, and a bar chart that shows the difference between the two.
@@ -41,9 +13,14 @@ A [MACD](https://en.wikipedia.org/wiki/MACD) indicator (short for Moving Average
 The following is a simple example of the MACD indicator, where the fast, slow and signal periods have been set explicitly (it is more typically used with the defaults of 12, 29 & 9).
 
 ```js
-{{{example-code}}}
+{{{ codeblock macd-example-js }}}
 ```
 
-Which yields the following :
+Which yields the following:
 
-{{>example-fixture}}
+{{{ dynamic-include 'codepen' html="macd-example-html" js="macd-example-js" }}}
+
+{{{macd-example-html}}}
+<script type="text/javascript">
+{{{macd-example-js}}}
+</script>

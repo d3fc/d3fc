@@ -1,0 +1,15 @@
+#example-chart {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 400px;
+}
+.bar path {
+  stroke-width: 0;
+}
+.x-axis .label {
+  text-anchor: start;
+}
+.cartesian-chart .background {
+  fill: transparent;
+  stroke: transparent;
+}

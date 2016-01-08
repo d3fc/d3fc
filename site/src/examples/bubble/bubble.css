@@ -1,0 +1,11 @@
+.point path {
+    stroke-width: 0;
+}
+.title text {
+    font-size: 15pt;
+}
+#bubble-chart {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 400px;
+}

@@ -23,7 +23,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "assemble": "^0.4.42",
     "bootstrap": "^3.3.5",
     "browserstacktunnel-wrapper": "^1.4.2",
     "d3-bundler": "^0.2.7",
@@ -46,7 +45,6 @@
     "grunt-umd": "^2.3.3",
     "grunt-version": "^1.0.0",
     "grunt-webdriver": "^1.0.0",
-    "handlebars-helpers": "ColinEberhardt/handlebars-helpers",
     "jasmine": "^2.3.2",
     "jit-grunt": "^0.9.1",
     "jquery": "^1.11.2",
@@ -55,7 +53,8 @@
     "rollup": "^0.18.0",
     "seedrandom": "^2.4.0",
     "time-grunt": "^1.2.1",
-    "webdriverio": "^3.2.5"
+    "webdriverio": "^3.2.5",
+    "tiny-ssg": "ColinEberhardt/tiny-ssg"
   },
   "scripts": {
     "test": "grunt ci",
