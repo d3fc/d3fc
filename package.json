@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "author": "Scott Logic",
   "main": "dist/d3fc.js",
