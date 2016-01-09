@@ -15,7 +15,7 @@ export default function() {
     };
 
     d3.rebind(relativeStrengthIndex, mergedAlgorithm, 'merge');
-    d3.rebind(relativeStrengthIndex, rsi, 'windowSize', 'openValue', 'closeValue');
+    d3.rebind(relativeStrengthIndex, rsi, 'windowSize', 'closeValue');
 
     return relativeStrengthIndex;
 }
