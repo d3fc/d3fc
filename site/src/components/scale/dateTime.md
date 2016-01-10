@@ -78,6 +78,4 @@ By providing a discontinuity provider that skips weekends, `fc.scale.discontinui
 }());
 </script>
 
-You can write your own discontinuity provider, by [implementing a simple interface of 5 methods]({{package.repository.url}}/blob/master/components/scale/discontinuity). For example, you could create a scale that only includes hours within the working day.
-
-
+You can write your own discontinuity provider, by [implementing a simple interface of 5 methods]({{package.repository.url}}/tree/master/src/scale/discontinuity). For example, you could create a scale that only includes hours within the working day.

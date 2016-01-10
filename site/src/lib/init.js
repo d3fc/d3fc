@@ -2,6 +2,7 @@
 // should be kept very very simple!
 function createFixture(elementId, desiredWidth, desiredHeight, numPoints, filter) {
     var dataGenerator = fc.data.random.financial()
+        .filter(fc.data.random.filter.skipWeekends())
         .startDate(new Date(2014, 1, 1));
 
     if (filter) {
