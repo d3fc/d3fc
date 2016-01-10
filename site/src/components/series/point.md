@@ -70,17 +70,6 @@ Which gives the following:
 The series assumes that each object has a `date` property which defines its x-location, and a `close` property which
 defines its y-location. However, these can be changed via the `xValue` and `yValue` properties.
 
-You can supply a constant value, or a function via the `size` property that specifies the area of each point. You can also modify how  the series is rendered via the `decorate` function which is supplied the selection containing the `g` element that is
-the parent for each `path`:
-
-```js
-{{{example-code}}}
-```
-
-Which results in the following series:
-
-{{example-fixture}}
-
 As the series is built using the `d3.svg.symbol`, the following symbol `types` are also supported:
 
 * circle - a circle.
