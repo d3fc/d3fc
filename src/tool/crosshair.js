@@ -56,6 +56,7 @@ export default function() {
                 .style('pointer-events', 'all')
                 .on('mouseenter.crosshair', mouseenter)
                 .on('mousemove.crosshair', mousemove)
+                .on('wheel.crosshair', mousewheel)
                 .on('mouseleave.crosshair', mouseleave);
 
             var overlay = container.selectAll('rect')
@@ -101,6 +102,16 @@ export default function() {
     }
 
     function mousemove() {
+        var mouse = d3.mouse(this);
+        var container = d3.select(this);
+        var snapped = snap.apply(this, mouse);
+        var data = container.datum();
+        data[data.length - 1] = snapped;
+        container.call(crosshair);
+        event.trackingmove.apply(this, arguments);
+    }
+
+    function mousewheel() {
         var mouse = d3.mouse(this);
         var container = d3.select(this);
         var snapped = snap.apply(this, mouse);
