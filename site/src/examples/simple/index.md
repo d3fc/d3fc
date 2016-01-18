@@ -28,5 +28,5 @@ This example demonstrates how to a simple cartesian chart with a line and an are
  + The [extent](/components/util/extent.html) utility function is used to calculate the domain for the x and y scale, with padding applied to the y scale.
 
 ```js
-{{{example-code}}}
+{{{simple-js}}}
 ```

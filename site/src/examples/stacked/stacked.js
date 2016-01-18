@@ -33,11 +33,12 @@ d3.csv('http://d3fc.io/examples/stacked/data.csv', function(error, data) {
                       d3.scale.ordinal())
             .xDomain(yExtent(series.map(function(d) { return d.values; })))
             .yDomain(data.map(function(d) { return d.Country; }))
-            .xLabel('2013 Energy Production (million tonnes of oil equivalent)')
+            .xLabel('(million tonnes of oil equivalent)')
             .xNice()
+            .chartLabel('2013 Energy Production')
             .yOrient('left')
             .yTickSize(0)
-            .margin({left: 100, bottom: 40, right: 10})
+            .margin({left: 100, bottom: 40, right: 10, top: 30})
             .plotArea(stack)
             .decorate(function(selection) {
                 selection.enter()
@@ -45,7 +46,7 @@ d3.csv('http://d3fc.io/examples/stacked/data.csv', function(error, data) {
                     .layout({
                         position: 'absolute',
                         right: 10,
-                        top: 20,
+                        top: 40,
                         width: 358,
                         height: 36
                     })
@@ -56,7 +57,7 @@ d3.csv('http://d3fc.io/examples/stacked/data.csv', function(error, data) {
             });
 
     // render
-    d3.select('#example-chart')
+    d3.select('#stacked-chart')
         .datum(series)
         .call(chart);
 });

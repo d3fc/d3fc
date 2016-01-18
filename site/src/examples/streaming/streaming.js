@@ -41,10 +41,10 @@ function renderChart() {
      .series([gridlines, bollingerBands, candlestick]);
     chart.plotArea(multi);
 
-    d3.select('#top-chart')
+    d3.select('#streaming-chart')
      .datum(data)
      .call(chart);
 }
 renderChart();
 
-setInterval(renderChart, 200);
+//setInterval(renderChart, 200);

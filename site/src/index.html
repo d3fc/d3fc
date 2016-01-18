@@ -20,13 +20,42 @@ externals:
   ohlc-example-html: /components/series/ohlc-example.html
   stacked-example-js: /components/series/stacked-example.js
   stacked-example-html: /components/series/stacked-example.html
+  bubble-js: /examples/bubble/bubble.js
+  bubble-html: /examples/bubble/bubble.html
+  bubble-css: /examples/bubble/bubble.css
+  stacked-js: /examples/stacked/stacked.js
+  stacked-html: /examples/stacked/stacked.html
+  stacked-css: /examples/stacked/stacked.css
+  simple-js: /examples/simple/simple.js
+  simple-html: /examples/simple/simple.html
+  simple-css: /examples/simple/simple.css
+  streaming-js: /examples/streaming/streaming.js
+  streaming-html: /examples/streaming/streaming.html
 ---
-<div class="top-chart chart container">
+<div class="top-chart container">
   <div class="row">
-    <div class="col-md-12">
-      <svg id="top-chart" style="width: 100%; height: 250px; background: white"></svg>
+    <div class="col-md-6">
+      <style>
+      {{stacked-css}}
+      </style>
+      {{{stacked-html}}}
+      <script>
+      function renderStacked() {
+        {{{stacked-js}}}
+      }
+      </script>
     </div>
-
+    <div class="col-md-6">
+      <style>
+      {{bubble-css}}
+      </style>
+      {{{bubble-html}}}
+      <script>
+      function renderBubble() {
+        {{{bubble-js}}}
+      }
+      </script>
+    </div>
   </div>
 </div>
 
@@ -36,26 +65,41 @@ externals:
   <a class="jumbotron-btn" href="https://github.com/ScottLogic/d3fc">View on GitHub</a>
 </div>
 
-<script type="text/javascript">
-(function() {
-  {{{ index-example-js }}}
-  window.onresize = renderChart;
-}());
-</script>
-
-<div class="previews container">
+<div class="top-chart container">
   <div class="row">
-    {{{ dynamic-include 'small-chart' html="bollinger-example-html" js="bollinger-example-js" title="Bollinger Bands" link="/components/indicator/bollingerBands.html"}}}
-    {{{ dynamic-include 'small-chart' html="sparkline-example-html" js="sparkline-example-js" title="Sparklines" link="/components/chart/sparkline.html"}}}
-    {{{ dynamic-include 'small-chart' html="macd-example-html" js="macd-example-js" title="MACD" link="/components/indicator/macd.html"}}}
-    {{{ dynamic-include 'small-chart' html="stochastic-example-html" js="stochastic-example-js" title="Stochastic Oscillator" link="/components/indicator/stochasticOscillator.html"}}}
-    {{{ dynamic-include 'small-chart' html="cycle-example-html" js="cycle-example-js" title="Cycle Series" link="/components/series/cycle.html"}}}
-    {{{ dynamic-include 'small-chart' html="grouped-bar-example-html" js="grouped-bar-example-js" title="Grouped Bar Series" link="/components/series/grouped-bar.html"}}}
-    {{{ dynamic-include 'small-chart' html="multi-series-example-html" js="multi-series-example-js" title="Multi Series" link="/components/series/multi.html"}}}
-    {{{ dynamic-include 'small-chart' html="ohlc-example-html" js="ohlc-example-js" title="OHLC Series" link="/components/series/ohlc.html"}}}
-    {{{ dynamic-include 'small-chart' html="stacked-example-html" js="stacked-example-js" title="Stacked Series" link="/components/series/stacked.html"}}}
+    <div class="col-md-6">
+      <style>
+      {{simple-css}}
+      </style>
+      {{{simple-html}}}
+      <script>
+      function renderSimple() {
+        {{{simple-js}}}
+      }
+      </script>
+    </div>
+    <div class="col-md-6">
+      <style>
+      {{streaming-css}}
+      </style>
+      {{{streaming-html}}}
+      <script>
+      {{{streaming-js}}}
+      </script>
+    </div>
   </div>
 </div>
+
+<script>
+  renderStacked();
+  renderBubble();
+  renderSimple();
+  window.onresize = function() {
+    renderStacked();
+    renderBubble();
+    renderSimple();
+  };
+</script>
 
 <div id="quick-start" class="quick-start">
   <div class="container">
@@ -87,29 +131,16 @@ externals:
   </div>
 </div>
 
-<div class="awesome">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-5">
-        <h1>D3</h1>
-        <p><a href="http://d3js.org/">D3</a> is an ideal tool for creating charts, giving you complete control over how your data is rendered. However, constructing charts with D3 can be hard work!</p>
-      </div>
-      <div class="col-sm-2 text-center symbol">
-        <h1>+</h1>
-      </div>
-      <div class="col-sm-5">
-        <h1>d3fc</h1>
-        <p>d3fc provides a set of building blocks, that follow the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, allowing you to assemble charts quickly and easily, without taking away the underlying power of D3. </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-offset-1 col-sm-2 text-center symbol">
-        <h1>=</h1>
-      </div>
-      <div class="col-sm-8">
-        <h1>Awesome!</h1>
-        <p>Building interactive or static charts with d3fc is a breeze - components can be assembled, configured and styled with CSS to produce a whole range of different charts.</p>
-      </div>
-    </div>
+<div class="previews container">
+  <div class="row">
+    {{{ dynamic-include 'small-chart' html="bollinger-example-html" js="bollinger-example-js" title="Bollinger Bands" link="/components/indicator/bollingerBands.html"}}}
+    {{{ dynamic-include 'small-chart' html="sparkline-example-html" js="sparkline-example-js" title="Sparklines" link="/components/chart/sparkline.html"}}}
+    {{{ dynamic-include 'small-chart' html="macd-example-html" js="macd-example-js" title="MACD" link="/components/indicator/macd.html"}}}
+    {{{ dynamic-include 'small-chart' html="stochastic-example-html" js="stochastic-example-js" title="Stochastic Oscillator" link="/components/indicator/stochasticOscillator.html"}}}
+    {{{ dynamic-include 'small-chart' html="cycle-example-html" js="cycle-example-js" title="Cycle Series" link="/components/series/cycle.html"}}}
+    {{{ dynamic-include 'small-chart' html="grouped-bar-example-html" js="grouped-bar-example-js" title="Grouped Bar Series" link="/components/series/grouped-bar.html"}}}
+    {{{ dynamic-include 'small-chart' html="multi-series-example-html" js="multi-series-example-js" title="Multi Series" link="/components/series/multi.html"}}}
+    {{{ dynamic-include 'small-chart' html="ohlc-example-html" js="ohlc-example-js" title="OHLC Series" link="/components/series/ohlc.html"}}}
+    {{{ dynamic-include 'small-chart' html="stacked-example-html" js="stacked-example-js" title="Stacked Series" link="/components/series/stacked.html"}}}
   </div>
 </div>

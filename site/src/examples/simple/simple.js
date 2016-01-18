@@ -38,6 +38,6 @@ var multi = fc.series.multi()
 chart.plotArea(multi);
 
 // render
-d3.select('#example-chart')
+d3.select('#simple-chart')
     .datum(data)
     .call(chart);
