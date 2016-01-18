@@ -1,12 +1,14 @@
 export default function() {
-    var containerWidth = 0,
-        containerHeight = 0;
+    var containerWidth = null,
+        containerHeight = null;
 
     var container = function(point) {
-        return !(point.x < 0 || point.y < 0 ||
+        // If the bounds haven't been defined, then don't enforce
+        return (containerWidth == null && containerHeight == null) ||
+            (!(point.x < 0 || point.y < 0 ||
             point.x > containerWidth || point.y > containerHeight ||
             (point.x + point.width) > containerWidth ||
-            (point.y + point.height) > containerHeight);
+            (point.y + point.height) > containerHeight));
     };
 
     container.containerWidth = function(value) {
