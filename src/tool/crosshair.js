@@ -56,6 +56,7 @@ export default function() {
                 .style('pointer-events', 'all')
                 .on('mouseenter.crosshair', mouseenter)
                 .on('mousemove.crosshair', mousemove)
+                .on('wheel.crosshair', mousemove)
                 .on('mouseleave.crosshair', mouseleave);
 
             var overlay = container.selectAll('rect')
