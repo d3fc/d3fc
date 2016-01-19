@@ -1,7 +1,7 @@
 ---
 layout: example
+example: true
 title: Scatterplot
-namespace: examples
 externals:
     scatter-js: scatter.js
     scatter-html: scatter.html
@@ -11,7 +11,7 @@ externals:
 {{{ dynamic-include 'codepen' html="scatter-html" js="scatter-js" css="scatter-css"}}}
 
 <style>
-{{scatter-css}}
+{{{scatter-css}}}
 </style>
 
 {{{scatter-html}}}

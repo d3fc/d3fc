@@ -8,28 +8,32 @@ function renderChart() {
     data.push(datum);
     data.shift();
 
+    // compute the bollinger bands
+    var bollingerAlgorithm = fc.indicator.algorithm.bollingerBands();
+    bollingerAlgorithm(data);
+
     // Offset the range to include the full bar for the latest value
-    var dateRange = fc.util.extent().fields('date')(data);
-    dateRange[1] = d3.time.day.offset(dateRange[1], 1);
+    var xExtent = fc.util.extent()
+        .fields('date')
+        .padUnit('domain')
+        .pad([0, 1000 * 60 * 60 * 24]);
+
+    // ensure y extent includes the bollinger bands
+    var yExtent = fc.util.extent().fields([
+        function(d) { return d.bollingerBands.upper; },
+        function(d) { return d.bollingerBands.lower; }
+    ]);
 
     // create a chart
     var chart = fc.chart.cartesian(
         fc.scale.dateTime(),
         d3.scale.linear()
       )
-     .xDomain(dateRange)
+     .xDomain(xExtent(data))
+     .yDomain(yExtent(data))
      .xTicks(5)
      .yNice()
      .yTicks(5);
-
-    // compute the bollinger bands and update the y-axis domain
-    var bollingerAlgorithm = fc.indicator.algorithm.bollingerBands();
-    bollingerAlgorithm(data);
-
-    chart.yDomain(fc.util.extent().fields([
-        function(d) { return d.bollingerBands.upper; },
-        function(d) { return d.bollingerBands.lower; }
-    ])(data));
 
     // Create the gridlines and series
     var gridlines = fc.annotation.gridline();
@@ -45,6 +49,7 @@ function renderChart() {
      .datum(data)
      .call(chart);
 }
-renderChart();
 
-//setInterval(renderChart, 200);
+// re-render the chart every 200ms
+renderChart();
+var intervalId = setInterval(renderChart, 200);

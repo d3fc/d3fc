@@ -41,19 +41,23 @@ d3.csv('http://d3fc.io/examples/stacked/data.csv', function(error, data) {
             .margin({left: 100, bottom: 40, right: 10, top: 30})
             .plotArea(stack)
             .decorate(function(selection) {
+                // add a container for the legend
                 selection.enter()
                     .append('g')
+                    .classed('legend-container', true)
                     .layout({
                         position: 'absolute',
                         right: 10,
                         top: 40,
                         width: 358,
                         height: 36
-                    })
-                    .call(legend);
+                    });
 
                 // compute layout from the parent SVG
                 selection.enter().layout();
+
+                // render the legend
+                selection.select('g.legend-container').call(legend);
             });
 
     // render

@@ -1,7 +1,6 @@
 ---
 layout: component
 title: Transitions
-namespace: Introduction
 externals:
   transitions-js: transitions.js
   transitions-css: transitions.css

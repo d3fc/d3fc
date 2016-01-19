@@ -1,6 +1,7 @@
 /* global module, require */
 var tinySSG = require('tiny-ssg');
 var process = require('process');
+var handlebars = require('handlebars');
 
 module.exports = function(grunt) {
     'use strict';
@@ -295,7 +296,19 @@ module.exports = function(grunt) {
         };
         process.chdir('site/src');
 
-        tinySSG(['./components/**/*.md', './index.html', './examples/**/*.md'], '../dist', globalData)
+        // load the helpers required by the site build
+        require('handlebars-helpers/lib/helpers/helpers-miscellaneous').register(tinySSG.handlebars);
+        require('handlebars-helpers/lib/helpers/helpers-comparisons').register(tinySSG.handlebars);
+        require('handlebars-group-by').register(tinySSG.handlebars);
+
+        // load the project-specific helpers
+        require('./site/handlebars-helpers/dynamic-include').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/escape').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/codeblock').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/json').register(tinySSG.handlebars);
+
+        //'./components/**/*.md',
+        tinySSG.build(['components/**/*.md', 'index.html', 'examples/**/*.md'], '../dist', globalData)
             .then(function() {
                 process.chdir('../../');
                 done();

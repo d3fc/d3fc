@@ -1,8 +1,7 @@
 ---
 layout: example
+example: true
 title: Low Barrel
-namespace: examples
-script: index.js
 externals:
     low-barrel-js: low-barrel.js
     low-barrel-html: low-barrel.html
@@ -12,7 +11,7 @@ externals:
 {{{ dynamic-include 'codepen' html="low-barrel-html" js="low-barrel-js" css="low-barrel-css"}}}
 
 <style>
-{{low-barrel-css}}
+{{{low-barrel-css}}}
 </style>
 
 {{{low-barrel-html}}}

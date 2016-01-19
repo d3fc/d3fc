@@ -1,7 +1,7 @@
 ---
 layout: example
+example: true
 title: The Wealth & Health of Nations
-namespace: examples
 externals:
     wealth-js: wealth.js
     wealth-html: wealth.html
@@ -11,7 +11,7 @@ externals:
 {{{ dynamic-include 'codepen' html="wealth-html" js="wealth-js" css="wealth-css"}}}
 
 <style>
-{{wealth-css}}
+{{{wealth-css}}}
 </style>
 
 {{{wealth-html}}}

@@ -1,7 +1,7 @@
 ---
 layout: example
-title: Bubble chart
-namespace: examples
+example: true
+title: Bubble Chart
 externals:
     bubble-js: bubble.js
     bubble-html: bubble.html
@@ -11,7 +11,7 @@ externals:
 {{{ dynamic-include 'codepen' html="bubble-html" js="bubble-js" css="bubble-css"}}}
 
 <style>
-{{bubble-css}}
+{{{bubble-css}}}
 </style>
 
 {{{bubble-html}}}

@@ -41,17 +41,20 @@ d3.json('http://d3fc.io/examples/bubble/data.json', function(error, data) {
         .decorate(function(selection) {
             selection.enter()
                 .append('g')
+                .classed('legend-container', true)
                 .layout({
                     position: 'absolute',
                     right: 10,
                     bottom: 50,
                     width: 165,
                     height: 100
-                })
-                .call(legend);
+                });
 
             // compute layout from the parent SVG
             selection.enter().layout();
+
+            // render the legend
+            selection.select('g.legend-container').call(legend);
         });
 
     d3.select('#bubble-chart')

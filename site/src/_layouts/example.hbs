@@ -15,41 +15,11 @@ layout: default
         <li>
           <h4>Examples</h4>
           <ul class="nav nav-stacked">
-            <li class="">
-              <a href="/examples/basecoin/index.html">
-                Basecoin
-              </a>
-            </li>
-            <li class="">
-              <a href="/examples/bubble/index.html">
-                Bubble chart
-              </a>
-            </li>
-            <li class="">
-              <a href="/examples/low-barrel/index.html">
-                Low Barrel
-              </a>
-            </li>
-            <li class="">
-              <a href="/examples/scatter/index.html">
-                Scatterplot
-              </a>
-            </li>
-            <li class="">
-              <a href="/examples/simple/index.html">
-                Line / Area Chart
-              </a>
-            </li>
-            <li class="">
-              <a href="/examples/stacked/index.html">
-                Stacked Bar
-              </a>
-            </li>
-            <li class="">
-              <a href="/examples/wealth-and-health-of-nations/index.html">
-                The Wealth &amp; Health of Nations
-              </a>
-            </li>
+            {{#each pages}}
+              {{#if data.example }}
+                <li><a href="{{page.destination}}">{{data.title}}</a></li>
+              {{/if}}
+            {{/each}}
           </ul>
         </li>
       </ul>

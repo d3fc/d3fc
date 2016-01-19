@@ -3,48 +3,16 @@ layout: example
 title: Examples
 ---
 
-A collection of more advanced examples.
+d3fc provides the building block that you can use to construct complex and highly customised charts. This page shows a number of examples ranging from the simple (for example a [scatter](/examples/scatter), or [bubble](/examples/bubble) chart) to the highly complex, for example a [3D chart with SVG filters](/examples/basecoin)!
 
 <div class="row">
-  <div class="col-sm-6 col-md-4">
-    <a href="bubble/" class="thumbnail">
-      <img src="bubble/thumbnail.png" alt="Bubble chart">
-    </a>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <a href="scatter/" class="thumbnail">
-      <img src="scatter/thumbnail.png" alt="Scatterplot">
-    </a>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <a href="basecoin" class="thumbnail">
-      <img src="basecoin/thumbnail.png" alt="Basecoin">
-    </a>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <a href="low-barrel/" class="thumbnail">
-      <img src="low-barrel/thumbnail.png" alt="Low Barrel">
-    </a>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <a href="stacked/" class="thumbnail">
-      <img src="stacked/thumbnail.png" alt="Stacked Bar">
-    </a>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <a href="simple/" class="thumbnail">
-      <img src="simple/thumbnail.png" alt="Simple Line / Area Series">
-    </a>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <a href="wealth-and-health-of-nations/" class="thumbnail">
-      <img src="wealth-and-health-of-nations/thumbnail.png" alt="The Wealth &amp; Health and Nations">
-    </a>
-  </div>
+  {{#each pages}}
+    {{#if data.example }}
+      <div class="col-sm-6 col-md-4">
+        <a href="{{page.destination}}" class="thumbnail">
+          <img src="/{{page.dirname}}/thumbnail.png" alt="{{page.title}}">
+        </a>
+      </div>
+    {{/if}}
+  {{/each}}
 </div>

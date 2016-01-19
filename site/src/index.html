@@ -84,21 +84,28 @@ externals:
       </style>
       {{{streaming-html}}}
       <script>
-      {{{streaming-js}}}
+      function renderStreaming() {
+        {{{streaming-js}}}
+        return intervalId;
+      }
       </script>
     </div>
   </div>
 </div>
 
 <script>
-  renderStacked();
-  renderBubble();
-  renderSimple();
-  window.onresize = function() {
+  var intervalId;
+  function renderExamples() {
     renderStacked();
     renderBubble();
     renderSimple();
-  };
+    if (intervalId) {
+      window.clearInterval(intervalIntervalId);
+    }
+    intervalId = renderStreaming();
+  }
+  window.onresize = renderExamples;
+  renderExamples();
 </script>
 
 <div id="quick-start" class="quick-start">

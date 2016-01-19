@@ -1,7 +1,7 @@
 ---
 layout: example
+example: true
 title: Line / Area Chart
-namespace: examples
 externals:
     simple-js: simple.js
     simple-html: simple.html
@@ -11,7 +11,7 @@ externals:
 {{{ dynamic-include 'codepen' html="simple-html" js="simple-js" css="simple-css"}}}
 
 <style>
-{{simple-css}}
+{{{simple-css}}}
 </style>
 
 {{{simple-html}}}

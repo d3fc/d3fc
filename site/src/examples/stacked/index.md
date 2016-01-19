@@ -1,7 +1,7 @@
 ---
 layout: example
+example: true
 title: Stacked Bar
-namespace: examples
 externals:
     stacked-js: stacked.js
     stacked-html: stacked.html
@@ -11,7 +11,7 @@ externals:
 {{{ dynamic-include 'codepen' html="stacked-html" js="stacked-js" css="stacked-css"}}}
 
 <style>
-{{stacked-css}}
+{{{stacked-css}}}
 </style>
 
 {{{stacked-html}}}
