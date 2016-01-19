@@ -2,31 +2,10 @@
 layout: component
 title: Stochastic Oscillator
 component: indicator/algorithm/stochasticOscillator.js
-tags:
-  - frontpage
-  - playground 
-namespace: indicator
-
-example-code: |
-  // Create and apply the stochastic oscillator algorithm
-  var stochasticAlgorithm = fc.indicator.algorithm.stochasticOscillator()
-      .kWindowSize(14);
-  stochasticAlgorithm(data);
-
-  // the stochastic oscillator is rendered on its own scale
-  var yScale = d3.scale.linear()
-      .domain([0, 100])
-      .range([height - 5, 5]);
-
-  // Create the renderer
-  var stochastic = fc.indicator.renderer.stochasticOscillator()
-      .xScale(xScale)
-      .yScale(yScale);
-
-  // Add it to the container
-  container.append('g')
-      .datum(data)
-      .call(stochastic);
+namespace: Indicator
+externals:
+  stochastic-example-js: stochasticOscillator-example.js
+  stochastic-example-html: stochasticOscillator-example.html  
 ---
 
 A [Stochastic Oscillator](https://en.wikipedia.org/wiki/Stochastic_oscillator) consists of two parts: %K and %D. %K relates the closing price to the full trading range over the specified window (5 data points by default). %D is the simple moving average of the %K values over a second window (3 data points by default).
@@ -38,9 +17,14 @@ By default, the results from the calculation will be stored as a `stochastic` pr
 The following is a simple example of the Stochastic oscillator. The %K window has been set to 14 data points.
 
 ```js
-{{{example-code}}}
+{{{ codeblock stochastic-example-js }}}
 ```
 
-Which yields the following :
+Which yields the following:
 
-{{>example-fixture}}
+{{{ dynamic-include 'codepen' html="stochastic-example-html" js="stochastic-example-js" }}}
+
+{{{stochastic-example-html}}}
+<script type="text/javascript">
+{{{stochastic-example-js}}}
+</script>

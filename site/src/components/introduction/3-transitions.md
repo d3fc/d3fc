@@ -1,52 +1,10 @@
 ---
 layout: component
 title: Transitions
-namespace: introduction
-example-code: |
-  // generate some random data
-  data = d3.range(40).map(Math.random);
-
-  // render a bar series via the cartesian chart component
-  var barSeries = fc.series.bar()
-      .key(fc.util.fn.identity)
-      .xValue(fc.util.fn.index)
-      .yValue(fc.util.fn.identity);
-
-  var chart = fc.chart.cartesian(
-                d3.scale.linear(),
-                d3.scale.linear())
-      .xDomain([-1, data.length])
-      .margin({top: 10, bottom: 10, right: 30})
-      .plotArea(barSeries);
-
-  var index = 0;
-  function render() {
-    if (index === data.length) {
-      return; // we're all done!
-    }
-
-    // perform a single iteration of the bubble sort
-    var temp;
-    for (var j = index; j > 0; j--) {
-        if (data[j] < data[j - 1]) {
-            temp = data[j];
-            data[j] = data[j - 1];
-            data[j - 1] = temp;
-        }
-    }
-    index++;
-
-    // re-render the chart
-    d3.select('#transitions-chart')
-        .datum(data)
-        .transition()
-        .duration(500)
-        .call(chart);
-  }
-
-  setInterval(render, 1000);
-  render();
-
+externals:
+  transitions-js: transitions.js
+  transitions-css: transitions.css
+  transitions-html: transitions.html
 ---
 
 D3 has built-in support for transitions allowing you to animate changes to the DOM or SVG. When combined with a data-join this feature allows you to easily animate a visualisation based on changes to the underlying data.
@@ -77,20 +35,19 @@ The above code can be repeatedly executed, with the chart (and associated series
 
 Here is the complete example which animates a simple bubble sort algorithm (if the example has finished, just refresh your browser!):
 
-<style>
-.x-axis {
-  display: none
-}
+<style type="text/css">
+{{{transitions-css}}}
 </style>
 
-<div id="transitions-chart" class="chart"> </div>
+{{{ dynamic-include 'codepen' html="transitions-html" js="transitions-js" css="transitions-css"}}}
 
+{{{transitions-html}}}
 <script type="text/javascript">
-{{{example-code}}}
+{{{transitions-js}}}
 </script>
 
 And here is the full sourcecode for this example (which is mostly the bubble-sort and associated boiler-plate code):
 
 ```js
-{{{example-code}}}
+{{{ codeblock transitions-js }}}
 ```

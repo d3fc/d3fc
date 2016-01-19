@@ -1,0 +1,9 @@
+.bar path {
+  stroke-width: 0;
+}
+.x-axis .label {
+  text-anchor: start;
+}
+.title text {
+    font-size: 15pt;
+}

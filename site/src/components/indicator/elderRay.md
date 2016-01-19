@@ -2,35 +2,10 @@
 layout: component
 title: Elder Ray
 component: indicator/algorithm/elderRay.js
-tags:
-  - playground
-namespace: indicator
-
-example-code: |
-  // Create and apply the elder ray algorithm
-  var elderRayAlgorithm = fc.indicator.algorithm.elderRay()
-      .period(6);
-  elderRayAlgorithm(data);
-
-  // the elder ray is rendered on its own scale
-  var yDomain = fc.util.extent()
-    .fields([function(d) { return d.elderRay.bullPower;}, function(d) { return d.elderRay.bearPower; }])
-    .symmetricalAbout(0)
-    .pad(0.1);
-
-  var yScale = d3.scale.linear()
-      .domain(yDomain(data))
-      .range([height, 0]);
-
-  // Create the renderer
-  var elderRay = fc.indicator.renderer.elderRay()
-      .xScale(xScale)
-      .yScale(yScale);
-
-  // Add it to the container
-  container.append('g')
-      .datum(data)
-      .call(elderRay);
+namespace: Indicator
+externals:
+  elderray-example-js: elderray-example.js
+  elderray-example-html: elderray-example.html
 ---
 
 An [Elder Ray](http://www.investopedia.com/articles/trading/03/022603.asp) indicator is composed of two distinct series:
@@ -44,9 +19,12 @@ Where the n-period defaults to 13 days.
 The following shows the Elder Ray in action, where the bull and bear power series are both rendered on the same chart:
 
 ```js
-{{{example-code}}}
+{{{ codeblock elderray-example-js }}}
 ```
 
-Which yields the following:
+{{{ dynamic-include 'codepen' html="elderray-example-html" js="elderray-example-js" }}}
 
-{{>example-fixture}}
+{{{elderray-example-html}}}
+<script type="text/javascript">
+{{{elderray-example-js}}}
+</script>

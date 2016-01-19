@@ -2,30 +2,27 @@
 layout: component
 title: Random Financial
 component: data/random/financial.js
-namespace: data
-
-example-code: |
-  var dataGenerator = fc.data.random.financial();
-
-  // generate some data!
-  var data = dataGenerator(10);
-
-  d3.select("#financial")
-    .text(JSON.stringify(data, null, 2));
+namespace: Data
+externals:
+  financial-example-js: financial-example.js
+  financial-example-html: financial-example.html
 ---
 
 The random financial data generator component is a useful testing utility that generates data via a random walk algorithm.
 
+The following example:
+
 ```js
-{{{example-code}}}
+{{{ codeblock financial-example-js}}}
 ```
 
-A `filter` can be supplied to skips other days, or change the start price, volume and date. Pre-defined filters can be used, for example to skip weekends use `fc.data.random.filter.skipWeekends`. 
+Generates the following:
 
-<pre id="financial"></pre>
+{{{ dynamic-include 'codepen' html="financial-example-html" js="financial-example-js" }}}
+
+{{{financial-example-html}}}
 <script type="text/javascript">
-(function() {
-    {{{example-code}}}
-}());
+{{{financial-example-js}}}
 </script>
 
+A `filter` can be supplied to skips other days, or change the start price, volume and date. Pre-defined filters can be used, for example to skip weekends use `fc.data.random.filter.skipWeekends`.

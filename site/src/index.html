@@ -1,0 +1,120 @@
+---
+layout: default
+externals:
+  bubble-js: /examples/bubble/bubble.js
+  bubble-html: /examples/bubble/bubble.html
+  bubble-css: /examples/bubble/bubble.css
+  stacked-js: /examples/stacked/stacked.js
+  stacked-html: /examples/stacked/stacked.html
+  stacked-css: /examples/stacked/stacked.css
+  simple-js: /examples/simple/simple.js
+  simple-html: /examples/simple/simple.html
+  simple-css: /examples/simple/simple.css
+  streaming-js: /examples/streaming/streaming.js
+  streaming-html: /examples/streaming/streaming.html
+---
+<div class="top-chart container">
+  <div class="row">
+    <div class="col-md-6">
+      <style>
+      {{stacked-css}}
+      </style>
+      {{{stacked-html}}}
+      <script>
+      function renderStacked() {
+        {{{stacked-js}}}
+      }
+      </script>
+    </div>
+    <div class="col-md-6">
+      <style>
+      {{bubble-css}}
+      </style>
+      {{{bubble-html}}}
+      <script>
+      function renderBubble() {
+        {{{bubble-js}}}
+      }
+      </script>
+    </div>
+  </div>
+</div>
+
+<div class="jumbotron text-center" id="jumbo1">
+  <img alt="d3fc" src="{{assets}}/images/logo.svg" />
+  <p>A collection of components that make it easy to build interactive charts with D3.</p>
+  <a class="jumbotron-btn" href="https://github.com/ScottLogic/d3fc">View on GitHub</a>
+</div>
+
+<div class="top-chart container">
+  <div class="row">
+    <div class="col-md-6">
+      <style>
+      {{simple-css}}
+      </style>
+      {{{simple-html}}}
+      <script>
+      function renderSimple() {
+        {{{simple-js}}}
+      }
+      </script>
+    </div>
+    <div class="col-md-6">
+      <style>
+      {{streaming-css}}
+      </style>
+      {{{streaming-html}}}
+      <script>
+      function renderStreaming() {
+        {{{streaming-js}}}
+        return intervalId;
+      }
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  var intervalId;
+  function renderExamples() {
+    renderStacked();
+    renderBubble();
+    renderSimple();
+    if (intervalId) {
+      window.clearInterval(intervalId);
+    }
+    intervalId = renderStreaming();
+  }
+  window.onresize = fc.util.render(renderExamples);
+  renderExamples();
+</script>
+
+<div id="quick-start" class="quick-start">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">QUICK START</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3 ">
+        <h3>Install</h3>
+        <p>A complete set of instructions for obtaining d3fc and its dependencies via npm are available in the <a href="components/introduction/1-getting-started.html">Getting Started Guide</a>.</p>
+      </div>
+      <div class="col-sm-3 ">
+        <h3>Learn</h3>
+        <p>Browse the d3fc components to determine which you need in order to build your chart. You can mix and match with any D3 code you may require to produce your chart.</p>
+      </div>
+      <div class="col-sm-3 ">
+        <h3>Customise</h3>
+        <p>The components are customised via CSS, allowing you to change colors, stroke, fill and layout. However for deeper customisation all the components support the <a href="components/introduction/2-decorate-pattern.html">decorate pattern</a>.</p>
+      </div>
+      <div class="col-sm-3 ">
+        <h3>Contribute</h3>
+        <p>Spotted a bug? Have an idea for a feature? Please <a href="{{package.repository.url}}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
+        over <a href="components/introduction/4-component-design.html">this page which describes the design goals</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>

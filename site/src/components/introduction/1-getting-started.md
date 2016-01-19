@@ -1,27 +1,9 @@
 ---
 layout: component
 title: Getting Started
-namespace: introduction
-
-example-code: |
-    var data = fc.data.random.financial()(50);
-
-    var chart = fc.chart.cartesian(
-            fc.scale.dateTime(),
-            d3.scale.linear())
-        .xDomain(fc.util.extent().fields('date')(data))
-        .yDomain(fc.util.extent().fields(['high', 'low'])(data));
-
-    var gridlines = fc.annotation.gridline();
-    var candlestick = fc.series.candlestick();
-
-    var multi = fc.series.multi()
-        .series([gridlines, candlestick]);
-    chart.plotArea(multi);
-
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+externals:
+  getting-started-js: getting-started.js
+  getting-started-html: getting-started.html
 ---
 
 ## Grabbing the code
@@ -62,20 +44,20 @@ Alternatively you can link to d3fc and its dependencies directly via cdnjs:
 If you want a quick verification that everything has installed correctly, the following code will render a cartesian chart:
 
 ```html
-<div id="chart" style="width: 100%; height: 250px"></div>
+{{{ getting-started-html }}}
 ```
 
 ```js
-{{{example-code}}}
+{{{ getting-started-js }}}
 ```
 
 Here is how the chart should look:
 
-<div id="chart" style="width: 100%; height: 250px"></div>
+{{{ dynamic-include 'codepen' html="getting-started-html" js="getting-started-js" }}}
+
+{{{getting-started-html}}}
 <script type="text/javascript">
-(function() {
-    {{{example-code}}}
-}());
+{{{getting-started-js}}}
 </script>
 
 ## Next steps

@@ -2,46 +2,10 @@
 layout: component
 title: Flexbox
 component: layout/flexbox.js
-namespace: layout
-
-example-html: |
-  <svg id="layout-test"
-     style="width: 90%; height: 350px; margin: 10px; background: yellow"
-     layout-style="paddingLeft: 10">
-    <g layout-style="height: 30; justifyContent: center; flexDirection: row;">
-    </g>
-    <g layout-style="flex: 1; flexDirection: row;">
-      <g layout-style="flex: 1; flexDirection: row; justifyContent: flex-end;">
-        <g layout-style="width: 100; height: 100; margin: 10"></g>
-      </g>
-      <g layout-style="width: 50;"></g>
-      <g layout-style="width: 30; justifyContent: center;"></g>
-    </g>
-    <g layout-style="height: 30; flexDirection: row">
-      <g layout-style="flex: 1; marginRight: 80;"></g>
-    </g>
-    <g layout-style="height: 30; flexDirection: row"></g>
-  </svg>
-
-example-code: |
-  // apply the flexbox layout
-  d3.select('#layout-test').layout();
-
-  // This code simply creates some coloured rectangles so that you can
-  // see the layout without reaching for your developer tools!
-  var c10 = d3.scale.category10();
-  d3.selectAll("g").filter(function(d) {
-      return this.childElementCount === 0;
-    })
-    .append('rect')
-    .attr('stroke', function(d, i) { return c10(i); })
-    .attr('fill', function(d, i) { return c10(i); })
-    .attr('width', function() {
-      return d3.select(this.parentNode).layout('width');
-    })
-    .attr('height', function() {
-      return d3.select(this.parentNode).layout('height')}
-    );
+namespace: Layout
+externals:
+  flexbox-js: flexbox-example.js
+  flexbox-html: flexbox-example.html
 ---
 
 The flexbox layout functionality allows you to structure your SVG using CSS Flexbox. This removes much of the manual layout calculations that are typically required for D3 charts, [as described in this blog post](http://blog.scottlogic.com/2015/02/02/svg-layout-flexbox.html).
@@ -51,24 +15,24 @@ In order to use this layout approach, add the `layout-style` attribute to the el
 Here's an example SVG with group elements that have a layout suitable for chart construction (axes, legend, etc ...):
 
 ```html
-{{{example-html}}}
+{{{flexbox-html}}}
 ```
 
 The following code performs the required layout:
 
 ```js
-{{{example-code}}}
+{{{flexbox-js}}}
 ```
 
 Nodes are positioned and sized appropriately using a combination of `x`, `y`, `width`, `height` and `transform` attributes depending on the whether the node is an `svg`, `rect` or other. Additionally `layout-width`, `layout-height`, `layout-x` and `layout-y` attributes are added which can be accessed using e.g. `selection.layout('width')`.
 
 The above code produces the following:
 
-{{{example-html}}}
+{{{ dynamic-include 'codepen' html="flexbox-html" js="flexbox-js"}}}
+
+{{{flexbox-html}}}
 <script type="text/javascript">
-(function() {
-    {{{example-code}}}
-}());
+{{{flexbox-js}}}
 </script>
 
 To construct a chart, just select the required group elements and populate with your content.

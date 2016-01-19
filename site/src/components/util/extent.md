@@ -2,7 +2,7 @@
 layout: component
 title: Extent
 component: util/extent.js
-namespace: util
+namespace: Util
 ---
 
  The extent function enhances the functionality of the equivalent D3 extent function, allowing you to pass an array of fields, or accessors, which will be used to derive the extent of the supplied array. For example, if you have an array of items with properties of 'high' and 'low', you can use `fc.util.extent().fields(['high', 'low'])(data)` to compute the extent of your data.

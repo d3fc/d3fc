@@ -1,12 +1,24 @@
 ---
 layout: example
+example: true
 title: The Wealth & Health of Nations
-namespace: examples
-script: index.js
+externals:
+    wealth-js: wealth.js
+    wealth-html: wealth.html
+    wealth-css: wealth.css
 ---
-<style>@import "index.css";</style>
 
-<div id="wealth-and-health-of-nations">Loading...</div>
+{{{ dynamic-include 'codepen' html="wealth-html" js="wealth-js" css="wealth-css"}}}
+
+<style>
+{{{wealth-css}}}
+</style>
+
+{{{wealth-html}}}
+
+<script>
+{{{wealth-js}}}
+</script>
 
 This example is a recreation of [Mike Bostock's recreation](http://bost.ocks.org/mike/nations/) of Gapminder’s [Wealth &amp; Health of Nations](http://www.gapminder.org/world/).
 
