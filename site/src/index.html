@@ -1,25 +1,6 @@
 ---
 layout: default
 externals:
-  index-example-js: index-example.js
-  bollinger-example-js: /components/indicator/bollinger-bands-example.js
-  bollinger-example-html: /components/indicator/bollinger-bands-example.html
-  sparkline-example-js: /components/chart/sparkline-example.js
-  sparkline-example-html: /components/chart/sparkline-example.html
-  macd-example-js: /components/indicator/macd-example.js
-  macd-example-html: /components/indicator/macd-example.html
-  stochastic-example-js: /components/indicator/stochasticOscillator-example.js
-  stochastic-example-html: /components/indicator/stochasticOscillator-example.html
-  cycle-example-js: /components/series/cycle-example.js
-  cycle-example-html: /components/series/cycle-example.html
-  grouped-bar-example-js: /components/series/grouped-bar-example.js
-  grouped-bar-example-html: /components/series/grouped-bar-example.html
-  multi-series-example-js: /components/series/multi-example.js
-  multi-series-example-html: /components/series/multi-example.html
-  ohlc-example-js: /components/series/ohlc-example.js
-  ohlc-example-html: /components/series/ohlc-example.html
-  stacked-example-js: /components/series/stacked-example.js
-  stacked-example-html: /components/series/stacked-example.html
   bubble-js: /examples/bubble/bubble.js
   bubble-html: /examples/bubble/bubble.html
   bubble-css: /examples/bubble/bubble.css
@@ -100,11 +81,11 @@ externals:
     renderBubble();
     renderSimple();
     if (intervalId) {
-      window.clearInterval(intervalIntervalId);
+      window.clearInterval(intervalId);
     }
     intervalId = renderStreaming();
   }
-  window.onresize = renderExamples;
+  window.onresize = fc.util.render(renderExamples);
   renderExamples();
 </script>
 
@@ -135,19 +116,5 @@ externals:
         over <a href="components/introduction/4-component-design.html">this page which describes the design goals</a>.</p>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="previews container">
-  <div class="row">
-    {{{ dynamic-include 'small-chart' html="bollinger-example-html" js="bollinger-example-js" title="Bollinger Bands" link="/components/indicator/bollingerBands.html"}}}
-    {{{ dynamic-include 'small-chart' html="sparkline-example-html" js="sparkline-example-js" title="Sparklines" link="/components/chart/sparkline.html"}}}
-    {{{ dynamic-include 'small-chart' html="macd-example-html" js="macd-example-js" title="MACD" link="/components/indicator/macd.html"}}}
-    {{{ dynamic-include 'small-chart' html="stochastic-example-html" js="stochastic-example-js" title="Stochastic Oscillator" link="/components/indicator/stochasticOscillator.html"}}}
-    {{{ dynamic-include 'small-chart' html="cycle-example-html" js="cycle-example-js" title="Cycle Series" link="/components/series/cycle.html"}}}
-    {{{ dynamic-include 'small-chart' html="grouped-bar-example-html" js="grouped-bar-example-js" title="Grouped Bar Series" link="/components/series/grouped-bar.html"}}}
-    {{{ dynamic-include 'small-chart' html="multi-series-example-html" js="multi-series-example-js" title="Multi Series" link="/components/series/multi.html"}}}
-    {{{ dynamic-include 'small-chart' html="ohlc-example-html" js="ohlc-example-js" title="OHLC Series" link="/components/series/ohlc.html"}}}
-    {{{ dynamic-include 'small-chart' html="stacked-example-html" js="stacked-example-js" title="Stacked Series" link="/components/series/stacked.html"}}}
   </div>
 </div>

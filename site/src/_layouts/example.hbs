@@ -17,7 +17,9 @@ layout: default
           <ul class="nav nav-stacked">
             {{#each pages}}
               {{#if data.example }}
-                <li><a href="{{page.destination}}">{{data.title}}</a></li>
+                <li class="{{#if this.page.isCurrentPage}}active{{/if}}">
+                  <a href="{{page.destination}}">{{data.title}}</a>
+                </li>
               {{/if}}
             {{/each}}
           </ul>

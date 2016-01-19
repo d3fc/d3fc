@@ -5,7 +5,7 @@ title: Component Design
 
 A full description and example of each component can found in the navigation menu.
 
-##Design
+## Design
 
 **This library is opinionated.**
 

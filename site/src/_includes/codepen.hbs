@@ -5,8 +5,8 @@
         "html":"{{ escape html}}",
         "js": "{{{ escape js }}}",
         "css": "{{#if css}}{{{ escape css }}}{{/if}}",
-        "js_external": "https://cdnjs.cloudflare.com/ajax/libs/d3fc/5.2.0/d3fc.bundle.js",
-        "css_external": "https://cdnjs.cloudflare.com/ajax/libs/d3fc/5.2.0/d3fc.min.css"}
+        "js_external": "https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.bundle.js",
+        "css_external": "https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.min.css"}
       '/>
     <input type="submit" value="Open in Codepen"/>
   </form>

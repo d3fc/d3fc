@@ -215,7 +215,7 @@ module.exports = function(grunt) {
                     '<%= meta.metaJsFiles %>',
                     'site/src/**/*'
                 ],
-                tasks: ['site'],
+                tasks: ['siteDev'],
                 options: {
                     livereload: {
                         port: 35729
@@ -292,9 +292,19 @@ module.exports = function(grunt) {
     grunt.registerTask('tiny-ssg', 'builds the site', function() {
         var done = this.async();
         var globalData = {
-            package: grunt.file.readJSON('package.json')
+            package: grunt.file.readJSON('package.json'),
+            dev: grunt.task.current.flags.dev
         };
         process.chdir('site/src');
+
+        // for dev builds don't syntax highlight
+        if (globalData.dev) {
+            tinySSG.marked.setOptions({
+                highlight: function(code) {
+                    return code;
+                }
+            });
+        }
 
         // load the helpers required by the site build
         require('handlebars-helpers/lib/helpers/helpers-miscellaneous').register(tinySSG.handlebars);
@@ -332,6 +342,7 @@ module.exports = function(grunt) {
     grunt.registerTask('visualTests:serve', ['connect:visualTests', 'watch:visualTests']);
 
     grunt.registerTask('site', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'tiny-ssg']);
+    grunt.registerTask('siteDev', ['clean:site', 'copy:site', 'concat:site', 'less:site', 'tiny-ssg:dev']);
     grunt.registerTask('site:serve', ['connect:site', 'watch:site']);
 
     grunt.registerTask('webdriverTests:browserstack', browserstackKey ?

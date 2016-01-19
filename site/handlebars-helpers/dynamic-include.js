@@ -8,11 +8,11 @@ function register(handlebars) {
         var templateFile = '_includes/' + templateName + '.hbs';
         var templateMatter = matter.read(templateFile);
         var compiledTemplate = handlebars.compile(templateMatter.content);
-        var data = extend({}, context.hash);
-        Object.keys(data)
+        var data = extend({}, context.data.root);
+        Object.keys(context.hash)
             .forEach(function(key) {
-                if (context.data.root[data[key]]) {
-                    data[key] = context.data.root[data[key]];
+                if (context.data.root[context.hash[key]]) {
+                    data[key] = context.data.root[context.hash[key]];
                 }
             });
         return compiledTemplate(data);
