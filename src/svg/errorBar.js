@@ -3,74 +3,74 @@ import d3 from 'd3';
 // Renders an error bar series as an SVG path based on the given array of datapoints.
 export default function() {
 
-    var x = function(d, i) { return d.x; },
-        y = function(d, i) { return d.y; },
-        errorHigh = function(d, i) { return d.errorHigh; },
-        errorLow = function(d, i) { return d.errorLow; },
+    var value = function(d, i) { return d.x; },
+        high = function(d, i) { return d.high; },
+        low = function(d, i) { return d.low; },
         orient = 'vertical',
-        barWidth = d3.functor(5);
+        width = d3.functor(5);
 
     var errorBar = function(data) {
 
         return data.map(function(d, i) {
-            var halfWidth = barWidth(d, i) / 2,
-                errorTotal = errorHigh(d, i) - errorLow(d, i),
-                yBottom = y(d, i) - errorLow(d, i),
-                yTop = errorHigh(d, i) - y(d, i),
-                xBottom = x(d, i) - errorLow(d, i),
-                xTop = errorHigh(d, i) - x(d, i);
-
-            var errorVertical = '';
-            var errorHorizontal = '';
+            // naming convention is for vertical orientation
+            var _value = value(d, i),
+                _width = width(d, i),
+                halfWidth = _width / 2,
+                _high = high(d, i),
+                _low = low(d, i),
+                height = _high - _low;
 
             if (orient === 'vertical') {
-                var horizontalBar = 'h' + (-halfWidth) + 'h' + (2 * halfWidth) + 'h' + (-halfWidth),
-                    verticalToHigh = 'v' + (-errorTotal);
-                errorVertical = 'M0,' + yBottom + horizontalBar + verticalToHigh + horizontalBar + 'M0,' + yTop;
+                // start top center
+                return 'M' + _value + ',' + _high +
+                    'h' + (-halfWidth) +
+                    'h' + _width +
+                    'h' + (-halfWidth) +
+                    'v' + (-height) +
+                    'h' + (-halfWidth) +
+                    'h' + _width +
+                    'h' + (-halfWidth);
             } else {
-                var verticalBar = 'v' + (-halfWidth) + 'v' + (2 * halfWidth) + 'v' + (-halfWidth),
-                    horizontalToHigh = 'h' + (-errorTotal);
-                errorHorizontal = 'M' + xBottom + ',0' + verticalBar + horizontalToHigh + verticalBar + 'M' + xTop + ',0';
+                // start middle left
+                return 'M' + _low + ',' + _value +
+                    'v' + (-halfWidth) +
+                    'v' + _width +
+                    'v' + (-halfWidth) +
+                    'h' + height +
+                    'v' + (-halfWidth) +
+                    'v' + _width +
+                    'v' + (-halfWidth);
             }
-
-            return errorVertical + errorHorizontal;
         })
         .join('');
     };
 
-    errorBar.x = function(_x) {
+    errorBar.value = function(_x) {
         if (!arguments.length) {
-            return x;
+            return value;
         }
-        x = d3.functor(_x);
+        value = d3.functor(_x);
         return errorBar;
     };
-    errorBar.y = function(_x) {
+    errorBar.high = function(_x) {
         if (!arguments.length) {
-            return y;
+            return high;
         }
-        y = d3.functor(_x);
+        high = d3.functor(_x);
         return errorBar;
     };
-    errorBar.errorHigh = function(_x) {
+    errorBar.low = function(_x) {
         if (!arguments.length) {
-            return errorHigh;
+            return low;
         }
-        errorHigh = d3.functor(_x);
+        low = d3.functor(_x);
         return errorBar;
     };
-    errorBar.errorLow = function(_x) {
+    errorBar.width = function(_x) {
         if (!arguments.length) {
-            return errorLow;
+            return width;
         }
-        errorLow = d3.functor(_x);
-        return errorBar;
-    };
-    errorBar.barWidth = function(_x) {
-        if (!arguments.length) {
-            return barWidth;
-        }
-        barWidth = d3.functor(_x);
+        width = d3.functor(_x);
         return errorBar;
     };
     errorBar.orient = function(_x) {

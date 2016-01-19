@@ -22,32 +22,29 @@
         .range([height, 0])
         .nice();
 
-    //Generating the error information for the data
-    data.forEach(function(d) {
-        d.yUpError = Math.random();
-        d.yDownError = Math.random();
-    });
-
     var errorBarV = fc.series.errorBar()
-        .xScale(dateScale)
-        .yScale(priceScale)
-        .errorLow(function(d, i) {return d.close - d.yDownError;})
-        .errorHigh(function(d, i) {return d.close + d.yUpError;})
-        .xValue(function(d, i) {return d.date;})
-        .yValue(function(d, i) {return d.close;});
+        .low(function(d, i) {
+            return d.low;
+        })
+        .high(function(d, i) {
+            return d.high;
+        })
+        .value(function(d, i) {
+            return d.date;
+        });
 
     var errorBarH = fc.series.errorBar()
         .orient('horizontal')
-        .xScale(dateScale)
-        .yScale(priceScale)
-        .errorHigh(function(d, i) {
+        .barWidth(3)
+        .high(function(d, i) {
             return d3.time.hour.offset(d.date, 12);
         })
-        .errorLow(function(d, i) {
+        .low(function(d, i) {
             return d3.time.hour.offset(d.date, -12);
         })
-        .xValue(function(d, i) {return d.date;})
-        .yValue(function(d, i) {return d.close;});
+        .value(function(d, i) {
+            return d.close;
+        });
 
     var multi = fc.series.multi()
         .series([errorBarV, errorBarH])
