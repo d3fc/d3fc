@@ -3,137 +3,126 @@ import d3 from 'd3';
 // Renders a box plot series as an SVG path based on the given array of datapoints.
 export default function() {
 
-    var x = function(d, i) { return d.x; },
-        y = function(d, i) { return d.y; },
-        boxHigh = function(d, i) { return d.boxHigh; },
-        boxLow = function(d, i) { return d.boxLow; },
-        whiskerHigh = function(d, i) { return d.whiskerHigh; },
-        whiskerLow = function(d, i) { return d.whiskerLow; },
+    var value = function(d, i) { return d.value; },
+        median = function(d, i) { return d.median; },
+        upperQuartile = function(d, i) { return d.upperQuartile; },
+        lowerQuartile = function(d, i) { return d.lowerQuartile; },
+        high = function(d, i) { return d.high; },
+        low = function(d, i) { return d.low; },
         orient = 'vertical',
-        barWidth = d3.functor(5);
+        width = d3.functor(5),
+        cap = d3.functor(0.5);
 
     var boxPlot = function(data) {
 
         return data.map(function(d, i) {
-            var halfWidth = barWidth(d, i) / 2,
-                whiskerTotal = whiskerHigh(d, i) - whiskerLow(d, i),
-                whiskerToBotBox = boxLow(d, i) - whiskerLow(d, i),
-                boxToMid = y(d, i) - boxLow(d, i),
-                midToBox = boxHigh(d, i) - y(d, i),
-                boxToWhiskerHigh = whiskerHigh(d, i) - boxHigh(d, i),
-                yBottom = y(d, i) - whiskerLow(d, i),
-                yTop = whiskerHigh(d, i) - y(d, i),
-                xBottom = x(d, i) - whiskerLow(d, i),
-                xTop = whiskerHigh(d, i) - x(d, i);
-
-            var boxSeries = '';
+            // naming convention is for vertical orientation
+            var _value = value(d, i),
+                _width = width(d, i),
+                halfWidth = _width / 2,
+                capWidth = _width * cap(d, i),
+                halfCapWidth = capWidth / 2,
+                _high = high(d, i),
+                _upperQuartile = upperQuartile(d, i),
+                _median = median(d, i),
+                _lowerQuartile = lowerQuartile(d, i),
+                _low = low(d, i),
+                highToUpperQuartile = _upperQuartile - _high,
+                upperQuartileToMedian = _median - _upperQuartile,
+                upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile,
+                medianToLowerQuartile = _lowerQuartile - _median,
+                lowerQuartileToLow = _low - _lowerQuartile;
 
             if (orient === 'vertical') {
-
-                var horizontalBar = 'h' + (-halfWidth) + 'h' + (2 * halfWidth) + 'h' + (-halfWidth),
-                    verticalToBotBox = 'v' + (-whiskerToBotBox),
-                    verticalToMidBox = 'v' + (-boxToMid),
-                    verticalToMidBoxDown = 'v' + (boxToMid),
-                    verticalToTopBox = 'v' + (-midToBox),
-                    verticalToTopBoxDown = 'v' + (midToBox),
-                    verticalToWhisker = 'v' + (-boxToWhiskerHigh);
-
-                boxSeries = 'M0,' + yBottom
-                    + horizontalBar + verticalToBotBox
-                    + 'h' + (-halfWidth)
-                    + verticalToMidBox
-                    + 'h' + (2 * halfWidth)
-                    + verticalToMidBoxDown
-                    + 'h' + (-2 * halfWidth)
-                    + verticalToMidBox
-                    + verticalToTopBox
-                    + 'h' + (2 * halfWidth)
-                    + verticalToTopBoxDown
-                    + 'h' + (-2 * halfWidth)
-                    + verticalToTopBox
-                    + 'h' + (halfWidth)
-                    + verticalToWhisker
-                    + horizontalBar + 'M0,' + yTop;
-
+                // start top center
+                return 'M' + _value + ',' + _high +
+                    'h' + (-halfCapWidth) +
+                    'h' + capWidth +
+                    'h' + (-halfCapWidth) +
+                    'v' + highToUpperQuartile +
+                    'h' + (-halfWidth) +
+                    'v' + upperQuartileToLowerQuartile +
+                    'h' + _width +
+                    'v' + (-upperQuartileToLowerQuartile) +
+                    'h' + (-halfWidth) +
+                    'm' + (-halfWidth) + ',' + upperQuartileToMedian +
+                    'h' + _width +
+                    'm' + (-halfWidth) + ',' + medianToLowerQuartile +
+                    'v' + lowerQuartileToLow +
+                    'h' + (-halfCapWidth) +
+                    'h' + capWidth +
+                    'h' + (-halfCapWidth);
             } else {
-
-                var verticalBar = 'v' + (-halfWidth) + 'v' + (2 * halfWidth) + 'v' + (-halfWidth),
-                    horizontalToBotBox = 'h' + (-whiskerToBotBox),
-                    horizontalToMidBox = 'h' + (-boxToMid),
-                    horizontalToMidBoxDown = 'h' + (boxToMid),
-                    horizontalToTopBox = 'h' + (-midToBox),
-                    horizontalToTopBoxDown = 'h' + (midToBox),
-                    horizontalToWhisker = 'h' + (-boxToWhiskerHigh);
-
-                boxSeries = 'M' + xBottom + ',0'
-                    + verticalBar + horizontalToBotBox
-                    + 'v' + (-halfWidth)
-                    + horizontalToMidBox
-                    + 'v' + (2 * halfWidth)
-                    + horizontalToMidBoxDown
-                    + 'v' + (-2 * halfWidth)
-                    + horizontalToMidBox
-                    + horizontalToTopBox
-                    + 'v' + (2 * halfWidth)
-                    + horizontalToTopBoxDown
-                    + 'v' + (-2 * halfWidth)
-                    + horizontalToTopBox
-                    + 'v' + (halfWidth)
-                    + horizontalToWhisker
-                    + verticalBar + 'M' + xTop + ',0';
+                // start middle left
+                return 'M' + _low + ',' + _value +
+                    'v' + (-halfCapWidth) +
+                    'v' + capWidth +
+                    'v' + (-halfCapWidth) +
+                    'h' + (-lowerQuartileToLow) +
+                    'v' + (-halfWidth) +
+                    'h' + (-upperQuartileToLowerQuartile) +
+                    'v' + _width +
+                    'h' + upperQuartileToLowerQuartile +
+                    'v' + (-halfWidth) +
+                    'm' + (-medianToLowerQuartile) + ',' + (-halfWidth) +
+                    'v' + _width +
+                    'm' + (-upperQuartileToMedian) + ',' + (-halfWidth) +
+                    'h' + (-highToUpperQuartile) +
+                    'v' + (-halfCapWidth) +
+                    'v' + capWidth +
+                    'v' + (-halfCapWidth);
             }
-            return boxSeries;
         })
         .join('');
     };
 
-    boxPlot.x = function(_x) {
+    boxPlot.value = function(_x) {
         if (!arguments.length) {
-            return x;
+            return value;
         }
-        x = d3.functor(_x);
+        value = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.y = function(_x) {
+    boxPlot.median = function(_x) {
         if (!arguments.length) {
-            return y;
+            return median;
         }
-        y = d3.functor(_x);
+        median = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.boxHigh = function(_x) {
+    boxPlot.upperQuartile = function(_x) {
         if (!arguments.length) {
-            return boxHigh;
+            return upperQuartile;
         }
-        boxHigh = d3.functor(_x);
+        upperQuartile = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.boxLow = function(_x) {
+    boxPlot.lowerQuartile = function(_x) {
         if (!arguments.length) {
-            return boxLow;
+            return lowerQuartile;
         }
-        boxLow = d3.functor(_x);
+        lowerQuartile = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.whiskerHigh = function(_x) {
+    boxPlot.high = function(_x) {
         if (!arguments.length) {
-            return whiskerHigh;
+            return high;
         }
-        whiskerHigh = d3.functor(_x);
+        high = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.whiskerLow = function(_x) {
+    boxPlot.low = function(_x) {
         if (!arguments.length) {
-            return whiskerLow;
+            return low;
         }
-        whiskerLow = d3.functor(_x);
+        low = d3.functor(_x);
         return boxPlot;
     };
-    boxPlot.barWidth = function(_x) {
+    boxPlot.width = function(_x) {
         if (!arguments.length) {
-            return barWidth;
+            return width;
         }
-        barWidth = d3.functor(_x);
+        width = d3.functor(_x);
         return boxPlot;
     };
     boxPlot.orient = function(_x) {
@@ -141,6 +130,13 @@ export default function() {
             return orient;
         }
         orient = _x;
+        return boxPlot;
+    };
+    boxPlot.cap = function(_x) {
+        if (!arguments.length) {
+            return cap;
+        }
+        cap = d3.functor(_x);
         return boxPlot;
     };
 
