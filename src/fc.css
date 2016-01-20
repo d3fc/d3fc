@@ -263,3 +263,7 @@ text {
   stroke: #06c;
   fill: #9cf;
 }
+
+.boxplot {
+  stroke: black;
+}

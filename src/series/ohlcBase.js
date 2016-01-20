@@ -1,5 +1,6 @@
 import d3 from 'd3';
 import fractionalBarWidth from '../util/fractionalBarWidth';
+import {defined} from '../util/fn';
 
 export default function() {
 
@@ -22,9 +23,7 @@ export default function() {
     };
 
     base.defined = function(d, i) {
-        return xValue(d, i) != null && yOpenValue(d, i) != null &&
-            yLowValue(d, i) != null && yHighValue(d, i) != null &&
-            yCloseValue(d, i) != null;
+        return defined(xValue, yOpenValue, yLowValue, yHighValue, yCloseValue)(d, i);
     };
 
     base.values = function(d, i) {

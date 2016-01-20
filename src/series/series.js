@@ -14,6 +14,7 @@ import ohlcBase from './ohlcBase';
 import errorBar from './errorBar';
 import waterfall from './waterfall';
 import algorithm from './algorithm/algorithm';
+import boxPlot from './boxPlot';
 
 export default {
     area: area,
@@ -30,6 +31,7 @@ export default {
     xyBase: xyBase,
     ohlcBase: ohlcBase,
     errorBar: errorBar,
+    boxPlot: boxPlot,
     waterfall: waterfall,
     algorithm: algorithm
 };
