@@ -8,25 +8,24 @@ var data = dataGenerator(100).map(function(datum, index) {
     return {
         x: index,
         y: datum,
-        errorLow: datum - Math.random() * 2,
-        errorHigh: datum + Math.random() * 2
+        low: datum - Math.random() * 2,
+        high: datum + Math.random() * 2
     };
 });
 
 var xScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('x')(data))
+    .domain(fc.util.extent().pad(0.1).fields('x')(data))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('errorLow', 'errorHigh')(data))
+    .domain(fc.util.extent().fields(['low', 'high'])(data))
     .range([height, 0]);
 
 //START
 var errorBar = fc.series.errorBar()
-    .xValue(function(d) { return d.x; })
-    .yValue(function(d) { return d.y; })
-    .errorLow(function(d) { return d.errorLow; })
-    .errorHigh(function(d) { return d.errorHigh; })
+    .value(function(d) { return d.x; })
+    .low(function(d) { return d.low; })
+    .high(function(d) { return d.high; })
     .xScale(xScale)
     .yScale(yScale);
 
