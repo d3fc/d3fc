@@ -320,8 +320,12 @@ module.exports = function(grunt) {
         require('./site/handlebars-helpers/codeblock').register(tinySSG.handlebars);
         require('./site/handlebars-helpers/json').register(tinySSG.handlebars);
 
-        //'./components/**/*.md',
-        tinySSG.build(['components/**/*.md', 'index.html', 'examples/**/*.md'], '../dist', globalData)
+        var config = {
+            destinationFolder: '../dist',
+            filePattern: ['components/**/*.md', 'index.html', 'examples/**/*.md'],
+            globalData: globalData
+        };
+        tinySSG.build(config)
             .then(function() {
                 process.chdir('../../');
                 done();
