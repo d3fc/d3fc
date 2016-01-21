@@ -32,5 +32,5 @@ This example demonstrates how to render a simple scatter plot with data from the
 
 
 ```js
-{{{example-code}}}
+{{{scatter-js}}}
 ```

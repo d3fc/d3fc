@@ -28,5 +28,5 @@ This example demonstrates how a stacked bar chart using energy production data f
  + The [decorate pattern](/components/introduction/2-decorate-pattern.html) is also used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with [svg flexbox](/components/layout/layout.html) used for positioning.
 
 ```js
-{{{example-code}}}
+{{{stacked-js}}}
 ```
