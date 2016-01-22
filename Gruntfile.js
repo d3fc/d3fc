@@ -298,6 +298,8 @@ module.exports = function(grunt) {
             package: grunt.file.readJSON('package.json'),
             dev: grunt.task.current.flags.dev
         };
+        globalData.baseurl = globalData.dev ? 'http://localhost:8000' :
+            globalData.package.homepage;
         process.chdir('site/src');
 
         // for dev builds don't syntax highlight

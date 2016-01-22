@@ -11,7 +11,7 @@
     "d3-svg-legend": "^1.5.0",
     "svg-innerhtml": "^1.1.0"
   },
-  "homepage": "http://d3fc.io",
+  "homepage": "https://d3fc.io",
   "repository": {
     "type": "git",
     "url": "https://github.com/ScottLogic/d3fc"
