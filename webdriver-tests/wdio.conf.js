@@ -6,6 +6,7 @@ exports.config = {
     ],
     capabilities: [
         {
+            platform: 'WIN8',
             browserName: 'chrome',
             'browserstack.local': true
         }
