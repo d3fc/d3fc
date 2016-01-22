@@ -13,8 +13,7 @@ describe('Visit all pages, check for no console errors', function() {
                     .then(function(result) {
                         result.value.filter(function(e) {
                             return e.message.indexOf('livereload') === -1 //Excluding liverload errors
-                                && e.message.indexOf('https://www.quandl.com/api/v3/') === -1 // Excluding Quandl API Issues (limited number of requests per day)
-                                && e.message.indexOf('Access-Control-Allow-Origin') === -1; // Excluding CORS headers until I've fixed that issue
+                                && e.message.indexOf('https://www.quandl.com/api/v3/') === -1; // Excluding Quandl API Issues (limited number of requests per day)
                         }).forEach(function(e) {
                             expect(e).toBeUndefined('Errors/console logs in the url: ' + url);
                         });
