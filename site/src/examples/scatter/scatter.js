@@ -1,4 +1,4 @@
-d3.tsv('http://d3fc.io/examples/scatter/data.tsv', function(error, data) {
+d3.tsv('https://d3fc.io/examples/scatter/data.tsv', function(error, data) {
     // convert string properties to numbers
     data.forEach(function(d) {
         d.sepalLength = Number(d.sepalLength);

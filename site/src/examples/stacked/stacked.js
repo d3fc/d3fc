@@ -1,4 +1,4 @@
-d3.csv('http://d3fc.io/examples/stacked/data.csv', function(error, data) {
+d3.csv('https://d3fc.io/examples/stacked/data.csv', function(error, data) {
     // manipulate the data into stacked series
     var spread = fc.data.spread()
         .xValueKey('Country');
