@@ -1,5 +1,6 @@
 ---
 layout: component
+namespace: Introduction
 title: Decorate Pattern
 externals:
   decorate-axis-js: decorate-axis.js

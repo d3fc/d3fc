@@ -1,7 +1,5 @@
 /* global module, require */
-var tinySSG = require('tiny-ssg');
-var handlebars = require('handlebars');
-var marked = require('marked');
+var siteBuilder = require('./site/build/build');
 
 module.exports = function(grunt) {
     'use strict';
@@ -301,33 +299,13 @@ module.exports = function(grunt) {
         globalData.baseurl = globalData.dev ? 'http://localhost:8000' :
             globalData.package.homepage;
 
-        // for dev builds don't syntax highlight
-        if (!globalData.dev) {
-            marked.setOptions({
-                highlight: function(code) {
-                    return require('highlight.js').highlightAuto(code).value;
-                }
-            });
-        }
-
-        // load the helpers required by the site build
-        require('handlebars-helpers/lib/helpers/helpers-miscellaneous').register(handlebars);
-        require('handlebars-helpers/lib/helpers/helpers-comparisons').register(handlebars);
-        require('handlebars-group-by').register(handlebars);
-
-        // load the project-specific helpers
-        require('./site/handlebars-helpers/dynamic-include').register(handlebars);
-        require('./site/handlebars-helpers/escape').register(handlebars);
-        require('./site/handlebars-helpers/codeblock').register(handlebars);
-        require('./site/handlebars-helpers/json').register(handlebars);
-
         var config = {
             destinationFolder: '../dist',
             filePattern: ['components/**/*.md', 'index.html', 'examples/**/*.md'],
             globalData: globalData,
             sourceFolder: 'site/src'
         };
-        tinySSG.build(config)
+        siteBuilder(config)
             .then(function() {
                 done();
             })
