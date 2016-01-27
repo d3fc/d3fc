@@ -7,10 +7,10 @@ d3fc provides the building block that you can use to construct complex and highl
 
 <div class="row">
   {{#each pages}}
-    {{#if data.example }}
+    {{#if example }}
       <div class="col-sm-6 col-md-4">
-        <a href="{{data.page.destination}}" class="thumbnail">
-          <img src="/{{data.page.dirname}}/thumbnail.png" alt="{{data.page.title}}">
+        <a href="{{page.destination}}" class="thumbnail">
+          <img src="/{{page.dirname}}/thumbnail.png" alt="{{page.title}}">
         </a>
       </div>
     {{/if}}

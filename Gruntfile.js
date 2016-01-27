@@ -1,7 +1,7 @@
 /* global module, require */
 var tinySSG = require('tiny-ssg');
-var process = require('process');
 var handlebars = require('handlebars');
+var marked = require('marked');
 
 module.exports = function(grunt) {
     'use strict';
@@ -300,40 +300,38 @@ module.exports = function(grunt) {
         };
         globalData.baseurl = globalData.dev ? 'http://localhost:8000' :
             globalData.package.homepage;
-        process.chdir('site/src');
 
         // for dev builds don't syntax highlight
-        if (globalData.dev) {
-            tinySSG.marked.setOptions({
+        if (!globalData.dev) {
+            marked.setOptions({
                 highlight: function(code) {
-                    return code;
+                    return require('highlight.js').highlightAuto(code).value;
                 }
             });
         }
 
         // load the helpers required by the site build
-        require('handlebars-helpers/lib/helpers/helpers-miscellaneous').register(tinySSG.handlebars);
-        require('handlebars-helpers/lib/helpers/helpers-comparisons').register(tinySSG.handlebars);
-        require('handlebars-group-by').register(tinySSG.handlebars);
+        require('handlebars-helpers/lib/helpers/helpers-miscellaneous').register(handlebars);
+        require('handlebars-helpers/lib/helpers/helpers-comparisons').register(handlebars);
+        require('handlebars-group-by').register(handlebars);
 
         // load the project-specific helpers
-        require('./site/handlebars-helpers/dynamic-include').register(tinySSG.handlebars);
-        require('./site/handlebars-helpers/escape').register(tinySSG.handlebars);
-        require('./site/handlebars-helpers/codeblock').register(tinySSG.handlebars);
-        require('./site/handlebars-helpers/json').register(tinySSG.handlebars);
+        require('./site/handlebars-helpers/dynamic-include').register(handlebars);
+        require('./site/handlebars-helpers/escape').register(handlebars);
+        require('./site/handlebars-helpers/codeblock').register(handlebars);
+        require('./site/handlebars-helpers/json').register(handlebars);
 
         var config = {
             destinationFolder: '../dist',
             filePattern: ['components/**/*.md', 'index.html', 'examples/**/*.md'],
-            globalData: globalData
+            globalData: globalData,
+            sourceFolder: 'site/src'
         };
         tinySSG.build(config)
             .then(function() {
-                process.chdir('../../');
                 done();
             })
             .catch(function(e) {
-                process.chdir('../../');
                 grunt.fail.warn(e);
             });
     });

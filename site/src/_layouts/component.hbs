@@ -41,15 +41,15 @@ layout: default
               </li>
           </ul>
         </li>
-        {{#group pages by="data.namespace"}}
+        {{#group pages by="namespace"}}
           {{#if value}}
             <li>
               <h4>{{value}}</h4>
               <ul class="nav nav-stacked">
                 {{#each items}}
                   <li class="{{#if isCurrentPage}}active{{/if}}">
-                    <a href="{{data.page.destination}}">
-                      {{data.title}}
+                    <a href="{{page.destination}}">
+                      {{title}}
                     </a>
                   </li>
                 {{/each}}
