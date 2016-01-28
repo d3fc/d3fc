@@ -25,7 +25,7 @@ This example demonstrates how to render a bubble chart with data that shows the 
  + The `d3.json` component is used to load the data from a JSON file.
  + A [cartesian chart](/components/chart/cartesian.html), with a logarithmic x scale and linear y scale, is used to render the plot area, axes and labels.
  + A [point series](/components/series/point.html) is used to render the data, with the `size` of each point defined via another linear scale.
- + The [decorate pattern](/components/introduction/2-decorate-pattern.html) is used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with [svg flexbox](/components/layout/layout.html) used for positioning.
+ + The [decorate pattern](/components/introduction/decorate-pattern.html) is used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with [svg flexbox](/components/layout/layout.html) used for positioning.
 
 
 ```js

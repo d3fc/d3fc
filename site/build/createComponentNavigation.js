@@ -13,13 +13,28 @@ function groupBy(array, key) {
     }, []);
 }
 
+function sortOrder(order, accessor) {
+    order = order.reverse();
+    return function(a, b) {
+        return order.indexOf(accessor(b)) - order.indexOf(accessor(a));
+    };
+}
+
 function createComponentNavigation(postMatter) {
-    var order = ['Introduction', 'Chart', 'Series'].reverse();
+
+    var namespaceOrder = ['Introduction', 'Chart', 'Series'];
+    var introductionOrder = ['Getting Started', 'Transitions', 'Decorate Pattern', 'Component Design'];
+
     if (postMatter.data.layout === 'component') {
         // create a grouped structure for component navigation
         var componentPages = postMatter.data.pages.filter(function(page) { return page.layout === 'component'; });
         var groupedPages = groupBy(componentPages, function(item) { return item.namespace; });
-        groupedPages.sort(function(a, b) { return order.indexOf(b.namespace) - order.indexOf(a.namespace); });
+        // sort the namespaces
+        groupedPages.sort(sortOrder(namespaceOrder, function(item) { return item.namespace; }));
+        // sort the introduction section
+        var introductionGroup = groupedPages.find(function(item) { return item.namespace === 'Introduction';});
+        introductionGroup.items.sort(sortOrder(introductionOrder, function(item) { return item.title; }));
+
         postMatter.data.groupedPages = groupedPages;
 
         // flatten for mobile menu
