@@ -9,7 +9,8 @@
         "describe": true,
         "d3": true,
         "beforeEach": true,
-        "jasmine": true
+        "jasmine": true,
+        "spyOn": true
     },
     "rules": {
     }

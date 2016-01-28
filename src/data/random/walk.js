@@ -9,7 +9,7 @@ export default function() {
     var walk = function(initial) {
         var randomNormal = d3.random.normal(),
             timeStep = period / steps,
-            increments = new Array(steps + 1),
+            increments = new Array(steps),
             increment,
             step;
 
@@ -22,9 +22,11 @@ export default function() {
             increments[step] = Math.exp(increment);
         }
         // Return the cumulative product of increments from initial value.
-        increments[0] = initial;
-        for (step = 1; step < increments.length; step += 1) {
-            increments[step] = increments[step - 1] * increments[step];
+        if (steps > 0) {
+            increments [0] = initial;
+            for (step = 1; step < increments.length; step += 1) {
+                increments[step] = increments[step - 1] * increments[step];
+            }
         }
         return increments;
     };
