@@ -7,8 +7,8 @@ export default function() {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        xTicks = 10,
-        yTicks = 10;
+        xTickArguments = [10],
+        yTickArguments = [10];
 
     var xDecorate = noop,
         yDecorate = noop;
@@ -23,11 +23,16 @@ export default function() {
         .element('line')
         .attr('class', 'y gridline');
 
+    // applies the tick arguments for linear scales, or uses domain for ordinal scales
+    function getTicks(scale, tickArguments) {
+        return scale.ticks ? scale.ticks.apply(scale, tickArguments) : scale.domain();
+    }
+
     var gridlines = function(selection) {
 
         selection.each(function(data, index) {
 
-            var xData = xScale.ticks(xTicks);
+            var xData = getTicks(xScale, xTickArguments);
             var xLines = xLineDataJoin(this, xData);
 
             xLines.attr({
@@ -39,7 +44,7 @@ export default function() {
 
             xDecorate(xLines, xData, index);
 
-            var yData = yScale.ticks(yTicks);
+            var yData = getTicks(yScale, yTickArguments);
             var yLines = yLineDataJoin(this, yData);
 
             yLines.attr({
@@ -70,16 +75,16 @@ export default function() {
     };
     gridlines.xTicks = function(x) {
         if (!arguments.length) {
-            return xTicks;
+            return xTickArguments;
         }
-        xTicks = x;
+        xTickArguments = arguments;
         return gridlines;
     };
     gridlines.yTicks = function(x) {
         if (!arguments.length) {
-            return yTicks;
+            return yTickArguments;
         }
-        yTicks = x;
+        yTickArguments = arguments;
         return gridlines;
     };
     gridlines.yDecorate = function(x) {
