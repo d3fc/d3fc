@@ -1,5 +1,6 @@
 ---
 layout: component
+namespace: Introduction
 title: Getting Started
 externals:
   getting-started-js: getting-started.js

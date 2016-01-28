@@ -1,5 +1,6 @@
 ---
 layout: component
+namespace: Introduction
 title: Component Design
 ---
 
