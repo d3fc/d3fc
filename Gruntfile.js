@@ -306,11 +306,10 @@ module.exports = function(grunt) {
             sourceFolder: 'site/src'
         };
         siteBuilder(config)
-            .then(function() {
-                done();
-            })
+            .then(done)
             .catch(function(e) {
                 grunt.fail.warn(e);
+                done();
             });
     });
 

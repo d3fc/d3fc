@@ -3,6 +3,7 @@ var handlebars = require('handlebars');
 var marked = require('marked');
 var matter = require('gray-matter');
 var process = require('process');
+var highlight = require('highlight.js');
 
 var resolveExternals = require('./resolveExternals');
 var createComponentNavigation = require('./createComponentNavigation');
@@ -42,7 +43,7 @@ function build(config) {
     if (!config.globalData.dev) {
         marked.setOptions({
             highlight: function(code) {
-                return require('highlight.js').highlightAuto(code).value;
+                return highlight.highlightAuto(code).value;
             }
         });
     }
@@ -73,7 +74,13 @@ function build(config) {
             ]);
         });
     })
-    .then(function() { process.chdir(workingDirectory); });
+    .then(function() {
+        process.chdir(workingDirectory);
+    })
+    .catch(function(e) {
+        process.chdir(workingDirectory);
+        throw e;
+    });
 }
 
 module.exports = build;
