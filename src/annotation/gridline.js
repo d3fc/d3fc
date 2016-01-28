@@ -2,6 +2,7 @@ import d3 from 'd3';
 import dataJoin from '../util/dataJoin';
 import {noop} from '../util/fn';
 import {rebind} from '../util/rebind';
+import {range} from '../util/scale';
 
 export default function() {
 
@@ -38,8 +39,8 @@ export default function() {
             xLines.attr({
                 'x1': xScale,
                 'x2': xScale,
-                'y1': yScale.range()[0],
-                'y2': yScale.range()[1]
+                'y1': range(yScale)[0],
+                'y2': range(yScale)[1]
             });
 
             xDecorate(xLines, xData, index);
@@ -48,8 +49,8 @@ export default function() {
             var yLines = yLineDataJoin(this, yData);
 
             yLines.attr({
-                'x1': xScale.range()[0],
-                'x2': xScale.range()[1],
+                'x1': range(xScale)[0],
+                'x2': range(xScale)[1],
                 'y1': yScale,
                 'y2': yScale
             });
