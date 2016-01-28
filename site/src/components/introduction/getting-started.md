@@ -58,9 +58,8 @@ Here is how the chart should look:
 {{{ dynamic-include 'codepen' html="getting-started-html" js="getting-started-js" }}}
 
 {{{getting-started-html}}}
+<script type="text/javascript">
+{{{getting-started-js}}}
+</script>
 
-{{{ dynamic-include 'javascript-resize' js="getting-started-js" }}}
-
-## Next steps
-
-The next step is to browse the d3fc components to determine which you need for your chart or visualisation. You should also read about the <a href="decorate-pattern.html">decorate pattern</a> which allows you to customise the d3fc components.
+The next step is to follow the more in-depth tutorial on [building a chart](/components/introduction/building-a-chart.html).

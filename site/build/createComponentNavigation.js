@@ -23,7 +23,7 @@ function sortOrder(order, accessor) {
 function createComponentNavigation(postMatter) {
 
     var namespaceOrder = ['Introduction', 'Chart', 'Series'];
-    var introductionOrder = ['Getting Started', 'Transitions', 'Decorate Pattern', 'Component Design'];
+    var introductionOrder = ['Getting Started', 'Building A Chart', 'Transitions', 'Decorate Pattern', 'Component Design'];
 
     if (postMatter.data.layout === 'component') {
         // create a grouped structure for component navigation
