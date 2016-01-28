@@ -16,9 +16,7 @@ externals:
 
 {{{simple-html}}}
 
-<script>
-{{{simple-js}}}
-</script>
+{{{ dynamic-include 'javascript-resize' js="simple-js" }}}
 
 This example demonstrates how to a simple cartesian chart with a line and an area series. The chart is constructed from the following components:
 

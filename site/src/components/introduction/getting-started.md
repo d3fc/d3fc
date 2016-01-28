@@ -57,9 +57,8 @@ Here is how the chart should look:
 {{{ dynamic-include 'codepen' html="getting-started-html" js="getting-started-js" }}}
 
 {{{getting-started-html}}}
-<script type="text/javascript">
-{{{getting-started-js}}}
-</script>
+
+{{{ dynamic-include 'javascript-resize' js="getting-started-js" }}}
 
 ## Next steps
 

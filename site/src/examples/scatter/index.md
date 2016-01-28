@@ -16,9 +16,7 @@ externals:
 
 {{{scatter-html}}}
 
-<script>
-{{{scatter-js}}}
-</script>
+{{{ dynamic-include 'javascript-resize' js="scatter-js" }}}
 
 
 (based on [bl.ock #3887118](http://bl.ocks.org/mbostock/3887118#index.html) by Mike Bostock)
