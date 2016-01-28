@@ -6,29 +6,19 @@ export default function() {
         mu = 0.1,
         sigma = 0.1;
 
-    var walk = function(initial) {
+    var walk = function(value) {
         var randomNormal = d3.random.normal(),
             timeStep = period / steps,
-            increments = new Array(steps),
-            increment,
-            step;
+            walkData = [];
 
-        // Compute step increments for the discretized GBM model.
-        for (step = 1; step < increments.length; step += 1) {
-            increment = randomNormal();
-            increment *= Math.sqrt(timeStep);
-            increment *= sigma;
-            increment += (mu - ((sigma * sigma) / 2)) * timeStep;
-            increments[step] = Math.exp(increment);
+        for (var i = 0; i < steps; i++) {
+            walkData.push(value);
+            var increment = (randomNormal() * Math.sqrt(timeStep) * sigma) +
+                 ((mu - sigma * sigma / 2) * timeStep);
+            value = value * Math.exp(increment);
         }
-        // Return the cumulative product of increments from initial value.
-        if (steps > 0) {
-            increments [0] = initial;
-            for (step = 1; step < increments.length; step += 1) {
-                increments[step] = increments[step - 1] * increments[step];
-            }
-        }
-        return increments;
+
+        return walkData;
     };
 
     walk.period = function(x) {
