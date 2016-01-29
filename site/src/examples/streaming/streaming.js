@@ -32,14 +32,22 @@ function renderChart() {
       )
      .xDomain(xExtent(data))
      .yDomain(yExtent(data))
-     .xTicks(5)
      .yNice()
-     .yTicks(5)
      .chartLabel('Streaming Candlestick')
      .margin({left: 30, right: 30, bottom: 20, top: 30});
 
+    // obtain ticks from the underlying scales
+    var xTicks = chart.xScaleTicks(10);
+    var yTicks = chart.yScaleTicks(10);
+
+    // render a reduced number of ticks on each axis
+    chart.xTickValues(xTicks.filter(function(d) { return d.getDate() % 2 === 0; }))
+        .yTickValues(yTicks.filter(function(d, i) { return i % 2 === 0; }));
+
     // Create the gridlines and series
-    var gridlines = fc.annotation.gridline();
+    var gridlines = fc.annotation.gridline()
+        .xTickValues(xTicks)
+        .yTickValues(yTicks);
     var candlestick = fc.series.candlestick();
     var bollingerBands = fc.indicator.renderer.bollingerBands();
 
