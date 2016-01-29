@@ -1,21 +1,22 @@
 import d3 from 'd3';
+import _ticks from '../scale/ticks';
 import _dataJoin from '../util/dataJoin';
 import {identity, noop} from '../util/fn';
 import {range as scaleRange, isOrdinal} from '../util/scale';
+import {rebindAll} from '../util/rebind';
+
 
 // A drop-in replacement for the D3 axis, supporting the decorate pattern.
 export default function() {
 
-    var scale = d3.scale.identity(),
-        decorate = noop,
+    var decorate = noop,
         orient = 'bottom',
-        tickArguments = [10],
-        tickValues = null,
         tickFormat = null,
         outerTickSize = 6,
         innerTickSize = 6,
         tickPadding = 3,
-        svgDomainLine = d3.svg.line();
+        svgDomainLine = d3.svg.line(),
+        ticks = _ticks();
 
     var dataJoin = _dataJoin()
         .selector('g.tick')
@@ -59,18 +60,21 @@ export default function() {
     }
 
     function tryApply(fn, defaultVal) {
-        return scale[fn] ? scale[fn].apply(scale, tickArguments) : defaultVal;
+        var scale = ticks.scale();
+        return scale[fn] ? scale[fn].apply(scale, ticks.ticks()) : defaultVal;
     }
 
     var axis = function(selection) {
 
         selection.each(function(data, index) {
 
+            var scale = ticks.scale();
+
             // Stash a snapshot of the new scale, and retrieve the old snapshot.
             var scaleOld = this.__chart__ || scale;
             this.__chart__ = scale.copy();
 
-            var ticksArray = tickValues == null ? tryApply('ticks', scale.domain()) : tickValues;
+            var ticksArray = ticks();
             var tickFormatter = tickFormat == null ? tryApply('tickFormat', identity) : tickFormat;
             var sign = orient === 'bottom' || orient === 'right' ? 1 : -1;
             var container = d3.select(this);
@@ -132,30 +136,6 @@ export default function() {
         });
     };
 
-    axis.scale = function(x) {
-        if (!arguments.length) {
-            return scale;
-        }
-        scale = x;
-        return axis;
-    };
-
-    axis.ticks = function(x) {
-        if (!arguments.length) {
-            return tickArguments;
-        }
-        tickArguments = arguments;
-        return axis;
-    };
-
-    axis.tickValues = function(x) {
-        if (!arguments.length) {
-            return tickValues;
-        }
-        tickValues = x;
-        return axis;
-    };
-
     axis.tickFormat = function(x) {
         if (!arguments.length) {
             return tickFormat;
@@ -213,6 +193,8 @@ export default function() {
         decorate = x;
         return axis;
     };
+
+    rebindAll(axis, ticks);
 
     return axis;
 }

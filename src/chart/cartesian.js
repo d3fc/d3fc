@@ -178,11 +178,15 @@ export default function(xScale, yScale) {
     };
 
     var scaleExclusions = [
+        'ticks',
         /range\w*/,   // the scale range is set via the component layout
         /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
     ];
     rebindAll(cartesian, xScale, 'x', scaleExclusions);
     rebindAll(cartesian, yScale, 'y', scaleExclusions);
+
+    cartesian.xScaleTicks = xScale.ticks;
+    cartesian.yScaleTicks = yScale.ticks;
 
     var axisExclusions = [
         'baseline',         // the axis baseline is adapted so is not exposed directly
