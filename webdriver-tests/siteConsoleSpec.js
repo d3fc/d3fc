@@ -28,7 +28,7 @@ describe('Visit all pages, check for no console errors', function() {
     }
 
     it('site documentation contains no logs / errors', function(done) {
-        return getLinks('http://localhost:8000/components/introduction/1-getting-started.html', '.nav-stacked a')
+        return getLinks('http://localhost:8000/components/introduction/getting-started.html', '.nav-stacked a')
             .then(function(links) {
                 return testPagesForConsoleOutput(links, done);
             });
