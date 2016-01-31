@@ -211,7 +211,8 @@ module.exports = function(grunt) {
             site: {
                 files: [
                     '<%= meta.metaJsFiles %>',
-                    'site/src/**/*'
+                    'site/src/**/*',
+                    'dist/**/*'
                 ],
                 tasks: ['site:dev'],
                 options: {
