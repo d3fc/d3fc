@@ -111,14 +111,14 @@ export default function() {
 
             g.attr('transform', containerTranslate(scale, translate));
 
-            g.selectAll('path')
+            g.select('path')
                 .attr('d', function(d) {
                     return svgDomainLine(pathTranspose([
                         [0, 0], [0, sign * innerTickSize]
                     ]));
                 });
 
-            g.selectAll('text')
+            g.select('text')
                .attr('transform', translate(0, labelOffset))
                .text(tickFormatter);
 
