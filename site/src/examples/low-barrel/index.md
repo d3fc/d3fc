@@ -16,9 +16,7 @@ externals:
 
 {{{low-barrel-html}}}
 
-<script>
-{{{low-barrel-js}}}
-</script>
+{{{ dynamic-include 'javascript-resize' js="low-barrel-js" }}}
 
 This example shows how a more complex chart can be built using the d3fc components.
 

@@ -16,9 +16,7 @@ externals:
 
 {{{stacked-html}}}
 
-<script>
-{{{stacked-js}}}
-</script>
+{{{ dynamic-include 'javascript-resize' js="stacked-js" }}}
 
 This example demonstrates how a stacked bar chart using energy production data from [eurostat](http://ec.europa.eu/eurostat/statistics-explained/index.php). The chart is constructed from the following components:
 
