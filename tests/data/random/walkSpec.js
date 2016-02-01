@@ -1,10 +1,6 @@
 describe('walk', function() {
 
-    var element;
-
     beforeEach(function() {
-        element = document.createElement('svg');
-
         // create a random number generator that produces a predictable sequence
         // 0.2, 0.8, 0.2, 0.8 ...
         var index = 0;
