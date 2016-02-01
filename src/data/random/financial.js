@@ -1,155 +1,143 @@
 import walk from './walk';
+import d3 from 'd3';
 
 export default function() {
-
-    var mu = 0.1,
-        sigma = 0.1,
-        startPrice = 100,
-        startVolume = 100000,
-        startDate = new Date(),
-        stepsPerDay = 50,
-        volumeNoiseFactor = 0.3,
-        filter = function(d) { return true; };
-
-    var calculateOHLC = function(days, prices, volumes) {
-
-        var ohlcv = [],
-            daySteps,
-            currentStep = 0,
-            currentIntraStep = 0;
-
-        while (ohlcv.length < days) {
-            daySteps = prices.slice(currentIntraStep, currentIntraStep + stepsPerDay);
-            ohlcv.push({
-                date: new Date(startDate.getTime()),
-                open: daySteps[0],
-                high: Math.max.apply({}, daySteps),
-                low: Math.min.apply({}, daySteps),
-                close: daySteps[stepsPerDay - 1],
-                volume: volumes[currentStep]
-            });
-            currentIntraStep += stepsPerDay;
-            currentStep += 1;
-            startDate.setUTCDate(startDate.getUTCDate() + 1);
-        }
-        return ohlcv;
+    var startDate = new Date();
+    var startPrice = 100;
+    var granularity = 60 * 60 * 24;
+    var filter = null;
+    var steps = 10;
+    var mu = 0.1;
+    var sigma = 0.1;
+    var volume = function() {
+        var randomNormal = d3.random.normal(1, 0.1);
+        return Math.ceil(randomNormal() * granularity);
     };
 
-    function calculateInterval(start, days) {
+    function granularityInYears() {
         var millisecondsPerYear = 3.15569e10;
+        return (granularity * 1000) / millisecondsPerYear;
+    }
 
-        var toDate = new Date(start.getTime());
-        toDate.setUTCDate(start.getUTCDate() + days);
-
+    function calculateOHLC(start, price) {
+        var prices = walk()
+            .period(granularityInYears())
+            .steps(steps)
+            .mu(mu)
+            .sigma(sigma)(price);
         return {
-            toDate: toDate,
-            years: (toDate.getTime() - start.getTime()) / millisecondsPerYear
+            date: start,
+            open: prices[0],
+            high: Math.max.apply({}, prices),
+            low: Math.min.apply({}, prices),
+            close: prices[steps],
+            volume: volume()
         };
     }
 
-    function dataGenerator(days, years) {
+    var financial = function(numPoints) {
+        var stream = makeStream();
+        return stream.take(numPoints);
+    };
 
-        var prices = walk()
-            .period(years)
-            .steps(days * stepsPerDay)
-            .mu(mu)
-            .sigma(sigma)(startPrice);
+    financial.stream = makeStream;
 
-        var volumes = walk()
-            .period(years)
-            .steps(days)
-            .mu(0)
-            .sigma(sigma)(startVolume);
-
-        // Add random noise
-        volumes = volumes.map(function(vol) {
-            var boundedNoiseFactor = Math.min(0, Math.max(volumeNoiseFactor, 1));
-            var multiplier = 1 + (boundedNoiseFactor * (1 - 2 * Math.random()));
-            return Math.floor(vol * multiplier);
-        });
-
-        // Save the new start values
-        startPrice = prices[prices.length - 1];
-        startVolume = volumes[volumes.length - 1];
-
-        return calculateOHLC(days, prices, volumes).filter(function(d) {
-            return filter(d.date);
-        });
+    function makeStream() {
+        var streamStartDate = new Date(startDate.getTime());
+        var streamStartPrice = startPrice;
+        function getDatum() {
+            var ohlc = calculateOHLC(streamStartDate, streamStartPrice);
+            streamStartDate = new Date(ohlc.date.getTime() + granularity * 1000);
+            streamStartPrice = ohlc.close;
+            return ohlc;
+        }
+        function getNextDatum() {
+            var ohlc = getDatum();
+            while (filter && !filter(ohlc.date)) {
+                ohlc = getDatum();
+            }
+            return ohlc;
+        }
+        var stream = function() {
+        };
+        stream.next = function() {
+            return getNextDatum();
+        };
+        stream.take = function(numPoints) {
+            var point;
+            var data = [];
+            for (point = 0; point < numPoints; point += 1) {
+                data.push(getNextDatum());
+            }
+            return data;
+        };
+        stream.until = function(comparison) {
+            var data = [];
+            var ohlc = getNextDatum();
+            while (comparison && !comparison(ohlc)) {
+                data.push(ohlc);
+                ohlc = getNextDatum();
+            }
+            return data;
+        };
+        return stream;
     }
 
-    var gen = function(days) {
-        var date = startDate,
-            remainingDays = days,
-            result = [],
-            interval;
-
-        do {
-            interval = calculateInterval(date, remainingDays);
-            result = result.concat(dataGenerator(remainingDays, interval.years));
-            date = interval.toDate;
-            remainingDays = days - result.length;
-        }
-        while (result.length < days);
-
-        return result;
-    };
-
-    gen.mu = function(x) {
-        if (!arguments.length) {
-            return mu;
-        }
-        mu = x;
-        return gen;
-    };
-    gen.sigma = function(x) {
-        if (!arguments.length) {
-            return sigma;
-        }
-        sigma = x;
-        return gen;
-    };
-    gen.startPrice = function(x) {
-        if (!arguments.length) {
-            return startPrice;
-        }
-        startPrice = x;
-        return gen;
-    };
-    gen.startVolume = function(x) {
-        if (!arguments.length) {
-            return startVolume;
-        }
-        startVolume = x;
-        return gen;
-    };
-    gen.startDate = function(x) {
+    financial.startDate = function(x) {
         if (!arguments.length) {
             return startDate;
         }
         startDate = x;
-        return gen;
+        return financial;
     };
-    gen.stepsPerDay = function(x) {
+    financial.startPrice = function(x) {
         if (!arguments.length) {
-            return stepsPerDay;
+            return startPrice;
         }
-        stepsPerDay = x;
-        return gen;
+        startPrice = x;
+        return financial;
     };
-    gen.volumeNoiseFactor = function(x) {
+    financial.granularity = function(x) {
         if (!arguments.length) {
-            return volumeNoiseFactor;
+            return granularity;
         }
-        volumeNoiseFactor = x;
-        return gen;
+        granularity = x;
+        return financial;
     };
-    gen.filter = function(x) {
+    financial.filter = function(x) {
         if (!arguments.length) {
             return filter;
         }
         filter = x;
-        return gen;
+        return financial;
     };
-
-    return gen;
+    financial.steps = function(x) {
+        if (!arguments.length) {
+            return steps;
+        }
+        steps = x;
+        return financial;
+    };
+    financial.mu = function(x) {
+        if (!arguments.length) {
+            return mu;
+        }
+        mu = x;
+        return financial;
+    };
+    financial.sigma = function(x) {
+        if (!arguments.length) {
+            return sigma;
+        }
+        sigma = x;
+        return financial;
+    };
+    financial.volume = function(x) {
+        if (!arguments.length) {
+            return volume;
+        }
+        volume = d3.functor(x);
+        return financial;
+    };
+    return financial;
 }

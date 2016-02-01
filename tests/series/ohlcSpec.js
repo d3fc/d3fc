@@ -4,8 +4,7 @@ describe('ohlc', function() {
 
     beforeEach(function() {
         element = document.createElement('svg');
-        data = fc.data.random.financial()
-            .filter(function() { return true; })(10);
+        data = fc.data.random.financial()(10);
     });
 
     it('should render a path for each datapoint', function() {

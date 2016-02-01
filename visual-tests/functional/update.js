@@ -3,7 +3,8 @@
 
     var generator = fc.data.random.financial()
         .startDate(new Date(2014, 1, 1));
-    var data = generator(20);
+    var stream = generator.stream();
+    var data = stream.take(20);
 
     var key = function(d) { return d.date; };
 
@@ -58,11 +59,7 @@
       .yScale(priceScale);
 
     setInterval(function() {
-        var datum;
-        while (!datum) {
-            datum = generator(1)[0];
-        }
-        data.push(datum);
+        data.push(stream.next());
         data.shift();
         data.forEach(function(d) {
             d.low = d.low - 0.1;

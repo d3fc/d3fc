@@ -252,7 +252,8 @@
         return d;
     }
 
-    var _data = dataGenerator(300)
+    var stream = dataGenerator.stream();
+    var _data = stream.take(300)
         .map(enhanceDataItem);
 
     var frame = 0;
@@ -262,7 +263,7 @@
     function render() {
         frameTimings.push(performance.now());
 
-        var datum = dataGenerator(1)[0];
+        var datum = stream.next();
         datum = enhanceDataItem(datum, _data.length + frame, _data);
 
         // Roll the data buffer

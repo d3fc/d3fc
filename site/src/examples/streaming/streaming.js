@@ -1,11 +1,10 @@
 // create some test data
-var generator = fc.data.random.financial();
-var data = generator(110);
+var stream = fc.data.random.financial().stream();
+var data = stream.take(110);
 
 function renderChart() {
     // add a new datapoint and remove an old one
-    var datum = generator(1)[0];
-    data.push(datum);
+    data.push(stream.next());
     data.shift();
 
     // compute the bollinger bands
