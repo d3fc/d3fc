@@ -302,7 +302,7 @@ module.exports = function(grunt) {
 
         var config = {
             destinationFolder: '../dist',
-            filePattern: ['components/**/*.md', 'index.html', 'examples/**/*.md'],
+            filePattern: ['components/**/*.md', '**/index.html', 'examples/**/*.md'],
             globalData: globalData,
             sourceFolder: 'site/src'
         };
