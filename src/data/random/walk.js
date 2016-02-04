@@ -11,7 +11,7 @@ export default function() {
             timeStep = period / steps,
             walkData = [];
 
-        for (var i = 0; i < steps; i++) {
+        for (var i = 0; i < steps + 1; i++) {
             walkData.push(value);
             var increment = (randomNormal() * Math.sqrt(timeStep) * sigma) +
                  ((mu - sigma * sigma / 2) * timeStep);
