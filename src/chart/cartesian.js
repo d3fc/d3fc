@@ -6,7 +6,7 @@ import line from '../series/line';
 import dataJoin from '../util/dataJoin';
 import expandRect from '../util/expandRect';
 import {noop} from '../util/fn';
-import {rebindAll} from '../util/rebind';
+import {rebindAll, rebind} from '../util/rebind';
 import {isOrdinal, range, setRange} from '../util/scale';
 
 export default function(xScale, yScale) {
@@ -177,12 +177,29 @@ export default function(xScale, yScale) {
         });
     };
 
-    var scaleExclusions = [
-        /range\w*/,   // the scale range is set via the component layout
-        /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
-    ];
-    rebindAll(cartesian, xScale, 'x', scaleExclusions);
-    rebindAll(cartesian, yScale, 'y', scaleExclusions);
+    function rebindScale(scale, prefix) {
+        var scaleExclusions = [
+            /range\w*/,   // the scale range is set via the component layout
+            /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
+        ];
+
+        // The scale ticks method is a stateless method that returns (roughly) the number of ticks
+        // requested. This is subtley different from teh axis ticks methods that simple stores the given arguments
+        // for invocation of the scale method at some point in the future.
+        // Here we expose the underling scale ticks method in case the user want to generate their own ticks.
+        if (!isOrdinal(scale)) {
+            scaleExclusions.push('ticks');
+            var mappings = {};
+            mappings[prefix + 'ScaleTicks'] = 'ticks';
+            rebind(cartesian, scale, mappings);
+        }
+
+        rebindAll(cartesian, scale, prefix, scaleExclusions);
+    }
+
+    rebindScale(xScale, 'x');
+    rebindScale(yScale, 'y');
+
 
     var axisExclusions = [
         'baseline',         // the axis baseline is adapted so is not exposed directly
