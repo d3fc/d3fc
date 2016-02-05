@@ -53,7 +53,7 @@ export default function() {
         }
         function getNextDatum() {
             var ohlc = getDatum();
-            while (filter && !filter(ohlc.date)) {
+            while (filter && !filter(ohlc)) {
                 ohlc = getDatum();
             }
             return ohlc;

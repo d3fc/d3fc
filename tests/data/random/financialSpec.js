@@ -28,8 +28,8 @@ describe('fc.data.random.financial', function() {
     });
 
     it('should exclude points with filtered date from result', function() {
-        generator.filter(function(date) {
-            return date > new Date(2015, 0, 5);
+        generator.filter(function(d) {
+            return d.date > new Date(2015, 0, 5);
         });
         var stream = generator.stream();
         var result = stream.until(function(datum) { return datum.date > new Date(2015, 0, 10); });
@@ -60,8 +60,8 @@ describe('fc.data.random.financial', function() {
     });
 
     it('stream.next with filter should skip filtered dates', function() {
-        generator.filter(function(date) {
-            return date > new Date(2015, 0, 4) && date.getTime() !== new Date(2015, 0, 6).getTime();
+        generator.filter(function(d) {
+            return d.date > new Date(2015, 0, 4) && d.date.getTime() !== new Date(2015, 0, 6).getTime();
         });
         var stream = generator.stream();
         var first = stream.next();
@@ -71,8 +71,8 @@ describe('fc.data.random.financial', function() {
     });
 
     it('stream.take should return the requested number of points', function() {
-        generator.filter(function(date) {
-            return date > new Date(2015, 0, 5);
+        generator.filter(function(d) {
+            return d.date > new Date(2015, 0, 5);
         });
         var stream = generator.stream();
         var data = stream.take(10);
