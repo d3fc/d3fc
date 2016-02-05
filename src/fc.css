@@ -245,7 +245,7 @@ text {
   stroke-width: 1;
   stroke-dasharray: 3, 3;
 }
-.annotation text {
+.annotation .right-handle text {
   text-anchor: end;
 }
 
