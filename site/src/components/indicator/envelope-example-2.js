@@ -12,7 +12,7 @@ var xScale = fc.scale.dateTime()
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields(['high', 'low'])(data))
+    .domain(fc.util.extent().pad(0.4).fields(['high', 'low'])(data))
     .range([height, 0]);
 
 // Create the candlestick series

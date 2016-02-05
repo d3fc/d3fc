@@ -9,7 +9,7 @@ var data = {
 };
 
 var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')([data.foo, data.bar]))
+    .domain(fc.util.extent().pad(0.1).fields('date')([data.foo, data.bar]))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
