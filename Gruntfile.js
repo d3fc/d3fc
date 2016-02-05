@@ -335,7 +335,7 @@ module.exports = function(grunt) {
         ['connect:site', 'connect:visualTests', 'browserstacktunnel-wrapper', 'webdriver'] : []);
     grunt.registerTask('webdriverTests', ['eslint:webdriverTests', 'webdriverTests:browserstack']);
 
-    grunt.registerTask('ci', ['components', 'uglify:components', 'site',
+    grunt.registerTask('ci', ['components', 'uglify:components', 'site:dev',
         'uglify:site', 'visualTests', 'webdriverTests']);
 
     grunt.registerTask('default', ['watch:components']);
