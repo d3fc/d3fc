@@ -24,6 +24,7 @@ container.append('g')
     .datum(data)
     .call(point);
 
+//START
 // Create and apply the EMA
 var movingAverage = fc.indicator.algorithm.exponentialMovingAverage();
 movingAverage(data);
@@ -38,3 +39,4 @@ var ma = fc.series.line()
 container.append('g')
     .datum(data)
     .call(ma);
+//END

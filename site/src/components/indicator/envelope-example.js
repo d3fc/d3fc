@@ -24,6 +24,7 @@ container.append('g')
     .datum(data)
     .call(line);
 
+//START
 // Create and apply the envelope algorithm
 var envelopeAlgorithm = fc.indicator.algorithm.envelope()
     .factor(0.01)
@@ -39,3 +40,4 @@ var envelope = fc.indicator.renderer.envelope()
 container.append('g')
     .datum(data)
     .call(envelope);
+//END

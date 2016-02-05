@@ -12,6 +12,7 @@ var xScale = fc.scale.dateTime()
     .range([0, width]);
 
 
+//START
 // Create and apply the Force Index algorithm
 var forceAlgorithm = fc.indicator.algorithm.forceIndex();
 forceAlgorithm(data);
@@ -34,3 +35,4 @@ var force = fc.indicator.renderer.forceIndex()
 container.append('g')
     .datum(data)
     .call(force);
+//END

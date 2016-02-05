@@ -24,6 +24,7 @@ container.append('g')
     .datum(data)
     .call(point);
 
+//START
 // Create and apply the Moving Average
 var movingAverage = fc.indicator.algorithm.movingAverage();
 movingAverage(data);
@@ -33,6 +34,7 @@ var ma = fc.series.line()
     .yValue(function(d) { return d.movingAverage; })
     .xScale(xScale)
     .yScale(yScale);
+//END
 
 // Add it to the container
 container.append('g')

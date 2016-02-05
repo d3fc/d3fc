@@ -11,6 +11,7 @@ var xScale = fc.scale.dateTime()
     .domain(fc.util.extent().fields('date')(data))
     .range([0, width]);
 
+//START
 // Create and apply the elder ray algorithm
 var elderRayAlgorithm = fc.indicator.algorithm.elderRay()
     .period(6);
@@ -35,3 +36,4 @@ var elderRay = fc.indicator.renderer.elderRay()
 container.append('g')
     .datum(data)
     .call(elderRay);
+//END

@@ -11,6 +11,7 @@ var xScale = fc.scale.dateTime()
     .domain(fc.util.extent().fields('date')(data))
     .range([0, width]);
 
+//START
 // the RSI is output on a percentage scale, so requires a domain from 0 - 100
 var yScale = d3.scale.linear()
       .domain([0, 100])
@@ -29,3 +30,4 @@ var rsi = fc.indicator.renderer.relativeStrengthIndex()
 container.append('g')
     .datum(data)
     .call(rsi);
+//END
