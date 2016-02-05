@@ -8,7 +8,7 @@ var dataGenerator = fc.data.random.financial()
 var data = dataGenerator(50);
 
 var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(data))
+    .domain(fc.util.extent().pad(0.1).fields('date')(data))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
@@ -24,6 +24,7 @@ container.append('g')
     .datum(data)
     .call(point);
 
+//START
 // Create and apply the Moving Average
 var movingAverage = fc.indicator.algorithm.movingAverage();
 movingAverage(data);
@@ -33,6 +34,7 @@ var ma = fc.series.line()
     .yValue(function(d) { return d.movingAverage; })
     .xScale(xScale)
     .yScale(yScale);
+//END
 
 // Add it to the container
 container.append('g')

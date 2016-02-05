@@ -11,6 +11,7 @@ var xScale = fc.scale.dateTime()
     .domain(fc.util.extent().fields('date')(data))
     .range([0, width]);
 
+//START
 // Create and apply the stochastic oscillator algorithm
 var stochasticAlgorithm = fc.indicator.algorithm.stochasticOscillator()
     .kWindowSize(14);
@@ -30,3 +31,4 @@ var stochastic = fc.indicator.renderer.stochasticOscillator()
 container.append('g')
     .datum(data)
     .call(stochastic);
+//END

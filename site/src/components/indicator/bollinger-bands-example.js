@@ -12,7 +12,7 @@ var xScale = fc.scale.dateTime()
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields(['high', 'low'])(data))
+    .domain(fc.util.extent().pad(0.4).fields(['high', 'low'])(data))
     .range([height, 0]);
 
 // Create the point series
@@ -24,6 +24,7 @@ container.append('g')
     .datum(data)
     .call(point);
 
+//START
 // Create and apply the bollinger algorithm
 var bollingerAlgorithm = fc.indicator.algorithm.bollingerBands();
 bollingerAlgorithm(data);
@@ -37,3 +38,4 @@ var bollinger = fc.indicator.renderer.bollingerBands()
 container.append('g')
     .datum(data)
     .call(bollinger);
+//END

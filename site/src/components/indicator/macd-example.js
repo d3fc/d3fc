@@ -11,6 +11,7 @@ var xScale = fc.scale.dateTime()
     .domain(fc.util.extent().fields('date')(data))
     .range([0, width]);
 
+//START
 // Create and apply the macd algorithm
 var macdAlgorithm = fc.indicator.algorithm.macd()
     .fastPeriod(4)
@@ -36,3 +37,4 @@ var macd = fc.indicator.renderer.macd()
 container.append('g')
     .datum(data)
     .call(macd);
+//END
