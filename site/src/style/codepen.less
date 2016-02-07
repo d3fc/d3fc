@@ -1,15 +1,11 @@
-.codepen-link {
+@import "../../../node_modules/bootstrap/less/variables.less";
+@import "mixins.less";
 
+.codepen-link {
   text-align: right;
+  margin-bottom: 10px;
 
   input[type="submit"] {
-    background: none;
-    border: none;
-    color: @link-color;
-    margin-bottom: 10px;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    .button("/images/codepen.png")
   }
 }
