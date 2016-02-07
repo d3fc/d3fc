@@ -1,0 +1,10 @@
+@image-dimensions: 18px;
+
+.button(@image-url) {
+    background-image: url(@image-url);
+    background-size: @image-dimensions;
+    background-repeat: no-repeat;
+    background-position-x: @padding-base-horizontal;
+    background-position-y: @padding-base-vertical;
+    padding-left: @image-dimensions + @padding-base-horizontal * 1.5;
+}

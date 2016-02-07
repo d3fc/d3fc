@@ -8,11 +8,11 @@ layout: default
       <h1>
         {{title}}
         {{#if component}}
-        <a href="{{package.repository.url}}/blob/master/src/{{component}}">View source on GitHub</a>
+        <a class="btn btn-default" href="{{package.repository.url}}/blob/master/src/{{component}}">View source</a>
         {{/if}}
       </h1>
       {{{body}}}
-      
+
       <nav class="visible-xs-block">
         <ul class="pager">
           {{#if previousPage}}

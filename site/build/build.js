@@ -4,6 +4,7 @@ var marked = require('marked');
 var matter = require('gray-matter');
 var process = require('process');
 var highlight = require('highlight.js');
+var fs = require('fs');
 
 var resolveExternals = require('./resolveExternals');
 var createComponentNavigation = require('./createComponentNavigation');
@@ -53,11 +54,14 @@ function build(config) {
         process.chdir(config.sourceFolder);
     }
 
+    var chartStyle = fs.readFileSync('style/chart.css', 'utf8');
+
     return chainPromises({}, [
         loadHandlebarsPartials(config.includesPattern),
         loadGlobalData(config.globalPattern),
         collectPagesFrontMatter(config.filePattern),
-        addGlobalData(config.globalData)
+        addGlobalData(config.globalData),
+        addGlobalData({'chart-css': chartStyle})
     ])
     .then(function(globalData) {
         return mapFiles(config.filePattern, function(file, filePath) {

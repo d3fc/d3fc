@@ -1,19 +1,18 @@
+@import "mixins.less";
+
 .component {
 
 	h1>a {
+		.button("/images/github.png");
 		float: right;
-		font-size: @font-size-base;
-		padding-top: 20px;
-		font-weight: normal;
-		color: @text-color;
 	}
 
 	.chart {
-			width: 100%;
-			height: 250px;
-			>svg {
-				margin-left: auto;
-				margin-right: auto;
-			}
+		width: 100%;
+		height: 250px;
+		>svg {
+			margin-left: auto;
+			margin-right: auto;
+		}
 	}
 }
