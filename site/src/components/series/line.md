@@ -27,7 +27,7 @@ Which gives the following:
 
 This series has the same properties for specifying the x and y value accessors, and decorate as the [point series](#point).
 
-The line series component also exposes the `interpolate` and `tension` properties from the d3 line shape that it uses for rendering. For more information about the interpolation modes refer to the official [D3 Line Documentation](https://github.com/mbostock/d3/wiki/SVG-Shapes#line).
+The line series component also exposes the `interpolate` and `tension` properties from the D3 line shape that it uses for rendering. For more information about the interpolation modes refer to the official [D3 Line Documentation](https://github.com/mbostock/d3/wiki/SVG-Shapes#line).
 
 The following example demonstrates how to render a step series via the `step` interpolation mode:
 
