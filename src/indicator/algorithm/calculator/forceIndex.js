@@ -1,10 +1,16 @@
 import d3 from 'd3';
 import _slidingWindow from './slidingWindow';
+import {identity} from '../../../util/fn';
+import exponentialMovingAverage from './exponentialMovingAverage';
 
 export default function() {
 
     var volumeValue = function(d, i) { return d.volume; },
-        closeValue = function(d, i) { return d.close; };
+        closeValue = function(d, i) { return d.close;},
+        value = identity;
+
+    var emaComputer = exponentialMovingAverage()
+        .windowSize(13);
 
     var slidingWindow = _slidingWindow()
         .windowSize(2)
@@ -13,7 +19,13 @@ export default function() {
         });
 
     var force = function(data) {
-        return slidingWindow(data);
+        emaComputer.value(value);
+        var forceIndex = slidingWindow(data).filter(identity);
+        var smoothedForceIndex = emaComputer(forceIndex);
+        if (data.length) {
+            smoothedForceIndex.unshift(undefined);
+        }
+        return smoothedForceIndex;
     };
 
     force.volumeValue = function(x) {
@@ -31,7 +43,7 @@ export default function() {
         return force;
     };
 
-    d3.rebind(force, slidingWindow, 'windowSize');
+    d3.rebind(force, emaComputer, 'windowSize');
 
     return force;
 }
