@@ -23,7 +23,7 @@ var bar = fc.series.bar()
     .yScale(yScale)
     .decorate(function(s) {
         s.enter()
-          .select('path')
+          .select('.bar > path')
           .style('fill', function(d, i) {
               return color(i);
           });

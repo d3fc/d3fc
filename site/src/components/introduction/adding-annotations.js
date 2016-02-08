@@ -2,7 +2,7 @@
 var generator = fc.data.random.walk()
     .steps(11);
 
-// some formaters
+// some formatters
 var valueformatter = d3.format('$f');
 var dateFormatter = d3.time.format('%b');
 
@@ -17,13 +17,13 @@ var data = {
     // target values for the annotations
     targets: [{
         name: 'low',
-        value: 8.5
+        value: 4.5
     }, {
         name: 'high',
-        value: 11.2
+        value: 7.2
     }],
     // randomly generated sales data
-    sales: generator(5).map(function(d, i) {
+    sales: generator(1).map(function(d, i) {
         return {
             month: dateFormatter(new Date(0, i + 1, 0)),
             sales: d + i / 2
@@ -34,7 +34,7 @@ var data = {
 var chart = fc.chart.cartesian(
         d3.scale.ordinal(),
         d3.scale.linear())
-    .chartLabel('2015 Cummulative Sales')
+    .chartLabel('2015 Cumulative Sales')
     .margin({top: 30, right: 45, bottom: 40})
     .xDomain(data.sales.map(function(d) { return d.month; }))
     .yDomain(yExtent(data.sales))

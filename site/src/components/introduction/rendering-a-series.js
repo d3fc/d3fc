@@ -2,12 +2,12 @@
 var generator = fc.data.random.walk()
     .steps(11);
 
-// some formaters
+// some formatters
 var valueformatter = d3.format('$f');
 var dateFormatter = d3.time.format('%b');
 
 // randomly generated sales data
-var data = generator(5).map(function(d, i) {
+var data = generator(1).map(function(d, i) {
     return {
         month: dateFormatter(new Date(0, i + 1, 0)),
         sales: d + i / 2
@@ -23,11 +23,11 @@ var container = d3.select('#rendered-series')
 
 // create the scales
 var xScale = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.month; }))
+    .domain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
     .rangePoints([0, width], 1);
 
 var yScale = d3.scale.linear()
-    .domain([0, 20])
+    .domain([0, 10])
     .range([height, 0]);
 
 // create a series

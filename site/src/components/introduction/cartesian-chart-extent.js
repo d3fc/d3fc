@@ -2,12 +2,12 @@
 var generator = fc.data.random.walk()
     .steps(11);
 
-// some formaters
+// some formatters
 var valueformatter = d3.format('$f');
 var dateFormatter = d3.time.format('%b');
 
 // randomly generated sales data
-var data = generator(5).map(function(d, i) {
+var data = generator(1).map(function(d, i) {
     return {
         month: dateFormatter(new Date(0, i + 1, 0)),
         sales: d + i / 2

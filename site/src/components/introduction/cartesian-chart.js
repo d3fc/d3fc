@@ -2,12 +2,11 @@
 var generator = fc.data.random.walk()
     .steps(11);
 
-// some formaters
-var valueformatter = d3.format('$f');
+// some formatters
 var dateFormatter = d3.time.format('%b');
 
 // randomly generated sales data
-var data = generator(5).map(function(d, i) {
+var data = generator(1).map(function(d, i) {
     return {
         month: dateFormatter(new Date(0, i + 1, 0)),
         sales: d + i / 2
@@ -18,8 +17,8 @@ var data = generator(5).map(function(d, i) {
 var chart = fc.chart.cartesian(
         d3.scale.ordinal(),
         d3.scale.linear())
-    .xDomain(data.map(function(d) { return d.month; }))
-    .yDomain([0, 20]);
+    .xDomain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+    .yDomain([0, 10]);
 
 var series = fc.series.bar()
     .xValue(function(d) { return d.month; })

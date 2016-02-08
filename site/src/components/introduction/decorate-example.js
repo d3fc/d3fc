@@ -41,15 +41,19 @@ var chart = fc.chart.cartesian(
     .yLabel('Sales (millions)')
     .yNice();
 
+//START
 var bar = fc.series.bar()
     .xValue(function(d) { return d.month; })
     .yValue(function(d) { return d.sales; })
     .decorate(function(selection) {
+        // The selection passed to decorate is the one which the component creates within its internal data join,
+        // here we use the update selection to apply a style to 'path' elements created by the bar series
         selection.select('.bar > path')
             .style('fill', function(d) {
                 return d.sales < data.targets[0].value ? 'inherit' : '#0c0';
             });
     });
+//END
 
 var annotation = fc.annotation.line()
     .value(function(d) { return d.value; })
@@ -78,7 +82,7 @@ var multi = fc.series.multi()
 chart.plotArea(multi);
 
 function render() {
-    d3.select('#complete-chart')
+    d3.selectAll('#decorate')
         .datum(data)
         .call(chart);
 }
