@@ -1,4 +1,4 @@
-import walk from './walk';
+import _walk from './walk';
 import d3 from 'd3';
 
 export default function() {
@@ -6,13 +6,11 @@ export default function() {
     var startPrice = 100;
     var granularity = 60 * 60 * 24;
     var filter = null;
-    var steps = 10;
-    var mu = 0.1;
-    var sigma = 0.1;
     var volume = function() {
         var randomNormal = d3.random.normal(1, 0.1);
         return Math.ceil(randomNormal() * granularity);
     };
+    var walk = _walk();
 
     function granularityInYears() {
         var millisecondsPerYear = 3.15569e10;
@@ -20,19 +18,17 @@ export default function() {
     }
 
     function calculateOHLC(start, price) {
-        var prices = walk()
-            .period(granularityInYears())
-            .steps(steps)
-            .mu(mu)
-            .sigma(sigma)(price);
-        return {
+        var prices = walk
+            .period(granularityInYears())(price);
+        var datum = {
             date: start,
             open: prices[0],
             high: Math.max.apply({}, prices),
             low: Math.min.apply({}, prices),
-            close: prices[steps],
-            volume: volume()
+            close: prices[walk.steps()]
         };
+        datum.volume = volume(datum);
+        return datum;
     }
 
     var financial = function(numPoints) {
@@ -43,13 +39,14 @@ export default function() {
     financial.stream = makeStream;
 
     function makeStream() {
-        var streamStartDate = new Date(startDate.getTime());
-        var streamStartPrice = startPrice;
+        var latest;
         function getDatum() {
-            var ohlc = calculateOHLC(streamStartDate, streamStartPrice);
-            streamStartDate = new Date(ohlc.date.getTime() + granularity * 1000);
-            streamStartPrice = ohlc.close;
-            return ohlc;
+            if (!latest) {
+                latest = calculateOHLC(new Date(startDate.getTime()), startPrice);
+            } else {
+                latest = calculateOHLC(new Date(latest.date.getTime() + granularity * 1000), latest.close);
+            }
+            return latest;
         }
         function getNextDatum() {
             var ohlc = getDatum();
@@ -58,8 +55,7 @@ export default function() {
             }
             return ohlc;
         }
-        var stream = function() {
-        };
+        var stream = {};
         stream.next = function() {
             return getNextDatum();
         };
@@ -73,9 +69,15 @@ export default function() {
         };
         stream.until = function(comparison) {
             var data = [];
+            if (!comparison || latest && comparison(latest)) {
+                return data;
+            }
             var ohlc = getNextDatum();
-            while (comparison && !comparison(ohlc)) {
+            while (comparison) {
                 data.push(ohlc);
+                if (comparison(ohlc)) {
+                    break;
+                }
                 ohlc = getNextDatum();
             }
             return data;
@@ -111,27 +113,6 @@ export default function() {
         filter = x;
         return financial;
     };
-    financial.steps = function(x) {
-        if (!arguments.length) {
-            return steps;
-        }
-        steps = x;
-        return financial;
-    };
-    financial.mu = function(x) {
-        if (!arguments.length) {
-            return mu;
-        }
-        mu = x;
-        return financial;
-    };
-    financial.sigma = function(x) {
-        if (!arguments.length) {
-            return sigma;
-        }
-        sigma = x;
-        return financial;
-    };
     financial.volume = function(x) {
         if (!arguments.length) {
             return volume;
@@ -139,5 +120,8 @@ export default function() {
         volume = d3.functor(x);
         return financial;
     };
+
+    d3.rebind(financial, walk, 'steps', 'mu', 'sigma');
+
     return financial;
 }

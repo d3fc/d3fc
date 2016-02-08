@@ -8,8 +8,8 @@ externals:
   walk-example-html: walk-example.html
 ---
 
-The random walk component creates a random series of values based on a [Geometric Brownian Motion](http://stuartreid.co.za/interactive-stochastic-processes/). It
-is useful for generating arbitrary sets of data. The [random financial](./financial.html) component uses this component to create a random price series and a random volume series.
+The random walk component creates a series of values based on the [Geometric Brownian Motion](http://stuartreid.co.za/interactive-stochastic-processes/) stochastic process.
+The [random financial](./financial.html) component uses it to create random open-high-low-close (OHLC) price data.
 
 ```js
 {{{walk-example-js}}}
