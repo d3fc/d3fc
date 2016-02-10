@@ -10,7 +10,7 @@ export default function() {
         yScale = d3.scale.linear(),
         high = function(d, i) { return d.high; },
         low = function(d, i) { return d.low; },
-        value = function(d, i) { return d.date; },
+        value = function(d, i) { return d.x; },
         orient = 'vertical',
         barWidth = fractionalBarWidth(0.5),
         decorate = noop;
