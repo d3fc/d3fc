@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: financial
 title: Coinbase
 component: data/feed/coinbase.js

@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: introduction
 namespace: Introduction
 title: Building A Chart

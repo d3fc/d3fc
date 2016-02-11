@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Cartesian
 component: chart/cartesian.js

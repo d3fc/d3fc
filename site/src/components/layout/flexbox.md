@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Flexbox
 component: layout/flexbox.js

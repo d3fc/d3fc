@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Small Multiples
 component: chart/smallMultiples.js

@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Force Index
 component: indicator/algorithm/forceIndex.js
 section: financial

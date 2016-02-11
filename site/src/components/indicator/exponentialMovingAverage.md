@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Exponential Moving Average
 component: indicator/algorithm/exponentialMovingAverage.js
 section: financial

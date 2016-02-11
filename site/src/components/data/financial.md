@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: financial
 title: Random Financial
 component: data/random/financial.js

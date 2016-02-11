@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Error Bar Series
 component: series/errorBar.js

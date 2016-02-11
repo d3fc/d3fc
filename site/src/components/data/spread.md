@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Spread
 component: data/spread.js

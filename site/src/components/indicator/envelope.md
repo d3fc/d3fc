@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Envelope
 component: indicator/algorithm/envelope.js
 section: financial

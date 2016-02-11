@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Moving Average
 component: indicator/algorithm/movingAverage.js
 section: financial

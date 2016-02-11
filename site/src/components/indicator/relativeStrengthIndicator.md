@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Relative Strength Index
 component: indicator/algorithm/relativeStrengthIndex.js
 section: financial

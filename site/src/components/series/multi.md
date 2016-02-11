@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Multi Series
 component: series/multi.js

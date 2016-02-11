@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Candlestick Series
 component: series/candlestick.js
 namespace: Series

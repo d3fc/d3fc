@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: MACD
 component: indicator/algorithm/macd.js
 section: financial

@@ -26,13 +26,15 @@ function addNavigation(postMatter) {
     var section = postMatter.data.section;
 
     // create a grouped structure for component navigation
-    var componentPages = postMatter.data.pages.filter(function(page) { return page.layout === 'component' && page.section === section; });
+    var componentPages = postMatter.data.pages.filter(function(page) { return page.layout === 'section' && page.section === section; });
     var groupedPages = groupBy(componentPages, function(item) { return item.namespace; });
     // sort the namespaces
     groupedPages.sort(sortOrder(namespaceOrder, function(item) { return item.namespace; }));
     // sort the introduction section
-//    var introductionGroup = groupedPages.find(function(item) { return item.namespace === 'Introduction';});
-//    introductionGroup.items.sort(sortOrder(introductionOrder, function(item) { return item.title; }));
+    if (section === 'introduction') {
+        var introductionGroup = groupedPages.find(function(item) { return item.namespace === 'Introduction';});
+        introductionGroup.items.sort(sortOrder(introductionOrder, function(item) { return item.title; }));
+    }
 
     postMatter.data.groupedPages = groupedPages;
 
@@ -48,7 +50,7 @@ function addNavigation(postMatter) {
 }
 
 function createComponentNavigation(postMatter) {
-    if (postMatter.data.layout === 'component') {
+    if (postMatter.data.layout === 'section') {
         addNavigation(postMatter);
     }
     return postMatter;

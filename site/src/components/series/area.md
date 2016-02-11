@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Area Series
 component: series/area.js

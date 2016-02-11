@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 section: core
 title: Largest Triangle 1 Bucket
 component: data/sampler/largestTriangleOneBucket.js

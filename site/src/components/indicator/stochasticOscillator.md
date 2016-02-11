@@ -1,5 +1,5 @@
 ---
-layout: component
+layout: section
 title: Stochastic Oscillator
 component: indicator/algorithm/stochasticOscillator.js
 section: financial
