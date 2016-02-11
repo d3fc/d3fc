@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Multi Series
 component: series/multi.js
 namespace: Series

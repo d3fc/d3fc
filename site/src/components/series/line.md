@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Line Series
 component: series/line.js
 namespace: Series

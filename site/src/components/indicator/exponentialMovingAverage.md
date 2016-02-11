@@ -2,6 +2,7 @@
 layout: component
 title: Exponential Moving Average
 component: indicator/algorithm/exponentialMovingAverage.js
+section: financial
 namespace: Indicator
 externals:
   ema-example-js: exponentialMovingAverage-example.js

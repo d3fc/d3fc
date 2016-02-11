@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Cycle Series
 component: series/cycle.js
 namespace: Series

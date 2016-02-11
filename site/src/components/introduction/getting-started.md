@@ -1,5 +1,6 @@
 ---
 layout: component
+section: introduction
 namespace: Introduction
 title: Getting Started
 externals:

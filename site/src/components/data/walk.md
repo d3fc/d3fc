@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Random Walk
 component: data/random/walk.js
 namespace: Data

@@ -1,5 +1,6 @@
 ---
 layout: component
+section: financial
 title: Random Financial
 component: data/random/financial.js
 namespace: Data

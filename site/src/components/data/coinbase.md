@@ -1,5 +1,6 @@
 ---
 layout: component
+section: financial
 title: Coinbase
 component: data/feed/coinbase.js
 namespace: Data

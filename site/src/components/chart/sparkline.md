@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Sparkline
 component: chart/sparkline.js
 namespace: Chart

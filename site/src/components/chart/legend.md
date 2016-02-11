@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Legend
 namespace: Chart
 externals:

@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Flexbox
 component: layout/flexbox.js
 namespace: Layout

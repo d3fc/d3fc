@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Line
 component: annotation/line.js
 namespace: Annotation

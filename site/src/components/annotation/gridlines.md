@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Gridlines
 component: annotation/gridline.js
 namespace: Annotation

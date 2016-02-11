@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Cartesian
 component: chart/cartesian.js
 namespace: Chart

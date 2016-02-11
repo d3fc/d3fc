@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Spread
 component: data/spread.js
 namespace: Data

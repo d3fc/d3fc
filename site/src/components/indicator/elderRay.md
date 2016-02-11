@@ -2,6 +2,7 @@
 layout: component
 title: Elder Ray
 component: indicator/algorithm/elderRay.js
+section: financial
 namespace: Indicator
 externals:
   elderray-example-js: elderray-example.js

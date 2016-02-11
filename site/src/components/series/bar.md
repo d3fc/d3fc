@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Bar Series
 component: series/bar.js
 tags:

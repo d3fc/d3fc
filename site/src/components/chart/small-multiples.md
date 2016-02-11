@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Small Multiples
 component: chart/smallMultiples.js
 namespace: Chart

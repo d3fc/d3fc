@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Area Series
 component: series/area.js
 namespace: Series

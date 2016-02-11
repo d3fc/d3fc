@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Container
 component: tool/container.js
 namespace: Tool

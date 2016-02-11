@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Mode Median
 component: data/sampler/modeMedian.js
 namespace: Samplers

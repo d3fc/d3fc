@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Error Bar Series
 component: series/errorBar.js
 namespace: Series

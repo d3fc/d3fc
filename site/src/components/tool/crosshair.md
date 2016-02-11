@@ -1,5 +1,6 @@
 ---
 layout: component
+section: core
 title: Crosshair
 component: tool/crosshair.js
 namespace: Tool

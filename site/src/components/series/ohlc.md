@@ -1,5 +1,6 @@
 ---
 layout: component
+section: financial
 title: OHLC Series
 component: series/ohlc.js
 namespace: Series
