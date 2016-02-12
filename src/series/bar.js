@@ -16,8 +16,8 @@ export default function() {
         pathGenerator = svgBar();
 
     var base = xyBase()
-      .xValue(function(d, i) { return orient === 'vertical' ? d.date : d.close; })
-      .yValue(function(d, i) { return orient === 'vertical' ? d.close : d.date; });
+      .xValue(function(d, i) { return orient === 'vertical' ? d.x : d.y; })
+      .yValue(function(d, i) { return orient === 'vertical' ? d.y : d.x; });
 
     var dataJoin = dataJoinUtil()
         .selector('g.bar')

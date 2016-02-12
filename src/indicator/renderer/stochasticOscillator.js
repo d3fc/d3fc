@@ -15,9 +15,8 @@ export default function() {
 
     var annotations = lineAnnotation();
     var dLine = lineSeries()
-        .yValue(function(d, i) {
-            return d.stochastic.d;
-        });
+        .xValue(function(d, i) { return d.date; })
+        .yValue(function(d, i) { return d.stochastic.d; });
 
     var kLine = lineSeries()
         .yValue(function(d, i) {

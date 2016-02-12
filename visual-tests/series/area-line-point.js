@@ -26,12 +26,14 @@
     var line = fc.series.line()
         .xScale(dateScale)
         .yScale(priceScale)
+        .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.open; });
 
     // Create the area series
     var area = fc.series.area()
         .xScale(dateScale)
         .yScale(priceScale)
+        .xValue(function(d) { return d.date; })
         .y0Value(function(d) { return d.low; })
         .y1Value(function(d) { return d.high; });
 
@@ -39,6 +41,7 @@
     var point = fc.series.point()
         .xScale(dateScale)
         .yScale(priceScale)
+        .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.close; });
 
     // Add it to the chart

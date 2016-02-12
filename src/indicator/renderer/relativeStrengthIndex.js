@@ -15,6 +15,7 @@ export default function() {
 
     var annotations = annotationLine();
     var rsiLine = seriesLine()
+        .xValue(function(d, i) { return d.date; })
         .yValue(function(d, i) { return d.rsi; });
 
     var rsi = function(selection) {

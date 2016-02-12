@@ -27,6 +27,7 @@
         .xScale(dateScale)
         .yScale(priceScale)
         .yValue(function(d) { return d.open; })
+        .xValue(function(d) { return d.date; })
         .interpolate('linear')
         .tension(0.75);
 
@@ -36,6 +37,7 @@
         .yScale(priceScale)
         .y0Value(function(d) { return d.low; })
         .y1Value(function(d) { return d.high; })
+        .xValue(function(d) { return d.date; })
         .interpolate('linear')
         .tension(0.75);
 

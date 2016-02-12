@@ -7,8 +7,8 @@ export default function() {
         yScale = d3.scale.linear(),
         y0Value = d3.functor(0),
         x0Value = d3.functor(0),
-        xValue = function(d, i) { return d.date; },
-        yValue = function(d, i) { return d.close; };
+        xValue = function(d, i) { return d.x; },
+        yValue = function(d, i) { return d.y; };
 
     function base() { }
 

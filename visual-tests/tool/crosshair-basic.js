@@ -32,6 +32,8 @@
 
     // Create the bar series
     var line = fc.series.line()
+        .xValue(function(d) { return d.date; })
+        .yValue(function(d) { return d.close; })
         .xScale(dateScale)
         .yScale(priceScale);
 

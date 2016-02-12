@@ -30,6 +30,8 @@
 
         var bar1 = fc.series.bar()
             .y0Value((extent[1] - extent[0]) / 3)
+            .xValue(function(d) { return d.date; })
+            .yValue(function(d) { return d.close; })
             .xScale(dateScale)
             .yScale(priceScale1);
 
@@ -44,6 +46,8 @@
             .range([height / 2, height]);
 
         var bar2 = fc.series.bar()
+            .xValue(function(d) { return d.date; })
+            .yValue(function(d) { return d.close; })
             .xScale(dateScale)
             .yScale(priceScale2);
 
@@ -83,6 +87,7 @@
         var bar = fc.series.bar()
             .orient('horizontal')
             .xValue(function(d) { return d.low; })
+            .yValue(function(d) { return d.date; })
             .xScale(priceScale)
             .yScale(dateScale);
 

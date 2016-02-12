@@ -189,6 +189,7 @@
             .yTicks(2);
 
         var bar = example.barSeries()
+            .xValue(function(d) { return d.date; })
             .yValue(function(d) { return d.volume; });
 
         var crosshairs = fc.tool.crosshair()
@@ -250,6 +251,8 @@
             .yTicks(0);
 
         var area = fc.series.area()
+            .xValue(function(d) { return d.date; })
+            .yValue(function(d) { return d.close; })
             .decorate(function(sel) {
                 sel.enter().style({fill: '#9cf'});
             });

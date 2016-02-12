@@ -37,6 +37,7 @@
     var bar = fc.series.bar()
         .xScale(dateScale)
         .yScale(priceScale)
+        .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.close; })
         .decorate(function(sel) {
             sel.selectAll('path')

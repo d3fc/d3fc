@@ -24,4 +24,4 @@ The three charts that make up this example are each [cartesian charts](../../com
 
 These charts all share the same underlying data, however, this is enhanced with the data that represents the current interactive state.
 
-The top-most chart uses a tooltip component that was written specifically for this example application. It is added as a 'decoration' of the crosshair.
+The top-most chart uses a tooltip component that is added as a 'decoration' of the crosshair.

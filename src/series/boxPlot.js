@@ -8,12 +8,12 @@ export default function() {
 
     var xScale = d3.time.scale(),
         yScale = d3.scale.linear(),
-        upperQuartile = function(d, i) { return (d.close + d.high) / 2; },
-        lowerQuartile = function(d, i) { return (d.close + d.low) / 2; },
+        upperQuartile = function(d, i) { return d.upperQuartile; },
+        lowerQuartile = function(d, i) { return d.lowerQuartile; },
         high = function(d, i) { return d.high; },
         low = function(d, i) { return d.low; },
-        value = function(d, i) { return d.date; },
-        median = function(d, i) { return d.close; },
+        value = function(d, i) { return d.value; },
+        median = function(d, i) { return d.median; },
         orient = 'vertical',
         barWidth = fractionalBarWidth(0.5),
         decorate = noop;

@@ -14,9 +14,8 @@ export default function() {
     var annotations = annotationLine();
 
     var forceLine = seriesLine()
-        .yValue(function(d, i) {
-            return d.force;
-        });
+        .xValue(function(d, i) { return d.date; })
+        .yValue(function(d, i) { return d.force; });
 
     var force = function(selection) {
 

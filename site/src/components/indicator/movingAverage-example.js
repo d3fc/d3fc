@@ -31,6 +31,7 @@ movingAverage(data);
 
 // Create a line that renders the result
 var ma = fc.series.line()
+    .xValue(function(d) { return d.date; })
     .yValue(function(d) { return d.movingAverage; })
     .xScale(xScale)
     .yScale(yScale);
