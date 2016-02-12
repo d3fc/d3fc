@@ -75,6 +75,8 @@ text {
 
 .cartesian-chart, .multiples-chart {
   overflow: visible;
+  /* see: https://github.com/ScottLogic/d3fc/issues/779 */
+  vertical-align: middle;
 }
 
 .multiples-chart .label {
