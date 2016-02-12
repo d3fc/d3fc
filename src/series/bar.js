@@ -106,6 +106,17 @@ export default function() {
         });
     };
 
+    bar.width = function(data, orientation) {
+        if (orientation === 'vertical') {
+            return barWidth(data.map(function(d, i) {
+                return base.x(d, i);
+            }));
+        } else {
+            return barWidth(data.map(function(d, i) {
+                return base.y(d, i);
+            }));
+        }
+    };
     bar.decorate = function(x) {
         if (!arguments.length) {
             return decorate;
