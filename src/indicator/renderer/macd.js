@@ -3,6 +3,7 @@ import d3 from 'd3';
 import _line from '../../series/line';
 import _multi from '../../series/multi';
 import {noop} from '../../util/fn';
+import {rebind} from '../../util/rebind';
 
 export default function() {
 
@@ -76,6 +77,10 @@ export default function() {
         decorate = x;
         return macd;
     };
+
+    rebind(macd, divergenceBar, {
+        barWidth: 'width'
+    });
 
     return macd;
 }
