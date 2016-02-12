@@ -77,5 +77,7 @@ export default function() {
         return macd;
     };
 
+    d3.rebind(macd, divergenceBar, 'barWidth');
+
     return macd;
 }

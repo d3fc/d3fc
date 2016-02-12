@@ -2,6 +2,7 @@ import d3 from 'd3';
 import barSeries from '../../series/bar';
 import multiSeries from '../../series/multi';
 import {noop} from '../../util/fn';
+import fractionalBarWidth from '../../util/fractionalBarWidth';
 
 export default function() {
 
@@ -9,6 +10,7 @@ export default function() {
         yScale = d3.scale.linear(),
         xValue = function(d) { return d.date; },
         root = function(d) { return d.elderRay; },
+        barWidth = fractionalBarWidth(0.75),
         bullBar = barSeries(),
         bearBar = barSeries(),
         bullBarTop = barSeries(),
@@ -27,25 +29,29 @@ export default function() {
             .xValue(xValue)
             .yValue(function(d, i) {
                 return isTop(root(d).bullPower, root(d).bearPower) ? undefined : root(d).bullPower;
-            });
+            })
+            .barWidth(barWidth);
 
         bearBar
             .xValue(xValue)
             .yValue(function(d, i) {
                 return isTop(root(d).bearPower, root(d).bullPower) ? undefined : root(d).bearPower;
-            });
+            })
+            .barWidth(barWidth);
 
         bullBarTop
             .xValue(xValue)
             .yValue(function(d, i) {
                 return isTop(root(d).bullPower, root(d).bearPower) ? root(d).bullPower : undefined;
-            });
+            })
+            .barWidth(barWidth);
 
         bearBarTop
             .xValue(xValue)
             .yValue(function(d, i) {
                 return isTop(root(d).bearPower, root(d).bullPower) ? root(d).bearPower : undefined;
-            });
+            })
+            .barWidth(barWidth);
 
         multi
             .xScale(xScale)
@@ -62,6 +68,13 @@ export default function() {
         selection.call(multi);
     };
 
+    elderRay.barWidth = function(x) {
+        if (!arguments.length) {
+            return barWidth;
+        }
+        barWidth = d3.functor(x);
+        return elderRay;
+    };
     elderRay.xScale = function(x) {
         if (!arguments.length) {
             return xScale;
