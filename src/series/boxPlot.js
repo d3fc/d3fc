@@ -12,7 +12,7 @@ export default function() {
         lowerQuartile = function(d, i) { return d.lowerQuartile; },
         high = function(d, i) { return d.high; },
         low = function(d, i) { return d.low; },
-        value = function(d, i) { return d.x; },
+        value = function(d, i) { return d.value; },
         median = function(d, i) { return d.median; },
         orient = 'vertical',
         barWidth = fractionalBarWidth(0.5),
