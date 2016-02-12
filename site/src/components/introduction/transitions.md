@@ -1,7 +1,7 @@
 ---
 layout: section
 section: introduction
-namespace: Introduction
+namespace: Further Reading
 title: Transitions
 externals:
   transitions-js: transitions.js

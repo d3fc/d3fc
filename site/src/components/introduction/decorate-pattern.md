@@ -1,7 +1,7 @@
 ---
 layout: section
 section: introduction
-namespace: Introduction
+namespace: Further Reading
 title: Decorate Pattern
 externals:
   decorate-axis-js: decorate-axis.js
