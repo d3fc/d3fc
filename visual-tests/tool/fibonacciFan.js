@@ -57,8 +57,8 @@
                 .style('stroke', 'black')
                 .style('fill', 'none');
             selection.select('circle')
-                .attr('cx', function(d) { return d.target ? dateScale(d.target.x) : 0; })
-                .attr('cy', function(d) { return d.target ? priceScale(d.target.y) : 0; })
+                .attr('cx', function(d) { return d.target ? d.target.x : 0; })
+                .attr('cy', function(d) { return d.target ? d.target.y : 0; })
                 .style('visibility', function(d) { return d.state !== 'DONE' ? 'visible' : 'hidden'; });
         })
         .on('fansource', function(d) {
