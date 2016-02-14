@@ -18,7 +18,9 @@ var yScale = d3.scale.linear()
 //START
 var numberFormat = d3.format('.2f');
 
-var line = fc.series.line();
+var line = fc.series.line()
+    .xValue(function(d) { return d.date; })
+    .yValue(function(d) { return d.close; });
 
 var crosshair = fc.tool.crosshair()
   .xLabel(function(d) { return numberFormat(d.x); })
