@@ -3,17 +3,27 @@ var container = d3.select('#multi-mapping')
     .append('svg')
     .attr({'width': width, 'height': height});
 
+var dataGenerator = fc.data.random.walk();
+function generateData() {
+    return dataGenerator(20).map(function(datum, index) {
+        return {
+            x: index,
+            y: datum
+        };
+    });
+}
+
 var data = {
-    foo: fc.data.random.financial()(25),
-    bar: fc.data.random.financial()(25)
+    foo: generateData(),
+    bar: generateData()
 };
 
-var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().pad(0.1).fields('date')([data.foo, data.bar]))
+var xScale = d3.scale.linear()
+    .domain(fc.util.extent().fields('x')([data.foo, data.bar]))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields(['high', 'low'])([data.foo, data.bar]))
+    .domain(fc.util.extent().fields('y')([data.foo, data.bar]))
     .range([height, 0]);
 
 //START
