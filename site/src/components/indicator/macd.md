@@ -1,7 +1,8 @@
 ---
-layout: component
+layout: section
 title: MACD
 component: indicator/algorithm/macd.js
+section: financial
 namespace: Indicator
 externals:
   macd-example-js: macd-example.js

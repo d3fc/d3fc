@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Waterfall Series
 component: series/waterfall.js
 namespace: Series

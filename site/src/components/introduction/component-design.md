@@ -1,6 +1,7 @@
 ---
-layout: component
-namespace: Introduction
+layout: section
+section: introduction
+namespace: Further Reading
 title: Component Design
 ---
 

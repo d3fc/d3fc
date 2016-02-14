@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Point Series
 component: series/point.js
 namespace: Series

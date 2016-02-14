@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Band
 component: annotation/band.js
 namespace: Annotation

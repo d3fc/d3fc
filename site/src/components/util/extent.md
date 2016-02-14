@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Extent
 component: util/extent.js
 namespace: Util

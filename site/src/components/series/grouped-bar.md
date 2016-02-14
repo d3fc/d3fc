@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Grouped Bar Series
 component: series/groupedBar.js
 namespace: Series

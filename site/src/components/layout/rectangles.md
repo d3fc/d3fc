@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Rectangles
 component: layout/rectangles.js
 namespace: Layout

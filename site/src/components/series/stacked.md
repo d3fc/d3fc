@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Stacked Series
 component: series/stacked
 namespace: Series

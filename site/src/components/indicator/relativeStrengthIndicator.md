@@ -1,7 +1,8 @@
 ---
-layout: component
+layout: section
 title: Relative Strength Index
 component: indicator/algorithm/relativeStrengthIndex.js
+section: financial
 namespace: Indicator
 externals:
   rsi-example-js: relativeStrengthIndex-example.js

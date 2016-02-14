@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: financial
 title: Quandl
 component: data/feed/quandl.js
 namespace: Data

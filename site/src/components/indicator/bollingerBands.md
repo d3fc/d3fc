@@ -1,7 +1,8 @@
 ---
-layout: component
+layout: section
 title: Bollinger Bands
 component: indicator/algorithm/bollingerBands.js
+section: financial
 namespace: Indicator
 externals:
   bollinger-bands-example-js: bollinger-bands-example.js

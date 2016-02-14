@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Bar Series
 component: series/bar.js
 tags:

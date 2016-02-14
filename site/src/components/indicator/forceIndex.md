@@ -1,7 +1,8 @@
 ---
-layout: component
+layout: section
 title: Force Index
 component: indicator/algorithm/forceIndex.js
+section: financial
 namespace: Indicator
 externals:
   forceIndex-example-js: forceIndex-example.js

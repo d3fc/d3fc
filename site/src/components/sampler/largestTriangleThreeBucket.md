@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Largest Triangle 3 Buckets
 component: data/sampler/largestTriangleThreeBucket.js
 namespace: Samplers

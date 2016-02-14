@@ -1,8 +1,9 @@
 ---
-layout: component
+layout: section
 title: Candlestick Series
 component: series/candlestick.js
 namespace: Series
+section: financial
 externals:
   candlestick-example-js: candlestick-example.js
   candlestick-example-html: candlestick-example.html

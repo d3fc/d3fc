@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Date Time Scale
 component: scale/dateTime.js
 namespace: Scale

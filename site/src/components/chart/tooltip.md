@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Tooltip
 component: chart/tooltip.js
 namespace: Chart

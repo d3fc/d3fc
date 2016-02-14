@@ -1,7 +1,8 @@
 ---
-layout: component
+layout: section
 title: Moving Average
 component: indicator/algorithm/movingAverage.js
+section: financial
 namespace: Indicator
 externals:
   ma-example-js: movingAverage-example.js

@@ -1,5 +1,6 @@
 ---
-layout: component
+layout: section
+section: core
 title: Axis
 component: svg/axis.js
 namespace: SVG

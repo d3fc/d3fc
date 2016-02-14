@@ -1,9 +1,8 @@
 ---
-layout: component
+layout: section
 title: Envelope
 component: indicator/algorithm/envelope.js
-tags:
- - playground
+section: financial
 namespace: Indicator
 externals:
   envelope-example-js: envelope-example.js
