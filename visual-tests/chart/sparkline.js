@@ -16,6 +16,7 @@
                 .xDomain(fc.util.extent().fields('date')(data))
                 .yDomain(fc.util.extent().fields('low')(data))
                 .radius(2)
+                .xValue(function(d) { return d.date; })
                 .yValue(function(d) { return d.low; });
 
             sparkline
