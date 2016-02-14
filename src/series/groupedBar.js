@@ -56,6 +56,13 @@ export default function() {
         });
     };
 
+    groupedBar.groupWidth = function(_x) {
+        if (!arguments.length) {
+            return barWidth;
+        }
+        barWidth = d3.functor(_x);
+        return groupedBar;
+    };
     groupedBar.decorate = function(_x) {
         if (!arguments.length) {
             return decorate;
