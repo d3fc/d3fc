@@ -10,7 +10,7 @@ externals:
   financial-stream-example-html: financial-stream-example.html
 ---
 
-The random financial data generator component generates open-high-low-close-volume financial data. 
+The random financial data generator component generates open-high-low-close-volume financial data.
 Prices are calculated using the [random walk](./walk.html) component.
 A `filter` can be supplied to exclude points from the output. 
 Pre-defined filters can be used, for example to skip weekends use `fc.data.random.filter.skipWeekends`.
@@ -31,10 +31,12 @@ Generates the following:
 {{{ dynamic-include 'codepen' html="financial-example-html" js="financial-example-js" }}}
 
 ## Stream
-The component exposes a stateful streaming interface.
+If you need to make successive calls to generate data while keeping track of the latest date and price, 
+use the streaming interface.
 You can see this in action in the [streaming chart example](../../examples/streaming/index.html).
-First create a stream from a random.financial instance with `financial.stream()`.
-Data points can then be generated using the stream's `next`, `take`, and `until` methods — the stream will use the latest date and price for subsequent calls.
+First create a stream from an instance of `fc.data.random.financial` by calling the `stream` method.
+Data points can then be generated using the stream's `next`, `take`, and `until` methods 
+— the stream will use the latest date and price for subsequent calls.
 
 An example using `next`, `take` and `until`:
 

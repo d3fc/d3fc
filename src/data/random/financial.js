@@ -23,8 +23,8 @@ export default function() {
         var datum = {
             date: start,
             open: prices[0],
-            high: Math.max.apply({}, prices),
-            low: Math.min.apply({}, prices),
+            high: Math.max.apply(Math, prices),
+            low: Math.min.apply(Math, prices),
             close: prices[walk.steps()]
         };
         datum.volume = volume(datum);
@@ -49,10 +49,10 @@ export default function() {
             return latest;
         }
         function getNextDatum() {
-            var ohlc = getDatum();
-            while (filter && !filter(ohlc)) {
+            var ohlc;
+            do {
                 ohlc = getDatum();
-            }
+            } while (filter && !filter(ohlc));
             return ohlc;
         }
         var stream = {};
@@ -60,24 +60,27 @@ export default function() {
             return getNextDatum();
         };
         stream.take = function(numPoints) {
-            var point;
             var data = [];
-            for (point = 0; point < numPoints; point += 1) {
-                data.push(getNextDatum());
+            if (numPoints && numPoints > 0) {
+                data = this.until(function(d, i) {
+                    return i === numPoints - 1;
+                });
             }
             return data;
         };
         stream.until = function(comparison) {
             var data = [];
-            if (!comparison || latest && comparison(latest)) {
+            var index = 0;
+            if (!comparison || latest && comparison(latest, index)) {
                 return data;
             }
             var ohlc = getNextDatum();
             while (comparison) {
                 data.push(ohlc);
-                if (comparison(ohlc)) {
+                if (comparison(ohlc, index)) {
                     break;
                 }
+                index += 1;
                 ohlc = getNextDatum();
             }
             return data;
