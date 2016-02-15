@@ -4,22 +4,25 @@ import d3 from 'd3';
 export default function() {
     var startDate = new Date();
     var startPrice = 100;
-    var granularity = 60 * 60 * 24;
+    var interval = d3.time.day;
+    var intervalStep = 1;
+    var unitInterval = d3.time.year;
+    var unitStep = 1;
     var filter = null;
     var volume = function() {
         var randomNormal = d3.random.normal(1, 0.1);
-        return Math.ceil(randomNormal() * granularity);
+        return Math.ceil(randomNormal() * 1000);
     };
     var walk = _walk();
 
-    function granularityInYears() {
-        var millisecondsPerYear = 3.15569e10;
-        return (granularity * 1000) / millisecondsPerYear;
+    function getOffsetPeriod(date) {
+        var unitMilliseconds = unitInterval.offset(date, unitStep) - date;
+        return (interval.offset(date, intervalStep) - date) / unitMilliseconds;
     }
 
     function calculateOHLC(start, price) {
-        var prices = walk
-            .period(granularityInYears())(price);
+        var period = getOffsetPeriod(start);
+        var prices = walk.period(period)(price);
         var datum = {
             date: start,
             open: prices[0],
@@ -44,7 +47,7 @@ export default function() {
             if (!latest) {
                 latest = calculateOHLC(new Date(startDate.getTime()), startPrice);
             } else {
-                latest = calculateOHLC(new Date(latest.date.getTime() + granularity * 1000), latest.close);
+                latest = calculateOHLC(interval.offset(latest.date, intervalStep), latest.close);
             }
             return latest;
         }
@@ -102,11 +105,32 @@ export default function() {
         startPrice = x;
         return financial;
     };
-    financial.granularity = function(x) {
+    financial.interval = function(x) {
         if (!arguments.length) {
-            return granularity;
+            return interval;
         }
-        granularity = x;
+        interval = x;
+        return financial;
+    };
+    financial.intervalStep = function(x) {
+        if (!arguments.length) {
+            return intervalStep;
+        }
+        intervalStep = x;
+        return financial;
+    };
+    financial.unitInterval = function(x) {
+        if (!arguments.length) {
+            return unitInterval;
+        }
+        unitInterval = x;
+        return financial;
+    };
+    financial.unitStep = function(x) {
+        if (!arguments.length) {
+            return unitStep;
+        }
+        unitStep = x;
         return financial;
     };
     financial.filter = function(x) {

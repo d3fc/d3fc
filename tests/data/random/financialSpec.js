@@ -4,7 +4,8 @@ describe('fc.data.random.financial', function() {
     beforeEach(function() {
         generator = fc.data.random.financial()
             .startDate(new Date(2015, 0, 1))
-            .granularity(60 * 60 * 24);
+            .interval(d3.time.day)
+            .intervalStep(1);
     });
 
     it('should return the correct number of data points', function() {

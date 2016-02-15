@@ -1,7 +1,8 @@
 var financial = fc.data.random.financial()
     .startDate(new Date(2016, 0, 1))
     .startPrice(100)
-    .granularity(60 * 60 * 24);
+    .interval(d3.time.day)
+    .intervalStep(1);
 
 var stream = financial.stream();
 var data = [];
