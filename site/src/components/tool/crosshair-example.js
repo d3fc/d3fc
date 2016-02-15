@@ -17,7 +17,9 @@ var yScale = d3.scale.linear()
 
 //START
 // create a line series and a crosshair
-var line = fc.series.line();
+var line = fc.series.line()
+    .xValue(function(d) { return d.date; })
+    .yValue(function(d) { return d.close; });
 var crosshair = fc.tool.crosshair();
 
 // create an array which will hold the crosshair datapoint
@@ -37,7 +39,6 @@ var multi = fc.series.multi()
       }
   });
 
-container.append('g')
-    .datum(data)
+container.datum(data)
     .call(multi);
 //END
