@@ -19,14 +19,6 @@
     var priceScale = d3.scale.linear()
         .range([height, 0]);
 
-    // Create the OHLC series
-    var ohlc = fc.series.ohlc();
-
-    // Add the primary OHLC series
-    container.append('g')
-        .datum(data)
-        .call(ohlc);
-
     // Create the Bollinger bands component
     var bollingerComputer = fc.indicator.algorithm.bollingerBands()
         .windowSize(5)
@@ -38,6 +30,9 @@
         function(d) { return d.boll.upper; },
         function(d) { return d.boll.lower; }
     ])(data));
+
+    // Create the OHLC series
+    var ohlc = fc.series.ohlc();
 
     var bollingerRenderer = fc.indicator.renderer.bollingerBands()
         .root(function(d) { return d.boll; });
