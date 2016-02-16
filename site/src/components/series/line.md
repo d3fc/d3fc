@@ -26,7 +26,7 @@ Which gives the following:
 {{{line-example-js}}}
 </script>
 
-This series has the same properties for specifying the x and y value accessors, and decorate as the [point series](#point).
+This series has the same properties for specifying the x and y value accessors, and decorate as the {{{ hyperlink 'point.html' title='point series' }}}.
 
 The line series component also exposes the `interpolate` and `tension` properties from the D3 line shape that it uses for rendering. For more information about the interpolation modes refer to the official [D3 Line Documentation](https://github.com/mbostock/d3/wiki/SVG-Shapes#line).
 

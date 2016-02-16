@@ -23,7 +23,7 @@ svg {
 
 The rectangles layout component provides a mechanism for arranging child components based on their rectangular bounding boxes. It is typically used to render tooltips or labels on a chart. A layout strategy can be passed to the component in order to arrange the child rectangles avoiding collisions.
 
-The component has `xScale` and `yScale` properties which it uses to determine the width and height of the overall container. Typically this component would be used with a [multi series](/components/series/multi.html) within a [cartesian chart](/components/chart/cartesian.html) hence these properties would not need to be set directly.
+The component has `xScale` and `yScale` properties which it uses to determine the width and height of the overall container. Typically this component would be used with a {{{ hyperlink 'multi.html' title='multi series' }}} within a {{{ hyperlink 'cartesian.html' title='cartesian chart' }}} hence these properties would not need to be set directly.
 
 The `size` and `position` of each child can be specified via constants or as accessor functions of the underlying bound data.
 
@@ -44,7 +44,7 @@ Which is rendered as follows:
 {{{rectangles-greedy-js}}}
 </script>
 
-NOTE: The rectangles layout component sets the `layout-width` and `layout-height` attributes of the generated child component containers, this allows the child component to use [flexbox layout](/components/layout/flexbox.html).
+NOTE: The rectangles layout component sets the `layout-width` and `layout-height` attributes of the generated child component containers, this allows the child component to use {{{ hyperlink 'flexbox.html' title='flexbox layout' }}}.
 
 The rectangles layout component can be used with different layout strategies which can, for example, ensure that rectangles do not overlap each other or all outside of the container.
 

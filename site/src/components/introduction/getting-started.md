@@ -63,4 +63,4 @@ Here is how the chart should look:
 {{{getting-started-js}}}
 </script>
 
-The next step is to follow the more in-depth tutorial on [building a chart](/components/introduction/building-a-chart.html).
+The next step is to follow the more in-depth tutorial on {{{ hyperlink 'building-a-chart.html' title='building a chart' }}}.

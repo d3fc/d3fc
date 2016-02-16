@@ -25,4 +25,4 @@ Which gives the following:
 {{{ohlc-example-js}}}
 </script>
 
-The OHLC series shares the same configuration options as the [candlestick series](#candlestick).
+The OHLC series shares the same configuration options as the {{{ hyperlink 'candlestick.html' title='candlestick series' }}}.

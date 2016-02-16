@@ -47,13 +47,13 @@ D3 offers a fresh perspective, offering a different way to create charts and vis
 
 There are a number of charting libraries built with D3, however these invariably hide the underlying power of D3 behind the same-old complex and confusing APIs.
 
-With d3fc our aim is to enhance D3 by providing a suite of powerful [charting components](http://bost.ocks.org/mike/chart/) that make it easy for you to assemble exactly the chart you want. These components 'speak the language' of D3, supporting [selections](http://bost.ocks.org/mike/selection/) and [data joins](http://bost.ocks.org/mike/join/). Furthermore, using the [decorate pattern](https://d3fc.io/components/introduction/decorate-pattern.html), you can enhance and manipulate the way in which they are rendered.
+With d3fc our aim is to enhance D3 by providing a suite of powerful [charting components](http://bost.ocks.org/mike/chart/) that make it easy for you to assemble exactly the chart you want. These components 'speak the language' of D3, supporting [selections](http://bost.ocks.org/mike/selection/) and [data joins](http://bost.ocks.org/mike/join/). Furthermore, using the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}, you can enhance and manipulate the way in which they are rendered.
 
 With d3fc components you can quickly assemble bespoke charts, without hiding the power of D3.
 
 ## Creating the data
 
-Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we'll just generate some random data. d3fc has a number of `data` utilities, including components that help construct realistic random data. For this example we'll use the [random walk component](/components/data/walk.html) to generate 12 datapoints, mapping them to create datapoints with `sales` and `month` properties:
+Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we'll just generate some random data. d3fc has a number of `data` utilities, including components that help construct realistic random data. For this example we'll use the {{{ hyperlink 'walk.html' title='random walk component' }}} to generate 12 datapoints, mapping them to create datapoints with `sales` and `month` properties:
 
 ```js
 {{{creating-some-data-js}}}
@@ -69,7 +69,7 @@ Here's the resulting data:
 
 The sales data is rendered as a bar chart. With D3 this typically involves rendering paths or rectangles and doing a bit of maths to locate each bar correctly, as illustrated in [Mike Bostock's excellent tutorial](http://bost.ocks.org/mike/bar/).
 
-d3fc has a [bar series component](/components/series/bar.html) (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `xValue` and `yValue` accessors (which the component uses to extract the x and y values from the datapoints).
+d3fc has a {{{ hyperlink 'bar.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `xValue` and `yValue` accessors (which the component uses to extract the x and y values from the datapoints).
 
 The bar series is a regular D3 component, and is rendered via the `call` method on a D3 selection:
 
@@ -118,7 +118,7 @@ data.map(function(d) { return d.month; })
 
 The current y-domain is a bit of a guess, being hard-coded to a range `[0, 10]`. Ideally the domain should be computed based on the data. In this case the domain should accommodate the greatest sales value, plus some padding, and also extent to zero.
 
-There's another d3fc component that can help here, the [extent](/components/util/extent.html) utility. The following code ensures that zero is included, and adds a small amount of padding, as a percentage of the overall extent, to the 'top' end of the range:
+There's another d3fc component that can help here, the {{{ hyperlink 'extent.html' title='extent' }}} utility. The following code ensures that zero is included, and adds a small amount of padding, as a percentage of the overall extent, to the 'top' end of the range:
 
 ```js
 {{{ codeblock cartesian-chart-extent-js }}}
@@ -150,7 +150,7 @@ d3fc extends the D3 rebind concept by making it easier to rebind all of the prop
 
 ## Annotations
 
-The sales targets, which are illustrated as horizontal lines on the chart, can be rendered using the [line annotation component](/components/annotation/line.html).
+The sales targets, which are illustrated as horizontal lines on the chart, can be rendered using the {{{ hyperlink 'series/line.html' title='line annotation component' }}}.
 
 The chart now has two sources of data, an array of monthly sales figures, and a second array which supplies annotation values. These need to be combined into a single object which is supplied to the chart via the D3 `datum` method as before.
 
@@ -160,7 +160,7 @@ The chart now has two sources of data, an array of monthly sales figures, and a 
 
 As you can see in the above code, the `data` now has two properties, `targets` and `sales`, one for the annotations, the other for the series. As a results of this, the extent and domain calculations are updated to reference `data.sales`.
 
-But how to add the annotations to the chart? Annotations, just like series, are associated with both an x and a y scale, so can be supplied to the chart via the `plotArea`. But the bar series is currently set as the plot area. The solution to this problem is the [multi series component](/components/series/multi.html). This component acts a container for multiple series instances, setting their scales and also (optionally) mapping the data so that each series can be bound to a subset of the data. If a mapping function is not provided, each series will 'inherit' the data bound to the multi series component.
+But how to add the annotations to the chart? Annotations, just like series, are associated with both an x and a y scale, so can be supplied to the chart via the `plotArea`. But the bar series is currently set as the plot area. The solution to this problem is the {{{ hyperlink 'multi.html' title='multi series component' }}}. This component acts a container for multiple series instances, setting their scales and also (optionally) mapping the data so that each series can be bound to a subset of the data. If a mapping function is not provided, each series will 'inherit' the data bound to the multi series component.
 
 Here's the result:
 
@@ -172,9 +172,9 @@ Here's the result:
 
 The chart is starting to look pretty good! The only remaining tasks are to add text to the annotations and highlight the bars which have exceeded the lower target line.
 
-This is an interesting problem, the elements that need to be styled or modified have been created by the various components you have been making use of. How do you modify the way that components render themselves? This is where [decorate pattern](/components/introduction/decorate-pattern.html) comes in.
+This is an interesting problem, the elements that need to be styled or modified have been created by the various components you have been making use of. How do you modify the way that components render themselves? This is where {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}} comes in.
 
-With the decorate pattern you gain access to the data join that is used to render a component, this allows you to add logic to the enter, update and exit selections, adding elements or mutating the elements that the component itself constructs. You can see numerous examples of this pattern in the [decorate pattern](/components/introduction/decorate-pattern.html) documentation.
+With the decorate pattern you gain access to the data join that is used to render a component, this allows you to add logic to the enter, update and exit selections, adding elements or mutating the elements that the component itself constructs. You can see numerous examples of this pattern in the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}} documentation.
 
 In this case, decorate is used to locate the 'left handle' of the line annotation, to add the text label, and to change the fill property of the path elements used to render the bar series.
 
@@ -193,7 +193,7 @@ And here's the result:
 
 The chart is rendering using SVG graphics. If the size of the SVG container changes, the various layout calculations within the cartesian chart component need to be re-evaluated. Because all the d3fc components respect D3 data joins, you can re-render them in their entirety whenever the data changes, or, in the case of the cartesian component, the containing element changes size.
 
-This pattern makes it incredibly simple to handle changes in data, see the [streaming example](/examples/streaming/index.html), or layout changes.
+This pattern makes it incredibly simple to handle changes in data, see the {{{ hyperlink 'streaming/index.html' title='streaming example' }}}, or layout changes.
 
 Here's how to use this technique to handle re-sizing the chart. Simply wrap the D3 select and call invocation in a function, in this case called `render`, and invoke it each time the window size changes:
 

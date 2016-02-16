@@ -29,7 +29,7 @@ This results in the following chart:
 {{{multiples-example-js}}}
 </script>
 
-From the above example it can be seen that the small multiples component has a similar API to the [cartesian chart](/components/chart/cartesian.html), re-binding the various x and y axis properties, and exposing `plotArea` and `margin` properties.
+From the above example it can be seen that the small multiples component has a similar API to the {{{ hyperlink 'cartesian.html' title='cartesian chart' }}}, re-binding the various x and y axis properties, and exposing `plotArea` and `margin` properties.
 
 The following example demonstrates a small multiples chart with a multi-row grid layout. In this example temperature data is loaded from a CSV file, with `d3.nest` used to manipulate the data into the required format. A multi-series component is used to render a couple of lines on each multiple plot.
 

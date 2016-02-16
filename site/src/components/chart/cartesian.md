@@ -26,4 +26,4 @@ This results in the following chart:
 {{{cartesian-example-js}}}
 </script>
 
-A number of the more [complex examples](/examples) use the cartesian chart as the basic 'boiler plate' for constructing a chart.
+A number of the more {{{ hyperlink 'examples/index.html' title='complex examples' }}} use the cartesian chart as the basic 'boiler plate' for constructing a chart.

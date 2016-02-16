@@ -15,7 +15,7 @@ externals:
 
 Rather than write our own d3fc legend, we discovered that someone had already [created a pretty awesome one](http://d3-legend.susielu.com), so we decided to integrate that one instead! This project uses the `d3-svg-legend`, component which is included in the d3fc bundle.
 
-The d3-legend doesn't render a background, although this can easily be added via the [container component](/components/tool/container.html).
+The d3-legend doesn't render a background, although this can easily be added via the {{{ hyperlink 'container.html' title='container component' }}}.
 
 The d3-legend is constructed from a scale as shown below:
 
