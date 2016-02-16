@@ -37,11 +37,11 @@ export default function() {
 
     var multi = function(selection) {
 
-        selection.each(function(data) {
+        selection.each(function(data, i) {
 
             var g = dataJoin(this, series);
 
-            g.each(function(dataSeries, i) {
+            g.each(function(dataSeries, seriesIndex) {
                 // We must always assign the series to the node, as the order
                 // may have changed. N.B. in such a case the output is most
                 // likely garbage (containers should not be re-used) but by
@@ -52,14 +52,14 @@ export default function() {
                 (dataSeries.yScale || dataSeries.y).call(dataSeries, yScale);
 
                 d3.select(this)
-                    .datum(mapping.call(data, dataSeries, i))
+                    .datum(mapping.call(data, dataSeries, seriesIndex))
                     .call(dataSeries);
             });
 
             // order is not available on a transition selection
             d3.selection.prototype.order.call(g);
 
-            decorate(g);
+            decorate(g, data, i);
         });
     };
 
