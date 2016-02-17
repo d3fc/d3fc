@@ -7,7 +7,7 @@ export default function() {
     var interval = d3.time.day;
     var intervalStep = 1;
     var unitInterval = d3.time.year;
-    var unitStep = 1;
+    var unitIntervalStep = 1;
     var filter = null;
     var volume = function() {
         var randomNormal = d3.random.normal(1, 0.1);
@@ -16,22 +16,32 @@ export default function() {
     var walk = _walk();
 
     function getOffsetPeriod(date) {
-        var unitMilliseconds = unitInterval.offset(date, unitStep) - date;
+        var unitMilliseconds = unitInterval.offset(date, unitIntervalStep) - date;
         return (interval.offset(date, intervalStep) - date) / unitMilliseconds;
     }
 
     function calculateOHLC(start, price) {
         var period = getOffsetPeriod(start);
         var prices = walk.period(period)(price);
-        var datum = {
+        var ohlc = {
             date: start,
             open: prices[0],
             high: Math.max.apply(Math, prices),
             low: Math.min.apply(Math, prices),
             close: prices[walk.steps()]
         };
-        datum.volume = volume(datum);
-        return datum;
+        ohlc.volume = volume(ohlc);
+        return ohlc;
+    }
+
+    function getNextDatum(ohlc) {
+        var date, price;
+        do {
+            date = ohlc ? interval.offset(ohlc.date, intervalStep) : new Date(startDate.getTime());
+            price = ohlc ? ohlc.close : startPrice;
+            ohlc = calculateOHLC(date, price);
+        } while (filter && !filter(ohlc));
+        return ohlc;
     }
 
     var financial = function(numPoints) {
@@ -43,48 +53,26 @@ export default function() {
 
     function makeStream() {
         var latest;
-        function getDatum() {
-            if (!latest) {
-                latest = calculateOHLC(new Date(startDate.getTime()), startPrice);
-            } else {
-                latest = calculateOHLC(interval.offset(latest.date, intervalStep), latest.close);
-            }
-            return latest;
-        }
-        function getNextDatum() {
-            var ohlc;
-            do {
-                ohlc = getDatum();
-            } while (filter && !filter(ohlc));
-            return ohlc;
-        }
         var stream = {};
         stream.next = function() {
-            return getNextDatum();
+            var ohlc = getNextDatum(latest);
+            latest = ohlc;
+            return ohlc;
         };
         stream.take = function(numPoints) {
-            var data = [];
-            if (numPoints && numPoints > 0) {
-                data = this.until(function(d, i) {
-                    return i === numPoints - 1;
-                });
-            }
-            return data;
+            return this.until(function(d, i) {
+                return !numPoints || numPoints < 0 || i === numPoints;
+            });
         };
         stream.until = function(comparison) {
             var data = [];
             var index = 0;
-            if (!comparison || latest && comparison(latest, index)) {
-                return data;
-            }
-            var ohlc = getNextDatum();
-            while (comparison) {
+            var ohlc = getNextDatum(latest);
+            while (comparison && !comparison(ohlc, index)) {
                 data.push(ohlc);
-                if (comparison(ohlc, index)) {
-                    break;
-                }
+                latest = ohlc;
+                ohlc = getNextDatum(latest);
                 index += 1;
-                ohlc = getNextDatum();
             }
             return data;
         };
@@ -126,11 +114,11 @@ export default function() {
         unitInterval = x;
         return financial;
     };
-    financial.unitStep = function(x) {
+    financial.unitIntervalStep = function(x) {
         if (!arguments.length) {
-            return unitStep;
+            return unitIntervalStep;
         }
-        unitStep = x;
+        unitIntervalStep = x;
         return financial;
     };
     financial.filter = function(x) {

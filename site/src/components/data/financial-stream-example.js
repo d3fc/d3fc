@@ -16,7 +16,7 @@ d3.select('#financial-stream-take').on('click', function() {
     update();
 });
 d3.select('#financial-stream-until').on('click', function() {
-    data = data.concat(stream.until(function(d) { return d.date >= new Date(2016, 0, 15); }));
+    data = data.concat(stream.until(function(d) { return d.date > new Date(2016, 0, 15); }));
     update();
 });
 d3.select('#financial-stream-reset').on('click', function() {

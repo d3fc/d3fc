@@ -33,7 +33,7 @@ describe('fc.data.random.financial', function() {
             return d.date > new Date(2015, 0, 5);
         });
         var stream = generator.stream();
-        var result = stream.until(function(datum) { return datum.date >= new Date(2015, 0, 10); });
+        var result = stream.until(function(datum) { return datum.date > new Date(2015, 0, 10); });
         expect(result.length).toBe(5);
     });
 
@@ -107,33 +107,28 @@ describe('fc.data.random.financial', function() {
         expect(data1.length).toBe(0);
     });
 
-    it('stream.until should generate data up to and including the datum that satisfies the specified condition', function() {
+    it('stream.take with undefined argument should return empty array', function() {
         var stream = generator.stream();
-        var data = stream.until(function(d) { return d.date >= new Date(2015, 0, 10); });
+        var data = stream.take();
+        expect(data.length).toBe(0);
+    });
+
+    it('stream.until should generate data up to the datum that satisfies the specified condition', function() {
+        var stream = generator.stream();
+        var data = stream.until(function(d) { return d.date > new Date(2015, 0, 10); });
         expect(data.length).toBe(10);
     });
 
     it('stream.until subsequent stream method call should have correctly incremented date', function() {
         var stream = generator.stream();
-        stream.until(function(d) { return d.date >= new Date(2015, 0, 10); });
+        stream.until(function(d) { return d.date > new Date(2015, 0, 10); });
         var next = stream.next();
         expect(next.date).toEqual(new Date(2015, 0, 11));
     });
 
-    it('stream.until should return empty array if latest datum already satisfies condition and should not increment latest', function() {
-        var stream = generator.stream();
-        stream.take(10);
-        var data = stream.until(function(d) { return d.date >= new Date(2015, 0, 10); });
-        var next = stream.next();
-        expect(data).toEqual([]);
-        expect(next.date).toEqual(new Date(2015, 0, 11));
-    });
-
-    it('stream.until without comparison should return empty array and should not increment latest', function() {
+    it('stream.until without comparison should return empty array', function() {
         var stream = generator.stream();
         var data = stream.until();
-        var next = stream.next();
         expect(data).toEqual([]);
-        expect(next.date).toEqual(new Date(2015, 0, 1));
     });
 });
