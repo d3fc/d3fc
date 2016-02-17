@@ -20,7 +20,7 @@ externals:
 
 This example shows how a more complex chart can be built using the d3fc components.
 
-The three charts that make up this example are each [cartesian charts](../../components/chart/cartesian.html). The top-most chart uses the [gridlines](../../components/annotation/gridlines.html), [crosshairs](../../components/tool/crosshairs.html) and [candlestick](../../components/series/candlestick.html) components, rendered via the [multi-series](../../components/series/multi.html) component. The volume and navigator charts uses a similar mix of components.
+The three charts that make up this example are each [cartesian charts](../../components/chart/cartesian.html). The top-most chart uses the [gridlines](../../components/annotation/gridlines.html), [crosshair](../../components/tool/crosshair.html) and [candlestick](../../components/series/candlestick.html) components, rendered via the [multi-series](../../components/series/multi.html) component. The volume and navigator charts uses a similar mix of components.
 
 These charts all share the same underlying data, however, this is enhanced with the data that represents the current interactive state.
 
