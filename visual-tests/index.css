@@ -4,19 +4,26 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.container {
+  max-width: 970px; /* iframe max-width (940px) + horizontal padding (15px each side) */
+}
+
 h1,
 h2,
+.h1,
+.h2 {
+  font-weight: 700;
+}
+
 h3,
 h4,
 h5,
 h6,
-.h1,
-.h2,
 .h3,
 .h4,
 .h5,
 .h6 {
-  font-weight: 700;
+  font-weight: 500;
 }
 
 iframe {
