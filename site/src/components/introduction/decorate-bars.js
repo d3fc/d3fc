@@ -8,7 +8,7 @@ var dataGenerator = fc.data.random.financial()
 var data = dataGenerator(20);
 
 var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(data))
+    .domain(fc.util.extent().fields('date').pad(0.1)(data))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
@@ -21,6 +21,8 @@ var color = d3.scale.category10();
 var bar = fc.series.bar()
     .xScale(xScale)
     .yScale(yScale)
+    .xValue(function(d) { return d.date; })
+    .yValue(function(d) { return d.close; })
     .decorate(function(s) {
         s.enter()
           .select('.bar > path')
