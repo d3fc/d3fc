@@ -29,7 +29,7 @@ Which gives the following:
 {{{bar-example-js}}}
 </script>
 
-This series has the same `xValue`, `yValue` and `decorate` properties as the [point series](./point). You can also specify the width of the bars via the `barWidth` property.
+This series has the same `xValue`, `yValue` and `decorate` properties as the {{{ hyperlink 'point.html' title='point series' }}}. You can also specify the width of the bars via the `barWidth` property.
 
 The bar series supports horizonal display, using the `orient` property.
 

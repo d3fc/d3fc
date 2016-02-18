@@ -46,6 +46,6 @@ Which results in the following:
 
 Both the label and value for each row can be expressed as a constant or a function of the bound data.
 
-The tooltip uses [flexbox layout](/components/layout/flexbox.html) in order to construct the rows / columns. As a result, the size of the tooltip is determined by the size of its containing element, which is determined either by measuring the element dimensions, or from the `layout-width` and `layout-height` properties as described in the flexbox layout documentation.
+The tooltip uses {{{ hyperlink 'flexbox.html' title='flexbox layout' }}} in order to construct the rows / columns. As a result, the size of the tooltip is determined by the size of its containing element, which is determined either by measuring the element dimensions, or from the `layout-width` and `layout-height` properties as described in the flexbox layout documentation.
 
-The tooltip is most often used in conjunction with the crosshair component, consult the [crosshair documentation](/components/tool/crosshair.html) for more details.
+The tooltip is most often used in conjunction with the crosshair component, consult the {{{ hyperlink 'crosshair.html' title='crosshair documentation' }}} for more details.

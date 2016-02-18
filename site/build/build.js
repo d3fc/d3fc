@@ -38,6 +38,7 @@ require('./handlebars-helpers/dynamic-include').register(handlebars);
 require('./handlebars-helpers/escape').register(handlebars);
 require('./handlebars-helpers/codeblock').register(handlebars);
 require('./handlebars-helpers/json').register(handlebars);
+require('./handlebars-helpers/hyperlink').register(handlebars);
 
 function build(config) {
     // for dev builds don't syntax highlight

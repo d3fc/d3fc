@@ -20,10 +20,10 @@ externals:
 
 This example demonstrates how a stacked bar chart using energy production data from [eurostat](http://ec.europa.eu/eurostat/statistics-explained/index.php). The chart is constructed from the following components:
 
- + A [cartesian chart](/components/chart/cartesian.html), with an ordinal y axis and a linear x axis.
- + The data is prepared using the [spread](/components/data/spread.html) component, which creates a two dimensional array of data, followed by a D3 stack layout, which stacks the 'y' values.
- + The data is rendered via a horizontally oriented [stacked bar series](/components/series/stacked.html).
- + The [decorate pattern](/components/introduction/decorate-pattern.html) is also used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with [svg flexbox](/components/layout/layout.html) used for positioning.
+ + A {{{ hyperlink 'cartesian.html' title='cartesian chart' }}}, with an ordinal y axis and a linear x axis.
+ + The data is prepared using the {{{ hyperlink 'spread.html' title='spread' }}} component, which creates a two dimensional array of data, followed by a D3 stack layout, which stacks the 'y' values.
+ + The data is rendered via a horizontally oriented {{{ hyperlink 'stacked.html' title='stacked bar series' }}}.
+ + The {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}} is also used to add a legend (courtesy of the [d3-legend](http://d3-legend.susielu.com) project). In this case, the legend is inserted into the SVG via the enter selection, with {{{ hyperlink 'flexbox.html' title='svg flexbox' }}} used for positioning.
 
 ```js
 {{{stacked-js}}}

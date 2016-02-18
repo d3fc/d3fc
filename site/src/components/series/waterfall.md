@@ -32,6 +32,6 @@ Which gives the following:
 
 The data that identifies the x-value is identified via the `xValueKey` property.
 
-This series has the same `yValue` and `decorate` properties as the [point series](./point). You can also specify the width of the bars via the `barWidth` property.
+This series has the same `yValue` and `decorate` properties as the {{{ hyperlink 'point.html' title='point series' }}}. You can also specify the width of the bars via the `barWidth` property.
 
-The waterfall series supports horizontal display, using the `orient` property, similar to [bar](./bar).
+The waterfall series supports horizontal display, using the `orient` property, similar to {{{ hyperlink 'bar.html' title='bar' }}}.

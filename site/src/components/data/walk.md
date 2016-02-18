@@ -10,7 +10,7 @@ externals:
 ---
 
 The random walk component creates a series of values based on the [Geometric Brownian Motion](http://stuartreid.co.za/interactive-stochastic-processes/) stochastic process.
-The [random financial](./financial.html) component uses it to create random open-high-low-close (OHLC) price data.
+The {{{ hyperlink 'financial.html' title='random financial' }}} component uses it to create random open-high-low-close (OHLC) price data.
 
 ```js
 {{{walk-example-js}}}
