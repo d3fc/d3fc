@@ -4,6 +4,9 @@
     var data = fc.data.random.financial().startDate(new Date(2014, 1, 1))(50);
     data.crosshair = [];
 
+    // throw in a null value to test crosshair data filtering
+    data[10].close = null;
+
     var width = 600, height = 250;
 
     var container = d3.select('#crosshair')
