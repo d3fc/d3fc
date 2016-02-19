@@ -1,3 +1,6 @@
+import {defined} from './fn';
+import minimum from './minimum';
+
 export function noSnap(xScale, yScale) {
     return function(xPixel, yPixel) {
         return {
@@ -16,13 +19,13 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunctio
     };
 
     return function(xPixel, yPixel) {
-        var nearest = data.map(function(d) {
-            var diff = objectiveFunction(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
-            return [diff, d];
-        })
-        .reduce(function(accumulator, value) {
-            return accumulator[0] > value[0] ? value : accumulator;
-        }, [Number.MAX_VALUE, null])[1];
+        var filtered = data.filter(function(d, i) {
+            return defined(xValue, yValue)(d, i);
+        });
+
+        var nearest = minimum(filtered, function(d) {
+            return objectiveFunction(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
+        });
 
         return {
             datum: nearest,

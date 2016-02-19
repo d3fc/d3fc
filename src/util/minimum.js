@@ -1,3 +1,4 @@
+// returns the item from the given array that returns the least value from the accessor function
 export default function minimum(data, accessor) {
     return data.map(function(dataPoint) {
         return [accessor(dataPoint), dataPoint];
