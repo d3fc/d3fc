@@ -1,9 +1,15 @@
+var url = require('url');
 
 function register(handlebars) {
     handlebars.registerHelper('hyperlink', function(link, context) {
         var pages = context.data.root.pages;
-        var matches = pages.filter(function(pageMetadata) {
-            return pageMetadata.page.destination.endsWith('/' + link);
+
+        var matches = pages.map(function(pageMetadata) {
+            // Ensures Windows file paths (e.g. "\\examples\\simple\\index.html")
+            // are formatted to URL strings (e.g "/examples/simple/index.html")
+            return url.parse(pageMetadata.page.destination).href;
+        }).filter(function(destination) {
+            return destination.endsWith('/' + link);
         });
 
         if (!context.hash.title) {
@@ -12,7 +18,7 @@ function register(handlebars) {
 
         if (matches.length === 1) {
             var title = context.hash.title;
-            return '<a href=\"' + matches[0].page.destination + '\">' + title + '</a>';
+            return '<a href=\"' + matches[0] + '\">' + title + '</a>';
         } else {
             if (matches.length === 0) {
                 throw new Error('Unable to locate a page with the name ' + link + ' hyperlinked within page ' + context.data.root.page.path);
