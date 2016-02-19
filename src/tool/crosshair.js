@@ -85,7 +85,9 @@ export default function() {
                     return [this];
                 });
 
-            crosshairElement.call(multi);
+            if (data[0] && !isNaN(data[0].x) && !isNaN(data[0].y)) {
+                crosshairElement.call(multi);
+            }
 
             decorate(crosshairElement, data, index);
         });
