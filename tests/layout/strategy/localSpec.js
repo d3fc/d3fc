@@ -17,8 +17,7 @@ describe('fc.layout.strategy.local', function() {
     ];
 
     var strategiser = fc.layout.strategy.local()
-        .containerWidth(containerWidth)
-        .containerHeight(containerHeight);
+        .bounds([containerWidth, containerHeight]);
 
     var firstIteration = strategiser.iterations(1)(data);
     var secondIteration = strategiser.iterations(2)(data);

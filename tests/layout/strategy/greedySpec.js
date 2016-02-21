@@ -10,8 +10,7 @@ describe('fc.layout.strategy.greedy', function() {
     ];
 
     var strategiser = fc.layout.strategy.greedy()
-        .containerWidth(containerWidth)
-        .containerHeight(containerHeight);
+        .bounds([containerWidth, containerHeight]);
 
     describe('out of bounds data', function() {
         it('should not change the data when there\'s only one datapoint', function() {

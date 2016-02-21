@@ -69,8 +69,7 @@ export default function() {
         return cloneAndReplace(iteratedData, victimLabelIndex, replacement);
     }
 
-    d3.rebind(strategy, container, 'containerWidth');
-    d3.rebind(strategy, container, 'containerHeight');
+    d3.rebind(strategy, container, 'bounds');
 
     function scorer(placement) {
         var collisionArea = totalCollisionArea(placement);

@@ -28,8 +28,7 @@ export default function() {
         return rectangles;
     };
 
-    d3.rebind(strategy, container, 'containerWidth');
-    d3.rebind(strategy, container, 'containerHeight');
+    d3.rebind(strategy, container, 'bounds');
 
     function scorer(placement) {
         var areaOfCollisions = totalCollisionArea(placement);
@@ -38,7 +37,7 @@ export default function() {
             var point = placement[i];
             isOnScreen = container(point);
         }
-        return areaOfCollisions + (isOnScreen ? 0 : container.containerWidth() * container.containerHeight());
+        return areaOfCollisions + (isOnScreen ? 0 : container.area());
     }
 
     return strategy;

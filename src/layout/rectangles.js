@@ -26,11 +26,11 @@ export default function(layoutStrategy) {
         var xRange = range(xScale),
             yRange = range(yScale);
 
-        if (strategy.containerWidth) {
-            strategy.containerWidth(Math.max(xRange[0], xRange[1]));
-        }
-        if (strategy.containerHeight) {
-            strategy.containerHeight(Math.max(yRange[0], yRange[1]));
+        if (strategy.bounds) {
+            strategy.bounds([
+                Math.max(xRange[0], xRange[1]),
+                Math.max(yRange[0], yRange[1])
+            ]);
         }
 
         selection.each(function(data, index) {

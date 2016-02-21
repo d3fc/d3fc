@@ -3,37 +3,28 @@ import {rebindAll} from '../../util/rebind';
 
 export default function() {
 
-    var containerWidth = 1,
-        containerHeight = 1;
+    var bounds = null;
 
     var strategy = function(data) {
         return data.map(function(d, i) {
 
             var tx = d.x, ty = d.y;
-            if (tx + d.width > containerWidth) {
+            if (tx + d.width > bounds[0]) {
                 tx -= d.width;
             }
 
-            if (ty + d.height > containerHeight) {
+            if (ty + d.height > bounds[1]) {
                 ty -= d.height;
             }
             return {x: tx, y: ty};
         });
     };
 
-    strategy.containerWidth = function(value) {
+    strategy.bounds = function(value) {
         if (!arguments.length) {
-            return containerWidth;
+            return bounds;
         }
-        containerWidth = value;
-        return strategy;
-    };
-
-    strategy.containerHeight = function(value) {
-        if (!arguments.length) {
-            return containerHeight;
-        }
-        containerHeight = value;
+        bounds = value;
         return strategy;
     };
 

@@ -66,21 +66,17 @@
     }
 
     var greedyStrategy = fc.layout.strategy.greedy()
-        .containerWidth(width)
-        .containerHeight(height);
+        .bounds([width, height]);
 
     var boundingBox = fc.layout.strategy.boundingBox()
-        .containerWidth(width)
-        .containerHeight(height);
+        .bounds([width, height]);
 
     var local = fc.layout.strategy.local()
-        .containerWidth(width)
-        .containerHeight(height)
+        .bounds([width, height])
         .iterations(10);
 
     var annealing = fc.layout.strategy.annealing()
-        .containerWidth(width)
-        .containerHeight(height);
+        .bounds([width, height]);
 
     useStrategy(null);
 
