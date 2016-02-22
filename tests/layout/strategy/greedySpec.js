@@ -13,6 +13,15 @@ describe('fc.layout.strategy.greedy', function() {
         .containerWidth(containerWidth)
         .containerHeight(containerHeight);
 
+    describe('out of bounds data', function() {
+        it('should not change the data when there\'s only one datapoint', function() {
+            var outOfBounds = [{x: 5000, y: 5000, width: elementWidth, height: elementHeight}];
+            var result = strategiser(outOfBounds);
+            expect(result[0].x).toEqual(5000);
+            expect(result[0].y).toEqual(5000);
+        });
+    });
+
     describe('initial 4-placements', function() {
 
         it('should not change the data when there\'s only one datapoint', function() {

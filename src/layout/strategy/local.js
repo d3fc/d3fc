@@ -63,7 +63,7 @@ export default function() {
             var bestPlacement = minimum(candidateReplacements, function(placement) {
                 var areaOfCollisions = collisionArea(placement, d[1]);
                 var isOnScreen = container(placement[d[1]]);
-                return areaOfCollisions + (isOnScreen ? 0 : Number.MAX_VALUE);
+                return areaOfCollisions + (isOnScreen ? 0 : container.containerWidth() * container.containerHeight());
             });
 
             iteratedData = bestPlacement;

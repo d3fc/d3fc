@@ -24,6 +24,15 @@ describe('fc.layout.strategy.local', function() {
     var secondIteration = strategiser.iterations(2)(data);
     var thirdIteration = strategiser.iterations(3)(data);
 
+    describe('out of bounds data', function() {
+        it('should not change the data when there\'s only one datapoint', function() {
+            var outOfBounds = [{x: 5000, y: 5000, width: elementWidth, height: elementHeight}];
+            var result = strategiser(outOfBounds);
+            expect(result[0].x).toEqual(5000);
+            expect(result[0].y).toEqual(5000);
+        });
+    });
+
     describe('iteration one', function() {
 
         it('should alter the data', function() {

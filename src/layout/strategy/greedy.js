@@ -10,29 +10,26 @@ export default function() {
     var container = containerUtils();
 
     var strategy = function(data) {
-        var builtPoints = [];
+        var rectangles = [];
 
-        data.forEach(function(point) {
-            var allPointPlacements = getAllPlacements(point);
-            var candidateReplacements = allPointPlacements.map(function(placement) {
-                return getCandidateReplacement(builtPoints, placement);
-            });
+        data.forEach(function(rectangle) {
+            // add this rectangle - in all its possible placements
+            var candidateConfigurations = getAllPlacements(rectangle)
+                .map(function(placement) {
+                    var copy = rectangles.slice();
+                    copy.push(placement);
+                    return copy;
+                });
 
-            builtPoints = minimum(candidateReplacements, scorer);
+            // keep the one the minimises the 'score'
+            rectangles = minimum(candidateConfigurations, scorer);
         });
 
-        return builtPoints;
+        return rectangles;
     };
 
     d3.rebind(strategy, container, 'containerWidth');
     d3.rebind(strategy, container, 'containerHeight');
-
-    function getCandidateReplacement(allPoints, point) {
-        var allPointsCopy = allPoints.slice();
-        allPointsCopy.push(point);
-
-        return allPointsCopy;
-    }
 
     function scorer(placement) {
         var areaOfCollisions = totalCollisionArea(placement);
@@ -41,7 +38,7 @@ export default function() {
             var point = placement[i];
             isOnScreen = container(point);
         }
-        return areaOfCollisions + (isOnScreen ? 0 : Infinity);
+        return areaOfCollisions + (isOnScreen ? 0 : container.containerWidth() * container.containerHeight());
     }
 
     return strategy;
