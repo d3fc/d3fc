@@ -32,15 +32,17 @@ Once installed, you can reference the d3fc JavaScript, CSS and dependencies with
 <link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
 ```
 
-### Using cdnjs
+### Bundles
 
-Alternatively you can link to d3fc and its dependencies directly via cdnjs:
+Alternatively you can link to the latest version of d3fc and its dependencies directly:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.bundle.min.js"></script>
+<script src="https://df3c.io/d3fc.bundle.min.js"></script>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/d3fc/{{ package.version }}/d3fc.min.css" rel="stylesheet"/>
+<link href="https://df3c.io/d3fc.min.css" rel="stylesheet"/>
 ```
+
+You can also find the latest version (together with previous versions) on [cdnjs](https://cdnjs.com/libraries/d3fc).
 
 ## A quick chart
 
