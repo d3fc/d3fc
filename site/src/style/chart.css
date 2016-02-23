@@ -1,8 +1,14 @@
 .chart {
     margin: 10px 0;
+    width: 100%;
+    height: 250px;
 }
 
-.large {
-    width: 100%;
+.chart>svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chart.large {
     height: 400px;
 }
