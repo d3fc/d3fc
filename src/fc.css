@@ -70,7 +70,7 @@ text {
 }
 
 .x-axis.bottom .label {
-  dominant-baseline: ideographic;
+  dominant-baseline: middle;
 }
 
 .cartesian-chart, .multiples-chart {

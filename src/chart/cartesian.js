@@ -79,7 +79,7 @@ export default function(xScale, yScale) {
                 </g> \
                 <g class="x-axis label-container"> \
                     <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
+                        <text class="label" dy="-0.5em"/> \
                     </g> \
                 </g> \
                 <g class="y-axis label-container"> \
