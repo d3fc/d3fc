@@ -31,7 +31,7 @@ Here's the chart you're going to be building:
 {{{ building-a-chart-complete-css }}}
 </style>
 
-{{{ dynamic-include 'codepen' html="building-a-chart-complete-html" js="building-a-chart-complete-js"}}}
+{{{ dynamic-include 'codepen' html="building-a-chart-complete-html" js="building-a-chart-complete-js" css="building-a-chart-complete-css"}}}
 {{{ building-a-chart-complete-html }}}
 {{{ dynamic-include 'javascript' js="building-a-chart-complete-js" }}}
 
