@@ -37,9 +37,9 @@ Once installed, you can reference the d3fc JavaScript, CSS and dependencies with
 Alternatively you can link to the latest version of d3fc and its dependencies directly:
 
 ```html
-<script src="https://df3c.io/d3fc.bundle.min.js"></script>
+<script src="https://d3fc.io/d3fc.bundle.min.js"></script>
 
-<link href="https://df3c.io/d3fc.min.css" rel="stylesheet"/>
+<link href="https://d3fc.io/d3fc.min.css" rel="stylesheet"/>
 ```
 
 You can also find the latest version (together with previous versions) on [cdnjs](https://cdnjs.com/libraries/d3fc).
