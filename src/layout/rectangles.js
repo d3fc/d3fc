@@ -3,6 +3,7 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
 import {rebindAll} from '../util/rebind';
+import {collisionArea} from './strategy/collision';
 
 export default function(layoutStrategy) {
 
@@ -12,12 +13,33 @@ export default function(layoutStrategy) {
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
         strategy = layoutStrategy || identity,
+        removeCollisions = false,
         component = noop;
 
     var dataJoin = dataJoinUtil()
         .selector('g.rectangle')
         .element('g')
         .attr('class', 'rectangle');
+
+    // iteratively remove the rectangle with the greatest area of collision
+    function filterData(data, layout) {
+        var maxIndex, maxValue;
+        do {
+            maxIndex = -1;
+            maxValue = 0;
+            for (var i = 0; i < layout.length; i++) {
+                var area = collisionArea(layout, i);
+                if (area > maxValue) {
+                    maxValue = area;
+                    maxIndex = i;
+                }
+            }
+            if (maxIndex !== -1) {
+                layout.splice(maxIndex, 1);
+                data.splice(maxIndex, 1);
+            }
+        } while (maxIndex !== -1);
+    }
 
     var rectangles = function(selection) {
 
@@ -32,8 +54,6 @@ export default function(layoutStrategy) {
         }
 
         selection.each(function(data, index) {
-            var g = dataJoin(this, data);
-
             // obtain the rectangular bounding boxes for each child
             var childRects = data.map(function(d, i) {
                 var childPos = position(d, i);
@@ -49,9 +69,17 @@ export default function(layoutStrategy) {
             // apply the strategy to derive the layout
             var layout = strategy(childRects);
 
+            var filteredData = data.slice();
+            var filteredLayout = layout.slice();
+            if (removeCollisions) {
+                filterData(filteredData, filteredLayout);
+            }
+
+            var g = dataJoin(this, filteredData);
+
             // offset each rectangle accordingly
             g.attr('transform', function(d, i) {
-                var offset = layout[i];
+                var offset = filteredLayout[i];
                 return 'translate(' + offset.x + ', ' + offset.y + ')';
             });
 
@@ -104,6 +132,14 @@ export default function(layoutStrategy) {
             return component;
         }
         component = value;
+        return rectangles;
+    };
+
+    rectangles.removeCollisions = function(value) {
+        if (!arguments.length) {
+            return removeCollisions;
+        }
+        removeCollisions = value;
         return rectangles;
     };
     return rectangles;
