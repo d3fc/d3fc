@@ -26,32 +26,4 @@ describe('fc.layout.rectanges', function() {
         expect(svg.children[1].getAttribute('transform')).toEqual('translate(45, 50)');
     });
 
-    it('should allow the use of a domain coordinate system', function() {
-        var svg = document.createElement('svg');
-
-        var xScale = d3.scale.linear()
-            .range([0, 1000])
-            .domain([0, 100]);
-
-        var yScale = d3.scale.linear()
-            .range([0, 1000])
-            .domain([0, 100]);
-
-        var rectangles = fc.layout.rectangles(fc.layout.strategy.local())
-            .xScale(xScale)
-            .yScale(yScale)
-            .coords('domain')
-            .size([elementWidth, elementHeight])
-            .position(function(d) { return [d.x, d.y]; });
-
-        d3.select(svg)
-            .datum(data)
-            .call(rectangles);
-
-        // the addition of scales that apply a x10 scaling to the location of each item means
-        // that they do not have to be moved in order to avoid collisions
-        expect(svg.children[0].getAttribute('transform')).toEqual('translate(500, 500)');
-        expect(svg.children[1].getAttribute('transform')).toEqual('translate(450, 500)');
-    });
-
 });

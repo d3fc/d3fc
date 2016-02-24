@@ -12,22 +12,13 @@ export default function(layoutStrategy) {
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
         strategy = layoutStrategy || identity,
-        component = noop,
-        coords = 'screen';
+        component = noop;
 
     var dataJoin = dataJoinUtil()
         .selector('g.rectangle')
         .element('g')
         .attr('class', 'rectangle');
 
-    function getPosition(d, i) {
-        var pos = position(d, i);
-        if (coords === 'domain') {
-            pos[0] = xScale(pos[0]);
-            pos[1] = yScale(pos[1]);
-        }
-        return pos;
-    }
     var rectangles = function(selection) {
 
         var xRange = range(xScale),
@@ -45,7 +36,7 @@ export default function(layoutStrategy) {
 
             // obtain the rectangular bounding boxes for each child
             var childRects = data.map(function(d, i) {
-                var childPos = getPosition(d, i);
+                var childPos = position(d, i);
                 var childSize = size(d, i);
                 return {
                     x: childPos[0],
@@ -115,14 +106,5 @@ export default function(layoutStrategy) {
         component = value;
         return rectangles;
     };
-
-    rectangles.coords = function(value) {
-        if (!arguments.length) {
-            return coords;
-        }
-        coords = value;
-        return rectangles;
-    };
-
     return rectangles;
 }
