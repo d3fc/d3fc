@@ -3,7 +3,6 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
 import {rebindAll} from '../util/rebind';
-import arrayFunctor from '../util/arrayFunctor';
 
 export default function(layoutStrategy) {
 
@@ -80,7 +79,7 @@ export default function(layoutStrategy) {
         if (!arguments.length) {
             return size;
         }
-        size = arrayFunctor(x);
+        size = d3.functor(x);
         return rectangles;
     };
 
@@ -88,7 +87,7 @@ export default function(layoutStrategy) {
         if (!arguments.length) {
             return position;
         }
-        position = arrayFunctor(x);
+        position = d3.functor(x);
         return rectangles;
     };
 
