@@ -11,7 +11,6 @@ export default function(layoutStrategy) {
 
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
-        anchor = noop,
         strategy = layoutStrategy || identity,
         component = noop,
         coords = 'screen';
@@ -65,13 +64,6 @@ export default function(layoutStrategy) {
                 return 'translate(' + offset.x + ', ' + offset.y + ')';
             });
 
-            // set the anchor-point for each rectangle
-            data.forEach(function(d, i) {
-                var pos = getPosition(d, i);
-                var relativeAnchorPosition = [pos[0] - layout[i].x, pos[1] - layout[i].y];
-                anchor(d, i, relativeAnchorPosition);
-            });
-
             // set the layout width / height so that children can use SVG layout if required
             g.attr({
                 'layout-width': function(d, i) { return childRects[i].width; },
@@ -97,14 +89,6 @@ export default function(layoutStrategy) {
             return position;
         }
         position = d3.functor(x);
-        return rectangles;
-    };
-
-    rectangles.anchor = function(x) {
-        if (!arguments.length) {
-            return anchor;
-        }
-        anchor = x;
         return rectangles;
     };
 
