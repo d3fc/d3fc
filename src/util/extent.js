@@ -11,7 +11,7 @@ import d3 from 'd3';
 export default function() {
 
     var fields = [],
-        extraPoint = null,
+        extraPoints = [],
         padUnit = 'percent',
         pad = 0,
         symmetricalAbout = null;
@@ -90,13 +90,9 @@ export default function() {
             }
         }
 
-        // Include the specified point in the range
-        if (extraPoint !== null) {
-            if (extraPoint < min) {
-                min = extraPoint;
-            } else if (extraPoint > max) {
-                max = extraPoint;
-            }
+        if (extraPoints.length) {
+            min = Math.min(min, d3.min(extraPoints));
+            max = Math.max(max, d3.max(extraPoints));
         }
 
         if (dateExtent) {
@@ -128,9 +124,9 @@ export default function() {
 
     extents.include = function(x) {
         if (!arguments.length) {
-            return extraPoint;
+            return extraPoints;
         }
-        extraPoint = x;
+        extraPoints = x;
         return extents;
     };
 
