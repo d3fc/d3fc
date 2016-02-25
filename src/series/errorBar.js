@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import svgErrorBar from '../svg/errorBar';
+import { errorBar as svgErrorBar } from 'd3fc-shape';
 import dataJoinUtil from '../util/dataJoin';
 import {defined, noop} from '../util/fn';
 import fractionalBarWidth from '../util/fractionalBarWidth';

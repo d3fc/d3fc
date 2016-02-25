@@ -21,7 +21,7 @@ describe('band', function() {
             .call(band);
 
         var path = element.children[0].children[0];
-        expect(path.getAttribute('d')).toEqual('M0,0h20v20h-20z');
+        expect(path.getAttribute('d')).toEqual('M0,0h20v20h-20Z');
     });
 
     it('should support function properties', function() {
@@ -45,7 +45,7 @@ describe('band', function() {
             .call(band);
 
         var path = element.children[0].children[0];
-        expect(path.getAttribute('d')).toEqual('M4,12h4v4h-4z');
+        expect(path.getAttribute('d')).toEqual('M4,12h4v4h-4Z');
     });
 
     it('should support literal properties via functors', function() {
@@ -69,7 +69,7 @@ describe('band', function() {
             .call(band);
 
         var path = element.children[0].children[0];
-        expect(path.getAttribute('d')).toEqual('M4,12h4v4h-4z');
+        expect(path.getAttribute('d')).toEqual('M4,12h4v4h-4Z');
     });
 
     it('should invoke coordinate functions with correct parameters and context', function() {

@@ -5,3 +5,4 @@ node_modules
 visual-tests/assets
 _SpecRunner.html
 .grunt
+npm-debug.log

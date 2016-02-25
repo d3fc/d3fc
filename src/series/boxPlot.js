@@ -1,7 +1,7 @@
 import d3 from 'd3';
-import svgBoxPlot from '../svg/boxPlot';
+import { boxPlot as svgBoxPlot } from 'd3fc-shape';
 import dataJoinUtil from '../util/dataJoin';
-import {defined, noop} from '../util/fn';
+import { defined, noop } from '../util/fn';
 import fractionalBarWidth from '../util/fractionalBarWidth';
 
 export default function() {

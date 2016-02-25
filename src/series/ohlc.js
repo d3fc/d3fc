@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
-import svgOhlc from '../svg/ohlc';
+import { ohlc as svgOhlc } from 'd3fc-shape';
 import ohlcBase from './ohlcBase';
 import {rebindAll} from '../util/rebind';
 

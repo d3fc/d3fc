@@ -1,4 +1,4 @@
-import bar from '../svg/bar';
+import { bar } from 'd3fc-shape';
 import d3 from 'd3';
 import _dataJoin from '../util/dataJoin';
 import {noop} from '../util/fn';
