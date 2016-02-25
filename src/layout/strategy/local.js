@@ -64,7 +64,7 @@ export default function() {
                 var areaOfCollisions = collisionArea(placement, d[1]);
                 var isOnScreen = container(placement[d[1]]);
                 return areaOfCollisions + (isOnScreen ? 0 : container.area());
-            });
+            })[1];
 
             iteratedData = bestPlacement;
         });

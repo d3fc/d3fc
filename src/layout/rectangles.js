@@ -3,7 +3,6 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
 import {rebindAll} from '../util/rebind';
-import {collisionArea} from './strategy/collision';
 
 export default function(layoutStrategy) {
 
@@ -13,33 +12,13 @@ export default function(layoutStrategy) {
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
         strategy = layoutStrategy || identity,
-        removeCollisions = false,
+        filter = identity,
         component = noop;
 
     var dataJoin = dataJoinUtil()
         .selector('g.rectangle')
         .element('g')
         .attr('class', 'rectangle');
-
-    // iteratively remove the rectangle with the greatest area of collision
-    function filterData(data, layout) {
-        var maxIndex, maxValue;
-        do {
-            maxIndex = -1;
-            maxValue = 0;
-            for (var i = 0; i < layout.length; i++) {
-                var area = collisionArea(layout, i);
-                if (area > maxValue) {
-                    maxValue = area;
-                    maxIndex = i;
-                }
-            }
-            if (maxIndex !== -1) {
-                layout.splice(maxIndex, 1);
-                data.splice(maxIndex, 1);
-            }
-        } while (maxIndex !== -1);
-    }
 
     var rectangles = function(selection) {
 
@@ -66,14 +45,18 @@ export default function(layoutStrategy) {
                 };
             });
 
-            // apply the strategy to derive the layout
+            // apply the strategy to derive the layout. The strategy does not change the order
+            // or number of rectangles.
             var layout = strategy(childRects);
 
-            var filteredData = data.slice();
-            var filteredLayout = layout.slice();
-            if (removeCollisions) {
-                filterData(filteredData, filteredLayout);
-            }
+            // add indices to the layouts
+            layout.forEach(function(d, i) { d.dataIndex = i; });
+
+            // apply filter algorithm
+            var filteredLayout = filter(layout);
+
+            // filter the data to include only those remaining after collision removal
+            var filteredData = filteredLayout.map(function(d) { return data[d.dataIndex]; });
 
             var g = dataJoin(this, filteredData);
 
@@ -135,11 +118,11 @@ export default function(layoutStrategy) {
         return rectangles;
     };
 
-    rectangles.removeCollisions = function(value) {
+    rectangles.filter = function(value) {
         if (!arguments.length) {
-            return removeCollisions;
+            return filter;
         }
-        removeCollisions = value;
+        filter = value;
         return rectangles;
     };
     return rectangles;

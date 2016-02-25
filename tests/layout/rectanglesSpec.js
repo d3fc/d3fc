@@ -26,7 +26,7 @@ describe('fc.layout.rectanges', function() {
 
         var rectangles = fc.layout.rectangles()
             .size([10, 10])
-            .removeCollisions(true)
+            .filter(fc.layout.strategy.removeOverlaps())
             .position(function(d) { return [d.x, d.y]; });
 
         var data = [

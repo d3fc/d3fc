@@ -22,7 +22,7 @@ export default function() {
                 });
 
             // keep the one the minimises the 'score'
-            rectangles = minimum(candidateConfigurations, scorer);
+            rectangles = minimum(candidateConfigurations, scorer)[1];
         });
 
         return rectangles;
