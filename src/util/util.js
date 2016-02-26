@@ -9,7 +9,6 @@ import {rebind, rebindAll} from './rebind';
 import * as scale from './scale';
 import {noSnap, pointSnap, seriesPointSnap, seriesPointSnapXOnly, seriesPointSnapYOnly} from './snap';
 import render from './render';
-import arrayFunctor from './arrayFunctor';
 import * as array from './array';
 
 export default {
@@ -29,6 +28,5 @@ export default {
     seriesPointSnapXOnly: seriesPointSnapXOnly,
     seriesPointSnapYOnly: seriesPointSnapYOnly,
     render: render,
-    arrayFunctor: arrayFunctor,
     array: array
 };

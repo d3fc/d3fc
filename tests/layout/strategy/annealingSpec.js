@@ -17,8 +17,7 @@ describe('fc.layout.strategy.annealing', function() {
     ];
 
     var strategiser = fc.layout.strategy.annealing()
-        .containerWidth(containerWidth)
-        .containerHeight(containerHeight);
+        .bounds([containerWidth, containerHeight]);
 
     var mathRandom = Math.random;
 

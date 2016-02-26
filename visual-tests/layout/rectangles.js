@@ -3,15 +3,6 @@
 
     // a very simple example component
     function label(selection) {
-        selection.append('circle')
-            .attr('cx', function(d) {
-                return d.anchor.x;
-            })
-            .attr('cy', function(d) {
-                return d.anchor.y;
-            })
-            .attr('r', 5);
-
         selection.append('rect')
             .attr({'width': itemWidth, 'height': itemHeight});
         selection.append('text')
@@ -44,9 +35,11 @@
         .attr('height', height);
 
     var xScale = d3.scale.linear()
+        .domain([0, width])
         .range([0, width]);
 
     var yScale = d3.scale.linear()
+        .domain([height, 0])
         .range([height, 0]);
 
     function useStrategy(strategyToUse) {
@@ -54,33 +47,34 @@
             .xScale(xScale)
             .yScale(yScale)
             .size([itemWidth, itemHeight])
-            .anchor(function(d, j, pos) {
-                d.anchor = {x: pos[0], y: pos[1]};
-            })
             .component(label);
 
         svg.selectAll('g').remove();
 
-        svg.datum(data)
+        svg.append('g')
+            .datum(data)
             .call(smart);
+
+        var point = fc.series.point()
+            .xScale(xScale)
+            .yScale(yScale);
+        svg.append('g')
+            .datum(data)
+            .call(point);
     }
 
     var greedyStrategy = fc.layout.strategy.greedy()
-        .containerWidth(width)
-        .containerHeight(height);
+        .bounds([width, height]);
 
     var boundingBox = fc.layout.strategy.boundingBox()
-        .containerWidth(width)
-        .containerHeight(height);
+        .bounds([width, height]);
 
     var local = fc.layout.strategy.local()
-        .containerWidth(width)
-        .containerHeight(height)
+        .bounds([width, height])
         .iterations(10);
 
     var annealing = fc.layout.strategy.annealing()
-        .containerWidth(width)
-        .containerHeight(height);
+        .bounds([width, height]);
 
     useStrategy(null);
 

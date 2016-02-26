@@ -1,29 +1,25 @@
 export default function() {
-    var containerWidth = null,
-        containerHeight = null;
+    var bounds = null;
 
     var container = function(point) {
+        var width = bounds[0], height = bounds[1];
         // If the bounds haven't been defined, then don't enforce
-        return (containerWidth == null && containerHeight == null) ||
+        return (width == null && height == null) ||
             (!(point.x < 0 || point.y < 0 ||
-            point.x > containerWidth || point.y > containerHeight ||
-            (point.x + point.width) > containerWidth ||
-            (point.y + point.height) > containerHeight));
+            point.x > width || point.y > height ||
+            (point.x + point.width) > width ||
+            (point.y + point.height) > height));
     };
 
-    container.containerWidth = function(value) {
-        if (!arguments.length) {
-            return containerWidth;
-        }
-        containerWidth = value;
-        return container;
+    container.area = function() {
+        return bounds[0] * bounds[1];
     };
 
-    container.containerHeight = function(value) {
+    container.bounds = function(value) {
         if (!arguments.length) {
-            return containerHeight;
+            return bounds;
         }
-        containerHeight = value;
+        bounds = value;
         return container;
     };
 

@@ -1,6 +1,5 @@
 import d3 from 'd3';
 import {rebindAll} from '../../util/rebind';
-import minimum from '../../util/minimum';
 import {allWithCollisions, totalCollisionArea} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
@@ -69,8 +68,7 @@ export default function() {
         return cloneAndReplace(iteratedData, victimLabelIndex, replacement);
     }
 
-    d3.rebind(strategy, container, 'containerWidth');
-    d3.rebind(strategy, container, 'containerHeight');
+    d3.rebind(strategy, container, 'bounds');
 
     function scorer(placement) {
         var collisionArea = totalCollisionArea(placement);

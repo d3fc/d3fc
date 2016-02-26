@@ -25,7 +25,7 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunctio
 
         var nearest = minimum(filtered, function(d) {
             return objectiveFunction(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
-        });
+        })[1];
 
         return {
             datum: nearest,

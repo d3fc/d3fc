@@ -3,7 +3,6 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
 import {rebindAll} from '../util/rebind';
-import arrayFunctor from '../util/arrayFunctor';
 
 export default function(layoutStrategy) {
 
@@ -12,8 +11,8 @@ export default function(layoutStrategy) {
 
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
-        anchor = noop,
         strategy = layoutStrategy || identity,
+        filter = identity,
         component = noop;
 
     var dataJoin = dataJoinUtil()
@@ -26,16 +25,14 @@ export default function(layoutStrategy) {
         var xRange = range(xScale),
             yRange = range(yScale);
 
-        if (strategy.containerWidth) {
-            strategy.containerWidth(Math.max(xRange[0], xRange[1]));
-        }
-        if (strategy.containerHeight) {
-            strategy.containerHeight(Math.max(yRange[0], yRange[1]));
+        if (strategy.bounds && xScale && yScale) {
+            strategy.bounds([
+                Math.max(xRange[0], xRange[1]),
+                Math.max(yRange[0], yRange[1])
+            ]);
         }
 
         selection.each(function(data, index) {
-            var g = dataJoin(this, data);
-
             // obtain the rectangular bounding boxes for each child
             var childRects = data.map(function(d, i) {
                 var childPos = position(d, i);
@@ -48,26 +45,31 @@ export default function(layoutStrategy) {
                 };
             });
 
-            // apply the strategy to derive the layout
+            // apply the strategy to derive the layout. The strategy does not change the order
+            // or number of rectangles.
             var layout = strategy(childRects);
+
+            // add indices to the layouts
+            layout.forEach(function(d, i) { d.dataIndex = i; });
+
+            // apply filter algorithm
+            var filteredLayout = filter(layout);
+
+            // filter the data to include only those remaining after collision removal
+            var filteredData = filteredLayout.map(function(d) { return data[d.dataIndex]; });
+
+            var g = dataJoin(this, filteredData);
 
             // offset each rectangle accordingly
             g.attr('transform', function(d, i) {
-                var offset = layout[i];
+                var offset = filteredLayout[i];
                 return 'translate(' + offset.x + ', ' + offset.y + ')';
-            });
-
-            // set the anchor-point for each rectangle
-            data.forEach(function(d, i) {
-                var pos = position(d, i);
-                var relativeAnchorPosition = [pos[0] - layout[i].x, pos[1] - layout[i].y];
-                anchor(d, i, relativeAnchorPosition);
             });
 
             // set the layout width / height so that children can use SVG layout if required
             g.attr({
-                'layout-width': function(d, i) { return childRects[i].width; },
-                'layout-height': function(d, i) { return childRects[i].height; }
+                'layout-width': function(d, i) { return filteredLayout[i].width; },
+                'layout-height': function(d, i) { return filteredLayout[i].height; }
             });
 
             g.call(component);
@@ -80,7 +82,7 @@ export default function(layoutStrategy) {
         if (!arguments.length) {
             return size;
         }
-        size = arrayFunctor(x);
+        size = d3.functor(x);
         return rectangles;
     };
 
@@ -88,15 +90,7 @@ export default function(layoutStrategy) {
         if (!arguments.length) {
             return position;
         }
-        position = arrayFunctor(x);
-        return rectangles;
-    };
-
-    rectangles.anchor = function(x) {
-        if (!arguments.length) {
-            return anchor;
-        }
-        anchor = x;
+        position = d3.functor(x);
         return rectangles;
     };
 
@@ -124,5 +118,12 @@ export default function(layoutStrategy) {
         return rectangles;
     };
 
+    rectangles.filter = function(value) {
+        if (!arguments.length) {
+            return filter;
+        }
+        filter = value;
+        return rectangles;
+    };
     return rectangles;
 }

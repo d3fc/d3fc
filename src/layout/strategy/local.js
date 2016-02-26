@@ -63,16 +63,15 @@ export default function() {
             var bestPlacement = minimum(candidateReplacements, function(placement) {
                 var areaOfCollisions = collisionArea(placement, d[1]);
                 var isOnScreen = container(placement[d[1]]);
-                return areaOfCollisions + (isOnScreen ? 0 : container.containerWidth() * container.containerHeight());
-            });
+                return areaOfCollisions + (isOnScreen ? 0 : container.area());
+            })[1];
 
             iteratedData = bestPlacement;
         });
         return iteratedData;
     }
 
-    d3.rebind(strategy, container, 'containerWidth');
-    d3.rebind(strategy, container, 'containerHeight');
+    d3.rebind(strategy, container, 'bounds');
 
     return strategy;
 }
