@@ -54,16 +54,16 @@ A range can be symmetrical about a given value, using the `symmetricalAbout` pro
       .pad([0.25, 0.5])(data); // [2.5, 55]
 ```
 
- The range can be extended to include a fixed value, using the `include` property. The range is extended after padding, so the order of setting the properties is not important. If the included value was already within the range there will be no change.
+ The range can be extended to include an array of fixed values, using the `include` property. The range is extended after padding, so the order of setting the properties is not important. If the included values are already within the range there will be no change.
 
 ```js
   fc.util.extent()
       .fields(fields)
-      .include(0)(data); // [0, 40]
+      .include([0])(data); // [0, 40]
   fc.util.extent()
       .fields(fields)
       .pad(0.5)
-      .include(0)(data); // [0, 47.5]
+      .include([0, 50])(data); // [0, 50]
 ```
 
 Extent can also be used on an array of arrays.
