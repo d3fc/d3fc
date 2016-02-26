@@ -68,8 +68,8 @@ export default function(layoutStrategy) {
 
             // set the layout width / height so that children can use SVG layout if required
             g.attr({
-                'layout-width': function(d, i) { return childRects[i].width; },
-                'layout-height': function(d, i) { return childRects[i].height; }
+                'layout-width': function(d, i) { return filteredLayout[i].width; },
+                'layout-height': function(d, i) { return filteredLayout[i].height; }
             });
 
             g.call(component);

@@ -11,7 +11,7 @@ export default function() {
             return -collisionArea(filteredLayout, i);
         }
 
-        var iterate = false;
+        var iterate = true;
         do {
             var min = minimum(filteredLayout, scorer);
             if (min[0] < 0) {
