@@ -4,6 +4,7 @@ import candlestick from './candlestick';
 import ohlc from './ohlc';
 import errorBar from './errorBar';
 import boxPlot from './boxPlot';
+import label from './label';
 
 export default {
     axis: axis,
@@ -11,5 +12,6 @@ export default {
     candlestick: candlestick,
     ohlc: ohlc,
     errorBar: errorBar,
-    boxPlot: boxPlot
+    boxPlot: boxPlot,
+    label: label
 };
