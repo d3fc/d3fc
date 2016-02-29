@@ -184,5 +184,58 @@ describe('fc.indicator.algorithm.calculator.relativeStrengthIndex', function() {
 
         verifyResult(expected, result);
     });
+
+    it('should produce correct values on multiple calls', function() {
+        var data = [
+            {close: 37.875},
+            {close: 39.5},
+            {close: 38.75},
+            {close: 39.8125},
+            {close: 40},
+            {close: 39.875},
+            {close: 40.1875},
+            {close: 41.25},
+            {close: 41.125},
+            {close: 41.625},
+            {close: 41.25},
+            {close: 40.1875},
+            {close: 39.9375},
+            {close: 39.9375},
+            {close: 40.5},
+            {close: 41.9375},
+            {close: 42.25},
+            {close: 42.25},
+            {close: 41.875},
+            {close: 41.875}
+        ];
+
+        var result = rsi(data);
+        result = rsi(data);
+
+        var expected = [
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            76.6667,
+            78.8679,
+            84.9158,
+            81.486,
+            84.5968,
+            73.0851,
+            49.3173,
+            45.0119,
+            45.0119,
+            57.9252,
+            75.9596,
+            78.4676,
+            78.4676,
+            65.6299,
+            65.6299
+        ];
+
+        verifyResult(expected, result);
+    });
 });
 
