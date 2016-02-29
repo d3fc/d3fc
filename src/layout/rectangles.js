@@ -2,7 +2,7 @@ import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
-import {rebindAll} from '../util/rebind';
+import {rebindAll, rebind} from '../util/rebind';
 
 export default function(layoutStrategy) {
 
@@ -22,10 +22,9 @@ export default function(layoutStrategy) {
 
     var rectangles = function(selection) {
 
-        var xRange = range(xScale),
-            yRange = range(yScale);
-
         if (strategy.bounds && xScale && yScale) {
+            var xRange = range(xScale),
+                yRange = range(yScale);
             strategy.bounds([
                 Math.max(xRange[0], xRange[1]),
                 Math.max(yRange[0], yRange[1])
@@ -33,10 +32,15 @@ export default function(layoutStrategy) {
         }
 
         selection.each(function(data, index) {
+
+            var g = dataJoin(this, data);
+            g.call(component);
+
             // obtain the rectangular bounding boxes for each child
-            var childRects = data.map(function(d, i) {
-                var childPos = position(d, i);
-                var childSize = size(d, i);
+            var childRects = g[0].map(function(node, i) {
+                var d = d3.select(node).datum();
+                var childPos = position.call(node, d, i);
+                var childSize = size.call(node, d, i);
                 return {
                     x: childPos[0],
                     y: childPos[1],
@@ -58,7 +62,7 @@ export default function(layoutStrategy) {
             // filter the data to include only those remaining after collision removal
             var filteredData = filteredLayout.map(function(d) { return data[d.dataIndex]; });
 
-            var g = dataJoin(this, filteredData);
+            g = dataJoin(this, filteredData);
 
             // offset each rectangle accordingly
             g.attr('transform', function(d, i) {
@@ -76,6 +80,7 @@ export default function(layoutStrategy) {
         });
     };
 
+    rebind(rectangles, dataJoin, 'key');
     rebindAll(rectangles, strategy);
 
     rectangles.size = function(x) {
