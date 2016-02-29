@@ -61,7 +61,7 @@
     "rollup": "^0.18.0",
     "seedrandom": "^2.4.0",
     "time-grunt": "^1.2.1",
-    "tiny-ssg": "ColinEberhardt/tiny-ssg#v0.0.5",
+    "tiny-ssg": "ColinEberhardt/tiny-ssg#v0.0.6",
     "webdriverio": "^3.2.5"
   },
   "scripts": {
