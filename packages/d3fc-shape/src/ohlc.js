@@ -15,6 +15,7 @@ export default function(context) {
         width = d3.functor(3);
 
     var ohlc = function(data) {
+        var path = context();
 
         data.forEach(function(d, i) {
             var xValue = x(d, i),
@@ -25,25 +26,25 @@ export default function(context) {
                 halfWidth = width(d, i) / 2;
 
             if (orient === 'vertical') {
-                context.moveTo(xValue, yLow);
-                context.lineTo(xValue, yHigh);
+                path.moveTo(xValue, yLow);
+                path.lineTo(xValue, yHigh);
 
-                context.moveTo(xValue, yOpen);
-                context.lineTo(xValue - halfWidth, yOpen);
-                context.moveTo(xValue, yClose);
-                context.lineTo(xValue + halfWidth, yClose);
+                path.moveTo(xValue, yOpen);
+                path.lineTo(xValue - halfWidth, yOpen);
+                path.moveTo(xValue, yClose);
+                path.lineTo(xValue + halfWidth, yClose);
             } else {
-                context.moveTo(yLow, xValue);
-                context.lineTo(yHigh, xValue);
+                path.moveTo(yLow, xValue);
+                path.lineTo(yHigh, xValue);
 
-                context.moveTo(yOpen, xValue);
-                context.lineTo(yOpen, xValue + halfWidth);
-                context.moveTo(yClose, xValue);
-                context.lineTo(yClose, xValue - halfWidth);
+                path.moveTo(yOpen, xValue);
+                path.lineTo(yOpen, xValue + halfWidth);
+                path.moveTo(yClose, xValue);
+                path.lineTo(yClose, xValue - halfWidth);
             }
         });
 
-        return context.toString();
+        return path.toString();
     };
 
     ohlc.x = function(_x) {
@@ -97,5 +98,4 @@ export default function(context) {
     };
 
     return ohlc;
-
 }

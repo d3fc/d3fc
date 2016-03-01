@@ -13,6 +13,7 @@ export default function(context) {
         width = d3.functor(3);
 
     var bar = function(data, index) {
+        var path = context();
 
         data.forEach(function(d, i) {
             var xValue = x.call(this, d, index || i),
@@ -50,7 +51,7 @@ export default function(context) {
                 throw new Error('Invalid vertical alignment ' + verticalAlign);
             }
 
-            context.rect(
+            path.rect(
                 xValue - horizontalOffset,
                 yValue - verticalOffset,
                 barWidth,
@@ -58,7 +59,7 @@ export default function(context) {
             );
         }, this);
 
-        return context.toString();
+        return path.toString();
     };
 
     bar.x = function(_x) {
