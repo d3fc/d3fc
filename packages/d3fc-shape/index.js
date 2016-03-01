@@ -1,8 +1,3 @@
 
-import ohlc from "./src/ohlc";
-import bar from "./src/bar";
-
-export default {
-  ohlc,
-  bar,
-}
+export { default as ohlc } from "./src/ohlc";
+export { default as bar } from "./src/bar";
