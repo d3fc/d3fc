@@ -1,0 +1,28 @@
+{
+  "name": "d3fc-path",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/d3fc/d3fc-path",
+  "main": "build/d3fc-path.js",
+  "jsnext:main": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d3fc/d3fc-path"
+  },
+  "scripts": {
+    "bundle": "rm -fr build && rollup -c",
+    "minify": "uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js"
+  },
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "d3-path": "^0.1.5",
+    "rollup": "^0.25.4",
+    "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-json": "^2.0.0",
+    "uglify-js": "^2.6.2"
+  },
+  "dependencies": {
+    "d3": "^3.5.16"
+  }
+}
