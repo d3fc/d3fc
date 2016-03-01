@@ -4,7 +4,7 @@ import d3 from 'd3';
 // Renders an OHLC as an SVG path based on the given array of datapoints. Each
 // OHLC has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
-export default function() {
+export default function(context) {
 
     var x = function(d, i) { return d.date; },
         open = function(d, i) { return d.open; },
@@ -14,7 +14,7 @@ export default function() {
         orient = 'vertical',
         width = d3.functor(3);
 
-    var ohlc = function(context, data) {
+    var ohlc = function(data) {
 
         data.forEach(function(d, i) {
             var xValue = x(d, i),

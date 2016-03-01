@@ -3,7 +3,7 @@ import d3 from 'd3';
 // Renders a bar series as an SVG path based on the given array of datapoints. Each
 // bar has a fixed width, whilst the x, y and height are obtained from each data
 // point via the supplied accessor functions.
-export default function() {
+export default function(context) {
 
     var x = function(d, i) { return d.x; },
         y = function(d, i) { return d.y; },
@@ -12,7 +12,7 @@ export default function() {
         height = function(d, i) { return d.height; },
         width = d3.functor(3);
 
-    var bar = function(context, data, index) {
+    var bar = function(data, index) {
 
         data.forEach(function(d, i) {
             var xValue = x.call(this, d, index || i),
