@@ -11,11 +11,14 @@
     "url": "https://github.com/d3fc/d3fc-path"
   },
   "scripts": {
-    "bundle": "rm -fr build && rollup -c && uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js"
+    "bundle": "rm -fr build && rollup -c && uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js",
+    "test": "jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
     "d3-path": "^0.1.5",
+    "d3fc": "^7.0.0",
+    "jasmine": "^2.4.1",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-json": "^2.0.0",
