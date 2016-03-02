@@ -9,19 +9,19 @@ var d3 = _interopDefault(require('d3'));
 // obtained from each point via the supplied accessor functions.
 function ohlc (context) {
 
-    var x = function x(d, i) {
+    var x = function x(d) {
         return d.date;
     },
-        open = function open(d, i) {
+        open = function open(d) {
         return d.open;
     },
-        high = function high(d, i) {
+        high = function high(d) {
         return d.high;
     },
-        low = function low(d, i) {
+        low = function low(d) {
         return d.low;
     },
-        close = function close(d, i) {
+        close = function close(d) {
         return d.close;
     },
         orient = 'vertical',
@@ -118,15 +118,15 @@ function ohlc (context) {
 // point via the supplied accessor functions.
 function bar (context) {
 
-    var x = function x(d, i) {
+    var x = function x(d) {
         return d.x;
     },
-        y = function y(d, i) {
+        y = function y(d) {
         return d.y;
     },
         horizontalAlign = 'center',
         verticalAlign = 'center',
-        height = function height(d, i) {
+        height = function height(d) {
         return d.height;
     },
         width = d3.functor(3);
@@ -226,19 +226,19 @@ function bar (context) {
 // obtained from each point via the supplied accessor functions.
 function candlestick (context) {
 
-    var x = function x(d, i) {
+    var x = function x(d) {
         return d.date;
     },
-        open = function open(d, i) {
+        open = function open(d) {
         return d.open;
     },
-        high = function high(d, i) {
+        high = function high(d) {
         return d.high;
     },
-        low = function low(d, i) {
+        low = function low(d) {
         return d.low;
     },
-        close = function close(d, i) {
+        close = function close(d) {
         return d.close;
     },
         width = d3.functor(3);
@@ -323,22 +323,22 @@ function candlestick (context) {
 // Renders a box plot series as an SVG path based on the given array of datapoints.
 function boxPlot (context) {
 
-    var value = function value(d, i) {
+    var value = function value(d) {
         return d.value;
     },
-        median = function median(d, i) {
+        median = function median(d) {
         return d.median;
     },
-        upperQuartile = function upperQuartile(d, i) {
+        upperQuartile = function upperQuartile(d) {
         return d.upperQuartile;
     },
-        lowerQuartile = function lowerQuartile(d, i) {
+        lowerQuartile = function lowerQuartile(d) {
         return d.lowerQuartile;
     },
-        high = function high(d, i) {
+        high = function high(d) {
         return d.high;
     },
-        low = function low(d, i) {
+        low = function low(d) {
         return d.low;
     },
         orient = 'vertical',
@@ -360,11 +360,7 @@ function boxPlot (context) {
                 _median = median(d, i),
                 _lowerQuartile = lowerQuartile(d, i),
                 _low = low(d, i),
-                highToUpperQuartile = _upperQuartile - _high,
-                upperQuartileToMedian = _median - _upperQuartile,
-                upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile,
-                medianToLowerQuartile = _lowerQuartile - _median,
-                lowerQuartileToLow = _low - _lowerQuartile;
+                upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile;
 
             if (orient === 'vertical') {
                 // Upper whisker
@@ -477,13 +473,13 @@ function boxPlot (context) {
 // Renders an error bar series as an SVG path based on the given array of datapoints.
 function errorBar (context) {
 
-    var value = function value(d, i) {
+    var value = function value(d) {
         return d.x;
     },
-        high = function high(d, i) {
+        high = function high(d) {
         return d.high;
     },
-        low = function low(d, i) {
+        low = function low(d) {
         return d.low;
     },
         orient = 'vertical',
@@ -498,8 +494,7 @@ function errorBar (context) {
                 _width = width(d, i),
                 halfWidth = _width / 2,
                 _high = high(d, i),
-                _low = low(d, i),
-                height = _high - _low;
+                _low = low(d, i);
 
             if (orient === 'vertical') {
                 path.moveTo(_value - halfWidth, _high);

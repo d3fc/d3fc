@@ -3,9 +3,9 @@ import d3 from 'd3';
 // Renders an error bar series as an SVG path based on the given array of datapoints.
 export default function(context) {
 
-    var value = function(d, i) { return d.x; },
-        high = function(d, i) { return d.high; },
-        low = function(d, i) { return d.low; },
+    var value = function(d) { return d.x; },
+        high = function(d) { return d.high; },
+        low = function(d) { return d.low; },
         orient = 'vertical',
         width = d3.functor(5);
 
@@ -18,8 +18,7 @@ export default function(context) {
                 _width = width(d, i),
                 halfWidth = _width / 2,
                 _high = high(d, i),
-                _low = low(d, i),
-                height = _high - _low;
+                _low = low(d, i);
 
             if (orient === 'vertical') {
                 path.moveTo(_value - halfWidth, _high);

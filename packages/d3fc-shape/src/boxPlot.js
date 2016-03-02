@@ -3,12 +3,12 @@ import d3 from 'd3';
 // Renders a box plot series as an SVG path based on the given array of datapoints.
 export default function(context) {
 
-    var value = function(d, i) { return d.value; },
-        median = function(d, i) { return d.median; },
-        upperQuartile = function(d, i) { return d.upperQuartile; },
-        lowerQuartile = function(d, i) { return d.lowerQuartile; },
-        high = function(d, i) { return d.high; },
-        low = function(d, i) { return d.low; },
+    var value = function(d) { return d.value; },
+        median = function(d) { return d.median; },
+        upperQuartile = function(d) { return d.upperQuartile; },
+        lowerQuartile = function(d) { return d.lowerQuartile; },
+        high = function(d) { return d.high; },
+        low = function(d) { return d.low; },
         orient = 'vertical',
         width = d3.functor(5),
         cap = d3.functor(0.5);
@@ -28,11 +28,7 @@ export default function(context) {
                 _median = median(d, i),
                 _lowerQuartile = lowerQuartile(d, i),
                 _low = low(d, i),
-                highToUpperQuartile = _upperQuartile - _high,
-                upperQuartileToMedian = _median - _upperQuartile,
-                upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile,
-                medianToLowerQuartile = _lowerQuartile - _median,
-                lowerQuartileToLow = _low - _lowerQuartile;
+                upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile;
 
             if (orient === 'vertical') {
                 // Upper whisker

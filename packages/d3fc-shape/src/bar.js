@@ -5,11 +5,11 @@ import d3 from 'd3';
 // point via the supplied accessor functions.
 export default function(context) {
 
-    var x = function(d, i) { return d.x; },
-        y = function(d, i) { return d.y; },
+    var x = function(d) { return d.x; },
+        y = function(d) { return d.y; },
         horizontalAlign = 'center',
         verticalAlign = 'center',
-        height = function(d, i) { return d.height; },
+        height = function(d) { return d.height; },
         width = d3.functor(3);
 
     var bar = function(data, index) {

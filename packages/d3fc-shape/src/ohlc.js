@@ -6,11 +6,11 @@ import d3 from 'd3';
 // obtained from each point via the supplied accessor functions.
 export default function(context) {
 
-    var x = function(d, i) { return d.date; },
-        open = function(d, i) { return d.open; },
-        high = function(d, i) { return d.high; },
-        low = function(d, i) { return d.low; },
-        close = function(d, i) { return d.close; },
+    var x = function(d) { return d.date; },
+        open = function(d) { return d.open; },
+        high = function(d) { return d.high; },
+        low = function(d) { return d.low; },
+        close = function(d) { return d.close; },
         orient = 'vertical',
         width = d3.functor(3);
 
