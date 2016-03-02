@@ -1,9 +1,7 @@
 import d3 from 'd3';
-import expandRect from '../util/expandRect';
 
 export default function() {
-    var attrArguments,
-        margin = {};
+    var attrArguments;
 
     var measureText = function(text) {
         var svg = d3.select('body')
@@ -17,20 +15,7 @@ export default function() {
         var bbox = textElement[0][0].getBBox();
         svg.remove();
 
-        var expandedMargin = expandRect(margin);
-
-        var width = bbox.width + expandedMargin.left + expandedMargin.right;
-        var height = bbox.height + expandedMargin.top + expandedMargin.bottom;
-
-        return [width, height];
-    };
-
-    measureText.margin = function(x) {
-        if (!arguments.length) {
-            return margin;
-        }
-        margin = x;
-        return measureText;
+        return [bbox.width, bbox.height];
     };
 
     measureText.attr = function(x) {

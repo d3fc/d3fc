@@ -112,15 +112,16 @@ var data = [
 ];
 
 //START
-var margin = 2;
-var measure = fc.layout.measureText()
-    .attr('style', 'font-size: 12pt')
-    .margin(margin);
+var labelMargin = 2;
+var measure = fc.layout.measureText();
 
-var label = fc.svg.label()
-    .margin(margin)
-    .attr('class', 'label')
-    .value(function(d) { return d.language; });
+var label = fc.tool.container()
+    .padding(labelMargin)
+    .component(function(sel) {
+        sel.append('text')
+            .attr('dy', '0.7em')
+            .text(function(d) { return d.language; });
+    });
 
 var yScale = d3.scale.linear(),
     xScale = d3.scale.linear();
@@ -138,7 +139,10 @@ var chart = fc.chart.cartesian(
 
 // create the layout that positions the labels
 var labels = fc.layout.rectangles(fc.layout.strategy.greedy())
-        .size(function(d) { return measure(d.language); })
+        .size(function(d) {
+            var textSize = measure(d.language);
+            return [textSize[0] + labelMargin * 2, textSize[1] + labelMargin * 2];
+        })
         .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
         .filter(fc.layout.strategy.removeOverlaps())
         .component(label);
