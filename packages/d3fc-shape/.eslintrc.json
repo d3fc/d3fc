@@ -72,10 +72,6 @@
                 "before": true
             }
         ],
-        "linebreak-style": [
-            2,
-            "windows"
-        ],
         "lines-around-comment": 2,
         "max-depth": 2,
         "max-len": 0,
