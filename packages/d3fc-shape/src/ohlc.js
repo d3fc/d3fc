@@ -13,7 +13,6 @@ export default (context) => {
     let width   = functor(3);
 
     const ohlc = (data) => {
-        const path = context();
 
         data.forEach((d, i) => {
             const xValue      = x(d, i);
@@ -24,25 +23,25 @@ export default (context) => {
             const halfWidth   = width(d, i) / 2;
 
             if (orient === 'vertical') {
-                path.moveTo(xValue, yLow);
-                path.lineTo(xValue, yHigh);
+                context.moveTo(xValue, yLow);
+                context.lineTo(xValue, yHigh);
 
-                path.moveTo(xValue, yOpen);
-                path.lineTo(xValue - halfWidth, yOpen);
-                path.moveTo(xValue, yClose);
-                path.lineTo(xValue + halfWidth, yClose);
+                context.moveTo(xValue, yOpen);
+                context.lineTo(xValue - halfWidth, yOpen);
+                context.moveTo(xValue, yClose);
+                context.lineTo(xValue + halfWidth, yClose);
             } else {
-                path.moveTo(yLow, xValue);
-                path.lineTo(yHigh, xValue);
+                context.moveTo(yLow, xValue);
+                context.lineTo(yHigh, xValue);
 
-                path.moveTo(yOpen, xValue);
-                path.lineTo(yOpen, xValue + halfWidth);
-                path.moveTo(yClose, xValue);
-                path.lineTo(yClose, xValue - halfWidth);
+                context.moveTo(yOpen, xValue);
+                context.lineTo(yOpen, xValue + halfWidth);
+                context.moveTo(yClose, xValue);
+                context.lineTo(yClose, xValue - halfWidth);
             }
         });
 
-        return path.toString();
+        return context;
     };
 
     ohlc.x = (_x) => {

@@ -42,23 +42,23 @@ const errorBarData = walkDataGenerator(20).map(function(datum, index) {
 const results = {
   bar: {
     data: barData,
-    result: d3fcPath.bar(d3Path).height(50)(barData)
+    result: d3fcPath.bar(d3Path()).height(50)(barData).toString()
   },
   boxPlot: {
     data: boxPlotData,
-    result: d3fcPath.boxPlot(d3Path)(boxPlotData)
+    result: d3fcPath.boxPlot(d3Path())(boxPlotData).toString()
   },
   candlestick: {
     data: ohlcData,
-    result: d3fcPath.candlestick(d3Path)(ohlcData)
+    result: d3fcPath.candlestick(d3Path())(ohlcData).toString()
   },
   errorBar: {
     data: errorBarData,
-    result: d3fcPath.errorBar(d3Path)(errorBarData)
+    result: d3fcPath.errorBar(d3Path())(errorBarData).toString()
   },
   ohlc: {
     data: ohlcData,
-    result: d3fcPath.ohlc(d3Path)(ohlcData)
+    result: d3fcPath.ohlc(d3Path())(ohlcData).toString()
   }
 };
 

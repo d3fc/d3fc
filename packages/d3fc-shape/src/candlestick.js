@@ -13,7 +13,6 @@ export default (context) => {
     let width   = functor(3);
 
     const candlestick = (data) => {
-        const path = context();
 
         data.forEach((d, i) => {
             const xValue        = x(d, i);
@@ -25,22 +24,22 @@ export default (context) => {
             const halfBarWidth  = barWidth / 2;
 
             // Body
-            path.rect(xValue - halfBarWidth, yOpen, barWidth, yClose - yOpen);
+            context.rect(xValue - halfBarWidth, yOpen, barWidth, yClose - yOpen);
             // High wick
             // // Move to the max price of close or open; draw the high wick
             // N.B. Math.min() is used as we're dealing with pixel values,
             // the lower the pixel value, the higher the price!
-            path.moveTo(xValue, Math.min(yClose, yOpen));
-            path.lineTo(xValue, yHigh);
+            context.moveTo(xValue, Math.min(yClose, yOpen));
+            context.lineTo(xValue, yHigh);
             // Low wick
             // // Move to the min price of close or open; draw the low wick
             // N.B. Math.max() is used as we're dealing with pixel values,
             // the higher the pixel value, the lower the price!
-            path.moveTo(xValue, Math.max(yClose, yOpen));
-            path.lineTo(xValue, yLow);
+            context.moveTo(xValue, Math.max(yClose, yOpen));
+            context.lineTo(xValue, yLow);
         });
 
-        return path.toString();
+        return context;
     };
 
     candlestick.x = (_x) => {

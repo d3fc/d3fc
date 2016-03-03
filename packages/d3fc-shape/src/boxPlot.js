@@ -14,7 +14,6 @@ export default (context) => {
     let cap           = functor(0.5);
 
     const boxPlot = (data) => {
-        const path = context();
 
         data.forEach((d, i) => {
             // naming convention is for vertical orientation
@@ -32,43 +31,43 @@ export default (context) => {
 
             if (orient === 'vertical') {
                 // Upper whisker
-                path.moveTo(_value - halfCapWidth, _high);
-                path.lineTo(_value + halfCapWidth, _high);
-                path.moveTo(_value, _high);
-                path.lineTo(_value, _upperQuartile);
+                context.moveTo(_value - halfCapWidth, _high);
+                context.lineTo(_value + halfCapWidth, _high);
+                context.moveTo(_value, _high);
+                context.lineTo(_value, _upperQuartile);
 
                 // Box
-                path.rect(_value - halfWidth, _upperQuartile, _width, upperQuartileToLowerQuartile);
-                path.moveTo(_value - halfWidth, _median);
+                context.rect(_value - halfWidth, _upperQuartile, _width, upperQuartileToLowerQuartile);
+                context.moveTo(_value - halfWidth, _median);
                 // Median line
-                path.lineTo(_value + halfWidth, _median);
+                context.lineTo(_value + halfWidth, _median);
 
                 // Lower whisker
-                path.moveTo(_value, _lowerQuartile);
-                path.lineTo(_value, _low);
-                path.moveTo(_value - halfCapWidth, _low);
-                path.lineTo(_value + halfCapWidth, _low);
+                context.moveTo(_value, _lowerQuartile);
+                context.lineTo(_value, _low);
+                context.moveTo(_value - halfCapWidth, _low);
+                context.lineTo(_value + halfCapWidth, _low);
             } else {
                 // Lower whisker
-                path.moveTo(_low, _value - halfCapWidth);
-                path.lineTo(_low, _value + halfCapWidth);
-                path.moveTo(_low, _value);
-                path.lineTo(_lowerQuartile, _value);
+                context.moveTo(_low, _value - halfCapWidth);
+                context.lineTo(_low, _value + halfCapWidth);
+                context.moveTo(_low, _value);
+                context.lineTo(_lowerQuartile, _value);
 
                 // Box
-                path.rect(_lowerQuartile, _value - halfWidth, -upperQuartileToLowerQuartile, _width);
-                path.moveTo(_median, _value - halfWidth);
-                path.lineTo(_median, _value + halfWidth);
+                context.rect(_lowerQuartile, _value - halfWidth, -upperQuartileToLowerQuartile, _width);
+                context.moveTo(_median, _value - halfWidth);
+                context.lineTo(_median, _value + halfWidth);
 
                 // Upper whisker
-                path.moveTo(_upperQuartile, _value);
-                path.lineTo(_high, _value);
-                path.moveTo(_high, _value - halfCapWidth);
-                path.lineTo(_high, _value + halfCapWidth);
+                context.moveTo(_upperQuartile, _value);
+                context.lineTo(_high, _value);
+                context.moveTo(_high, _value - halfCapWidth);
+                context.lineTo(_high, _value + halfCapWidth);
             }
         });
 
-        return path.toString();
+        return context;
     };
 
     boxPlot.value = (_x) => {

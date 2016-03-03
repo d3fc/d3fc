@@ -13,7 +13,6 @@ export default (context) => {
     let width             = functor(3);
 
     const bar = (data, index) => {
-        const path = context();
 
         data.forEach((d, i) => {
             const xValue    = x.call(this, d, index || i);
@@ -51,7 +50,7 @@ export default (context) => {
                 throw new Error('Invalid vertical alignment ' + verticalAlign);
             }
 
-            path.rect(
+            context.rect(
                 xValue - horizontalOffset,
                 yValue - verticalOffset,
                 barWidth,
@@ -59,7 +58,7 @@ export default (context) => {
             );
         }, this);
 
-        return path.toString();
+        return context;
     };
 
     bar.x = (_x) => {

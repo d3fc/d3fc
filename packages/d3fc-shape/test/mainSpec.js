@@ -10,30 +10,30 @@ function checkResults(func, type) {
     d.date = new Date(d.date);
   });
 
-  const path = func(testData[type].data);
+  const path = func(testData[type].data).toString();
   expect(path).toBe(testData[type].result);
 }
 
 describe('Test all path generators return correct values', function() {
 
     it('Bar with d3-path returns correct path', function() {
-        const bar = d3fcPath.bar(d3Path).height(50);
+        const bar = d3fcPath.bar(d3Path()).height(50);
         checkResults(bar, 'bar');
     });
     it('BoxPlot with d3-path returns correct path', function() {
-        const boxPlot = d3fcPath.boxPlot(d3Path);
+        const boxPlot = d3fcPath.boxPlot(d3Path());
         checkResults(boxPlot, 'boxPlot');
     });
     it('Candlestick with d3-path returns correct path', function() {
-        const candlestick = d3fcPath.candlestick(d3Path);
+        const candlestick = d3fcPath.candlestick(d3Path());
         checkResults(candlestick, 'candlestick');
     });
     it('ErrorBar with d3-path returns correct path', function() {
-        const errorBar = d3fcPath.errorBar(d3Path);
+        const errorBar = d3fcPath.errorBar(d3Path());
         checkResults(errorBar, 'errorBar');
     });
     it('OHLC with d3-path returns correct path', function() {
-        const ohlc = d3fcPath.ohlc(d3Path);
+        const ohlc = d3fcPath.ohlc(d3Path());
         checkResults(ohlc, 'ohlc');
     });
 });

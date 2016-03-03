@@ -10,7 +10,6 @@ export default (context) => {
     let width     = functor(5);
 
     const errorBar = (data) => {
-        const path = context();
 
         data.forEach((d, i) => {
             // naming convention is for vertical orientation
@@ -21,23 +20,23 @@ export default (context) => {
             const _low        = low(d, i);
 
             if (orient === 'vertical') {
-                path.moveTo(_value - halfWidth, _high);
-                path.lineTo(_value + halfWidth, _high);
-                path.moveTo(_value, _high);
-                path.lineTo(_value, _low);
-                path.moveTo(_value - halfWidth, _low);
-                path.lineTo(_value + halfWidth, _low);
+                context.moveTo(_value - halfWidth, _high);
+                context.lineTo(_value + halfWidth, _high);
+                context.moveTo(_value, _high);
+                context.lineTo(_value, _low);
+                context.moveTo(_value - halfWidth, _low);
+                context.lineTo(_value + halfWidth, _low);
             } else {
-                path.moveTo(_low, _value - halfWidth);
-                path.lineTo(_low, _value + halfWidth);
-                path.moveTo(_low, _value);
-                path.lineTo(_high, _value);
-                path.moveTo(_high, _value - halfWidth);
-                path.lineTo(_high, _value + halfWidth);
+                context.moveTo(_low, _value - halfWidth);
+                context.lineTo(_low, _value + halfWidth);
+                context.moveTo(_low, _value);
+                context.lineTo(_high, _value);
+                context.moveTo(_high, _value - halfWidth);
+                context.lineTo(_high, _value + halfWidth);
             }
         });
 
-        return path.toString();
+        return context;
     };
 
     errorBar.value = (_x) => {
