@@ -1,28 +1,28 @@
-import d3 from 'd3';
+import functor from './functor';
 
 // Renders a candlestick as an SVG path based on the given array of datapoints. Each
 // candlestick has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
-export default function(context) {
+export default (context) => {
 
-    var x = function(d) { return d.date; },
-        open = function(d) { return d.open; },
-        high = function(d) { return d.high; },
-        low = function(d) { return d.low; },
-        close = function(d) { return d.close; },
-        width = d3.functor(3);
+    let x       = (d) => d.date;
+    let open    = (d) => d.open;
+    let high    = (d) => d.high;
+    let low     = (d) => d.low;
+    let close   = (d) => d.close;
+    let width   = functor(3);
 
-    var candlestick = function(data) {
-        var path = context();
+    const candlestick = (data) => {
+        const path = context();
 
-        data.forEach(function(d, i) {
-            var xValue = x(d, i),
-                yOpen = open(d, i),
-                yHigh = high(d, i),
-                yLow = low(d, i),
-                yClose = close(d, i),
-                barWidth = width(d, i),
-                halfBarWidth = barWidth / 2;
+        data.forEach((d, i) => {
+            const xValue        = x(d, i);
+            const yOpen         = open(d, i);
+            const yHigh         = high(d, i);
+            const yLow          = low(d, i);
+            const yClose        = close(d, i);
+            const barWidth      = width(d, i);
+            const halfBarWidth  = barWidth / 2;
 
             // Body
             path.rect(xValue - halfBarWidth, yOpen, barWidth, yClose - yOpen);
@@ -43,49 +43,48 @@ export default function(context) {
         return path.toString();
     };
 
-    candlestick.x = function(_x) {
+    candlestick.x = (_x) => {
         if (!arguments.length) {
             return x;
         }
-        x = d3.functor(_x);
+        x = functor(_x);
         return candlestick;
     };
-    candlestick.open = function(_x) {
+    candlestick.open = (_x) => {
         if (!arguments.length) {
             return open;
         }
-        open = d3.functor(_x);
+        open = functor(_x);
         return candlestick;
     };
-    candlestick.high = function(_x) {
+    candlestick.high = (_x) => {
         if (!arguments.length) {
             return high;
         }
-        high = d3.functor(_x);
+        high = functor(_x);
         return candlestick;
     };
-    candlestick.low = function(_x) {
+    candlestick.low = (_x) => {
         if (!arguments.length) {
             return low;
         }
-        low = d3.functor(_x);
+        low = functor(_x);
         return candlestick;
     };
-    candlestick.close = function(_x) {
+    candlestick.close = (_x) => {
         if (!arguments.length) {
             return close;
         }
-        close = d3.functor(_x);
+        close = functor(_x);
         return candlestick;
     };
-    candlestick.width = function(_x) {
+    candlestick.width = (_x) => {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(_x);
+        width = functor(_x);
         return candlestick;
     };
 
     return candlestick;
-
-}
+};

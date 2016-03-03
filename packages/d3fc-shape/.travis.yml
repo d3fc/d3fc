@@ -4,8 +4,7 @@ node_js:
 sudo: false
 install:
 - npm install
-- npm install -g grunt-cli
-- npm install -g npm@'>=2.13.5'
+- npm install -g npm
 - npm run bundle
 env:
   global:

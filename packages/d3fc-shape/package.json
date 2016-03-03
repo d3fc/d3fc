@@ -1,8 +1,17 @@
 {
   "name": "d3fc-path",
   "version": "0.0.1",
-  "description": "",
-  "keywords": [],
+  "description": "A collection of helpers for generating paths for financial chart components",
+  "license": "MIT",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "svg",
+    "path",
+    "canvas",
+    "context",
+    "context2d"
+  ],
   "homepage": "https://github.com/d3fc/d3fc-path",
   "main": "build/d3fc-path.js",
   "jsnext:main": "index",
@@ -11,7 +20,7 @@
     "url": "https://github.com/d3fc/d3fc-path"
   },
   "scripts": {
-    "bundle": "rm -fr build && rollup -c && uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js",
+    "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js",
     "test": " eslint index.js src/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json"
   },
   "devDependencies": {
@@ -19,10 +28,14 @@
     "d3-path": "^0.1.5",
     "d3fc": "^7.0.0",
     "eslint": "^2.2.0",
+    "eslint-config-airbnb": "^6.0.2",
+    "eslint-config-standard": "^5.1.0",
+    "eslint-plugin-promise": "^1.1.0",
+    "eslint-plugin-standard": "^1.3.2",
     "jasmine": "^2.4.1",
+    "rimraf": "^2.5.2",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
-    "rollup-plugin-json": "^2.0.0",
     "uglify-js": "^2.6.2"
   },
   "dependencies": {

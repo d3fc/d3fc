@@ -1,29 +1,27 @@
-
-import d3 from 'd3';
+import functor from './functor';
 
 // Renders an OHLC as an SVG path based on the given array of datapoints. Each
 // OHLC has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
-export default function(context) {
+export default (context) => {
+    let x       = (d) => d.date;
+    let open    = (d) => d.open;
+    let high    = (d) => d.high;
+    let low     = (d) => d.low;
+    let close   = (d) => d.close;
+    let orient  = 'vertical';
+    let width   = functor(3);
 
-    var x = function(d) { return d.date; },
-        open = function(d) { return d.open; },
-        high = function(d) { return d.high; },
-        low = function(d) { return d.low; },
-        close = function(d) { return d.close; },
-        orient = 'vertical',
-        width = d3.functor(3);
+    const ohlc = (data) => {
+        const path = context();
 
-    var ohlc = function(data) {
-        var path = context();
-
-        data.forEach(function(d, i) {
-            var xValue = x(d, i),
-                yOpen = open(d, i),
-                yHigh = high(d, i),
-                yLow = low(d, i),
-                yClose = close(d, i),
-                halfWidth = width(d, i) / 2;
+        data.forEach((d, i) => {
+            const xValue      = x(d, i);
+            const yOpen       = open(d, i);
+            const yHigh       = high(d, i);
+            const yLow        = low(d, i);
+            const yClose      = close(d, i);
+            const halfWidth   = width(d, i) / 2;
 
             if (orient === 'vertical') {
                 path.moveTo(xValue, yLow);
@@ -47,55 +45,55 @@ export default function(context) {
         return path.toString();
     };
 
-    ohlc.x = function(_x) {
+    ohlc.x = (_x) => {
         if (!arguments.length) {
             return x;
         }
-        x = d3.functor(_x);
+        x = functor(_x);
         return ohlc;
     };
-    ohlc.open = function(_x) {
+    ohlc.open = (_x) => {
         if (!arguments.length) {
             return open;
         }
-        open = d3.functor(_x);
+        open = functor(_x);
         return ohlc;
     };
-    ohlc.high = function(_x) {
+    ohlc.high = (_x) => {
         if (!arguments.length) {
             return high;
         }
-        high = d3.functor(_x);
+        high = functor(_x);
         return ohlc;
     };
-    ohlc.low = function(_x) {
+    ohlc.low = (_x) => {
         if (!arguments.length) {
             return low;
         }
-        low = d3.functor(_x);
+        low = functor(_x);
         return ohlc;
     };
-    ohlc.close = function(_x) {
+    ohlc.close = (_x) => {
         if (!arguments.length) {
             return close;
         }
-        close = d3.functor(_x);
+        close = functor(_x);
         return ohlc;
     };
-    ohlc.width = function(_x) {
+    ohlc.width = (_x) => {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(_x);
+        width = functor(_x);
         return ohlc;
     };
-    ohlc.orient = function(_x) {
+    ohlc.orient = (_x) => {
         if (!arguments.length) {
             return orient;
         }
-        orient = d3.functor(_x);
+        orient = functor(_x);
         return ohlc;
     };
 
     return ohlc;
-}
+};

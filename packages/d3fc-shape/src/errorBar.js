@@ -1,24 +1,24 @@
-import d3 from 'd3';
+import functor from './functor';
 
 // Renders an error bar series as an SVG path based on the given array of datapoints.
-export default function(context) {
+export default (context) => {
 
-    var value = function(d) { return d.x; },
-        high = function(d) { return d.high; },
-        low = function(d) { return d.low; },
-        orient = 'vertical',
-        width = d3.functor(5);
+    let value     = (d) => d.x;
+    let high      = (d) => d.high;
+    let low       = (d) => d.low;
+    let orient    = 'vertical';
+    let width     = functor(5);
 
-    var errorBar = function(data) {
-        var path = context();
+    const errorBar = (data) => {
+        const path = context();
 
-        data.forEach(function(d, i) {
+        data.forEach((d, i) => {
             // naming convention is for vertical orientation
-            var _value = value(d, i),
-                _width = width(d, i),
-                halfWidth = _width / 2,
-                _high = high(d, i),
-                _low = low(d, i);
+            const _value      = value(d, i);
+            const _width      = width(d, i);
+            const halfWidth   = _width / 2;
+            const _high       = high(d, i);
+            const _low        = low(d, i);
 
             if (orient === 'vertical') {
                 path.moveTo(_value - halfWidth, _high);
@@ -40,35 +40,35 @@ export default function(context) {
         return path.toString();
     };
 
-    errorBar.value = function(_x) {
+    errorBar.value = (_x) => {
         if (!arguments.length) {
             return value;
         }
-        value = d3.functor(_x);
+        value = functor(_x);
         return errorBar;
     };
-    errorBar.high = function(_x) {
+    errorBar.high = (_x) => {
         if (!arguments.length) {
             return high;
         }
-        high = d3.functor(_x);
+        high = functor(_x);
         return errorBar;
     };
-    errorBar.low = function(_x) {
+    errorBar.low = (_x) => {
         if (!arguments.length) {
             return low;
         }
-        low = d3.functor(_x);
+        low = functor(_x);
         return errorBar;
     };
-    errorBar.width = function(_x) {
+    errorBar.width = (_x) => {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(_x);
+        width = functor(_x);
         return errorBar;
     };
-    errorBar.orient = function(_x) {
+    errorBar.orient = (_x) => {
         if (!arguments.length) {
             return orient;
         }
@@ -77,5 +77,4 @@ export default function(context) {
     };
 
     return errorBar;
-
-}
+};

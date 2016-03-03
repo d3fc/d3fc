@@ -1,34 +1,34 @@
-import d3 from 'd3';
+import functor from './functor';
 
 // Renders a box plot series as an SVG path based on the given array of datapoints.
-export default function(context) {
+export default (context) => {
 
-    var value = function(d) { return d.value; },
-        median = function(d) { return d.median; },
-        upperQuartile = function(d) { return d.upperQuartile; },
-        lowerQuartile = function(d) { return d.lowerQuartile; },
-        high = function(d) { return d.high; },
-        low = function(d) { return d.low; },
-        orient = 'vertical',
-        width = d3.functor(5),
-        cap = d3.functor(0.5);
+    let value         = (d) => d.value;
+    let median        = (d) => d.median;
+    let upperQuartile = (d) => d.upperQuartile;
+    let lowerQuartile = (d) => d.lowerQuartile;
+    let high          = (d) => d.high;
+    let low           = (d) => d.low;
+    let orient        = 'vertical';
+    let width         = functor(5);
+    let cap           = functor(0.5);
 
-    var boxPlot = function(data) {
-        var path = context();
+    const boxPlot = (data) => {
+        const path = context();
 
-        data.forEach(function(d, i) {
+        data.forEach((d, i) => {
             // naming convention is for vertical orientation
-            var _value = value(d, i),
-                _width = width(d, i),
-                halfWidth = _width / 2,
-                capWidth = _width * cap(d, i),
-                halfCapWidth = capWidth / 2,
-                _high = high(d, i),
-                _upperQuartile = upperQuartile(d, i),
-                _median = median(d, i),
-                _lowerQuartile = lowerQuartile(d, i),
-                _low = low(d, i),
-                upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile;
+            const _value          = value(d, i);
+            const _width          = width(d, i);
+            const halfWidth       = _width / 2;
+            const capWidth        = _width * cap(d, i);
+            const halfCapWidth    = capWidth / 2;
+            const _high           = high(d, i);
+            const _upperQuartile  = upperQuartile(d, i);
+            const _median         = median(d, i);
+            const _lowerQuartile  = lowerQuartile(d, i);
+            const _low            = low(d, i);
+            const upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile;
 
             if (orient === 'vertical') {
                 // Upper whisker
@@ -71,70 +71,69 @@ export default function(context) {
         return path.toString();
     };
 
-    boxPlot.value = function(_x) {
+    boxPlot.value = (_x) => {
         if (!arguments.length) {
             return value;
         }
-        value = d3.functor(_x);
+        value = functor(_x);
         return boxPlot;
     };
-    boxPlot.median = function(_x) {
+    boxPlot.median = (_x) => {
         if (!arguments.length) {
             return median;
         }
-        median = d3.functor(_x);
+        median = functor(_x);
         return boxPlot;
     };
-    boxPlot.upperQuartile = function(_x) {
+    boxPlot.upperQuartile = (_x) => {
         if (!arguments.length) {
             return upperQuartile;
         }
-        upperQuartile = d3.functor(_x);
+        upperQuartile = functor(_x);
         return boxPlot;
     };
-    boxPlot.lowerQuartile = function(_x) {
+    boxPlot.lowerQuartile = (_x) => {
         if (!arguments.length) {
             return lowerQuartile;
         }
-        lowerQuartile = d3.functor(_x);
+        lowerQuartile = functor(_x);
         return boxPlot;
     };
-    boxPlot.high = function(_x) {
+    boxPlot.high = (_x) => {
         if (!arguments.length) {
             return high;
         }
-        high = d3.functor(_x);
+        high = functor(_x);
         return boxPlot;
     };
-    boxPlot.low = function(_x) {
+    boxPlot.low = (_x) => {
         if (!arguments.length) {
             return low;
         }
-        low = d3.functor(_x);
+        low = functor(_x);
         return boxPlot;
     };
-    boxPlot.width = function(_x) {
+    boxPlot.width = (_x) => {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(_x);
+        width = functor(_x);
         return boxPlot;
     };
-    boxPlot.orient = function(_x) {
+    boxPlot.orient = (_x) => {
         if (!arguments.length) {
             return orient;
         }
         orient = _x;
         return boxPlot;
     };
-    boxPlot.cap = function(_x) {
+    boxPlot.cap = (_x) => {
         if (!arguments.length) {
             return cap;
         }
-        cap = d3.functor(_x);
+        cap = functor(_x);
         return boxPlot;
     };
 
     return boxPlot;
-
-}
+};

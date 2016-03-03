@@ -1,27 +1,27 @@
-import d3 from 'd3';
+import functor from './functor';
 
 // Renders a bar series as an SVG path based on the given array of datapoints. Each
 // bar has a fixed width, whilst the x, y and height are obtained from each data
 // point via the supplied accessor functions.
-export default function(context) {
+export default (context) => {
 
-    var x = function(d) { return d.x; },
-        y = function(d) { return d.y; },
-        horizontalAlign = 'center',
-        verticalAlign = 'center',
-        height = function(d) { return d.height; },
-        width = d3.functor(3);
+    let x                 = (d) => d.x;
+    let y                 = (d) => d.y;
+    let horizontalAlign   = 'center';
+    let verticalAlign     = 'center';
+    let height            = (d) => d.height;
+    let width             = functor(3);
 
-    var bar = function(data, index) {
-        var path = context();
+    const bar = (data, index) => {
+        const path = context();
 
-        data.forEach(function(d, i) {
-            var xValue = x.call(this, d, index || i),
-                yValue = y.call(this, d, index || i),
-                barHeight = height.call(this, d, index || i),
-                barWidth = width.call(this, d, index || i);
+        data.forEach((d, i) => {
+            const xValue    = x.call(this, d, index || i);
+            const yValue    = y.call(this, d, index || i);
+            const barHeight = height.call(this, d, index || i);
+            const barWidth  = width.call(this, d, index || i);
 
-            var horizontalOffset;
+            let horizontalOffset;
             switch (horizontalAlign) {
             case 'left':
                 horizontalOffset = barWidth;
@@ -36,7 +36,7 @@ export default function(context) {
                 throw new Error('Invalid horizontal alignment ' + horizontalAlign);
             }
 
-            var verticalOffset;
+            let verticalOffset;
             switch (verticalAlign) {
             case 'bottom':
                 verticalOffset = -barHeight;
@@ -62,48 +62,48 @@ export default function(context) {
         return path.toString();
     };
 
-    bar.x = function(_x) {
+    bar.x = (_x) => {
         if (!arguments.length) {
             return x;
         }
-        x = d3.functor(_x);
+        x = functor(_x);
         return bar;
     };
-    bar.y = function(_x) {
+    bar.y = (_x) => {
         if (!arguments.length) {
             return y;
         }
-        y = d3.functor(_x);
+        y = functor(_x);
         return bar;
     };
-    bar.width = function(_x) {
+    bar.width = (_x) => {
         if (!arguments.length) {
             return width;
         }
-        width = d3.functor(_x);
+        width = functor(_x);
         return bar;
     };
-    bar.horizontalAlign = function(_x) {
+    bar.horizontalAlign = (_x) => {
         if (!arguments.length) {
             return horizontalAlign;
         }
         horizontalAlign = _x;
         return bar;
     };
-    bar.height = function(_x) {
+    bar.height = (_x) => {
         if (!arguments.length) {
             return height;
         }
-        height = d3.functor(_x);
+        height = functor(_x);
         return bar;
     };
-    bar.verticalAlign = function(_x) {
+    bar.verticalAlign = (_x) => {
         if (!arguments.length) {
             return verticalAlign;
         }
         verticalAlign = _x;
         return bar;
     };
-    return bar;
 
-}
+    return bar;
+};
