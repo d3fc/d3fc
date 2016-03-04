@@ -1,7 +1,7 @@
 {
   "name": "d3fc-path",
   "version": "0.0.1",
-  "description": "A collection of helpers for generating paths for financial chart components",
+  "description": "A collection of SVG/canvas path generators for creating chart series",
   "license": "MIT",
   "keywords": [
     "d3",
