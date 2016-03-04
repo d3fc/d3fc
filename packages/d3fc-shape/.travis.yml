@@ -1,23 +1,18 @@
-language: node_js
-node_js:
-- '5.7'
 sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+node_js:
+  - '5.7'
+before_install:
+  - npm i -g npm@^2.0.0
+before_script:
+  - npm prune
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - "/^v\\d+\\.\\d+\\.\\d+$/"
 install:
-- npm install
-- npm install -g npm
 - npm run bundle
-env:
-  global:
-  - GH_REF: github.com/d3fc/d3fc-path.git
-deploy:
-  provider: npm
-  email: alisd23@live.co.uk
-  api_key:
-    secure: ySEz4Ns8rPGCfkdxmiK1HNjPGCRXv58pf+jsD5xtMyMBHY0bNL4FJzG3K+941C0KCT31Vv3asdGOoVXWz/OP9q2k8kgsNsFczJUEiUvOveZL7FXMrWzVWedgmdCAMVVzys/HFuQ3kA4UF6+OFuwkrkpDtfbLDaqjgaKr5t22L6e3dBD/kpYUWsmg4Lk6kJtAFwBxqqqCGRNWFLXdT0U5T56CzqxgMRE5gJljPFfSit9DCMnL/SnIVdUeENGq7HaHz1pUYNXKluOW0BWaQRSpy2wvJnoB/xu7s5gBTX9awrBansVD+YswQ0zLInOXKBNCAuqe6Wj+qj6ZpNWGNgdB8yfjonFjgSvbjt6CZjb67qZOv1BGzay5yiGjGtHwdyVez5QU85FLy5wZZ0P6fDHYCCeNiC6z89R9lP3lTleu8Hq2E5Dug51uziJfcqITAyqx7tlefIU/ZOJzMX8RFP1W1A4Q2pcjgeCaUayYRjJCBIff5VTdneK1QNGo/iL7ibrUB7f70DJxFuv/kLwfE+9/2WdvWEoP+WreIDctZeZypPW5sRGWJIqxCDlpZ4NwkPlXnxGXF4j/N/qTcQaejbFC8Un1okCnTToscJEGGCD8s5UX9vIYuGjSIyOGZAxKgabbGDNanTa15a+jBsSD4o4/X5qhemKgQPtOMaUqBixAZ5s=
-  skip_cleanup: true
-  file:
-  - build/d3fc-path.js
-  - build/d3fc-path.min.js
-  on:
-    branch: master
-    tags: true

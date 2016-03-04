@@ -1,6 +1,5 @@
 {
   "name": "d3fc-path",
-  "version": "0.0.2",
   "description": "A collection of SVG/canvas path generators for creating chart series",
   "license": "MIT",
   "keywords": [
@@ -21,7 +20,8 @@
   },
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js",
-    "test": " eslint index.js src/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json"
+    "test": "npm run bundle && eslint index.js src/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",
@@ -36,8 +36,8 @@
     "rimraf": "^2.5.2",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
+    "semantic-release": "^4.3.5",
     "uglify-js": "^2.6.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
