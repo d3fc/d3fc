@@ -8,12 +8,11 @@ A collection of SVG/canvas path generators for creating chart series
 
 ## General API
 
-All of the exported functions have the same signature, `(context) => generator`.
+All of the exported functions have the same signature, `(context) => generator`. The context supplied must be an implementation of the subset of Context2D methods as implemented by [d3-path](https://github.com/d3/d3-path) (or indeed a Context2D!).
 
-You can then call a few helper methods on the **generator** which is returned
-(which are specific to the type of chart).
+You can then configure the `generator` by invoking the relevant methods (e.g. `generator.x(/* ... */)`) as described below. Once suitably configured invoke the generator function itself with the required data (e.g. `generator([/* ... */])`).
 
-### Example usage
+### Example usage - SVG
 
 ```javascript
 
@@ -37,114 +36,112 @@ d3.select('path')
 
 ```
 
+### Example usage - Canvas
+
+```javascript
+
+import { candlestick } from 'd3fc-path';
+
+const ctx = document.querySelector('canvas').getContext('2d');
+
+const drawCandlestick = candlestick(ctx)
+  .x((d, i) => i)
+  .open((d) => d.open)
+  .high((d) => d.high)
+  .low((d) => d.low)
+  .close((d) => d.close);
+
+drawCandlestick([
+  { open: 4, high: 5, low: 3, close: 3 }
+]);
+
+```
+
 
 ## Bar
 
-The attribute accessor methods available to set the way the bar chart accesses
-its attributes.
+### x(accessorFunc)
+### y(accessorFunc)
+### width(accessorFunc)
+### height(accessorFunc)
 
-### Accessor functions
-
-The `accessorFunc(item, index)` function is called on each item of the data, and returns
+The attribute accessor methods available to set the way the bar chart accesses the data.
+The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-#### x(accessorFunc)
-#### y(accessorFunc)
-#### width(accessorFunc)
-#### height(accessorFunc)
+### horizontalAlign(alignment)
 
-#### horizontalAlign(alignment)
+`alignment` is one of: `left`, `right` or `center` (default)
 
-`alignment` is one of: **left**, **right** or **center**
+### verticalAlign(alignment)
 
-#### verticalAlign(alignment)
-
-`alignment` is one of: **bottom**, **top** or **center**
+`alignment` is one of: `bottom`, `top` or `center` (default)
 
 
 ## Box Plot
 
-The attribute accessor methods available to set the way the box plot chart accesses
-its attributes.
+### value(accessorFunc)
+### median(accessorFunc)
+### upperQuartile(accessorFunc)
+### lowerQuartile(accessorFunc)
+### high(accessorFunc)
+### low(accessorFunc)
+### width(accessorFunc)
 
-### Accessor functions
-
-The `accessorFunc(item, index)` function is called on each item of the data, and returns
+The attribute accessor methods available to set the way the bar chart accesses the data.
+The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-#### value(accessorFunc)
-#### median(accessorFunc)
-#### upperQuartile(accessorFunc)
-#### lowerQuartile(accessorFunc)
-#### high(accessorFunc)
-#### low(accessorFunc)
-#### width(accessorFunc)
-
-#### cap(accessorFunc)
+### cap(accessorFunc)
 
 The `accessorFunc(item, index)` function is called on each item of the data, and returns
 the **proprtion** of the box width that the caps width should be.
 
-#### orient(orientation)
+### orient(orientation)
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 
 ## Candlestick
 
-The attribute accessor methods available to set the way the candlestick chart accesses
-its attributes.
+### x(accessorFunc)
+### open(accessorFunc)
+### high(accessorFunc)
+### low(accessorFunc)
+### close(accessorFunc)
+### width(accessorFunc)
 
-### Accessor functions
-
-The `accessorFunc(item, index)` function is called on each item of the data, and returns
+The attribute accessor methods available to set the way the bar chart accesses the data.
+The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
-
-#### x(accessorFunc)
-#### open(accessorFunc)
-#### high(accessorFunc)
-#### low(accessorFunc)
-#### close(accessorFunc)
-#### width(accessorFunc)
-
 
 ## Error Bar
 
-The attribute accessor methods available to set the way the error bar chart accesses
-its attributes.
+### value(accessorFunc)
+### high(accessorFunc)
+### low(accessorFunc)
+### width(accessorFunc)
 
-### Accessor functions
-
-The `accessorFunc(item, index)` function is called on each item of the data, and returns
+The attribute accessor methods available to set the way the bar chart accesses the data.
+The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-#### value(accessorFunc)
-#### high(accessorFunc)
-#### low(accessorFunc)
-#### width(accessorFunc)
-
-#### orient(orientation)
+### orient(orientation)
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
-
-
 ## OHLC
 
-The attribute accessor methods available to set the way the OHLC chart accesses
-its attributes.
+### x(accessorFunc)
+### open(accessorFunc)
+### high(accessorFunc)
+### low(accessorFunc)
+### close(accessorFunc)
+### width(accessorFunc)
 
-### Accessor functions
-
-The `accessorFunc(item, index)` function is called on each item of the data, and returns
+The attribute accessor methods available to set the way the bar chart accesses the data.
+The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
-
-#### x(accessorFunc)
-#### open(accessorFunc)
-#### high(accessorFunc)
-#### low(accessorFunc)
-#### close(accessorFunc)
-#### width(accessorFunc)
 
 #### orient(orientation)
 
