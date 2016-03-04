@@ -1,6 +1,6 @@
 # d3fc-path
 
-A collection of helpers for generating paths or canvas elements for financial chart components
+A collection of SVG/canvas path generators for creating chart series
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
