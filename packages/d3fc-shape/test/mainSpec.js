@@ -1,39 +1,45 @@
 const d3Path = require('d3-path').path;
 const d3fcPath = require('../build/d3fc-path');
 const fs = require('fs');
-
+const options = require('./data/options');
 
 const testData = JSON.parse(fs.readFileSync('test/data/data.json'));
 
-function checkResults(func, type) {
-  testData[type].data.forEach(function(d) {
-    d.date = new Date(d.date);
-  });
+function checkResults(module, type) {
+    const data = testData[type].data;
 
-  const path = func(testData[type].data).toString();
-  expect(path).toBe(testData[type].result);
+    data.forEach(function(d, i) {
+        d.date = (type === 'ohlc' ? i : new Date(d.date));
+    });
+
+    const results = testData[type].results;
+    const keys = options[type].keys;
+    const combinations = options[type].combinations;
+
+    combinations.forEach((values, i) => {
+        const pathGen = module(d3Path());
+        values.forEach((val, i) => val ? pathGen[keys[i]](val) : null);
+
+        expect(pathGen(data).toString()).toBe(results[i]);
+    });
+
 }
 
 describe('Test all path generators return correct values', function() {
 
-    it('Bar with d3-path returns correct path', function() {
-        const bar = d3fcPath.bar(d3Path()).height(50);
-        checkResults(bar, 'bar');
+    it('Bar with d3-path returns correct paths', function() {
+        checkResults(d3fcPath.bar, 'bar');
     });
-    it('BoxPlot with d3-path returns correct path', function() {
-        const boxPlot = d3fcPath.boxPlot(d3Path());
-        checkResults(boxPlot, 'boxPlot');
+    it('BoxPlot with d3-path returns correct paths', function() {
+        checkResults(d3fcPath.boxPlot, 'boxPlot');
     });
-    it('Candlestick with d3-path returns correct path', function() {
-        const candlestick = d3fcPath.candlestick(d3Path());
-        checkResults(candlestick, 'candlestick');
+    it('Candlestick with d3-path returns correct paths', function() {
+        checkResults(d3fcPath.candlestick, 'candlestick');
     });
-    it('ErrorBar with d3-path returns correct path', function() {
-        const errorBar = d3fcPath.errorBar(d3Path());
-        checkResults(errorBar, 'errorBar');
+    it('ErrorBar with d3-path returns correct paths', function() {
+        checkResults(d3fcPath.errorBar, 'errorBar');
     });
-    it('OHLC with d3-path returns correct path', function() {
-        const ohlc = d3fcPath.ohlc(d3Path());
-        checkResults(ohlc, 'ohlc');
+    it('OHLC with d3-path returns correct paths', function() {
+        checkResults(d3fcPath.ohlc, 'ohlc');
     });
 });

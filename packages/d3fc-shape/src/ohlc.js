@@ -90,7 +90,7 @@ export default (context) => {
         if (!arguments.length) {
             return orient;
         }
-        orient = functor(_x);
+        orient = _x;
         return ohlc;
     };
 

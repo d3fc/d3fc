@@ -1,5 +1,8 @@
 {
   "extends": "standard",
+  "env": {
+    "jasmine": true
+  },
   "rules": {
     "semi": [1, "always"],
     "indent": [2, 4],
