@@ -112,35 +112,16 @@ var data = [
 ];
 
 //START
-// measure the dimension of the given text
-function boundingBox(textToMeasure) {
-    var svg = d3.select('body').append('svg')
-        .attr('width', 1000)
-        .attr('height', 1000);
-    var text = svg.append('text')
-        .text(textToMeasure);
-    var bbox = text[0][0].getBBox();
-    svg.remove();
-    return [bbox.width, bbox.height];
-}
+var labelMargin = 2;
+var measure = fc.layout.measureText();
 
-// a very simple example component
-function label(selection) {
-    selection.append('rect')
-            .layout('flex', 1);
-    selection.append('text')
-            .text(function(d) { return d.language; })
-            .layout({
-                position: 'absolute',
-                bottom: 0
-            })
-            .attr({
-                // vertically centre the text in the container
-                'dominant-baseline': 'middle',
-                'dy': '-0.5em'
-            });
-    selection.layout();
-}
+var label = fc.tool.container()
+    .padding(labelMargin)
+    .component(function(sel) {
+        sel.append('text')
+            .attr('dy', '0.7em')
+            .text(function(d) { return d.language; });
+    });
 
 var yScale = d3.scale.linear(),
     xScale = d3.scale.linear();
@@ -158,7 +139,10 @@ var chart = fc.chart.cartesian(
 
 // create the layout that positions the labels
 var labels = fc.layout.rectangles(fc.layout.strategy.greedy())
-        .size(function(d) { return boundingBox(d.language); })
+        .size(function(d) {
+            var textSize = measure(d.language);
+            return [textSize[0] + labelMargin * 2, textSize[1] + labelMargin * 2];
+        })
         .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
         .filter(fc.layout.strategy.removeOverlaps())
         .component(label);
