@@ -58,91 +58,93 @@ drawCandlestick([
 ```
 
 
-## Bar
+#### *path*.**bar**(*context*)
 
-### x(accessorFunc)
-### y(accessorFunc)
-### width(accessorFunc)
-### height(accessorFunc)
+*bar*.**x**(*accessorFunc*)  
+*bar*.**y**(*accessorFunc*)  
+*bar*.**width**(*accessorFunc*)  
+*bar*.**height**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-### horizontalAlign(alignment)
+*bar*.**horizontalAlign**(*alignment*)  
 
 `alignment` is one of: `left`, `right` or `center` (default)
 
-### verticalAlign(alignment)
+*bar*.**verticalAlign**(*alignment*)  
 
 `alignment` is one of: `bottom`, `top` or `center` (default)
 
 
-## Box Plot
+#### *path*.**boxPlot**(*context*)
 
-### value(accessorFunc)
-### median(accessorFunc)
-### upperQuartile(accessorFunc)
-### lowerQuartile(accessorFunc)
-### high(accessorFunc)
-### low(accessorFunc)
-### width(accessorFunc)
+*boxPlot*.**value**(*accessorFunc*)  
+*boxPlot*.**median**(*accessorFunc*)  
+*boxPlot*.**upperQuartile**(*accessorFunc*)  
+*boxPlot*.**lowerQuartile**(*accessorFunc*)  
+*boxPlot*.**high**(*accessorFunc*)  
+*boxPlot*.**low**(*accessorFunc*)  
+*boxPlot*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-### cap(accessorFunc)
+*boxPlot*.**cap**(*accessorFunc*)  
 
 The `accessorFunc(item, index)` function is called on each item of the data, and returns
 the **proprtion** of the box width that the caps width should be.
 
-### orient(orientation)
+*boxPlot*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 
-## Candlestick
+#### *path*.**candlestick**(*context*)
 
-### x(accessorFunc)
-### open(accessorFunc)
-### high(accessorFunc)
-### low(accessorFunc)
-### close(accessorFunc)
-### width(accessorFunc)
-
-The attribute accessor methods available to set the way the bar chart accesses the data.
-The `accessorFunc(datum, index)` function is called on each item of the data, and returns
-the relevant value for the relevant attribute for that item.
-
-## Error Bar
-
-### value(accessorFunc)
-### high(accessorFunc)
-### low(accessorFunc)
-### width(accessorFunc)
+*candlestick*.**x**(*accessorFunc*)  
+*candlestick*.**open**(*accessorFunc*)  
+*candlestick*.**high**(*accessorFunc*)  
+*candlestick*.**low**(*accessorFunc*)  
+*candlestick*.**close**(*accessorFunc*)  
+*candlestick*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-### orient(orientation)
+
+#### *path*.**errorBar**(*context*)
+
+*errorBar*.**value**(*accessorFunc*)  
+*errorBar*.**high**(*accessorFunc*)  
+*errorBar*.**low**(*accessorFunc*)  
+*errorBar*.**width**(*accessorFunc*)  
+
+The attribute accessor methods available to set the way the bar chart accesses the data.
+The `accessorFunc(datum, index)` function is called on each item of the data, and returns
+the relevant value for the relevant attribute for that item.
+
+*errorBar*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
-## OHLC
 
-### x(accessorFunc)
-### open(accessorFunc)
-### high(accessorFunc)
-### low(accessorFunc)
-### close(accessorFunc)
-### width(accessorFunc)
+#### *path*.**ohlc**(*context*)
+
+*errorBar*.**x**(*accessorFunc*)  
+*errorBar*.**open**(*accessorFunc*)  
+*errorBar*.**high**(*accessorFunc*)  
+*errorBar*.**low**(*accessorFunc*)  
+*errorBar*.**close**(*accessorFunc*)  
+*errorBar*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-#### orient(orientation)
+*errorBar*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
