@@ -30,6 +30,7 @@ var yScale = d3.scale.linear()
 var sampledLine = fc.series.line()
     .xScale(xScale)
     .yScale(yScale)
+    .xValue(function(d) { return d.date; })
     .yValue(function(d) { return d.low; });
 
 container.append('g')
@@ -40,6 +41,7 @@ container.append('g')
 var originalLine = fc.series.line()
     .xScale(xScale)
     .yScale(yScale)
+    .xValue(function(d) { return d.date; })
     .yValue(function(d) { return d.low; })
     .decorate(function(selection) {
         selection.enter().style('stroke-opacity', '0.5');
