@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 
 export default {
   entry: 'index.js',
-  moduleName: 'fcPath',
+  moduleName: 'fc_path',
   format: 'umd',
   plugins: [ babel() ],
   dest: 'build/d3fc-path.js',
