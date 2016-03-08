@@ -13,9 +13,9 @@ export default (context) => {
     let width         = functor(5);
     let cap           = functor(0.5);
 
-    const boxPlot = (data) => {
+    const boxPlot = function(data) {
 
-        data.forEach((d, i) => {
+        data.forEach(function(d, i) {
             // naming convention is for vertical orientation
             const _value          = value(d, i);
             const _width          = width(d, i);

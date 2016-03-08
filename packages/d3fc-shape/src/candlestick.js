@@ -12,9 +12,9 @@ export default (context) => {
     let close   = (d) => d.close;
     let width   = functor(3);
 
-    const candlestick = (data) => {
+    const candlestick = function(data) {
 
-        data.forEach((d, i) => {
+        data.forEach(function(d, i) {
             const xValue        = x(d, i);
             const yOpen         = open(d, i);
             const yHigh         = high(d, i);

@@ -12,9 +12,9 @@ export default (context) => {
     let orient  = 'vertical';
     let width   = functor(3);
 
-    const ohlc = (data) => {
+    const ohlc = function(data) {
 
-        data.forEach((d, i) => {
+        data.forEach(function(d, i) {
             const xValue      = x(d, i);
             const yOpen       = open(d, i);
             const yHigh       = high(d, i);

@@ -12,9 +12,9 @@ export default (context) => {
     let height            = (d) => d.height;
     let width             = functor(3);
 
-    const bar = (data, index) => {
+    const bar = function(data, index) {
 
-        data.forEach((d, i) => {
+        data.forEach(function(d, i) {
             const xValue    = x.call(this, d, index || i);
             const yValue    = y.call(this, d, index || i);
             const barHeight = height.call(this, d, index || i);

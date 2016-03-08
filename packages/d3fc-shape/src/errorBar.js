@@ -9,9 +9,9 @@ export default (context) => {
     let orient    = 'vertical';
     let width     = functor(5);
 
-    const errorBar = (data) => {
+    const errorBar = function(data) {
 
-        data.forEach((d, i) => {
+        data.forEach(function(d, i) {
             // naming convention is for vertical orientation
             const _value      = value(d, i);
             const _width      = width(d, i);
