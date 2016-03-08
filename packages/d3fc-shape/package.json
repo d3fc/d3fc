@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-path",
+  "name": "d3fc-shape",
   "version": "0.1.0",
   "description": "A collection of SVG/canvas path generators for creating chart series",
   "license": "MIT",
@@ -12,15 +12,15 @@
     "context",
     "context2d"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-path",
-  "main": "build/d3fc-path.js",
+  "homepage": "https://github.com/d3fc/d3fc-shape",
+  "main": "build/d3fc-shape.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-path"
+    "url": "https://github.com/d3fc/d3fc-shape"
   },
   "scripts": {
-    "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-path.js --compress --mangle -o build/d3fc-path.min.js",
+    "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-shape.js --compress --mangle -o build/d3fc-shape.min.js",
     "test": "npm run bundle && eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },

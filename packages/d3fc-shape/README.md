@@ -1,4 +1,4 @@
-# d3fc-path
+# d3fc-shape
 
 A collection of SVG/canvas path generators for creating chart series
 
