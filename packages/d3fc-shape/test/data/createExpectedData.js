@@ -1,5 +1,5 @@
 const d3Path = require('d3-path').path;
-const d3fcPath = require('../../build/d3fc-path');
+const d3fcShape = require('../../build/d3fc-shape');
 const fc = require('d3fc');
 const fs = require('fs');
 const options = require('./options');
@@ -59,23 +59,23 @@ function getResults(module, data, options) {
 const results = {
     bar: {
         data: barData,
-        results: getResults(d3fcPath.bar, barData, options.bar)
+        results: getResults(d3fcShape.bar, barData, options.bar)
     },
     boxPlot: {
         data: boxPlotData,
-        results: getResults(d3fcPath.boxPlot, boxPlotData, options.boxPlot)
+        results: getResults(d3fcShape.boxPlot, boxPlotData, options.boxPlot)
     },
     candlestick: {
         data: ohlcData,
-        results: getResults(d3fcPath.candlestick, ohlcData, options.candlestick)
+        results: getResults(d3fcShape.candlestick, ohlcData, options.candlestick)
     },
     errorBar: {
         data: errorBarData,
-        results: getResults(d3fcPath.errorBar, errorBarData, options.errorBar)
+        results: getResults(d3fcShape.errorBar, errorBarData, options.errorBar)
     },
     ohlc: {
         data: ohlcData,
-        results: getResults(d3fcPath.ohlc, ohlcData, options.ohlc)
+        results: getResults(d3fcShape.ohlc, ohlcData, options.ohlc)
     }
 };
 

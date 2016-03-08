@@ -1,5 +1,5 @@
 const d3Path = require('d3-path').path;
-const d3fcPath = require('../build/d3fc-path');
+const d3fcShape = require('../build/d3fc-shape');
 const fs = require('fs');
 const options = require('./data/options');
 
@@ -28,18 +28,18 @@ function checkResults(module, type) {
 describe('Test all path generators return correct values', function() {
 
     it('Bar with d3-path returns correct paths', function() {
-        checkResults(d3fcPath.bar, 'bar');
+        checkResults(d3fcShape.bar, 'bar');
     });
     it('BoxPlot with d3-path returns correct paths', function() {
-        checkResults(d3fcPath.boxPlot, 'boxPlot');
+        checkResults(d3fcShape.boxPlot, 'boxPlot');
     });
     it('Candlestick with d3-path returns correct paths', function() {
-        checkResults(d3fcPath.candlestick, 'candlestick');
+        checkResults(d3fcShape.candlestick, 'candlestick');
     });
     it('ErrorBar with d3-path returns correct paths', function() {
-        checkResults(d3fcPath.errorBar, 'errorBar');
+        checkResults(d3fcShape.errorBar, 'errorBar');
     });
     it('OHLC with d3-path returns correct paths', function() {
-        checkResults(d3fcPath.ohlc, 'ohlc');
+        checkResults(d3fcShape.ohlc, 'ohlc');
     });
 });
