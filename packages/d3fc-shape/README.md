@@ -4,6 +4,12 @@ A collection of SVG/canvas path generators for creating chart series
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
+# Installation
+
+```bash
+npm install d3fc-shape
+```
+
 # API
 
 ## General API
@@ -17,7 +23,7 @@ You can then configure the `generator` by invoking the relevant methods (e.g. `g
 ```javascript
 
 import { path } from 'd3-path';
-import { candlestick } from 'd3fc-path';
+import { candlestick } from 'd3fc-shape';
 
 const ctx = path();
 
@@ -40,7 +46,7 @@ d3.select('path')
 
 ```javascript
 
-import { candlestick } from 'd3fc-path';
+import { candlestick } from 'd3fc-shape';
 
 const ctx = document.querySelector('canvas').getContext('2d');
 
@@ -58,7 +64,7 @@ drawCandlestick([
 ```
 
 
-#### *path*.**bar**(*context*)
+#### *shape*.**bar**(*context*)
 
 *bar*.**x**(*accessorFunc*)  
 *bar*.**y**(*accessorFunc*)  
@@ -78,7 +84,7 @@ the relevant value for the relevant attribute for that item.
 `alignment` is one of: `bottom`, `top` or `center` (default)
 
 
-#### *path*.**boxPlot**(*context*)
+#### *shape*.**boxPlot**(*context*)
 
 *boxPlot*.**value**(*accessorFunc*)  
 *boxPlot*.**median**(*accessorFunc*)  
@@ -102,7 +108,7 @@ the **proprtion** of the box width that the caps width should be.
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 
-#### *path*.**candlestick**(*context*)
+#### *shape*.**candlestick**(*context*)
 
 *candlestick*.**x**(*accessorFunc*)  
 *candlestick*.**open**(*accessorFunc*)  
@@ -116,7 +122,7 @@ The `accessorFunc(datum, index)` function is called on each item of the data, an
 the relevant value for the relevant attribute for that item.
 
 
-#### *path*.**errorBar**(*context*)
+#### *shape*.**errorBar**(*context*)
 
 *errorBar*.**value**(*accessorFunc*)  
 *errorBar*.**high**(*accessorFunc*)  
@@ -132,7 +138,7 @@ the relevant value for the relevant attribute for that item.
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 
-#### *path*.**ohlc**(*context*)
+#### *shape*.**ohlc**(*context*)
 
 *errorBar*.**x**(*accessorFunc*)  
 *errorBar*.**open**(*accessorFunc*)  
