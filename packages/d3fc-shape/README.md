@@ -61,6 +61,8 @@ drawCandlestick([
   { open: 4, high: 5, low: 3, close: 3 }
 ]);
 
+ctx.stroke();
+
 ```
 
 
