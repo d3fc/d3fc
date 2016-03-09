@@ -1,8 +1,10 @@
+import { path } from 'd3-path';
 import functor from './functor';
 
 // Renders an error bar series as an SVG path based on the given array of datapoints.
-export default (context) => {
+export default () => {
 
+    let context   = null;
     let value     = (d) => d.x;
     let high      = (d) => d.high;
     let low       = (d) => d.low;
@@ -10,6 +12,8 @@ export default (context) => {
     let width     = functor(5);
 
     const errorBar = function(data) {
+
+        const buffer = context ? undefined : context = path();
 
         data.forEach(function(d, i) {
             // naming convention is for vertical orientation
@@ -36,9 +40,16 @@ export default (context) => {
             }
         });
 
-        return context;
+        return buffer && (context = null, buffer.toString() || null);
     };
 
+    errorBar.context = (_x) => {
+        if (!arguments.length) {
+            return context;
+        }
+        context = _x;
+        return errorBar;
+    };
     errorBar.value = (_x) => {
         if (!arguments.length) {
             return value;

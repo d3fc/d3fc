@@ -1,8 +1,10 @@
+import { path } from 'd3-path';
 import functor from './functor';
 
 // Renders a box plot series as an SVG path based on the given array of datapoints.
-export default (context) => {
+export default () => {
 
+    let context       = null;
     let value         = (d) => d.value;
     let median        = (d) => d.median;
     let upperQuartile = (d) => d.upperQuartile;
@@ -14,6 +16,8 @@ export default (context) => {
     let cap           = functor(0.5);
 
     const boxPlot = function(data) {
+
+        const buffer = context ? undefined : context = path();
 
         data.forEach(function(d, i) {
             // naming convention is for vertical orientation
@@ -67,9 +71,16 @@ export default (context) => {
             }
         });
 
-        return context;
+        return buffer && (context = null, buffer.toString()  || null);
     };
 
+    boxPlot.context = (_x) => {
+        if (!arguments.length) {
+            return context;
+        }
+        context = _x;
+        return boxPlot;
+    };
     boxPlot.value = (_x) => {
         if (!arguments.length) {
             return value;

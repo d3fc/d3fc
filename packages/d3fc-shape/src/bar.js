@@ -1,10 +1,12 @@
+import { path } from 'd3-path';
 import functor from './functor';
 
 // Renders a bar series as an SVG path based on the given array of datapoints. Each
 // bar has a fixed width, whilst the x, y and height are obtained from each data
 // point via the supplied accessor functions.
-export default (context) => {
+export default () => {
 
+    let context           = null;
     let x                 = (d) => d.x;
     let y                 = (d) => d.y;
     let horizontalAlign   = 'center';
@@ -13,6 +15,8 @@ export default (context) => {
     let width             = functor(3);
 
     const bar = function(data, index) {
+
+        const buffer = context ? undefined : context = path();
 
         data.forEach(function(d, i) {
             const xValue    = x.call(this, d, index || i);
@@ -58,9 +62,16 @@ export default (context) => {
             );
         }, this);
 
-        return context;
+        return buffer && (context = null, buffer.toString() || null);
     };
 
+    bar.context = (_x) => {
+        if (!arguments.length) {
+            return context;
+        }
+        context = _x;
+        return bar;
+    };
     bar.x = (_x) => {
         if (!arguments.length) {
             return x;

@@ -1,10 +1,12 @@
+import { path } from 'd3-path';
 import functor from './functor';
 
 // Renders a candlestick as an SVG path based on the given array of datapoints. Each
 // candlestick has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
-export default (context) => {
+export default () => {
 
+    let context = null;
     let x       = (d) => d.date;
     let open    = (d) => d.open;
     let high    = (d) => d.high;
@@ -13,6 +15,8 @@ export default (context) => {
     let width   = functor(3);
 
     const candlestick = function(data) {
+
+        const buffer = context ? undefined : context = path();
 
         data.forEach(function(d, i) {
             const xValue        = x(d, i);
@@ -39,9 +43,16 @@ export default (context) => {
             context.lineTo(xValue, yLow);
         });
 
-        return context;
+        return buffer && (context = null, buffer.toString() || null);
     };
 
+    candlestick.context = (_x) => {
+        if (!arguments.length) {
+            return context;
+        }
+        context = _x;
+        return candlestick;
+    };
     candlestick.x = (_x) => {
         if (!arguments.length) {
             return x;

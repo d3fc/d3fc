@@ -1,4 +1,3 @@
-const d3Path = require('d3-path').path;
 const d3fcShape = require('../build/d3fc-shape');
 const fs = require('fs');
 const options = require('./data/options');
@@ -17,7 +16,7 @@ function checkResults(module, type) {
     const combinations = options[type].combinations;
 
     combinations.forEach((values, i) => {
-        const pathGen = module(d3Path());
+        const pathGen = module();
         values.forEach((val, i) => val ? pathGen[keys[i]](val) : null);
 
         expect(pathGen(data).toString()).toBe(results[i]);
