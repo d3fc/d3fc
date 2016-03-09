@@ -112,19 +112,16 @@ var data = [
 ];
 
 //START
-var labelMargin = 2;
+var labelPadding = 2;
 
+// the container component is used to add padding around a text label
 var label = fc.tool.container()
-    .padding(labelMargin)
+    .padding(labelPadding)
     .component(function(sel) {
-        sel.each(function(d) {
-            var textJoin = fc.util.dataJoin()
-                .selector('text')
-                .element('text');
-            var text = textJoin(this, [d]);
-            text.text(function(o) { return o.language; })
-                .attr('dy', '0.7em');
-        });
+        // rather than using a component, a text element is appended directly
+        sel.append('text')
+            .text(function(d) { return d.language; })
+            .attr('dy', '0.7em');
     });
 
 var yScale = d3.scale.linear(),
@@ -144,13 +141,15 @@ var chart = fc.chart.cartesian(
 // create the layout that positions the labels
 var labels = fc.layout.rectangles(fc.layout.strategy.greedy())
         .size(function(d) {
-            var textNode = d3.select(this).select('text').node();
-            var textSize = textNode.getBBox();
-            return [textSize.width + labelMargin * 2, textSize.height + labelMargin * 2];
+            // measure the label and add the required padding
+            var textSize = d3.select(this)
+                    .select('text')
+                    .node()
+                    .getBBox();
+            return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
         })
         .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
         .filter(fc.layout.strategy.removeOverlaps())
-        .key(function(d) { return d.language; })
         .component(label);
 
 // render them together with a point series

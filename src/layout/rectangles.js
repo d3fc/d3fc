@@ -33,8 +33,8 @@ export default function(layoutStrategy) {
 
         selection.each(function(data, index) {
 
-            var g = dataJoin(this, data);
-            g.call(component);
+            var g = dataJoin(this, data)
+                .call(component);
 
             // obtain the rectangular bounding boxes for each child
             var childRects = g[0].map(function(node, i) {
@@ -53,27 +53,27 @@ export default function(layoutStrategy) {
             // or number of rectangles.
             var layout = strategy(childRects);
 
-            // add indices to the layouts
+            // add indices to the layouts - this is require in order to determine which
+            // rectangles remain after the filter is applied.
             layout.forEach(function(d, i) { d.dataIndex = i; });
 
             // apply filter algorithm
-            var filteredLayout = filter(layout);
-
-            // filter the data to include only those remaining after collision removal
-            var filteredData = filteredLayout.map(function(d) { return data[d.dataIndex]; });
-
-            g = dataJoin(this, filteredData);
+            var visibleIndices = filter(layout)
+                .map(function(d) { return d.dataIndex; });
+            g.attr('display', function(d, i) {
+                return visibleIndices.indexOf(i) !== -1 ? 'inherit' : 'none';
+            });
 
             // offset each rectangle accordingly
             g.attr('transform', function(d, i) {
-                var offset = filteredLayout[i];
+                var offset = layout[i];
                 return 'translate(' + offset.x + ', ' + offset.y + ')';
             });
 
             // set the layout width / height so that children can use SVG layout if required
             g.attr({
-                'layout-width': function(d, i) { return filteredLayout[i].width; },
-                'layout-height': function(d, i) { return filteredLayout[i].height; }
+                'layout-width': function(d, i) { return layout[i].width; },
+                'layout-height': function(d, i) { return layout[i].height; }
             });
 
             g.call(component);
