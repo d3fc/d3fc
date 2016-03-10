@@ -20,7 +20,7 @@ describe('fc.util.extent', function() {
     it('should support a single field name', function() {
         var data = [obj(1), obj(2), obj(10)];
 
-        var extents = fc.util.extent().fields('high')(data);
+        var extents = fc.util.extent().fields(['high'])(data);
         expect(extents).toEqual([6, 15]);
     });
 
@@ -28,14 +28,14 @@ describe('fc.util.extent', function() {
         var data = [obj(2), obj(1)];
         var data2 = [obj(4), obj(5)];
 
-        var extents = fc.util.extent().fields('high')([data, data2]);
+        var extents = fc.util.extent().fields(['high'])([data, data2]);
         expect(extents).toEqual([6, 10]);
     });
 
     it('should support accessor functions', function() {
         var data = [obj(1), obj(2), obj(10)];
 
-        var extents = fc.util.extent().fields(function(d) { return d.high + 100; })(data);
+        var extents = fc.util.extent().fields([function(d) { return d.high + 100; }])(data);
         expect(extents).toEqual([106, 115]);
     });
 
@@ -49,10 +49,10 @@ describe('fc.util.extent', function() {
     it('should support symmetrical domains', function() {
         var data = [obj(1), obj(10)];
 
-        var extents = fc.util.extent().fields('high').symmetricalAbout(0)(data);
+        var extents = fc.util.extent().fields(['high']).symmetricalAbout(0)(data);
         expect(extents).toEqual([-15, 15]);
 
-        extents = fc.util.extent().fields('high').symmetricalAbout(10)(data);
+        extents = fc.util.extent().fields(['high']).symmetricalAbout(10)(data);
         expect(extents).toEqual([5, 15]);
     });
 
@@ -60,7 +60,7 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .include([10])(data);
         expect(extents).toEqual([6, 10]);
     });
@@ -69,7 +69,7 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .include([0])(data);
         expect(extents).toEqual([0, 7]);
     });
@@ -78,7 +78,7 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(3)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .include([7])(data);
         expect(extents).toEqual([6, 8]);
     });
@@ -87,7 +87,7 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .include([0, 8])(data);
         expect(extents).toEqual([0, 8]);
     });
@@ -96,7 +96,7 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(4)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .include([7, 8])(data);
         expect(extents).toEqual([6, 9]);
     });
@@ -105,7 +105,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(5)(data);
         expect(extents).toEqual([5, 25]);
@@ -115,7 +115,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(-2.5)(data);
         expect(extents).toEqual([12.5, 17.5]);
@@ -125,7 +125,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad([5, 10])(data);
         expect(extents).toEqual([5, 30]);
@@ -135,7 +135,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad([-5, -2])(data);
         expect(extents).toEqual([15, 18]);
@@ -145,7 +145,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(1)(data);
         expect(extents).toEqual([5, 25]);
@@ -155,7 +155,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(-0.5)(data);
         expect(extents).toEqual([12.5, 17.5]);
@@ -165,7 +165,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad([0.5, 1])(data);
         expect(extents).toEqual([5, 30]);
@@ -175,7 +175,7 @@ describe('fc.util.extent', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad([-0.5, -0.2])(data);
         expect(extents).toEqual([15, 18]);
@@ -185,14 +185,14 @@ describe('fc.util.extent', function() {
         var data = [];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(2)(data);
         expect(isNaN(extents[0])).toBe(true);
         expect(isNaN(extents[1])).toBe(true);
 
         extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad([1, 2])(data);
         expect(isNaN(extents[0])).toBe(true);
@@ -203,14 +203,14 @@ describe('fc.util.extent', function() {
         var data = [];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(2)(data);
         expect(isNaN(extents[0])).toBe(true);
         expect(isNaN(extents[1])).toBe(true);
 
         extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad([1, 2])(data);
         expect(isNaN(extents[0])).toBe(true);
@@ -221,13 +221,13 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(0)(data);
         expect(extents).toEqual([6, 7]);
 
         extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad([0, 0])(data);
         expect(extents).toEqual([6, 7]);
@@ -237,13 +237,13 @@ describe('fc.util.extent', function() {
         var data = [obj(1), obj(2)];
 
         var extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(0)(data);
         expect(extents).toEqual([6, 7]);
 
         extents = fc.util.extent()
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad([0, 0])(data);
         expect(extents).toEqual([6, 7]);
@@ -254,28 +254,28 @@ describe('fc.util.extent', function() {
 
         var extents = fc.util.extent()
             .include([0])
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(5)(data);
         expect(extents).toEqual([0, 25]);
 
         extents = fc.util.extent()
             .include([0])
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad([5, 10])(data);
         expect(extents).toEqual([0, 30]);
 
         extents = fc.util.extent()
             .include([30])
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(5)(data);
         expect(extents).toEqual([5, 30]);
 
         extents = fc.util.extent()
             .include([30])
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad([10, 5])(data);
         expect(extents).toEqual([0, 30]);
@@ -286,28 +286,28 @@ describe('fc.util.extent', function() {
 
         var extents = fc.util.extent()
             .include([0])
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(1)(data);
         expect(extents).toEqual([0, 25]);
 
         extents = fc.util.extent()
             .include([0])
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad([0.5, 1])(data);
         expect(extents).toEqual([0, 30]);
 
         extents = fc.util.extent()
             .include([30])
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(1)(data);
         expect(extents).toEqual([5, 30]);
 
         extents = fc.util.extent()
             .include([30])
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad([1, 0.5])(data);
         expect(extents).toEqual([0, 30]);
@@ -321,7 +321,7 @@ describe('fc.util.extent', function() {
         var millisecondsPerDay = 24 * 60 * 60 * 1000;
 
         var extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .padUnit('domain')
             .pad(2 * millisecondsPerDay)(data);
         expect(extents).toEqual([new Date(2014, 0, 8), new Date(2014, 0, 22)]);
@@ -335,7 +335,7 @@ describe('fc.util.extent', function() {
         var millisecondsPerDay = 24 * 60 * 60 * 1000;
 
         var extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .padUnit('domain')
             .pad([millisecondsPerDay, 2 * millisecondsPerDay])(data);
         expect(extents).toEqual([new Date(2014, 0, 9), new Date(2014, 0, 22)]);
@@ -347,7 +347,7 @@ describe('fc.util.extent', function() {
         var data = [{ date: date1 }, { date: date2 }];
 
         var extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .padUnit('percent')
             .pad(1)(data);
         expect(extents).toEqual([new Date(2014, 0, 5), new Date(2014, 0, 25)]);
@@ -359,7 +359,7 @@ describe('fc.util.extent', function() {
         var data = [{ date: date1 }, { date: date2 }];
 
         var extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .padUnit('percent')
             .pad([0.6, 0.5])(data);
         expect(extents).toEqual([new Date(2014, 0, 4), new Date(2014, 0, 25)]);
@@ -372,7 +372,7 @@ describe('fc.util.extent', function() {
         var data = [{ date: date1 }, { date: date2 }];
 
         var extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .symmetricalAbout(new Date(2014, 0, 14))(data);
         expect(extents).toEqual([new Date(2014, 0, 8), new Date(2014, 0, 20)]);
     });
@@ -384,17 +384,17 @@ describe('fc.util.extent', function() {
         var data = [{ date: date1 }, { date: date2 }];
 
         var extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .include([new Date(2014, 0, 30)])(data);
         expect(extents).toEqual([new Date(2014, 0, 10), new Date(2014, 0, 30)]);
 
         extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .include([new Date(2014, 0, 15)])(data);
         expect(extents).toEqual([new Date(2014, 0, 10), new Date(2014, 0, 20)]);
 
         extents = fc.util.extent()
-            .fields('date')
+            .fields(['date'])
             .include([new Date(2014, 0, 1)])(data);
         expect(extents).toEqual([new Date(2014, 0, 1), new Date(2014, 0, 20)]);
     });
@@ -404,7 +404,7 @@ describe('fc.util.extent', function() {
 
         var extents = fc.util.extent()
             .include([0])
-            .fields('high')
+            .fields(['high'])
             .padUnit('domain')
             .pad(4)
             .symmetricalAbout(17)(data);
@@ -416,7 +416,7 @@ describe('fc.util.extent', function() {
 
         var extents = fc.util.extent()
             .include([0])
-            .fields('high')
+            .fields(['high'])
             .padUnit('percent')
             .pad(1)
             .symmetricalAbout(17)(data);

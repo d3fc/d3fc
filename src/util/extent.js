@@ -111,13 +111,6 @@ export default function() {
         if (!arguments.length) {
             return fields;
         }
-
-        // the fields parameter must be an array of field names,
-        // but we can pass non-array types in
-        if (!Array.isArray(x)) {
-            x = [x];
-        }
-
         fields = x;
         return extents;
     };
