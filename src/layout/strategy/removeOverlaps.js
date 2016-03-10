@@ -1,10 +1,16 @@
 import minimum from '../../util/minimum';
+import {rebindAll} from '../../util/rebind';
 import {collisionArea} from './collision';
+import {identity} from '../../util/fn';
 
 // iteratively remove the rectangle with the greatest area of collision
-export default function() {
+export default function(adaptedStrategy) {
+
+    adaptedStrategy = adaptedStrategy || identity;
 
     var removeOverlaps = function(layout) {
+
+        layout = adaptedStrategy(layout);
 
         // returns a function that computes the area of overlap for rectangles
         // in the given layout array
@@ -29,6 +35,8 @@ export default function() {
 
         return layout;
     };
+
+    rebindAll(removeOverlaps, adaptedStrategy);
 
     return removeOverlaps;
 }
