@@ -8,6 +8,9 @@
 
     var width = 600, height = 250;
 
+    var dateValue = function(d) { return d.date; };
+    var closeValue = function(d) { return d.close; };
+
     var container = d3.select('#decorate')
         .append('svg')
         .attr('width', width)
@@ -55,7 +58,8 @@
                 .attr('r', 2.0)
                 .attr('fill', 'black');
         })
-        .yValue(function(d) { return d.close; })
+        .xValue(dateValue)
+        .yValue(closeValue)
         .xScale(dateScale)
         .yScale(barScale);
 
@@ -81,6 +85,8 @@
                 .attr('r', 2.0)
                 .style('fill', 'black');
         })
+        .xValue(dateValue)
+        .yValue(closeValue)
         .xScale(dateScale)
         .yScale(pointScale);
 
