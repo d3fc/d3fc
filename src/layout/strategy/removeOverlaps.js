@@ -5,22 +5,29 @@ import {collisionArea} from './collision';
 export default function() {
 
     var removeOverlaps = function(layout) {
-        var filteredLayout = layout.slice();
 
-        function scorer(d, i) {
-            return -collisionArea(filteredLayout, i);
+        // returns a function that computes the area of overlap for rectangles
+        // in the given layout array
+        function scorerForLayout(l) {
+            return function scorer(d, i) {
+                return -collisionArea(l, i);
+            };
         }
 
         var iterate = true;
         do {
-            var min = minimum(filteredLayout, scorer);
+            // apply the overlap calculation to visible rectangles
+            var filteredLayout = layout.filter(function(d) { return !d.hidden; });
+            var min = minimum(filteredLayout, scorerForLayout(filteredLayout));
             if (min[0] < 0) {
-                filteredLayout.splice(min[2], 1);
+                // hide the rectangle with the greatest collision area
+                min[1].hidden = true;
             } else {
                 iterate = false;
             }
         } while (iterate);
-        return filteredLayout;
+
+        return layout;
     };
 
     return removeOverlaps;

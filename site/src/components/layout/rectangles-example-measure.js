@@ -138,8 +138,12 @@ var chart = fc.chart.cartesian(
     .margin({right: 50, bottom: 50, top: 30})
     .plotArea(multi);
 
+// construct a strategy that uses the 'greedy' algorithm for layout, wrapped
+// by a strategy that removes overlapping rectangles.
+var strategy = fc.layout.strategy.removeOverlaps(fc.layout.strategy.greedy());
+
 // create the layout that positions the labels
-var labels = fc.layout.rectangles(fc.layout.strategy.greedy())
+var labels = fc.layout.rectangles(strategy)
         .size(function(d) {
             // measure the label and add the required padding
             var textSize = d3.select(this)
@@ -149,7 +153,6 @@ var labels = fc.layout.rectangles(fc.layout.strategy.greedy())
             return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
         })
         .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
-        .filter(fc.layout.strategy.removeOverlaps())
         .component(label);
 
 // render them together with a point series

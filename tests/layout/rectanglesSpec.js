@@ -24,9 +24,8 @@ describe('fc.layout.rectanges', function() {
     it('should remove collisions', function() {
         var svg = document.createElement('svg');
 
-        var rectangles = fc.layout.rectangles()
+        var rectangles = fc.layout.rectangles(fc.layout.strategy.removeOverlaps())
             .size([10, 10])
-            .filter(fc.layout.strategy.removeOverlaps())
             .position(function(d) { return [d.x, d.y]; });
 
         var data = [

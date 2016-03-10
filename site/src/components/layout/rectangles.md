@@ -40,11 +40,10 @@ NOTE: The rectangles layout component sets the `layout-width` and `layout-height
 
 The rectangles layout adds the 'child' components before the `size` function is invoked. In the above example this is used to measure the size of the text label before layout occurs.
 
-This example also makes use of the `fc.layout.strategy.removeOverlaps` strategy that is applied as a `filter` in order to cull labels that overlap.
-
 There are a number of strategies that can be used to resolve overlaps, these include:
 
  + `greedy` - The greedy strategy adds each rectangle in sequence, selecting the position where the rectangle has the lowest overlap with already added rectangles and is inside the container.
  + `annealing` - The simulated annealing layout strategy runs over a set number of iterations, choosing a different location for one rectangle on each iteration. If that location results in a better result, it is saved for the next iteration. Otherwise, it is saved with probability inversely proportional with the iteration it is currently on. This helps it break out of local optimums, hopefully producing better output. Because of the random nature of the algorithm, it produces variable output. The `temperature` parameter indicates the initial 'number' to use for the random probability calculation, and `cooling` defines the delta of the temperature between iterations. The algorithm runs for `Math.ceil(temperature / cooling)` iterations.
  + `boundingBox`- The bounding box layout strategy moves a rectangle if it leaves the container. It does no overlap correction.
  + `local` - The local search layout strategy tries to resolve rectangle overlaps. It attempts to move each rectangle with an overlap to another potential placement with a better overlap.
+ + `removeOverlaps` - This strategy is different from the above, it doesn't re-position rectangles to reduce overlaps. Instead it removes overlapping rectangles. This is performed iteratively, with the rectangles that have the greatest area of overlap removed first.

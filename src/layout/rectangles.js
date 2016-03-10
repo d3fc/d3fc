@@ -12,7 +12,6 @@ export default function(layoutStrategy) {
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
         strategy = layoutStrategy || identity,
-        filter = identity,
         component = noop;
 
     var dataJoin = dataJoinUtil()
@@ -42,6 +41,7 @@ export default function(layoutStrategy) {
                 var childPos = position.call(node, d, i);
                 var childSize = size.call(node, d, i);
                 return {
+                    hidden: false,
                     x: childPos[0],
                     y: childPos[1],
                     width: childSize[0],
@@ -53,25 +53,14 @@ export default function(layoutStrategy) {
             // or number of rectangles.
             var layout = strategy(childRects);
 
-            // add indices to the layouts - this is require in order to determine which
-            // rectangles remain after the filter is applied.
-            layout.forEach(function(d, i) { d.dataIndex = i; });
-
-            // apply filter algorithm
-            var visibleIndices = filter(layout)
-                .map(function(d) { return d.dataIndex; });
-            g.attr('display', function(d, i) {
-                return visibleIndices.indexOf(i) !== -1 ? 'inherit' : 'none';
-            });
-
-            // offset each rectangle accordingly
-            g.attr('transform', function(d, i) {
-                var offset = layout[i];
-                return 'translate(' + offset.x + ', ' + offset.y + ')';
-            });
-
-            // set the layout width / height so that children can use SVG layout if required
             g.attr({
+                'display': function(d, i) {
+                    return layout[i].hidden ? 'none' : 'inherit';
+                },
+                'transform': function(d, i) {
+                    return 'translate(' + layout[i].x + ', ' + layout[i].y + ')';
+                },
+                // set the layout width / height so that children can use SVG layout if required
                 'layout-width': function(d, i) { return layout[i].width; },
                 'layout-height': function(d, i) { return layout[i].height; }
             });
@@ -123,12 +112,5 @@ export default function(layoutStrategy) {
         return rectangles;
     };
 
-    rectangles.filter = function(value) {
-        if (!arguments.length) {
-            return filter;
-        }
-        filter = value;
-        return rectangles;
-    };
     return rectangles;
 }
