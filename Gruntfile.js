@@ -1,6 +1,7 @@
 /* global module, require */
 var siteBuilder = require('./site/build/build');
 var babel = require('rollup-plugin-babel');
+var nodeResolve = require('rollup-plugin-node-resolve');
 
 module.exports = function(grunt) {
     'use strict';
@@ -288,6 +289,9 @@ module.exports = function(grunt) {
                     format: 'umd',
                     moduleName: 'fc',
                     plugins: [
+                        nodeResolve({
+                            jsnext: true
+                        }),
                         babel({
                             presets: ['es2015-rollup']
                         })
