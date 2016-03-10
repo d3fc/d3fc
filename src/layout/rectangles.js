@@ -2,7 +2,7 @@ import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
-import {rebindAll} from '../util/rebind';
+import {rebindAll, rebind} from '../util/rebind';
 
 export default function(layoutStrategy) {
 
@@ -12,7 +12,6 @@ export default function(layoutStrategy) {
     var xScale = d3.scale.identity(),
         yScale = d3.scale.identity(),
         strategy = layoutStrategy || identity,
-        filter = identity,
         component = noop;
 
     var dataJoin = dataJoinUtil()
@@ -22,10 +21,9 @@ export default function(layoutStrategy) {
 
     var rectangles = function(selection) {
 
-        var xRange = range(xScale),
-            yRange = range(yScale);
-
         if (strategy.bounds && xScale && yScale) {
+            var xRange = range(xScale),
+                yRange = range(yScale);
             strategy.bounds([
                 Math.max(xRange[0], xRange[1]),
                 Math.max(yRange[0], yRange[1])
@@ -33,11 +31,17 @@ export default function(layoutStrategy) {
         }
 
         selection.each(function(data, index) {
+
+            var g = dataJoin(this, data)
+                .call(component);
+
             // obtain the rectangular bounding boxes for each child
-            var childRects = data.map(function(d, i) {
-                var childPos = position(d, i);
-                var childSize = size(d, i);
+            var childRects = g[0].map(function(node, i) {
+                var d = d3.select(node).datum();
+                var childPos = position.call(node, d, i);
+                var childSize = size.call(node, d, i);
                 return {
+                    hidden: false,
                     x: childPos[0],
                     y: childPos[1],
                     width: childSize[0],
@@ -49,33 +53,23 @@ export default function(layoutStrategy) {
             // or number of rectangles.
             var layout = strategy(childRects);
 
-            // add indices to the layouts
-            layout.forEach(function(d, i) { d.dataIndex = i; });
-
-            // apply filter algorithm
-            var filteredLayout = filter(layout);
-
-            // filter the data to include only those remaining after collision removal
-            var filteredData = filteredLayout.map(function(d) { return data[d.dataIndex]; });
-
-            var g = dataJoin(this, filteredData);
-
-            // offset each rectangle accordingly
-            g.attr('transform', function(d, i) {
-                var offset = filteredLayout[i];
-                return 'translate(' + offset.x + ', ' + offset.y + ')';
-            });
-
-            // set the layout width / height so that children can use SVG layout if required
             g.attr({
-                'layout-width': function(d, i) { return filteredLayout[i].width; },
-                'layout-height': function(d, i) { return filteredLayout[i].height; }
+                'display': function(d, i) {
+                    return layout[i].hidden ? 'none' : 'inherit';
+                },
+                'transform': function(d, i) {
+                    return 'translate(' + layout[i].x + ', ' + layout[i].y + ')';
+                },
+                // set the layout width / height so that children can use SVG layout if required
+                'layout-width': function(d, i) { return layout[i].width; },
+                'layout-height': function(d, i) { return layout[i].height; }
             });
 
             g.call(component);
         });
     };
 
+    rebind(rectangles, dataJoin, 'key');
     rebindAll(rectangles, strategy);
 
     rectangles.size = function(x) {
@@ -118,12 +112,5 @@ export default function(layoutStrategy) {
         return rectangles;
     };
 
-    rectangles.filter = function(value) {
-        if (!arguments.length) {
-            return filter;
-        }
-        filter = value;
-        return rectangles;
-    };
     return rectangles;
 }

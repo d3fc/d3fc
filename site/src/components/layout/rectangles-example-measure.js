@@ -112,35 +112,17 @@ var data = [
 ];
 
 //START
-// measure the dimension of the given text
-function boundingBox(textToMeasure) {
-    var svg = d3.select('body').append('svg')
-        .attr('width', 1000)
-        .attr('height', 1000);
-    var text = svg.append('text')
-        .text(textToMeasure);
-    var bbox = text[0][0].getBBox();
-    svg.remove();
-    return [bbox.width, bbox.height];
-}
+var labelPadding = 2;
 
-// a very simple example component
-function label(selection) {
-    selection.append('rect')
-            .layout('flex', 1);
-    selection.append('text')
+// the container component is used to add padding around a text label
+var label = fc.tool.container()
+    .padding(labelPadding)
+    .component(function(sel) {
+        // rather than using a component, a text element is appended directly
+        sel.append('text')
             .text(function(d) { return d.language; })
-            .layout({
-                position: 'absolute',
-                bottom: 0
-            })
-            .attr({
-                // vertically centre the text in the container
-                'dominant-baseline': 'middle',
-                'dy': '-0.5em'
-            });
-    selection.layout();
-}
+            .attr('dy', '0.7em');
+    });
 
 var yScale = d3.scale.linear(),
     xScale = d3.scale.linear();
@@ -156,11 +138,21 @@ var chart = fc.chart.cartesian(
     .margin({right: 50, bottom: 50, top: 30})
     .plotArea(multi);
 
+// construct a strategy that uses the 'greedy' algorithm for layout, wrapped
+// by a strategy that removes overlapping rectangles.
+var strategy = fc.layout.strategy.removeOverlaps(fc.layout.strategy.greedy());
+
 // create the layout that positions the labels
-var labels = fc.layout.rectangles(fc.layout.strategy.greedy())
-        .size(function(d) { return boundingBox(d.language); })
+var labels = fc.layout.rectangles(strategy)
+        .size(function(d) {
+            // measure the label and add the required padding
+            var textSize = d3.select(this)
+                    .select('text')
+                    .node()
+                    .getBBox();
+            return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
+        })
         .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
-        .filter(fc.layout.strategy.removeOverlaps())
         .component(label);
 
 // render them together with a point series
