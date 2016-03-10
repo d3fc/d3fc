@@ -1,9 +1,9 @@
 import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
-import {noop} from '../util/fn';
-import candlestickSvg from '../svg/candlestick';
+import { noop } from '../util/fn';
+import { candlestick as candlestickSvg } from 'd3fc-shape';
 import ohlcBase from './ohlcBase';
-import {rebindAll} from '../util/rebind';
+import { rebindAll } from '../util/rebind';
 
 export default function() {
 

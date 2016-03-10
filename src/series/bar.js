@@ -1,8 +1,8 @@
 import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import fractionalBarWidth from '../util/fractionalBarWidth';
-import {noop} from '../util/fn';
-import svgBar from '../svg/bar';
+import { noop } from '../util/fn';
+import { bar as svgBar } from 'd3fc-shape';
 import xyBase from './xyBase';
 
 // The bar series renders a vertical (column) or horizontal (bar) series. In order
