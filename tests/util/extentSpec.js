@@ -423,4 +423,17 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([0, 25]);
     });
 
+    it('should not mutate the fields property when used', function() {
+        var data = [obj(8), obj(12)];
+
+        var fields = ['high', 'low'];
+
+        var extent = fc.util.extent()
+            .fields(fields);
+
+        extent(data);
+
+        expect(extent.fields()).toEqual(fields);
+    });
+
 });
