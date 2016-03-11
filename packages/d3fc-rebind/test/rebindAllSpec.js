@@ -64,20 +64,6 @@ describe('rebindAll', function() {
         expect(target.tickSubdivide()).toEqual(source.tickSubdivide());
     });
 
-    it('should rebind excluding the indicated array of properties', function() {
-        rebindAll(target, source, 'x', 'scale', 'orient');
-
-        expect(target.xScale).not.toBeDefined();
-        expect(target.xOrient).not.toBeDefined();
-
-        expect(target.xTickValues()).toEqual(source.tickValues());
-        expect(target.xTickFormat()).toEqual(source.tickFormat());
-        expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
-        expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
-        expect(target.xTickPadding()).toEqual(source.tickPadding());
-        expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
-    });
-
     it('should rebind excluding the indicated property', function() {
         rebindAll(target, source, 'x', 'scale');
 
