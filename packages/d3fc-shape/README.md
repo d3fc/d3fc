@@ -27,7 +27,7 @@ import { candlestick } from 'd3fc-shape';
 
 const ctx = path();
 
-const drawCandlestick = candlestick(ctx)
+const drawCandlestick = candlestick()
   .x((d, i) => i)
   .open((d) => d.open)
   .high((d) => d.high)
@@ -50,7 +50,8 @@ import { candlestick } from 'd3fc-shape';
 
 const ctx = document.querySelector('canvas').getContext('2d');
 
-const drawCandlestick = candlestick(ctx)
+const drawCandlestick = candlestick()
+  .context(ctx)
   .x((d, i) => i)
   .open((d) => d.open)
   .high((d) => d.high)
