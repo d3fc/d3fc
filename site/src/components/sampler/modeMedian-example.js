@@ -17,11 +17,11 @@ var sampler = fc.data.sampler.modeMedian()
 var sampledData = sampler(data);
 
 var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(sampledData))
+    .domain(fc.util.extent().fields(['date'])(sampledData))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('low')(sampledData))
+    .domain(fc.util.extent().fields(['low'])(sampledData))
     .range([height, 0]);
 
 

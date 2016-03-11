@@ -15,7 +15,7 @@ var chart = fc.chart.cartesian(
           .yLabel('Sine / Cosine')
           .yNice()
           .yOrient('left')
-          .xDomain(fc.util.extent().fields('x')(data))
+          .xDomain(fc.util.extent().fields(['x'])(data))
           .xLabel('Value')
           .xBaseline(0)
           .chartLabel('Sine/Cosine Line/Area Chart')

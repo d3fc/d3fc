@@ -185,7 +185,7 @@ var smallMultiples = fc.chart.smallMultiples(
         d3.scale.linear())
     .yDomain(fc.util.extent().fields([function() { return 0; }, 'sales'])(data))
     .yNice()
-    .xDomain(fc.util.extent().fields('date')(data))
+    .xDomain(fc.util.extent().fields(['date'])(data))
     .xTicks(0)
     .margin({right: 30})
     .columns(7)

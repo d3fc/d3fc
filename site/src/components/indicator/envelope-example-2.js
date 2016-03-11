@@ -8,7 +8,7 @@ var dataGenerator = fc.data.random.financial()
 var data = dataGenerator(50);
 
 var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(data))
+    .domain(fc.util.extent().fields(['date'])(data))
     .range([0, width]);
 
 var yScale = d3.scale.linear()

@@ -22,8 +22,8 @@ d3.tsv('https://d3fc.io/examples/scatter/data.tsv', function(error, data) {
     var chart = fc.chart.cartesian(
                   d3.scale.linear(),
                   d3.scale.linear())
-        .yDomain(fc.util.extent().pad(0.2).fields('sepalLength')(data))
-        .xDomain(fc.util.extent().pad(0.2).fields('sepalWidth')(data))
+        .yDomain(fc.util.extent().pad(0.2).fields(['sepalLength'])(data))
+        .xDomain(fc.util.extent().pad(0.2).fields(['sepalWidth'])(data))
         .xLabel('Sepal Width (cm)')
         .yLabel('Sepal Length (cm)')
         .yOrient('left')

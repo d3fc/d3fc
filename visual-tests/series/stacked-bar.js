@@ -38,7 +38,7 @@
         series.crosshair = [];
 
         var extent = fc.util.extent().include(0);
-        var yDomain = extent.fields(function(d) { return d.y + d.y0; })(series.map(function(d) { return d.values; }));
+        var yDomain = extent.fields([function(d) { return d.y + d.y0; }])(series.map(function(d) { return d.values; }));
         var xDomain = series[0].values.map(function(d) { return d.x; });
 
         var tooltip = fc.chart.tooltip()

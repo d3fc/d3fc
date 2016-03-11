@@ -83,7 +83,7 @@
             .yOrient(chartConfig[3].value)
             .xOrient(chartConfig[4].value)
             .plotArea(bar)
-            .xDomain(extentWithZero.fields('y')(populationSeries.map(function(d) { return d.values; })))
+            .xDomain(extentWithZero.fields(['y'])(populationSeries.map(function(d) { return d.values; })))
             .yDomain(populationSeries[0].values.map(function(d) { return d.x; }));
 
         container.datum(populationSeries)
@@ -107,7 +107,7 @@
             .series([landOceanLine, stationLine]);
 
         var xDomain = temperatureSeries[0].values.map(function(d) { return d.MonthName; });
-        var yDomain = extentWithZero.fields('Station')(temperatureSeries.map(function(d) { return d.values; }));
+        var yDomain = extentWithZero.fields(['Station'])(temperatureSeries.map(function(d) { return d.values; }));
 
         var smallMultiples = fc.chart.smallMultiples(
                 d3.scale.ordinal(),

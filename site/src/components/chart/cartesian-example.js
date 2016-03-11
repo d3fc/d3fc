@@ -10,8 +10,8 @@ var data = d3.range(50).map(function(d) {
 var chart = fc.chart.cartesian(
             d3.scale.linear(),
             d3.scale.linear())
-        .xDomain(fc.util.extent().fields('x')(data))
-        .yDomain(fc.util.extent().fields('y')(data));
+        .xDomain(fc.util.extent().fields(['x'])(data))
+        .yDomain(fc.util.extent().fields(['y'])(data));
 
 // create a series and associate it with the plot area
 var line = fc.series.line()

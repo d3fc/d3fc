@@ -14,7 +14,7 @@ var data = dataGenerator(100).map(function(datum, index) {
 });
 
 var xScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('x')(data))
+    .domain(fc.util.extent().fields(['x'])(data))
     .range([0, width]);
 
 var yScale = d3.scale.linear()

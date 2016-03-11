@@ -18,7 +18,7 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.util.extent().fields('date')(data))
+        .domain(fc.util.extent().fields(['date'])(data))
         .range([0, width]);
 
     var heightFraction = height / 4;
@@ -33,14 +33,14 @@
         .range([heightFraction * 2, heightFraction]);
 
     // offset the close price to give some negative values
-    var extent = fc.util.extent().fields('close')(data);
+    var extent = fc.util.extent().fields(['close'])(data);
     var offset = extent[0] + (extent[1] - extent[0]) / 2;
     data.forEach(function(datum) {
         datum.close = datum.close - offset;
     });
 
     var barScale = d3.scale.linear()
-        .domain(fc.util.extent().fields('close')(data))
+        .domain(fc.util.extent().fields(['close'])(data))
         .range([heightFraction * 3, heightFraction * 2]);
 
     var pointScale = d3.scale.linear()
