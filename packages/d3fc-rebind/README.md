@@ -14,7 +14,7 @@ npm install d3fc-rebind
 
 #### **rebind**(*source*, *target*, *...names*)
 
-Provides the same functionality as `d3.rebind` -
+Provides the same functionality as `[d3.rebind](https://github.com/mbostock/d3/wiki/Internals#rebind)` -
 
 > Copies the methods with the specified `names` from `source` to `target`, and returns `target`. Calling one of the named methods on the target object invokes the same-named method on the source object, passing any arguments passed to the target method, and using the source object as the this context. If the source method returns the source object, the target method returns the target object (“setter” method); otherwise, the target method returns the return value of the source method (“getter” mode). The rebind operator allows inherited methods (mix-ins) to be rebound to a subclass on a different object.
 
