@@ -41,7 +41,7 @@
 
         // Create  for y axis
         var yScale = d3.scale.linear()
-            .domain(fc.util.extent().fields('y1').pad(0.3)(waterfallData))
+            .domain(fc.util.extent().fields(['y1']).pad(0.3)(waterfallData))
             .range([height, 0]);
 
         var waterfall = fc.series.waterfall()

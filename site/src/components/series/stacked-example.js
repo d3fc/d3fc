@@ -29,7 +29,7 @@ var x = d3.scale.ordinal()
 
 var yExtent = fc.util.extent()
     .include(0)
-    .fields(function(d) { return d.y + d.y0; });
+    .fields([function(d) { return d.y + d.y0; }]);
 
 var y = d3.scale.linear()
     .domain(yExtent(series.map(function(d) { return d.values; })))

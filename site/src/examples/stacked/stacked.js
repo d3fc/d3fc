@@ -12,7 +12,7 @@ d3.csv('https://d3fc.io/examples/stacked/data.csv', function(error, data) {
 
     var yExtent = fc.util.extent()
         .include(0)
-        .fields(function(d) { return d.y + d.y0; });
+        .fields([function(d) { return d.y + d.y0; }]);
 
     var legend = d3.legend.color()
       .orient('horizontal')

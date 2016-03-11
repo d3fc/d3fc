@@ -15,7 +15,7 @@ d3.json('https://d3fc.io/examples/bubble/data.json', function(error, data) {
 
     var size = d3.scale.linear()
         .range([20, 800])
-        .domain(fc.util.extent().fields('population')(data));
+        .domain(fc.util.extent().fields(['population'])(data));
 
     var pointSeries = fc.series.point()
         .xValue(function(d) { return d.income; })
@@ -29,8 +29,8 @@ d3.json('https://d3fc.io/examples/bubble/data.json', function(error, data) {
     var chart = fc.chart.cartesian(
                   d3.scale.log(),
                   d3.scale.linear())
-        .xDomain(fc.util.extent().fields('income')(data))
-        .yDomain(fc.util.extent().pad(0.2).fields('lifeExpectancy')(data))
+        .xDomain(fc.util.extent().fields(['income'])(data))
+        .yDomain(fc.util.extent().pad(0.2).fields(['lifeExpectancy'])(data))
         .xLabel('Income (dollars)')
         .yLabel('Life expectancy (years)')
         .xTicks(2, d3.format(',d'))

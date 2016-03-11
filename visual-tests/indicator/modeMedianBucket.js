@@ -11,8 +11,8 @@
                 .number(compressedDataPoints).field('y')(data);
 
     var chart = fc.chart.cartesian()
-        .xDomain(fc.util.extent().fields('x')(compressedData))
-        .yDomain(fc.util.extent().fields('y')(compressedData));
+        .xDomain(fc.util.extent().fields(['x'])(compressedData))
+        .yDomain(fc.util.extent().fields(['y'])(compressedData));
 
     var gridlines = fc.annotation.gridline();
     var line = fc.series.line().xValue('x').yValue('y');

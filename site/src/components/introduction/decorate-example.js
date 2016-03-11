@@ -27,7 +27,7 @@ var data = {
 var yExtent = fc.util.extent()
     .include(0)
     .pad([0, 0.5])
-    .fields('sales');
+    .fields(['sales']);
 
 var chart = fc.chart.cartesian(
         d3.scale.ordinal(),

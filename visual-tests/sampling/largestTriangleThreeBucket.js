@@ -15,10 +15,10 @@
                 (data);
 
     var xScale = d3.scale.linear()
-                    .domain(fc.util.extent().fields('x')(subsampledData))
+                    .domain(fc.util.extent().fields(['x'])(subsampledData))
                     .range([0, width]);
     var yScale = d3.scale.linear()
-                    .domain(fc.util.extent().fields('y')(subsampledData))
+                    .domain(fc.util.extent().fields(['y'])(subsampledData))
                     .range([height, 0]);
 
     var line = fc.series.line()

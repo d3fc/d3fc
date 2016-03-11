@@ -33,7 +33,7 @@ var xScale = d3.scale.ordinal()
     .rangeRoundBands([0, width], 0.1);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('y1').pad(0.2).include(0)(waterfallData))
+    .domain(fc.util.extent().fields(['y1']).pad(0.2).include(0)(waterfallData))
     .range([height, 0]);
 
 var waterfall = fc.series.waterfall()

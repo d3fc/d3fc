@@ -13,8 +13,8 @@
             var data = fc.data.random.financial()(50);
 
             var chart = fc.chart.sparkline()
-                .xDomain(fc.util.extent().fields('date')(data))
-                .yDomain(fc.util.extent().fields('low')(data))
+                .xDomain(fc.util.extent().fields(['date'])(data))
+                .yDomain(fc.util.extent().fields(['low'])(data))
                 .radius(2)
                 .xValue(function(d) { return d.date; })
                 .yValue(function(d) { return d.low; });

@@ -13,11 +13,11 @@ var data = dataGenerator(20).map(function(datum, index) {
 });
 
 var xScale = d3.scale.linear()
-    .domain(fc.util.extent().pad(0.1).fields('x')(data))
+    .domain(fc.util.extent().pad(0.1).fields(['x'])(data))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('y')(data))
+    .domain(fc.util.extent().fields(['y'])(data))
     .range([height, 0]);
 
 var bar = fc.series.bar()

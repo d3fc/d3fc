@@ -130,8 +130,8 @@ var yScale = d3.scale.linear(),
 var chart = fc.chart.cartesian(
               xScale,
               yScale)
-    .yDomain(fc.util.extent().pad(0.2).fields('users')(data))
-    .xDomain(fc.util.extent().pad(0.2).fields('orgs')(data))
+    .yDomain(fc.util.extent().pad(0.2).fields(['users'])(data))
+    .xDomain(fc.util.extent().pad(0.2).fields(['orgs'])(data))
     .xLabel('GitHub Organizations')
     .yLabel('GitHub Users')
     .chartLabel('GitHub User to Organization Ratio')

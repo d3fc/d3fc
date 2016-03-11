@@ -14,7 +14,7 @@ function renderChart() {
     // Offset the range to include the full bar for the latest value
     var DAY_MS = 1000 * 60 * 60 * 24;
     var xExtent = fc.util.extent()
-        .fields('date')
+        .fields(['date'])
         .padUnit('domain')
         .pad([DAY_MS * -bollingerAlgorithm.windowSize()(data), DAY_MS]);
 

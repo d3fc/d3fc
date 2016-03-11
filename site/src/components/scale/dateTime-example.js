@@ -15,7 +15,7 @@ var yScale = d3.scale.linear()
 //START
 // create the d3fc scale
 var dateScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(data))
+    .domain(fc.util.extent().fields(['date'])(data))
     .range([0, width]);
 
 // create a D3 axis to render the scale

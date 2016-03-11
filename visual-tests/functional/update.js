@@ -17,7 +17,7 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.util.extent().fields('date')(data))
+        .domain(fc.util.extent().fields(['date'])(data))
         .range([0, width])
         .nice();
 
@@ -64,7 +64,7 @@
         data.forEach(function(d) {
             d.low = d.low - 0.1;
         });
-        dateScale.domain(fc.util.extent().fields('date')(data));
+        dateScale.domain(fc.util.extent().fields(['date'])(data));
         priceScale.domain(fc.util.extent().fields(['high', 'low'])(data));
         container.datum(data)
             .transition()

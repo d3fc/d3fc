@@ -14,7 +14,7 @@ var yScale = d3.scale.linear()
 
 //START
 var dateScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(data))
+    .domain(fc.util.extent().fields(['date'])(data))
     .discontinuityProvider(fc.scale.discontinuity.skipWeekends())
     .range([0, width]);
 //END

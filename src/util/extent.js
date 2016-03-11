@@ -27,7 +27,7 @@ export default function() {
         }
 
         // the fields can be a mixed array of property names or accessor functions
-        fields = fields.map(function(field) {
+        var mutatedFields = fields.map(function(field) {
             if (typeof field !== 'string') {
                 return field;
             }
@@ -38,7 +38,7 @@ export default function() {
 
         var dataMin = d3.min(data, function(d0) {
             return d3.min(d0, function(d1) {
-                return d3.min(fields.map(function(f) {
+                return d3.min(mutatedFields.map(function(f) {
                     return f(d1);
                 }));
             });
@@ -46,7 +46,7 @@ export default function() {
 
         var dataMax = d3.max(data, function(d0) {
             return d3.max(d0, function(d1) {
-                return d3.max(fields.map(function(f) {
+                return d3.max(mutatedFields.map(function(f) {
                     return f(d1);
                 }));
             });
@@ -111,13 +111,6 @@ export default function() {
         if (!arguments.length) {
             return fields;
         }
-
-        // the fields parameter must be an array of field names,
-        // but we can pass non-array types in
-        if (!Array.isArray(x)) {
-            x = [x];
-        }
-
         fields = x;
         return extents;
     };

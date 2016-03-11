@@ -19,11 +19,11 @@ var data = {
 };
 
 var xScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('x')([data.foo, data.bar]))
+    .domain(fc.util.extent().fields(['x'])([data.foo, data.bar]))
     .range([0, width]);
 
 var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('y')([data.foo, data.bar]))
+    .domain(fc.util.extent().fields(['y'])([data.foo, data.bar]))
     .range([height, 0]);
 
 //START

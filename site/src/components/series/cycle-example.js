@@ -184,12 +184,12 @@ var dayScale = d3.scale.ordinal()
     .rangePoints([0, width], 1.0);
 
 var salesScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('sales')(data))
+    .domain(fc.util.extent().fields(['sales'])(data))
     .range([height, 0])
     .nice();
 
 var subScale = d3.scale.linear()
-    .domain(fc.util.extent().fields('date')(data));
+    .domain(fc.util.extent().fields(['date'])(data));
 
 var subAxis = fc.series.axis()
     .tickSize(0)

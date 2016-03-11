@@ -217,7 +217,7 @@
             selection.each(function(data) {
 
                 chart.xDomain(data.dateDomain)
-                    .yDomain(fc.util.extent().fields('volume')(data))
+                    .yDomain(fc.util.extent().fields(['volume'])(data))
                     .yNice();
 
                 bar.y0Value(chart.yDomain()[0]);
@@ -380,11 +380,11 @@
 
         // Enhance data with interactive state
         data.crosshairs = [];
-        var maxDate = fc.util.extent().fields('date')(data)[1];
+        var maxDate = fc.util.extent().fields(['date'])(data)[1];
         var minDate = new Date(maxDate - 50 * 24 * 60 * 60 * 1000);
         data.dateDomain = [minDate, maxDate];
-        data.navigatorDateDomain = fc.util.extent().fields('date')(data);
-        data.navigatorYDomain = fc.util.extent().fields('close')(data);
+        data.navigatorDateDomain = fc.util.extent().fields(['date'])(data);
+        data.navigatorYDomain = fc.util.extent().fields(['close'])(data);
 
         var container = d3.select('#low-barrel')
             .layout();

@@ -12,7 +12,7 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.util.extent().fields('date')(data))
+        .domain(fc.util.extent().fields(['date'])(data))
         .range([100, width])
         .nice();
 

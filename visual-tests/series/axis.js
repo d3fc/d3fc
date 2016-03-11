@@ -19,7 +19,7 @@
     }
 
     var xScale = d3.scale.linear()
-        .domain(fc.util.extent().fields('theta')(data))
+        .domain(fc.util.extent().fields(['theta'])(data))
         .range([0, width]);
 
     var yScale = d3.scale.linear()

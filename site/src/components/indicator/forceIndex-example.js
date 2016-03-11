@@ -8,7 +8,7 @@ var dataGenerator = fc.data.random.financial()
 var data = dataGenerator(50);
 
 var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields('date')(data))
+    .domain(fc.util.extent().fields(['date'])(data))
     .range([0, width]);
 
 
@@ -19,7 +19,7 @@ forceAlgorithm(data);
 
 //Scaling the display using the maximum absolute value of the Index
 var yDomain = fc.util.extent()
-    .fields(function(d) { return d.force; })
+    .fields([function(d) { return d.force; }])
     .symmetricalAbout(0);
 
 var yScale = d3.scale.linear()

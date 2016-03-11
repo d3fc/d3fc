@@ -72,8 +72,8 @@
         var chart = fc.chart.cartesian(
                 isOrdinal ? d3.scale.ordinal() : d3.scale.linear(),
                 d3.scale.linear())
-            .xDomain(isOrdinal ? data.map(function(d) { return d.name; }) : fc.util.extent().fields('x')(data))
-            .yDomain(isOrdinal ? [0, 50] : fc.util.extent().fields('y')(data))
+            .xDomain(isOrdinal ? data.map(function(d) { return d.name; }) : fc.util.extent().fields(['x'])(data))
+            .yDomain(isOrdinal ? [0, 50] : fc.util.extent().fields(['y'])(data))
             .yOrient(chartConfig[0].value)
             .xOrient(chartConfig[1].value)
             .yLabel(chartConfig[2].value)
