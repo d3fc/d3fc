@@ -6,7 +6,7 @@ export default (target, source, prefix = '', ...exclusions) => {
 
     for (const exclusion of exclusions) {
         if (typeof exclusion === 'string' && typeof source[exclusion] !== 'function') {
-            throw new Error(`Attempt to exclude ${exclusion} which isn\'t a function on the source object`);
+            throw new Error(`Attempt to exclude ${exclusion} which isn't a function on the source object`);
         }
     }
 
