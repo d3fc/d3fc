@@ -11,7 +11,7 @@ externals:
   spread-example-horizontal-html: spread-example-horizontal.html
 ---
 
-This spread component is primarily used for manipulating data obtained via `d3.csv` into a suitable form for rendering with the {{{ hyperlink 'stacked.html' title='stacked' }}}, {{{ hyperlink 'grouped-bar.html' title='grouped bar' }}} or {{{ hyperlink 'small-multiples.html' title='small multiples' }}} components.
+This spread component is primarily used for manipulating data obtained via `d3.csv` into a suitable form for rendering with the {{{ hyperlink 'stacked.html' title='stacked' }}}, {{{ hyperlink 'grouped.html' title='grouped' }}} or {{{ hyperlink 'small-multiples.html' title='small multiples' }}} components.
 
 When data is loaded via `d3.csv`, it is converted into an array of objects, one per row, with properties names derived from the CSV 'column' headings. The `spread` component converts the data into an array of series, either one for each column (vertical spread), or one per row (horizontal spead). The column that identifies the name for each series is identified via the `xValueKey` property.
 

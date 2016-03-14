@@ -10,7 +10,18 @@
 
   </head>
   <body>
-    <div id="grouped-bar"></div>
+    <div id="grouped" style="float: left; height: 260px"></div>
+    <div id="series" style="float: right;">
+    Series:
+      <p>
+        <input type="radio" id="point" name="series" value="point" checked>
+        <label for="point">Point Series</label>
+      </p>
+      <p>
+        <input type="radio" id="candlestick" name="series" value="candlestick">
+        <label for="candlestick">Candlestick Series</label>
+      </p>
+    </div>
 
     <footer>
       <script src="../assets/d3.js"></script>
@@ -18,7 +29,7 @@
       <script src="../assets/d3fc.js"></script>
       <script src="../assets/seedrandom.min.js"></script>
       <script src="../setup.js"></script>
-      <script src="grouped-bar.js"></script>
+      <script src="grouped.js"></script>
       <script src="//localhost:36729/livereload.js"></script>
     </footer>
   </body>
