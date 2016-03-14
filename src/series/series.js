@@ -8,7 +8,7 @@ import multi from './multi';
 import ohlc from './ohlc';
 import point from './point';
 import stacked from './stacked/stacked';
-import groupedBar from './groupedBar';
+import grouped from './grouped';
 import xyBase from './xyBase';
 import ohlcBase from './ohlcBase';
 import errorBar from './errorBar';
@@ -27,7 +27,7 @@ export default {
     ohlc: ohlc,
     point: point,
     stacked: stacked,
-    groupedBar: groupedBar,
+    grouped: grouped,
     xyBase: xyBase,
     ohlcBase: ohlcBase,
     errorBar: errorBar,
