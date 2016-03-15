@@ -4,7 +4,7 @@ import innerDimensions from '../util/innerDimensions';
 import _line from '../series/line';
 import _multi from '../series/multi';
 import _point from '../series/point';
-import {rebind} from '../util/rebind';
+import {include, prefix, rebindAll} from 'd3fc-rebind';
 
 export default function() {
 
@@ -91,16 +91,9 @@ export default function() {
         });
     };
 
-    rebind(sparkline, xScale, {
-        xDiscontinuityProvider: 'discontinuityProvider',
-        xDomain: 'domain'
-    });
-
-    rebind(sparkline, yScale, {
-        yDomain: 'domain'
-    });
-
-    rebind(sparkline, line, 'xValue', 'yValue');
+    rebindAll(sparkline, xScale, include('discontinuityProvider', 'domain'), prefix('x'));
+    rebindAll(sparkline, yScale, include('domain'), prefix('y'));
+    rebindAll(sparkline, line, include('xValue', 'yValue'));
 
     sparkline.xScale = function() { return xScale; };
     sparkline.yScale = function() { return yScale; };

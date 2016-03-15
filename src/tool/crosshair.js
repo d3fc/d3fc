@@ -6,7 +6,7 @@ import {noop} from '../util/fn';
 import {noSnap} from '../util/snap';
 import point from '../series/point';
 import {range} from '../util/scale';
-import {rebind} from '../util/rebind';
+import {include, prefix, rebindAll} from 'd3fc-rebind';
 
 export default function() {
 
@@ -150,13 +150,9 @@ export default function() {
 
     d3.rebind(crosshair, event, 'on');
 
-    rebind(crosshair, horizontalLine, {
-        yLabel: 'label'
-    });
-
-    rebind(crosshair, verticalLine, {
-        xLabel: 'label'
-    });
+    var lineIncludes = include('label');
+    rebindAll(crosshair, horizontalLine, lineIncludes, prefix('y'));
+    rebindAll(crosshair, verticalLine, lineIncludes, prefix('x'));
 
     return crosshair;
 }

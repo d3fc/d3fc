@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import slidingWindow from './slidingWindow';
-import {rebind} from '../../../util/rebind';
+import {includeMap, rebindAll} from 'd3fc-rebind';
 
 export default function() {
 
@@ -56,13 +56,8 @@ export default function() {
         return stochastic;
     };
 
-    rebind(stochastic, kWindow, {
-        kWindowSize: 'windowSize'
-    });
-
-    rebind(stochastic, dWindow, {
-        dWindowSize: 'windowSize'
-    });
+    rebindAll(stochastic, kWindow, includeMap({'windowSize': 'kWindowSize'}));
+    rebindAll(stochastic, dWindow, includeMap({'windowSize': 'dWindowSize'}));
 
     return stochastic;
 }

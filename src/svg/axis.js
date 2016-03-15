@@ -3,7 +3,7 @@ import _ticks from '../scale/ticks';
 import _dataJoin from '../util/dataJoin';
 import {identity, noop} from '../util/fn';
 import {range as scaleRange, isOrdinal} from '../util/scale';
-import {rebindAll} from '../util/rebind';
+import {rebindAll} from 'd3fc-rebind';
 
 // A drop-in replacement for the D3 axis, supporting the decorate pattern.
 export default function() {

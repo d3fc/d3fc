@@ -1,7 +1,7 @@
 import d3 from 'd3';
 import exponentialMovingAverage from './exponentialMovingAverage';
 import {identity} from '../../../util/fn';
-import {rebind} from '../../../util/rebind';
+import {includeMap, rebindAll} from 'd3fc-rebind';
 
 export default function() {
 
@@ -52,9 +52,9 @@ export default function() {
         return elderRay;
     };
 
-    rebind(elderRay, emaComputer, {
-        period: 'windowSize'
-    });
+    rebindAll(elderRay, emaComputer, includeMap({
+        'windowSize': 'period'
+    }));
 
     return elderRay;
 }

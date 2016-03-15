@@ -1,6 +1,3 @@
-import d3 from 'd3';
-import {rebindAll} from '../../util/rebind';
-
 export default function() {
 
     var bounds = null;

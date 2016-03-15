@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import barUtil from './bar';
-import {rebindAll} from '../util/rebind';
+import {rebindAll} from 'd3fc-rebind';
 
 export default function() {
 

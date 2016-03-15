@@ -3,7 +3,7 @@ import dataJoinUtil from '../util/dataJoin';
 import {noop} from '../util/fn';
 import { ohlc as svgOhlc } from 'd3fc-shape';
 import ohlcBase from './ohlcBase';
-import {rebindAll} from '../util/rebind';
+import {rebindAll} from 'd3fc-rebind';
 
 export default function(drawMethod) {
 

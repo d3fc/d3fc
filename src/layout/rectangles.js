@@ -2,7 +2,7 @@ import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import {noop, identity} from '../util/fn';
 import {range} from '../util/scale';
-import {rebindAll, rebind} from '../util/rebind';
+import {include, rebindAll} from 'd3fc-rebind';
 
 export default function(layoutStrategy) {
 
@@ -69,7 +69,7 @@ export default function(layoutStrategy) {
         });
     };
 
-    rebind(rectangles, dataJoin, 'key');
+    rebindAll(rectangles, dataJoin, include('key'));
     rebindAll(rectangles, strategy);
 
     rectangles.size = function(x) {

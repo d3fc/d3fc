@@ -1,6 +1,6 @@
 import _area from '../area';
 import _stack from './stack';
-import {rebindAll} from '../../util/rebind';
+import {rebindAll} from 'd3fc-rebind';
 
 export default function() {
 

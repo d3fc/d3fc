@@ -1,5 +1,5 @@
 import minimum from '../../util/minimum';
-import {rebindAll} from '../../util/rebind';
+import {rebindAll} from 'd3fc-rebind';
 import {collisionArea} from './collision';
 import {identity} from '../../util/fn';
 

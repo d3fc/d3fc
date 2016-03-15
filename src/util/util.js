@@ -5,7 +5,6 @@ import * as fn from './fn';
 import minimum from './minimum';
 import fractionalBarWidth from './fractionalBarWidth';
 import innerDimensions from './innerDimensions';
-import {rebind, rebindAll} from './rebind';
 import * as scale from './scale';
 import {noSnap, pointSnap, seriesPointSnap, seriesPointSnapXOnly, seriesPointSnapYOnly} from './snap';
 import render from './render';
@@ -19,8 +18,6 @@ export default {
     minimum: minimum,
     fractionalBarWidth: fractionalBarWidth,
     innerDimensions: innerDimensions,
-    rebind: rebind,
-    rebindAll: rebindAll,
     scale: scale,
     noSnap: noSnap,
     pointSnap: pointSnap,
