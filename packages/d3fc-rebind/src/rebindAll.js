@@ -1,30 +1,26 @@
-import createReboundMethod from './createReboundMethod';
-
-const capitalizeFirstLetter = (str) => str[0].toUpperCase() + str.slice(1);
-
-export default (target, source, prefix = '', ...exclusions) => {
-
-    for (const exclusion of exclusions) {
-        if (typeof exclusion === 'string' && typeof source[exclusion] !== 'function') {
-            throw new Error(`Attempt to exclude ${exclusion} which isn't a function on the source object`);
-        }
-    }
-
-    exclusions = exclusions.map((exclusion) =>
-        typeof exclusion === 'string'
-            ? new RegExp(`^${exclusion}$`) : exclusion
+const createTransform = (transforms) =>
+    (name) => transforms.reduce(
+        (name, fn) => name && fn(name),
+        name
     );
 
-    const targetName = prefix
-        ? (name) => prefix + capitalizeFirstLetter(name)
-        : (name) => name;
+const createReboundMethod = (target, source, name) => {
+    const method = source[name];
+    if (typeof method !== 'function') {
+        throw new Error(`Attempt to rebind ${name} which isn't a function on the source object`);
+    }
+    return (...args) => {
+        var value = method.apply(source, args);
+        return value === source ? target : value;
+    };
+};
 
-    const names = Object.keys(source)
-        .filter((name) =>
-            !exclusions.some((exclusion) => name.match(exclusion))
-        );
-
-    for (const name of names) {
-        target[targetName(name)] = createReboundMethod(target, source, name);
+export default (target, source, ...transforms) => {
+    const transform = createTransform(transforms);
+    for (const name of Object.keys(source)) {
+        const result = transform(name);
+        if (result) {
+            target[result] = createReboundMethod(target, source, name);
+        }
     }
 };

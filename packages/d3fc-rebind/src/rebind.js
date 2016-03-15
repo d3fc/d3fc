@@ -1,8 +1,5 @@
-import createReboundMethod from './createReboundMethod';
+import include from './transform/include';
+import rebindAll from './rebindAll';
 
-export default (target, source, ...names) => {
-    for (const name of names) {
-        target[name] = createReboundMethod(target, source, name);
-    }
-    return target;
-};
+export default (target, source, ...names) =>
+    rebindAll(target, source, include(...names));
