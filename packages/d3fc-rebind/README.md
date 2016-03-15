@@ -26,5 +26,5 @@ As well as creating transforms manually, you can also make use of -
 
 * `exclude(...names)` - exclude a set of property names or regexes
 * `include(...names)` - include only the set of property names or regexes
-* `map({ targetName: sourceName, ... })` - map the specified properties
+* `map({ sourceName: targetName, ... })` - map the specified properties
 * `prefix(str)` - prefix all property names with str
