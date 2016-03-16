@@ -3,11 +3,6 @@ var container = d3.select('#decorate-axis')
     .append('svg')
     .attr({'style': 'margin-top: 100px', 'width': width, 'height': height});
 
-var linearScale = d3.scale.linear()
-  .domain([0, 140])
-  .range([0, width])
-  .nice();
-
 var ordinalScale = d3.scale.ordinal()
   .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles', 'Aubergines', 'Artichokes', 'Spinach', 'Cucumber'])
   .rangePoints([0, width], 1);

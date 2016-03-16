@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import barUtil from './bar';
 import {rebindAll} from 'd3fc-rebind';
 

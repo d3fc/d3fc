@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import {allWithCollisions, totalCollisionArea} from './collision';
+import {totalCollisionArea} from './collision';
 import containerUtils from './container';
 import {getAllPlacements} from './placement';
 import {randomItem, randomIndex, cloneAndReplace} from '../../util/array';

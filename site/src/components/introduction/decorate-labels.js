@@ -16,8 +16,6 @@ var yScale = d3.scale.linear()
     .range([height, 0]);
 
 //START
-var color = d3.scale.category10();
-
 var point = fc.series.point()
   .xScale(xScale)
   .yScale(yScale)

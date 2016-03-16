@@ -24,8 +24,6 @@
     var yScale = d3.scale.linear()
       .domain(fc.util.extent().pad(0.2).fields(['low', 'high'])(data));
 
-    var width = 600, height = 250;
-
     var boxPlot = fc.series.boxPlot()
         .cap(0.5)
         .value(function(d) { return d.value; })

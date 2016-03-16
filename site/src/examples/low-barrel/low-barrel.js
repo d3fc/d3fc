@@ -19,8 +19,6 @@
             .low(function(d) { return d.yLow; })
             .close(function(d) { return d.yClose; });
 
-        var fractionalBarWidth = fc.util.fractionalBarWidth(0.75);
-
         var nest = d3.nest()
             .key(function(d) { return d.direction; });
 

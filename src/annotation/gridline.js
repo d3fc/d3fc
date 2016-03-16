@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import dataJoin from '../util/dataJoin';
 import ticks from '../scale/ticks';
 import {noop} from '../util/fn';

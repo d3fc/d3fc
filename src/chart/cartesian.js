@@ -5,7 +5,7 @@ import '../layout/layout';
 import line from '../series/line';
 import dataJoin from '../util/dataJoin';
 import expandRect from '../util/expandRect';
-import {identity, noop} from '../util/fn';
+import {noop} from '../util/fn';
 import {exclude, includeMap, prefix, rebindAll} from 'd3fc-rebind';
 import {isOrdinal, range, setRange} from '../util/scale';
 

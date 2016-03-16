@@ -2,7 +2,6 @@ import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
 import axis from '../svg/axis';
 import line from '../series/line';
-import fractionalBarWidth from '../util/fractionalBarWidth';
 import {exclude, prefix, rebindAll} from 'd3fc-rebind';
 import expandRect from '../util/expandRect';
 import {setRange} from '../util/scale';
