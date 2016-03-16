@@ -1,17 +1,4 @@
-#rectangles-example .rectangle rect {
-    fill: rgba(0,255,0,0.3);
-    stroke-width: 0;
-}
-
-#rectangles-measure .rectangle rect {
+.label rect, .label circle {
     fill: transparent;
     stroke-width: 0;
-}
-
-.chart .title .label {
-    font-size: 16pt;
-}
-
-.chart .label {
-    font-size: 12pt;
 }

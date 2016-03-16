@@ -9,6 +9,7 @@
     "css-layout": "^1.1.0",
     "d3": "^3.5.4",
     "d3-svg-legend": "^1.9.0",
+    "d3fc-label-layout": "^1.0.0",
     "d3fc-rebind": "^3.0.0",
     "d3fc-shape": "^3.0.0",
     "svg-innerhtml": "^1.1.0"

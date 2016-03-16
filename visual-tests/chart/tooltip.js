@@ -36,7 +36,7 @@
 
     var candlestick = fc.series.candlestick();
 
-    var rectLayout = fc.layout.rectangles()
+    var rectLayout = fc.layout.label()
         .position([20, 20])
         .size([100, 70])
         .component(tooltip);

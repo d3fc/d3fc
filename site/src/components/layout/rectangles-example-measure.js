@@ -114,15 +114,10 @@ var data = [
 //START
 var labelPadding = 2;
 
-// the container component is used to add padding around a text label
-var label = fc.tool.container()
+// a component which renders the labels
+var label = fc.layout.textLabel()
     .padding(labelPadding)
-    .component(function(sel) {
-        // rather than using a component, a text element is appended directly
-        sel.append('text')
-            .text(function(d) { return d.language; })
-            .attr('dy', '0.7em');
-    });
+    .value(function(d) { return d.language; });
 
 var yScale = d3.scale.linear(),
     xScale = d3.scale.linear();
@@ -143,7 +138,7 @@ var chart = fc.chart.cartesian(
 var strategy = fc.layout.strategy.removeOverlaps(fc.layout.strategy.greedy());
 
 // create the layout that positions the labels
-var labels = fc.layout.rectangles(strategy)
+var labels = fc.layout.label(strategy)
         .size(function(d) {
             // measure the label and add the required padding
             var textSize = d3.select(this)
@@ -166,7 +161,7 @@ var multi = fc.series.multi()
 chart.plotArea(multi);
 
 // bind the data and render
-d3.select('#rectangles-measure')
+d3.select('#label')
     .datum(data)
     .call(chart);
 //END

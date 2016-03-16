@@ -34,7 +34,7 @@ You can configure X and Y labels via the `xLabel` and `yLabel` properties. The c
 
 The crosshair is often used in conjunction with the {{{ hyperlink 'tooltip.html' title='tooltip component' }}}, which renders the data that the crosshair generates (and pushes into the data-joined array). In order to update the tooltip component, the entire chart should be re-rendered by handling the crosshair tracking events.
 
-While the tooltip can be rendered into any suitable container, it often makes sense to render it within the same region as the series. In order to achieve this, the tooltip can be positioned by the {{{ hyperlink 'rectangles.html' title='rectangles layout component' }}}.
+While the tooltip can be rendered into any suitable container, it often makes sense to render it within the same region as the series. In order to achieve this, the tooltip can be positioned by the {{{ hyperlink 'label.html' title='label layout component' }}}.
 
 The following shows how these various components can be integrated together:
 
