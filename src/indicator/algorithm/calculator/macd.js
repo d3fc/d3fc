@@ -2,7 +2,7 @@ import d3 from 'd3';
 import exponentialMovingAverage from './exponentialMovingAverage';
 import undefinedInputAdapter from './undefinedInputAdapter';
 import {identity} from '../../../util/fn';
-import {rebind} from '../../../util/rebind';
+import {includeMap, rebindAll} from 'd3fc-rebind';
 
 
 export default function() {
@@ -52,17 +52,9 @@ export default function() {
         return macd;
     };
 
-    rebind(macd, fastEMA, {
-        fastPeriod: 'windowSize'
-    });
-
-    rebind(macd, slowEMA, {
-        slowPeriod: 'windowSize'
-    });
-
-    rebind(macd, signalEMA, {
-        signalPeriod: 'windowSize'
-    });
+    rebindAll(macd, fastEMA, includeMap({'windowSize': 'fastPeriod'}));
+    rebindAll(macd, slowEMA, includeMap({'windowSize': 'slowPeriod'}));
+    rebindAll(macd, signalEMA, includeMap({'windowSize': 'signalPeriod'}));
 
     return macd;
 }

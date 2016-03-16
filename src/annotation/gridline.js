@@ -2,7 +2,7 @@ import d3 from 'd3';
 import dataJoin from '../util/dataJoin';
 import ticks from '../scale/ticks';
 import {noop} from '../util/fn';
-import {rebind, rebindAll} from '../util/rebind';
+import {includeMap, prefix, rebindAll} from 'd3fc-rebind';
 import {range} from '../util/scale';
 
 export default function() {
@@ -73,11 +73,11 @@ export default function() {
         return gridlines;
     };
 
-    rebind(gridlines, xLineDataJoin, {'xKey': 'key'});
-    rebind(gridlines, yLineDataJoin, {'yKey': 'key'});
+    rebindAll(gridlines, xLineDataJoin, includeMap({'key': 'xKey'}));
+    rebindAll(gridlines, yLineDataJoin, includeMap({'key': 'yKey'}));
 
-    rebindAll(gridlines, xTicks, 'x');
-    rebindAll(gridlines, yTicks, 'y');
+    rebindAll(gridlines, xTicks, prefix('x'));
+    rebindAll(gridlines, yTicks, prefix('y'));
 
     return gridlines;
 }

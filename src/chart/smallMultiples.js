@@ -3,7 +3,7 @@ import dataJoinUtil from '../util/dataJoin';
 import axis from '../svg/axis';
 import line from '../series/line';
 import fractionalBarWidth from '../util/fractionalBarWidth';
-import {rebindAll, rebind} from '../util/rebind';
+import {exclude, prefix, rebindAll} from 'd3fc-rebind';
 import expandRect from '../util/expandRect';
 import {setRange} from '../util/scale';
 import {noop} from '../util/fn';
@@ -128,15 +128,15 @@ export default function(xScale, yScale) {
         });
     };
 
-    var scaleExclusions = [
+    var scaleExclusions = exclude(
         /range\w*/,   // the scale range is set via the component layout
         /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
-    ];
-    rebindAll(multiples, xScale, 'x', scaleExclusions);
-    rebindAll(multiples, yScale, 'y', scaleExclusions);
+    );
+    rebindAll(multiples, xScale, scaleExclusions, prefix('x'));
+    rebindAll(multiples, yScale, scaleExclusions, prefix('y'));
 
-    rebindAll(multiples, xAxis, 'x');
-    rebindAll(multiples, yAxis, 'y');
+    rebindAll(multiples, xAxis, prefix('x'));
+    rebindAll(multiples, yAxis, prefix('y'));
 
     multiples.columns = function(x) {
         if (!arguments.length) {

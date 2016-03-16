@@ -1,5 +1,4 @@
 import d3 from 'd3';
-import {rebindAll} from '../../util/rebind';
 import {totalCollisionArea} from './collision';
 import containerUtils from './container';
 import minimum from '../../util/minimum';
