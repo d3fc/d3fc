@@ -3,7 +3,6 @@ var generator = fc.data.random.walk()
     .steps(11);
 
 // some formatters
-var valueformatter = d3.format('$f');
 var dateFormatter = d3.time.format('%b');
 
 // randomly generated sales data

@@ -1,6 +1,3 @@
-import d3 from 'd3';
-import {noop} from '../../util/fn';
-
 export default function() {
 
     var xValueKey = '',
@@ -24,8 +21,7 @@ export default function() {
             start,
             end,
             total,
-            result = [],
-            finalIndex = length - 1;
+            result = [];
 
         if (startsWithTotal) {
             // First value is a total

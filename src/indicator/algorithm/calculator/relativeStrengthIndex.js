@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import _slidingWindow from './slidingWindow';
 
 export default function() {

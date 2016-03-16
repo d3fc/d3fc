@@ -20,11 +20,6 @@
 
     renderControls();
 
-    function render() {
-        renderControls();
-        renderChart();
-    }
-
     function updateModel(d) {
         d.value = this.type === 'checkbox' ? this.checked : this.value;
         renderChart();
@@ -54,7 +49,6 @@
     }
 
     function renderChart() {
-        var smallMultiples;
         container.selectAll('*').remove();
         if (chartConfig[5].value) {
             renderTemperatureChart();

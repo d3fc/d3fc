@@ -62,4 +62,4 @@ function renderChart() {
 
 // re-render the chart every 200ms
 renderChart();
-var intervalId = setInterval(renderChart, 200);
+setInterval(renderChart, 200);

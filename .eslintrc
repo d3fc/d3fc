@@ -90,7 +90,7 @@
         "no-undef-init": 2,
         "no-undef": 2,
         "no-undefined": 0,
-        "no-unused-vars": 0,
+        "no-unused-vars": [2, { "vars": "local", "args": "none" }],
         "no-use-before-define": 0,
         "handle-callback-err": 2,
         "no-mixed-requires": 2,

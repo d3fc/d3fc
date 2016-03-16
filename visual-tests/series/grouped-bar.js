@@ -3,8 +3,6 @@
 
     var container = d3.select('#grouped-bar');
 
-    var color = d3.scale.category10();
-
     function renderChart(data) {
 
         // see #574 - wiping out the chart each time to clear the plot-area

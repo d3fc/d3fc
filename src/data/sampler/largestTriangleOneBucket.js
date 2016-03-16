@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import {identity, noop} from '../../util/fn';
+import {identity} from '../../util/fn';
 import bucket from './bucket';
 
 export default function() {
