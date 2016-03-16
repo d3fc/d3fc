@@ -1,5 +1,5 @@
 var width = 500, height = 250;
-var container = d3.select('#grouped-bar')
+var container = d3.select('#grouped')
     .append('svg')
     .attr({'width': width, 'height': height});
 
@@ -56,8 +56,10 @@ var y = d3.scale.linear()
     .domain(yExtent(series.map(function(d) { return d.values; })))
     .range([height, 0]);
 
-// create the grouped bar series
-var groupedBar = fc.series.groupedBar()
+var groupedSeries = fc.series.bar();
+
+// create the grouped series
+var groupedBar = fc.series.grouped(groupedSeries)
     .xScale(x)
     .yScale(y)
     .xValue(function(d) { return d.x; })
