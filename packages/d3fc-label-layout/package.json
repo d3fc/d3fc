@@ -1,7 +1,7 @@
 {
   "name": "d3fc-label-layout",
   "version": "0.0.1",
-  "description": "A D3 layout that places labels avoiding overlaps, with strategies including simulated annealing, greedy and local.",
+  "description": "A D3 layout that places labels avoiding overlaps using either a greedy or simulated annealing strategy",
   "license": "MIT",
   "keywords": [
     "d3",
@@ -9,12 +9,12 @@
     "label",
     "layout"
   ],
-  "homepage": "https://github.com/ColinEberhardt/d3fc-label-layout",
+  "homepage": "https://github.com/d3fc/d3fc-label-layout",
   "main": "build/d3fc-label-layout.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ColinEberhardt/d3fc-label-layout"
+    "url": "https://github.com/d3fc/d3fc-label-layout"
   },
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-label-layout.js --compress --mangle -o build/d3fc-label-layout.min.js",
