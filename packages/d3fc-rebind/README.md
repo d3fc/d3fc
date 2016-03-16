@@ -32,9 +32,9 @@ Exclude a set of property `names`. Names can be specified as a `string` or `RegE
 
 Include only the set of property `names`. Names can be specified as a `string` or `RegExp`.
 
-### **map**(*mappings*)
+### **includeMap**(*mappings*)
 
-Map the keys of `mappings` using their corresponding values e.g. `{ 'targetName': 'sourceName' }`.
+Include only the set of properties specified by the keys of `mappings` using their corresponding values as the target property name e.g. `{ 'sourceName': 'targetName' }`.
 
 ### **prefix**(*str*)
 
