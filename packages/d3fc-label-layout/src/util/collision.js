@@ -4,8 +4,7 @@ import intersect from '../intersect';
 // computes the area of overlap between the rectangle with the given index with the
 // rectangles in the array
 export const collisionArea = (rectangles, index) =>  d3.sum(
-        rectangles.filter((_, i) => index !== i)
-            .map((d) => intersect(rectangles[index], d))
+        rectangles.map((d, i) => (index === i) ? 0 : intersect(rectangles[index], d))
     );
 
 // computes the total overlapping area of all of the rectangles in the given array
