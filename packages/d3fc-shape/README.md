@@ -66,8 +66,9 @@ ctx.stroke();
 
 ```
 
+### Bar
 
-#### *shape*.**bar**(*context*)
+*d3fc*.**bar**(*context*)
 
 *bar*.**x**(*accessorFunc*)  
 *bar*.**y**(*accessorFunc*)  
@@ -86,8 +87,9 @@ the relevant value for the relevant attribute for that item.
 
 `alignment` is one of: `bottom`, `top` or `center` (default)
 
+### Boxplot
 
-#### *shape*.**boxPlot**(*context*)
+*d3fc*.**boxPlot**(*context*)
 
 *boxPlot*.**value**(*accessorFunc*)  
 *boxPlot*.**median**(*accessorFunc*)  
@@ -110,8 +112,9 @@ the **proprtion** of the box width that the caps width should be.
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
+### Candlestick
 
-#### *shape*.**candlestick**(*context*)
+*d3fc*.**candlestick**(*context*)
 
 *candlestick*.**x**(*accessorFunc*)  
 *candlestick*.**open**(*accessorFunc*)  
@@ -124,8 +127,9 @@ The attribute accessor methods available to set the way the bar chart accesses t
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
+### Error Bar
 
-#### *shape*.**errorBar**(*context*)
+*d3fc*.**errorBar**(*context*)
 
 *errorBar*.**value**(*accessorFunc*)  
 *errorBar*.**high**(*accessorFunc*)  
@@ -140,8 +144,9 @@ the relevant value for the relevant attribute for that item.
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
+### OHLC
 
-#### *shape*.**ohlc**(*context*)
+*d3fc*.**ohlc**(*context*)
 
 *errorBar*.**x**(*accessorFunc*)  
 *errorBar*.**open**(*accessorFunc*)  
