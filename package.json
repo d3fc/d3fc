@@ -6,6 +6,7 @@
   "main": "dist/d3fc.js",
   "jsnext:main": "src/fc.js",
   "dependencies": {
+    "babel-polyfill": "^6.7.2",
     "css-layout": "^1.1.0",
     "d3": "^3.5.4",
     "d3-svg-legend": "^1.9.0",

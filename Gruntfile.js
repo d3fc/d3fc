@@ -73,6 +73,7 @@ module.exports = function(grunt) {
                     'node_modules/css-layout/dist/css-layout.js',
                     'node_modules/d3-svg-legend/d3-legend.js',
                     'node_modules/svg-innerhtml/svg-innerhtml.js',
+                    'node_modules/babel-polyfill/dist/polyfill.js',
                     'dist/d3fc.js'
                 ],
                 dest: 'dist/d3fc.bundle.js'
