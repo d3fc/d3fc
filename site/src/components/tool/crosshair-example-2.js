@@ -35,7 +35,7 @@ var tooltip = fc.chart.tooltip()
         ['Y:', function(d) { return numberFormat(d.y); }]
     ]);
 
-var tooltipLayout = fc.layout.rectangles()
+var tooltipLayout = fc.layout.label()
     .position([10, 10])
     .size([50, 30])
     .component(tooltip);
