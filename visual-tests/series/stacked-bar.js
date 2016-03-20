@@ -57,7 +57,7 @@
             .padding(10)
             .component(tooltip);
 
-        var tooltipLayout = fc.layout.rectangles(fc.layout.strategy.boundingBox())
+        var tooltipLayout = fc.layout.label(fc.layout.strategy.boundingBox())
             .position([function(d) { return d.x; }, 50])
             .size([200, 100])
             .component(tooltipContainer);
