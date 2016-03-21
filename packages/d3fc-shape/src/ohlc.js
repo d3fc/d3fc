@@ -49,60 +49,60 @@ export default () => {
         return buffer && (context = null, buffer.toString() || null);
     };
 
-    ohlc.context = (_x) => {
-        if (!arguments.length) {
+    ohlc.context = (...args) => {
+        if (!args.length) {
             return context;
         }
-        context = _x;
+        context = args[0];
         return ohlc;
     };
-    ohlc.x = (_x) => {
-        if (!arguments.length) {
+    ohlc.x = (...args) => {
+        if (!args.length) {
             return x;
         }
-        x = functor(_x);
+        x = functor(args[0]);
         return ohlc;
     };
-    ohlc.open = (_x) => {
-        if (!arguments.length) {
+    ohlc.open = (...args) => {
+        if (!args.length) {
             return open;
         }
-        open = functor(_x);
+        open = functor(args[0]);
         return ohlc;
     };
-    ohlc.high = (_x) => {
-        if (!arguments.length) {
+    ohlc.high = (...args) => {
+        if (!args.length) {
             return high;
         }
-        high = functor(_x);
+        high = functor(args[0]);
         return ohlc;
     };
-    ohlc.low = (_x) => {
-        if (!arguments.length) {
+    ohlc.low = (...args) => {
+        if (!args.length) {
             return low;
         }
-        low = functor(_x);
+        low = functor(args[0]);
         return ohlc;
     };
-    ohlc.close = (_x) => {
-        if (!arguments.length) {
+    ohlc.close = (...args) => {
+        if (!args.length) {
             return close;
         }
-        close = functor(_x);
+        close = functor(args[0]);
         return ohlc;
     };
-    ohlc.width = (_x) => {
-        if (!arguments.length) {
+    ohlc.width = (...args) => {
+        if (!args.length) {
             return width;
         }
-        width = functor(_x);
+        width = functor(args[0]);
         return ohlc;
     };
-    ohlc.orient = (_x) => {
-        if (!arguments.length) {
+    ohlc.orient = (...args) => {
+        if (!args.length) {
             return orient;
         }
-        orient = _x;
+        orient = args[0];
         return ohlc;
     };
 

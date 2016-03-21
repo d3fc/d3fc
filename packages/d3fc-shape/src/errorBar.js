@@ -43,46 +43,46 @@ export default () => {
         return buffer && (context = null, buffer.toString() || null);
     };
 
-    errorBar.context = (_x) => {
-        if (!arguments.length) {
+    errorBar.context = (...args) => {
+        if (!args.length) {
             return context;
         }
-        context = _x;
+        context = args[0];
         return errorBar;
     };
-    errorBar.value = (_x) => {
-        if (!arguments.length) {
+    errorBar.value = (...args) => {
+        if (!args.length) {
             return value;
         }
-        value = functor(_x);
+        value = functor(args[0]);
         return errorBar;
     };
-    errorBar.high = (_x) => {
-        if (!arguments.length) {
+    errorBar.high = (...args) => {
+        if (!args.length) {
             return high;
         }
-        high = functor(_x);
+        high = functor(args[0]);
         return errorBar;
     };
-    errorBar.low = (_x) => {
-        if (!arguments.length) {
+    errorBar.low = (...args) => {
+        if (!args.length) {
             return low;
         }
-        low = functor(_x);
+        low = functor(args[0]);
         return errorBar;
     };
-    errorBar.width = (_x) => {
-        if (!arguments.length) {
+    errorBar.width = (...args) => {
+        if (!args.length) {
             return width;
         }
-        width = functor(_x);
+        width = functor(args[0]);
         return errorBar;
     };
-    errorBar.orient = (_x) => {
-        if (!arguments.length) {
+    errorBar.orient = (...args) => {
+        if (!args.length) {
             return orient;
         }
-        orient = _x;
+        orient = args[0];
         return errorBar;
     };
 

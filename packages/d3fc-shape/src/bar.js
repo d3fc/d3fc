@@ -65,53 +65,53 @@ export default () => {
         return buffer && (context = null, buffer.toString() || null);
     };
 
-    bar.context = (_x) => {
-        if (!arguments.length) {
+    bar.context = (...args) => {
+        if (!args.length) {
             return context;
         }
-        context = _x;
+        context = args[0];
         return bar;
     };
-    bar.x = (_x) => {
-        if (!arguments.length) {
+    bar.x = (...args) => {
+        if (!args.length) {
             return x;
         }
-        x = functor(_x);
+        x = functor(args[0]);
         return bar;
     };
-    bar.y = (_x) => {
-        if (!arguments.length) {
+    bar.y = (...args) => {
+        if (!args.length) {
             return y;
         }
-        y = functor(_x);
+        y = functor(args[0]);
         return bar;
     };
-    bar.width = (_x) => {
-        if (!arguments.length) {
+    bar.width = (...args) => {
+        if (!args.length) {
             return width;
         }
-        width = functor(_x);
+        width = functor(args[0]);
         return bar;
     };
-    bar.horizontalAlign = (_x) => {
-        if (!arguments.length) {
+    bar.horizontalAlign = (...args) => {
+        if (!args.length) {
             return horizontalAlign;
         }
-        horizontalAlign = _x;
+        horizontalAlign = args[0];
         return bar;
     };
-    bar.height = (_x) => {
-        if (!arguments.length) {
+    bar.height = (...args) => {
+        if (!args.length) {
             return height;
         }
-        height = functor(_x);
+        height = functor(args[0]);
         return bar;
     };
-    bar.verticalAlign = (_x) => {
-        if (!arguments.length) {
+    bar.verticalAlign = (...args) => {
+        if (!args.length) {
             return verticalAlign;
         }
-        verticalAlign = _x;
+        verticalAlign = args[0];
         return bar;
     };
 

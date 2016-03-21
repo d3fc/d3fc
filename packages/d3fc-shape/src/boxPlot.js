@@ -74,74 +74,74 @@ export default () => {
         return buffer && (context = null, buffer.toString()  || null);
     };
 
-    boxPlot.context = (_x) => {
-        if (!arguments.length) {
+    boxPlot.context = (...args) => {
+        if (!args.length) {
             return context;
         }
-        context = _x;
+        context = args[0];
         return boxPlot;
     };
-    boxPlot.value = (_x) => {
-        if (!arguments.length) {
+    boxPlot.value = (...args) => {
+        if (!args.length) {
             return value;
         }
-        value = functor(_x);
+        value = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.median = (_x) => {
-        if (!arguments.length) {
+    boxPlot.median = (...args) => {
+        if (!args.length) {
             return median;
         }
-        median = functor(_x);
+        median = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.upperQuartile = (_x) => {
-        if (!arguments.length) {
+    boxPlot.upperQuartile = (...args) => {
+        if (!args.length) {
             return upperQuartile;
         }
-        upperQuartile = functor(_x);
+        upperQuartile = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.lowerQuartile = (_x) => {
-        if (!arguments.length) {
+    boxPlot.lowerQuartile = (...args) => {
+        if (!args.length) {
             return lowerQuartile;
         }
-        lowerQuartile = functor(_x);
+        lowerQuartile = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.high = (_x) => {
-        if (!arguments.length) {
+    boxPlot.high = (...args) => {
+        if (!args.length) {
             return high;
         }
-        high = functor(_x);
+        high = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.low = (_x) => {
-        if (!arguments.length) {
+    boxPlot.low = (...args) => {
+        if (!args.length) {
             return low;
         }
-        low = functor(_x);
+        low = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.width = (_x) => {
-        if (!arguments.length) {
+    boxPlot.width = (...args) => {
+        if (!args.length) {
             return width;
         }
-        width = functor(_x);
+        width = functor(args[0]);
         return boxPlot;
     };
-    boxPlot.orient = (_x) => {
-        if (!arguments.length) {
+    boxPlot.orient = (...args) => {
+        if (!args.length) {
             return orient;
         }
-        orient = _x;
+        orient = args[0];
         return boxPlot;
     };
-    boxPlot.cap = (_x) => {
-        if (!arguments.length) {
+    boxPlot.cap = (...args) => {
+        if (!args.length) {
             return cap;
         }
-        cap = functor(_x);
+        cap = functor(args[0]);
         return boxPlot;
     };
 

@@ -46,53 +46,53 @@ export default () => {
         return buffer && (context = null, buffer.toString() || null);
     };
 
-    candlestick.context = (_x) => {
-        if (!arguments.length) {
+    candlestick.context = (...args) => {
+        if (!args.length) {
             return context;
         }
-        context = _x;
+        context = args[0];
         return candlestick;
     };
-    candlestick.x = (_x) => {
-        if (!arguments.length) {
+    candlestick.x = (...args) => {
+        if (!args.length) {
             return x;
         }
-        x = functor(_x);
+        x = functor(args[0]);
         return candlestick;
     };
-    candlestick.open = (_x) => {
-        if (!arguments.length) {
+    candlestick.open = (...args) => {
+        if (!args.length) {
             return open;
         }
-        open = functor(_x);
+        open = functor(args[0]);
         return candlestick;
     };
-    candlestick.high = (_x) => {
-        if (!arguments.length) {
+    candlestick.high = (...args) => {
+        if (!args.length) {
             return high;
         }
-        high = functor(_x);
+        high = functor(args[0]);
         return candlestick;
     };
-    candlestick.low = (_x) => {
-        if (!arguments.length) {
+    candlestick.low = (...args) => {
+        if (!args.length) {
             return low;
         }
-        low = functor(_x);
+        low = functor(args[0]);
         return candlestick;
     };
-    candlestick.close = (_x) => {
-        if (!arguments.length) {
+    candlestick.close = (...args) => {
+        if (!args.length) {
             return close;
         }
-        close = functor(_x);
+        close = functor(args[0]);
         return candlestick;
     };
-    candlestick.width = (_x) => {
-        if (!arguments.length) {
+    candlestick.width = (...args) => {
+        if (!args.length) {
             return width;
         }
-        width = functor(_x);
+        width = functor(args[0]);
         return candlestick;
     };
 
