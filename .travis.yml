@@ -37,6 +37,9 @@ deploy:
       - "dist/d3fc.min.css"
       - "dist/d3fc.min.js"
       - "dist/d3fc.min.js.map"
+      - "dist/d3fc.bundle.js"
+      - "dist/d3fc.bundle.min.js"
+      - "dist/d3fc.bundle.min.js.map"
     skip_cleanup: true
     on:
       branch: master
