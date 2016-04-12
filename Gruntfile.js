@@ -118,13 +118,11 @@ module.exports = function(grunt) {
                     },
                     {
                         src: [
-                            'node_modules/css-layout/dist/css-layout.js',
-                            'node_modules/d3-svg-legend/d3-legend.js',
-                            'dist/d3fc.js',
+                            'dist/d3fc.bundle.js',
                             'dist/d3fc.css',
                             'node_modules/jquery/dist/jquery.js',
-                            'node_modules/d3/d3.js',
-                            'node_modules/seedrandom/seedrandom.min.js'],
+                            'node_modules/seedrandom/seedrandom.min.js'
+                        ],
                         dest: 'visual-tests/assets/',
                         flatten: true,
                         expand: true
