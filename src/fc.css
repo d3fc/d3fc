@@ -106,21 +106,12 @@ text {
   text-anchor: middle;
 }
 
-.tick.orient-left text,
-.tick.orient-right text {
-  dominant-baseline: middle;
-}
-
 .tick.orient-left text {
   text-anchor: end;
 }
 
 .tick.orient-right text {
   text-anchor: start;
-}
-
-.tick.orient-bottom text {
-  dominant-baseline: hanging;
 }
 
 /* Series Type Defaults */

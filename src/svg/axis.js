@@ -123,6 +123,15 @@ export default function() {
 
             g.select('text')
                .attr('transform', translate(0, labelOffset))
+               .attr('dy', function() {
+                   var offset = '0em';
+                   if (isVertical()) {
+                       offset = '0.32em';
+                   } else if (orient === 'bottom') {
+                       offset = '0.71em';
+                   }
+                   return offset;
+               })
                .text(tickFormatter);
 
             // exit - for non ordinal scales, exit by animating the tick to its new location
