@@ -26,6 +26,9 @@ var point = fc.series.point()
     .yValue(function(d) { return d.y; })
     .xScale(xScale)
     .yScale(yScale)
+    .size(function(d, i) {
+        return Math.pow((i % 4) + 1, 2) * 20;
+    })
     .type(function(d, i) {
         // pick a symbol type based on index
         return ['circle', 'cross', 'diamond', 'square'][i % 4];
