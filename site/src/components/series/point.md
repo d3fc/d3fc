@@ -38,7 +38,7 @@ As the series is built using the `d3.svg.symbol`, the following symbol `types` a
 * triangle-down - a downward-pointing equilateral triangle.
 * triangle-up - an upward-pointing equilateral triangle.
 
-You can specify the symbol via `type` property, e.g. `type('diamond')`, or provide a function as illustrated in the example below:
+You can specify the size and type of the symbol via the `size` and `type` properties. For both, a value can be provided e.g. `size(200)`, `type('diamond')`, or a function as illustrated in the example below:
 
 
 ```js
