@@ -101,7 +101,7 @@
             .series([landOceanLine, stationLine]);
 
         var xDomain = temperatureSeries[0].values.map(function(d) { return d.MonthName; });
-        var yDomain = extentWithZero.fields(['Station'])(temperatureSeries.map(function(d) { return d.values; }));
+        var yDomain = extentWithZero.fields(['Station', 'Land+Ocean'])(temperatureSeries.map(function(d) { return d.values; }));
 
         var smallMultiples = fc.chart.smallMultiples(
                 d3.scale.ordinal(),
