@@ -81,6 +81,7 @@ text {
 
 .multiples-chart .label {
   dominant-baseline: text-before-edge;
+  text-anchor: middle;
 }
 
 .multiples-chart .background {
