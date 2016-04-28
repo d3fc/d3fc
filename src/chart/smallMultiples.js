@@ -21,7 +21,9 @@ export default function(xScale, yScale) {
             right: 30
         },
         values = function(d) { return d.values; },
-        key = function(d) { return d.key; };
+        key = function(d) { return d.key; },
+        xDomain,
+        yDomain;
 
     var xAxis = axis()
         .ticks(2);
@@ -40,9 +42,39 @@ export default function(xScale, yScale) {
         xAxisDataJoin = classedDataJoin('x-axis'),
         yAxisDataJoin = classedDataJoin('y-axis');
 
+    function generateMultiple(_xDomain, _yDomain) {
+        var multipleContainer = d3.select(this);
+
+        xScale.domain(_xDomain);
+        yScale.domain(_yDomain);
+
+        plotArea.xScale(xScale)
+            .yScale(yScale);
+
+        multipleContainer.datum(values)
+            .call(plotArea);
+    }
+
+    function generateXAxis(_xDomain) {
+        var xAxisContainer = d3.select(this);
+
+        xScale.domain(_xDomain);
+
+        xAxis.scale(xScale);
+        xAxisContainer.call(xAxis);
+    }
+
+    function generateYAxis(_yDomain) {
+        var yAxisContainer = d3.select(this);
+
+        yScale.domain(_yDomain);
+
+        yAxis.scale(yScale);
+        yAxisContainer.call(yAxis);
+    }
+
     var multiples = function(selection) {
         selection.each(function(data, index) {
-
             var container = d3.select(this);
 
             var expandedMargin = expandRect(margin);
@@ -75,8 +107,15 @@ export default function(xScale, yScale) {
             setRange(xScale, [0, multipleWidth]);
             setRange(yScale, [multipleHeight, 0]);
 
-            plotArea.xScale(xScale)
-                .yScale(yScale);
+            var colData = d3.range(columns).map(function() { return []; });
+            var rowData = d3.range(rows).map(function() { return []; });
+            data.forEach(function(datum, _i) {
+                colData[_i % columns].push(datum);
+                rowData[Math.floor(_i / columns)].push(datum);
+            });
+
+            var xDomains = colData.map(function(d) { return d3.functor(xDomain)(d); });
+            var yDomains = rowData.map(function(d) { return d3.functor(yDomain)(d); });
 
             // create a container for each multiple chart
             var multipleContainer = dataJoin(plotAreaContainer, data);
@@ -96,10 +135,11 @@ export default function(xScale, yScale) {
                 .attr('class', 'label')
                 .text(key);
 
-            // on update, call the plotArea and size the rect element
             multipleContainer.select('g')
-                .datum(values)
-                .call(plotArea);
+                .each(function(d, i) {
+                    generateMultiple.call(this, xDomains[i % columns], yDomains[Math.floor(i / columns)]);
+                });
+
             multipleContainer.select('rect')
                 .attr({width: multipleWidth, height: multipleHeight});
 
@@ -112,8 +152,9 @@ export default function(xScale, yScale) {
                 var translation = translationForMultiple(i, row);
                 return 'translate(' + translation.xOffset + ',' + (translation.yOffset + offset) + ')';
             });
-            xAxis.scale(xScale);
-            xAxisContainer.call(xAxis);
+            xAxisContainer.each(function(d, i) {
+                generateXAxis.call(this, xDomains[i]);
+            });
 
             var yAxisContainer = yAxisDataJoin(plotAreaContainer, d3.range(rows));
             yAxisContainer.attr('transform', function(d, i) {
@@ -122,14 +163,16 @@ export default function(xScale, yScale) {
                 var translation = translationForMultiple(column, i);
                 return 'translate(' + (translation.xOffset + offset) + ',' + translation.yOffset + ')';
             });
-            yAxis.scale(yScale);
-            yAxisContainer.call(yAxis);
+            yAxisContainer.each(function(d, i) {
+                generateYAxis.call(this, yDomains[i]);
+            });
         });
     };
 
     var scaleExclusions = exclude(
         /range\w*/,   // the scale range is set via the component layout
-        /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
+        /tickFormat/,  // use axis.tickFormat instead (only present on linear scales)
+        /domain/
     );
     rebindAll(multiples, xScale, scaleExclusions, prefix('x'));
     rebindAll(multiples, yScale, scaleExclusions, prefix('y'));
@@ -190,6 +233,22 @@ export default function(xScale, yScale) {
             return decorate;
         }
         decorate = x;
+        return multiples;
+    };
+
+    multiples.xDomain = function(x) {
+        if (!arguments.length) {
+            return xDomain;
+        }
+        xDomain = x;
+        return multiples;
+    };
+
+    multiples.yDomain = function(x) {
+        if (!arguments.length) {
+            return yDomain;
+        }
+        yDomain = x;
         return multiples;
     };
 
