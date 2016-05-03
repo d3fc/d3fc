@@ -3,7 +3,10 @@ d3.csv('./stocks.csv', type, function(error, data) {
         .key(function(d) { return d.symbol; })
         .entries(data);
 
-    var priceExtent = fc.util.extent().fields(['price']).pad(0.5);
+    var priceExtent = fc.util.extent()
+        .fields(['price'])
+        .pad([0, 0.5])
+        .include([0]);
 
     symbols.forEach(function(symbol) {
         var minPrice = d3.max([priceExtent(symbol.values)[0], 0]);
@@ -25,7 +28,9 @@ d3.csv('./stocks.csv', type, function(error, data) {
     var multi = fc.series.multi()
         .series([area, line]);
 
-    var xDomain = fc.util.extent().fields(['date'])(symbols.map(function(_d) { return _d.values; }));
+    var xExtent = fc.util.extent()
+        .fields(['date']);
+    var xDomain = xExtent(symbols.map(function(_d) { return _d.values; }));
 
     var smallMultiples = fc.chart.smallMultiples(
             fc.scale.dateTime(),
@@ -35,9 +40,8 @@ d3.csv('./stocks.csv', type, function(error, data) {
         .margin({left: 20, right: 50, bottom: 30})
         .plotArea(multi)
         .xDomain(xDomain)
-        .yDomain(function(d) {
-            var domain = priceExtent(d.map(function(_d) { return _d.values; }));
-            return [d3.max([domain[0], 0]), domain[1]];
+        .yDomain(function(row) {
+            return priceExtent(row.map(function(d) { return d.values; }));
         });
 
     d3.select('#multiples-varying-y-domain')

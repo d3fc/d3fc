@@ -1,0 +1,8 @@
+#multiples-varying-y-domain path.area {
+  fill: #e7e7e7;
+}
+
+#multiples-varying-y-domain path.line {
+  stroke: #666;
+  stroke-width: 1.5px
+}
