@@ -42,35 +42,22 @@ export default function(xScale, yScale) {
         xAxisDataJoin = classedDataJoin('x-axis'),
         yAxisDataJoin = classedDataJoin('y-axis');
 
-    function generateMultiple(_xDomain, _yDomain) {
-        var multipleContainer = d3.select(this);
-
-        xScale.domain(_xDomain);
-        yScale.domain(_yDomain);
-
-        plotArea.xScale(xScale)
-            .yScale(yScale);
-
-        multipleContainer.datum(values)
-            .call(plotArea);
+    function cellForIndex(index) {
+        return [index % columns, Math.floor(index / columns)];
     }
 
-    function generateXAxis(_xDomain) {
-        var xAxisContainer = d3.select(this);
-
-        xScale.domain(_xDomain);
-
-        xAxis.scale(xScale);
-        xAxisContainer.call(xAxis);
+    function cellsAreEqual(a, b) {
+        return a[0] === b[0] && a[1] === b[1];
     }
 
-    function generateYAxis(_yDomain) {
-        var yAxisContainer = d3.select(this);
-
-        yScale.domain(_yDomain);
-
-        yAxis.scale(yScale);
-        yAxisContainer.call(yAxis);
+    function domainsForCell(cell, data) {
+        var dataForCell = data.filter(function(datum, index) {
+            return cellsAreEqual(cellForIndex(index), cell);
+        });
+        return [
+            xDomain(dataForCell),
+            yDomain(dataForCell)
+        ];
     }
 
     var multiples = function(selection) {
@@ -107,16 +94,6 @@ export default function(xScale, yScale) {
             setRange(xScale, [0, multipleWidth]);
             setRange(yScale, [multipleHeight, 0]);
 
-            var colData = d3.range(columns).map(function() { return []; });
-            var rowData = d3.range(rows).map(function() { return []; });
-            data.forEach(function(datum, _i) {
-                colData[_i % columns].push(datum);
-                rowData[Math.floor(_i / columns)].push(datum);
-            });
-
-            var xDomains = colData.map(function(d) { return d3.functor(xDomain)(d); });
-            var yDomains = rowData.map(function(d) { return d3.functor(yDomain)(d); });
-
             // create a container for each multiple chart
             var multipleContainer = dataJoin(plotAreaContainer, data);
             multipleContainer.attr('transform', function(d, i) {
@@ -137,7 +114,16 @@ export default function(xScale, yScale) {
 
             multipleContainer.select('g')
                 .each(function(d, i) {
-                    generateMultiple.call(this, xDomains[i % columns], yDomains[Math.floor(i / columns)]);
+                    var cell = cellForIndex(i);
+                    var domains = domainsForCell(cell, data);
+
+                    xScale.domain(domains[0]);
+                    yScale.domain(domains[1]);
+                    plotArea.xScale(xScale)
+                        .yScale(yScale);
+
+                    d3.select(this).datum(values)
+                        .call(plotArea);
                 });
 
             multipleContainer.select('rect')
@@ -151,9 +137,11 @@ export default function(xScale, yScale) {
                 var offset = xAxis.orient() === 'bottom' ? 0 : -padding;
                 var translation = translationForMultiple(i, row);
                 return 'translate(' + translation.xOffset + ',' + (translation.yOffset + offset) + ')';
-            });
-            xAxisContainer.each(function(d, i) {
-                generateXAxis.call(this, xDomains[i]);
+            }).each(function(d, i) {
+                var domains = domainsForCell(cellForIndex(i), data);
+                xScale.domain(domains[0]);
+                xAxis.scale(xScale);
+                d3.select(this).call(xAxis);
             });
 
             var yAxisContainer = yAxisDataJoin(plotAreaContainer, d3.range(rows));
@@ -162,17 +150,19 @@ export default function(xScale, yScale) {
                 var offset = yAxis.orient() === 'left' ? -padding : 0;
                 var translation = translationForMultiple(column, i);
                 return 'translate(' + (translation.xOffset + offset) + ',' + translation.yOffset + ')';
-            });
-            yAxisContainer.each(function(d, i) {
-                generateYAxis.call(this, yDomains[i]);
+            }).each(function(d, i) {
+                var domains = domainsForCell(cellForIndex(i), data);
+                yScale.domain(domains[1]);
+                yAxis.scale(yScale);
+                d3.select(this).call(yAxis);
             });
         });
     };
 
     var scaleExclusions = exclude(
-        /range\w*/,   // the scale range is set via the component layout
+        /range\w*/,    // the scale range is set via the component layout
         /tickFormat/,  // use axis.tickFormat instead (only present on linear scales)
-        /domain/
+        /domain/       // the domain has been adapted to allow it to be expressed as a function
     );
     rebindAll(multiples, xScale, scaleExclusions, prefix('x'));
     rebindAll(multiples, yScale, scaleExclusions, prefix('y'));
@@ -240,7 +230,7 @@ export default function(xScale, yScale) {
         if (!arguments.length) {
             return xDomain;
         }
-        xDomain = x;
+        xDomain = d3.functor(x);
         return multiples;
     };
 
@@ -248,7 +238,7 @@ export default function(xScale, yScale) {
         if (!arguments.length) {
             return yDomain;
         }
-        yDomain = x;
+        yDomain = d3.functor(x);
         return multiples;
     };
 
