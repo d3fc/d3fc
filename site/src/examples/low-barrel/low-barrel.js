@@ -256,6 +256,8 @@
             });
 
         var line = fc.series.line()
+            .xValue(function(d) { return d.date; })
+            .yValue(function(d) { return d.close; })
             .decorate(function(sel) {
                 sel.enter().style({stroke: '#06c'});
             });
