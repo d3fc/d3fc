@@ -10,9 +10,6 @@ import tool from './tool/tool';
 import util from './util/util';
 import layout from './layout/layout';
 
-// Needs to be defined like this so that the grunt task can update it
-var version = 'development';
-
 export default {
     annotation: annotation,
     chart: chart,
@@ -23,6 +20,5 @@ export default {
     svg: svg,
     tool: tool,
     util: util,
-    version: version,
     layout: layout
 };

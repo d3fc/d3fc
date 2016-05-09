@@ -264,12 +264,6 @@ module.exports = function(grunt) {
             site: ['site/dist/*']
         },
 
-        version: {
-            defaults: {
-                src: ['dist/d3fc.js']
-            }
-        },
-
         less: {
             site: {
                 files: {
@@ -326,7 +320,7 @@ module.exports = function(grunt) {
     require('jit-grunt')(grunt);
 
     grunt.registerTask('components', [
-        'eslint:components', 'clean:components', 'rollup:components', 'version', 'concat:components',
+        'eslint:components', 'clean:components', 'rollup:components', 'concat:components',
         'concat_css:components', 'cssmin:components', 'eslint:test', 'jasmine_nodejs:test'
     ]);
 
