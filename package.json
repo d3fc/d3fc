@@ -50,7 +50,6 @@
     "grunt-rollup": "^0.6.2",
     "grunt-selenium-webdriver": "^0.2.451",
     "grunt-umd": "^2.3.3",
-    "grunt-version": "^1.0.0",
     "grunt-webdriver": "^1.0.0",
     "handlebars": "^4.0.5",
     "handlebars-helpers": "^0.5.8",
