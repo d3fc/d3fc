@@ -26,16 +26,16 @@ The label layout component provides a mechanism for arranging child components b
 var labelPadding = 2;
 
 // the component used to render each label
-var textLabel = fc_layout.textLabel()
+var textLabel = fc_label_layout.textLabel()
   .padding(labelPadding)
   .value(function(d) { return d.properties.name; });
 
 // a strategy that combines simulated annealing with removal
 // of overlapping labels
-var strategy = fc_layout.removeOverlaps(fc_layout.greedy());
+var strategy = fc_label_layout.removeOverlaps(fc_label_layout.greedy());
 
 // create the layout that positions the labels
-var labels = fc_layout.label(strategy)
+var labels = fc_label_layout.label(strategy)
     .size(function(d) {
         // measure the label and add the required padding
         var textSize = d3.select(this)
