@@ -12,7 +12,7 @@ export default () => {
         if (ty + d.height > bounds[1]) {
             ty -= d.height;
         }
-        return {x: tx, y: ty};
+        return {height: d.height, width: d.width, x: tx, y: ty};
     });
 
     strategy.bounds = function(value) {
