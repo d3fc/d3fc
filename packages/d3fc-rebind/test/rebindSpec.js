@@ -19,7 +19,9 @@ describe('rebind', function() {
     });
 
     it('should have the same behaviour as d3.rebind', function() {
-        rebind(target, source, 'fn');
+        var targetObject = rebind(target, source, 'fn');
+        expect(targetObject).toBe(target);
+
         expect(target.fn())
             .toEqual(value);
 

@@ -81,4 +81,8 @@ describe('rebindAll', function() {
         expect(target.xInnerTickSize()).toEqual(source.innerTickSize());
         expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
     });
+
+    it('should return the target', function() {
+        expect(rebindAll(target, source)).toBe(target);
+    });
 });
