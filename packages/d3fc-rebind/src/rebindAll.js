@@ -23,4 +23,5 @@ export default (target, source, ...transforms) => {
             target[result] = createReboundMethod(target, source, name);
         }
     }
+    return target;
 };
