@@ -1,4 +1,4 @@
-import feed from './feed/feed';
+import * as feed from 'd3fc-financial-feed';
 import random from './random/random';
 import sampler from './sampler/sampler';
 import spread from './spread';
