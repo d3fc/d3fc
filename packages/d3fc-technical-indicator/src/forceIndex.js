@@ -10,10 +10,10 @@ export default function() {
     const value = identity;
 
     const emaComputer = exponentialMovingAverage()
-        .windowSize(13);
+        .period(13);
 
     const slidingWindow = _slidingWindow()
-        .windowSize(2)
+        .period(2)
         .accumulator(values => (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]));
 
     const force = data => {
@@ -26,14 +26,14 @@ export default function() {
         return smoothedForceIndex;
     };
 
-    force.volumeValue = function(...args) {
+    force.volumeValue = (...args) => {
         if (!args.length) {
             return volumeValue;
         }
         volumeValue = args[0];
         return force;
     };
-    force.closeValue = function(...args) {
+    force.closeValue = (...args) => {
         if (!args.length) {
             return closeValue;
         }
@@ -41,7 +41,7 @@ export default function() {
         return force;
     };
 
-    rebind(force, emaComputer, 'windowSize');
+    rebind(force, emaComputer, 'period');
 
     return force;
 }

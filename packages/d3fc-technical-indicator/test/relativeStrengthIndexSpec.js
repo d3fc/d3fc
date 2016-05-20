@@ -20,7 +20,8 @@ describe('relativeStrengthIndex', function() {
 
     beforeEach(function() {
         rsi = relativeStrengthIndex()
-            .windowSize(5);
+            .value((d) => d.close)
+            .period(5);
     });
 
     it('should not return any RSI values when data size is zero', function() {
@@ -43,7 +44,7 @@ describe('relativeStrengthIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return undefined RSI values when data size is less than window size', function() {
+    it('should return undefined RSI values when data size is less than period size', function() {
         var data = [
             {close: 37.875},
             {close: 39.5},
@@ -63,7 +64,7 @@ describe('relativeStrengthIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return undefined RSI values when data size equals window size', function() {
+    it('should return undefined RSI values when data size equals period size', function() {
         var data = [
             {close: 37.875},
             {close: 39.5},
@@ -85,7 +86,7 @@ describe('relativeStrengthIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return one RSI value when data size equals window size plus 1', function() {
+    it('should return one RSI value when data size equals period size plus 1', function() {
         var data = [
             {close: 37.875},
             {close: 39.5},
@@ -109,7 +110,7 @@ describe('relativeStrengthIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return two RSI values when data size equals window size plus 2', function() {
+    it('should return two RSI values when data size equals period size plus 2', function() {
         var data = [
             {close: 37.875},
             {close: 39.5},

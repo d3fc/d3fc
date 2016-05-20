@@ -19,7 +19,7 @@ describe('forceIndex', function() {
     }
 
     beforeEach(function() {
-        force = forceIndex().windowSize(3);
+        force = forceIndex().period(3);
     });
 
     it('should not return any force index values when data size is zero', function() {
@@ -42,7 +42,7 @@ describe('forceIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return undefined force index values when data size is less than window size', function() {
+    it('should return undefined force index values when data size is less than period size', function() {
         var data = [
             {close: 50.8, volume: 20177800},
             {close: 51.56, volume: 22429800}
@@ -58,7 +58,7 @@ describe('forceIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return undefined force index values when data size equals window size', function() {
+    it('should return undefined force index values when data size equals period size', function() {
         var data = [
             {close: 50.8, volume: 20177800},
             {close: 51.56, volume: 22429800},
@@ -76,7 +76,7 @@ describe('forceIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return one force index value when data size equals window size plus 1', function() {
+    it('should return one force index value when data size equals period size plus 1', function() {
         var data = [
             {close: 50.8, volume: 20177800},
             {close: 51.56, volume: 22429800},
@@ -96,7 +96,7 @@ describe('forceIndex', function() {
         verifyResult(expected, result);
     });
 
-    it('should return two force index values when data size equals window size plus 2', function() {
+    it('should return two force index values when data size equals period size plus 2', function() {
         var data = [
             {close: 50.8, volume: 20177800},
             {close: 51.56, volume: 22429800},

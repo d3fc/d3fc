@@ -3,12 +3,12 @@ import { identity, noop, functor } from './fn';
 export default function() {
 
     let undefinedValue = () => undefined;
-    let windowSize = () => 10;
+    let period = () => 10;
     let accumulator = noop;
     let value = identity;
 
     var slidingWindow = function(data) {
-        const size = windowSize.apply(this, arguments);
+        const size = period.apply(this, arguments);
         const windowData = data.slice(0, size).map(value);
         return data.map((d, i) => {
             if (i < size - 1) {
@@ -30,11 +30,11 @@ export default function() {
         undefinedValue = functor(args[0]);
         return slidingWindow;
     };
-    slidingWindow.windowSize = (...args) => {
+    slidingWindow.period = (...args) => {
         if (!args.length) {
-            return windowSize;
+            return period;
         }
-        windowSize = functor(args[0]);
+        period = functor(args[0]);
         return slidingWindow;
     };
     slidingWindow.accumulator = (...args) => {

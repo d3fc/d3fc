@@ -9,11 +9,11 @@ export default function() {
     let value = identity;
 
     const fastEMA = exponentialMovingAverage()
-        .windowSize(12);
+        .period(12);
     const slowEMA = exponentialMovingAverage()
-        .windowSize(29);
+        .period(29);
     const signalEMA = exponentialMovingAverage()
-        .windowSize(9);
+        .period(9);
     const adaptedSignalEMA = undefinedInputAdapter()
         .algorithm(signalEMA);
 
@@ -45,9 +45,9 @@ export default function() {
         return macd;
     };
 
-    rebindAll(macd, fastEMA, includeMap({'windowSize': 'fastPeriod'}));
-    rebindAll(macd, slowEMA, includeMap({'windowSize': 'slowPeriod'}));
-    rebindAll(macd, signalEMA, includeMap({'windowSize': 'signalPeriod'}));
+    rebindAll(macd, fastEMA, includeMap({'period': 'fastPeriod'}));
+    rebindAll(macd, slowEMA, includeMap({'period': 'slowPeriod'}));
+    rebindAll(macd, signalEMA, includeMap({'period': 'signalPeriod'}));
 
     return macd;
 }

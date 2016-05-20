@@ -9,7 +9,7 @@ export default function() {
     let lowValue = (d, i) => d.low;
 
     const kWindow = slidingWindow()
-        .windowSize(5)
+        .period(5)
         .accumulator(values => {
             const maxHigh = max(values, highValue);
             const minLow = min(values, lowValue);
@@ -17,7 +17,7 @@ export default function() {
         });
 
     const dWindow = slidingWindow()
-        .windowSize(3)
+        .period(3)
         .accumulator(values => values[0] === undefined ? undefined : mean(values));
 
     const stochastic = data => {
@@ -48,8 +48,8 @@ export default function() {
         return stochastic;
     };
 
-    rebindAll(stochastic, kWindow, includeMap({'windowSize': 'kWindowSize'}));
-    rebindAll(stochastic, dWindow, includeMap({'windowSize': 'dWindowSize'}));
+    rebindAll(stochastic, kWindow, includeMap({'period': 'kPeriod'}));
+    rebindAll(stochastic, dWindow, includeMap({'period': 'dPeriod'}));
 
     return stochastic;
 }

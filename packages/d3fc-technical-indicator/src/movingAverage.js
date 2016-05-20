@@ -9,7 +9,7 @@ export default function() {
 
     const movingAverage = data => slidingWindow(data);
 
-    rebind(movingAverage, slidingWindow, 'windowSize', 'value');
+    rebind(movingAverage, slidingWindow, 'period', 'value');
 
     return movingAverage;
 }

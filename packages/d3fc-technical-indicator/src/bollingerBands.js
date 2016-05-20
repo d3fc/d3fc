@@ -32,7 +32,7 @@ export default function() {
         return bollingerBands;
     };
 
-    rebind(bollingerBands, slidingWindow, 'windowSize', 'value');
+    rebind(bollingerBands, slidingWindow, 'period', 'value');
 
     return bollingerBands;
 }

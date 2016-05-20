@@ -20,12 +20,12 @@ describe('stochasticOscillator', function() {
             {high: 114.57, low: 112.44, close: 112.44}];
     });
 
-    it('should have a kWindowSize property defaulted to 5', function() {
-        var func = stoc.kWindowSize()();
+    it('should have a kPeriod property defaulted to 5', function() {
+        var func = stoc.kPeriod()();
         expect(func).toBe(5);
     });
-    it('should have a dWindowSize property defaulted to 3', function() {
-        var func = stoc.dWindowSize()();
+    it('should have a dPeriod property defaulted to 3', function() {
+        var func = stoc.dPeriod()();
         expect(func).toBe(3);
     });
     it('should return a data set same length as input', function() {

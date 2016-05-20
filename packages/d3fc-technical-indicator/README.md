@@ -37,7 +37,7 @@ Parameters of indicators can be configured for each component instance, otherwis
 import { bollingerBands } from d3fc-technical-indicator;
 
 const bollingerGenerator = bollingerBands()
-    .windowSize(3);
+    .period(3);
 
 bollingerGenerator([5, 6, 7, 6, 5, 4]);
 // [
@@ -62,9 +62,9 @@ Constructs a new Bollinger band generator with the default settings.
 
 Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*bollingerBands*.**windowSize**([*size*])
+*bollingerBands*.**period**([*size*])
 
-Get/set the window size of the moving average and standard deviation calculations performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
+Get/set the period of the moving average and standard deviation calculations performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
 
 *bollingerBands*.**multiplier**([*multiplier*])
 
@@ -138,9 +138,9 @@ Constructs a new simple moving average generator with the default settings.
 
 Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*movingAverage*.**windowSize**([*size*])
+*movingAverage*.**period**([*size*])
 
-Get/set the window size of the moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
+Get/set the period of the moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
 
 *movingAverage*(*data*)
 
@@ -157,9 +157,9 @@ Constructs a new exponential moving average generator with the default settings.
 
 Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*exponentialMovingAverage*.**windowSize**([*size*])
+*exponentialMovingAverage*.**period**([*size*])
 
-Get/set the window size of the exponential moving average calculation performed by the generator. Defaults to 9.
+Get/set the period of the exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
 *exponentialMovingAverage*(*data*)
 
@@ -180,9 +180,9 @@ Get/set the accessor function used to obtain the close price value to be used by
 
 Get/set the accessor function used to obtain the trade volume value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.volume`.
 
-*forceIndex*.**windowSize**([*size*])
+*forceIndex*.**period**([*size*])
 
-Get/set the window size of the exponential moving average calculation performed by the generator. Defaults to 13.
+Get/set the period of the exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
 
 *forceIndex*(*data*)
 
@@ -201,15 +201,15 @@ Get/set the accessor function used to obtain the value to be used by the generat
 
 *macd*.**fastPeriod**([*period*])
 
-Get/set the period of the 'fast' exponential moving average calculation performed by the generator. Defaults to 12.
+Get/set the period of the 'fast' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 12.
 
 *macd*.**slowPeriod**([*period*])
 
-Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Defaults to 29.
+Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 29.
 
 *macd*.**signalPeriod**([*period*])
 
-Get/set the period of the 'signal' exponential moving average calculation performed by the generator. Defaults to 9.
+Get/set the period of the 'signal' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
 *macd*(*data*)
 
@@ -244,13 +244,13 @@ Computes the percentage change from the specified `baseIndex` for the given data
 
 Constructs a new RSI generator with the default settings.
     
-*relativeStrengthIndex*.**closeValue**([*value*])
+*relativeStrengthIndex*.**value**([*value*])
 
-Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
+Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*relativeStrengthIndex*.**windowSize**([*size*])
+*relativeStrengthIndex*.**period**([*size*])
 
-Get/set the window size of the relative strength index calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 14.
+Get/set the period of the relative strength index calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 14.
 
 *relativeStrengthIndex*(*data*)
 
@@ -275,13 +275,13 @@ Get/set the accessor function used to obtain the high price value to be used by 
 
 Get/set the accessor function used to obtain the low price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
 
-*stochasticOscillator*.**kWindowSize**([*size*])
+*stochasticOscillator*.**kPeriod**([*size*])
 
-Get/set the window size of the '%K' calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 5.
+Get/set the period of the '%K' calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 5.
 
-*stochasticOscillator*.**dWindowSize**([*size*])
+*stochasticOscillator*.**dPeriod**([*size*])
 
-Get/set the window size of the '%D' moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 3.
+Get/set the period of the '%D' moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 3.
 
 *stochasticOscillator*(*data*)
 

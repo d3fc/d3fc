@@ -1,23 +1,23 @@
-import { identity } from './fn';
+import { identity, functor } from './fn';
 
 export default function() {
 
-    let windowSize = 9;
+    let period = () => 9;
     let value = identity;
 
-    const exponentialMovingAverage = data => {
-
-        const alpha = 2 / (windowSize + 1);
+    const exponentialMovingAverage = function(data) {
+        const size = period.apply(this, arguments);
+        const alpha = 2 / (size + 1);
         let previous;
         let initialAccumulator = 0;
 
         return data.map((d, i) => {
-            if (i < windowSize - 1) {
+            if (i < size - 1) {
                 initialAccumulator += value(d, i);
                 return undefined;
-            } else if (i === windowSize - 1) {
+            } else if (i === size - 1) {
                 initialAccumulator += value(d, i);
-                var initialValue = initialAccumulator / windowSize;
+                var initialValue = initialAccumulator / size;
                 previous = initialValue;
                 return initialValue;
             } else {
@@ -28,15 +28,15 @@ export default function() {
         });
     };
 
-    exponentialMovingAverage.windowSize = function(...args) {
+    exponentialMovingAverage.period = (...args) => {
         if (!args.length) {
-            return windowSize;
+            return period;
         }
-        windowSize = args[0];
+        period = functor(args[0]);
         return exponentialMovingAverage;
     };
 
-    exponentialMovingAverage.value = function(...args) {
+    exponentialMovingAverage.value = (...args) => {
         if (!args.length) {
             return value;
         }

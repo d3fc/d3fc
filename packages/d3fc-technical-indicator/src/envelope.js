@@ -1,4 +1,4 @@
-import { identity, functor } from './fn';
+import { identity } from './fn';
 
 export default function() {
 
@@ -24,7 +24,7 @@ export default function() {
         if (!args.length) {
             return value;
         }
-        value = functor(args[0]);
+        value = args[0];
         return envelope;
     };
 

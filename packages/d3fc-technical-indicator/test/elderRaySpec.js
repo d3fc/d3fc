@@ -21,7 +21,8 @@ describe('elderRay', function() {
     });
 
     it('should have a period property defaulted to 13', function() {
-        expect(elderRay.period()).toBe(13);
+        var periodFn = elderRay.period();
+        expect(periodFn()).toBe(13);
     });
     it('should return a data set same length as input', function() {
         var result = elderRay(testData);

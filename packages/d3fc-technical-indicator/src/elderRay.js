@@ -1,5 +1,5 @@
 import { zip } from 'd3-array';
-import { includeMap, rebindAll } from 'd3fc-rebind';
+import { rebind } from 'd3fc-rebind';
 import exponentialMovingAverage from './exponentialMovingAverage';
 import { identity } from './fn';
 
@@ -10,7 +10,7 @@ export default function() {
     let lowValue = (d, i) => d.low;
 
     const emaComputer = exponentialMovingAverage()
-        .windowSize(13);
+        .period(13);
 
     const elderRay = data => {
         emaComputer.value(value);
@@ -46,9 +46,7 @@ export default function() {
         return elderRay;
     };
 
-    rebindAll(elderRay, emaComputer, includeMap({
-        'windowSize': 'period'
-    }));
+    rebind(elderRay, emaComputer, 'period');
 
     return elderRay;
 }
