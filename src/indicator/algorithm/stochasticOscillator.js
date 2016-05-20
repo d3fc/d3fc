@@ -1,5 +1,5 @@
-import calculator from './calculator/stochasticOscillator';
-import d3 from 'd3';
+import { stochasticOscillator as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
@@ -7,15 +7,18 @@ export default function() {
     var stoc = calculator();
 
     var mergedAlgorithm = merge()
-            .algorithm(stoc)
-            .merge(function(datum, indicator) { datum.stochastic = indicator; });
+        .algorithm(stoc)
+        .merge(function(datum, indicator) {
+            datum.stochastic = indicator;
+            return datum;
+        });
 
     var stochasticOscillator = function(data) {
         return mergedAlgorithm(data);
     };
 
-    d3.rebind(stochasticOscillator, mergedAlgorithm, 'merge');
-    d3.rebind(stochasticOscillator, stoc, 'kWindowSize', 'dWindowSize', 'lowValue', 'closeValue', 'highValue');
+    rebind(stochasticOscillator, mergedAlgorithm, 'merge');
+    rebind(stochasticOscillator, stoc, 'kPeriod', 'dPeriod', 'lowValue', 'closeValue', 'highValue');
 
     return stochasticOscillator;
 }

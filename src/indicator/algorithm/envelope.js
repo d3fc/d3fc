@@ -1,22 +1,17 @@
-import envelopeCalculator from './calculator/envelope';
-import undefinedInputAdapter from './calculator/undefinedInputAdapter';
-import d3 from 'd3';
+import { envelope as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
 
-    var envelopeAlgorithm = envelopeCalculator();
-
-    var adaptedEnvelope = undefinedInputAdapter()
-        .undefinedValue({
-            lower: undefined,
-            upper: undefined
-        })
-        .algorithm(envelopeAlgorithm);
+    var envelopeAlgorithm = calculator();
 
     var mergedAlgorithm = merge()
-            .algorithm(adaptedEnvelope)
-            .merge(function(datum, env) { datum.envelope = env; });
+        .algorithm(envelopeAlgorithm)
+        .merge(function(datum, env) {
+            datum.envelope = env;
+            return datum;
+        });
 
     var envelope = function(data) {
         return mergedAlgorithm(data);
@@ -26,8 +21,8 @@ export default function() {
         return d.envelope;
     };
 
-    d3.rebind(envelope, mergedAlgorithm, 'merge');
-    d3.rebind(envelope, envelopeAlgorithm, 'value', 'factor');
+    rebind(envelope, mergedAlgorithm, 'merge');
+    rebind(envelope, envelopeAlgorithm, 'value', 'factor');
 
     return envelope;
 }

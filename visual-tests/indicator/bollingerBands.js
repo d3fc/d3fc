@@ -21,9 +21,9 @@
 
     // Create the Bollinger bands component
     var bollingerComputer = fc.indicator.algorithm.bollingerBands()
-        .windowSize(5)
+        .period(5)
         .multiplier(3)
-        .merge(function(datum, boll) { datum.boll = boll; });
+        .merge(function(datum, boll) { datum.boll = boll; });/**/
     bollingerComputer(data);
 
     priceScale.domain(fc.util.extent().fields([

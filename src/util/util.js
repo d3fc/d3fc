@@ -9,6 +9,7 @@ import * as scale from './scale';
 import {noSnap, pointSnap, seriesPointSnap, seriesPointSnapXOnly, seriesPointSnapYOnly} from './snap';
 import render from './render';
 import * as array from './array';
+import percentageChange from './percentageChange';
 
 export default {
     dataJoin: dataJoin,
@@ -25,5 +26,6 @@ export default {
     seriesPointSnapXOnly: seriesPointSnapXOnly,
     seriesPointSnapYOnly: seriesPointSnapYOnly,
     render: render,
-    array: array
+    array: array,
+    percentageChange: percentageChange
 };

@@ -1,22 +1,25 @@
-import calculator from './calculator/elderRay';
-import d3 from 'd3';
+import { elderRay as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
 
     var elderRayAlgorithm = calculator()
-        .value(function(d) { return d.close; });
+        .closeValue(function(d) { return d.close; });
 
     var mergedAlgorithm = merge()
-            .algorithm(elderRayAlgorithm)
-            .merge(function(datum, indicator) { datum.elderRay = indicator; });
+        .algorithm(elderRayAlgorithm)
+        .merge(function(datum, indicator) {
+            datum.elderRay = indicator;
+            return datum;
+        });
 
     var elderRay = function(data) {
         return mergedAlgorithm(data);
     };
 
-    d3.rebind(elderRay, mergedAlgorithm, 'merge');
-    d3.rebind(elderRay, elderRayAlgorithm, 'highValue', 'lowValue', 'period', 'value');
+    rebind(elderRay, mergedAlgorithm, 'merge');
+    rebind(elderRay, elderRayAlgorithm, 'highValue', 'lowValue', 'period', 'value');
 
     return elderRay;
 }

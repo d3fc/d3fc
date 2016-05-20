@@ -15,6 +15,7 @@
     "d3fc-rebind": "^3.0.0",
     "d3fc-sample": "^2.0.0",
     "d3fc-shape": "^3.0.0",
+    "d3fc-technical-indicator": "^4.0.1",
     "svg-innerhtml": "^1.1.0"
   },
   "homepage": "https://d3fc.io",

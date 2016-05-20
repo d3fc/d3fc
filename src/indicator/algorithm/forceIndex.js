@@ -1,5 +1,5 @@
-import calculator from './calculator/forceIndex';
-import d3 from 'd3';
+import { forceIndex as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
@@ -10,14 +10,15 @@ export default function() {
         .algorithm(force)
         .merge(function(datum, indicator) {
             datum.force = indicator;
+            return datum;
         });
 
     var forceIndex = function(data) {
         return mergedAlgorithm(data);
     };
 
-    d3.rebind(forceIndex, mergedAlgorithm, 'merge');
-    d3.rebind(forceIndex, force, 'windowSize', 'volumeValue', 'closeValue');
+    rebind(forceIndex, mergedAlgorithm, 'merge');
+    rebind(forceIndex, force, 'period', 'volumeValue', 'closeValue');
 
     return forceIndex;
 }

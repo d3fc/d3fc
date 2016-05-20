@@ -16,7 +16,7 @@ function renderChart() {
     var xExtent = fc.util.extent()
         .fields(['date'])
         .padUnit('domain')
-        .pad([DAY_MS * -bollingerAlgorithm.windowSize()(data), DAY_MS]);
+        .pad([DAY_MS * -bollingerAlgorithm.period()(data), DAY_MS]);
 
     // ensure y extent includes the bollinger bands
     var yExtent = fc.util.extent().fields([

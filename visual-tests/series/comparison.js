@@ -6,7 +6,7 @@
         fc.data.random.financial().startDate(new Date(2013, 12, 15))(50)
     ];
 
-    var percentageChange = fc.indicator.algorithm.calculator.percentageChange()
+    var percentageChange = fc.util.percentageChange()
         .value(function(d) { return d.close; });
     data.forEach(function(d) {
         d3.zip(d, percentageChange(d))
@@ -51,35 +51,38 @@
             .call(multi);
     }
 
+    function findIndex(d, item, field) {
+        // Find insertion point for item in seriesData.
+        var bisect = d3.bisector(
+            function(_d) {
+                return _d[field];
+            }).left;
+        return bisect(d, item);
+    }
+
+    function zoomed() {
+        var comparisonData = [];
+        data.forEach(function(d) {
+            var leftIndex = findIndex(d, dateScale.domain()[0], 'date'),
+                rightIndex = findIndex(d, dateScale.domain()[1], 'date');
+            if (leftIndex !== 0) {
+                leftIndex -= 1; // Try to base from the data point one before the LHS of the date axis.
+            }
+            percentageChange.baseIndex(leftIndex);
+            comparisonData.push(d.slice(leftIndex, rightIndex + 1));
+            d3.zip(d, percentageChange(d))
+                .forEach(function(tuple) {
+                    tuple[0].percentageChange = tuple[1];
+                });
+        });
+        priceScale.domain(fc.util.extent().fields(['percentageChange'])(comparisonData))
+            .nice();
+        render();
+    }
+
     var zoom = d3.behavior.zoom()
         .x(dateScale)
-        .on('zoom', function zoomed() {
-            function findIndex(d, item, field) {
-                // Find insertion point for item in seriesData.
-                var bisect = d3.bisector(
-                    function(_d) {
-                        return _d[field];
-                    }).left;
-                return bisect(d, item);
-            }
-            var comparisonData = [];
-            data.forEach(function(d) {
-                var leftIndex = findIndex(d, dateScale.domain()[0], 'date'),
-                    rightIndex = findIndex(d, dateScale.domain()[1], 'date');
-                if (leftIndex !== 0) {
-                    leftIndex -= 1; // Try to base from the data point one before the LHS of the date axis.
-                }
-                percentageChange.baseIndex(leftIndex);
-                comparisonData.push(d.slice(leftIndex, rightIndex + 1));
-                d3.zip(d, percentageChange(d))
-                    .forEach(function(tuple) {
-                        tuple[0].percentageChange = tuple[1];
-                    });
-            });
-            priceScale.domain(fc.util.extent().fields(['percentageChange'])(comparisonData))
-                .nice();
-            render();
-        })
+        .on('zoom', zoomed)
         .scaleExtent([0.5, 3]);
     container.call(zoom);
 

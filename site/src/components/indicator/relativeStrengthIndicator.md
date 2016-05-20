@@ -26,4 +26,4 @@ Which yields the following:
 {{{rsi-example-js}}}
 </script>
 
-You can configure the number of datapoints that are included in the RSI via the `windowSize` property, you can also change how the close values are read via the `closeValue` property.
+You can configure the number of datapoints that are included in the RSI via the `period` property, you can also change how the close values are read via the `value` property.

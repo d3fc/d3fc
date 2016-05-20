@@ -1,23 +1,25 @@
-import calculator from './calculator/slidingWindow';
-import d3 from 'd3';
+import { movingAverage as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
 
     var ma = calculator()
-            .accumulator(d3.mean)
-            .value(function(d) { return d.close; });
+        .value(function(d) { return d.close; });
 
     var mergedAlgorithm = merge()
-            .algorithm(ma)
-            .merge(function(datum, indicator) { datum.movingAverage = indicator; });
+        .algorithm(ma)
+        .merge(function(datum, indicator) {
+            datum.movingAverage = indicator;
+            return datum;
+        });
 
     var movingAverage = function(data) {
         return mergedAlgorithm(data);
     };
 
-    d3.rebind(movingAverage, mergedAlgorithm, 'merge');
-    d3.rebind(movingAverage, ma, 'windowSize', 'undefinedValue', 'value');
+    rebind(movingAverage, mergedAlgorithm, 'merge');
+    rebind(movingAverage, ma, 'period', 'value');
 
     return movingAverage;
 }

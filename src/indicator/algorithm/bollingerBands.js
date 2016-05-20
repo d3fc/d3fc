@@ -1,5 +1,5 @@
-import calculator from './calculator/bollingerBands';
-import d3 from 'd3';
+import { bollingerBands as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
@@ -8,8 +8,11 @@ export default function() {
         .value(function(d) { return d.close; });
 
     var mergedAlgorithm = merge()
-            .algorithm(bollingerAlgorithm)
-            .merge(function(datum, indicator) { datum.bollingerBands = indicator; });
+        .algorithm(bollingerAlgorithm)
+        .merge(function(datum, indicator) {
+            datum.bollingerBands = indicator;
+            return datum;
+        });
 
     var bollingerBands = function(data) {
         return mergedAlgorithm(data);
@@ -19,8 +22,8 @@ export default function() {
         return d.bollingerBands;
     };
 
-    d3.rebind(bollingerBands, mergedAlgorithm, 'merge');
-    d3.rebind(bollingerBands, bollingerAlgorithm, 'windowSize', 'value', 'multiplier');
+    rebind(bollingerBands, mergedAlgorithm, 'merge');
+    rebind(bollingerBands, bollingerAlgorithm, 'period', 'value', 'multiplier');
 
     return bollingerBands;
 }

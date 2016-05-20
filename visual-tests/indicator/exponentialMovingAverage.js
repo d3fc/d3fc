@@ -25,13 +25,14 @@
     // Create the moving average bands component
     var movingAverage = fc.indicator.algorithm.exponentialMovingAverage()
         .value(function(d) { return d.high; })
-        .windowSize(3);
+        .period(3);
 
     movingAverage(data);
 
     // create the series
     var ohlc = fc.series.ohlc();
     var line = fc.series.line()
+        .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.exponentialMovingAverage; });
 
     var multi = fc.series.multi()

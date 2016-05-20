@@ -1,12 +1,11 @@
-import calculator from './calculator/slidingWindow';
 import d3 from 'd3';
-import {noop} from '../../util/fn';
+import { noop, identity } from '../../util/fn';
 
 // applies an algorithm to an array and merges the result using the given merge function.
 export default function() {
 
     var merge = noop,
-        algorithm = calculator();
+        algorithm = identity;
 
     var mergeCompute = function(data) {
         return d3.zip(data, algorithm(data))
