@@ -73,7 +73,6 @@
             .component(tooltip);
 
         var tooltipLayout = fc.layout.label(fc.layout.strategy.boundingBox())
-            .position([function(d) { return d.x; }, function(d) { return d.y; }])
             .size([150, 104])
             .component(tooltipContainer);
 
