@@ -1,23 +1,25 @@
-const _envelope = require('../build/d3fc-technical-indicator').envelope;
+const _bollingerBands = require('../build/d3fc-technical-indicator').bollingerBands;
 const readCsv = require('./readcsv.js');
 
-describe('envelope', () => {
+describe('bollingerBands', () => {
     it('should match the expected output', done => {
         Promise.all([
             readCsv('./test/data/input.csv'),
-            readCsv('./test/data/envelope.csv')
+            readCsv('./test/data/bollingerBands.csv')
         ])
         .then(result => {
             const input = result[0];
             const expectedOutput = result[1];
 
-            const envelope = _envelope();
-            const output = envelope(input.map(d => d.Open));
+            const bollingerBands = _bollingerBands();
+            const output = bollingerBands(input.map(d => d.Open));
 
             expect(output.map(d => d.upper))
                 .toBeEqualWithTolerance(expectedOutput.map(d => d.UPPER));
             expect(output.map(d => d.lower))
                 .toBeEqualWithTolerance(expectedOutput.map(d => d.LOWER));
+            expect(output.map(d => d.average))
+                .toBeEqualWithTolerance(expectedOutput.map(d => d.SMA));
         })
         .then(done);
     });

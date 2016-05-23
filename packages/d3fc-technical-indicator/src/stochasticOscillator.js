@@ -42,7 +42,7 @@ export default function() {
     };
     stochastic.lowValue = (...args) => {
         if (!args.length) {
-            return highValue;
+            return lowValue;
         }
         lowValue = args[0];
         return stochastic;

@@ -7,7 +7,6 @@ export default function() {
 
     let volumeValue = (d, i) => d.volume;
     let closeValue = (d, i) => d.close;
-    const value = identity;
 
     const emaComputer = exponentialMovingAverage()
         .period(13);
@@ -17,7 +16,7 @@ export default function() {
         .accumulator(values => (closeValue(values[1]) - closeValue(values[0])) * volumeValue(values[1]));
 
     const force = data => {
-        emaComputer.value(value);
+        emaComputer.value(identity);
         const forceIndex = slidingWindow(data).filter(identity);
         const smoothedForceIndex = emaComputer(forceIndex);
         if (data.length) {

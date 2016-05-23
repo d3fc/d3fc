@@ -20,7 +20,6 @@ npm install d3fc-technical-indicator
 * [Exponential Moving Average](#exponential-moving-average)
 * [Force Index](#force-index)
 * [MACD](#macd)
-* [Percentage Change](#percentage-change)
 * [Relative Strength Index](#relative-strength-index)
 * [Stochastic Oscillator](#stochastic-oscillator)
 
@@ -82,7 +81,7 @@ Computes the Bollinger bands for the given data array. Returns an array of objec
 
 *d3fc_indicator*.**elderRay**()
 
-Constructs a new Elder-ray generator with the default settings. 
+Constructs a new Elder-ray generator with the default settings.
 
 *elderRay*.**value**([*value*])
 
@@ -111,7 +110,7 @@ Computes the Elder-ray for the given data array. Returns an array of objects wit
 
 *d3fc_indicator*.**envelope**()
 
-Constructs a new envelope generator with the default settings. 
+Constructs a new envelope generator with the default settings.
 
 *envelope*.**value**([*value*])
 
@@ -131,9 +130,9 @@ Computes the envelope for the given data array. Returns an array of objects with
 ## Moving Average
 
 *d3fc_indicator*.**movingAverage**()
- 
+
 Constructs a new simple moving average generator with the default settings.
-    
+
 *movingAverage*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
@@ -194,7 +193,7 @@ Computes the force index for the given data array. Returns an array of force ind
 *d3fc_indicator*.**macd**()
 
 Constructs a new MACD generator with the default settings.
-    
+
 *macd*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
@@ -219,31 +218,12 @@ Computes the MACD for the given data array. Returns an array of objects with att
 * `divergence`
 
 
-## Percentage Change
-
-*d3fc_indicator*.**percentageChange**()
-
-Constructs a new percentage change generator with the default settings.
-    
-*percentageChange*.**value**([*value*])
-
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
-
-*percentageChange*.**baseIndex**([*index*])
-
-Get/set the index of the data on which to base the percentage change calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 0.
-
-*percentageChange*(*data*)
-
-Computes the percentage change from the specified `baseIndex` for the given data array. Returns an array of numeric percentage values expressed as decimals.
-
-
 ## Relative Strength Index
-                             
+
 *d3fc_indicator*.**relativeStrengthIndex**()
 
 Constructs a new RSI generator with the default settings.
-    
+
 *relativeStrengthIndex*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
@@ -262,7 +242,7 @@ Computes the RSI for the given data array. Returns an array of RSI values.
 *d3fc_indicator*.**stochasticOscillator**()
 
 Constructs a new stochastic oscillator generator with the default settings.
-    
+
 *stochasticOscillator*.**closeValue**([*value*])
 
 Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
