@@ -65,7 +65,6 @@ externals:
       <script>
       function renderStreaming() {
         {{{streaming-js}}}
-        return intervalId;
       }
       </script>
     </div>
@@ -73,15 +72,11 @@ externals:
 </div>
 
 <script>
-  var intervalId;
   function renderExamples() {
     renderStacked();
     renderBubble();
     renderSimple();
-    if (intervalId) {
-      window.clearInterval(intervalId);
-    }
-    intervalId = renderStreaming();
+    renderStreaming();
   }
   window.onresize = fc.util.render(renderExamples);
   renderExamples();
