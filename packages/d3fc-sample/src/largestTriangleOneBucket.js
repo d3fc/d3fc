@@ -1,4 +1,5 @@
-import d3 from 'd3';
+import { max, range } from 'd3-array';
+import { rebind } from 'd3fc-rebind';
 import bucket from './bucket';
 
 export default function() {
@@ -21,7 +22,7 @@ export default function() {
         var subsampledData = buckets.map((thisBucket, i) => {
 
             var pointAreaBucket = pointAreaBuckets[i];
-            var maxArea = d3.max(pointAreaBucket);
+            var maxArea = max(pointAreaBucket);
             var currentMaxIndex = pointAreaBucket.indexOf(maxArea);
 
             return thisBucket[currentMaxIndex];
@@ -35,7 +36,7 @@ export default function() {
 
         var xyData = data.map((point) => [x(point), y(point)]);
 
-        var pointAreas = d3.range(1, xyData.length - 1).map((i) => {
+        var pointAreas = range(1, xyData.length - 1).map((i) => {
             var lastPoint = xyData[i - 1];
             var thisPoint = xyData[i];
             var nextPoint = xyData[i + 1];
@@ -49,7 +50,7 @@ export default function() {
         return pointAreas;
     }
 
-    d3.rebind(largestTriangleOneBucket, dataBucketer, 'bucketSize');
+    rebind(largestTriangleOneBucket, dataBucketer, 'bucketSize');
 
     largestTriangleOneBucket.x = function(d) {
         if (!arguments.length) {

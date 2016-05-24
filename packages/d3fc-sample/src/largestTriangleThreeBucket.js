@@ -1,4 +1,5 @@
-import d3 from 'd3';
+import { mean, max } from 'd3-array';
+import { rebind } from 'd3fc-rebind';
 import bucket from './bucket';
 
 export default function() {
@@ -26,8 +27,8 @@ export default function() {
 
         var subsampledData = buckets.map((thisBucket, i) => {
 
-            var nextAvgX = d3.mean(allBuckets[i + 1], x);
-            var nextAvgY = d3.mean(allBuckets[i + 1], y);
+            var nextAvgX = mean(allBuckets[i + 1], x);
+            var nextAvgY = mean(allBuckets[i + 1], y);
 
             var xyData = thisBucket.map((item) => [x(item), y(item)]);
 
@@ -38,7 +39,7 @@ export default function() {
                 return Math.abs(0.5 * base * height);
             });
 
-            var highestIndex = areas.indexOf(d3.max(areas));
+            var highestIndex = areas.indexOf(max(areas));
             var highestXY = xyData[highestIndex];
 
             lastSelectedX = highestXY[0];
@@ -51,7 +52,7 @@ export default function() {
         return [].concat(data[0], subsampledData, data[data.length - 1]);
     };
 
-    d3.rebind(largestTriangleThreeBucket, dataBucketer, 'bucketSize');
+    rebind(largestTriangleThreeBucket, dataBucketer, 'bucketSize');
 
     largestTriangleThreeBucket.x = function(d) {
         if (!arguments.length) {

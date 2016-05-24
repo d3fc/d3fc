@@ -62,15 +62,15 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="enforce-bounds">Bucket Size</label>
+                <label for="bucket-size">Bucket Size</label>
                 <input type="range" class="form-control" id="bucket-size" value="10" min="1" max="100" />
-                <label for="bucket-size" id="bucket-size-text">10</span>
+                <label for="bucket-size" id="bucket-size-text">10</label>
             </div>
         </form>
         <form class="form-inline row" id="data-form">
             <h4>Random Data:</h4>
             <div class="form-group">
-                <label for="label-count">Data Count</label>
+                <label for="data-count">Data Count</label>
                 <input type="text" class="form-control" id="data-count" value="2000">
                 <button class="btn btn-default" name="chart">Generate chart</button>
                 <button class="btn btn-default" name="circle">Generate circle</button>
@@ -85,9 +85,6 @@
             <svg></svg>
         </div>
 
-        <script src="https://npmcdn.com/d3@3.5.16/d3.min.js"></script>
-        <script src="https://npmcdn.com/topojson@1.6.24/build/topojson.min.js"></script>
-        <script src="lib/d3fc-sample.js"></script>
-        <script src="demo.js"></script>
+        <script src="lib/bundle.js"></script>
     </body>
 </html>

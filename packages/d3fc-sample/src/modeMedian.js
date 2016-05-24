@@ -1,4 +1,5 @@
-import d3 from 'd3';
+import { extent } from 'd3-array';
+import { rebind } from 'd3fc-rebind';
 import bucket from './bucket';
 
 export default function() {
@@ -12,7 +13,7 @@ export default function() {
             return data;
         }
 
-        var minMax = d3.extent(data, value);
+        var minMax = extent(data, value);
         var buckets = dataBucketer(data.slice(1, data.length - 1));
 
         var subsampledData = buckets.map((thisBucket, i) => {
@@ -57,7 +58,7 @@ export default function() {
         return [].concat(data[0], subsampledData, data[data.length - 1]);
     };
 
-    d3.rebind(modeMedian, dataBucketer, 'bucketSize');
+    rebind(modeMedian, dataBucketer, 'bucketSize');
 
     modeMedian.value = function(x) {
         if (!arguments.length) {

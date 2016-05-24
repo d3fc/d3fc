@@ -1,4 +1,3 @@
-require('d3');
 const sample = require('../build/d3fc-sample');
 
 describe('largestTriangleOneBucket', function() {

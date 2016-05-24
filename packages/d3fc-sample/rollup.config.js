@@ -7,6 +7,7 @@ export default {
     plugins: [ babel() ],
     dest: 'build/d3fc-sample.js',
     globals: {
-        'd3': 'd3'
+        'd3-array': 'd3_array',
+        'd3fc-rebind': 'fc_rebind'
     }
 };

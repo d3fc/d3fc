@@ -1,16 +1,15 @@
-/* global d3 fc_strategy */
-
-var labelPadding = 4;
+var d3 = require('d3');
+var topojson = require('topojson');
+var sample = require('../build/d3fc-sample');
 
 var width = 700;
 var height = 350;
-var itemWidth = 60;
-var itemHeight = 20;
-var strategy = strategyInterceptor(fc_sample.modeMedian().value(function(d) { return d.y; }));
+var strategy = strategyInterceptor(sample.modeMedian().value(function(d) { return d.y; }));
 var data = [];
 var ukData = [];
 
-d3.json("uk.json", function(error, uk) {
+d3.json('uk.json', function(error, uk) {
+    if (error) throw error;
     var mesh = topojson.mesh(uk);
     ukData = mesh.coordinates[62].map(function(d) {
         return {
@@ -135,7 +134,7 @@ d3.select('#strategy-selector')
         var strategyName = getStrategyName();
         strategy = function(d) { return d; };
         if (strategyName !== 'none') {
-            strategy = fc_sample[strategyName]()
+            strategy = sample[strategyName]()
                 .bucketSize(getBucketSize());
 
             if (strategyName !== 'modeMedian') {
