@@ -21,6 +21,6 @@ describe('bollingerBands', () => {
             expect(output.map(d => d.average))
                 .toBeEqualWithTolerance(expectedOutput.map(d => d.SMA));
         })
-        .then(done);
+        .then(done, done.fail);
     });
 });

@@ -19,6 +19,6 @@ describe('envelope', () => {
             expect(output.map(d => d.lower))
                 .toBeEqualWithTolerance(expectedOutput.map(d => d.LOWER));
         })
-        .then(done);
+        .then(done, done.fail);
     });
 });
