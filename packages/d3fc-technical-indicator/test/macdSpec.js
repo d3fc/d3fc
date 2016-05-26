@@ -11,7 +11,7 @@ describe('macd', () => {
             const input = result[0];
             const expectedOutput = result[1];
 
-            const macd = _macd();
+            const macd = _macd().slowPeriod(29);
             const output = macd(input.map(d => d.Open));
 
             expect(output.map(d => d.macd))

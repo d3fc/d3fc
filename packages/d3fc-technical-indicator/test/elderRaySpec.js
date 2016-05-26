@@ -12,7 +12,7 @@ describe('elderRay', () => {
             const expectedOutput = result[1];
 
             const elderRay = _elderRay()
-                .value(d => d.Close)
+                .closeValue(d => d.Close)
                 .highValue(d => d.High)
                 .lowValue(d => d.Low);
             const output = elderRay(input);

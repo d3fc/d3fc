@@ -11,7 +11,7 @@ export default function() {
     const fastEMA = exponentialMovingAverage()
         .period(12);
     const slowEMA = exponentialMovingAverage()
-        .period(29);
+        .period(26);
     const signalEMA = exponentialMovingAverage()
         .period(9);
     const adaptedSignalEMA = undefinedInputAdapter()

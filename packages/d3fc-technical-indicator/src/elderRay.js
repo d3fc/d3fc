@@ -1,11 +1,10 @@
 import { zip } from 'd3-array';
 import { rebind } from 'd3fc-rebind';
 import exponentialMovingAverage from './exponentialMovingAverage';
-import { identity } from './fn';
 
 export default function() {
 
-    let value = identity;
+    let closeValue = (d, i) => d.close;
     let highValue = (d, i) => d.high;
     let lowValue = (d, i) => d.low;
 
@@ -13,7 +12,7 @@ export default function() {
         .period(13);
 
     const elderRay = data => {
-        emaComputer.value(value);
+        emaComputer.value(closeValue);
         return zip(data, emaComputer(data))
             .map(d =>
                 ({
@@ -23,11 +22,11 @@ export default function() {
             );
     };
 
-    elderRay.value = (...args) => {
+    elderRay.closeValue = (...args) => {
         if (!args.length) {
-            return value;
+            return closeValue;
         }
-        value = args[0];
+        closeValue = args[0];
         return elderRay;
     };
 
