@@ -25,9 +25,14 @@ npm install d3fc-technical-indicator
 
 ## General API
 
-Pass an ordered array of data to a configured component instance to calculate a technical indicator of the data.
-Input array elements have no set structure — you can configure accessor functions to retrieve the values required.
-Parameters of indicators can be configured for each component instance, otherwise a default value will be used.
+Technical indicator calculators operate on an ordered input array of data, transforming it into a new array containing the indicator output values. 
+The length of the output array is the same as the input array.
+Calculators expose a `value` accessor property (or a number of accessors if required) used to extract values from the source array.
+For calculators that only depend on a single value for their input, the value accessor defaults to the identity function.
+Technical indicator parameters can be configured individually for each calculator instance. 
+A default value is used if a parameter is not configured.
+If an indicator calculator needs to create undefined values in the output (for example, the leading values of a moving average result), they will have the same structure as the other output objects, but will have primitive `undefined` property values.     
+
 
 ### Example usage
 
@@ -35,10 +40,10 @@ Parameters of indicators can be configured for each component instance, otherwis
 
 import { bollingerBands } from d3fc-technical-indicator;
 
-const bollingerGenerator = bollingerBands()
+const bollingerCalculator = bollingerBands()
     .period(3);
 
-bollingerGenerator([5, 6, 7, 6, 5, 4]);
+bollingerCalculator([5, 6, 7, 6, 5, 4]);
 // [
 //   { upper: undefined, average: undefined, lower: undefined },
 //   { upper: undefined, average: undefined, lower: undefined },
@@ -55,15 +60,15 @@ bollingerGenerator([5, 6, 7, 6, 5, 4]);
 
 *d3fc_indicator*.**bollingerBands**()
 
-Constructs a new Bollinger band generator with the default settings.
+Constructs a new Bollinger band calculator with the default settings.
 
 *bollingerBands*.**value**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *bollingerBands*.**period**([*size*])
 
-Get/set the period of the moving average and standard deviation calculations performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
+Get/set the period of the moving average and standard deviation calculations performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
 
 *bollingerBands*.**multiplier**([*multiplier*])
 
@@ -81,23 +86,23 @@ Computes the Bollinger bands for the given data array. Returns an array of objec
 
 *d3fc_indicator*.**elderRay**()
 
-Constructs a new Elder-ray generator with the default settings.
+Constructs a new Elder-ray calculator with the default settings.
 
 *elderRay*.**closeValue**([*value*])
 
-Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
+Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
 *elderRay*.**highValue**([*value*])
 
-Get/set the accessor function used to obtain the high price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.high`.
+Get/set the accessor function used to obtain the high price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.high`.
 
 *elderRay*.**lowValue**([*value*])
 
-Get/set the accessor function used to obtain the low price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
+Get/set the accessor function used to obtain the low price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
 
 *elderRay*.**period**([*period*])
 
-Get/set the period of the moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
+Get/set the period of the moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
 
 *elderRay*(*data*)
 
@@ -110,11 +115,11 @@ Computes the Elder-ray for the given data array. Returns an array of objects wit
 
 *d3fc_indicator*.**envelope**()
 
-Constructs a new envelope generator with the default settings.
+Constructs a new envelope calculator with the default settings.
 
 *envelope*.**value**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *envelope*.**factor**([*factor*])
 
@@ -131,15 +136,15 @@ Computes the envelope for the given data array. Returns an array of objects with
 
 *d3fc_indicator*.**movingAverage**()
 
-Constructs a new simple moving average generator with the default settings.
+Constructs a new simple moving average calculator with the default settings.
 
 *movingAverage*.**value**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *movingAverage*.**period**([*size*])
 
-Get/set the period of the moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
+Get/set the period of the moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
 
 *movingAverage*(*data*)
 
@@ -150,15 +155,15 @@ Computes the moving average for the given data array. Returns an array of simple
 
 *d3fc_indicator*.**exponentialMovingAverage**()
 
-Constructs a new exponential moving average generator with the default settings.
+Constructs a new exponential moving average calculator with the default settings.
 
 *exponentialMovingAverage*.**value**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *exponentialMovingAverage*.**period**([*size*])
 
-Get/set the period of the exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
+Get/set the period of the exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
 *exponentialMovingAverage*(*data*)
 
@@ -169,19 +174,19 @@ Computes the exponential moving average for the given data array. Returns an arr
 
 *d3fc_indicator*.**forceIndex**()
 
-Constructs a new force index generator with the default settings.
+Constructs a new force index calculator with the default settings.
 
 *forceIndex*.**closeValue**([*value*])
 
-Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
+Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
 *forceIndex*.**volumeValue**([*value*])
 
-Get/set the accessor function used to obtain the trade volume value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.volume`.
+Get/set the accessor function used to obtain the trade volume value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.volume`.
 
 *forceIndex*.**period**([*size*])
 
-Get/set the period of the exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
+Get/set the period of the exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
 
 *forceIndex*(*data*)
 
@@ -192,23 +197,23 @@ Computes the force index for the given data array. Returns an array of force ind
 
 *d3fc_indicator*.**macd**()
 
-Constructs a new MACD generator with the default settings.
+Constructs a new MACD calculator with the default settings.
 
 *macd*.**value**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *macd*.**fastPeriod**([*period*])
 
-Get/set the period of the 'fast' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 12.
+Get/set the period of the 'fast' exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 12.
 
 *macd*.**slowPeriod**([*period*])
 
-Get/set the period of the 'slow' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 26.
+Get/set the period of the 'slow' exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 26.
 
 *macd*.**signalPeriod**([*period*])
 
-Get/set the period of the 'signal' exponential moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
+Get/set the period of the 'signal' exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
 *macd*(*data*)
 
@@ -222,15 +227,15 @@ Computes the MACD for the given data array. Returns an array of objects with att
 
 *d3fc_indicator*.**relativeStrengthIndex**()
 
-Constructs a new RSI generator with the default settings.
+Constructs a new RSI calculator with the default settings.
 
 *relativeStrengthIndex*.**value**([*value*])
 
-Get/set the accessor function used to obtain the value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
+Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
 *relativeStrengthIndex*.**period**([*size*])
 
-Get/set the period of the relative strength index calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 14.
+Get/set the period of the relative strength index calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 14.
 
 *relativeStrengthIndex*(*data*)
 
@@ -241,27 +246,27 @@ Computes the RSI for the given data array. Returns an array of RSI values.
 
 *d3fc_indicator*.**stochasticOscillator**()
 
-Constructs a new stochastic oscillator generator with the default settings.
+Constructs a new stochastic oscillator calculator with the default settings.
 
 *stochasticOscillator*.**closeValue**([*value*])
 
-Get/set the accessor function used to obtain the close price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
+Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
 *stochasticOscillator*.**highValue**([*value*])
 
-Get/set the accessor function used to obtain the high price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.high`.
+Get/set the accessor function used to obtain the high price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.high`.
 
 *stochasticOscillator*.**lowValue**([*value*])
 
-Get/set the accessor function used to obtain the low price value to be used by the generator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
+Get/set the accessor function used to obtain the low price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
 
 *stochasticOscillator*.**kPeriod**([*size*])
 
-Get/set the period of the '%K' calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 5.
+Get/set the period of the '%K' calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 5.
 
 *stochasticOscillator*.**dPeriod**([*size*])
 
-Get/set the period of the '%D' moving average calculation performed by the generator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 3.
+Get/set the period of the '%D' moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 3.
 
 *stochasticOscillator*(*data*)
 
