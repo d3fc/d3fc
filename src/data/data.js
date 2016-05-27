@@ -1,6 +1,6 @@
 import * as feed from 'd3fc-financial-feed';
 import random from './random/random';
-import sampler from './sampler/sampler';
+import * as sampler from 'd3fc-sample';
 import spread from './spread';
 
 export default {
