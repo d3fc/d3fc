@@ -38,9 +38,11 @@ export default function() {
 
             g.enter().append('text')
                 .attr('class', 'label')
+                .attr('dy', '0.71em')
                 .layout('flex', split);
             g.enter().append('text')
                 .attr('class', 'value')
+                .attr('dy', '0.71em')
                 .layout('flex', 100 - split);
 
             g.select('.label')

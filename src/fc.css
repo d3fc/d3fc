@@ -48,10 +48,6 @@ text {
   border-collapse: separate;
 }
 
-.tooltip.cell {
-  dominant-baseline: hanging;
-}
-
 .plot-area {
   overflow: hidden;
 }
