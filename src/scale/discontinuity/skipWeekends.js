@@ -54,7 +54,8 @@ export default function() {
         var msRemoved = offsetEnd.getTime() - endDate.getTime();
 
         // determine how many weeks there are between these two dates
-        var weeks = (offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek;
+        // round to account for DST transitions
+        var weeks = Math.round((offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek);
 
         return weeks * millisPerWorkWeek + msAdded - msRemoved;
     };

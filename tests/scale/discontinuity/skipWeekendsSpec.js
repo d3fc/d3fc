@@ -87,6 +87,40 @@ describe('skipWeekends', function() {
             var d2 = new Date(2015, 0, 20); // tuesday
             expect(skipWeekends.distance(d1, d2)).toEqual(1 * millisPerDay);
         });
+
+        describe('DST', function() {
+            it('should handle distances covering DST long days', function() {
+                var d1 = new Date(2015, 9, 23);
+                var d2 = new Date(2015, 9, 26);
+                expect(skipWeekends.distance(d1, d2)).toEqual(3 * millisPerDay - 2 * millisPerDay);
+            });
+
+            it('should handle distances covering DST short days', function() {
+                var d1 = new Date(2016, 2, 25);
+                var d2 = new Date(2016, 2, 28);
+                expect(skipWeekends.distance(d1, d2)).toEqual(3 * millisPerDay - 2 * millisPerDay);
+            });
+
+            it('should handle distances covering DST short and long days', function() {
+                var d1 = new Date(2015, 0, 1);
+                var d2 = new Date(2016, 0, 1);
+                expect(skipWeekends.distance(d1, d2)).toEqual((365 * millisPerDay) - (2 * 52 * millisPerDay));
+            });
+        });
+
+        describe('leap year', function() {
+            it('should handle non-leap years', function() {
+                var d1 = new Date(2015, 1, 1);
+                var d2 = new Date(2015, 2, 1);
+                expect(skipWeekends.distance(d1, d2)).toEqual((28 * millisPerDay) - (9 * millisPerDay));
+            });
+
+            it('should handle extra day in leap years', function() {
+                var d1 = new Date(2016, 1, 1);
+                var d2 = new Date(2016, 2, 1);
+                expect(skipWeekends.distance(d1, d2)).toEqual((29 * millisPerDay) - (8 * millisPerDay));
+            });
+        });
     });
 
     describe('offset', function() {
