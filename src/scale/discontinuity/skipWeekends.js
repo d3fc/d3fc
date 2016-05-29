@@ -61,20 +61,27 @@ export default function() {
 
     skipWeekends.offset = function(startDate, ms) {
         var date = isWeekend(startDate) ? skipWeekends.clampUp(startDate) : startDate;
+
+        if (ms === 0) {
+            return date;
+        }
+
+        var isNegativeOffset = ms < 0;
+        var isPositiveOffset = ms > 0;
         var remainingms = ms;
 
-        // move to the end of week boundary
-        var endOfWeek = d3.time.saturday.ceil(date);
-        remainingms -= (endOfWeek.getTime() - date.getTime());
+        // move to the end of week boundary for a postive offset or to the start of a week for a negative offset
+        var weekBoundary = isNegativeOffset ? d3.time.monday.floor(date) : d3.time.saturday.ceil(date);
+        remainingms -= (weekBoundary.getTime() - date.getTime());
 
         // if the distance to the boundary is greater than the number of ms
         // simply add the ms to the current date
-        if (remainingms < 0) {
+        if ((isNegativeOffset && remainingms > 0) || (isPositiveOffset && remainingms < 0)) {
             return new Date(date.getTime() + ms);
         }
 
-        // skip the weekend
-        date = d3.time.day.offset(endOfWeek, 2);
+        // skip the weekend for a positive offset
+        date = isNegativeOffset ? weekBoundary : d3.time.day.offset(weekBoundary, 2);
 
         // add all of the complete weeks to the date
         var completeWeeks = Math.floor(remainingms / millisPerWorkWeek);
