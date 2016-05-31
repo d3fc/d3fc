@@ -127,7 +127,25 @@ describe('skipWeekends', function() {
 
         it('should accommodate offsets that do not cross weekend boundaries', function() {
             var d = new Date(2015, 0, 19); // monday
+            expect(skipWeekends.offset(d, 0)).toEqual(new Date(2015, 0, 19));
             expect(skipWeekends.offset(d, millisPerDay)).toEqual(new Date(2015, 0, 20));
+            expect(skipWeekends.offset(d, millisPerDay * 2)).toEqual(new Date(2015, 0, 21));
+            expect(skipWeekends.offset(d, millisPerDay * 3)).toEqual(new Date(2015, 0, 22));
+            expect(skipWeekends.offset(d, millisPerDay * 4)).toEqual(new Date(2015, 0, 23));
+
+            d = new Date(2015, 0, 21); // wednesday
+            expect(skipWeekends.offset(d, -millisPerDay * 2)).toEqual(new Date(2015, 0, 19));
+            expect(skipWeekends.offset(d, -millisPerDay)).toEqual(new Date(2015, 0, 20));
+            expect(skipWeekends.offset(d, 0)).toEqual(new Date(2015, 0, 21));
+            expect(skipWeekends.offset(d, millisPerDay)).toEqual(new Date(2015, 0, 22));
+            expect(skipWeekends.offset(d, millisPerDay * 2)).toEqual(new Date(2015, 0, 23));
+
+            d = new Date(2015, 0, 23); // friday
+            expect(skipWeekends.offset(d, -millisPerDay * 4)).toEqual(new Date(2015, 0, 19));
+            expect(skipWeekends.offset(d, -millisPerDay * 3)).toEqual(new Date(2015, 0, 20));
+            expect(skipWeekends.offset(d, -millisPerDay * 2)).toEqual(new Date(2015, 0, 21));
+            expect(skipWeekends.offset(d, -millisPerDay)).toEqual(new Date(2015, 0, 22));
+            expect(skipWeekends.offset(d, 0)).toEqual(new Date(2015, 0, 23));
         });
 
         it('should clamp up if supplied with a weekend date', function() {
@@ -138,6 +156,37 @@ describe('skipWeekends', function() {
         it('should skip weekends', function() {
             var d = new Date(2015, 0, 20); // tuesday
             expect(skipWeekends.offset(d, 5 * millisPerDay)).toEqual(new Date(2015, 0, 27));
+
+            d = new Date(2015, 0, 19); // monday
+            expect(skipWeekends.offset(d, -millisPerDay * 6)).toEqual(new Date(2015, 0, 9));
+            expect(skipWeekends.offset(d, -millisPerDay * 5)).toEqual(new Date(2015, 0, 12));
+            expect(skipWeekends.offset(d, -millisPerDay * 4)).toEqual(new Date(2015, 0, 13));
+            expect(skipWeekends.offset(d, -millisPerDay * 3)).toEqual(new Date(2015, 0, 14));
+            expect(skipWeekends.offset(d, -millisPerDay * 2)).toEqual(new Date(2015, 0, 15));
+            expect(skipWeekends.offset(d, -millisPerDay)).toEqual(new Date(2015, 0, 16));
+            expect(skipWeekends.offset(d, millisPerDay * 5)).toEqual(new Date(2015, 0, 26));
+
+            d = new Date(2015, 0, 21); // wednesday
+            expect(skipWeekends.offset(d, -millisPerDay * 6)).toEqual(new Date(2015, 0, 13));
+            expect(skipWeekends.offset(d, -millisPerDay * 5)).toEqual(new Date(2015, 0, 14));
+            expect(skipWeekends.offset(d, -millisPerDay * 4)).toEqual(new Date(2015, 0, 15));
+            expect(skipWeekends.offset(d, -millisPerDay * 3)).toEqual(new Date(2015, 0, 16));
+            expect(skipWeekends.offset(d, millisPerDay * 3)).toEqual(new Date(2015, 0, 26));
+            expect(skipWeekends.offset(d, millisPerDay * 4)).toEqual(new Date(2015, 0, 27));
+            expect(skipWeekends.offset(d, millisPerDay * 5)).toEqual(new Date(2015, 0, 28));
+
+            d = new Date(2015, 0, 23); // friday
+            expect(skipWeekends.offset(d, -millisPerDay * 9)).toEqual(new Date(2015, 0, 12));
+            expect(skipWeekends.offset(d, -millisPerDay * 8)).toEqual(new Date(2015, 0, 13));
+            expect(skipWeekends.offset(d, -millisPerDay * 7)).toEqual(new Date(2015, 0, 14));
+            expect(skipWeekends.offset(d, -millisPerDay * 6)).toEqual(new Date(2015, 0, 15));
+            expect(skipWeekends.offset(d, -millisPerDay * 5)).toEqual(new Date(2015, 0, 16));
+            expect(skipWeekends.offset(d, millisPerDay)).toEqual(new Date(2015, 0, 26));
+            expect(skipWeekends.offset(d, millisPerDay * 2)).toEqual(new Date(2015, 0, 27));
+            expect(skipWeekends.offset(d, millisPerDay * 3)).toEqual(new Date(2015, 0, 28));
+            expect(skipWeekends.offset(d, millisPerDay * 4)).toEqual(new Date(2015, 0, 29));
+            expect(skipWeekends.offset(d, millisPerDay * 5)).toEqual(new Date(2015, 0, 30));
+            expect(skipWeekends.offset(d, millisPerDay * 6)).toEqual(new Date(2015, 1, 2));
         });
     });
 });
