@@ -1,6 +1,7 @@
 import { zip } from 'd3-array';
 import { rebind } from 'd3fc-rebind';
 import exponentialMovingAverage from './exponentialMovingAverage';
+import { convertNaN } from './fn';
 
 export default function() {
 
@@ -14,12 +15,11 @@ export default function() {
     const elderRay = data => {
         emaComputer.value(closeValue);
         return zip(data, emaComputer(data))
-            .map(d =>
-                ({
-                    bullPower: d[1] ? highValue(d[0]) - d[1] : undefined,
-                    bearPower: d[1] ? lowValue(d[0]) - d[1] : undefined
-                })
-            );
+            .map(d => {
+                const bullPower = convertNaN(highValue(d[0]) - d[1]);
+                const bearPower = convertNaN(lowValue(d[0]) - d[1]);
+                return { bullPower, bearPower };
+            });
     };
 
     elderRay.closeValue = (...args) => {

@@ -18,4 +18,11 @@ describe('relativeStrengthIndex', () => {
         })
         .then(done, done.fail);
     });
+
+    it('should return undefined for defined input following non-leading undefined input', () => {
+        const rsi = relativeStrengthIndex().period(2);
+        const input = [1, 2, 3, 4, 3, undefined, 2, 3, 4];
+        const expectedOutput = [undefined, undefined, 100, 100, 50, undefined, undefined, undefined, undefined];
+        expect(rsi(input)).toEqual(expectedOutput);
+    });
 });

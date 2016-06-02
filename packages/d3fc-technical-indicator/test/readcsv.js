@@ -5,11 +5,14 @@ const readCsv = (file) =>
     fsp.readFile(file, 'utf8')
         .then(csvParse)
         .then(data => {
-            // coerce all values to numbers
-            data.forEach(datum => {
-                Object.keys(datum).forEach(key => {
-                    if (datum[key]) {
-                        datum[key] = Number(datum[key]);
+            // coerce all defined values to numbers
+            data.forEach(row => {
+                Object.keys(row).forEach(column => {
+                    const value = row[column];
+                    if (value) {
+                        row[column] = Number(row[column]);
+                    } else {
+                        row[column] = undefined;
                     }
                 });
             });

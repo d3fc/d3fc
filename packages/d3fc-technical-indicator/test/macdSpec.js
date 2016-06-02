@@ -21,6 +21,6 @@ describe('macd', () => {
             expect(output.map(d => d.divergence))
                 .toBeEqualWithTolerance(expectedOutput.map(d => d.HISTOGRAM));
         })
-        .then(done);
+        .then(done, done.fail);
     });
 });

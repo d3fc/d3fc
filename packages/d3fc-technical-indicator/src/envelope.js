@@ -1,16 +1,15 @@
-import { identity } from './fn';
+import { identity, convertNaN } from './fn';
 
 export default function() {
 
     let factor = 0.1;
     let value = identity;
 
-    const envelope = data => data.map(s =>
-        ({
-            lower: value(s) * (1.0 - factor),
-            upper: value(s) * (1.0 + factor)
-        })
-    );
+    const envelope = data => data.map(d => {
+        const lower = convertNaN(value(d) * (1.0 - factor));
+        const upper = convertNaN(value(d) * (1.0 + factor));
+        return { lower, upper };
+    });
 
     envelope.factor = (...args) => {
         if (!args.length) {

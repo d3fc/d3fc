@@ -17,7 +17,7 @@ beforeEach(() =>
                         for (var i = 0; i < actual.length; i++) {
                             var expectedDatum = expected[i];
                             var actualDatum = actual[i];
-                            if (!(expectedDatum === '' && actualDatum === undefined)) {
+                            if (!(expectedDatum === undefined && actualDatum === undefined)) {
                                 var equalWithTolerance = Math.abs(expectedDatum - actualDatum) < (Math.pow(10, -precision) / 2);
                                 if (!equalWithTolerance) {
                                     result.pass = false;

@@ -1,7 +1,6 @@
 import { zip } from 'd3-array';
 import { includeMap, rebindAll } from 'd3fc-rebind';
 import exponentialMovingAverage from './exponentialMovingAverage';
-import undefinedInputAdapter from './undefinedInputAdapter';
 import { identity } from './fn';
 
 export default function() {
@@ -14,8 +13,6 @@ export default function() {
         .period(26);
     const signalEMA = exponentialMovingAverage()
         .period(9);
-    const adaptedSignalEMA = undefinedInputAdapter()
-        .algorithm(signalEMA);
 
     const macd = data => {
 
@@ -25,7 +22,7 @@ export default function() {
         const diff = zip(fastEMA(data), slowEMA(data))
             .map(d => (d[0] !== undefined && d[1] !== undefined) ? d[0] - d[1] : undefined);
 
-        const averageDiff = adaptedSignalEMA(diff);
+        const averageDiff = signalEMA(diff);
 
         return zip(diff, averageDiff)
             .map(d =>

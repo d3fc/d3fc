@@ -1,24 +1,20 @@
 import { mean, deviation } from 'd3-array';
 import { rebind } from 'd3fc-rebind';
 import _slidingWindow from './slidingWindow';
+import { convertNaN } from './fn';
 
 export default function() {
 
     let multiplier = 2;
 
     const slidingWindow = _slidingWindow()
-        .undefinedValue({
-            upper: undefined,
-            average: undefined,
-            lower: undefined
-        })
         .accumulator(values => {
-            const avg = mean(values);
-            const stdDev = deviation(values);
+            const stdDev = values && deviation(values);
+            const average = values && mean(values);
             return {
-                upper: avg + multiplier * stdDev,
-                average: avg,
-                lower: avg - multiplier * stdDev
+                average: average,
+                upper: convertNaN(average + multiplier * stdDev),
+                lower: convertNaN(average - multiplier * stdDev)
             };
         });
 
