@@ -27,12 +27,17 @@ npm install d3fc-technical-indicator
 
 Technical indicator calculators operate on an ordered input array of data, transforming it into a new array containing the indicator output values. 
 The length of the output array is the same as the input array.
+
 Calculators expose a `value` accessor property (or a number of accessors if required) used to extract values from the source array.
 For calculators that only depend on a single value for their input, the value accessor defaults to the identity function.
+
 Technical indicator parameters can be configured individually for each calculator instance. 
 A default value is used if a parameter is not configured.
-If an indicator calculator needs to create undefined values in the output (for example, the leading values of a moving average result), they will have the same structure as the other output objects, but will have primitive `undefined` property values.     
 
+If an indicator calculator needs to create undefined values in the output (for example, the leading values of a moving average result), they will have the same structure as the other output objects, but will have primitive `undefined` property values.
+  
+Input values retrieved by the value accessor for which `value == null` is `true` will produce undefined values in the output.
+Undefined inputs are best avoided — a single undefined input value will produce undefined output for all output values that depend on it.
 
 ### Example usage
 
