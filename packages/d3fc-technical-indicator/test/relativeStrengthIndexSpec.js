@@ -25,4 +25,11 @@ describe('relativeStrengthIndex', () => {
         const expectedOutput = [undefined, undefined, 100, 100, 50, undefined, undefined, undefined, undefined];
         expect(rsi(input)).toEqual(expectedOutput);
     });
+
+    it('should return correct output with 0 as an input value', () => {
+        const rsi = relativeStrengthIndex().period(2);
+        const input = [0, 16, 0, 0, 0, 0, 8, 8];
+        const expectedOutput = [undefined, undefined, 50, 50, 50, 50, 90, 90];
+        expect(rsi(input)).toEqual(expectedOutput);
+    });
 });
