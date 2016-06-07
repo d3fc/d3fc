@@ -15,7 +15,7 @@ var data = generator(1).map(function(d, i) {
 
 //START
 var yExtent = fc.util.extent()
-    .include(0)
+    .include([0])
     .pad([0, 0.5])
     .fields(['sales']);
 
