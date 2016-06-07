@@ -1,22 +1,25 @@
-import d3 from 'd3';
-import exponentialMovingAverageCalculator from './calculator/exponentialMovingAverage';
+import { exponentialMovingAverage as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
 
-    var ema = exponentialMovingAverageCalculator()
-            .value(function(d) { return d.close; });
+    var ema = calculator()
+        .value(function(d) { return d.close; });
 
     var mergedAlgorithm = merge()
-            .algorithm(ema)
-            .merge(function(datum, indicator) { datum.exponentialMovingAverage = indicator; });
+        .algorithm(ema)
+        .merge(function(datum, indicator) {
+            datum.exponentialMovingAverage = indicator;
+            return datum;
+        });
 
     var exponentialMovingAverage = function(data) {
         return mergedAlgorithm(data);
     };
 
-    d3.rebind(exponentialMovingAverage, mergedAlgorithm, 'merge');
-    d3.rebind(exponentialMovingAverage, ema, 'windowSize', 'value');
+    rebind(exponentialMovingAverage, mergedAlgorithm, 'merge');
+    rebind(exponentialMovingAverage, ema, 'period', 'value');
 
     return exponentialMovingAverage;
 }

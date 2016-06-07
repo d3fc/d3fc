@@ -37,7 +37,7 @@
 
     // a fully configured moving average
     var ma15 = fc.indicator.algorithm.movingAverage()
-        .windowSize(15)
+        .period(15)
         .value(function(d) { return d.open; })
         .merge(function(d, m) { d.ma15 = m; });
 
@@ -47,9 +47,11 @@
 
     // the visual components
     var line = fc.series.line()
+        .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.movingAverage; });
 
     var line15 = fc.series.line()
+        .xValue(function(d) { return d.date; })
         .yValue(function(d) { return d.ma15; });
 
     var multi = fc.series.multi()

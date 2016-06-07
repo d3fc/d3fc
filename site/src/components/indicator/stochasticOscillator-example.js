@@ -14,7 +14,7 @@ var xScale = fc.scale.dateTime()
 //START
 // Create and apply the stochastic oscillator algorithm
 var stochasticAlgorithm = fc.indicator.algorithm.stochasticOscillator()
-    .kWindowSize(14);
+    .kPeriod(14);
 stochasticAlgorithm(data);
 
 // the stochastic oscillator is rendered on its own scale

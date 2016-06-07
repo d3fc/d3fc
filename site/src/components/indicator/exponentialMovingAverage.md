@@ -24,4 +24,4 @@ The example below creates a point series and an EMA:
 {{{ema-example-js}}}
 </script>
 
-You can configure the number of datapoints that are included in the moving average via the `windowSize` property, you can also change the object property that is averaged via the `yValue` property.
+You can configure the number of datapoints that are included in the moving average via the `period` property, you can also change the object property that is averaged via the `yValue` property.

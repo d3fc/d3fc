@@ -18,7 +18,8 @@ var yScale = d3.scale.linear()
       .range([height, 0]);
 
 // Create and apply the RSI algorithm
-var rsiAlgorithm = fc.indicator.algorithm.relativeStrengthIndex();
+var rsiAlgorithm = fc.indicator.algorithm.relativeStrengthIndex()
+    .value(function(d) { return d.close; });
 rsiAlgorithm(data);
 
 // Create the renderer

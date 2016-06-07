@@ -1,3 +1,5 @@
+var bollingerBands = require('d3fc-technical-indicator').bollingerBands;
+
 describe('fc.indicator.algorithm.merge', function() {
 
     var testData = [
@@ -13,16 +15,10 @@ describe('fc.indicator.algorithm.merge', function() {
         {high: 114.57, low: 112.44, close: 112.44}
     ];
 
-    var slidingSum = fc.indicator.algorithm.calculator.slidingWindow()
-        .windowSize(5)
-        .accumulator(function(values) {
-            return values.reduce(function(a, b) {
-                return a + b.close;
-            }, 0);
-        });
+    var bollinger = bollingerBands();
 
     var merge = fc.indicator.algorithm.merge()
-        .algorithm(slidingSum)
+        .algorithm(bollinger)
         .merge(function(datum, indicator) {
             return {
                 high: datum.high,

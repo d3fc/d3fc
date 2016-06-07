@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import {identity} from '../../../util/fn';
+import {identity} from './fn';
 
 export default function() {
 

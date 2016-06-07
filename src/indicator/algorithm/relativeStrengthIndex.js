@@ -1,5 +1,5 @@
-import calculator from './calculator/relativeStrengthIndex';
-import d3 from 'd3';
+import { relativeStrengthIndex as calculator } from 'd3fc-technical-indicator';
+import { rebind } from 'd3fc-rebind';
 import merge from './merge';
 
 export default function() {
@@ -7,15 +7,18 @@ export default function() {
     var rsi = calculator();
 
     var mergedAlgorithm = merge()
-            .algorithm(rsi)
-            .merge(function(datum, indicator) { datum.rsi = indicator; });
+        .algorithm(rsi)
+        .merge(function(datum, indicator) {
+            datum.rsi = indicator;
+            return datum;
+        });
 
     var relativeStrengthIndex = function(data) {
         return mergedAlgorithm(data);
     };
 
-    d3.rebind(relativeStrengthIndex, mergedAlgorithm, 'merge');
-    d3.rebind(relativeStrengthIndex, rsi, 'windowSize', 'closeValue');
+    rebind(relativeStrengthIndex, mergedAlgorithm, 'merge');
+    rebind(relativeStrengthIndex, rsi, 'period', 'value');
 
     return relativeStrengthIndex;
 }
