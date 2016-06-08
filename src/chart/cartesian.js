@@ -9,7 +9,7 @@ import {noop} from '../util/fn';
 import {exclude, includeMap, prefix, rebindAll} from 'd3fc-rebind';
 import {isOrdinal, range, setRange} from '../util/scale';
 
-export default function (xScale, yScale) {
+export default function(xScale, yScale) {
 
     xScale = xScale || d3.scale.linear();
     yScale = yScale || d3.scale.linear();
@@ -32,7 +32,7 @@ export default function (xScale, yScale) {
     // it is transformed via the respective scale.
     var xAxis = axis()
         .orient('bottom')
-        .baseline(function () {
+        .baseline(function() {
             if (xBaseline !== null) {
                 return yScale(xBaseline.apply(this, arguments));
             } else {
@@ -43,7 +43,7 @@ export default function (xScale, yScale) {
 
     var yAxis = axis()
         .orient('right')
-        .baseline(function () {
+        .baseline(function() {
             if (yBaseline !== null) {
                 return xScale(yBaseline.apply(this, arguments));
             } else {
@@ -58,14 +58,14 @@ export default function (xScale, yScale) {
         .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
 
 
-    var cartesian = function (selection) {
+    var cartesian = function(selection) {
 
-        selection.each(function (data, index) {
+        selection.each(function(data, index) {
 
             var container = d3.select(this);
 
             var svg = containerDataJoin(container, [data]);
-            svg.enter().call(function (selection) {
+            svg.enter().call(function(selection) {
                 // container
                 var plotContainer = selection.append("g")
                     .classed("plot-area-container", true);
@@ -219,56 +219,56 @@ export default function (xScale, yScale) {
     rebindAll(cartesian, xAxis, axisExclusions, prefix('x'));
     rebindAll(cartesian, yAxis, axisExclusions, prefix('y'));
 
-    cartesian.xBaseline = function (x) {
+    cartesian.xBaseline = function(x) {
         if (!arguments.length) {
             return xBaseline;
         }
         xBaseline = d3.functor(x);
         return cartesian;
     };
-    cartesian.yBaseline = function (x) {
+    cartesian.yBaseline = function(x) {
         if (!arguments.length) {
             return yBaseline;
         }
         yBaseline = d3.functor(x);
         return cartesian;
     };
-    cartesian.chartLabel = function (x) {
+    cartesian.chartLabel = function(x) {
         if (!arguments.length) {
             return chartLabel;
         }
         chartLabel = x;
         return cartesian;
     };
-    cartesian.plotArea = function (x) {
+    cartesian.plotArea = function(x) {
         if (!arguments.length) {
             return plotArea;
         }
         plotArea = x;
         return cartesian;
     };
-    cartesian.xLabel = function (x) {
+    cartesian.xLabel = function(x) {
         if (!arguments.length) {
             return xLabel;
         }
         xLabel = x;
         return cartesian;
     };
-    cartesian.margin = function (x) {
+    cartesian.margin = function(x) {
         if (!arguments.length) {
             return margin;
         }
         margin = x;
         return cartesian;
     };
-    cartesian.yLabel = function (x) {
+    cartesian.yLabel = function(x) {
         if (!arguments.length) {
             return yLabel;
         }
         yLabel = x;
         return cartesian;
     };
-    cartesian.decorate = function (x) {
+    cartesian.decorate = function(x) {
         if (!arguments.length) {
             return decorate;
         }
