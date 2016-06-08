@@ -9,7 +9,7 @@ import {noop} from '../util/fn';
 import {exclude, includeMap, prefix, rebindAll} from 'd3fc-rebind';
 import {isOrdinal, range, setRange} from '../util/scale';
 
-export default function(xScale, yScale) {
+export default function (xScale, yScale) {
 
     xScale = xScale || d3.scale.linear();
     yScale = yScale || d3.scale.linear();
@@ -32,7 +32,7 @@ export default function(xScale, yScale) {
     // it is transformed via the respective scale.
     var xAxis = axis()
         .orient('bottom')
-        .baseline(function() {
+        .baseline(function () {
             if (xBaseline !== null) {
                 return yScale(xBaseline.apply(this, arguments));
             } else {
@@ -43,7 +43,7 @@ export default function(xScale, yScale) {
 
     var yAxis = axis()
         .orient('right')
-        .baseline(function() {
+        .baseline(function () {
             if (yBaseline !== null) {
                 return xScale(yBaseline.apply(this, arguments));
             } else {
@@ -58,40 +58,57 @@ export default function(xScale, yScale) {
         .attr({'class': 'cartesian-chart', 'layout-style': 'flex: 1'});
 
 
-    var cartesian = function(selection) {
+    var cartesian = function (selection) {
 
-        selection.each(function(data, index) {
+        selection.each(function (data, index) {
 
             var container = d3.select(this);
 
             var svg = containerDataJoin(container, [data]);
-            svg.enter().html(
-                '<g class="plot-area-container"> \
-                    <rect class="background" \
-                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
-                    <g class="axes-container" \
-                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"> \
-                        <g class="x-axis" layout-style="height: 0; width: 0"/> \
-                        <g class="y-axis" layout-style="height: 0; width: 0"/> \
-                    </g> \
-                    <svg class="plot-area" \
-                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
-                </g> \
-                <g class="x-axis label-container"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label" dy="-0.5em"/> \
-                    </g> \
-                </g> \
-                <g class="y-axis label-container"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g> \
-                <g class="title label-container"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g>');
+            svg.enter().call(function (selection) {
+                // container
+                var plotContainer = selection.append("g")
+                    .classed("plot-area-container", true);
+                plotContainer.append("rect")
+                    .classed("background", true)
+                    .layout({position: "absolute", top: 0, bottom: 0, left: 0, right: 0});
+
+                // axes
+                var axesContainer = plotContainer.append("g")
+                    .classed("axes-container", true);
+                axesContainer.append("g")
+                    .classed("x-axis", true)
+                    .layout({height: 0, width: 0});
+                axesContainer.append("g")
+                    .classed("y-axis", true)
+                    .layout({height: 0, width: 0});
+
+                // plot area
+                var plot = plotContainer.append("svg")
+                    .classed("plot-area", true)
+                    .layout({position: "absolute", top: 0, bottom: 0, left: 0, right: 0});
+
+                // label containers
+                plotContainer.append("g")
+                    .classed("x-axis label-container", true)
+                    .append("g")
+                    .layout({height: 0, width: 0})
+                    .append("text")
+                    .classed("label", true)
+                    .attr("dy", "-0.5em");
+                plotContainer.append("g")
+                    .classed("y-axis label-container", true)
+                    .append("g")
+                    .layout({height: 0, width: 0})
+                    .append("text")
+                    .classed("label", true);
+                plotContainer.append("g")
+                    .classed("title label-container", true)
+                    .append("g")
+                    .layout({height: 0, width: 0})
+                    .append("text")
+                    .classed("label", true);
+            });
 
             var expandedMargin = expandRect(margin);
 
@@ -202,56 +219,56 @@ export default function(xScale, yScale) {
     rebindAll(cartesian, xAxis, axisExclusions, prefix('x'));
     rebindAll(cartesian, yAxis, axisExclusions, prefix('y'));
 
-    cartesian.xBaseline = function(x) {
+    cartesian.xBaseline = function (x) {
         if (!arguments.length) {
             return xBaseline;
         }
         xBaseline = d3.functor(x);
         return cartesian;
     };
-    cartesian.yBaseline = function(x) {
+    cartesian.yBaseline = function (x) {
         if (!arguments.length) {
             return yBaseline;
         }
         yBaseline = d3.functor(x);
         return cartesian;
     };
-    cartesian.chartLabel = function(x) {
+    cartesian.chartLabel = function (x) {
         if (!arguments.length) {
             return chartLabel;
         }
         chartLabel = x;
         return cartesian;
     };
-    cartesian.plotArea = function(x) {
+    cartesian.plotArea = function (x) {
         if (!arguments.length) {
             return plotArea;
         }
         plotArea = x;
         return cartesian;
     };
-    cartesian.xLabel = function(x) {
+    cartesian.xLabel = function (x) {
         if (!arguments.length) {
             return xLabel;
         }
         xLabel = x;
         return cartesian;
     };
-    cartesian.margin = function(x) {
+    cartesian.margin = function (x) {
         if (!arguments.length) {
             return margin;
         }
         margin = x;
         return cartesian;
     };
-    cartesian.yLabel = function(x) {
+    cartesian.yLabel = function (x) {
         if (!arguments.length) {
             return yLabel;
         }
         yLabel = x;
         return cartesian;
     };
-    cartesian.decorate = function(x) {
+    cartesian.decorate = function (x) {
         if (!arguments.length) {
             return decorate;
         }
