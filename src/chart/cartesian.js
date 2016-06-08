@@ -65,49 +65,49 @@ export default function(xScale, yScale) {
             var container = d3.select(this);
 
             var svg = containerDataJoin(container, [data]);
-            svg.enter().call(function(selection) {
+            svg.enter().call(function(s) {
                 // container
-                var plotContainer = selection.append("g")
-                    .classed("plot-area-container", true);
-                plotContainer.append("rect")
-                    .classed("background", true)
-                    .layout({position: "absolute", top: 0, bottom: 0, left: 0, right: 0});
+                var plotContainer = s.append('g')
+                    .classed('plot-area-container', true);
+                plotContainer.append('rect')
+                    .classed('background', true)
+                    .layout({position: 'absolute', top: 0, bottom: 0, left: 0, right: 0});
 
                 // axes
-                var axesContainer = plotContainer.append("g")
-                    .classed("axes-container", true);
-                axesContainer.append("g")
-                    .classed("x-axis", true)
+                var axesContainer = plotContainer.append('g')
+                    .classed('axes-container', true);
+                axesContainer.append('g')
+                    .classed('x-axis', true)
                     .layout({height: 0, width: 0});
-                axesContainer.append("g")
-                    .classed("y-axis", true)
+                axesContainer.append('g')
+                    .classed('y-axis', true)
                     .layout({height: 0, width: 0});
 
                 // plot area
-                var plot = plotContainer.append("svg")
-                    .classed("plot-area", true)
-                    .layout({position: "absolute", top: 0, bottom: 0, left: 0, right: 0});
+                plotContainer.append('svg')
+                    .classed('plot-area', true)
+                    .layout({position: 'absolute', top: 0, bottom: 0, left: 0, right: 0});
 
                 // label containers
-                plotContainer.append("g")
-                    .classed("x-axis label-container", true)
-                    .append("g")
+                plotContainer.append('g')
+                    .classed('x-axis label-container', true)
+                    .append('g')
                     .layout({height: 0, width: 0})
-                    .append("text")
-                    .classed("label", true)
-                    .attr("dy", "-0.5em");
-                plotContainer.append("g")
-                    .classed("y-axis label-container", true)
-                    .append("g")
+                    .append('text')
+                    .classed('label', true)
+                    .attr('dy', '-0.5em');
+                plotContainer.append('g')
+                    .classed('y-axis label-container', true)
+                    .append('g')
                     .layout({height: 0, width: 0})
-                    .append("text")
-                    .classed("label", true);
-                plotContainer.append("g")
-                    .classed("title label-container", true)
-                    .append("g")
+                    .append('text')
+                    .classed('label', true);
+                plotContainer.append('g')
+                    .classed('title label-container', true)
+                    .append('g')
                     .layout({height: 0, width: 0})
-                    .append("text")
-                    .classed("label", true);
+                    .append('text')
+                    .classed('label', true);
             });
 
             var expandedMargin = expandRect(margin);
