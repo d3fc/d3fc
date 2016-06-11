@@ -1,4 +1,3 @@
-import 'svg-innerhtml';
 import d3 from 'd3';
 import axis from '../series/axis';
 import '../layout/layout';
@@ -65,33 +64,50 @@ export default function(xScale, yScale) {
             var container = d3.select(this);
 
             var svg = containerDataJoin(container, [data]);
-            svg.enter().html(
-                '<g class="plot-area-container"> \
-                    <rect class="background" \
-                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
-                    <g class="axes-container" \
-                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"> \
-                        <g class="x-axis" layout-style="height: 0; width: 0"/> \
-                        <g class="y-axis" layout-style="height: 0; width: 0"/> \
-                    </g> \
-                    <svg class="plot-area" \
-                        layout-style="position: absolute; top: 0; bottom: 0; left: 0; right: 0"/> \
-                </g> \
-                <g class="x-axis label-container"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label" dy="-0.5em"/> \
-                    </g> \
-                </g> \
-                <g class="y-axis label-container"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g> \
-                <g class="title label-container"> \
-                    <g layout-style="height: 0; width: 0"> \
-                        <text class="label"/> \
-                    </g> \
-                </g>');
+            svg.enter().call(function(s) {
+                // container
+                var plotContainer = s.append('g')
+                    .classed('plot-area-container', true);
+                plotContainer.append('rect')
+                    .classed('background', true)
+                    .layout({position: 'absolute', top: 0, bottom: 0, left: 0, right: 0});
+
+                // axes
+                var axesContainer = plotContainer.append('g')
+                    .classed('axes-container', true);
+                axesContainer.append('g')
+                    .classed('x-axis', true)
+                    .layout({height: 0, width: 0});
+                axesContainer.append('g')
+                    .classed('y-axis', true)
+                    .layout({height: 0, width: 0});
+
+                // plot area
+                plotContainer.append('svg')
+                    .classed('plot-area', true)
+                    .layout({position: 'absolute', top: 0, bottom: 0, left: 0, right: 0});
+
+                // label containers
+                plotContainer.append('g')
+                    .classed('x-axis label-container', true)
+                    .append('g')
+                    .layout({height: 0, width: 0})
+                    .append('text')
+                    .classed('label', true)
+                    .attr('dy', '-0.5em');
+                plotContainer.append('g')
+                    .classed('y-axis label-container', true)
+                    .append('g')
+                    .layout({height: 0, width: 0})
+                    .append('text')
+                    .classed('label', true);
+                plotContainer.append('g')
+                    .classed('title label-container', true)
+                    .append('g')
+                    .layout({height: 0, width: 0})
+                    .append('text')
+                    .classed('label', true);
+            });
 
             var expandedMargin = expandRect(margin);
 

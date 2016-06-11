@@ -72,7 +72,6 @@ module.exports = function(grunt) {
                     'node_modules/d3/d3.js',
                     'node_modules/css-layout/dist/css-layout.js',
                     'node_modules/d3-svg-legend/d3-legend.js',
-                    'node_modules/svg-innerhtml/svg-innerhtml.js',
                     'node_modules/babel-polyfill/dist/polyfill.js',
                     'dist/d3fc.js'
                 ],
@@ -278,7 +277,7 @@ module.exports = function(grunt) {
                     'dist/d3fc.js': ['src/fc.js']
                 },
                 options: {
-                    external: ['css-layout', 'd3', 'd3-svg-legend', 'svg-innerhtml'],
+                    external: ['css-layout', 'd3', 'd3-svg-legend'],
                     format: 'umd',
                     moduleName: 'fc',
                     plugins: [
