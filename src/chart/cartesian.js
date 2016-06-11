@@ -1,4 +1,3 @@
-import 'svg-innerhtml';
 import d3 from 'd3';
 import axis from '../series/axis';
 import '../layout/layout';
