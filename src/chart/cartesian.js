@@ -88,20 +88,20 @@ export default function(xScale, yScale) {
                     .layout({position: 'absolute', top: 0, bottom: 0, left: 0, right: 0});
 
                 // label containers
-                plotContainer.append('g')
+                s.append('g')
                     .classed('x-axis label-container', true)
                     .append('g')
                     .layout({height: 0, width: 0})
                     .append('text')
                     .classed('label', true)
                     .attr('dy', '-0.5em');
-                plotContainer.append('g')
+                s.append('g')
                     .classed('y-axis label-container', true)
                     .append('g')
                     .layout({height: 0, width: 0})
                     .append('text')
                     .classed('label', true);
-                plotContainer.append('g')
+                s.append('g')
                     .classed('title label-container', true)
                     .append('g')
                     .layout({height: 0, width: 0})
