@@ -1,7 +1,6 @@
 import axisSvg from '../svg/axis';
 import d3 from 'd3';
 import dataJoinUtil from '../util/dataJoin';
-import {noop} from '../util/fn';
 
 // Adapts a fc.svg.axis for use as a series (i.e. accepts xScale/yScale). Only required when
 // you want an axis to appear in the middle of a chart e.g. as part of a cycle plot. Otherwise
@@ -10,7 +9,6 @@ export default function() {
 
     var axis = axisSvg(),
         baseline = d3.functor(0),
-        decorate = noop,
         xScale = d3.time.scale(),
         yScale = d3.scale.linear();
 
@@ -47,8 +45,6 @@ export default function() {
             g.attr('transform', translation);
 
             g.call(axis);
-
-            decorate(g, data, index);
         });
     };
 
@@ -57,13 +53,6 @@ export default function() {
             return baseline;
         }
         baseline = d3.functor(x);
-        return axisAdapter;
-    };
-    axisAdapter.decorate = function(x) {
-        if (!arguments.length) {
-            return decorate;
-        }
-        decorate = x;
         return axisAdapter;
     };
     axisAdapter.xScale = function(x) {
@@ -82,5 +71,5 @@ export default function() {
     };
 
     return d3.rebind(axisAdapter, axis, 'orient', 'ticks', 'tickValues', 'tickSize',
-        'innerTickSize', 'outerTickSize', 'tickPadding', 'tickFormat');
+        'innerTickSize', 'outerTickSize', 'tickPadding', 'tickFormat', 'decorate');
 }
