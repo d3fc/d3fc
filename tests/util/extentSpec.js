@@ -39,6 +39,13 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([106, 115]);
     });
 
+    it('should supply index to accessor functions', function() {
+        var data = [obj(1), obj(2), obj(10)];
+
+        var extents = fc.util.extent().fields([function(d, i) { return i; }])(data);
+        expect(extents).toEqual([0, 2]);
+    });
+
     it('should support mixed field names and accessor functions', function() {
         var data = [obj(1), obj(2), obj(10)];
 

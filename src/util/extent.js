@@ -37,17 +37,17 @@ export default function() {
         });
 
         var dataMin = d3.min(data, function(d0) {
-            return d3.min(d0, function(d1) {
+            return d3.min(d0, function(d1, i1) {
                 return d3.min(mutatedFields.map(function(f) {
-                    return f(d1);
+                    return f(d1, i1);
                 }));
             });
         });
 
         var dataMax = d3.max(data, function(d0) {
-            return d3.max(d0, function(d1) {
+            return d3.max(d0, function(d1, i1) {
                 return d3.max(mutatedFields.map(function(f) {
-                    return f(d1);
+                    return f(d1, i1);
                 }));
             });
         });
