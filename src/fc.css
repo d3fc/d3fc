@@ -132,6 +132,11 @@ text {
   stroke: #6c0;
 }
 
+.multi:nth-child(8n+1), .stacked:nth-child(8n+1) {
+  stroke: #06c;
+  fill: #9cf;
+}
+
 .multi:nth-child(8n+2), .stacked:nth-child(8n+2) {
   stroke: #60c;
   fill: #c9f;
