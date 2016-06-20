@@ -71,7 +71,7 @@ var point = fc.series.point()
                 return d.y.toFixed(2);
             });
     });
-
+//START
 var areaLinePointMulti = fc.series.multi()
     .series([area, line, point])
     .mapping(function(series) {
@@ -84,7 +84,7 @@ var areaLinePointMulti = fc.series.multi()
             return this;
         }
     });
-
+//END
 var plotArea = fc.series.multi()
     .series([gridlines, areaLinePointMulti]);
 
