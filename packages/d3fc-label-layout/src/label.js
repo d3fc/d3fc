@@ -4,6 +4,7 @@ import {include, rebindAll} from 'd3fc-rebind';
 
 export default function(layoutStrategy) {
 
+    var decorate = () => {};
     var size = d3.functor([0, 0]);
     var position = (d, i) => [d.x, d.y];
     var strategy = layoutStrategy || ((x) => x);
@@ -50,6 +51,8 @@ export default function(layoutStrategy) {
             });
 
             g.call(component);
+
+            decorate(g, data, index);
         });
     };
 
@@ -77,6 +80,14 @@ export default function(layoutStrategy) {
             return component;
         }
         component = value;
+        return label;
+    };
+
+    label.decorate = function(value) {
+        if (!arguments.length) {
+            return decorate;
+        }
+        decorate = value;
         return label;
     };
 
