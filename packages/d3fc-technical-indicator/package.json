@@ -26,6 +26,7 @@
   "homepage": "https://github.com/d3fc/d3fc-technical-indicator",
   "main": "build/d3fc-technical-indicator.js",
   "jsnext:main": "index",
+  "typings": "d3fc-technical-indicator.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3fc/d3fc-technical-indicator"
