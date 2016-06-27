@@ -23,7 +23,9 @@ export default function() {
         .selector('g.bar')
         .element('g');
 
-    function containerTranslation(d, i) {
+    // in order that new bars 'grow' from the baseline when transitioning, the origin
+    // is initially set to the base, transitioning to the correct location
+    function initialContainerTranslation(d, i) {
         if (orient === 'vertical') {
             return 'translate(' + base.x1(d, i) + ', ' + base.y0(d, i) + ')';
         } else {
@@ -33,9 +35,9 @@ export default function() {
 
     function barHeight(d, i) {
         if (orient === 'vertical') {
-            return base.y1(d, i) - base.y0(d, i);
+            return base.y0(d, i) - base.y1(d, i);
         } else {
-            return base.x1(d, i) - base.x0(d, i);
+            return base.x0(d, i) - base.x1(d, i);
         }
     }
 
@@ -88,17 +90,21 @@ export default function() {
             var g = dataJoin(this, filteredData);
 
             // within the enter selection the pathGenerator creates a zero
-            // height bar. As a result, when used with a transition the bar grows
+            // height bar on the baseline. As a result, when used with a transition the bar grows
             // from y0 to y1 (y)
             g.enter()
-                .attr('transform', containerTranslation)
+                .attr('transform', initialContainerTranslation)
                 .append('path')
                 .attr('d', function(d) { return pathGenerator([d]); });
 
             // set the bar to its correct height
             valueAxisDimension(pathGenerator)(barHeight);
 
-            g.attr('transform', containerTranslation)
+            g.attr('transform', function(d, i) {
+                // the container translation sets the origin to the 'tip'
+                // of each bar as per the decorate pattern
+                return 'translate(' + base.x1(d, i) + ', ' + base.y1(d, i) + ')';
+            })
                 .select('path')
                 .attr('d', function(d) { return pathGenerator([d]); });
 
