@@ -22,11 +22,11 @@ describe('bar - vertical', function() {
             'the xValue accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(xValueSpy, data);
 
-        expect(y0ValueSpy.calls.count()).toEqual(data.length * 4,
+        expect(y0ValueSpy.calls.count()).toEqual(data.length * 3,
             'the y0Value accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(y0ValueSpy, data);
 
-        expect(y1ValueSpy.calls.count()).toEqual(data.length * 2,
+        expect(y1ValueSpy.calls.count()).toEqual(data.length * 3,
             'the y1Value accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(y1ValueSpy, data);
     });
@@ -59,11 +59,11 @@ describe('bar - horizontal', function() {
         this.utils.verifyAccessorCalls(yValueSpy, data);
 
 
-        expect(x0ValueSpy.calls.count()).toEqual(data.length * 4,
+        expect(x0ValueSpy.calls.count()).toEqual(data.length * 3,
             'the x0Value accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(x0ValueSpy, data);
 
-        expect(x1ValueSpy.calls.count()).toEqual(data.length * 2,
+        expect(x1ValueSpy.calls.count()).toEqual(data.length * 3,
             'the x1Value accessor was not called the correct number of times');
         this.utils.verifyAccessorCalls(x1ValueSpy, data);
     });
