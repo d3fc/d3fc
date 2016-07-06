@@ -2,19 +2,21 @@ export default function() {
 
     var identity = {};
 
-    identity.distance = function(startDate, endDate) {
-        return endDate.getTime() - startDate.getTime();
+    identity.distance = function(start, end) {
+        return end - start;
     };
 
-    identity.offset = function(startDate, ms) {
-        return new Date(startDate.getTime() + ms);
+    identity.offset = function(start, offset) {
+        return (start instanceof Date)
+            ? new Date(start.getTime() + offset)
+            : start + offset;
     };
 
     identity.clampUp = d => d;
 
     identity.clampDown = d => d;
 
-    identity.copy = function() { return identity; };
+    identity.copy = () => identity;
 
     return identity;
 }

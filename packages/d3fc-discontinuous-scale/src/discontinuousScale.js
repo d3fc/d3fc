@@ -1,35 +1,17 @@
-import {scaleTime} from 'd3-scale';
+import {scaleIdentity} from 'd3-scale';
 import {rebind} from 'd3fc-rebind';
 import identity from './discontinuity/identity';
+import tickFilter from './tickFilter';
 
-// obtains the ticks from the given scale, transforming the result to ensure
-// it does not include any discontinuities
-export function tickTransformer(ticks, discontinuityProvider, domain) {
-    var clampedTicks = ticks.map(function(tick, index) {
-        if (index < ticks.length - 1) {
-            return discontinuityProvider.clampUp(tick);
-        } else {
-            var clampedTick = discontinuityProvider.clampUp(tick);
-            return clampedTick < domain[1] ? clampedTick : discontinuityProvider.clampDown(tick);
-        }
-    });
-    var uniqueTicks = clampedTicks.reduce(function(arr, tick) {
-        if (arr.filter(function(f) { return f.getTime() === tick.getTime(); }).length === 0) {
-            arr.push(tick);
-        }
-        return arr;
-    }, []);
-    return uniqueTicks;
-}
-
-function dateTimeScale(adaptedScale, discontinuityProvider) {
+function discontinuousScale(adaptedScale) {
 
     if (!arguments.length) {
-        adaptedScale = scaleTime();
-        discontinuityProvider = identity();
+        adaptedScale = scaleIdentity();
     }
 
-    function scale(date) {
+    var discontinuityProvider = identity();
+
+    const scale = value => {
         var domain = adaptedScale.domain();
         var range = adaptedScale.range();
 
@@ -38,13 +20,13 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         // the scale for the given point 'x' is calculated as the ratio of the discontinuous distance
         // over the domain of this axis, versus the discontinuous distance to 'x'
         var totalDomainDistance = discontinuityProvider.distance(domain[0], domain[1]);
-        var distanceToX = discontinuityProvider.distance(domain[0], date);
+        var distanceToX = discontinuityProvider.distance(domain[0], value);
         var ratioToX = distanceToX / totalDomainDistance;
         var scaledByRange = ratioToX * (range[1] - range[0]) + range[0];
         return scaledByRange;
-    }
+    };
 
-    scale.invert = function(x) {
+    scale.invert = x => {
         var domain = adaptedScale.domain();
         var range = adaptedScale.range();
 
@@ -54,19 +36,21 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         return discontinuityProvider.offset(domain[0], distanceToX);
     };
 
-    scale.domain = function(x) {
-        if (!arguments.length) {
+    scale.domain = (...args) => {
+        if (!args.length) {
             return adaptedScale.domain();
         }
+        const newDomain = args[0];
+
         // clamp the upper and lower domain values to ensure they
         // do not fall within a discontinuity
-        var domainLower = discontinuityProvider.clampUp(x[0]);
-        var domainUpper = discontinuityProvider.clampDown(x[1]);
+        var domainLower = discontinuityProvider.clampUp(newDomain[0]);
+        var domainUpper = discontinuityProvider.clampDown(newDomain[1]);
         adaptedScale.domain([domainLower, domainUpper]);
         return scale;
     };
 
-    scale.nice = function() {
+    scale.nice = () => {
         adaptedScale.nice();
         var domain = adaptedScale.domain();
         var domainLower = discontinuityProvider.clampUp(domain[0]);
@@ -75,20 +59,20 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
         return scale;
     };
 
-    scale.ticks = function() {
-        var ticks = adaptedScale.ticks.apply(this, arguments);
-        return tickTransformer(ticks, discontinuityProvider, scale.domain());
+    scale.ticks = (...args) => {
+        var ticks = adaptedScale.ticks.apply(this, args);
+        return tickFilter(ticks, scale, scale.domain());
     };
 
-    scale.copy = function() {
-        return dateTimeScale(adaptedScale.copy(), discontinuityProvider.copy());
-    };
+    scale.copy = () =>
+        discontinuousScale(adaptedScale.copy())
+          .discontinuityProvider(discontinuityProvider.copy());
 
-    scale.discontinuityProvider = function(x) {
-        if (!arguments.length) {
+    scale.discontinuityProvider = (...args) => {
+        if (!args.length) {
             return discontinuityProvider;
         }
-        discontinuityProvider = x;
+        discontinuityProvider = args[0];
         return scale;
     };
 
@@ -97,9 +81,4 @@ function dateTimeScale(adaptedScale, discontinuityProvider) {
     return scale;
 }
 
-function exportedScale() {
-    return dateTimeScale();
-}
-exportedScale.tickTransformer = tickTransformer;
-
-export default exportedScale;
+export default discontinuousScale;
