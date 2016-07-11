@@ -122,10 +122,3 @@ If *value* is not specified, returns the current center value, which defaults `n
 
 If *values* is specified, sets the array of additional values to include within the calculated extent to the specified array and returns this extent instance.
 If *values* is not specified, returns the current array of included values, which defaults `[]`.
-
-
-
-include is applied after padding
-pad is always an array
-symmetrical PERCENTAGE padding is no longer divided in two
-fields is renamed accessors and no longer supports field name strings (instead use arrow functions e.g. d => d.foo)
