@@ -19,7 +19,7 @@
   },
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-extent.js --compress --mangle -o build/d3fc-extent.min.js",
-    "test": "npm run bundle && eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
+    "test": "eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
