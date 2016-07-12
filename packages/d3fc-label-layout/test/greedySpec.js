@@ -1,5 +1,5 @@
-require('d3');
-const label = require('../build/d3fc-label-layout');
+import d3 from 'd3';
+import greedy from '../src/greedy';
 
 describe('greedy', function() {
 
@@ -12,7 +12,7 @@ describe('greedy', function() {
         {x: 50, y: 50, width: elementWidth, height: elementHeight}
     ];
 
-    var strategiser = label.greedy()
+    var strategiser = greedy()
         .bounds([containerWidth, containerHeight]);
 
     describe('out of bounds data', function() {

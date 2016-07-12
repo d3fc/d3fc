@@ -1,7 +1,5 @@
-const d3 = require('d3');
-const label = require('../build/d3fc-label-layout');
-
-var intersect = label.intersect;
+import d3 from 'd3';
+import intersect from '../src/intersect';
 
 describe('intersect', function() {
 

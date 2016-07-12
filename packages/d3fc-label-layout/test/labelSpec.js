@@ -1,12 +1,13 @@
-const d3 = require('d3');
-const label = require('../build/d3fc-label-layout');
+import d3 from 'd3';
+import label from '../src/label';
+import removeOverlaps from '../src/removeOverlaps';
 
 describe('label', function() {
 
     it('should remove collisions', function() {
         var svg = document.createElement('svg');
 
-        var labels = label.label(label.removeOverlaps())
+        var labels = label(removeOverlaps())
             .size([10, 10])
             .position(function(d) { return [d.x, d.y]; });
 
