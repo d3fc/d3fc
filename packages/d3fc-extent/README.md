@@ -35,7 +35,7 @@ extent(data);
 
 ## API
 
-<a name="linear_padUnit" href="#linear"></a> *fc_extent*.**linearExtent**()
+<a name="linear_padUnit" href="#linear"></a> *fc*.**linearExtent**()
 
 Constructs a new linear extent calculator.
 
@@ -92,7 +92,7 @@ extent(data);
 
 ## API
 
-<a name="date_padUnit" href="#date"></a> *fc_extent*.**dateExtent**()
+<a name="date_padUnit" href="#date"></a> *fc*.**dateExtent**()
 
 Constructs a new date extent calculator.
 
