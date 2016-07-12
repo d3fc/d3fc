@@ -26,16 +26,16 @@ The label layout component provides a mechanism for arranging child components b
 var labelPadding = 2;
 
 // the component used to render each label
-var textLabel = fc_label_layout.textLabel()
+var textLabel = fc.textLabel()
   .padding(labelPadding)
   .value(function(d) { return d.properties.name; });
 
 // a strategy that combines simulated annealing with removal
 // of overlapping labels
-var strategy = fc_label_layout.removeOverlaps(fc_label_layout.greedy());
+var strategy = fc.removeOverlaps(fc.greedy());
 
 // create the layout that positions the labels
-var labels = fc_label_layout.label(strategy)
+var labels = fc.label(strategy)
     .size(function(d) {
         // measure the label and add the required padding
         var textSize = d3.select(this)
@@ -56,7 +56,7 @@ The above snippet is taken from block [389c76c6a544af9f0cab](http://bl.ocks.org/
 
 ## Label
 
-*d3fc*.**label**(*strategy*)
+*fc*.**label**(*strategy*)
 
 Constructs a new label layout with the given *strategy*. The label layout creates an array of rectangle bounding boxes which are passed to the strategy, which will typically move the boxes in order to minimise overlaps. Once the layout is complete a data join is used to construct a containing `g` element for each item in the bound array, and the component supplied to the layout is 'call'-ed on each element.
 
@@ -103,7 +103,7 @@ The strategy should return an array of objects indicating the placement of each 
 
 The greedy strategy is a very fast way of reducing label overlap. It adds each label in sequence, selecting the position where the label has the lowest overlap with already added rectangles and is inside the container.
 
-*d3fc*.**greedy**()
+*fc*.**greedy**()
 
 Constructs a greedy strategy.
 
@@ -115,7 +115,7 @@ Optionally specifies a bounding region, as an array of two values, `[width, heig
 
 The simulated annealing strategy runs over a set number of iterations, choosing a different location for one label on each iteration. If that location results in a better result, it is saved for the next iteration. Otherwise, it is saved with probability inversely proportional with the iteration it is currently on. This helps it break out of local optimums, hopefully producing better output. Because of the random nature of the algorithm, it produces variable output.
 
-*d3fc*.**annealing**()
+*fc*.**annealing**()
 
 Constructs an annealing strategy.
 
@@ -133,7 +133,7 @@ The *temperature* parameter indicates the initial 'number' to use for the random
 
 This strategy doesn't re-position labels to reduce overlaps, instead it removes overlapping labels. This is performed iteratively, with the labels that have the greatest area of overlap removed first.
 
-*d3fc*.**removeOverlaps**(*strategy*)
+*fc*.**removeOverlaps**(*strategy*)
 
 Constructs a removeOverlaps strategy, adapting the supplied *strategy* in order to remove overlaps after it has been executed.
 
@@ -145,7 +145,7 @@ This is a simple component that renders a label:
 
 This component uses the `layout-width` and `layout-height` properties of its parent element to set its own width and height. It also uses the `anchor-x` and `anchor-y` properties to place the circular anchor. These properties are all set by the label layout as described above.
 
-*d3fc*.**textLabel**()
+*fc*.**textLabel**()
 
 Constructs a text label component.
 

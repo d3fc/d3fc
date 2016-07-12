@@ -1,7 +1,7 @@
-/* global d3 fc_label_layout */
+/* global d3 fc */
 
 var labelPadding = 4;
-var label = fc_label_layout.textLabel()
+var label = fc.textLabel()
     .padding(labelPadding)
     .value(function(d) { return d.data; });
 
@@ -9,7 +9,7 @@ var width = 700;
 var height = 350;
 var itemWidth = 60;
 var itemHeight = 20;
-var strategy = strategyInterceptor(fc_label_layout.annealing());
+var strategy = strategyInterceptor(fc.annealing());
 var data = [];
 
 // we intercept the strategy in order to capture the final layout and compute statistics
@@ -31,7 +31,7 @@ function strategyInterceptor(strategy) {
         interceptor.overlap = d3.sum(visibleLabels.map(function(label, index) {
             return d3.sum(visibleLabels.filter(function(_, i) { return i !== index; })
                 .map(function(d) {
-                    return fc_label_layout.intersect(d, label);
+                    return fc.intersect(d, label);
                 }));
         }));
         return finalLayout;
@@ -70,7 +70,7 @@ function render() {
             cy: function(d) { return d.y; }
         });
 
-    var labels = fc_label_layout.label(strategy)
+    var labels = fc.label(strategy)
         .size(function() {
             var textSize = d3.select(this)
               .select('text')
@@ -108,7 +108,7 @@ d3.select('#strategy-form .btn')
         var strategyName = getStrategyName();
         strategy = function(d) { return d; };
         if (strategyName !== 'none') {
-            strategy = fc_label_layout[strategyName]();
+            strategy = fc[strategyName]();
         }
         if (strategyName === 'annealing') {
             strategy.temperature(document.getElementById('temperature').value);
@@ -120,7 +120,7 @@ d3.select('#strategy-form .btn')
         }
         var removeOverlaps = document.getElementById('remove-overlaps').checked;
         if (removeOverlaps) {
-            strategy = fc_label_layout.removeOverlaps(strategy);
+            strategy = fc.removeOverlaps(strategy);
         }
         strategy = strategyInterceptor(strategy);
         render();
