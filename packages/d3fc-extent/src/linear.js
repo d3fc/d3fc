@@ -9,10 +9,19 @@ export default function() {
     let include = [];
 
     const instance = (data) => {
-        const extent = [
-            min(data, (...args) => min(accessors.map(accessor => accessor(...args)))),
-            max(data, (...args) => max(accessors.map(accessor => accessor(...args))))
-        ];
+        const values = new Array(data.length);
+        for (const accessor of accessors) {
+            for (let i = 0; i < data.length; i++) {
+                const value = accessor(data[i], i);
+                if (Array.isArray(value)) {
+                    values.push(...value);
+                } else {
+                    values.push(value);
+                }
+            }
+        }
+
+        const extent = [ min(values), max(values) ];
 
         extent[0] = extent[0] == null ? min(include) : min([extent[0], ...include]);
         extent[1] = extent[1] == null ? max(include) : max([extent[1], ...include]);

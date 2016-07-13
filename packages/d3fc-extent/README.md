@@ -12,7 +12,7 @@ npm install d3fc-extent
 
 # Linear Extent
 
-Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below.
+Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Internally makes use of `d3-array`'s [`min`](https://github.com/d3/d3-array#min) and [`max`](https://github.com/d3/d3-array#max) methods.
 
 ## Example usage
 
@@ -41,7 +41,7 @@ Constructs a new linear extent calculator.
 
 <a name="linear_accessors" href="#linear_accessors"></a> *linear*.**accessors**([*accessors*])
 
-If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. Defaults to an identity function (i.e. `d => d`).
+If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned be the accessors must be a scalar value or an array of scalar values. Defaults to an identity function (i.e. `d => d`).
 If *accessors* is not specified, returns the current array of value accessors, which defaults `[]`.
 
 <a name="linear_pad" href="#linear_pad"></a> *linear*.**pad**([*values*])
@@ -70,7 +70,7 @@ If *values* is not specified, returns the current array of included values, whic
 
 # Date Extent
 
-Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Equivalent in functionality to [linear](#linear) but supports `Date`s.
+Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Equivalent in functionality to [linear](#linear) but for `Date` values.
 
 ## Example usage
 
@@ -98,7 +98,7 @@ Constructs a new date extent calculator.
 
 <a name="date_accessors" href="#date_accessors"></a> *date*.**accessors**([*accessors*])
 
-If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The value returned be the accessors must be a `Date`. Defaults to an identity function (i.e. `d => d`).
+If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned be the accessors must be a `Date` or an array of `Date`s. Defaults to an identity function (i.e. `d => d`).
 If *accessors* is not specified, returns the current array of value accessors, which defaults `[]`.
 
 <a name="date_pad" href="#date_pad"></a> *date*.**pad**([*values*])

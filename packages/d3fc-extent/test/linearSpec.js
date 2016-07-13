@@ -24,6 +24,13 @@ describe('linear', () => {
         expect(extents).toEqual([0, 2]);
     });
 
+    it('should support accessor functions which return arrays', function() {
+        var data = [obj(1), obj(2), obj(10)];
+
+        var extents = linearExtent().accessors([(d, i) => [i, i + 1]])(data);
+        expect(extents).toEqual([0, 3]);
+    });
+
     it('should support symmetrical domains', function() {
         var data = [obj(1), obj(10)];
 
