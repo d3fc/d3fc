@@ -12,14 +12,14 @@ npm install d3fc-random-data
 
 # Financial
 
-The random financial data generator component generates open-high-low-close-volume financial data. 
+The random financial data generator component generates open-high-low-close-volume financial data.
 Prices are calculated using the [geometric Brownian motion generator](#geometric-brownian-motion).
 
 ## Example usage
 
-```javascript 
+```javascript
 
-import { financial, skipWeekends } from 'd3fc-random-data'; 
+import { financial, skipWeekends } from 'd3fc-random-data';
 
 const generator = financial()
     .startDate(new Date(2016, 0, 1))
@@ -69,12 +69,12 @@ generator(4)
 
 ```javascript
 
-import { financial } from 'd3fc-random-data'; 
+import { financial } from 'd3fc-random-data';
 
 const generator = financial()
     .startDate(new Date(2016, 0, 1))
     .startPrice(100)
-    
+
 const stream = generator.stream();
 const data = [];
 
@@ -93,35 +93,35 @@ data = data.concat(stream.until(d => d.date > new Date(2016, 0, 10)));
 
 ### Financial
 
-*fc_random_data*.**financial**()
+*fc*.**financial**()
 
 Constructs a new financial data generator.
 
 *financial*.**startDate**([*value*])
 
-If *value* is specified, sets the start date to the specified `Date` object and returns this generator instance. 
+If *value* is specified, sets the start date to the specified `Date` object and returns this generator instance.
 If *value* is not specified, returns the current start date, which defaults to the value of `new Date()` when the generator was constructed.
 
 *financial*.**startPrice**([*value*])
 
-If *value* is specified, sets the start price to the specified number and returns this generator instance. 
+If *value* is specified, sets the start price to the specified number and returns this generator instance.
 If *value* is not specified, returns the current start price, which defaults to `100`.
 
 *financial*.**interval**([*value*])
 
-If *value* is specified, sets the time increment to the specified [d3 time interval](https://github.com/d3/d3-time#intervals) and returns this generator instance. 
+If *value* is specified, sets the time increment to the specified [d3 time interval](https://github.com/d3/d3-time#intervals) and returns this generator instance.
 If *value* is not specified, returns the current interval, which defaults to `d3_time.timeDay`.
 
 *financial*.**intervalStep**([*value*])
 
-If *value* is specified, sets the number of intervals that returned points should have dates offset by to the specified integer number and returns this generator instance. 
+If *value* is specified, sets the number of intervals that returned points should have dates offset by to the specified integer number and returns this generator instance.
 If *value* is not specified, returns the current number of intervals, which defaults to `1`.
 Internally, this value is supplied to the *step* argument of an interval's [offset function](https://github.com/d3/d3-time#interval_offset).
 
 *financial*.**steps**([*value*])
 
-Get/Set the number of [steps used by the geometric Brownian motion simulation](#gbm_steps) per *intervalStep* number of intervals. 
-A higher number gives a slower, but higher resolution simulation. 
+Get/Set the number of [steps used by the geometric Brownian motion simulation](#gbm_steps) per *intervalStep* number of intervals.
+A higher number gives a slower, but higher resolution simulation.
 
 *financial*.**mu**([*value*])
 
@@ -133,19 +133,19 @@ Get/Set the [volatility used by the geometric Brownian motion simulation](#gbm_s
 
 *financial*.**unitInterval**([*value*])
 
-If *value* is specified, sets the time interval used for units of *mu* and *sigma* to the specified [d3 time interval](https://github.com/d3/d3-time#intervals) and returns this generator instance. 
+If *value* is specified, sets the time interval used for units of *mu* and *sigma* to the specified [d3 time interval](https://github.com/d3/d3-time#intervals) and returns this generator instance.
 If *value* is not specified, returns the current interval, which defaults to `d3_time.timeYear`.
 
 *financial*.**unitIntervalStep**([*value*])
 
-If *value* is specified, sets the integer number of intervals used for units of *mu* and *sigma* to the specified number and returns this generator instance. 
+If *value* is specified, sets the integer number of intervals used for units of *mu* and *sigma* to the specified number and returns this generator instance.
 If *value* is not specified, returns the current interval, which defaults to `1`.
 For example, to have trading year units of *mu* and *sigma* rather than calendar year, set *unitIntervalStep* to `252` and *unitInterval* to `d3_time.timeDay`.
 
 *financial*.**volume**([*value*])
 
-If *value* is specified, sets the function used return a point's volume to the specified function and returns this generator instance. 
-Can be specified as either a function mapping an output object to a number, or a number. 
+If *value* is specified, sets the function used return a point's volume to the specified function and returns this generator instance.
+Can be specified as either a function mapping an output object to a number, or a number.
 If *value* is not specified, returns the current volume, which defaults to a function sampling integers from a normal distribution centred around `1000`.
 
 *financial*.**filter**([*value*])
@@ -158,11 +158,11 @@ To skip weekends, supply the pre-defined filter `fc_random_data.skipWeekends`.
 *financial*(*points*)
 
 Run the generator. Returns an array with *points* number of objects with `date`, `open`, `high`, `low`, `close` and `volume` properties.
- 
+
 
 ### Stream
 
-Use the streaming interface to have successive calls to generate data keep track of the latest date and price. 
+Use the streaming interface to have successive calls to generate data keep track of the latest date and price.
 
 *financial*.**stream**()
 
@@ -184,19 +184,19 @@ Returns the array of objects constructed by repeatedly generating a single outpu
 # Geometric Brownian Motion
 
 The geometric Brownian motion component creates a series of values based on the [Geometric Brownian Motion](https://en.wikipedia.org/wiki/Geometric_Brownian_motion) stochastic process.
- 
+
 ## Example Usage
 
-``` javascript 
+``` javascript
 
-import { geometricBrownianMotion } from 'd3fc-random-data'; 
+import { geometricBrownianMotion } from 'd3fc-random-data';
 
 const generator = geometricBrownianMotion()
     .steps(10);
-    
+
 generator(10);
-    
-// [ 
+
+// [
 //   10,
 //   10.272847363463436,
 //   10.423881104466574,
@@ -207,40 +207,40 @@ generator(10);
 //   10.225282323984114,
 //   10.488138829847468,
 //   10.428118194568341,
-//   10.848822656937935 
+//   10.848822656937935
 // ]
 
 ```
 
 ## API
 
-*fc_random_data*.**geometricBrownianMotion**()
+*fc*.**geometricBrownianMotion**()
 
 Constructs a new geometric Brownian motion generator.
 
 <a name="gbm_mu" href="#gbm_mu"></a> *geometricBrownianMotion*.**mu**([*value*])
 
-If *value* is specified, sets the percentage drift per period to the specified number and returns this generator instance. 
+If *value* is specified, sets the percentage drift per period to the specified number and returns this generator instance.
 If *value* is not specified, returns the current drift, which defaults to `0.1`.
 
 <a name="gbm_sigma" href="#gbm_sigma"></a> *geometricBrownianMotion*.**sigma**([*value*])
 
-If *value* is specified, sets the percentage volatility per period to the specified number and returns this generator instance. 
+If *value* is specified, sets the percentage volatility per period to the specified number and returns this generator instance.
 If *value* is not specified, returns the current volatility, which defaults to `0.1`.
 
 *geometricBrownianMotion*.**period**([*value*])
 
-If *value* is specified, sets the interval length to the specified number of periods and returns this generator instance. 
+If *value* is specified, sets the interval length to the specified number of periods and returns this generator instance.
 If *value* is not specified, returns the current interval length, which defaults to `1`.
 
 <a name="gbm_steps" href="#gbm_steps"></a> *geometricBrownianMotion*.**steps**([*value*])
 
-If *value* is specified, sets the number of discrete steps to divide the interval into to the specified number and returns this generator instance. 
+If *value* is specified, sets the number of discrete steps to divide the interval into to the specified number and returns this generator instance.
 If *value* is not specified, returns the current number of steps, which defaults to `20`.
 
 *geometricBrownianMotion*.**randomNormal**([*value*])
 
-If *value* is specified, sets the function used for generating random numbers with a normal (Gaussian) distribution to the specified function and returns this generator instance. 
+If *value* is specified, sets the function used for generating random numbers with a normal (Gaussian) distribution to the specified function and returns this generator instance.
 If *value* is not specified, returns the current random normal function, which defaults to [`d3_random.randomNormal`](https://github.com/d3/d3-random#randomNormal).
 
 *geometricBrownianMotion*(*start*)

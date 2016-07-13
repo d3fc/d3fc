@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 
 export default {
     entry: 'index.js',
-    moduleName: 'fc_random_process',
+    moduleName: 'fc',
     format: 'umd',
     plugins: [ babel({
         'babelrc': false,
