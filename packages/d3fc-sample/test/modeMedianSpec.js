@@ -1,4 +1,4 @@
-const sample = require('../build/d3fc-sample');
+import modeMedian from '../src/modeMedian';
 
 describe('modeMedian', function() {
 
@@ -9,7 +9,7 @@ describe('modeMedian', function() {
 
         beforeEach(function() {
             data = [0, 1, 6, 4, 8, 4, 8, 9, 3, 5, 2, 10, 2, 4, 3, 8, 5];
-            bucketGenerator = sample.modeMedian()
+            bucketGenerator = modeMedian()
                                 .value(function(d) { return d; });
         });
 

@@ -1,4 +1,4 @@
-const sample = require('../build/d3fc-sample');
+import largestTriangleOneBucket from '../src/largestTriangleOneBucket';
 
 describe('largestTriangleOneBucket', function() {
 
@@ -28,7 +28,7 @@ describe('largestTriangleOneBucket', function() {
                 { x: 15, y: 4 },
                 { x: 16, y: 5 } // Bucket 7
             ];
-            dataGenerator = sample.largestTriangleOneBucket()
+            dataGenerator = largestTriangleOneBucket()
                 .bucketSize(3)
                 .x(function(d) { return d.x; })
                 .y(function(d) { return d.y; });
