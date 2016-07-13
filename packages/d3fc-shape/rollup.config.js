@@ -4,7 +4,12 @@ export default {
     entry: 'index.js',
     moduleName: 'fc',
     format: 'umd',
-    plugins: [ babel() ],
+    plugins: [
+        babel({
+            babelrc: false,
+            presets: ['es2015-rollup']
+        })
+    ],
     dest: 'build/d3fc-shape.js',
     globals: {
         'd3': 'd3',
