@@ -1,33 +1,16 @@
-import d3 from 'd3';
+import { linearExtent, dateExtent } from 'd3fc-extent';
 
-/**
- * The extent function enhances the functionality of the equivalent D3 extent function, allowing
- * you to pass an array of fields, or accessors, which will be used to derive the extent of the supplied array. For
- * example, if you have an array of items with properties of 'high' and 'low', you
- * can use <code>fc.util.extent().fields(['high', 'low'])(data)</code> to compute the extent of your data.
- *
- * @memberof fc.util
- */
 export default function() {
 
     var fields = [],
         extraPoints = [],
-        padUnit = 'percent',
         pad = 0,
+        padUnit = 'percent',
         symmetricalAbout = null;
 
-    /**
-    * @param {array} data an array of data points, or an array of arrays of data points
-    */
     var extents = function(data) {
-
-        // we need an array of arrays if we don't have one already
-        if (!Array.isArray(data[0])) {
-            data = [data];
-        }
-
         // the fields can be a mixed array of property names or accessor functions
-        var mutatedFields = fields.map(function(field) {
+        var accessors = fields.map(function(field) {
             if (typeof field !== 'string') {
                 return field;
             }
@@ -36,77 +19,23 @@ export default function() {
             };
         });
 
-        var dataMin = d3.min(data, function(d0) {
-            return d3.min(d0, function(d1, i1) {
-                return d3.min(mutatedFields.map(function(f) {
-                    return f(d1, i1);
-                }));
-            });
-        });
+        var peekedValue = data.length > 0 ? accessors[0](data[0]) : null;
+        var extent = Object.prototype.toString.call(peekedValue) === '[object Date]' ? dateExtent : linearExtent;
 
-        var dataMax = d3.max(data, function(d0) {
-            return d3.max(d0, function(d1, i1) {
-                return d3.max(mutatedFields.map(function(f) {
-                    return f(d1, i1);
-                }));
-            });
-        });
-
-        var dateExtent = Object.prototype.toString.call(dataMin) === '[object Date]';
-
-        var min = dateExtent ? dataMin.getTime() : dataMin;
-        var max = dateExtent ? dataMax.getTime() : dataMax;
-
-        // apply symmetry rules
-        if (symmetricalAbout != null) {
-            var symmetrical = dateExtent ? symmetricalAbout.getTime() : symmetricalAbout;
-            var distanceFromMax = Math.abs(max - symmetrical),
-                distanceFromMin = Math.abs(min - symmetrical),
-                halfRange = Math.max(distanceFromMax, distanceFromMin);
-
-            min = symmetrical - halfRange;
-            max = symmetrical + halfRange;
-        }
-
-        if (padUnit === 'domain') {
-            // pad absolutely
-            if (Array.isArray(pad)) {
-                min -= pad[0];
-                max += pad[1];
-            } else {
-                min -= pad;
-                max += pad;
-            }
-        } else if (padUnit === 'percent') {
-            // pad percentagely
-            if (Array.isArray(pad)) {
-                var deltaArray = [pad[0] * (max - min), pad[1] * (max - min)];
-                min -= deltaArray[0];
-                max += deltaArray[1];
-            } else {
-                var delta = pad * (max - min) / 2;
-                min -= delta;
-                max += delta;
-            }
-        }
-
-        if (extraPoints.length) {
-            min = Math.min(min, d3.min(extraPoints));
-            max = Math.max(max, d3.max(extraPoints));
-        }
-
-        if (dateExtent) {
-            min = new Date(min);
-            max = new Date(max);
-        }
-
-        // Return the smallest and largest
-        return [min, max];
+        return extent()
+            .accessors(accessors)
+            .include(extraPoints)
+            .pad(
+                Array.isArray(pad) ? pad :
+                    [
+                        padUnit === 'percent' ? pad / 2 : pad,
+                        padUnit === 'percent' ? pad / 2 : pad
+                    ]
+            )
+            .padUnit(padUnit)
+            .symmetricalAbout(symmetricalAbout)(data);
     };
 
-    /*
-    * @param {array} fields the names of object properties that represent field values, or accessor functions.
-    */
     extents.fields = function(x) {
         if (!arguments.length) {
             return fields;

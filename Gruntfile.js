@@ -285,7 +285,8 @@ module.exports = function(grunt) {
                             jsnext: true
                         }),
                         babel({
-                            presets: ['es2015-rollup']
+                            presets: ['es2015-rollup'],
+                            babelrc: false
                         })
                     ]
                 }
