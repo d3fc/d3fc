@@ -17,7 +17,7 @@ export default () => {
 
     const boxPlot = function(data) {
 
-        const buffer = context ? undefined : context = path();
+        const drawingContext = context || path();
 
         data.forEach(function(d, i) {
             // naming convention is for vertical orientation
@@ -35,43 +35,43 @@ export default () => {
 
             if (orient === 'vertical') {
                 // Upper whisker
-                context.moveTo(_value - halfCapWidth, _high);
-                context.lineTo(_value + halfCapWidth, _high);
-                context.moveTo(_value, _high);
-                context.lineTo(_value, _upperQuartile);
+                drawingContext.moveTo(_value - halfCapWidth, _high);
+                drawingContext.lineTo(_value + halfCapWidth, _high);
+                drawingContext.moveTo(_value, _high);
+                drawingContext.lineTo(_value, _upperQuartile);
 
                 // Box
-                context.rect(_value - halfWidth, _upperQuartile, _width, upperQuartileToLowerQuartile);
-                context.moveTo(_value - halfWidth, _median);
+                drawingContext.rect(_value - halfWidth, _upperQuartile, _width, upperQuartileToLowerQuartile);
+                drawingContext.moveTo(_value - halfWidth, _median);
                 // Median line
-                context.lineTo(_value + halfWidth, _median);
+                drawingContext.lineTo(_value + halfWidth, _median);
 
                 // Lower whisker
-                context.moveTo(_value, _lowerQuartile);
-                context.lineTo(_value, _low);
-                context.moveTo(_value - halfCapWidth, _low);
-                context.lineTo(_value + halfCapWidth, _low);
+                drawingContext.moveTo(_value, _lowerQuartile);
+                drawingContext.lineTo(_value, _low);
+                drawingContext.moveTo(_value - halfCapWidth, _low);
+                drawingContext.lineTo(_value + halfCapWidth, _low);
             } else {
                 // Lower whisker
-                context.moveTo(_low, _value - halfCapWidth);
-                context.lineTo(_low, _value + halfCapWidth);
-                context.moveTo(_low, _value);
-                context.lineTo(_lowerQuartile, _value);
+                drawingContext.moveTo(_low, _value - halfCapWidth);
+                drawingContext.lineTo(_low, _value + halfCapWidth);
+                drawingContext.moveTo(_low, _value);
+                drawingContext.lineTo(_lowerQuartile, _value);
 
                 // Box
-                context.rect(_lowerQuartile, _value - halfWidth, -upperQuartileToLowerQuartile, _width);
-                context.moveTo(_median, _value - halfWidth);
-                context.lineTo(_median, _value + halfWidth);
+                drawingContext.rect(_lowerQuartile, _value - halfWidth, -upperQuartileToLowerQuartile, _width);
+                drawingContext.moveTo(_median, _value - halfWidth);
+                drawingContext.lineTo(_median, _value + halfWidth);
 
                 // Upper whisker
-                context.moveTo(_upperQuartile, _value);
-                context.lineTo(_high, _value);
-                context.moveTo(_high, _value - halfCapWidth);
-                context.lineTo(_high, _value + halfCapWidth);
+                drawingContext.moveTo(_upperQuartile, _value);
+                drawingContext.lineTo(_high, _value);
+                drawingContext.moveTo(_high, _value - halfCapWidth);
+                drawingContext.lineTo(_high, _value + halfCapWidth);
             }
         });
 
-        return buffer && (context = null, buffer.toString()  || null);
+        return context ? null : drawingContext.toString();
     };
 
     boxPlot.context = (...args) => {

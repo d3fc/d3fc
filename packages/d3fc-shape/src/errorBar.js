@@ -13,7 +13,7 @@ export default () => {
 
     const errorBar = function(data) {
 
-        const buffer = context ? undefined : context = path();
+        const drawingContext = context || path();
 
         data.forEach(function(d, i) {
             // naming convention is for vertical orientation
@@ -24,23 +24,23 @@ export default () => {
             const _low        = low(d, i);
 
             if (orient === 'vertical') {
-                context.moveTo(_value - halfWidth, _high);
-                context.lineTo(_value + halfWidth, _high);
-                context.moveTo(_value, _high);
-                context.lineTo(_value, _low);
-                context.moveTo(_value - halfWidth, _low);
-                context.lineTo(_value + halfWidth, _low);
+                drawingContext.moveTo(_value - halfWidth, _high);
+                drawingContext.lineTo(_value + halfWidth, _high);
+                drawingContext.moveTo(_value, _high);
+                drawingContext.lineTo(_value, _low);
+                drawingContext.moveTo(_value - halfWidth, _low);
+                drawingContext.lineTo(_value + halfWidth, _low);
             } else {
-                context.moveTo(_low, _value - halfWidth);
-                context.lineTo(_low, _value + halfWidth);
-                context.moveTo(_low, _value);
-                context.lineTo(_high, _value);
-                context.moveTo(_high, _value - halfWidth);
-                context.lineTo(_high, _value + halfWidth);
+                drawingContext.moveTo(_low, _value - halfWidth);
+                drawingContext.lineTo(_low, _value + halfWidth);
+                drawingContext.moveTo(_low, _value);
+                drawingContext.lineTo(_high, _value);
+                drawingContext.moveTo(_high, _value - halfWidth);
+                drawingContext.lineTo(_high, _value + halfWidth);
             }
         });
 
-        return buffer && (context = null, buffer.toString() || null);
+        return context ? null : drawingContext.toString();
     };
 
     errorBar.context = (...args) => {

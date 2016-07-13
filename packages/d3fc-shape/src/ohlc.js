@@ -17,7 +17,7 @@ export default () => {
 
     const ohlc = function(data) {
 
-        const buffer = context ? undefined : context = path();
+        const drawingContext = context || path();
 
         data.forEach(function(d, i) {
             const xValue      = x(d, i);
@@ -28,25 +28,25 @@ export default () => {
             const halfWidth   = width(d, i) / 2;
 
             if (orient === 'vertical') {
-                context.moveTo(xValue, yLow);
-                context.lineTo(xValue, yHigh);
+                drawingContext.moveTo(xValue, yLow);
+                drawingContext.lineTo(xValue, yHigh);
 
-                context.moveTo(xValue, yOpen);
-                context.lineTo(xValue - halfWidth, yOpen);
-                context.moveTo(xValue, yClose);
-                context.lineTo(xValue + halfWidth, yClose);
+                drawingContext.moveTo(xValue, yOpen);
+                drawingContext.lineTo(xValue - halfWidth, yOpen);
+                drawingContext.moveTo(xValue, yClose);
+                drawingContext.lineTo(xValue + halfWidth, yClose);
             } else {
-                context.moveTo(yLow, xValue);
-                context.lineTo(yHigh, xValue);
+                drawingContext.moveTo(yLow, xValue);
+                drawingContext.lineTo(yHigh, xValue);
 
-                context.moveTo(yOpen, xValue);
-                context.lineTo(yOpen, xValue + halfWidth);
-                context.moveTo(yClose, xValue);
-                context.lineTo(yClose, xValue - halfWidth);
+                drawingContext.moveTo(yOpen, xValue);
+                drawingContext.lineTo(yOpen, xValue + halfWidth);
+                drawingContext.moveTo(yClose, xValue);
+                drawingContext.lineTo(yClose, xValue - halfWidth);
             }
         });
 
-        return buffer && (context = null, buffer.toString() || null);
+        return context ? null : drawingContext.toString();
     };
 
     ohlc.context = (...args) => {

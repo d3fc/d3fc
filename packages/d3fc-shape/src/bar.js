@@ -16,7 +16,7 @@ export default () => {
 
     const bar = function(data, index) {
 
-        const buffer = context ? undefined : context = path();
+        const drawingContext = context || path();
 
         data.forEach(function(d, i) {
             const xValue    = x.call(this, d, index || i);
@@ -54,7 +54,7 @@ export default () => {
                 throw new Error('Invalid vertical alignment ' + verticalAlign);
             }
 
-            context.rect(
+            drawingContext.rect(
                 xValue - horizontalOffset,
                 yValue - verticalOffset,
                 barWidth,
@@ -62,7 +62,7 @@ export default () => {
             );
         }, this);
 
-        return buffer && (context = null, buffer.toString() || null);
+        return context ? null : drawingContext.toString();
     };
 
     bar.context = (...args) => {
