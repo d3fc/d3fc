@@ -10,8 +10,8 @@ export default {
     })],
     dest: 'build/d3fc-random-data.js',
     globals: {
-        'd3fc-rebind': 'fc_rebind',
-        'd3-random': 'd3_random',
-        'd3-time': 'd3_time'
+        'd3fc-rebind': 'fc',
+        'd3-random': 'd3',
+        'd3-time': 'd3'
     }
 };
