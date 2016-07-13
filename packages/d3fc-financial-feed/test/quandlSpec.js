@@ -1,4 +1,4 @@
-const feed = require('../build/d3fc-financial-feed');
+import quandl from '../src/quandl';
 
 describe('quandl', function() {
 
@@ -6,7 +6,7 @@ describe('quandl', function() {
         var columnNameMap;
 
         beforeEach(function() {
-            columnNameMap = feed.quandl().columnNameMap();
+            columnNameMap = quandl().columnNameMap();
         });
 
         it('should return "date" for "Date"', function() {
