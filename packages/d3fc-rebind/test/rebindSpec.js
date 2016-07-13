@@ -1,4 +1,4 @@
-const rebind = require('../build/d3fc-rebind').rebind;
+import rebind  from '../src/rebind';
 
 describe('rebind', function() {
 

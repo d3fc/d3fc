@@ -1,4 +1,4 @@
-const includeMap = require('../../build/d3fc-rebind').includeMap;
+import includeMap  from '../../src/transform/includeMap';
 
 describe('transform/includeMap', function() {
 

@@ -1,4 +1,4 @@
-const include = require('../../build/d3fc-rebind').include;
+import include  from '../../src/transform/include';
 
 describe('transform/include', function() {
 

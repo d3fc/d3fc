@@ -1,4 +1,4 @@
-const exclude = require('../../build/d3fc-rebind').exclude;
+import exclude  from '../../src/transform/exclude';
 
 describe('transform/exclude', function() {
 

@@ -1,6 +1,6 @@
-const rebindAll = require('../build/d3fc-rebind').rebindAll;
-const exclude = require('../build/d3fc-rebind').exclude;
-const prefix = require('../build/d3fc-rebind').prefix;
+import prefix  from '../src/transform/prefix';
+import exclude  from '../src/transform/exclude';
+import rebindAll  from '../src/rebindAll';
 
 describe('rebindAll', function() {
 

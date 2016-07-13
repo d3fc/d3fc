@@ -1,4 +1,4 @@
-const prefix = require('../../build/d3fc-rebind').prefix;
+import prefix  from '../../src/transform/prefix';
 
 describe('transform/prefix', function() {
 
