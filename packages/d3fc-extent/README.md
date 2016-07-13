@@ -41,7 +41,7 @@ Constructs a new linear extent calculator.
 
 <a name="linear_accessors" href="#linear_accessors"></a> *linear*.**accessors**([*accessors*])
 
-If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance.
+If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. Defaults to an identity function (i.e. `d => d`).
 If *accessors* is not specified, returns the current array of value accessors, which defaults `[]`.
 
 <a name="linear_pad" href="#linear_pad"></a> *linear*.**pad**([*values*])
@@ -98,7 +98,7 @@ Constructs a new date extent calculator.
 
 <a name="date_accessors" href="#date_accessors"></a> *date*.**accessors**([*accessors*])
 
-If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The value returned be the accessors must be a `Date`.
+If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The value returned be the accessors must be a `Date`. Defaults to an identity function (i.e. `d => d`).
 If *accessors* is not specified, returns the current array of value accessors, which defaults `[]`.
 
 <a name="date_pad" href="#date_pad"></a> *date*.**pad**([*values*])

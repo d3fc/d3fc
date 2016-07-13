@@ -3,6 +3,13 @@ import linearExtent from '../src/linear';
 describe('linear', () => {
     const obj = (val) => ({ high: val + 5, low: val - 5 });
 
+    it('should use default identity accessor function', function() {
+        var data = [1, 2, 10];
+
+        var extents = linearExtent()(data);
+        expect(extents).toEqual([1, 10]);
+    });
+
     it('should support accessor functions', function() {
         var data = [obj(1), obj(2), obj(10)];
 

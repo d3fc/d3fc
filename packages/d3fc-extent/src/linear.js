@@ -2,7 +2,7 @@ import { min, max } from 'd3-array';
 
 export default function() {
 
-    let accessors = [];
+    let accessors = [ d => d ];
     let pad = [0, 0];
     let padUnit = 'percent';
     let symmetricalAbout = null;
