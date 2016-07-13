@@ -17,8 +17,8 @@ npm install d3fc-discontinuous-scale
 The discontinuous scale adapts a D3 scale, with an associated discontinuity provider supplying the information relating to any 'gaps' in the scale. The following example shows an adapted linear scale, with a discontinuity which removes the domain range `[50, 75]`:
 
 ```javascript
-var scale = fc_discontinuous_scale.discontinuousScale(d3.scaleLinear())
-    .discontinuityProvider(fc_discontinuous_scale.discontinuityRange([50, 75]))
+var scale = fc.discontinuousScale(d3.scaleLinear())
+    .discontinuityProvider(fc.discontinuityRange([50, 75]))
     .domain([0, 100])
     .range([0, 550]);
 
@@ -34,7 +34,7 @@ There are various different discontinuity providers which can be used with the d
 
 ## discontinuousScale
 
-*fc_discontinuous_scale*.**discontinuousScale**(*scale*)
+*fc*.**discontinuousScale**(*scale*)
 
 Constructs a new discontinuous scale, adapting the given scale. If a *scale* is not specified, a D3 identity scale is used.
 
@@ -55,8 +55,8 @@ linear(50); // 384
 Whereas a discontinuous scale (that adapts a linear), with a discontinuity that removes the domain range `[50, 80]`, gives a different output:
 
 ```javascript
-var discontinuous = fc_discontinuous_scale.discontinuousScale(d3.scaleLinear())
-    .discontinuityProvider(fc_discontinuous_scale.discontinuityRange([50, 70]))
+var discontinuous = fc.discontinuousScale(d3.scaleLinear())
+    .discontinuityProvider(fc.discontinuityRange([50, 70]))
     .domain([10, 110])
     .range([0, 960]);
 
@@ -86,25 +86,25 @@ If *provider* is specified, sets the discontinuity provider for the scale. The d
 
 ## discontinuityIdentity
 
-*fc_discontinuous_scale*.**discontinuityIdentity**()
+*fc*.**discontinuityIdentity**()
 
 The identity discontinuity provider does not define any discontinuities, and as a result, when associated with a discontinuities scale, the scale will perform in exactly the same way as the adapted scale.
 
 ## discontinuityRange
 
-*fc_discontinuous_scale*.**discontinuityRange**(*ranges*)
+*fc*.**discontinuityRange**(*ranges*)
 
 This discontinuity provider defines one or more domain *ranges* which should be excluded from the scale. These ranges are supplied as tuples, for example, `discontinuityRange([0, 10], [20, 30])`. Both numeric and date ranges are supported, for example to create a range that skips a day, you can do the following:
 
 ```javascript
 var start = new Date(2015, 0, 9);
 var end = new Date(2015, 0, 10);
-const range = fc_discontinuous_scale.discontinuityRange([start, end]);
+const range = fc.discontinuityRange([start, end]);
 ```
 
 ## discontinuitySkipWeekends
 
-*fc_discontinuous_scale*.**discontinuitySkipWeekends**()
+*fc*.**discontinuitySkipWeekends**()
 
 This discontinuity provider is intended to be used with a time scale. This provider will remove all weekends from the domain, a feature which is particularly useful for financial time-series charts.
 
