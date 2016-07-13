@@ -5,8 +5,8 @@ export default {
     moduleName: 'fc_random_process',
     format: 'umd',
     plugins: [ babel({
-        "babelrc": false,
-        "presets": ["es2015-rollup"]
+        'babelrc': false,
+        'presets': ['es2015-rollup']
     })],
     dest: 'build/d3fc-random-data.js',
     globals: {
