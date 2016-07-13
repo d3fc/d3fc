@@ -1,6 +1,6 @@
 # d3fc-extent
 
-Extends the D3 extent functionality to allow padding, multiple accessors and date support
+Extends the D3 extent functionality (found in [d3-array](https://github.com/d3/d3-array#extent)) to allow padding, multiple accessors and date support
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
