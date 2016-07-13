@@ -1,5 +1,5 @@
-const _ema = require('../build/d3fc-technical-indicator').exponentialMovingAverage;
-const readCsv = require('./readcsv.js');
+import _ema from '../src/exponentialMovingAverage';
+import readCsv from './readcsv.js';
 
 describe('exponentialMovingAverage', () => {
     it('should match the expected output', done => {

@@ -1,5 +1,5 @@
-const relativeStrengthIndex = require('../build/d3fc-technical-indicator').relativeStrengthIndex;
-const readCsv = require('./readcsv.js');
+import relativeStrengthIndex from '../src/relativeStrengthIndex';
+import readCsv from './readcsv.js';
 
 describe('relativeStrengthIndex', () => {
     it('should match the expected output', done => {

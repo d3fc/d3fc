@@ -1,5 +1,5 @@
-const _bollingerBands = require('../build/d3fc-technical-indicator').bollingerBands;
-const readCsv = require('./readcsv.js');
+import _bollingerBands from '../src/bollingerBands';
+import readCsv from './readcsv.js';
 
 describe('bollingerBands', () => {
     it('should match the expected output', done => {

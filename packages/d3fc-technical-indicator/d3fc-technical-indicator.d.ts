@@ -188,5 +188,5 @@ declare namespace fc_technical_indicator {
 }
 
 declare module 'd3fc-technical-indicator' {
-    export = fc_technical_indicator;
+    export = fc;
 }

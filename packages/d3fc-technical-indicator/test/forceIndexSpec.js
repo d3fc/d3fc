@@ -1,5 +1,5 @@
-const _forceIndex = require('../build/d3fc-technical-indicator').forceIndex;
-const readCsv = require('./readcsv.js');
+import _forceIndex from '../src/forceIndex';
+import readCsv from './readcsv.js';
 
 describe('forceIndex', () => {
     it('should match the expected output', done => {

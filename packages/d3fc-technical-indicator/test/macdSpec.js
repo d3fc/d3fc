@@ -1,5 +1,5 @@
-const _macd = require('../build/d3fc-technical-indicator').macd;
-const readCsv = require('./readcsv.js');
+import _macd from '../src/macd';
+import readCsv from './readcsv.js';
 
 describe('macd', () => {
     it('should match the expected output', done => {

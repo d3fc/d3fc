@@ -1,5 +1,5 @@
-const _envelope = require('../build/d3fc-technical-indicator').envelope;
-const readCsv = require('./readcsv.js');
+import _envelope from '../src/envelope';
+import readCsv from './readcsv.js';
 
 describe('envelope', () => {
     it('should match the expected output', done => {

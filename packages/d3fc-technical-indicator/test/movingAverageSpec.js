@@ -1,5 +1,5 @@
-const _movingAverage = require('../build/d3fc-technical-indicator').movingAverage;
-const readCsv = require('./readcsv.js');
+import _movingAverage from '../src/movingAverage';
+import readCsv from './readcsv.js';
 
 describe('movingAverage', () => {
     it('should match the expected output', done => {

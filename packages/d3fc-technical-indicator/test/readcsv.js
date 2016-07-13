@@ -1,5 +1,5 @@
-const csvParse = require('d3-dsv').csvParse;
-const fsp = require('fs-promise');
+import {csvParse} from 'd3-dsv';
+import fsp from 'fs-promise';
 
 const readCsv = (file) =>
     fsp.readFile(file, 'utf8')

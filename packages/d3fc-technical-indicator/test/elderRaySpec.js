@@ -1,5 +1,5 @@
-const _elderRay = require('../build/d3fc-technical-indicator').elderRay;
-const readCsv = require('./readcsv.js');
+import _elderRay from '../src/elderRay';
+import readCsv from './readcsv.js';
 
 describe('elderRay', () => {
     it('should match the expected output', done => {

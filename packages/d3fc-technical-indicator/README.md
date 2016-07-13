@@ -25,17 +25,17 @@ npm install d3fc-technical-indicator
 
 ## General API
 
-Technical indicator calculators operate on an ordered input array of data, transforming it into a new array containing the indicator output values. 
+Technical indicator calculators operate on an ordered input array of data, transforming it into a new array containing the indicator output values.
 The length of the output array is the same as the input array.
 
 Calculators expose a `value` accessor property (or a number of accessors if required) used to extract values from the source array.
 For calculators that only depend on a single value for their input, the value accessor defaults to the identity function.
 
-Technical indicator parameters can be configured individually for each calculator instance. 
+Technical indicator parameters can be configured individually for each calculator instance.
 A default value is used if a parameter is not configured.
 
 If an indicator calculator needs to create undefined values in the output (for example, the leading values of a moving average result), they will have the same structure as the other output objects, but will have primitive `undefined` property values.
-  
+
 Input values retrieved by the value accessor for which `value == null` is `true` will produce undefined values in the output.
 Undefined inputs are best avoided — a single undefined input value will produce undefined output for all output values that depend on it.
 
@@ -63,7 +63,7 @@ bollingerCalculator([5, 6, 7, 6, 5, 4]);
 
 ## Bollinger Bands
 
-*d3fc_indicator*.**bollingerBands**()
+*fc*.**bollingerBands**()
 
 Constructs a new Bollinger band calculator with the default settings.
 
@@ -89,7 +89,7 @@ Computes the Bollinger bands for the given data array. Returns an array of objec
 
 ## Elder-Ray
 
-*d3fc_indicator*.**elderRay**()
+*fc*.**elderRay**()
 
 Constructs a new Elder-ray calculator with the default settings.
 
@@ -118,7 +118,7 @@ Computes the Elder-ray for the given data array. Returns an array of objects wit
 
 ## Envelope
 
-*d3fc_indicator*.**envelope**()
+*fc*.**envelope**()
 
 Constructs a new envelope calculator with the default settings.
 
@@ -139,7 +139,7 @@ Computes the envelope for the given data array. Returns an array of objects with
 
 ## Moving Average
 
-*d3fc_indicator*.**movingAverage**()
+*fc*.**movingAverage**()
 
 Constructs a new simple moving average calculator with the default settings.
 
@@ -158,7 +158,7 @@ Computes the moving average for the given data array. Returns an array of simple
 
 ## Exponential Moving Average
 
-*d3fc_indicator*.**exponentialMovingAverage**()
+*fc*.**exponentialMovingAverage**()
 
 Constructs a new exponential moving average calculator with the default settings.
 
@@ -177,7 +177,7 @@ Computes the exponential moving average for the given data array. Returns an arr
 
 ## Force Index
 
-*d3fc_indicator*.**forceIndex**()
+*fc*.**forceIndex**()
 
 Constructs a new force index calculator with the default settings.
 
@@ -200,7 +200,7 @@ Computes the force index for the given data array. Returns an array of force ind
 
 ## MACD
 
-*d3fc_indicator*.**macd**()
+*fc*.**macd**()
 
 Constructs a new MACD calculator with the default settings.
 
@@ -230,7 +230,7 @@ Computes the MACD for the given data array. Returns an array of objects with att
 
 ## Relative Strength Index
 
-*d3fc_indicator*.**relativeStrengthIndex**()
+*fc*.**relativeStrengthIndex**()
 
 Constructs a new RSI calculator with the default settings.
 
@@ -249,7 +249,7 @@ Computes the RSI for the given data array. Returns an array of RSI values.
 
 ## Stochastic Oscillator
 
-*d3fc_indicator*.**stochasticOscillator**()
+*fc*.**stochasticOscillator**()
 
 Constructs a new stochastic oscillator calculator with the default settings.
 

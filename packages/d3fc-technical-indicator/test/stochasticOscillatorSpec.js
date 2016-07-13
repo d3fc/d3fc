@@ -1,5 +1,5 @@
-const stochasticOscillator = require('../build/d3fc-technical-indicator').stochasticOscillator;
-const readCsv = require('./readcsv.js');
+import stochasticOscillator from '../src/stochasticOscillator';
+import readCsv from './readcsv.js';
 
 describe('stochasticOscillator', () => {
     it('should match the expected output', done => {
