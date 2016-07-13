@@ -34,7 +34,6 @@
     "bootstrap": "^3.3.5",
     "browserstacktunnel-wrapper": "^1.4.2",
     "d3fc-extent": "^2.1.0",
-    "d3-bundler": "^0.2.7",
     "gray-matter": "^2.0.2",
     "grunt": "^0.4.5",
     "grunt-browserstacktunnel-wrapper": "0.0.4",
