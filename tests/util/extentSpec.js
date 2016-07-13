@@ -28,7 +28,10 @@ describe('fc.util.extent', function() {
         var data = [obj(2), obj(1)];
         var data2 = [obj(4), obj(5)];
 
-        var extents = fc.util.extent().fields(['high'])([data, data2]);
+        var extents = fc.util.extent()
+            .fields(
+                [function(a) { return a.map(function(d) { return d.high; }); }]
+            )([data, data2]);
         expect(extents).toEqual([6, 10]);
     });
 
@@ -256,7 +259,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([6, 7]);
     });
 
-    it('should pad the range with domain padding, then include the extra point', function() {
+    it('should include the extra point then pad the range with domain padding', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
@@ -264,31 +267,31 @@ describe('fc.util.extent', function() {
             .fields(['high'])
             .padUnit('domain')
             .pad(5)(data);
-        expect(extents).toEqual([0, 25]);
+        expect(extents).toEqual([-5, 25]);
 
         extents = fc.util.extent()
             .include([0])
             .fields(['high'])
             .padUnit('domain')
             .pad([5, 10])(data);
-        expect(extents).toEqual([0, 30]);
+        expect(extents).toEqual([-5, 30]);
 
         extents = fc.util.extent()
             .include([30])
             .fields(['high'])
             .padUnit('domain')
             .pad(5)(data);
-        expect(extents).toEqual([5, 30]);
+        expect(extents).toEqual([5, 35]);
 
         extents = fc.util.extent()
             .include([30])
             .fields(['high'])
             .padUnit('domain')
             .pad([10, 5])(data);
-        expect(extents).toEqual([0, 30]);
+        expect(extents).toEqual([0, 35]);
     });
 
-    it('should pad the range percentagely, then include the extra point', function() {
+    it('should include the extra point then pad the range percentagely', function() {
         var data = [obj(5), obj(15)];
 
         var extents = fc.util.extent()
@@ -296,28 +299,28 @@ describe('fc.util.extent', function() {
             .fields(['high'])
             .padUnit('percent')
             .pad(1)(data);
-        expect(extents).toEqual([0, 25]);
+        expect(extents).toEqual([-10, 30]);
 
         extents = fc.util.extent()
             .include([0])
             .fields(['high'])
             .padUnit('percent')
             .pad([0.5, 1])(data);
-        expect(extents).toEqual([0, 30]);
+        expect(extents).toEqual([-10, 40]);
 
         extents = fc.util.extent()
             .include([30])
             .fields(['high'])
             .padUnit('percent')
             .pad(1)(data);
-        expect(extents).toEqual([5, 30]);
+        expect(extents).toEqual([0, 40]);
 
         extents = fc.util.extent()
             .include([30])
             .fields(['high'])
             .padUnit('percent')
             .pad([1, 0.5])(data);
-        expect(extents).toEqual([0, 30]);
+        expect(extents).toEqual([-10, 40]);
     });
 
     it('should pad dates symmetrically with domain padding', function() {
@@ -406,7 +409,7 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([new Date(2014, 0, 1), new Date(2014, 0, 20)]);
     });
 
-    it('should calculate symmetry, pad the domain, and then include the extra point in the range', function() {
+    it('should include the extra point in the range, calculate symmetry and then pad the domain', function() {
         var data = [obj(8), obj(12)];
 
         var extents = fc.util.extent()
@@ -415,10 +418,10 @@ describe('fc.util.extent', function() {
             .padUnit('domain')
             .pad(4)
             .symmetricalAbout(17)(data);
-        expect(extents).toEqual([0, 25]);
+        expect(extents).toEqual([-4, 38]);
     });
 
-    it('should calculate symmetry, pad percentagely, and then include the extra point in the range', function() {
+    it('should include the extra point in the range, calculate symmetry and then pad percentagely', function() {
         var data = [obj(8), obj(12)];
 
         var extents = fc.util.extent()
@@ -427,7 +430,7 @@ describe('fc.util.extent', function() {
             .padUnit('percent')
             .pad(1)
             .symmetricalAbout(17)(data);
-        expect(extents).toEqual([0, 25]);
+        expect(extents).toEqual([-17, 51]);
     });
 
     it('should not mutate the fields property when used', function() {
