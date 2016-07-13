@@ -42,7 +42,7 @@ var sampledData = sampler(data);
 
 The mode-median sampler is fairly basic. It partitions the data, then selects a representative piece of data from that set: the mode -- if it exists -- or the median.
 
-*d3fc_sample*.**modeMedian**()
+*fc*.**modeMedian**()
 
 Constructs a new sampler.
 
@@ -79,9 +79,9 @@ The point used to form the triangle in the last bucket is a temporary point whic
 ![largest triangle three bucket illustration](largest-triangle-three-bucket.png)
 
 
-*d3fc_sample*.**largestTriangleOneBucket**()
+*fc*.**largestTriangleOneBucket**()
 
-*d3fc_sample*.**largestTriangleThreeBucket**()
+*fc*.**largestTriangleThreeBucket**()
 
 Constructs a new sampler. The API is the same for both samplers, aside from this constructor.
 
@@ -103,7 +103,7 @@ Runs the sampler, returning the downsampled data (it doesn't modify the `data` a
 
 d3fc-sample also comes with a data bucket utility, used by the algorithms. It partitions data into evenly-sized chunks, with the first and last bucket being their own.
 
-*d3fc_sample*.**bucket**()
+*fc*.**bucket**()
 
 Construct a data bucket utility instance.
 
