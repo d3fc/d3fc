@@ -68,7 +68,7 @@ ctx.stroke();
 
 ### Bar
 
-*d3fc*.**bar**(*context*)
+*fc*.**bar**(*context*)
 
 *bar*.**x**(*accessorFunc*)  
 *bar*.**y**(*accessorFunc*)  
@@ -89,7 +89,7 @@ the relevant value for the relevant attribute for that item.
 
 ### Boxplot
 
-*d3fc*.**boxPlot**(*context*)
+*fc*.**boxPlot**(*context*)
 
 *boxPlot*.**value**(*accessorFunc*)  
 *boxPlot*.**median**(*accessorFunc*)  
@@ -114,7 +114,7 @@ Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 ### Candlestick
 
-*d3fc*.**candlestick**(*context*)
+*fc*.**candlestick**(*context*)
 
 *candlestick*.**x**(*accessorFunc*)  
 *candlestick*.**open**(*accessorFunc*)  
@@ -129,7 +129,7 @@ the relevant value for the relevant attribute for that item.
 
 ### Error Bar
 
-*d3fc*.**errorBar**(*context*)
+*fc*.**errorBar**(*context*)
 
 *errorBar*.**value**(*accessorFunc*)  
 *errorBar*.**high**(*accessorFunc*)  
@@ -146,7 +146,7 @@ Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 ### OHLC
 
-*d3fc*.**ohlc**(*context*)
+*fc*.**ohlc**(*context*)
 
 *errorBar*.**x**(*accessorFunc*)  
 *errorBar*.**open**(*accessorFunc*)  
