@@ -18,8 +18,8 @@
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-label-layout.js --compress --mangle -o build/d3fc-label-layout.min.js",
     "test": "eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "site": "npm run test && mkdirp site/lib && ncp build/d3fc-label-layout.js site/lib/d3fc-label-layout.js",
+    "semantic-release": "npm run bundle && semantic-release pre && npm publish && semantic-release post",
+    "site": "mkdirp site/lib && ncp build/d3fc-label-layout.js site/lib/d3fc-label-layout.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
     "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
@@ -46,6 +46,6 @@
   },
   "dependencies": {
     "d3": "^3.5.16",
-    "d3fc-rebind": "^2.0.0"
+    "d3fc-rebind": "^4.0.0"
   }
 }
