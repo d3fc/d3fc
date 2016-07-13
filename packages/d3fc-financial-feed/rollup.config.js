@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel';
 
 export default {
     entry: 'index.js',
-    moduleName: 'fc_financial_feed',
+    moduleName: 'fc',
     format: 'umd',
     plugins: [ babel() ],
     dest: 'build/d3fc-financial-feed.js',

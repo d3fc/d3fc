@@ -51,5 +51,5 @@ declare namespace fc_financial_feed {
 }
 
 declare module 'd3fc-financial-feed' {
-    export = fc_financial_feed;
+    export = fc;
 }
