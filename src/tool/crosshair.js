@@ -1,27 +1,21 @@
 import d3 from 'd3';
-import _dataJoin from '../util/dataJoin';
+import dataJoinUtil from '../util/dataJoin';
 import line from '../annotation/line';
-import _multi from '../series/multi';
+import multiSeries from '../series/multi';
 import {noop} from '../util/fn';
-import {noSnap} from '../util/snap';
 import point from '../series/point';
 import {range} from '../util/scale';
 import {include, prefix, rebindAll} from 'd3fc-rebind';
 
 export default function() {
 
-    var event = d3.dispatch('trackingstart', 'trackingmove', 'trackingend'),
-        xScale = d3.time.scale(),
-        yScale = d3.scale.linear(),
-        snap = function(_x, _y) {
-            return noSnap(xScale, yScale)(_x, _y);
-        },
+    var x = function(d) { return d.x; },
+        y = function(d) { return d.y; },
+        xScale = d3.scale.identity(),
+        yScale = d3.scale.identity(),
         decorate = noop;
 
-    var x = function(d) { return d.x; },
-        y = function(d) { return d.y; };
-
-    var dataJoin = _dataJoin()
+    var dataJoin = dataJoinUtil()
         .children(true)
         .selector('g.crosshair')
         .element('g')
@@ -33,57 +27,39 @@ export default function() {
 
     var horizontalLine = line()
         .value(y)
-        .label(function(d) { return d.y; });
+        .label(y);
 
     var verticalLine = line()
         .orient('vertical')
         .value(x)
-        .label(function(d) { return d.x; });
+        .label(x);
 
-    // the line annotations used to render the crosshair are positioned using
-    // screen coordinates. This function constructs a suitable scale for rendering
-    // these annotations.
-    function identityScale(scale) {
-        return d3.scale.identity()
-            .range(range(scale));
-    }
+    // The line annotations and point series used to render the crosshair are positioned using
+    // screen coordinates. This function constructs an identity scale for these components.
+    var identityXScale = d3.scale.identity();
+    var identityYScale = d3.scale.identity();
+
+    var multi = multiSeries()
+        .series([horizontalLine, verticalLine, pointSeries])
+        .xScale(identityXScale)
+        .yScale(identityYScale)
+        .mapping(function() { return [this]; });
 
     var crosshair = function(selection) {
 
         selection.each(function(data, index) {
 
-            var container = d3.select(this)
-                .style('pointer-events', 'all')
-                .on('mouseenter.crosshair', mouseenter)
-                .on('mousemove.crosshair', mousemove)
-                .on('wheel.crosshair', mousemove)
-                .on('mouseleave.crosshair', mouseleave);
-
-            var overlay = container.selectAll('rect')
-                .data([data]);
-
-            overlay.enter()
-                .append('rect')
-                .style('visibility', 'hidden');
-
-            container.select('rect')
-                .attr('x', range(xScale)[0])
-                .attr('y', range(yScale)[1])
-                .attr('width', range(xScale)[1])
-                .attr('height', range(yScale)[0]);
+            var container = d3.select(this);
 
             var crosshairElement = dataJoin(container, data);
 
             crosshairElement.enter()
                 .style('pointer-events', 'none');
 
-            var multi = _multi()
-                .series([horizontalLine, verticalLine, pointSeries])
-                .xScale(identityScale(xScale))
-                .yScale(identityScale(yScale))
-                .mapping(function() {
-                    return [this];
-                });
+            // Assign the identity scales an accurate range to allow the line annotations to cover
+            // the full width/height of the chart.
+            identityXScale.range(range(xScale));
+            identityYScale.range(range(yScale));
 
             crosshairElement.call(multi);
 
@@ -91,34 +67,22 @@ export default function() {
         });
     };
 
-    function mouseenter() {
-        var mouse = d3.mouse(this);
-        var container = d3.select(this);
-        var snapped = snap.apply(this, mouse);
-        var data = container.datum();
-        data.push(snapped);
-        container.call(crosshair);
-        event.trackingstart.apply(this, arguments);
-    }
-
-    function mousemove() {
-        var mouse = d3.mouse(this);
-        var container = d3.select(this);
-        var snapped = snap.apply(this, mouse);
-        var data = container.datum();
-        data[data.length - 1] = snapped;
-        container.call(crosshair);
-        event.trackingmove.apply(this, arguments);
-    }
-
-    function mouseleave() {
-        var container = d3.select(this);
-        var data = container.datum();
-        data.pop();
-        container.call(crosshair);
-        event.trackingend.apply(this, arguments);
-    }
-
+    // Don't use the xValue/yValue convention to indicate that these values are in screen
+    // not domain co-ordinates and are therefore not scaled.
+    crosshair.x = function(_x) {
+        if (!arguments.length) {
+            return x;
+        }
+        x = _x;
+        return crosshair;
+    };
+    crosshair.y = function(_x) {
+        if (!arguments.length) {
+            return y;
+        }
+        y = _x;
+        return crosshair;
+    };
     crosshair.xScale = function(_x) {
         if (!arguments.length) {
             return xScale;
@@ -133,13 +97,6 @@ export default function() {
         yScale = _x;
         return crosshair;
     };
-    crosshair.snap = function(_x) {
-        if (!arguments.length) {
-            return snap;
-        }
-        snap = _x;
-        return crosshair;
-    };
     crosshair.decorate = function(_x) {
         if (!arguments.length) {
             return decorate;
@@ -147,8 +104,6 @@ export default function() {
         decorate = _x;
         return crosshair;
     };
-
-    d3.rebind(crosshair, event, 'on');
 
     var lineIncludes = include('label');
     rebindAll(crosshair, horizontalLine, lineIncludes, prefix('y'));

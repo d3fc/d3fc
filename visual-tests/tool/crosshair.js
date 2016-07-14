@@ -51,16 +51,14 @@
     var crosshair = fc.tool.crosshair()
         .xScale(dateScale)
         .yScale(priceScale)
-        .snap(fc.util.seriesPointSnapXOnly(bar, data))
-        .xLabel(function(d) { return d.datum && d3.time.format('%a, %e %b')(d.datum.date); })
-        .yLabel(function(d) { return d.datum && d3.format('.2f')(d.datum.close); })
+        .xLabel(function(d) { return d3.time.format('%a, %e %b')(d.datum.date); })
+        .yLabel(function(d) { return d3.format('.2f')(d.datum.close); })
         .decorate(function(selection) {
-
-            // add a coloured rectangle within the trackball
+            // colour the trackball to match the bar
             selection
                 .select('.point')
                 .style({
-                    fill: function(d) { return color(d.datum ? d.datum.date.getDay() : 0); },
+                    fill: function(d) { return color(d.datum.date.getDay()); },
                     stroke: '#333',
                     'stroke-opactiy': 0.8,
                     'fill-opacity': 0.6
@@ -81,7 +79,21 @@
             }
         });
 
-    container.datum(data)
-        .call(multi);
+    // Configure the crosshair snapping
+    var snap = fc.util.seriesPointSnap(bar, data);
 
+    // Observe interaction with the chart, map them through the snapping function and re-render
+    var pointer = fc.behaviour.pointer()
+        .on('point', function(points) {
+            data.crosshair = points.map(snap);
+            render();
+        });
+
+    function render() {
+        container.datum(data)
+            .call(multi)
+            .call(pointer);
+    }
+
+    render();
 })(d3, fc);

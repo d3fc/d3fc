@@ -24,10 +24,7 @@ var line = fc.series.line()
 
 var crosshair = fc.tool.crosshair()
   .xLabel(function(d) { return numberFormat(d.x); })
-  .yLabel(function(d) { return numberFormat(d.y); })
-  .on('trackingstart', render)
-  .on('trackingmove', render)
-  .on('trackingend', render);
+  .yLabel(function(d) { return numberFormat(d.y); });
 
 var tooltip = fc.chart.tooltip()
     .items([
@@ -58,10 +55,20 @@ var multi = fc.series.multi()
       }
   });
 
-function render() {
-    container
-      .datum(data)
-      .call(multi);
+// configure the crosshair snapping
+var snap = fc.util.seriesPointSnap(line, data);
+
+// observe interactions with the chart and re-render
+var pointer = fc.behaviour.pointer()
+    .on('point', function(points) {
+        crosshairData = points.map(snap);
+        render2();
+    });
+
+function render2() {
+    container.call(multi)
+        .call(pointer);
 }
-render();
+
+render2();
 //END

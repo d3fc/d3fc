@@ -16,7 +16,7 @@ describe('fc.util.snap', function() {
         });
 
         it('should not offset the input values', function() {
-            expect(noSnap(4, 4)).toEqual({
+            expect(noSnap({ x: 4, y: 4 })).toEqual({
                 x: 4,
                 y: 4
             });
@@ -40,7 +40,7 @@ describe('fc.util.snap', function() {
 
         it('should work with no data', function() {
             var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, []);
-            expect(pointSnap(4, 4)).toEqual({
+            expect(pointSnap({ x: 4, y: 4 })).toEqual({
                 datum: null,
                 x: 4,
                 y: 4
@@ -49,7 +49,7 @@ describe('fc.util.snap', function() {
 
         it('should work with data', function() {
             var pointSnap = fc.util.pointSnap(xScale, yScale, xValue, yValue, data);
-            expect(pointSnap(4, 4)).toEqual({
+            expect(pointSnap({ x: 4, y: 4 })).toEqual({
                 datum: [5, 5],
                 x: 5,
                 y: 5

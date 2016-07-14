@@ -39,6 +39,17 @@ var multi = fc.series.multi()
       }
   });
 
-container.datum(data)
-    .call(multi);
+// observe interactions with the chart and re-render
+var pointer = fc.behaviour.pointer()
+    .on('point', function(points) {
+        crosshairData = points;
+        render();
+    });
+
+function render() {
+    container.call(multi)
+        .call(pointer);
+}
+
+render();
 //END
