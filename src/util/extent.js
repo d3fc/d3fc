@@ -22,7 +22,9 @@ export default function() {
             };
         });
 
+        // This is why we split out the date logic
         var peekedValue = data.length > 0 ? accessors[0](data[0]) : null;
+        peekedValue = Array.isArray(peekedValue) ? peekedValue[0] : peekedValue;
         var extent = Object.prototype.toString.call(peekedValue) === '[object Date]' ? dateExtent : linearExtent;
 
         return extent()
