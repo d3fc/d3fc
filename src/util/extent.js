@@ -2,6 +2,9 @@ import { linearExtent, dateExtent } from 'd3fc-extent';
 
 export default function() {
 
+    // eslint-disable-next-line
+    console.warn('fc.util.extent is deprecated, consider using fc.util.linearExtent/dateExtent');
+
     var fields = [],
         extraPoints = [],
         pad = 0,
