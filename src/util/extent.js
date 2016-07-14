@@ -27,10 +27,10 @@ export default function() {
             .include(extraPoints)
             .pad(
                 Array.isArray(pad) ? pad :
-                    [
-                        padUnit === 'percent' ? pad / 2 : pad,
-                        padUnit === 'percent' ? pad / 2 : pad
-                    ]
+                [
+                    padUnit === 'percent' ? pad / 2 : pad,
+                    padUnit === 'percent' ? pad / 2 : pad
+                ]
             )
             .padUnit(padUnit)
             .symmetricalAbout(symmetricalAbout)(data);

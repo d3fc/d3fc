@@ -46,7 +46,7 @@
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-eslint": "^17.2.0",
+    "grunt-eslint": "^19.0.0",
     "grunt-jasmine-node": "^0.3.1",
     "grunt-jasmine-nodejs": "^1.4.3",
     "grunt-rollup": "^0.6.2",

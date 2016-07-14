@@ -4,9 +4,7 @@ export default function() {
         yValue = function(d) { return d.y; },
         startsWithTotal = false,
         totals = function(d, i, data) {
-            if (i === data.length - 1) {
-                return 'Final';
-            }
+            return (i === data.length - 1) ? 'Final' : null;
         },
         directions = {
             up: 'up',
