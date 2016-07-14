@@ -1,2 +1,2 @@
-export { default as linearExtent } from './src/linear';
-export { default as dateExtent } from './src/date';
+export { default as extentLinear } from './src/linear';
+export { default as extentDate } from './src/date';

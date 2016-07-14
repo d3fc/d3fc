@@ -10,7 +10,7 @@ describe('bundle', function() {
                 './build/d3fc-extent.js'
             ],
             done: (_, win) => {
-                const extent = win.fc.linearExtent()([1, 2, 3, 4]);
+                const extent = win.fc.extentLinear()([1, 2, 3, 4]);
                 expect(extent).not.toBeUndefined();
                 done();
             }
