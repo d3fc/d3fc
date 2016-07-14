@@ -18,11 +18,11 @@ Calculates the extent of an array of data which can be used to set the range on 
 
 ```javascript
 
-import linearExtent from 'd3fc-extent';
+import extentLinear from 'd3fc-extent';
 
 const data = [{ x: 1 }, { x: 2 }, { x: 4 }, { x: 8 }, { x: 16 }];
 
-const extent = linearExtent()
+const extent = extentLinear()
   .accessors([d => d.x])
   .pad([1, 4])
   .padUnit('domain');
@@ -35,7 +35,7 @@ extent(data);
 
 ## API
 
-<a name="linear_padUnit" href="#linear"></a> *fc*.**linearExtent**()
+<a name="linear_padUnit" href="#linear"></a> *fc*.**extentLinear**()
 
 Constructs a new linear extent calculator.
 
@@ -76,11 +76,11 @@ Calculates the extent of an array of data which can be used to set the range on 
 
 ```javascript
 
-import dateExtent from 'd3fc-extent';
+import extentDate from 'd3fc-extent';
 
 const data = [{ x: new Date(2016, 0, 1) }, { x: new Date(2016, 0, 11) }];
 
-const extent = dateExtent()
+const extent = extentDate()
   .accessors([d => d.x])
   .pad([0, 0.2]);
 
@@ -92,7 +92,7 @@ extent(data);
 
 ## API
 
-<a name="date_padUnit" href="#date"></a> *fc*.**dateExtent**()
+<a name="date_padUnit" href="#date"></a> *fc*.**extentDate**()
 
 Constructs a new date extent calculator.
 
