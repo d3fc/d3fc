@@ -10,6 +10,6 @@ export default {
     })],
     dest: 'build/d3fc-extent.js',
     globals: {
-        'd3-array': 'd3_array'
+        'd3-array': 'd3'
     }
 };
