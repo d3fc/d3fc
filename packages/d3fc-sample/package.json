@@ -17,7 +17,7 @@
   },
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-sample.js --compress --mangle -o build/d3fc-sample.min.js",
-    "test": "eslint index.js src/**/*.js test/**/*.js site/demo.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
+    "test": "npm run bundle && eslint index.js src/**/*.js test/**/*.js site/demo.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
     "semantic-release": "semantic-release pre && npm run bundle && npm publish && semantic-release post",
     "site": "npm run test && mkdirp site/lib && browserify site/demo.js -o site/lib/bundle.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
@@ -45,7 +45,7 @@
     "watch-cli": "^0.2.1"
   },
   "dependencies": {
-    "d3-array": "^0.7.1",
-    "d3fc-rebind": "^3.0.1"
+    "d3-array": "^1.0.0",
+    "d3fc-rebind": "^4.0.1"
   }
 }

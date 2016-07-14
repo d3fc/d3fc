@@ -12,7 +12,7 @@ export default {
     ],
     dest: 'build/d3fc-sample.js',
     globals: {
-        'd3-array': 'd3_array',
-        'd3fc-rebind': 'fc_rebind'
+        'd3-array': 'd3',
+        'd3fc-rebind': 'fc'
     }
 };
