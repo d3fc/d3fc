@@ -98,9 +98,7 @@ describe('waterfall algorithm', function() {
     it('should insert totals', function() {
         var waterfallData = algorithm
             .total(function(d, i, inputData) {
-                if ((i + 1) % 3 === 0) {
-                    return 'Q' + ((i + 1) / 3) + ' total';
-                }
+                return ((i + 1) % 3 === 0) ? 'Q' + ((i + 1) / 3) + ' total' : null;
             })(data);
 
         var expectedData = [

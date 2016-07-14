@@ -323,6 +323,17 @@ describe('fc.util.extent', function() {
         expect(extents).toEqual([-10, 40]);
     });
 
+    it('should support arrays of arrays of dates', function() {
+        var data = [{ date: new Date(2014, 0, 10) }, { date: new Date(2014, 0, 20) }];
+        var data2 = [{ date: new Date(2014, 0, 20) }, { date: new Date(2014, 0, 30) }];
+
+        var extents = fc.util.extent()
+            .fields(
+                [function(a) { return a.map(function(d) { return d.date; }); }]
+            )([data, data2]);
+        expect(extents).toEqual([new Date(2014, 0, 10), new Date(2014, 0, 30)]);
+    });
+
     it('should pad dates symmetrically with domain padding', function() {
         var date1 = new Date(2014, 0, 10);
         var date2 = new Date(2014, 0, 20);

@@ -1,6 +1,7 @@
 import dataJoin from './dataJoin';
 import expandRect from './expandRect';
 import extent from './extent';
+import { extentLinear, extentDate } from 'd3fc-extent';
 import * as fn from './fn';
 import minimum from './minimum';
 import fractionalBarWidth from './fractionalBarWidth';
@@ -15,6 +16,8 @@ export default {
     dataJoin: dataJoin,
     expandRect: expandRect,
     extent: extent,
+    extentLinear: extentLinear,
+    extentDate: extentDate,
     fn: fn,
     minimum: minimum,
     fractionalBarWidth: fractionalBarWidth,

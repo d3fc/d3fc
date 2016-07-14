@@ -13,16 +13,17 @@ function renderChart() {
 
     // Offset the range to include the full bar for the latest value
     var DAY_MS = 1000 * 60 * 60 * 24;
-    var xExtent = fc.util.extent()
-        .fields(['date'])
+    var xExtent = fc.util.extentDate()
+        .accessors([function(d) { return d.date; }])
         .padUnit('domain')
         .pad([DAY_MS * -bollingerAlgorithm.period()(data), DAY_MS]);
 
     // ensure y extent includes the bollinger bands
-    var yExtent = fc.util.extent().fields([
-        function(d) { return d.bollingerBands.upper; },
-        function(d) { return d.bollingerBands.lower; }
-    ]);
+    var yExtent = fc.util.extentLinear()
+        .accessors([
+            function(d) { return d.bollingerBands.upper; },
+            function(d) { return d.bollingerBands.lower; }
+        ]);
 
     // create a chart
     var chart = fc.chart.cartesian(

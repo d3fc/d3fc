@@ -1,6 +1,9 @@
-import { linearExtent, dateExtent } from 'd3fc-extent';
+import { extentLinear, extentDate } from 'd3fc-extent';
 
 export default function() {
+
+    // eslint-disable-next-line
+    console.warn('fc.util.extent is deprecated, consider using fc.util.extentLinear/extentDate');
 
     var fields = [],
         extraPoints = [],
@@ -19,18 +22,20 @@ export default function() {
             };
         });
 
+        // This is why we split out the date logic
         var peekedValue = data.length > 0 ? accessors[0](data[0]) : null;
-        var extent = Object.prototype.toString.call(peekedValue) === '[object Date]' ? dateExtent : linearExtent;
+        peekedValue = Array.isArray(peekedValue) ? peekedValue[0] : peekedValue;
+        var extent = Object.prototype.toString.call(peekedValue) === '[object Date]' ? extentDate : extentLinear;
 
         return extent()
             .accessors(accessors)
             .include(extraPoints)
             .pad(
                 Array.isArray(pad) ? pad :
-                    [
-                        padUnit === 'percent' ? pad / 2 : pad,
-                        padUnit === 'percent' ? pad / 2 : pad
-                    ]
+                [
+                    padUnit === 'percent' ? pad / 2 : pad,
+                    padUnit === 'percent' ? pad / 2 : pad
+                ]
             )
             .padUnit(padUnit)
             .symmetricalAbout(symmetricalAbout)(data);

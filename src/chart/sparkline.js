@@ -55,6 +55,7 @@ export default function() {
                 case 1: return 'high';
                 case 2: return 'low';
                 case 3: return 'close';
+                default: throw new Error('Unexepected index');
                 }
             });
         });

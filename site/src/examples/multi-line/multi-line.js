@@ -84,7 +84,6 @@ var plotArea = fc.series.multi()
         default:
             return data;
         }
-        return this[index];
     });
 
 chart.plotArea(plotArea);

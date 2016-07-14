@@ -29,9 +29,7 @@
             .yValue(function(d) { return d.profit; })
             .startsWithTotal(true)
             .total(function(d, i) {
-                if ((i + 1) % 3 === 0) {
-                    return 'Q' + ((i + 1) / 3) + ' total';
-                }
+                return ((i + 1) % 3 === 0) ? 'Q' + ((i + 1) / 3) + ' total' : null;
             })(data);
 
         // Create scale for x axis
