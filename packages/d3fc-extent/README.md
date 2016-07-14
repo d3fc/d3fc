@@ -10,7 +10,7 @@ Extends the D3 extent functionality (found in [d3-array](https://github.com/d3/d
 npm install d3fc-extent
 ```
 
-# Linear Extent
+# Linear
 
 Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Internally makes use of `d3-array`'s [`min`](https://github.com/d3/d3-array#min) and [`max`](https://github.com/d3/d3-array#max) methods.
 
@@ -68,7 +68,7 @@ Note included values are applied before [symmetricalAbout](#linear_symmetricalAb
 If *values* is not specified, returns the current array of included values, which defaults `[]`.
 
 
-# Date Extent
+# Date
 
 Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Equivalent in functionality to [linear](#linear) but for `Date` values.
 
