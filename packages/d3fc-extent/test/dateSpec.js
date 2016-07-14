@@ -59,4 +59,18 @@ describe('linear', () => {
             .include([new Date(2014, 0, 1)])(data);
         expect(extents).toEqual([new Date(2014, 0, 1), new Date(2014, 0, 20)]);
     });
+
+    it('should always invoke valueOf on a scalar accessor result', function() {
+        const date = new Date(2014, 0, 1);
+        spyOn(date, 'valueOf');
+        dateExtent().accessors([d => d])([date]);
+        expect(date.valueOf).toHaveBeenCalled();
+    });
+
+    it('should always invoke valueOf on a scalar array accessor result', function() {
+        const date = new Date(2014, 0, 1);
+        spyOn(date, 'valueOf');
+        dateExtent().accessors([d => [d, d]])([date]);
+        expect(date.valueOf).toHaveBeenCalled();
+    });
 });

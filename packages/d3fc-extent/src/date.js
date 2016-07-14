@@ -11,7 +11,12 @@ export default function() {
     const extent = linearExtent();
 
     const instance = (data) => {
-        extent.accessors(accessors.map(accessor => (...args) => accessor(...args).valueOf()))
+        const adaptedAccessors = accessors.map(accessor => (...args) => {
+            const value = accessor(...args);
+            return Array.isArray(value) ? value.map(date => date.valueOf()) : value.valueOf();
+        });
+
+        extent.accessors(adaptedAccessors)
           .pad(pad)
           .padUnit(padUnit)
           .symmetricalAbout(symmetricalAbout != null ? symmetricalAbout.valueOf() : null)
