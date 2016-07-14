@@ -24,18 +24,20 @@ The sampling components provide an API for downsampling data. They are typically
 ## Example usage
 
 ```javascript
+import {largestTriangleThreeBucket} from 'd3fc-sample';
+
 // Create the sampler
-var sampler = fc_sample.largestTriangleThreeBucket();
+const sampler = largestTriangleThreeBucket();
 
 // Configure the x / y value accessors
-sampler.x(function (d) { return d.x; })
-    .y(function (d) { return d.y; });
+sampler.x(d => d.x)
+    .y(d => d.y);
 
 // Configure the size of the buckets used to downsample the data.
 sampler.bucketSize(10);
 
 // Run the sampler
-var sampledData = sampler(data);
+const sampledData = sampler(data);
 ```
 
 ## Mode Median
