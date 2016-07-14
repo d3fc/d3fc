@@ -1,13 +1,8 @@
-import {defined} from './fn';
+import {defined, identity} from './fn';
 import minimum from './minimum';
 
-export function noSnap(xScale, yScale) {
-    return function(xPixel, yPixel) {
-        return {
-            x: xPixel,
-            y: yPixel
-        };
-    };
+export function noSnap() {
+    return identity;
 }
 
 export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunction) {
@@ -18,30 +13,30 @@ export function pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunctio
         return dx * dx + dy * dy;
     };
 
-    return function(xPixel, yPixel) {
+    return function(point) {
         var filtered = data.filter(function(d, i) {
             return defined(xValue, yValue)(d, i);
         });
 
         var nearest = minimum(filtered, function(d) {
-            return objectiveFunction(xPixel, yPixel, xScale(xValue(d)), yScale(yValue(d)));
+            return objectiveFunction(point.x, point.y, xScale(xValue(d)), yScale(yValue(d)));
         })[1];
 
         return {
             datum: nearest,
-            x: nearest ? xScale(xValue(nearest)) : xPixel,
-            y: nearest ? yScale(yValue(nearest)) : yPixel
+            x: nearest ? xScale(xValue(nearest)) : point.x,
+            y: nearest ? yScale(yValue(nearest)) : point.y
         };
     };
 }
 
 export function seriesPointSnap(series, data, objectiveFunction) {
-    return function(xPixel, yPixel) {
+    return function(point) {
         var xScale = series.xScale(),
             yScale = series.yScale(),
             xValue = series.xValue(),
             yValue = (series.yValue || series.yCloseValue).call(series);
-        return pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunction)(xPixel, yPixel);
+        return pointSnap(xScale, yScale, xValue, yValue, data, objectiveFunction)(point);
     };
 }
 
