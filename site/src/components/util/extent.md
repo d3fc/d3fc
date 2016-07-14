@@ -6,70 +6,33 @@ component: util/extent.js
 namespace: Util
 ---
 
- The extent function enhances the functionality of the equivalent D3 extent function, allowing you to pass an array of fields, or accessors, which will be used to derive the extent of the supplied array. For example, if you have an array of items with properties of 'high' and 'low', you can use `fc.util.extent().fields(['high', 'low'])(data)` to compute the extent of your data.
+Extends the D3 extent functionality (found in [d3-array](https://github.com/d3/d3-array)) to allow padding, multiple accessors and date support. Two variants are provided, one specialised for numeric values and another for dates -
 
 ```js
-  var data = [{low: 10, high: 30}, {low: 12, high: 40}];
-  var fields = ['high', 'low'];
+var data = [{ x: 1 }, { x: 2 }, { x: 4 }, { x: 8 }, { x: 16 }];
 
-  fc.util.extent().fields(fields)(data); // [10, 40]
+var extent = fc.util.extentLinear()
+  .accessors([function(d) { return d.x; }])
+  .pad([1, 4])
+  .padUnit('domain');
+
+extent(data);
+// [0, 20]
 ```
 
-A range can be symmetrical about a given value, using the `symmetricalAbout` property. Given a range of `[0, 5]` and specifying symmetry around `0` will yield a new range of `[-5, 5]`. This property has the highest precedence, i.e. it is performed before padding and including extra points.
+For more details on using linear extent see [d3fc-extent](https://github.com/d3fc/d3fc-extent#linear).
 
 ```js
-  fc.util.extent()
-      .fields(fields)
-      .symmetricalAbout(20); // [0, 40]
+var data = [{ x: new Date(2016, 0, 1) }, { x: new Date(2016, 0, 11) }];
+
+var extent = fc.util.extentDate()
+  .accessors([function(d) { return d.x; }])
+  .pad([0, 0.2]);
+
+extent(data);
+// [ 2016-01-01T00:00:00.000Z, 2016-01-13T00:00:00.000Z ]
 ```
 
- The range can be modified by using the `pad` property, and specifying a 'padUnit' to vary the type of padding required. The padUnit can be either 'domain' for padding the domain absolutely or 'percent' for padding by a percentage. It is set by default to 'percent'. Domain padding will increase the calculated range by the amount given. If the calculated range is `[10, 20]`, with padUnit set to 'domain', then the result of setting pad to '2' will be `[8, 22]`. `pad(0)` is an identity in both cases.
+For more details on using date extent see [d3fc-extent](https://github.com/d3fc/d3fc-extent#date).
 
-```js
-  fc.util.extent()
-      .fields(fields)
-      .padUnit('domain')
-      .pad(5)(data); // [5, 45]
-```
-
- Percentage padding will scale the calculated range by the given amount. If the calculated range is `[10, 20]`, then the result of setting pad to '1' will be `[5, 25]`. 
-
-```js
-  fc.util.extent()
-      .fields(fields)
-      .padUnit('percent')
-      .pad(0.5)(data); // [2.5, 47.5]
-```
-
- In addition, both padding properties support asymmetric padding.
-
-```js
-  fc.util.extent()
-      .fields(fields)
-      .padUnit('domain')
-      .pad([3, 5])(data); // [7, 45]
-  fc.util.extent()
-      .fields(fields)
-      .padUnit('percent')
-      .pad([0.25, 0.5])(data); // [2.5, 55]
-```
-
- The range can be extended to include an array of fixed values, using the `include` property. The range is extended after padding, so the order of setting the properties is not important. If the included values are already within the range there will be no change.
-
-```js
-  fc.util.extent()
-      .fields(fields)
-      .include([0])(data); // [0, 40]
-  fc.util.extent()
-      .fields(fields)
-      .pad(0.5)
-      .include([0, 50])(data); // [0, 50]
-```
-
-Extent can also be used on an array of arrays.
-
-```js
-  var data = [[{low: 2, high: 5}, {low: 1, high: 3}], [{low: 0, high: 6}]];
-  fc.util.extent().fields(['high', 'low'])(data); // [0, 6]  
-
-```
+Previously this functionality was provided by a single component but this resulted in unresolvable ambiguity. Whilst still available to ease upgrading, its use is deprecated and there are some [important changes](https://github.com/ScottLogic/d3fc/commit/00f3a9677803559f883fe673be11159a1bbe6c3f) to be aware of.
