@@ -18,7 +18,7 @@
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-sample.js --compress --mangle -o build/d3fc-sample.min.js",
     "test": "eslint index.js src/**/*.js test/**/*.js site/demo.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release pre && npm run bundle && npm publish && semantic-release post",
     "site": "npm run test && mkdirp site/lib && browserify site/demo.js -o site/lib/bundle.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
     "deploy-site": "npm run site && bash ./site/deploy.sh"
