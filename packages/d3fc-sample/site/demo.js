@@ -33,7 +33,11 @@ function strategyInterceptor(strategy) {
         interceptor.time = time;
         return finalLayout;
     };
-    d3.rebind(interceptor, strategy, 'bucketSize');
+
+    interceptor.bucketSize = function() {
+        return strategy.bucketSize.apply(this, arguments);
+    };
+
     return interceptor;
 }
 
@@ -82,16 +86,16 @@ function render() {
     svg.selectAll('g').remove();
 
     var xExtent = d3.extent(data, function(d) { return d.x; });
-    var xScale = d3.scale.linear()
+    var xScale = d3.scaleLinear()
         .domain(xExtent)
         .range([0, width]);
 
     var yExtent = d3.extent(data, function(d) { return d.y; });
-    var yScale = d3.scale.linear()
+    var yScale = d3.scaleLinear()
         .domain(yExtent)
         .range([height, 0]);
 
-    var path = d3.svg.line()
+    var path = d3.line()
         .x(function(d) { return xScale(d.x); })
         .y(function(d) { return yScale(d.y); });
 
@@ -100,11 +104,9 @@ function render() {
         .data([data, strategy(data)])
         .enter()
         .append('path')
-        .attr({
-            d: path,
-            class: function(d, i) {
-                return i === 0 ? 'raw' : 'subsampled';
-            }
+        .attr('d', path)
+        .attr('class', function(d, i) {
+            return i === 0 ? 'raw' : 'subsampled';
         });
 
     var statsElement = document.getElementById('statistics');
