@@ -1,29 +1,23 @@
-import d3 from 'd3';
-import dataJoinUtil from './util/dataJoin';
+import { select } from 'd3-selection';
+import { dataJoin as dataJoinUtil } from 'd3fc-data-join';
 
 export default (layoutStrategy) => {
 
     var padding = 2;
     var value = (x) => x;
 
-    var textJoin = dataJoinUtil()
-        .selector('text')
-        .element('text');
+    var textJoin = dataJoinUtil('text');
 
-    var rectJoin = dataJoinUtil()
-        .selector('rect')
-        .element('rect');
+    var rectJoin = dataJoinUtil('rect');
 
-    var pointJoin = dataJoinUtil()
-        .selector('circle')
-        .element('circle');
+    var pointJoin = dataJoinUtil('circle');
 
     var textLabel = (selection) => {
         selection.each(function(data, index) {
 
             var width = Number(this.getAttribute('layout-width'));
             var height = Number(this.getAttribute('layout-height'));
-            var rect = rectJoin(this, [data]);
+            var rect = rectJoin(select(this), [data]);
             rect.attr({
                 'width': width,
                 'height': height
@@ -31,16 +25,15 @@ export default (layoutStrategy) => {
 
             var anchorX = Number(this.getAttribute('anchor-x'));
             var anchorY = Number(this.getAttribute('anchor-y'));
-            var circle = pointJoin(this, [data]);
+            var circle = pointJoin(select(this), [data]);
             circle.attr({
                 'r': 2,
                 'cx': anchorX,
                 'cy': anchorY
             });
 
-            var text = textJoin(this, [data]);
-            text
-                .enter()
+            var text = textJoin(select(this), [data]);
+            text.enter()
                 .attr({
                     'dy': '0.9em',
                     'transform': 'translate(' + padding + ', ' + padding + ')'
@@ -62,7 +55,7 @@ export default (layoutStrategy) => {
         if (!arguments.length) {
             return value;
         }
-        value = d3.functor(x);
+        value = x;
         return textLabel;
     };
 
