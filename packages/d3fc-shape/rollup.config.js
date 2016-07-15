@@ -12,7 +12,6 @@ export default {
     ],
     dest: 'build/d3fc-shape.js',
     globals: {
-        'd3': 'd3',
-        'd3-path': 'd3_path'
+        'd3-path': 'd3'
     }
 };
