@@ -17,12 +17,15 @@ npm install d3fc-discontinuous-scale
 The discontinuous scale adapts a D3 scale, with an associated discontinuity provider supplying the information relating to any 'gaps' in the scale. The following example shows an adapted linear scale, with a discontinuity which removes the domain range `[50, 75]`:
 
 ```javascript
-var scale = fc.discontinuousScale(d3.scaleLinear())
-    .discontinuityProvider(fc.discontinuityRange([50, 75]))
+import { scaleDiscontinuous, discontinuityRange } from 'd3fc-discontinuous-scale';
+import { scaleLinear, axisBottom } from 'd3-scale';
+
+var scale = scaleDiscontinuous(scaleLinear())
+    .discontinuityProvider(discontinuityRange([50, 75]))
     .domain([0, 100])
     .range([0, 550]);
 
-var axis = d3.axisBottom()
+var axis = axisBottom()
     .scale(scale);
 ```
 
@@ -32,19 +35,19 @@ Which renders as follows:
 
 There are various different discontinuity providers which can be used with the discontinuous scale. It is also possible to write your own.
 
-## discontinuousScale
+## scaleDiscontinuous
 
-*fc*.**discontinuousScale**(*scale*)
+*fc*.**scaleDiscontinuous**(*scale*)
 
 Constructs a new discontinuous scale, adapting the given scale. If a *scale* is not specified, a D3 identity scale is used.
 
-discontinuousScale(*value*)
-discontinuousScale.invert(*value*)
+scaleDiscontinuous(*value*)
+scaleDiscontinuous.invert(*value*)
 
 The underlying scale method, and the **invert** method are adapted to remove discontinuous. For example, a regular D3 linear scale performs as follows:
 
 ```javascript
-var linear = d3.scaleLinear()
+const linear = scaleLinear()
     .domain([10, 110])
     .range([0, 960]);
 
@@ -55,8 +58,8 @@ linear(50); // 384
 Whereas a discontinuous scale (that adapts a linear), with a discontinuity that removes the domain range `[50, 80]`, gives a different output:
 
 ```javascript
-var discontinuous = fc.discontinuousScale(d3.scaleLinear())
-    .discontinuityProvider(fc.discontinuityRange([50, 70]))
+const discontinuous = scaleDiscontinuous(scaleLinear())
+    .discontinuityProvider(discontinuityRange([50, 70]))
     .domain([10, 110])
     .range([0, 960]);
 
@@ -68,19 +71,19 @@ The same behaviour is observed via **invert** also.
 
 All of the adapted scale methods are re-exposed by the discontinuous scale. The discontinuous scale API documentation details where the scale behaviour differs from the adapted scale. For all other methods, you can assume that their behaviour is unchanged.
 
-*discontinuousScale*.**domain**([*provider*])
+*scaleDiscontinuous*.**domain**([*provider*])
 
 Adapts the underlying scale's **domain** method, clamping the upper and lower domain bounds to ensure that they do not fall within a discontinuity.
 
-*discontinuousScale*.**nice**()
+*scaleDiscontinuous*.**nice**()
 
 Adapts the underlying scale's **nice** method, clamping the resulting domain to ensure that the upper and lower bounds do not fall within a discontinuity.
 
-*discontinuousScale*.**ticks**([*count*])
+*scaleDiscontinuous*.**ticks**([*count*])
 
 Adapts the underlying scale's **ticks** method, removing any ticks that fall within discontinuities.
 
-*discontinuousScale*.**discontinuityProvider**(*provider*)
+*scaleDiscontinuous*.**discontinuityProvider**(*provider*)
 
 If *provider* is specified, sets the discontinuity provider for the scale. The discontinuity provider exposes an API that is used to create gaps within the domain. This package includes a number of different types of discontinuity provider, however you can also create your own.
 
@@ -97,9 +100,9 @@ The identity discontinuity provider does not define any discontinuities, and as 
 This discontinuity provider defines one or more domain *ranges* which should be excluded from the scale. These ranges are supplied as tuples, for example, `discontinuityRange([0, 10], [20, 30])`. Both numeric and date ranges are supported, for example to create a range that skips a day, you can do the following:
 
 ```javascript
-var start = new Date(2015, 0, 9);
-var end = new Date(2015, 0, 10);
-const range = fc.discontinuityRange([start, end]);
+const start = new Date(2015, 0, 9);
+const end = new Date(2015, 0, 10);
+const range = discontinuityRange([start, end]);
 ```
 
 ## discontinuitySkipWeekends

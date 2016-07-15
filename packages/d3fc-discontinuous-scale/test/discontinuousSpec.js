@@ -1,13 +1,13 @@
 import {scaleTime, scaleLinear} from 'd3-scale';
 
-import discontinuousScale from '../src/discontinuousScale';
+import discontinuous from '../src/discontinuous';
 import skipWeekends from '../src/discontinuity/skipWeekends';
 import discontinuityRange from '../src/discontinuity/range';
 
-describe('discontinuousScale', () => {
+describe('discontinuous', () => {
 
     it('should default to an identity scale', () => {
-        var scale = discontinuousScale();
+        var scale = discontinuous();
 
         expect(scale(0)).toEqual(0);
         expect(scale(10)).toEqual(10);
@@ -20,7 +20,7 @@ describe('discontinuousScale', () => {
         var start = new Date(2015, 0, 8); // thursday
         var end = new Date(2015, 0, 15); // thursday
 
-        var dateTime = discontinuousScale(scaleTime())
+        var dateTime = discontinuous(scaleTime())
             .discontinuityProvider(skipWeekends())
             .range([0, 100])
             .domain([start, end]);
@@ -39,7 +39,7 @@ describe('discontinuousScale', () => {
             var start = new Date(2015, 0, 9); // friday
             var end = new Date(2015, 0, 12); // monday
 
-            var dateTime = discontinuousScale(scaleTime())
+            var dateTime = discontinuous(scaleTime())
                 .discontinuityProvider(skipWeekends())
                 .domain([start, end]);
 
@@ -51,7 +51,7 @@ describe('discontinuousScale', () => {
             var start = new Date(2015, 0, 9); // friday
             var end = new Date(2015, 0, 12); // monday
 
-            var dateTime = discontinuousScale(scaleTime())
+            var dateTime = discontinuous(scaleTime())
                 .discontinuityProvider(skipWeekends())
                 .domain([start, end]);
 
@@ -70,7 +70,7 @@ describe('discontinuousScale', () => {
                 .domain([start, end])
                 .range(range);
 
-        var dateTime = discontinuousScale(scaleTime())
+        var dateTime = discontinuous(scaleTime())
             .domain([start, end])
             .range(range);
 
@@ -100,7 +100,7 @@ describe('discontinuousScale', () => {
         var start = new Date(2015, 0, 18, 12); // mid-day sunday
 
         it('should clamp the values supplied', () => {
-            var dateTime = discontinuousScale(scaleTime())
+            var dateTime = discontinuous(scaleTime())
                 .discontinuityProvider(skipWeekends())
                 .domain([start, end]);
 
@@ -111,7 +111,7 @@ describe('discontinuousScale', () => {
 
     describe('nice', () => {
         it('should clamp the resulting domain', () => {
-            var scale = discontinuousScale(scaleLinear())
+            var scale = discontinuous(scaleLinear())
                 .discontinuityProvider(discontinuityRange([-0.1, 0.1], [9.9, 10.1]))
                 .domain([0.2, 9.8]);
 
@@ -136,7 +136,7 @@ describe('discontinuousScale', () => {
                     .domain([start, end])
                     .range(range);
 
-            var scale = discontinuousScale(scaleLinear())
+            var scale = discontinuous(scaleLinear())
                 .domain([start, end])
                 .range(range);
 
@@ -159,7 +159,7 @@ describe('discontinuousScale', () => {
 
             it('should scale correctly', () => {
 
-                var scale = discontinuousScale(scaleLinear())
+                var scale = discontinuous(scaleLinear())
                     .discontinuityProvider(discontinuityRange([40, 90]))
                     .domain([0, 100])
                     .range([0, 100]);

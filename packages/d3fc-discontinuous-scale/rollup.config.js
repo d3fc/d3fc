@@ -12,8 +12,8 @@ export default {
     ],
     dest: 'build/d3fc-discontinuous-scale.js',
     globals: {
-        'd3fc-rebind': 'fc_rebind',
-        'd3-scale': 'd3_scale',
-        'd3-time': 'd3_time'
+        'd3fc-rebind': 'fc',
+        'd3-scale': 'd3',
+        'd3-time': 'd3'
     }
 };

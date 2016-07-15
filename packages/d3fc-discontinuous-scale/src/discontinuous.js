@@ -3,7 +3,7 @@ import {rebind} from 'd3fc-rebind';
 import identity from './discontinuity/identity';
 import tickFilter from './tickFilter';
 
-function discontinuousScale(adaptedScale) {
+function discontinuous(adaptedScale) {
 
     if (!arguments.length) {
         adaptedScale = scaleIdentity();
@@ -65,7 +65,7 @@ function discontinuousScale(adaptedScale) {
     };
 
     scale.copy = () =>
-        discontinuousScale(adaptedScale.copy())
+        discontinuous(adaptedScale.copy())
           .discontinuityProvider(discontinuityProvider.copy());
 
     scale.discontinuityProvider = (...args) => {
@@ -81,4 +81,4 @@ function discontinuousScale(adaptedScale) {
     return scale;
 }
 
-export default discontinuousScale;
+export default discontinuous;
