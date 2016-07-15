@@ -29,7 +29,7 @@ export default function() {
 
         return extent()
             .accessors(accessors)
-            .include(extraPoints)
+            .include(Array.isArray(extraPoints) ? extraPoints : [extraPoints])
             .pad(
                 Array.isArray(pad) ? pad :
                 [

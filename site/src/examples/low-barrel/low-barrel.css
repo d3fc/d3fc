@@ -3,6 +3,7 @@
   width: 100%;
   height: 400px;
   shape-rendering: crispEdges;
+  pointer-events: all;
 }
 
 rect.background {

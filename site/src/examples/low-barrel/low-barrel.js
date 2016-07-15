@@ -77,9 +77,6 @@
             .component(tooltipContainer);
 
         var crosshairs = fc.tool.crosshair()
-            .on('trackingstart.link', event.crosshair)
-            .on('trackingmove.link', event.crosshair)
-            .on('trackingend.link', event.crosshair)
             .xLabel('')
             .yLabel('');
 
@@ -106,18 +103,24 @@
             .yTicks(3)
             .plotArea(multi);
 
+        var pointer = fc.behaviour.pointer();
+
         function mainChart(selection) {
 
             selection.each(function(data) {
+                var snap = fc.util.seriesPointSnapXOnly(candlestick, data);
 
-                crosshairs.snap(fc.util.seriesPointSnapXOnly(candlestick, data));
+                pointer.on('point', function(points) {
+                    event.crosshair(points.map(snap));
+                });
 
                 chart.xDomain(data.dateDomain)
                     .yDomain(fc.util.extent().fields(['high', 'low'])(data))
                     .yNice();
 
                 var container = d3.select(this)
-                    .call(chart);
+                    .call(chart)
+                    .call(pointer);
 
                 // Zoom goes nuts if you re-use an instance and also can't set
                 // the scale on zoom until it's been initialised by chart.
@@ -191,10 +194,7 @@
 
         var crosshairs = fc.tool.crosshair()
             .xLabel('')
-            .yLabel('')
-            .on('trackingstart.link', event.crosshair)
-            .on('trackingmove.link', event.crosshair)
-            .on('trackingend.link', event.crosshair);
+            .yLabel('');
 
         var multi = fc.series.multi()
             .series([gridlines, bar, crosshairs])
@@ -206,8 +206,10 @@
                     return this;
                 }
             });
-
         chart.plotArea(multi);
+
+        var pointer = fc.behaviour.pointer()
+            .on('point', event.crosshair);
 
         function volumeChart(selection) {
 
@@ -219,10 +221,15 @@
 
                 bar.y0Value(chart.yDomain()[0]);
 
-                crosshairs.snap(fc.util.seriesPointSnapXOnly(bar, data));
+                var snap = fc.util.seriesPointSnapXOnly(bar, data);
+
+                pointer.on('point', function(points) {
+                    event.crosshair(points.map(snap));
+                });
 
                 d3.select(this)
-                    .call(chart);
+                    .call(chart)
+                    .call(pointer);
             });
         }
 
@@ -394,7 +401,10 @@
         });
 
         var lowBarrel = example.lowBarrel()
-            .on('crosshair', render)
+            .on('crosshair', function(points) {
+                data.crosshairs = points;
+                render();
+            })
             .on('navigate', function(domain) {
                 data.dateDomain = [
                     new Date(Math.max(domain[0], data.navigatorDateDomain[0])),
