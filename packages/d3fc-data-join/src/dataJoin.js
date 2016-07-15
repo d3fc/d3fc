@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import { select, selection } from 'd3-selection';
 
 // "Caution: avoid interpolating to or from the number zero when the interpolator is used to generate
 // a string (such as with attr).
@@ -15,32 +15,23 @@ var effectivelyZero = 1e-6;
 // This is achieved by appending the element to the enter selection before exposing it.
 // A default transition of fade in/out is also implicitly added but can be modified.
 
-export default function() {
-    var selector = 'g';
-    var children = false;
-    var element = 'g';
-    var attr = {};
+export default function(element, className) {
+    element = element || 'g';
+
     var key = (_, i) => i;
 
     var dataJoin = function(container, data) {
-
-        var joinedData = data || ((d) => d);
-
-        // Can't use instanceof d3.selection (see #458)
-        if (!(container.selectAll && container.node)) {
-            container = d3.select(container);
-        }
+        data = data || ((d) => d);
 
         // update
-        var selection = container.selectAll(selector);
-        if (children) {
+        var selector = className == null ? element : element + '.' + className;
+        var selected = container.selectAll(selector)
             // in order to support nested selections, they can be filtered
             // to only return immediate children of the container
-            selection = selection.filter(function() {
+            .filter(function() {
                 return this.parentNode === container.node();
             });
-        }
-        var updateSelection = selection.data(joinedData, key);
+        var updateSelection = selected.data(data, key);
 
         // enter
         // when container is a transition, entering elements fade in (from transparent to opaque)
@@ -52,39 +43,34 @@ export default function() {
         // (#528)
         var enterSelection = updateSelection.enter()
             .insert(element) // <<<--- this is the secret sauce of this whole file
-            .attr(attr)
-            .style('opacity', effectivelyZero);
+            .attr('class', className);
 
         // exit
         // when container is a transition, exiting elements fade out (from opaque to transparent)
-        var exitSelection = d3.transition(updateSelection.exit())
-            .style('opacity', effectivelyZero)
-            .remove();
+        var exitSelection = updateSelection.exit();
 
-        // when container is a transition, all properties of the transition (which can be interpolated)
-        // will transition
-        updateSelection = d3.transition(updateSelection)
-            .style('opacity', 1);
+        // automatically merge in the enter selection
+        updateSelection = updateSelection.merge(enterSelection);
 
-        updateSelection.enter = d3.functor(enterSelection);
-        updateSelection.exit = d3.functor(exitSelection);
+        // if transitions are enable inherit the default transition from ancestors
+        // and apply a default fade in/out transition
+        if (selection.prototype.transition) {
+            enterSelection.style('opacity', effectivelyZero);
+            updateSelection.transition()
+                .style('opacity', 1);
+            exitSelection.transition()
+                .style('opacity', effectivelyZero);
+        }
+
+        // automatically remove nodes in the exit selection
+        exitSelection.remove();
+
+        updateSelection.enter = function() { return enterSelection; };
+        updateSelection.exit = function() { return exitSelection; };
+
         return updateSelection;
     };
 
-    dataJoin.selector = function(x) {
-        if (!arguments.length) {
-            return selector;
-        }
-        selector = x;
-        return dataJoin;
-    };
-    dataJoin.children = function(x) {
-        if (!arguments.length) {
-            return children;
-        }
-        children = x;
-        return dataJoin;
-    };
     dataJoin.element = function(x) {
         if (!arguments.length) {
             return element;
@@ -92,20 +78,11 @@ export default function() {
         element = x;
         return dataJoin;
     };
-    dataJoin.attr = function(x) {
+    dataJoin.className = function(x) {
         if (!arguments.length) {
-            return attr;
+            return className;
         }
-
-        if (arguments.length === 1) {
-            attr = arguments[0];
-        } else if (arguments.length === 2) {
-            var dataKey = arguments[0];
-            var value = arguments[1];
-
-            attr[dataKey] = value;
-        }
-
+        className = x;
         return dataJoin;
     };
     dataJoin.key = function(x) {
