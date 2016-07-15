@@ -1,11 +1,11 @@
 const d3Path = require('d3-path').path;
 const d3fcShape = require('../../build/d3fc-shape');
-const fc = require('d3fc');
+const randomData = require('d3fc-random-data');
 const fs = require('fs');
 const options = require('./options');
 
 // CREATE DATA
-const ohlcDataGenerator = fc.data.random.financial()
+const ohlcDataGenerator = randomData.randomFinancial()
     .startDate(new Date(2014, 1, 1));
 
 // Convert date into just an index
@@ -14,7 +14,7 @@ const ohlcData = ohlcDataGenerator(10).map((d, i) => {
     return d;
 });
 
-const walkDataGenerator = fc.data.random.walk();
+const walkDataGenerator = randomData.randomGeometricBrownianMotion();
 const barData = walkDataGenerator(10).map(function(datum, index) {
     return {
         x: index,
