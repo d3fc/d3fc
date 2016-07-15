@@ -24,7 +24,8 @@
   },
   "scripts": {
     "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-random-data.js --compress --mangle -o build/d3fc-random-data.min.js",
-    "test": "npm run bundle && eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json"
+    "test": "npm run bundle && eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
+    "semantic-release": "semantic-release pre && npm run bundle && npm publish && semantic-release post"
   },
   "devDependencies": {
     "babel-core": "^6.9.0",
@@ -40,7 +41,8 @@
     "rimraf": "^2.5.2",
     "rollup": "^0.25.4",
     "rollup-plugin-babel": "^2.4.0",
-    "uglify-js": "^2.6.2"
+    "uglify-js": "^2.6.2",
+    "semantic-release": "^4.3.5"
   },
   "dependencies": {
     "d3-random": "^1.0.0",
