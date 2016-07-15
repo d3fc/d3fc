@@ -23,11 +23,11 @@ You can then configure the `generator` by invoking the relevant methods (e.g. `g
 ```javascript
 
 import { path } from 'd3-path';
-import { candlestick } from 'd3fc-shape';
+import { shapeCandlestick } from 'd3fc-shape';
 
 const ctx = path();
 
-const drawCandlestick = candlestick()
+const candlestick = shapeCandlestick()
   .x((d, i) => i)
   .open((d) => d.open)
   .high((d) => d.high)
@@ -38,7 +38,7 @@ d3.select('path')
   .datum([
     { open: 4, high: 5, low: 3, close: 3 }
   ])
-  .attr('d', drawCandlestick);
+  .attr('d', candlestick);
 
 ```
 
@@ -46,11 +46,11 @@ d3.select('path')
 
 ```javascript
 
-import { candlestick } from 'd3fc-shape';
+import { shapeCandlestick } from 'd3fc-shape';
 
 const ctx = document.querySelector('canvas').getContext('2d');
 
-const drawCandlestick = candlestick()
+const candlestick = shapeCandlestick()
   .context(ctx)
   .x((d, i) => i)
   .open((d) => d.open)
@@ -58,7 +58,7 @@ const drawCandlestick = candlestick()
   .low((d) => d.low)
   .close((d) => d.close);
 
-drawCandlestick([
+candlestick([
   { open: 4, high: 5, low: 3, close: 3 }
 ]);
 
@@ -68,60 +68,60 @@ ctx.stroke();
 
 ### Bar
 
-*fc*.**bar**(*context*)
+*fc*.**shapeBar**(*context*)
 
-*bar*.**x**(*accessorFunc*)  
-*bar*.**y**(*accessorFunc*)  
-*bar*.**width**(*accessorFunc*)  
-*bar*.**height**(*accessorFunc*)  
+*shapeBar*.**x**(*accessorFunc*)  
+*shapeBar*.**y**(*accessorFunc*)  
+*shapeBar*.**width**(*accessorFunc*)  
+*shapeBar*.**height**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*bar*.**horizontalAlign**(*alignment*)  
+*shapeBar*.**horizontalAlign**(*alignment*)  
 
 `alignment` is one of: `left`, `right` or `center` (default)
 
-*bar*.**verticalAlign**(*alignment*)  
+*shapeBar*.**verticalAlign**(*alignment*)  
 
 `alignment` is one of: `bottom`, `top` or `center` (default)
 
 ### Boxplot
 
-*fc*.**boxPlot**(*context*)
+*fc*.**shapeBoxPlot**(*context*)
 
-*boxPlot*.**value**(*accessorFunc*)  
-*boxPlot*.**median**(*accessorFunc*)  
-*boxPlot*.**upperQuartile**(*accessorFunc*)  
-*boxPlot*.**lowerQuartile**(*accessorFunc*)  
-*boxPlot*.**high**(*accessorFunc*)  
-*boxPlot*.**low**(*accessorFunc*)  
-*boxPlot*.**width**(*accessorFunc*)  
+*shapeBoxPlot*.**value**(*accessorFunc*)  
+*shapeBoxPlot*.**median**(*accessorFunc*)  
+*shapeBoxPlot*.**upperQuartile**(*accessorFunc*)  
+*shapeBoxPlot*.**lowerQuartile**(*accessorFunc*)  
+*shapeBoxPlot*.**high**(*accessorFunc*)  
+*shapeBoxPlot*.**low**(*accessorFunc*)  
+*shapeBoxPlot*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*boxPlot*.**cap**(*accessorFunc*)  
+*shapeBoxPlot*.**cap**(*accessorFunc*)  
 
 The `accessorFunc(item, index)` function is called on each item of the data, and returns
 the **proprtion** of the box width that the caps width should be.
 
-*boxPlot*.**orient**(*orientation*)  
+*shapeBoxPlot*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 ### Candlestick
 
-*fc*.**candlestick**(*context*)
+*fc*.**shapeCandlestick**(*context*)
 
-*candlestick*.**x**(*accessorFunc*)  
-*candlestick*.**open**(*accessorFunc*)  
-*candlestick*.**high**(*accessorFunc*)  
-*candlestick*.**low**(*accessorFunc*)  
-*candlestick*.**close**(*accessorFunc*)  
-*candlestick*.**width**(*accessorFunc*)  
+*shapeCandlestick*.**x**(*accessorFunc*)  
+*shapeCandlestick*.**open**(*accessorFunc*)  
+*shapeCandlestick*.**high**(*accessorFunc*)  
+*shapeCandlestick*.**low**(*accessorFunc*)  
+*shapeCandlestick*.**close**(*accessorFunc*)  
+*shapeCandlestick*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
@@ -129,36 +129,36 @@ the relevant value for the relevant attribute for that item.
 
 ### Error Bar
 
-*fc*.**errorBar**(*context*)
+*fc*.**shapeErrorBar**(*context*)
 
-*errorBar*.**value**(*accessorFunc*)  
-*errorBar*.**high**(*accessorFunc*)  
-*errorBar*.**low**(*accessorFunc*)  
-*errorBar*.**width**(*accessorFunc*)  
+*shapeErrorBar*.**value**(*accessorFunc*)  
+*shapeErrorBar*.**high**(*accessorFunc*)  
+*shapeErrorBar*.**low**(*accessorFunc*)  
+*shapeErrorBar*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*errorBar*.**orient**(*orientation*)  
+*shapeErrorBar*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 ### OHLC
 
-*fc*.**ohlc**(*context*)
+*fc*.**shapeOhlc**(*context*)
 
-*errorBar*.**x**(*accessorFunc*)  
-*errorBar*.**open**(*accessorFunc*)  
-*errorBar*.**high**(*accessorFunc*)  
-*errorBar*.**low**(*accessorFunc*)  
-*errorBar*.**close**(*accessorFunc*)  
-*errorBar*.**width**(*accessorFunc*)  
+*shapeOhlc*.**x**(*accessorFunc*)  
+*shapeOhlc*.**open**(*accessorFunc*)  
+*shapeOhlc*.**high**(*accessorFunc*)  
+*shapeOhlc*.**low**(*accessorFunc*)  
+*shapeOhlc*.**close**(*accessorFunc*)  
+*shapeOhlc*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*errorBar*.**orient**(*orientation*)  
+*shapeOhlc*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`

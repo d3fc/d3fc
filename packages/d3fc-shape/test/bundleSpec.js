@@ -10,7 +10,7 @@ describe('bundle', function() {
                 './build/d3fc-shape.js'
             ],
             done: (_, win) => {
-                const shape = win.fc.bar();
+                const shape = win.fc.shapeBar();
                 const data = [{x: 10, y: 10, height: 22}];
                 const result = shape(data);
                 expect(result).not.toBeUndefined();
