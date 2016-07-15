@@ -41,11 +41,7 @@
         .size([100, 70])
         .component(tooltip);
 
-    var crosshair = fc.tool.crosshair()
-        .snap(fc.util.seriesPointSnapXOnly(candlestick, data.series))
-        .on('trackingmove', render)
-        .on('trackingstart', render)
-        .on('trackingend', render);
+    var crosshair = fc.tool.crosshair();
 
     var multi = fc.series.multi()
         .series([candlestick, rectLayout, crosshair])
@@ -61,9 +57,18 @@
             }
         });
 
+    var snap = fc.util.seriesPointSnapXOnly(candlestick, data.series);
+
+    var pointer = fc.behaviour.pointer()
+        .on('point', function(points) {
+            data.crosshair = points.map(snap);
+            render();
+        });
+
     function render() {
         svg.datum(data)
-            .call(multi);
+            .call(multi)
+            .call(pointer);
     }
     render();
 

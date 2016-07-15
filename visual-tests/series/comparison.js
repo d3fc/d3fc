@@ -24,13 +24,13 @@
 
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.util.extent().fields(['date'])(data))
+        .domain(fc.util.extent().fields([function(a) { return a.map(function(d) { return d.date; }); }])(data))
         .range([0, width])
         .nice();
 
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain(fc.util.extent().fields(['percentageChange'])(data))
+        .domain(fc.util.extent().fields([function(a) { return a.map(function(d) { return d.percentageChange; }); }])(data))
         .range([height, 0])
         .nice();
 

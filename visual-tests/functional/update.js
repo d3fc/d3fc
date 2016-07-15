@@ -15,15 +15,24 @@
         .attr('width', width)
         .attr('height', height);
 
+    var dateExtent = fc.util.extentDate()
+        .accessors([function(d) { return d.date; }]);
+
     // Create scale for x axis
     var dateScale = fc.scale.dateTime()
-        .domain(fc.util.extent().fields(['date'])(data))
+        .domain(dateExtent(data))
         .range([0, width])
         .nice();
 
+    var priceExtent = fc.util.extentLinear()
+      .accessors([
+          function(d) { return d.high; },
+          function(d) { return d.low; }
+      ]);
+
     // Create scale for y axis
     var priceScale = d3.scale.linear()
-        .domain(fc.util.extent().fields(['high', 'low'])(data))
+        .domain(priceExtent(data))
         .range([height, 0])
         .nice();
 
@@ -64,8 +73,8 @@
         data.forEach(function(d) {
             d.low = d.low - 0.1;
         });
-        dateScale.domain(fc.util.extent().fields(['date'])(data));
-        priceScale.domain(fc.util.extent().fields(['high', 'low'])(data));
+        dateScale.domain(dateExtent(data));
+        priceScale.domain(priceExtent(data));
         container.datum(data)
             .transition()
             .duration(500)
