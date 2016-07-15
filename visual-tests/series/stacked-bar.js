@@ -73,32 +73,7 @@
         var stackedBar = fc.series.stacked[seriesType]()
             .xValue(function(d) { return d.x; });
 
-        var crosshair = fc.tool.crosshair()
-            .snap(function(xPixel, yPixel) {
-                // NOTE: This code will eventually become another 'snap' helper
-                var xValue = stackedBar.xValue();
-                var nearest = series[0].values.map(function(d, i) {
-                    var diff = Math.abs(xPixel - xScale(xValue(d)));
-                    return [diff, d, i];
-                })
-                .reduce(function(accumulator, value) {
-                    return accumulator[0] > value[0] ? value : accumulator;
-                }, [Number.MAX_VALUE, null]);
-
-                var datum = {};
-                series.forEach(function(d) {
-                    datum[d.key] = d.values[nearest[2]].y;
-                });
-
-                return {
-                    datum: datum,
-                    x: stackedBar.xScale()(xValue(nearest[1])),
-                    y: yPixel
-                };
-            })
-            .on('trackingmove', render)
-            .on('trackingstart', render)
-            .on('trackingend', render);
+        var crosshair = fc.tool.crosshair();
 
         var multi = fc.series.multi()
             //.key(function(d) { return d.seriesType; })
@@ -115,9 +90,39 @@
 
         chart.plotArea(multi);
 
+        var snap = function(point) {
+            // NOTE: This code will eventually become another 'snap' helper
+            var xValue = stackedBar.xValue();
+            var nearest = series[0].values.map(function(d, i) {
+                var diff = Math.abs(point.x - xScale(xValue(d)));
+                return [diff, d, i];
+            })
+            .reduce(function(accumulator, value) {
+                return accumulator[0] > value[0] ? value : accumulator;
+            }, [Number.MAX_VALUE, null]);
+
+            var datum = {};
+            series.forEach(function(d) {
+                datum[d.key] = d.values[nearest[2]].y;
+            });
+
+            return {
+                datum: datum,
+                x: stackedBar.xScale()(xValue(nearest[1])),
+                y: point.y
+            };
+        };
+
+        var pointer = fc.behaviour.pointer()
+            .on('point', function(points) {
+                series.crosshair = points.map(snap);
+                render();
+            });
+
         function render() {
             container.datum(series)
-                .call(chart);
+                .call(chart)
+                .call(pointer);
         }
         render();
     }
