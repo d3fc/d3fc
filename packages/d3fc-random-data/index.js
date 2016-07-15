@@ -1,3 +1,3 @@
-export { default as financial } from './src/financial';
-export { default as geometricBrownianMotion } from './src/geometricBrownianMotion';
-export { default as skipWeekends } from './src/filter/skipWeekends';
+export { default as randomFinancial } from './src/financial';
+export { default as randomGeometricBrownianMotion } from './src/geometricBrownianMotion';
+export { default as randomSkipWeekends } from './src/filter/skipWeekends';

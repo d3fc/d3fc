@@ -12,7 +12,7 @@ describe('bundle', function() {
                 './build/d3fc-random-data.js'
             ],
             done: (_, win) => {
-                const generator = win.fc.financial();
+                const generator = win.fc.randomFinancial();
                 const result = generator(10);
                 expect(result).not.toBeUndefined();
                 done();
