@@ -1,4 +1,4 @@
-import { sum } from 'd3-array';
+import d3 from 'd3';
 import {totalCollisionArea} from './util/collision';
 import intersect from './intersect';
 import placements from './util/placements';
@@ -40,7 +40,7 @@ export default () => {
             var containerRect = {
                 x: 0, y: 0, width: bounds[0], height: bounds[1]
             };
-            areaOutsideContainer = sum(layout.map((d) => {
+            areaOutsideContainer = d3.sum(layout.map((d) => {
                 var areaOutside = d.width * d.height - intersect(d, containerRect);
                 // this bias is twice as strong as the overlap penalty
                 return areaOutside * 2;
@@ -48,7 +48,7 @@ export default () => {
         }
 
         // penalise certain orientations
-        var orientationBias = sum(layout.map((d) => {
+        var orientationBias = d3.sum(layout.map((d) => {
             // this bias is not as strong as overlap penalty
             var area = d.width * d.height / 4;
             if (d.location === 'bottom-right') {
