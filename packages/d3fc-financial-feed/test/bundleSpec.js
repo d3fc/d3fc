@@ -15,7 +15,7 @@ describe('bundle', function() {
                 './build/d3fc-financial-feed.js'
             ],
             done: (_, win) => {
-                const coinbaseFeed = win.fc.coinbase()
+                const coinbaseFeed = win.fc.feedCoinbase()
                   .product('BTC-GBP');
 
                 coinbaseFeed((_, data) => {
