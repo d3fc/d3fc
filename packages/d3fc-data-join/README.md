@@ -14,23 +14,23 @@ npm install d3fc-data-join
 
 ## General API
 
-The data-join component is a relatively leightweight Wrapper around d3's selectAll/data data-join, which allows decoration of the result. This is achieved by appending the element to the enter selection before exposing it. A default transition of fade in/out is also implicitly added but can be modified.
+The data-join component is a relatively lightweight wrapper around d3's selectAll/data data-join, which allows decoration of the result. This is achieved by appending the element to the enter selection before exposing it. A default transition of fade in/out is also implicitly added but can be modified.
 
 ## Example usage
 
 Here's a typical D3 data join that renders a list of animals:
 
 ```javascript
-var animals = ['Cat', 'Dog', 'Chicken'];
+const animals = ['Cat', 'Dog', 'Chicken'];
 
 a typical D3 data join, where
-var li = d3.select('ul')
+const li = d3.select('ul')
   .selectAll('li.animal')
   .data(animals)
   .enter()
   .append('li')
   .attr('class', 'animal')
-  .html(function(d) { return d; });
+  .html(d => d);
 ```
 
 Which yields the following:
@@ -43,30 +43,32 @@ Which yields the following:
 </ul>
 ```
 
-And here's the equivalent using the data join component:
+And here's the equivalent using the dataJoinjoin component:
 
 ```javascript
-var join = fc.util.dataJoin()
+import { dataJoin } from d3fc-data-join;
+
+const join = dataJoin()
     .selector('li.animal')
     .element('li')
     .attr('class', 'animal');
 
-var li = join(d3.select('ul'), animals);
+const li = join(d3.select('ul'), animals);
 li.enter()
-  .html(function(d) { return d; });
+  .html(d => d);
 ```
 
 Notice that the element has already been appended to, and had its attributes set, on the enter selection.
 
 ## data join
 
-*d3fc*.**dataJoin**()
+*fc*.**dataJoin**()
 
-Constructs a new data join component instance.
+Constructs a new data-join component instance.
 
 *dataJoin*.**selector**(*selector*)
 
-Set the selector used to add elements to the data join. This is equivalent to the selection provided to `selectAll` in the D3 data join pattern.
+Set the selector used to add elements to the data-join. This is equivalent to the selection provided to `selectAll` in the D3 data join pattern.
 
 *dataJoin*.**element**(*element*)
 
@@ -80,4 +82,4 @@ The attributes to see on the element appended to the enter selection. This can e
 
 *dataJoin*.**key**(*keyFunc*)
 
-Specifies the key function used by the data join.
+Specifies the key function used by the data-join.
