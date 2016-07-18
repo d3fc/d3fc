@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import annealing from '../src/annealing';
 
 describe('annealing', function() {

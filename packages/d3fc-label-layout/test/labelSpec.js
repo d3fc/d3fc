@@ -1,4 +1,4 @@
-import d3 from 'd3';
+import { select } from 'd3-selection';
 import label from '../src/label';
 import removeOverlaps from '../src/removeOverlaps';
 
@@ -9,7 +9,7 @@ describe('label', function() {
 
         var labels = label(removeOverlaps())
             .size([10, 10])
-            .position(function(d) { return [d.x, d.y]; });
+            .position((d) => [d.x, d.y]);
 
         var data = [
             {x: 45, y: 50},
@@ -19,7 +19,7 @@ describe('label', function() {
             {x: 55, y: 50}
         ];
 
-        d3.select(svg)
+        select(svg)
             .datum(data)
             .call(labels);
 

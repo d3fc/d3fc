@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import intersect from '../src/intersect';
 
 describe('intersect', function() {

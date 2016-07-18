@@ -1,4 +1,4 @@
 node_modules
 npm-debug.log
 build
-site/lib
+site/index.js

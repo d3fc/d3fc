@@ -1,4 +1,3 @@
-import d3 from 'd3';
 import greedy from '../src/greedy';
 
 describe('greedy', function() {

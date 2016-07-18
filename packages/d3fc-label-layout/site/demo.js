@@ -1,7 +1,12 @@
-/* global d3 fc */
+import { range, sum } from 'd3-array';
+import { rebind } from 'd3fc-rebind';
+import { select, selectAll } from 'd3-selection';
+import * as d3 from 'd3-selection';
+import { label as labelLayout, textLabel, annealing, intersect } from '..';
+import * as fc from '..';
 
 var labelPadding = 4;
-var label = fc.textLabel()
+var label = textLabel()
     .padding(labelPadding)
     .value(function(d) { return d.data; });
 
@@ -9,7 +14,7 @@ var width = 700;
 var height = 350;
 var itemWidth = 60;
 var itemHeight = 20;
-var strategy = strategyInterceptor(fc.annealing());
+var strategy = strategyInterceptor(annealing());
 var data = [];
 
 // we intercept the strategy in order to capture the final layout and compute statistics
@@ -28,21 +33,21 @@ function strategyInterceptor(strategy) {
         var visibleLabels = finalLayout.filter(function(d) { return !d.hidden; });
         interceptor.time = time;
         interceptor.hidden = finalLayout.length - visibleLabels.length;
-        interceptor.overlap = d3.sum(visibleLabels.map(function(label, index) {
-            return d3.sum(visibleLabels.filter(function(_, i) { return i !== index; })
+        interceptor.overlap = sum(visibleLabels.map(function(label, index) {
+            return sum(visibleLabels.filter(function(_, i) { return i !== index; })
                 .map(function(d) {
-                    return fc.intersect(d, label);
+                    return intersect(d, label);
                 }));
         }));
         return finalLayout;
     };
-    d3.rebind(interceptor, strategy, 'bounds');
+    rebind(interceptor, strategy, 'bounds');
     return interceptor;
 }
 
 function generateData() {
     var dataCount = document.getElementById('label-count').value;
-    data = d3.range(0, dataCount)
+    data = range(0, dataCount)
         .map(function(d, i) {
             return {
                 x: Math.random() * width,
@@ -52,7 +57,7 @@ function generateData() {
         });
 }
 
-var svg = d3.select('svg')
+var svg = select('svg')
     .attr('width', width)
     .attr('height', height);
 
@@ -70,9 +75,9 @@ function render() {
             cy: function(d) { return d.y; }
         });
 
-    var labels = fc.label(strategy)
+    var labels = labelLayout(strategy)
         .size(function() {
-            var textSize = d3.select(this)
+            var textSize = select(this)
               .select('text')
               .node()
               .getBBox();
@@ -95,14 +100,14 @@ function getStrategyName() {
     return selector.options[selector.selectedIndex].value;
 }
 
-d3.select('#strategy-selector')
+select('#strategy-selector')
     .on('change', function() {
         var strategyName = getStrategyName();
-        d3.selectAll('.annealing-field')
+        selectAll('.annealing-field')
             .attr('style', 'display:' + (strategyName === 'annealing' ? 'visible' : 'none'));
     });
 
-d3.select('#strategy-form .btn')
+select('#strategy-form .btn')
     .on('click', function() {
         d3.event.preventDefault();
         var strategyName = getStrategyName();
@@ -126,7 +131,7 @@ d3.select('#strategy-form .btn')
         render();
     });
 
-d3.select('#labels-form .btn')
+select('#labels-form .btn')
     .on('click', function() {
         d3.event.preventDefault();
         generateData();
