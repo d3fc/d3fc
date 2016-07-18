@@ -1,2 +1,2 @@
-var jsdom = require('jsdom');
+import jsdom from 'jsdom';
 global.document = jsdom.jsdom();
