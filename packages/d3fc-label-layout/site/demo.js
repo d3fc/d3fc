@@ -69,11 +69,9 @@ function render() {
         .data(data)
         .enter()
         .append('circle')
-        .attr({
-            r: 2,
-            cx: function(d) { return d.x; },
-            cy: function(d) { return d.y; }
-        });
+        .attr('r', 2)
+        .attr('cx', d => d.x)
+        .attr('cy', d => d.y);
 
     var labels = labelLayout(strategy)
         .size(function() {
