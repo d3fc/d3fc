@@ -6,13 +6,16 @@ describe('bundle', function() {
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
             scripts: [
-                // include and other dependencies here ...
+                './node_modules/d3/build/d3.js',
+                './node_modules/d3fc-shape/build/d3fc-shape.js',
+                './node_modules/d3fc-data-join/build/d3fc-data-join.js',
+                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-series.js'
             ],
             done: (_, win) => {
                 // simple exercise a code-path that includes all the dependencies
-                const result = win.fc.archetypeConstant();
-                expect(result).not.toBeUndefined();
+                var svgLine = win.fc.seriesSvgLine();
+                expect(svgLine).not.toBeUndefined();
                 done();
             }
         });
