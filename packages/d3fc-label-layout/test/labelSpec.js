@@ -2,9 +2,9 @@ import { select } from 'd3-selection';
 import label from '../src/label';
 import removeOverlaps from '../src/removeOverlaps';
 
-describe('label', function() {
+describe('label', () => {
 
-    it('should remove collisions', function() {
+    it('should remove collisions', () => {
         var svg = document.createElement('svg');
 
         var labels = label(removeOverlaps())

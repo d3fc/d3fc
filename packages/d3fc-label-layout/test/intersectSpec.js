@@ -1,8 +1,8 @@
 import intersect from '../src/intersect';
 
-describe('intersect', function() {
+describe('intersect', () => {
 
-    it('should return zero for non intersecting rectangles', function() {
+    it('should return zero for non intersecting rectangles', () => {
         var a = {
             x: 0, y: 0, width: 10, height: 10
         };
@@ -22,7 +22,7 @@ describe('intersect', function() {
         expect(intersect(b, d)).toEqual(0);
     });
 
-    it('should return the intersection area', function() {
+    it('should return the intersection area', () => {
         var a = {
             x: 0, y: 0, width: 10, height: 10
         };

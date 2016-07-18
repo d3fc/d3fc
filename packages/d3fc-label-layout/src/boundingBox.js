@@ -1,10 +1,10 @@
 export default () => {
 
-    var bounds = [0, 0];
+    let bounds = [0, 0];
 
-    var strategy = (data) => data.map((d, i) => {
-        var tx = d.x;
-        var ty = d.y;
+    const strategy = (data) => data.map((d, i) => {
+        let tx = d.x;
+        let ty = d.y;
         if (tx + d.width > bounds[0]) {
             tx -= d.width;
         }
@@ -15,11 +15,11 @@ export default () => {
         return {height: d.height, width: d.width, x: tx, y: ty};
     });
 
-    strategy.bounds = function(value) {
-        if (!arguments.length) {
+    strategy.bounds = (...args) => {
+        if (!args.length) {
             return bounds;
         }
-        bounds = value;
+        bounds = args[0];
         return strategy;
     };
 

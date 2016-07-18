@@ -1,19 +1,17 @@
-function getPlacement(x, y, width, height, location) {
-    return {
-        x,
-        y,
-        width,
-        height,
-        location
-    };
-}
+const getPlacement = (x, y, width, height, location) => ({
+    x,
+    y,
+    width,
+    height,
+    location
+});
 
 // returns all the potential placements of the given label
 export default (label) => {
-    var x = label.x;
-    var y = label.y;
-    var width = label.width;
-    var height = label.height;
+    const x = label.x;
+    const y = label.y;
+    const width = label.width;
+    const height = label.height;
     return [
         getPlacement(x, y, width, height, 'bottom-right'),
         getPlacement(x - width, y, width, height, 'bottom-left'),

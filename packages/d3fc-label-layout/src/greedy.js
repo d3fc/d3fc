@@ -1,23 +1,23 @@
 import { sum } from 'd3-array';
-import {totalCollisionArea} from './util/collision';
+import { totalCollisionArea } from './util/collision';
 import intersect from './intersect';
 import minimum from './util/minimum';
 import placements from './util/placements';
 
-export default function() {
+export default () => {
 
-    var bounds = [0, 0];
+    let bounds = [0, 0];
 
     const scorer = (layout) => {
-        var areaOfCollisions = totalCollisionArea(layout);
+        const areaOfCollisions = totalCollisionArea(layout);
 
-        var areaOutsideContainer = 0;
+        let areaOutsideContainer = 0;
         if (bounds[0] !== 0 && bounds[1] !== 0) {
-            var containerRect = {
+            const containerRect = {
                 x: 0, y: 0, width: bounds[0], height: bounds[1]
             };
             areaOutsideContainer = sum(layout.map((d) => {
-                var areaOutside = d.width * d.height - intersect(d, containerRect);
+                const areaOutside = d.width * d.height - intersect(d, containerRect);
                 // this bias is twice as strong as the overlap penalty
                 return areaOutside * 2;
             }));
@@ -27,13 +27,13 @@ export default function() {
     };
 
     const strategy = (data) => {
-        var rectangles = [];
+        let rectangles = [];
 
         data.forEach((rectangle) => {
             // add this rectangle - in all its possible placements
-            var candidateConfigurations = placements(rectangle)
+            const candidateConfigurations = placements(rectangle)
                 .map((placement) => {
-                    var copy = rectangles.slice();
+                    const copy = rectangles.slice();
                     copy.push(placement);
                     return copy;
                 });
@@ -45,13 +45,13 @@ export default function() {
         return rectangles;
     };
 
-    strategy.bounds = function(x) {
-        if (!arguments.length) {
+    strategy.bounds = (...args) => {
+        if (!args.length) {
             return bounds;
         }
-        bounds = x;
+        bounds = args[0];
         return strategy;
     };
 
     return strategy;
-}
+};

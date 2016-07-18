@@ -1,34 +1,36 @@
 import { select } from 'd3-selection';
+import functor from './util/functor';
 import { dataJoin as dataJoinUtil } from 'd3fc-data-join';
 
 export default (layoutStrategy) => {
 
-    var padding = 2;
-    var value = (x) => x;
+    let padding = 2;
+    let value = (x) => x;
 
-    var textJoin = dataJoinUtil('text');
+    const textJoin = dataJoinUtil('text');
+    const rectJoin = dataJoinUtil('rect');
+    const pointJoin = dataJoinUtil('circle');
 
-    var rectJoin = dataJoinUtil('rect');
+    const textLabel = (selection) => {
+        selection.each((data, index, group) => {
 
-    var pointJoin = dataJoinUtil('circle');
+            const node = group[index];
+            const nodeSelection = select(node);
 
-    var textLabel = (selection) => {
-        selection.each(function(data, index) {
-
-            var width = Number(this.getAttribute('layout-width'));
-            var height = Number(this.getAttribute('layout-height'));
-            var rect = rectJoin(select(this), [data]);
+            let width = Number(node.getAttribute('layout-width'));
+            let height = Number(node.getAttribute('layout-height'));
+            let rect = rectJoin(nodeSelection, [data]);
             rect.attr('width', width)
                 .attr('height', height);
 
-            var anchorX = Number(this.getAttribute('anchor-x'));
-            var anchorY = Number(this.getAttribute('anchor-y'));
-            var circle = pointJoin(select(this), [data]);
+            let anchorX = Number(node.getAttribute('anchor-x'));
+            let anchorY = Number(node.getAttribute('anchor-y'));
+            let circle = pointJoin(nodeSelection, [data]);
             circle.attr('r', 2)
                 .attr('cx', anchorX)
                 .attr('cy', anchorY);
 
-            var text = textJoin(select(this), [data]);
+            let text = textJoin(nodeSelection, [data]);
             text.enter()
                 .attr('dy', '0.9em')
                 .attr('transform', `translate(${padding}, ${padding})`);
@@ -37,19 +39,19 @@ export default (layoutStrategy) => {
         });
     };
 
-    textLabel.padding = function(x) {
-        if (!arguments.length) {
+    textLabel.padding = (...args) => {
+        if (!args.length) {
             return padding;
         }
-        padding = x;
+        padding = args[0];
         return textLabel;
     };
 
-    textLabel.value = function(x) {
-        if (!arguments.length) {
+    textLabel.value = (...args) => {
+        if (!args.length) {
             return value;
         }
-        value = typeof x === 'function' ? x : () => x;
+        value = functor(args[0]);
         return textLabel;
     };
 

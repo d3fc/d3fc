@@ -1,8 +1,8 @@
 import jsdom from 'jsdom';
 
-describe('bundle', function() {
+describe('bundle', () => {
 
-    it('should corectly wire-up all the dependencies via their UMD-exposed globals', function(done) {
+    it('should corectly wire-up all the dependencies via their UMD-exposed globals', (done) => {
         jsdom.env({
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
@@ -14,7 +14,7 @@ describe('bundle', function() {
                 './build/d3fc-label-layout.js'
             ],
             done: (_, win) => {
-                const label = win.fc.label();
+                const label = win.fc.layoutLabel();
                 expect(label).not.toBeUndefined();
                 done();
             }

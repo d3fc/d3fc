@@ -1,5 +1,5 @@
 import { sum } from 'd3-array';
-import {totalCollisionArea} from './util/collision';
+import { totalCollisionArea } from './util/collision';
 import intersect from './intersect';
 import placements from './util/placements';
 
@@ -8,49 +8,49 @@ const randomItem = (array) => array[randomIndex(array)];
 const randomIndex = (array) => Math.floor(Math.random() * array.length);
 
 const cloneAndReplace = (array, index, replacement) => {
-    var clone = array.slice();
+    const clone = array.slice();
     clone[index] = replacement;
     return clone;
 };
 
 export default () => {
 
-    var temperature = 1000;
-    var cooling = 1;
-    var bounds = [0, 0];
+    let temperature = 1000;
+    let cooling = 1;
+    let bounds = [0, 0];
 
-    function getPotentialState(originalData, iteratedData) {
+    const getPotentialState = (originalData, iteratedData) => {
         // For one point choose a random other placement.
-        var victimLabelIndex = randomIndex(originalData);
-        var label = originalData[victimLabelIndex];
+        const victimLabelIndex = randomIndex(originalData);
+        const label = originalData[victimLabelIndex];
 
-        var replacements = placements(label);
-        var replacement = randomItem(replacements);
+        const replacements = placements(label);
+        const replacement = randomItem(replacements);
 
         return cloneAndReplace(iteratedData, victimLabelIndex, replacement);
-    }
+    };
 
-    function scorer(layout) {
+    const scorer = (layout) => {
         // penalise collisions
-        var collisionArea = totalCollisionArea(layout);
+        const collisionArea = totalCollisionArea(layout);
 
         // penalise rectangles falling outside of the bounds
-        var areaOutsideContainer = 0;
+        let areaOutsideContainer = 0;
         if (bounds[0] !== 0 && bounds[1] !== 0) {
-            var containerRect = {
+            const containerRect = {
                 x: 0, y: 0, width: bounds[0], height: bounds[1]
             };
             areaOutsideContainer = sum(layout.map((d) => {
-                var areaOutside = d.width * d.height - intersect(d, containerRect);
+                const areaOutside = d.width * d.height - intersect(d, containerRect);
                 // this bias is twice as strong as the overlap penalty
                 return areaOutside * 2;
             }));
         }
 
         // penalise certain orientations
-        var orientationBias = sum(layout.map((d) => {
+        const orientationBias = sum(layout.map((d) => {
             // this bias is not as strong as overlap penalty
-            var area = d.width * d.height / 4;
+            let area = d.width * d.height / 4;
             if (d.location === 'bottom-right') {
                 area = 0;
             }
@@ -61,25 +61,25 @@ export default () => {
         }));
 
         return collisionArea + areaOutsideContainer + orientationBias;
-    }
+    };
 
-    var strategy = (data) => {
+    const strategy = (data) => {
 
-        var originalData = data;
-        var iteratedData = data;
+        const originalData = data;
+        let iteratedData = data;
 
-        var lastScore = Infinity;
-        var currentTemperature = temperature;
+        let lastScore = Infinity;
+        let currentTemperature = temperature;
         while (currentTemperature > 0) {
 
-            var potentialReplacement = getPotentialState(originalData, iteratedData);
+            const potentialReplacement = getPotentialState(originalData, iteratedData);
 
-            var potentialScore = scorer(potentialReplacement);
+            const potentialScore = scorer(potentialReplacement);
 
             // Accept the state if it's a better state
             // or at random based off of the difference between scores.
             // This random % helps the algorithm break out of local minima
-            var probablityOfChoosing = Math.exp((lastScore - potentialScore) / currentTemperature);
+            const probablityOfChoosing = Math.exp((lastScore - potentialScore) / currentTemperature);
             if (potentialScore < lastScore || probablityOfChoosing > Math.random()) {
                 iteratedData = potentialReplacement;
                 lastScore = potentialScore;
@@ -90,29 +90,27 @@ export default () => {
         return iteratedData;
     };
 
-    strategy.temperature = function(x) {
-        if (!arguments.length) {
+    strategy.temperature = (...args) => {
+        if (!args.length) {
             return temperature;
         }
-
-        temperature = x;
+        temperature = args[0];
         return strategy;
     };
 
-    strategy.cooling = function(x) {
-        if (!arguments.length) {
+    strategy.cooling = (...args) => {
+        if (!args.length) {
             return cooling;
         }
-
-        cooling = x;
+        cooling = args[0];
         return strategy;
     };
 
-    strategy.bounds = function(x) {
-        if (!arguments.length) {
+    strategy.bounds = (...args) => {
+        if (!args.length) {
             return bounds;
         }
-        bounds = x;
+        bounds = args[0];
         return strategy;
     };
 

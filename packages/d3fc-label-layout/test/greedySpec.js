@@ -1,6 +1,6 @@
 import greedy from '../src/greedy';
 
-describe('greedy', function() {
+describe('greedy', () => {
 
     var containerWidth = 100;
     var containerHeight = 100;
@@ -14,8 +14,8 @@ describe('greedy', function() {
     var strategiser = greedy()
         .bounds([containerWidth, containerHeight]);
 
-    describe('out of bounds data', function() {
-        it('should not change the data when there\'s only one datapoint', function() {
+    describe('out of bounds data', () => {
+        it('should not change the data when there\'s only one datapoint', () => {
             var outOfBounds = [{x: 5000, y: 5000, width: elementWidth, height: elementHeight}];
             var result = strategiser(outOfBounds);
             expect(result[0].x).toEqual(5000);
@@ -23,29 +23,29 @@ describe('greedy', function() {
         });
     });
 
-    describe('initial 4-placements', function() {
+    describe('initial 4-placements', () => {
 
-        it('should not change the data when there\'s only one datapoint', function() {
+        it('should not change the data when there\'s only one datapoint', () => {
             var result = strategiser(data);
             expect(result[0].x).toEqual(50);
             expect(result[0].y).toEqual(50);
         });
 
-        it('moves a label left if there is an overlap', function() {
+        it('moves a label left if there is an overlap', () => {
             data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
             expect(result[1].x).toEqual(40);
             expect(result[1].y).toEqual(50);
         });
 
-        it('moves a label up, left if there is an overlap to left', function() {
+        it('moves a label up, left if there is an overlap to left', () => {
             data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
             expect(result[2].x).toEqual(40);
             expect(result[2].y).toEqual(40);
         });
 
-        it('moves a label up if there is an overlap to up, left', function() {
+        it('moves a label up if there is an overlap to up, left', () => {
             data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
             expect(result[3].x).toEqual(50);
@@ -53,9 +53,9 @@ describe('greedy', function() {
         });
     });
 
-    describe('final 4 placements', function() {
+    describe('final 4 placements', () => {
 
-        beforeEach(function() {
+        beforeEach(() => {
             data = [
                 {x: 0, y: 0, width: elementWidth, height: elementHeight},
                 {x: 19, y: 0, width: elementWidth, height: elementHeight},
@@ -64,7 +64,7 @@ describe('greedy', function() {
             ];
         });
 
-        it('moves a label up by half width if there is no prior fit', function() {
+        it('moves a label up by half width if there is no prior fit', () => {
             var sampledData = [data[0], data[2]];
             sampledData.push({x: 8, y: 15, width: 6, height: 6});
             var result = strategiser(sampledData);
@@ -72,7 +72,7 @@ describe('greedy', function() {
             expect(result[2].y).toEqual(12);
         });
 
-        it('moves a label half left if there is no prior fit', function() {
+        it('moves a label half left if there is no prior fit', () => {
             var sampledData = [data[0], data[1]];
             sampledData.push({x: 15, y: 8, width: 6, height: 6});
             var result = strategiser(sampledData);
@@ -80,7 +80,7 @@ describe('greedy', function() {
             expect(result[2].y).toEqual(8);
         });
 
-        it('moves a label half up, left if there is no prior fit', function() {
+        it('moves a label half up, left if there is no prior fit', () => {
             var sampledData = [data[1], data[3]];
             // Box colliding with the next box to move it left
             sampledData.push({x: 25, y: 13, width: 1, height: 1});
@@ -91,7 +91,7 @@ describe('greedy', function() {
             expect(result[3].y).toEqual(11);
         });
 
-        it('moves a label up, half left if there is no prior fit', function() {
+        it('moves a label up, half left if there is no prior fit', () => {
             var sampledData = [data[2], data[3]];
             // Box colliding with the next box to move it left
             sampledData.push({x: 13, y: 25, width: 1, height: 1});

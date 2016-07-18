@@ -1,31 +1,33 @@
 import { sum } from 'd3-array';
 import { select } from 'd3-selection';
+import functor from './util/functor';
 import { dataJoin as dataJoinUtil } from 'd3fc-data-join';
 import { include, rebindAll } from 'd3fc-rebind';
 
-export default function(layoutStrategy) {
+export default (layoutStrategy) => {
 
-    var decorate = () => {};
-    var size = () => [0, 0];
-    var position = (d, i) => [d.x, d.y];
-    var strategy = layoutStrategy || ((x) => x);
-    var component = () => {};
+    let decorate = () => {};
+    let size = () => [0, 0];
+    let position = (d, i) => [d.x, d.y];
+    let strategy = layoutStrategy || ((x) => x);
+    let component = () => {};
 
-    var dataJoin = dataJoinUtil('g', 'label');
+    const dataJoin = dataJoinUtil('g', 'label');
 
-    var label = (selection) => {
+    const label = (selection) => {
 
-        selection.each(function(data, index) {
+        selection.each((data, index, group) => {
 
-            var g = dataJoin(select(this), data)
+            const g = dataJoin(select(group[index]), data)
                 .call(component);
 
             // obtain the rectangular bounding boxes for each child
-            var childRects = g.nodes()
+            const nodes = g.nodes();
+            const childRects = nodes
                 .map((node, i) => {
-                    var d = select(node).datum();
-                    var childPos = position.call(node, d, i);
-                    var childSize = size.call(node, d, i);
+                    let d = select(node).datum();
+                    let childPos = position(d, i, nodes);
+                    let childSize = size(d, i, nodes);
                     return {
                         hidden: false,
                         x: childPos[0],
@@ -37,15 +39,15 @@ export default function(layoutStrategy) {
 
             // apply the strategy to derive the layout. The strategy does not change the order
             // or number of label.
-            var layout = strategy(childRects);
+            const layout = strategy(childRects);
 
             g.attr('style', (_, i) => 'display:' + (layout[i].hidden ? 'none' : 'inherit'))
                 .attr('transform', (_, i) => 'translate(' + layout[i].x + ', ' + layout[i].y + ')')
                 // set the layout width / height so that children can use SVG layout if required
                 .attr('layout-width', (_, i) => layout[i].width)
                 .attr('layout-height', (_, i) => layout[i].height)
-                .attr('anchor-x', (d, i) => position.call(this, d, i)[0] - layout[i].x)
-                .attr('anchor-y', (d, i) => position.call(this, d, i)[1] - layout[i].y);
+                .attr('anchor-x', (d, i, g) => position(d, i, g)[0] - layout[i].x)
+                .attr('anchor-y', (d, i, g) => position(d, i, g)[1] - layout[i].y);
 
             g.call(component);
 
@@ -56,37 +58,37 @@ export default function(layoutStrategy) {
     rebindAll(label, dataJoin, include('key'));
     rebindAll(label, strategy);
 
-    label.size = function(x) {
-        if (!arguments.length) {
+    label.size = (...args) => {
+        if (!args.length) {
             return size;
         }
-        size = typeof x === 'function' ? x : () => x;
+        size = functor(args[0]);
         return label;
     };
 
-    label.position = function(x) {
-        if (!arguments.length) {
+    label.position = (...args) => {
+        if (!args.length) {
             return position;
         }
-        position = typeof x === 'function' ? x : () => x;
+        position = functor(args[0]);
         return label;
     };
 
-    label.component = function(value) {
-        if (!arguments.length) {
+    label.component = (...args) => {
+        if (!args.length) {
             return component;
         }
-        component = value;
+        component = args[0];
         return label;
     };
 
-    label.decorate = function(value) {
-        if (!arguments.length) {
+    label.decorate = (...args) => {
+        if (!args.length) {
             return decorate;
         }
-        decorate = value;
+        decorate = args[0];
         return label;
     };
 
     return label;
-}
+};

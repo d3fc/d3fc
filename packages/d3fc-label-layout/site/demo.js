@@ -2,27 +2,26 @@ import { range, sum } from 'd3-array';
 import { rebind } from 'd3fc-rebind';
 import { select, selectAll } from 'd3-selection';
 import * as d3 from 'd3-selection';
-import { label as labelLayout, textLabel, annealing, intersect } from '..';
+import { layoutLabel, layoutTextLabel, layoutAnnealing, layoutIntersect, layoutRemoveOverlaps } from '..';
 import * as fc from '..';
 
-var labelPadding = 4;
-var label = textLabel()
+const labelPadding = 4;
+const label = layoutTextLabel()
     .padding(labelPadding)
-    .value(function(d) { return d.data; });
+    .value((d) => d.data);
 
-var width = 700;
-var height = 350;
-var itemWidth = 60;
-var itemHeight = 20;
-var strategy = strategyInterceptor(annealing());
-var data = [];
+const width = 700;
+const height = 350;
+const itemWidth = 60;
+const itemHeight = 20;
+let data = [];
 
 // we intercept the strategy in order to capture the final layout and compute statistics
-function strategyInterceptor(strategy) {
-    var interceptor = function(layout) {
-        var start = new Date().getMilliseconds();
-        var finalLayout = strategy(layout);
-        var time = new Date().getMilliseconds() - start;
+const strategyInterceptor = (strategy) => {
+    const interceptor = (layout) => {
+        const start = new Date();
+        const finalLayout = strategy(layout);
+        const time = new Date() - start;
 
         // record some statistics on this strategy
         if (!interceptor.time) {
@@ -30,38 +29,38 @@ function strategyInterceptor(strategy) {
             Object.defineProperty(interceptor, 'hidden', { enumerable: false, writable: true });
             Object.defineProperty(interceptor, 'overlap', { enumerable: false, writable: true });
         }
-        var visibleLabels = finalLayout.filter(function(d) { return !d.hidden; });
+        const visibleLabels = finalLayout.filter((d) => !d.hidden);
         interceptor.time = time;
         interceptor.hidden = finalLayout.length - visibleLabels.length;
-        interceptor.overlap = sum(visibleLabels.map(function(label, index) {
-            return sum(visibleLabels.filter(function(_, i) { return i !== index; })
-                .map(function(d) {
-                    return intersect(d, label);
-                }));
+        interceptor.overlap = sum(visibleLabels.map((label, index) => {
+            return sum(visibleLabels.filter((_, i) => i !== index)
+                .map((d) => layoutIntersect(d, label)));
         }));
         return finalLayout;
     };
     rebind(interceptor, strategy, 'bounds');
     return interceptor;
-}
+};
 
-function generateData() {
-    var dataCount = document.getElementById('label-count').value;
-    data = range(0, dataCount)
-        .map(function(d, i) {
+let strategy = strategyInterceptor(layoutAnnealing());
+
+const generateData = () => {
+    const dataCount = document.getElementById('label-count').value;
+    data = range(0, document.getElementById('label-count').value)
+        .map((_, i) => {
             return {
                 x: Math.random() * width,
                 y: Math.random() * height,
                 data: 'node-' + i
             };
         });
-}
+};
 
-var svg = select('svg')
+const svg = select('svg')
     .attr('width', width)
     .attr('height', height);
 
-function render() {
+const render = () => {
     svg.selectAll('g').remove();
 
     svg.append('g')
@@ -73,9 +72,9 @@ function render() {
         .attr('cx', d => d.x)
         .attr('cy', d => d.y);
 
-    var labels = labelLayout(strategy)
-        .size(function() {
-            var textSize = select(this)
+    const labels = layoutLabel(strategy)
+        .size((_, i, g) => {
+            const textSize = select(g[i])
               .select('text')
               .node()
               .getBBox();
@@ -87,29 +86,29 @@ function render() {
         .datum(data)
         .call(labels);
 
-    var statsElement = document.getElementById('statistics');
+    const statsElement = document.getElementById('statistics');
     statsElement.innerHTML = '<b>Execution Time:</b> ' + strategy.time + 'ms, ' +
         '<b>Hidden Labels:</b> ' + strategy.hidden + ', ' +
         '<b>Overlap Area:</b> ' + strategy.overlap.toFixed(2);
-}
+};
 
-function getStrategyName() {
-    var selector = document.getElementById('strategy-selector');
+const getStrategyName = () => {
+    const selector = document.getElementById('strategy-selector');
     return selector.options[selector.selectedIndex].value;
-}
+};
 
 select('#strategy-selector')
-    .on('change', function() {
-        var strategyName = getStrategyName();
+    .on('change', () => {
+        const strategyName = getStrategyName();
         selectAll('.annealing-field')
             .attr('style', 'display:' + (strategyName === 'annealing' ? 'visible' : 'none'));
     });
 
 select('#strategy-form .btn')
-    .on('click', function() {
+    .on('click', () => {
         d3.event.preventDefault();
-        var strategyName = getStrategyName();
-        strategy = function(d) { return d; };
+        const strategyName = getStrategyName();
+        strategy = d => d;
         if (strategyName !== 'none') {
             strategy = fc[strategyName]();
         }
@@ -117,20 +116,20 @@ select('#strategy-form .btn')
             strategy.temperature(document.getElementById('temperature').value);
             strategy.cooling(document.getElementById('cooling').value);
         }
-        var enforceBounds = document.getElementById('enforce-bounds').checked;
+        const enforceBounds = document.getElementById('enforce-bounds').checked;
         if (enforceBounds) {
             strategy.bounds([width, height]);
         }
-        var removeOverlaps = document.getElementById('remove-overlaps').checked;
+        const removeOverlaps = document.getElementById('remove-overlaps').checked;
         if (removeOverlaps) {
-            strategy = fc.removeOverlaps(strategy);
+            strategy = layoutRemoveOverlaps(strategy);
         }
         strategy = strategyInterceptor(strategy);
         render();
     });
 
 select('#labels-form .btn')
-    .on('click', function() {
+    .on('click', () => {
         d3.event.preventDefault();
         generateData();
         render();

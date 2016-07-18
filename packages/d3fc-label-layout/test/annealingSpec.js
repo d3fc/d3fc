@@ -1,6 +1,6 @@
 import annealing from '../src/annealing';
 
-describe('annealing', function() {
+describe('annealing', () => {
 
     var containerWidth = 100;
     var containerHeight = 100;
@@ -29,18 +29,18 @@ describe('annealing', function() {
 
     // Make this more predictable (i % 10 / 10); i is the count of invocations of random
     var i = 0;
-    Math.random = function() { return ++i % 10 / 10; };
+    Math.random = () => { return ++i % 10 / 10; };
     var firstResults = strategiser(data);
     var secondResults = strategiser(data);
     Math.random = mathRandom;
 
-    describe('mocked random', function() {
+    describe('mocked random', () => {
 
-        it('should alter the data', function() {
+        it('should alter the data', () => {
             expect(firstResults).not.toEqual(data);
         });
 
-        it('should output the same results each time', function() {
+        it('should output the same results each time', () => {
             expect(secondResults).toEqual(firstResults);
 
             expect(firstResults[0].x).toEqual(50);
