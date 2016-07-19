@@ -4,4 +4,4 @@ export { default as layoutGreedy } from './src/greedy';
 export { default as layoutAnnealing } from './src/annealing';
 export { default as layoutRemoveOverlaps } from './src/removeOverlaps';
 export { default as layoutBoundingBox } from './src/boundingBox';
-export { default as layoutIntersect } from './src/intersect';
+export { default as layoutIntersect } from './src/util/intersect';

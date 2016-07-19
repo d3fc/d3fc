@@ -1,33 +1,27 @@
-import minimum from './util/minimum';
 import { rebindAll } from 'd3fc-rebind';
+import { scan } from 'd3-array';
 import { collisionArea } from './util/collision';
 
-// iteratively remove the rectangle with the greatest area of collision
+const scanForObject = (array, comparator) => array[scan(array, comparator)];
+
 export default (adaptedStrategy) => {
 
     adaptedStrategy = adaptedStrategy || ((x) => x);
 
     const removeOverlaps = (layout) => {
-
         layout = adaptedStrategy(layout);
-
-        // returns a function that computes the area of overlap for rectangles
-        // in the given layout array
-        const scorerForLayout = (layout) => (_, i) => -collisionArea(layout, i);
-
-        let iterate = true;
-        do {
-            // apply the overlap calculation to visible rectangles
-            let filteredLayout = layout.filter((d) => !d.hidden);
-            let min = minimum(filteredLayout, scorerForLayout(filteredLayout));
-            if (min[0] < 0) {
-                // hide the rectangle with the greatest collision area
-                min[1].hidden = true;
+        while (true) {
+            // find the collision area for all overlapping rectangles, hiding the one
+            // with the greatest overlap
+            const visible = layout.filter((d) => !d.hidden);
+            const collisions = visible.map((d, i) => [d, collisionArea(visible, i)]);
+            const maximumCollision = scanForObject(collisions, (a, b) => b[1] - a[1]);
+            if (maximumCollision[1] > 0) {
+                maximumCollision[0].hidden = true;
             } else {
-                iterate = false;
+                break;
             }
-        } while (iterate);
-
+        }
         return layout;
     };
 

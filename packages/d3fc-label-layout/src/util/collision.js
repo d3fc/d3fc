@@ -1,5 +1,5 @@
 import { sum } from 'd3-array';
-import intersect from '../intersect';
+import intersect from './intersect';
 
 // computes the area of overlap between the rectangle with the given index with the
 // rectangles in the array

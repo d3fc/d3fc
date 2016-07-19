@@ -34,22 +34,22 @@ describe('greedy', () => {
         it('moves a label left if there is an overlap', () => {
             data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
-            expect(result[1].x).toEqual(40);
-            expect(result[1].y).toEqual(50);
+            expect(result[0].x).toEqual(40);
+            expect(result[0].y).toEqual(50);
         });
 
         it('moves a label up, left if there is an overlap to left', () => {
             data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
-            expect(result[2].x).toEqual(40);
-            expect(result[2].y).toEqual(40);
+            expect(result[1].x).toEqual(40);
+            expect(result[1].y).toEqual(40);
         });
 
         it('moves a label up if there is an overlap to up, left', () => {
             data.push({x: 50, y: 50, width: elementWidth, height: elementHeight});
             var result = strategiser(data);
-            expect(result[3].x).toEqual(50);
-            expect(result[3].y).toEqual(40);
+            expect(result[2].x).toEqual(50);
+            expect(result[2].y).toEqual(40);
         });
     });
 
@@ -81,25 +81,25 @@ describe('greedy', () => {
         });
 
         it('moves a label half up, left if there is no prior fit', () => {
-            var sampledData = [data[1], data[3]];
+            var sampledData = [
+                {x: 25, y: 13, width: 1, height: 1},
+                {x: 21, y: 14, width: 6, height: 6},
+                data[1], data[3]];
             // Box colliding with the next box to move it left
-            sampledData.push({x: 25, y: 13, width: 1, height: 1});
-
-            sampledData.push({x: 21, y: 14, width: 6, height: 6});
             var result = strategiser(sampledData);
-            expect(result[3].x).toEqual(15);
-            expect(result[3].y).toEqual(11);
+            expect(result[1].x).toEqual(15);
+            expect(result[1].y).toEqual(11);
         });
 
         it('moves a label up, half left if there is no prior fit', () => {
-            var sampledData = [data[2], data[3]];
+            var sampledData = [
+                {x: 13, y: 25, width: 1, height: 1},
+                {x: 14, y: 21, width: 6, height: 6},
+                data[2], data[3]];
             // Box colliding with the next box to move it left
-            sampledData.push({x: 13, y: 25, width: 1, height: 1});
-
-            sampledData.push({x: 14, y: 21, width: 6, height: 6});
             var result = strategiser(sampledData);
-            expect(result[3].x).toEqual(11);
-            expect(result[3].y).toEqual(15);
+            expect(result[1].x).toEqual(11);
+            expect(result[1].y).toEqual(15);
         });
     });
 

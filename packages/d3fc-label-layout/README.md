@@ -8,6 +8,11 @@ For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-label-la
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
+50
+
+greedy - 147ms => 25ms
+annealing - 1000ms => 81ms
+
 # Installation
 
 ```bash
@@ -23,28 +28,32 @@ The label layout component provides a mechanism for arranging child components b
 ## Example usage
 
 ```javascript
+import { layoutTextLabel, layoutGreedy,
+    layoutLabel, layoutRemoveOverlaps } from 'd3fc-label-layout';
+import { select } from 'd3-selection';
+
 var labelPadding = 2;
 
 // the component used to render each label
-var textLabel = fc.textLabel()
+var textLabel = layoutTextLabel()
   .padding(labelPadding)
-  .value(function(d) { return d.properties.name; });
+  .value(d => d.properties.name);
 
 // a strategy that combines simulated annealing with removal
 // of overlapping labels
-var strategy = fc.removeOverlaps(fc.greedy());
+var strategy = layoutRemoveOverlaps(layoutGreedy());
 
 // create the layout that positions the labels
-var labels = fc.label(strategy)
-    .size(function(d) {
+var labels = layoutLabel(strategy)
+    .size((d, i, g) => {
         // measure the label and add the required padding
-        var textSize = d3.select(this)
+        var textSize = select(g[i])
             .select('text')
             .node()
             .getBBox();
         return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
     })
-    .position(function(d) { return projection(d.geometry.coordinates); })
+    .position(d => projection(d.geometry.coordinates))
     .component(textLabel);
 
 // render!
