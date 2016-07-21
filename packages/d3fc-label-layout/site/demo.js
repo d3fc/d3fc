@@ -74,10 +74,7 @@ const render = () => {
 
     const labels = layoutLabel(strategy)
         .size((_, i, g) => {
-            const textSize = select(g[i])
-              .select('text')
-              .node()
-              .getBBox();
+            const textSize = g[i].getElementsByTagName('text')[0].getBBox();
             return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
         })
         .component(label);

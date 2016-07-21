@@ -8,11 +8,6 @@ For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-label-la
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
-50
-
-greedy - 147ms => 25ms
-annealing - 1000ms => 81ms
-
 # Installation
 
 ```bash
@@ -32,25 +27,22 @@ import { layoutTextLabel, layoutGreedy,
     layoutLabel, layoutRemoveOverlaps } from 'd3fc-label-layout';
 import { select } from 'd3-selection';
 
-var labelPadding = 2;
+const labelPadding = 2;
 
 // the component used to render each label
-var textLabel = layoutTextLabel()
+const textLabel = layoutTextLabel()
   .padding(labelPadding)
   .value(d => d.properties.name);
 
 // a strategy that combines simulated annealing with removal
 // of overlapping labels
-var strategy = layoutRemoveOverlaps(layoutGreedy());
+const strategy = layoutRemoveOverlaps(layoutGreedy());
 
 // create the layout that positions the labels
-var labels = layoutLabel(strategy)
+const labels = layoutLabel(strategy)
     .size((d, i, g) => {
         // measure the label and add the required padding
-        var textSize = select(g[i])
-            .select('text')
-            .node()
-            .getBBox();
+        const textSize = g[i].getElementsByTagName('text')[0].getBBox();
         return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
     })
     .position(d => projection(d.geometry.coordinates))
@@ -65,7 +57,7 @@ The above snippet is taken from block [389c76c6a544af9f0cab](http://bl.ocks.org/
 
 ## Label
 
-*fc*.**label**(*strategy*)
+*fc*.**layoutLabel**(*strategy*)
 
 Constructs a new label layout with the given *strategy*. The label layout creates an array of rectangle bounding boxes which are passed to the strategy, which will typically move the boxes in order to minimise overlaps. Once the layout is complete a data join is used to construct a containing `g` element for each item in the bound array, and the component supplied to the layout is 'call'-ed on each element.
 
@@ -76,15 +68,15 @@ Each `g` element has the following properties set:
  - `anchor-x`, `anchor-y` - the original label location in relative coordinates to the this `g` element.
 
 
-*label*.**size**(*accessor*)
+*layoutLabel*.**size**(*accessor*)
 
 Specifies the size for each item in the associated array. The *accessor* function is invoked exactly once per datum, and should return the size as an array of two values, `[width, height]`. The *accessor* function is invoked with the datum, and index. This function is invoked after the component has been rendered, and the value of the *this* context is the containing `g` element. As a result, you can measure the size of the component if the contents are dynamic, for example, measuring the size of a text label.
 
-*label*.**position**(*accessor*)
+*layoutLabel*.**position**(*accessor*)
 
 Specifies the position for each item in the associated array. The *accessor* function is invoked exactly once per datum, and should return the position as an array of two values, `[x, y]`.
 
-*label*.**component**(*component*)
+*layoutLabel*.**component**(*component*)
 
 Specified the component that is used to render each label.
 
@@ -112,11 +104,11 @@ The strategy should return an array of objects indicating the placement of each 
 
 The greedy strategy is a very fast way of reducing label overlap. It adds each label in sequence, selecting the position where the label has the lowest overlap with already added rectangles and is inside the container.
 
-*fc*.**greedy**()
+*fc*.**layoutGreedy**()
 
 Constructs a greedy strategy.
 
-*greedy*.**bounds**(*array*)
+*layoutGreedy*.**bounds**(*rect*)
 
 Optionally specifies a bounding region, as a rectangle with properties of `x`, `y`, `width` and `height`. The strategy will try to keep labels within the bounds.
 
@@ -124,17 +116,17 @@ Optionally specifies a bounding region, as a rectangle with properties of `x`, `
 
 The simulated annealing strategy runs over a set number of iterations, choosing a different location for one label on each iteration. If that location results in a better result, it is saved for the next iteration. Otherwise, it is saved with probability inversely proportional with the iteration it is currently on. This helps it break out of local optimums, hopefully producing better output. Because of the random nature of the algorithm, it produces variable output.
 
-*fc*.**annealing**()
+*fc*.**layoutAnnealing**()
 
 Constructs an annealing strategy.
 
-*annealing*.**bounds**(*array*)
+*layoutAnnealing*.**bounds**(*rect*)
 
 Optionally specifies a bounding region, as a rectangle with properties of `x`, `y`, `width` and `height`. The strategy will try to keep labels within the bounds.
 
-*annealing*.**temperature**(*integer*)
+*layoutAnnealing*.**temperature**(*integer*)
 
-*annealing*.**cooling**(*integer*)
+*layoutAnnealing*.**cooling**(*integer*)
 
 The *temperature* parameter indicates the initial 'number' to use for the random probability calculation, and *cooling* defines the delta of the temperature between iterations. The algorithm runs for `Math.ceil(temperature / cooling)` iterations.
 
@@ -142,7 +134,7 @@ The *temperature* parameter indicates the initial 'number' to use for the random
 
 This strategy doesn't re-position labels to reduce overlaps, instead it removes overlapping labels. This is performed iteratively, with the labels that have the greatest area of overlap removed first.
 
-*fc*.**removeOverlaps**(*strategy*)
+*fc*.**layoutRemoveOverlaps**(*strategy*)
 
 Constructs a removeOverlaps strategy, adapting the supplied *strategy* in order to remove overlaps after it has been executed.
 
@@ -154,7 +146,7 @@ This is a simple component that renders a label:
 
 This component uses the `layout-width` and `layout-height` properties of its parent element to set its own width and height. It also uses the `anchor-x` and `anchor-y` properties to place the circular anchor. These properties are all set by the label layout as described above.
 
-*fc*.**textLabel**()
+*fc*.**layoutTextLabel**()
 
 Constructs a text label component.
 
@@ -162,6 +154,6 @@ Constructs a text label component.
 
 Specifies the padding around the text.
 
-*textLabel*.**value**(*accessor*)
+*layoutTextLabel*.**value**(*accessor*)
 
 Specifies the text rendered by this label as an accessor function.
