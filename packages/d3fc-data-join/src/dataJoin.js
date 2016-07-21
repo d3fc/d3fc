@@ -9,7 +9,7 @@ import { select, selection } from 'd3-selection';
 // To avoid scientific notation, start or end the transition at 1e-6,
 // which is the smallest value that is not stringified in exponential notation."
 // - https://github.com/mbostock/d3/wiki/Transitions#d3_interpolateNumber
-const effectivelyZero = 1e-6;
+export const effectivelyZero = 1e-6;
 
 // Wrapper around d3's selectAll/data data-join, which allows decoration of the result.
 // This is achieved by appending the element to the enter selection before exposing it.

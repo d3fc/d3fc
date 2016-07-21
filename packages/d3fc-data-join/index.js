@@ -1,1 +1,1 @@
-export { default as dataJoin } from './src/dataJoin';
+export { default as dataJoin, effectivelyZero } from './src/dataJoin';
