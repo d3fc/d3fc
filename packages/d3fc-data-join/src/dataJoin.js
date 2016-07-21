@@ -23,16 +23,11 @@ export default (element, className) => {
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
 
-        // update
         const selector = className == null ? element : `${element}.${className}`;
         const selected = container.selectAll(selector)
-            // in order to support nested joins with the same selector, filter
-            // to only return immediate children of the container
             .filter((d, i, nodes) => nodes[i].parentNode === container.node());
         let update = selected.data(data, key);
 
-        // enter
-        // when container is a transition, entering elements fade in (from transparent to opaque)
         // N.B. insert() is used to create new elements, rather than append(). insert() behaves in a special manner
         // on enter selections - entering elements will be inserted immediately before the next following sibling
         // in the update selection, if any.
@@ -40,11 +35,9 @@ export default (element, className) => {
         // if the updating elements change order then selection.order() would be required to update the order.
         // (#528)
         const enter = update.enter()
-            .insert(element) // <<<--- this is the secret sauce of this whole file
+            .insert(element)
             .attr('class', className);
 
-        // exit
-        // when container is a transition, exiting elements fade out (from opaque to transparent)
         const exit = update.exit();
 
         // automatically merge in the enter selection
