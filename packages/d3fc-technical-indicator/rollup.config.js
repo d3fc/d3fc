@@ -12,7 +12,7 @@ export default {
     ],
     dest: 'build/d3fc-technical-indicator.js',
     globals: {
-        'd3fc-rebind': 'fc_rebind',
-        'd3-array': 'd3_array'
+        'd3fc-rebind': 'fc',
+        'd3-array': 'd3'
     }
 };

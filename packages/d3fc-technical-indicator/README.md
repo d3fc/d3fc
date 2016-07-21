@@ -43,12 +43,12 @@ Undefined inputs are best avoided — a single undefined input value will produc
 
 ```javascript
 
-import { bollingerBands } from d3fc-technical-indicator;
+import { indicatorBollingerBands } from d3fc-technical-indicator;
 
-const bollingerCalculator = bollingerBands()
+const bollinger = indicatorBollingerBands()
     .period(3);
 
-bollingerCalculator([5, 6, 7, 6, 5, 4]);
+bollinger([5, 6, 7, 6, 5, 4]);
 // [
 //   { upper: undefined, average: undefined, lower: undefined },
 //   { upper: undefined, average: undefined, lower: undefined },
@@ -63,23 +63,23 @@ bollingerCalculator([5, 6, 7, 6, 5, 4]);
 
 ## Bollinger Bands
 
-*fc*.**bollingerBands**()
+*fc*.**indicatorBollingerBands**()
 
 Constructs a new Bollinger band calculator with the default settings.
 
-*bollingerBands*.**value**([*value*])
+*indicatorBollingerBands*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*bollingerBands*.**period**([*size*])
+*indicatorBollingerBands*.**period**([*size*])
 
 Get/set the period of the moving average and standard deviation calculations performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
 
-*bollingerBands*.**multiplier**([*multiplier*])
+*indicatorBollingerBands*.**multiplier**([*multiplier*])
 
 Get/set the multiplier of the of the standard deviation around the moving average for the upper and lower bands. Defaults to 2.
 
-*bollingerBands*(*data*)
+*indicatorBollingerBands*(*data*)
 
 Computes the Bollinger bands for the given data array. Returns an array of objects with attributes:
 * `upper`: Upper Bollinger band
@@ -89,27 +89,27 @@ Computes the Bollinger bands for the given data array. Returns an array of objec
 
 ## Elder-Ray
 
-*fc*.**elderRay**()
+*fc*.**indicatorElderRay**()
 
 Constructs a new Elder-ray calculator with the default settings.
 
-*elderRay*.**closeValue**([*value*])
+*indicatorElderRay*.**closeValue**([*value*])
 
 Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
-*elderRay*.**highValue**([*value*])
+*indicatorElderRay*.**highValue**([*value*])
 
 Get/set the accessor function used to obtain the high price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.high`.
 
-*elderRay*.**lowValue**([*value*])
+*indicatorElderRay*.**lowValue**([*value*])
 
 Get/set the accessor function used to obtain the low price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
 
-*elderRay*.**period**([*period*])
+*indicatorElderRay*.**period**([*period*])
 
 Get/set the period of the moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
 
-*elderRay*(*data*)
+*indicatorElderRay*(*data*)
 
 Computes the Elder-ray for the given data array. Returns an array of objects with attributes:
 * `bullPower`: Data highValue - EMA of specified period
@@ -118,19 +118,19 @@ Computes the Elder-ray for the given data array. Returns an array of objects wit
 
 ## Envelope
 
-*fc*.**envelope**()
+*fc*.**indicatorEnvelope**()
 
 Constructs a new envelope calculator with the default settings.
 
-*envelope*.**value**([*value*])
+*indicatorEnvelope*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*envelope*.**factor**([*factor*])
+*indicatorEnvelope*.**factor**([*factor*])
 
 Get/set the multiplier used to obtain the upper and lower levels from the datum values. Defaults to 2.
 
-*envelope*(*data*)
+*indicatorEnvelope*(*data*)
 
 Computes the envelope for the given data array. Returns an array of objects with attributes:
 * `upper`: Upper level
@@ -139,88 +139,88 @@ Computes the envelope for the given data array. Returns an array of objects with
 
 ## Moving Average
 
-*fc*.**movingAverage**()
+*fc*.**indicatorMovingAverage**()
 
 Constructs a new simple moving average calculator with the default settings.
 
-*movingAverage*.**value**([*value*])
+*indicatorMovingAverage*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*movingAverage*.**period**([*size*])
+*indicatorMovingAverage*.**period**([*size*])
 
 Get/set the period of the moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.
 
-*movingAverage*(*data*)
+*indicatorMovingAverage*(*data*)
 
 Computes the moving average for the given data array. Returns an array of simple moving average values.
 
 
 ## Exponential Moving Average
 
-*fc*.**exponentialMovingAverage**()
+*fc*.**indicatorExponentialMovingAverage**()
 
 Constructs a new exponential moving average calculator with the default settings.
 
-*exponentialMovingAverage*.**value**([*value*])
+*indicatorExponentialMovingAverage*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*exponentialMovingAverage*.**period**([*size*])
+*indicatorExponentialMovingAverage*.**period**([*size*])
 
 Get/set the period of the exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
-*exponentialMovingAverage*(*data*)
+*indicatorExponentialMovingAverage*(*data*)
 
 Computes the exponential moving average for the given data array. Returns an array of exponential moving average values.
 
 
 ## Force Index
 
-*fc*.**forceIndex**()
+*fc*.**indicatorForceIndex**()
 
 Constructs a new force index calculator with the default settings.
 
-*forceIndex*.**closeValue**([*value*])
+*indicatorForceIndex*.**closeValue**([*value*])
 
 Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
-*forceIndex*.**volumeValue**([*value*])
+*indicatorForceIndex*.**volumeValue**([*value*])
 
 Get/set the accessor function used to obtain the trade volume value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.volume`.
 
-*forceIndex*.**period**([*size*])
+*indicatorForceIndex*.**period**([*size*])
 
 Get/set the period of the exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.
 
-*forceIndex*(*data*)
+*indicatorForceIndex*(*data*)
 
 Computes the force index for the given data array. Returns an array of force index values.
 
 
 ## MACD
 
-*fc*.**macd**()
+*fc*.**indicatorMacd**()
 
 Constructs a new MACD calculator with the default settings.
 
-*macd*.**value**([*value*])
+*indicatorMacd*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*macd*.**fastPeriod**([*period*])
+*indicatorMacd*.**fastPeriod**([*period*])
 
 Get/set the period of the 'fast' exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 12.
 
-*macd*.**slowPeriod**([*period*])
+*indicatorMacd*.**slowPeriod**([*period*])
 
 Get/set the period of the 'slow' exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 26.
 
-*macd*.**signalPeriod**([*period*])
+*indicatorMacd*.**signalPeriod**([*period*])
 
 Get/set the period of the 'signal' exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.
 
-*macd*(*data*)
+*indicatorMacd*(*data*)
 
 Computes the MACD for the given data array. Returns an array of objects with attributes:
 * `macd`
@@ -230,49 +230,49 @@ Computes the MACD for the given data array. Returns an array of objects with att
 
 ## Relative Strength Index
 
-*fc*.**relativeStrengthIndex**()
+*fc*.**indicatorRelativeStrengthIndex**()
 
 Constructs a new RSI calculator with the default settings.
 
-*relativeStrengthIndex*.**value**([*value*])
+*indicatorRelativeStrengthIndex*.**value**([*value*])
 
 Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.
 
-*relativeStrengthIndex*.**period**([*size*])
+*indicatorRelativeStrengthIndex*.**period**([*size*])
 
 Get/set the period of the relative strength index calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 14.
 
-*relativeStrengthIndex*(*data*)
+*indicatorRelativeStrengthIndex*(*data*)
 
 Computes the RSI for the given data array. Returns an array of RSI values.
 
 
 ## Stochastic Oscillator
 
-*fc*.**stochasticOscillator**()
+*fc*.**indicatorStochasticOscillator**()
 
 Constructs a new stochastic oscillator calculator with the default settings.
 
-*stochasticOscillator*.**closeValue**([*value*])
+*indicatorStochasticOscillator*.**closeValue**([*value*])
 
 Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.close`.
 
-*stochasticOscillator*.**highValue**([*value*])
+*indicatorStochasticOscillator*.**highValue**([*value*])
 
 Get/set the accessor function used to obtain the high price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.high`.
 
-*stochasticOscillator*.**lowValue**([*value*])
+*indicatorStochasticOscillator*.**lowValue**([*value*])
 
 Get/set the accessor function used to obtain the low price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to `(d) => d.low`.
 
-*stochasticOscillator*.**kPeriod**([*size*])
+*indicatorStochasticOscillator*.**kPeriod**([*size*])
 
 Get/set the period of the '%K' calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 5.
 
-*stochasticOscillator*.**dPeriod**([*size*])
+*indicatorStochasticOscillator*.**dPeriod**([*size*])
 
 Get/set the period of the '%D' moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 3.
 
-*stochasticOscillator*(*data*)
+*indicatorStochasticOscillator*(*data*)
 
 Computes an array of stochastic oscillator values from the given input array.

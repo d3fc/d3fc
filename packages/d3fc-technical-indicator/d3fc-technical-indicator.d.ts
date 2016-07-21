@@ -1,8 +1,8 @@
-declare namespace fc_technical_indicator {
+declare namespace fc {
 
     // BOLLINGER
-    export function bollingerBands(): BollingerBands<number>;
-    export function bollingerBands<T>(): BollingerBands<T>;
+    export function indicatorBollingerBands(): BollingerBands<number>;
+    export function indicatorBollingerBands<T>(): BollingerBands<T>;
 
     interface BollingerBandsDatum {
         upper: number,
@@ -24,8 +24,8 @@ declare namespace fc_technical_indicator {
     }
 
     // ELDER-RAY
-    export function elderRay(): ElderRay<number>;
-    export function elderRay<T>(): ElderRay<T>;
+    export function indicatorElderRay(): ElderRay<number>;
+    export function indicatorElderRay<T>(): ElderRay<T>;
 
     interface ElderRayDatum {
         bullPower: number;
@@ -50,8 +50,8 @@ declare namespace fc_technical_indicator {
     }
 
     // ENVELOPE
-    export function envelope(): Envelope<number>;
-    export function envelope<T>(): Envelope<T>;
+    export function indicatorEnvelope(): Envelope<number>;
+    export function indicatorEnvelope<T>(): Envelope<T>;
 
     interface EnvelopeDatum {
         upper: number;
@@ -69,8 +69,8 @@ declare namespace fc_technical_indicator {
     }
 
     // MOVING AVERAGE
-    export function movingAverage(): MovingAverage<number>;
-    export function movingAverage<T>(): MovingAverage<T>;
+    export function indicatorMovingAverage(): MovingAverage<number>;
+    export function indicatorMovingAverage<T>(): MovingAverage<T>;
 
     interface MovingAverage<T> {
         value(): (datum: T, index: number) => number;
@@ -84,8 +84,8 @@ declare namespace fc_technical_indicator {
     }
 
     // EXPONENTIAL MOVING AVERAGE
-    export function exponentialMovingAverage(): ExponentialMovingAverage<number>;
-    export function exponentialMovingAverage<T>(): ExponentialMovingAverage<T>;
+    export function indicatorExponentialMovingAverage(): ExponentialMovingAverage<number>;
+    export function indicatorExponentialMovingAverage<T>(): ExponentialMovingAverage<T>;
 
     interface ExponentialMovingAverage<T> {
         value(): (datum: T, index: number) => number;
@@ -99,8 +99,8 @@ declare namespace fc_technical_indicator {
     }
 
     // FORCE INDEX
-    export function forceIndex(): ForceIndex<number>;
-    export function forceIndex<T>(): ForceIndex<T>;
+    export function indicatorForceIndex(): ForceIndex<number>;
+    export function indicatorForceIndex<T>(): ForceIndex<T>;
 
     interface ForceIndex<T> {
         closeValue(): (datum: T) => number;
@@ -117,8 +117,8 @@ declare namespace fc_technical_indicator {
     }
 
     // MACD
-    export function macd(): MACD<number>;
-    export function macd<T>(): MACD<T>;
+    export function indicatorMacd(): MACD<number>;
+    export function indicatorMacd<T>(): MACD<T>;
 
     interface MacdDatum {
         macd: number;
@@ -146,8 +146,8 @@ declare namespace fc_technical_indicator {
     }
 
     // RELATIVE STRENGTH INDEX
-    export function relativeStrengthIndex(): RSI<number>;
-    export function relativeStrengthIndex<T>(): RSI<T>;
+    export function indicatorRelativeStrengthIndex(): RSI<number>;
+    export function indicatorRelativeStrengthIndex<T>(): RSI<T>;
 
     interface RSI<T> {
         value(): (datum: T, index: number) => number;
@@ -161,8 +161,8 @@ declare namespace fc_technical_indicator {
     }
 
     // STOCHASTIC OSCILLATOR
-    export function stochasticOscillator(): StochasticOscillator<number>;
-    export function stochasticOscillator<T>(): StochasticOscillator<T>;
+    export function indicatorStochasticOscillator(): StochasticOscillator<number>;
+    export function indicatorStochasticOscillator<T>(): StochasticOscillator<T>;
 
     interface StochasticOscillator<T> {
         closeValue(): (datum: T) => number;
