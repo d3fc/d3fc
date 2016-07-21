@@ -40,7 +40,7 @@ var multi = fc.series.multi()
   });
 
 // observe interactions with the chart and re-render
-var pointer = fc.behaviour.pointer()
+var pointer = fc.behavior.pointer()
     .on('point', function(points) {
         crosshairData = points;
         render();

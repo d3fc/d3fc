@@ -13,7 +13,7 @@ A [moving average](http://en.wikipedia.org/wiki/Moving_average) is an indicator 
 
 D3FC indicators are comprised of two component parts:
 
- + The indicator algorithm, which is applied to the input data. The algorithm computes the indicator and merges the result back into the source data (although this behaviour is configurable).
+ + The indicator algorithm, which is applied to the input data. The algorithm computes the indicator and merges the result back into the source data (although this behavior is configurable).
  + An optional indicator renderer, that converts the algorithm output into one or more series / annotations.
 
 Simpler indicators do not require renderer with their output readily rendered via a simple series.

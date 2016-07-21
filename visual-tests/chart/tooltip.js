@@ -59,7 +59,7 @@
 
     var snap = fc.util.seriesPointSnapXOnly(candlestick, data.series);
 
-    var pointer = fc.behaviour.pointer()
+    var pointer = fc.behavior.pointer()
         .on('point', function(points) {
             data.crosshair = points.map(snap);
             render();

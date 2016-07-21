@@ -113,7 +113,7 @@
             };
         };
 
-        var pointer = fc.behaviour.pointer()
+        var pointer = fc.behavior.pointer()
             .on('point', function(points) {
                 series.crosshair = points.map(snap);
                 render();
