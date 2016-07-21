@@ -23,9 +23,8 @@ export default (element, className) => {
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
 
-        const selector = className == null ? element : `${element}.${className}`;
-        const selected = container.selectAll(selector)
-            .filter((d, i, nodes) => nodes[i].parentNode === container.node());
+        const selected = container.selectAll((d, i, nodes) => nodes[i].children)
+            .filter(className == null ? element : `${element}.${className}`);
         let update = selected.data(data, key);
 
         // N.B. insert() is used to create new elements, rather than append(). insert() behaves in a special manner
