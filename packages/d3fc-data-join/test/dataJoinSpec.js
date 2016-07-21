@@ -1,8 +1,10 @@
 import { select, selection } from 'd3-selection';
-import 'd3-transition';
+import { transition } from 'd3-transition';
 import dataJoin from '../src/dataJoin';
 
 describe('dataJoin', () => {
+    const selectionTransition = selection.prototype.transition;
+
     const data = [null];
     let element;
     let container;
@@ -10,6 +12,11 @@ describe('dataJoin', () => {
     beforeEach(() => {
         element = document.createElement('svg');
         container = select(element);
+        delete selection.prototype.transition;
+    });
+
+    afterEach(() => {
+        selection.prototype.transition = selectionTransition;
     });
 
     it('should allow element to be specified when created', () => {
@@ -79,22 +86,12 @@ describe('dataJoin', () => {
         expect(update.nodes().length).toBe(1);
     });
 
-    it('should remove elments', () => {
+    it('should remove elements', () => {
         const join = dataJoin();
         join(container, data);
         expect(element.childNodes.length).toBe(1);
         join(container, []);
         expect(element.childNodes.length).toBe(0);
-    });
-
-    it('should only set a transition when transitions available', () => {
-        const transition = selection.prototype.transition;
-        delete selection.prototype.transition;
-
-        const join = dataJoin();
-        join(container, data);
-
-        selection.prototype.transition = transition;
     });
 
     it('should insert new elements in an order consistent with the data', () => {
@@ -113,5 +110,65 @@ describe('dataJoin', () => {
         expect(element.childNodes[0].__data__).toBe(1);
         expect(element.childNodes[1].__data__).toBe(4);
         expect(element.childNodes[2].__data__).toBe(2);
+    });
+
+    describe('when d3-transition included and a custom transition is specified', () => {
+        const timeout = 20;
+        let customTransition;
+
+        beforeEach(() => {
+            selection.prototype.transition = selectionTransition;
+            customTransition = container.transition()
+                .duration(1);
+        });
+
+        it('should apply a fade in transition', (done) => {
+            const join = dataJoin()
+                .transition(customTransition);
+            const update = join(container, data);
+            const node = update.enter().node();
+
+            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(node.parentNode).not.toBe(null);
+
+            setTimeout(() => {
+                expect(node.style.opacity).toBe('1');
+                expect(node.parentNode).not.toBe(null);
+                done();
+            }, timeout);
+        });
+
+        it('should apply a fade out transition', (done) => {
+            const join = dataJoin()
+                .transition(customTransition);
+            container.append('g')
+                .style('opacity', '1');
+            const update = join(container, []);
+            const node = update.exit().node();
+
+            expect(node.style.opacity).toBe('1');
+            expect(node.parentNode).not.toBe(null);
+
+            setTimeout(() => {
+                expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+                expect(node.parentNode).toBe(null);
+                done();
+            }, timeout);
+        });
+
+        it('should return the untransitioned exit selection', () => {
+            const join = dataJoin()
+                .transition(customTransition);
+            container.append('g')
+                .style('opacity', '1');
+            const update = join(container, []);
+
+            update.exit()
+              .remove();
+
+            const node = update.exit().node();
+            expect(node.style.opacity).toBe('1');
+            expect(node.parentNode).toBe(null);
+        });
     });
 });

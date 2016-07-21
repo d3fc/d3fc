@@ -14,11 +14,11 @@ const effectivelyZero = 1e-6;
 // Wrapper around d3's selectAll/data data-join, which allows decoration of the result.
 // This is achieved by appending the element to the enter selection before exposing it.
 // A default transition of fade in/out is also implicitly added but can be modified.
-
 export default (element, className) => {
     element = element || 'g';
 
     let key = (_, i) => i;
+    let transition = null;
 
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
@@ -50,18 +50,17 @@ export default (element, className) => {
         // automatically merge in the enter selection
         update = update.merge(enter);
 
-        // if transitions are enable inherit the default transition from ancestors
-        // and apply a default fade in/out transition
+        // if transitions are enabled apply a default fade in/out transition
         if (selection.prototype.transition) {
-            enter.style('opacity', effectivelyZero);
-            update.transition()
+            enter.style('opacity', effectivelyZero)
+                .transition(transition)
                 .style('opacity', 1);
-            exit.transition()
-                .style('opacity', effectivelyZero);
+            exit.transition(transition)
+                .style('opacity', effectivelyZero)
+                .remove();
+        } else {
+            exit.remove();
         }
-
-        // automatically remove nodes in the exit selection
-        exit.remove();
 
         update.enter = () => enter;
         update.exit = () => exit;
@@ -88,6 +87,13 @@ export default (element, className) => {
             return key;
         }
         key = args[0];
+        return dataJoin;
+    };
+    dataJoin.transition = (...args) => {
+        if (!args.length) {
+            return transition;
+        }
+        transition = args[0];
         return dataJoin;
     };
 
