@@ -11,7 +11,7 @@ externals:
   crosshair-example-2-html: crosshair-example-2.html
 ---
 
-The crosshair component renders a crosshair and is intended to be used in conjunction with the pointer behaviour. It is typically rendered alongside other series. The following example uses a multi-series component to render a crosshair and a line series:
+The crosshair component renders a crosshair and is intended to be used in conjunction with the pointer behavior. It is typically rendered alongside other series. The following example uses a multi-series component to render a crosshair and a line series:
 
 ```js
 {{{ codeblock crosshair-example-js }}}
@@ -26,7 +26,7 @@ Which gives the following:
 {{{crosshair-example-js}}}
 </script>
 
-You can control the snapping behaviour of the crosshair by mapping the points through a snapping function. A number of useful snap functions are [supplied as part of the library]({{package.repository.url}}/blob/master/src/util/snap.js). Additionally, you can configure X and Y labels via the `xLabel` and `yLabel` properties.
+You can control the snapping behavior of the crosshair by mapping the points through a snapping function. A number of useful snap functions are [supplied as part of the library]({{package.repository.url}}/blob/master/src/util/snap.js). Additionally, you can configure X and Y labels via the `xLabel` and `yLabel` properties.
 
 The crosshair is often used in conjunction with the {{{ hyperlink 'tooltip.html' title='tooltip component' }}}, which renders the data that the crosshair generates (and pushes into the data-joined array).
 

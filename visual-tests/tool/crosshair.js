@@ -83,7 +83,7 @@
     var snap = fc.util.seriesPointSnap(bar, data);
 
     // Observe interaction with the chart, map them through the snapping function and re-render
-    var pointer = fc.behaviour.pointer()
+    var pointer = fc.behavior.pointer()
         .on('point', function(points) {
             data.crosshair = points.map(snap);
             render();

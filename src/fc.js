@@ -1,5 +1,5 @@
 import annotation from './annotation/annotation';
-import behaviour from './behaviour/behaviour';
+import behavior from './behavior/behavior';
 import chart from './chart/chart';
 import data from './data/data';
 import indicator from './indicator/indicator';
@@ -13,7 +13,7 @@ import layout from './layout/layout';
 
 export default {
     annotation: annotation,
-    behaviour: behaviour,
+    behavior: behavior,
     chart: chart,
     data: data,
     indicator: indicator,

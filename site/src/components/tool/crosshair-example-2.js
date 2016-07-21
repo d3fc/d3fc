@@ -59,7 +59,7 @@ var multi = fc.series.multi()
 var snap = fc.util.seriesPointSnap(line, data);
 
 // observe interactions with the chart and re-render
-var pointer = fc.behaviour.pointer()
+var pointer = fc.behavior.pointer()
     .on('point', function(points) {
         crosshairData = points.map(snap);
         render2();

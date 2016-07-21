@@ -103,7 +103,7 @@
             .yTicks(3)
             .plotArea(multi);
 
-        var pointer = fc.behaviour.pointer();
+        var pointer = fc.behavior.pointer();
 
         function mainChart(selection) {
 
@@ -208,7 +208,7 @@
             });
         chart.plotArea(multi);
 
-        var pointer = fc.behaviour.pointer()
+        var pointer = fc.behavior.pointer()
             .on('point', event.crosshair);
 
         function volumeChart(selection) {
