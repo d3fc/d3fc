@@ -118,7 +118,7 @@ select('#strategy-form .btn')
         }
         const enforceBounds = document.getElementById('enforce-bounds').checked;
         if (enforceBounds) {
-            strategy.bounds([width, height]);
+            strategy.bounds({x: 0, y: 0, width, height});
         }
         const removeOverlaps = document.getElementById('remove-overlaps').checked;
         if (removeOverlaps) {

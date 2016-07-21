@@ -118,7 +118,7 @@ Constructs a greedy strategy.
 
 *greedy*.**bounds**(*array*)
 
-Optionally specifies a bounding region, as an array of two values, `[width, height]`. The strategy will try to keep labels within the bounds.
+Optionally specifies a bounding region, as a rectangle with properties of `x`, `y`, `width` and `height`. The strategy will try to keep labels within the bounds.
 
 ### Simulated Annealing
 
@@ -130,7 +130,7 @@ Constructs an annealing strategy.
 
 *annealing*.**bounds**(*array*)
 
-Optionally specifies a bounding region, as an array of two values, `[width, height]`. The strategy will try to keep labels within the bounds.
+Optionally specifies a bounding region, as a rectangle with properties of `x`, `y`, `width` and `height`. The strategy will try to keep labels within the bounds.
 
 *annealing*.**temperature**(*integer*)
 

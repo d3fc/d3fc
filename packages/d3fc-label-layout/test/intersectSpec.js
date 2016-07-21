@@ -1,4 +1,4 @@
-import intersect from '../src/intersect';
+import intersect from '../src/util/intersect';
 
 describe('intersect', () => {
 

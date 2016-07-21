@@ -2,8 +2,8 @@ import greedy from '../src/greedy';
 
 describe('greedy', () => {
 
-    var containerWidth = 100;
-    var containerHeight = 100;
+    var width = 100;
+    var height = 100;
     var elementWidth = 10;
     var elementHeight = 10;
 
@@ -12,7 +12,7 @@ describe('greedy', () => {
     ];
 
     var strategiser = greedy()
-        .bounds([containerWidth, containerHeight]);
+        .bounds({x: 0, y: 0, width, height});
 
     describe('out of bounds data', () => {
         it('should not change the data when there\'s only one datapoint', () => {

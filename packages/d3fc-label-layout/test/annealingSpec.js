@@ -2,8 +2,8 @@ import annealing from '../src/annealing';
 
 describe('annealing', () => {
 
-    var containerWidth = 100;
-    var containerHeight = 100;
+    var width = 100;
+    var height = 100;
     var elementWidth = 10;
     var elementHeight = 10;
 
@@ -19,7 +19,7 @@ describe('annealing', () => {
     ];
 
     var strategiser = annealing()
-        .bounds([containerWidth, containerHeight]);
+        .bounds({x: 0, y: 0, width, height});
 
     var mathRandom = Math.random;
 
