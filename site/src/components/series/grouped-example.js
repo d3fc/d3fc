@@ -49,7 +49,11 @@ var x = d3.scale.ordinal()
     .rangePoints([0, width], 1);
 
 var yExtent = fc.util.extent()
-    .fields(['y'])
+    .fields([
+        function(a) {
+            return a.map(function(d) { return d.y; });
+        }
+    ])
     .include(0);
 
 var y = d3.scale.linear()
