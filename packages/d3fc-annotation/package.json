@@ -34,6 +34,7 @@
   "dependencies": {
     "d3-scale": "^1.0.1",
     "d3fc-data-join": "^3.0.0",
+    "d3fc-rebind": "^4.0.1",
     "d3fc-shape": "^4.0.0",
     "jsdom": "^9.4.1"
   }

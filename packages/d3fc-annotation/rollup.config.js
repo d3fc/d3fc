@@ -15,6 +15,7 @@ export default {
         'd3-scale': 'd3',
         'd3-selection': 'd3',
         'd3fc-data-join': 'fc',
+        'd3fc-rebind': 'fc',
         'd3fc-shape': 'fc'
     }
 };

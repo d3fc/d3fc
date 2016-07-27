@@ -2,24 +2,20 @@
 <html>
   <head>
     <style>
-      g.annotation:nth-child(4n)>line {
+      g.gridline>line:nth-child(4n) {
         stroke: #c60;
       }
 
-      g.annotation:nth-child(4n+1)>line {
+      g.gridline>line:nth-child(4n+1) {
         stroke: #06c;
       }
 
-      g.annotation:nth-child(4n+2)>line {
+      g.gridline>line:nth-child(4n+2) {
         stroke: #60c;
       }
 
-      g.annotation:nth-child(4n+3)>line {
+      g.gridline>line:nth-child(4n+3) {
         stroke: #0c0;
-      }
-
-      g.annotation>g>text {
-        font: 12px sans-serif;
       }
     </style>
   </html>
@@ -42,20 +38,19 @@
     <script src="../build/d3fc-annotation.js"></script>
 
     <script>
-      const xScale = d3.scaleLinear()
-        .range([0, 600]);
-      const line = fc.annotationLine()
-        .xScale(xScale);
-      const data = [100, 200, 300, 400];
-      const wavify = (d, i, a) =>
-        d * Math.abs(Math.sin((i + 1) * Date.now() / 1e4 + i * Math.PI / a.length)) + 80;
-      const render = () => {
-        d3.select('svg')
-          .datum(data.map(wavify))
-          .call(line);
-        requestAnimationFrame(render);
-      };
-      render();
+    const xScale = d3.scaleLinear()
+      .range([0, 640]);
+    const yScale = d3.scaleLinear()
+      .range([0, 480]);
+    const gridline = fc.annotationGridline()
+      .xScale(xScale)
+      .yScale(yScale);
+    const render = () => {
+      d3.select('svg')
+        .call(gridline);
+      requestAnimationFrame(render);
+    };
+    render();;
     </script>
   </body>
 </html>

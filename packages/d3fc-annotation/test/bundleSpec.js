@@ -16,6 +16,7 @@ describe('bundle', function() {
                 './node_modules/d3-scale/build/d3-scale.js',
                 './node_modules/d3-selection/build/d3-selection.js',
                 './node_modules/d3fc-data-join/build/d3fc-data-join.js',
+                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
                 './node_modules/d3-path/build/d3-path.js',
                 './node_modules/d3fc-shape/build/d3fc-shape.js',
                 './build/d3fc-annotation.js'
