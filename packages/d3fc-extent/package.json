@@ -35,7 +35,7 @@
     "jsdom": "^9.4.1",
     "ms": "^0.7.1",
     "rimraf": "^2.5.2",
-    "rollup": "^0.25.4",
+    "rollup": "^0.34.3",
     "rollup-plugin-babel": "^2.4.0",
     "semantic-release": "^4.3.5",
     "uglify-js": "^2.6.2"
