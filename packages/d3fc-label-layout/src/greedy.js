@@ -11,18 +11,21 @@ export default () => {
     const containerPenalty = (rectangle) =>
         bounds ? rectangle.width * rectangle.height - intersect(rectangle, bounds) : 0;
 
-    const penaltyForRectangle = (rectangles, index) =>
+    const penaltyForRectangle = (rectangle, index, rectangles) =>
         collisionArea(rectangles, index) +
-        containerPenalty(rectangles[index]);
+        containerPenalty(rectangle);
 
     const strategy = (data) => {
-        let rectangles = layout(data, penaltyForRectangle);
+        let rectangles = layout()
+            .locationScore(penaltyForRectangle)
+            .rectangles(data);
+
         data.forEach((rectangle, index) => {
             placements(rectangle).forEach((placement, placementIndex) => {
-                rectangles = rectangles.tryLocation(placement, index);
+                rectangles = rectangles(placement, index);
             });
         });
-        return rectangles.data();
+        return rectangles.rectangles();
     };
 
     strategy.bounds = (...args) => {

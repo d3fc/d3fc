@@ -28,10 +28,10 @@ export default () => {
     const containerPenalty = (rectangle) =>
         bounds ? rectangle.width * rectangle.height - intersect(rectangle, bounds) : 0;
 
-    const penaltyForRectangle = (rectangles, index) =>
+    const penaltyForRectangle = (rectangle, index, rectangles) =>
         collisionArea(rectangles, index) +
-        containerPenalty(rectangles[index]) +
-        orientationPenalty(rectangles[index]);
+        containerPenalty(rectangle) +
+        orientationPenalty(rectangle);
 
     const strategy = (data) => {
         let currentTemperature = temperature;
@@ -40,15 +40,18 @@ export default () => {
         const winningScore = (newScore, oldScore) =>
             Math.exp((oldScore - newScore) / currentTemperature) > Math.random();
 
-        let rectangles = layout(data, penaltyForRectangle, winningScore);
+        let rectangles = layout()
+            .locationScore(penaltyForRectangle)
+            .winningScore(winningScore)
+            .rectangles(data);
 
         while (currentTemperature > 0) {
             const index = randomIndex(data);
             const randomNewPlacement = randomItem(placements(data[index]));
-            rectangles = rectangles.tryLocation(randomNewPlacement, index);
+            rectangles = rectangles(randomNewPlacement, index);
             currentTemperature -= cooling;
         }
-        return rectangles.data();
+        return rectangles.rectangles();
     };
 
     strategy.temperature = (...args) => {

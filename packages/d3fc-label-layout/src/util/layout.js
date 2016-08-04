@@ -14,32 +14,70 @@ const lessThan = (a, b) => a < b;
 // it is constructed using two functions, locationScore, which score the placement of and
 // individual rectangle, and winningScore which takes the scores for a rectangle
 // at two different locations and assigns a winningScore.
-const layout = (rectangles, locationScore, winningScore, score) => {
+const layoutComponent = () => {
+    let score = null;
 
-    score = score || sum(
-        rectangles.map((_, i) => locationScore(rectangles, i))
-    );
+    let winningScore = lessThan;
 
-    winningScore = winningScore || lessThan;
+    let locationScore = () => 0;
+
+    let rectangles;
 
     const evaluatePlacement = (placement, index) =>
         score -
-        locationScore(rectangles, index) +
-        locationScore(substitute(rectangles, index, placement), index);
+        locationScore(rectangles[index], index, rectangles) +
+        locationScore(placement, index, substitute(rectangles, index, placement));
 
-    const tryLocation = (rectangle, index) => {
-        const newScore = evaluatePlacement(rectangle, index);
-        return winningScore(newScore, score)
-            ? layout(substitute(rectangles, index, rectangle), locationScore, winningScore, newScore)
-            : self;
+    const layout = (placement, index) => {
+        if (!score) {
+            score = sum(
+                rectangles.map((r, i) => locationScore(r, i, rectangles))
+            );
+        }
+
+        const newScore = evaluatePlacement(placement, index);
+
+        if (winningScore(newScore, score)) {
+            return layoutComponent()
+                .locationScore(locationScore)
+                .winningScore(winningScore)
+                .score(newScore)
+                .rectangles(substitute(rectangles, index, placement));
+        } else {
+            return layout;
+        }
     };
 
-    const self = {
-        data: () => rectangles,
-        score: () => score,
-        tryLocation
+    layout.rectangles = (...args) => {
+        if (!args.length) {
+            return rectangles;
+        }
+        rectangles = args[0];
+        return layout;
     };
-    return self;
+    layout.score = (...args) => {
+        if (!args.length) {
+            return score;
+        }
+        score = args[0];
+        return layout;
+    };
+    layout.winningScore = (...args) => {
+        if (!args.length) {
+            return winningScore;
+        }
+        winningScore = args[0];
+        return layout;
+    };
+    layout.locationScore = (...args) => {
+        if (!args.length) {
+            return locationScore;
+        }
+        locationScore = args[0];
+        return layout;
+    };
+
+    return layout;
 };
 
-export default layout;
+export default layoutComponent;
