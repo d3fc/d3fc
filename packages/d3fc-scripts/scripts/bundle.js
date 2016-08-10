@@ -11,7 +11,7 @@ rimraf.sync('build');
 
 mkdirp.sync('build');
 
-rollup.rollup({
+module.exports = rollup.rollup({
     entry: 'index.js',
     plugins: [
         babel({

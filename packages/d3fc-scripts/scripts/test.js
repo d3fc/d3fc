@@ -11,8 +11,9 @@ if (linterReport.warningCount > 0 || linterReport.errorCount > 0) {
     throw new Error('ESLint errors');
 }
 
-require('./bundle');
-
-var jasmine = new Jasmine();
-jasmine.loadConfigFile(path.join(__dirname, '..', 'jasmine.json'));
-jasmine.execute();
+require('./bundle')
+  .then(() => {
+      var jasmine = new Jasmine();
+      jasmine.loadConfigFile(path.join(__dirname, '..', 'jasmine.json'));
+      jasmine.execute();
+  });
