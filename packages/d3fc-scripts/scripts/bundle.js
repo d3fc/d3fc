@@ -18,13 +18,13 @@ module.exports = rollup.rollup({
             babelrc: false,
             presets: ['es2015-rollup']
         })
-    ],
-    globals: globals(packageJson)
+    ]
 })
   .then(bundle =>
       bundle.write({
           dest: `build/${packageJson.name}.js`,
           format: 'umd',
+          globals: globals(packageJson),
           moduleName: 'fc'
       })
   )
