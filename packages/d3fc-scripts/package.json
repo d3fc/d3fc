@@ -1,0 +1,36 @@
+{
+  "name": "d3fc-scripts",
+  "version": "1.0.0",
+  "description": "Inspired by react-scripts, common set of scripts for building the d3fc projects",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3fc/d3fc-scripts.git"
+  },
+  "keywords": [
+    "d3fc"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/d3fc/d3fc-scripts/issues"
+  },
+  "homepage": "https://github.com/d3fc/d3fc-scripts#readme",
+  "bin": {
+    "d3fc-scripts": "./bin/d3fc-scripts.js"
+  },
+  "dependencies": {
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "babel-register": "^6.9.0",
+    "cross-spawn": "^4.0.0",
+    "eslint": "^3.1.0",
+    "eslint-config-standard": "^5.1.0",
+    "eslint-plugin-promise": "^2.0.0",
+    "eslint-plugin-standard": "^2.0.0",
+    "jasmine": "^2.4.1",
+    "jsdom": "^9.4.1",
+    "rimraf": "^2.5.2",
+    "rollup": "^0.34.1",
+    "rollup-plugin-babel": "^2.4.0",
+    "uglify-js": "^2.6.2"
+  }
+}
