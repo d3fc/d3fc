@@ -1,10 +1,9 @@
 {
   "name": "d3fc-scripts",
-  "version": "1.1.4",
   "description": "Inspired by react-scripts, common set of scripts for building the d3fc projects",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/d3fc/d3fc-scripts.git"
+    "url": "https://github.com/d3fc/d3fc-scripts.git"
   },
   "keywords": [
     "d3fc"
@@ -31,6 +30,10 @@
     "rimraf": "^2.5.2",
     "rollup": "^0.34.1",
     "rollup-plugin-babel": "^2.4.0",
+    "semantic-release": "^4.3.5",
     "uglify-js": "^2.6.2"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   }
 }
