@@ -1,6 +1,6 @@
 {
   "name": "d3fc-scripts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Inspired by react-scripts, common set of scripts for building the d3fc projects",
   "repository": {
     "type": "git",
