@@ -7,9 +7,9 @@ describe('bundle', function() {
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
             scripts: [
                 // transitive dependencies
-                './node_modules/d3-request/node_modules/d3-collection/build/d3-collection.js',
-                './node_modules/d3-request/node_modules/d3-dispatch/build/d3-dispatch.js',
-                './node_modules/d3-request/node_modules/d3-dsv/build/d3-dsv.js',
+                './node_modules/d3-collection/build/d3-collection.js',
+                './node_modules/d3-dispatch/build/d3-dispatch.js',
+                './node_modules/d3-dsv/build/d3-dsv.js',
                 // direct dependencies
                 './node_modules/d3-request/build/d3-request.js',
                 './build/d3fc-financial-feed.js'
