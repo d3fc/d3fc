@@ -19,27 +19,15 @@
     "url": "https://github.com/d3fc/d3fc-shape"
   },
   "scripts": {
-    "bundle": "rimraf build && rollup -c && uglifyjs build/d3fc-shape.js --compress --mangle -o build/d3fc-shape.min.js",
-    "test": "npm run bundle && eslint index.js src/**/*.js test/**/*.js && jasmine JASMINE_CONFIG_PATH=test/support/jasmine.json",
+    "bundle": "d3fc-scripts bundle",
+    "test": "d3fc-scripts test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2015-rollup": "^1.1.1",
-    "babel-register": "^6.9.0",
+    "d3-path": "^0.1.5",
     "d3fc-random-data": "^1.0.0",
-    "eslint": "^3.0.1",
-    "eslint-config-standard": "^5.1.0",
-    "eslint-plugin-promise": "^2.0.0",
-    "eslint-plugin-standard": "^2.0.0",
-    "jasmine": "^2.4.1",
     "js-combinatorics": "^0.5.0",
-    "jsdom": "^9.4.1",
-    "rimraf": "^2.5.2",
-    "rollup": "^0.34.1",
-    "rollup-plugin-babel": "^2.4.0",
-    "semantic-release": "^4.3.5",
-    "uglify-js": "^2.6.2"
+    "d3fc-scripts": "^1.1.4"
   },
   "dependencies": {
     "d3-path": "^1.0.0"
