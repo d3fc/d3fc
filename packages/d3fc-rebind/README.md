@@ -24,6 +24,8 @@ Provides the same functionality as [`d3.rebind`](https://github.com/mbostock/d3/
 
 Provides the same functionality as `rebind` but copies **all** properties found on `source` to `target`. Optionally, property name transforms can be specified. These receive a source property name and return either the target property name or a falsey value to indicate the property should not be copied.
 
+N.B. This method does not work with properties found on the source object's prototype e.g. `d3.dispatch().on`. If you need this functionality use `rebind`.
+
 ## Transform functions
 
 As well as creating transforms manually, the following may be useful (especially if you're not able to use ES2015 features) -
