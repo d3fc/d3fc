@@ -44,17 +44,17 @@ coinbase((error, data) => {
 
 import { feedQuandl } from 'd3fc-financial-feed';
 
-const quandl = qfeedQuandluandl()
+const quandl = feedQuandl()
   .database('WIKI')
   .dataset('AAPL')
   .rows(10)
   .descending(true)
   .collapse('weekly');
 
-  quandl((error, data) => {
-    if (error) throw error;
-    console.log(data);
-  });
+quandl((error, data) => {
+  if (error) throw error;
+  console.log(data);
+});
 
 // [
 //   {
