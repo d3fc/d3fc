@@ -1,31 +1,31 @@
 import rebind  from '../src/rebind';
 
-describe('rebind', function() {
+describe('rebind', () => {
 
-    var source, target, value;
+    let source, target, value;
 
-    beforeEach(function() {
+    beforeEach(() => {
         value = {};
         source = {
-            fn: function(arg) {
-                if (!arguments.length) {
+            fn: (...args) => {
+                if (!args.length) {
                     return value;
                 }
-                value = arg;
+                value = args[0];
                 return source;
             }
         };
         target = {};
     });
 
-    it('should have the same behaviour as d3.rebind', function() {
-        var targetObject = rebind(target, source, 'fn');
+    it('should have the same behaviour as d3.rebind', () => {
+        const targetObject = rebind(target, source, 'fn');
         expect(targetObject).toBe(target);
 
         expect(target.fn())
             .toEqual(value);
 
-        var newValue = {};
+        const newValue = {};
         expect(target.fn(newValue))
             .toEqual(target);
         expect(target.fn())
