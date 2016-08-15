@@ -1,5 +1,5 @@
 import {scaleIdentity} from 'd3-scale';
-import {rebind} from 'd3fc-rebind';
+import {rebindAll, include} from 'd3fc-rebind';
 import identity from './discontinuity/identity';
 import tickFilter from './tickFilter';
 
@@ -76,7 +76,7 @@ function discontinuous(adaptedScale) {
         return scale;
     };
 
-    rebind(scale, adaptedScale, 'range', 'rangeRound', 'interpolate', 'clamp', 'tickFormat');
+    rebindAll(scale, adaptedScale, include('range', 'rangeRound', 'interpolate', 'clamp', 'tickFormat'));
 
     return scale;
 }
