@@ -47,8 +47,8 @@
         .range([0, 600]);
       const line = fc.annotationBand()
         .xScale(xScale)
-        .y0Value((d, i, a) => d - (i + 1) * 20)
-        .y1Value(d => d);
+        .fromValue((d, i, a) => d - (i + 1) * 20)
+        .toValue(d => d);
       const data = [100, 200, 300, 400];
       const wavify = (d, i, a) =>
         d * Math.abs(Math.sin((i + 1) * Date.now() / 1e4 + i * Math.PI / a.length)) + 80;

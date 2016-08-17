@@ -9,10 +9,10 @@ export default () => {
 
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
-    let x0Value = () => {};
-    let x1Value = () => {};
-    let y0Value = () => {};
-    let y1Value = () => {};
+    let align = 'center';
+    let orient = 'horizontal';
+    let fromValue = () => {};
+    let toValue = () => {};
     let decorate = () => {};
 
     const join = dataJoin('g', 'annotation');
@@ -21,26 +21,22 @@ export default () => {
       .horizontalAlign('right')
       .verticalAlign('top')
       // a null value returned by a value accessor will be replaced by the scale's range
-      .x((...args) => {
-          const value = x0Value(...args);
-          return value != null ? xScale(value) : range(xScale)[0];
-      })
-      .y((...args) => {
-          const value = y0Value(...args);
-          return value != null ? yScale(value) : range(yScale)[0];
+      .x((...args) => orient === 'horizontal' ? range(xScale)[0] : xScale(fromValue(...args)))
+      .y((...args) => orient === 'horizontal' ? yScale(fromValue(...args)) : range(yScale)[0])
+      .width((...args) => {
+          const values = orient === 'horizontal' ? range(xScale) : [xScale(fromValue(...args)), xScale(toValue(...args))];
+          return values[1] - values[0];
       })
       .height((...args) => {
-          const values = [y0Value(...args), y1Value(...args)];
-          const scaleRange = range(yScale);
-          return (values[1] != null ? values[1] : scaleRange[1]) - (values[0] != null ? values[0] : scaleRange[0]);
-      })
-      .width((...args) => {
-          const values = [x0Value(...args), x1Value(...args)];
-          const scaleRange = range(xScale);
-          return (values[1] != null ? values[1] : scaleRange[1]) - (values[0] != null ? values[0] : scaleRange[0]);
+          const values = orient === 'horizontal' ? [yScale(fromValue(...args)), yScale(toValue(...args))] : range(yScale);
+          return values[1] - values[0];
       });
 
     var instance = (selection) => {
+
+        if (orient !== 'horizontal' && orient !== 'vertical') {
+            throw new Error('Invalid orientation');
+        }
 
         selection.each((data, index, nodes) => {
 
@@ -80,32 +76,18 @@ export default () => {
         decorate = args[0];
         return instance;
     };
-    instance.x0Value = (...args) => {
+    instance.fromValue = (...args) => {
         if (!args.length) {
-            return x0Value;
+            return fromValue;
         }
-        x0Value = constant(args[0]);
+        fromValue = constant(args[0]);
         return instance;
     };
-    instance.x1Value = (...args) => {
+    instance.toValue = (...args) => {
         if (!args.length) {
-            return x1Value;
+            return toValue;
         }
-        x1Value = constant(args[0]);
-        return instance;
-    };
-    instance.y0Value = (...args) => {
-        if (!args.length) {
-            return y0Value;
-        }
-        y0Value = constant(args[0]);
-        return instance;
-    };
-    instance.y1Value = (...args) => {
-        if (!args.length) {
-            return y1Value;
-        }
-        y1Value = constant(args[0]);
+        toValue = constant(args[0]);
         return instance;
     };
 
