@@ -2,23 +2,23 @@
 <html>
   <head>
     <style>
-      g.annotation:nth-child(4n)>line {
+      g.annotation-line:nth-child(4n)>line {
         stroke: #c60;
       }
 
-      g.annotation:nth-child(4n+1)>line {
+      g.annotation-line:nth-child(4n+1)>line {
         stroke: #06c;
       }
 
-      g.annotation:nth-child(4n+2)>line {
+      g.annotation-line:nth-child(4n+2)>line {
         stroke: #60c;
       }
 
-      g.annotation:nth-child(4n+3)>line {
+      g.annotation-line:nth-child(4n+3)>line {
         stroke: #0c0;
       }
 
-      g.annotation>g>text {
+      g.annotation-line>g>text {
         font: 12px sans-serif;
       }
     </style>
@@ -44,7 +44,7 @@
 
     <script>
       const xScale = d3.scaleLinear()
-        .range([0, 600]);
+        .range([0, 540]);
       const line = fc.annotationLine()
         .xScale(xScale);
       const data = [100, 200, 300, 400];

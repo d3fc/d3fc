@@ -14,7 +14,7 @@ export default () => {
     let decorate = () => {};
     let orient = 'horizontal';
 
-    const join = dataJoin('g', 'annotation');
+    const join = dataJoin('g', 'annotation-line');
 
     const instance = (selection) => {
 

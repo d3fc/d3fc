@@ -13,8 +13,8 @@ export default () => {
 
     const xTicks = ticks();
     const yTicks = ticks();
-    const xContainerJoin = dataJoin('g', 'x');
-    const yContainerJoin = dataJoin('g', 'y');
+    const xContainerJoin = dataJoin('g', 'horizontal');
+    const yContainerJoin = dataJoin('g', 'vertical');
     const xJoin = dataJoin('line');
     const yJoin = dataJoin('line', 'y');
 
@@ -28,7 +28,7 @@ export default () => {
             const yScale = yTicks.scale();
 
             const xContainer = xContainerJoin(container, [xData])
-                .classed('gridline', true)
+                .classed('annotation-gridline', true)
                 .style('stroke', '#bbb');
             const xData = xTicks();
             const xLines = xJoin(xContainer, xData);
@@ -41,7 +41,7 @@ export default () => {
             xDecorate(xLines, xData, index);
 
             const yContainer = yContainerJoin(container, [xData])
-                .classed('gridline', true)
+                .classed('annotation-gridline', true)
                 .style('stroke', '#bbb');
             const yData = yTicks();
             const yLines = yJoin(yContainer, yData);

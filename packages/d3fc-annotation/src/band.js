@@ -15,7 +15,7 @@ export default () => {
     let toValue = () => {};
     let decorate = () => {};
 
-    const join = dataJoin('g', 'annotation');
+    const join = dataJoin('g', 'annotation-band');
 
     const pathGenerator = shapeBar()
       .horizontalAlign('right')
