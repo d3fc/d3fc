@@ -2,9 +2,9 @@ import { scaleIdentity } from 'd3-scale';
 
 export default function() {
 
-    var scale = scaleIdentity(),
-        tickArguments = [10],
-        tickValues = null;
+    var scale = scaleIdentity();
+    var tickArguments = [10];
+    var tickValues = null;
 
     function tryApply(fn, defaultVal) {
         return scale[fn] ? scale[fn].apply(scale, tickArguments) : defaultVal;
