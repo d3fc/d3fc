@@ -23,7 +23,7 @@ export default (element, className) => {
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
 
-        const selected = container.selectAll((d, i, nodes) => nodes[i].children)
+        const selected = container.selectAll((d, i, nodes) => nodes[i].childNodes)
             .filter(className == null ? element : `${element}.${className}`);
         let update = selected.data(data, key);
 
