@@ -8,7 +8,7 @@ A component that simplifies the `d3-selection` data join in its most common usag
 
 A wrapper around D3's data join which simplifies some of the common problems that have run into with *our particular usage patterns*. These are not going to be universally applicable. As always it’s important to understand the abstraction and in many cases a vanilla data join may be simpler or perform better.
 
-This blog post ([Building Components with Data Join](http://blog.scottlogic.com/2016/08/15/building-components-with-d3-data-join.html)) introduces the rationale behind this component.
+This blog post ([Building Components with Data Join](http://blog.scottlogic.com/2016/08/17/building-components-with-d3-data-join.html)) introduces the rationale behind this component.
 
 # Installation
 
