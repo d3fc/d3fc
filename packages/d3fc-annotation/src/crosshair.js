@@ -4,8 +4,7 @@ import { dataJoin } from 'd3fc-data-join';
 import { range } from './scale';
 import { include, prefix, rebindAll } from 'd3fc-rebind';
 import annotationLine from './line';
-// XXX: waiting on d3fc-series
-import { seriesMulti, seriesPoint } from 'd3fc-series';
+import { seriesSvgMulti, seriesSvgPoint } from 'd3fc-series';
 
 export default function() {
 
@@ -15,37 +14,31 @@ export default function() {
     let yScale = scaleIdentity();
     let decorate = () => {};
 
-    const join = dataJoin('g', 'crosshair');
+    const join = dataJoin('g', 'annotation-crosshair');
 
-    const point = seriesPoint()
-        .xValue(x)
-        .yValue(y);
+    const point = seriesSvgPoint();
 
-    const horizontalLine = annotationLine()
-        .value(y)
-        .label(y);
+    const horizontalLine = annotationLine();
 
     const verticalLine = annotationLine()
-        .orient('vertical')
-        .value(x)
-        .label(x);
+        .orient('vertical');
 
     // The line annotations and point series used to render the crosshair are positioned using
     // screen coordinates. This function constructs an identity scale for these components.
     const xIdentity = scaleIdentity();
     const yIdentity = scaleIdentity();
 
-    const multi = seriesMulti()
-        .series([horizontalLine, verticalLine, seriesPoint])
+    const multi = seriesSvgMulti()
+        .series([horizontalLine, verticalLine, point])
         .xScale(xIdentity)
         .yScale(yIdentity)
-        .mapping((series, index, data) => [data]);
+        .mapping((data) => [data]);
 
     const instance = (selection) => {
 
         selection.each((data, index, nodes) => {
 
-            const g = dataJoin(select(nodes[index]), data);
+            const g = join(select(nodes[index]), data);
 
             // Prevent the crosshair triggering pointer events on itself
             g.enter()
@@ -55,6 +48,15 @@ export default function() {
             // the full width/height of the chart.
             xIdentity.range(range(xScale));
             yIdentity.range(range(yScale));
+
+            point.xValue(x)
+                .yValue(y);
+
+            horizontalLine.value(y)
+                .label(y);
+
+            verticalLine.value(x)
+                .label(x);
 
             g.call(multi);
 

@@ -2,24 +2,24 @@
 <html>
   <head>
     <style>
-      g.annotation>path {
-        fill-opacity: 0.1;
+      g.annotation-crosshair:nth-child(4n) g.annotation-line>line {
+        stroke: #c60;
       }
 
-      g.annotation:nth-child(4n)>path {
-        fill: #c60;
+      g.annotation-crosshair:nth-child(4n+1) g.annotation-line>line {
+        stroke: #06c;
       }
 
-      g.annotation:nth-child(4n+1)>path {
-        fill: #06c;
+      g.annotation-crosshair:nth-child(4n+2) g.annotation-line>line {
+        stroke: #60c;
       }
 
-      g.annotation:nth-child(4n+2)>path {
-        fill: #60c;
+      g.annotation-crosshair:nth-child(4n+2) g.annotation-line>line {
+        stroke: #0c0;
       }
 
-      g.annotation:nth-child(4n+3)>path {
-        fill: #0c0;
+      g.annotation-line>g>text {
+        font: 12px sans-serif;
       }
     </style>
   </html>
@@ -38,6 +38,7 @@
     <script src="../node_modules/d3fc-data-join/build/d3fc-data-join.js"></script>
     <script src="../node_modules/d3fc-rebind/build/d3fc-rebind.js"></script>
     <script src="../node_modules/d3-path/build/d3-path.js"></script>
+    <script src="../node_modules/d3-shape/build/d3-shape.js"></script>
     <script src="../node_modules/d3fc-shape/build/d3fc-shape.js"></script>
     <script src="../node_modules/d3fc-series/build/d3fc-series.js"></script>
     <script src="../build/d3fc-annotation.js"></script>
@@ -45,17 +46,16 @@
     <script>
       const xScale = d3.scaleLinear()
         .range([0, 600]);
-      const line = fc.annotationBand()
+      const yScale = d3.scaleLinear()
+        .range([0, 400]);
+      const crosshair = fc.annotationCrosshair()
         .xScale(xScale)
-        .y0Value((d, i, a) => d - (i + 1) * 20)
-        .y1Value(d => d);
-      const data = [100, 200, 300, 400];
-      const wavify = (d, i, a) =>
-        d * Math.abs(Math.sin((i + 1) * Date.now() / 1e4 + i * Math.PI / a.length)) + 80;
+        .yScale(yScale);
+      const data = [{ x: 300, y: 200 }, { x: 100, y: 100 }, { x: 450, y: 350 }, { x: 220, y: 330 }];
       const render = () => {
         d3.select('svg')
-          .datum(data.map(wavify))
-          .call(line);
+          .datum(data)
+          .call(crosshair);
         requestAnimationFrame(render);
       };
       render();
