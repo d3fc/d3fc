@@ -3,11 +3,11 @@ var height = 250;
 
 var xScale = d3.scaleLinear()
   .domain([0, 1])
-  .range([0, width - 50]);
+  .range([0, width - 30]);
 
 var yScale = d3.scaleLinear()
   .domain([0, 1])
-  .range([0, height - 50]);
+  .range([0, height - 20]);
 
 var horizontalBand = fc.annotationBand()
   .xScale(xScale)
