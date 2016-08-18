@@ -8,7 +8,6 @@ export default () => {
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
     let value = d => d;
-    let keyValue = (d, i) => i;
     let label = value;
     let decorate = () => {};
     let orient = 'horizontal';
@@ -102,13 +101,6 @@ export default () => {
             return value;
         }
         value = constant(args[0]);
-        return instance;
-    };
-    instance.keyValue = (...args) => {
-        if (!args.length) {
-            return keyValue;
-        }
-        keyValue = constant(args[0]);
         return instance;
     };
     instance.label = (...args) => {
