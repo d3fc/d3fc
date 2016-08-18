@@ -1,42 +1,38 @@
 import { scaleIdentity } from 'd3-scale';
 
-export default function() {
+export default () => {
 
-    var scale = scaleIdentity();
-    var tickArguments = [10];
-    var tickValues = null;
+    let scale = scaleIdentity();
+    let count = 10;
+    let tickValues = null;
 
-    function tryApply(fn, defaultVal) {
-        return scale[fn] ? scale[fn].apply(scale, tickArguments) : defaultVal;
-    }
+    const ticks = () =>
+        tickValues != null ? tickValues
+            : (scale.ticks ? scale.ticks(count) : scale.domain());
 
-    var ticks = function() {
-        return tickValues == null ? tryApply('ticks', scale.domain()) : tickValues;
-    };
-
-    ticks.scale = function(x) {
-        if (!arguments.length) {
+    ticks.scale = (...args) => {
+        if (!args.length) {
             return scale;
         }
-        scale = x;
+        scale = args[0];
         return ticks;
     };
 
-    ticks.ticks = function(x) {
-        if (!arguments.length) {
-            return tickArguments;
+    ticks.ticks = (...args) => {
+        if (!args.length) {
+            return count;
         }
-        tickArguments = arguments;
+        count = args[0];
         return ticks;
     };
 
-    ticks.tickValues = function(x) {
-        if (!arguments.length) {
+    ticks.tickValues = (...args) => {
+        if (!args.length) {
             return tickValues;
         }
-        tickValues = x;
+        tickValues = args[0];
         return ticks;
     };
 
     return ticks;
-}
+};
