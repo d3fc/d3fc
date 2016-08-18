@@ -1,20 +1,67 @@
-# d3fc-package-archetype
+# d3fc-annotation
 
-An archetype for other d3fc projects, includes linter, bundling and test configuration
+A collection of components for rendering plot area annotations onto cartesian charts - bands, crosshairs, gridlines and lines.
 
- - **Linting** - linting is performed by eslint, using the `eslint-config-standard` configuration, with a few customisations.
- - **Test** - Jasmine is used for testing, with `babel-register` used as a Jasmine helper so that tests can be run without bundling.
- - **Bundling** - Rollup is used for bundling. As it requires using babel with its own presets, `es2015-rollup`, with rollup the `.babelrc` file is ignored.
+<table>
+<tr>
+<td><a href="#annotationBand"><img src="screenshots/band.png"/></a></td>
+<td><a href="#annotationBand"><img src="screenshots/crosshair.png"/></a></td>
+</tr>
+<tr>
+<td><a href="#annotationBand"><img src="screenshots/gridline.png"/></a></td>
+<td><a href="#annotationBand"><img src="screenshots/line.png"/></a></td>
+</tr>
+</table>
 
-## Instructions
+[Main d3fc package](https://github.com/ScottLogic/d3fc)
 
-In order to create a new d3fc package:
+# Installation
 
-  1. Create a copy of the code in this repo.
-  2. Find and replace `d3fc-package-archetype` with the new package name.
-  3. Update the description in `package.json`
-  4. Run `semantic-release-cli init` - updating the npm script to include the bundling step:
+```bash
+npm install d3fc-annotation
 ```
-semantic-release pre && npm run bundle && npm publish && semantic-release post
+
+# API
+
+## Gridline Annotation
+
+The gridline component renders horizontal and vertical gridlines.
+
+<a name="dataJoin" href="#annotationGridline">#</a> *fc*.**annotationGridline**()
+
+Constructs a new gridline annotation component. Once constructed, configure the component with scales and call it on a selection -
+
+```js
+const xScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const yScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const gridline = fc.annotationGridline()
+  .xScale(xScale)
+  .yScale(yScale);
+
+d3.select('svg')
+  .call(gridline);
 ```
-  5. Run `greenkeeper enable`
+
+<a name="annotationGridline_xScale" href="#annotationGridline_xScale">#</a> *annotationGridline*.**xScale**(*scale*)
+
+Sets the scale used for the vertical gridline positions (combined with [xTicks](#annotationGridline_xTicks)). Additionally, its [range](https://github.com/d3/d3-scale#continuous_range) is taken as the bounds of the horizontal gridlines.
+
+<a name="annotationGridline_yScale" href="#annotationGridline_yScale">#</a> *annotationGridline*.**yScale**(*scale*)
+
+Sets the scale used for the horizontal gridline positions (combined with [yTicks](#annotationGridline_yTicks)). Additionally, its [range](https://github.com/d3/d3-scale#continuous_range) is taken as the bounds of the vertical gridlines.
+
+<a name="annotationGridline_xTicks" href="#annotationGridline_xTicks">#</a> *annotationGridline*.**xTicks**(*args*)
+
+When [xScale](#annotationGridline_xScale) is a continuous scale, specifies the arguments passed to [ticks](https://github.com/d3/d3-scale#continuous_ticks) when requesting the horizontal gridline positions. For other scales, the [domain](https://github.com/d3/d3-scale#ordinal_domain) is used directly.
+
+<a name="annotationGridline_yTicks" href="#annotationGridline_yTicks">#</a> *annotationGridline*.**yTicks**(*args*)
+
+When [yScale](#annotationGridline_yScale) is a continuous scale, specifies the arguments passed to [ticks](https://github.com/d3/d3-scale#continuous_ticks) when requesting the horizontal gridline positions. For other scales, the [domain](https://github.com/d3/d3-scale#ordinal_domain) is used directly.
+
+## Band Annotation
+## Line Annotation
+## Crosshair Annotation
