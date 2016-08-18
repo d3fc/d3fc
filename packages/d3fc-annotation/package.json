@@ -15,10 +15,12 @@
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test"
+    "test": "eslint examples/**/*.js && d3fc-scripts test"
   },
   "devDependencies": {
-    "d3fc-scripts": "^1.1.4"
+    "d3fc-scripts": "^1.1.4",
+    "eslint-config-defaults": "^9.0.0",
+    "webshot": "^0.18.0"
   },
   "dependencies": {
     "d3-scale": "^1.0.1",
