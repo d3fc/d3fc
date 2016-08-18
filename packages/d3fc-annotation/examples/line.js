@@ -1,21 +1,39 @@
 var width = 500;
+var height = 250;
 
 var xScale = d3.scaleLinear()
-  .range([0, width - 100]);
+  .domain([0, 1])
+  .range([0, width - 50]);
 
-var line = fc.annotationLine()
-  .xScale(xScale);
+var yScale = d3.scaleLinear()
+  .domain([0, 1])
+  .range([0, height - 50]);
 
-var data = [20, 40, 80, 160];
+var horizontalLine = fc.annotationLine()
+  .xScale(xScale)
+  .yScale(yScale);
+
+var verticalLine = fc.annotationLine()
+  .orient('vertical')
+  .xScale(xScale)
+  .yScale(yScale);
+
+var data = [0.1, 0.2, 0.4, 0.8];
+var t0 = Date.now();
 
 function wavify(d, i, a) {
-    return d * Math.abs(Math.sin((i + 1) * Date.now() / 1e4 + i * Math.PI / a.length)) + 40;
+    var t = Date.now() - t0;
+    var value = d * Math.abs(Math.sin((i + 1) * t / 1e4 + i * Math.PI / a.length)) + 0.1;
+    return value.toFixed(3);
 }
 
 function render() {
-    d3.select('svg')
-      .datum(data.map(wavify))
-      .call(line);
+    var svg = d3.select('svg')
+      .datum(data.map(wavify));
+    svg.select('.horizontal')
+      .call(horizontalLine);
+    svg.select('.vertical')
+      .call(verticalLine);
     requestAnimationFrame(render);
 }
 

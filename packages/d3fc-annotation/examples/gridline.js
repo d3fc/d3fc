@@ -2,10 +2,12 @@ var width = 500;
 var height = 250;
 
 var xScale = d3.scaleLinear()
-  .range([10, width - 10]);
+  .domain([0, 1])
+  .range([0, width - 50]);
 
 var yScale = d3.scaleLinear()
-  .range([10, height - 10]);
+  .domain([0, 1])
+  .range([0, height - 50]);
 
 var gridline = fc.annotationGridline()
   .xScale(xScale)
