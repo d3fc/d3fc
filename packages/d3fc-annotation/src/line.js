@@ -1,7 +1,6 @@
 import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
 import { dataJoin } from 'd3fc-data-join';
-import { range } from './scale';
 import constant from './constant';
 
 export default () => {
@@ -34,7 +33,7 @@ export default () => {
         const textOffsetY = horizontal ? '0.32em' : '1.21em';
         const textAnchor = horizontal ? 'start' : 'middle';
 
-        const scaleRange = range(crossScale);
+        const scaleRange = crossScale.range();
         // the transform that sets the 'origin' of the annotation
         const containerTransform = (d) => translation(scaleRange[0], valueScale(value(d)));
         const scaleWidth = scaleRange[1] - scaleRange[0];

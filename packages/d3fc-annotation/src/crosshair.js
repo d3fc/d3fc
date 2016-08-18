@@ -1,7 +1,6 @@
 import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
 import { dataJoin } from 'd3fc-data-join';
-import { range } from './scale';
 import { include, prefix, rebindAll } from 'd3fc-rebind';
 import annotationLine from './line';
 import { seriesSvgMulti, seriesSvgPoint } from 'd3fc-series';
@@ -46,8 +45,8 @@ export default function() {
 
             // Assign the identity scales an accurate range to allow the line annotations to cover
             // the full width/height of the chart.
-            xIdentity.range(range(xScale));
-            yIdentity.range(range(yScale));
+            xIdentity.range(xScale.range());
+            yIdentity.range(yScale.range());
 
             point.xValue(x)
                 .yValue(y);

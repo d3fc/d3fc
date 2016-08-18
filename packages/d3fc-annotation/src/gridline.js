@@ -1,7 +1,6 @@
 import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
 import { dataJoin } from 'd3fc-data-join';
-import { range } from './scale';
 import constant from './constant';
 import ticks from './ticks';
 import { includeMap, prefix, rebindAll } from 'd3fc-rebind';
@@ -35,8 +34,8 @@ export default () => {
 
             xLines.attr('x1', xScale)
                 .attr('x2', xScale)
-                .attr('y1', range(yScale)[0])
-                .attr('y2', range(yScale)[1]);
+                .attr('y1', yScale.range()[0])
+                .attr('y2', yScale.range()[1]);
 
             xDecorate(xLines, xData, index);
 
@@ -46,8 +45,8 @@ export default () => {
             const yData = yTicks();
             const yLines = yJoin(yContainer, yData);
 
-            yLines.attr('x1', range(xScale)[0])
-                .attr('x2', range(xScale)[1])
+            yLines.attr('x1', xScale.range()[0])
+                .attr('x2', xScale.range()[1])
                 .attr('y1', yScale)
                 .attr('y2', yScale);
 

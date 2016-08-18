@@ -2,7 +2,6 @@ import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
 import { dataJoin } from 'd3fc-data-join';
 import { shapeBar } from 'd3fc-shape';
-import { range } from './scale';
 import constant from './constant';
 
 export default () => {
@@ -21,14 +20,14 @@ export default () => {
       .horizontalAlign('right')
       .verticalAlign('top')
       // a null value returned by a value accessor will be replaced by the scale's range
-      .x((...args) => orient === 'horizontal' ? range(xScale)[0] : xScale(fromValue(...args)))
-      .y((...args) => orient === 'horizontal' ? yScale(fromValue(...args)) : range(yScale)[0])
+      .x((...args) => orient === 'horizontal' ? xScale.range()[0] : xScale(fromValue(...args)))
+      .y((...args) => orient === 'horizontal' ? yScale(fromValue(...args)) : yScale.range()[0])
       .width((...args) => {
-          const values = orient === 'horizontal' ? range(xScale) : [xScale(fromValue(...args)), xScale(toValue(...args))];
+          const values = orient === 'horizontal' ? xScale.range() : [xScale(fromValue(...args)), xScale(toValue(...args))];
           return values[1] - values[0];
       })
       .height((...args) => {
-          const values = orient === 'horizontal' ? [yScale(fromValue(...args)), yScale(toValue(...args))] : range(yScale);
+          const values = orient === 'horizontal' ? [yScale(fromValue(...args)), yScale(toValue(...args))] : yScale.range();
           return values[1] - values[0];
       });
 
