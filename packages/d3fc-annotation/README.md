@@ -62,11 +62,11 @@ If *count* is specified, sets the count passed to [ticks](https://github.com/d3/
 
 Manually specify the vertical gridline positions. Overrides [xTicks](#annotationGridline_xTicks).
 
-<a name="annotationGridline_yTicks" href="#annotationGridline_yTicks">#</a> *annotationGridline*.**yTicks**(*count*)
+<a name="annotationGridline_yTicks" href="#annotationGridline_yTicks">#</a> *annotationGridline*.**yTicks**(*[count]*)
 
 If *count* is specified, sets the count passed to [ticks](https://github.com/d3/d3-scale#continuous_ticks) when requesting the vertical gridline positions when [yScale](#annotationGridline_yScale) is a continuous scale. For other scales, this value is ignored and the [domain](https://github.com/d3/d3-scale#ordinal_domain) is used directly. If *count* is not specified, returns the current count.
 
-<a name="annotationGridline_yTickValues" href="#annotationGridline_yTickValues">#</a> *annotationGridline*.**yTickValues**(*args*)
+<a name="annotationGridline_yTickValues" href="#annotationGridline_yTickValues">#</a> *annotationGridline*.**yTickValues**(*[args]*)
 
 Manually specify the vertical gridline positions. Overrides [yTicks](#annotationGridline_yTicks).
 
@@ -74,7 +74,7 @@ Manually specify the vertical gridline positions. Overrides [yTicks](#annotation
 
 If *fn* is specified, sets the key function used when joining the vertical gridlines to SVG elements. If not specified, returns the current key function.
 
-<a name="annotationGridline_yKey" href="#annotationGridline_yKey">#</a> *annotationGridline*.**yKey**(*fn*)
+<a name="annotationGridline_yKey" href="#annotationGridline_yKey">#</a> *annotationGridline*.**yKey**(*[fn]*)
 
 If *fn* is specified, sets the key function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current key function.
 
@@ -82,7 +82,7 @@ If *fn* is specified, sets the key function used when joining the horizontal gri
 
 If *fn* is specified, sets the decorate function used when joining the vertical gridlines to SVG elements. If not specified, returns the current decorate function.
 
-<a name="annotationGridline_yDecorate" href="#annotationGridline_yDecorate">#</a> *annotationGridline*.**yDecorate**(*fn*)
+<a name="annotationGridline_yDecorate" href="#annotationGridline_yDecorate">#</a> *annotationGridline*.**yDecorate**(*[fn]*)
 
 If *fn* is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current decorate function.
 
@@ -122,15 +122,15 @@ If *scale* is specified, sets the scale used for transforming the [fromValue](#a
 
 If *orientation* is specified, sets the orientation of the bars to either `horizontal` or `vertical`. If *orientation* is not specified, returns the current orientation.
 
-<a name="annotationBand_fromValue" href="#annotationBand_fromValue">#</a> *annotationBand*.**fromValue**(*fn*)
+<a name="annotationBand_fromValue" href="#annotationBand_fromValue">#</a> *annotationBand*.**fromValue**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the start value for bands. This value will be passed through the appropriate scale. If not specified, returns the current start value.
 
-<a name="annotationBand_toValue" href="#annotationBand_toValue">#</a> *annotationBand*.**toValue**(*fn*)
+<a name="annotationBand_toValue" href="#annotationBand_toValue">#</a> *annotationBand*.**toValue**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the end value for bands. This value will be passed through the appropriate scale. If not specified, returns the current end value.
 
-<a name="annotationBand_decorate" href="#annotationBand_decorate">#</a> *annotationBand*.**decorate**(*fn*)
+<a name="annotationBand_decorate" href="#annotationBand_decorate">#</a> *annotationBand*.**decorate**(*[fn]*)
 
 If *fn* is specified, sets the decorate function used when joining the bands to SVG elements. If not specified, returns the current decorate function.
 
@@ -170,15 +170,15 @@ If *scale* is specified, sets the scale used for transforming the [value](#annot
 
 If *orientation* is specified, sets the orientation of the lines to either `horizontal` or `vertical`. If *orientation* is not specified, returns the current orientation.
 
-<a name="annotationLine_value" href="#annotationLine_value">#</a> *annotationLine*.**value**(*fn*)
+<a name="annotationLine_value" href="#annotationLine_value">#</a> *annotationLine*.**value**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the value for lines. This value will be passed through the appropriate scale. If not specified, returns the current value.
 
-<a name="annotationLine_label" href="#annotationLine_label">#</a> *annotationLine*.**label**(*fn*)
+<a name="annotationLine_label" href="#annotationLine_label">#</a> *annotationLine*.**label**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the label for lines. If not specified, returns the current label.
 
-<a name="annotationLine_decorate" href="#annotationLine_decorate">#</a> *annotationLine*.**decorate**(*fn*)
+<a name="annotationLine_decorate" href="#annotationLine_decorate">#</a> *annotationLine*.**decorate**(*[fn]*)
 
 If *fn* is specified, sets the decorate function used when joining the lines to SVG elements. If not specified, returns the current decorate function.
 
@@ -214,22 +214,22 @@ If *scale* is specified, sets the scale whose [range](https://github.com/d3/d3-s
 
 If *scale* is specified, sets the scale whose [range](https://github.com/d3/d3-scale#continuous_range) is taken as the bounds of the vertical lines. If *scale* is not specified, returns the current yScale.
 
-<a name="annotationLine_x" href="#annotationLine_x">#</a> *annotationLine*.**x**(*fn*)
+<a name="annotationLine_x" href="#annotationLine_x">#</a> *annotationLine*.**x**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the x position of the crosshair. N.B. this value will **not** be passed through the appropriate scale. If not specified, returns the current value.
 
-<a name="annotationLine_y" href="#annotationLine_y">#</a> *annotationLine*.**y**(*fn*)
+<a name="annotationLine_y" href="#annotationLine_y">#</a> *annotationLine*.**y**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the y position of the crosshair. N.B. this value will **not** be passed through the appropriate scale. If not specified, returns the current value.
 
-<a name="annotationLine_xLabel" href="#annotationLine_xLabel">#</a> *annotationLine*.**xLabel**(*fn*)
+<a name="annotationLine_xLabel" href="#annotationLine_xLabel">#</a> *annotationLine*.**xLabel**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the label for vertical lines. If not specified, returns the current label.
 
-<a name="annotationLine_yLabel" href="#annotationLine_yLabel">#</a> *annotationLine*.**yLabel**(*fn*)
+<a name="annotationLine_yLabel" href="#annotationLine_yLabel">#</a> *annotationLine*.**yLabel**(*[fn]*)
 
 If *fn* is specified, sets the function used to retrieve the label for horizontal lines. If not specified, returns the current label.
 
-<a name="annotationLine_decorate" href="#annotationLine_decorate">#</a> *annotationLine*.**decorate**(*fn*)
+<a name="annotationLine_decorate" href="#annotationLine_decorate">#</a> *annotationLine*.**decorate**(*[fn]*)
 
 If *fn* is specified, sets the decorate function used when joining the lines to SVG elements. If not specified, returns the current decorate function.
