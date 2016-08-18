@@ -11,8 +11,8 @@ export default () => {
     let yScale = scaleIdentity();
     let align = 'center';
     let orient = 'horizontal';
-    let fromValue = () => {};
-    let toValue = () => {};
+    let fromValue = d => d.from;
+    let toValue = d => d.to;
     let decorate = () => {};
 
     const join = dataJoin('g', 'annotation-band');
