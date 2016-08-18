@@ -8,7 +8,6 @@ export default () => {
 
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
-    let align = 'center';
     let orient = 'horizontal';
     let fromValue = d => d.from;
     let toValue = d => d.to;
@@ -66,6 +65,13 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
+        return instance;
+    };
+    instance.orient = (...args) => {
+        if (!args.length) {
+            return orient;
+        }
+        orient = args[0];
         return instance;
     };
     instance.decorate = (...args) => {
