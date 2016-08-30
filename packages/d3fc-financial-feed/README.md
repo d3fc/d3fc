@@ -15,7 +15,6 @@ npm install d3fc-financial-feed
 ### Coinbase
 
 ``` javascript
-
 import { feedCoinbase } from 'd3fc-financial-feed';
 
 const coinbase = feedCoinbase()
@@ -37,7 +36,6 @@ coinbase((error, data) => {
 //   },
 //   ...
 // ]
-
 ```
 
 https://docs.exchange.coinbase.com/#get-historic-rates
@@ -77,7 +75,6 @@ If *value* is not specified, returns the current granularity, which defaults to 
 ### Quandl
 
 ``` javascript
-
 import { feedQuandl } from 'd3fc-financial-feed';
 
 const quandl = feedQuandl()
@@ -110,7 +107,6 @@ quandl((error, data) => {
 //   },
 //   ...
 // ]
-
 ```
 
 https://www.quandl.com/docs/api#datasets
