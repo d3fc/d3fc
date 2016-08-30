@@ -1,28 +1,22 @@
 # d3fc-data-join
 
-A component that simplifies the `d3-selection` data join in its most common usage and facilitates the d3fc decorate pattern.
-
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
-
-# Description
-
-A wrapper around D3's data join which simplifies some of the common problems that have run into with *our particular usage patterns*. These are not going to be universally applicable. As always it’s important to understand the abstraction and in many cases a vanilla data join may be simpler or perform better.
+A wrapper around D3's data join which simplifies some of the common problems that have been run into with *our particular usage patterns*, and facilitates the *d3fc decorate* pattern. These are not going to be universally applicable. As always it’s important to understand the abstraction and in many cases a vanilla data join may be simpler or perform better.
 
 This blog post ([Building Components with Data Join](http://blog.scottlogic.com/2016/08/17/building-components-with-d3-data-join.html)) introduces the rationale behind this component.
 
-# Installation
+[Main d3fc package](https://github.com/ScottLogic/d3fc)
+
+## Installing
 
 ```bash
 npm install d3fc-data-join
 ```
 
-# API
+## API Reference
 
 The data-join component is a relatively lightweight wrapper around d3's selectAll/data data-join, which allows decoration of the result. This is achieved by appending the element to the enter selection before exposing it. A default transition of fade in/out is also implicitly added but can be modified.
 
-## data join
-
-<a name="dataJoin" href="#dataJoin">#</a> *fc*.**dataJoin**([*element*[, *className*]])
+<a name="dataJoin" href="#dataJoin">#</a> fc.**dataJoin**([*element*][, *className*])
 
 Constructs a new data-join component instance. Optionally an `element` or an `element` and a `className` can be specified, this is functionally equivalent to calling their methods as defined below.
 
