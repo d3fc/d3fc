@@ -44,7 +44,7 @@ https://docs.exchange.coinbase.com/#get-historic-rates
 
 Constructs a new coinbase feed.
 
-<a name="feedCoinbase_request" href="#feedCoinbase_request">#</a> *feedCoinbase*(*callback*)
+<a name="feedCoinbase_" href="#feedCoinbase_">#</a> *feedCoinbase*(*callback*)
 
 Makes a request to the Coinbase API, with *callback* invoked when the request succeeds or fails.
 The callback is invoked with two arguments: the error, if any, and the data.
@@ -115,7 +115,7 @@ https://www.quandl.com/docs/api#datasets
 
 Constructs a new quandl feed.
 
-<a name="feedQuandl_request" href="#feedQuandl_request">#</a> *feedQuandl*(*callback*)
+<a name="feedQuandl_" href="#feedQuandl_">#</a> *feedQuandl*(*callback*)
 
 Makes a request to the Quandl API, with *callback* invoked when the request succeeds or fails.
 The callback is invoked with two arguments: the error, if any, and the data.
