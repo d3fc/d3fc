@@ -95,7 +95,8 @@ describe('dataJoin', () => {
     });
 
     it('should insert new elements in an order consistent with the data', () => {
-        const join = dataJoin();
+        const join = dataJoin()
+            .key(d => d);
         let data = [1, 2, 3];
 
         join(container, data);

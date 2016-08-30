@@ -30,14 +30,8 @@ export default (element, className) => {
             .filter(className == null ? element : `${element}.${className}`);
         let update = selected.data(data, key);
 
-        // N.B. insert() is used to create new elements, rather than append(). insert() behaves in a special manner
-        // on enter selections - entering elements will be inserted immediately before the next following sibling
-        // in the update selection, if any.
-        // This helps order the elements in an order consistent with the data, but doesn't guarantee the ordering;
-        // if the updating elements change order then selection.order() would be required to update the order.
-        // (#528)
         const enter = update.enter()
-            .insert(element)
+            .append(element)
             .attr('class', className);
 
         const exit = update.exit();
