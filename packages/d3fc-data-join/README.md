@@ -20,7 +20,9 @@ The data-join component is a relatively lightweight wrapper around d3's selectAl
 
 Constructs a new data-join component instance. Optionally an `element` or an `element` and a `className` can be specified, this is functionally equivalent to calling their methods as defined below.
 
-Once created, the component must be invoked with a `selection` containing the parent element and the `data` to be joined.
+<a name="dataJoin_" href="#dataJoin_">#</a> *dataJoin*(*selection*[, *data*])
+
+Invoke with a `selection` containing the parent element and the `data` to be joined.
 
 ```js
 import { dataJoin } from 'd3fc-data-join';
