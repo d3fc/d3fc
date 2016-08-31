@@ -12,6 +12,9 @@ npm install d3fc-financial-feed
 
 ## API Reference
 
+* [Coinbase](#coinbase)
+* [Quandl](#quandl)
+
 ### Coinbase
 
 ``` javascript
