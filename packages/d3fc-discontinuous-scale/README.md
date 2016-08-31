@@ -12,6 +12,12 @@ npm install d3fc-discontinuous-scale
 
 ## API Reference
 
+* [scaleDiscontinuous](#scaleDiscontinuous)
+* [discontinuityIdentity](#discontinuityIdentity)
+* [discontinuityRange](#discontinuityRange)
+* [discontinuitySkipWeekends](#discontinuitySkipWeekends)
+* [Discontinuity provider interface](#discontinuity-provider-interface)
+
 The discontinuous scale adapts a D3 scale, with an associated discontinuity provider supplying the information relating to any 'gaps' in the scale. The following example shows an adapted linear scale, with a discontinuity which removes the domain range `[50, 75]`:
 
 ```javascript
