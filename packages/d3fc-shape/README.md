@@ -4,21 +4,28 @@ A collection of SVG/canvas path generators for creating chart series
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
-# Installation
+## Installing
 
 ```bash
 npm install d3fc-shape
 ```
 
-# API
+## API Reference
 
-## General API
+* [Example usage](#example-usage)
+* [Bar](#bar)
+* [Boxplot](#boxplot)
+* [Candlestick](#candlestick)
+* [Error Bar](#error-bar)
+* [OHLC](#ohlc)
 
 All of the exported functions have the same signature, `(context) => generator`. The context supplied must be an implementation of the subset of Context2D methods as implemented by [d3-path](https://github.com/d3/d3-path) (or indeed a Context2D!).
 
 You can then configure the `generator` by invoking the relevant methods (e.g. `generator.x(/* ... */)`) as described below. Once suitably configured invoke the generator function itself with the required data (e.g. `generator([/* ... */])`).
 
-### Example usage - SVG
+### Example usage
+
+#### SVG
 
 ```javascript
 
@@ -42,7 +49,7 @@ d3.select('path')
 
 ```
 
-### Example usage - Canvas
+#### Canvas
 
 ```javascript
 
@@ -68,60 +75,60 @@ ctx.stroke();
 
 ### Bar
 
-*fc*.**shapeBar**(*context*)
+<a name="shapeBar" href="#shapeBar">#</a> fc.**shapeBar**(*context*)
 
-*shapeBar*.**x**(*accessorFunc*)  
-*shapeBar*.**y**(*accessorFunc*)  
-*shapeBar*.**width**(*accessorFunc*)  
-*shapeBar*.**height**(*accessorFunc*)  
+<a name="shapeBar_x" href="#shapeBar_x">#</a> *shapeBar*.**x**(*accessorFunc*)  
+<a name="shapeBar_y" href="#shapeBar_y">#</a> *shapeBar*.**y**(*accessorFunc*)  
+<a name="shapeBar_width" href="#shapeBar_width">#</a> *shapeBar*.**width**(*accessorFunc*)  
+<a name="shapeBar_height" href="#shapeBar_height">#</a> *shapeBar*.**height**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*shapeBar*.**horizontalAlign**(*alignment*)  
+<a name="shapeBar_horizontalAlign" href="#shapeBar_horizontalAlign">#</a> *shapeBar*.**horizontalAlign**(*alignment*)  
 
 `alignment` is one of: `left`, `right` or `center` (default)
 
-*shapeBar*.**verticalAlign**(*alignment*)  
+<a name="shapeBar_verticalAlign" href="#shapeBar_verticalAlign">#</a> *shapeBar*.**verticalAlign**(*alignment*)  
 
 `alignment` is one of: `bottom`, `top` or `center` (default)
 
 ### Boxplot
 
-*fc*.**shapeBoxPlot**(*context*)
+<a name="shapeBoxPlot" href="#shapeBoxPlot">#</a> fc.**shapeBoxPlot**(*context*)
 
-*shapeBoxPlot*.**value**(*accessorFunc*)  
-*shapeBoxPlot*.**median**(*accessorFunc*)  
-*shapeBoxPlot*.**upperQuartile**(*accessorFunc*)  
-*shapeBoxPlot*.**lowerQuartile**(*accessorFunc*)  
-*shapeBoxPlot*.**high**(*accessorFunc*)  
-*shapeBoxPlot*.**low**(*accessorFunc*)  
-*shapeBoxPlot*.**width**(*accessorFunc*)  
+<a name="shapeBoxPlot_value" href="#shapeBoxPlot_value">#</a> *shapeBoxPlot*.**value**(*accessorFunc*)  
+<a name="shapeBoxPlot_median" href="#shapeBoxPlot_median">#</a> *shapeBoxPlot*.**median**(*accessorFunc*)  
+<a name="shapeBoxPlot_upperQuartile" href="#shapeBoxPlot_upperQuartile">#</a> *shapeBoxPlot*.**upperQuartile**(*accessorFunc*)  
+<a name="shapeBoxPlot_lowerQuartile" href="#shapeBoxPlot_lowerQuartile">#</a> *shapeBoxPlot*.**lowerQuartile**(*accessorFunc*)  
+<a name="shapeBoxPlot_high" href="#shapeBoxPlot_high">#</a> *shapeBoxPlot*.**high**(*accessorFunc*)  
+<a name="shapeBoxPlot_low" href="#shapeBoxPlot_low">#</a> *shapeBoxPlot*.**low**(*accessorFunc*)  
+<a name="shapeBoxPlot_width" href="#shapeBoxPlot_width">#</a> *shapeBoxPlot*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*shapeBoxPlot*.**cap**(*accessorFunc*)  
+<a name="shapeBoxPlot_cap" href="#shapeBoxPlot_cap">#</a> *shapeBoxPlot*.**cap**(*accessorFunc*)  
 
 The `accessorFunc(item, index)` function is called on each item of the data, and returns
 the **proprtion** of the box width that the caps width should be.
 
-*shapeBoxPlot*.**orient**(*orientation*)  
+<a name="shapeBoxPlot_orient" href="#shapeBoxPlot_orient">#</a> *shapeBoxPlot*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 ### Candlestick
 
-*fc*.**shapeCandlestick**(*context*)
+<a name="shapeCandlestick" href="#shapeCandlestick">#</a> fc.**shapeCandlestick**(*context*)
 
-*shapeCandlestick*.**x**(*accessorFunc*)  
-*shapeCandlestick*.**open**(*accessorFunc*)  
-*shapeCandlestick*.**high**(*accessorFunc*)  
-*shapeCandlestick*.**low**(*accessorFunc*)  
-*shapeCandlestick*.**close**(*accessorFunc*)  
-*shapeCandlestick*.**width**(*accessorFunc*)  
+<a name="shapeCandlestick_x" href="#shapeCandlestick_x">#</a> *shapeCandlestick*.**x**(*accessorFunc*)  
+<a name="shapeCandlestick_open" href="#shapeCandlestick_open">#</a> *shapeCandlestick*.**open**(*accessorFunc*)  
+<a name="shapeCandlestick_high" href="#shapeCandlestick_high">#</a> *shapeCandlestick*.**high**(*accessorFunc*)  
+<a name="shapeCandlestick_low" href="#shapeCandlestick_low">#</a> *shapeCandlestick*.**low**(*accessorFunc*)  
+<a name="shapeCandlestick_close" href="#shapeCandlestick_close">#</a> *shapeCandlestick*.**close**(*accessorFunc*)  
+<a name="shapeCandlestick_width" href="#shapeCandlestick_width">#</a> *shapeCandlestick*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
@@ -129,36 +136,36 @@ the relevant value for the relevant attribute for that item.
 
 ### Error Bar
 
-*fc*.**shapeErrorBar**(*context*)
+<a name="shapeErrorBar" href="#shapeErrorBar">#</a> fc.**shapeErrorBar**(*context*)
 
-*shapeErrorBar*.**value**(*accessorFunc*)  
-*shapeErrorBar*.**high**(*accessorFunc*)  
-*shapeErrorBar*.**low**(*accessorFunc*)  
-*shapeErrorBar*.**width**(*accessorFunc*)  
+<a name="shapeErrorBar_value" href="#shapeErrorBar_value">#</a> *shapeErrorBar*.**value**(*accessorFunc*)  
+<a name="shapeErrorBar_high" href="#shapeErrorBar_high">#</a> *shapeErrorBar*.**high**(*accessorFunc*)  
+<a name="shapeErrorBar_low" href="#shapeErrorBar_low">#</a> *shapeErrorBar*.**low**(*accessorFunc*)  
+<a name="shapeErrorBar_width" href="#shapeErrorBar_width">#</a> *shapeErrorBar*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*shapeErrorBar*.**orient**(*orientation*)  
+<a name="shapeErrorBar_orient" href="#shapeErrorBar_orient">#</a> *shapeErrorBar*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
 
 ### OHLC
 
-*fc*.**shapeOhlc**(*context*)
+<a name="shapeOhlc" href="#shapeOhlc">#</a> fc.**shapeOhlc**(*context*)
 
-*shapeOhlc*.**x**(*accessorFunc*)  
-*shapeOhlc*.**open**(*accessorFunc*)  
-*shapeOhlc*.**high**(*accessorFunc*)  
-*shapeOhlc*.**low**(*accessorFunc*)  
-*shapeOhlc*.**close**(*accessorFunc*)  
-*shapeOhlc*.**width**(*accessorFunc*)  
+<a name="shapeOhlc_x" href="#shapeOhlc_x">#</a> *shapeOhlc*.**x**(*accessorFunc*)  
+<a name="shapeOhlc_open" href="#shapeOhlc_open">#</a> *shapeOhlc*.**open**(*accessorFunc*)  
+<a name="shapeOhlc_high" href="#shapeOhlc_high">#</a> *shapeOhlc*.**high**(*accessorFunc*)  
+<a name="shapeOhlc_low" href="#shapeOhlc_low">#</a> *shapeOhlc*.**low**(*accessorFunc*)  
+<a name="shapeOhlc_close" href="#shapeOhlc_close">#</a> *shapeOhlc*.**close**(*accessorFunc*)  
+<a name="shapeOhlc_width" href="#shapeOhlc_width">#</a> *shapeOhlc*.**width**(*accessorFunc*)  
 
 The attribute accessor methods available to set the way the bar chart accesses the data.
 The `accessorFunc(datum, index)` function is called on each item of the data, and returns
 the relevant value for the relevant attribute for that item.
 
-*shapeOhlc*.**orient**(*orientation*)  
+<a name="shapeOhlc_orient" href="#shapeOhlc_orient">#</a> *shapeOhlc*.**orient**(*orientation*)  
 
 Orientation of the chart. Either `horizontal` (default) or `vertical`
