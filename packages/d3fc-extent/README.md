@@ -4,17 +4,21 @@ Extends the D3 extent functionality (found in [d3-array](https://github.com/d3/d
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
-# Installation
+## Installing
 
 ```bash
 npm install d3fc-extent
 ```
 
-# Linear
+## API Reference
+
+* [Linear](#linear)
+* [Date](#date)
+
+
+### Linear
 
 Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Internally makes use of `d3-array`'s [`min`](https://github.com/d3/d3-array#min) and [`max`](https://github.com/d3/d3-array#max) methods.
-
-## Example usage
 
 ```javascript
 
@@ -33,9 +37,7 @@ extent(data);
 
 ```
 
-## API
-
-<a name="linear_padUnit" href="#linear"></a> *fc*.**extentLinear**()
+<a name="linear_padUnit" href="#linear"></a> fc.**extentLinear**()
 
 Constructs a new linear extent calculator.
 
@@ -67,12 +69,9 @@ If *values* is specified, sets the array of additional values to include within 
 Note included values are applied before [symmetricalAbout](#linear_symmetricalAbout).
 If *values* is not specified, returns the current array of included values, which defaults `[]`.
 
-
-# Date
+### Date
 
 Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Equivalent in functionality to [linear](#linear) but for `Date` values.
-
-## Example usage
 
 ```javascript
 
@@ -90,9 +89,7 @@ extent(data);
 
 ```
 
-## API
-
-<a name="date_padUnit" href="#date"></a> *fc*.**extentDate**()
+<a name="date_padUnit" href="#date"></a> fc.**extentDate**()
 
 Constructs a new date extent calculator.
 
