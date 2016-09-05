@@ -8,6 +8,8 @@
     "scale"
   ],
   "homepage": "https://github.com/d3fc/d3fc-series",
+  "main": "build/d3fc-series.js",
+  "jsnext:main": "index",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3fc/d3fc-series"
