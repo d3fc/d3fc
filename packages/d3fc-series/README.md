@@ -22,19 +22,30 @@ A collection of components for rendering data series to SVG and canvas, includin
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
-# Installation
+## Installing
 
 ```bash
 npm install d3fc-series
 ```
 
-# API
+## API Reference
 
-## General API
+* [General API](#general-api)
+* [Line](#line)
+* [Point](#point)
+* [Area](#area)
+* [Bar](#bar)
+* [Candlestick](#candlestick)
+* [OHLC](#ohlc)
+* [Boxplot](#boxplot)
+* [Errorbar](#errorbar)
+* [Multi](#multi)
 
 This packages contains a number of D3 components that render various standard series types. They all share a common API, with the typical configuration requiring x and y scales together with a number of value accessors. There are SVG and Canvas versions of each series type, sharing the same configuration properties.
 
-### SVG rendering
+### General API
+
+#### SVG rendering
 
 In order to render a line series to SVG, the data should be supplied via a data-join or `datum`, as follows:
 
@@ -61,7 +72,7 @@ The line component is configured with the required value accessors and scales. I
 The series is rendered into a group (`g`) element by first selecting it, using `datum` to associate the data with this DOM node, then using `call` to invoke the series component, causing it to be rendered.
 
 
-### Canvas rendering
+#### Canvas rendering
 
 The `seriesCanvasLine` component has an API that is almost identical to its SVG counterpart, `seriesSvgLine`, the only difference is the addition of a `context` property, which is set to the context of the canvas that this series renders to.
 
@@ -87,11 +98,11 @@ line(data);
 Because D3 data-joins and data-binding only work on HTML / SVG, the canvas components are invoked directly with the supplied data. This causes the component to render itself to the canvas.
 
 
-### Decoration
+#### Decoration
 
 // TODO: Add some documentation around how decorate works.
 
-### Orientation
+#### Orientation
 
 Most of the series renderers support both horizontal and vertical render orientations as specified by the `orient` property. In order to make it easy to change the orientation of a series, and to avoid redundant and repeated property names, a change in orientation is achieved by transposing the x and y scales.
 
@@ -140,7 +151,7 @@ const barSeries = fc.seriesSvgBar()
 
 This is part of the motivation behind naming the accessors `mainValue` and `crossValue`, rather than an orientation specific `xValue` / `yValue`.
 
-### Multi series
+#### Multi series
 
 One series type that is worthy of note is the multi series. This component provides a convenient way to render multiple series, that share scales, to the same SVG or canvas.
 
@@ -182,350 +193,348 @@ multiSeries(data)
 In this case the context is also propagated from the multi series to the children.
 
 
-## Fractional bar width
+#### Fractional bar width
 
 A number of the series (bar, OHLC, boxplot) have a notion of 'width'. They all expose a `barWidth` property where you can supply the width as a value (in the screen coordinate system), or a function which is invoked with an array containing all the locations of each bar (OHLC etc ...), which should return the desired bar width.
 
 As a utility, and a suitable default for each series, the fractional bar width function can be used to calculate a width as a fraction of the distance between bars.
 
-*fc*.**seriesFractionalBarWidth**(*widthFraction*)  
+<a name="seriesFractionalBarWidth" href="#seriesFractionalBarWidth">#</a> fc.**seriesFractionalBarWidth**(*widthFraction*)  
 
 Constructs a function that computes a bar width as a fraction of the minimum distance between data points.
 
-## Line
+### Line
 
 ![](screenshots/line.png)
 
-*fc*.**seriesSvgLine**()  
-*fc*.**seriesCanvasLine**()
+<a name="seriesSvgLine" href="#seriesSvgLine">#</a> fc.**seriesSvgLine**()  
+<a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.**seriesCanvasLine**()
 
 Constructs a new line renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesLine*.**crossValue**(*accessorFunc*)  
-*seriesLine*.**mainValue**(*accessorFunc*)
+<a name="seriesLine_crossValue" href="#seriesLine_crossValue">#</a> *seriesLine*.**crossValue**(*accessorFunc*)  
+<a name="seriesLine_mainValue" href="#seriesLine_mainValue">#</a> *seriesLine*.**mainValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesLine*.**xScale**(*scale*)  
-*seriesLine*.**yScale**(*scale*)
+<a name="seriesLine_xScale" href="#seriesLine_xScale">#</a> *seriesLine*.**xScale**(*scale*)  
+<a name="seriesLine_yScale" href="#seriesLine_yScale">#</a> *seriesLine*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesLine*.**orient**(*orientation*)  
+<a name="seriesLine_orient" href="#seriesLine_orient">#</a> *seriesLine*.**orient**(*orientation*)  
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
-*seriesLine*.**curve**(*scale*)
+<a name="seriesLine_curve" href="#seriesLine_curve">#</a> *seriesLine*.**curve**(*scale*)
 
 If *curve* is specified, sets the curve factory and returns this series. If *curve* is not specified, returns the current curve factory.
 
 This property is rebound from [line.curve](https://github.com/d3/d3-shape#line_curve).
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasLine*.**context**(*ctx*)
+<a name="seriesCanvasLine_context" href="#seriesCanvasLine_context">#</a> *seriesCanvasLine*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
-## Point
+### Point
 
 ![](screenshots/point.png)
 
-*fc*.**seriesSvgPoint**()  
-*fc*.**seriesCanvasPoint**()
+<a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.**seriesSvgPoint**()  
+<a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()
 
 Constructs a new point series renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesPoint*.**crossValue**(*accessorFunc*)  
-*seriesPoint*.**mainValue**(*accessorFunc*)
+<a name="seriesPoint_crossValue" href="#seriesPoint_crossValue">#</a> *seriesPoint*.**crossValue**(*accessorFunc*)  
+<a name="seriesPoint_mainValue" href="#seriesPoint_mainValue">#</a> *seriesPoint*.**mainValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesPoint*.**xScale**(*scale*)  
-*seriesPoint*.**yScale**(*scale*)
+<a name="seriesPoint_xScale" href="#seriesPoint_xScale">#</a> *seriesPoint*.**xScale**(*scale*)  
+<a name="seriesPoint_yScale" href="#seriesPoint_yScale">#</a> *seriesPoint*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesPoint*.**orient**(*orientation*)  
+<a name="seriesPoint_orient" href="#seriesPoint_orient">#</a> *seriesPoint*.**orient**(*orientation*)  
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
-*seriesPoint*.**type**(*type*)
+<a name="seriesPoint_type" href="#seriesPoint_type">#</a> *seriesPoint*.**type**(*type*)
 
 If *type* is specified, sets the symbol type to the specified function or symbol type and returns this point series renderer. If *type* is not specified, returns the current symbol type accessor.
 
 This property is rebound from [symbol.type](https://github.com/d3/d3-shape#symbol_type).
 
-*seriesPoint*.**size**(*size*)
+<a name="seriesPoint_size" href="#seriesPoint_size">#</a> *seriesPoint*.**size**(*size*)
 
 If *size* is specified, sets the size to the specified function or number and returns this point series renderer. If *size* is not specified, returns the current size accessor.
 
 This property is rebound from [symbol.size](https://github.com/d3/d3-shape#symbol_size).
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasPoint*.**context**(*ctx*)
+<a name="seriesCanvasPoint_context" href="#seriesCanvasPoint_context">#</a> *seriesCanvasPoint*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
-## Area
+### Area
 
 ![](screenshots/area.png)
 
-*fc*.**seriesSvgArea**()  
-*fc*.**seriesCanvasArea**()
+<a name="seriesSvgArea" href="#seriesSvgArea">#</a> fc.**seriesSvgArea**()  
+<a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.**seriesCanvasArea**()
 
 Constructs a new area series renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesArea*.**crossValue**(*accessorFunc*)  
-*seriesArea*.**mainValue**(*accessorFunc*)
-*seriesArea*.**baseValue**(*accessorFunc*)  
+<a name="seriesArea_crossValue" href="#seriesArea_crossValue">#</a> *seriesArea*.**crossValue**(*accessorFunc*)  
+<a name="seriesArea_mainValue" href="#seriesArea_mainValue">#</a> *seriesArea*.**mainValue**(*accessorFunc*)
+<a name="seriesArea_baseValue" href="#seriesArea_baseValue">#</a> *seriesArea*.**baseValue**(*accessorFunc*)  
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesArea*.**orient**(*orientation*)
+<a name="seriesArea_orient" href="#seriesArea_orient">#</a> *seriesArea*.**orient**(*orientation*)
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
-*seriesArea*.**xScale**(*scale*)  
-*seriesArea*.**yScale**(*scale*)
+<a name="seriesArea_xScale" href="#seriesArea_xScale">#</a> *seriesArea*.**xScale**(*scale*)  
+<a name="seriesArea_yScale" href="#seriesArea_yScale">#</a> *seriesArea*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesArea*.**curve**(*scale*)
+<a name="seriesArea_curve" href="#seriesArea_curve">#</a> *seriesArea*.**curve**(*scale*)
 
 If *curve* is specified, sets the curve factory and returns this series. If *curve* is not specified, returns the current curve factory.
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasArea*.**context**(*ctx*)
+<a name="seriesCanvasArea_context" href="#seriesCanvasArea_context">#</a> *seriesCanvasArea*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
-## Bar
+### Bar
 
 ![](screenshots/bar.png)
 
-*fc*.**seriesSvgBar**()  
-*fc*.**seriesCanvasBar**()
+<a name="seriesSvgBar" href="#seriesSvgBar">#</a> fc.**seriesSvgBar**()  
+<a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.**seriesCanvasBar**()
 
 Constructs a new bar series renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesBar*.**crossValue**(*accessorFunc*)  
-*seriesBar*.**mainValue**(*accessorFunc*)  
-*seriesBar*.**baseValue**(*accessorFunc*)  
+<a name="seriesBar_crossValue" href="#seriesBar_crossValue">#</a> *seriesBar*.**crossValue**(*accessorFunc*)  
+<a name="seriesBar_mainValue" href="#seriesBar_mainValue">#</a> *seriesBar*.**mainValue**(*accessorFunc*)  
+<a name="seriesBar_baseValue" href="#seriesBar_baseValue">#</a> *seriesBar*.**baseValue**(*accessorFunc*)  
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesBar*.**orient**(*orientation*)
+<a name="seriesBar_orient" href="#seriesBar_orient">#</a> *seriesBar*.**orient**(*orientation*)
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
-*seriesBar*.**xScale**(*scale*)  
-*seriesBar*.**yScale**(*scale*)
+<a name="seriesBar_xScale" href="#seriesBar_xScale">#</a> *seriesBar*.**xScale**(*scale*)  
+<a name="seriesBar_yScale" href="#seriesBar_yScale">#</a> *seriesBar*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesBar*.**barWidth**(*barWidthFunc*)
+<a name="seriesBar_barWidth" href="#seriesBar_barWidth">#</a> *seriesBar*.**barWidth**(*barWidthFunc*)
 
 If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the bars. It defaults to `fractionalBarWidth(0.75)`.
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasArea*.**context**(*ctx*)
+<a name="seriesCanvasArea_context" href="#seriesCanvasArea_context">#</a> *seriesCanvasArea*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
 
-## Candlestick
+### Candlestick
 
 ![](screenshots/candlestick.png)
 
-*fc*.**seriesSvgCandlestick**()  
-*fc*.**seriesCanvasCandlestick**()
+<a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a> fc.**seriesSvgCandlestick**()  
+<a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.**seriesCanvasCandlestick**()
 
 Constructs a new candlestick renderer for either canvas or SVG.
 
-### Common properties
-
-*seriesCandlestick*.**crossValue**(*accessorFunc*)  
-*seriesCandlestick*.**highValue**(*accessorFunc*)  
-*seriesCandlestick*.**lowValue**(*accessorFunc*)  
-*seriesCandlestick*.**openValue**(*accessorFunc*)  
-*seriesCandlestick*.**closeValue**(*accessorFunc*)
+<a name="seriesCandlestick_crossValue" href="#seriesCandlestick_crossValue">#</a> *seriesCandlestick*.**crossValue**(*accessorFunc*)  
+<a name="seriesCandlestick_highValue" href="#seriesCandlestick_highValue">#</a> *seriesCandlestick*.**highValue**(*accessorFunc*)  
+<a name="seriesCandlestick_lowValue" href="#seriesCandlestick_lowValue">#</a> *seriesCandlestick*.**lowValue**(*accessorFunc*)  
+<a name="seriesCandlestick_openValue" href="#seriesCandlestick_openValue">#</a> *seriesCandlestick*.**openValue**(*accessorFunc*)  
+<a name="seriesCandlestick_closeValue" href="#seriesCandlestick_closeValue">#</a> *seriesCandlestick*.**closeValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesCandlestick*.**xScale**(*scale*)  
-*seriesCandlestick*.**yScale**(*scale*)
+<a name="seriesCandlestick_xScale" href="#seriesCandlestick_xScale">#</a> *seriesCandlestick*.**xScale**(*scale*)  
+<a name="seriesCandlestick_yScale" href="#seriesCandlestick_yScale">#</a> *seriesCandlestick*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesCandlestick*.**barWidth**(*barWidthFunc*)
+<a name="seriesCandlestick_barWidth" href="#seriesCandlestick_barWidth">#</a> *seriesCandlestick*.**barWidth**(*barWidthFunc*)
 
 If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the candlesticks. It defaults to `fractionalBarWidth(0.75)`.
 
-*seriesCandlestick*.**decorate**(*decorateFunc*)
+<a name="seriesCandlestick_decorate" href="#seriesCandlestick_decorate">#</a> *seriesCandlestick*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-## OHLC
+### OHLC
 
 ![](screenshots/ohlc.png)
 
-*fc*.**seriesSvgOhlc**()  
-*fc*.**seriesCanvasOhlc**()
+<a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a> fc.**seriesSvgOhlc**()  
+<a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.**seriesCanvasOhlc**()
 
 Constructs a new OHLC renderer for either canvas or SVG.
 
 ### Common properties
 
-*seriesOhlc*.**crossValue**(*accessorFunc*)  
-*seriesOhlc*.**highValue**(*accessorFunc*)  
-*seriesOhlc*.**lowValue**(*accessorFunc*)  
-*seriesOhlc*.**openValue**(*accessorFunc*)  
-*seriesOhlc*.**closeValue**(*accessorFunc*)
+<a name="seriesOhlc_crossValue" href="#seriesOhlc_crossValue">#</a> *seriesOhlc*.**crossValue**(*accessorFunc*)  
+<a name="seriesOhlc_highValue" href="#seriesOhlc_highValue">#</a> *seriesOhlc*.**highValue**(*accessorFunc*)  
+<a name="seriesOhlc_lowValue" href="#seriesOhlc_lowValue">#</a> *seriesOhlc*.**lowValue**(*accessorFunc*)  
+<a name="seriesOhlc_openValue" href="#seriesOhlc_openValue">#</a> *seriesOhlc*.**openValue**(*accessorFunc*)  
+<a name="seriesOhlc_closeValue" href="#seriesOhlc_closeValue">#</a> *seriesOhlc*.**closeValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesOhlc*.**xScale**(*scale*)  
-*seriesOhlc*.**yScale**(*scale*)
+<a name="seriesOhlc_xScale" href="#seriesOhlc_xScale">#</a> *seriesOhlc*.**xScale**(*scale*)  
+<a name="seriesOhlc_yScale" href="#seriesOhlc_yScale">#</a> *seriesOhlc*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesCandlestick*.**barWidth**(*barWidthFunc*)
+<a name="seriesCandlestick_barWidth" href="#seriesCandlestick_barWidth">#</a> *seriesCandlestick*.**barWidth**(*barWidthFunc*)
 
 If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the ohlc 'sticks'. It defaults to `fractionalBarWidth(0.75)`.
 
-*seriesOhlc*.**decorate**(*decorateFunc*)
+<a name="seriesOhlc_decorate" href="#seriesOhlc_decorate">#</a> *seriesOhlc*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasOhlc*.**context**(*ctx*)
+<a name="seriesCanvasOhlc_context" href="#seriesCanvasOhlc_context">#</a> *seriesCanvasOhlc*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
-## Boxplot
+### Boxplot
 
 ![](screenshots/boxplot.png)
 
-*fc*.**seriesSvgBoxPlot**()  
-*fc*.**seriesCanvasBoxPlot**()
+<a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a> fc.**seriesSvgBoxPlot**()  
+<a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.**seriesCanvasBoxPlot**()
 
 Constructs a new boxplot renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesBoxPlot*.**crossValue**(*accessorFunc*)  
-*seriesBoxPlot*.**medianValue**(*accessorFunc*)  
-*seriesBoxPlot*.**upperQuartileValue**(*accessorFunc*)  
-*seriesBoxPlot*.**lowerQuartileValue**(*accessorFunc*)  
-*seriesBoxPlot*.**highValue**(*accessorFunc*)  
-*seriesBoxPlot*.**lowValue**(*accessorFunc*)  
-*seriesBoxPlot*.**width**(*accessorFunc*)  
+<a name="seriesBoxPlot_crossValue" href="#seriesBoxPlot_crossValue">#</a> *seriesBoxPlot*.**crossValue**(*accessorFunc*)  
+<a name="seriesBoxPlot_medianValue" href="#seriesBoxPlot_medianValue">#</a> *seriesBoxPlot*.**medianValue**(*accessorFunc*)  
+<a name="seriesBoxPlot_upperQuartileValue" href="#seriesBoxPlot_upperQuartileValue">#</a> *seriesBoxPlot*.**upperQuartileValue**(*accessorFunc*)  
+<a name="seriesBoxPlot_lowerQuartileValue" href="#seriesBoxPlot_lowerQuartileValue">#</a> *seriesBoxPlot*.**lowerQuartileValue**(*accessorFunc*)  
+<a name="seriesBoxPlot_highValue" href="#seriesBoxPlot_highValue">#</a> *seriesBoxPlot*.**highValue**(*accessorFunc*)  
+<a name="seriesBoxPlot_lowValue" href="#seriesBoxPlot_lowValue">#</a> *seriesBoxPlot*.**lowValue**(*accessorFunc*)  
+<a name="seriesBoxPlot_width" href="#seriesBoxPlot_width">#</a> *seriesBoxPlot*.**width**(*accessorFunc*)  
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesBoxPlot*.**orient**(*orientation*)  
+<a name="seriesBoxPlot_orient" href="#seriesBoxPlot_orient">#</a> *seriesBoxPlot*.**orient**(*orientation*)  
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`
 
-*seriesBoxPlot*.**xScale**(*scale*)  
-*seriesBoxPlot*.**yScale**(*scale*)
+<a name="seriesBoxPlot_xScale" href="#seriesBoxPlot_xScale">#</a> *seriesBoxPlot*.**xScale**(*scale*)  
+<a name="seriesBoxPlot_yScale" href="#seriesBoxPlot_yScale">#</a> *seriesBoxPlot*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesBoxPlot*.**barWidth**(*barWidthFunc*)
+<a name="seriesBoxPlot_barWidth" href="#seriesBoxPlot_barWidth">#</a> *seriesBoxPlot*.**barWidth**(*barWidthFunc*)
 
 If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the boxes. It defaults to `fractionalBarWidth(0.5)`.
 
-*seriesBoxPlot*.**decorate**(*decorateFunc*)
+<a name="seriesBoxPlot_decorate" href="#seriesBoxPlot_decorate">#</a> *seriesBoxPlot*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasBoxplot*.**context**(*ctx*)
+<a name="seriesCanvasBoxplot_context" href="#seriesCanvasBoxplot_context">#</a> *seriesCanvasBoxplot*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
-## Errorbar
+### Errorbar
 
 ![](screenshots/errorbar.png)
 
-*fc*.**seriesSvgErrorBar**()  
-*fc*.**seriesCanvasErrorBar**()
+<a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a> fc.**seriesSvgErrorBar**()  
+<a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.**seriesCanvasErrorBar**()
 
 Constructs a new error bar renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesErrorBar*.**crossValue**(*accessorFunc*)  
-*seriesErrorBar*.**highValue**(*accessorFunc*)  
-*seriesErrorBar*.**lowValue**(*accessorFunc*)  
-*seriesErrorBar*.**width**(*accessorFunc*)  
+<a name="seriesErrorBar_crossValue" href="#seriesErrorBar_crossValue">#</a> *seriesErrorBar*.**crossValue**(*accessorFunc*)  
+<a name="seriesErrorBar_highValue" href="#seriesErrorBar_highValue">#</a> *seriesErrorBar*.**highValue**(*accessorFunc*)  
+<a name="seriesErrorBar_lowValue" href="#seriesErrorBar_lowValue">#</a> *seriesErrorBar*.**lowValue**(*accessorFunc*)  
+<a name="seriesErrorBar_width" href="#seriesErrorBar_width">#</a> *seriesErrorBar*.**width**(*accessorFunc*)  
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-*seriesErrorBar*.**orient**(*orientation*)  
+<a name="seriesErrorBar_orient" href="#seriesErrorBar_orient">#</a> *seriesErrorBar*.**orient**(*orientation*)  
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`
 
-*seriesErrorBar*.**xScale**(*scale*)  
-*seriesErrorBar*.**yScale**(*scale*)
+<a name="seriesErrorBar_xScale" href="#seriesErrorBar_xScale">#</a> *seriesErrorBar*.**xScale**(*scale*)  
+<a name="seriesErrorBar_yScale" href="#seriesErrorBar_yScale">#</a> *seriesErrorBar*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesErrorBar*.**barWidth**(*barWidthFunc*)
+<a name="seriesErrorBar_barWidth" href="#seriesErrorBar_barWidth">#</a> *seriesErrorBar*.**barWidth**(*barWidthFunc*)
 
 If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the boxes. It defaults to `fractionalBarWidth(0.5)`.
 
-*seriesErrorBar*.**decorate**(*decorateFunc*)
+<a name="seriesErrorBar_decorate" href="#seriesErrorBar_decorate">#</a> *seriesErrorBar*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesCanvasErrorBar*.**context**(*ctx*)
+<a name="seriesCanvasErrorBar_context" href="#seriesCanvasErrorBar_context">#</a> *seriesCanvasErrorBar*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
-## Multi
+### Multi
 
 ![](screenshots/multi.png)
 
-*fc*.**seriesSvgMulti**()  
-*fc*.**seriesCanvasMulti**()
+<a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.**seriesSvgMulti**()  
+<a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()
 
 Constructs a new multi series renderer for either canvas or SVG.
 
-### Common properties
+#### Common properties
 
-*seriesMulti*.**series**(*seriesArray*)  
+<a name="seriesMulti_series" href="#seriesMulti_series">#</a> *seriesMulti*.**series**(*seriesArray*)  
 
 If *seriesArray* is specified, sets the array of series that this multi series should render and returns this series. If *seriesArray* is not specified, returns the current array of series.
 
-*seriesMulti*.**xScale**(*scale*)  
-*seriesMulti*.**yScale**(*scale*)
+<a name="seriesMulti_xScale" href="#seriesMulti_xScale">#</a> *seriesMulti*.**xScale**(*scale*)  
+<a name="seriesMulti_yScale" href="#seriesMulti_yScale">#</a> *seriesMulti*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-*seriesMulti*.**mapping**(*mappingFunc*)
+<a name="seriesMulti_mapping" href="#seriesMulti_mapping">#</a> *seriesMulti*.**mapping**(*mappingFunc*)
 
 If *mappingFun* is specified, sets the mapping function to the specified function, and returns this series. If *mappingFunc* is not specified, returns the current mapping function.
 
-### Canvas specific properties
+#### Canvas specific properties
 
-*seriesMulti*.**context**(*ctx*)
+<a name="seriesMulti_context" href="#seriesMulti_context">#</a> *seriesMulti*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
