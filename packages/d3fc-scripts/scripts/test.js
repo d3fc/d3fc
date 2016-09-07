@@ -16,4 +16,8 @@ require('./bundle')
       var jasmine = new Jasmine();
       jasmine.loadConfigFile(path.join(__dirname, '..', 'jasmine.json'));
       jasmine.execute();
+  })
+  .catch(e => {
+      console.log(e);
+      process.exit(1);
   });
