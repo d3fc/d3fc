@@ -16,19 +16,10 @@ export default () => {
     const join = dataJoin('g', 'annotation-band');
 
     const pathGenerator = shapeBar()
-      .horizontalAlign('right')
-      .verticalAlign('top')
-      // a null value returned by a value accessor will be replaced by the scale's range
-      .x((...args) => orient === 'horizontal' ? xScale.range()[0] : xScale(fromValue(...args)))
-      .y((...args) => orient === 'horizontal' ? yScale(fromValue(...args)) : yScale.range()[0])
-      .width((...args) => {
-          const values = orient === 'horizontal' ? xScale.range() : [xScale(fromValue(...args)), xScale(toValue(...args))];
-          return values[1] - values[0];
-      })
-      .height((...args) => {
-          const values = orient === 'horizontal' ? [yScale(fromValue(...args)), yScale(toValue(...args))] : yScale.range();
-          return values[1] - values[0];
-      });
+      .horizontalAlign('center')
+      .verticalAlign('center')
+      .x(0)
+      .y(0);
 
     var instance = (selection) => {
 
@@ -36,17 +27,37 @@ export default () => {
             throw new Error('Invalid orientation');
         }
 
+        const horizontal = orient === 'horizontal';
+        const translation = horizontal ? (a, b) => `translate(${a}, ${b})` : (a, b) => `translate(${b}, ${a})`;
+        // the value scale which the annotation 'value' relates to, the crossScale
+        // is the other. Which is which depends on the orienation!
+        const crossScale = horizontal ? xScale : yScale;
+        const valueScale = horizontal ? yScale : xScale;
+        const crossScaleRange = crossScale.range();
+        const crossScaleSize = crossScaleRange[1] - crossScaleRange[0];
+        const valueAxisDimension = horizontal ? 'height' : 'width';
+        const crossAxisDimension = horizontal ? 'width' : 'height';
+        const containerTransform = (...args) => translation(
+          (crossScaleRange[1] + crossScaleRange[0]) / 2,
+          (valueScale(toValue(...args)) + valueScale(fromValue(...args))) / 2
+        );
+
+        pathGenerator[crossAxisDimension](crossScaleSize);
+        pathGenerator[valueAxisDimension]((...args) =>
+            valueScale(toValue(...args)) - valueScale(fromValue(...args)));
+
         selection.each((data, index, nodes) => {
 
             var g = join(select(nodes[index]), data);
 
             g.enter()
+                .attr('transform', containerTransform)
                 .append('path')
                 .classed('band', true);
 
-            g.classed(orient, true);
-
-            g.select('path')
+            g.classed(orient, true)
+                .attr('transform', containerTransform)
+                .select('path')
                 // the path generator is being used to render a single path, hence
                 // an explicit index is provided
                 .attr('d', (d, i) => pathGenerator([d], i));
