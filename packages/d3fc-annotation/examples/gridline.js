@@ -1,22 +1,12 @@
-var width = 500;
-var height = 250;
-
-var xScale = d3.scaleLinear()
-  .domain([0, 1])
-  .range([0, width - 30]);
-
-var yScale = d3.scaleLinear()
-  .domain([0, 1])
-  .range([0, height - 20]);
-
+/* global xScale, yScale, render */
 var gridline = fc.annotationGridline()
   .xScale(xScale)
   .yScale(yScale);
 
-function render() {
+// eslint-disable-next-line no-unused-vars
+function renderComponent() {
     d3.select('svg')
       .call(gridline);
-    requestAnimationFrame(render);
 }
 
 render();

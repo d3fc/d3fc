@@ -6,24 +6,15 @@
         margin: 0;
       }
 
-      g.annotation-crosshair:nth-child(4n) g.annotation-line>line {
-        stroke: #c60;
-      }
-
-      g.annotation-crosshair:nth-child(4n+1) g.annotation-line>line {
-        stroke: #06c;
-      }
-
-      g.annotation-crosshair:nth-child(4n+2) g.annotation-line>line {
-        stroke: #60c;
-      }
-
-      g.annotation-crosshair:nth-child(4n+3) g.annotation-line>line {
-        stroke: #0c0;
+      g.annotation-crosshair g.annotation-line>line,
+      g.annotation-crosshair g.point>path {
+        fill: none;
+        stroke: #c00;
+        stroke-opacity: 0.25;
       }
 
       g.annotation-line>g>text {
-        font: 12px sans-serif;
+        font: 10px sans-serif;
       }
     </style>
   </html>
@@ -44,9 +35,11 @@
     <script src="../node_modules/d3fc-rebind/build/d3fc-rebind.js"></script>
     <script src="../node_modules/d3-path/build/d3-path.js"></script>
     <script src="../node_modules/d3-shape/build/d3-shape.js"></script>
+    <script src="../node_modules/d3-axis/build/d3-axis.js"></script>
     <script src="../node_modules/d3fc-shape/build/d3fc-shape.js"></script>
     <script src="../node_modules/d3fc-series/build/d3fc-series.js"></script>
     <script src="../build/d3fc-annotation.js"></script>
+    <script src="chart.js"></script>
     <script src="crosshair.js"></script>
   </body>
 </html>

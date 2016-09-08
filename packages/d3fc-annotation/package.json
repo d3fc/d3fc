@@ -18,6 +18,8 @@
     "test": "eslint examples/**/*.js && d3fc-scripts test"
   },
   "devDependencies": {
+    "d3-axis": "^1.0.3",
+    "d3-shape": "^1.0.3",
     "d3fc-scripts": "^1.1.4",
     "eslint-config-defaults": "^9.0.0",
     "webshot": "^0.18.0"
@@ -25,7 +27,7 @@
   "dependencies": {
     "d3-scale": "^1.0.1",
     "d3-selection": "^1.0.2",
-    "d3fc-data-join": "^3.0.0",
+    "d3fc-data-join": "^3.0.3",
     "d3fc-rebind": "^4.0.1",
     "d3fc-series": "ColinEberhardt/d3fc-series",
     "d3fc-shape": "^4.0.0"

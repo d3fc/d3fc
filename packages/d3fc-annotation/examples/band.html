@@ -10,19 +10,11 @@
         fill-opacity: 0.1;
       }
 
-      g.annotation-band:nth-child(4n)>path {
-        fill: #c60;
-      }
-
-      g.annotation-band:nth-child(4n+1)>path {
-        fill: #06c;
-      }
-
-      g.annotation-band:nth-child(4n+2)>path {
+      g.annotation-band.horizontal>path {
         fill: #60c;
       }
 
-      g.annotation-band:nth-child(4n+3)>path {
+      g.annotation-band.vertical>path {
         fill: #0c0;
       }
     </style>
@@ -46,9 +38,12 @@
     <script src="../node_modules/d3fc-data-join/build/d3fc-data-join.js"></script>
     <script src="../node_modules/d3fc-rebind/build/d3fc-rebind.js"></script>
     <script src="../node_modules/d3-path/build/d3-path.js"></script>
+    <script src="../node_modules/d3-shape/build/d3-shape.js"></script>
+    <script src="../node_modules/d3-axis/build/d3-axis.js"></script>
     <script src="../node_modules/d3fc-shape/build/d3fc-shape.js"></script>
     <script src="../node_modules/d3fc-series/build/d3fc-series.js"></script>
     <script src="../build/d3fc-annotation.js"></script>
+    <script src="chart.js"></script>
     <script src="band.js"></script>
   </body>
 </html>

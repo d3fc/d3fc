@@ -1,25 +1,36 @@
-var width = 500;
-var height = 250;
-
-var xScale = d3.scaleLinear()
-  .domain([0, 1])
-  .range([0, width - 30]);
-
-var yScale = d3.scaleLinear()
-  .domain([0, 1])
-  .range([0, height - 20]);
+/* global xScale, yScale, xAxis, yAxis, render */
+xAxis.tickFormat('');
+yAxis.tickFormat('');
 
 var crosshair = fc.annotationCrosshair()
   .xScale(xScale)
-  .yScale(yScale);
+  .yScale(yScale)
+  .xLabel(function(d) {
+    var format = d3.format('.2f');
+    var value = xScale.invert(d.x);
+    return format(value);
+  })
+  .yLabel(function(d) {
+    var format = d3.format('.2f');
+    var value = yScale.invert(d.y);
+    return format(value);
+  })
+  .decorate(function(g) {
+    g.selectAll('.point>path')
+      .attr('transform', 'scale(10)');
+  });
 
-var data = [{ x: 350, y: 60 }, { x: 100, y: 120 }, { x: 200, y: 180 }, { x: 20, y: 30 }];
+var data = [{ x: 215, y: 106 }];
 
-function render() {
+// eslint-disable-next-line no-unused-vars
+function renderComponent() {
     d3.select('svg')
       .datum(data)
-      .call(crosshair);
-    requestAnimationFrame(render);
+      .call(crosshair)
+      .on('mousemove', function() {
+        var point = d3.mouse(this);
+        data[0] = { x: point[0], y: point[1] };
+      });
 }
 
 render();
