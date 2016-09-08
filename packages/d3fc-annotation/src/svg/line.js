@@ -34,7 +34,7 @@ export default () => {
 
         const scaleRange = crossScale.range();
         // the transform that sets the 'origin' of the annotation
-        const containerTransform = (d) => translation(scaleRange[0], valueScale(value(d)));
+        const containerTransform = (...args) => translation(scaleRange[0], valueScale(value(...args)));
         const scaleWidth = scaleRange[1] - scaleRange[0];
 
         selection.each((data, selectionIndex, nodes) => {
