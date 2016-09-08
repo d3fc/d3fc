@@ -7,6 +7,7 @@ const height = 250;
 
 const config = {
     errorIfJSException: true,
+    errorIfStatusIsNot200: true,
     screenSize: {
         width: width,
         height: height
