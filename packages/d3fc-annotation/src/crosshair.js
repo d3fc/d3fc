@@ -51,11 +51,9 @@ export default function() {
             point.xValue(x)
                 .yValue(y);
 
-            horizontalLine.value(y)
-                .label(y);
+            horizontalLine.value(y);
 
-            verticalLine.value(x)
-                .label(x);
+            verticalLine.value(x);
 
             g.call(multi);
 
