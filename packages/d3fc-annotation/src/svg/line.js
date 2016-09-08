@@ -28,8 +28,9 @@ export default () => {
         const valueScale = horizontal ? yScale : xScale;
         const handleOne = horizontal ? 'left-handle' : 'bottom-handle';
         const handleTwo = horizontal ? 'right-handle' : 'top-handle';
-        const textOffsetX = horizontal ? '0.5em' : '0em';
-        const textOffsetY = horizontal ? '0.32em' : '1.21em';
+        const textOffsetX = horizontal ? '9' : '0';
+        const textOffsetY = horizontal ? '0' : '9';
+        const textOffsetDeltaY = horizontal ? '0.32em' : '0.71em';
         const textAnchor = horizontal ? 'start' : 'middle';
 
         const scaleRange = crossScale.range();
@@ -60,7 +61,8 @@ export default () => {
                 .append('text')
                 .attr('text-anchor', textAnchor)
                 .attr('x', textOffsetX)
-                .attr('dy', textOffsetY);
+                .attr('y', textOffsetY)
+                .attr('dy', textOffsetDeltaY);
 
             // Update
             g.classed(orient, true);
