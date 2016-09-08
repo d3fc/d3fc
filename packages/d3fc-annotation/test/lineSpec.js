@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import annotationLine from '../src/line';
+import annotationLine from '../src/svg/line';
 
 describe('line', () => {
 

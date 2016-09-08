@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import annotationGridline from '../src/gridline';
+import annotationGridline from '../src/svg/gridline';
 
 describe('gridline', () => {
 

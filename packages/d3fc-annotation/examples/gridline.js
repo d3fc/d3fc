@@ -1,5 +1,5 @@
 /* global xScale, yScale, render */
-var gridline = fc.annotationGridline()
+var gridline = fc.annotationSvgGridline()
   .xScale(xScale)
   .yScale(yScale);
 

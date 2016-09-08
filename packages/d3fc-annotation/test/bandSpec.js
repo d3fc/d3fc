@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import annotationBand from '../src/band';
+import annotationBand from '../src/svg/band';
 
 describe('band', () => {
 

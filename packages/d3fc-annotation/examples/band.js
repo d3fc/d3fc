@@ -1,11 +1,11 @@
 /* global xScale, yScale, render */
-var horizontalBand = fc.annotationBand()
+var horizontalBand = fc.annotationSvgBand()
   .xScale(xScale)
   .yScale(yScale)
   .fromValue(function(d) { return d[0]; })
   .toValue(function(d) { return d[1]; });
 
-var verticalBand = fc.annotationBand()
+var verticalBand = fc.annotationSvgBand()
   .orient('vertical')
   .xScale(xScale)
   .yScale(yScale)

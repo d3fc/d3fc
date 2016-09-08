@@ -2,7 +2,7 @@
 xAxis.tickFormat('');
 yAxis.tickFormat('');
 
-var crosshair = fc.annotationCrosshair()
+var crosshair = fc.annotationSvgCrosshair()
   .xScale(xScale)
   .yScale(yScale)
   .xLabel(function(d) {

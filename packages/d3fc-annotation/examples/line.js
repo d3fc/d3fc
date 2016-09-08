@@ -1,10 +1,10 @@
 /* global xScale, yScale, render */
-var horizontalLine = fc.annotationLine()
+var horizontalLine = fc.annotationSvgLine()
   .label('')
   .xScale(xScale)
   .yScale(yScale);
 
-var verticalLine = fc.annotationLine()
+var verticalLine = fc.annotationSvgLine()
   .orient('vertical')
   .label('')
   .xScale(xScale)

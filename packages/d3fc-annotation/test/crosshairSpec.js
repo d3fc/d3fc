@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import annotationCrosshair from '../src/crosshair';
+import annotationCrosshair from '../src/svg/crosshair';
 
 describe('crosshair', () => {
 
