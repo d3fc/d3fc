@@ -44,6 +44,8 @@ export default () => {
                 .append('path')
                 .classed('band', true);
 
+            g.classed(orient, true);
+
             g.select('path')
                 // the path generator is being used to render a single path, hence
                 // an explicit index is provided
