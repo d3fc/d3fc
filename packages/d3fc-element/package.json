@@ -1,0 +1,37 @@
+{
+  "name": "d3fc-elements",
+  "description": "Custom elements to aid the rendering of D3 SVG/canvas content",
+  "license": "MIT",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "custom elements",
+    "js"
+  ],
+  "homepage": "https://github.com/d3fc/d3fc-elements",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d3fc/d3fc-elements"
+  },
+  "scripts": {
+    "bundle": "d3fc-scripts bundle",
+    "test": "eslint examples/**/*.js && d3fc-scripts test"
+  },
+  "devDependencies": {
+    "d3-axis": "^1.0.3",
+    "d3-scale": "^1.0.1",
+    "d3-selection": "^1.0.2",
+    "d3fc-data-join": "^3.0.3",
+    "d3fc-rebind": "^4.0.1",
+    "d3fc-series": "^1.0.0",
+    "d3fc-shape": "^4.0.0",
+    "d3fc-extent": "^2.2.0",
+    "d3fc-scripts": "^1.1.4",
+    "d3fc-series": "^1.0.1",
+    "eslint-config-defaults": "^9.0.0",
+    "webshot": "^0.18.0"
+  },
+  "dependencies": {
+    "document-register-element": "^1.0.10"
+  }
+}
