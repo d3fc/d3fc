@@ -2,7 +2,7 @@ export default class extends HTMLElement {
     requestRedraw(options) {
         const nodes = this.querySelectorAll('d3fc-svg, d3fc-canvas');
         for (const node of nodes) {
-            node.__node__.__data__ = this.__data__;
+            node.__data__ = this.__data__;
             node.requestRedraw(options);
         }
     }

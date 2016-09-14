@@ -34,7 +34,7 @@ const draw = (instance) => {
     if (instance.ondraw != null) {
         instance.ondraw({
             node: instance.__node__,
-            data: instance.__node__.__data__
+            data: instance.__data__
         });
     }
 };
@@ -61,5 +61,13 @@ export default (createNode) => class extends HTMLElement {
         if (this.__redrawRequestId__ == null) {
             this.__redrawRequestId__ = requestAnimationFrame(() => redraw(this));
         }
+    }
+
+    get __data__() {
+        return this.__node__.__data__;
+    }
+
+    set __data__(data) {
+        this.__node__.__data__ = data;
     }
 };
