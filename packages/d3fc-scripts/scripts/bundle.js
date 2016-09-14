@@ -24,7 +24,7 @@ module.exports = rollup.rollup({
       bundle.write({
           dest: `build/${packageJson.name}.js`,
           format: 'umd',
-          globals: globals(packageJson),
+          globals: globals(),
           moduleName: 'fc'
       })
   )
