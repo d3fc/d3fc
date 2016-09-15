@@ -1,10 +1,21 @@
+const nodeSelector = 'd3fc-svg, d3fc-canvas';
+
 export default class extends HTMLElement {
     requestRedraw(options) {
-        const nodes = this.querySelectorAll('d3fc-svg, d3fc-canvas');
+        const nodes = this.querySelectorAll(nodeSelector);
         for (const node of nodes) {
-            node.__data__ = this.__data__;
             node.requestRedraw(options);
         }
+    }
+    set __data__(data) {
+        const nodes = this.querySelectorAll(nodeSelector);
+        for (const node of nodes) {
+            node.__data__ = this.__data__;
+        }
+    }
+    get __data__() {
+        const node = this.querySelector(nodeSelector);
+        return node.__data__;
     }
     get autoResize() {
         return this.hasAttribute('auto-resize') && this.getAttribute('auto-resize') !== 'false';
