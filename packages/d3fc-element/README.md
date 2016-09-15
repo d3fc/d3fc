@@ -45,6 +45,14 @@ element.ondraw = ({node}) => {
   d3.select(node)
     .call(xAxis);
 };
+
+element.requestRedraw({ measure: true });
+
+setTimeout(() => {
+  xScale.domain([0, 5]);
+  // Only data has changed so don't measure
+  element.requestRedraw();
+}, 1000);
 ```
 
 <a name="surface_onmeasure" href="#surface_onmeasure">#</a> *surface*.**onmeasure** = *fn*
