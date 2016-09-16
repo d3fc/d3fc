@@ -80,6 +80,8 @@ Enqueues a redraw to occur on the next animation frame, only if there isn't alre
 Where options is an object with the following properties -
 
 * `measure` - when `true` the surface will be measured (and the associated event triggered) prior to drawing. A measure will occur even if a non-measure redraw was already queued.
+* `immediate` - when `true` the redraw will happen immediately. Defaults to `false` which means it is enqueued using `requestAnimationFrame`.
+* `next` - custom callback to control the transition between the rendering stages. Defaults to immediate invocation (`(task) => task()`).
 
 ### &lt;d3fc-group&gt;
 

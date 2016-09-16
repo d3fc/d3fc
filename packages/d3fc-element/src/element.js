@@ -3,8 +3,10 @@ const init = (instance, node) => {
     instance.ondraw = null;
 
     instance.__node__ = node;
-    instance.__redrawRequestId__ = null;
-    instance.__measure__ = false;
+    instance.__animationFrameRequestId__ = null;
+    instance.__measure__ = true;
+    instance.__width__ = null;
+    instance.__height__ = null;
 
     // Fill parent but allow parent to shrink
     instance.style.position = 'relative';
@@ -15,10 +17,15 @@ const init = (instance, node) => {
     instance.__node__.style.left = '0';
 };
 
-const measure = (instance) => {
-    instance.__measure__ = false;
-    const width = instance.clientWidth;
-    const height = instance.clientHeight;
+const measureNode = (instance, next) => {
+    instance.__width__ = instance.clientWidth;
+    instance.__height__ = instance.clientHeight;
+    next(() => applyMeasurements(instance, next));
+};
+
+const applyMeasurements = (instance, next) => {
+    const width = instance.__width__;
+    const height = instance.__height__;
     instance.__node__.setAttribute('width', width);
     instance.__node__.setAttribute('height', height);
     if (instance.onmeasure != null) {
@@ -27,22 +34,19 @@ const measure = (instance) => {
             height
         });
     }
-    instance.__redrawRequestId__ = requestAnimationFrame(() => redraw(instance));
+    instance.__measure__ = false;
+    next(() => draw(instance));
 };
 
 const draw = (instance) => {
     if (instance.ondraw != null) {
         instance.ondraw({
+            width: instance.__width__,
+            height: instance.__height__,
             node: instance.__node__,
             data: instance.__data__
         });
     }
-};
-
-const redraw = (instance) => {
-    instance.__redrawRequestId__ = null;
-    const action = instance.__measure__ ? measure : draw;
-    action(instance);
 };
 
 export default (createNode) => class extends HTMLElement {
@@ -56,10 +60,14 @@ export default (createNode) => class extends HTMLElement {
         this.requestRedraw({ measure: true });
     }
 
-    requestRedraw({ measure = false }) {
+    requestRedraw({ measure = false, immediate = false, next = ((task) => task()) }) {
+        cancelAnimationFrame(this.__animationFrameRequestId__);
         this.__measure__ = this.__measure__ || measure;
-        if (this.__redrawRequestId__ == null) {
-            this.__redrawRequestId__ = requestAnimationFrame(() => redraw(this));
+        const action = this.__measure__ ? measureNode : draw;
+        if (immediate) {
+            action(this, next);
+        } else {
+            this.__animationFrameRequestId__ = requestAnimationFrame(() => action(this, next));
         }
     }
 
