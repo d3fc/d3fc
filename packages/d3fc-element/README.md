@@ -1,6 +1,36 @@
 # d3fc-elements
 
-Custom HTML elements that make it easier to create responsive visualisations that integrate easily with other UI frameworks (e.g. React, Angular).
+This package provides custom HTML elements that make it easier to create responsive visualisations that integrate easily with other UI frameworks (e.g. React, Angular).
+
+When creating d3 visualisations it's common to want some form of responsive layout. However, SVG and canvas don't provide a native way to do this. In most examples found online, developers either use fixed dimensions or resort to some form of manual layout to achieve the required effect.
+
+The elements presented below represent an alternative approach. They provide SVG and canvas rendering surfaces that can be positioned independently using CSS (e.g. flexbox) -
+
+```html
+<div id="chart" style="display: flex; height: 40vw; width: 60vw; flex-direction: column">
+  <h1 style="text-align: center">
+    A Cartesian Chart
+  </h1>
+  <div style="flex: 1; display: flex; flex-direction: row">
+    <d3fc-svg id="plot-area" style="flex: 1"></d3fc-svg>
+    <d3fc-svg id="y-axis" style="width: 5em"></d3fc-svg>
+  </div>
+  <div style="height: 3em; display: flex; flex-direction: row">
+    <d3fc-svg id="x-axis" style="flex: 1; margin-right: 5em"></d3fc-svg>
+  </div>
+</div>
+```
+
+In this example a standard cartesian chart is positioned using viewport relative dimensions to demonstrate a responsive size (its height is 40% of the viewport width and its width is 60% of the viewport width). The plot area has been split from each of the axes and they're all individually positioned using a flexbox layout (the plot area will grow to fill the available space whilst the axes will remain a constant thickness). Additionally this demonstrates mixing in other arbitrary elements, in this case a chart title.
+
+Whilst this would be possible using standard SVG or canvas elements, there are a number of things which would need to be handled manually -
+
+* The SVG or canvas element will generally have no problems growing but the `width` and `height` attributes can cause their containers not to shrink as expected.
+* When measuring nodes, layout thrashing can occur if DOM measurements (e.g. reading `clientWidth`/`clientHeight`) are interleaved with DOM updates (e.g. setting `width` and `height` or amending the DOM).
+* CSS will resize the canvas element but the dimensions of its internal co-ordinate space must be manually set (using `width` and `height` attributes).
+
+These issues are all addressed by this package. Additionally it provides enforced alignment of rendering to animation frames, optional optimisation through the separation of size-dependent from data-dependent rendering and optional rudimentary auto-resize functionality (based on window `resize`).
+
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
@@ -23,7 +53,7 @@ These elements provide a nested `svg` or `canvas` element as a rendering surface
 
 Rendering is a two-phase process, *measure* and *draw*.  Assign functions to the [onmeasure](#surface_onmeasure) and [ondraw](#surface_ondraw) properties which contain the logic required for sizing and rendering the visualisation.
 
-The split into two phases is required to allow the sizing logic to be performed across all surfaces involved in a visualisation (see [d3fc-group](#d3fc-group)) before any of these values are used in the render without maintaining a dependency graph. Additionally it prevents interlacing of DOM reads (should occur in *measure*) from DOM writes (should occur in *draw*) which can cause layout thrashing.
+The split into two phases is required to allow the sizing logic to be performed across all surfaces involved in a visualisation (see [d3fc-group](#d3fc-group)) before any of these values are used in the render without maintaining a dependency graph. Additionally it prevents interleaving of DOM reads (should occur in *measure*) from DOM writes (should occur in *draw*) which can cause layout thrashing.
 
 ```html
 <d3fc-svg id="x-axis" style="width: 10vw; height: 6vw"></d3fc-svg>
@@ -48,9 +78,11 @@ element.ondraw = ({node}) => {
 
 element.requestRedraw({ measure: true });
 
+// Some time later...
 setTimeout(() => {
+  // A change requiring a redraw occurs...
   xScale.domain([0, 5]);
-  // Only data has changed so don't measure
+  // As only data changed, don't trigger a measure...
   element.requestRedraw();
 }, 1000);
 ```
