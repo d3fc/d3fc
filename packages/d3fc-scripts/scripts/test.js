@@ -16,6 +16,13 @@ require('./bundle')
       var jasmine = new Jasmine();
       jasmine.loadConfigFile(path.join(__dirname, '..', 'jasmine.json'));
       jasmine.execute();
+      jasmine.onComplete(passed => {
+          if (passed) {
+              console.log('All tests passed');
+          } else {
+              console.error('At least one test failed');
+          }
+      });
   })
   .catch(e => {
       console.log(e);
