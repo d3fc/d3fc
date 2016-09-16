@@ -2,218 +2,12 @@
 <html>
 <body>
   <script src="https://d3js.org/d3.v4.js"></script>
-  <script src="../build/d3fc-vanillajs.js"></script>
+  <script src="../build/d3fc-elements.js"></script>
   <script src="../node_modules/d3fc-extent/build/d3fc-extent.js"></script>
   <script src="../node_modules/d3fc-shape/build/d3fc-shape.js"></script>
   <script src="../node_modules/d3fc-data-join/build/d3fc-data-join.js"></script>
   <script src="../node_modules/d3fc-rebind/build/d3fc-rebind.js"></script>
   <script src="../node_modules/d3fc-series/build/d3fc-series.js"></script>
-  <script>
-    // // class D3fcXyCanvas extends HTMLCanvasElement {
-    // //   constructor(self) {
-    // //     self = super(self);
-    // //   //   console.log('here I am ^_^ ');
-    // //   //   const canvas = self.ownerDocument.createElement('canvas');
-    // //   //   // canvas.style.position = 'absolute';
-    // //   //   // canvas.style.width = '100%';
-    // //   //   // canvas.style.height = '100%';
-    // //   //   self.appendChild(canvas);
-    // //     return self;
-    // //   }
-    // //   connectedCallback() {
-    // //     console.log('live on DOM ;-) ');
-    // //   }
-    // //   disconnectedCallback() {
-    // //     console.log('leaving the DOM :-( )');
-    // //   }
-    // //   // static get observedAttributes() {
-    // //   //   return [];
-    // //   // }
-    // //   attributeChangedCallback(
-    // //     name, previousValue, value
-    // //   ) {
-    // //     if (previousValue == null) {
-    // //       console.log(
-    // //         'got a new attribute ', name,
-    // //         ' with value ', value
-    // //       );
-    // //     } else if (value == null) {
-    // //       console.log(
-    // //         'somebody removed ', name,
-    // //         ' its value was ', previousValue
-    // //       );
-    // //     } else {
-    // //       console.log(
-    // //         name,
-    // //         ' changed from ', previousValue,
-    // //         ' to ', value
-    // //       );
-    // //     }
-    // //   }
-    // // }
-    // class D3FCElement extends HTMLElement {
-    //   constructor(self, node) {
-    //     self = super(self);
-    //     self.__node__ = node;
-    //     // Fill parent but allow parent to shrink
-    //     self.style.position = 'relative';
-    //     self.__node__.style.position = 'absolute';
-    //     self.__node__.style.top = '0';
-    //     self.__node__.style.right = '0';
-    //     self.__node__.style.bottom = '0';
-    //     self.__node__.style.left = '0';
-    //     return self;
-    //   }
-    //   connectedCallback() {
-    //     this.appendChild(this.__node__);
-    //     this.requestResize();
-    //   }
-    //   requestResize() {
-    //     if (this.__resizeQueued__ != null) {
-    //       return;
-    //     }
-    //     if (this.__redrawQueued__) {
-    //       cancelAnimationFrame(this.__redrawQueued__);
-    //       this.__redrawQueued__ = null;
-    //     }
-    //     this.__width__ = null;
-    //     this.__height__ = null;
-    //     this.__resizeQueued__ = requestAnimationFrame(() => this.resize());
-    //   }
-    //   resize() {
-    //     this.__resizeQueued__ = null;
-    //     this.__width__ = this.clientWidth;
-    //     this.__height__ = this.clientHeight;
-    //     this.__node__.setAttribute('width', this.__width__);
-    //     this.__node__.setAttribute('height', this.__height__);
-    //     if (this.__onsize__ != null) {
-    //       this.__onsize__({
-    //         // node: this.__node__,
-    //         // data: this.__node__.__data__,
-    //         // context: this.__node__.getContext && this.__node__.getContext('2d'),
-    //         width: this.__width__,
-    //         height: this.__height__
-    //       });
-    //     }
-    //     this.requestRedraw();
-    //   }
-    //   requestRedraw() {
-    //     if (this.__resizeQueued__ != null || this.__redrawQueued__ != null) {
-    //       return;
-    //     }
-    //     if (this.__width__ == null || this.__height__ == null) {
-    //       this.requestResize();
-    //       return;
-    //     }
-    //     this.__redrawQueued__ = requestAnimationFrame(() => this.redraw());
-    //   }
-    //   redraw() {
-    //     this.__redrawQueued__ = null;
-    //     if (this.__ondraw__ != null) {
-    //       this.__ondraw__({
-    //         node: this.__node__,
-    //         data: this.__node__.__data__,
-    //         context: this.__node__.getContext && this.__node__.getContext('2d'),
-    //         // width: this.__width__,
-    //         // height: this.__height__
-    //       });
-    //     }
-    //   }
-    //   set onsize(onsize) {
-    //     this.__onsize__ = onsize;
-    //     // this.requestResize();
-    //   }
-    //   set ondraw(ondraw) {
-    //     this.__ondraw__ = ondraw;
-    //     // this.requestRedraw();
-    //   }
-    // }
-    //
-    // class D3FCCanvasElement extends D3FCElement {
-    //   constructor(self) {
-    //     super(self, self.ownerDocument.createElement('canvas'));
-    //   }
-    // }
-    //
-    // class D3FCSvgElement extends D3FCElement {
-    //   constructor(self) {
-    //     self = super(self, self.ownerDocument.createElementNS('http://www.w3.org/2000/svg', 'svg'));
-    //     self.__node__.style.overflow = 'visible';
-    //     return self;
-    //   }
-    // }
-    //
-    // class D3FCGroupElement extends HTMLElement {
-    //   __each__(fn) {
-    //     const container = d3.select(this);
-    //     const data = container.datum();
-    //     const selection = container.selectAll('d3fc-svg, d3fc-canvas');
-    //     if (data != null) { // BROKE
-    //       selection.data(d => d);
-    //     }
-    //     selection.each(fn);
-    //   }
-    //   requestResize() {
-    //     this.__each__((d, i, nodes) => nodes[i].requestResize());
-    //   }
-    //   requestRedraw() {
-    //     this.__each__((d, i, nodes) => nodes[i].requestRedraw());
-    //   }
-    //   get autoResize() {
-    //     return this.getAttribute('auto-resize') !== 'false';
-    //   }
-    //   set autoResize(autoResize) {
-    //     if (autoResize && !this.autoResize) {
-    //       this.setAttribute('auto-resize', '');
-    //     } else if (!autoResize && this.autoResize) {
-    //       this.removeAttribute('auto-resize');
-    //     }
-    //     this.updateAutoResize();
-    //   }
-    //   updateAutoResize() {
-    //     console.log(this.autoResize);
-    //     if (this.autoResize) {
-    //       if (this.__autoResizeListener__ == null) {
-    //         this.__autoResizeListener__ = () => this.requestResize();
-    //       }
-    //       addEventListener('resize', this.__autoResizeListener__);
-    //     } else {
-    //       removeEventListener('resize', this.__autoResizeListener__);
-    //     }
-    //   }
-    //   static get observedAttributes() {
-    //       return ['auto-resize'];
-    //   }
-    //   attributeChangedCallback(name) {
-    //     switch (name) {
-    //       case 'auto-resize':
-    //         this.updateAutoResize();
-    //         break;
-    //     }
-    //   }
-    // }
-    //
-    //
-    // customElements.define('d3fc-canvas', D3FCCanvasElement);
-    // customElements.define('d3fc-svg', D3FCSvgElement);
-    // customElements.define('d3fc-group', D3FCGroupElement);
-
-    // send through data and context
-    // group multi-casts but can still target individual nodes
-    // fix overflow preventing resize
-    // add d3fc-axis-top/right/bottom/left
-    // iteration order, document depth-first, document breadth-first? y-axis, plot-area,
-    // add separate phases for resize and render? (iterate over all for resize, then all for render)
-    // ++ no measuring unless resize
-    // + no explicit indexing
-    // render/resize events or callbacks?
-  </script>
-
-  <style>
-    canvas {
-      /*outline: 1px solid red;*/
-    }
-  </style>
 
   <d3fc-group id="chart" auto-resize style="display: flex; height: 40vw; width: 60vw; flex-direction: column">
     <h1 style="text-align: center">
@@ -255,35 +49,28 @@
       .yScale(yScale);
 
     document.getElementById('x-axis').onmeasure = ({width}) => {
-      console.log('x-axis', 'onmeasure');
       xScale.range([0, width]);
     };
 
     document.getElementById('x-axis').ondraw = ({node}) => {
-      console.log('x-axis', 'ondraw');
       d3.select(node).call(xAxis);
     };
 
     document.getElementById('y-axis').onmeasure = ({height}) => {
-      console.log('y-axis', 'onmeasure');
       yScale.range([height, 0]);
     };
 
     document.getElementById('y-axis').ondraw = ({node}) => {
-      console.log('y-axis', 'ondraw');
       d3.select(node).call(yAxis);
     };
 
     document.getElementById('plot-area').ondraw = ({node}) => {
-      console.log('plot-area', 'ondraw');
       d3.select(node)
-        // .datum(data)
         .call(lineSeries);
     };
 
     d3.select(document.getElementById('chart')).datum(data);
     document.getElementById('chart').requestRedraw({ measure: true });
-    // document.getElementById('chart').notifyResize();
 
   </script>
 
