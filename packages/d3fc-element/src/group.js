@@ -10,7 +10,7 @@ export default class extends HTMLElement {
     set __data__(data) {
         const nodes = this.querySelectorAll(nodeSelector);
         for (const node of nodes) {
-            node.__data__ = this.__data__;
+            node.__data__ = data;
         }
     }
     get __data__() {
