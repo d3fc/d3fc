@@ -31,7 +31,7 @@
     "jasmine": "^2.4.1",
     "jsdom": "^9.4.1",
     "rimraf": "^2.5.2",
-    "rollup": "^0.35.11",
+    "rollup": "^0.36.0",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "semantic-release": "^4.3.5",
