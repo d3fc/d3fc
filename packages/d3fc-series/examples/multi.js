@@ -44,7 +44,6 @@ var canvasLine = fc.seriesCanvasLine()
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });
 
-
 var canvasMulti = fc.seriesCanvasMulti()
     .xScale(xScale)
     .yScale(yScale)
