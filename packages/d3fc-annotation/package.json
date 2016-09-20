@@ -15,16 +15,14 @@
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
-    "test": "eslint examples/**/*.js && d3fc-scripts test",
+    "test": "d3fc-scripts test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "d3-axis": "^1.0.3",
     "d3-shape": "^1.0.3",
     "d3fc-scripts": "^1.1.4",
-    "eslint-config-defaults": "^9.0.0",
-    "webshot": "^0.18.0",
-    "semantic-release": "^4.3.5"
+    "webshot": "^0.18.0"
   },
   "dependencies": {
     "d3-scale": "^1.0.1",

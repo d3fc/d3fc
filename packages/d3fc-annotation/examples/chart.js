@@ -23,15 +23,15 @@ function render() {
     var svg = d3.select('svg');
 
     xAxisJoin(svg, function(d) { return [d]; })
-      .attr('transform', 'translate(0, ' + (height - 20) +')')
+      .attr('transform', 'translate(0, ' + (height - 20) + ')')
       .call(xAxis);
 
     yAxisJoin(svg, function(d) { return [d]; })
-      .attr('transform', 'translate(' + (width - 30) +', 0)')
+      .attr('transform', 'translate(' + (width - 30) + ', 0)')
       .call(yAxis);
 
     if (typeof renderComponent === 'function') {
-      renderComponent();
+        renderComponent();
     }
 
     requestAnimationFrame(render);
