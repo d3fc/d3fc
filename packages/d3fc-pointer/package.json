@@ -1,0 +1,32 @@
+{
+  "name": "d3fc-pointer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "d3fc-scripts test",
+    "bundle": "d3fc-scripts bundle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3fc/d3fc-pointer.git"
+  },
+  "keywords": [
+    "d3",
+    "d3fc",
+    "behaviour",
+    "pointer"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/d3fc/d3fc-pointer/issues"
+  },
+  "homepage": "https://github.com/d3fc/d3fc-pointer",
+  "devDependencies": {
+    "d3fc-scripts": "^1.4.2"
+  },
+  "dependencies": {
+    "d3-dispatch": "^1.0.1",
+    "d3-selection": "^1.0.2"
+  }
+}
