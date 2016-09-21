@@ -1,0 +1,35 @@
+{
+  "name": "d3fc-axis",
+  "description": "A drop-in replacement for d3 axis, with support for the d3fc decorate pattern",
+  "license": "MIT",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "axis"
+  ],
+  "homepage": "https://github.com/d3fc/d3fc-axis",
+  "main": "build/d3fc-axis.js",
+  "jsnext:main": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d3fc/d3fc-axis"
+  },
+  "scripts": {
+    "bundle": "d3fc-scripts bundle",
+    "test": "d3fc-scripts test",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.13.0",
+    "d3": "^4.2.5",
+    "d3fc-scripts": "^1.4.2",
+    "webshot": "^0.18.0"
+  },
+  "dependencies": {
+    "d3-scale": "^1.0.3",
+    "d3-selection": "^1.0.2",
+    "d3-shape": "^1.0.3",
+    "d3fc-data-join": "^3.0.3",
+    "d3fc-rebind": "^4.1.0"
+  }
+}
