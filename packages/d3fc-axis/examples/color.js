@@ -8,11 +8,11 @@ var scale = d3.scaleLinear()
 
 var axis = fc.axisBottom(scale)
   .decorate(function(s) {
-    s.enter()
-      .select('text')
-      .style('fill', function(d) {
-          return d >= 100 ? 'red' : 'black';
-      });
+      s.enter()
+        .select('text')
+        .style('fill', function(d) {
+            return d >= 100 ? 'red' : 'black';
+        });
   });
 
 var svg = d3.select('body').append('svg')

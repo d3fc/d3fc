@@ -22,7 +22,7 @@ describe('bundle', () => {
                 './build/d3fc-axis.js'
             ],
             done: (_, win) => {
-                const axis = win.fc.axis();
+                const axis = win.fc.axisBottom();
                 expect(axis).not.toBeUndefined();
                 done();
             }

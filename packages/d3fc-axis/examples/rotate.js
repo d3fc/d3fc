@@ -9,7 +9,7 @@ var axis = fc.axisBottom(scale)
   .decorate(function(s) {
       s.enter().select('text')
         .style('text-anchor', 'start')
-        .attr('transform', 'rotate(45 -10 10)')
+        .attr('transform', 'rotate(45 -10 10)');
   });
 
 var svg = d3.select('body').append('svg')

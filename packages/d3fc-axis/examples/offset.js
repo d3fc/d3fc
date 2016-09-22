@@ -7,10 +7,10 @@ var scale = d3.scaleBand()
 
 var axis = fc.axisBottom(scale)
   .decorate(function(s) {
-    s.enter().select('text')
-      .attr('transform', function(d, i) {
-          return 'translate(0, ' + (i % 2 === 0 ? 20 : 10) + ')';
-      });
+      s.enter().select('text')
+        .attr('transform', function(d, i) {
+            return 'translate(0, ' + (i % 2 === 0 ? 20 : 10) + ')';
+        });
   });
 
 var svg = d3.select('body').append('svg')
