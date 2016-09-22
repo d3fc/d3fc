@@ -23,54 +23,60 @@
   </d3fc-group>
 
   <script>
-    const data = d3.range(50).map(function(d) {
-        return {
-            x: d / 3,
-            y: Math.sin(d / 3)
-        };
+  const data = d3.range(50)
+    .map(d => ({ x: d / 3, y: Math.sin(d / 3)}));
+
+  const xScale = d3.scaleLinear();
+
+  const yScale = d3.scaleLinear();
+
+  document.getElementById('chart')
+    .addEventListener('draw', ({ detail: { width, height } }) => {
+        const xExtent = fc.extentLinear()
+          .accessors([d => d.x]);
+        xScale.domain(xExtent(data));
+
+        const yExtent = fc.extentLinear()
+          .accessors([d => d.y]);
+        yScale.domain(yExtent(data));
     });
 
-    const xExtent = fc.extentLinear()
-      .accessors([d => d.x]);
-    const xScale = d3.scaleLinear()
-      .domain(xExtent(data));
-    const xAxis = d3.axisBottom(xScale);
-
-    const yExtent = fc.extentLinear()
-      .accessors([d => d.y]);
-    const yScale = d3.scaleLinear()
-      .domain(yExtent(data));
-    const yAxis = d3.axisRight(yScale);
-
-    const lineSeries = fc.seriesSvgLine()
-      .mainValue(d => d.y)
-      .crossValue(d => d.x)
-      .xScale(xScale)
-      .yScale(yScale);
-
-    document.getElementById('x-axis').onmeasure = ({width}) => {
-      xScale.range([0, width]);
-    };
-
-    document.getElementById('x-axis').ondraw = ({node}) => {
-      d3.select(node).call(xAxis);
-    };
-
-    document.getElementById('y-axis').onmeasure = ({height}) => {
-      yScale.range([height, 0]);
-    };
-
-    document.getElementById('y-axis').ondraw = ({node}) => {
-      d3.select(node).call(yAxis);
-    };
-
-    document.getElementById('plot-area').ondraw = ({node}) => {
+  document.getElementById('x-axis')
+    .addEventListener('draw', ({ detail: { node } }) => {
+      const xAxis = d3.axisBottom(xScale);
       d3.select(node)
-        .call(lineSeries);
-    };
+        .call(xAxis);
+    });
 
-    d3.select(document.getElementById('chart')).datum(data);
-    document.getElementById('chart').requestRedraw({ measure: true });
+  document.getElementById('y-axis')
+    .addEventListener('draw', ({ detail: { node } }) => {
+      const yAxis = d3.axisRight(yScale);
+      d3.select(node)
+        .call(yAxis);
+    });
+
+  document.getElementById('plot-area')
+    .addEventListener('resize', ({ detail: { width, height } }) => {
+      xScale.range([0, width]);
+      yScale.range([height, 0]);
+    });
+
+  document.getElementById('plot-area')
+    .addEventListener('draw', ({ detail: { node } }) => {
+      const lineSeries = fc.seriesSvgLine()
+        .xScale(xScale)
+        .yScale(yScale);
+      d3.select(node)
+        .datum(data)
+        .call(lineSeries);
+    });
+
+  setInterval(() => {
+    const n = data.length;
+    data.push({ x: n / 3, y: Math.sin(n / 3)});
+
+    document.getElementById('chart').requestRedraw();
+  }, 20);
 
   </script>
 

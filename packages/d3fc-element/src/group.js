@@ -1,44 +1,16 @@
-const nodeSelector = 'd3fc-svg, d3fc-canvas';
-
-const init = (instance, node) => {
-    instance.__animationFrameRequestId__ = null;
-    instance.__measure__ = true;
-};
-
-const redraw = (instance) => {
-    const tasks = [];
-    const nodes = instance.querySelectorAll(nodeSelector);
-    for (const node of nodes) {
-        node.requestRedraw({
-            measure: instance.__measure__,
-            immediate: true,
-            next: (task) => void tasks.push(task)
-        });
-    }
-    while (tasks.length > 0) {
-        tasks.shift()();
-    }
-};
+import requestRedraw from './requestRedraw';
 
 export default class extends HTMLElement {
     // https://github.com/WebReflection/document-register-element/tree/v1.0.10#skipping-the-caveat-through-extends
     // eslint-disable-next-line
-    constructor(_) { return init((_ = super(_))), _; }
+    constructor(_) { return (_ = super(_)), _; }
 
-    requestRedraw({ measure = false }) {
-        cancelAnimationFrame(this.__animationFrameRequestId__);
-        this.__measure__ = this.__measure__ || measure;
-        this.__animationFrameRequestId__ = requestAnimationFrame(() => redraw(this));
+    connectedCallback() {
+        requestRedraw(this);
     }
-    set __data__(data) {
-        const nodes = this.querySelectorAll(nodeSelector);
-        for (const node of nodes) {
-            node.__data__ = data;
-        }
-    }
-    get __data__() {
-        const node = this.querySelector(nodeSelector);
-        return node.__data__;
+
+    requestRedraw() {
+        requestRedraw(this);
     }
     get autoResize() {
         return this.hasAttribute('auto-resize') && this.getAttribute('auto-resize') !== 'false';
@@ -54,7 +26,7 @@ export default class extends HTMLElement {
     updateAutoResize() {
         if (this.autoResize) {
             if (this.__autoResizeListener__ == null) {
-                this.__autoResizeListener__ = () => this.requestRedraw({ measure: true });
+                this.__autoResizeListener__ = () => requestRedraw(this);
             }
             addEventListener('resize', this.__autoResizeListener__);
         } else {
