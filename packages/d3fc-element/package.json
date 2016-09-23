@@ -20,7 +20,6 @@
   "devDependencies": {
     "d3-axis": "^1.0.3",
     "d3-scale": "^1.0.1",
-    "d3-selection": "^1.0.2",
     "d3fc-data-join": "^3.0.3",
     "d3fc-rebind": "^4.0.1",
     "d3fc-series": "^1.0.0",
@@ -32,6 +31,7 @@
     "webshot": "^0.18.0"
   },
   "dependencies": {
+    "d3-selection": "^1.0.2",
     "document-register-element": "^1.0.10"
   }
 }

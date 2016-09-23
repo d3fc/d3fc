@@ -101,11 +101,10 @@ let i = 0;
 
 const xAxisContainer = d3.select('#x-axis')
   .on('draw', () => {
-    const { detail: { node, width } } = d3.event;
+    const { detail: { selection, width } } = d3.event;
     xScale.range([0, width])
       .domain([++i, i + 10]);
-    d3.select(node)
-      .call(xAxis);
+    selection.call(xAxis);
   });
 
 // Schedule a redraw to occur on the next animation
@@ -154,30 +153,27 @@ const yScale = d3.scaleLinear();
 
 const xAxisContainer = d3.select('#x-axis')
   .on('draw', () => {
-    const { detail: { node, width } } = d3.event;
+    const { detail: { selection, width } } = d3.event;
     xScale.range([0, width]);
     const xAxis = d3.axisBottom(xScale);
-    d3.select(node)
-      .call(xAxis);
+    selection.call(xAxis);
   });
 
 const yAxisContainer = d3.select('#y-axis')
   .on('draw', () => {
-    const { detail: { node, height } } = d3.event;
+    const { detail: { selection, height } } = d3.event;
     yScale.range([height, 0]);
     const yAxis = d3.axisRight(yScale);
-    d3.select(node)
-      .call(yAxis);
+    selection.call(yAxis);
   });
 
 const plotAreaContainer = d3.select('#plot-area')
   .on('draw', () => {
-    const { detail: { node } } = d3.event;
+    const { detail: { selection } } = d3.event;
     const lineSeries = fc.seriesSvgLine()
       .xScale(xScale)
       .yScale(yScale);
-    d3.select(node)
-      .datum(data)
+    selection.datum(data)
       .call(lineSeries);
   });
 
@@ -237,18 +233,16 @@ const yScale = d3.scaleLinear();
 
 const xAxisContainer = d3.select('#x-axis')
   .on('draw', () => {
-    const { detail: { node } } = d3.event;
+    const { detail: { selection } } = d3.event;
     const xAxis = d3.axisBottom(xScale);
-    d3.select(node)
-      .call(xAxis);
+    selection.call(xAxis);
   });
 
 const yAxisContainer = d3.select('#y-axis')
   .on('draw', () => {
-    const { detail: { node } } = d3.event;
+    const { detail: { selection } } = d3.event;
     const yAxis = d3.axisRight(yScale);
-    d3.select(node)
-      .call(yAxis);
+    selection.call(yAxis);
   });
 
 const plotAreaContainer = d3.select('#plot-area')
@@ -258,12 +252,11 @@ const plotAreaContainer = d3.select('#plot-area')
     yScale.range([height, 0]);
   })
   .on('draw', () => {
-    const { detail: { node } } = d3.event;
+    const { detail: { selection } } = d3.event;
     const lineSeries = fc.seriesSvgLine()
       .xScale(xScale)
       .yScale(yScale);
-    d3.select(node)
-      .datum(data)
+    selection.datum(data)
       .call(lineSeries);
   });
 
@@ -272,7 +265,7 @@ const chartContainer = d3.select('#chart')
     const xExtent = fc.extentLinear()
       .accessors([d => d.x]);
     xScale.domain(xExtent(data));
-  
+
     const yExtent = fc.extentLinear()
       .accessors([d => d.y]);
     yScale.domain(yExtent(data));
@@ -284,7 +277,7 @@ setInterval(() => {
 
   chartContainer.node()
     .requestRedraw();
-}, 1000);
+}, 1);
 ```
 
 With our final requirement fulfilled `d3fc-group` has one final tick up its sleeve. Whilst it's impossible for an element to know when it has been resized in a performance-sensitive way, we can watch for window resize events and make an educated guess that it's probably caused the element to resize. Therefore, if you add the `auto-resize` attribute to the `d3fc-group` element it will start responding to window resize events by internally invoking `requestRedraw` -

@@ -41,9 +41,8 @@ const xAxisContainer = d3.select('#x-axis')
     xScale.range([0, width]);
   })
   .on('draw', () => {
-    const { detail: { node } } = d3.event;
-    d3.select(node)
-      .call(xAxis);
+    const { detail: { selection } } = d3.event;
+    selection.call(xAxis);
   });
 
 // Some time later...
@@ -97,11 +96,13 @@ The following custom DOM events are emitted by the elements -
 * `resize` - indicates that the rendering surface has been resized (only [&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)). Typically the `resize` event is used to set the [range](https://github.com/d3/d3-scale#continuous_range) on scales or apply transforms.
 * `draw` - indicates that the rendering surface requires drawing. Typically the `draw` event is used to render components or perform any bespoke data-joins.
 
-The following properties are available under the `detail` property on the event (only [&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)) -
+The following properties are available under the `detail` property on the event (not available for [&lt;d3fc-group&gt;](#d3fc-group)) -
 
 * `width` - the width of the surface in pixels.
 * `height` - the height of the surface in pixels.
 * `resized` - flag indicating whether the element has resized since the last draw.
 * `node` - the surface node.
+* `selection` - a d3 selection containing only `node`.
+* `context` - the 2d rendering context retrieved from `node` ([&lt;d3fc-canvas&gt;](#d3fc-canvas) only).
 
 N.B. it is safe to immediately invoke [*surface*.requestRedraw](#surface_requestRedraw) from event handlers if you wish to create an animation. The redraw will be scheduled for the subsequent animation frame.

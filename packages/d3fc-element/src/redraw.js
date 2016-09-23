@@ -1,3 +1,4 @@
+import { select } from 'd3-selection';
 import * as data from './data';
 
 const find = (element) => element.tagName === 'D3FC-GROUP'
@@ -13,7 +14,9 @@ const measure = (element) => {
     const height = element.clientHeight;
     const resized = width !== previousWidth || height !== previousHeight;
     const node = element.childNodes[0];
-    data.set(element, { width, height, resized, node });
+    const context = node.getContext && node.getContext('2d');
+    const selection = select(node);
+    data.set(element, { width, height, resized, node, context, selection });
 };
 
 const resize = (element) => {
