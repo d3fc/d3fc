@@ -1,6 +1,6 @@
 # d3fc-pointer
 
-Very simple component which emits an event to indicate the current mouse or touch position over the selection. Useful for implementing uni-directional data flow in a visualisation and not a lot else.
+Very simple component which emits an event to indicate the current mouse or touch position over a selection. Useful for implementing uni-directional data flow in a visualisation and not a lot else.
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
