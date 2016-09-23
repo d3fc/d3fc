@@ -26,9 +26,7 @@
     "d3fc-shape": "^4.0.0",
     "d3fc-extent": "^2.2.0",
     "d3fc-scripts": "^1.1.4",
-    "d3fc-series": "^1.0.1",
-    "eslint-config-defaults": "^9.0.0",
-    "webshot": "^0.18.0"
+    "d3fc-series": "^1.0.1"
   },
   "dependencies": {
     "d3-selection": "^1.0.2",
