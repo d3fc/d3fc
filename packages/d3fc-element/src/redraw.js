@@ -21,9 +21,9 @@ const resize = (element) => {
         return;
     }
     const detail = data.get(element);
-    // if (!detail.resized) {
-    //     return;
-    // }
+    if (!detail.resized) {
+        return;
+    }
     detail.node.setAttribute('width', detail.width);
     detail.node.setAttribute('height', detail.height);
     const event = new CustomEvent('resize', { detail });
