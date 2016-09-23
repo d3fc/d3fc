@@ -1,6 +1,6 @@
 # d3fc-elements
 
-This package provides custom HTML elements that make it easier to create responsive visualisations that integrate easily with other UI frameworks (e.g. React, Angular).
+Custom HTML elements that make it easier to create responsive d3 visualisations using CSS that integrate easily with other UI frameworks (e.g. React, Angular)
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
@@ -21,7 +21,7 @@ npm install d3fc-elements
 
 These elements provide a nested `svg` or `canvas` element as a rendering surface for D3 visualisations. Use CSS to size the element and its pixel dimensions will be automatically propagated through to the nested element.
 
-Rendering is internally a three-phase process, *measure*, *resize* (if required) and *draw*.  The *resize* and *draw* phases emit similarly named events to allow rendering code to be called.
+Rendering is internally a three-phase process which is automatically aligned to animation frames, *measure*, *resize* (if required) and *draw*.  The *resize* and *draw* phases emit similarly named events to allow rendering code to be called.
 
 The split is required to allow the measuring logic to be performed across all surfaces in the document before any rendering takes place. This prevents layout thrashing by preventing interleaving of DOM reads (which occur in *measure*) with DOM writes (which should occur in *draw*).
 
@@ -35,29 +35,37 @@ const xScale = d3.scaleLinear()
 
 const xAxis = d3.axisBottom(xScale);
 
-const element = document.getElementById('x-axis');
-
-element.addEventListener('resize', ({ detail: { width } }) => {
-  xScale.range([0, width]);
-});
-
-element.addEventListener('draw', () => {
-  d3.select(element)
-    .call(xAxis);
-});
+const xAxisContainer = d3.select('#x-axis')
+  .on('resize', () => {
+    const { detail: { width } } = d3.event;
+    xScale.range([0, width]);
+  })
+  .on('draw', () => {
+    const { detail: { node } } = d3.event;
+    d3.select(node)
+      .call(xAxis);
+  });
 
 // Some time later...
 setTimeout(() => {
   // ...a change requiring a redraw occurs...
   xScale.domain([0, 5]);
   // ...so we request a redraw of the element.
-  element.requestRedraw();
+  xAxisContainer.node()
+    .requestRedraw();
 }, 1000);
 ```
 
+
+<a name="surface_requestRedraw" href="#surface_requestRedraw">#</a> *surface*.**requestRedraw**()
+
+Enqueues a redraw to occur on the next animation frame, only if there isn't already one pending. If one is already pending, this call is ignored.
+
+It should be noted that `requestRedraw` is asynchronous. It does not directly invoke the draw event so any errors thrown in the event handler can not be caught.
+
 ### &lt;d3fc-group&gt;
 
-An element with no visual representation that is designed to group related rendering surfaces ([&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)). Its core purpose is to multi-cast [*group*.requestRedraw](#group-requestRedraw) calls to descendant surfaces. It additionally provides helpers to allow [auto-resizing](#group-autoResize) of descendant surfaces in response to window `resize` events.
+An element with no visual representation that is designed to group related rendering surfaces ([&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)). Its core purpose is to multi-cast [*group*.requestRedraw](#group-requestRedraw) calls to descendant surfaces and to provide an aggregate draw event. It additionally provides helpers to allow [auto-resizing](#group-autoResize) of descendant surfaces in response to window `resize` events.
 
 ```html
 <d3fc-group id="chart" auto-resize style="display: flex; height: 40vw; width: 60vw; flex-direction: column">
@@ -78,10 +86,9 @@ An element with no visual representation that is designed to group related rende
 
 Available as the property `autoResize` or the attribute `auto-resize`. If `true`, listens to `window` `resize` events and automatically invokes [*group*.requestRedraw](#group-requestRedraw).
 
-<a name="group_onmeasure" href="#group_onmeasure">#</a> *group*.**requestRedraw**()
+<a name="group_requestRedraw" href="#group_requestRedraw">#</a> *group*.**requestRedraw**()
 
-Equivalent to invoking [*surface*.requestRedraw](#surface-requestRedraw) on all descendant surface elements.
-
+Equivalent to invoking [*surface*.requestRedraw](#surface-requestRedraw) on all descendant group or surface elements. The order of events emitted on this and descendent groups or surfaces is guaranteed to be in document order (even if a redraw request on one of those elements occurs before or after this call).
 
 ### Events
 
@@ -98,7 +105,3 @@ The following properties are available under the `detail` property on the event 
 * `node` - the surface node.
 
 N.B. it is safe to immediately invoke [*surface*.requestRedraw](#surface_requestRedraw) from event handlers if you wish to create an animation. The redraw will be scheduled for the subsequent animation frame.
-
-<a name="surface_requestRedraw" href="#surface_requestRedraw">#</a> *surface*.**requestRedraw**()
-
-Enqueues a redraw to occur on the next animation frame, only if there isn't already one pending. If one is already pending, this call is ignored.
