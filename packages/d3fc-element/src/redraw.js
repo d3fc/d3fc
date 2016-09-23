@@ -1,7 +1,7 @@
 import * as data from './data';
 
 const find = (element) => element.tagName === 'D3FC-GROUP'
-  ? [element, ...element.querySelectorAll('d3fc-canvas, d3fc-svg')]
+  ? [element, ...element.querySelectorAll('d3fc-canvas, d3fc-group, d3fc-svg')]
   : [element];
 
 const measure = (element) => {
@@ -39,7 +39,6 @@ const draw = (element) => {
 export default (elements) => {
     const allElements = elements.map(find)
       .reduce((a, b) => a.concat(b));
-    console.log(allElements.length);
     allElements.forEach(measure);
     allElements.forEach(resize);
     allElements.forEach(draw);
