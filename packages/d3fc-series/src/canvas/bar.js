@@ -36,9 +36,9 @@ export default () => {
         projectedData.forEach((datum, i) => {
             context.save();
             context.beginPath();
-            context.translate(datum.baseOrigin[0], datum.baseOrigin[1]);
+            context.translate(datum.origin[0], datum.origin[1]);
 
-            valueAxisDimension(pathGenerator)(datum.height);
+            valueAxisDimension(pathGenerator)(-datum.height);
             pathGenerator([datum]);
 
             context.fillStyle = colors.darkGray;

@@ -62,14 +62,15 @@ export default () => {
                 .append('path')
                 .attr('d', (d) => pathGenerator([d]));
 
-            // set the bar to its correct height
-            valueAxisDimension(pathGenerator)((_, i) => -projectedData[i].height);
-
             // the container translation sets the origin to the 'tip'
             // of each bar as per the decorate pattern
             g.attr('transform', (_, i) => translation(projectedData[i].origin))
                 .select('path')
-                .attr('d', (d) => pathGenerator([d]));
+                .attr('d', (d, i) => {
+                    // set the bar to its correct height
+                    valueAxisDimension(pathGenerator)(-projectedData[i].height);
+                    return pathGenerator([d]);
+                });
 
             base.decorate()(g, filteredData, index);
         });
