@@ -27,6 +27,7 @@
     "eslint-config-standard": "^5.1.0",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
+    "glob": "^7.1.0",
     "jasmine": "^2.4.1",
     "jsdom": "^9.4.1",
     "rimraf": "^2.5.2",
