@@ -1,4 +1,4 @@
-# d3fc-elements
+# d3fc-element
 
 Custom HTML elements that make it easier to create responsive d3 visualisations using CSS that integrate easily with other UI frameworks (e.g. React, Angular)
 
@@ -7,7 +7,7 @@ Custom HTML elements that make it easier to create responsive d3 visualisations 
 ## Installation
 
 ```bash
-npm install d3fc-elements
+npm install d3fc-element
 ```
 
 ## API Reference

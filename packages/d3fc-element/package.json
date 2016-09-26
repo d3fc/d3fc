@@ -1,17 +1,16 @@
 {
-  "name": "d3fc-elements",
+  "name": "d3fc-element",
   "description": "Custom HTML elements that make it easier to create responsive visualisations that integrate easily with other UI frameworks (e.g. React, Angular)",
   "license": "MIT",
   "keywords": [
     "d3",
     "d3fc",
-    "custom elements",
-    "js"
+    "element"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-elements",
+  "homepage": "https://github.com/d3fc/d3fc-element",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-elements"
+    "url": "https://github.com/d3fc/d3fc-element"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
