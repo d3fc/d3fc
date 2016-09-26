@@ -42,7 +42,7 @@ export default () => {
             pathGenerator([datum]);
 
             context.fillStyle = colors.darkGray;
-            base.decorate()(context, datum, i);
+            base.decorate()(context, datum.d, i);
             context.fill();
 
             context.closePath();

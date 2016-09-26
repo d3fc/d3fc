@@ -1,5 +1,5 @@
 {
-  "extends": "defaults/configurations/eslint",
+  "extends": "../node_modules/d3fc-scripts/.eslintrc.json",
   "env": {
     "browser": true
   },

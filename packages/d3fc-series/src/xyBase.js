@@ -24,6 +24,7 @@ export default () => {
             const y0 = yScale(baseValue(d, i));
             const x = xScale(crossValue(d, i));
             return {
+                d,
                 x,
                 y,
                 y0,
@@ -38,6 +39,7 @@ export default () => {
             const y0 = xScale(baseValue(d, i));
             const x = yScale(crossValue(d, i));
             return {
+                d,
                 x,
                 y,
                 y0,

@@ -98,9 +98,74 @@ line(data);
 Because D3 data-joins and data-binding only work on HTML / SVG, the canvas components are invoked directly with the supplied data. This causes the component to render itself to the canvas.
 
 
-#### Decoration
+#### Decorate Pattern
 
-// TODO: Add some documentation around how decorate works.
+The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection , or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.
+
+For further details, consult the [Decorate Pattern documentation](https://d3fc.io/components/introduction/decorate-pattern.html).
+
+The following example demonstrates how the fill color of each bar can be varied via decoration. The decorate property is passed the data join selection used to construct the component's DOM. Here, the enter selection is used to set the fill color based on the index:
+
+```javascript
+const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+const svgBar = fc.seriesSvgBar()
+    .decorate((selection) => {
+        selection.enter()
+            .style('fill', (_, i) => color(i));
+    });
+```
+
+<img src="screenshots/decorate.png"/>
+
+Here is the same example for a canvas bar series; the way that the decorate pattern works is subtly different. For SVG components the decorate function is invoked once with the selection that renders all of the bars (or points, candlesticks, ...), with canvas, the decorate function is invoked for each of the data-points in the series.
+
+The decorate function is passed the context, datum and index. The context is translated to the correct position and the fill color set before invoking the decorate function. After decoration the bar itself is rendered.
+
+```javascript
+const canvasLine = fc.seriesCanvasBar()
+    .decorate((context, datum, index) => {
+        context.fillStyle = color(index);
+    });
+```
+
+<img src="screenshots/decorate-canvas.png"/>
+
+Decoration can also be used to add extra elements to the series. In this example a text element is added to each bar via the enter selection.
+
+The origin of each data-point container, which is a `g` element, is always set to the data-point location. As a result, the text element is translated vertically by `-10`, in order to position them just above each bar.
+
+```javascript
+const svgBar = fc.seriesSvgBar()
+    .decorate((selection) => {
+        selection.enter()
+            .append('text')
+            .style('text-anchor', 'middle')
+            .attr('transform', 'translate(0, -10)')
+            .attr('fill', 'black')
+            .text((d) => d3.format('.2f')(d));
+    });
+```
+
+<img src="screenshots/decorate-append.png"/>
+
+With canvas, you can also perform additional rendering to the canvas in order to achieve the same effect. Once again, the canvas origin has been translated to the origin of each data-point before the decorate function is invoked.
+
+This example uses a point series, for a bit of variety!
+
+```javascript
+const canvasLine = fc.seriesCanvasPoint()
+    .decorate((context, datum, index) => {
+        context.textAlign = 'center';
+        context.fillStyle = '#000';
+        context.font = '15px Arial';
+        context.fillText(d3.format('.2f')(datum), 0, -10);
+        // reset the fill style for the bar rendering
+        context.fillStyle = '#999';
+    });
+```
+
+<img src="screenshots/decorate-append-canvas.png"/>
 
 #### Orientation
 
