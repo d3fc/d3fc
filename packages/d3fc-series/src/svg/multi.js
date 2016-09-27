@@ -5,6 +5,8 @@ import multiBase from '../multiBase';
 
 export default () => {
 
+    let decorate = () => {};
+
     const base = multiBase();
 
     const innerJoin = dataJoin('g');
@@ -33,7 +35,17 @@ export default () => {
             });
 
             container.order();
+
+            decorate(container, data, index);
         });
+    };
+
+    multi.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
+        return multi;
     };
 
     rebindAll(multi, base);

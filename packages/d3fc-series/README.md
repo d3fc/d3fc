@@ -598,6 +598,14 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 If *mappingFun* is specified, sets the mapping function to the specified function, and returns this series. If *mappingFunc* is not specified, returns the current mapping function.
 
+#### SVG specific properties
+
+<a name="seriesMulti_decorate" href="#seriesMulti_decorate">#</a> *seriesMulti*.**decorate**(*decorateFunc*)
+
+If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
+
+NOTE: The canvas multi series component does not support decoration, instead you should decorate each of the child series directly.
+
 #### Canvas specific properties
 
 <a name="seriesMulti_context" href="#seriesMulti_context">#</a> *seriesMulti*.**context**(*ctx*)
