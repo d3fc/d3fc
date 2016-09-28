@@ -6,6 +6,7 @@ var args = process.argv.slice(3);
 
 switch (script) {
 case 'bundle':
+case 'screenshot':
 case 'test':
     var result = spawn.sync(
         'node',
