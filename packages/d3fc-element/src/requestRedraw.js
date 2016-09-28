@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import * as data from './data';
 import redraw from './redraw';
 

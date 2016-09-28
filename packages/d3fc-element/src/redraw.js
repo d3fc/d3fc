@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import { select } from 'd3-selection';
 import * as data from './data';
 

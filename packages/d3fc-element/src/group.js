@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import requestRedraw from './requestRedraw';
 
 export default class extends HTMLElement {

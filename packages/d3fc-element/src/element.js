@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import requestRedraw from './requestRedraw';
 
 const init = (instance, node) => {
