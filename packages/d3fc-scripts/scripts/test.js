@@ -27,11 +27,9 @@ const globOptions = {
     dot: true
 };
 
-glob.sync('*', globOptions, (err, files) => {
-    if (err) {
-        throw new Error('Required files check failed - ', err);
-    }
-    const passed = files.every(filename => {
+try {
+    const files = glob.sync('*', globOptions);
+    const results = files.map(filename => {
         try {
             const candidateContents = fs.readFileSync(root(filename));
             const requiredContents = fs.readFileSync(required(filename));
@@ -48,12 +46,16 @@ glob.sync('*', globOptions, (err, files) => {
         }
     });
 
+    const passed = results.every(r => r === true);
+    console.log(`\n${files.length}/${files.length} required files OK\n`);
+
     if (!passed) {
         throw new Error('Required files are not correct - check https://github.com/d3fc/d3fc-scripts/required');
-    } else {
-        console.log(`\n${files.length}/${files.length} required files OK\n`);
     }
-});
+} catch (err) {
+    console.log('Required files check failed - ', err);
+    process.exit(1);
+}
 
 // ====
 // TESTS
