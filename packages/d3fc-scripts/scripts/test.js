@@ -42,12 +42,13 @@ try {
             return true;
         } catch (e) {
             console.log(filename, '\t\t', 'NO FILE');
-            return true;
+            return false;
         }
     });
 
     const passed = results.every(r => r === true);
-    console.log(`\n${files.length}/${files.length} required files OK\n`);
+    const numberPassed = results.filter(r => r === true).length;
+    console.log(`\n${numberPassed}/${files.length} required files OK\n`);
 
     if (!passed) {
         throw new Error('Required files are not correct - check https://github.com/d3fc/d3fc-scripts/required');
