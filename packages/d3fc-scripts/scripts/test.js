@@ -3,6 +3,7 @@ const Jasmine = require('jasmine');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
+const eol = require('eol');
 
 // ====
 // LINTER
@@ -31,10 +32,10 @@ try {
     const files = glob.sync('*', globOptions);
     const results = files.map(filename => {
         try {
-            const candidateContents = fs.readFileSync(root(filename));
-            const requiredContents = fs.readFileSync(required(filename));
+            const candidateContents = eol.lf(fs.readFileSync(root(filename), 'utf8'));
+            const requiredContents = eol.lf(fs.readFileSync(required(filename), 'utf8'));
 
-            if (!candidateContents.equals(requiredContents)) {
+            if (candidateContents !== requiredContents) {
                 console.log(filename, '\t\t', 'INCORRECT CONTENTS');
                 return false;
             }

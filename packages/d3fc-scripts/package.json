@@ -17,35 +17,34 @@
     "d3fc-scripts": "./bin/d3fc-scripts.js"
   },
   "dependencies": {
+    "babel-core": "^6.14.0",
     "babel-preset-es2015": "6.14.0",
     "babel-preset-es2015-rollup": "d3fc/babel-preset-es2015-rollup#fix-es2015-rollup-windows-error",
     "babel-register": "^6.9.0",
     "command-line-args": "^3.0.1",
     "cross-spawn": "^4.0.0",
+    "eol": "^0.3.0",
     "eslint": "^3.1.0",
     "eslint-config-defaults": "^9.0.0",
     "eslint-config-standard": "^6.0.1",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
+    "finalhandler": "^0.5.0",
     "glob": "^7.1.0",
     "jasmine": "^2.4.1",
     "jsdom": "^9.4.1",
+    "mkdirp": "^0.5.1",
     "rimraf": "^2.5.2",
     "rollup": "^0.36.0",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "semantic-release": "^4.3.5",
+    "serve-static": "^1.11.1",
     "uglify-js": "^2.6.2",
     "webshot": "^0.18.0"
   },
   "scripts": {
     "test": "echo 'No tests'",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
-  },
-  "devDependencies": {
-    "babel-core": "^6.14.0",
-    "finalhandler": "^0.5.0",
-    "mkdirp": "^0.5.1",
-    "serve-static": "^1.11.1"
   }
 }
