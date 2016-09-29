@@ -25,6 +25,6 @@
   "dependencies": {
     "d3-scale": "^1.0.0",
     "d3-time": "^1.0.0",
-    "d3fc-rebind": "^4.0.1"
+    "d3fc-rebind": "^4.1.1"
   }
 }
