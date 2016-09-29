@@ -22,7 +22,7 @@
     "d3-scale": "^1.0.1",
     "d3fc-series": "^1.0.1",
     "d3fc-extent": "^2.2.0",
-    "d3fc-scripts": "^1.1.4"
+    "d3fc-scripts": "^1.6.1"
   },
   "dependencies": {
     "d3-selection": "^1.0.2",
