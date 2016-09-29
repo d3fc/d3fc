@@ -27,7 +27,7 @@
     "browserify": "^13.0.1",
     "d3": "^4.1.1",
     "topojson": "^1.6.24",
-    "d3fc-scripts": "^1.1.4",
+    "d3fc-scripts": "^1.6.1",
     "watch-cli": "^0.2.1"
   },
   "dependencies": {
