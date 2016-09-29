@@ -39,7 +39,7 @@
   "devDependencies": {
     "d3-dsv": "^1.0.1",
     "fs-promise": "^0.5.0",
-    "d3fc-scripts": "^1.1.4"
+    "d3fc-scripts": "^1.6.1"
   },
   "dependencies": {
     "d3-array": "^1.0.0",
