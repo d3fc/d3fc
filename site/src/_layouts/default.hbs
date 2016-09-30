@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{default title 'd3fc'}}</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="{{baseurl}}/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="{{baseurl}}/styles.css" />
+    <link rel="canonical" href="https://d3fc.io{{page.destination}}" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="{{baseurl}}/"><img class="navbar-logo" alt="d3fc" src="{{baseurl}}/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="{{#is section 'introduction'}}active{{/is}}"><a href="{{baseurl}}/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="{{#is section 'core'}}active{{/is}}"><a href="{{baseurl}}/components/chart/cartesian.html">Components</a></li>
+                <li class="{{#is section 'financial'}}active{{/is}}"><a href="{{baseurl}}/components/series/candlestick.html">Financial</a></li>
+                <li class="{{#is section 'api'}}active{{/is}}"><a href="{{baseurl}}/api/{{#first api}}{{name}}{{/first}}.html">API</a></li>
+                <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{baseurl}}/examples">Examples</a></li>
+                <li><a href="{{package.repository.url}}">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      {{{body}}}
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+    {{#if dev}}
+      <script src="//localhost:35729/livereload.js"></script>
+    {{/if}}
+  </body>
+</html>

@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Building A Chart</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/introduction/building-a-chart.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class=""><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Building A Chart
+      </h1>
+      <p>This brief tutorial introduces the core concepts behind d3fc, via the process of building a chart. You&#39;ll find out why we created d3fc and what makes it different from the numerous other charting libraries out there!</p>
+<p>Here&#39;s the chart you&#39;re going to be building:</p>
+<style>
+.gridline.x {
+    display: none;
+}
+
+.annotation .right-handle {
+    display: none;
+}
+
+.title text {
+    font-size: 15pt;
+}
+
+.bar path {
+    stroke-width: 0;
+}
+
+</style>
+
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;complete-chart\&quot; class&#x3D;\&quot;chart\&quot;&gt; &lt;/div&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\nvar valueformatter = d3.format(\"$f\");
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\n// create the data
+\nvar data = {
+\n    // target values for the annotations
+\n  targets: [{
+\n    name: \"low\",
+\n    value: 4.5
+\n  }, {
+\n    name: \"high\",
+\n    value: 7.2
+\n  }],
+\n    // randomly generated sales data
+\n  sales: generator(1).map(function(d, i) {
+\n    return {
+\n      month: dateFormatter(new Date(0, i + 1, 0)),
+\n      sales: d + i / 2
+\n    };
+\n  })
+\n};
+\n
+\nvar yExtent = fc.util.extent()
+\n    .include(0)
+\n    .pad([0, 0.5])
+\n    .fields([\"sales\"]);
+\n
+\nvar chart = fc.chart.cartesian(
+\n        d3.scale.ordinal(),
+\n        d3.scale.linear())
+\n    .chartLabel(\"2015 Cumulative Sales\")
+\n    .margin({top: 30, right: 45, bottom: 40})
+\n    .xDomain(data.sales.map(function(d) { return d.month; }))
+\n    .yDomain(yExtent(data.sales))
+\n    .yTicks(5)
+\n    .yTickFormat(valueformatter)
+\n    .yLabel(\"Sales (millions)\")
+\n    .yNice();
+\n
+\nvar bar = fc.series.bar()
+\n    .xValue(function(d) { return d.month; })
+\n    .yValue(function(d) { return d.sales; })
+\n    .decorate(function(selection) {
+\n      selection.select(\".bar > path\")
+\n            .style(\"fill\", function(d) {
+\n              return d.sales < data.targets[0].value ? \"inherit\" : \"#0c0\";
+\n            });
+\n    });
+\n
+\nvar annotation = fc.annotation.line()
+\n    .value(function(d) { return d.value; })
+\n    .decorate(function(selection) {
+\n      selection.enter()
+\n            .select(\"g.left-handle\")
+\n            .append(\"text\")
+\n            .attr({x: 5, y: -5});
+\n      selection.select(\"g.left-handle text\")
+\n            .text(function(d) {
+\n              return d.name + \" - \" + valueformatter(d.value) + \"M\";
+\n            });
+\n    });
+\n
+\nvar multi = fc.series.multi()
+\n    .series([bar, annotation])
+\n    .mapping(function(series) {
+\n      switch (series) {
+\n      case bar:
+\n        return data.sales;
+\n      case annotation:
+\n        return data.targets;
+\n      }
+\n    });
+\n
+\nchart.plotArea(multi);
+\n
+\nfunction render() {
+\n  d3.select(\"#complete-chart\")
+\n        .datum(data)
+\n        .call(chart);
+\n}
+\nrender();
+\n
+\nwindow.onresize = render;
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n.gridline.x {
+\n    display: none;
+\n}
+\n
+\n.annotation .right-handle {
+\n    display: none;
+\n}
+\n
+\n.title text {
+\n    font-size: 15pt;
+\n}
+\n
+\n.bar path {
+\n    stroke-width: 0;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='complete-chart' class="chart"> </div>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+var valueformatter = d3.format('$f');
+var dateFormatter = d3.time.format('%b');
+
+// create the data
+var data = {
+    // target values for the annotations
+  targets: [{
+    name: 'low',
+    value: 4.5
+  }, {
+    name: 'high',
+    value: 7.2
+  }],
+    // randomly generated sales data
+  sales: generator(1).map(function(d, i) {
+    return {
+      month: dateFormatter(new Date(0, i + 1, 0)),
+      sales: d + i / 2
+    };
+  })
+};
+
+var yExtent = fc.util.extent()
+    .include(0)
+    .pad([0, 0.5])
+    .fields(['sales']);
+
+var chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel('2015 Cumulative Sales')
+    .margin({top: 30, right: 45, bottom: 40})
+    .xDomain(data.sales.map(function(d) { return d.month; }))
+    .yDomain(yExtent(data.sales))
+    .yTicks(5)
+    .yTickFormat(valueformatter)
+    .yLabel('Sales (millions)')
+    .yNice();
+
+var bar = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; })
+    .decorate(function(selection) {
+      selection.select('.bar > path')
+            .style('fill', function(d) {
+              return d.sales < data.targets[0].value ? 'inherit' : '#0c0';
+            });
+    });
+
+var annotation = fc.annotation.line()
+    .value(function(d) { return d.value; })
+    .decorate(function(selection) {
+      selection.enter()
+            .select('g.left-handle')
+            .append('text')
+            .attr({x: 5, y: -5});
+      selection.select('g.left-handle text')
+            .text(function(d) {
+              return d.name + ' - ' + valueformatter(d.value) + 'M';
+            });
+    });
+
+var multi = fc.series.multi()
+    .series([bar, annotation])
+    .mapping(function(series) {
+      switch (series) {
+      case bar:
+        return data.sales;
+      case annotation:
+        return data.targets;
+      }
+    });
+
+chart.plotArea(multi);
+
+function render() {
+  d3.select('#complete-chart')
+        .datum(data)
+        .call(chart);
+}
+render();
+
+window.onresize = render;
+
+    })();
+</script>
+
+
+<p>It&#39;s a pretty conventional &#39;sales dashboard&#39; chart, in this case showing some fictional monthly sales data, with a couple of lines indicating targets.</p>
+<p>But before we start putting this chart together, let&#39;s look at charting libraries in a more general sense ...</p>
+<h2 id="charting-apis">Charting APIs</h2>
+<p>Charts are complex UI components, they are designed to be highly flexible in order to support a wide range of different chart types, styles and configurations. However, this flexibility is most often presented as a complex API of hundreds of classes and thousands of methods. Searching for the correct configuration that will yield the result you are after is a challenge, and you are heavily reliant on the designer of the chart having considered your use-case to make that configuration possible.</p>
+<p>D3 offers a fresh perspective, offering a different way to create charts and visualisations. It is an expressive, yet low-level tool, that if wielded correctly, can be used to create practically any visual representation you like.</p>
+<p>There are a number of charting libraries built with D3, however these invariably hide the underlying power of D3 behind the same-old complex and confusing APIs.</p>
+<p>With d3fc our aim is to enhance D3 by providing a suite of powerful <a href="http://bost.ocks.org/mike/chart/">charting components</a> that make it easy for you to assemble exactly the chart you want. These components &#39;speak the language&#39; of D3, supporting <a href="http://bost.ocks.org/mike/selection/">selections</a> and <a href="http://bost.ocks.org/mike/join/">data joins</a>. Furthermore, using the <a href="/components/introduction/decorate-pattern.html">decorate pattern</a>, you can enhance and manipulate the way in which they are rendered.</p>
+<p>With d3fc components you can quickly assemble bespoke charts, without hiding the power of D3.</p>
+<h2 id="creating-the-data">Creating the data</h2>
+<p>Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we&#39;ll just generate some random data. d3fc has a number of <code>data</code> utilities, including components that help construct realistic random data. For this example we&#39;ll use the <a href="/components/data/walk.html">random walk component</a> to generate 12 datapoints, mapping them to create datapoints with <code>sales</code> and <code>month</code> properties:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-built_in">var</span> generator = fc.<span class="hljs-built_in">data</span>.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-comment">// some formatters</span>
+<span class="hljs-built_in">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-comment">// randomly generated sales data starting at one</span>
+<span class="hljs-built_in">var</span> <span class="hljs-built_in">data</span> = generator(<span class="hljs-number">1</span>).<span class="hljs-built_in">map</span>(function(d, i) {
+  <span class="hljs-keyword">return</span> {
+    month: dateFormatter(<span class="hljs-literal">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+    sales: d + i / <span class="hljs-number">2</span>
+  };
+});
+
+<span class="hljs-comment">// let's see what the data looks like</span>
+d3.<span class="hljs-keyword">select</span>(<span class="hljs-string">'#sales-data'</span>)
+    .text(JSON.stringify(<span class="hljs-built_in">data</span>.slice(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>), <span class="hljs-built_in">null</span>, <span class="hljs-number">2</span>));
+</code></pre>
+<p>Here&#39;s the resulting data:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;pre id&#x3D;\&quot;sales-data\&quot;&gt;&lt;/pre&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\n// some formatters
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\n// randomly generated sales data starting at one
+\nvar data = generator(1).map(function(d, i) {
+\n  return {
+\n    month: dateFormatter(new Date(0, i + 1, 0)),
+\n    sales: d + i / 2
+\n  };
+\n});
+\n
+\n// let\"s see what the data looks like
+\nd3.select(\"#sales-data\")
+\n    .text(JSON.stringify(data.slice(0, 3), null, 2));
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<pre id='sales-data'></pre>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+// some formatters
+var dateFormatter = d3.time.format('%b');
+
+// randomly generated sales data starting at one
+var data = generator(1).map(function(d, i) {
+  return {
+    month: dateFormatter(new Date(0, i + 1, 0)),
+    sales: d + i / 2
+  };
+});
+
+// let's see what the data looks like
+d3.select('#sales-data')
+    .text(JSON.stringify(data.slice(0, 3), null, 2));
+
+    })();
+</script>
+
+
+<h2 id="rendering-the-data">Rendering the data</h2>
+<p>The sales data is rendered as a bar chart. With D3 this typically involves rendering paths or rectangles and doing a bit of maths to locate each bar correctly, as illustrated in <a href="http://bost.ocks.org/mike/bar/">Mike Bostock&#39;s excellent tutorial</a>.</p>
+<p>d3fc has a <a href="/components/series/bar.html">bar series component</a> (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the <code>xValue</code> and <code>yValue</code> accessors (which the component uses to extract the x and y values from the datapoints).</p>
+<p>The bar series is a regular D3 component, and is rendered via the <code>call</code> method on a D3 selection:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-keyword">var</span> generator = fc.data.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-comment">// some formatters</span>
+<span class="hljs-keyword">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-comment">// randomly generated sales data</span>
+<span class="hljs-keyword">var</span> data = generator(<span class="hljs-number">1</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">month</span>: dateFormatter(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+    <span class="hljs-attr">sales</span>: d + i / <span class="hljs-number">2</span>
+  };
+});
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-comment">// create an svg</span>
+<span class="hljs-keyword">var</span> width = <span class="hljs-number">500</span>, height = <span class="hljs-number">250</span>;
+<span class="hljs-keyword">var</span> container = d3.select(<span class="hljs-string">'#rendered-series'</span>)
+    .append(<span class="hljs-string">'svg'</span>)
+    .attr({<span class="hljs-string">'width'</span>: width, <span class="hljs-string">'height'</span>: height});
+
+<span class="hljs-comment">// create the scales</span>
+<span class="hljs-keyword">var</span> xScale = d3.scale.ordinal()
+    .domain([<span class="hljs-string">'Jan'</span>, <span class="hljs-string">'Feb'</span>, <span class="hljs-string">'Mar'</span>, <span class="hljs-string">'Apr'</span>, <span class="hljs-string">'May'</span>, <span class="hljs-string">'Jun'</span>, <span class="hljs-string">'Jul'</span>, <span class="hljs-string">'Aug'</span>, <span class="hljs-string">'Sep'</span>, <span class="hljs-string">'Oct'</span>, <span class="hljs-string">'Nov'</span>, <span class="hljs-string">'Dec'</span>])
+    .rangePoints([<span class="hljs-number">0</span>, width], <span class="hljs-number">1</span>);
+
+<span class="hljs-keyword">var</span> yScale = d3.scale.linear()
+    .domain([<span class="hljs-number">0</span>, <span class="hljs-number">10</span>])
+    .range([height, <span class="hljs-number">0</span>]);
+
+<span class="hljs-comment">// create a series</span>
+<span class="hljs-keyword">var</span> series = fc.series.bar()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.sales; })
+    .xScale(xScale)
+    .yScale(yScale);
+
+<span class="hljs-comment">// render</span>
+container
+    .datum(data)
+    .call(series);
+<span class="hljs-comment">// END</span>
+</code></pre>
+<p>This renders as follows:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;rendered-series\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\n// some formatters
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\n// randomly generated sales data
+\nvar data = generator(1).map(function(d, i) {
+\n  return {
+\n    month: dateFormatter(new Date(0, i + 1, 0)),
+\n    sales: d + i / 2
+\n  };
+\n});
+\n
+\n// START
+\n// create an svg
+\nvar width = 500, height = 250;
+\nvar container = d3.select(\"#rendered-series\")
+\n    .append(\"svg\")
+\n    .attr({\"width\": width, \"height\": height});
+\n
+\n// create the scales
+\nvar xScale = d3.scale.ordinal()
+\n    .domain([\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"])
+\n    .rangePoints([0, width], 1);
+\n
+\nvar yScale = d3.scale.linear()
+\n    .domain([0, 10])
+\n    .range([height, 0]);
+\n
+\n// create a series
+\nvar series = fc.series.bar()
+\n    .xValue(function(d) { return d.month; })
+\n    .yValue(function(d) { return d.sales; })
+\n    .xScale(xScale)
+\n    .yScale(yScale);
+\n
+\n// render
+\ncontainer
+\n    .datum(data)
+\n    .call(series);
+\n// END
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='rendered-series' class='chart'></div>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+// some formatters
+var dateFormatter = d3.time.format('%b');
+
+// randomly generated sales data
+var data = generator(1).map(function(d, i) {
+  return {
+    month: dateFormatter(new Date(0, i + 1, 0)),
+    sales: d + i / 2
+  };
+});
+
+// START
+// create an svg
+var width = 500, height = 250;
+var container = d3.select('#rendered-series')
+    .append('svg')
+    .attr({'width': width, 'height': height});
+
+// create the scales
+var xScale = d3.scale.ordinal()
+    .domain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+    .rangePoints([0, width], 1);
+
+var yScale = d3.scale.linear()
+    .domain([0, 10])
+    .range([height, 0]);
+
+// create a series
+var series = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; })
+    .xScale(xScale)
+    .yScale(yScale);
+
+// render
+container
+    .datum(data)
+    .call(series);
+// END
+
+    })();
+</script>
+
+
+<p>At this point you might like to read more about the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a> that we follow with d3fc.</p>
+<p>I&#39;ll forgive you if you are not too impressed with the above example. So far you&#39;ve got a bar series, but no axes or labels, yet the example involves quite a bit of code.</p>
+<p>The reason for this is that the bar series component is relatively low-level component, it renders a series and nothing more. (It&#39;s actually not the lowest level of component, the bar series uses the d3fc bar SVG component). In order to quickly assemble a chart you need to make use of a more high-level component ... a chart.</p>
+<h2 id="cartesian-chart">Cartesian chart</h2>
+<p>The cartesian chart component does a number of things, it measures its container in order to fill it, setting a suitable range on the scales that you supply (it&#39;s still your job to set the domain on each). The chart renders a pair of axes and, optionally, other cosmetic features such as chart and axis labels.</p>
+<p>You can render a series within the chart by setting it as the <code>plotArea</code>. The chart sets the x and y scales on the component you supply.</p>
+<p>Here&#39;s the complete example:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-keyword">var</span> generator = fc.data.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-comment">// some formatters</span>
+<span class="hljs-keyword">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-comment">// randomly generated sales data</span>
+<span class="hljs-keyword">var</span> data = generator(<span class="hljs-number">1</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">month</span>: dateFormatter(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+    <span class="hljs-attr">sales</span>: d + i / <span class="hljs-number">2</span>
+  };
+});
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .xDomain([<span class="hljs-string">'Jan'</span>, <span class="hljs-string">'Feb'</span>, <span class="hljs-string">'Mar'</span>, <span class="hljs-string">'Apr'</span>, <span class="hljs-string">'May'</span>, <span class="hljs-string">'Jun'</span>, <span class="hljs-string">'Jul'</span>, <span class="hljs-string">'Aug'</span>, <span class="hljs-string">'Sep'</span>, <span class="hljs-string">'Oct'</span>, <span class="hljs-string">'Nov'</span>, <span class="hljs-string">'Dec'</span>])
+    .yDomain([<span class="hljs-number">0</span>, <span class="hljs-number">10</span>]);
+
+<span class="hljs-keyword">var</span> series = fc.series.bar()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.sales; });
+
+chart.plotArea(series);
+
+d3.select(<span class="hljs-string">'#cartesian'</span>)
+    .datum(data)
+    .call(chart);
+<span class="hljs-comment">// END</span>
+</code></pre>
+<p>This renders a more complete chart:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;cartesian\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\n// some formatters
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\n// randomly generated sales data
+\nvar data = generator(1).map(function(d, i) {
+\n  return {
+\n    month: dateFormatter(new Date(0, i + 1, 0)),
+\n    sales: d + i / 2
+\n  };
+\n});
+\n
+\n// START
+\nvar chart = fc.chart.cartesian(
+\n        d3.scale.ordinal(),
+\n        d3.scale.linear())
+\n    .xDomain([\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"])
+\n    .yDomain([0, 10]);
+\n
+\nvar series = fc.series.bar()
+\n    .xValue(function(d) { return d.month; })
+\n    .yValue(function(d) { return d.sales; });
+\n
+\nchart.plotArea(series);
+\n
+\nd3.select(\"#cartesian\")
+\n    .datum(data)
+\n    .call(chart);
+\n// END
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='cartesian' class='chart'></div>
+
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+// some formatters
+var dateFormatter = d3.time.format('%b');
+
+// randomly generated sales data
+var data = generator(1).map(function(d, i) {
+  return {
+    month: dateFormatter(new Date(0, i + 1, 0)),
+    sales: d + i / 2
+  };
+});
+
+// START
+var chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .xDomain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+    .yDomain([0, 10]);
+
+var series = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; });
+
+chart.plotArea(series);
+
+d3.select('#cartesian')
+    .datum(data)
+    .call(chart);
+// END
+
+    })();
+</script>
+
+
+<h2 id="setting-the-axis-domain">Setting the axis domain</h2>
+<p>The current logic for setting the domain for each axis isn&#39;t ideal. Firstly, the x-axis domain is hard-coded with the months of the year. This is easily resolved by mapping the data to return the month component for each datapoint:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">data</span>.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span></span> { <span class="hljs-keyword">return</span> d.month; })
+</code></pre>
+<p>The current y-domain is a bit of a guess, being hard-coded to a range <code>[0, 10]</code>. Ideally the domain should be computed based on the data. In this case the domain should accommodate the greatest sales value, plus some padding, and also extent to zero.</p>
+<p>There&#39;s another d3fc component that can help here, the <a href="/components/util/extent.html">extent</a> utility. The following code ensures that zero is included, and adds a small amount of padding, as a percentage of the overall extent, to the &#39;top&#39; end of the range:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-keyword">var</span> generator = fc.data.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-comment">// some formatters</span>
+<span class="hljs-keyword">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-comment">// randomly generated sales data</span>
+<span class="hljs-keyword">var</span> data = generator(<span class="hljs-number">1</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">month</span>: dateFormatter(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+    <span class="hljs-attr">sales</span>: d + i / <span class="hljs-number">2</span>
+  };
+});
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-keyword">var</span> yExtent = fc.util.extent()
+    .include([<span class="hljs-number">0</span>])
+    .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>])
+    .fields([<span class="hljs-string">'sales'</span>]);
+
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .xDomain(data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; }))
+    .yDomain(yExtent(data));
+<span class="hljs-comment">// END</span>
+
+<span class="hljs-keyword">var</span> series = fc.series.bar()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.sales; });
+
+chart.plotArea(series);
+
+d3.select(<span class="hljs-string">'#cartesian-extent'</span>)
+    .datum(data)
+    .call(chart);
+</code></pre>
+<p>Here&#39;s the overall result:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;cartesian-extent\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\n// some formatters
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\n// randomly generated sales data
+\nvar data = generator(1).map(function(d, i) {
+\n  return {
+\n    month: dateFormatter(new Date(0, i + 1, 0)),
+\n    sales: d + i / 2
+\n  };
+\n});
+\n
+\n// START
+\nvar yExtent = fc.util.extent()
+\n    .include([0])
+\n    .pad([0, 0.5])
+\n    .fields([\"sales\"]);
+\n
+\nvar chart = fc.chart.cartesian(
+\n        d3.scale.ordinal(),
+\n        d3.scale.linear())
+\n    .xDomain(data.map(function(d) { return d.month; }))
+\n    .yDomain(yExtent(data));
+\n// END
+\n
+\nvar series = fc.series.bar()
+\n    .xValue(function(d) { return d.month; })
+\n    .yValue(function(d) { return d.sales; });
+\n
+\nchart.plotArea(series);
+\n
+\nd3.select(\"#cartesian-extent\")
+\n    .datum(data)
+\n    .call(chart);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='cartesian-extent' class='chart'></div>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+// some formatters
+var dateFormatter = d3.time.format('%b');
+
+// randomly generated sales data
+var data = generator(1).map(function(d, i) {
+  return {
+    month: dateFormatter(new Date(0, i + 1, 0)),
+    sales: d + i / 2
+  };
+});
+
+// START
+var yExtent = fc.util.extent()
+    .include([0])
+    .pad([0, 0.5])
+    .fields(['sales']);
+
+var chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .xDomain(data.map(function(d) { return d.month; }))
+    .yDomain(yExtent(data));
+// END
+
+var series = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; });
+
+chart.plotArea(series);
+
+d3.select('#cartesian-extent')
+    .datum(data)
+    .call(chart);
+
+    })();
+</script>
+
+
+<h2 id="tidying-the-chart">Tidying the chart</h2>
+<p>Let&#39;t tidy up the chart a bit by setting suitable margins and labels:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-keyword">var</span> generator = fc.data.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-comment">// some formatters</span>
+<span class="hljs-keyword">var</span> valueformatter = d3.format(<span class="hljs-string">'$f'</span>);
+<span class="hljs-keyword">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-comment">// randomly generated sales data</span>
+<span class="hljs-keyword">var</span> data = generator(<span class="hljs-number">1</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">month</span>: dateFormatter(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+    <span class="hljs-attr">sales</span>: d + i / <span class="hljs-number">2</span>
+  };
+});
+
+<span class="hljs-keyword">var</span> yExtent = fc.util.extent()
+    .include(<span class="hljs-number">0</span>)
+    .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>])
+    .fields([<span class="hljs-string">'sales'</span>]);
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel(<span class="hljs-string">'2015 Cumulative Sales'</span>)
+    .margin({<span class="hljs-attr">top</span>: <span class="hljs-number">30</span>, <span class="hljs-attr">right</span>: <span class="hljs-number">45</span>, <span class="hljs-attr">bottom</span>: <span class="hljs-number">40</span>})
+    .xDomain(data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; }))
+    .yDomain(yExtent(data))
+    .yTicks(<span class="hljs-number">5</span>)
+    .yTickFormat(valueformatter)
+    .yLabel(<span class="hljs-string">'Sales (millions)'</span>)
+    .yNice();
+<span class="hljs-comment">// END</span>
+
+<span class="hljs-keyword">var</span> series = fc.series.bar()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.sales; });
+
+chart.plotArea(series);
+
+d3.select(<span class="hljs-string">'#tidied-chart'</span>)
+    .datum(data)
+    .call(chart);
+</code></pre>
+<p>This gives a much more appealing chart:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;tidied-chart\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\n// some formatters
+\nvar valueformatter = d3.format(\"$f\");
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\n// randomly generated sales data
+\nvar data = generator(1).map(function(d, i) {
+\n  return {
+\n    month: dateFormatter(new Date(0, i + 1, 0)),
+\n    sales: d + i / 2
+\n  };
+\n});
+\n
+\nvar yExtent = fc.util.extent()
+\n    .include(0)
+\n    .pad([0, 0.5])
+\n    .fields([\"sales\"]);
+\n
+\n// START
+\nvar chart = fc.chart.cartesian(
+\n        d3.scale.ordinal(),
+\n        d3.scale.linear())
+\n    .chartLabel(\"2015 Cumulative Sales\")
+\n    .margin({top: 30, right: 45, bottom: 40})
+\n    .xDomain(data.map(function(d) { return d.month; }))
+\n    .yDomain(yExtent(data))
+\n    .yTicks(5)
+\n    .yTickFormat(valueformatter)
+\n    .yLabel(\"Sales (millions)\")
+\n    .yNice();
+\n// END
+\n
+\nvar series = fc.series.bar()
+\n    .xValue(function(d) { return d.month; })
+\n    .yValue(function(d) { return d.sales; });
+\n
+\nchart.plotArea(series);
+\n
+\nd3.select(\"#tidied-chart\")
+\n    .datum(data)
+\n    .call(chart);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='tidied-chart' class='chart'></div>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+// some formatters
+var valueformatter = d3.format('$f');
+var dateFormatter = d3.time.format('%b');
+
+// randomly generated sales data
+var data = generator(1).map(function(d, i) {
+  return {
+    month: dateFormatter(new Date(0, i + 1, 0)),
+    sales: d + i / 2
+  };
+});
+
+var yExtent = fc.util.extent()
+    .include(0)
+    .pad([0, 0.5])
+    .fields(['sales']);
+
+// START
+var chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel('2015 Cumulative Sales')
+    .margin({top: 30, right: 45, bottom: 40})
+    .xDomain(data.map(function(d) { return d.month; }))
+    .yDomain(yExtent(data))
+    .yTicks(5)
+    .yTickFormat(valueformatter)
+    .yLabel('Sales (millions)')
+    .yNice();
+// END
+
+var series = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; });
+
+chart.plotArea(series);
+
+d3.select('#tidied-chart')
+    .datum(data)
+    .call(chart);
+
+    })();
+</script>
+
+
+<p>As you can see from the above code, the cartesian chart exposes a number of the properties of the components it encapsulates. Most of the x and y scale and axes properties are exposed, with a suitable <code>x</code> or <code>y</code> prefix. This makes use of a standard D3 concept of property <a href="https://github.com/mbostock/d3/wiki/Internals#rebind">rebinding</a>, which gives rise to a compositional pattern rather than inheritance.</p>
+<p>d3fc extends the D3 rebind concept by making it easier to rebind all of the properties of a component, and allowing prefixing / renaming.</p>
+<h2 id="annotations">Annotations</h2>
+<p>The sales targets, which are illustrated as horizontal lines on the chart, can be rendered using the <a href="/components/series/line.html">line annotation component</a>.</p>
+<p>The chart now has two sources of data, an array of monthly sales figures, and a second array which supplies annotation values. These need to be combined into a single object which is supplied to the chart via the D3 <code>datum</code> method as before.</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-keyword">var</span> generator = fc.data.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-comment">// some formatters</span>
+<span class="hljs-keyword">var</span> valueformatter = d3.format(<span class="hljs-string">'$f'</span>);
+<span class="hljs-keyword">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-keyword">var</span> yExtent = fc.util.extent()
+    .include(<span class="hljs-number">0</span>)
+    .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>])
+    .fields([<span class="hljs-string">'sales'</span>]);
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-keyword">var</span> data = {
+    <span class="hljs-comment">// target values for the annotations</span>
+  targets: [{
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'low'</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-number">4.5</span>
+  }, {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'high'</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-number">7.2</span>
+  }],
+    <span class="hljs-comment">// randomly generated sales data</span>
+  sales: generator(<span class="hljs-number">1</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">month</span>: dateFormatter(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+      <span class="hljs-attr">sales</span>: d + i / <span class="hljs-number">2</span>
+    };
+  })
+};
+
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel(<span class="hljs-string">'2015 Cumulative Sales'</span>)
+    .margin({<span class="hljs-attr">top</span>: <span class="hljs-number">30</span>, <span class="hljs-attr">right</span>: <span class="hljs-number">45</span>, <span class="hljs-attr">bottom</span>: <span class="hljs-number">40</span>})
+    .xDomain(data.sales.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; }))
+    .yDomain(yExtent(data.sales))
+    .yTicks(<span class="hljs-number">5</span>)
+    .yTickFormat(valueformatter)
+    .yLabel(<span class="hljs-string">'Sales (millions)'</span>)
+    .yNice();
+
+<span class="hljs-keyword">var</span> bar = fc.series.bar()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.sales; });
+
+<span class="hljs-keyword">var</span> annotation = fc.annotation.line()
+    .value(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.value; });
+
+<span class="hljs-keyword">var</span> multi = fc.series.multi()
+    .series([bar, annotation])
+    .mapping(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">series</span>) </span>{
+      <span class="hljs-keyword">switch</span> (series) {
+      <span class="hljs-keyword">case</span> bar:
+        <span class="hljs-keyword">return</span> data.sales;
+      <span class="hljs-keyword">case</span> annotation:
+        <span class="hljs-keyword">return</span> data.targets;
+      }
+    });
+
+chart.plotArea(multi);
+<span class="hljs-comment">// END</span>
+
+d3.select(<span class="hljs-string">'#adding-annotations'</span>)
+    .datum(data.sales)
+    .call(chart);
+</code></pre>
+<p>As you can see in the above code, the <code>data</code> now has two properties, <code>targets</code> and <code>sales</code>, one for the annotations, the other for the series. As a results of this, the extent and domain calculations are updated to reference <code>data.sales</code>.</p>
+<p>But how to add the annotations to the chart? Annotations, just like series, are associated with both an x and a y scale, so can be supplied to the chart via the <code>plotArea</code>. But the bar series is currently set as the plot area. The solution to this problem is the <a href="/components/series/multi.html">multi series component</a>. This component acts a container for multiple series instances, setting their scales and also (optionally) mapping the data so that each series can be bound to a subset of the data. If a mapping function is not provided, each series will &#39;inherit&#39; the data bound to the multi series component.</p>
+<p>Here&#39;s the result:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;adding-annotations\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "// a random number generator
+\nvar generator = fc.data.random.walk()
+\n    .steps(11);
+\n
+\n// some formatters
+\nvar valueformatter = d3.format(\"$f\");
+\nvar dateFormatter = d3.time.format(\"%b\");
+\n
+\nvar yExtent = fc.util.extent()
+\n    .include(0)
+\n    .pad([0, 0.5])
+\n    .fields([\"sales\"]);
+\n
+\n// START
+\nvar data = {
+\n    // target values for the annotations
+\n  targets: [{
+\n    name: \"low\",
+\n    value: 4.5
+\n  }, {
+\n    name: \"high\",
+\n    value: 7.2
+\n  }],
+\n    // randomly generated sales data
+\n  sales: generator(1).map(function(d, i) {
+\n    return {
+\n      month: dateFormatter(new Date(0, i + 1, 0)),
+\n      sales: d + i / 2
+\n    };
+\n  })
+\n};
+\n
+\nvar chart = fc.chart.cartesian(
+\n        d3.scale.ordinal(),
+\n        d3.scale.linear())
+\n    .chartLabel(\"2015 Cumulative Sales\")
+\n    .margin({top: 30, right: 45, bottom: 40})
+\n    .xDomain(data.sales.map(function(d) { return d.month; }))
+\n    .yDomain(yExtent(data.sales))
+\n    .yTicks(5)
+\n    .yTickFormat(valueformatter)
+\n    .yLabel(\"Sales (millions)\")
+\n    .yNice();
+\n
+\nvar bar = fc.series.bar()
+\n    .xValue(function(d) { return d.month; })
+\n    .yValue(function(d) { return d.sales; });
+\n
+\nvar annotation = fc.annotation.line()
+\n    .value(function(d) { return d.value; });
+\n
+\nvar multi = fc.series.multi()
+\n    .series([bar, annotation])
+\n    .mapping(function(series) {
+\n      switch (series) {
+\n      case bar:
+\n        return data.sales;
+\n      case annotation:
+\n        return data.targets;
+\n      }
+\n    });
+\n
+\nchart.plotArea(multi);
+\n// END
+\n
+\nd3.select(\"#adding-annotations\")
+\n    .datum(data.sales)
+\n    .call(chart);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='adding-annotations' class='chart'></div>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+// some formatters
+var valueformatter = d3.format('$f');
+var dateFormatter = d3.time.format('%b');
+
+var yExtent = fc.util.extent()
+    .include(0)
+    .pad([0, 0.5])
+    .fields(['sales']);
+
+// START
+var data = {
+    // target values for the annotations
+  targets: [{
+    name: 'low',
+    value: 4.5
+  }, {
+    name: 'high',
+    value: 7.2
+  }],
+    // randomly generated sales data
+  sales: generator(1).map(function(d, i) {
+    return {
+      month: dateFormatter(new Date(0, i + 1, 0)),
+      sales: d + i / 2
+    };
+  })
+};
+
+var chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel('2015 Cumulative Sales')
+    .margin({top: 30, right: 45, bottom: 40})
+    .xDomain(data.sales.map(function(d) { return d.month; }))
+    .yDomain(yExtent(data.sales))
+    .yTicks(5)
+    .yTickFormat(valueformatter)
+    .yLabel('Sales (millions)')
+    .yNice();
+
+var bar = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; });
+
+var annotation = fc.annotation.line()
+    .value(function(d) { return d.value; });
+
+var multi = fc.series.multi()
+    .series([bar, annotation])
+    .mapping(function(series) {
+      switch (series) {
+      case bar:
+        return data.sales;
+      case annotation:
+        return data.targets;
+      }
+    });
+
+chart.plotArea(multi);
+// END
+
+d3.select('#adding-annotations')
+    .datum(data.sales)
+    .call(chart);
+
+    })();
+</script>
+
+
+<h2 id="decorate-pattern">Decorate pattern</h2>
+<p>The chart is starting to look pretty good! The only remaining tasks are to add text to the annotations and highlight the bars which have exceeded the lower target line.</p>
+<p>This is an interesting problem, the elements that need to be styled or modified have been created by the various components you have been making use of. How do you modify the way that components render themselves? This is where <a href="/components/introduction/decorate-pattern.html">decorate pattern</a> comes in.</p>
+<p>With the decorate pattern you gain access to the data join that is used to render a component, this allows you to add logic to the enter, update and exit selections, adding elements or mutating the elements that the component itself constructs. You can see numerous examples of this pattern in the <a href="/components/introduction/decorate-pattern.html">decorate pattern</a> documentation.</p>
+<p>In this case, decorate is used to locate the &#39;left handle&#39; of the line annotation, to add the text label, and to change the fill property of the path elements used to render the bar series.</p>
+<p>Here&#39;s the part of the code that &#39;decorates&#39; the bar series:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// a random number generator</span>
+<span class="hljs-keyword">var</span> generator = fc.data.random.walk()
+    .steps(<span class="hljs-number">11</span>);
+
+<span class="hljs-keyword">var</span> valueformatter = d3.format(<span class="hljs-string">'$f'</span>);
+<span class="hljs-keyword">var</span> dateFormatter = d3.time.format(<span class="hljs-string">'%b'</span>);
+
+<span class="hljs-comment">// create the data</span>
+<span class="hljs-keyword">var</span> data = {
+    <span class="hljs-comment">// target values for the annotations</span>
+  targets: [{
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'low'</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-number">4.5</span>
+  }, {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'high'</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-number">7.2</span>
+  }],
+    <span class="hljs-comment">// randomly generated sales data</span>
+  sales: generator(<span class="hljs-number">1</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">month</span>: dateFormatter(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">0</span>, i + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)),
+      <span class="hljs-attr">sales</span>: d + i / <span class="hljs-number">2</span>
+    };
+  })
+};
+
+<span class="hljs-keyword">var</span> yExtent = fc.util.extent()
+    .include(<span class="hljs-number">0</span>)
+    .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>])
+    .fields([<span class="hljs-string">'sales'</span>]);
+
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel(<span class="hljs-string">'2015 Cumulative Sales'</span>)
+    .margin({<span class="hljs-attr">top</span>: <span class="hljs-number">30</span>, <span class="hljs-attr">right</span>: <span class="hljs-number">45</span>, <span class="hljs-attr">bottom</span>: <span class="hljs-number">40</span>})
+    .xDomain(data.sales.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; }))
+    .yDomain(yExtent(data.sales))
+    .yTicks(<span class="hljs-number">5</span>)
+    .yTickFormat(valueformatter)
+    .yLabel(<span class="hljs-string">'Sales (millions)'</span>)
+    .yNice();
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-keyword">var</span> bar = fc.series.bar()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.month; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.sales; })
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection</span>) </span>{
+        <span class="hljs-comment">// The selection passed to decorate is the one which the component creates within its internal data join,</span>
+        <span class="hljs-comment">// here we use the update selection to apply a style to 'path' elements created by the bar series</span>
+      selection.select(<span class="hljs-string">'.bar &gt; path'</span>)
+            .style(<span class="hljs-string">'fill'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+              <span class="hljs-keyword">return</span> d.sales &lt; data.targets[<span class="hljs-number">0</span>].value ? <span class="hljs-string">'inherit'</span> : <span class="hljs-string">'#0c0'</span>;
+            });
+    });
+<span class="hljs-comment">// END</span>
+
+<span class="hljs-keyword">var</span> annotation = fc.annotation.line()
+    .value(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.value; })
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection</span>) </span>{
+      selection.enter()
+            .select(<span class="hljs-string">'g.left-handle'</span>)
+            .append(<span class="hljs-string">'text'</span>)
+            .attr({<span class="hljs-attr">x</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">-5</span>});
+      selection.select(<span class="hljs-string">'g.left-handle text'</span>)
+            .text(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+              <span class="hljs-keyword">return</span> d.name + <span class="hljs-string">' - '</span> + valueformatter(d.value) + <span class="hljs-string">'M'</span>;
+            });
+    });
+
+<span class="hljs-keyword">var</span> multi = fc.series.multi()
+    .series([bar, annotation])
+    .mapping(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">series</span>) </span>{
+      <span class="hljs-keyword">switch</span> (series) {
+      <span class="hljs-keyword">case</span> bar:
+        <span class="hljs-keyword">return</span> data.sales;
+      <span class="hljs-keyword">case</span> annotation:
+        <span class="hljs-keyword">return</span> data.targets;
+      }
+    });
+
+chart.plotArea(multi);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"></span>) </span>{
+  d3.selectAll(<span class="hljs-string">'#decorate'</span>)
+        .datum(data)
+        .call(chart);
+}
+render();
+
+<span class="hljs-built_in">window</span>.onresize = render;
+</code></pre>
+<p>And here&#39;s the result:</p>
+<div id='decorate' class='chart'></div>
+
+<script type="text/javascript">
+    (function() {
+        // a random number generator
+var generator = fc.data.random.walk()
+    .steps(11);
+
+var valueformatter = d3.format('$f');
+var dateFormatter = d3.time.format('%b');
+
+// create the data
+var data = {
+    // target values for the annotations
+  targets: [{
+    name: 'low',
+    value: 4.5
+  }, {
+    name: 'high',
+    value: 7.2
+  }],
+    // randomly generated sales data
+  sales: generator(1).map(function(d, i) {
+    return {
+      month: dateFormatter(new Date(0, i + 1, 0)),
+      sales: d + i / 2
+    };
+  })
+};
+
+var yExtent = fc.util.extent()
+    .include(0)
+    .pad([0, 0.5])
+    .fields(['sales']);
+
+var chart = fc.chart.cartesian(
+        d3.scale.ordinal(),
+        d3.scale.linear())
+    .chartLabel('2015 Cumulative Sales')
+    .margin({top: 30, right: 45, bottom: 40})
+    .xDomain(data.sales.map(function(d) { return d.month; }))
+    .yDomain(yExtent(data.sales))
+    .yTicks(5)
+    .yTickFormat(valueformatter)
+    .yLabel('Sales (millions)')
+    .yNice();
+
+// START
+var bar = fc.series.bar()
+    .xValue(function(d) { return d.month; })
+    .yValue(function(d) { return d.sales; })
+    .decorate(function(selection) {
+        // The selection passed to decorate is the one which the component creates within its internal data join,
+        // here we use the update selection to apply a style to 'path' elements created by the bar series
+      selection.select('.bar > path')
+            .style('fill', function(d) {
+              return d.sales < data.targets[0].value ? 'inherit' : '#0c0';
+            });
+    });
+// END
+
+var annotation = fc.annotation.line()
+    .value(function(d) { return d.value; })
+    .decorate(function(selection) {
+      selection.enter()
+            .select('g.left-handle')
+            .append('text')
+            .attr({x: 5, y: -5});
+      selection.select('g.left-handle text')
+            .text(function(d) {
+              return d.name + ' - ' + valueformatter(d.value) + 'M';
+            });
+    });
+
+var multi = fc.series.multi()
+    .series([bar, annotation])
+    .mapping(function(series) {
+      switch (series) {
+      case bar:
+        return data.sales;
+      case annotation:
+        return data.targets;
+      }
+    });
+
+chart.plotArea(multi);
+
+function render() {
+  d3.selectAll('#decorate')
+        .datum(data)
+        .call(chart);
+}
+render();
+
+window.onresize = render;
+
+    })();
+</script>
+
+
+<h2 id="resizing-the-chart">Resizing the chart</h2>
+<p>The chart is rendering using SVG graphics. If the size of the SVG container changes, the various layout calculations within the cartesian chart component need to be re-evaluated. Because all the d3fc components respect D3 data joins, you can re-render them in their entirety whenever the data changes, or, in the case of the cartesian component, the containing element changes size.</p>
+<p>This pattern makes it incredibly simple to handle changes in data, see the <a href="/examples/streaming/index.html">streaming example</a>, or layout changes.</p>
+<p>Here&#39;s how to use this technique to handle re-sizing the chart. Simply wrap the D3 select and call invocation in a function, in this case called <code>render</code>, and invoke it each time the window size changes:</p>
+<pre><code class="lang-js">function <span class="hljs-keyword">render</span>() {
+    d3.<span class="hljs-keyword">select</span>(<span class="hljs-string">'#complete-chart'</span>)
+        .datum(data)
+        .call(chart);
+}
+<span class="hljs-keyword">render</span>();
+
+<span class="hljs-keyword">window</span>.onresize = <span class="hljs-keyword">render</span>;
+</code></pre>
+<p>Now that you&#39;ve learnt the basic concepts of d3fc, why not browse the various charting components and see what you can build?</p>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/introduction/getting-started.html"><span aria-hidden="true">&larr;</span> Getting Started</a></li>
+            <li class="next"><a href="/components/introduction/component-design.html">Component Design <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Introduction</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/introduction/getting-started.html">
+                    Getting Started
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="/components/introduction/building-a-chart.html">
+                    Building A Chart
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Further Reading</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/introduction/component-design.html">
+                    Component Design
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/introduction/decorate-pattern.html">
+                    Decorate Pattern
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/introduction/transitions.html">
+                    Transitions
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

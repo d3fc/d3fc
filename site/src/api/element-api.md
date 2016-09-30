@@ -1,0 +1,207 @@
+---
+name: element-api
+structure:
+  - title: d3fc-element
+    level: 1
+    content: >+
+      Custom HTML elements that make it easier to create responsive d3
+      visualisations using CSS that integrate easily with other UI frameworks
+      (e.g. React, Angular)
+
+    children:
+      - title: Installation
+        level: 2
+        content: |
+          ```bash
+          npm install d3fc-element
+          ```
+      - title: API Reference
+        level: 2
+        content: |+
+          * [&lt;d3fc-svg&gt;](#d3fc-svg)
+          * [&lt;d3fc-canvas&gt;](#d3fc-canvas)
+          * [&lt;d3fc-group&gt;](#d3fc-canvas)
+
+        children:
+          - title: '&lt;d3fc-svg&gt;'
+            level: 3
+            content: >
+              ### &lt;d3fc-canvas&gt;
+
+
+              These elements provide a nested `svg` or `canvas` element as a
+              rendering surface for D3 visualisations. Use CSS to size the
+              element and its pixel dimensions will be automatically propagated
+              through to the nested element.
+
+
+              Rendering is internally a three-phase process which is
+              automatically aligned to animation frames, *measure*, *resize* (if
+              required) and *draw*.  The *resize* and *draw* phases emit
+              similarly named events to allow rendering code to be called.
+
+
+              The split is required to allow the measuring logic to be performed
+              across all surfaces in the document before any rendering takes
+              place. This prevents layout thrashing by preventing interleaving
+              of DOM reads (which occur in *measure*) with DOM writes (which
+              should occur in *draw*).
+
+
+              ```html
+
+              <d3fc-svg id="x-axis" style="width: 10vw; height: 6vw"></d3fc-svg>
+
+              ```
+
+
+              ```js
+
+              const xScale = d3.scaleLinear()
+                .domain([0, 10]);
+
+              const xAxis = d3.axisBottom(xScale);
+
+
+              const xAxisContainer = d3.select('#x-axis')
+                .on('resize', () => {
+                  const { detail: { width } } = d3.event;
+                  xScale.range([0, width]);
+                })
+                .on('draw', () => {
+                  const { detail: { selection } } = d3.event;
+                  selection.call(xAxis);
+                });
+
+              // Some time later...
+
+              setTimeout(() => {
+                // ...a change requiring a redraw occurs...
+                xScale.domain([0, 5]);
+                // ...so we request a redraw of the element.
+                xAxisContainer.node()
+                  .requestRedraw();
+              }, 1000);
+
+              ```
+
+
+
+              <a name="surface_requestRedraw"
+              href="#surface_requestRedraw">#</a> *surface*.**requestRedraw**()
+
+
+              Enqueues a redraw to occur on the next animation frame, only if
+              there isn't already one pending. If one is already pending, this
+              call is ignored.
+
+
+              It should be noted that `requestRedraw` is asynchronous. It does
+              not directly invoke the draw event so any errors thrown in the
+              event handler can not be caught.
+          - title: '&lt;d3fc-group&gt;'
+            level: 3
+            content: >
+              An element with no visual representation that is designed to group
+              related rendering surfaces
+              ([&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)).
+              Its core purpose is to multi-cast
+              [*group*.requestRedraw](#group-requestRedraw) calls to descendant
+              surfaces and to provide an aggregate draw event. It additionally
+              provides helpers to allow [auto-resizing](#group-autoResize) of
+              descendant surfaces in response to window `resize` events.
+
+
+              ```html
+
+              <d3fc-group id="chart" auto-resize style="display: flex; height:
+              40vw; width: 60vw; flex-direction: column">
+                <h1 style="text-align: center">
+                  A Cartesian Chart
+                </h1>
+                <div style="flex: 1; display: flex; flex-direction: row">
+                  <d3fc-svg id="plot-area" style="flex: 1"></d3fc-svg>
+                  <d3fc-svg id="y-axis" style="width: 5em"></d3fc-svg>
+                </div>
+                <div style="height: 3em; display: flex; flex-direction: row">
+                  <d3fc-svg id="x-axis" style="flex: 1; margin-right: 5em"></d3fc-svg>
+                </div>
+              </d3fc-group>
+
+              ```
+
+
+              <a name="group-autoResize" href="#group-autoResize">#</a>
+              *group*.**autoResize** = *autoResize*
+
+
+              Available as the property `autoResize` or the attribute
+              `auto-resize`. If `true`, listens to `window` `resize` events and
+              automatically invokes
+              [*group*.requestRedraw](#group-requestRedraw).
+
+
+              <a name="group_requestRedraw" href="#group_requestRedraw">#</a>
+              *group*.**requestRedraw**()
+
+
+              Equivalent to invoking
+              [*surface*.requestRedraw](#surface-requestRedraw) on all
+              descendant group or surface elements. The order of events emitted
+              on this and descendent groups or surfaces is guaranteed to be in
+              document order (even if a redraw request on one of those elements
+              occurs before or after this call).
+          - title: Events
+            level: 3
+            content: >
+              The following custom DOM events are emitted by the elements -
+
+
+              * `resize` - indicates that the rendering surface has been resized
+              (only
+              [&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)).
+              Typically the `resize` event is used to set the
+              [range](https://github.com/d3/d3-scale#continuous_range) on scales
+              or apply transforms.
+
+              * `draw` - indicates that the rendering surface requires drawing.
+              Typically the `draw` event is used to render components or perform
+              any bespoke data-joins.
+
+
+              The following properties are available under the `detail` property
+              on the event (not available for [&lt;d3fc-group&gt;](#d3fc-group))
+              -
+
+
+              * `width` - the width of the surface in pixels.
+
+              * `height` - the height of the surface in pixels.
+
+              * `resized` - flag indicating whether the element has resized
+              since the last draw.
+
+              * `node` - the surface node.
+
+              * `selection` - a d3 selection containing only `node`.
+
+              * `context` - the 2d rendering context retrieved from `node`
+              ([&lt;d3fc-canvas&gt;](#d3fc-canvas) only).
+
+
+              N.B. it is safe to immediately invoke
+              [*surface*.requestRedraw](#surface_requestRedraw) from event
+              handlers if you wish to create an animation. The redraw will be
+              scheduled for the subsequent animation frame.
+sidebarContents:
+  - title: '&lt;d3fc-svg&gt;'
+    id: lt-d3fc-svg-gt
+  - title: '&lt;d3fc-group&gt;'
+    id: lt-d3fc-group-gt
+  - title: Events
+    id: events
+layout: api
+section: api
+title: Element
+
+---

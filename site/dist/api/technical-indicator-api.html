@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Technical Indicator</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/technical-indicator-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class=""><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class="active"><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+
+<div class="container project">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+d3fc-technical-indicator
+        </h1>
+<p>Components for calculating technical indicators on data series.</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#bollinger-bands">Bollinger Bands</a></li>
+<li><a href="#elder-ray">Elder-Ray</a></li>
+<li><a href="#envelope">Envelope</a></li>
+<li><a href="#moving-average">Moving Average</a></li>
+<li><a href="#exponential-moving-average">Exponential Moving Average</a></li>
+<li><a href="#force-index">Force Index</a></li>
+<li><a href="#macd">MACD</a></li>
+<li><a href="#relative-strength-index">Relative Strength Index</a></li>
+<li><a href="#stochastic-oscillator">Stochastic Oscillator</a></li>
+</ul>
+<p>Technical indicator calculators operate on an ordered input array of data, transforming it into a new array containing the indicator output values.
+The length of the output array is the same as the input array.</p>
+<p>Calculators expose a <code>value</code> accessor property (or a number of accessors if required) used to extract values from the source array.
+For calculators that only depend on a single value for their input, the value accessor defaults to the identity function.</p>
+<p>Technical indicator parameters can be configured individually for each calculator instance.
+A default value is used if a parameter is not configured.</p>
+<p>If an indicator calculator needs to create undefined values in the output (for example, the leading values of a moving average result), they will have the same structure as the other output objects, but will have primitive <code>undefined</code> property values.</p>
+<p>Input values retrieved by the value accessor for which <code>value == null</code> is <code>true</code> will produce undefined values in the output.
+Undefined inputs are best avoided — a single undefined input value will produce undefined output for all output values that depend on it.</p>
+<pre><code class="lang-javascript">
+import { indicatorBollingerBands } from d3fc-technical-indicator;
+
+const bollinger = indicatorBollingerBands()
+    .period(<span class="hljs-number">3</span>);
+
+bollinger([<span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>]);
+<span class="hljs-comment">// [</span>
+<span class="hljs-comment">//   { upper: undefined, average: undefined, lower: undefined },</span>
+<span class="hljs-comment">//   { upper: undefined, average: undefined, lower: undefined },</span>
+<span class="hljs-comment">//   { upper: 8, average: 6, lower: 4 },</span>
+<span class="hljs-comment">//   { upper: 7.4880338717125845, average: 6.333333333333333, lower: 5.178632794954082 },</span>
+<span class="hljs-comment">//   { upper: 8, average: 6, lower: 4 },</span>
+<span class="hljs-comment">//   { upper: 7, average: 5, lower: 3 }</span>
+<span class="hljs-comment">// ]</span>
+</code></pre>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="bollinger-bands" href="#bollinger-bands" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Bollinger Bands
+                </h3>
+<p><a name="indicatorBollingerBands" href="#indicatorBollingerBands">#</a> fc.<strong>indicatorBollingerBands</strong>()</p>
+<p>Constructs a new Bollinger band calculator with the default settings.</p>
+<p><a name="indicatorBollingerBands_" href="#indicatorBollingerBands_">#</a> <em>indicatorBollingerBands</em>(<em>data</em>)</p>
+<p>Computes the Bollinger bands for the given data array. Returns an array of objects with attributes:</p>
+<ul>
+<li><code>upper</code>: Upper Bollinger band</li>
+<li><code>average</code>: Simple moving average</li>
+<li><code>lower</code>: Lower Bollinger band</li>
+</ul>
+<p><a name="indicatorBollingerBands_value" href="#indicatorBollingerBands_value">#</a> <em>indicatorBollingerBands</em>.<strong>value</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.</p>
+<p><a name="indicatorBollingerBands_period" href="#indicatorBollingerBands_period">#</a> <em>indicatorBollingerBands</em>.<strong>period</strong>([<em>size</em>])</p>
+<p>Get/set the period of the moving average and standard deviation calculations performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.</p>
+<p><a name="indicatorBollingerBands_multiplier" href="#indicatorBollingerBands_multiplier">#</a> <em>indicatorBollingerBands</em>.<strong>multiplier</strong>([<em>multiplier</em>])</p>
+<p>Get/set the multiplier of the of the standard deviation around the moving average for the upper and lower bands. Defaults to 2.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="elder-ray" href="#elder-ray" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Elder-Ray
+                </h3>
+<p><a name="indicatorElderRay" href="#indicatorElderRay">#</a> fc.<strong>indicatorElderRay</strong>()</p>
+<p>Constructs a new Elder-ray calculator with the default settings.</p>
+<p><a name="indicatorElderRay_" href="#indicatorElderRay_">#</a> <em>indicatorElderRay</em>(<em>data</em>)</p>
+<p>Computes the Elder-ray for the given data array. Returns an array of objects with attributes:</p>
+<ul>
+<li><code>bullPower</code>: Data highValue - EMA of specified period</li>
+<li><code>bearPower</code>: Data lowValue - EMA of specified period</li>
+</ul>
+<p><a name="indicatorElderRay_closeValue" href="#indicatorElderRay_closeValue">#</a> <em>indicatorElderRay</em>.<strong>closeValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.close</code>.</p>
+<p><a name="indicatorElderRay_highValue" href="#indicatorElderRay_highValue">#</a> <em>indicatorElderRay</em>.<strong>highValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the high price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.high</code>.</p>
+<p><a name="indicatorElderRay_lowValue" href="#indicatorElderRay_lowValue">#</a> <em>indicatorElderRay</em>.<strong>lowValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the low price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.low</code>.</p>
+<p><a name="indicatorElderRay_period" href="#indicatorElderRay_period">#</a> <em>indicatorElderRay</em>.<strong>period</strong>([<em>period</em>])</p>
+<p>Get/set the period of the moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="envelope" href="#envelope" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Envelope
+                </h3>
+<p><a name="indicatorEnvelope" href="#indicatorEnvelope">#</a> fc.<strong>indicatorEnvelope</strong>()</p>
+<p>Constructs a new envelope calculator with the default settings.</p>
+<p><a name="indicatorEnvelope_" href="#indicatorEnvelope_">#</a> <em>indicatorEnvelope</em>(<em>data</em>)</p>
+<p>Computes the envelope for the given data array. Returns an array of objects with attributes:</p>
+<ul>
+<li><code>upper</code>: Upper level</li>
+<li><code>lower</code>: Lower level</li>
+</ul>
+<p><a name="indicatorEnvelope_value" href="#indicatorEnvelope_value">#</a> <em>indicatorEnvelope</em>.<strong>value</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.</p>
+<p><a name="indicatorEnvelope_factor" href="#indicatorEnvelope_factor">#</a> <em>indicatorEnvelope</em>.<strong>factor</strong>([<em>factor</em>])</p>
+<p>Get/set the multiplier used to obtain the upper and lower levels from the datum values. Defaults to 2.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="moving-average" href="#moving-average" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Moving Average
+                </h3>
+<p><a name="indicatorMovingAverage" href="#indicatorMovingAverage">#</a> fc.<strong>indicatorMovingAverage</strong>()</p>
+<p>Constructs a new simple moving average calculator with the default settings.</p>
+<p><a name="indicatorMovingAverage_" href="#indicatorMovingAverage_">#</a> <em>indicatorMovingAverage</em>(<em>data</em>)</p>
+<p>Computes the moving average for the given data array. Returns an array of simple moving average values.</p>
+<p><a name="indicatorMovingAverage_value" href="#indicatorMovingAverage_value">#</a> <em>indicatorMovingAverage</em>.<strong>value</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.</p>
+<p><a name="indicatorMovingAverage_period" href="#indicatorMovingAverage_period">#</a> <em>indicatorMovingAverage</em>.<strong>period</strong>([<em>size</em>])</p>
+<p>Get/set the period of the moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 10.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="exponential-moving-average" href="#exponential-moving-average" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Exponential Moving Average
+                </h3>
+<p><a name="indicatorExponentialMovingAverage" href="#indicatorExponentialMovingAverage">#</a> fc.<strong>indicatorExponentialMovingAverage</strong>()</p>
+<p>Constructs a new exponential moving average calculator with the default settings.</p>
+<p><a name="indicatorExponentialMovingAverage_" href="#indicatorExponentialMovingAverage_">#</a> <em>indicatorExponentialMovingAverage</em>(<em>data</em>)</p>
+<p>Computes the exponential moving average for the given data array. Returns an array of exponential moving average values.</p>
+<p><a name="indicatorExponentialMovingAverage_value" href="#indicatorExponentialMovingAverage_value">#</a> <em>indicatorExponentialMovingAverage</em>.<strong>value</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.</p>
+<p><a name="indicatorExponentialMovingAverage_period" href="#indicatorExponentialMovingAverage_period">#</a> <em>indicatorExponentialMovingAverage</em>.<strong>period</strong>([<em>size</em>])</p>
+<p>Get/set the period of the exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="force-index" href="#force-index" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Force Index
+                </h3>
+<p><a name="indicatorForceIndex" href="#indicatorForceIndex">#</a> fc.<strong>indicatorForceIndex</strong>()</p>
+<p>Constructs a new force index calculator with the default settings.</p>
+<p><a name="indicatorForceIndex_" href="#indicatorForceIndex_">#</a> <em>indicatorForceIndex</em>(<em>data</em>)</p>
+<p>Computes the force index for the given data array. Returns an array of force index values.</p>
+<p><a name="indicatorForceIndex_closeValue" href="#indicatorForceIndex_closeValue">#</a> <em>indicatorForceIndex</em>.<strong>closeValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.close</code>.</p>
+<p><a name="indicatorForceIndex_volumeValue" href="#indicatorForceIndex_volumeValue">#</a> <em>indicatorForceIndex</em>.<strong>volumeValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the trade volume value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.volume</code>.</p>
+<p><a name="indicatorForceIndex_period" href="#indicatorForceIndex_period">#</a> <em>indicatorForceIndex</em>.<strong>period</strong>([<em>size</em>])</p>
+<p>Get/set the period of the exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 13.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="macd" href="#macd" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+MACD
+                </h3>
+<p><a name="indicatorMacd" href="#indicatorMacd">#</a> fc.<strong>indicatorMacd</strong>()</p>
+<p>Constructs a new MACD calculator with the default settings.</p>
+<p><a name="indicatorMacd_" href="#indicatorMacd_">#</a> <em>indicatorMacd</em>(<em>data</em>)</p>
+<p>Computes the MACD for the given data array. Returns an array of objects with attributes:</p>
+<ul>
+<li><code>macd</code></li>
+<li><code>signal</code></li>
+<li><code>divergence</code></li>
+</ul>
+<p><a name="indicatorMacd_value" href="#indicatorMacd_value">#</a> <em>indicatorMacd</em>.<strong>value</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.</p>
+<p><a name="indicatorMacd_fastPeriod" href="#indicatorMacd_fastPeriod">#</a> <em>indicatorMacd</em>.<strong>fastPeriod</strong>([<em>period</em>])</p>
+<p>Get/set the period of the &#39;fast&#39; exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 12.</p>
+<p><a name="indicatorMacd_slowPeriod" href="#indicatorMacd_slowPeriod">#</a> <em>indicatorMacd</em>.<strong>slowPeriod</strong>([<em>period</em>])</p>
+<p>Get/set the period of the &#39;slow&#39; exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 26.</p>
+<p><a name="indicatorMacd_signalPeriod" href="#indicatorMacd_signalPeriod">#</a> <em>indicatorMacd</em>.<strong>signalPeriod</strong>([<em>period</em>])</p>
+<p>Get/set the period of the &#39;signal&#39; exponential moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 9.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="relative-strength-index" href="#relative-strength-index" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Relative Strength Index
+                </h3>
+<p><a name="indicatorRelativeStrengthIndex" href="#indicatorRelativeStrengthIndex">#</a> fc.<strong>indicatorRelativeStrengthIndex</strong>()</p>
+<p>Constructs a new RSI calculator with the default settings.</p>
+<p><a name="indicatorRelativeStrengthIndex_" href="#indicatorRelativeStrengthIndex_">#</a> <em>indicatorRelativeStrengthIndex</em>(<em>data</em>)</p>
+<p>Computes the RSI for the given data array. Returns an array of RSI values.</p>
+<p><a name="indicatorRelativeStrengthIndex_value" href="#indicatorRelativeStrengthIndex_value">#</a> <em>indicatorRelativeStrengthIndex</em>.<strong>value</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to the identity function.</p>
+<p><a name="indicatorRelativeStrengthIndex_period" href="#indicatorRelativeStrengthIndex_period">#</a> <em>indicatorRelativeStrengthIndex</em>.<strong>period</strong>([<em>size</em>])</p>
+<p>Get/set the period of the relative strength index calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 14.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="stochastic-oscillator" href="#stochastic-oscillator" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Stochastic Oscillator
+                </h3>
+<p><a name="indicatorStochasticOscillator" href="#indicatorStochasticOscillator">#</a> fc.<strong>indicatorStochasticOscillator</strong>()</p>
+<p>Constructs a new stochastic oscillator calculator with the default settings.</p>
+<p><a name="indicatorStochasticOscillator_" href="#indicatorStochasticOscillator_">#</a> <em>indicatorStochasticOscillator</em>(<em>data</em>)</p>
+<p>Computes an array of stochastic oscillator values from the given input array.</p>
+<p><a name="indicatorStochasticOscillator_closeValue" href="#indicatorStochasticOscillator_closeValue">#</a> <em>indicatorStochasticOscillator</em>.<strong>closeValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the close price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.close</code>.</p>
+<p><a name="indicatorStochasticOscillator_highValue" href="#indicatorStochasticOscillator_highValue">#</a> <em>indicatorStochasticOscillator</em>.<strong>highValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the high price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.high</code>.</p>
+<p><a name="indicatorStochasticOscillator_lowValue" href="#indicatorStochasticOscillator_lowValue">#</a> <em>indicatorStochasticOscillator</em>.<strong>lowValue</strong>([<em>value</em>])</p>
+<p>Get/set the accessor function used to obtain the low price value to be used by the calculator from the supplied array of data. The accessor function is invoked exactly once per datum. Defaults to <code>(d) =&gt; d.low</code>.</p>
+<p><a name="indicatorStochasticOscillator_kPeriod" href="#indicatorStochasticOscillator_kPeriod">#</a> <em>indicatorStochasticOscillator</em>.<strong>kPeriod</strong>([<em>size</em>])</p>
+<p>Get/set the period of the &#39;%K&#39; calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 5.</p>
+<p><a name="indicatorStochasticOscillator_dPeriod" href="#indicatorStochasticOscillator_dPeriod">#</a> <em>indicatorStochasticOscillator</em>.<strong>dPeriod</strong>([<em>size</em>])</p>
+<p>Get/set the period of the &#39;%D&#39; moving average calculation performed by the calculator. Can be specified as a number, or as a function of the supplied array of data. Defaults to 3.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+  </div>
+
+  <nav class="col-sm-3 hidden-xs">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <span class="active">Technical Indicator</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#bollinger-bands">
+                    Bollinger Bands
+                  </a>
+                </li>
+                <li>
+                  <a href="#elder-ray">
+                    Elder-Ray
+                  </a>
+                </li>
+                <li>
+                  <a href="#envelope">
+                    Envelope
+                  </a>
+                </li>
+                <li>
+                  <a href="#moving-average">
+                    Moving Average
+                  </a>
+                </li>
+                <li>
+                  <a href="#exponential-moving-average">
+                    Exponential Moving Average
+                  </a>
+                </li>
+                <li>
+                  <a href="#force-index">
+                    Force Index
+                  </a>
+                </li>
+                <li>
+                  <a href="#macd">
+                    MACD
+                  </a>
+                </li>
+                <li>
+                  <a href="#relative-strength-index">
+                    Relative Strength Index
+                  </a>
+                </li>
+                <li>
+                  <a href="#stochastic-oscillator">
+                    Stochastic Oscillator
+                  </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

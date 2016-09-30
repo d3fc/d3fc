@@ -5,7 +5,16 @@
   "main": "build/d3fc.js",
   "scripts": {
     "bundle": "d3fc-scripts bundle --include-d3fc",
-    "test": "d3fc-scripts test"
+    "test": "d3fc-scripts test",
+    "site": "npm-run-all site:clean site:build site:copy && npm-run-all -p site:styles:compile site:styles:watch site:server",
+    "site:styles:compile": "node-sass site/src/style/styles.scss site/dist/styles.css",
+    "site:styles:watch": "node-sass site/src/style/styles.scss site/dist/styles.css -w",
+    "site:copy": "copyfiles -f site/src/images/* site/dist/images",
+    "site:build": "babel-node site/scripts/build.js",
+    "site:clean": "rimraf site/dist && mkdirp site/dist",
+    "site:server": "npm-run-all -p site:start-server site:livereload",
+    "site:livereload": "livereload site/dist -d",
+    "site:start-server": "http-server site/dist -p 8000"
   },
   "repository": {
     "type": "git",
@@ -41,6 +50,25 @@
     "d3fc-technical-indicator": "^6.0.0"
   },
   "devDependencies": {
-    "d3fc-scripts": "^1.6.2"
+    "babel-cli": "^6.16.0",
+    "babel-preset-stage-2": "^6.16.0",
+    "bootstrap-sass": "^3.3.7",
+    "change-case": "^3.0.0",
+    "copyfiles": "^1.0.0",
+    "d3fc-scripts": "^1.6.2",
+    "fs-promise": "^0.5.0",
+    "glob": "^7.0.5",
+    "gray-matter": "^2.0.2",
+    "handlebars": "^4.0.5",
+    "handlebars-helpers": "^0.7.5",
+    "highlight.js": "^9.1.0",
+    "http-server": "^0.9.0",
+    "js-yaml": "^3.6.1",
+    "livereload": "^0.5.0",
+    "marked": "^0.3.5",
+    "node-sass": "^3.8.0",
+    "npm-run-all": "^2.3.0",
+    "rimraf": "^2.5.4",
+    "tiny-ssg": "ColinEberhardt/tiny-ssg#v0.0.6"
   }
 }

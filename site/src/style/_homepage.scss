@@ -1,0 +1,76 @@
+.top-chart {
+	@include section;
+
+	padding-top: $section-vertical-padding - $navbar-margin-bottom;
+
+	.chart.large {
+		height: 300px;
+		margin: 0;
+	}
+
+	.col-md-6 {
+		margin-top: $section-vertical-padding;
+	}
+}
+
+.jumbotron {
+	@include section;
+
+	position: relative;
+	margin-top: -21px;
+
+	$margin: 30px;
+
+	img {
+		margin-top: $margin;
+		margin-bottom: $margin;
+		height: 150px;
+  	width: 100%;
+	}
+
+	p {
+		margin-bottom: $margin;
+	}
+
+	a {
+		margin-bottom: $margin;
+	}
+
+	.jumbotron-btn {
+		$height: 40px;
+
+		display: inline-block;
+		line-height: $height;
+		height: $height;
+		padding: 0 $height;
+		border-radius: $height / 2;
+		border: 1px solid white;
+		color: white;
+
+		&:hover {
+			background: white;
+			color: $brand-primary;
+			text-decoration: none;
+		}
+	}
+}
+
+.quick-start {
+	@include section;
+
+	background: $brand-secondary;
+	color: white;
+
+	h3 {
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	p {
+		margin-bottom: 40px;
+	}
+
+	a {
+		color: $brand-primary;
+	}
+}

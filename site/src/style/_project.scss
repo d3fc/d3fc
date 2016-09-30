@@ -1,0 +1,81 @@
+@import 'variables';
+
+.project {
+	padding-bottom: $section-vertical-padding;
+
+	.header {
+
+		&:hover {
+			.header-link {
+				opacity: 0.8;
+			}
+		}
+
+		$link-padding: 10px;
+		$link-size: 20px;
+		.header-link {
+			opacity: 0;
+			width: $link-padding + $link-size;
+			height: $link-size;
+			float: left;
+			padding-right: $link-padding;
+			margin-left: -($link-padding + $link-size);
+
+			svg {
+				stroke: $brand-secondary;
+				fill: none;
+				display: inline-block;
+			}
+		}
+	}
+
+
+	.section {
+		padding-bottom: $section-vertical-padding * 1.5;
+	}
+
+	.block {
+		margin-top: $section-vertical-padding * 1.5;
+
+		h2 {
+			margin-bottom: 20px;
+		}
+		ul {
+			margin-bottom: 30px;
+		}
+	}
+
+	pre {
+		margin-bottom: 20px;
+	}
+	p {
+		margin-bottom: 20px;
+	}
+	img {
+		max-width: 100%;
+	}
+
+	.nav-sidebar {
+		> li {
+			> a, > span {
+				font-size: $font-size-base * 1.25;
+				padding: 5px 15px;
+				display: block;
+				position: relative;
+
+				&.active::before {
+					content: '';
+					position: absolute;
+					top: 	5px;	bottom: 5px;
+					left: 0;		width: 	2px;
+					border-radius: 2px;
+					background: $brand-secondary;
+				}
+			}
+		}
+
+		ul > li:last-child {
+			margin-bottom: 10px;
+		}
+	}
+}

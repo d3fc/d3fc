@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Waterfall Series</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/series/waterfall.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="active"><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Waterfall Series
+        <a class="btn btn-default" href="git+https://github.com/d3fc/d3fc.git/blob/master/src/series/waterfall.js">View source</a>
+      </h1>
+      <p>The <a href="https://en.wikipedia.org/wiki/Waterfall_chart">Waterfall series</a> renders the given data as a series of vertical bars, showing the cumulative effect of each bar. The series begins and ends with the total values.</p>
+<p>All bars are classed with &#39;waterfall&#39;. Ascending and descending bars are classed with &#39;up&#39; and &#39;down&#39; respectively.</p>
+<p>The data must be shaped using <code>fc.series.algorithm.waterfall()</code>. The new data has a <code>x</code> property specifying the x-location, <code>y0</code> and <code>y1</code> properties specifying the y0 and y1-locations respectively, and a <code>direction</code>. The algorithm assumes each object has an <code>x</code> property which defines its x-location, and a <code>y</code> property which defines its y-location. However, these can be changed via the <code>xValueKey</code> and <code>yValue</code> properties.</p>
+<p>The first column can be declared as a total by using the <code>startsWithTotal</code> property. Other total columns can be inserted into the data by using the algorithm&#39;s <code>totals</code> property. For a given datapoint this property should return the x-location for the total bar to be inserted. If the <code>totals</code> are not specified a final total bar will be inserted by default.</p>
+<pre><code class="lang-js">var width = <span class="hljs-number">500</span>, height = <span class="hljs-number">250</span>;
+var container = d3.select(<span class="hljs-string">'#waterfall'</span>)
+    .append(<span class="hljs-string">'svg'</span>)
+    .attr({<span class="hljs-string">'width'</span>: width, <span class="hljs-string">'height'</span>: height});
+
+var data = [
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'January'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">4000</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'February'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">2000</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'March'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">-1000</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'April'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">1500</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'May'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">100</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'June'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">500</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'July'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">-100</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'August'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">800</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'September'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">1200</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'October'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">1500</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'November'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">1400</span> },
+  { <span class="hljs-string">month:</span> <span class="hljs-string">'December'</span>, <span class="hljs-string">profit:</span> <span class="hljs-number">2000</span> }
+];
+
+var waterfallData = fc.series.algorithm.waterfall()
+    .xValueKey(<span class="hljs-string">'month'</span>)
+    .yValue(function(d) { <span class="hljs-keyword">return</span> d.profit; })
+    .startsWithTotal(<span class="hljs-literal">true</span>)
+    .total(function(d, i) {
+      <span class="hljs-keyword">if</span> ((i + <span class="hljs-number">1</span>) % <span class="hljs-number">3</span> === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Q'</span> + ((i + <span class="hljs-number">1</span>) / <span class="hljs-number">3</span>) + <span class="hljs-string">' total'</span>;
+      }
+    })(data);
+
+var xScale = d3.scale.ordinal()
+    .domain(waterfallData.map(function(d) { <span class="hljs-keyword">return</span> d.x; }))
+    .rangeRoundBands([<span class="hljs-number">0</span>, width], <span class="hljs-number">0.1</span>);
+
+var yScale = d3.scale.linear()
+    .domain(fc.util.extent().fields([<span class="hljs-string">'y1'</span>]).pad(<span class="hljs-number">0.2</span>).include(<span class="hljs-number">0</span>)(waterfallData))
+    .range([height, <span class="hljs-number">0</span>]);
+
+var waterfall = fc.series.waterfall()
+    .xScale(xScale)
+    .yScale(yScale);
+
+container.append(<span class="hljs-string">'g'</span>)
+    .datum(waterfallData)
+    .call(waterfall);
+</code></pre>
+<p>Which gives the following:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;waterfall\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "var width = 500, height = 250;
+\nvar container = d3.select(\"#waterfall\")
+\n    .append(\"svg\")
+\n    .attr({\"width\": width, \"height\": height});
+\n
+\nvar data = [
+\n  { month: \"January\", profit: 4000 },
+\n  { month: \"February\", profit: 2000 },
+\n  { month: \"March\", profit: -1000 },
+\n  { month: \"April\", profit: 1500 },
+\n  { month: \"May\", profit: 100 },
+\n  { month: \"June\", profit: 500 },
+\n  { month: \"July\", profit: -100 },
+\n  { month: \"August\", profit: 800 },
+\n  { month: \"September\", profit: 1200 },
+\n  { month: \"October\", profit: 1500 },
+\n  { month: \"November\", profit: 1400 },
+\n  { month: \"December\", profit: 2000 }
+\n];
+\n
+\nvar waterfallData = fc.series.algorithm.waterfall()
+\n    .xValueKey(\"month\")
+\n    .yValue(function(d) { return d.profit; })
+\n    .startsWithTotal(true)
+\n    .total(function(d, i) {
+\n      if ((i + 1) % 3 === 0) {
+\n        return \"Q\" + ((i + 1) / 3) + \" total\";
+\n      }
+\n    })(data);
+\n
+\nvar xScale = d3.scale.ordinal()
+\n    .domain(waterfallData.map(function(d) { return d.x; }))
+\n    .rangeRoundBands([0, width], 0.1);
+\n
+\nvar yScale = d3.scale.linear()
+\n    .domain(fc.util.extent().fields([\"y1\"]).pad(0.2).include(0)(waterfallData))
+\n    .range([height, 0]);
+\n
+\nvar waterfall = fc.series.waterfall()
+\n    .xScale(xScale)
+\n    .yScale(yScale);
+\n
+\ncontainer.append(\"g\")
+\n    .datum(waterfallData)
+\n    .call(waterfall);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id='waterfall' class='chart'></div>
+
+<script type="text/javascript">
+var width = 500, height = 250;
+var container = d3.select('#waterfall')
+    .append('svg')
+    .attr({'width': width, 'height': height});
+
+var data = [
+  { month: 'January', profit: 4000 },
+  { month: 'February', profit: 2000 },
+  { month: 'March', profit: -1000 },
+  { month: 'April', profit: 1500 },
+  { month: 'May', profit: 100 },
+  { month: 'June', profit: 500 },
+  { month: 'July', profit: -100 },
+  { month: 'August', profit: 800 },
+  { month: 'September', profit: 1200 },
+  { month: 'October', profit: 1500 },
+  { month: 'November', profit: 1400 },
+  { month: 'December', profit: 2000 }
+];
+
+var waterfallData = fc.series.algorithm.waterfall()
+    .xValueKey('month')
+    .yValue(function(d) { return d.profit; })
+    .startsWithTotal(true)
+    .total(function(d, i) {
+      if ((i + 1) % 3 === 0) {
+        return 'Q' + ((i + 1) / 3) + ' total';
+      }
+    })(data);
+
+var xScale = d3.scale.ordinal()
+    .domain(waterfallData.map(function(d) { return d.x; }))
+    .rangeRoundBands([0, width], 0.1);
+
+var yScale = d3.scale.linear()
+    .domain(fc.util.extent().fields(['y1']).pad(0.2).include(0)(waterfallData))
+    .range([height, 0]);
+
+var waterfall = fc.series.waterfall()
+    .xScale(xScale)
+    .yScale(yScale);
+
+container.append('g')
+    .datum(waterfallData)
+    .call(waterfall);
+
+</script>
+
+<p>The data that identifies the x-value is identified via the <code>xValueKey</code> property.</p>
+<p>This series has the same <code>yValue</code> and <code>decorate</code> properties as the <a href="/components/series/point.html">point series</a>. You can also specify the width of the bars via the <code>barWidth</code> property.</p>
+<p>The waterfall series supports horizontal display, using the <code>orient</code> property, similar to <a href="/components/series/bar.html">bar</a>.</p>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/series/stacked.html"><span aria-hidden="true">&larr;</span> Stacked Series</a></li>
+            <li class="next"><a href="/components/annotation/band.html">Band <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Chart</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/chart/cartesian.html">
+                    Cartesian
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/legend.html">
+                    Legend
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/small-multiples.html">
+                    Small Multiples
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/sparkline.html">
+                    Sparkline
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/tooltip.html">
+                    Tooltip
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Series</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/series/area.html">
+                    Area Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/bar.html">
+                    Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/boxPlot.html">
+                    Box Plot Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/cycle.html">
+                    Cycle Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/errorBar.html">
+                    Error Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/grouped.html">
+                    Grouped Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/line.html">
+                    Line Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/multi.html">
+                    Multi Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/point.html">
+                    Point Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/stacked.html">
+                    Stacked Series
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="/components/series/waterfall.html">
+                    Waterfall Series
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Annotation</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/annotation/band.html">
+                    Band
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/gridlines.html">
+                    Gridlines
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/line.html">
+                    Line
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Data</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/data/spread.html">
+                    Spread
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/data/walk.html">
+                    Random Walk
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Layout</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/layout/flexbox.html">
+                    Flexbox
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/layout/label.html">
+                    Label
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Sample</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/sample/sample.html">
+                    Sample
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Scale</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/scale/dateTime.html">
+                    Date Time Scale
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>SVG</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/svg/axis.html">
+                    Axis
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Tool</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/tool/container.html">
+                    Container
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/tool/crosshair.html">
+                    Crosshair
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Util</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/util/extent.html">
+                    Extent
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

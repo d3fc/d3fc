@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Extent</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/util/extent.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="active"><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Extent
+        <a class="btn btn-default" href="git+https://github.com/d3fc/d3fc.git/blob/master/src/util/extent.js">View source</a>
+      </h1>
+      <p>Extends the D3 extent functionality (found in <a href="https://github.com/d3/d3-array">d3-array</a>) to allow padding, multiple accessors and date support. Two variants are provided, one specialised for numeric values and another for dates -</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> data = [<span class="hljs-comment">{ x: 1 }</span>, <span class="hljs-comment">{ x: 2 }</span>, <span class="hljs-comment">{ x: 4 }</span>, <span class="hljs-comment">{ x: 8 }</span>, <span class="hljs-comment">{ x: 16 }</span>];
+
+<span class="hljs-keyword">var</span> extent = fc.util.extentLinear()
+  .accessors([<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> <span class="hljs-comment">{ return d.x; }</span>])
+  .<span class="hljs-title">pad</span><span class="hljs-params">([1, 4])</span>
+  .<span class="hljs-title">padUnit</span><span class="hljs-params">(<span class="hljs-string">'domain'</span>)</span>;</span>
+
+extent(data);
+<span class="hljs-comment">// [0, 20]</span>
+</code></pre>
+<p>For more details on using linear extent see <a href="https://github.com/d3fc/d3fc-extent#linear">d3fc-extent</a>.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> data = [{ <span class="hljs-attr">x</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2016</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>) }, { <span class="hljs-attr">x</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2016</span>, <span class="hljs-number">0</span>, <span class="hljs-number">11</span>) }];
+
+<span class="hljs-keyword">var</span> extent = fc.util.extentDate()
+  .accessors([<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; }])
+  .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>]);
+
+extent(data);
+<span class="hljs-comment">// [ 2016-01-01T00:00:00.000Z, 2016-01-13T00:00:00.000Z ]</span>
+</code></pre>
+<p>For more details on using date extent see <a href="https://github.com/d3fc/d3fc-extent#date">d3fc-extent</a>.</p>
+<p>Previously this functionality was provided by a single component but this resulted in unresolvable ambiguity. Whilst still available to ease upgrading, its use is deprecated and there are some <a href="https://github.com/ScottLogic/d3fc/commit/00f3a9677803559f883fe673be11159a1bbe6c3f">important changes</a> to be aware of.</p>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/tool/crosshair.html"><span aria-hidden="true">&larr;</span> Crosshair</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Chart</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/chart/cartesian.html">
+                    Cartesian
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/legend.html">
+                    Legend
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/small-multiples.html">
+                    Small Multiples
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/sparkline.html">
+                    Sparkline
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/tooltip.html">
+                    Tooltip
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Series</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/series/area.html">
+                    Area Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/bar.html">
+                    Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/boxPlot.html">
+                    Box Plot Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/cycle.html">
+                    Cycle Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/errorBar.html">
+                    Error Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/grouped.html">
+                    Grouped Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/line.html">
+                    Line Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/multi.html">
+                    Multi Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/point.html">
+                    Point Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/stacked.html">
+                    Stacked Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/waterfall.html">
+                    Waterfall Series
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Annotation</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/annotation/band.html">
+                    Band
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/gridlines.html">
+                    Gridlines
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/line.html">
+                    Line
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Data</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/data/spread.html">
+                    Spread
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/data/walk.html">
+                    Random Walk
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Layout</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/layout/flexbox.html">
+                    Flexbox
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/layout/label.html">
+                    Label
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Sample</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/sample/sample.html">
+                    Sample
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Scale</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/scale/dateTime.html">
+                    Date Time Scale
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>SVG</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/svg/axis.html">
+                    Axis
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Tool</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/tool/container.html">
+                    Container
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/tool/crosshair.html">
+                    Crosshair
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Util</h4>
+            <ul class="nav nav-stacked">
+                <li class="active">
+                  <a href="/components/util/extent.html">
+                    Extent
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

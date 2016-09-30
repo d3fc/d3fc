@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Label Layout</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/label-layout-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class=""><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class="active"><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+
+<div class="container project">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+d3fc-label-layout
+        </h1>
+<p>A D3 layout that places labels avoiding overlaps, with strategies including simulated annealing, greedy and a strategy that removes overlapping labels.</p>
+<p><img src="d3fc-label-layout.png" alt="d3fc label layout"></p>
+<p>For a live demo, see the <a href="http://d3fc.github.io/d3fc-label-layout/">GitHub Pages site</a>.</p>
+        <!-- LEVEL 2 -->
+        <!-- /LEVEL 2 -->
+      </div>
+      <div class="section">
+        <h1>
+Installation
+        </h1>
+<pre><code class="lang-bash">npm install d3fc-<span class="hljs-keyword">label</span><span class="bash">-layout</span>
+</code></pre>
+        <!-- LEVEL 2 -->
+        <!-- /LEVEL 2 -->
+      </div>
+      <div class="section">
+        <h1>
+API
+        </h1>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+General API
+            </h2>
+<p>The label layout component provides a mechanism for arranging child components based on their rectangular bounding boxes. It is typically used to render labels on maps or charts. A layout strategy is passed to the component in order to arrange the child rectangles avoiding collisions or remove overlaps.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Example usage
+            </h2>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> labelPadding = <span class="hljs-number">2</span>;
+
+<span class="hljs-comment">// the component used to render each label</span>
+<span class="hljs-keyword">var</span> textLabel = fc.textLabel()
+  .padding(labelPadding)
+  .value(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.properties.name; });
+
+<span class="hljs-comment">// a strategy that combines simulated annealing with removal</span>
+<span class="hljs-comment">// of overlapping labels</span>
+<span class="hljs-keyword">var</span> strategy = fc.removeOverlaps(fc.greedy());
+
+<span class="hljs-comment">// create the layout that positions the labels</span>
+<span class="hljs-keyword">var</span> labels = fc.label(strategy)
+    .size(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{
+        <span class="hljs-comment">// measure the label and add the required padding</span>
+        <span class="hljs-keyword">var</span> textSize = d3.select(<span class="hljs-keyword">this</span>)
+            .select(<span class="hljs-string">'text'</span>)
+            .node()
+            .getBBox();
+        <span class="hljs-keyword">return</span> [textSize.width + labelPadding * <span class="hljs-number">2</span>, textSize.height + labelPadding * <span class="hljs-number">2</span>];
+    })
+    .position(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> projection(d.geometry.coordinates); })
+    .component(textLabel);
+
+<span class="hljs-comment">// render!</span>
+svg.datum(places.features)
+     .call(labels);
+</code></pre>
+<p>The above snippet is taken from block <a href="http://bl.ocks.org/ColinEberhardt/389c76c6a544af9f0cab">389c76c6a544af9f0cab</a> which provides a complete example showing how this label layout component can be used to arrange labels on a map.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Label
+            </h2>
+<p><em>fc</em>.<strong>label</strong>(<em>strategy</em>)</p>
+<p>Constructs a new label layout with the given <em>strategy</em>. The label layout creates an array of rectangle bounding boxes which are passed to the strategy, which will typically move the boxes in order to minimise overlaps. Once the layout is complete a data join is used to construct a containing <code>g</code> element for each item in the bound array, and the component supplied to the layout is &#39;call&#39;-ed on each element.</p>
+<p>Each <code>g</code> element has the following properties set:</p>
+<ul>
+<li><code>layout-width</code>, <code>layout-height</code> - the width and height of this label, as provided by the <code>size</code> property.</li>
+<li><code>display</code> - set to <code>inherit</code> or <code>hidden</code>, based on whether the strategy has hidden this label.</li>
+<li><code>anchor-x</code>, <code>anchor-y</code> - the original label location in relative coordinates to the this <code>g</code> element.</li>
+</ul>
+<p><em>label</em>.<strong>size</strong>(<em>accessor</em>)</p>
+<p>Specifies the size for each item in the associated array. The <em>accessor</em> function is invoked exactly once per datum, and should return the size as an array of two values, <code>[width, height]</code>. The <em>accessor</em> function is invoked with the datum, and index. This function is invoked after the component has been rendered, and the value of the <em>this</em> context is the containing <code>g</code> element. As a result, you can measure the size of the component if the contents are dynamic, for example, measuring the size of a text label.</p>
+<p><em>label</em>.<strong>position</strong>(<em>accessor</em>)</p>
+<p>Specifies the position for each item in the associated array. The <em>accessor</em> function is invoked exactly once per datum, and should return the position as an array of two values, <code>[x, y]</code>.</p>
+<p><em>label</em>.<strong>component</strong>(<em>component</em>)</p>
+<p>Specified the component that is used to render each label.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Strategy
+            </h2>
+<p>The label component uses a strategy in order to re-locate labels to avoid collisions, or perhaps hide those that overlap.</p>
+<p>The strategy is supplied an array of objects that describe the initial location of each label, as obtained via the <code>position</code> and <code>size</code> properties of <code>layout</code>.</p>
+<p>Each object has the following structure:</p>
+<pre><code>{
+<span class="hljs-symbol">    hidden:</span> ...,
+<span class="hljs-symbol">    x:</span> ...,
+<span class="hljs-symbol">    y:</span> ...,
+<span class="hljs-symbol">    width:</span> ...,
+<span class="hljs-symbol">    height:</span> ...,
+}
+</code></pre><p>The strategy should return an array of objects indicating the placement of each label.</p>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="greedy" href="#greedy" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Greedy
+                </h3>
+<p>The greedy strategy is a very fast way of reducing label overlap. It adds each label in sequence, selecting the position where the label has the lowest overlap with already added rectangles and is inside the container.</p>
+<p><em>fc</em>.<strong>greedy</strong>()</p>
+<p>Constructs a greedy strategy.</p>
+<p><em>greedy</em>.<strong>bounds</strong>(<em>array</em>)</p>
+<p>Optionally specifies a bounding region, as an array of two values, <code>[width, height]</code>. The strategy will try to keep labels within the bounds.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="simulated-annealing" href="#simulated-annealing" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Simulated Annealing
+                </h3>
+<p>The simulated annealing strategy runs over a set number of iterations, choosing a different location for one label on each iteration. If that location results in a better result, it is saved for the next iteration. Otherwise, it is saved with probability inversely proportional with the iteration it is currently on. This helps it break out of local optimums, hopefully producing better output. Because of the random nature of the algorithm, it produces variable output.</p>
+<p><em>fc</em>.<strong>annealing</strong>()</p>
+<p>Constructs an annealing strategy.</p>
+<p><em>annealing</em>.<strong>bounds</strong>(<em>array</em>)</p>
+<p>Optionally specifies a bounding region, as an array of two values, <code>[width, height]</code>. The strategy will try to keep labels within the bounds.</p>
+<p><em>annealing</em>.<strong>temperature</strong>(<em>integer</em>)</p>
+<p><em>annealing</em>.<strong>cooling</strong>(<em>integer</em>)</p>
+<p>The <em>temperature</em> parameter indicates the initial &#39;number&#39; to use for the random probability calculation, and <em>cooling</em> defines the delta of the temperature between iterations. The algorithm runs for <code>Math.ceil(temperature / cooling)</code> iterations.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="remove-overlaps" href="#remove-overlaps" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Remove overlaps
+                </h3>
+<p>This strategy doesn&#39;t re-position labels to reduce overlaps, instead it removes overlapping labels. This is performed iteratively, with the labels that have the greatest area of overlap removed first.</p>
+<p><em>fc</em>.<strong>removeOverlaps</strong>(<em>strategy</em>)</p>
+<p>Constructs a removeOverlaps strategy, adapting the supplied <em>strategy</em> in order to remove overlaps after it has been executed.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Text Label
+            </h2>
+<p>This is a simple component that renders a label:</p>
+<p><img src="textLabel.png" alt="d3fc label layout"></p>
+<p>This component uses the <code>layout-width</code> and <code>layout-height</code> properties of its parent element to set its own width and height. It also uses the <code>anchor-x</code> and <code>anchor-y</code> properties to place the circular anchor. These properties are all set by the label layout as described above.</p>
+<p><em>fc</em>.<strong>textLabel</strong>()</p>
+<p>Constructs a text label component.</p>
+<p><em>textLabel</em>.<strong>labelPadding</strong>(<em>number</em>)</p>
+<p>Specifies the padding around the text.</p>
+<p><em>textLabel</em>.<strong>value</strong>(<em>accessor</em>)</p>
+<p>Specifies the text rendered by this label as an accessor function.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+  </div>
+
+  <nav class="col-sm-3 hidden-xs">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <span class="active">Label Layout</span>
+            <ul class="nav nav-stacked">
+            </ul>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

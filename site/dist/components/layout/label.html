@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Label</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/layout/label.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="active"><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Label
+      </h1>
+      <p>A D3 layout that places labels avoiding overlaps using either a greedy or simulated annealing strategy. Full details of this component can be found on the <a href="https://github.com/d3fc/d3fc-label-layout">d3fc-label-layout</a> module GitHub page.</p>
+<p>The following example shows how a number of labels can be arranged by this layout component:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> data = [
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'JavaScript'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">500</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">1119</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Java'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">240</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">899</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Python'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">151</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">402</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Objective-C'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">99</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">508</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Swift'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">100</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">383</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Go'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">157</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">248</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'PHP'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">96</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">137</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'HTML'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">70</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">124</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'CSS'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">63</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">132</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Ruby'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">67</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">96</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'C++'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">124</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">107</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'C'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">76</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">136</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'C#'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">78</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">64</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Shell'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">36</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">94</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Scala'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">23</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">25</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Clojure'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">9</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">24</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Haskell'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">8</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">16</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'CoffeeScript'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">11</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">21</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Lua'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">19</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'R'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">6</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'VimL'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">4</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">20</span>
+  },
+  {
+    <span class="hljs-string">'language'</span>: <span class="hljs-string">'Perl'</span>,
+    <span class="hljs-string">'orgs'</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-string">'users'</span>: <span class="hljs-number">5</span>
+  }
+];
+
+<span class="hljs-comment">// START</span>
+<span class="hljs-keyword">var</span> labelPadding = <span class="hljs-number">2</span>;
+
+<span class="hljs-comment">// a component which renders the labels</span>
+<span class="hljs-keyword">var</span> label = fc.layout.textLabel()
+    .padding(labelPadding)
+    .value(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.language; });
+
+<span class="hljs-keyword">var</span> yScale = d3.scale.linear(),
+  xScale = d3.scale.linear();
+
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+              xScale,
+              yScale)
+    .yDomain(fc.util.extent().pad(<span class="hljs-number">0.2</span>).fields([<span class="hljs-string">'users'</span>])(data))
+    .xDomain(fc.util.extent().pad(<span class="hljs-number">0.2</span>).fields([<span class="hljs-string">'orgs'</span>])(data))
+    .xLabel(<span class="hljs-string">'GitHub Organizations'</span>)
+    .yLabel(<span class="hljs-string">'GitHub Users'</span>)
+    .chartLabel(<span class="hljs-string">'GitHub User to Organization Ratio'</span>)
+    .margin({right: <span class="hljs-number">50</span>, bottom: <span class="hljs-number">50</span>, top: <span class="hljs-number">30</span>})
+    .plotArea(multi);
+
+<span class="hljs-comment">// construct a strategy that uses the 'greedy' algorithm for layout, wrapped</span>
+<span class="hljs-comment">// by a strategy that removes overlapping rectangles.</span>
+<span class="hljs-keyword">var</span> strategy = fc.layout.strategy.removeOverlaps(fc.layout.strategy.greedy());
+
+<span class="hljs-comment">// create the layout that positions the labels</span>
+<span class="hljs-keyword">var</span> labels = fc.layout.label(strategy)
+        .size(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{
+            <span class="hljs-comment">// measure the label and add the required padding</span>
+          <span class="hljs-keyword">var</span> textSize = d3.select(<span class="hljs-keyword">this</span>)
+                    .select(<span class="hljs-string">'text'</span>)
+                    .node()
+                    .getBBox();
+          <span class="hljs-keyword">return</span> [textSize.width + labelPadding * <span class="hljs-number">2</span>, textSize.height + labelPadding * <span class="hljs-number">2</span>];
+        })
+        .position(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> [xScale(d.orgs), yScale(d.users)]; })
+        .component(label);
+
+<span class="hljs-comment">// render them together with a point series</span>
+<span class="hljs-keyword">var</span> points = fc.series.point()
+    .size(<span class="hljs-number">12</span>)
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.orgs; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.users; });
+<span class="hljs-keyword">var</span> multi = fc.series.multi()
+        .series([labels, points]);
+
+chart.plotArea(multi);
+
+<span class="hljs-comment">// bind the data and render</span>
+d3.select(<span class="hljs-string">'#label'</span>)
+    .datum(data)
+    .call(chart);
+<span class="hljs-comment">// END</span>
+</code></pre>
+<p>Which renders the following:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;label\&quot; class&#x3D;\&quot;chart large\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "var data = [
+\n  {
+\n    \"language\": \"JavaScript\",
+\n    \"orgs\": 500,
+\n    \"users\": 1119
+\n  },
+\n  {
+\n    \"language\": \"Java\",
+\n    \"orgs\": 240,
+\n    \"users\": 899
+\n  },
+\n  {
+\n    \"language\": \"Python\",
+\n    \"orgs\": 151,
+\n    \"users\": 402
+\n  },
+\n  {
+\n    \"language\": \"Objective-C\",
+\n    \"orgs\": 99,
+\n    \"users\": 508
+\n  },
+\n  {
+\n    \"language\": \"Swift\",
+\n    \"orgs\": 100,
+\n    \"users\": 383
+\n  },
+\n  {
+\n    \"language\": \"Go\",
+\n    \"orgs\": 157,
+\n    \"users\": 248
+\n  },
+\n  {
+\n    \"language\": \"PHP\",
+\n    \"orgs\": 96,
+\n    \"users\": 137
+\n  },
+\n  {
+\n    \"language\": \"HTML\",
+\n    \"orgs\": 70,
+\n    \"users\": 124
+\n  },
+\n  {
+\n    \"language\": \"CSS\",
+\n    \"orgs\": 63,
+\n    \"users\": 132
+\n  },
+\n  {
+\n    \"language\": \"Ruby\",
+\n    \"orgs\": 67,
+\n    \"users\": 96
+\n  },
+\n  {
+\n    \"language\": \"C++\",
+\n    \"orgs\": 124,
+\n    \"users\": 107
+\n  },
+\n  {
+\n    \"language\": \"C\",
+\n    \"orgs\": 76,
+\n    \"users\": 136
+\n  },
+\n  {
+\n    \"language\": \"C#\",
+\n    \"orgs\": 78,
+\n    \"users\": 64
+\n  },
+\n  {
+\n    \"language\": \"Shell\",
+\n    \"orgs\": 36,
+\n    \"users\": 94
+\n  },
+\n  {
+\n    \"language\": \"Scala\",
+\n    \"orgs\": 23,
+\n    \"users\": 25
+\n  },
+\n  {
+\n    \"language\": \"Clojure\",
+\n    \"orgs\": 9,
+\n    \"users\": 24
+\n  },
+\n  {
+\n    \"language\": \"Haskell\",
+\n    \"orgs\": 8,
+\n    \"users\": 16
+\n  },
+\n  {
+\n    \"language\": \"CoffeeScript\",
+\n    \"orgs\": 11,
+\n    \"users\": 21
+\n  },
+\n  {
+\n    \"language\": \"Lua\",
+\n    \"orgs\": 10,
+\n    \"users\": 19
+\n  },
+\n  {
+\n    \"language\": \"R\",
+\n    \"orgs\": 1,
+\n    \"users\": 6
+\n  },
+\n  {
+\n    \"language\": \"VimL\",
+\n    \"orgs\": 4,
+\n    \"users\": 20
+\n  },
+\n  {
+\n    \"language\": \"Perl\",
+\n    \"orgs\": 1,
+\n    \"users\": 5
+\n  }
+\n];
+\n
+\n// START
+\nvar labelPadding = 2;
+\n
+\n// a component which renders the labels
+\nvar label = fc.layout.textLabel()
+\n    .padding(labelPadding)
+\n    .value(function(d) { return d.language; });
+\n
+\nvar yScale = d3.scale.linear(),
+\n  xScale = d3.scale.linear();
+\n
+\nvar chart = fc.chart.cartesian(
+\n              xScale,
+\n              yScale)
+\n    .yDomain(fc.util.extent().pad(0.2).fields([\"users\"])(data))
+\n    .xDomain(fc.util.extent().pad(0.2).fields([\"orgs\"])(data))
+\n    .xLabel(\"GitHub Organizations\")
+\n    .yLabel(\"GitHub Users\")
+\n    .chartLabel(\"GitHub User to Organization Ratio\")
+\n    .margin({right: 50, bottom: 50, top: 30})
+\n    .plotArea(multi);
+\n
+\n// construct a strategy that uses the \"greedy\" algorithm for layout, wrapped
+\n// by a strategy that removes overlapping rectangles.
+\nvar strategy = fc.layout.strategy.removeOverlaps(fc.layout.strategy.greedy());
+\n
+\n// create the layout that positions the labels
+\nvar labels = fc.layout.label(strategy)
+\n        .size(function(d) {
+\n            // measure the label and add the required padding
+\n          var textSize = d3.select(this)
+\n                    .select(\"text\")
+\n                    .node()
+\n                    .getBBox();
+\n          return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
+\n        })
+\n        .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
+\n        .component(label);
+\n
+\n// render them together with a point series
+\nvar points = fc.series.point()
+\n    .size(12)
+\n    .xValue(function(d) { return d.orgs; })
+\n    .yValue(function(d) { return d.users; });
+\nvar multi = fc.series.multi()
+\n        .series([labels, points]);
+\n
+\nchart.plotArea(multi);
+\n
+\n// bind the data and render
+\nd3.select(\"#label\")
+\n    .datum(data)
+\n    .call(chart);
+\n// END
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n.label rect, .label circle {
+\n    fill: transparent;
+\n    stroke-width: 0;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<style>
+.label rect, .label circle {
+    fill: transparent;
+    stroke-width: 0;
+}
+
+</style>
+
+<div id="label" class='chart large'></div>
+
+<script type="text/javascript">
+var data = [
+  {
+    'language': 'JavaScript',
+    'orgs': 500,
+    'users': 1119
+  },
+  {
+    'language': 'Java',
+    'orgs': 240,
+    'users': 899
+  },
+  {
+    'language': 'Python',
+    'orgs': 151,
+    'users': 402
+  },
+  {
+    'language': 'Objective-C',
+    'orgs': 99,
+    'users': 508
+  },
+  {
+    'language': 'Swift',
+    'orgs': 100,
+    'users': 383
+  },
+  {
+    'language': 'Go',
+    'orgs': 157,
+    'users': 248
+  },
+  {
+    'language': 'PHP',
+    'orgs': 96,
+    'users': 137
+  },
+  {
+    'language': 'HTML',
+    'orgs': 70,
+    'users': 124
+  },
+  {
+    'language': 'CSS',
+    'orgs': 63,
+    'users': 132
+  },
+  {
+    'language': 'Ruby',
+    'orgs': 67,
+    'users': 96
+  },
+  {
+    'language': 'C++',
+    'orgs': 124,
+    'users': 107
+  },
+  {
+    'language': 'C',
+    'orgs': 76,
+    'users': 136
+  },
+  {
+    'language': 'C#',
+    'orgs': 78,
+    'users': 64
+  },
+  {
+    'language': 'Shell',
+    'orgs': 36,
+    'users': 94
+  },
+  {
+    'language': 'Scala',
+    'orgs': 23,
+    'users': 25
+  },
+  {
+    'language': 'Clojure',
+    'orgs': 9,
+    'users': 24
+  },
+  {
+    'language': 'Haskell',
+    'orgs': 8,
+    'users': 16
+  },
+  {
+    'language': 'CoffeeScript',
+    'orgs': 11,
+    'users': 21
+  },
+  {
+    'language': 'Lua',
+    'orgs': 10,
+    'users': 19
+  },
+  {
+    'language': 'R',
+    'orgs': 1,
+    'users': 6
+  },
+  {
+    'language': 'VimL',
+    'orgs': 4,
+    'users': 20
+  },
+  {
+    'language': 'Perl',
+    'orgs': 1,
+    'users': 5
+  }
+];
+
+// START
+var labelPadding = 2;
+
+// a component which renders the labels
+var label = fc.layout.textLabel()
+    .padding(labelPadding)
+    .value(function(d) { return d.language; });
+
+var yScale = d3.scale.linear(),
+  xScale = d3.scale.linear();
+
+var chart = fc.chart.cartesian(
+              xScale,
+              yScale)
+    .yDomain(fc.util.extent().pad(0.2).fields(['users'])(data))
+    .xDomain(fc.util.extent().pad(0.2).fields(['orgs'])(data))
+    .xLabel('GitHub Organizations')
+    .yLabel('GitHub Users')
+    .chartLabel('GitHub User to Organization Ratio')
+    .margin({right: 50, bottom: 50, top: 30})
+    .plotArea(multi);
+
+// construct a strategy that uses the 'greedy' algorithm for layout, wrapped
+// by a strategy that removes overlapping rectangles.
+var strategy = fc.layout.strategy.removeOverlaps(fc.layout.strategy.greedy());
+
+// create the layout that positions the labels
+var labels = fc.layout.label(strategy)
+        .size(function(d) {
+            // measure the label and add the required padding
+          var textSize = d3.select(this)
+                    .select('text')
+                    .node()
+                    .getBBox();
+          return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
+        })
+        .position(function(d) { return [xScale(d.orgs), yScale(d.users)]; })
+        .component(label);
+
+// render them together with a point series
+var points = fc.series.point()
+    .size(12)
+    .xValue(function(d) { return d.orgs; })
+    .yValue(function(d) { return d.users; });
+var multi = fc.series.multi()
+        .series([labels, points]);
+
+chart.plotArea(multi);
+
+// bind the data and render
+d3.select('#label')
+    .datum(data)
+    .call(chart);
+// END
+
+</script>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/layout/flexbox.html"><span aria-hidden="true">&larr;</span> Flexbox</a></li>
+            <li class="next"><a href="/components/sample/sample.html">Sample <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Chart</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/chart/cartesian.html">
+                    Cartesian
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/legend.html">
+                    Legend
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/small-multiples.html">
+                    Small Multiples
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/sparkline.html">
+                    Sparkline
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/tooltip.html">
+                    Tooltip
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Series</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/series/area.html">
+                    Area Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/bar.html">
+                    Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/boxPlot.html">
+                    Box Plot Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/cycle.html">
+                    Cycle Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/errorBar.html">
+                    Error Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/grouped.html">
+                    Grouped Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/line.html">
+                    Line Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/multi.html">
+                    Multi Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/point.html">
+                    Point Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/stacked.html">
+                    Stacked Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/waterfall.html">
+                    Waterfall Series
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Annotation</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/annotation/band.html">
+                    Band
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/gridlines.html">
+                    Gridlines
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/line.html">
+                    Line
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Data</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/data/spread.html">
+                    Spread
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/data/walk.html">
+                    Random Walk
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Layout</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/layout/flexbox.html">
+                    Flexbox
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="/components/layout/label.html">
+                    Label
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Sample</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/sample/sample.html">
+                    Sample
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Scale</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/scale/dateTime.html">
+                    Date Time Scale
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>SVG</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/svg/axis.html">
+                    Axis
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Tool</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/tool/container.html">
+                    Container
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/tool/crosshair.html">
+                    Crosshair
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Util</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/util/extent.html">
+                    Extent
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+.gridline.x {
+    display: none;
+}
+
+.annotation .right-handle {
+    display: none;
+}
+
+.title text {
+    font-size: 15pt;
+}
+
+.bar path {
+    stroke-width: 0;
+}

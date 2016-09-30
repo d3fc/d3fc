@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Flexbox</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/layout/flexbox.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="active"><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Flexbox
+        <a class="btn btn-default" href="git+https://github.com/d3fc/d3fc.git/blob/master/src/layout/flexbox.js">View source</a>
+      </h1>
+      <p>The flexbox layout functionality allows you to structure your SVG using CSS Flexbox. This removes much of the manual layout calculations that are typically required for D3 charts, <a href="http://blog.scottlogic.com/2015/02/02/svg-layout-flexbox.html">as described in this blog post</a>.</p>
+<p>In order to use this layout approach, add the <code>layout-style</code> attribute to the elements within your <code>SVG</code> container (note the camel-cased property names). This component uses Facebook&#39;s css-layout project, which re-implements flexbox in JavaScript, <a href="https://github.com/facebook/css-layout">refer to their project page</a> for supported properties.</p>
+<p>Here&#39;s an example SVG with group elements that have a layout suitable for chart construction (axes, legend, etc ...):</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"layout-test"</span>
+   <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 90%; height: 350px; margin: 10px; background: yellow"</span>
+   <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"paddingLeft: 10"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"height: 30; justifyContent: center; flexDirection: row;"</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"flex: 1; flexDirection: row;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"flex: 1; flexDirection: row; justifyContent: flex-end;"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"width: 100; height: 100; margin: 10"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"width: 50;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"width: 30; justifyContent: center;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"height: 30; flexDirection: row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"flex: 1; marginRight: 80;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">g</span> <span class="hljs-attr">layout-style</span>=<span class="hljs-string">"height: 30; flexDirection: row"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">g</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+</code></pre>
+<p>The following code performs the required layout:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// apply the flexbox layout</span>
+d3.select(<span class="hljs-string">'#layout-test'</span>).layout();
+
+<span class="hljs-comment">// This code simply creates some coloured rectangles so that you can</span>
+<span class="hljs-comment">// see the layout without reaching for your developer tools!</span>
+<span class="hljs-keyword">var</span> c10 = d3.scale.category10();
+d3.selectAll(<span class="hljs-string">'g'</span>)
+    .filter(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.childElementCount === <span class="hljs-number">0</span>;
+    })
+    .append(<span class="hljs-string">'rect'</span>)
+    .attr(<span class="hljs-string">'stroke'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d, i)</span> </span>{ <span class="hljs-keyword">return</span> c10(i); })
+    .attr(<span class="hljs-string">'fill'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d, i)</span> </span>{ <span class="hljs-keyword">return</span> c10(i); })
+    .attr(<span class="hljs-string">'width'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> d3.select(<span class="hljs-keyword">this</span>.parentNode).layout(<span class="hljs-string">'width'</span>);
+    })
+    .attr(<span class="hljs-string">'height'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">return</span> d3.select(<span class="hljs-keyword">this</span>.parentNode).layout(<span class="hljs-string">'height'</span>);
+    });
+</code></pre>
+<p>Nodes are positioned and sized appropriately using a combination of <code>x</code>, <code>y</code>, <code>width</code>, <code>height</code> and <code>transform</code> attributes depending on the whether the node is an <code>svg</code>, <code>rect</code> or other. Additionally <code>layout-width</code>, <code>layout-height</code>, <code>layout-x</code> and <code>layout-y</code> attributes are added which can be accessed using e.g. <code>selection.layout(&#39;width&#39;)</code>.</p>
+<p>The above code produces the following:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;svg id&#x3D;\&quot;layout-test\&quot;
+\n   style&#x3D;\&quot;width: 90%; height: 350px; margin: 10px; background: yellow\&quot;
+\n   layout-style&#x3D;\&quot;paddingLeft: 10\&quot;&gt;
+\n  &lt;g layout-style&#x3D;\&quot;height: 30; justifyContent: center; flexDirection: row;\&quot;&gt;
+\n  &lt;/g&gt;
+\n  &lt;g layout-style&#x3D;\&quot;flex: 1; flexDirection: row;\&quot;&gt;
+\n    &lt;g layout-style&#x3D;\&quot;flex: 1; flexDirection: row; justifyContent: flex-end;\&quot;&gt;
+\n      &lt;g layout-style&#x3D;\&quot;width: 100; height: 100; margin: 10\&quot;&gt;&lt;/g&gt;
+\n    &lt;/g&gt;
+\n    &lt;g layout-style&#x3D;\&quot;width: 50;\&quot;&gt;&lt;/g&gt;
+\n    &lt;g layout-style&#x3D;\&quot;width: 30; justifyContent: center;\&quot;&gt;&lt;/g&gt;
+\n  &lt;/g&gt;
+\n  &lt;g layout-style&#x3D;\&quot;height: 30; flexDirection: row\&quot;&gt;
+\n    &lt;g layout-style&#x3D;\&quot;flex: 1; marginRight: 80;\&quot;&gt;&lt;/g&gt;
+\n  &lt;/g&gt;
+\n  &lt;g layout-style&#x3D;\&quot;height: 30; flexDirection: row\&quot;&gt;&lt;/g&gt;
+\n&lt;/svg&gt;
+\n",
+        "js": "// apply the flexbox layout
+\nd3.select(\"#layout-test\").layout();
+\n
+\n// This code simply creates some coloured rectangles so that you can
+\n// see the layout without reaching for your developer tools!
+\nvar c10 = d3.scale.category10();
+\nd3.selectAll(\"g\")
+\n    .filter(function(d) {
+\n      return this.childElementCount === 0;
+\n    })
+\n    .append(\"rect\")
+\n    .attr(\"stroke\", function(d, i) { return c10(i); })
+\n    .attr(\"fill\", function(d, i) { return c10(i); })
+\n    .attr(\"width\", function() {
+\n      return d3.select(this.parentNode).layout(\"width\");
+\n    })
+\n    .attr(\"height\", function() {
+\n      return d3.select(this.parentNode).layout(\"height\");
+\n    });
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<svg id="layout-test"
+   style="width: 90%; height: 350px; margin: 10px; background: yellow"
+   layout-style="paddingLeft: 10">
+  <g layout-style="height: 30; justifyContent: center; flexDirection: row;">
+  </g>
+  <g layout-style="flex: 1; flexDirection: row;">
+    <g layout-style="flex: 1; flexDirection: row; justifyContent: flex-end;">
+      <g layout-style="width: 100; height: 100; margin: 10"></g>
+    </g>
+    <g layout-style="width: 50;"></g>
+    <g layout-style="width: 30; justifyContent: center;"></g>
+  </g>
+  <g layout-style="height: 30; flexDirection: row">
+    <g layout-style="flex: 1; marginRight: 80;"></g>
+  </g>
+  <g layout-style="height: 30; flexDirection: row"></g>
+</svg>
+
+<script type="text/javascript">
+// apply the flexbox layout
+d3.select('#layout-test').layout();
+
+// This code simply creates some coloured rectangles so that you can
+// see the layout without reaching for your developer tools!
+var c10 = d3.scale.category10();
+d3.selectAll('g')
+    .filter(function(d) {
+      return this.childElementCount === 0;
+    })
+    .append('rect')
+    .attr('stroke', function(d, i) { return c10(i); })
+    .attr('fill', function(d, i) { return c10(i); })
+    .attr('width', function() {
+      return d3.select(this.parentNode).layout('width');
+    })
+    .attr('height', function() {
+      return d3.select(this.parentNode).layout('height');
+    });
+
+</script>
+
+<p>To construct a chart, just select the required group elements and populate with your content.</p>
+<p>You can also use the layout component programmatically by using the layout component to add the flexbox styles:</p>
+<pre><code class="lang-js">svg.<span class="hljs-built_in">append</span>(<span class="hljs-string">'g'</span>)
+  .layout({
+      <span class="hljs-string">'height'</span>: <span class="hljs-number">30</span>,
+      <span class="hljs-string">'justifyContent'</span>: <span class="hljs-string">'center'</span>,
+      <span class="hljs-string">'flexDirection'</span>: <span class="hljs-string">'row'</span>
+  });
+</code></pre>
+<p>When building high performance charts e.g. when targeting 60fps, <code>selection.layout()</code> can be a source of performance problems. So in order to get the best performance, it&#39;s worth taking the time to understand some of its internals.</p>
+<p>At a high level, when a node is laid-out -</p>
+<ul>
+<li><p>if it has not previously been laid-out it, its inner dimensions are measured. These are then collected, along with its <code>layout-style</code> and those of its descendants. After running these through the <code>css-layout</code> algorithm, the results are then applied node-by-node to the subtree.</p>
+</li>
+<li><p>if it has previously been laid-out, its inner dimensions are not measured. Instead the <code>layout-width</code>, <code>layout-height</code>, <code>layout-x</code> and <code>layout-y</code> attributes, set on it when one of its ancestors was laid-out, will be used as the basis for the algorithm. These are combined with the <code>layout-style</code> attributes of the node and its descendants then applied to the subtree as above.</p>
+</li>
+</ul>
+<p>Once a descendant node has been laid-out, to avoid triggering further browser reflows, dimensions should be read from the <code>layout-width</code> and <code>layout-height</code> attributes. As described above <code>selection.layout(&#39;width&#39;)</code> and <code>selection.layout(&#39;height&#39;)</code> provide a convenient way of accessing these values.</p>
+<p>It should be noted that <code>layout-width</code> and <code>layout-height</code> attributes are explicitly <strong>not</strong> set on the node which is being laid-out (typically the top level SVG node). By doing so the layout ensures that it will measure the top level node&#39;s inner dimensions on every call and is thus able to respond to resizing etc..</p>
+<p>For optimal performance, it is therefore best to first layout the root node of your chart and then call layout as required on its descendants. This technique allows for optimal rendering by preventing the interlacing of reflow-triggering DOM reads and writes.</p>
+<p>Whilst this will ensure that layout runs as fast as possible, it still has a non-zero cost, so when possible it is best to avoid running it completely. Helpfully layout is generally only required in a handful of cases e.g. when a chart is first rendered, when resizing or when panels are added or removed. It is therefore possible to programmatically suspend the work done by all <code>selection.layout()</code> operations within an SVG by using <code>selection.layoutSuspended(true)</code>. Subsequent calls to <code>selection.layout()</code> will be no-ops until <code>selection.layoutSuspended(false)</code> is invoked.</p>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/data/walk.html"><span aria-hidden="true">&larr;</span> Random Walk</a></li>
+            <li class="next"><a href="/components/layout/label.html">Label <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Chart</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/chart/cartesian.html">
+                    Cartesian
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/legend.html">
+                    Legend
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/small-multiples.html">
+                    Small Multiples
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/sparkline.html">
+                    Sparkline
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/tooltip.html">
+                    Tooltip
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Series</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/series/area.html">
+                    Area Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/bar.html">
+                    Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/boxPlot.html">
+                    Box Plot Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/cycle.html">
+                    Cycle Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/errorBar.html">
+                    Error Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/grouped.html">
+                    Grouped Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/line.html">
+                    Line Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/multi.html">
+                    Multi Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/point.html">
+                    Point Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/stacked.html">
+                    Stacked Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/waterfall.html">
+                    Waterfall Series
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Annotation</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/annotation/band.html">
+                    Band
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/gridlines.html">
+                    Gridlines
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/line.html">
+                    Line
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Data</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/data/spread.html">
+                    Spread
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/data/walk.html">
+                    Random Walk
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Layout</h4>
+            <ul class="nav nav-stacked">
+                <li class="active">
+                  <a href="/components/layout/flexbox.html">
+                    Flexbox
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/layout/label.html">
+                    Label
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Sample</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/sample/sample.html">
+                    Sample
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Scale</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/scale/dateTime.html">
+                    Date Time Scale
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>SVG</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/svg/axis.html">
+                    Axis
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Tool</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/tool/container.html">
+                    Container
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/tool/crosshair.html">
+                    Crosshair
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Util</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/util/extent.html">
+                    Extent
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

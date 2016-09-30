@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Wealth &amp; Health of Nations</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/examples/wealth-and-health-of-nations/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class=""><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class="active"><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container example">
+  <div class="row">
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        The Wealth &amp; Health of Nations
+      </h1>
+      <div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;wealth-and-health-of-nations\&quot;&gt;Loading...&lt;/div&gt;
+\n",
+        "js": "/* global d3:false, fc:false, example: false, window: false */
+\n(function(d3, fc, example, window) {
+\n
+\n    // Inspired by: http://bost.ocks.org/mike/nations/
+\n
+\n  example.yearLabel = function() {
+\n    var event = d3.dispatch(\"yearChange\");
+\n
+\n    var labelBox;
+\n
+\n    var yearScale = d3.scale.linear()
+\n              .domain([1800, 2009])
+\n              .clamp(true);
+\n
+\n    var overlayDataJoin = fc.util.dataJoin()
+\n            .selector(\"rect.overlay\")
+\n            .element(\"rect\")
+\n            .attr(\"class\", \"overlay\");
+\n
+\n    var labelDataJoin = fc.util.dataJoin()
+\n            .selector(\"text\")
+\n            .element(\"text\");
+\n
+\n    function mousemove() { event.yearChange(yearScale.invert(d3.mouse(this)[0])); }
+\n
+\n    function yearLabel(selection) {
+\n      selection.each(function(data) {
+\n        var label = labelDataJoin(selection, [data]);
+\n
+\n        label.enter()
+\n                    .attr(\"text-anchor\", \"end\");
+\n
+\n        label.text(data);
+\n
+\n        var overlay = overlayDataJoin(selection, [data]);
+\n
+\n        overlay.enter()
+\n                    .each(function() {
+\n                      labelBox = label.node().getBBox();
+\n                      yearScale.range([labelBox.x + 10, labelBox.x + labelBox.width - 10]);
+\n                    })
+\n                    .attr({
+\n                      \"x\": labelBox.x,
+\n                      \"y\": labelBox.y,
+\n                      \"width\": labelBox.width,
+\n                      \"height\": labelBox.height
+\n                    })
+\n                    .on({
+\n                      \"mouseover\": function() { label.classed(\"active\", true); },
+\n                      \"mouseout\": function() { label.classed(\"active\", false); },
+\n                      \"mousemove\": mousemove,
+\n                      \"touchstart\": function() { label.classed(\"active\", true); },
+\n                      \"touchend\": function() { label.classed(\"active\", false); },
+\n                      \"touchmove\": mousemove
+\n                    });
+\n      });
+\n    }
+\n
+\n    d3.rebind(yearLabel, event, \"on\");
+\n
+\n    return yearLabel;
+\n  };
+\n
+\n  example.chart = function() {
+\n    var event = d3.dispatch(\"yearChange\");
+\n
+\n    var radiusScale = d3.scale.sqrt().domain([0, 5e8]).range([0, 40]),
+\n      colourScale = d3.scale.category10();
+\n
+\n    function income(d) { return d.income; }
+\n    function lifeExpectancy(d) { return d.lifeExpectancy; }
+\n    function name(d) { return d.name; }
+\n    function population(d) { return d.population; }
+\n
+\n    function pointArea(d) { return Math.pow(radiusScale(population(d)), 2) * Math.PI; }
+\n    function sort(a, b) { return population(b) - population(a); }
+\n    function colour(d) { return colourScale(d.region); }
+\n
+\n    var point = fc.series.point()
+\n            .xValue(income)
+\n            .yValue(lifeExpectancy)
+\n            .key(name)
+\n            .size(pointArea)
+\n            .decorate(function(selection) {
+\n              selection.enter()
+\n                    .attr(\"fill\", colour)
+\n                    .append(\"title\")
+\n                    .text(name);
+\n
+\n                // Ensure the points with the smallest population are on top
+\n              selection.sort(sort);
+\n            });
+\n
+\n    var yearLabel = example.yearLabel()
+\n            .on(\"yearChange\", event.yearChange);
+\n
+\n    var cartesianChart = fc.chart.cartesian(d3.scale.log(), d3.scale.linear())
+\n            .xDomain([300, 1e5])
+\n            .yDomain([10, 85])
+\n            .margin({top: 25, right: 25, bottom: 20, left: 30})
+\n            .yOrient(\"left\")
+\n            .xTicks(12, d3.format(\",d\"))
+\n            .plotArea(point)
+\n            .xLabel(\"income per capita, inflation-adjusted (dollars)\")
+\n            .yLabel(\"life expectancy (years)\")
+\n            .decorate(function(selection, data) {
+\n              var selectionEnter = selection.enter();
+\n
+\n              selectionEnter.select(\".x-axis.label-container > g\")
+\n                    .layout({
+\n                      \"position\": \"absolute\",
+\n                      \"right\": 0,
+\n                      \"bottom\": 26
+\n                    });
+\n
+\n              selectionEnter.select(\".y-axis.label-container > g\")
+\n                    .layout({
+\n                      \"position\": \"absolute\",
+\n                      \"top\": 0,
+\n                      \"left\": 36
+\n                    });
+\n
+\n              var plotAreaContainerEnter = selection.enter()
+\n                    .select(\".plot-area-container\");
+\n
+\n              plotAreaContainerEnter.append(\"g\")
+\n                        .attr(\"class\", \"year label\")
+\n                        .layout({
+\n                          position: \"absolute\",
+\n                          right: 0,
+\n                          bottom: 24
+\n                        });
+\n
+\n              selectionEnter.layout();
+\n
+\n                // Update the year label when updating the chart
+\n              selection.select(\".year.label\")
+\n                    .datum(data.year)
+\n                    .call(yearLabel);
+\n            });
+\n
+\n    function chart(selection) {
+\n      if (!selection.layoutSuspended()) {
+\n        var selectionWidth = fc.util.innerDimensions(selection.node()).width;
+\n
+\n        var tickFrequency = 70;
+\n        var xTickCount = Math.floor(selectionWidth / tickFrequency);
+\n        cartesianChart.xTicks(xTickCount, d3.format(\",d\"));
+\n
+\n        radiusScale.range([0, selectionWidth / 24]);
+\n      }
+\n      selection.call(cartesianChart);
+\n    }
+\n
+\n    d3.rebind(chart, event, \"on\");
+\n
+\n    return chart;
+\n  };
+\n
+\n  (function() {
+\n        // Finds (and possibly interpolates) the value for the specified year.
+\n    function interpolateValues(values, bisect, year) {
+\n      var i = bisect.left(values, year, 0, values.length - 1),
+\n        a = values[i];
+\n      if (i > 0) {
+\n        var b = values[i - 1],
+\n          t = (year - a[0]) / (b[0] - a[0]);
+\n        return a[1] * (1 - t) + b[1] * t;
+\n      }
+\n      return a[1];
+\n    }
+\n
+\n        // Interpolates the dataset for the given (fractional) year.
+\n    function interpolateData(nations, bisect, year) {
+\n      return nations.map(function(d) {
+\n        return {
+\n          name: d.name,
+\n          region: d.region,
+\n          income: interpolateValues(d.income, bisect, year),
+\n          population: interpolateValues(d.population, bisect, year),
+\n          lifeExpectancy: interpolateValues(d.lifeExpectancy, bisect, year)
+\n        };
+\n      });
+\n    }
+\n
+\n    var container = d3.select(\"#wealth-and-health-of-nations\");
+\n    var formatPercent = d3.format(\".0%\");
+\n
+\n    d3.json(\"nations.json\")
+\n            .on(\"progress\", function() {
+\n              if (d3.event.lengthComputable) {
+\n                container.text(\"Loading... \" + formatPercent(d3.event.loaded / d3.event.total));
+\n              }
+\n            })
+\n            .get(function(error, nations) {
+\n              if (error) {
+\n                container.text(\"Error loading data.\");
+\n                return;
+\n              }
+\n
+\n                // Remove the loading text from the container
+\n              container.text(null);
+\n
+\n                // A bisector since many nation\"s data is sparsely-defined.
+\n              var bisect = d3.bisector(function(d) { return d[0]; });
+\n              var data = interpolateData(nations, bisect, 1800);
+\n
+\n              var chart = example.chart();
+\n              chart.on(\"yearChange\", function(year) {
+\n                enableInteraction();
+\n                displayYear(year);
+\n              });
+\n
+\n              container.transition()
+\n                    .duration(30000)
+\n                    .ease(\"linear\")
+\n                    .tween(\"year\", tweenYear)
+\n                    .each(\"end\", enableInteraction);
+\n
+\n              var render = fc.util.render(function() {
+\n                container.datum(data)
+\n                        .call(chart)
+\n                        .layoutSuspended(true);
+\n              });
+\n
+\n                // Tweens the entire chart by first tweening the year, and then the data.
+\n                // For the interpolated data, the dots and label are redrawn.
+\n              function tweenYear() {
+\n                var year = d3.interpolateNumber(1800, 2009);
+\n                return function(t) { displayYear(year(t)); };
+\n              }
+\n
+\n              function displayYear(year) {
+\n                data = interpolateData(nations, bisect, year);
+\n                data.year = Math.round(year);
+\n                render();
+\n              }
+\n
+\n              var interactionEnabled = false;
+\n              function enableInteraction() {
+\n                if (!interactionEnabled) {
+\n                  interactionEnabled = true;
+\n
+\n                        // Cancel the current transition, if any.
+\n                  container.transition()
+\n                            .duration(0);
+\n                }
+\n              }
+\n
+\n              function resize() {
+\n                container.layoutSuspended(false);
+\n                render();
+\n              }
+\n
+\n              d3.select(window)
+\n                    .on(\"resize\", resize);
+\n            });
+\n  }());
+\n
+\n}(d3, fc, {}, window));
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n#wealth-and-health-of-nations {
+\n  margin: 20px auto;
+\n  width: 100%;
+\n  height: 400px;
+\n}
+\n.plot-area-container > .plot-area {
+\n  overflow: visible;
+\n}
+\ntext {
+\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;
+\n  font-size: 10px;
+\n  font-weight: 500;
+\n}
+\n.point > path {
+\n  stroke: #000;
+\n}
+\n.overlay {
+\n  cursor: ew-resize;
+\n  pointer-events: all;
+\n  visibility: hidden;
+\n}
+\n.axis path,
+\n.axis line {
+\n  fill: none;
+\n  stroke: #000;
+\n  shape-rendering: crispEdges;
+\n}
+\n.year.label > text.active {
+\n  fill: #aaa;
+\n}
+\n.background {
+\n  fill: transparent;
+\n  stroke: none;
+\n}
+\n.x-axis .label,
+\n.y-axis .label {
+\n  text-anchor: end;
+\n  fill: #777;
+\n}
+\n/* Year Label */
+\n/* Extra small devices (phones, less than 768px) */
+\n/* No media query since this is the default in Bootstrap */
+\n.year.label > text {
+\n  font-size: 80px;
+\n  fill: #ddd;
+\n}
+\n/* Small devices (tablets, 768px and up) */
+\n@media (min-width: 768px) {
+\n  .year.label > text {
+\n    font-size: 110px;
+\n  }
+\n}
+\n/* Medium devices (desktops, 992px and up) */
+\n@media (min-width: 992px) {
+\n  .year.label > text {
+\n    font-size: 130px;
+\n  }
+\n}
+\n/* Large devices (large desktops, 1200px and up) */
+\n@media (min-width: 1200px) {
+\n  .year.label > text {
+\n    font-size: 164px;
+\n  }
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<style>
+#wealth-and-health-of-nations {
+  margin: 20px auto;
+  width: 100%;
+  height: 400px;
+}
+.plot-area-container > .plot-area {
+  overflow: visible;
+}
+text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+}
+.point > path {
+  stroke: #000;
+}
+.overlay {
+  cursor: ew-resize;
+  pointer-events: all;
+  visibility: hidden;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.year.label > text.active {
+  fill: #aaa;
+}
+.background {
+  fill: transparent;
+  stroke: none;
+}
+.x-axis .label,
+.y-axis .label {
+  text-anchor: end;
+  fill: #777;
+}
+/* Year Label */
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+.year.label > text {
+  font-size: 80px;
+  fill: #ddd;
+}
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .year.label > text {
+    font-size: 110px;
+  }
+}
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .year.label > text {
+    font-size: 130px;
+  }
+}
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .year.label > text {
+    font-size: 164px;
+  }
+}
+
+</style>
+
+<div id="wealth-and-health-of-nations">Loading...</div>
+
+
+<script>
+/* global d3:false, fc:false, example: false, window: false */
+(function(d3, fc, example, window) {
+
+    // Inspired by: http://bost.ocks.org/mike/nations/
+
+  example.yearLabel = function() {
+    var event = d3.dispatch('yearChange');
+
+    var labelBox;
+
+    var yearScale = d3.scale.linear()
+              .domain([1800, 2009])
+              .clamp(true);
+
+    var overlayDataJoin = fc.util.dataJoin()
+            .selector('rect.overlay')
+            .element('rect')
+            .attr('class', 'overlay');
+
+    var labelDataJoin = fc.util.dataJoin()
+            .selector('text')
+            .element('text');
+
+    function mousemove() { event.yearChange(yearScale.invert(d3.mouse(this)[0])); }
+
+    function yearLabel(selection) {
+      selection.each(function(data) {
+        var label = labelDataJoin(selection, [data]);
+
+        label.enter()
+                    .attr('text-anchor', 'end');
+
+        label.text(data);
+
+        var overlay = overlayDataJoin(selection, [data]);
+
+        overlay.enter()
+                    .each(function() {
+                      labelBox = label.node().getBBox();
+                      yearScale.range([labelBox.x + 10, labelBox.x + labelBox.width - 10]);
+                    })
+                    .attr({
+                      'x': labelBox.x,
+                      'y': labelBox.y,
+                      'width': labelBox.width,
+                      'height': labelBox.height
+                    })
+                    .on({
+                      'mouseover': function() { label.classed('active', true); },
+                      'mouseout': function() { label.classed('active', false); },
+                      'mousemove': mousemove,
+                      'touchstart': function() { label.classed('active', true); },
+                      'touchend': function() { label.classed('active', false); },
+                      'touchmove': mousemove
+                    });
+      });
+    }
+
+    d3.rebind(yearLabel, event, 'on');
+
+    return yearLabel;
+  };
+
+  example.chart = function() {
+    var event = d3.dispatch('yearChange');
+
+    var radiusScale = d3.scale.sqrt().domain([0, 5e8]).range([0, 40]),
+      colourScale = d3.scale.category10();
+
+    function income(d) { return d.income; }
+    function lifeExpectancy(d) { return d.lifeExpectancy; }
+    function name(d) { return d.name; }
+    function population(d) { return d.population; }
+
+    function pointArea(d) { return Math.pow(radiusScale(population(d)), 2) * Math.PI; }
+    function sort(a, b) { return population(b) - population(a); }
+    function colour(d) { return colourScale(d.region); }
+
+    var point = fc.series.point()
+            .xValue(income)
+            .yValue(lifeExpectancy)
+            .key(name)
+            .size(pointArea)
+            .decorate(function(selection) {
+              selection.enter()
+                    .attr('fill', colour)
+                    .append('title')
+                    .text(name);
+
+                // Ensure the points with the smallest population are on top
+              selection.sort(sort);
+            });
+
+    var yearLabel = example.yearLabel()
+            .on('yearChange', event.yearChange);
+
+    var cartesianChart = fc.chart.cartesian(d3.scale.log(), d3.scale.linear())
+            .xDomain([300, 1e5])
+            .yDomain([10, 85])
+            .margin({top: 25, right: 25, bottom: 20, left: 30})
+            .yOrient('left')
+            .xTicks(12, d3.format(',d'))
+            .plotArea(point)
+            .xLabel('income per capita, inflation-adjusted (dollars)')
+            .yLabel('life expectancy (years)')
+            .decorate(function(selection, data) {
+              var selectionEnter = selection.enter();
+
+              selectionEnter.select('.x-axis.label-container > g')
+                    .layout({
+                      'position': 'absolute',
+                      'right': 0,
+                      'bottom': 26
+                    });
+
+              selectionEnter.select('.y-axis.label-container > g')
+                    .layout({
+                      'position': 'absolute',
+                      'top': 0,
+                      'left': 36
+                    });
+
+              var plotAreaContainerEnter = selection.enter()
+                    .select('.plot-area-container');
+
+              plotAreaContainerEnter.append('g')
+                        .attr('class', 'year label')
+                        .layout({
+                          position: 'absolute',
+                          right: 0,
+                          bottom: 24
+                        });
+
+              selectionEnter.layout();
+
+                // Update the year label when updating the chart
+              selection.select('.year.label')
+                    .datum(data.year)
+                    .call(yearLabel);
+            });
+
+    function chart(selection) {
+      if (!selection.layoutSuspended()) {
+        var selectionWidth = fc.util.innerDimensions(selection.node()).width;
+
+        var tickFrequency = 70;
+        var xTickCount = Math.floor(selectionWidth / tickFrequency);
+        cartesianChart.xTicks(xTickCount, d3.format(',d'));
+
+        radiusScale.range([0, selectionWidth / 24]);
+      }
+      selection.call(cartesianChart);
+    }
+
+    d3.rebind(chart, event, 'on');
+
+    return chart;
+  };
+
+  (function() {
+        // Finds (and possibly interpolates) the value for the specified year.
+    function interpolateValues(values, bisect, year) {
+      var i = bisect.left(values, year, 0, values.length - 1),
+        a = values[i];
+      if (i > 0) {
+        var b = values[i - 1],
+          t = (year - a[0]) / (b[0] - a[0]);
+        return a[1] * (1 - t) + b[1] * t;
+      }
+      return a[1];
+    }
+
+        // Interpolates the dataset for the given (fractional) year.
+    function interpolateData(nations, bisect, year) {
+      return nations.map(function(d) {
+        return {
+          name: d.name,
+          region: d.region,
+          income: interpolateValues(d.income, bisect, year),
+          population: interpolateValues(d.population, bisect, year),
+          lifeExpectancy: interpolateValues(d.lifeExpectancy, bisect, year)
+        };
+      });
+    }
+
+    var container = d3.select('#wealth-and-health-of-nations');
+    var formatPercent = d3.format('.0%');
+
+    d3.json('nations.json')
+            .on('progress', function() {
+              if (d3.event.lengthComputable) {
+                container.text('Loading... ' + formatPercent(d3.event.loaded / d3.event.total));
+              }
+            })
+            .get(function(error, nations) {
+              if (error) {
+                container.text('Error loading data.');
+                return;
+              }
+
+                // Remove the loading text from the container
+              container.text(null);
+
+                // A bisector since many nation's data is sparsely-defined.
+              var bisect = d3.bisector(function(d) { return d[0]; });
+              var data = interpolateData(nations, bisect, 1800);
+
+              var chart = example.chart();
+              chart.on('yearChange', function(year) {
+                enableInteraction();
+                displayYear(year);
+              });
+
+              container.transition()
+                    .duration(30000)
+                    .ease('linear')
+                    .tween('year', tweenYear)
+                    .each('end', enableInteraction);
+
+              var render = fc.util.render(function() {
+                container.datum(data)
+                        .call(chart)
+                        .layoutSuspended(true);
+              });
+
+                // Tweens the entire chart by first tweening the year, and then the data.
+                // For the interpolated data, the dots and label are redrawn.
+              function tweenYear() {
+                var year = d3.interpolateNumber(1800, 2009);
+                return function(t) { displayYear(year(t)); };
+              }
+
+              function displayYear(year) {
+                data = interpolateData(nations, bisect, year);
+                data.year = Math.round(year);
+                render();
+              }
+
+              var interactionEnabled = false;
+              function enableInteraction() {
+                if (!interactionEnabled) {
+                  interactionEnabled = true;
+
+                        // Cancel the current transition, if any.
+                  container.transition()
+                            .duration(0);
+                }
+              }
+
+              function resize() {
+                container.layoutSuspended(false);
+                render();
+              }
+
+              d3.select(window)
+                    .on('resize', resize);
+            });
+  }());
+
+}(d3, fc, {}, window));
+
+</script>
+
+<p>This example is a recreation of <a href="http://bost.ocks.org/mike/nations/">Mike Bostock&#39;s recreation</a> of Gapminder’s <a href="http://www.gapminder.org/world/">Wealth &amp; Health of Nations</a>.</p>
+<blockquote>
+<p>It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names.</p>
+</blockquote>
+<p>Mousing-over the year, in the bottom-right corner of the chart, enables interaction and moves the year displayed forwards and backwards through time.</p>
+
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+          <h4>Examples</h4>
+          <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/examples/area-line-point/index.html">Area Line Point</a>
+                </li>
+                <li class="">
+                  <a href="/examples/bubble/index.html">Bubble Chart</a>
+                </li>
+                <li class="">
+                  <a href="/examples/low-barrel/index.html">Low Barrel</a>
+                </li>
+                <li class="">
+                  <a href="/examples/multi-line/index.html">Multi Line</a>
+                </li>
+                <li class="">
+                  <a href="/examples/scatter/index.html">Scatterplot</a>
+                </li>
+                <li class="">
+                  <a href="/examples/simple/index.html">Line / Area Chart</a>
+                </li>
+                <li class="">
+                  <a href="/examples/stacked/index.html">Stacked Bar</a>
+                </li>
+                <li class="">
+                  <a href="/examples/streaming/index.html">Streaming Chart</a>
+                </li>
+                <li class="active">
+                  <a href="/examples/wealth-and-health-of-nations/index.html">The Wealth &amp; Health of Nations</a>
+                </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

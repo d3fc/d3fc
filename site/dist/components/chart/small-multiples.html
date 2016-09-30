@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Small Multiples</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/chart/small-multiples.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="active"><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Small Multiples
+        <a class="btn btn-default" href="git+https://github.com/d3fc/d3fc.git/blob/master/src/chart/smallMultiples.js">View source</a>
+      </h1>
+      <p>A small multiples chart renders a number of series that share the same scales as a grid of tiles. The small multiples component renders an array of data, where each item has a key and an associated array of values (configurable by the <code>key</code> and <code>values</code> properties respectively). An easy way to prepare the data so that it is in the correct form is to use the <code>d3.nest</code>, or d3fc <a href="/components/data/spread.html"><code>spread</code></a> components.</p>
+<p>The following example renders some sales data, grouped by the day of the week. The small multiples component is configured to render a seven column layout:</p>
+<pre><code class="lang-js">var data = [{
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130603'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">41</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130604'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">70</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130605'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">84</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130606'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">63</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130607'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">63</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130608'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">32</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130609'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">34</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130610'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">46</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130611'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">68</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130612'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">84</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130613'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">61</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130614'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">61</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130615'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">34</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130616'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">32</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130617'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">48</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130618'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">66</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130619'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">86</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130620'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">65</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130621'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">65</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130622'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">37</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130623'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">35</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130624'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">49</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130625'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">65</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130626'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">89</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130627'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">60</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130628'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">63</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130629'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">39</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130630'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">32</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130701'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">54</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130702'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">64</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130703'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">92</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130704'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">66</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130705'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">59</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130706'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">33</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130707'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">34</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130708'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">56</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130709'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">63</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130710'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">95</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130711'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">60</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130712'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">66</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130713'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">34</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130714'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">37</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130715'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">62</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130716'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">58</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130717'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">104</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130718'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">65</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130719'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">65</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130720'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">37</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130721'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">33</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130722'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">70</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130723'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">57</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130724'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">112</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130725'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">64</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130726'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">63</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130727'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">34</span>
+}, {
+  <span class="hljs-string">'date'</span>: <span class="hljs-string">'20130728'</span>,
+  <span class="hljs-string">'sales'</span>: <span class="hljs-number">34</span>
+}];
+
+var parseDate = d3.time.format(<span class="hljs-string">'%Y%m%d'</span>).parse;
+data.forEach(<span class="hljs-keyword">function</span>(d) {
+  d.date = parseDate(d.date);
+});
+
+// START
+// data is an <span class="hljs-keyword">array</span> <span class="hljs-keyword">of</span> objects with <span class="hljs-string">'date'</span> and <span class="hljs-string">'sales'</span> properties
+
+var lineSeries = fc.series.line()
+    .xValue(<span class="hljs-keyword">function</span>(d) { return d.date; })
+    .yValue(<span class="hljs-keyword">function</span>(d) { return d.sales; });
+
+var smallMultiples = fc.chart.smallMultiples(
+        d3.time.scale(),
+        d3.scale.linear())
+    .yDomain(fc.util.extent().fields([<span class="hljs-keyword">function</span>() { return <span class="hljs-number">0</span>; }, <span class="hljs-string">'sales'</span>])(data))
+    .yNice()
+    .xDomain(fc.util.extent().fields([<span class="hljs-string">'date'</span>])(data))
+    .xTicks(<span class="hljs-number">0</span>)
+    .margin({right: <span class="hljs-number">30</span>})
+    .columns(<span class="hljs-number">7</span>)
+    .plotArea(lineSeries);
+
+var nestedData = d3.nest()
+    .key(<span class="hljs-keyword">function</span>(d) { return d3.time.format(<span class="hljs-string">'%A'</span>)(d.date); })
+    .entries(data);
+
+d3.select(<span class="hljs-string">'#sales-multiples'</span>)
+    .datum(nestedData)
+    .call(smallMultiples);
+// END
+</code></pre>
+<p>This results in the following chart:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;sales-multiples\&quot;&gt; &lt;/div&gt;
+\n",
+        "js": "var data = [{
+\n  \"date\": \"20130603\",
+\n  \"sales\": 41
+\n}, {
+\n  \"date\": \"20130604\",
+\n  \"sales\": 70
+\n}, {
+\n  \"date\": \"20130605\",
+\n  \"sales\": 84
+\n}, {
+\n  \"date\": \"20130606\",
+\n  \"sales\": 63
+\n}, {
+\n  \"date\": \"20130607\",
+\n  \"sales\": 63
+\n}, {
+\n  \"date\": \"20130608\",
+\n  \"sales\": 32
+\n}, {
+\n  \"date\": \"20130609\",
+\n  \"sales\": 34
+\n}, {
+\n  \"date\": \"20130610\",
+\n  \"sales\": 46
+\n}, {
+\n  \"date\": \"20130611\",
+\n  \"sales\": 68
+\n}, {
+\n  \"date\": \"20130612\",
+\n  \"sales\": 84
+\n}, {
+\n  \"date\": \"20130613\",
+\n  \"sales\": 61
+\n}, {
+\n  \"date\": \"20130614\",
+\n  \"sales\": 61
+\n}, {
+\n  \"date\": \"20130615\",
+\n  \"sales\": 34
+\n}, {
+\n  \"date\": \"20130616\",
+\n  \"sales\": 32
+\n}, {
+\n  \"date\": \"20130617\",
+\n  \"sales\": 48
+\n}, {
+\n  \"date\": \"20130618\",
+\n  \"sales\": 66
+\n}, {
+\n  \"date\": \"20130619\",
+\n  \"sales\": 86
+\n}, {
+\n  \"date\": \"20130620\",
+\n  \"sales\": 65
+\n}, {
+\n  \"date\": \"20130621\",
+\n  \"sales\": 65
+\n}, {
+\n  \"date\": \"20130622\",
+\n  \"sales\": 37
+\n}, {
+\n  \"date\": \"20130623\",
+\n  \"sales\": 35
+\n}, {
+\n  \"date\": \"20130624\",
+\n  \"sales\": 49
+\n}, {
+\n  \"date\": \"20130625\",
+\n  \"sales\": 65
+\n}, {
+\n  \"date\": \"20130626\",
+\n  \"sales\": 89
+\n}, {
+\n  \"date\": \"20130627\",
+\n  \"sales\": 60
+\n}, {
+\n  \"date\": \"20130628\",
+\n  \"sales\": 63
+\n}, {
+\n  \"date\": \"20130629\",
+\n  \"sales\": 39
+\n}, {
+\n  \"date\": \"20130630\",
+\n  \"sales\": 32
+\n}, {
+\n  \"date\": \"20130701\",
+\n  \"sales\": 54
+\n}, {
+\n  \"date\": \"20130702\",
+\n  \"sales\": 64
+\n}, {
+\n  \"date\": \"20130703\",
+\n  \"sales\": 92
+\n}, {
+\n  \"date\": \"20130704\",
+\n  \"sales\": 66
+\n}, {
+\n  \"date\": \"20130705\",
+\n  \"sales\": 59
+\n}, {
+\n  \"date\": \"20130706\",
+\n  \"sales\": 33
+\n}, {
+\n  \"date\": \"20130707\",
+\n  \"sales\": 34
+\n}, {
+\n  \"date\": \"20130708\",
+\n  \"sales\": 56
+\n}, {
+\n  \"date\": \"20130709\",
+\n  \"sales\": 63
+\n}, {
+\n  \"date\": \"20130710\",
+\n  \"sales\": 95
+\n}, {
+\n  \"date\": \"20130711\",
+\n  \"sales\": 60
+\n}, {
+\n  \"date\": \"20130712\",
+\n  \"sales\": 66
+\n}, {
+\n  \"date\": \"20130713\",
+\n  \"sales\": 34
+\n}, {
+\n  \"date\": \"20130714\",
+\n  \"sales\": 37
+\n}, {
+\n  \"date\": \"20130715\",
+\n  \"sales\": 62
+\n}, {
+\n  \"date\": \"20130716\",
+\n  \"sales\": 58
+\n}, {
+\n  \"date\": \"20130717\",
+\n  \"sales\": 104
+\n}, {
+\n  \"date\": \"20130718\",
+\n  \"sales\": 65
+\n}, {
+\n  \"date\": \"20130719\",
+\n  \"sales\": 65
+\n}, {
+\n  \"date\": \"20130720\",
+\n  \"sales\": 37
+\n}, {
+\n  \"date\": \"20130721\",
+\n  \"sales\": 33
+\n}, {
+\n  \"date\": \"20130722\",
+\n  \"sales\": 70
+\n}, {
+\n  \"date\": \"20130723\",
+\n  \"sales\": 57
+\n}, {
+\n  \"date\": \"20130724\",
+\n  \"sales\": 112
+\n}, {
+\n  \"date\": \"20130725\",
+\n  \"sales\": 64
+\n}, {
+\n  \"date\": \"20130726\",
+\n  \"sales\": 63
+\n}, {
+\n  \"date\": \"20130727\",
+\n  \"sales\": 34
+\n}, {
+\n  \"date\": \"20130728\",
+\n  \"sales\": 34
+\n}];
+\n
+\nvar parseDate = d3.time.format(\"%Y%m%d\").parse;
+\ndata.forEach(function(d) {
+\n  d.date = parseDate(d.date);
+\n});
+\n
+\n// START
+\n// data is an array of objects with \"date\" and \"sales\" properties
+\n
+\nvar lineSeries = fc.series.line()
+\n    .xValue(function(d) { return d.date; })
+\n    .yValue(function(d) { return d.sales; });
+\n
+\nvar smallMultiples = fc.chart.smallMultiples(
+\n        d3.time.scale(),
+\n        d3.scale.linear())
+\n    .yDomain(fc.util.extent().fields([function() { return 0; }, \"sales\"])(data))
+\n    .yNice()
+\n    .xDomain(fc.util.extent().fields([\"date\"])(data))
+\n    .xTicks(0)
+\n    .margin({right: 30})
+\n    .columns(7)
+\n    .plotArea(lineSeries);
+\n
+\nvar nestedData = d3.nest()
+\n    .key(function(d) { return d3.time.format(\"%A\")(d.date); })
+\n    .entries(data);
+\n
+\nd3.select(\"#sales-multiples\")
+\n    .datum(nestedData)
+\n    .call(smallMultiples);
+\n// END
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n#sales-multiples .x-axis {
+\n  display: none;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id="sales-multiples"> </div>
+
+<script type="text/javascript">
+var data = [{
+  'date': '20130603',
+  'sales': 41
+}, {
+  'date': '20130604',
+  'sales': 70
+}, {
+  'date': '20130605',
+  'sales': 84
+}, {
+  'date': '20130606',
+  'sales': 63
+}, {
+  'date': '20130607',
+  'sales': 63
+}, {
+  'date': '20130608',
+  'sales': 32
+}, {
+  'date': '20130609',
+  'sales': 34
+}, {
+  'date': '20130610',
+  'sales': 46
+}, {
+  'date': '20130611',
+  'sales': 68
+}, {
+  'date': '20130612',
+  'sales': 84
+}, {
+  'date': '20130613',
+  'sales': 61
+}, {
+  'date': '20130614',
+  'sales': 61
+}, {
+  'date': '20130615',
+  'sales': 34
+}, {
+  'date': '20130616',
+  'sales': 32
+}, {
+  'date': '20130617',
+  'sales': 48
+}, {
+  'date': '20130618',
+  'sales': 66
+}, {
+  'date': '20130619',
+  'sales': 86
+}, {
+  'date': '20130620',
+  'sales': 65
+}, {
+  'date': '20130621',
+  'sales': 65
+}, {
+  'date': '20130622',
+  'sales': 37
+}, {
+  'date': '20130623',
+  'sales': 35
+}, {
+  'date': '20130624',
+  'sales': 49
+}, {
+  'date': '20130625',
+  'sales': 65
+}, {
+  'date': '20130626',
+  'sales': 89
+}, {
+  'date': '20130627',
+  'sales': 60
+}, {
+  'date': '20130628',
+  'sales': 63
+}, {
+  'date': '20130629',
+  'sales': 39
+}, {
+  'date': '20130630',
+  'sales': 32
+}, {
+  'date': '20130701',
+  'sales': 54
+}, {
+  'date': '20130702',
+  'sales': 64
+}, {
+  'date': '20130703',
+  'sales': 92
+}, {
+  'date': '20130704',
+  'sales': 66
+}, {
+  'date': '20130705',
+  'sales': 59
+}, {
+  'date': '20130706',
+  'sales': 33
+}, {
+  'date': '20130707',
+  'sales': 34
+}, {
+  'date': '20130708',
+  'sales': 56
+}, {
+  'date': '20130709',
+  'sales': 63
+}, {
+  'date': '20130710',
+  'sales': 95
+}, {
+  'date': '20130711',
+  'sales': 60
+}, {
+  'date': '20130712',
+  'sales': 66
+}, {
+  'date': '20130713',
+  'sales': 34
+}, {
+  'date': '20130714',
+  'sales': 37
+}, {
+  'date': '20130715',
+  'sales': 62
+}, {
+  'date': '20130716',
+  'sales': 58
+}, {
+  'date': '20130717',
+  'sales': 104
+}, {
+  'date': '20130718',
+  'sales': 65
+}, {
+  'date': '20130719',
+  'sales': 65
+}, {
+  'date': '20130720',
+  'sales': 37
+}, {
+  'date': '20130721',
+  'sales': 33
+}, {
+  'date': '20130722',
+  'sales': 70
+}, {
+  'date': '20130723',
+  'sales': 57
+}, {
+  'date': '20130724',
+  'sales': 112
+}, {
+  'date': '20130725',
+  'sales': 64
+}, {
+  'date': '20130726',
+  'sales': 63
+}, {
+  'date': '20130727',
+  'sales': 34
+}, {
+  'date': '20130728',
+  'sales': 34
+}];
+
+var parseDate = d3.time.format('%Y%m%d').parse;
+data.forEach(function(d) {
+  d.date = parseDate(d.date);
+});
+
+// START
+// data is an array of objects with 'date' and 'sales' properties
+
+var lineSeries = fc.series.line()
+    .xValue(function(d) { return d.date; })
+    .yValue(function(d) { return d.sales; });
+
+var smallMultiples = fc.chart.smallMultiples(
+        d3.time.scale(),
+        d3.scale.linear())
+    .yDomain(fc.util.extent().fields([function() { return 0; }, 'sales'])(data))
+    .yNice()
+    .xDomain(fc.util.extent().fields(['date'])(data))
+    .xTicks(0)
+    .margin({right: 30})
+    .columns(7)
+    .plotArea(lineSeries);
+
+var nestedData = d3.nest()
+    .key(function(d) { return d3.time.format('%A')(d.date); })
+    .entries(data);
+
+d3.select('#sales-multiples')
+    .datum(nestedData)
+    .call(smallMultiples);
+// END
+
+</script>
+
+<p>From the above example it can be seen that the small multiples component has a similar API to the <a href="/components/chart/cartesian.html">cartesian chart</a>, re-binding the various x and y axis properties, and exposing <code>plotArea</code> and <code>margin</code> properties.</p>
+<p>The following example demonstrates a small multiples chart with a multi-row grid layout. In this example temperature data is loaded from a CSV file, with <code>d3.nest</code> used to manipulate the data into the required format. A multi-series component is used to render a couple of lines on each multiple plot.</p>
+<pre><code class="lang-js">d3.csv(<span class="hljs-string">'https://d3fc.io/components/chart/nasa-temp-data.csv'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error, data</span>) </span>{
+  data.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+    d.MonthName = d3.time.format(<span class="hljs-string">'%b'</span>)(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(d.Year, d.Month - <span class="hljs-number">1</span>, <span class="hljs-number">1</span>));
+  });
+  <span class="hljs-keyword">var</span> temperatureSeries = d3.nest()
+        .key(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.Year; })
+        .entries(data);
+
+  <span class="hljs-keyword">var</span> stationLine = fc.series.line()
+        .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.MonthName; })
+        .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.Station; });
+
+  <span class="hljs-keyword">var</span> landOceanLine = fc.series.line()
+        .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.MonthName; })
+        .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d[<span class="hljs-string">'Land+Ocean'</span>]; });
+
+  <span class="hljs-keyword">var</span> multi = fc.series.multi()
+        .series([landOceanLine, stationLine]);
+
+  <span class="hljs-keyword">var</span> xDomain = data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.MonthName; });
+  <span class="hljs-keyword">var</span> yDomain = fc.util.extent().fields([<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; }, <span class="hljs-string">'Station'</span>, <span class="hljs-string">'Land+Ocean'</span>])(data);
+
+  <span class="hljs-keyword">var</span> smallMultiples = fc.chart.smallMultiples(
+            d3.scale.ordinal(),
+            d3.scale.linear())
+        .columns(<span class="hljs-number">5</span>)
+        .yOrient(<span class="hljs-string">'left'</span>)
+        .margin({<span class="hljs-attr">left</span>: <span class="hljs-number">50</span>, <span class="hljs-attr">bottom</span>: <span class="hljs-number">30</span>})
+        .xTickValues(xDomain.filter(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{ <span class="hljs-keyword">return</span> (i % <span class="hljs-number">3</span>) === <span class="hljs-number">0</span>; }))
+        .plotArea(multi)
+        .yDomain(yDomain)
+        .xDomain(xDomain);
+
+  d3.select(<span class="hljs-string">'#temperature-multiples'</span>)
+        .datum(temperatureSeries)
+        .call(smallMultiples);
+});
+</code></pre>
+<p>This gives the following small multiples:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;temperature-multiples\&quot; style&#x3D;\&quot;height: 500px\&quot;&gt; &lt;/div&gt;
+\n",
+        "js": "d3.csv(\"https://d3fc.io/components/chart/nasa-temp-data.csv\", function(error, data) {
+\n  data.forEach(function(d) {
+\n    d.MonthName = d3.time.format(\"%b\")(new Date(d.Year, d.Month - 1, 1));
+\n  });
+\n  var temperatureSeries = d3.nest()
+\n        .key(function(d) { return d.Year; })
+\n        .entries(data);
+\n
+\n  var stationLine = fc.series.line()
+\n        .xValue(function(d) { return d.MonthName; })
+\n        .yValue(function(d) { return d.Station; });
+\n
+\n  var landOceanLine = fc.series.line()
+\n        .xValue(function(d) { return d.MonthName; })
+\n        .yValue(function(d) { return d[\"Land+Ocean\"]; });
+\n
+\n  var multi = fc.series.multi()
+\n        .series([landOceanLine, stationLine]);
+\n
+\n  var xDomain = data.map(function(d) { return d.MonthName; });
+\n  var yDomain = fc.util.extent().fields([function() { return 0; }, \"Station\", \"Land+Ocean\"])(data);
+\n
+\n  var smallMultiples = fc.chart.smallMultiples(
+\n            d3.scale.ordinal(),
+\n            d3.scale.linear())
+\n        .columns(5)
+\n        .yOrient(\"left\")
+\n        .margin({left: 50, bottom: 30})
+\n        .xTickValues(xDomain.filter(function(d, i) { return (i % 3) === 0; }))
+\n        .plotArea(multi)
+\n        .yDomain(yDomain)
+\n        .xDomain(xDomain);
+\n
+\n  d3.select(\"#temperature-multiples\")
+\n        .datum(temperatureSeries)
+\n        .call(smallMultiples);
+\n});
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id="temperature-multiples" style="height: 500px"> </div>
+
+<script type="text/javascript">
+d3.csv('https://d3fc.io/components/chart/nasa-temp-data.csv', function(error, data) {
+  data.forEach(function(d) {
+    d.MonthName = d3.time.format('%b')(new Date(d.Year, d.Month - 1, 1));
+  });
+  var temperatureSeries = d3.nest()
+        .key(function(d) { return d.Year; })
+        .entries(data);
+
+  var stationLine = fc.series.line()
+        .xValue(function(d) { return d.MonthName; })
+        .yValue(function(d) { return d.Station; });
+
+  var landOceanLine = fc.series.line()
+        .xValue(function(d) { return d.MonthName; })
+        .yValue(function(d) { return d['Land+Ocean']; });
+
+  var multi = fc.series.multi()
+        .series([landOceanLine, stationLine]);
+
+  var xDomain = data.map(function(d) { return d.MonthName; });
+  var yDomain = fc.util.extent().fields([function() { return 0; }, 'Station', 'Land+Ocean'])(data);
+
+  var smallMultiples = fc.chart.smallMultiples(
+            d3.scale.ordinal(),
+            d3.scale.linear())
+        .columns(5)
+        .yOrient('left')
+        .margin({left: 50, bottom: 30})
+        .xTickValues(xDomain.filter(function(d, i) { return (i % 3) === 0; }))
+        .plotArea(multi)
+        .yDomain(yDomain)
+        .xDomain(xDomain);
+
+  d3.select('#temperature-multiples')
+        .datum(temperatureSeries)
+        .call(smallMultiples);
+});
+
+</script>
+
+<p>The next example uses data from <a href="http://bl.ocks.org/mbostock/1157787">this example</a> to show how the y domain can be varied for each row of multiples.</p>
+<p>Rather than supply a constant domain, each of the domain properties can instead provide an accessor function, allowing a different domain for each row or column. The accessor function is supplied the grouped data for the respective row or column.</p>
+<pre><code class="lang-js">d3.csv(<span class="hljs-string">'./stocks.csv'</span>, type, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error, data)</span> </span>{
+  <span class="hljs-keyword">var</span> symbols = d3.nest()
+        .key(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.symbol; })
+        .entries(data);
+
+  <span class="hljs-keyword">var</span> priceExtent = fc.util.extent()
+        .fields([<span class="hljs-string">'price'</span>])
+        .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>])
+        .<span class="hljs-keyword">include</span>([<span class="hljs-number">0</span>]);
+
+  symbols.<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(symbol)</span> </span>{
+    <span class="hljs-keyword">var</span> minPrice = d3.max([priceExtent(symbol.values)[<span class="hljs-number">0</span>], <span class="hljs-number">0</span>]);
+
+    symbol.values.<span class="hljs-keyword">forEach</span>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value)</span> </span>{
+      value.minPrice = minPrice;
+    });
+  });
+
+  <span class="hljs-keyword">var</span> line = fc.series.line()
+        .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.date; })
+        .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.price; });
+
+  <span class="hljs-keyword">var</span> area = fc.series.area()
+        .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.date; })
+        .y0Value(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.minPrice; })
+        .y1Value(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.price; });
+
+  <span class="hljs-keyword">var</span> multi = fc.series.multi()
+        .series([area, line]);
+
+  <span class="hljs-keyword">var</span> xExtent = fc.util.extent()
+        .fields([<span class="hljs-string">'date'</span>]);
+  <span class="hljs-keyword">var</span> xDomain = xExtent(symbols.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(_d)</span> </span>{ <span class="hljs-keyword">return</span> _d.values; }));
+
+  <span class="hljs-keyword">var</span> smallMultiples = fc.chart.smallMultiples(
+            fc.scale.dateTime(),
+            d3.scale.linear())
+        .columns(<span class="hljs-number">1</span>)
+        .yOrient(<span class="hljs-string">'right'</span>)
+        .margin({left: <span class="hljs-number">20</span>, right: <span class="hljs-number">50</span>, bottom: <span class="hljs-number">30</span>})
+        .plotArea(multi)
+        .xDomain(xDomain)
+        .yDomain(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(row)</span> </span>{
+          <span class="hljs-keyword">return</span> priceExtent(row.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.values; }));
+        });
+
+  d3.select(<span class="hljs-string">'#multiples-varying-y-domain'</span>)
+        .datum(symbols)
+        .call(smallMultiples);
+});
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">type</span><span class="hljs-params">(d)</span> </span>{
+  d.price = +d.price;
+  d.date = d3.time.format(<span class="hljs-string">'%b %Y'</span>).parse(d.date);
+  <span class="hljs-keyword">return</span> d;
+}
+</code></pre>
+<p>This gives the following small multiples:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;multiples-varying-y-domain\&quot; style&#x3D;\&quot;height: 500px\&quot;&gt; &lt;/div&gt;
+\n",
+        "js": "d3.csv(\"./stocks.csv\", type, function(error, data) {
+\n  var symbols = d3.nest()
+\n        .key(function(d) { return d.symbol; })
+\n        .entries(data);
+\n
+\n  var priceExtent = fc.util.extent()
+\n        .fields([\"price\"])
+\n        .pad([0, 0.5])
+\n        .include([0]);
+\n
+\n  symbols.forEach(function(symbol) {
+\n    var minPrice = d3.max([priceExtent(symbol.values)[0], 0]);
+\n
+\n    symbol.values.forEach(function(value) {
+\n      value.minPrice = minPrice;
+\n    });
+\n  });
+\n
+\n  var line = fc.series.line()
+\n        .xValue(function(d) { return d.date; })
+\n        .yValue(function(d) { return d.price; });
+\n
+\n  var area = fc.series.area()
+\n        .xValue(function(d) { return d.date; })
+\n        .y0Value(function(d) { return d.minPrice; })
+\n        .y1Value(function(d) { return d.price; });
+\n
+\n  var multi = fc.series.multi()
+\n        .series([area, line]);
+\n
+\n  var xExtent = fc.util.extent()
+\n        .fields([\"date\"]);
+\n  var xDomain = xExtent(symbols.map(function(_d) { return _d.values; }));
+\n
+\n  var smallMultiples = fc.chart.smallMultiples(
+\n            fc.scale.dateTime(),
+\n            d3.scale.linear())
+\n        .columns(1)
+\n        .yOrient(\"right\")
+\n        .margin({left: 20, right: 50, bottom: 30})
+\n        .plotArea(multi)
+\n        .xDomain(xDomain)
+\n        .yDomain(function(row) {
+\n          return priceExtent(row.map(function(d) { return d.values; }));
+\n        });
+\n
+\n  d3.select(\"#multiples-varying-y-domain\")
+\n        .datum(symbols)
+\n        .call(smallMultiples);
+\n});
+\n
+\nfunction type(d) {
+\n  d.price = +d.price;
+\n  d.date = d3.time.format(\"%b %Y\").parse(d.date);
+\n  return d;
+\n}
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n#multiples-varying-y-domain path.area {
+\n  fill: #e7e7e7;
+\n}
+\n
+\n#multiples-varying-y-domain path.line {
+\n  stroke: #666;
+\n  stroke-width: 1.5px
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<style>
+#multiples-varying-y-domain path.area {
+  fill: #e7e7e7;
+}
+
+#multiples-varying-y-domain path.line {
+  stroke: #666;
+  stroke-width: 1.5px
+}
+
+</style>
+
+<div id="multiples-varying-y-domain" style="height: 500px"> </div>
+
+<script type="text/javascript">
+d3.csv('./stocks.csv', type, function(error, data) {
+  var symbols = d3.nest()
+        .key(function(d) { return d.symbol; })
+        .entries(data);
+
+  var priceExtent = fc.util.extent()
+        .fields(['price'])
+        .pad([0, 0.5])
+        .include([0]);
+
+  symbols.forEach(function(symbol) {
+    var minPrice = d3.max([priceExtent(symbol.values)[0], 0]);
+
+    symbol.values.forEach(function(value) {
+      value.minPrice = minPrice;
+    });
+  });
+
+  var line = fc.series.line()
+        .xValue(function(d) { return d.date; })
+        .yValue(function(d) { return d.price; });
+
+  var area = fc.series.area()
+        .xValue(function(d) { return d.date; })
+        .y0Value(function(d) { return d.minPrice; })
+        .y1Value(function(d) { return d.price; });
+
+  var multi = fc.series.multi()
+        .series([area, line]);
+
+  var xExtent = fc.util.extent()
+        .fields(['date']);
+  var xDomain = xExtent(symbols.map(function(_d) { return _d.values; }));
+
+  var smallMultiples = fc.chart.smallMultiples(
+            fc.scale.dateTime(),
+            d3.scale.linear())
+        .columns(1)
+        .yOrient('right')
+        .margin({left: 20, right: 50, bottom: 30})
+        .plotArea(multi)
+        .xDomain(xDomain)
+        .yDomain(function(row) {
+          return priceExtent(row.map(function(d) { return d.values; }));
+        });
+
+  d3.select('#multiples-varying-y-domain')
+        .datum(symbols)
+        .call(smallMultiples);
+});
+
+function type(d) {
+  d.price = +d.price;
+  d.date = d3.time.format('%b %Y').parse(d.date);
+  return d;
+}
+
+</script>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/chart/legend.html"><span aria-hidden="true">&larr;</span> Legend</a></li>
+            <li class="next"><a href="/components/chart/sparkline.html">Sparkline <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Chart</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/chart/cartesian.html">
+                    Cartesian
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/legend.html">
+                    Legend
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="/components/chart/small-multiples.html">
+                    Small Multiples
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/sparkline.html">
+                    Sparkline
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/tooltip.html">
+                    Tooltip
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Series</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/series/area.html">
+                    Area Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/bar.html">
+                    Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/boxPlot.html">
+                    Box Plot Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/cycle.html">
+                    Cycle Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/errorBar.html">
+                    Error Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/grouped.html">
+                    Grouped Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/line.html">
+                    Line Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/multi.html">
+                    Multi Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/point.html">
+                    Point Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/stacked.html">
+                    Stacked Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/waterfall.html">
+                    Waterfall Series
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Annotation</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/annotation/band.html">
+                    Band
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/gridlines.html">
+                    Gridlines
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/line.html">
+                    Line
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Data</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/data/spread.html">
+                    Spread
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/data/walk.html">
+                    Random Walk
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Layout</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/layout/flexbox.html">
+                    Flexbox
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/layout/label.html">
+                    Label
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Sample</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/sample/sample.html">
+                    Sample
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Scale</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/scale/dateTime.html">
+                    Date Time Scale
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>SVG</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/svg/axis.html">
+                    Axis
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Tool</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/tool/container.html">
+                    Container
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/tool/crosshair.html">
+                    Crosshair
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Util</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/util/extent.html">
+                    Extent
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

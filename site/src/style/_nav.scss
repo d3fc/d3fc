@@ -1,0 +1,35 @@
+.nav-sidebar {
+	margin-top: 10px;
+	margin-left: 30px;
+}
+
+.navbar-nav {
+	font-size: $font-size-small;
+}
+
+.nav-stacked > li {
+	&.active {
+		a {
+			font-weight: bold;
+		}
+	}
+
+	> a, > span {
+		color: $brand-primary;
+		&.active {
+			font-weight: bold;
+		}
+	}
+	> a {
+		&:hover {
+			background: none;
+			color: $brand-secondary;
+		}
+	}
+
+	.nav-stacked > li > a  {
+		padding: 0 0 0 15px;
+		font-size: $font-size-small;
+		text-transform: none;
+	}
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Getting Started</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/introduction/getting-started.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class=""><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Getting Started
+      </h1>
+      <h2 id="grabbing-the-code">Grabbing the code</h2>
+<p>d3fc and its dependencies are available via npm or cdnjs.</p>
+<h3 id="installing-with-npm">Installing with npm</h3>
+<p>You can install d3fc and its dependencies via npm as follows:</p>
+<pre><code>npm install d3<span class="hljs-built_in">fc</span>
+</code></pre><p>Once installed, you can reference the d3fc JavaScript, CSS and dependencies within an HTML page as follows:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/d3fc/dist/d3fc.bundle.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"node_modules/d3fc/dist/d3fc.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>/&gt;</span>
+</code></pre>
+<h3 id="cdn-hosted-version">CDN hosted version</h3>
+<p>Alternatively you can link to the latest version of d3fc and its dependencies directly:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://d3fc.io/d3fc.bundle.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://d3fc.io/d3fc.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>/&gt;</span>
+</code></pre>
+<p>You can also find the latest version (together with previous versions) on <a href="https://cdnjs.com/libraries/d3fc">cdnjs</a>.</p>
+<h2 id="a-quick-chart">A quick chart</h2>
+<p>If you want a quick verification that everything has installed correctly, the following code will render a cartesian chart:</p>
+<pre><code class="lang-html">&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"chart"</span> style=<span class="hljs-string">"width: 100%; height: 250px"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> <span class="hljs-keyword">data</span> = fc.<span class="hljs-keyword">data</span>.random.financial()(<span class="hljs-number">50</span>);
+
+<span class="hljs-keyword">var</span> chart = fc.chart.cartesian(
+        fc.scale.dateTime(),
+        d3.scale.linear())
+    .margin({bottom: <span class="hljs-number">30</span>, right: <span class="hljs-number">40</span>})
+    .xDomain(fc.util.extent().fields([<span class="hljs-string">'date'</span>])(<span class="hljs-keyword">data</span>))
+    .yDomain(fc.util.extent().fields([<span class="hljs-string">'high'</span>, <span class="hljs-string">'low'</span>])(<span class="hljs-keyword">data</span>));
+
+<span class="hljs-keyword">var</span> gridlines = fc.<span class="hljs-keyword">annotation</span>.gridline();
+<span class="hljs-keyword">var</span> candlestick = fc.series.candlestick();
+
+<span class="hljs-keyword">var</span> multi = fc.series.multi()
+    .series([gridlines, candlestick]);
+chart.plotArea(multi);
+
+d3.select(<span class="hljs-string">'#chart'</span>)
+    .datum(<span class="hljs-keyword">data</span>)
+    .call(chart);
+</code></pre>
+<p>Here is how the chart should look:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;chart\&quot; style&#x3D;\&quot;width: 100%; height: 250px\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "var data = fc.data.random.financial()(50);
+\n
+\nvar chart = fc.chart.cartesian(
+\n        fc.scale.dateTime(),
+\n        d3.scale.linear())
+\n    .margin({bottom: 30, right: 40})
+\n    .xDomain(fc.util.extent().fields([\"date\"])(data))
+\n    .yDomain(fc.util.extent().fields([\"high\", \"low\"])(data));
+\n
+\nvar gridlines = fc.annotation.gridline();
+\nvar candlestick = fc.series.candlestick();
+\n
+\nvar multi = fc.series.multi()
+\n    .series([gridlines, candlestick]);
+\nchart.plotArea(multi);
+\n
+\nd3.select(\"#chart\")
+\n    .datum(data)
+\n    .call(chart);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id="chart" style="width: 100%; height: 250px"></div>
+
+<script type="text/javascript">
+var data = fc.data.random.financial()(50);
+
+var chart = fc.chart.cartesian(
+        fc.scale.dateTime(),
+        d3.scale.linear())
+    .margin({bottom: 30, right: 40})
+    .xDomain(fc.util.extent().fields(['date'])(data))
+    .yDomain(fc.util.extent().fields(['high', 'low'])(data));
+
+var gridlines = fc.annotation.gridline();
+var candlestick = fc.series.candlestick();
+
+var multi = fc.series.multi()
+    .series([gridlines, candlestick]);
+chart.plotArea(multi);
+
+d3.select('#chart')
+    .datum(data)
+    .call(chart);
+
+</script>
+
+<p>The next step is to follow the more in-depth tutorial on <a href="/components/introduction/building-a-chart.html">building a chart</a>.</p>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="next"><a href="/components/introduction/building-a-chart.html">Building A Chart <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Introduction</h4>
+            <ul class="nav nav-stacked">
+                <li class="active">
+                  <a href="/components/introduction/getting-started.html">
+                    Getting Started
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/introduction/building-a-chart.html">
+                    Building A Chart
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Further Reading</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/introduction/component-design.html">
+                    Component Design
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/introduction/decorate-pattern.html">
+                    Decorate Pattern
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/introduction/transitions.html">
+                    Transitions
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

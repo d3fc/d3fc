@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Grouped Series</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/components/series/grouped.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class="active"><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class=""><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container component">
+  <div class="row">
+
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Grouped Series
+        <a class="btn btn-default" href="git+https://github.com/d3fc/d3fc.git/blob/master/src/series/grouped.js">View source</a>
+      </h1>
+      <p>The grouped component renders multiple series of data in a grouped / clustered form.</p>
+<p>If the data is loaded via <code>d3.csv</code>, it is converted to an array of objects, one per row, with properties names derived from the CSV &#39;column&#39; headings. The easiest way to manipulate the data into multiple series (one per &#39;column&#39;), is to use <a href="/components/data/spread.html"><code>d3.data.spread</code></a> component.</p>
+<p>The following example shows how to manipulate some data into the required form, then configures the stacked bar series accordingly:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> width = <span class="hljs-number">500</span>, height = <span class="hljs-number">250</span>;
+<span class="hljs-keyword">var</span> container = d3.select(<span class="hljs-string">'#grouped'</span>)
+    .append(<span class="hljs-string">'svg'</span>)
+    .attr({<span class="hljs-string">'width'</span>: width, <span class="hljs-string">'height'</span>: height});
+
+<span class="hljs-keyword">var</span> data = [{
+  <span class="hljs-string">'State'</span>: <span class="hljs-string">'AL'</span>,
+  <span class="hljs-string">'Under 5 Years'</span>: <span class="hljs-string">'310'</span>,
+  <span class="hljs-string">'5 to 13 Years'</span>: <span class="hljs-string">'552'</span>,
+  <span class="hljs-string">'14 to 17 Years'</span>: <span class="hljs-string">'259'</span>,
+  <span class="hljs-string">'18 to 24 Years'</span>: <span class="hljs-string">'450'</span>,
+  <span class="hljs-string">'25 to 44 Years'</span>: <span class="hljs-string">'1215'</span>,
+  <span class="hljs-string">'45 to 64 Years'</span>: <span class="hljs-string">'641'</span>
+}, {
+  <span class="hljs-string">'State'</span>: <span class="hljs-string">'AK'</span>,
+  <span class="hljs-string">'Under 5 Years'</span>: <span class="hljs-string">'52'</span>,
+  <span class="hljs-string">'5 to 13 Years'</span>: <span class="hljs-string">'85'</span>,
+  <span class="hljs-string">'14 to 17 Years'</span>: <span class="hljs-string">'42'</span>,
+  <span class="hljs-string">'18 to 24 Years'</span>: <span class="hljs-string">'74'</span>,
+  <span class="hljs-string">'25 to 44 Years'</span>: <span class="hljs-string">'183'</span>,
+  <span class="hljs-string">'45 to 64 Years'</span>: <span class="hljs-string">'50'</span>
+}, {
+  <span class="hljs-string">'State'</span>: <span class="hljs-string">'AZ'</span>,
+  <span class="hljs-string">'Under 5 Years'</span>: <span class="hljs-string">'515'</span>,
+  <span class="hljs-string">'5 to 13 Years'</span>: <span class="hljs-string">'828'</span>,
+  <span class="hljs-string">'14 to 17 Years'</span>: <span class="hljs-string">'362'</span>,
+  <span class="hljs-string">'18 to 24 Years'</span>: <span class="hljs-string">'601'</span>,
+  <span class="hljs-string">'25 to 44 Years'</span>: <span class="hljs-string">'1804'</span>,
+  <span class="hljs-string">'45 to 64 Years'</span>: <span class="hljs-string">'1523'</span>
+}, {
+  <span class="hljs-string">'State'</span>: <span class="hljs-string">'AR'</span>,
+  <span class="hljs-string">'Under 5 Years'</span>: <span class="hljs-string">'202'</span>,
+  <span class="hljs-string">'5 to 13 Years'</span>: <span class="hljs-string">'343'</span>,
+  <span class="hljs-string">'14 to 17 Years'</span>: <span class="hljs-string">'157'</span>,
+  <span class="hljs-string">'18 to 24 Years'</span>: <span class="hljs-string">'264'</span>,
+  <span class="hljs-string">'25 to 44 Years'</span>: <span class="hljs-string">'754'</span>,
+  <span class="hljs-string">'45 to 64 Years'</span>: <span class="hljs-string">'727'</span>
+}];
+
+<span class="hljs-comment">// manipulate the data into stacked series</span>
+<span class="hljs-keyword">var</span> spread = fc.data.spread()
+    .xValueKey(<span class="hljs-string">'State'</span>);
+
+<span class="hljs-keyword">var</span> series = spread(data);
+
+<span class="hljs-comment">// create scales</span>
+<span class="hljs-keyword">var</span> x = d3.scale.ordinal()
+    .domain(data.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.State; }))
+    .rangePoints([<span class="hljs-number">0</span>, width], <span class="hljs-number">1</span>);
+
+<span class="hljs-keyword">var</span> yExtent = fc.util.extent()
+    .fields([
+      <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(a)</span> </span>{
+        <span class="hljs-keyword">return</span> a.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.y; });
+      }
+    ])
+    .<span class="hljs-keyword">include</span>(<span class="hljs-number">0</span>);
+
+<span class="hljs-keyword">var</span> y = d3.scale.linear()
+    .domain(yExtent(series.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.values; })))
+    .range([height, <span class="hljs-number">0</span>]);
+
+<span class="hljs-keyword">var</span> groupedSeries = fc.series.bar();
+
+<span class="hljs-comment">// create the grouped series</span>
+<span class="hljs-keyword">var</span> groupedBar = fc.series.grouped(groupedSeries)
+    .xScale(x)
+    .yScale(y)
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.y; });
+
+<span class="hljs-comment">// render</span>
+container.append(<span class="hljs-string">'g'</span>)
+    .datum(series)
+    .call(groupedBar);
+</code></pre>
+<p>Which gives the following:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;grouped\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "var width = 500, height = 250;
+\nvar container = d3.select(\"#grouped\")
+\n    .append(\"svg\")
+\n    .attr({\"width\": width, \"height\": height});
+\n
+\nvar data = [{
+\n  \"State\": \"AL\",
+\n  \"Under 5 Years\": \"310\",
+\n  \"5 to 13 Years\": \"552\",
+\n  \"14 to 17 Years\": \"259\",
+\n  \"18 to 24 Years\": \"450\",
+\n  \"25 to 44 Years\": \"1215\",
+\n  \"45 to 64 Years\": \"641\"
+\n}, {
+\n  \"State\": \"AK\",
+\n  \"Under 5 Years\": \"52\",
+\n  \"5 to 13 Years\": \"85\",
+\n  \"14 to 17 Years\": \"42\",
+\n  \"18 to 24 Years\": \"74\",
+\n  \"25 to 44 Years\": \"183\",
+\n  \"45 to 64 Years\": \"50\"
+\n}, {
+\n  \"State\": \"AZ\",
+\n  \"Under 5 Years\": \"515\",
+\n  \"5 to 13 Years\": \"828\",
+\n  \"14 to 17 Years\": \"362\",
+\n  \"18 to 24 Years\": \"601\",
+\n  \"25 to 44 Years\": \"1804\",
+\n  \"45 to 64 Years\": \"1523\"
+\n}, {
+\n  \"State\": \"AR\",
+\n  \"Under 5 Years\": \"202\",
+\n  \"5 to 13 Years\": \"343\",
+\n  \"14 to 17 Years\": \"157\",
+\n  \"18 to 24 Years\": \"264\",
+\n  \"25 to 44 Years\": \"754\",
+\n  \"45 to 64 Years\": \"727\"
+\n}];
+\n
+\n// manipulate the data into stacked series
+\nvar spread = fc.data.spread()
+\n    .xValueKey(\"State\");
+\n
+\nvar series = spread(data);
+\n
+\n// create scales
+\nvar x = d3.scale.ordinal()
+\n    .domain(data.map(function(d) { return d.State; }))
+\n    .rangePoints([0, width], 1);
+\n
+\nvar yExtent = fc.util.extent()
+\n    .fields([
+\n      function(a) {
+\n        return a.map(function(d) { return d.y; });
+\n      }
+\n    ])
+\n    .include(0);
+\n
+\nvar y = d3.scale.linear()
+\n    .domain(yExtent(series.map(function(d) { return d.values; })))
+\n    .range([height, 0]);
+\n
+\nvar groupedSeries = fc.series.bar();
+\n
+\n// create the grouped series
+\nvar groupedBar = fc.series.grouped(groupedSeries)
+\n    .xScale(x)
+\n    .yScale(y)
+\n    .xValue(function(d) { return d.x; })
+\n    .yValue(function(d) { return d.y; });
+\n
+\n// render
+\ncontainer.append(\"g\")
+\n    .datum(series)
+\n    .call(groupedBar);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id='grouped' class='chart'></div>
+
+<script type="text/javascript">
+var width = 500, height = 250;
+var container = d3.select('#grouped')
+    .append('svg')
+    .attr({'width': width, 'height': height});
+
+var data = [{
+  'State': 'AL',
+  'Under 5 Years': '310',
+  '5 to 13 Years': '552',
+  '14 to 17 Years': '259',
+  '18 to 24 Years': '450',
+  '25 to 44 Years': '1215',
+  '45 to 64 Years': '641'
+}, {
+  'State': 'AK',
+  'Under 5 Years': '52',
+  '5 to 13 Years': '85',
+  '14 to 17 Years': '42',
+  '18 to 24 Years': '74',
+  '25 to 44 Years': '183',
+  '45 to 64 Years': '50'
+}, {
+  'State': 'AZ',
+  'Under 5 Years': '515',
+  '5 to 13 Years': '828',
+  '14 to 17 Years': '362',
+  '18 to 24 Years': '601',
+  '25 to 44 Years': '1804',
+  '45 to 64 Years': '1523'
+}, {
+  'State': 'AR',
+  'Under 5 Years': '202',
+  '5 to 13 Years': '343',
+  '14 to 17 Years': '157',
+  '18 to 24 Years': '264',
+  '25 to 44 Years': '754',
+  '45 to 64 Years': '727'
+}];
+
+// manipulate the data into stacked series
+var spread = fc.data.spread()
+    .xValueKey('State');
+
+var series = spread(data);
+
+// create scales
+var x = d3.scale.ordinal()
+    .domain(data.map(function(d) { return d.State; }))
+    .rangePoints([0, width], 1);
+
+var yExtent = fc.util.extent()
+    .fields([
+      function(a) {
+        return a.map(function(d) { return d.y; });
+      }
+    ])
+    .include(0);
+
+var y = d3.scale.linear()
+    .domain(yExtent(series.map(function(d) { return d.values; })))
+    .range([height, 0]);
+
+var groupedSeries = fc.series.bar();
+
+// create the grouped series
+var groupedBar = fc.series.grouped(groupedSeries)
+    .xScale(x)
+    .yScale(y)
+    .xValue(function(d) { return d.x; })
+    .yValue(function(d) { return d.y; });
+
+// render
+container.append('g')
+    .datum(series)
+    .call(groupedBar);
+
+</script>
+
+
+      <nav class="visible-xs-block">
+        <ul class="pager">
+            <li class="previous"><a href="/components/series/errorBar.html"><span aria-hidden="true">&larr;</span> Error Bar Series</a></li>
+            <li class="next"><a href="/components/series/line.html">Line Series <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+            <h4>Chart</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/chart/cartesian.html">
+                    Cartesian
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/legend.html">
+                    Legend
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/small-multiples.html">
+                    Small Multiples
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/sparkline.html">
+                    Sparkline
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/chart/tooltip.html">
+                    Tooltip
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Series</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/series/area.html">
+                    Area Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/bar.html">
+                    Bar Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/boxPlot.html">
+                    Box Plot Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/cycle.html">
+                    Cycle Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/errorBar.html">
+                    Error Bar Series
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="/components/series/grouped.html">
+                    Grouped Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/line.html">
+                    Line Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/multi.html">
+                    Multi Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/point.html">
+                    Point Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/stacked.html">
+                    Stacked Series
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/series/waterfall.html">
+                    Waterfall Series
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Annotation</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/annotation/band.html">
+                    Band
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/gridlines.html">
+                    Gridlines
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/annotation/line.html">
+                    Line
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Data</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/data/spread.html">
+                    Spread
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/data/walk.html">
+                    Random Walk
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Layout</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/layout/flexbox.html">
+                    Flexbox
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/layout/label.html">
+                    Label
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Sample</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/sample/sample.html">
+                    Sample
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Scale</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/scale/dateTime.html">
+                    Date Time Scale
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>SVG</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/svg/axis.html">
+                    Axis
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Tool</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/tool/container.html">
+                    Container
+                  </a>
+                </li>
+                <li class="">
+                  <a href="/components/tool/crosshair.html">
+                    Crosshair
+                  </a>
+                </li>
+            </ul>
+          </li>
+          <li>
+            <h4>Util</h4>
+            <ul class="nav nav-stacked">
+                <li class="">
+                  <a href="/components/util/extent.html">
+                    Extent
+                  </a>
+                </li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>

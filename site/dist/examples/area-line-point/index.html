@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Area Line Point</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="http://localhost:8000/scripts.js"></script>
+
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://localhost:8000/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="http://localhost:8000/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/examples/area-line-point/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <a href="http://localhost:8000/"><img class="navbar-logo" alt="d3fc" src="http://localhost:8000/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                <li class=""><a href="http://localhost:8000/components/introduction/getting-started.html">Documentation</a></li>
+                <li class=""><a href="http://localhost:8000/components/chart/cartesian.html">Components</a></li>
+                <li class=""><a href="http://localhost:8000/components/series/candlestick.html">Financial</a></li>
+                <li class=""><a href="http://localhost:8000/api/annotation-api.html">API</a></li>
+                <li class="active"><a href="http://localhost:8000/examples">Examples</a></li>
+                <li><a href="git+https://github.com/d3fc/d3fc.git">GitHub</a></li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container example">
+  <div class="row">
+    <div class="col-sm-9 col-xs-12">
+      <h1>
+        Area Line Point
+      </h1>
+      <div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;area-line-point\&quot; class&#x3D;\&quot;chart large\&quot;&gt;&lt;/div&gt;
+\n",
+        "js": "var walk = fc.data.random.walk()
+\n  .period(2)
+\n  .steps(30)
+\n  .mu(0.3)
+\n  .sigma(0.2);
+\n
+\nvar data = walk(50)
+\n  .map(function(d, i) {
+\n    return { x: i, y: d };
+\n  });
+\n
+\nvar xExtent = fc.util.extent()
+\n    .fields([
+\n      function(d) { return d.x; }
+\n    ]);
+\n
+\nvar yExtent = fc.util.extent()
+\n    .fields([
+\n      function(d) { return d.y; }
+\n    ])
+\n    .pad(0.2);
+\n
+\nvar chart = fc.chart.cartesian(
+\n        d3.scale.linear(),
+\n        d3.scale.linear()
+\n    )
+\n    .xTicks(5)
+\n    .yTicks(5)
+\n   .xDomain(xExtent(data))
+\n   .yDomain(yExtent(data))
+\n   .yNice()
+\n   .chartLabel(\"Area Line Point\")
+\n   .margin({left: 30, right: 50, bottom: 20, top: 30});
+\n
+\nvar gridlines = fc.annotation.gridline()
+\n    .xTicks(5)
+\n    .yTicks(5);
+\n
+\nvar area = fc.series.area()
+\n    .interpolate(\"cardinal\")
+\n    .xValue(function(d) { return d.x; })
+\n    .yValue(function(d) { return d.y; });
+\n
+\nvar line = fc.series.line()
+\n    .interpolate(\"cardinal\")
+\n    .xValue(function(d) { return d.x; })
+\n    .yValue(function(d) { return d.y; });
+\n
+\nvar point = fc.series.point()
+\n    .xValue(function(d) { return d.x; })
+\n    .yValue(function(d) { return d.y; })
+\n    .decorate(function(g) {
+\n      g.enter()
+\n            .select(\"path\");
+\n      g.enter()
+\n            .append(\"rect\")
+\n            .attr({
+\n              x: -30,
+\n              y: -30,
+\n              width: 60,
+\n              height: 20
+\n            });
+\n      g.enter()
+\n            .append(\"text\")
+\n            .attr({
+\n              \"text-anchor\": \"middle\",
+\n              \"transform\": \"translate(0, -15)\"
+\n            });
+\n      g.select(\"text\")
+\n            .text(function(d) {
+\n              return d.y.toFixed(2);
+\n            });
+\n    });
+\n// START
+\nvar areaLinePointMulti = fc.series.multi()
+\n    .series([area, line, point])
+\n    .mapping(function(series) {
+\n      switch (series) {
+\n      case point:
+\n        return this.filter(function(d) {
+\n          return d.x % 10 === 5;
+\n        });
+\n      default:
+\n        return this;
+\n      }
+\n    });
+\n// END
+\nvar plotArea = fc.series.multi()
+\n    .series([gridlines, areaLinePointMulti]);
+\n
+\nchart.plotArea(plotArea);
+\n
+\nd3.select(\"#area-line-point\")
+\n    .datum(data)
+\n    .call(chart);
+\n",
+        "css": ".chart {
+\n  margin: 10px 0;
+\n  width: 100%;
+\n  height: 250px;
+\n}
+\n
+\n.chart &gt; svg {
+\n  margin-left: auto;
+\n  margin-right: auto;
+\n}
+\n
+\n.chart.large {
+\n  height: 400px;
+\n}
+\n",
+        "js_external": "https://d3fc.io/d3fc.bundle.js",
+        "css_external": "https://d3fc.io/d3fc.css"}
+      '/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<style>
+.title text {
+    font-size: 15pt;
+}
+
+.point text {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+</style>
+
+<div id='area-line-point' class='chart large'></div>
+
+
+<script>
+var walk = fc.data.random.walk()
+  .period(2)
+  .steps(30)
+  .mu(0.3)
+  .sigma(0.2);
+
+var data = walk(50)
+  .map(function(d, i) {
+    return { x: i, y: d };
+  });
+
+var xExtent = fc.util.extent()
+    .fields([
+      function(d) { return d.x; }
+    ]);
+
+var yExtent = fc.util.extent()
+    .fields([
+      function(d) { return d.y; }
+    ])
+    .pad(0.2);
+
+var chart = fc.chart.cartesian(
+        d3.scale.linear(),
+        d3.scale.linear()
+    )
+    .xTicks(5)
+    .yTicks(5)
+   .xDomain(xExtent(data))
+   .yDomain(yExtent(data))
+   .yNice()
+   .chartLabel('Area Line Point')
+   .margin({left: 30, right: 50, bottom: 20, top: 30});
+
+var gridlines = fc.annotation.gridline()
+    .xTicks(5)
+    .yTicks(5);
+
+var area = fc.series.area()
+    .interpolate('cardinal')
+    .xValue(function(d) { return d.x; })
+    .yValue(function(d) { return d.y; });
+
+var line = fc.series.line()
+    .interpolate('cardinal')
+    .xValue(function(d) { return d.x; })
+    .yValue(function(d) { return d.y; });
+
+var point = fc.series.point()
+    .xValue(function(d) { return d.x; })
+    .yValue(function(d) { return d.y; })
+    .decorate(function(g) {
+      g.enter()
+            .select('path');
+      g.enter()
+            .append('rect')
+            .attr({
+              x: -30,
+              y: -30,
+              width: 60,
+              height: 20
+            });
+      g.enter()
+            .append('text')
+            .attr({
+              'text-anchor': 'middle',
+              'transform': 'translate(0, -15)'
+            });
+      g.select('text')
+            .text(function(d) {
+              return d.y.toFixed(2);
+            });
+    });
+// START
+var areaLinePointMulti = fc.series.multi()
+    .series([area, line, point])
+    .mapping(function(series) {
+      switch (series) {
+      case point:
+        return this.filter(function(d) {
+          return d.x % 10 === 5;
+        });
+      default:
+        return this;
+      }
+    });
+// END
+var plotArea = fc.series.multi()
+    .series([gridlines, areaLinePointMulti]);
+
+chart.plotArea(plotArea);
+
+d3.select('#area-line-point')
+    .datum(data)
+    .call(chart);
+
+</script>
+
+<p>In this example we combine a <a href="/components/series/area.html">area series</a>, <a href="/components/series/line.html">line series</a> and <a href="/components/series/point.html">point series</a> using a <a href="/components/series/multi.html">multi series</a>. This combination allows for flexibility when styling the series to achieve e.g. gradient fills. It also demonstrates <a href="/components/introduction/decorate-pattern.html">decorating</a> the point series to easily add labels to specific points on the series.</p>
+<pre><code class="lang-js"><span class="hljs-built_in">var</span> walk = fc.data.random.walk()
+  .period(<span class="hljs-number">2</span>)
+  .steps(<span class="hljs-number">30</span>)
+  .mu(<span class="hljs-number">0.3</span>)
+  .sigma(<span class="hljs-number">0.2</span>);
+
+<span class="hljs-built_in">var</span> data = walk(<span class="hljs-number">50</span>)
+  .map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+    <span class="hljs-keyword">return</span> { <span class="hljs-attribute">x</span>: i, <span class="hljs-attribute">y</span>: d };
+  });
+
+<span class="hljs-built_in">var</span> xExtent = fc.util.extent()
+    .fields([
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; }
+    ]);
+
+<span class="hljs-built_in">var</span> yExtent = fc.util.extent()
+    .fields([
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; }
+    ])
+    .pad(<span class="hljs-number">0.2</span>);
+
+<span class="hljs-built_in">var</span> chart = fc.chart.cartesian(
+        d3.scale.linear(),
+        d3.scale.linear()
+    )
+    .xTicks(<span class="hljs-number">5</span>)
+    .yTicks(<span class="hljs-number">5</span>)
+   .xDomain(xExtent(data))
+   .yDomain(yExtent(data))
+   .yNice()
+   .chartLabel(<span class="hljs-string">'Area Line Point'</span>)
+   .margin({<span class="hljs-attribute">left</span>: <span class="hljs-number">30</span>, <span class="hljs-attribute">right</span>: <span class="hljs-number">50</span>, <span class="hljs-attribute">bottom</span>: <span class="hljs-number">20</span>, <span class="hljs-attribute">top</span>: <span class="hljs-number">30</span>});
+
+<span class="hljs-built_in">var</span> gridlines = fc.annotation.gridline()
+    .xTicks(<span class="hljs-number">5</span>)
+    .yTicks(<span class="hljs-number">5</span>);
+
+<span class="hljs-built_in">var</span> area = fc.series.area()
+    .interpolate(<span class="hljs-string">'cardinal'</span>)
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; });
+
+<span class="hljs-built_in">var</span> line = fc.series.line()
+    .interpolate(<span class="hljs-string">'cardinal'</span>)
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; });
+
+<span class="hljs-built_in">var</span> <span class="hljs-built_in">point</span> = fc.series.point()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; })
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">g</span>) </span>{
+      g.enter()
+            .select(<span class="hljs-string">'path'</span>);
+      g.enter()
+            .append(<span class="hljs-string">'rect'</span>)
+            .attr({
+              <span class="hljs-attribute">x</span>: <span class="hljs-number">-30</span>,
+              <span class="hljs-attribute">y</span>: <span class="hljs-number">-30</span>,
+              <span class="hljs-attribute">width</span>: <span class="hljs-number">60</span>,
+              <span class="hljs-attribute">height</span>: <span class="hljs-number">20</span>
+            });
+      g.enter()
+            .append(<span class="hljs-string">'text'</span>)
+            .attr({
+              <span class="hljs-string">'text-anchor'</span>: <span class="hljs-string">'middle'</span>,
+              <span class="hljs-string">'transform'</span>: <span class="hljs-string">'translate(0, -15)'</span>
+            });
+      g.select(<span class="hljs-string">'text'</span>)
+            .text(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+              <span class="hljs-keyword">return</span> d.y.toFixed(<span class="hljs-number">2</span>);
+            });
+    });
+<span class="hljs-comment">// START</span>
+<span class="hljs-built_in">var</span> areaLinePointMulti = fc.series.multi()
+    .series([area, line, <span class="hljs-built_in">point</span>])
+    .mapping(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">series</span>) </span>{
+      <span class="hljs-keyword">switch</span> (series) {
+      <span class="hljs-keyword">case</span> <span class="hljs-attribute">point</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.filter(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+          <span class="hljs-keyword">return</span> d.x % <span class="hljs-number">10</span> === <span class="hljs-number">5</span>;
+        });
+      <span class="hljs-attribute">default</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+      }
+    });
+<span class="hljs-comment">// END</span>
+<span class="hljs-built_in">var</span> plotArea = fc.series.multi()
+    .series([gridlines, areaLinePointMulti]);
+
+chart.plotArea(plotArea);
+
+d3.select(<span class="hljs-string">'#area-line-point'</span>)
+    .datum(data)
+    .call(chart);
+</code></pre>
+<p>The above code demonstrates another feature of the <a href="/components/series/multi.html">multi series</a>: the <code>mapping</code> property. This allows for a bespoke mapping from the data bound to the multi series to the data bound to each of the child series. In this case, the data bound to the <a href="/components/series/point.html">point series</a> is filtered to only show every 10th item (10n + 5).</p>
+<pre><code class="lang-js"><span class="hljs-built_in">var</span> walk = fc.data.random.walk()
+  .period(<span class="hljs-number">2</span>)
+  .steps(<span class="hljs-number">30</span>)
+  .mu(<span class="hljs-number">0.3</span>)
+  .sigma(<span class="hljs-number">0.2</span>);
+
+<span class="hljs-built_in">var</span> data = walk(<span class="hljs-number">50</span>)
+  .map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+    <span class="hljs-keyword">return</span> { <span class="hljs-attribute">x</span>: i, <span class="hljs-attribute">y</span>: d };
+  });
+
+<span class="hljs-built_in">var</span> xExtent = fc.util.extent()
+    .fields([
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; }
+    ]);
+
+<span class="hljs-built_in">var</span> yExtent = fc.util.extent()
+    .fields([
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; }
+    ])
+    .pad(<span class="hljs-number">0.2</span>);
+
+<span class="hljs-built_in">var</span> chart = fc.chart.cartesian(
+        d3.scale.linear(),
+        d3.scale.linear()
+    )
+    .xTicks(<span class="hljs-number">5</span>)
+    .yTicks(<span class="hljs-number">5</span>)
+   .xDomain(xExtent(data))
+   .yDomain(yExtent(data))
+   .yNice()
+   .chartLabel(<span class="hljs-string">'Area Line Point'</span>)
+   .margin({<span class="hljs-attribute">left</span>: <span class="hljs-number">30</span>, <span class="hljs-attribute">right</span>: <span class="hljs-number">50</span>, <span class="hljs-attribute">bottom</span>: <span class="hljs-number">20</span>, <span class="hljs-attribute">top</span>: <span class="hljs-number">30</span>});
+
+<span class="hljs-built_in">var</span> gridlines = fc.annotation.gridline()
+    .xTicks(<span class="hljs-number">5</span>)
+    .yTicks(<span class="hljs-number">5</span>);
+
+<span class="hljs-built_in">var</span> area = fc.series.area()
+    .interpolate(<span class="hljs-string">'cardinal'</span>)
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; });
+
+<span class="hljs-built_in">var</span> line = fc.series.line()
+    .interpolate(<span class="hljs-string">'cardinal'</span>)
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; });
+
+<span class="hljs-built_in">var</span> <span class="hljs-built_in">point</span> = fc.series.point()
+    .xValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .yValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; })
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">g</span>) </span>{
+      g.enter()
+            .select(<span class="hljs-string">'path'</span>);
+      g.enter()
+            .append(<span class="hljs-string">'rect'</span>)
+            .attr({
+              <span class="hljs-attribute">x</span>: <span class="hljs-number">-30</span>,
+              <span class="hljs-attribute">y</span>: <span class="hljs-number">-30</span>,
+              <span class="hljs-attribute">width</span>: <span class="hljs-number">60</span>,
+              <span class="hljs-attribute">height</span>: <span class="hljs-number">20</span>
+            });
+      g.enter()
+            .append(<span class="hljs-string">'text'</span>)
+            .attr({
+              <span class="hljs-string">'text-anchor'</span>: <span class="hljs-string">'middle'</span>,
+              <span class="hljs-string">'transform'</span>: <span class="hljs-string">'translate(0, -15)'</span>
+            });
+      g.select(<span class="hljs-string">'text'</span>)
+            .text(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+              <span class="hljs-keyword">return</span> d.y.toFixed(<span class="hljs-number">2</span>);
+            });
+    });
+<span class="hljs-comment">// START</span>
+<span class="hljs-built_in">var</span> areaLinePointMulti = fc.series.multi()
+    .series([area, line, <span class="hljs-built_in">point</span>])
+    .mapping(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">series</span>) </span>{
+      <span class="hljs-keyword">switch</span> (series) {
+      <span class="hljs-keyword">case</span> <span class="hljs-attribute">point</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.filter(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+          <span class="hljs-keyword">return</span> d.x % <span class="hljs-number">10</span> === <span class="hljs-number">5</span>;
+        });
+      <span class="hljs-attribute">default</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+      }
+    });
+<span class="hljs-comment">// END</span>
+<span class="hljs-built_in">var</span> plotArea = fc.series.multi()
+    .series([gridlines, areaLinePointMulti]);
+
+chart.plotArea(plotArea);
+
+d3.select(<span class="hljs-string">'#area-line-point'</span>)
+    .datum(data)
+    .call(chart);
+</code></pre>
+
+    </div>
+
+    <nav class="col-sm-3 hidden-xs">
+      <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+          <h4>Examples</h4>
+          <ul class="nav nav-stacked">
+                <li class="active">
+                  <a href="/examples/area-line-point/index.html">Area Line Point</a>
+                </li>
+                <li class="">
+                  <a href="/examples/bubble/index.html">Bubble Chart</a>
+                </li>
+                <li class="">
+                  <a href="/examples/low-barrel/index.html">Low Barrel</a>
+                </li>
+                <li class="">
+                  <a href="/examples/multi-line/index.html">Multi Line</a>
+                </li>
+                <li class="">
+                  <a href="/examples/scatter/index.html">Scatterplot</a>
+                </li>
+                <li class="">
+                  <a href="/examples/simple/index.html">Line / Area Chart</a>
+                </li>
+                <li class="">
+                  <a href="/examples/stacked/index.html">Stacked Bar</a>
+                </li>
+                <li class="">
+                  <a href="/examples/streaming/index.html">Streaming Chart</a>
+                </li>
+                <li class="">
+                  <a href="/examples/wealth-and-health-of-nations/index.html">The Wealth &amp; Health of Nations</a>
+                </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+        <p class="muted credit text-center">Browser testing provided by <a class="browserstack" href="https://browserstack.com">BrowserStack</a>.</p>
+      </div>
+    </footer>
+
+      <script src="//localhost:35729/livereload.js"></script>
+  </body>
+</html>
