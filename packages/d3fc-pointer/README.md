@@ -7,7 +7,7 @@ Very simple component which emits an event to indicate the current mouse or touc
 ## Installing
 
 ```bash
-npm install d3fc-data-join
+npm install d3fc-pointer
 ```
 
 ## API Reference
