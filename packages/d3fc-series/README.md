@@ -100,7 +100,7 @@ Because D3 data-joins and data-binding only work on HTML / SVG, the canvas compo
 
 #### Decorate Pattern
 
-The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection , or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.
+The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection, or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.
 
 For further details, consult the [Decorate Pattern documentation](https://d3fc.io/components/introduction/decorate-pattern.html).
 
@@ -598,13 +598,12 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 If *mappingFun* is specified, sets the mapping function to the specified function, and returns this series. If *mappingFunc* is not specified, returns the current mapping function.
 
-#### SVG specific properties
-
 <a name="seriesMulti_decorate" href="#seriesMulti_decorate">#</a> *seriesMulti*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-NOTE: The canvas multi series component does not support decoration, instead you should decorate each of the child series directly.
+With the SVG multi series, the decorate function is invoked once, with the data join selection that creates the outer container. With the canvas multi series the decorate function is invoked for each of the associated series.
+
 
 #### Canvas specific properties
 

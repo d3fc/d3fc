@@ -17,7 +17,16 @@ export default () => {
             dataSeries.context(context)
                 .xScale(xScale)
                 .yScale(yScale);
+
+            const adaptedDecorate = dataSeries.decorate();
+            dataSeries.decorate((c, d, i) => {
+                base.decorate()(c, data, index);
+                adaptedDecorate(c, d, i);
+            });
+
             dataSeries(seriesData);
+
+            dataSeries.decorate(adaptedDecorate);
         });
     };
 

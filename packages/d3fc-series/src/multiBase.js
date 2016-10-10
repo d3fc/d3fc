@@ -2,6 +2,7 @@ import {scaleIdentity} from 'd3-scale';
 
 export default () => {
 
+    let decorate = () => {};
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
     let series = [];
@@ -43,6 +44,13 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
+        return multi;
+    };
+    multi.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return multi;
     };
 
