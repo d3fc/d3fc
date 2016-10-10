@@ -4,8 +4,8 @@ import build from '../builder/build';
 const packageJSON = fs.readFileSync('./package.json');
 
 const globalData = {
-  package: JSON.parse(packageJSON),
-  dev: true
+    package: JSON.parse(packageJSON),
+    dev: true
 };
 
 globalData.baseurl = globalData.dev
@@ -13,10 +13,10 @@ globalData.baseurl = globalData.dev
   : globalData.package.homepage;
 
 const config = {
-  destinationFolder: '../dist',
-  filePattern: ['components/**/*.md', '**/index.html', 'examples/**/*.md', 'api/**/*.md'],
-  globalData: globalData,
-  sourceFolder: 'site/src'
+    destinationFolder: '../dist',
+    filePattern: ['components/**/*.md', '**/index.html', 'examples/**/*.md', 'api/**/*.md'],
+    globalData: globalData,
+    sourceFolder: 'site/src'
 };
 
 build(config)
