@@ -57,6 +57,8 @@ bollinger([5, 6, 7, 6, 5, 4]);
 
 ### Bollinger Bands
 
+![Bollinger Bands](screenshots/bollingerBands.png "Bollinger Bands")
+
 <a name="indicatorBollingerBands" href="#indicatorBollingerBands">#</a> fc.**indicatorBollingerBands**()
 
 Constructs a new Bollinger band calculator with the default settings.
@@ -82,6 +84,8 @@ Get/set the multiplier of the of the standard deviation around the moving averag
 
 
 ### Elder-Ray
+
+![Elder Ray](screenshots/elderRay.png "Elder Ray")
 
 <a name="indicatorElderRay" href="#indicatorElderRay">#</a> fc.**indicatorElderRay**()
 
@@ -111,6 +115,8 @@ Get/set the period of the moving average calculation performed by the calculator
 
 
 ### Envelope
+
+![Envelope](screenshots/envelope.png "Envelope")
 
 <a name="indicatorEnvelope" href="#indicatorEnvelope">#</a> fc.**indicatorEnvelope**()
 
@@ -171,6 +177,8 @@ Get/set the period of the exponential moving average calculation performed by th
 
 ### Force Index
 
+![Force Index](screenshots/forceIndex.png "Force Index")
+
 <a name="indicatorForceIndex" href="#indicatorForceIndex">#</a> fc.**indicatorForceIndex**()
 
 Constructs a new force index calculator with the default settings.
@@ -193,6 +201,8 @@ Get/set the period of the exponential moving average calculation performed by th
 
 
 ### MACD
+
+![MACD](screenshots/macd.png "MACD")
 
 <a name="indicatorMacd" href="#indicatorMacd">#</a> fc.**indicatorMacd**()
 
@@ -224,6 +234,8 @@ Get/set the period of the 'signal' exponential moving average calculation perfor
 
 ### Relative Strength Index
 
+![Relative Strength Index](screenshots/relativeStrengthIndex.png "Relative Strength Index")
+
 <a name="indicatorRelativeStrengthIndex" href="#indicatorRelativeStrengthIndex">#</a> fc.**indicatorRelativeStrengthIndex**()
 
 Constructs a new RSI calculator with the default settings.
@@ -242,6 +254,8 @@ Get/set the period of the relative strength index calculation performed by the c
 
 
 ### Stochastic Oscillator
+
+![Stochastic Oscillator](screenshots/stochasticOscillator.png "Stochastic Oscillator")
 
 <a name="indicatorStochasticOscillator" href="#indicatorStochasticOscillator">#</a> fc.**indicatorStochasticOscillator**()
 

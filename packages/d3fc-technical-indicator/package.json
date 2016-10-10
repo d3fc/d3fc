@@ -34,12 +34,22 @@
   "scripts": {
     "bundle": "d3fc-scripts bundle",
     "test": "d3fc-scripts test",
+    "screenshot": "d3fc-scripts screenshot",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.13.0",
+    "d3": "^4.2.5",
     "d3-dsv": "^1.0.1",
-    "fs-promise": "^0.5.0",
-    "d3fc-scripts": "^1.6.1"
+    "d3fc": "^11.0.0",
+    "d3fc-annotation": "^1.0.0",
+    "d3fc-extent": "^2.2.1",
+    "d3fc-scripts": "^1.6.1",
+    "d3fc-random-data": "^1.0.0",
+    "d3fc-scripts": "^1.1.4",
+    "d3fc-series": "^1.0.1",
+    "d3fc-shape": "^4.0.0",
+    "fs-promise": "^0.5.0"
   },
   "dependencies": {
     "d3-array": "^1.0.0",
