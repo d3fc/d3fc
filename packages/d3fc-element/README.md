@@ -14,7 +14,7 @@ npm install d3fc-element
 
 * [&lt;d3fc-svg&gt;](#d3fc-svg)
 * [&lt;d3fc-canvas&gt;](#d3fc-canvas)
-* [&lt;d3fc-group&gt;](#d3fc-canvas)
+* [&lt;d3fc-group&gt;](#d3fc-group)
 
 ### &lt;d3fc-svg&gt;
 ### &lt;d3fc-canvas&gt;
