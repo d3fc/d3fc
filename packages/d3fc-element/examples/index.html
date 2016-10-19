@@ -23,9 +23,6 @@
   </d3fc-group>
 
   <script>
-  const data = d3.range(50)
-    .map(d => ({ x: d / 3, y: Math.sin(d / 3)}));
-
   const xScale = d3.scaleLinear();
 
   const yScale = d3.scaleLinear();
@@ -47,7 +44,10 @@
     });
 
   const plotAreaContainer = d3.select('#plot-area')
+    .datum([])
     .on('resize', (d, i, nodes) => {
+      // Use resize event to ensure scales are updated before
+      // any of the elements (including the axes) are drawn.
       const { width, height } = d3.event.detail;
       xScale.range([0, width]);
       yScale.range([height, 0]);
@@ -58,24 +58,27 @@
         .yScale(yScale);
       d3.select(nodes[i])
         .select('svg')
-        .datum(data)
         .call(lineSeries);
     });
 
-  const chartContainer = d3.select('#chart')
-    .on('draw', () => {
-      const xExtent = fc.extentLinear()
-        .accessors([d => d.x]);
-      xScale.domain(xExtent(data));
+  const chartContainer = d3.select('#chart');
 
-      const yExtent = fc.extentLinear()
-        .accessors([d => d.y]);
-      yScale.domain(yExtent(data));
-    });
+  const data = d3.range(50)
+    .map(d => ({ x: d / 3, y: Math.sin(d / 3)}));
 
   setInterval(() => {
     const n = data.length;
     data.push({ x: n / 3, y: Math.sin(n / 3)});
+
+    const xExtent = fc.extentLinear()
+      .accessors([d => d.x]);
+    xScale.domain(xExtent(data));
+
+    const yExtent = fc.extentLinear()
+      .accessors([d => d.y]);
+    yScale.domain(yExtent(data));
+
+    plotAreaContainer.datum(data);
 
     chartContainer.node()
       .requestRedraw();
