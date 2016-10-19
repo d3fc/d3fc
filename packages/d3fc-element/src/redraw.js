@@ -15,10 +15,7 @@ const measure = (element) => {
     const width = element.clientWidth;
     const height = element.clientHeight;
     const resized = width !== previousWidth || height !== previousHeight;
-    const node = element.childNodes[0];
-    const context = node.getContext && node.getContext('2d');
-    const selection = select(node);
-    data.set(element, { width, height, resized, node, context, selection });
+    data.set(element, { width, height, resized });
 };
 
 const resize = (element) => {
@@ -29,8 +26,9 @@ const resize = (element) => {
     if (!detail.resized) {
         return;
     }
-    detail.node.setAttribute('width', detail.width);
-    detail.node.setAttribute('height', detail.height);
+    const node = element.childNodes[0];
+    node.setAttribute('width', detail.width);
+    node.setAttribute('height', detail.height);
     const event = new CustomEvent('resize', { detail });
     element.dispatchEvent(event);
 };

@@ -31,31 +31,34 @@
   const yScale = d3.scaleLinear();
 
   const xAxisContainer = d3.select('#x-axis')
-    .on('draw', () => {
-      const { detail: { selection } } = d3.event;
+    .on('draw', (d, i, nodes) => {
       const xAxis = d3.axisBottom(xScale);
-      selection.call(xAxis);
+      d3.select(nodes[i])
+        .select('svg')
+        .call(xAxis);
     });
 
   const yAxisContainer = d3.select('#y-axis')
-    .on('draw', () => {
-      const { detail: { selection } } = d3.event;
+    .on('draw', (d, i, nodes) => {
       const yAxis = d3.axisRight(yScale);
-      selection.call(yAxis);
+      d3.select(nodes[i])
+        .select('svg')
+        .call(yAxis);
     });
 
   const plotAreaContainer = d3.select('#plot-area')
-    .on('resize', () => {
+    .on('resize', (d, i, nodes) => {
       const { detail: { width, height } } = d3.event;
       xScale.range([0, width]);
       yScale.range([height, 0]);
     })
-    .on('draw', () => {
-      const { detail: { selection } } = d3.event;
+    .on('draw', (d, i, nodes) => {
       const lineSeries = fc.seriesSvgLine()
         .xScale(xScale)
         .yScale(yScale);
-      selection.datum(data)
+      d3.select(nodes[i])
+        .select('svg')
+        .datum(data)
         .call(lineSeries);
     });
 

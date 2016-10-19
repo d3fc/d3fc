@@ -40,9 +40,10 @@ const xAxisContainer = d3.select('#x-axis')
     const { detail: { width } } = d3.event;
     xScale.range([0, width]);
   })
-  .on('draw', () => {
-    const { detail: { selection } } = d3.event;
-    selection.call(xAxis);
+  .on('draw', (d, i, nodes) => {
+    d3.select(nodes[i])
+      .select('svg')
+      .call(xAxis);
   });
 
 // Some time later...
@@ -101,8 +102,5 @@ The following properties are available under the `detail` property on the event 
 * `width` - the width of the surface in pixels.
 * `height` - the height of the surface in pixels.
 * `resized` - flag indicating whether the element has resized since the last draw.
-* `node` - the surface node.
-* `selection` - a d3 selection containing only `node`.
-* `context` - the 2d rendering context retrieved from `node` ([&lt;d3fc-canvas&gt;](#d3fc-canvas) only).
 
 N.B. it is safe to immediately invoke [*surface*.requestRedraw](#surface_requestRedraw) from event handlers if you wish to create an animation. The redraw will be scheduled for the subsequent animation frame.

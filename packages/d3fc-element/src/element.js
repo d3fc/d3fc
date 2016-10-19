@@ -27,12 +27,4 @@ export default (createNode) => class extends HTMLElement {
     requestRedraw() {
         requestRedraw(this);
     }
-
-    get __data__() {
-        return this.__node__.__data__;
-    }
-
-    set __data__(data) {
-        this.__node__.__data__ = data;
-    }
 };
