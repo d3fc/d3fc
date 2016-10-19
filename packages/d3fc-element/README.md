@@ -37,7 +37,7 @@ const xAxis = d3.axisBottom(xScale);
 
 const xAxisContainer = d3.select('#x-axis')
   .on('resize', () => {
-    const { detail: { width } } = d3.event;
+    const { width } = d3.event.detail;
     xScale.range([0, width]);
   })
   .on('draw', (d, i, nodes) => {

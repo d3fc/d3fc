@@ -48,7 +48,7 @@
 
   const plotAreaContainer = d3.select('#plot-area')
     .on('resize', (d, i, nodes) => {
-      const { detail: { width, height } } = d3.event;
+      const { width, height } = d3.event.detail;
       xScale.range([0, width]);
       yScale.range([height, 0]);
     })
