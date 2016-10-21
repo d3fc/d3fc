@@ -1,13 +1,13 @@
-# d3fc-spread
+# d3fc-group
 
-A utility for manipulating CSV / TSV data to allow rendering of stacked or grouped series. The spread component converts the output of the D3 DSV (CSV / TSV) parser into an array of series; one per column (vertical spread), or one per row (horizontal spread).
+A utility for manipulating CSV / TSV data to allow rendering of grouped series.
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
 ## Installation
 
 ```bash
-npm install d3fc-spread
+npm install d3fc-group
 ```
 
 ## API Reference
@@ -23,8 +23,7 @@ const data = d3.csvParse(
     `State,Under 5 Years,5 to 13 Years
     AL,310,552
     AK,52,85
-    AZ,515,828
-`);
+    AZ,515,828`);
 ```
 
 Resulting in the following structure:
@@ -37,96 +36,82 @@ Resulting in the following structure:
 ];
 ```
 
-The spread component takes this structure and manipulates it into a form that is more appropriate for rendering each row as an individual series, or as a grouped / stacked chart.
+The group component takes this structure and manipulates it into a form that is more appropriate for rendering each row as an individual series within a grouped chart.
 
-Here is how the spread component can be applied to the above output:
+Here is how the group component can be applied to the above output:
 
 ```javascript
-const spread = fc.spread()
+const group = fc.group()
   .key('State');
-const series = spread(data);
+const grouped = group(data);
 ```
 
-The default spread orientation is 'vertical', which creates a 'series' for each of the columns, other than the one which represents the key. With this example, a vertical spread is as follows:
+The default group orientation is 'vertical', which creates a 'series' for each of the columns, other than the one which represents the key. With this example, a vertical group is as follows:
 
 ```javascript
 [
-  {
-    "key": "Under 5 Years",
-    "values": [
-      { "x": "AL", "y": 310 },
-      { "x": "AK", "y": 52 },
-      { "x": "AZ", "y": 515 }
-    ]
-  },
-  {
-    "key": "5 to 13 Years",
-    "values": [
-      { "x": "AL", "y": 552 },
-      { "x": "AK", "y": 85 },
-      { "x": "AZ", "y": 828 }
-    ]
-  }
+  [["AL", 310], ["AK", 52], ["AZ", 515]],
+  [["AL", 552], ["AK", 85], ["AZ", 828]]
 ]
 ```
 
-This structure is suitable for rendering grouped series, in this case grouping by age band.
+This structure very similar to the output of [d3.stack](https://github.com/d3/d3-shape#stacks) and is suitable for rendering grouped series, in this case grouping by state.
 
-You can also perform a horizontal spread:
+The key for each series is available as *series*.key and the input data element for each point is available as *point*.data.
 
 ```javascript
-const spread = fc.spread()
+const group = fc.group()
+  .key('State');
+const grouped = group(data);
+// [
+//   [["AL", 310], ["AK", 52], ["AZ", 515]],
+//   [["AL", 552], ["AK", 85], ["AZ", 828]]
+// ]
+
+// each series has a key property
+grouped[0].key // 'Under 5 Years'
+grouped[1].key // '5 to 13 Years'
+
+// and each data element has a data property:
+grouped[0][0].data //  {'State': 'AL', 'Under 5 Years': '310', '5 to 13 Years': '552' }
+```
+
+You can also perform a horizontal grouping, as illustrated in the following example:
+
+```javascript
+const group = fc.group()
   .orient('horizontal')
   .key('State');
-const series = spread(data);
+const grouped = group(data);
 ```
 
-Which creates a series for each row:
+Which creates a series for each row, in this case allowing grouping by age-band:
 
 ```javascript
 [
-  {
-    "key": "AL",
-    "values": [
-      { "x": "Under 5 Years", "y": 310 },
-      { "x": "5 to 13 Years", "y": 552 }
-    ]
-  },
-  {
-    "key": "AK",
-    "values": [
-      { "x": "Under 5 Years", "y": 52 },
-      { "x": "5 to 13 Years", "y": 85 }
-    ]
-  },
-  {
-    "key": "AZ",
-    "values": [
-      { "x": "Under 5 Years", "y": 515 },
-      { "x": "5 to 13 Years", "y": 828 }
-    ]
-  }
+  [["Under 5 Years", 310], ["5 to 13 Years", 552]],
+  [["Under 5 Years", 52 ], ["5 to 13 Years", 85 ]],
+  [["Under 5 Years", 515], ["5 to 13 Years", 828]]
 ]
 ```
 
-This structure is suitable for rendering each row as an individual series, or as a stacked chart.
 
 ### API
 
-<a name="spread" href="#spread">#</a> fc.**spread**()
+<a name="group" href="#group">#</a> fc.**group**()
 
-Constructs a new spread transform.
+Constructs a new group generator with the default settings.
 
-<a name="spread_key" href="#spread_key">#</a> *spread*.**key**(*keyValue*)
+<a name="group_key" href="#group_key">#</a> *group*.**key**(*keyValue*)
 
 If *keyValue* is specified, sets the name of the column within the DSV data that represents the key. If *keyValue* is not specified, returns the current key.
 
-<a name="spread_cellValue" href="#spread_cellValue">#</a> *spread*.**cellValue**(*cellValueFunc*)
+<a name="group_value" href="#group_value">#</a> *group*.**value**(*valueFunc*)
 
-If *cellValueFunc* is specified, sets the accessor function used to obtain the value for a specific row / column. If *cellValueFunc* is not specified, returns the current accessor.
+If *valueFunc* is specified, sets the accessor function used to obtain the value for a specific row / column. If *valueFunc* is not specified, returns the current accessor.
 
-The accessor is invoked each time the spread component obtains the value for a cell. The `cellValueFunc(row, column)` function is invoked with the current row (as supplied by the DSV parser) and the name of the column. The default implementation of this accessor function coerces all cell values to be Number instances.
+The accessor is invoked each time the group component obtains the value for a cell. The `valueFunc(row, column)` function is invoked with the current row (as supplied by the DSV parser) and the name of the column. The default implementation of this accessor function coerces all cell values to be Number instances.
 
-<a name="spread_orient" href="#spread_orient">#</a> *spread*.**orient**(*orientation*)
+<a name="group_orient" href="#group_orient">#</a> *group*.**orient**(*orientation*)
 
-If *orientation* is specified, sets the orientation of the spread operation. If *orientation* is not specified, returns the current orientation.
+If *orientation* is specified, sets the orientation of the group operation. If *orientation* is not specified, returns the current orientation.

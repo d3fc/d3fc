@@ -1,1 +1,1 @@
-export { default as spread } from './src/spread';
+export { default as group } from './src/group';

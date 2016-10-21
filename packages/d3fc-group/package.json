@@ -1,21 +1,20 @@
 {
-  "name": "d3fc-spread",
-  "description": "A utility for manipulating CSV / TSV data to allow rendering of stacked or grouped series. The spread component converts the output of the D3 DSV (CSV / TSV) parser into an array of series; one per column (vertical spread), or one per row (horizontal spread).",
+  "name": "d3fc-group",
+  "description": "A utility for manipulating CSV / TSV data to allow rendering of grouped series.",
   "license": "MIT",
   "keywords": [
-    "stacked",
     "grouped",
     "CSV",
     "TSV",
     "D3",
     "d3fc"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-spread",
-  "main": "build/d3fc-spread.js",
+  "homepage": "https://github.com/d3fc/d3fc-group",
+  "main": "build/d3fc-group.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-spread"
+    "url": "https://github.com/d3fc/d3fc-group"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
