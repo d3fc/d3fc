@@ -152,7 +152,7 @@ structure:
 
 
               The series components implement the decorate pattern by exposing a
-              `decorate` property which is passed the data join selection , or
+              `decorate` property which is passed the data join selection, or
               canvas context, used to render the component. This allows users of
               the component to perform additional rendering logic.
 
@@ -1178,6 +1178,22 @@ structure:
               If *mappingFun* is specified, sets the mapping function to the
               specified function, and returns this series. If *mappingFunc* is
               not specified, returns the current mapping function.
+
+
+              <a name="seriesMulti_decorate" href="#seriesMulti_decorate">#</a>
+              *seriesMulti*.**decorate**(*decorateFunc*)
+
+
+              If *decorateFunc* is specified, sets the decorator function to the
+              specified function, and returns this series. If *decorateFunc* is
+              not specified, returns the current decorator function.
+
+
+              With the SVG multi series, the decorate function is invoked once,
+              with the data join selection that creates the outer container.
+              With the canvas multi series the decorate function is invoked for
+              each of the associated series.
+
 
 
               #### Canvas specific properties
