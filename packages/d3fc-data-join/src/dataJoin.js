@@ -40,7 +40,9 @@ export default (element, className) => {
         update = update.merge(enter);
 
         // if transitions are enabled apply a default fade in/out transition
-        if (selection.prototype.transition) {
+        const transitionsAvailable = selection.prototype.transition != null;
+        const trasitionHasNonZeroDuration = transition == null || transition.duration() > 0;
+        if (transitionsAvailable && trasitionHasNonZeroDuration) {
             enter.style('opacity', effectivelyZero)
                 .transition(transition)
                 .style('opacity', 1);

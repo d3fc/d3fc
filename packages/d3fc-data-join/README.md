@@ -58,10 +58,27 @@ import { select } from 'd3-selection';
 import { transition } from 'd3-transition';
 
 const quickTransition = transition()
-.duration(300);
+  .duration(300);
 
 const join = dataJoin('li', 'animal')
   .transition(quickTransition);
+
+join(select('ul'), ['Aardvark', 'Beaver', 'Cat'])
+  .text(d => d);
+```
+
+To disable the default transition (only required if `d3-transition` is available), explicitly set a transition with a zero duration -
+
+```js
+import { dataJoin } from 'd3fc-data-join';
+import { select } from 'd3-selection';
+import { transition } from 'd3-transition';
+
+const zeroDurationTransition = transition()
+  .duration(0);
+
+const join = dataJoin('li', 'animal')
+  .transition(zeroDurationTransition);
 
 join(select('ul'), ['Aardvark', 'Beaver', 'Cat'])
   .text(d => d);

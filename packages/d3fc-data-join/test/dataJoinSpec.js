@@ -171,5 +171,16 @@ describe('dataJoin', () => {
             expect(node.style.opacity).toBe('1');
             expect(node.parentNode).toBe(null);
         });
+
+        it('should allow the transition to be disabled', () => {
+            customTransition.duration(0);
+            const join = dataJoin()
+                .transition(customTransition);
+            const update = join(container, data);
+            const node = update.enter().node();
+
+            expect(node.style.opacity).toBe('');
+            expect(node.parentNode).not.toBe(null);
+        });
     });
 });
