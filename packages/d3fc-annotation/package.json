@@ -27,7 +27,7 @@
   "dependencies": {
     "d3-scale": "^1.0.1",
     "d3-selection": "^1.0.2",
-    "d3fc-data-join": "^3.0.3",
+    "d3fc-data-join": "^3.0.5",
     "d3fc-rebind": "^4.0.1",
     "d3fc-series": "^1.0.0",
     "d3fc-shape": "^4.0.0"
