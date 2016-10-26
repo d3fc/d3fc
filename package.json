@@ -40,6 +40,7 @@
     "d3fc-element": "^1.0.2",
     "d3fc-extent": "^2.2.0",
     "d3fc-financial-feed": "^2.0.0",
+    "d3fc-group": "^1.0.0",
     "d3fc-label-layout": "^4.0.0",
     "d3fc-pointer": "^1.0.2",
     "d3fc-random-data": "^1.0.0",
