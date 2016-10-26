@@ -22,12 +22,26 @@ function bollingerBandsExample() {
     const lowerLine = fc.seriesCanvasLine()
       .mainValue((d, i) => d.lower);
 
+    const styles = {
+        area: {
+            fillStyle: 'rgba(153, 204, 255, 0.5)',
+            strokeStyle: 'transparent'
+        },
+        upper: { strokeStyle: '#06c' },
+        lower: { strokeStyle: '#06c' },
+        average: { strokeStyle: '#06c' }
+    };
+
     const bollingerBands = function(data) {
         const multi = fc.seriesCanvasMulti()
           .xScale(xScale)
           .yScale(yScale)
           .context(ctx)
-          .series([area, upperLine, lowerLine, averageLine]);
+          .series([area, upperLine, lowerLine, averageLine])
+          .decorate((context, data, index) => {
+              const series = ['area', 'upper', 'lower', 'average'];
+              Object.assign(context, styles[series[index]]);
+          });
 
         area.crossValue(crossValue);
         upperLine.crossValue(crossValue);

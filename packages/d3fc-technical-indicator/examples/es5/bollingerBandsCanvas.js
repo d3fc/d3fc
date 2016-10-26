@@ -33,8 +33,24 @@ function bollingerBandsExample() {
         return d.lower;
     });
 
+    var styles = {
+        area: {
+            fillStyle: 'rgba(153, 204, 255, 0.5)',
+            strokeStyle: 'transparent'
+        },
+        upper: { strokeStyle: '#06c' },
+        lower: { strokeStyle: '#06c' },
+        average: { strokeStyle: '#06c' }
+    };
+
     var bollingerBands = function bollingerBands(data) {
-        var multi = fc.seriesCanvasMulti().xScale(xScale).yScale(yScale).context(ctx).series([area, upperLine, lowerLine, averageLine]);
+        var multi = fc.seriesCanvasMulti().xScale(xScale).yScale(yScale).context(ctx).series([area, upperLine, lowerLine, averageLine]).decorate(function (context, data, index) {
+            var series = ['area', 'upper', 'lower', 'average'];
+            Object.assign(context, styles[series[index]]);
+            // .attr('class', (d, i) =>
+            //     'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i]
+            // );
+        });
 
         area.crossValue(crossValue);
         upperLine.crossValue(crossValue);
