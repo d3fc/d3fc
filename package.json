@@ -4,7 +4,7 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
-    "bundle": "d3fc-scripts bundle --include-d3fc && cp build/d3fc.js site/dist",
+    "bundle": "d3fc-scripts bundle --include-d3fc && copyfiles build/d3fc.js site/dist",
     "test": "d3fc-scripts test",
     "site": "npm-run-all site:clean site:build site:copy bundle && npm-run-all -p site:styles:compile site:styles:watch site:server",
     "site:styles:compile": "node-sass site/src/style/styles.scss site/dist/styles.css",
@@ -56,7 +56,6 @@
     "copyfiles": "^1.0.0",
     "d3fc-scripts": "^1.6.2",
     "bootstrap-sass": "^3.3.7",
-    "copyfiles": "^1.0.0",
     "d3fc-scripts": "^1.2.1",
     "fs-promise": "^0.5.0",
     "glob": "^7.0.5",
