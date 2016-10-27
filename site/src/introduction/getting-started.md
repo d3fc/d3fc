@@ -23,19 +23,15 @@ npm install d3fc
 Once installed, you can reference the d3fc JavaScript, CSS and dependencies within an HTML page as follows:
 
 ```html
-<script src="node_modules/d3fc/dist/d3fc.bundle.js"></script>
-
-<link href="node_modules/d3fc/dist/d3fc.css" rel="stylesheet"/>
+<script src="node_modules/d3fc/dist/d3fc.min.js"></script>
 ```
 
-### CDN hosted version
+### CDN hosted versions
 
 Alternatively you can link to the latest version of d3fc and its dependencies directly:
 
 ```html
-<script src="https://d3fc.io/d3fc.bundle.min.js"></script>
-
-<link href="https://d3fc.io/d3fc.min.css" rel="stylesheet"/>
+<script src="https://unpkg.com/d3fc/dist/d3fc.min.js"></script>
 ```
 
 You can also find the latest version (together with previous versions) on [cdnjs](https://cdnjs.com/libraries/d3fc).

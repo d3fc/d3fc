@@ -1,15 +1,19 @@
-.gridline.x {
-    display: none;
+.bar {
+  fill: #9cf;
+  stroke-width: 0;
 }
 
-.annotation .right-handle {
-    display: none;
+.plot-area {
+  background-color: white;
 }
 
-.title text {
-    font-size: 15pt;
+d3fc-svg svg {
+  overflow: visible !important;
 }
 
-.bar path {
-    stroke-width: 0;
+.annotation-line > line {
+  fill-opacity: 0;
+  stroke: #999;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
 }

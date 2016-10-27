@@ -1,19 +1,27 @@
-var data = fc.data.random.financial()(50);
+var data = fc.randomFinancial()(50);
 
-var chart = fc.chart.cartesian(
-        fc.scale.dateTime(),
-        d3.scale.linear())
-    .margin({bottom: 30, right: 40})
-    .xDomain(fc.util.extent().fields(['date'])(data))
-    .yDomain(fc.util.extent().fields(['high', 'low'])(data));
+var yExtent = fc.extentLinear()
+  .accessors([
+    function(d) { return d.high; },
+    function(d) { return d.low; }
+  ]);
 
-var gridlines = fc.annotation.gridline();
-var candlestick = fc.series.candlestick();
+var xExtent = fc.extentDate()
+  .accessors([function(d) { return d.date; }]);
 
-var multi = fc.series.multi()
+var gridlines = fc.annotationSvgGridline();
+var candlestick = fc.seriesSvgCandlestick();
+var multi = fc.seriesSvgMulti()
     .series([gridlines, candlestick]);
-chart.plotArea(multi);
+
+var chart = fc.chartSvgCartesian(
+    fc.scaleDiscontinuous(d3.scaleTime()),
+    d3.scaleLinear()
+  )
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .plotArea(multi);
 
 d3.select('#chart')
-    .datum(data)
-    .call(chart);
+  .datum(data)
+  .call(chart);

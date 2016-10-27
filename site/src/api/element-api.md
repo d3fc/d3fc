@@ -20,7 +20,7 @@ structure:
         content: |+
           * [&lt;d3fc-svg&gt;](#d3fc-svg)
           * [&lt;d3fc-canvas&gt;](#d3fc-canvas)
-          * [&lt;d3fc-group&gt;](#d3fc-canvas)
+          * [&lt;d3fc-group&gt;](#d3fc-group)
 
         children:
           - title: '&lt;d3fc-svg&gt;'
@@ -64,14 +64,20 @@ structure:
 
 
               const xAxisContainer = d3.select('#x-axis')
-                .on('resize', () => {
-                  const { detail: { width } } = d3.event;
+                .on('measure', () => {
+                  const { width } = d3.event.detail;
                   xScale.range([0, width]);
                 })
-                .on('draw', () => {
-                  const { detail: { selection } } = d3.event;
-                  selection.call(xAxis);
+                .on('draw', (d, i, nodes) => {
+                  d3.select(nodes[i])
+                    .select('svg')
+                    .call(xAxis);
                 });
+
+              // Now that the event handlers are added, request a redraw
+
+              xAxisContainer.node()
+                .requestRedraw();
 
               // Some time later...
 
@@ -157,10 +163,10 @@ structure:
               The following custom DOM events are emitted by the elements -
 
 
-              * `resize` - indicates that the rendering surface has been resized
-              (only
+              * `measure` - indicates that the rendering surface has been
+              measured (only
               [&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)).
-              Typically the `resize` event is used to set the
+              Typically the `measure` event is used to set the
               [range](https://github.com/d3/d3-scale#continuous_range) on scales
               or apply transforms.
 
@@ -180,13 +186,6 @@ structure:
 
               * `resized` - flag indicating whether the element has resized
               since the last draw.
-
-              * `node` - the surface node.
-
-              * `selection` - a d3 selection containing only `node`.
-
-              * `context` - the 2d rendering context retrieved from `node`
-              ([&lt;d3fc-canvas&gt;](#d3fc-canvas) only).
 
 
               N.B. it is safe to immediately invoke

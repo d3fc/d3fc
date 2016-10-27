@@ -1,0 +1,6 @@
+{
+  "extends": "../../node_modules/d3fc-scripts/.eslintrc.json",
+  "rules": {
+    "indent": ["error", 2]
+  }
+}

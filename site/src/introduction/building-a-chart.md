@@ -47,13 +47,13 @@ D3 offers a fresh perspective, offering a different way to create charts and vis
 
 There are a number of charting libraries built with D3, however these invariably hide the underlying power of D3 behind the same-old complex and confusing APIs.
 
-With d3fc our aim is to enhance D3 by providing a suite of powerful [charting components](http://bost.ocks.org/mike/chart/) that make it easy for you to assemble exactly the chart you want. These components 'speak the language' of D3, supporting [selections](http://bost.ocks.org/mike/selection/) and [data joins](http://bost.ocks.org/mike/join/). Furthermore, using the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}, you can enhance and manipulate the way in which they are rendered.
+With d3fc our aim is to enhance D3 by providing a suite of powerful [charting components](http://bost.ocks.org/mike/chart/) that make it easy for you to assemble exactly the chart you want. These components 'speak the language' of D3, supporting [selections](https://github.com/d3/d3-selection) and [data joins](http://bl.ocks.org/mbostock/3808218). Furthermore, using the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}, you can enhance and manipulate the way in which they are rendered.
 
 With d3fc components you can quickly assemble bespoke charts, without hiding the power of D3.
 
 ## Creating the data
 
-Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we'll just generate some random data. d3fc has a number of `data` utilities, including components that help construct realistic random data. For this example we'll use the {{{ hyperlink 'random-data-api.html' title='random walk component' }}} to generate 12 datapoints, mapping them to create datapoints with `sales` and `month` properties:
+Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we'll just generate some random data. d3fc has a number of `data` utilities, including components that help construct realistic random data. For this example we'll use the {{{ hyperlink 'random-data-api.html' title='random brownian motion component' }}} to generate 12 datapoints, mapping them to create datapoints with `sales` and `month` properties:
 
 ```js
 {{{creating-some-data-js}}}
@@ -69,7 +69,7 @@ Here's the resulting data:
 
 The sales data is rendered as a bar chart. With D3 this typically involves rendering paths or rectangles and doing a bit of maths to locate each bar correctly, as illustrated in [Mike Bostock's excellent tutorial](http://bost.ocks.org/mike/bar/).
 
-d3fc has a {{{ hyperlink 'series-api.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `xValue` and `yValue` accessors (which the component uses to extract the x and y values from the datapoints).
+d3fc has a {{{ hyperlink 'series-api.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `mainValue` and `crossValue` accessors (which the component uses to extract the x and y values from the datapoints). Notice these value accessors are prefixed `main` and `cross`, this is because d3fc-series component support both horizontal and vertical orientations where the meanings of x and y would be transposed.
 
 The bar series is a regular D3 component, and is rendered via the `call` method on a D3 selection:
 
@@ -87,11 +87,11 @@ At this point you might like to read more about the [D3 component pattern](http:
 
 I'll forgive you if you are not too impressed with the above example. So far you've got a bar series, but no axes or labels, yet the example involves quite a bit of code.
 
-The reason for this is that the bar series component is relatively low-level component, it renders a series and nothing more. (It's actually not the lowest level of component, the bar series uses the d3fc bar SVG component). In order to quickly assemble a chart you need to make use of a more high-level component ... a chart.
+The reason for this is that the bar series component is relatively low-level component, it renders a series and nothing more. (It's actually not the lowest level of component, the bar series uses the {{{ hyperlink 'shape-api.html' title='bar shape component' }}} as part of its own implementation). In order to quickly assemble a chart you need to make use of a more high-level component ... a chart.
 
 ## Cartesian chart
 
-The cartesian chart component does a number of things, it measures its container in order to fill it, setting a suitable range on the scales that you supply (it's still your job to set the domain on each). The chart renders a pair of axes and, optionally, other cosmetic features such as chart and axis labels.
+The {{{ hyperlink 'chart-api.html' title='cartesian chart component' }}} does a number of things, it constructs a suitable layout (composed of div, {{{ hyperlink 'element-api.html' title='d3fc-group and d3fc-svg' }}} elements), setting a suitable range on the scales that you supply (it's still your job to set the domain on each). The chart renders a pair of axes and, optionally, other cosmetic features such as chart and axis labels.
 
 You can render a series within the chart by setting it as the `plotArea`. The chart sets the x and y scales on the component you supply.
 
@@ -132,7 +132,7 @@ Here's the overall result:
 
 ## Tidying the chart
 
-Let't tidy up the chart a bit by setting suitable margins and labels:
+Let't tidy up the chart a bit by setting suitable labels:
 
 ```js
 {{{ codeblock tidy-chart-js }}}
@@ -144,13 +144,13 @@ This gives a much more appealing chart:
 {{{ tidy-chart-html }}}
 {{{ dynamic-include 'javascript' js="tidy-chart-js" }}}
 
-As you can see from the above code, the cartesian chart exposes a number of the properties of the components it encapsulates. Most of the x and y scale and axes properties are exposed, with a suitable `x` or `y` prefix. This makes use of a standard D3 concept of property [rebinding](https://github.com/mbostock/d3/wiki/Internals#rebind), which gives rise to a compositional pattern rather than inheritance.
+As you can see from the above code, the cartesian chart exposes a number of the properties of the components it encapsulates. Most of the x and y scale and axes properties are exposed, with a suitable `x` or `y` prefix. This makes use of a standard D3 concept of property {{{ hyperlink 'rebind-api.html' title='rebinding' }}}, which gives rise to a compositional pattern rather than inheritance.
 
 d3fc extends the D3 rebind concept by making it easier to rebind all of the properties of a component, and allowing prefixing / renaming.
 
 ## Annotations
 
-The sales targets, which are illustrated as horizontal lines on the chart, can be rendered using the {{{ hyperlink 'series-api.html' title='line annotation component' }}}.
+The sales targets, which are illustrated as horizontal lines on the chart, can be rendered using the {{{ hyperlink 'annotation-api.html' title='line annotation component' }}}.
 
 The chart now has two sources of data, an array of monthly sales figures, and a second array which supplies annotation values. These need to be combined into a single object which is supplied to the chart via the D3 `datum` method as before.
 
@@ -191,21 +191,8 @@ And here's the result:
 
 ## Resizing the chart
 
-The chart is rendering using SVG graphics. If the size of the SVG container changes, the various layout calculations within the cartesian chart component need to be re-evaluated. Because all the d3fc components respect D3 data joins, you can re-render them in their entirety whenever the data changes, or, in the case of the cartesian component, the containing element changes size.
-
-This pattern makes it incredibly simple to handle changes in data, see the streaming example, or layout changes.
-
-Here's how to use this technique to handle re-sizing the chart. Simply wrap the D3 select and call invocation in a function, in this case called `render`, and invoke it each time the window size changes:
-
-```js
-function render() {
-    d3.select('#complete-chart')
-        .datum(data)
-        .call(chart);
-}
-render();
-
-window.onresize = render;
-```
+The cartesian component uses a combination of standard and custom DOM elements, with layout performed via CSS flexbox. With SVG charts, when the size of the chart changes, the SVG needs to be re-rendered. The {{{ hyperlink 'element-api.html' title='d3fc-group and d3fc-svg' }}} custom elements take care of this for you - rendering themselves automatically when the chart resizes! Go ahead and change the width of your browser window (or rotate your phone is viewing via mobile) to see the charts updating.
 
 Now that you've learnt the basic concepts of d3fc, why not browse the various charting components and see what you can build?
+
+If you want to make a more complex chart, for example, one with multiple axes, a good starting point is to look at the source code for the cartesian chart component to see how that has been constructed form other d3fc components.

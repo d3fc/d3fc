@@ -1,9 +1,9 @@
 // a random number generator
-var generator = fc.data.random.walk()
+var generator = fc.randomGeometricBrownianMotion()
     .steps(11);
 
 // some formatters
-var dateFormatter = d3.time.format('%b');
+var dateFormatter = d3.timeFormat('%b');
 
 // randomly generated sales data starting at one
 var data = generator(1).map(function(d, i) {

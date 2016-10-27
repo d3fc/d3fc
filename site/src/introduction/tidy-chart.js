@@ -1,12 +1,11 @@
 // a random number generator
-var generator = fc.data.random.walk()
+var generator = fc.randomGeometricBrownianMotion()
     .steps(11);
 
 // some formatters
-var valueformatter = d3.format('$f');
-var dateFormatter = d3.time.format('%b');
+var dateFormatter = d3.timeFormat('%b');
 
-// randomly generated sales data
+// randomly generated sales data starting at one
 var data = generator(1).map(function(d, i) {
   return {
     month: dateFormatter(new Date(0, i + 1, 0)),
@@ -14,28 +13,30 @@ var data = generator(1).map(function(d, i) {
   };
 });
 
-var yExtent = fc.util.extent()
-    .include(0)
+var yExtent = fc.extentLinear()
+    .include([0])
     .pad([0, 0.5])
-    .fields(['sales']);
+    .accessors([function(d) { return d.sales; }]);
+
+var valueformatter = d3.format('$.0f');
 
 // START
-var chart = fc.chart.cartesian(
-        d3.scale.ordinal(),
-        d3.scale.linear())
+var chart = fc.chartSvgCartesian(
+        d3.scalePoint(),
+        d3.scaleLinear())
     .chartLabel('2015 Cumulative Sales')
-    .margin({top: 30, right: 45, bottom: 40})
     .xDomain(data.map(function(d) { return d.month; }))
     .yDomain(yExtent(data))
     .yTicks(5)
+    .xPadding(0.5)
     .yTickFormat(valueformatter)
     .yLabel('Sales (millions)')
     .yNice();
 // END
 
-var series = fc.series.bar()
-    .xValue(function(d) { return d.month; })
-    .yValue(function(d) { return d.sales; });
+var series = fc.seriesSvgBar()
+    .crossValue(function(d) { return d.month; })
+    .mainValue(function(d) { return d.sales; });
 
 chart.plotArea(series);
 
