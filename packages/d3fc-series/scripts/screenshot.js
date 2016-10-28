@@ -18,7 +18,8 @@ const config = {
     shotOffset: {
         left: bodyMargin,
         right: bodyMargin
-    }
+    },
+    renderDelay: 1000
 };
 
 fs.readdir('examples', function(err, files) {

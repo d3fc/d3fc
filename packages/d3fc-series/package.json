@@ -21,12 +21,14 @@
   },
   "devDependencies": {
     "babel-polyfill": "^6.13.0",
+    "canvas-mock": "0.0.0",
     "d3": "^4.1.1",
     "d3fc-extent": "^2.2.0",
     "d3fc-random-data": "^1.0.0",
     "d3fc-scripts": "^1.6.1",
-    "webshot": "^0.18.0",
-    "semantic-release": "^4.3.5"
+    "d3fc-group": "^1.0.0",
+    "semantic-release": "^4.3.5",
+    "webshot": "^0.18.0"
   },
   "dependencies": {
     "d3-array": "^1.0.0",
