@@ -25,7 +25,7 @@ const plotAreaContainer = d3.select('#plot-area')
   // Ensure plot area has some default data for the initial draw.
   // An empty array will normally suffice.
   .datum([])
-  .on('resize', () => {
+  .on('measure', () => {
       // Use resize event to ensure scales are updated before
       // any of the elements (including the axes) are drawn.
       const { width, height } = d3.event.detail;

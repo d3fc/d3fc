@@ -14,7 +14,6 @@ export default (createNode) => class extends HTMLElement {
 
     connectedCallback() {
         this.appendChild(this.__node__);
-        requestRedraw(this);
     }
 
     requestRedraw() {

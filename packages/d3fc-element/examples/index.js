@@ -24,8 +24,8 @@ d3.select('#y-axis')
   });
 
 d3.select('#plot-area')
-  .on('resize', () => {
-      // Use resize event to ensure scales are updated before
+  .on('measure', () => {
+      // Use measure event to ensure scales have their range updated before
       // any of the elements (including the axes) are drawn.
       const { width, height } = d3.event.detail;
       xScale.range([0, width]);
@@ -41,20 +41,28 @@ d3.select('#plot-area')
           .call(lineSeries);
   });
 
-const chartContainer = d3.select('#chart');
+const chartContainer = d3.select('#chart')
+  .on('draw', () => {
+      // Use group draw event to ensure scales have their domain updated before
+      // any of the elements are drawn (draw events are dispatched in document order).
+      const xExtent = fc.extentLinear()
+        .accessors([d => d.x]);
+      xScale.domain(xExtent(data));
 
+      const yExtent = fc.extentLinear()
+        .accessors([d => d.y]);
+      yScale.domain(yExtent(data));
+  });
+
+// Now handlers are attached, request a redraw
+chartContainer.node()
+  .requestRedraw();
+
+// "Subscribe to updates" to the data
 setInterval(() => {
     data.push(sample(data.length));
 
-    const xExtent = fc.extentLinear()
-        .accessors([d => d.x]);
-    xScale.domain(xExtent(data));
-
-    const yExtent = fc.extentLinear()
-        .accessors([d => d.y]);
-    yScale.domain(yExtent(data));
-
     // As the data has changed, request a redraw
     chartContainer.node()
-        .requestRedraw();
+      .requestRedraw();
 }, 1);

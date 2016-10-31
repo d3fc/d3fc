@@ -1,9 +1,14 @@
+const sample = (d) => ({ x: d / 3, y: Math.sin(d / 3) });
+
+const data = d3.range(50)
+    .map(sample);
+
 const xScale = d3.scaleLinear();
 
 const yScale = d3.scaleLinear();
 
 d3.select('#x-axis-top')
-  .on('resize', (d, i, nodes) => {
+  .on('measure', (d, i, nodes) => {
       const { width, height } = d3.event.detail;
       d3.select(nodes[i])
         .select('svg')
@@ -25,7 +30,7 @@ d3.select('#x-axis-bottom')
   });
 
 d3.select('#y-axis-left')
-  .on('resize', (d, i, nodes) => {
+  .on('measure', (d, i, nodes) => {
       const { width, height } = d3.event.detail;
       d3.select(nodes[i])
         .select('svg')
@@ -46,11 +51,11 @@ d3.select('#y-axis-right')
           .call(yAxis);
   });
 
-const plotAreaContainer = d3.select('#plot-area')
+d3.select('#plot-area')
   .datum([])
-  .on('resize', () => {
-      // Use resize event to ensure scales are updated before
-      // any of the elements (including the axes) are drawn.
+  .on('measure', () => {
+    // Use measure event to ensure scales have their range updated before
+    // any of the elements (including the axes) are drawn.
       const { width, height } = d3.event.detail;
       xScale.range([0, width]);
       yScale.range([height, 0]);
@@ -61,33 +66,32 @@ const plotAreaContainer = d3.select('#plot-area')
           .yScale(yScale);
       d3.select(nodes[i])
           .select('svg')
+          .datum(data)
           .call(lineSeries);
   });
 
-const chartContainer = d3.select('#chart');
+const chartContainer = d3.select('#chart')
+  .on('draw', () => {
+    // Use group draw event to ensure scales have their domain updated before
+    // any of the elements are drawn (draw events are dispatched in document order).
+      const xExtent = fc.extentLinear()
+        .accessors([d => d.x]);
+      xScale.domain(xExtent(data));
 
-const init = () => {
-    const sample = (d) => ({ x: d / 3, y: Math.sin(d / 3) });
+      const yExtent = fc.extentLinear()
+        .accessors([d => d.y]);
+      yScale.domain(yExtent(data));
+  });
 
-    const data = d3.range(50)
-        .map(sample);
+// Now handlers are attached, request a redraw
+chartContainer.node()
+  .requestRedraw();
 
-    setInterval(() => {
-        data.push(sample(data.length));
+// "Subscribe to updates" to the data
+setInterval(() => {
+    data.push(sample(data.length));
 
-        const xExtent = fc.extentLinear()
-            .accessors([d => d.x]);
-        xScale.domain(xExtent(data));
-
-        const yExtent = fc.extentLinear()
-            .accessors([d => d.y]);
-        yScale.domain(yExtent(data));
-
-        plotAreaContainer.datum(data);
-
-        chartContainer.node()
-            .requestRedraw();
-    }, 1);
-};
-
-init();
+    // As the data has changed, request a redraw
+    chartContainer.node()
+      .requestRedraw();
+}, 1);

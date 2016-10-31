@@ -23,13 +23,10 @@ const resize = (element) => {
         return;
     }
     const detail = data.get(element);
-    if (!detail.resized) {
-        return;
-    }
     const node = element.childNodes[0];
     node.setAttribute('width', detail.width);
     node.setAttribute('height', detail.height);
-    const event = new CustomEvent('resize', { detail });
+    const event = new CustomEvent('measure', { detail });
     element.dispatchEvent(event);
 };
 
