@@ -1,0 +1,40 @@
+{
+  "name": "d3fc-chart",
+  "description": "TODO",
+  "license": "MIT",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "axis"
+  ],
+  "homepage": "https://github.com/d3fc/d3fc-chart",
+  "main": "build/d3fc-chart.js",
+  "jsnext:main": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d3fc/d3fc-chart"
+  },
+  "scripts": {
+    "bundle": "d3fc-scripts bundle",
+    "test": "d3fc-scripts test",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.13.0",
+    "d3": "^4.2.5",
+    "d3fc-annotation": "^1.0.2",
+    "d3fc-extent": "^2.2.1",
+    "d3fc-scripts": "^1.4.2",
+    "semantic-release": "^4.3.5",
+    "webshot": "^0.18.0"
+  },
+  "dependencies": {
+    "d3-scale": "^1.0.3",
+    "d3-selection": "^1.0.2",
+    "d3fc-axis": "^1.0.1",
+    "d3fc-data-join": "^3.0.3",
+    "d3fc-element": "^2.0.0",
+    "d3fc-rebind": "^4.1.0",
+    "d3fc-series": "^1.2.0"
+  }
+}
