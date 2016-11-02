@@ -20,7 +20,10 @@ var area = fc.seriesSvgArea()
 var multi = fc.seriesSvgMulti()
   .series([gridlines, area, line]);
 
-var chart = fc.chartSvgCartesian()
+var chart = fc.chartSvgCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear()
+  )
   .xLabel('Value')
   .yLabel('Sine / Cosine')
   .chartLabel('Sine and Cosine')

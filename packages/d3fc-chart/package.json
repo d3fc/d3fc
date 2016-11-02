@@ -32,8 +32,8 @@
     "d3-scale": "^1.0.3",
     "d3-selection": "^1.0.2",
     "d3fc-axis": "^1.0.1",
-    "d3fc-data-join": "^3.0.3",
-    "d3fc-element": "^2.0.0",
+    "d3fc-data-join": "^3.0.5",
+    "d3fc-element": "^3.0.0",
     "d3fc-rebind": "^4.1.0",
     "d3fc-series": "^1.2.0"
   }

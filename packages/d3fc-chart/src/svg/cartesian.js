@@ -1,13 +1,11 @@
 import { select, event } from 'd3-selection';
-import { scaleLinear } from 'd3-scale';
+import { scaleIdentity } from 'd3-scale';
 import { seriesSvgLine } from 'd3fc-series';
 import { axisBottom, axisRight, axisLeft, axisTop } from 'd3fc-axis';
 import { dataJoin } from 'd3fc-data-join';
 import { rebindAll, exclude, prefix, includeMap } from 'd3fc-rebind';
 
-export default (xScale, yScale) => {
-    xScale = xScale || scaleLinear();
-    yScale = yScale || scaleLinear();
+export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
     let yLabel = '';
     let xLabel = '';
@@ -15,6 +13,13 @@ export default (xScale, yScale) => {
     let xOrient = 'bottom';
     let chartLabel = '';
     let plotArea = seriesSvgLine();
+    let xTickFormat = null;
+    let xTickArgs;
+    let xDecorate = () => {};
+    let yTickFormat = null;
+    let yTickArgs;
+    let yDecorate = () => {};
+    let decorate = () => {};
 
     const axisForOrient = (orient) => {
         switch (orient) {
@@ -39,49 +44,35 @@ export default (xScale, yScale) => {
         selection.each((data, index, group) => {
             const container = containerDataJoin(select(group[index]), [data]);
 
-            const yLabelElements = `<div class='y-axis-label' style='width: 1em; display: flex; align-items: center; justify-content: center'>
-                    <div class='label' style='transform: rotateZ(90deg)'></div>
-                </div>`;
-            const yAxisElements = '<d3fc-svg class=\'y-axis\' style=\'width: 3em\'></d3fc-svg>';
-
-            const xLabelElements = `<div class='x-axis-label' style='height: 1em; display: flex; align-items: center; justify-content: center'>
-                    <div class='label'></div>
-                </div>`;
-            const xAxisElements = '<d3fc-svg class=\'x-axis\' style=\'flex: 1\'></d3fc-svg>';
-
-            const xAxisContainer = `<div style='height: 3em; display: flex; flex-direction: column; margin-${yOrient}: 4em'>
-                    ${xOrient === 'bottom' ? xAxisElements : xLabelElements}
-                    ${xOrient === 'bottom' ? xLabelElements : xAxisElements}
-                </div>`;
-
             container.enter()
                 .attr('style', 'display: flex; height: 100%; width: 100%; flex-direction: column')
                 .attr('auto-resize', '')
                 .html(`<div class='chart-label'
-                            style='height: ${chartLabel ? '2' : '0'}em; display: flex; align-items: center; justify-content: center'>
-                          <div class='label'></div>
+                            style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; margin-${yOrient}: 4em'>
                       </div>
-                      ${xOrient === 'top' ? xAxisContainer : ''}
-                      <div style='flex: 1; display: flex; flex-direction: row'>
-                          ${yOrient === 'left' ? yLabelElements : ''}
-                          ${yOrient === 'left' ? yAxisElements : ''}
-                          <d3fc-svg class='plot-area' style='flex: 1; overflow: hidden'></d3fc-svg>
-                          ${yOrient === 'right' ? yAxisElements : ''}
-                          ${yOrient === 'right' ? yLabelElements : ''}
-                      </div>
-                      ${xOrient === 'bottom' ? xAxisContainer : ''}`);
+                      <div style='flex: 1; display: flex; flex-direction: ${xOrient === 'bottom' ? 'column' : 'column-reverse'}'>
+                          <div style='flex: 1; display: flex; flex-direction: ${yOrient === 'right' ? 'row' : 'row-reverse'}'>
+                              <d3fc-svg class='plot-area' style='flex: 1; overflow: hidden'></d3fc-svg>
+                              <d3fc-svg class='y-axis' style='width: 3em'></d3fc-svg>
+                              <div style='width: 1em; display: flex; align-items: center; justify-content: center'>
+                                  <div class='y-axis-label' style='transform: rotate(90deg)'></div>
+                              </div>
+                          </div>
+                          <d3fc-svg class='x-axis' style='height: 2em; margin-${yOrient}: 4em'></d3fc-svg>
+                          <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; margin-${yOrient}: 4em'></div>
+                      </div>`);
 
-            container.select('.y-axis-label .label')
+            container.select('.y-axis-label')
                 .text(yLabel);
 
-            container.select('.x-axis-label .label')
+            container.select('.x-axis-label')
                 .text(xLabel);
 
-            container.select('.chart-label .label')
+            container.select('.chart-label')
                 .text(chartLabel);
 
             select('.y-axis')
-                .on('resize', (d, i, nodes) => {
+                .on('measure', (d, i, nodes) => {
                     if (yOrient === 'left') {
                         const { width, height } = event.detail;
                         select(nodes[i])
@@ -90,13 +81,18 @@ export default (xScale, yScale) => {
                     }
                 })
                 .on('draw', (d, i, nodes) => {
+                    yAxis.tickFormat(yTickFormat)
+                      .decorate(yDecorate);
+                    if (yTickArgs) {
+                        yAxis.ticks(...yTickArgs);
+                    }
                     select(nodes[i])
                       .select('svg')
                       .call(yAxis.scale(yScale));
                 });
 
             select('.x-axis')
-                .on('resize', (d, i, nodes) => {
+                .on('measure', (d, i, nodes) => {
                     if (xOrient === 'top') {
                         const { width, height } = event.detail;
                         select(nodes[i])
@@ -105,16 +101,21 @@ export default (xScale, yScale) => {
                     }
                 })
                 .on('draw', (d, i, nodes) => {
+                    xAxis.tickFormat(xTickFormat)
+                      .decorate(xDecorate);
+                    if (xTickArgs) {
+                        xAxis.ticks(...xTickArgs);
+                    }
                     select(nodes[i])
                       .select('svg')
                       .call(xAxis.scale(xScale));
                 });
 
             container.select('.plot-area')
-                .on('resize', () => {
-                    const size = event.detail;
-                    xScale.range([0, size.width]);
-                    yScale.range([size.height, 0]);
+                .on('measure', () => {
+                    const { width, height } = event.detail;
+                    xScale.range([0, width]);
+                    yScale.range([height, 0]);
                 })
                 .on('draw', (d, i, nodes) => {
                     plotArea.xScale(xScale)
@@ -123,6 +124,8 @@ export default (xScale, yScale) => {
                       .select('svg')
                       .call(plotArea);
                 });
+
+            decorate(container, data, index);
         });
     };
 
@@ -130,26 +133,45 @@ export default (xScale, yScale) => {
         /range\w*/,   // the scale range is set via the component layout
         /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
     );
-    rebindAll(cartesian, xScale, scaleExclusions, exclude('ticks'), prefix('x'));
-    rebindAll(cartesian, yScale, scaleExclusions, exclude('ticks'), prefix('y'));
+    rebindAll(cartesian, xScale, scaleExclusions, prefix('x'));
+    rebindAll(cartesian, yScale, scaleExclusions, prefix('y'));
 
-    // The scale ticks method is a stateless method that returns (roughly) the number of ticks
-    // requested. This is subtley different from the axis ticks methods that simply stores the given arguments
-    // for invocation of the scale method at some point in the future.
-    // Here we expose the underling scale ticks method in case the user want to generate their own ticks.
-    if (xScale.ticks) {
-        rebindAll(cartesian, xScale, includeMap({'ticks': 'xScaleTicks'}));
-    }
-    if (yScale.ticks) {
-        rebindAll(cartesian, yScale, includeMap({'ticks': 'yScaleTicks'}));
-    }
-
-    var axisExclusions = exclude(
-        'xScale', 'yScale'  // these are set by this components
-    );
-    rebindAll(cartesian, xAxis, axisExclusions, prefix('x'));
-    rebindAll(cartesian, yAxis, axisExclusions, prefix('y'));
-
+    cartesian.xTickFormat = (...args) => {
+        if (!args.length) {
+            return xTickFormat;
+        }
+        xTickFormat = args[0];
+        return cartesian;
+    };
+    cartesian.xTicks = (...args) => {
+        xTickArgs = args;
+        return cartesian;
+    };
+    cartesian.xDecorate = (...args) => {
+        if (!args.length) {
+            return xDecorate;
+        }
+        xDecorate = args[0];
+        return cartesian;
+    };
+    cartesian.yTickFormat = (...args) => {
+        if (!args.length) {
+            return yTickFormat;
+        }
+        yTickFormat = args[0];
+        return cartesian;
+    };
+    cartesian.yTicks = (...args) => {
+        yTickArgs = args;
+        return cartesian;
+    };
+    cartesian.yDecorate = (...args) => {
+        if (!args.length) {
+            return yDecorate;
+        }
+        yDecorate = args[0];
+        return cartesian;
+    };
     cartesian.yOrient = (...args) => {
         if (!args.length) {
             return yOrient;
@@ -198,6 +220,13 @@ export default (xScale, yScale) => {
             return yLabel;
         }
         yLabel = args[0];
+        return cartesian;
+    };
+    cartesian.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return cartesian;
     };
 
