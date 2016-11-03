@@ -1,10 +1,8 @@
-var data = d3.range(50).map(function(d) {
-    return {
-        x: d / 4,
-        y: Math.sin(d / 4),
-        z: Math.cos(d / 4) * 0.7
-    };
-});
+var data = d3.range(50).map((d) => ({
+    x: d / 4,
+    y: Math.sin(d / 4),
+    z: Math.cos(d / 4) * 0.7
+}));
 
 var xExtent = fc.extentLinear()
   .accessors([d => d.x]);

@@ -1,11 +1,12 @@
 {
   "name": "d3fc-chart",
-  "description": "TODO",
+  "description": "A simple cartesian chart component built using various d3fc packages / components.",
   "license": "MIT",
   "keywords": [
     "d3",
     "d3fc",
-    "axis"
+    "chart",
+    "cartesian",
   ],
   "homepage": "https://github.com/d3fc/d3fc-chart",
   "main": "build/d3fc-chart.js",
