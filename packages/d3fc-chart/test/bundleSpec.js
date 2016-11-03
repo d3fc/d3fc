@@ -19,11 +19,13 @@ describe('bundle', () => {
                 './node_modules/d3-selection/build/d3-selection.js',
                 './node_modules/d3fc-data-join/build/d3fc-data-join.js',
                 './node_modules/d3fc-rebind/build/d3fc-rebind.js',
-                './build/d3fc-axis.js'
+                './node_modules/d3fc-series/build/d3fc-series.js',
+                './node_modules/d3fc-axis/build/d3fc-axis.js',
+                './build/d3fc-chart.js'
             ],
             done: (_, win) => {
-                const axis = win.fc.axisBottom();
-                expect(axis).not.toBeUndefined();
+                const chart = win.fc.chartSvgCartesian();
+                expect(chart).not.toBeUndefined();
                 done();
             }
         });

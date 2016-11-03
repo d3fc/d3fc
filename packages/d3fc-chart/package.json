@@ -6,7 +6,7 @@
     "d3",
     "d3fc",
     "chart",
-    "cartesian",
+    "cartesian"
   ],
   "homepage": "https://github.com/d3fc/d3fc-chart",
   "main": "build/d3fc-chart.js",
@@ -25,9 +25,7 @@
     "d3": "^4.2.5",
     "d3fc-annotation": "^1.0.2",
     "d3fc-extent": "^2.2.1",
-    "d3fc-scripts": "^1.4.2",
-    "semantic-release": "^4.3.5",
-    "webshot": "^0.18.0"
+    "semantic-release": "^4.3.5"
   },
   "dependencies": {
     "d3-scale": "^1.0.3",
@@ -36,6 +34,7 @@
     "d3fc-data-join": "^3.0.5",
     "d3fc-element": "^3.0.0",
     "d3fc-rebind": "^4.1.0",
+    "d3fc-scripts": "^1.6.2",
     "d3fc-series": "^1.2.0"
   }
 }
