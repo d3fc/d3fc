@@ -74,7 +74,7 @@ Rendering the following:
 
 <img src="screenshots/cartesian.png"/>
 
-The chart is constructed using a pair of scale (X and Y). The scale configuration properties are rebound (i.e. re-exposed) via the chart component with `x` and `y` prefixes. The chart takes care of layout, and will also re-render if the size of the containing element changes.
+The chart is constructed using a pair of scales. The scale configuration properties are rebound (i.e. re-exposed) via the chart component with `x` and `y` prefixes. The chart takes care of layout, and will also re-render if the size of the containing element changes.
 
 ### Cartesian
 
