@@ -1,37 +1,36 @@
-var width = 500, height = 250;
-var container = d3.select('#decorate-bars')
-    .append('svg')
-    .attr({'width': width, 'height': height});
+var width = 500;
+var height = 250;
+var margin = 10;
+var container = d3.select('#decorate-svg');
 
-var dataGenerator = fc.data.random.financial()
-    .startDate(new Date(2014, 1, 1));
-var data = dataGenerator(20);
+var dataGenerator = fc.randomGeometricBrownianMotion()
+  .steps(15);
+var data = dataGenerator(1);
 
-var xScale = fc.scale.dateTime()
-    .domain(fc.util.extent().fields(['date']).pad(0.1)(data))
-    .range([0, width]);
+var xScale = d3.scaleLinear()
+    .domain([0, data.length])
+    .range([margin, width - margin * 2]);
 
-var yScale = d3.scale.linear()
-    .domain(fc.util.extent().fields(['high', 'low'])(data))
+var yScale = d3.scaleLinear()
+    .domain(fc.extentLinear()(data))
     .range([height, 0]);
 
 // START
-var color = d3.scale.category10();
+var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-var bar = fc.series.bar()
+var svgBar = fc.seriesSvgBar()
     .xScale(xScale)
     .yScale(yScale)
-    .xValue(function(d) { return d.date; })
-    .yValue(function(d) { return d.close; })
-    .decorate(function(s) {
-      s.enter()
-          .select('.bar > path')
-          .style('fill', function(d, i) {
-            return color(i);
-          });
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; })
+    .decorate(function(selection) {
+      selection.enter()
+        .style('fill', function(d, i) {
+          return color(i);
+        });
     });
 // END
 
 container.append('g')
     .datum(data)
-    .call(bar);
+    .call(svgBar);
