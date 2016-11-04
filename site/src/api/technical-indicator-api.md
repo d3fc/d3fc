@@ -97,6 +97,10 @@ structure:
           - title: Bollinger Bands
             level: 3
             content: >+
+              ![Bollinger Bands](screenshots/bollingerBands.png "Bollinger
+              Bands")
+
+
               <a name="indicatorBollingerBands"
               href="#indicatorBollingerBands">#</a>
               fc.**indicatorBollingerBands**()
@@ -154,6 +158,9 @@ structure:
           - title: Elder-Ray
             level: 3
             content: >+
+              ![Elder Ray](screenshots/elderRay.png "Elder Ray")
+
+
               <a name="indicatorElderRay" href="#indicatorElderRay">#</a>
               fc.**indicatorElderRay**()
 
@@ -218,6 +225,9 @@ structure:
           - title: Envelope
             level: 3
             content: >+
+              ![Envelope](screenshots/envelope.png "Envelope")
+
+
               <a name="indicatorEnvelope" href="#indicatorEnvelope">#</a>
               fc.**indicatorEnvelope**()
 
@@ -341,6 +351,9 @@ structure:
           - title: Force Index
             level: 3
             content: >+
+              ![Force Index](screenshots/forceIndex.png "Force Index")
+
+
               <a name="indicatorForceIndex" href="#indicatorForceIndex">#</a>
               fc.**indicatorForceIndex**()
 
@@ -390,6 +403,9 @@ structure:
           - title: MACD
             level: 3
             content: >+
+              ![MACD](screenshots/macd.png "MACD")
+
+
               <a name="indicatorMacd" href="#indicatorMacd">#</a>
               fc.**indicatorMacd**()
 
@@ -456,6 +472,10 @@ structure:
           - title: Relative Strength Index
             level: 3
             content: >+
+              ![Relative Strength Index](screenshots/relativeStrengthIndex.png
+              "Relative Strength Index")
+
+
               <a name="indicatorRelativeStrengthIndex"
               href="#indicatorRelativeStrengthIndex">#</a>
               fc.**indicatorRelativeStrengthIndex**()
@@ -496,6 +516,10 @@ structure:
           - title: Stochastic Oscillator
             level: 3
             content: >
+              ![Stochastic Oscillator](screenshots/stochasticOscillator.png
+              "Stochastic Oscillator")
+
+
               <a name="indicatorStochasticOscillator"
               href="#indicatorStochasticOscillator">#</a>
               fc.**indicatorStochasticOscillator**()

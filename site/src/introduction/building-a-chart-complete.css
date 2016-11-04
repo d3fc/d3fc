@@ -1,0 +1,19 @@
+.bar {
+  fill: #9cf;
+  stroke-width: 0;
+}
+
+.plot-area {
+  background-color: white;
+}
+
+d3fc-svg svg {
+  overflow: visible !important;
+}
+
+.annotation-line > line {
+  fill-opacity: 0;
+  stroke: #999;
+  stroke-width: 1;
+  stroke-dasharray: 3, 3;
+}

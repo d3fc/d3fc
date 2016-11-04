@@ -28,6 +28,12 @@ structure:
         <td><a href="#multi"><img src="screenshots/multi.png"/></a></td>
       </tr>
 
+      <tr>
+        <td><a href="#grouped"><img src="screenshots/grouped.png"/></a></td>
+        <td><a href="#stacked"><img src="screenshots/stacked.png"/></a></td>
+        <td></td>
+      </tr>
+
       </table>
 
     children:
@@ -53,6 +59,10 @@ structure:
           * [Errorbar](#errorbar)
 
           * [Multi](#multi)
+
+          * [Grouped](#grouped)
+
+          * [Stacked](#stacked)
 
 
           This packages contains a number of D3 components that render various
@@ -152,7 +162,7 @@ structure:
 
 
               The series components implement the decorate pattern by exposing a
-              `decorate` property which is passed the data join selection , or
+              `decorate` property which is passed the data join selection, or
               canvas context, used to render the component. This allows users of
               the component to perform additional rendering logic.
 
@@ -1180,6 +1190,22 @@ structure:
               not specified, returns the current mapping function.
 
 
+              <a name="seriesMulti_decorate" href="#seriesMulti_decorate">#</a>
+              *seriesMulti*.**decorate**(*decorateFunc*)
+
+
+              If *decorateFunc* is specified, sets the decorator function to the
+              specified function, and returns this series. If *decorateFunc* is
+              not specified, returns the current decorator function.
+
+
+              With the SVG multi series, the decorate function is invoked once,
+              with the data join selection that creates the outer container.
+              With the canvas multi series the decorate function is invoked for
+              each of the associated series.
+
+
+
               #### Canvas specific properties
 
 
@@ -1189,6 +1215,205 @@ structure:
 
               If *ctx* is specified, sets the canvas context and returns this
               series. If *ctx* is not specified, returns the current context.
+          - title: Grouped
+            level: 3
+            content: >
+              ![](screenshots/grouped.png)
+
+
+              <a name="seriesSvgGrouped" href="#seriesSvgGrouped">#</a>
+              fc.**seriesSvgGrouped**(*adaptedSeries*)  
+
+              <a name="seriesCanvasGrouped" href="#seriesCanvasGrouped">#</a>
+              fc.**seriesCanvasGrouped**(*adaptedSeries*)
+
+
+              Constructs a new grouped series by adapting the given series. This
+              allows the rendering of grouped bars, boxplots and point series
+              etc ...
+
+
+              The grouped series is responsible for applying a suitable offset,
+              along the cross-axis, to create clustered groups of bars (or
+              points etc ...). The grouped series rebinds all of the properties
+              of the adapted series.
+
+
+              The following example shows the construction of a grouped bar
+              series, where the scales and value accessors are configured:
+
+
+              ```javascript
+
+              var groupedBar = fc.seriesSvgGrouped(fc.seriesSvgBar())
+                  .xScale(x)
+                  .yScale(y)
+                  .crossValue(d => d[0])
+                  .mainValue(d => d[1]);
+              ```
+
+
+              Rendering a grouped series requires a nested array of data, the
+              default format expected by the grouped series expects each object
+              in the array to have a `values` property with the nested data,
+              however, this can be configured by the `values` accessor.
+
+
+              ```javascript
+
+              [
+                {
+                  "key": "Under 5 Years",
+                  "values": [
+                    { "x": "AL", "y": 310 },
+                    { "x": "AK", "y": 52 },
+                    { "x": "AZ", "y": 515 }
+                  ]
+                },
+                {
+                  "key": "5 to 13 Years",
+                  "values": [
+                    { "x": "AL", "y": 552 },
+                    { "x": "AK", "y": 85 },
+                    { "x": "AZ", "y": 828 }
+                  ]
+                }
+              ]
+
+              ```
+
+
+              The `fc.group` component from the
+              [d3fc-group](https://github.com/d3fc/d3fc-group) package gives an
+              easy way to construct this data from CSV / TSV.
+
+
+              With the data in the correct format, the series is rendered just
+              like the other series types:
+
+
+              ```javascript
+
+              container.append('g')
+                  .datum(series)
+                  .call(groupedBar);
+              ```
+
+
+              And the grouped canvas series is rendered as follows:
+
+
+              ```javascript
+
+              groupedCanvasBar(series);
+
+              ```
+
+
+              #### Common properties
+
+
+              <a name="grouped_groupWidth" href="#grouped_groupWidth">#</a>
+              *grouped*.**groupWidth**(*groupWidthFunc*)  
+
+
+              If *groupWidthFunc* is specified, sets the group width function
+              and returns this series. If *groupWidthFunc* is not specified,
+              returns the current group width function. The group width function
+              is invoked with an array of values, in the screen coordinate
+              system, and should return the desired width for the groups. It
+              defaults to `fractionalBarWidth(0.75)`.
+
+
+              <a name="grouped_subPadding" href="#grouped_subPadding">#</a>
+              *grouped*.**subPadding**(*padding*)  
+
+
+              If *padding* is specified, sets the sub-padding to the specified
+              value which must be in the range [0, 1]. If *padding* is not
+              specified, returns the current sub-padding. The sub-padding value
+              determines the padding between the bars within each group. 
+          - title: Stacked
+            level: 3
+            content: >
+              ![](screenshots/stacked.png)
+
+
+              There is not an explicit series type for rendering stacked charts,
+              it is a straightforward task to render stacked series with the
+              existing components. This section illustrates this with a few
+              examples.
+
+
+              The following code demonstrates how to render a stacked bar series
+              to an SVG. Note that the axis configuration is omitted for
+              clarity:
+
+
+              ```javascript
+
+              var stack = d3.stack()
+                  .keys(Object.keys(data[0]).filter(k => k !== 'State'));
+
+              var series = stack(data);
+
+
+              var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+
+              var barSeries = fc.seriesSvgBar()
+                  .xScale(x)
+                  .yScale(y)
+                  .crossValue(d => d.data.State)
+                  .mainValue(d => d[1])
+                  .baseValue(d => d[0])
+                  .decorate((group, data, index) => {
+                      group.selectAll('path')
+                          .attr('fill', color(index));
+                  })
+
+              var join = fc.dataJoin('g', 'series');
+
+
+              join(container, series)
+                  .call(barSeries);
+              ```
+
+
+              The [d3
+              stack](https://github.com/d3/d3-shape/blob/master/README.md#stack)
+              component is used to stack the data obtained from the d3 CSV
+              parser. The SVG bar series value accessors are configured based on
+              the output of the stack component. Finally a d3fc datajoin is used
+              to render each row of data using the bar series.
+
+
+              With canvas, the code is very similar, with a for each loop used
+              in place of the data join:
+
+
+              ```javascript
+
+              var canvasBarSeries = fc.seriesCanvasBar()
+                  .xScale(x)
+                  .yScale(y)
+                  .crossValue(d => d.data.State)
+                  .mainValue(d => d[1])
+                  .baseValue(d => d[0])
+                  .context(ctx);
+
+              series.forEach(function(s, i) {
+                  canvasBarSeries
+                      .decorate(function(ctx) {
+                          ctx.fillStyle = color(i);
+                      })(s);
+              });
+
+              ```
+
+
+              In both cases, the decorate pattern is used to set the color for
+              each bar series.
 sidebarContents:
   - title: General API
     id: general-api
@@ -1212,6 +1437,10 @@ sidebarContents:
     id: errorbar
   - title: Multi
     id: multi
+  - title: Grouped
+    id: grouped
+  - title: Stacked
+    id: stacked
 layout: api
 section: api
 title: Series
