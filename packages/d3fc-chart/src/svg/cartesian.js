@@ -71,7 +71,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
             container.select('.chart-label')
                 .text(chartLabel);
 
-            select('.y-axis')
+            container.select('.y-axis')
                 .on('measure', (d, i, nodes) => {
                     if (yOrient === 'left') {
                         const { width, height } = event.detail;
@@ -91,7 +91,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                       .call(yAxis.scale(yScale));
                 });
 
-            select('.x-axis')
+            container.select('.x-axis')
                 .on('measure', (d, i, nodes) => {
                     if (xOrient === 'top') {
                         const { width, height } = event.detail;
