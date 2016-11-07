@@ -7,10 +7,6 @@ export default class extends HTMLElement {
     // eslint-disable-next-line
     constructor(_) { return (_ = super(_)), _; }
 
-    connectedCallback() {
-        requestRedraw(this);
-    }
-
     requestRedraw() {
         requestRedraw(this);
     }
