@@ -10,9 +10,11 @@ export default class extends HTMLElement {
     requestRedraw() {
         requestRedraw(this);
     }
+
     get autoResize() {
         return this.hasAttribute('auto-resize') && this.getAttribute('auto-resize') !== 'false';
     }
+
     set autoResize(autoResize) {
         if (autoResize && !this.autoResize) {
             this.setAttribute('auto-resize', '');
@@ -21,6 +23,7 @@ export default class extends HTMLElement {
         }
         this.updateAutoResize();
     }
+
     updateAutoResize() {
         if (this.autoResize) {
             if (this.__autoResizeListener__ == null) {
@@ -31,9 +34,11 @@ export default class extends HTMLElement {
             removeEventListener('resize', this.__autoResizeListener__);
         }
     }
+
     static get observedAttributes() {
         return ['auto-resize'];
     }
+
     attributeChangedCallback(name) {
         switch (name) {
         case 'auto-resize':
