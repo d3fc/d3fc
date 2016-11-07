@@ -11,26 +11,26 @@ structure:
       <table>
 
       <tr>
-        <td><a href="#boxplot"><img src="screenshots/boxplot.png"/></a></td>
-        <td><a href="#candlestick"><img src="screenshots/candlestick.png"/></a></td>
-        <td><a href="#line"><img src="screenshots/line.png"/></a></td>
+        <td><a href="#boxplot"><img src="d3fc-series/screenshots/boxplot.png"/></a></td>
+        <td><a href="#candlestick"><img src="d3fc-series/screenshots/candlestick.png"/></a></td>
+        <td><a href="#line"><img src="d3fc-series/screenshots/line.png"/></a></td>
       </tr>
 
       <tr>
-        <td><a href="#ohlc"><img src="screenshots/ohlc.png"/></a></td>
-        <td><a href="#area"><img src="screenshots/area.png"/></a></td>
-        <td><a href="#point"><img src="screenshots/point.png"/></a></td>
+        <td><a href="#ohlc"><img src="d3fc-series/screenshots/ohlc.png"/></a></td>
+        <td><a href="#area"><img src="d3fc-series/screenshots/area.png"/></a></td>
+        <td><a href="#point"><img src="d3fc-series/screenshots/point.png"/></a></td>
       </tr>
 
       <tr>
-        <td><a href="#bar"><img src="screenshots/bar.png"/></a></td>
-        <td><a href="#errorbar"><img src="screenshots/errorbar.png"/></a></td>
-        <td><a href="#multi"><img src="screenshots/multi.png"/></a></td>
+        <td><a href="#bar"><img src="d3fc-series/screenshots/bar.png"/></a></td>
+        <td><a href="#errorbar"><img src="d3fc-series/screenshots/errorbar.png"/></a></td>
+        <td><a href="#multi"><img src="d3fc-series/screenshots/multi.png"/></a></td>
       </tr>
 
       <tr>
-        <td><a href="#grouped"><img src="screenshots/grouped.png"/></a></td>
-        <td><a href="#stacked"><img src="screenshots/stacked.png"/></a></td>
+        <td><a href="#grouped"><img src="d3fc-series/screenshots/grouped.png"/></a></td>
+        <td><a href="#stacked"><img src="d3fc-series/screenshots/stacked.png"/></a></td>
         <td></td>
       </tr>
 
@@ -191,7 +191,7 @@ structure:
               ```
 
 
-              <img src="screenshots/decorate.png"/>
+              <img src="d3fc-series/screenshots/decorate.png"/>
 
 
               Here is the same example for a canvas bar series; the way that the
@@ -217,7 +217,7 @@ structure:
               ```
 
 
-              <img src="screenshots/decorate-canvas.png"/>
+              <img src="d3fc-series/screenshots/decorate-canvas.png"/>
 
 
               Decoration can also be used to add extra elements to the series.
@@ -245,7 +245,7 @@ structure:
               ```
 
 
-              <img src="screenshots/decorate-append.png"/>
+              <img src="d3fc-series/screenshots/decorate-append.png"/>
 
 
               With canvas, you can also perform additional rendering to the
@@ -271,7 +271,7 @@ structure:
               ```
 
 
-              <img src="screenshots/decorate-append-canvas.png"/>
+              <img src="d3fc-series/screenshots/decorate-append-canvas.png"/>
 
 
               #### Orientation
@@ -438,7 +438,7 @@ structure:
           - title: Line
             level: 3
             content: >
-              ![](screenshots/line.png)
+              ![](d3fc-series/screenshots/line.png))
 
 
               <a name="seriesSvgLine" href="#seriesSvgLine">#</a>
@@ -517,7 +517,7 @@ structure:
           - title: Point
             level: 3
             content: >
-              ![](screenshots/point.png)
+              ![](d3fc-series/screenshots/point.png))
 
 
               <a name="seriesSvgPoint" href="#seriesSvgPoint">#</a>
@@ -610,7 +610,7 @@ structure:
           - title: Area
             level: 3
             content: >
-              ![](screenshots/area.png)
+              ![](d3fc-series/screenshots/area.png))
 
 
               <a name="seriesSvgArea" href="#seriesSvgArea">#</a>
@@ -688,7 +688,7 @@ structure:
           - title: Bar
             level: 3
             content: >+
-              ![](screenshots/bar.png)
+              ![](d3fc-series/screenshots/bar.png))
 
 
               <a name="seriesSvgBar" href="#seriesSvgBar">#</a>
@@ -769,7 +769,7 @@ structure:
           - title: Candlestick
             level: 3
             content: >
-              ![](screenshots/candlestick.png)
+              ![](d3fc-series/screenshots/candlestick.png))
 
 
               <a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a>
@@ -849,7 +849,7 @@ structure:
           - title: OHLC
             level: 3
             content: >
-              ![](screenshots/ohlc.png)
+              ![](d3fc-series/screenshots/ohlc.png))
 
 
               <a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a>
@@ -935,7 +935,7 @@ structure:
           - title: Boxplot
             level: 3
             content: >
-              ![](screenshots/boxplot.png)
+              ![](d3fc-series/screenshots/boxplot.png))
 
 
               <a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a>
@@ -1044,7 +1044,7 @@ structure:
           - title: Errorbar
             level: 3
             content: >
-              ![](screenshots/errorbar.png)
+              ![](d3fc-series/screenshots/errorbar.png))
 
 
               <a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a>
@@ -1144,7 +1144,7 @@ structure:
           - title: Multi
             level: 3
             content: >
-              ![](screenshots/multi.png)
+              ![](d3fc-series/screenshots/multi.png))
 
 
               <a name="seriesSvgMulti" href="#seriesSvgMulti">#</a>
@@ -1218,7 +1218,7 @@ structure:
           - title: Grouped
             level: 3
             content: >
-              ![](screenshots/grouped.png)
+              ![](d3fc-series/screenshots/grouped.png))
 
 
               <a name="seriesSvgGrouped" href="#seriesSvgGrouped">#</a>
@@ -1336,7 +1336,7 @@ structure:
           - title: Stacked
             level: 3
             content: >
-              ![](screenshots/stacked.png)
+              ![](d3fc-series/screenshots/stacked.png))
 
 
               There is not an explicit series type for rendering stacked charts,

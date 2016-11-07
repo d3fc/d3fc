@@ -53,7 +53,7 @@ structure:
           Which renders as follows:
 
 
-          ![](discontinuous-scale.png)
+          ![](d3fc-discontinuous-scale/discontinuous-scale.png))
 
 
           There are various different discontinuity providers which can be used

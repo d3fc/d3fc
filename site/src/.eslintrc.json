@@ -1,5 +1,7 @@
 {
-  "extends": "../../node_modules/d3fc-scripts/.eslintrc.json",
+  "parserOptions": {
+    "ecmaVersion": 5
+  },
   "rules": {
     "indent": ["error", 2]
   }

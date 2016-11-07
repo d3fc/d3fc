@@ -1,0 +1,8 @@
+#stacked-chart .legend-container {
+  position: absolute;
+  bottom: 0;
+	top: 10px;
+	left: auto;
+  width: 410px;
+  height: 120px;
+}

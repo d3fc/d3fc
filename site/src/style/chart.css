@@ -1,14 +1,31 @@
+.chart-label {
+    font-size: 20px;
+    line-height: normal;
+    color: black;
+}
+
 .chart {
   margin: 10px 0;
   width: 100%;
   height: 250px;
 }
 
-.chart > svg {
-  margin-left: auto;
-  margin-right: auto;
+.chart svg {
+  overflow: visible !important;
 }
 
 .chart.large {
   height: 400px;
+}
+
+.chart-label {
+  font-size: 1.5em;
+}
+
+.plot-area {
+  background-color: white;
+}
+
+.y-axis-label {
+  white-space: nowrap;
 }

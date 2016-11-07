@@ -48,7 +48,7 @@ structure:
               ```
 
 
-              <img src="screenshots/rotate.png"/>
+              <img src="d3fc-axis/screenshots/rotate.png"/>
 
 
               Or alternatively the tick index can be used to offset alternating
@@ -70,7 +70,7 @@ structure:
               ```
 
 
-              <img src="screenshots/offset.png"/>
+              <img src="d3fc-axis/screenshots/offset.png"/>
 
 
               In the example below, the value bound to each tick is used to
@@ -95,7 +95,7 @@ structure:
               ```
 
 
-              <img src="screenshots/color.png"/>
+              <img src="d3fc-axis/screenshots/color.png"/>
 sidebarContents: []
 layout: api
 section: api

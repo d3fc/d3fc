@@ -11,7 +11,8 @@
     <script src="{{baseurl}}/lib/d3.min.js"></script>
     <script src="{{baseurl}}/lib/jquery.min.js"></script>
     <script src="{{baseurl}}/lib/bootstrap.min.js"></script>
-    <script src="{{baseurl}}/lib/d3fc.js"></script>
+    <script src="{{baseurl}}/lib/d3fc.min.js"></script>
+    <script src="{{baseurl}}/lib/d3-legend.min.js"></script>
     <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-96x96.png" sizes="96x96">
@@ -35,7 +36,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="{{#is section 'introduction'}}active{{/is}}"><a href="{{baseurl}}/introduction/getting-started.html">Documentation</a></li>
                 <li class="{{#is section 'api'}}active{{/is}}"><a href="{{baseurl}}/api/{{#first api}}{{name}}{{/first}}.html">API</a></li>
-                <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{baseurl}}/examples">Examples</a></li>
+                <li class="{{#is layout 'example'}}active{{/is}}"><a href="{{baseurl}}/examples/bubble/">Examples</a></li>
                 <li><a href="{{package.homepage}}">GitHub</a></li>
               </ul>
             </div>

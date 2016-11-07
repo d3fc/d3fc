@@ -14,7 +14,7 @@ globalData.baseurl = globalData.dev
 
 const config = {
     destinationFolder: '../dist',
-    filePattern: ['introduction/**/*.md', '**/index.html', 'examples/**/*.md', 'api/**/*.md'],
+    filePattern: ['introduction/**/*.md', 'index.html', 'examples/**/*.md', 'api/**/*.md'],
     globalData: globalData,
     sourceFolder: 'site/src'
 };
