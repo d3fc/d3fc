@@ -125,6 +125,8 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                       .call(plotArea);
                 });
 
+            container.each((_, index, group) => group[index].requestRedraw());
+
             decorate(container, data, index);
         });
     };
