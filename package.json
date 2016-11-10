@@ -62,7 +62,7 @@
     "copyfiles": "^1.0.0",
     "d3fc-scripts": "^1.2.1",
     "bootstrap-sass": "^3.3.7",
-    "fs-promise": "^0.5.0",
+    "fs-promise": "^1.0.0",
     "glob": "^7.0.5",
     "gray-matter": "^2.0.2",
     "handlebars": "^4.0.5",
