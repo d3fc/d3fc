@@ -115,17 +115,16 @@ describe('dataJoin', () => {
 
     describe('when d3-transition included and a custom transition is specified', () => {
         const timeout = 20;
-        let customTransition;
+        let join;
 
         beforeEach(() => {
             selection.prototype.transition = selectionTransition;
-            customTransition = container.transition()
+            join = dataJoin();
+            container = container.transition()
                 .duration(1);
         });
 
         it('should apply a fade in transition', (done) => {
-            const join = dataJoin()
-                .transition(customTransition);
             const update = join(container, data);
             const node = update.enter().node();
 
@@ -139,10 +138,22 @@ describe('dataJoin', () => {
             }, timeout);
         });
 
+        it('should apply transitions to the update selection', (done) => {
+            const update = join(container, [1]);
+            const node = update.node();
+
+            update.style('opacity', (d) => d);
+            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+
+            setTimeout(() => {
+                expect(node.style.opacity).toBe('1');
+                done();
+            }, timeout);
+        });
+
         it('should apply a fade out transition', (done) => {
-            const join = dataJoin()
-                .transition(customTransition);
-            container.append('g')
+            container.selection()
+                .append('g')
                 .style('opacity', '1');
             const update = join(container, []);
             const node = update.exit().node();
@@ -158,9 +169,8 @@ describe('dataJoin', () => {
         });
 
         it('should return the untransitioned exit selection', () => {
-            const join = dataJoin()
-                .transition(customTransition);
-            container.append('g')
+            container.selection()
+                .append('g')
                 .style('opacity', '1');
             const update = join(container, []);
 
@@ -173,9 +183,8 @@ describe('dataJoin', () => {
         });
 
         it('should allow the transition to be disabled', () => {
-            customTransition.duration(0);
-            const join = dataJoin()
-                .transition(customTransition);
+            container = container.selection();
+
             const update = join(container, data);
             const node = update.enter().node();
 

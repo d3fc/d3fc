@@ -18,10 +18,14 @@ export default (element, className) => {
     element = element || 'g';
 
     let key = (_, i) => i;
-    let transition = null;
 
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
+
+        const transition = container.selection ? container : null;
+        if (transition) {
+            container = container.selection();
+        }
 
         const selected = container.selectAll((d, i, nodes) =>
               Array.from(nodes[i].childNodes)
@@ -40,9 +44,8 @@ export default (element, className) => {
         update = update.merge(enter);
 
         // if transitions are enabled apply a default fade in/out transition
-        const transitionsAvailable = selection.prototype.transition != null;
-        const trasitionHasNonZeroDuration = transition == null || transition.duration() > 0;
-        if (transitionsAvailable && trasitionHasNonZeroDuration) {
+        if (transition) {
+            update = update.transition(transition);
             enter.style('opacity', effectivelyZero)
                 .transition(transition)
                 .style('opacity', 1);
@@ -78,13 +81,6 @@ export default (element, className) => {
             return key;
         }
         key = args[0];
-        return dataJoin;
-    };
-    dataJoin.transition = (...args) => {
-        if (!args.length) {
-            return transition;
-        }
-        transition = args[0];
         return dataJoin;
     };
 

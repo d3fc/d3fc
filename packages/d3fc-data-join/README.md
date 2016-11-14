@@ -60,27 +60,34 @@ import { transition } from 'd3-transition';
 const quickTransition = transition()
   .duration(300);
 
-const join = dataJoin('li', 'animal')
+const join = dataJoin('li', 'animal');
+
+const container = select('ul')
   .transition(quickTransition);
 
-join(select('ul'), ['Aardvark', 'Beaver', 'Cat'])
+join(container, ['Aardvark', 'Beaver', 'Cat'])
   .text(d => d);
 ```
 
-To disable the default transition (only required if `d3-transition` is available), explicitly set a transition with a zero duration -
+To disable transitions, explicitly retrieve the selection from the transition -
 
 ```js
 import { dataJoin } from 'd3fc-data-join';
 import { select } from 'd3-selection';
 import { transition } from 'd3-transition';
 
-const zeroDurationTransition = transition()
-  .duration(0);
+const quickTransition = transition()
+  .duration(300);
 
-const join = dataJoin('li', 'animal')
-  .transition(zeroDurationTransition);
+const join = dataJoin('li', 'animal');
 
-join(select('ul'), ['Aardvark', 'Beaver', 'Cat'])
+const root = select('body')
+  .transition(quickTransition);
+
+const container = root.select('ul')
+  .selection();
+
+join(container, ['Aardvark', 'Beaver', 'Cat'])
   .text(d => d);
 ```
 
@@ -99,7 +106,3 @@ Set the class name used to select elements and applied to inserted elements. Def
 <a name="dataJoin_key" href="#dataJoin_key">#</a> *dataJoin*.**key**(*keyFunc*)
 
 Specifies the key function used by the data-join. Defaults to index-based. Equivalent to specifying a `key` argument when calling [`selection.data()`](https://github.com/d3/d3-selection#selection_data).
-
-<a name="dataJoin_transition" href="#dataJoin_transition">#</a> *dataJoin*.**transition**(*transition*)
-
-Specifies the transition to be used if `d3-transition` is available. Defaults to `null` which uses the default transition,`. Equivalent to specifying a `key` argument when calling `[selection.data()](https://github.com/d3/d3-selection#selection_data)`.
