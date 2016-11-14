@@ -50,7 +50,7 @@ update.enter()
 
 ```
 
-If `d3-transition` is available, new nodes will have a fade-in transition applied and removed nodes will have a fade-out transition applied. The transition timings can be controlled from the node selection passed in or one of the ancestors there of.
+If `d3-transition` is available, new nodes will have a fade-in transition applied and removed nodes will have a fade-out transition applied. The transition timings can be controlled from the container selection passed in or by explicitly setting [`transition`](#dataJoin_transition).
 
 ```js
 import { dataJoin } from 'd3fc-data-join';
@@ -69,7 +69,7 @@ join(container, ['Aardvark', 'Beaver', 'Cat'])
   .text(d => d);
 ```
 
-To disable transitions, explicitly retrieve the selection from the transition -
+To disable transitions, explicitly retrieve the selection from the transition before passing it in -
 
 ```js
 import { dataJoin } from 'd3fc-data-join';
@@ -106,3 +106,7 @@ Set the class name used to select elements and applied to inserted elements. Def
 <a name="dataJoin_key" href="#dataJoin_key">#</a> *dataJoin*.**key**(*keyFunc*)
 
 Specifies the key function used by the data-join. Defaults to index-based. Equivalent to specifying a `key` argument when calling [`selection.data()`](https://github.com/d3/d3-selection#selection_data).
+
+<a name="dataJoin_transition" href="#dataJoin_transition">#</a> *dataJoin*.**transition**(*transition*)
+
+Specifies the transition to be used if an implicit transition is not supplied as the container. Defaults to `null` which disables transitions.

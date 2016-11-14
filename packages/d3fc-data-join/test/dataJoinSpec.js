@@ -1,5 +1,6 @@
 import { select, selection } from 'd3-selection';
 import { transition } from 'd3-transition';
+import { easeLinear } from 'd3-ease';
 import dataJoin from '../src/dataJoin';
 
 describe('dataJoin', () => {
@@ -190,6 +191,40 @@ describe('dataJoin', () => {
 
             expect(node.style.opacity).toBe('');
             expect(node.parentNode).not.toBe(null);
+        });
+
+        it('should use explicit transition', (done) => {
+            join.transition(container);
+            container = container.selection();
+
+            const update = join(container, data);
+            const node = update.enter().node();
+
+            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(node.parentNode).not.toBe(null);
+
+            setTimeout(() => {
+                expect(node.style.opacity).toBe('1');
+                expect(node.parentNode).not.toBe(null);
+                done();
+            }, timeout);
+        });
+
+        it('should use implicit rather than explicit transition', (done) => {
+            join.transition(transition().duration(timeout * 10).ease(easeLinear));
+            container = container.selection();
+
+            const update = join(container, data);
+            const node = update.enter().node();
+
+            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(node.parentNode).not.toBe(null);
+
+            setTimeout(() => {
+                expect(node.style.opacity).not.toBe('1');
+                expect(node.parentNode).not.toBe(null);
+                done();
+            }, timeout);
         });
     });
 });

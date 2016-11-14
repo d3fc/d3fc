@@ -18,12 +18,13 @@ export default (element, className) => {
     element = element || 'g';
 
     let key = (_, i) => i;
+    let explicitTransition = null;
 
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
 
-        const transition = container.selection ? container : null;
-        if (transition) {
+        const implicitTransition = container.selection ? container : null;
+        if (implicitTransition) {
             container = container.selection();
         }
 
@@ -44,6 +45,7 @@ export default (element, className) => {
         update = update.merge(enter);
 
         // if transitions are enabled apply a default fade in/out transition
+        const transition = implicitTransition || explicitTransition;
         if (transition) {
             update = update.transition(transition);
             enter.style('opacity', effectivelyZero)
@@ -81,6 +83,13 @@ export default (element, className) => {
             return key;
         }
         key = args[0];
+        return dataJoin;
+    };
+    dataJoin.transition = (...args) => {
+        if (!args.length) {
+            return explicitTransition;
+        }
+        explicitTransition = args[0];
         return dataJoin;
     };
 
