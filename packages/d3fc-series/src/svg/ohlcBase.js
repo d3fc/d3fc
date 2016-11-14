@@ -12,6 +12,11 @@ export default (pathGenerator, seriesName) => {
         (values) => 'translate(' + values.cross + ', ' + values.high + ')';
 
     const candlestick = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, group) => {
 
             const filteredData = data.filter(base.defined);

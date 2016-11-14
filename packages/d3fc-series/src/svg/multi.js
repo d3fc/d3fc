@@ -12,6 +12,11 @@ export default () => {
     const join = dataJoin('g', 'multi');
 
     const multi = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         const mapping = base.mapping();
         const series = base.series();
         const xScale = base.xScale();

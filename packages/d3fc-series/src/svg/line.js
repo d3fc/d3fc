@@ -16,6 +16,11 @@ export default () => {
     const join = dataJoin('path', 'line');
 
     const line = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, group) => {
             const path = join(select(group[index]), [data]);
             path.attr('d', lineData)

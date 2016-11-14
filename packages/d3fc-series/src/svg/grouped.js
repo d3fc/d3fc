@@ -11,6 +11,11 @@ export default (series) => {
     const join = dataJoin('g', 'grouped');
 
     const grouped = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, group) => {
             base.configureOffsetScale(data);
 

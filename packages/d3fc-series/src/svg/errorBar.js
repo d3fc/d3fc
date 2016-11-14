@@ -16,6 +16,11 @@ export default () => {
         .value(0);
 
     const errorBar = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, group) => {
 
             const filteredData = data.filter(base.defined);

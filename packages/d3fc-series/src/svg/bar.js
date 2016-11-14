@@ -25,6 +25,11 @@ export default () => {
         'translate(' + origin[0] + ', ' + origin[1] + ')';
 
     const bar = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, group) => {
 
             const orient = base.orient();

@@ -14,6 +14,11 @@ export default () => {
     const join = dataJoin('path', 'area');
 
     const area = (selection) => {
+
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, group) => {
 
             const projectedData = data.map(base.values);
