@@ -48,8 +48,8 @@ export default function() {
             xIdentity.range(xScale.range());
             yIdentity.range(yScale.range());
 
-            point.xValue(x)
-                .yValue(y);
+            point.crossValue(x)
+                .mainValue(y);
 
             horizontalLine.value(y);
 
