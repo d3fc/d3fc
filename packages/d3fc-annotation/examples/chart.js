@@ -33,6 +33,4 @@ function render() {
     if (typeof renderComponent === 'function') {
         renderComponent();
     }
-
-    requestAnimationFrame(render);
 }

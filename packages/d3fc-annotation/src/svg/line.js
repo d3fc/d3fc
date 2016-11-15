@@ -16,6 +16,10 @@ export default () => {
 
     const instance = (selection) => {
 
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         if (orient !== 'horizontal' && orient !== 'vertical') {
             throw new Error('Invalid orientation');
         }
@@ -65,7 +69,7 @@ export default () => {
                 .attr('dy', textOffsetDeltaY);
 
             // Update
-            g.classed(orient, true);
+            g.attr('class', `annotation-line ${orient}`);
 
             // translate the parent container to the left hand edge of the annotation
             g.attr('transform', containerTransform);

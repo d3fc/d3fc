@@ -35,6 +35,10 @@ export default function() {
 
     const instance = (selection) => {
 
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         selection.each((data, index, nodes) => {
 
             const g = join(select(nodes[index]), data);

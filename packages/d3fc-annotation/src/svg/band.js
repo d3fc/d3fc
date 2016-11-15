@@ -23,6 +23,10 @@ export default () => {
 
     var instance = (selection) => {
 
+        if (selection.selection) {
+            join.transition(selection);
+        }
+
         if (orient !== 'horizontal' && orient !== 'vertical') {
             throw new Error('Invalid orientation');
         }
@@ -55,7 +59,7 @@ export default () => {
                 .append('path')
                 .classed('band', true);
 
-            g.classed(orient, true)
+            g.attr('class', `annotation-band ${orient}`)
                 .attr('transform', containerTransform)
                 .select('path')
                 // the path generator is being used to render a single path, hence

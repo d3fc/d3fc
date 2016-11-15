@@ -19,6 +19,13 @@ export default () => {
 
     const instance = (selection) => {
 
+        if (selection.selection) {
+            xContainerJoin.transition(selection);
+            yContainerJoin.transition(selection);
+            xJoin.transition(selection);
+            yJoin.transition(selection);
+        }
+
         selection.each((data, index, nodes) => {
 
             const container = select(nodes[index]);
@@ -27,7 +34,7 @@ export default () => {
             const yScale = yTicks.scale();
 
             const xContainer = xContainerJoin(container, [xData])
-                .classed('annotation-gridline', true)
+                .attr('class', 'annotation-gridline')
                 .style('stroke', '#bbb');
             const xData = xTicks();
             const xLines = xJoin(xContainer, xData);
@@ -40,7 +47,7 @@ export default () => {
             xDecorate(xLines, xData, index);
 
             const yContainer = yContainerJoin(container, [xData])
-                .classed('annotation-gridline', true)
+                .attr('class', 'annotation-gridline')
                 .style('stroke', '#bbb');
             const yData = yTicks();
             const yLines = yJoin(yContainer, yData);

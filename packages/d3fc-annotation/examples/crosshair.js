@@ -30,6 +30,7 @@ function renderComponent() {
       .on('mousemove', function() {
           var point = d3.mouse(this);
           data[0] = { x: point[0], y: point[1] };
+          render();
       });
 }
 
