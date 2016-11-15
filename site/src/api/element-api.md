@@ -23,7 +23,7 @@ structure:
           * [&lt;d3fc-group&gt;](#d3fc-group)
 
         children:
-          - title: '&lt;d3fc-svg&gt;'
+          - title: <d3fc-svg>
             level: 3
             content: >
               ### &lt;d3fc-canvas&gt;
@@ -105,7 +105,7 @@ structure:
               It should be noted that `requestRedraw` is asynchronous. It does
               not directly invoke the draw event so any errors thrown in the
               event handler can not be caught.
-          - title: '&lt;d3fc-group&gt;'
+          - title: <d3fc-group>
             level: 3
             content: >
               An element with no visual representation that is designed to group
@@ -193,10 +193,10 @@ structure:
               handlers if you wish to create an animation. The redraw will be
               scheduled for the subsequent animation frame.
 sidebarContents:
-  - title: '&lt;d3fc-svg&gt;'
-    id: lt-d3fc-svg-gt
-  - title: '&lt;d3fc-group&gt;'
-    id: lt-d3fc-group-gt
+  - title: <d3fc-svg>
+    id: d3fc-svg
+  - title: <d3fc-group>
+    id: d3fc-group
   - title: Events
     id: events
 layout: api

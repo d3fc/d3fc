@@ -1,5 +1,7 @@
 import changeCase from 'change-case';
+import { AllHtmlEntities } from 'html-entities';
 
+const entities = new AllHtmlEntities();
 const any = '\\n|\\r|.';
 const title = `(.+)`;
 const hashes = level => Array(level).fill('#').join('');
@@ -31,7 +33,7 @@ function parseBlock(level, content, title, options) {
     return children;
   } else {
     const block = {
-      title,
+      title: entities.decode(title),
       level: level - 1,
       content: (
         children.length
