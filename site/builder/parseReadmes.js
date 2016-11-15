@@ -13,16 +13,22 @@ const createBlockPattern = (level) => new RegExp(
 );
 
 function parseBlock(level, content, title, options) {
-  // console.log(level, content, title, options);
   let match, firstChildIndex;
   const children = [];
   const regex = createBlockPattern(level);
 
+  if (content && title && title.indexOf('d3fc') >= 0) {
+    content = content.replace(/"screenshots\//g, `"${title}/screenshots/`);
+    content = content.replace(/((\(.+)\.png)/g, (match, fileName) =>  `(${title}/${fileName.replace(/\(|\)/g, '')})`);
+  }
+
   if (level <= options.maxDepth) {
     while ((match = regex.exec(content)) !== null) {
+
       const childContent = match[0];
       const childTitle = match[2] || match[3];
       children.push(parseBlock(level + 1, childContent, childTitle, options));
+
       if (!firstChildIndex) {
         firstChildIndex = match.index;
       }

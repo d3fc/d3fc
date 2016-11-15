@@ -1,30 +1,24 @@
 import fs from 'fs-promise';
 import path from 'path';
 import glob from 'glob';
+import mkdirp from 'mkdirp';
 
 const root = path.resolve(__dirname, '../../');
 const apiDistFolder = path.resolve(root, 'site/dist/api');
-
 const imageGlob = 'node_modules/d3fc-*/**/*.png';
 
-function ensureExists(pathname, cb) {
-  fs.mkdir(path.dirname(pathname), (err) => {
-    if (!err || err.code === 'EEXIST') {
-      return cb();
-    }
-    throw err;
-  });
-}
+const ensureExists = (pathname, callback) =>
+  new Promise((resolve, reject) =>
+    mkdirp(path.dirname(pathname), (err) =>
+      err ? reject(err) : resolve()
+    )
+);
 
-const getImageFilename = (pathname) => {
-  return path.join(apiDistFolder, pathname.replace(new RegExp('node_modules/[^`/]*/'), ''));
-};
+const getImageFilename = (pathname) => path.join(apiDistFolder, pathname.replace(new RegExp('node_modules/'), ''));
 
 function createFile(path, buffer) {
   const pathname = getImageFilename(path);
-  return ensureExists(pathname, () => {
-    fs.writeFile(pathname, buffer);
-  });
+  return ensureExists(pathname).then(() => fs.writeFile(pathname, buffer));
 }
 
 export default (data) =>
@@ -47,4 +41,5 @@ export default (data) =>
         .then(() => resolve(data))
         .catch(reject);
     });
+
   });
