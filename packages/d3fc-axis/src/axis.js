@@ -52,6 +52,11 @@ const axis = (orient, scale) => {
 
     const axis = (selection) => {
 
+        if (selection.selection) {
+            dataJoin.transition(selection);
+            domainPathDataJoin.transition(selection);
+        }
+
         selection.each((data, index, group) => {
 
             const element = group[index];
