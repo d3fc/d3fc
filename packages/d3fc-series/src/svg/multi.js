@@ -37,7 +37,8 @@ export default () => {
                 innerContainer.call(dataSeries);
             });
 
-            container.order();
+            const selection = container.selection ? container.selection() : container;
+            selection.order();
 
             base.decorate()(container, data, index);
         });
