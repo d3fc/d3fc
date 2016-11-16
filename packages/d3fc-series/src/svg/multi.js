@@ -15,6 +15,7 @@ export default () => {
 
         if (selection.selection) {
             join.transition(selection);
+            innerJoin.transition(selection);
         }
 
         const mapping = base.mapping();
@@ -37,8 +38,8 @@ export default () => {
                 innerContainer.call(dataSeries);
             });
 
-            const selection = container.selection ? container.selection() : container;
-            selection.order();
+            const unwrappedSelection = container.selection ? container.selection() : container;
+            unwrappedSelection.order();
 
             base.decorate()(container, data, index);
         });
