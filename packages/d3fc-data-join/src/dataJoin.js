@@ -39,7 +39,7 @@ export default (element, className) => {
             .append(element)
             .attr('class', className);
 
-        const exit = update.exit();
+        let exit = update.exit();
 
         // automatically merge in the enter selection
         update = update.merge(enter);
@@ -51,7 +51,7 @@ export default (element, className) => {
             enter.style('opacity', effectivelyZero)
                 .transition(transition)
                 .style('opacity', 1);
-            exit.transition(transition)
+            exit = exit.transition(transition)
                 .style('opacity', effectivelyZero)
                 .remove();
         } else {
