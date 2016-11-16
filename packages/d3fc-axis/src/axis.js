@@ -62,13 +62,17 @@ const axis = (orient, scale) => {
             const element = group[index];
 
             const container = select(element);
-            if (!element.__chart__) {
+            if (!element.__scale__) {
                 container
                     .attr('fill', 'none')
                     .attr('font-size', 10)
                     .attr('font-family', 'sans-serif')
                     .attr('text-anchor', orient === 'right' ? 'start' : orient === 'left' ? 'end' : 'middle');
             }
+
+            // Stash a snapshot of the new scale, and retrieve the old snapshot.
+            const scaleOld = element.__scale__ || scale;
+            element.__scale__ = scale.copy();
 
             const ticksArray = tickValues == null ? tryApply('ticks', tickArguments, scale.domain()) : tickValues;
             const tickFormatter = tickFormat == null ? tryApply('tickFormat', tickArguments, identity) : tickFormat;
@@ -92,14 +96,19 @@ const axis = (orient, scale) => {
 
             // enter
             g.enter()
+                .attr('transform', containerTranslate(scaleOld, translate))
                 .append('path')
                 .attr('stroke', '#000');
 
             const labelOffset = sign * (tickSizeInner + tickPadding);
             g.enter()
                 .append('text')
-                .attr('transform', translate(0, labelOffset))
+                .attr('transform',  translate(0, labelOffset))
                 .attr('fill', '#000');
+
+            // exit
+            g.exit()
+                .attr('transform', containerTranslate(scale, translate));
 
             // update
             g.select('path')
