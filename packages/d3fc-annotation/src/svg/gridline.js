@@ -12,16 +12,14 @@ export default () => {
 
     const xTicks = ticks();
     const yTicks = ticks();
-    const xContainerJoin = dataJoin('g', 'horizontal');
-    const yContainerJoin = dataJoin('g', 'vertical');
-    const xJoin = dataJoin('line');
+    const containerJoin = dataJoin('g', 'gridline');
+    const xJoin = dataJoin('line', 'x');
     const yJoin = dataJoin('line', 'y');
 
     const instance = (selection) => {
 
         if (selection.selection) {
-            xContainerJoin.transition(selection);
-            yContainerJoin.transition(selection);
+            containerJoin.transition(selection);
             xJoin.transition(selection);
             yJoin.transition(selection);
         }
@@ -33,11 +31,11 @@ export default () => {
             const xScale = xTicks.scale();
             const yScale = yTicks.scale();
 
-            const xContainer = xContainerJoin(container, [xData])
+            const container_ = containerJoin(container, [data])
                 .attr('class', 'annotation-gridline')
                 .style('stroke', '#bbb');
             const xData = xTicks();
-            const xLines = xJoin(xContainer, xData);
+            const xLines = xJoin(container_, xData);
 
             xLines.attr('x1', xScale)
                 .attr('x2', xScale)
@@ -46,11 +44,8 @@ export default () => {
 
             xDecorate(xLines, xData, index);
 
-            const yContainer = yContainerJoin(container, [xData])
-                .attr('class', 'annotation-gridline')
-                .style('stroke', '#bbb');
             const yData = yTicks();
-            const yLines = yJoin(yContainer, yData);
+            const yLines = yJoin(container_, yData);
 
             yLines.attr('x1', xScale.range()[0])
                 .attr('x2', xScale.range()[1])
