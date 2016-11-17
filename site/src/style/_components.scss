@@ -1,11 +1,13 @@
 @import 'mixins';
 @import 'variables';
 
-.component {
-	padding-bottom: $section-vertical-padding;
-
-	h1 > a {
-		@include button('/images/github.png');
-		float: right;
-	}
+h1 > a.btn {
+	@include button('/images/github.png');
+  background-image: url(/images/github.png);
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position-x: 12px;
+  background-position-y: 6px;
+  padding-left: 36px;
+  float: right;
 }

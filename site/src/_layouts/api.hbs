@@ -8,7 +8,8 @@ layout: default
     {{#each structure}}
       <div class="section">
         <h{{level}}>
-{{title}}
+          {{title}}
+          <a class="btn btn-default" href="https://github.com/d3fc/{{title}}">View on GitHub</a>
         </h{{level}}>
         {{#markdown this}}
 {{{content}}}
