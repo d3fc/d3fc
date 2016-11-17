@@ -1,6 +1,6 @@
 # d3fc-annotation
 
-A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto cartesian charts using SVG and canvas (coming soon! #2) .
+A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto cartesian charts using SVG and canvas (coming soon! [#2](https://github.com/d3fc/d3fc-annotation/issues/2)) .
 
 <table>
 <tr>
