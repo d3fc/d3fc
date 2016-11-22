@@ -34,7 +34,7 @@
   "homepage": "https://github.com/d3fc/d3fc#readme",
   "dependencies": {
     "d3": "^4.3.0",
-    "d3fc-annotation": "^1.0.4",
+    "d3fc-annotation": "^1.1.0",
     "d3fc-axis": "^1.0.2",
     "d3fc-chart": "^1.0.2",
     "d3fc-data-join": "^4.1.0",
