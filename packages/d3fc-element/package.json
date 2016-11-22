@@ -8,6 +8,7 @@
     "element"
   ],
   "homepage": "https://github.com/d3fc/d3fc-element",
+  "main" : "build/d3fc-element.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3fc/d3fc-element"
