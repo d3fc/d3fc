@@ -6,16 +6,13 @@
   "scripts": {
     "bundle": "d3fc-scripts bundle --include-d3fc",
     "test": "d3fc-scripts bundle --include-d3fc && npm run site",
-    "site": "npm-run-all site:clean site:build site:copy",
-    "site:dev": "npm-run-all site:clean site:build site:copy bundle && npm-run-all -p site:styles:compile site:styles:watch site:server",
-    "site:styles:compile": "node-sass site/src/style/styles.scss site/dist/styles.css",
-    "site:styles:watch": "node-sass site/src/style/styles.scss site/dist/styles.css -w",
-    "site:copy": "copyfiles -f build/d3fc.js site/dist && copyfiles -f site/src/images/* site/dist/images && copyfiles -f node_modules/d3/build/d3.min.js site/dist/lib && copyfiles -f node_modules/jquery/dist/jquery.min.js site/dist/lib && copyfiles -f node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js site/dist/lib",
+    "site": "npm-run-all site:clean site:build site:styles site:copy",
+    "site:dev": "NODE_ENV=dev npm-run-all bundle site site:serve",
+    "site:styles": "node-sass site/src/style/styles.scss site/dist/styles.css",
+    "site:copy": "copyfiles -f build/d3fc.js site/dist/lib && copyfiles -f site/src/images/* site/dist/images && copyfiles -f node_modules/d3/build/d3.min.js site/dist/lib && copyfiles -f node_modules/jquery/dist/jquery.min.js site/dist/lib && copyfiles -f node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js site/dist/lib",
     "site:build": "babel-node site/scripts/build.js",
     "site:clean": "rimraf site/dist && mkdirp site/dist",
-    "site:server": "npm-run-all -p site:start-server site:livereload",
-    "site:livereload": "livereload site/dist -d",
-    "site:start-server": "http-server site/dist -p 8000"
+    "site:serve": "live-server site/dist"
   },
   "repository": {
     "type": "git",
@@ -32,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/d3fc/d3fc/issues"
   },
-  "homepage": "https://github.com/d3fc/d3fc#readme",
+  "homepage": "https://d3fc.io",
   "dependencies": {
     "d3": "^4.3.0",
     "d3fc-annotation": "^1.1.0",
@@ -53,6 +50,7 @@
     "d3fc-shape": "^4.0.1",
     "d3fc-technical-indicator": "^6.1.0",
     "highlight.js": "^9.8.0",
+    "live-server": "^1.1.0",
     "node-sass": "^3.11.1",
     "tiny-ssg": "github:colineberhardt/tiny-ssg#v0.0.6"
   },
@@ -70,10 +68,8 @@
     "handlebars-helpers": "^0.7.5",
     "highlight.js": "^9.8.0",
     "html-entities": "^1.2.0",
-    "http-server": "^0.9.0",
     "jquery": "^3.1.1",
     "js-yaml": "^3.7.0",
-    "livereload": "^0.6.0",
     "marked": "^0.3.6",
     "mkdirp": "^0.5.1",
     "node-sass": "^3.13.0",
