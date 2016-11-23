@@ -12,7 +12,7 @@ structure:
       Representation](http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf).
 
 
-      ![d3fc sample](d3fc-sample.png)
+      ![d3fc sample](d3fc-sample/d3fc-sample.png))
 
 
       For a live demo, see the [GitHub Pages
@@ -131,7 +131,7 @@ structure:
 
 
               ![largest triangle one bucket
-              illustration](largest-triangle-one-bucket.png)
+              illustration](d3fc-sample/largest-triangle-one-bucket.png))
 
 
               <a name="largestTriangleOneBucket"
@@ -194,7 +194,7 @@ structure:
 
 
               ![largest triangle three bucket
-              illustration](largest-triangle-three-bucket.png)
+              illustration](d3fc-sample/largest-triangle-three-bucket.png))
 
 
               <a name="largestTriangleThreeBucket"

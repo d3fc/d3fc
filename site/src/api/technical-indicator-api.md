@@ -97,8 +97,9 @@ structure:
           - title: Bollinger Bands
             level: 3
             content: >+
-              ![Bollinger Bands](screenshots/bollingerBands.png "Bollinger
-              Bands")
+              ![Bollinger
+              Bands](d3fc-technical-indicator/screenshots/bollingerBands.png)
+              "Bollinger Bands")
 
 
               <a name="indicatorBollingerBands"
@@ -158,7 +159,8 @@ structure:
           - title: Elder-Ray
             level: 3
             content: >+
-              ![Elder Ray](screenshots/elderRay.png "Elder Ray")
+              ![Elder Ray](d3fc-technical-indicator/screenshots/elderRay.png)
+              "Elder Ray")
 
 
               <a name="indicatorElderRay" href="#indicatorElderRay">#</a>
@@ -225,7 +227,8 @@ structure:
           - title: Envelope
             level: 3
             content: >+
-              ![Envelope](screenshots/envelope.png "Envelope")
+              ![Envelope](d3fc-technical-indicator/screenshots/envelope.png)
+              "Envelope")
 
 
               <a name="indicatorEnvelope" href="#indicatorEnvelope">#</a>
@@ -351,7 +354,9 @@ structure:
           - title: Force Index
             level: 3
             content: >+
-              ![Force Index](screenshots/forceIndex.png "Force Index")
+              ![Force
+              Index](d3fc-technical-indicator/screenshots/forceIndex.png) "Force
+              Index")
 
 
               <a name="indicatorForceIndex" href="#indicatorForceIndex">#</a>
@@ -403,7 +408,7 @@ structure:
           - title: MACD
             level: 3
             content: >+
-              ![MACD](screenshots/macd.png "MACD")
+              ![MACD](d3fc-technical-indicator/screenshots/macd.png) "MACD")
 
 
               <a name="indicatorMacd" href="#indicatorMacd">#</a>
@@ -472,7 +477,8 @@ structure:
           - title: Relative Strength Index
             level: 3
             content: >+
-              ![Relative Strength Index](screenshots/relativeStrengthIndex.png
+              ![Relative Strength
+              Index](d3fc-technical-indicator/screenshots/relativeStrengthIndex.png)
               "Relative Strength Index")
 
 
@@ -516,7 +522,8 @@ structure:
           - title: Stochastic Oscillator
             level: 3
             content: >
-              ![Stochastic Oscillator](screenshots/stochasticOscillator.png
+              ![Stochastic
+              Oscillator](d3fc-technical-indicator/screenshots/stochasticOscillator.png)
               "Stochastic Oscillator")
 
 

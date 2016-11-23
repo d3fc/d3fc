@@ -1,0 +1,8 @@
+.bollinger .area {
+  fill: #9cf;
+  fill-opacity: 0.5;
+}
+
+.bollinger .line {
+  stroke: #06c;
+}

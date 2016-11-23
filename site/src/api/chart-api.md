@@ -8,7 +8,7 @@ structure:
       components.
 
 
-      <img src="screenshots/cartesian.png"/>
+      <img src="d3fc-chart/screenshots/cartesian.png"/>
 
     children:
       - title: API Reference
@@ -101,7 +101,7 @@ structure:
               Rendering the following:
 
 
-              <img src="screenshots/cartesian.png"/>
+              <img src="d3fc-chart/screenshots/cartesian.png"/>
 
 
               The chart is constructed using a pair of scales. The scale

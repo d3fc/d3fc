@@ -4,120 +4,188 @@ structure:
   - title: d3fc-data-join
     level: 1
     content: >+
-      A component that simplifies the D3 data join and supports the d3fc
-      decorate pattern.
+      A wrapper around D3's data join which simplifies some of the common
+      problems that have been run into with *our particular usage patterns*, and
+      facilitates the *d3fc decorate* pattern. These are not going to be
+      universally applicable. As always it’s important to understand the
+      abstraction and in many cases a vanilla data join may be simpler or
+      perform better.
 
-  - title: Installation
-    level: 1
-    content: |
-      ```bash
-      npm install d3fc-data-join
-      ```
-  - title: API
-    level: 1
-    content: ''
+
+      This blog post ([Building Components with Data
+      Join](http://blog.scottlogic.com/2016/08/17/building-components-with-d3-data-join.html))
+      introduces the rationale behind this component.
+
     children:
-      - title: General API
+      - title: API Reference
         level: 2
         content: >
-          The data-join component is a relatively leightweight Wrapper around
+          The data-join component is a relatively lightweight wrapper around
           d3's selectAll/data data-join, which allows decoration of the result.
           This is achieved by appending the element to the enter selection
           before exposing it. A default transition of fade in/out is also
           implicitly added but can be modified.
-      - title: Example usage
-        level: 2
-        content: >
-          Here's a typical D3 data join that renders a list of animals:
 
 
-          ```javascript
+          <a name="dataJoin" href="#dataJoin">#</a>
+          fc.**dataJoin**([*element*][, *className*])
 
-          var animals = ['Cat', 'Dog', 'Chicken'];
+
+          Constructs a new data-join component instance. Optionally an `element`
+          or an `element` and a `className` can be specified, this is
+          functionally equivalent to calling their methods as defined below.
 
 
-          a typical D3 data join, where
+          <a name="dataJoin_" href="#dataJoin_">#</a> *dataJoin*(*selection*[,
+          *data*])
 
-          var li = d3.select('ul')
-            .selectAll('li.animal')
-            .data(animals)
-            .enter()
-            .append('li')
-            .attr('class', 'animal')
-            .html(function(d) { return d; });
+
+          Invoke with a `selection` containing the parent element and the `data`
+          to be joined.
+
+
+          ```js
+
+          import { dataJoin } from 'd3fc-data-join';
+
+          import { select } from 'd3-selection';
+
+
+          const join = dataJoin('li', 'animal');
+
+
+          join(select('ul'), ['Aardvark', 'Beaver', 'Cat'])
+            .text(d => d);
           ```
 
 
-          Which yields the following:
+          The return value is a selection containing all new and existing nodes.
+          Two additional methods are exposed for retrieving a selection
+          containing only the new nodes (`.enter()`) and the removed nodes
+          (`.exit()`).
 
 
-          ```html
+          ```js
 
-          <ul>
-            <li>Cat</li>
-            <li>Dog</li>
-            <li>Chicken</li>
-          </ul>
+          import { dataJoin } from 'd3fc-data-join';
+
+          import { select } from 'd3-selection';
+
+
+          const join = dataJoin('li', 'animal');
+
+
+          const update = join(select('ul'), ['Aardvark', 'Beaver', 'Cat'])
+            .text(d => d);
+
+          update.enter()
+            .attr('data-', d => d);
 
           ```
 
 
-          And here's the equivalent using the data join component:
+          If `d3-transition` is available, new nodes will have a fade-in
+          transition applied and removed nodes will have a fade-out transition
+          applied. The transition timings can be controlled from the container
+          selection passed in or by explicitly setting
+          [`transition`](#dataJoin_transition).
 
 
-          ```javascript
+          ```js
 
-          var join = fc.util.dataJoin()
-              .selector('li.animal')
-              .element('li')
-              .attr('class', 'animal');
+          import { dataJoin } from 'd3fc-data-join';
 
-          var li = join(d3.select('ul'), animals);
+          import { select } from 'd3-selection';
 
-          li.enter()
-            .html(function(d) { return d; });
+          import { transition } from 'd3-transition';
+
+
+          const quickTransition = transition()
+            .duration(300);
+
+          const join = dataJoin('li', 'animal');
+
+
+          const container = select('ul')
+            .transition(quickTransition);
+
+          join(container, ['Aardvark', 'Beaver', 'Cat'])
+            .text(d => d);
           ```
 
 
-          Notice that the element has already been appended to, and had its
-          attributes set, on the enter selection.
-      - title: data join
-        level: 2
-        content: >
-          *d3fc*.**dataJoin**()
+          To disable transitions, explicitly retrieve the selection from the
+          transition before passing it in -
 
 
-          Constructs a new data join component instance.
+          ```js
+
+          import { dataJoin } from 'd3fc-data-join';
+
+          import { select } from 'd3-selection';
+
+          import { transition } from 'd3-transition';
 
 
-          *dataJoin*.**selector**(*selector*)
+          const quickTransition = transition()
+            .duration(300);
+
+          const join = dataJoin('li', 'animal');
 
 
-          Set the selector used to add elements to the data join. This is
-          equivalent to the selection provided to `selectAll` in the D3 data
-          join pattern.
+          const root = select('body')
+            .transition(quickTransition);
+
+          const container = root.select('ul')
+            .selection();
+
+          join(container, ['Aardvark', 'Beaver', 'Cat'])
+            .text(d => d);
+          ```
 
 
+          <a name="dataJoin_element" href="#dataJoin_element">#</a>
           *dataJoin*.**element**(*element*)
 
 
-          The element to append to the enter selection.
+          Sets the element name used to select elements and to create elements
+          for insertion. Defaults to an SVG `g` element. See `className` for a
+          description of the selector used.
 
 
-          *dataJoin*.**attr**(*name*, *value*)
+          <a name="dataJoin_className" href="#dataJoin_className">#</a>
+          *dataJoin*.**className**(*className*)
 
 
-          *dataJoin*.**attr**(*attributes*)
+          Set the class name used to select elements and applied to inserted
+          elements. Defaults to `null`. If set to `null`, only the `element` is
+          used as the selector. If non-null, the selector provided to
+          `selectAll` is -
 
 
-          The attributes to see on the element appended to the enter selection.
-          This can either be a *name* and a *value*, or an object.
+          ```js
+
+          `${element}.${className}`
+
+          ```
 
 
+          <a name="dataJoin_key" href="#dataJoin_key">#</a>
           *dataJoin*.**key**(*keyFunc*)
 
 
-          Specifies the key function used by the data join.
+          Specifies the key function used by the data-join. Defaults to
+          index-based. Equivalent to specifying a `key` argument when calling
+          [`selection.data()`](https://github.com/d3/d3-selection#selection_data).
+
+
+          <a name="dataJoin_transition" href="#dataJoin_transition">#</a>
+          *dataJoin*.**transition**(*transition*)
+
+
+          Specifies the transition to be used if an implicit transition is not
+          supplied as the container. Defaults to `null` which disables
+          transitions.
 sidebarContents: []
 layout: api
 section: api
