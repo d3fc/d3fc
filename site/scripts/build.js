@@ -5,11 +5,11 @@ const packageJSON = fs.readFileSync('./package.json');
 
 const globalData = {
     package: JSON.parse(packageJSON),
-    dev: true
+    dev: process.env.NODE_ENV === 'dev'
 };
 
 globalData.baseurl = globalData.dev
-  ? 'http://localhost:8000'
+  ? 'http://localhost:8080'
   : globalData.package.homepage;
 
 const config = {

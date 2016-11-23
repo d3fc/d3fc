@@ -11,12 +11,12 @@
     <script src="{{baseurl}}/lib/d3.min.js"></script>
     <script src="{{baseurl}}/lib/jquery.min.js"></script>
     <script src="{{baseurl}}/lib/bootstrap.min.js"></script>
-    <script src="{{baseurl}}/build/d3fc.js"></script>
+    <script src="{{baseurl}}/lib/d3fc.js"></script>
     <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="{{baseurl}}/images/favicon-96x96.png" sizes="96x96">
     <link rel="stylesheet" href="{{baseurl}}/styles.css" />
-    <link rel="canonical" href="https://d3fc.io{{page.destination}}" />
+    <link rel="canonical" href="{{baseurl}}{{page.destination}}" />
   </head>
   <body>
     <div class="content">
@@ -50,9 +50,5 @@
         <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
       </div>
     </footer>
-
-    {{#if dev}}
-      <script src="//localhost:35729/livereload.js"></script>
-    {{/if}}
   </body>
 </html>
