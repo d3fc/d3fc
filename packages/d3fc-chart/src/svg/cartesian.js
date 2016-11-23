@@ -39,7 +39,12 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
 
+    const propagateTransition = maybeTransition => selection =>
+        maybeTransition.selection ? selection.transition(maybeTransition) : selection;
+
     const cartesian = (selection) => {
+
+        const transitionPropagator = propagateTransition(selection);
 
         selection.each((data, index, group) => {
             const container = containerDataJoin(select(group[index]), [data]);
@@ -86,7 +91,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                     if (yTickArgs) {
                         yAxis.ticks(...yTickArgs);
                     }
-                    select(nodes[i])
+                    transitionPropagator(select(nodes[i]))
                       .select('svg')
                       .call(yAxis.scale(yScale));
                 });
@@ -106,7 +111,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                     if (xTickArgs) {
                         xAxis.ticks(...xTickArgs);
                     }
-                    select(nodes[i])
+                    transitionPropagator(select(nodes[i]))
                       .select('svg')
                       .call(xAxis.scale(xScale));
                 });
@@ -120,7 +125,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                 .on('draw', (d, i, nodes) => {
                     plotArea.xScale(xScale)
                       .yScale(yScale);
-                    select(nodes[i])
+                    transitionPropagator(select(nodes[i]))
                       .select('svg')
                       .call(plotArea);
                 });
