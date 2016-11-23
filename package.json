@@ -24,12 +24,11 @@
     "components",
     "charts"
   ],
-  "author": "Ali Sheehan-Dare <alisd23@live.co.uk>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/d3fc/d3fc/issues"
   },
-  "homepage": "https://d3fc.io",
+  "homepage": "https://d3fc.github.io/d3fc",
   "dependencies": {
     "d3": "^4.3.0",
     "d3fc-annotation": "^1.1.0",
