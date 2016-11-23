@@ -12,7 +12,14 @@ before_install:
 before_script:
   - npm prune
 after_success:
-  - npm run semantic-release
+  - >-
+    test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" &&
+    bash ./site/deploy.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
+env:
+  global:
+    - GH_REF: github.com/d3fc/d3fc.git
+    - secure: >-
+        p1Bxj05m+1U/UnoRRixnQ6ohQzAyuSHmuM/HLD7nE7thlcf2AfoPjj50E3Kwhue227pW/PLn5wp+9n5xHu5C5qL/0Rd+fIyO+acD2C8MaOJGR3bnIT9LdsQW2+utzq0Pe/WU+lJ+XfBC2PGB7xG3G1gopR6n8511wvHsGnNhenvdE7st3YgOmcZ8rMuoFGQnYAxkHkSUkUglQrlQUdu2kjj4rPxtF08Axh4Wzn0atupaPDRm4AotocsafsFKQSBjEnztA4UHjhoUtblvkw43i4xAKSUldf670JODkPBgqh08RUW58pyKDu+ru10J/6Yi25bRYEBu3Xm5qs24KihSkIzoWlRse9aAxiOYbDHDtIV+Qlfdw6/7F6BJRNmv5Pg53APcJxzsh9fADkr0qUhI1NX8Hhf+Hc8UCpWXZhgvK+yA4OXRluCHYQhyf3LNBbipbMOjKWTFtf5uulQOoa59+ZXnId2cLoczYCJ0kSPhiCkGakpzsUMmy14euQX3hpsDoaV9vvZIQpOoRnk6sxRY6ATp1w9uF63OQOtQ1gy0agFjEBH2xxq+SjMWrGipnSpkCE8IJi9W/e3H5cAOmLNrt2eV+ac66pQzjwgCIH2Cu01NFx3C2XUhwbqkmKCq8BoFoouIUHlbB/LxFwimyvNdMohbVrpIGQ2kwEv4E7+VQDM=
