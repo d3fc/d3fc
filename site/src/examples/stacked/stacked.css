@@ -1,8 +1,13 @@
-#stacked-chart .legend-container {
+#stacked-chart {
+  position: relative;
+}
+
+#stacked-chart .legend {
   position: absolute;
-  bottom: 0;
-	top: 10px;
+  bottom: auto;
+	top: 50px;
 	left: auto;
+  right: 10px;
   width: 410px;
   height: 120px;
 }

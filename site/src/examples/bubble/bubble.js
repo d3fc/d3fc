@@ -43,9 +43,6 @@ d3.json('https://d3fc.io/examples/bubble/data.json', function(_, data) {
       .decorate(function(selection) {
         // append an svg for the d3-legend
         selection.enter()
-          .select('.plot-area')
-          .append('div')
-          .attr('class', 'legend-container')
           .append('svg')
           .attr('class', 'legend');
 

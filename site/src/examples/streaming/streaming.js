@@ -11,11 +11,11 @@ function renderChart() {
 
   // Create and apply the bollinger algorithm
   const bollingerAlgorithm = fc.indicatorBollingerBands()
-    .value(function (d) {
+    .value(function(d) {
       return d.close;
     });
   const bollingerData = bollingerAlgorithm(data);
-  const mergedData = data.map(function (d, i) {
+  const mergedData = data.map(function(d, i) {
     return Object.assign({}, d, {
       bollinger: bollingerData[i]
     });
@@ -24,7 +24,7 @@ function renderChart() {
   // Offset the range to include the full bar for the latest value
   const DAY_MS = 1000 * 60 * 60 * 24;
   const xExtent = fc.extentDate()
-    .accessors([function (d) {
+    .accessors([function(d) {
       return d.date;
     }])
     .padUnit('domain')
@@ -33,10 +33,10 @@ function renderChart() {
   // ensure y extent includes the bollinger bands
   const yExtent = fc.extentLinear()
     .accessors([
-      function (d) {
+      function(d) {
         return Math.max(d.bollinger.upper, d.high);
       },
-      function (d) {
+      function(d) {
         return Math.min(d.bollinger.lower, d.low);
       }
     ]);
@@ -55,31 +55,31 @@ function renderChart() {
   const gridlines = fc.annotationSvgGridline();
   const candlestick = fc.seriesSvgCandlestick();
 
-  const bollingerBands = function () {
+  const bollingerBands = function() {
     const area = fc.seriesSvgArea()
-      .mainValue(function (d) {
+      .mainValue(function(d) {
         return d.bollinger.upper;
       })
-      .baseValue(function (d) {
+      .baseValue(function(d) {
         return d.bollinger.lower;
       });
 
     const upperLine = fc.seriesSvgLine()
-      .mainValue(function (d) {
+      .mainValue(function(d) {
         return d.bollinger.upper;
       });
 
     const averageLine = fc.seriesSvgLine()
-      .mainValue(function (d) {
+      .mainValue(function(d) {
         return d.bollinger.average;
       });
 
     const lowerLine = fc.seriesSvgLine()
-      .mainValue(function (d) {
+      .mainValue(function(d) {
         return d.bollinger.lower;
       });
 
-    const crossValue = function (d) {
+    const crossValue = function(d) {
       return d.date;
     };
     area.crossValue(crossValue);
@@ -89,9 +89,9 @@ function renderChart() {
 
     const bollingerMulti = fc.seriesSvgMulti()
       .series([area, upperLine, lowerLine, averageLine])
-      .decorate(function (g, datum, index) {
+      .decorate(function(g, datum, index) {
         g.enter()
-          .attr('class', function (_, i) {
+          .attr('class', function(_, i) {
             return 'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i];
           });
       });

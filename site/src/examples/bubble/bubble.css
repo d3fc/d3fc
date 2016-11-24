@@ -1,9 +1,14 @@
-#bubble-chart .legend-container {
+#bubble-chart .legend {
   position: absolute;
-  bottom: 0;
+  bottom: 40px;
   right: 0;
+  left: auto;
   width: 170px;
   height: 110px;
+}
+
+#bubble-chart {
+  position: relative;
 }
 
 #bubble-chart .point {
