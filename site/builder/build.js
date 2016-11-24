@@ -51,7 +51,7 @@ require('./handlebars-helpers/hyperlink').register(handlebars);
 
 function build(config) {
   // for dev builds don't syntax highlight
-  if (!config.globalData.dev || true) {
+  if (!config.globalData.dev) {
     marked.setOptions({
       highlight: function(code) {
         return highlight.highlightAuto(code).value;
