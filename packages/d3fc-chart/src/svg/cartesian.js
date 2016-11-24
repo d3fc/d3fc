@@ -60,7 +60,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                               <d3fc-svg class='plot-area' style='flex: 1; overflow: hidden'></d3fc-svg>
                               <d3fc-svg class='y-axis' style='width: 3em'></d3fc-svg>
                               <div style='width: 1em; display: flex; align-items: center; justify-content: center'>
-                                  <div class='y-axis-label' style='transform: rotate(90deg)'></div>
+                                  <div class='y-axis-label' style='transform: rotate(-90deg)'></div>
                               </div>
                           </div>
                           <d3fc-svg class='x-axis' style='height: 2em; margin-${yOrient}: 4em'></d3fc-svg>
