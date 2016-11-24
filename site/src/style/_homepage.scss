@@ -13,6 +13,12 @@
 	}
 }
 
+.summary {
+	font-size: $font-size-large;
+	margin-top: 50px;
+	margin-bottom: 10px;
+}
+
 .jumbotron {
 	@include section;
 
