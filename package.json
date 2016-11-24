@@ -16,7 +16,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/d3fc/d3fc.git"
+    "url": "git+https://github.com/d3fc/d3fc.git",
+    "_homepage": "https://github.com/d3fc/d3fc"
   },
   "keywords": [
     "d3",
