@@ -76,6 +76,15 @@ export default function() {
 
     const financial = numPoints => makeStream().take(numPoints);
     financial.stream = makeStream;
+    financial[Symbol.iterator] = () => {
+        const stream = makeStream();
+        return {
+            next: () => ({
+                value: stream.next(),
+                done: false
+            })
+        };
+    };
 
     financial.startDate = (...args) => {
         if (!args.length) {

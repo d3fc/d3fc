@@ -124,4 +124,10 @@ describe('financial', () => {
         const data = stream.until();
         expect(data).toEqual([]);
     });
+
+    it('should implement the iterable protocol', () => {
+        const [first, second] = generator;
+        expect(first.date).toEqual(new Date(2015, 0, 1));
+        expect(second.date).toEqual(new Date(2015, 0, 2));
+    });
 });
