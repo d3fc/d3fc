@@ -32,10 +32,10 @@ export default (readmes) =>
     }));
 
     const writePromises = readmes.map(readme => {
-        const filename = `${dist(readme.name.split('.')[0])}.md`;
-        return ensureExists(filename)
+      const filename = `${dist(readme.name.split('.')[0])}.md`;
+      return ensureExists(filename)
           .then(fs.writeFile(filename, serialize(readme)));
-      }
+    }
     );
 
     const readmeObject = {

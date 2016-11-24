@@ -1,4 +1,7 @@
-d3.csv('https://d3fc.io/examples/stacked/data.csv', function(_, data) {
+d3.csv('https://d3fc.io/examples/stacked/data.csv', function(error, data) {
+  if (error) {
+    throw error;
+  }
 
   // manipulate the data into stacked series
   var stack = d3.stack().keys(Object.keys(data[0]).filter(function(k) { return k !== 'Country'; }));

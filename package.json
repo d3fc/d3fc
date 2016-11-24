@@ -5,7 +5,7 @@
   "main": "build/d3fc.js",
   "scripts": {
     "bundle": "d3fc-scripts bundle --include-d3fc",
-    "test": "d3fc-scripts bundle --include-d3fc && npm run site",
+    "test": "d3fc-scripts bundle --include-d3fc && eslint site && npm run site",
     "site": "npm-run-all site:clean site:build site:styles site:copy",
     "site:dev": "NODE_ENV=dev npm-run-all bundle site site:serve",
     "site:styles": "node-sass site/src/style/styles.scss site/dist/styles.css",
