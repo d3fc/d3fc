@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/d3fc/d3fc/issues"
   },
-  "homepage": "https://d3fc.github.io/d3fc",
+  "homepage": "https://beta.d3fc.io",
   "dependencies": {
     "d3": "^4.3.0",
     "d3fc-annotation": "^1.1.0",
