@@ -2,6 +2,7 @@ import { safeDump } from 'js-yaml';
 import fs from 'fs-promise';
 import path from 'path';
 import changeCase from 'change-case';
+import ensureExists from './ensureExists';
 
 const dist = (pathname) => path.resolve(__dirname, '../src/api', pathname);
 const toTitle = (name) => {
@@ -30,8 +31,11 @@ export default (readmes) =>
       sidebarContents: readme.sidebarContents
     }));
 
-    const writePromises = readmes.map(readme =>
-      fs.writeFile(`${dist(readme.name.split('.')[0])}.md`, serialize(readme))
+    const writePromises = readmes.map(readme => {
+        const filename = `${dist(readme.name.split('.')[0])}.md`;
+        return ensureExists(filename)
+          .then(fs.writeFile(filename, serialize(readme)));
+      }
     );
 
     const readmeObject = {

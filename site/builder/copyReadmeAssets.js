@@ -1,18 +1,11 @@
 import fs from 'fs-promise';
 import path from 'path';
 import glob from 'glob';
-import mkdirp from 'mkdirp';
+import ensureExists from './ensureExists';
 
 const root = path.resolve(__dirname, '../../');
 const apiDistFolder = path.resolve(root, 'site/dist/api');
 const imageGlob = 'node_modules/d3fc-*/**/*.png';
-
-const ensureExists = (pathname, callback) =>
-  new Promise((resolve, reject) =>
-    mkdirp(path.dirname(pathname), (err) =>
-      err ? reject(err) : resolve()
-    )
-);
 
 const getImageFilename = (pathname) => path.join(apiDistFolder, pathname.replace(new RegExp('node_modules/'), ''));
 
