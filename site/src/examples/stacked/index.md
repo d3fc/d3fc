@@ -5,7 +5,12 @@ example: true
 externals:
   stacked-js: stacked.js
   stacked-html: stacked.html
+  stacked-css: stacked.css
 ---
+
+<style>
+{{{stacked-css}}}
+</style>
 
 {{{ dynamic-include 'codepen' html='stacked-html' js='stacked-js'}}}
 {{{ stacked-html }}}
