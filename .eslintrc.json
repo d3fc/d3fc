@@ -1,3 +1,11 @@
 {
-  "extends": "./node_modules/d3fc-scripts/.eslintrc.json"
+  "extends": "./node_modules/d3fc-scripts/.eslintrc.json",
+  "rules": {
+    "indent": ["error", 2],
+    "no-constant-condition": ["warn"]
+  },
+  "globals": {
+    "d3": true,
+    "fc": true
+  }
 }
