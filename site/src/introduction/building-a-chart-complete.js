@@ -41,17 +41,20 @@ var chart = fc.chartSvgCartesian(
     .yLabel('Sales (millions)')
     .yNice();
 
+// START
 var bar = fc.seriesSvgBar()
   .crossValue(function(d) { return d.month; })
   .mainValue(function(d) { return d.sales; })
   .decorate(function(selection) {
-    // The selection passed to decorate is the one which the component creates within its internal data join,
-    // here we use the update selection to apply a style to 'path' elements created by the bar series
+    // The selection passed to decorate is the one which the component creates
+    // within its internal data join, here we use the update selection to
+    // apply a style to 'path' elements created by the bar series
     selection.select('.bar > path')
       .style('fill', function(d) {
         return d.sales < data.targets[0].value ? 'inherit' : '#0c0';
       });
   });
+// END
 
 var annotation = fc.annotationSvgLine()
     .value(function(d) { return d.value; })
@@ -80,6 +83,6 @@ var multi = fc.seriesSvgMulti()
 
 chart.plotArea(multi);
 
-d3.select('#complete-chart')
+d3.selectAll('.complete-chart')
     .datum(data)
     .call(chart);

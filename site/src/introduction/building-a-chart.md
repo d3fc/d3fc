@@ -19,8 +19,6 @@ externals:
   tidy-chart-js: tidy-chart.js
   adding-annotations-html: adding-annotations.html
   adding-annotations-js: adding-annotations.js
-  decorate-example-js:   decorate-example.js
-  decorate-example-html: decorate-example.html
 ---
 
 This brief tutorial introduces the core concepts behind d3fc, via the process of building a chart. You'll find out why we created d3fc and what makes it different from the numerous other charting libraries out there!
@@ -61,7 +59,7 @@ Typically chart data will be supplied by some external source, in JSON or CSV fo
 
 Here's the resulting data:
 
-{{{ dynamic-include 'codepen' html="creating-some-data-html" js="creating-some-data-js"}}}
+{{{ dynamic-include 'codepen' html="creating-some-data-html" js="creating-some-data-js" css="building-a-chart-complete-css"}}}
 {{{ creating-some-data-html }}}
 {{{ dynamic-include 'javascript' js="creating-some-data-js" }}}
 
@@ -79,7 +77,7 @@ The bar series is a regular D3 component, and is rendered via the `call` method 
 
 This renders as follows:
 
-{{{ dynamic-include 'codepen' html="rendering-a-series-html" js="rendering-a-series-js"}}}
+{{{ dynamic-include 'codepen' html="rendering-a-series-html" js="rendering-a-series-js" css="building-a-chart-complete-css"}}}
 {{{ rendering-a-series-html }}}
 {{{ dynamic-include 'javascript' js="rendering-a-series-js" }}}
 
@@ -103,7 +101,7 @@ Here's the complete example:
 
 This renders a more complete chart:
 
-{{{ dynamic-include 'codepen' html="cartesian-chart-html" js="cartesian-chart-js"}}}
+{{{ dynamic-include 'codepen' html="cartesian-chart-html" js="cartesian-chart-js" css="building-a-chart-complete-css"}}}
 {{{ cartesian-chart-html }}}
 
 {{{ dynamic-include 'javascript' js="cartesian-chart-js" }}}
@@ -126,7 +124,7 @@ There's another d3fc component that can help here, the {{{ hyperlink 'extent-api
 
 Here's the overall result:
 
-{{{ dynamic-include 'codepen' html="cartesian-chart-extent-html" js="cartesian-chart-extent-js"}}}
+{{{ dynamic-include 'codepen' html="cartesian-chart-extent-html" js="cartesian-chart-extent-js" css="building-a-chart-complete-css"}}}
 {{{ cartesian-chart-extent-html }}}
 {{{ dynamic-include 'javascript' js="cartesian-chart-extent-js" }}}
 
@@ -140,7 +138,7 @@ Let't tidy up the chart a bit by setting suitable labels:
 
 This gives a much more appealing chart:
 
-{{{ dynamic-include 'codepen' html="tidy-chart-html" js="tidy-chart-js"}}}
+{{{ dynamic-include 'codepen' html="tidy-chart-html" js="tidy-chart-js" css="building-a-chart-complete-css"}}}
 {{{ tidy-chart-html }}}
 {{{ dynamic-include 'javascript' js="tidy-chart-js" }}}
 
@@ -164,7 +162,7 @@ But how to add the annotations to the chart? Annotations, just like series, are 
 
 Here's the result:
 
-{{{ dynamic-include 'codepen' html="adding-annotations-html" js="adding-annotations-js"}}}
+{{{ dynamic-include 'codepen' html="adding-annotations-html" js="adding-annotations-js" css="building-a-chart-complete-css"}}}
 {{{ adding-annotations-html }}}
 {{{ dynamic-include 'javascript' js="adding-annotations-js" }}}
 
@@ -181,13 +179,18 @@ In this case, decorate is used to locate the 'left handle' of the line annotatio
 Here's the part of the code that 'decorates' the bar series:
 
 ```js
-{{{ codeblock decorate-example-js }}}
+{{{ codeblock building-a-chart-complete-js }}}
 ```
 
 And here's the result:
 
-{{{ decorate-example-html }}}
-{{{ dynamic-include 'javascript' js="decorate-example-js" }}}
+<style>
+{{{ building-a-chart-complete-css }}}
+</style>
+
+{{{ dynamic-include 'codepen' html="building-a-chart-complete-html" js="building-a-chart-complete-js" css="building-a-chart-complete-css"}}}
+{{{ building-a-chart-complete-html }}}
+{{{ dynamic-include 'javascript' js="building-a-chart-complete-js" }}}
 
 ## Resizing the chart
 
