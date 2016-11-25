@@ -7,6 +7,29 @@
 	font-size: $font-size-small;
 }
 
+.sub-nav {
+  list-style: none;
+  padding-left: 30px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+
+  @media(min-width: $screen-sm-min) {
+    display: none;
+  }
+  .sub-nav-item {
+    height: 28px;
+
+    > a {
+      color: $navbar-inverse-link-color;
+    };
+
+    > .active {
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+
 .nav-stacked > li {
 	&.active {
 		a {
