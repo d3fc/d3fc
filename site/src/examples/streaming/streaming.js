@@ -23,6 +23,7 @@ function renderChart() {
 
   // Offset the range to include the full bar for the latest value
   const DAY_MS = 1000 * 60 * 60 * 24;
+  const xTicks = $('body').width() >= 568 ? 10 : 5;
   const xExtent = fc.extentDate()
     .accessors([function(d) {
       return d.date;
@@ -47,12 +48,12 @@ function renderChart() {
       d3.scaleLinear()
     )
     .xDomain(xExtent(mergedData))
+    .xTicks(xTicks)
     .yDomain(yExtent(mergedData))
-    .yNice()
     .chartLabel('Streaming Candlestick');
 
   // Create the gridlines and series
-  const gridlines = fc.annotationSvgGridline();
+  const gridlines = fc.annotationSvgGridline().xTicks(xTicks);
   const candlestick = fc.seriesSvgCandlestick();
 
   const bollingerBands = function() {

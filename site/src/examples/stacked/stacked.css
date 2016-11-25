@@ -11,3 +11,9 @@
   width: 410px;
   height: 120px;
 }
+
+@media (max-width: 567px) {
+  #stacked-chart .legend {
+    visibility: hidden;
+  }
+}
