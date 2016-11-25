@@ -1,19 +1,8 @@
-.legend-container {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-svg.legend {
-  width: 50px;
-  height: 50px;
-}
-
 #chart-404 text {
 	fill: white;
 }
 
-.path, .domain {
+.tick path, .domain {
 	stroke: white;
 }
 
@@ -37,14 +26,5 @@ svg:not(:root) {
     width: 100%;
     height: 200px;
     margin: 0 auto;
-  }
-  .legend-container {
-    bottom: auto;
-    top: 0;
-  }
-
-  svg.legend {
-    width: 40px;
-    height: 40px;
   }
 }

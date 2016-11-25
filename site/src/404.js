@@ -33,7 +33,7 @@ var legend = d3.legendColor().scale(color);
 var pointSeries = fc.seriesSvgPoint()
     .crossValue(function(d) { return d.x; })
     .mainValue(function(d) { return d.y; })
-    .size($('#chart-404').width() <= 768 ? 500 : 2500)
+    .size(function() { return $('#chart-404').width() <= 768 ? 500 : 2500; })
     .decorate(function(sel) {
       sel.enter()
           .attr('fill', function(d) { return color(d.type); });
