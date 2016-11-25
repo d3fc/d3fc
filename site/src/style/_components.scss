@@ -9,5 +9,8 @@ h1 > a.btn {
   background-position-x: 12px;
   background-position-y: 6px;
   padding-left: 36px;
-  float: right;
+
+  @media (min-width: 567px) {
+    float: right;
+  }
 }
