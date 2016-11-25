@@ -39,6 +39,7 @@ function parseBlock(level, content, title, options) {
     return children;
   } else {
     const block = {
+      shouldLinkToGH: title.indexOf('d3fc-') >= 0,
       title: entities.decode(title),
       level: level - 1,
       content: (

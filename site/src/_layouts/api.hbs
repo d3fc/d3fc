@@ -9,7 +9,9 @@ layout: default
       <div class="section">
         <h{{level}}>
           {{title}}
-          <a class="btn btn-default" href="https://github.com/d3fc/{{title}}">View on GitHub</a>
+          {{#if shouldLinkToGH }}
+            <a class="btn btn-default" href="https://github.com/d3fc/{{title}}">View on GitHub</a>
+          {{/if}}
         </h{{level}}>
         {{#markdown this}}
 {{{content}}}
