@@ -11,11 +11,16 @@ export default (pathGenerator, seriesName) => {
     const containerTranslation =
         (values) => 'translate(' + values.cross + ', ' + values.high + ')';
 
+    const propagateTransition = maybeTransition => selection =>
+        maybeTransition.selection ? selection.transition(maybeTransition) : selection;
+
     const candlestick = (selection) => {
 
         if (selection.selection) {
             join.transition(selection);
         }
+
+        const transitionPropagator = propagateTransition(selection);
 
         selection.each((data, index, group) => {
 
@@ -33,7 +38,7 @@ export default (pathGenerator, seriesName) => {
                 const values = base.values(d, i);
                 const color = values.direction === 'up' ? colors.green : colors.red;
 
-                const singleCandlestick = select(g[i])
+                const singleCandlestick = transitionPropagator(select(g[i]))
                     .attr('class', seriesName + ' ' + values.direction)
                     .attr('stroke', color)
                     .attr('fill', color)

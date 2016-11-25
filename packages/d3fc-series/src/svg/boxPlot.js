@@ -15,11 +15,19 @@ export default () => {
     const pathGenerator = shapeBoxPlot()
         .value(0);
 
+    const propagateTransition = maybeTransition => selection =>
+        maybeTransition.selection ? selection.transition(maybeTransition) : selection;
+
+    const containerTranslation =
+        (values) => 'translate(' + values.origin[0] + ', ' + values.origin[1] + ')';
+
     const boxPlot = (selection) => {
 
         if (selection.selection) {
             join.transition(selection);
         }
+
+        const transitionPropagator = propagateTransition(selection);
 
         selection.each((data, index, group) => {
 
@@ -29,6 +37,7 @@ export default () => {
             g.enter()
                 .attr('stroke', colors.black)
                 .attr('fill', colors.gray)
+                .attr('transform', (d, i) => containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)')
                 .append('path');
 
             const width = base.computeBarWidth(filteredData);
@@ -44,8 +53,8 @@ export default () => {
                     .high(values.high)
                     .low(values.low);
 
-                select(g[i])
-                    .attr('transform', 'translate(' + values.origin[0] + ',' + values.origin[1] + ')')
+                transitionPropagator(select(g[i]))
+                    .attr('transform', containerTranslation(values))
                     .select('path')
                     .attr('d', pathGenerator([d]));
             });
