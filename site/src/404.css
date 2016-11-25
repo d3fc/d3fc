@@ -1,0 +1,50 @@
+.legend-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+svg.legend {
+  width: 50px;
+  height: 50px;
+}
+
+#chart-404 text {
+	fill: white;
+}
+
+.path, .domain {
+	stroke: white;
+}
+
+#chart-404 {
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+#chart-404 .plot-area {
+	background-color: transparent;
+}
+
+svg:not(:root) {
+	overflow: visible;
+}
+
+@media (max-width: 768px) {
+  #chart-404 {
+    width: 100%;
+    height: 200px;
+    margin: 0 auto;
+  }
+  .legend-container {
+    bottom: auto;
+    top: 0;
+  }
+
+  svg.legend {
+    width: 40px;
+    height: 40px;
+  }
+}
