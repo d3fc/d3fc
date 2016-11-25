@@ -11,6 +11,11 @@
 	.col-md-6 {
 		margin-top: $section-vertical-padding;
 	}
+
+	a, a:hover {
+		color: $text-color;
+		text-decoration: none;
+	}
 }
 
 .summary {

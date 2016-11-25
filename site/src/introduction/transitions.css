@@ -1,0 +1,12 @@
+.bar {
+  fill: #9cf;
+  stroke-width: 0;
+}
+
+.plot-area {
+  background-color: white;
+}
+
+d3fc-svg svg {
+  overflow: visible !important;
+}

@@ -23,40 +23,19 @@ externals:
   <div class="row">
     <div class="col-md-6">
       <style>{{stacked-css}}</style>
-      {{{stacked-html}}}
+      <a href="/examples/stacked/">
+        {{{stacked-html}}}
+      </a>
       {{{ dynamic-include 'javascript' js='stacked-js' }}}
     </div>
     <div class="col-md-6">
       <style>
       {{bubble-css}}
       </style>
-      {{{bubble-html}}}
+      <a href="/examples/bubble/">
+        {{{bubble-html}}}
+      </a>
       {{{ dynamic-include 'javascript' js='bubble-js' }}}
-    </div>
-  </div>
-
-  <div class="row summary">
-    <div class="col-md-offset-2 col-md-8">
-      <p>d3fc takes a different approach to charting; rather than providing monolithic and complex charting components,
-        this project provides a collection of D3(v4)-style components, in separate npm packages,
-        that make it easy to build interactive and responsive charts.</p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <style>
-      {{simple-css}}
-      </style>
-      {{{simple-html}}}
-      {{{ dynamic-include 'javascript' js='simple-js' }}}
-    </div>
-    <div class="col-md-6">
-      <style>
-      {{streaming-css}}
-      </style>
-      {{{streaming-html}}}
-      {{{ dynamic-include 'javascript' js='streaming-js' }}}
     </div>
   </div>
 </div>
@@ -65,27 +44,54 @@ externals:
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h1 class="text-center">QUICK START</h1>
+        <h1 class="text-center">FEATURES</h1>
       </div>
     </div>
     <div class="row">
       <div class="col-sm-3 ">
-        <h3>Install</h3>
-        <p>A complete set of instructions for obtaining d3fc and its dependencies via npm or cdnjs are available in the {{{ hyperlink 'getting-started.html' title='Getting Started Guide' }}}.</p>
+        <h3>Modular</h3>
+        <p>d3fc is a collection of modules that are designed to make it easier to build charts with D3(v4). You can use the modules independently,
+          or you can use them together as part of the default bundle.</p>
       </div>
       <div class="col-sm-3 ">
-        <h3>Learn</h3>
-        <p>Follow the tutorial on {{{ hyperlink 'building-a-chart.html' title='Building a Chart' }}} to learn the concepts and principles behind d3fc. You can mix and match d3fc components with any D3 code you may require to produce your chart.</p>
+        <h3>Responsive</h3>
+        <p>With d3fc, building responsive charts, that re-render as their size changes, is straightforward. For simple charts,
+        use the {{{ hyperlink 'chart-api.html' title='cartesian chart' }}} component, or create more complex charting
+        layouts with {{{ hyperlink 'element-api.html' title='d3fc-element' }}} </p>
       </div>
       <div class="col-sm-3 ">
-        <h3>Customise</h3>
-        <p>The components are customised via CSS, allowing you to change colors, stroke, fill and layout. However for deeper customisation all the components support the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}.</p>
+        <h3>Decorate</h3>
+        <p>Most chart APIs are complex and expansive in order to provide flexibility. d3fc takes a fundamentally different approach, where the underlying
+        power of the data-join is exposed via the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}.</p>
       </div>
       <div class="col-sm-3 ">
-        <h3>Contribute</h3>
-        <p>Spotted a bug? Have an idea for a feature? Please <a href="{{package.bugs.url}}">pop over to GitHub and contribute</a>. If you want to contribute a new component, please read
-        over {{{ hyperlink 'component-design.html' title='this page which describes the design goals' }}}.</p>
+        <h3>Transitions</h3>
+        <p>Creating D3 charts where each of the elements transitions correctly is a challenge. All of the d3fc components have been build
+        with {{{ hyperlink 'transitions.html' title='transitions support' }}} built in.</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="top-chart container">
+  <div class="row">
+    <div class="col-md-6">
+      <style>
+      {{simple-css}}
+      </style>
+      <a href="/examples/simple/">
+        {{{simple-html}}}
+      </a>
+      {{{ dynamic-include 'javascript' js='simple-js' }}}
+    </div>
+    <div class="col-md-6">
+      <style>
+      {{streaming-css}}
+      </style>
+      <a href="/examples/streaming/">
+        {{{streaming-html}}}
+      </a>
+      {{{ dynamic-include 'javascript' js='streaming-js' }}}
     </div>
   </div>
 </div>
