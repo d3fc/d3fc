@@ -11,7 +11,7 @@ externals:
 {{{ simple-html }}}
 {{{ dynamic-include 'javascript' js='simple-js' }}}
 
-This example demonstrates how to a simple Cartesian chart with a line and an area series. The chart is constructed from the following components:
+This example demonstrates how to render a simple Cartesian chart with a line and an area series. The chart is constructed from the following components:
 
  + A {{{ hyperlink 'chart-api.html' title='Cartesian chart' }}}, with linear scales for x and y, is used to render the plot area, axes and labels.
  + The data is rendered via a {{{ hyperlink 'series-api.html#line' title='line series' }}} and an {{{ hyperlink 'series-api.html#area' title='area series' }}}, these are combined into a single series using the {{{ hyperlink 'series-api.html#multi' title='multi series' }}} component.
