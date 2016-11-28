@@ -1,6 +1,6 @@
 # d3fc-element
 
-Custom HTML elements that make it easier to create responsive d3 visualisations using CSS that integrate easily with other UI frameworks (e.g. React, Angular)
+Custom HTML elements that make it easier to create responsive D3 visualisations using CSS that integrate easily with other UI frameworks (e.g. React, Angular).
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
