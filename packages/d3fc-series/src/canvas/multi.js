@@ -13,7 +13,7 @@ export default () => {
         const yScale = base.yScale();
 
         series.forEach((dataSeries, index) => {
-            const seriesData = mapping(data, dataSeries, index);
+            const seriesData = mapping(data, index, series);
             dataSeries.context(context)
                 .xScale(xScale)
                 .yScale(yScale);

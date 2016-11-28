@@ -227,7 +227,7 @@ This is part of the motivation behind naming the accessors `mainValue` and `cros
 
 One series type that is worthy of note is the multi series. This component provides a convenient way to render multiple series, that share scales, to the same SVG or canvas.
 
-The multi series renderers expose a `series` property which accepts an array of series renderers, and `xScale` and `yScale` properties. The following example shows how a multi series can be used to render both a line and bar series:
+The multi series renderers expose a `series` property which accepts an array of series renderers, together with the standard  `xScale` and `yScale` properties. The following example shows how a multi series can be used to render both a line and bar series:
 
 ```javascript
 // a couple of series - value accessor configuration omitted for clarity
@@ -603,7 +603,24 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 <a name="seriesMulti_mapping" href="#seriesMulti_mapping">#</a> *seriesMulti*.**mapping**(*mappingFunc*)
 
-If *mappingFun* is specified, sets the mapping function to the specified function, and returns this series. If *mappingFunc* is not specified, returns the current mapping function.
+If *mappingFunc* is specified, sets the mapping function to the specified function, and returns this series. If *mappingFunc* is not specified, returns the current mapping function.
+
+When rendering the multi-series, the mapping function is invoked once for each of the series supplied via the *series* property. The purpose of the mapping function is to return the data supplied to each of these series. The default mapping is the identity function, `(d) => d`, which results in each series being supplied with the same data as the multi-series component.
+
+The mapping function is invoked with the data bound to the multi-series, (*data*), the index of the current series (*index*) and the array of series (*series*). A common pattern for the mapping function is to switch on the series type. For example, a multi-series could be used to render a line series together with an upper bound, indicated by a line annotation. In this case, the following would be a suitable mapping function:
+
+```javascript
+const multi = fc.seriesSvgMulti()
+    .series([line, annotation)
+    .mapping((data, index, series) => {
+      switch(series[index]) {
+        case line:
+          return data.line;
+        case annotation:
+          return data.upperBound;
+      }
+    });
+```
 
 <a name="seriesMulti_decorate" href="#seriesMulti_decorate">#</a> *seriesMulti*.**decorate**(*decorateFunc*)
 
@@ -686,7 +703,7 @@ If *groupWidthFunc* is specified, sets the group width function and returns this
 
 <a name="grouped_subPadding" href="#grouped_subPadding">#</a> *grouped*.**subPadding**(*padding*)  
 
-If *padding* is specified, sets the sub-padding to the specified value which must be in the range [0, 1]. If *padding* is not specified, returns the current sub-padding. The sub-padding value determines the padding between the bars within each group. 
+If *padding* is specified, sets the sub-padding to the specified value which must be in the range [0, 1]. If *padding* is not specified, returns the current sub-padding. The sub-padding value determines the padding between the bars within each group.
 
 ### Stacked
 

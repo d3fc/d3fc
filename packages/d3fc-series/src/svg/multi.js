@@ -32,7 +32,7 @@ export default () => {
                 dataSeries.xScale(xScale)
                          .yScale(yScale);
 
-                const seriesData = mapping(data, dataSeries, seriesIndex);
+                const seriesData = mapping(data, seriesIndex, series);
                 const innerContainer = innerJoin(select(seriesGroup[seriesIndex]), [seriesData]);
 
                 innerContainer.call(dataSeries);
