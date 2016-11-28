@@ -19,7 +19,7 @@ function parseBlock(level, content, title, options) {
 
   if (content && title && title.indexOf('d3fc') >= 0) {
     content = content.replace(/"screenshots\//g, `"${title}/screenshots/`);
-    content = content.replace(/((\(.+)\.png)/g, (match, fileName) =>  `(${title}/${fileName.replace(/\(|\)/g, '')})`);
+    content = content.replace(/((\(.+)\.png(.*)\))/g, (match, fileName) =>  `(${title}/${fileName.replace(/\(|\)/g, '')})`);
   }
 
   if (level <= options.maxDepth) {
