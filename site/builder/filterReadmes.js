@@ -34,7 +34,7 @@ function filterReadme(structure, filters) {
 export default (readmes) =>
   new Promise((resolve, reject) => {
     const filters = {
-      sections: ['installing'],
+      sections: ['installing', 'installation'],
       regex: ['\\[Main d3fc package\\]\\(.+?\\)[\\n\\r]+']
     };
 
