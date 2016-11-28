@@ -43,7 +43,7 @@ You can also find the latest version (together with previous versions) on [cdnjs
 
 ## A quick chart
 
-If you want a quick verification that everything has installed correctly, the following code will render a cartesian chart:
+If you want a quick verification that everything has installed correctly, the following code will render a Cartesian chart:
 
 ```html
 {{{ getting-started-html }}}
