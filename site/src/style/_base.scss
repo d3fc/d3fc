@@ -21,6 +21,13 @@ h1 {
 	margin-bottom: 20px;
 }
 
+.edit-page-block {
+	padding: 1em;
+	margin: 2rem 0;
+	text-align: center;
+	background: darken($brand-offwhite, 5%);
+}
+
 footer {
 	background: $brand-background;
 	color: white;

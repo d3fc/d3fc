@@ -1,17 +1,17 @@
 ---
 layout: default
 ---
+
 <div class="container component">
   <div class="row">
 
     <div class="col-sm-9 col-xs-12">
       <h1>
         {{title}}
-        {{#if component}}
-        <a class="btn btn-default" href="{{package.repository.url}}/blob/master/src/{{component}}">View source</a>
-        {{/if}}
       </h1>
       {{{body}}}
+
+      <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc/tree/master/site/src/{{{page.path}}}" target+"_blank">Submit a fix!</a></p>
 
       <nav class="visible-xs-block">
         <ul class="pager">
