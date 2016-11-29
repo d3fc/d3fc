@@ -16,8 +16,7 @@ npm install d3fc-element
 * [&lt;d3fc-canvas&gt;](#d3fc-canvas)
 * [&lt;d3fc-group&gt;](#d3fc-group)
 
-### &lt;d3fc-svg&gt;
-### &lt;d3fc-canvas&gt;
+### &lt;d3fc-svg&gt; &lt;d3fc-canvas&gt;
 
 These elements provide a nested `svg` or `canvas` element as a rendering surface for D3 visualisations. Use CSS to size the element and its pixel dimensions will be automatically propagated through to the nested element.
 
