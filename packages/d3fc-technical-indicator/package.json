@@ -47,7 +47,7 @@
     "d3fc-scripts": "^1.6.1",
     "d3fc-random-data": "^1.0.0",
     "d3fc-scripts": "^1.1.4",
-    "d3fc-series": "^1.0.1",
+    "d3fc-series": "^2.0.1",
     "d3fc-shape": "^4.0.0",
     "fs-promise": "^1.0.0"
   },
