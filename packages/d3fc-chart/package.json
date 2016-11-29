@@ -35,6 +35,6 @@
     "d3fc-element": "^3.0.1",
     "d3fc-rebind": "^4.1.0",
     "d3fc-scripts": "^1.6.2",
-    "d3fc-series": "^1.2.2"
+    "d3fc-series": "^2.0.1"
   }
 }
