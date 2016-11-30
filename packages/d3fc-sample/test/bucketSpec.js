@@ -51,6 +51,11 @@ describe('bucket', () => {
             expect(bucketedData).toEqual([[0], [1], [6], [4], [8], [4], [8], [9], [3], [5], [2], [10], [2], [4], [3], [8], [5]]);
         });
 
+        it('should return the same number of buckets as the data length if the bucket size is less than 1', () => {
+            const bucketedData = dataBucketer.bucketSize(0.5)(data);
+            expect(bucketedData).toEqual([[0], [1], [6], [4], [8], [4], [8], [9], [3], [5], [2], [10], [2], [4], [3], [8], [5]]);
+        });
+
         it('should create a last bucket with (data.length % bucketSize) data points', () => {
             const bucketSize = 3;
             const bucketedData = dataBucketer.bucketSize(bucketSize)(data);
