@@ -10,7 +10,7 @@ d3.csv('https://d3fc.io/examples/stacked/data.csv', function(_, data) {
     }));
 
   var legend = d3.legendColor()
-    .shapeWidth(80)
+    .shapeWidth(70)
     .orient('horizontal')
     .scale(color);
 

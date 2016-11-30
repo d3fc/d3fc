@@ -5,10 +5,10 @@
 #stacked-chart .legend {
   position: absolute;
   bottom: auto;
-	top: 50px;
-	left: auto;
+  top: 50px;
+  left: auto;
   right: 10px;
-  width: 410px;
+  width: 360px;
   height: 120px;
 }
 
@@ -16,4 +16,8 @@
   #stacked-chart .legend {
     visibility: hidden;
   }
+}
+
+.legend text {
+  font-size: 9pt;
 }
