@@ -118,7 +118,7 @@ Denotes the amount of data points for each bucket. The first and last data point
 
 ### Bucket
 
-d3fc-sample also comes with a data bucket utility, used by the algorithms. It partitions data into evenly-sized chunks, with the first and last bucket being their own.
+d3fc-sample also comes with a data bucket utility, used by the algorithms. It partitions data into evenly-sized chunks.
 
 <a name="bucket" href="#bucket">#</a> fc.**bucket**()
 
@@ -129,15 +129,15 @@ Construct a data bucket utility instance.
 Partitions the data into evenly sized buckets, in the form:
 
 ```
+// where n is the bucket size
 [
-    [data[0]],
-    [data[1], data[2], ..., data[n]],
-    [data[n + 1], data[n + 2], ..., data[2n]],
+    [data[0], data[1], ..., data[n - 1]],
+    [data[n], data[n + 1], ..., data[2n - 1]],
     ...
-    [data[data.length - 1]]
+    [..., data[data.length - 1]]
 ]
 ```
 
 <a name="bucket_bucketSize" href="#bucket_bucketSize">#</a> *bucket*.**bucketSize**(*size*)
 
-Denotes the amount of data points for each bucket. The first and last data points are always their own bucket. The second-last bucket will be of size `(data.length - 2) % size`.
+Denotes the amount of data points for each bucket. The last bucket will be of size `data.length % size`.
