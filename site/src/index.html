@@ -48,26 +48,23 @@ externals:
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-3 ">
+      <div class="col-sm-4">
         <h3>Modular</h3>
-        <p>d3fc is a collection of modules that are designed to make it easier to build charts with D3(v4). You can use the modules independently,
-          or you can use them together as part of the default bundle.</p>
+        <p>d3fc is a collection of modules that are designed to make it easier to build charts with D3(v4), extending its vocabulary from SVG paths,
+          rectangles and groups, into series, annotation and chart. You can use the modules independently, or you can use them together
+          as part of the default bundle.</p>
       </div>
-      <div class="col-sm-3 ">
+      <div class="col-sm-4">
         <h3>Responsive</h3>
         <p>With d3fc, building responsive charts that re-render as their size changes is straightforward. For simple charts,
         use the {{{ hyperlink 'chart-api.html' title='Cartesian chart' }}} component, or create more complex charting
         layouts with {{{ hyperlink 'element-api.html' title='d3fc-element' }}}.</p>
       </div>
-      <div class="col-sm-3 ">
-        <h3>Decorate</h3>
-        <p>Most chart APIs are complex and expansive in order to provide flexibility. d3fc takes a fundamentally different approach, where the underlying
-        power of the data-join is exposed via the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}.</p>
-      </div>
-      <div class="col-sm-3 ">
-        <h3>Transitions</h3>
-        <p>Creating D3 charts where each of the elements transitions correctly is a challenge. All of the d3fc components have been built
-        with {{{ hyperlink 'transitions.html' title='transitions support' }}} included.</p>
+      <div class="col-sm-4">
+        <h3>Canvas / SVG</h3>
+        <p>D3(v4) introduced d3-path, which is an abstraction over SVG and Canvas, allowing path generators to write to both. With d3fc
+        continues this pattern throughout our components, all of the {{{ hyperlink 'series-api.html' title='d3fc-series' }}} components
+        support both Canvas and SVG rendering.</p>
       </div>
     </div>
   </div>
@@ -92,6 +89,33 @@ externals:
         {{{streaming-html}}}
       </a>
       {{{ dynamic-include 'javascript' js='streaming-js' }}}
+    </div>
+  </div>
+</div>
+
+<div id="quick-start" class="quick-start">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">FEATURES</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <h3>Transitions</h3>
+        <p>Creating D3 charts where each of the elements transitions correctly is a challenge. All of the d3fc components have been built
+        with {{{ hyperlink 'transitions.html' title='transitions support' }}} included.</p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Decorate</h3>
+        <p>Most chart APIs are complex and expansive in order to provide flexibility. d3fc takes a fundamentally different approach, where the underlying
+        power of the data-join is exposed via the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}.</p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Composition</h3>
+        <p>d3fc favours simple interfaces and composition. If the interface for a component does not fulfil your needs, just open it up, look at the code
+        and make use of the lower-level components that it was built with.</p>
+      </div>
     </div>
   </div>
 </div>
