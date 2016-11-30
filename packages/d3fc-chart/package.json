@@ -1,6 +1,6 @@
 {
   "name": "d3fc-chart",
-  "description": "A simple cartesian chart component built using various d3fc packages / components.",
+  "description": "A simple Cartesian chart component that renders to canvas or SVG.",
   "license": "MIT",
   "keywords": [
     "d3",

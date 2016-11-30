@@ -12,19 +12,19 @@ var yExtent = fc.extentLinear()
   .pad([0.1, 0.1]);
 
 // gridlines (from d3fc-annotation)
-var gridlines = fc.annotationSvgGridline();
+var gridlinesSvg = fc.annotationSvgGridline();
 // series (from d3fc-series)
-var line = fc.seriesSvgLine();
-var area = fc.seriesSvgArea()
+var lineSvg = fc.seriesSvgLine();
+var areaSvg = fc.seriesSvgArea()
   .mainValue(d => d.z);
 
 // combine into a single series
-var multi = fc.seriesSvgMulti()
-  .series([gridlines, area, line]);
+var multiSvg = fc.seriesSvgMulti()
+  .series([gridlinesSvg, areaSvg, lineSvg]);
 
 // the cartesian component, which uses d3fc-element for layout
 // of the standard feaures of a chart (axes, labels, plot area)
-var chart = fc.chartSvgCartesian(
+var chartSvg = fc.chartSvgCartesian(
     d3.scaleLinear(),
     d3.scaleLinear()
   )
@@ -33,9 +33,33 @@ var chart = fc.chartSvgCartesian(
   .chartLabel('Sine and Cosine')
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
-  .plotArea(multi);
+  .plotArea(multiSvg);
 
 // render
-d3.select('#sine')
+d3.select('#sine-svg')
   .datum(data)
-  .call(chart);
+  .call(chartSvg);
+
+// and now in canvas ...
+
+var areaCanvas = fc.seriesCanvasArea()
+  .mainValue(d => d.z);
+var lineCanvas = fc.seriesCanvasLine();
+
+var multiCanvas = fc.seriesCanvasMulti()
+  .series([areaCanvas, lineCanvas]);
+
+var chartCanvas = fc.chartCanvasCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear()
+  )
+  .xLabel('Value')
+  .yLabel('Sine / Cosine')
+  .chartLabel('Sine and Cosine')
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .plotArea(multiCanvas);
+
+d3.select('#sine-canvas')
+  .datum(data)
+  .call(chartCanvas);
