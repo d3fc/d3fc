@@ -23,7 +23,7 @@ function renderChart() {
 
   // Offset the range to include the full bar for the latest value
   const DAY_MS = 1000 * 60 * 60 * 24;
-  const xTicks = $('body').width() >= 568 ? 10 : 5;
+  const xTicks = $('#streaming-chart').width() >= 700 ? 10 : 5;
   const xExtent = fc.extentDate()
     .accessors([function(d) {
       return d.date;
