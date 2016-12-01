@@ -1,5 +1,6 @@
 import { dispatch } from 'd3-dispatch';
 import { mouse } from 'd3-selection';
+import { rebind } from 'd3fc-rebind';
 
 export default () => {
     const event = dispatch('point');
@@ -16,7 +17,7 @@ export default () => {
             .on('mouseleave.pointer', () => void event.point([]));
     };
 
-    instance.on = (...args) => event.on(...args);
+    rebind(instance, event, 'on');
 
     return instance;
 };
