@@ -7,14 +7,18 @@ export default () => {
 
     function mousemove() {
         const point = mouse(this);
-        event.point([{ x: point[0], y: point[1] }]);
+        event.call('point', this, [{ x: point[0], y: point[1] }]);
+    }
+
+    function mouseleave() {
+        void event.call('point', this, []);
     }
 
     const instance = (selection) => {
         selection
             .on('mouseenter.pointer', mousemove)
             .on('mousemove.pointer', mousemove)
-            .on('mouseleave.pointer', () => void event.point([]));
+            .on('mouseleave.pointer', mouseleave);
     };
 
     rebind(instance, event, 'on');
