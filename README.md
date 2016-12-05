@@ -2,6 +2,10 @@
 
 A collection of components that make it easy to build interactive charts with D3.
 
+## Migration to D3 version 4
+
+This project has recently upgraded to D3 version 4. Due to this there are a number of breaking changes. For more details, see the [release notes for version 12.0.0](https://github.com/d3fc/d3fc/releases/tag/v12.0.0).
+
 ## Installation and Documentation
 
 For details of installation and general usage, visit the [d3fc project webpage](http://d3fc.io/).
