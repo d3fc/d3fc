@@ -1,4 +1,4 @@
-# d3fc [![Build Status](https://travis-ci.org/ScottLogic/d3fc.svg?branch=master)](https://travis-ci.org/ScottLogic/d3fc) [![Semver](http://img.shields.io/SemVer/2.0.0.png)](http://semver.org/spec/v2.0.0.html) [![npm version](https://badge.fury.io/js/d3fc.svg)](https://badge.fury.io/js/d3fc)
+# d3fc [![Build Status](https://travis-ci.org/d3fc/d3fc.svg?branch=master)](https://travis-ci.org/d3fc/d3fc) [![Semver](http://img.shields.io/SemVer/2.0.0.png)](http://semver.org/spec/v2.0.0.html) [![npm version](https://badge.fury.io/js/d3fc.svg)](https://badge.fury.io/js/d3fc)
 
 A collection of components that make it easy to build interactive charts with D3.
 

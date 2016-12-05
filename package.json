@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/d3fc/d3fc.git",
-    "_homepage": "https://d3fc.io"
+    "_homepage": "https://github.com/d3fc/d3fc"
   },
   "keywords": [
     "d3",
@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/d3fc/d3fc/issues"
   },
-  "homepage": "https://beta.d3fc.io",
+  "homepage": "https://d3fc.io",
   "dependencies": {
     "d3fc-annotation": "^1.1.0",
     "d3fc-axis": "^1.0.3",
