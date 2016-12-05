@@ -9,7 +9,7 @@
     "site": "npm-run-all site:clean site:build site:styles site:copy",
     "site:dev": "cross-env NODE_ENV=dev npm-run-all bundle site site:serve",
     "site:styles": "node-sass site/src/style/styles.scss site/dist/styles.css",
-    "site:copy": "copyfiles -f build/d3fc.min.js site/dist/lib && copyfiles -f site/src/CNAME site/dist && copyfiles -f node_modules/d3-svg-legend/d3-legend.min.js site/dist/lib && copyfiles -f site/src/images/* site/dist/images && copyfiles -f node_modules/d3/build/d3.min.js site/dist/lib && copyfiles -f node_modules/jquery/dist/jquery.min.js site/dist/lib && copyfiles -f node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js site/dist/lib",
+    "site:copy": "copyfiles -f build/d3fc.min.js site/dist/lib && copyfiles -f site/src/CNAME site/dist && copyfiles -f node_modules/d3-svg-legend/d3-legend.min.js site/dist/lib && copyfiles -f site/src/images/* site/dist/images && copyfiles -f node_modules/d3/build/d3.min.js site/dist/lib && copyfiles -f node_modules/jquery/dist/jquery.min.js site/dist/lib && copyfiles -f node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js site/dist/lib && copyfiles -f node_modules/babel-polyfill/browser.js site/dist/lib && copyfiles -f node_modules/custom-event-polyfill/custom-event-polyfill.js site/dist/lib",
     "site:build": "babel-node site/scripts/build.js",
     "site:clean": "rimraf site/dist && mkdirp site/dist/examples/bubble",
     "site:serve": "live-server site/dist",
@@ -52,14 +52,14 @@
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
+    "babel-polyfill": "^6.16.0",
     "babel-preset-stage-2": "^6.18.0",
-    "d3": "^4.4.0",
     "bootstrap-sass": "^3.3.7",
-    "tiny-ssg": "github:colineberhardt/tiny-ssg#v0.0.6",
-    "live-server": "^1.1.0",
     "change-case": "^3.0.0",
     "copyfiles": "^1.0.0",
     "cross-env": "^3.1.3",
+    "custom-event-polyfill": "^0.3.0",
+    "d3": "^4.4.0",
     "d3-svg-legend": "^2.18.0",
     "d3fc-scripts": "^1.6.2",
     "fs-promise": "^1.0.0",
@@ -71,10 +71,12 @@
     "html-entities": "^1.2.0",
     "jquery": "^3.1.1",
     "js-yaml": "^3.7.0",
+    "live-server": "^1.1.0",
     "marked": "^0.3.6",
     "mkdirp": "^0.5.1",
     "node-sass": "^3.13.0",
     "npm-run-all": "^3.1.1",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "tiny-ssg": "github:colineberhardt/tiny-ssg#v0.0.6"
   }
 }

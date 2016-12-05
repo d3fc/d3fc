@@ -30,6 +30,8 @@ Once installed, you can reference both of these within an HTML page as follows:
 <script src="node_modules/d3fc/dist/d3fc.min.js"></script>
 ```
 
+d3fc supports modern browsers. For pre-Edge versions of IE, you'll need a couple of polyfills in order to run d3fc code within the browser. The first is a polyfill for `Symbol`, such as [es6-symbol](https://github.com/medikoo/es6-symbol), or the general [babel-polyfill](https://www.npmjs.com/package/babel-polyfill), and the second is a polyfill for `CustomEvent`, such as [custom-event-polyfill](https://github.com/krambuhl/custom-event-polyfill).
+
 ### CDN hosted versions
 
 Alternatively you can link to the CDN hosted versions of d3fc and D3 directly:
