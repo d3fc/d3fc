@@ -1,6 +1,6 @@
 ---
 layout: example
-title: Zoom Interactions
+title: Canvas Chart Zoom
 example: true
 externals:
   zoom-js: zoom.js
@@ -11,18 +11,9 @@ externals:
 {{{ zoom-html }}}
 {{{ dynamic-include 'javascript' js='zoom-js' }}}
 
-This example shows how to integrate the d3fc Cartesian chart component with the D3 zoom behavior. Here's a brief summary of the code:
+This example demonstrates the rendering of 10,000 datapoints with pan / zoom via [d3-zoom](https://github.com/d3/d3-zoom). As you manipulate the chart it is being re-rendered by invoking `selection.call` on the top level component. Rendering the data to Canvas is approximately x10 faster than SVG in this case.
 
- - The geometric Brownian motion generator component from the {{{ hyperlink 'random-data-api.html' title='d3fc-random-data' }}} is used to create a random data series.
- - The data is rendered via an {{{ hyperlink 'series-api.html#area' title='area series' }}}, which is combined with  {{{ hyperlink 'annotation-api.html#gridline' title='gridlines' }}} via the {{{ hyperlink 'series-api.html#multi' title='multi series' }}} component. These are rendered on a {{{ hyperlink 'chart-api.html' title='Cartesian chart' }}}.
- - The [D3 zoom](https://github.com/d3/d3-zoom) component is used to capture mouse / touch interactions. This is added to the Cartesian chart via the decorate function, which provides access to the plot-area enter selection.
- - When a zoom event occurs, the `rescaleX` utility function is used to update the x scale domain.
- - Whenever the chart is rendered, the y scale is adjusted based on the visible range of data.
-
-This example also shows a couple of interesting features of {{{ hyperlink 'element-api.html' title='d3fc-element' }}}, which is used internally by the Cartesian chart.
-
- 1. The layout is performed by Cartesian chart, which results in the scale ranges being set. In order to access this measurement, the `measure` event fired by the underlying {{{ hyperlink 'element-api.html' title='d3fc-element components' }}} is handled.
- 2. The use of {{{ hyperlink 'element-api.html' title='d3fc-element' }}}, which manages the measure and render cycles, ensures that the chart updates are 'latched' to the browser animation frames.
+The visual d3fc components support rendering to both Canvas and SVG. In this case the `cartesianCanvasChart` and `seriesCanvasPoint` are used to render the chart. You can swap then for SVG simply by changing the to `cartesianSvgChart` and `seriesSvgPoint`.
 
 ```js
 {{{ codeblock zoom-js }}}
