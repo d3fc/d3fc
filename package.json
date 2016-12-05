@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "1.0.0",
+  "version": "12.0.0",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/d3fc/d3fc.git",
-    "_homepage": "https://github.com/d3fc/d3fc"
+    "_homepage": "https://d3fc.io"
   },
   "keywords": [
     "d3",
