@@ -12,6 +12,7 @@ before_install:
 before_script:
   - npm prune
 after_success:
+  - npm run semantic-release
   - >-
     test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" &&
     bash ./site/deploy.sh
