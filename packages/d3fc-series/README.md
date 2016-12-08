@@ -109,7 +109,7 @@ Because D3 data-joins and data-binding only work on HTML / SVG, the canvas compo
 
 The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection, or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.
 
-For further details, consult the [Decorate Pattern documentation](https://d3fc.io/components/introduction/decorate-pattern.html).
+For further details, consult the [Decorate Pattern documentation](https://d3fc.io/introduction/decorate-pattern.html).
 
 The following example demonstrates how the fill color of each bar can be varied via decoration. The decorate property is passed the data join selection used to construct the component's DOM. Here, the enter selection is used to set the fill color based on the index:
 
