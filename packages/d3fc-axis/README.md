@@ -18,7 +18,7 @@ This is a drop-in replacement for [d3-axis](https://github.com/d3/d3-axis), so p
 
 Components that implement the decorate pattern expose a `decorate` property which is passed the data join selection used to construct the component's DOM. This allows users of the component to add extra logic to the enter, update and exit selections.
 
-For further details, consult the [Decorate Pattern documentation](https://d3fc.io/components/introduction/decorate-pattern.html).
+For further details, consult the [Decorate Pattern documentation](https://d3fc.io/introduction/decorate-pattern.html).
 
 ### Examples
 
