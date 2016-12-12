@@ -15,10 +15,10 @@ describe('bundle', function() {
                 './build/d3fc-financial-feed.js'
             ],
             done: (_, win) => {
-                const coinbaseFeed = win.fc.feedCoinbase()
+                const gdaxFeed = win.fc.feedGdax()
                   .product('BTC-GBP');
 
-                coinbaseFeed((_, data) => {
+                gdaxFeed((_, data) => {
                     expect(data).not.toBeUndefined();
                     done();
                 });

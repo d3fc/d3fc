@@ -1,6 +1,6 @@
 # d3fc-financial-feed
 
-An API for fetching financial time-series data from different sources including Quandl and Coinbase
+An API for fetching financial time-series data from different sources including Quandl and GDAX.
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
 
@@ -12,18 +12,18 @@ npm install d3fc-financial-feed
 
 ## API Reference
 
-* [Coinbase](#coinbase)
+* [GDAX](#gdax)
 * [Quandl](#quandl)
 
-### Coinbase
+### GDAX
 
 ``` javascript
-import { feedCoinbase } from 'd3fc-financial-feed';
+import { feedGdax } from 'd3fc-financial-feed';
 
-const coinbase = feedCoinbase()
+const gdax = feedGdax()
   .product('BTC-GBP');
 
-coinbase((error, data) => {
+gdax((error, data) => {
   if (error) throw error;
   console.log(data);
 });
@@ -41,35 +41,35 @@ coinbase((error, data) => {
 // ]
 ```
 
-https://docs.exchange.coinbase.com/#get-historic-rates
+https://docs.gdax.com/#get-historic-rates
 
-<a name="feedCoinbase" href="#feedCoinbase">#</a> fc.**feedCoinbase**()
+<a name="feedGdax" href="#feedGdax">#</a> fc.**feedGdax**()
 
-Constructs a new coinbase feed.
+Constructs a new GDAX feed.
 
-<a name="feedCoinbase_" href="#feedCoinbase_">#</a> *feedCoinbase*(*callback*)
+<a name="feedGdax_" href="#feedGdax_">#</a> *feedGdax*(*callback*)
 
-Makes a request to the Coinbase API, with *callback* invoked when the request succeeds or fails.
+Makes a request to the GDAX API, with *callback* invoked when the request succeeds or fails.
 The callback is invoked with two arguments: the error, if any, and the data.
 Data returned from the API is mapped to an array of objects with numeric
 `open`, `high`, `low`, `close` and `volume` properties, and a `Date` instance `date` property.
 
-<a name="feedCoinbase_product" href="#feedCoinbase_product">#</a> *feedCoinbase*.**product**([*value*])
+<a name="feedGdax_product" href="#feedGdax_product">#</a> *feedGdax*.**product**([*value*])
 
 If *value* is specified, sets the product id to the specified string and returns this feed instance.
 If *value* is not specified, returns the current product id, which defaults to `"BTC-USD"`.
 
-<a name="feedCoinbase_start" href="#feedCoinbase_start">#</a> *feedCoinbase*.**start**([*value*])
+<a name="feedGdax_start" href="#feedGdax_start">#</a> *feedGdax*.**start**([*value*])
 
 If *value* is specified, sets the start date to the specified `Date` object and returns this feed instance.
 If *value* is not specified, returns the current start date, which defaults to null.
 
-<a name="feedCoinbase_end" href="#feedCoinbase_end">#</a> *feedCoinbase*.**end**([*value*])
+<a name="feedGdax_end" href="#feedGdax_end">#</a> *feedGdax*.**end**([*value*])
 
 If *value* is specified, sets the end date to the specified `Date` object and returns this feed instance.
 If *value* is not specified, returns the current end date, which defaults to null.
 
-<a name="feedCoinbase_granularity" href="#feedCoinbase_granularity">#</a> *feedCoinbase*.**granularity**([*value*])
+<a name="feedGdax_granularity" href="#feedGdax_granularity">#</a> *feedGdax*.**granularity**([*value*])
 
 If *value* is specified, sets the granularity to the specified number of seconds and returns this feed instance.
 If *value* is not specified, returns the current granularity, which defaults to null.

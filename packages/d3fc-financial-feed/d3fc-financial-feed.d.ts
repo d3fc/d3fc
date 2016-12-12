@@ -1,9 +1,9 @@
 declare namespace fc_financial_feed {
 
-    export function Coinbase(): Coinbase;
+    export function Gdax(): Gdax;
     export function Quandl(): Quandl;
 
-    interface CoinbaseDatum {
+    interface GdaxDatum {
         date: Date,
         open: number;
         high: number;
@@ -12,17 +12,17 @@ declare namespace fc_financial_feed {
         volume: number;
     }
 
-    interface Coinbase {
+    interface Gdax {
         product(): string;
-        product(x: string): Coinbase;
+        product(x: string): Gdax;
         start(): Date;
-        start(x: Date): Coinbase;
+        start(x: Date): Gdax;
         end(): Date;
-        end(x: Date): Coinbase;
+        end(x: Date): Gdax;
         granularity(): number;
-        granularity(x: number): Coinbase;
+        granularity(x: number): Gdax;
 
-        (callback: (error: any, data?: CoinbaseDatum[]) => void);
+        (callback: (error: any, data?: GdaxDatum[]) => void);
     }
 
     interface Quandl {

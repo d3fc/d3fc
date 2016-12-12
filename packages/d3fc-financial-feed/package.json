@@ -1,6 +1,6 @@
 {
   "name": "d3fc-financial-feed",
-  "description": "An API for fetching financial time-series data from different sources including Quandl and Coinbase",
+  "description": "An API for fetching financial time-series data from different sources including Quandl and GDAX",
   "license": "MIT",
   "keywords": [
     "d3",
@@ -8,7 +8,8 @@
     "feed",
     "data",
     "quandl",
-    "coinbase"
+    "coinbase",
+    "gdax"
   ],
   "homepage": "https://github.com/d3fc/d3fc-financial-feed",
   "main": "build/d3fc-financial-feed.js",

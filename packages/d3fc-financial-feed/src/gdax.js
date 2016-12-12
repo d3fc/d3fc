@@ -1,6 +1,6 @@
 import { json } from 'd3-request';
 
-// https://docs.exchange.coinbase.com/#market-data
+// https://docs.gdax.com/#market-data
 export default function() {
 
     var product = 'BTC-USD';
@@ -8,7 +8,7 @@ export default function() {
     var end = null;
     var granularity = null;
 
-    var coinbase = function(cb) {
+    var gdax = function(cb) {
         var params = [];
         if (start != null) {
             params.push('start=' + start.toISOString());
@@ -19,7 +19,7 @@ export default function() {
         if (granularity != null) {
             params.push('granularity=' + granularity);
         }
-        var url = 'https://api.exchange.coinbase.com/products/' + product + '/candles?' + params.join('&');
+        var url = 'https://api.gdax.com/products/' + product + '/candles?' + params.join('&');
         json(url, function(error, data) {
             if (error) {
                 cb(error);
@@ -39,34 +39,34 @@ export default function() {
         });
     };
 
-    coinbase.product = function(x) {
+    gdax.product = function(x) {
         if (!arguments.length) {
             return product;
         }
         product = x;
-        return coinbase;
+        return gdax;
     };
-    coinbase.start = function(x) {
+    gdax.start = function(x) {
         if (!arguments.length) {
             return start;
         }
         start = x;
-        return coinbase;
+        return gdax;
     };
-    coinbase.end = function(x) {
+    gdax.end = function(x) {
         if (!arguments.length) {
             return end;
         }
         end = x;
-        return coinbase;
+        return gdax;
     };
-    coinbase.granularity = function(x) {
+    gdax.granularity = function(x) {
         if (!arguments.length) {
             return granularity;
         }
         granularity = x;
-        return coinbase;
+        return gdax;
     };
 
-    return coinbase;
+    return gdax;
 }
