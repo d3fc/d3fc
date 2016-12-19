@@ -1,0 +1,10 @@
+{
+  "extends": "../node_modules/d3fc-scripts/.eslintrc.json",
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "fc": true,
+    "d3": true
+  }
+}

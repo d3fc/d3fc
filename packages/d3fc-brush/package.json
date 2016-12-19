@@ -1,0 +1,38 @@
+{
+  "name": "d3fc-brush",
+  "description": "Adapts the D3 brush, making it easier to create data-driven brushed charts.",
+  "license": "MIT",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "axis"
+  ],
+  "homepage": "https://github.com/d3fc/d3fc-brush",
+  "main": "build/d3fc-axis.js",
+  "jsnext:main": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d3fc/d3fc-brush"
+  },
+  "scripts": {
+    "bundle": "d3fc-scripts bundle",
+    "test": "d3fc-scripts test",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.13.0",
+    "d3": "^4.2.5",
+    "d3fc-chart": "^1.1.0",
+    "d3fc-extent": "^2.2.1",
+    "d3fc-random-data": "^1.1.0",
+    "d3fc-scripts": "^1.6.1"
+  },
+  "dependencies": {
+    "d3-brush": "^1.0.3",
+    "d3-dispatch": "^1.0.2",
+    "d3-scale": "^1.0.3",
+    "d3-selection": "^1.0.2",
+    "d3fc-data-join": "^4.1.1",
+    "d3fc-rebind": "^4.1.0"
+  }
+}
