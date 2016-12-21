@@ -1,6 +1,19 @@
-.top-chart {
-	@include section;
+.jumbotron {
+	padding-top: $navbar-bottom-margin;
+	padding-bottom: $navbar-bottom-margin;
+	margin-bottom: 0;
+	background-image: url(images/hexagon.png);
 
+	p {
+		@include font-bodoni();
+		font-style: italic;
+		font-size: 16px;
+    margin-top: 15px;
+	}
+}
+
+.top-chart {
+	padding-bottom: $section-vertical-padding;
 	padding-top: $section-vertical-padding - $navbar-margin-bottom;
 
 	.chart.large {
@@ -18,70 +31,19 @@
 	}
 }
 
-.summary {
-	font-size: $font-size-large;
-	margin-top: 50px;
-	margin-bottom: 10px;
-}
+.features {
+	background-color: $brand-light-gray;
 
-.jumbotron {
-	@include section;
-
-	position: relative;
-	margin-top: -21px;
-
-	$margin: 30px;
-
-	img {
-		margin-top: $margin;
-		margin-bottom: $margin;
-		height: 150px;
-  	width: 100%;
+	.row {
+		padding: 50px 0;
 	}
-
-	p {
-		margin-bottom: $margin;
-	}
-
-	a {
-		margin-bottom: $margin;
-	}
-
-	.jumbotron-btn {
-		$height: 40px;
-
-		display: inline-block;
-		line-height: $height;
-		height: $height;
-		padding: 0 $height;
-		border-radius: $height / 2;
-		border: 1px solid white;
-		color: white;
-
-		&:hover {
-			background: white;
-			color: $brand-primary;
-			text-decoration: none;
-		}
-	}
-}
-
-.quick-start {
-	@include section;
-
-	background: $brand-secondary;
-	color: white;
 
 	h3 {
-		text-transform: uppercase;
 		text-align: center;
 	}
 
-	p {
-		margin-bottom: 40px;
-	}
-
-	a {
-		color: $brand-primary;
+	img {
+		margin: 0 auto;
+		display: block;
 	}
 }

@@ -1,14 +1,13 @@
-// Core variables and mixins
-@import 'variable-overrides';
-@import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables';
 @import 'variables';
 
+// Core variables and mixins
+@import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import 'variables-override';
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins';
 
 // Reset and dependencies
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/normalize';
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/print';
-@import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/glyphicons';
 
 // Core CSS
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding';
@@ -23,9 +22,7 @@
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/component-animations';
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navs';
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navbar';
-@import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/pager';
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/jumbotron';
-@import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/thumbnails';
 
 // Utility classes
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap/utilities';
@@ -33,12 +30,12 @@
 
 @import 'highlightjs-default';
 
-@import 'mixins';
+@import 'fonts';
 @import 'base';
-@import 'homepage';
 @import 'nav';
-@import 'project';
-@import 'components';
-@import 'examples';
-@import 'codepen';
+@import 'secondary-nav';
+@import 'homepage';
+@import 'footer';
+@import 'buttons';
 @import 'chart';
+@import 'content';

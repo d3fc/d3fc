@@ -1,0 +1,14 @@
+footer {
+	background: $brand-background;
+	color: white;
+	a {
+		color: white;
+		&:hover {
+			color: $gray-lighter;
+		}
+	}
+
+	p {
+		margin: 10px 0;
+	}
+}
