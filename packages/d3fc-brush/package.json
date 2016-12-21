@@ -25,7 +25,7 @@
     "d3fc-chart": "^1.1.0",
     "d3fc-extent": "^2.2.1",
     "d3fc-random-data": "^1.1.0",
-    "d3fc-scripts": "^1.6.1"
+    "d3fc-scripts": "^1.7.0"
   },
   "dependencies": {
     "d3-brush": "^1.0.3",
