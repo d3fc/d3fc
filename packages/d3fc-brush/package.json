@@ -5,10 +5,10 @@
   "keywords": [
     "d3",
     "d3fc",
-    "axis"
+    "brush"
   ],
   "homepage": "https://github.com/d3fc/d3fc-brush",
-  "main": "build/d3fc-axis.js",
+  "main": "build/d3fc-brush.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
