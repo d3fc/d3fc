@@ -27,48 +27,53 @@
       <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
-              <a href="{{baseurl}}/"><img class="navbar-logo" alt="d3fc" src="{{baseurl}}/images/logo.svg" /></a>
+              {{#isnt section 'homepage'}}
+                <a href="{{baseurl}}/"><img class="navbar-logo" alt="d3fc" src="{{baseurl}}/images/logo.svg" /></a>
+              {{/isnt}}
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              </div>
+            </div>
             <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav navbar-right">
-                <li class="{{#is section 'introduction'}}active{{/is}}"><a href="{{baseurl}}/introduction/getting-started.html">Documentation</a></li>
-                <li class="{{#is section 'api'}}active{{/is}}">
-                  <a href="{{baseurl}}/api/{{#first api}}{{name}}{{/first}}.html">API</a>
-                  {{#is section 'api'}}
-                    <ul class="sub-nav">
-                      {{#each api}}
-                        <li class="sub-nav-item">
-                          {{#eq ../name name }}
-                            <span class="active">{{title}}</span>
-                          {{else}}
-                            <a href="{{baseurl}}/api/{{name}}.html">{{title}}</a>
-                          {{/eq}}
-                        </li>
-                      {{/each}}
-                    </ul>
-                  {{/is}}
-                </li>
-                <li class="{{#is layout 'example'}}active{{/is}}">
-                  <a href="{{baseurl}}/examples/bubble/">Examples</a>
-                  {{#is layout 'example'}}
-                    <ul class="sub-nav">
-                      {{#each pages}}
-                        {{#if example }}
+              <div class="floating-nav {{#isnt section 'homepage'}}inverted{{/isnt}}">
+                <ul class="nav navbar-nav">
+                  <li class="{{#is section 'introduction'}}active{{/is}}"><a href="{{baseurl}}/introduction/getting-started.html">Documentation</a></li>
+                  <li class="{{#is section 'api'}}active{{/is}}">
+                    <a href="{{baseurl}}/api/{{#first api}}{{name}}{{/first}}.html">API</a>
+                    {{#is section 'api'}}
+                      <ul class="sub-nav">
+                        {{#each api}}
                           <li class="sub-nav-item">
-                            <a class="{{#if isCurrentPage}}active{{/if}}" href="{{page.destination}}">{{title}}</a>
+                            {{#eq ../name name }}
+                              <span class="active">{{title}}</span>
+                            {{else}}
+                              <a href="{{baseurl}}/api/{{name}}.html">{{title}}</a>
+                            {{/eq}}
                           </li>
-                        {{/if}}
-                      {{/each}}
-                    </ul>
-                  {{/is}}
-                </li>
-                <li><a href="{{package.repository._homepage}}">GitHub</a></li>
-              </ul>
+                        {{/each}}
+                      </ul>
+                    {{/is}}
+                  </li>
+                  <li class="{{#is layout 'example'}}active{{/is}}">
+                    <a href="{{baseurl}}/examples/bubble/">Examples</a>
+                    {{#is layout 'example'}}
+                      <ul class="sub-nav">
+                        {{#each pages}}
+                          {{#if example }}
+                            <li class="sub-nav-item">
+                              <a class="{{#if isCurrentPage}}active{{/if}}" href="{{page.destination}}">{{title}}</a>
+                            </li>
+                          {{/if}}
+                        {{/each}}
+                      </ul>
+                    {{/is}}
+                  </li>
+                  <li><a href="{{package.repository._homepage}}">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
             </div>
         </div>
       </nav>

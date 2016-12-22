@@ -1,0 +1,17 @@
+// boostrap overrides
+// see node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables
+$text-color: $brand-primary;
+$link-color: $brand-link;
+$link-hover-color: $brand-link;
+
+$font-size-base: 15px;
+
+$navbar-height: 60px;
+$navbar-bottom-margin: 20px;
+$navbar-padding-vertical: 20px;
+$navbar-inverse-bg: $brand-background;
+$navbar-inverse-border: $brand-background;
+$navbar-border-radius: 0;
+
+$jumbotron-bg: $brand-background;
+$jumbotron-color: white;

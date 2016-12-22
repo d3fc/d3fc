@@ -1,3 +1,4 @@
+
 $image-dimensions: 18px;
 
 @mixin button($image-url) {
@@ -9,9 +10,19 @@ $image-dimensions: 18px;
   padding-left: $image-dimensions + $padding-base-horizontal * 1.5;
 }
 
-@mixin section($content-padding: 0) {
-	padding-top: $section-vertical-padding - $content-padding;
-	padding-bottom: $section-vertical-padding - $content-padding;
-	margin-top: 0;
-	margin-bottom: 0;
+.codepen-link {
+  text-align: right;
+  margin-bottom: 10px;
+
+  input[type='submit'] {
+    @include button('/images/codepen.png')
+  }
+}
+
+h1 > a.btn {
+	@include button('/images/github.png');
+
+  @media (min-width: 567px) {
+    float: right;
+  }
 }

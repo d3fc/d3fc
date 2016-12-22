@@ -1,0 +1,22 @@
+@mixin font-bodoni() {
+  // http://www.cssfontstack.com/bodoni-mt
+  font-family: "Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;
+  font-style: italic;
+  font-variant: normal;
+  font-weight: 500;
+}
+
+@mixin font-helvetica-neue-light() {
+  // http://rachaelmoore.name/posts/design/css/web-safe-helvetica-font-stack/
+	font-family: "HelveticaNeueLight", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosRegular', "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+	font-weight: 300;
+	font-stretch: normal;
+}
+
+
+@mixin font-helvetica-neue-black-condensed() {
+  // http://rachaelmoore.name/posts/design/css/web-safe-helvetica-font-stack/
+  font-family: "HelveticaNeueBlackCondensed", "HelveticaNeue-Black-Condensed", "Helvetica Neue Black Condensed", "HelveticaNeueBlack", "HelveticaNeue-Black", "Helvetica Neue Black", "HelveticaNeue", "Helvetica Neue", 'TeXGyreHerosCnBold', "Arial Narrow", "Arial", sans-serif;
+  font-weight: 800;
+  font-stretch: condensed;
+}
