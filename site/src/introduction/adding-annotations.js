@@ -51,12 +51,12 @@ var annotation = fc.annotationSvgLine()
 
 var multi = fc.seriesSvgMulti()
     .series([bar, annotation])
-    .mapping(function(seriesData, series) {
-      switch (series) {
+    .mapping(function(data, index, series) {
+      switch (series[index]) {
       case bar:
-        return seriesData.sales;
+        return data.sales;
       case annotation:
-        return seriesData.targets;
+        return data.targets;
       }
     });
 
