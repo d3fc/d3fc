@@ -1,0 +1,11 @@
+.bear .bar {
+  stroke: red;
+  fill: red;
+  fill-opacity: 1.0;
+}
+
+.bull .bar {
+  stroke: green;
+  fill: green;
+  fill-opacity: 1.0;
+}

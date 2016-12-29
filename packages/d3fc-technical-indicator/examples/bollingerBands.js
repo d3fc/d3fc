@@ -1,6 +1,3 @@
-// Remove transition
-d3.selection.prototype.transition = null;
-
 function bollingerBandsExample() {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();

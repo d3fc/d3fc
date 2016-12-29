@@ -1,6 +1,3 @@
-// Remove transition
-d3.selection.prototype.transition = null;
-
 // Elder Ray Component
 const elderRayExample = () => {
     let xScale = d3.scaleTime();

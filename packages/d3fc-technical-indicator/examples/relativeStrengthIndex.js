@@ -1,6 +1,3 @@
-// Remove transition
-d3.selection.prototype.transition = null;
-
 const rsiExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
@@ -17,8 +14,8 @@ const rsiExample = () => {
         multiSeries.xScale(xScale)
           .yScale(yScale)
           .series([annotations, rsiLine])
-          .mapping((data, series) =>
-              (series === annotations)
+          .mapping((data, index, series) =>
+              (series[index] === annotations)
                 ? [upperValue, 50, lowerValue]
                 : data
           )

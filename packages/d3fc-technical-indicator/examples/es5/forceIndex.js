@@ -1,8 +1,5 @@
 'use strict';
 
-// Remove transition
-d3.selection.prototype.transition = null;
-
 var forceIndexExample = function forceIndexExample() {
     var xScale = d3.scaleTime();
     var yScale = d3.scaleLinear();
@@ -17,8 +14,8 @@ var forceIndexExample = function forceIndexExample() {
     });
 
     var force = function force(selection) {
-        multiSeries.xScale(xScale).yScale(yScale).series([annotations, forceLine]).mapping(function (data, series) {
-            return series === annotations ? [0] : data;
+        multiSeries.xScale(xScale).yScale(yScale).series([annotations, forceLine]).mapping(function (data, index, series) {
+            return series[index] === annotations ? [0] : data;
         }).decorate(function (g, data, index) {
             g.enter().attr('class', function (d, i) {
                 return 'multi ' + ['annotations', 'indicator'][i];

@@ -1,8 +1,5 @@
 'use strict';
 
-// Remove transition
-d3.selection.prototype.transition = null;
-
 function bollingerBandsExample() {
     var xScale = d3.scaleTime();
     var yScale = d3.scaleLinear();
@@ -47,9 +44,6 @@ function bollingerBandsExample() {
         var multi = fc.seriesCanvasMulti().xScale(xScale).yScale(yScale).context(ctx).series([area, upperLine, lowerLine, averageLine]).decorate(function (context, data, index) {
             var series = ['area', 'upper', 'lower', 'average'];
             Object.assign(context, styles[series[index]]);
-            // .attr('class', (d, i) =>
-            //     'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i]
-            // );
         });
 
         area.crossValue(crossValue);

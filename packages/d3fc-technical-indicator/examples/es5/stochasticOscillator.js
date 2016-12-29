@@ -1,8 +1,5 @@
 'use strict';
 
-// Remove transition
-d3.selection.prototype.transition = null;
-
 var stochasticExample = function stochasticExample() {
     var xScale = d3.scaleTime();
     var yScale = d3.scaleLinear();
@@ -24,8 +21,8 @@ var stochasticExample = function stochasticExample() {
     });
 
     var stochastic = function stochastic(selection) {
-        multi.xScale(xScale).yScale(yScale).series([annotations, dLine, kLine]).mapping(function (data, series) {
-            return series === annotations ? [highValue, lowValue] : data;
+        multi.xScale(xScale).yScale(yScale).series([annotations, dLine, kLine]).mapping(function (data, index, series) {
+            return series[index] === annotations ? [highValue, lowValue] : data;
         }).decorate(function (g, data, index) {
             g.enter().attr('class', function (d, i) {
                 return 'multi stochastic ' + ['annotations', 'stochastic-d', 'stochastic-k'][i];

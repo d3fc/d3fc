@@ -1,8 +1,5 @@
 'use strict';
 
-// Remove transition
-d3.selection.prototype.transition = null;
-
 var rsiExample = function rsiExample() {
     var xScale = d3.scaleTime();
     var yScale = d3.scaleLinear();
@@ -18,8 +15,8 @@ var rsiExample = function rsiExample() {
     });
 
     var rsi = function rsi(selection) {
-        multiSeries.xScale(xScale).yScale(yScale).series([annotations, rsiLine]).mapping(function (data, series) {
-            return series === annotations ? [upperValue, 50, lowerValue] : data;
+        multiSeries.xScale(xScale).yScale(yScale).series([annotations, rsiLine]).mapping(function (data, index, series) {
+            return series[index] === annotations ? [upperValue, 50, lowerValue] : data;
         }).decorate(function (g, data, index) {
             g.enter().attr('class', function (d, i) {
                 return 'multi rsi ' + ['annotations', 'indicator'][i];

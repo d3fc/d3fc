@@ -1,8 +1,5 @@
 'use strict';
 
-// Remove transition
-d3.selection.prototype.transition = null;
-
 var envelopeExample = function envelopeExample() {
 
     var xScale = d3.scaleTime();

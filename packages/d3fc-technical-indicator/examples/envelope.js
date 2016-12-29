@@ -1,6 +1,3 @@
-// Remove transition
-d3.selection.prototype.transition = null;
-
 const envelopeExample = () => {
 
     let xScale = d3.scaleTime();

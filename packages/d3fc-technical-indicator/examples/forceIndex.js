@@ -1,6 +1,3 @@
-// Remove transition
-d3.selection.prototype.transition = null;
-
 const forceIndexExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
@@ -16,7 +13,7 @@ const forceIndexExample = () => {
         multiSeries.xScale(xScale)
           .yScale(yScale)
           .series([annotations, forceLine])
-          .mapping((data, series) => (series === annotations) ? [0] : data)
+          .mapping((data, index, series) => (series[index] === annotations) ? [0] : data)
           .decorate(function(g, data, index) {
               g.enter()
                 .attr('class', (d, i) => (

@@ -1,6 +1,3 @@
-// Remove transition
-d3.selection.prototype.transition = null;
-
 const stochasticExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
@@ -21,8 +18,8 @@ const stochasticExample = () => {
         multi.xScale(xScale)
           .yScale(yScale)
           .series([annotations, dLine, kLine])
-          .mapping((data, series) =>
-            (series === annotations)
+          .mapping((data, index, series) =>
+            (series[index] === annotations)
               ? [highValue, lowValue]
               : data
           )
