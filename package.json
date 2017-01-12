@@ -77,7 +77,7 @@
     "live-server": "^1.1.0",
     "marked": "^0.3.6",
     "mkdirp": "^0.5.1",
-    "node-sass": "^3.13.0",
+    "node-sass": "^4.3.0",
     "npm-run-all": "^3.1.1",
     "rimraf": "^2.5.4",
     "tiny-ssg": "github:colineberhardt/tiny-ssg#v0.0.6"
