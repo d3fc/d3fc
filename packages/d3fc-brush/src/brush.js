@@ -64,7 +64,7 @@ const brushBase = (orient) => {
     const updateYDomain = (selection) => {
         const g = scaleLinear().domain(yScale.domain());
         if (orient === 'y') {
-            return selection.map(g.invert);
+            return [selection[1], selection[0]].map(g.invert);
         } else if (orient === 'xy') {
             return [
                 g.invert(selection[1][1]),
