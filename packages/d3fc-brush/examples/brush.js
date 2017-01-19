@@ -29,10 +29,13 @@ var area = fc.seriesSvgArea()
     });
 
 var brush = fc.brushX()
-    .on('brush end', function(evt) {
-        chartData.brushedRange = evt.selection;
-        x.domain(evt.xDomain);
-        render();
+    .on('brush', function(evt) {
+        // if the brush has zero height there is no selection
+        if (evt.selection) {
+            chartData.brushedRange = evt.selection;
+            mainChart.xDomain(evt.xDomain);
+            render();
+        }
     });
 
 var multi = fc.seriesSvgMulti()
@@ -54,7 +57,7 @@ var navigatorChart = fc.chartSvgCartesian(x.copy(), y.copy())
 
 // set the initial domain based on the brushed range
 var scale = d3.scaleLinear().domain(x.domain());
-x.domain(chartData.brushedRange.map(scale.invert));
+mainChart.xDomain(chartData.brushedRange.map(scale.invert));
 
 function render() {
     d3.select('#main-chart')
