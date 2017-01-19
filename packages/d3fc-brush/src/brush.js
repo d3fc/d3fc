@@ -74,6 +74,10 @@ const brushBase = (orient) => {
     };
 
     const transformEvent = (event) => {
+        // The render function calls brush.move, which triggers, start, brush and end events. We don't
+        // really want those events so suppress them.
+        if (event.sourceEvent && event.sourceEvent.type === 'draw') return;
+
         if (event.selection) {
             const mappedSelection = selectionToPercent(event.selection);
             eventDispatch.call(event.type, {},
