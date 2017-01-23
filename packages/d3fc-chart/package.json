@@ -25,6 +25,7 @@
     "d3": "^4.2.5",
     "d3fc-annotation": "^1.0.3",
     "d3fc-extent": "^2.2.1",
+    "d3fc-scripts": "^1.6.2",
     "semantic-release": "^4.3.5"
   },
   "dependencies": {
@@ -34,7 +35,6 @@
     "d3fc-data-join": "^4.1.1",
     "d3fc-element": "^3.0.1",
     "d3fc-rebind": "^4.1.0",
-    "d3fc-scripts": "^1.6.2",
     "d3fc-series": "^2.0.1"
   }
 }
