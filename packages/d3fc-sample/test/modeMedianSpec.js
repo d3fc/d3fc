@@ -45,4 +45,20 @@ describe('modeMedian', function() {
             expect(subsampledData[2]).toEqual(3);
         });
     });
+
+    describe('array data', function() {
+        beforeEach(function() {
+            data = [[0, 1], [6, 4], [8, 4], [8, 9], [3, 0], [2, 10], [2, 4], [3, 8]];
+            bucketGenerator = modeMedian()
+                                .value(function(d) { return d[1]; });
+        });
+
+        it('should return a 2-dimensional array', function() {
+            var subsampledData = bucketGenerator.bucketSize(6)(data);
+
+            expect(subsampledData[0][1]).toEqual(1);
+            expect(subsampledData[1][1]).toEqual(0);
+            expect(subsampledData[2][1]).toEqual(8);
+        });
+    });
 });

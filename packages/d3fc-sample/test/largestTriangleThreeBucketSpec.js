@@ -61,4 +61,28 @@ describe('largestTriangleThreeBucket', function() {
 
     });
 
+    describe('array data', function() {
+        beforeEach(function() {
+            data = [
+                [0, 6], // Bucket 1
+                [1, 8], // Bucket 2
+                [2, 1],
+                [3, 9],
+                [4, 12] // Bucket 3
+            ];
+            dataGenerator = largestTriangleThreeBucket()
+                              .bucketSize(3)
+                              .x(function(d) { return d[0]; })
+                              .y(function(d) { return d[1]; });
+        });
+
+        it('should return a 2-dimensional array', function() {
+            var sampledData = dataGenerator(data);
+
+            expect(sampledData[0][0]).toEqual(0);
+            expect(sampledData[1][0]).toEqual(1);
+            expect(sampledData[2][0]).toEqual(4);
+        });
+    });
+
 });
