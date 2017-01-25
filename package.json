@@ -69,7 +69,7 @@
     "glob": "^7.1.1",
     "gray-matter": "^2.1.0",
     "handlebars": "^4.0.6",
-    "handlebars-helpers": "^0.7.5",
+    "handlebars-helpers": "^0.8.0",
     "highlight.js": "^9.8.0",
     "html-entities": "^1.2.0",
     "jquery": "^3.1.1",
