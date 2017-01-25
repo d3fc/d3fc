@@ -55,7 +55,7 @@ export default function() {
         });
 
         // First and last data points are their own buckets.
-        return [].concat(data[0], subsampledData, data[data.length - 1]);
+        return [].concat([data[0]], subsampledData, [data[data.length - 1]]);
     };
 
     rebind(modeMedian, dataBucketer, 'bucketSize');

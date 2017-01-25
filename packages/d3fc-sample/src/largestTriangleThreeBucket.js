@@ -20,7 +20,7 @@ export default function() {
 
         // Keep track of the last selected bucket info and all buckets
         // (for the next bucket average)
-        var allBuckets = [].concat(firstBucket, buckets, lastBucket);
+        var allBuckets = [].concat([firstBucket], buckets, [lastBucket]);
 
         var lastSelectedX = x(firstBucket);
         var lastSelectedY = y(firstBucket);
@@ -49,7 +49,7 @@ export default function() {
         });
 
         // First and last data points are their own buckets.
-        return [].concat(data[0], subsampledData, data[data.length - 1]);
+        return [].concat([data[0]], subsampledData, [data[data.length - 1]]);
     };
 
     rebind(largestTriangleThreeBucket, dataBucketer, 'bucketSize');
