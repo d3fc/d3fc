@@ -96,11 +96,6 @@ If *label* is specified, sets the text for the given label, and returns the Cart
 
 If *orient* is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If *orient* is not specified, returns the orientation. Valid values for *yOrient* are *left* or *right*, and for *xOrient*, *top* or *bottom*.
 
-<a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)  
-<a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)  
-
-If *orient* is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If *orient* is not specified, returns the orientation. Valid values for *yOrient* are *left* or *right*, and for *xOrient*, *top* or *bottom*.
-
 <a name="cartesian_decorate" href="#cartesian_decorate">#</a> *cartesian*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified, and returns the Cartesian chart. If *decorateFunc* is not specified, returns the current decorator function.
