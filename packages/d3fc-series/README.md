@@ -21,7 +21,7 @@ A collection of components for rendering data series to SVG and canvas, includin
 <tr>
   <td><a href="#grouped"><img src="screenshots/grouped.png"/></a></td>
   <td><a href="#stacked"><img src="screenshots/stacked.png"/></a></td>
-  <td></td>
+  <td><a href="#repeat"><img src="screenshots/repeat.png"/></a></td>
 </tr>
 </table>
 
@@ -45,6 +45,7 @@ npm install d3fc-series
 * [Boxplot](#boxplot)
 * [Errorbar](#errorbar)
 * [Multi](#multi)
+* [Repeat](#repeat)
 * [Grouped](#grouped)
 * [Stacked](#stacked)
 
@@ -264,6 +265,7 @@ multiSeries(data)
 
 In this case the context is also propagated from the multi series to the children.
 
+The multi series allows you to combine a range of different series types. If instead you have multiple data series that you want to render using the same series type, e.g. a chart containing multiple lines, the [repeat series](#repeat) is an easier way to achieve this.
 
 #### Fractional bar width
 
@@ -634,6 +636,56 @@ With the SVG multi series, the decorate function is invoked once, with the data 
 <a name="seriesMulti_context" href="#seriesMulti_context">#</a> *seriesMulti*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+### Repeat
+
+![](screenshots/repeat.png)
+
+<a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.**seriesSvgRepeat**()  
+<a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()
+
+Constructs a new repeat series renderer for either canvas or SVG.
+
+The repeat series is very similar in function to the multi series, both are designed to render multiple series from the same bound data. The repeat series uses the same series type for each data series, e.g. multiple lines series, or multiple area series.
+
+The repeat series expects the data to be presented as an array of arrays. The following example demonstrates how it can be used to render multiple line series:
+
+```javascript
+const data = [
+  [1, 3, 4],
+  [4, 5, 6]
+];
+
+const line = fc.seriesSvgLine();
+
+const repeatSeries = fc.seriesSvgRepeat()
+    .xScale(xScale)
+    .yScale(yScale)
+    .series(line);
+
+d3.select('g')
+    .datum(data)
+    .call(repeatSeries);
+```
+
+The repeat series also exposes an *orient* property which determines the 'orientation' of the series within the bound data. In the above example, setting orient to *horizontal* would result in the data being rendered as three series of two points (rather than two series of three points).
+
+#### Common properties
+
+<a name="seriesRepeat_series" href="#seriesRepeat_series">#</a> *seriesRepeat*.**series**(*series*)  
+
+If *series* is specified, sets the series that this repeat series should render and returns this series. If *series* is not specified, returns the current series.
+
+<a name="seriesRepeat_orient" href="#seriesRepeat_orient">#</a> *seriesRepeat*.**orient**(*orientation*)  
+
+If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `vertical` (default) or `horizontal`.
+
+<a name="seriesRepeat_xScale" href="#seriesRepeat_xScale">#</a> *seriesRepeat*.**xScale**(*scale*)  
+<a name="seriesRepeat_yScale" href="#seriesRepeat_yScale">#</a> *seriesRepeat*.**yScale**(*scale*)  
+<a name="seriesRepeat_decorate" href="#seriesRepeat_decorate">#</a> *seriesRepeat*.**decorate**(*decorateFunc*)  
+<a name="seriesRepeat_context" href="#seriesRepeat_context">#</a> *seriesRepeat*.**context**(*ctx*)
+
+Please refer to the multi series for the documentation of these properties.
 
 ### Grouped
 
