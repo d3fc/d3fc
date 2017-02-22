@@ -5,14 +5,17 @@ import { axisBottom, axisRight, axisLeft, axisTop } from 'd3fc-axis';
 import { dataJoin } from 'd3fc-data-join';
 import { rebindAll, exclude, prefix, includeMap } from 'd3fc-rebind';
 
+const functor = (v) =>
+  typeof v === 'function' ? v : () => v;
+
 export default (d3fcElementType, plotAreaDrawFunction) =>
     (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
-        let yLabel = '';
-        let xLabel = '';
+        let yLabel = functor('');
+        let xLabel = functor('');
         let yOrient = 'right';
         let xOrient = 'bottom';
-        let chartLabel = '';
+        let chartLabel = functor('');
         let plotArea = seriesSvgLine();
         let xTickFormat = null;
         let xTickArgs;
@@ -69,13 +72,13 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                           </div>`);
 
                 container.select('.y-axis-label')
-                    .text(yLabel);
+                    .text(yLabel(data));
 
                 container.select('.x-axis-label')
-                    .text(xLabel);
+                    .text(xLabel(data));
 
                 container.select('.chart-label')
-                    .text(chartLabel);
+                    .text(chartLabel(data));
 
                 container.select('.y-axis')
                     .on('measure', (d, i, nodes) => {
@@ -204,7 +207,7 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             if (!args.length) {
                 return chartLabel;
             }
-            chartLabel = args[0];
+            chartLabel = functor(args[0]);
             return cartesian;
         };
         cartesian.plotArea = (...args) => {
@@ -218,14 +221,14 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             if (!args.length) {
                 return xLabel;
             }
-            xLabel = args[0];
+            xLabel = functor(args[0]);
             return cartesian;
         };
         cartesian.yLabel = (...args) => {
             if (!args.length) {
                 return yLabel;
             }
-            yLabel = args[0];
+            yLabel = functor(args[0]);
             return cartesian;
         };
         cartesian.decorate = (...args) => {
