@@ -24,9 +24,9 @@ import { randomFinancial, randomSkipWeekends } from 'd3fc-random-data';
 const generator = randomFinancial()
     .startDate(new Date(2016, 0, 1))
     .startPrice(100)
-    .filter(randomSkipWeekends)
+    .filter(randomSkipWeekends);
 
-generator(4)
+generator(4);
 
 // [
 //   {
@@ -140,12 +140,12 @@ Use the streaming interface to have successive calls to generate data keep track
 
 import { randomFinancial } from 'd3fc-random-data';
 
-const generator = financial()
+const generator = randomFinancial()
     .startDate(new Date(2016, 0, 1))
-    .startPrice(100)
+    .startPrice(100);
 
 const stream = generator.stream();
-const data = [];
+let data = [];
 
 data.push(stream.next());
 // data.length -> 1
