@@ -668,7 +668,7 @@ d3.select('g')
     .call(repeatSeries);
 ```
 
-The repeat series also exposes an *orient* property which determines the 'orientation' of the series within the bound data. In the above example, setting orient to *horizontal* would result in the data being rendered as three series of two points (rather than two series of three points).
+The repeat series also exposes an *orient* property which determines the 'orientation' of the series within the bound data. In the above example, setting orient to *horizontal* would result in the data being rendered as two series of three points (rather than three series of two points).
 
 #### Common properties
 
