@@ -2,26 +2,10 @@
 layout: default
 ---
 <div class="container content">
-    <div class="col-sm-9 col-xs-12">
-      <h1>
-        {{title}}
-      </h1>
-      {{{body}}}
-    </div>
-
-    <nav class="col-sm-3 hidden-xs nav-container">
-      <ul class="nav nav-stacked fixed nav-sidebar">
-        {{#each pages}}
-          {{#if example }}
-            <li>
-              {{#if isCurrentPage}}
-                <span  class="active">{{title}}</span>
-              {{else}}
-                <a href="{{page.destination}}">{{title}}</a>
-              {{/if}}
-            </li>
-          {{/if}}
-        {{/each}}
-      </ul>
-    </nav>
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      {{title}}
+    </h1>
+    {{{body}}}
+  </div>
 </div>
