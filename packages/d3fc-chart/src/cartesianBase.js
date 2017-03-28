@@ -35,6 +35,19 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                 return axisLeft();
             case 'right':
                 return axisRight();
+            case 'none':
+                return null;
+            }
+        };
+
+        const marginForOrient = (orient) => {
+            switch (orient) {
+            case 'left':
+                return `margin-left: 4em`;
+            case 'right':
+                return `margin-right: 4em`;
+            default:
+                return '';
             }
         };
 
@@ -53,22 +66,29 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             selection.each((data, index, group) => {
                 const container = containerDataJoin(select(group[index]), [data]);
 
+                const xAxisMarkup = xAxis
+                  ? `<d3fc-svg class='x-axis' style='height: 2em; margin-${yOrient}: 4em'></d3fc-svg>
+                    <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; margin-${yOrient}: 4em'></div>`
+                  : '';
+                const yAxisMarkup = yAxis
+                  ? `<d3fc-svg class='y-axis' style='width: 3em'></d3fc-svg>
+                    <div style='width: 1em; display: flex; align-items: center; justify-content: center'>
+                        <div class='y-axis-label' style='transform: rotate(-90deg)'></div>
+                    </div>`
+                  : '';
+
                 container.enter()
                     .attr('style', 'display: flex; height: 100%; width: 100%; flex-direction: column')
                     .attr('auto-resize', '')
                     .html(`<div class='chart-label'
-                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; margin-${yOrient}: 4em'>
+                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; ${marginForOrient(yOrient)}'>
                           </div>
                           <div style='flex: 1; display: flex; flex-direction: ${xOrient === 'bottom' ? 'column' : 'column-reverse'}'>
                               <div style='flex: 1; display: flex; flex-direction: ${yOrient === 'right' ? 'row' : 'row-reverse'}'>
                                   <${d3fcElementType} class='plot-area' style='flex: 1; overflow: hidden'></${d3fcElementType}>
-                                  <d3fc-svg class='y-axis' style='width: 3em'></d3fc-svg>
-                                  <div style='width: 1em; display: flex; align-items: center; justify-content: center'>
-                                      <div class='y-axis-label' style='transform: rotate(-90deg)'></div>
-                                  </div>
+                                  ${yAxisMarkup}
                               </div>
-                              <d3fc-svg class='x-axis' style='height: 2em; margin-${yOrient}: 4em'></d3fc-svg>
-                              <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; margin-${yOrient}: 4em'></div>
+                              ${xAxisMarkup}
                           </div>`);
 
                 container.select('.y-axis-label')
@@ -80,45 +100,49 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                 container.select('.chart-label')
                     .text(chartLabel(data));
 
-                container.select('.y-axis')
-                    .on('measure', (d, i, nodes) => {
-                        if (yOrient === 'left') {
-                            const { width, height } = event.detail;
-                            select(nodes[i])
+                if (yAxis) {
+                    container.select('.y-axis')
+                        .on('measure', (d, i, nodes) => {
+                            if (yOrient === 'left') {
+                                const { width, height } = event.detail;
+                                select(nodes[i])
+                                  .select('svg')
+                                  .attr('viewBox', `${-width} 0 ${width} ${height}`);
+                            }
+                        })
+                        .on('draw', (d, i, nodes) => {
+                            yAxis.tickFormat(yTickFormat)
+                              .decorate(yDecorate);
+                            if (yTickArgs) {
+                                yAxis.ticks(...yTickArgs);
+                            }
+                            transitionPropagator(select(nodes[i]))
                               .select('svg')
-                              .attr('viewBox', `${-width} 0 ${width} ${height}`);
-                        }
-                    })
-                    .on('draw', (d, i, nodes) => {
-                        yAxis.tickFormat(yTickFormat)
-                          .decorate(yDecorate);
-                        if (yTickArgs) {
-                            yAxis.ticks(...yTickArgs);
-                        }
-                        transitionPropagator(select(nodes[i]))
-                          .select('svg')
-                          .call(yAxis.scale(yScale));
-                    });
+                              .call(yAxis.scale(yScale));
+                        });
+                }
 
-                container.select('.x-axis')
-                    .on('measure', (d, i, nodes) => {
-                        if (xOrient === 'top') {
-                            const { width, height } = event.detail;
-                            select(nodes[i])
+                if (xAxis) {
+                    container.select('.x-axis')
+                        .on('measure', (d, i, nodes) => {
+                            if (xOrient === 'top') {
+                                const { width, height } = event.detail;
+                                select(nodes[i])
+                                  .select('svg')
+                                  .attr('viewBox', `0 ${-height} ${width} ${height}`);
+                            }
+                        })
+                        .on('draw', (d, i, nodes) => {
+                            xAxis.tickFormat(xTickFormat)
+                              .decorate(xDecorate);
+                            if (xTickArgs) {
+                                xAxis.ticks(...xTickArgs);
+                            }
+                            transitionPropagator(select(nodes[i]))
                               .select('svg')
-                              .attr('viewBox', `0 ${-height} ${width} ${height}`);
-                        }
-                    })
-                    .on('draw', (d, i, nodes) => {
-                        xAxis.tickFormat(xTickFormat)
-                          .decorate(xDecorate);
-                        if (xTickArgs) {
-                            xAxis.ticks(...xTickArgs);
-                        }
-                        transitionPropagator(select(nodes[i]))
-                          .select('svg')
-                          .call(xAxis.scale(xScale));
-                    });
+                              .call(xAxis.scale(xScale));
+                        });
+                }
 
                 container.select('.plot-area')
                     .on('measure', () => {

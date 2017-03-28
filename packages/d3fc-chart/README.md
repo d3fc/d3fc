@@ -94,7 +94,9 @@ If *label* is specified, sets the text for the given label, and returns the Cart
 <a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)  
 <a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)  
 
-If *orient* is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If *orient* is not specified, returns the orientation. Valid values for *yOrient* are *left* or *right*, and for *xOrient*, *top* or *bottom*.
+If *orient* is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If *orient* is not specified, returns the orientation. Valid values for *yOrient* are *left*, *right* or *none*, and for *xOrient* they are *top*, *bottom* or *none*.
+
+If an orientation of *none* is specified for an axis, the axis, axis label and their containers will not be rendered.
 
 <a name="cartesian_decorate" href="#cartesian_decorate">#</a> *cartesian*.**decorate**(*decorateFunc*)
 
