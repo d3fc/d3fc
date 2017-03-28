@@ -91,12 +91,17 @@ For charts that contain a very high number of data-points, rendering to canvas c
 
 If *label* is specified, sets the text for the given label, and returns the Cartesian chart. If *label* is not specified, returns the label text.
 
+The *label* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts, with different chart labels, using a data join.
+
 <a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)  
 <a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)  
 
 If *orient* is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If *orient* is not specified, returns the orientation. Valid values for *yOrient* are *left*, *right* or *none*, and for *xOrient* they are *top*, *bottom* or *none*.
 
 If an orientation of *none* is specified for an axis, the axis, axis label and their containers will not be rendered.
+
+The *orient* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts, with different chart labels, using a data join.
+
 
 <a name="cartesian_decorate" href="#cartesian_decorate">#</a> *cartesian*.**decorate**(*decorateFunc*)
 

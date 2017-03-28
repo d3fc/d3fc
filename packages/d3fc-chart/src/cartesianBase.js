@@ -13,8 +13,8 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
 
         let yLabel = functor('');
         let xLabel = functor('');
-        let yOrient = 'right';
-        let xOrient = 'bottom';
+        let yOrient = functor('right');
+        let xOrient = functor('bottom');
         let chartLabel = functor('');
         let plotArea = seriesSvgLine();
         let xTickFormat = null;
@@ -51,9 +51,6 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             }
         };
 
-        let xAxis = axisForOrient(xOrient);
-        let yAxis = axisForOrient(yOrient);
-
         const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
 
         const propagateTransition = maybeTransition => selection =>
@@ -66,9 +63,14 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             selection.each((data, index, group) => {
                 const container = containerDataJoin(select(group[index]), [data]);
 
+                const xOrientValue = xOrient(data);
+                const yOrientValue = yOrient(data);
+                const xAxis = axisForOrient(xOrientValue);
+                const yAxis = axisForOrient(yOrientValue);
+
                 const xAxisMarkup = xAxis
-                  ? `<d3fc-svg class='x-axis' style='height: 2em; margin-${yOrient}: 4em'></d3fc-svg>
-                    <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; margin-${yOrient}: 4em'></div>`
+                  ? `<d3fc-svg class='x-axis' style='height: 2em; margin-${yOrientValue}: 4em'></d3fc-svg>
+                    <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; margin-${yOrientValue}: 4em'></div>`
                   : '';
                 const yAxisMarkup = yAxis
                   ? `<d3fc-svg class='y-axis' style='width: 3em'></d3fc-svg>
@@ -81,10 +83,10 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                     .attr('style', 'display: flex; height: 100%; width: 100%; flex-direction: column')
                     .attr('auto-resize', '')
                     .html(`<div class='chart-label'
-                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; ${marginForOrient(yOrient)}'>
+                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; ${marginForOrient(yOrientValue)}'>
                           </div>
-                          <div style='flex: 1; display: flex; flex-direction: ${xOrient === 'bottom' ? 'column' : 'column-reverse'}'>
-                              <div style='flex: 1; display: flex; flex-direction: ${yOrient === 'right' ? 'row' : 'row-reverse'}'>
+                          <div style='flex: 1; display: flex; flex-direction: ${xOrientValue === 'bottom' ? 'column' : 'column-reverse'}'>
+                              <div style='flex: 1; display: flex; flex-direction: ${yOrientValue === 'right' ? 'row' : 'row-reverse'}'>
                                   <${d3fcElementType} class='plot-area' style='flex: 1; overflow: hidden'></${d3fcElementType}>
                                   ${yAxisMarkup}
                               </div>
@@ -100,49 +102,45 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                 container.select('.chart-label')
                     .text(chartLabel(data));
 
-                if (yAxis) {
-                    container.select('.y-axis')
-                        .on('measure', (d, i, nodes) => {
-                            if (yOrient === 'left') {
-                                const { width, height } = event.detail;
-                                select(nodes[i])
-                                  .select('svg')
-                                  .attr('viewBox', `${-width} 0 ${width} ${height}`);
-                            }
-                        })
-                        .on('draw', (d, i, nodes) => {
-                            yAxis.tickFormat(yTickFormat)
-                              .decorate(yDecorate);
-                            if (yTickArgs) {
-                                yAxis.ticks(...yTickArgs);
-                            }
-                            transitionPropagator(select(nodes[i]))
+                container.select('.y-axis')
+                    .on('measure', (d, i, nodes) => {
+                        if (yOrientValue === 'left') {
+                            const { width, height } = event.detail;
+                            select(nodes[i])
                               .select('svg')
-                              .call(yAxis.scale(yScale));
-                        });
-                }
+                              .attr('viewBox', `${-width} 0 ${width} ${height}`);
+                        }
+                    })
+                    .on('draw', (d, i, nodes) => {
+                        yAxis.tickFormat(yTickFormat)
+                          .decorate(yDecorate);
+                        if (yTickArgs) {
+                            yAxis.ticks(...yTickArgs);
+                        }
+                        transitionPropagator(select(nodes[i]))
+                          .select('svg')
+                          .call(yAxis.scale(yScale));
+                    });
 
-                if (xAxis) {
-                    container.select('.x-axis')
-                        .on('measure', (d, i, nodes) => {
-                            if (xOrient === 'top') {
-                                const { width, height } = event.detail;
-                                select(nodes[i])
-                                  .select('svg')
-                                  .attr('viewBox', `0 ${-height} ${width} ${height}`);
-                            }
-                        })
-                        .on('draw', (d, i, nodes) => {
-                            xAxis.tickFormat(xTickFormat)
-                              .decorate(xDecorate);
-                            if (xTickArgs) {
-                                xAxis.ticks(...xTickArgs);
-                            }
-                            transitionPropagator(select(nodes[i]))
+                container.select('.x-axis')
+                    .on('measure', (d, i, nodes) => {
+                        if (xOrientValue === 'top') {
+                            const { width, height } = event.detail;
+                            select(nodes[i])
                               .select('svg')
-                              .call(xAxis.scale(xScale));
-                        });
-                }
+                              .attr('viewBox', `0 ${-height} ${width} ${height}`);
+                        }
+                    })
+                    .on('draw', (d, i, nodes) => {
+                        xAxis.tickFormat(xTickFormat)
+                          .decorate(xDecorate);
+                        if (xTickArgs) {
+                            xAxis.ticks(...xTickArgs);
+                        }
+                        transitionPropagator(select(nodes[i]))
+                          .select('svg')
+                          .call(xAxis.scale(xScale));
+                    });
 
                 container.select('.plot-area')
                     .on('measure', () => {
@@ -209,22 +207,14 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             if (!args.length) {
                 return yOrient;
             }
-            const newValue = args[0];
-            if (newValue !== yOrient) {
-                yAxis = axisForOrient(newValue);
-            }
-            yOrient = newValue;
+            yOrient = functor(args[0]);
             return cartesian;
         };
         cartesian.xOrient = (...args) => {
             if (!args.length) {
                 return xOrient;
             }
-            const newValue = args[0];
-            if (newValue !== xOrient) {
-                xAxis = axisForOrient(newValue);
-            }
-            xOrient = newValue;
+            xOrient = functor(args[0]);
             return cartesian;
         };
         cartesian.chartLabel = (...args) => {
