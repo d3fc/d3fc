@@ -56,7 +56,15 @@ If *scale* is specified, sets the scale used for the horizontal gridline positio
 
 <a name="gridline_xTicks" href="#gridline_xTicks">#</a> *gridline*.**xTicks**(*[count]*)
 
+<a name="gridline_xTicks" href="#gridline_xTicks">#</a> *gridline*.**xTicks**(*[interval]*)
+
 If *count* is specified, sets the count passed to [ticks](https://github.com/d3/d3-scale#continuous_ticks) when requesting the horizontal gridline positions when [xScale](#gridline_xScale) is a continuous scale. For other scales, this value is ignored and the [domain](https://github.com/d3/d3-scale#ordinal_domain) is used directly. If *count* is not specified, returns the current count.
+
+When [xScale](#gridline_xScale) is a [time scale](https://github.com/d3/d3-scale#scaleTime) this method can be passed a [time interval](https://github.com/d3/d3-time) to specify the position of the gridlines. For example to generate gridlines every fifteen minutes:
+
+```
+gridline.xTicks(d3.timeMinute.every(15));
+```
 
 <a name="gridline_xTickValues" href="#gridline_xTickValues">#</a> *gridline*.**xTickValues**(*[values]*)
 
@@ -64,7 +72,15 @@ Manually specify the vertical gridline positions. Overrides [xTicks](#gridline_x
 
 <a name="gridline_yTicks" href="#gridline_yTicks">#</a> *gridline*.**yTicks**(*[count]*)
 
+<a name="gridline_yTicks" href="#gridline_yTicks">#</a> *gridline*.**yTicks**(*[interval]*)
+
 If *count* is specified, sets the count passed to [ticks](https://github.com/d3/d3-scale#continuous_ticks) when requesting the vertical gridline positions when [yScale](#gridline_yScale) is a continuous scale. For other scales, this value is ignored and the [domain](https://github.com/d3/d3-scale#ordinal_domain) is used directly. If *count* is not specified, returns the current count.
+
+When [yScale](#gridline_yScale) is a [time scale](https://github.com/d3/d3-scale#scaleTime) this method can be passed a [time interval](https://github.com/d3/d3-time) to specify the position of the gridlines. For example to generate gridlines every fifteen minutes:
+
+```
+gridline.yTicks(d3.timeMinute.every(15));
+```
 
 <a name="gridline_yTickValues" href="#gridline_yTickValues">#</a> *gridline*.**yTickValues**(*[args]*)
 
