@@ -1,6 +1,7 @@
 ---
 layout: section
 section: introduction
+namespace: Introduction
 title: Building A Chart
 externals:
   building-a-chart-complete-js: building-a-chart-complete.js
