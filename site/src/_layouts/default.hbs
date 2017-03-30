@@ -56,20 +56,7 @@
                       </ul>
                     {{/is}}
                   </li>
-                  <li class="{{#is layout 'example'}}active{{/is}}">
-                    <a href="{{baseurl}}/examples/">Examples</a>
-                    {{#is layout 'example'}}
-                      <ul class="sub-nav">
-                        {{#each pages}}
-                          {{#if example }}
-                            <li class="sub-nav-item">
-                              <a class="{{#if isCurrentPage}}active{{/if}}" href="{{page.destination}}">{{title}}</a>
-                            </li>
-                          {{/if}}
-                        {{/each}}
-                      </ul>
-                    {{/is}}
-                  </li>
+                  <li><a href="{{baseurl}}/examples/">Examples</a></li>
                   <li><a href="{{package.repository._homepage}}">GitHub</a></li>
                   <li class="separator"></li>
                 </ul>
