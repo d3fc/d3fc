@@ -347,7 +347,7 @@ This property is rebound from [symbol.type](https://github.com/d3/d3-shape#symbo
 
 <a name="seriesPoint_size" href="#seriesPoint_size">#</a> *seriesPoint*.**size**(*size*)
 
-If *size* is specified, sets the size to the specified function or number and returns this point series renderer. If *size* is not specified, returns the current size accessor.
+If *size* is specified, sets the area to the specified function or number and returns this point series renderer. If *size* is not specified, returns the current size accessor.
 
 This property is rebound from [symbol.size](https://github.com/d3/d3-shape#symbol_size).
 
