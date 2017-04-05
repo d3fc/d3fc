@@ -78,7 +78,7 @@ The chart is constructed using a pair of scales. The scale configuration propert
 
 ### Cartesian
 
-<a name="chartCanvasCartesian" href="#chartCanvasCartesian">#</a> fc.**chartCanvasCartesian**(*xScale*, *yScale*)
+<a name="chartCanvasCartesian" href="#chartCanvasCartesian">#</a> fc.**chartCanvasCartesian**(*xScale*, *yScale*)  
 <a name="chartSvgCartesian" href="#chartSvgCartesian">#</a> fc.**chartSvgCartesian**(*xScale*, *yScale*)
 
 Constructs a new Cartesian chart with the given scales.
