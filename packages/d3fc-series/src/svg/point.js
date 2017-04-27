@@ -40,7 +40,7 @@ export default () => {
         });
     };
 
-    rebindAll(point, base, exclude('baseValue', 'barWidth'));
+    rebindAll(point, base, exclude('baseValue', 'bandwidth', 'align'));
     rebind(point, join, 'key');
     rebind(point, symbol, 'type', 'size');
 

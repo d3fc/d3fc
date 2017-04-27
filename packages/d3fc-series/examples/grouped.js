@@ -1,7 +1,5 @@
 var width = 500;
 var height = 250;
-var container = d3.select('#grouped-svg');
-container.attr({'width': width, 'height': height});
 
 var data = [{
     'State': 'AL',
@@ -43,11 +41,13 @@ var group = fc.group()
 
 var series = group(data);
 
-// create scales
-var x = d3.scalePoint()
+// use a band scale, which provides the bandwidth value to the grouped
+// series via fc.autoBandwidth
+var x = d3.scaleBand()
     .domain(data.map(function(d) { return d.State; }))
-    .range([0, width])
-    .padding(0.5);
+    .paddingInner(0.2)
+    .paddingOuter(0.1)
+    .rangeRound([0, width]);
 
 var yExtent = fc.extentLinear()
     .accessors([
@@ -69,6 +69,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory10);
 var groupedBar = fc.seriesSvgGrouped(groupedSeries)
     .xScale(x)
     .yScale(y)
+    .align('left')
     .crossValue(function(d) { return d[0]; })
     .mainValue(function(d) { return d[1]; })
     .decorate(function(sel, data, index) {
@@ -77,8 +78,47 @@ var groupedBar = fc.seriesSvgGrouped(groupedSeries)
             .attr('fill', function() { return color(index); });
     });
 
-// render
-container.append('g')
+d3.select('#grouped-svg-autobandwidth-bandscale')
+    .attr('width', width)
+    .attr('height', height)
+    .datum(series)
+    .call(fc.autoBandwidth(groupedBar));
+
+// now render the same series against a linear scale. In this case the auto-bandwidth
+// wrapper will compute the bandwidth based on the underlying data
+var x2 = d3.scaleLinear()
+    .domain([-0.5, data.length - 0.5])
+    .range([0, width]);
+
+groupedBar.xScale(x2)
+  .crossValue(function(d, i) { return i; })
+  // centre align the bars around the points on the scale
+  .align('center');
+
+d3.select('#grouped-svg-autobandwidth-linearscale')
+    .attr('width', width)
+    .attr('height', height)
+    .datum(series)
+    .call(fc.autoBandwidth(groupedBar));
+
+// now render the same series against a point scale.
+var x3 = d3.scalePoint()
+    .domain(data.map(function(d) { return d.State; }))
+    .padding(0.5)
+    .range([0, width]);
+
+groupedBar.xScale(x3)
+  .crossValue(function(d) { return d[0]; })
+  // centre align the bars around the points on the scale
+  .align('center')
+  // because point scales have a zero bandwidth, in this context we
+  // provide an explicit bandwidth and don't wrap the series in fc.autoBandwidth.
+  // this example also shows how bandwidth can vary on a point-to-point basis
+  .bandwidth((_, i) => 50 + i % 2 * 50);
+
+d3.select('#grouped-svg-variable-bandwidth')
+    .attr('width', width)
+    .attr('height', height)
     .datum(series)
     .call(groupedBar);
 
@@ -90,9 +130,10 @@ var ctx = canvas.getContext('2d');
 var groupedCanvasSeries = fc.seriesCanvasBar();
 
 // create the grouped series
-var groupedCanvasBar = fc.seriesCanvasGrouped(groupedCanvasSeries)
+var groupedCanvasBar = fc.autoBandwidth(fc.seriesCanvasGrouped(groupedCanvasSeries))
     .xScale(x)
     .yScale(y)
+    .align('left')
     .crossValue(function(d) { return d[0]; })
     .mainValue(function(d) { return d[1]; })
     .context(ctx)

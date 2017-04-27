@@ -22,9 +22,6 @@ export default () => {
         const filteredData = data.filter(base.defined);
         const projectedData = filteredData.map(base.values);
 
-        const width = base.barWidth()(projectedData.map(d => d.x));
-        crossAxisDimension(pathGenerator)(width);
-
         if (base.orient() === 'vertical') {
             pathGenerator.verticalAlign('top');
             pathGenerator.horizontalAlign('center');
@@ -39,6 +36,7 @@ export default () => {
             context.translate(datum.origin[0], datum.origin[1]);
 
             valueAxisDimension(pathGenerator)(-datum.height);
+            crossAxisDimension(pathGenerator)(datum.width);
             pathGenerator([datum]);
 
             context.fillStyle = colors.darkGray;

@@ -14,9 +14,7 @@ export default () => {
         const filteredData = data.filter(base.defined);
         const context = pathGenerator.context();
 
-        const width = base.computeBarWidth(filteredData);
-        pathGenerator.orient(base.orient())
-            .width(width);
+        pathGenerator.orient(base.orient());
 
         filteredData.forEach((d, i) => {
             context.save();
@@ -29,6 +27,7 @@ export default () => {
                 .upperQuartile(values.upperQuartile)
                 .lowerQuartile(values.lowerQuartile)
                 .high(values.high)
+                .width(values.width)
                 .low(values.low)([d]);
 
             context.strokeStyle = colors.black;

@@ -36,6 +36,13 @@ npm install d3fc-series
 ## API Reference
 
 * [General API](#general-api)
+ * [SVG Rendering](#svg-rendering)
+ * [Canvas Rendering](#canvas-rendering)
+ * [Decorate Pattern](#decorate-pattern)
+ * [Orientation](#orientation)
+ * [Multi Series](#multi-series)
+ * [Decorate Pattern](#decorate-pattern)
+ * [Auto Bandwidth](#auto-bandwidth)
 * [Line](#line)
 * [Point](#point)
 * [Area](#area)
@@ -267,15 +274,44 @@ In this case the context is also propagated from the multi series to the childre
 
 The multi series allows you to combine a range of different series types. If instead you have multiple data series that you want to render using the same series type, e.g. a chart containing multiple lines, the [repeat series](#repeat) is an easier way to achieve this.
 
-#### Fractional bar width
+#### Auto bandwidth
 
-A number of the series (bar, OHLC, boxplot) have a notion of 'width'. They all expose a `barWidth` property where you can supply the width as a value (in the screen coordinate system), or a function which is invoked with an array containing all the locations of each bar (OHLC etc ...), which should return the desired bar width.
+A number of the series (bar, OHLC, boxplot) have a notion of 'width'. They all expose a `bandwidth` property where you can supply the width as a value (in the screen coordinate system).
 
-As a utility, and a suitable default for each series, the fractional bar width function can be used to calculate a width as a fraction of the distance between bars.
+Rather than specify a bandwidth directly, you can adapt a series with the `fc.autoBandwidth` component, which will either obtain the bandwidth directly from the scale, or compute it based on the distribution of data.
 
-<a name="seriesFractionalBarWidth" href="#seriesFractionalBarWidth">#</a> fc.**seriesFractionalBarWidth**(*widthFraction*)  
+When used with a `bandScale`, the scale is responsible for computing the width of each band. The `fc.autoBandwidth` component invokes the `bandwidth` function on the scale and uses the returned value to set the `bandwidth` on the series.
 
-Constructs a function that computes a bar width as a fraction of the minimum distance between data points.
+```javascript
+var xScale = d3.scaleBand()
+    .domain(data.map(d => d.x))
+    .rangeRound([0, width]);
+
+var svgBar = fc.autoBandwidth(fc.seriesSvgBar())
+    .align('left')
+    .crossValue(function(d) { return d.x; })
+    .mainValue(function(d) { return d.y; });
+```
+
+Notice in the above example that the `align` property of the bar is set to `left`, which reflects the band scale coordinate system.
+
+**NOTE:** The d3 point scale is a special cased band scale that has a zero bandwidth. As a result, if you use the `fc.autoBandwidth` component in conjunction with a point scale, the series will also have a bandwidth of zero!
+
+When used in conjunction with a linear scale, the `fc.autoBandwidth` component computes the bar width based on the smallest distance between consecutive datapoints:
+
+```javascript
+var xScale = d3.scaleLinear()
+    .domain([0, 10])
+    .range([0, width]);
+
+var svgBar = fc.autoBandwidth(fc.seriesSvgBar())
+    .crossValue(function(d) { return d.x; })
+    .mainValue(function(d) { return d.y; })
+    .widthFraction(0.5);
+```
+
+The `fc.autoBandwidth` component, when adapting a series, adds a `widthFraction` property which determines the fraction of this distance that is used to set the bandwidth.
+
 
 ### Line
 
@@ -419,9 +455,9 @@ If *orientation* is specified, sets the orientation and returns this series. If 
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesBar_barWidth" href="#seriesBar_barWidth">#</a> *seriesBar*.**barWidth**(*barWidthFunc*)
+<a name="seriesBar_bandwidth" href="#seriesBar_bandwidth">#</a> *seriesBar*.**bandwidth**(*bandwidthFunc*)
 
-If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the bars. It defaults to `fractionalBarWidth(0.75)`.
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 #### Canvas specific properties
 
@@ -452,9 +488,9 @@ If *accessorFunc* is specified, sets the accessor to the specified function and 
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesCandlestick_barWidth" href="#seriesCandlestick_barWidth">#</a> *seriesCandlestick*.**barWidth**(*barWidthFunc*)
+<a name="seriesCandlestick_bandwidth" href="#seriesCandlestick_bandwidth">#</a> *seriesCandlestick*.**bandwidth**(*bandwidthFunc*)
 
-If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the candlesticks. It defaults to `fractionalBarWidth(0.75)`.
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 <a name="seriesCandlestick_decorate" href="#seriesCandlestick_decorate">#</a> *seriesCandlestick*.**decorate**(*decorateFunc*)
 
@@ -484,9 +520,9 @@ If *accessorFunc* is specified, sets the accessor to the specified function and 
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesCandlestick_barWidth" href="#seriesCandlestick_barWidth">#</a> *seriesCandlestick*.**barWidth**(*barWidthFunc*)
+<a name="seriesCandlestick_bandwidth" href="#seriesCandlestick_bandwidth">#</a> *seriesCandlestick*.**bandwidth**(*bandwidthFunc*)
 
-If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the ohlc 'sticks'. It defaults to `fractionalBarWidth(0.75)`.
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 <a name="seriesOhlc_decorate" href="#seriesOhlc_decorate">#</a> *seriesOhlc*.**decorate**(*decorateFunc*)
 
@@ -528,9 +564,9 @@ If *orientation* is specified, sets the orientation and returns this series. If 
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesBoxPlot_barWidth" href="#seriesBoxPlot_barWidth">#</a> *seriesBoxPlot*.**barWidth**(*barWidthFunc*)
+<a name="seriesBoxPlot_bandwidth" href="#seriesBoxPlot_bandwidth">#</a> *seriesBoxPlot*.**bandwidth**(*bandwidthFunc*)
 
-If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the boxes. It defaults to `fractionalBarWidth(0.5)`.
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 <a name="seriesBoxPlot_decorate" href="#seriesBoxPlot_decorate">#</a> *seriesBoxPlot*.**decorate**(*decorateFunc*)
 
@@ -569,9 +605,9 @@ If *orientation* is specified, sets the orientation and returns this series. If 
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesErrorBar_barWidth" href="#seriesErrorBar_barWidth">#</a> *seriesErrorBar*.**barWidth**(*barWidthFunc*)
+<a name="seriesErrorBar_bandwidth" href="#seriesErrorBar_bandwidth">#</a> *seriesErrorBar*.**bandwidth**(*bandwidthFunc*)
 
-If *barWidthFunc* is specified, sets the bar width function and returns this series. If *barWidthFunc* is not specified, returns the current bar width function. The bar width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the boxes. It defaults to `fractionalBarWidth(0.5)`.
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 <a name="seriesErrorBar_decorate" href="#seriesErrorBar_decorate">#</a> *seriesErrorBar*.**decorate**(*decorateFunc*)
 
@@ -749,9 +785,9 @@ groupedCanvasBar(series);
 
 #### Common properties
 
-<a name="grouped_groupWidth" href="#grouped_groupWidth">#</a> *grouped*.**groupWidth**(*groupWidthFunc*)  
+<a name="grouped_bandwidth" href="#grouped_bandwidth">#</a> *grouped*.**bandwidth**(*bandwidthFunc*)  
 
-If *groupWidthFunc* is specified, sets the group width function and returns this series. If *groupWidthFunc* is not specified, returns the current group width function. The group width function is invoked with an array of values, in the screen coordinate system, and should return the desired width for the groups. It defaults to `fractionalBarWidth(0.75)`.
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 <a name="grouped_subPadding" href="#grouped_subPadding">#</a> *grouped*.**subPadding**(*padding*)  
 

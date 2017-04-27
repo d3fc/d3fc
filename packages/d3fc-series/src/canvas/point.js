@@ -35,7 +35,7 @@ export default () => {
         });
     };
 
-    rebindAll(point, base, exclude('baseValue', 'barWidth'));
+    rebindAll(point, base, exclude('baseValue', 'bandwidth', 'align'));
     rebind(point, symbol, 'size', 'type', 'context');
 
     return point;

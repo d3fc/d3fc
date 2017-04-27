@@ -1,7 +1,7 @@
 import { scaleIdentity } from 'd3-scale';
 import defined from './defined';
 import functor from './functor';
-import fractionalBarWidth from './fractionalBarWidth';
+import alignOffset from './alignOffset';
 
 export default () => {
 
@@ -14,38 +14,39 @@ export default () => {
     let crossValue = (d) => d.value;
     let medianValue = (d) => d.median;
     let orient = 'vertical';
-    let barWidth = fractionalBarWidth(0.5);
+    let align = 'center';
+    let bandwidth = () => 5;
     let decorate = () => {};
 
     const base = () => {};
 
     base.defined = (d, i) => defined(lowValue, highValue, lowerQuartileValue, upperQuartileValue, crossValue, medianValue)(d, i);
 
-    base.computeBarWidth = (filteredData) => {
-        const scale = orient === 'vertical' ? xScale : yScale;
-        return barWidth(filteredData.map((d, i) => scale(crossValue(d, i))));
-    };
-
     base.values = (d, i) => {
+        const width = bandwidth(d, i);
+        const offset = alignOffset(align, width);
+
         if (orient === 'vertical') {
             const y = yScale(highValue(d, i));
             return {
-                origin: [xScale(crossValue(d, i)), y],
+                origin: [xScale(crossValue(d, i)) + offset, y],
                 high: 0,
                 upperQuartile: yScale(upperQuartileValue(d, i)) - y,
                 median: yScale(medianValue(d, i)) - y,
                 lowerQuartile: yScale(lowerQuartileValue(d, i)) - y,
-                low: yScale(lowValue(d, i)) - y
+                low: yScale(lowValue(d, i)) - y,
+                width
             };
         } else {
             const x = xScale(lowValue(d, i));
             return {
-                origin: [x, yScale(crossValue(d, i))],
+                origin: [x, yScale(crossValue(d, i)) + offset],
                 high: xScale(highValue(d, i)) - x,
                 upperQuartile: xScale(upperQuartileValue(d, i)) - x,
                 median: xScale(medianValue(d, i)) - x,
                 lowerQuartile: xScale(lowerQuartileValue(d, i)) - x,
-                low: 0
+                low: 0,
+                width
             };
         }
     };
@@ -120,11 +121,11 @@ export default () => {
         medianValue = functor(args[0]);
         return base;
     };
-    base.barWidth = (...args) => {
+    base.bandwidth = (...args) => {
         if (!args.length) {
-            return barWidth;
+            return bandwidth;
         }
-        barWidth = functor(args[0]);
+        bandwidth = functor(args[0]);
         return base;
     };
     base.decorate = (...args) => {
@@ -132,6 +133,13 @@ export default () => {
             return decorate;
         }
         decorate = args[0];
+        return base;
+    };
+    base.align = (...args) => {
+        if (!args.length) {
+            return align;
+        }
+        align = args[0];
         return base;
     };
 

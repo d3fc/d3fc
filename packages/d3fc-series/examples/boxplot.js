@@ -25,7 +25,7 @@ var yScale = d3.scaleLinear()
     .domain(fc.extentLinear().accessors([function(d) { return d.high; }, function(d) { return d.low; }])(data))
     .range([height, 0]);
 
-var boxPlot = fc.seriesSvgBoxPlot()
+var boxPlot = fc.autoBandwidth(fc.seriesSvgBoxPlot())
     .xScale(xScale)
     .yScale(yScale)
     .crossValue(function(d) { return d.value; })
@@ -44,7 +44,7 @@ canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext('2d');
 
-var canvasBoxplot = fc.seriesCanvasBoxPlot()
+var canvasBoxplot = fc.autoBandwidth(fc.seriesCanvasBoxPlot())
     .context(ctx)
     .xScale(xScale)
     .yScale(yScale)

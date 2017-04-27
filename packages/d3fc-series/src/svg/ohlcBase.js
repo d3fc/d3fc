@@ -25,7 +25,6 @@ export default (pathGenerator, seriesName) => {
         selection.each((data, index, group) => {
 
             const filteredData = data.filter(base.defined);
-            pathGenerator.width(base.width(filteredData));
 
             const g = join(select(group[index]), filteredData);
 
@@ -45,6 +44,7 @@ export default (pathGenerator, seriesName) => {
                     .attr('transform', () => containerTranslation(values) + ' scale(1)');
 
                 pathGenerator.x(0)
+                    .width(values.width)
                     .open(() => values.open - values.high)
                     .high(0)
                     .low(() => values.low - values.high)

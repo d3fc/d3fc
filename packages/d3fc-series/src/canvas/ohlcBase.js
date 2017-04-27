@@ -9,7 +9,6 @@ export default (pathGenerator) => {
 
     const candlestick = (data) => {
         const filteredData = data.filter(base.defined);
-        pathGenerator.width(base.width(filteredData));
         const context = pathGenerator.context();
 
         filteredData.forEach((d, i) => {
@@ -21,6 +20,7 @@ export default (pathGenerator) => {
 
             pathGenerator.x(0)
                 .open(() => values.open - values.high)
+                .width(values.width)
                 .high(0)
                 .low(() => values.low - values.high)
                 .close(() => values.close - values.high)([d]);

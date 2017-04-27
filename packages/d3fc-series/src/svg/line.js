@@ -30,7 +30,7 @@ export default () => {
         });
     };
 
-    rebindAll(line, base, exclude('baseValue', 'barWidth'));
+    rebindAll(line, base, exclude('baseValue', 'bandwidth', 'align'));
     rebind(line, join, 'key');
     rebind(line, lineData, 'curve');
 

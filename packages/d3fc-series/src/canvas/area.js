@@ -30,7 +30,7 @@ export default () => {
         context.closePath();
     };
 
-    rebindAll(area, base, exclude('barWidth'));
+    rebindAll(area, base, exclude('bandwidth', 'align'));
     rebind(area, areaData, 'curve', 'context');
 
     return area;

@@ -7,15 +7,24 @@ export default function(series) {
     const base = groupedBase(series);
 
     const grouped = (data) => {
-        base.configureOffsetScale(data);
-
         data.forEach((seriesData, index) => {
 
             // create a composite scale that applies the required offset
-            const compositeScale = x => base.xScale()(x) +
-                base.offsetScale()(index) +
-                base.offsetScale().bandwidth() / 2;
+            const compositeScale = (d, i) => {
+                const offset = base.offsetScaleForDatum(data, d, i);
+                return base.xScale()(d) +
+                  offset(index) +
+                  offset.bandwidth() / 2;
+            };
             series.xScale(compositeScale);
+
+            // if the sub-series has a bandwidth, set this from the offset scale
+            if (series.bandwidth) {
+                series.bandwidth(
+                  (d, i) => base.offsetScaleForDatum(data, d, i)
+                                .bandwidth()
+                );
+            }
 
             // adapt the decorate function to give each series the correct index
             series.decorate((c, d) => base.decorate()(c, d, index));

@@ -41,15 +41,13 @@ export default () => {
                 .attr('transform', (d, i) => containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)')
                 .append('path');
 
-            const width = base.computeBarWidth(filteredData);
-
-            pathGenerator.orient(base.orient())
-                .width(width);
+            pathGenerator.orient(base.orient());
 
             g.each((d, i, g) => {
                 const values = projectedData[i];
                 pathGenerator.high(values.high)
-                    .low(values.low);
+                    .low(values.low)
+                    .width(values.width);
 
                 transitionPropagator(select(g[i]))
                     .attr('transform', containerTranslation(values) + ' scale(1)')

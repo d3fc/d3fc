@@ -51,10 +51,6 @@ export default () => {
                 pathGenerator.verticalAlign('center');
             }
 
-            // set the width of the bars
-            const width = base.barWidth()(projectedData.map(d => d.x));
-            crossAxisDimension(pathGenerator)(width);
-
             const g = join(select(group[index]), filteredData);
 
             // within the enter selection the pathGenerator creates a zero
@@ -65,14 +61,17 @@ export default () => {
                 .attr('class', 'bar ' + base.orient())
                 .attr('fill', colors.darkGray)
                 .append('path')
-                .attr('d', (d) => pathGenerator([d]));
+                .attr('d', (d, i) => {
+                    crossAxisDimension(pathGenerator)(projectedData[i].width);
+                    return pathGenerator([d]);
+                });
 
             // the container translation sets the origin to the 'tip'
             // of each bar as per the decorate pattern
             g.attr('transform', (_, i) => translation(projectedData[i].origin))
                 .select('path')
                 .attr('d', (d, i) => {
-                    // set the bar to its correct height
+                    crossAxisDimension(pathGenerator)(projectedData[i].width);
                     valueAxisDimension(pathGenerator)(-projectedData[i].height);
                     return pathGenerator([d]);
                 });

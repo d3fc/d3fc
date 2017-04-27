@@ -1,7 +1,7 @@
 import {scaleIdentity} from 'd3-scale';
 import functor from './functor';
 import defined from './defined';
-import fractionalBarWidth from './fractionalBarWidth';
+import alignOffset from './alignOffset';
 
 export default () => {
 
@@ -11,7 +11,8 @@ export default () => {
     let crossValue = d => d.x;
     let mainValue = d => d.y;
     let decorate = () => {};
-    let barWidth = fractionalBarWidth(0.75);
+    let align = 'center';
+    let bandwidth = () => 5;
     let orient = 'vertical';
 
     const base = () => {};
@@ -19,15 +20,19 @@ export default () => {
     base.defined = (d, i) => defined(baseValue, crossValue, mainValue)(d, i);
 
     base.values = (d, i) => {
+        const width = bandwidth(d, i);
+        const offset = alignOffset(align, width);
+
         if (orient === 'vertical') {
-            const y = yScale(mainValue(d, i));
-            const y0 = yScale(baseValue(d, i));
-            const x = xScale(crossValue(d, i));
+            const y = yScale(mainValue(d, i), i);
+            const y0 = yScale(baseValue(d, i), i);
+            const x = xScale(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
                 y,
                 y0,
+                width,
                 height: y - y0,
                 origin: [x, y],
                 baseOrigin: [x, y0],
@@ -35,14 +40,15 @@ export default () => {
                 transposedY: y
             };
         } else {
-            const y = xScale(mainValue(d, i));
-            const y0 = xScale(baseValue(d, i));
-            const x = yScale(crossValue(d, i));
+            const y = xScale(mainValue(d, i), i);
+            const y0 = xScale(baseValue(d, i), i);
+            const x = yScale(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
                 y,
                 y0,
+                width,
                 height: y - y0,
                 origin: [y, x],
                 baseOrigin: [y0, x],
@@ -94,11 +100,18 @@ export default () => {
         mainValue = functor(args[0]);
         return base;
     };
-    base.barWidth = (...args) => {
+    base.bandwidth = (...args) => {
         if (!args.length) {
-            return barWidth;
+            return bandwidth;
         }
-        barWidth = functor(args[0]);
+        bandwidth = functor(args[0]);
+        return base;
+    };
+    base.align = (...args) => {
+        if (!args.length) {
+            return align;
+        }
+        align = args[0];
         return base;
     };
     base.orient = (...args) => {

@@ -40,16 +40,14 @@ export default () => {
                 .attr('transform', (d, i) => containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)')
                 .append('path');
 
-            const width = base.computeBarWidth(filteredData);
-
-            pathGenerator.orient(base.orient())
-                .width(width);
+            pathGenerator.orient(base.orient());
 
             g.each((d, i, g) => {
                 const values = base.values(d, i);
                 pathGenerator.median(values.median)
                     .upperQuartile(values.upperQuartile)
                     .lowerQuartile(values.lowerQuartile)
+                    .width(values.width)
                     .high(values.high)
                     .low(values.low);
 

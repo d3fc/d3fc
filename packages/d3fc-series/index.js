@@ -1,5 +1,3 @@
-export { default as seriesFractionalBarWidth } from './src/fractionalBarWidth';
-
 export { default as seriesSvgLine } from './src/svg/line';
 export { default as seriesCanvasLine } from './src/canvas/line';
 
@@ -32,3 +30,5 @@ export { default as seriesCanvasGrouped } from './src/canvas/grouped';
 
 export { default as seriesSvgRepeat } from './src/svg/repeat';
 export { default as seriesCanvasRepeat } from './src/canvas/repeat';
+
+export { default as autoBandwidth } from './src/autoBandwidth';

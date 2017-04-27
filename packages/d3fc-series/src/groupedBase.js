@@ -1,48 +1,46 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
-import fractionalBarWidth from './fractionalBarWidth';
-import functor from './functor';
 import { range } from 'd3-array';
 import { rebindAll, includeMap } from 'd3fc-rebind';
+import functor from './functor';
+import alignOffset from './alignOffset';
 
 export default (series) => {
 
-    let groupWidth = fractionalBarWidth(0.75);
+    let bandwidth = () => 50;
     let decorate = () => {};
     let xScale = scaleLinear();
+    let align = 'center';
 
+    // the offset scale is used to offset each of the series within a group
     const offsetScale = scaleBand();
+
     const grouped = () => {};
 
-    const computeGroupWidth = (data) => {
-        if (!data.length) {
-            return 0;
-        }
-        const seriesData = data[0];
-        const crossValue = series.crossValue();
-        const x = (d, i) => xScale(crossValue(d, i));
-        const width = groupWidth(seriesData.map(x));
-        return width;
+    // the bandwidth for the grouped series can be a function of datum / index. As a result
+    // the offset scale required to cluster the 'sub' series is also dependent on datum / index.
+    // This function computes the offset scale for a specific datum / index of the grouped series
+    grouped.offsetScaleForDatum = (data, d, i) => {
+        const width = bandwidth(d, i);
+        const offset = alignOffset(align, width);
+
+        const halfWidth = width / 2;
+        return offsetScale
+          .domain(range(0, data.length))
+          .range([-halfWidth + offset, halfWidth + offset]);
     };
 
-    grouped.configureOffsetScale = (data) => {
-        const groupWidth = computeGroupWidth(data);
-
-        const halfWidth = groupWidth / 2;
-        offsetScale.domain(range(0, data.length))
-          .range([-halfWidth, halfWidth]);
-
-        if (series.barWidth) {
-            series.barWidth(offsetScale.bandwidth());
-        }
-    };
-
-    grouped.offsetScale = () => offsetScale;
-
-    grouped.groupWidth = (...args) => {
+    grouped.bandwidth = (...args) => {
         if (!args.length) {
-            return groupWidth;
+            return bandwidth;
         }
-        groupWidth = functor(args[0]);
+        bandwidth = functor(args[0]);
+        return grouped;
+    };
+    grouped.align = (...args) => {
+        if (!args.length) {
+            return align;
+        }
+        align = args[0];
         return grouped;
     };
     grouped.decorate = (...args) => {
@@ -60,7 +58,7 @@ export default (series) => {
         return grouped;
     };
 
-    rebindAll(grouped, offsetScale, includeMap({'paddingInner': 'subPadding'}));
+    rebindAll(grouped, offsetScale, includeMap({'paddingInner': 'paddingOuter'}));
 
     return grouped;
 };

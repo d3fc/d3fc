@@ -36,7 +36,7 @@ export default () => {
         });
     };
 
-    rebindAll(area, base, exclude('barWidth'));
+    rebindAll(area, base, exclude('bandwidth', 'align'));
     rebind(area, join, 'key');
     rebind(area, areaData, 'curve');
 

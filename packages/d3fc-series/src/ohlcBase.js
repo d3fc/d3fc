@@ -1,7 +1,7 @@
 import { scaleIdentity } from 'd3-scale';
 import defined from './defined';
 import functor from './functor';
-import fractionalBarWidth from './fractionalBarWidth';
+import alignOffset from './alignOffset';
 
 export default () => {
 
@@ -12,19 +12,20 @@ export default () => {
     let highValue = (d) => d.high;
     let lowValue = (d) => d.low;
     let closeValue = (d) => d.close;
-    let barWidth = fractionalBarWidth(0.75);
+    let bandwidth = () => 5;
+    let align = 'center';
     let decorate = () => {};
     let crossValueScaled = (d, i) => xScale(crossValue(d, i));
 
     let base = () => {};
-
-    base.width = (data) => barWidth(data.map(crossValueScaled));
 
     base.defined = (d, i) => defined(crossValue, openValue, lowValue, highValue, closeValue)(d, i);
 
     base.values = (d, i) => {
         const closeRaw = closeValue(d, i);
         const openRaw = openValue(d, i);
+        const width = bandwidth(d, i);
+        const offset = alignOffset(align, width);
 
         let direction = '';
         if (closeRaw > openRaw) {
@@ -34,11 +35,12 @@ export default () => {
         }
 
         return {
-            cross: crossValueScaled(d, i),
+            cross: crossValueScaled(d, i) + offset,
             open: yScale(openRaw),
             high: yScale(highValue(d, i)),
             low: yScale(lowValue(d, i)),
             close: yScale(closeRaw),
+            width,
             direction
         };
     };
@@ -99,11 +101,18 @@ export default () => {
         closeValue = args[0];
         return base;
     };
-    base.barWidth = (...args) => {
+    base.bandwidth = (...args) => {
         if (!args.length) {
-            return barWidth;
+            return bandwidth;
         }
-        barWidth = functor(args[0]);
+        bandwidth = functor(args[0]);
+        return base;
+    };
+    base.align = (...args) => {
+        if (!args.length) {
+            return align;
+        }
+        align = args[0];
         return base;
     };
 
