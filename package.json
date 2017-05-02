@@ -37,6 +37,7 @@
   "dependencies": {
     "d3fc-annotation": "1.1.0",
     "d3fc-axis": "1.0.3",
+    "d3fc-brush": "1.0.1",
     "d3fc-chart": "1.3.0",
     "d3fc-data-join": "4.1.1",
     "d3fc-discontinuous-scale": "2.0.3",

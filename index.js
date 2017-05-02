@@ -15,3 +15,4 @@ export * from 'd3fc-element';
 export * from 'd3fc-pointer';
 export * from 'd3fc-group';
 export * from 'd3fc-chart';
+export * from 'd3fc-brush';
