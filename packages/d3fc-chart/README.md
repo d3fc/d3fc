@@ -123,4 +123,4 @@ The Cartesian chart exposes the scale properties with either an `x` or `y` prefi
 <a name="cartesian_yDecorate" href="#cartesian_yDecorate">#</a> *cartesian*.**yDecorate**(...)  
 ...
 
-The Cartesian chart exposes the [d3fc-axis](https://github.com/d3fc/d3fc-axis) *ticks*, *tickFormat* and *decorate* properties with either an `x` or `y` prefix.
+The Cartesian chart exposes the [d3fc-axis](https://github.com/d3fc/d3fc-axis) *ticks*, *tickSize*, *tickValue*, *tickFormat* and *decorate* properties with either an `x` or `y` prefix.

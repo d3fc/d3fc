@@ -18,10 +18,22 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
         let chartLabel = functor('');
         let plotArea = seriesSvgLine();
         let xTickFormat = null;
-        let xTickArgs;
+        let xTicks;
+        let xTickArguments;
+        let xTickSize;
+        let xTickSizeInner;
+        let xTickSizeOuter;
+        let xTickValues;
+        let xTickPadding;
         let xDecorate = () => {};
         let yTickFormat = null;
-        let yTickArgs;
+        let yTicks;
+        let yTickArguments;
+        let yTickSize;
+        let yTickSizeInner;
+        let yTickSizeOuter;
+        let yTickValues;
+        let yTickPadding;
         let yDecorate = () => {};
         let decorate = () => {};
 
@@ -114,8 +126,26 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                     .on('draw', (d, i, nodes) => {
                         yAxis.tickFormat(yTickFormat)
                           .decorate(yDecorate);
-                        if (yTickArgs) {
-                            yAxis.ticks(...yTickArgs);
+                        if (yTicks) {
+                            yAxis.ticks(...yTicks);
+                        }
+                        if (yTickArguments) {
+                            yAxis.tickArguments(yTickArguments);
+                        }
+                        if (yTickSize) {
+                            yAxis.tickSize(yTickSize);
+                        }
+                        if (yTickSizeInner) {
+                            yAxis.tickSizeInner(yTickSizeInner);
+                        }
+                        if (yTickSizeOuter) {
+                            yAxis.tickSizeOuter(yTickSizeOuter);
+                        }
+                        if (yTickValues) {
+                            yAxis.tickValues(yTickValues);
+                        }
+                        if (yTickPadding) {
+                            yAxis.tickPadding(yTickPadding);
                         }
                         transitionPropagator(select(nodes[i]))
                           .select('svg')
@@ -134,8 +164,26 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                     .on('draw', (d, i, nodes) => {
                         xAxis.tickFormat(xTickFormat)
                           .decorate(xDecorate);
-                        if (xTickArgs) {
-                            xAxis.ticks(...xTickArgs);
+                        if (xTicks) {
+                            xAxis.ticks(...xTicks);
+                        }
+                        if (xTickArguments) {
+                            xAxis.tickArguments(xTickArguments);
+                        }
+                        if (xTickSize) {
+                            xAxis.tickSize(xTickSize);
+                        }
+                        if (xTickSizeInner) {
+                            xAxis.tickSizeInner(xTickSizeInner);
+                        }
+                        if (xTickSizeOuter) {
+                            xAxis.tickSizeOuter(xTickSizeOuter);
+                        }
+                        if (xTickValues) {
+                            xAxis.tickValues(xTickValues);
+                        }
+                        if (xTickPadding) {
+                            xAxis.tickPadding(xTickPadding);
                         }
                         transitionPropagator(select(nodes[i]))
                           .select('svg')
@@ -175,7 +223,52 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             return cartesian;
         };
         cartesian.xTicks = (...args) => {
-            xTickArgs = args;
+            if (!args.length) {
+                return xTicks;
+            }
+            xTicks = args;
+            return cartesian;
+        };
+        cartesian.xTickArguments = (...args) => {
+            if (!args.length) {
+                return xTickArguments;
+            }
+            xTickArguments = args[0];
+            return cartesian;
+        };
+        cartesian.xTickSize = (...args) => {
+            if (!args.length) {
+                return xTickSize;
+            }
+            xTickSize = args[0];
+            return cartesian;
+        };
+        cartesian.xTickSizeInner = (...args) => {
+            if (!args.length) {
+                return xTickSizeInner;
+            }
+            xTickSizeInner = args[0];
+            return cartesian;
+        };
+        cartesian.xTickSizeOuter = (...args) => {
+            if (!args.length) {
+                return xTickSizeOuter;
+            }
+            xTickSizeOuter = args[0];
+            return cartesian;
+        };
+        cartesian.xTickValues = (...args) => {
+            if (!args.length) {
+                return xTickValues;
+            }
+            xTickValues = args[0];
+            return cartesian;
+        };
+        cartesian.xTickPadding = (...args) => {
+            if (!args.length) {
+                return xTickPadding;
+            }
+            xTickPadding = args[0];
             return cartesian;
         };
         cartesian.xDecorate = (...args) => {
@@ -193,7 +286,52 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             return cartesian;
         };
         cartesian.yTicks = (...args) => {
-            yTickArgs = args;
+            if (!args.length) {
+                return yTicks;
+            }
+            yTicks = args;
+            return cartesian;
+        };
+        cartesian.yTickArguments = (...args) => {
+            if (!args.length) {
+                return yTickArguments;
+            }
+            yTickArguments = args[0];
+            return cartesian;
+        };
+        cartesian.yTickSize = (...args) => {
+            if (!args.length) {
+                return yTickSize;
+            }
+            yTickSize = args[0];
+            return cartesian;
+        };
+        cartesian.yTickSizeInner = (...args) => {
+            if (!args.length) {
+                return yTickSizeInner;
+            }
+            yTickSizeInner = args[0];
+            return cartesian;
+        };
+        cartesian.yTickSizeOuter = (...args) => {
+            if (!args.length) {
+                return yTickSizeOuter;
+            }
+            yTickSizeOuter = args[0];
+            return cartesian;
+        };
+        cartesian.yTickValues = (...args) => {
+            if (!args.length) {
+                return yTickValues;
+            }
+            yTickValues = args[0];
+            return cartesian;
+        };
+        cartesian.yTickPadding = (...args) => {
+            if (!args.length) {
+                return yTickPadding;
+            }
+            yTickPadding = args[0];
             return cartesian;
         };
         cartesian.yDecorate = (...args) => {
