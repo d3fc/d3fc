@@ -52,14 +52,45 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
             }
         };
 
-        const marginForOrient = (orient) => {
-            switch (orient) {
+        const xMargin = (yOrient) => {
+            switch (yOrient) {
             case 'left':
-                return `margin-left: 4em`;
+                return 'margin-left: 4em';
             case 'right':
-                return `margin-right: 4em`;
+                return 'margin-right: 4em';
             default:
                 return '';
+            }
+        };
+
+        const xPadding = (yOrient) => {
+            switch (yOrient) {
+            case 'left':
+                return 'padding-right: 1em';
+            case 'right':
+                return 'padding-left: 1em';
+            case 'none':
+                return 'padding-left: 1em; padding-right: 1em';
+            default:
+                return '';
+            }
+        };
+
+        const colFlexDirection = (xOrient) => {
+            switch (xOrient) {
+            case 'bottom':
+                return 'flex-direction: column';
+            default:
+                return 'flex-direction: column-reverse';
+            }
+        };
+
+        const rowFlexDirection = (yOrient) => {
+            switch (yOrient) {
+            case 'right':
+                return 'flex-direction: row';
+            default:
+                return 'flex-direction: row-reverse';
             }
         };
 
@@ -81,8 +112,8 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                 const yAxis = axisForOrient(yOrientValue);
 
                 const xAxisMarkup = xAxis
-                  ? `<d3fc-svg class='x-axis' style='height: 2em; margin-${yOrientValue}: 4em'></d3fc-svg>
-                    <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; margin-${yOrientValue}: 4em'></div>`
+                  ? `<d3fc-svg class='x-axis' style='height: 2em; ${xMargin(yOrientValue)}'></d3fc-svg>
+                    <div class='x-axis-label' style='height: 1em; line-height: 1em; text-align: center; ${xMargin(yOrientValue)}'></div>`
                   : '';
                 const yAxisMarkup = yAxis
                   ? `<d3fc-svg class='y-axis' style='width: 3em'></d3fc-svg>
@@ -92,14 +123,14 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                   : '';
 
                 container.enter()
-                    .attr('style', 'display: flex; height: 100%; width: 100%; flex-direction: column')
+                    .attr('style', 'display: flex; height: 100%; width: 100%; flex-direction: column; overflow: hidden')
                     .attr('auto-resize', '')
                     .html(`<div class='chart-label'
-                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; ${marginForOrient(yOrientValue)}'>
+                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; ${xMargin(yOrientValue)}'>
                           </div>
-                          <div style='flex: 1; display: flex; flex-direction: ${xOrientValue === 'bottom' ? 'column' : 'column-reverse'}'>
-                              <div style='flex: 1; display: flex; flex-direction: ${yOrientValue === 'right' ? 'row' : 'row-reverse'}'>
-                                  <${d3fcElementType} class='plot-area' style='flex: 1; overflow: hidden'></${d3fcElementType}>
+                          <div style='flex: 1; display: flex; ${colFlexDirection(xOrientValue)}; ${xPadding(yOrientValue)}'>
+                              <div style='flex: 1; display: flex; ${rowFlexDirection(yOrientValue)}'>
+                                  <${d3fcElementType} class='plot-area' style='flex: 1'></${d3fcElementType}>
                                   ${yAxisMarkup}
                               </div>
                               ${xAxisMarkup}
