@@ -30,21 +30,22 @@ var data = {
 };
 
 var chart = fc.chartSvgCartesian(
-        d3.scalePoint(),
+        d3.scaleBand(),
         d3.scaleLinear())
     .chartLabel('2015 Cumulative Sales')
     .xDomain(data.sales.map(function(d) { return d.month; }))
     .yDomain(yExtent(data.sales))
-    .xPadding(0.5)
+    .xPadding(0.2)
     .yTicks(5)
     .yTickFormat(valueformatter)
     .yLabel('Sales (millions)')
     .yNice();
 
 // START
-var bar = fc.seriesSvgBar()
+var bar = fc.autoBandwidth(fc.seriesSvgBar())
   .crossValue(function(d) { return d.month; })
   .mainValue(function(d) { return d.sales; })
+  .align('left')
   .decorate(function(selection) {
     // The selection passed to decorate is the one which the component creates
     // within its internal data join, here we use the update selection to

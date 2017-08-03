@@ -5,6 +5,7 @@
 
 .plot-area {
   background-color: white;
+  overflow: hidden;
 }
 
 d3fc-svg svg {

@@ -31,18 +31,19 @@ var data = {
 };
 
 var chart = fc.chartSvgCartesian(
-        d3.scalePoint(),
+        d3.scaleBand(),
         d3.scaleLinear())
     .chartLabel('2015 Cumulative Sales')
     .xDomain(data.sales.map(function(d) { return d.month; }))
     .yDomain(yExtent(data.sales))
-    .xPadding(0.5)
     .yTicks(5)
+    .xPadding(0.2)
     .yTickFormat(valueformatter)
     .yLabel('Sales (millions)')
     .yNice();
 
-var bar = fc.seriesSvgBar()
+var bar = fc.autoBandwidth(fc.seriesSvgBar())
+    .align('left')
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; });
 

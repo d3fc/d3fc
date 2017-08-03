@@ -21,6 +21,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory10);
 var svgBar = fc.seriesSvgBar()
     .xScale(xScale)
     .yScale(yScale)
+    .bandwidth(15)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; })
     .decorate(function(selection) {
