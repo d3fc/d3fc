@@ -22,19 +22,20 @@ var valueformatter = d3.format('$.0f');
 
 // START
 var chart = fc.chartSvgCartesian(
-        d3.scalePoint(),
+        d3.scaleBand(),
         d3.scaleLinear())
     .chartLabel('2015 Cumulative Sales')
     .xDomain(data.map(function(d) { return d.month; }))
     .yDomain(yExtent(data))
     .yTicks(5)
-    .xPadding(0.5)
+    .xPadding(0.2)
     .yTickFormat(valueformatter)
     .yLabel('Sales (millions)')
     .yNice();
 // END
 
-var series = fc.seriesSvgBar()
+var series = fc.autoBandwidth(fc.seriesSvgBar())
+    .align('left')
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; });
 

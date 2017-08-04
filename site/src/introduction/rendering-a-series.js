@@ -34,6 +34,7 @@ var yScale = d3.scaleLinear()
 
 // create a series
 var series = fc.seriesSvgBar()
+    .bandwidth(40)
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; })
     .xScale(xScale)

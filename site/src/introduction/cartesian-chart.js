@@ -15,13 +15,14 @@ var data = generator(1).map(function(d, i) {
 
 // START
 var chart = fc.chartSvgCartesian(
-        d3.scalePoint(),
+        d3.scaleBand(),
         d3.scaleLinear())
     .xDomain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-    .xPadding(0.5)
+    .xPadding(0.2)
     .yDomain([0, 10]);
 
-var series = fc.seriesSvgBar()
+var series = fc.autoBandwidth(fc.seriesSvgBar())
+    .align('left')
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; });
 

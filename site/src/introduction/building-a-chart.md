@@ -106,6 +106,10 @@ This renders a more complete chart:
 
 {{{ dynamic-include 'javascript' js="cartesian-chart-js" }}}
 
+You'll notice that the x-axis for this chart uses the [d3 band scale](https://github.com/d3/d3-scale#band-scales). This scale is typically used for bar charts, where it computes the width of each bar, returning this via the `bandwidth` function.
+
+You can set the `bandwidth` directly on the d3fc bar series, or, as per this example, adapt a series using the `autoBandwidth` component. This detects whether the scale associated with the series exposes a `bandwidth` function, and uses this to set the series band width automatically (hence the 'auto' name!).
+
 ## Setting the axis domain
 
 The current logic for setting the domain for each axis isn't ideal. Firstly, the x-axis domain is hard-coded with the months of the year. This is easily resolved by mapping the data to return the month component for each datapoint:

@@ -16,6 +16,7 @@ d3.csv('https://d3fc.io/examples/stacked/data.csv', function(_, data) {
 
   var barSeries = fc.seriesSvgBar()
     .orient('horizontal')
+    .bandwidth(40)
     .crossValue(function(d) { return d.data.Country; })
     .mainValue(function(d) { return d[1]; })
     .baseValue(function(d) { return d[0]; });
