@@ -1,6 +1,14 @@
 import {timeDay, timeSaturday, timeMonday} from 'd3-time';
 
 export default function() {
+
+    // the indices returned by date.getDay()
+    const day = {
+        sunday: 0,
+        monday: 1,
+        saturday: 6
+    };
+
     const millisPerDay = 24 * 3600 * 1000;
     const millisPerWorkWeek = millisPerDay * 5;
     const millisPerWeek = millisPerDay * 7;
@@ -12,11 +20,16 @@ export default function() {
 
     skipWeekends.clampDown = (date) => {
         if (date && isWeekend(date)) {
-            const daysToSubtract = date.getDay() === 0 ? 2 : 1;
             // round the date up to midnight
             const newDate = timeDay.ceil(date);
             // then subtract the required number of days
-            return timeDay.offset(newDate, -daysToSubtract);
+            if (newDate.getDay() === day.sunday) {
+                return timeDay.offset(newDate, -1);
+            } else if (newDate.getDay() === day.monday) {
+                return timeDay.offset(newDate, -2);
+            } else {
+                return newDate;
+            }
         } else {
             return date;
         }
@@ -24,11 +37,16 @@ export default function() {
 
     skipWeekends.clampUp = (date) => {
         if (date && isWeekend(date)) {
-            const daysToAdd = date.getDay() === 0 ? 1 : 2;
             // round the date down to midnight
             const newDate = timeDay.floor(date);
             // then add the required number of days
-            return timeDay.offset(newDate, daysToAdd);
+            if (newDate.getDay() === day.saturday) {
+                return timeDay.offset(newDate, 2);
+            } else if (newDate.getDay() === day.sunday) {
+                return timeDay.offset(newDate, 1);
+            } else {
+                return newDate;
+            }
         } else {
             return date;
         }
