@@ -25,7 +25,7 @@ var svgLine = fc.seriesSvgLine()
 var svgMulti = fc.seriesSvgMulti()
     .xScale(xScale)
     .yScale(yScale)
-    .series([svgBar, svgLine]);
+    .series([fc.autoBandwidth(svgBar), svgLine]);
 
 container.append('g')
     .datum(data)
@@ -48,6 +48,6 @@ var canvasMulti = fc.seriesCanvasMulti()
     .xScale(xScale)
     .yScale(yScale)
     .context(ctx)
-    .series([canvasBar, canvasLine]);
+    .series([fc.autoBandwidth(canvasBar), canvasLine]);
 
 canvasMulti(data);

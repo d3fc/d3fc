@@ -312,6 +312,18 @@ var svgBar = fc.autoBandwidth(fc.seriesSvgBar())
 
 The `fc.autoBandwidth` component, when adapting a series, adds a `widthFraction` property which determines the fraction of this distance that is used to set the bandwidth.
 
+When using a multi, or repeat series, the `fc.autoBandwidth` component should be used to adapt the bar (or OHLC, boxplot, ...) series directly, rather than adapting the multi or repeat series.
+
+```javascript
+var canvasBar = fc.seriesCanvasBar()
+
+var canvasLine = fc.seriesCanvasLine();
+
+var canvasMulti = fc.seriesCanvasMulti()
+    .xScale(xScale)
+    .yScale(yScale)
+    .series([fc.autoBandwidth(canvasBar), canvasLine]);
+```
 
 ### Line
 
