@@ -54,8 +54,21 @@ blocks:
   - user: ColinEberhardt
     block: de9c652b7e820bd7b51d2b966e796ff5
     title: Canvas Chart Zoom
-
-
+  - user: ColinEberhardt
+    block: 3c780088c363d1515403f50a87a87121
+    title: Interactive Small Multiples
+  - user: ColinEberhardt
+    block: d25e78dcdaf05e67cd40c7d3a4d803f6
+    title: Market Profile Chart
+  - user: ColinEberhardt
+    block: b60919a17c0b14d745c881f48effe681
+    title: Axis 'break'
+  - user: ColinEberhardt
+    block: 0a5cc7ca6c256dcd6ef1e2e7ffa468d4
+    title: Discontinuous Axis - Removing Weekends
+  - user: ColinEberhardt
+    block: 4b8737e0251f92075693a6e04df72638
+    title: Simple extent example
 
 ---
 
