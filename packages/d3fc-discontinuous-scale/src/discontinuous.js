@@ -61,7 +61,7 @@ function discontinuous(adaptedScale) {
 
     scale.ticks = (...args) => {
         var ticks = adaptedScale.ticks.apply(this, args);
-        return tickFilter(ticks, scale, scale.domain());
+        return tickFilter(ticks, discontinuityProvider);
     };
 
     scale.copy = () =>

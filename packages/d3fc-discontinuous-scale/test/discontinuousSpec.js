@@ -35,16 +35,27 @@ describe('discontinuous', () => {
     });
 
     describe('tick calculations', () => {
-        it('should ensure ticks are not within discontinuities', () => {
+        it('should ensure ticks are not within discontinuities (time)', () => {
             var start = new Date(2015, 0, 9); // friday
             var end = new Date(2015, 0, 12); // monday
 
-            var dateTime = discontinuous(scaleTime())
+            var scale = discontinuous(scaleTime())
                 .discontinuityProvider(skipWeekends())
                 .domain([start, end]);
 
-            var ticks = dateTime.ticks();
-            expect(ticks.length).toEqual(5);
+            var ticksInDiscontinuityRange = scale.ticks()
+                .filter(tick => tick.getDay() === 6 /* Sat */ || tick.getDay() === 0 /* Sun */);
+            expect(ticksInDiscontinuityRange).toEqual([]);
+        });
+
+        it('should ensure ticks are not within discontinuities (linear)', () => {
+            var scale = discontinuous(scaleLinear())
+                .discontinuityProvider(discontinuityRange([5, 20]))
+                .domain([0, 25]);
+
+            var ticksInDiscontinuityRange = scale.ticks()
+                .filter(tick => tick > 5 && tick < 20);
+            expect(ticksInDiscontinuityRange).toEqual([]);
         });
 
         it('should support arguments being passed to ticks', () => {
