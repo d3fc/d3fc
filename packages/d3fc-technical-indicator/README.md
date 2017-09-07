@@ -259,7 +259,9 @@ Get/set the period of the relative strength index calculation performed by the c
 
 <a name="indicatorStochasticOscillator" href="#indicatorStochasticOscillator">#</a> fc.**indicatorStochasticOscillator**()
 
-Constructs a new stochastic oscillator calculator with the default settings.
+Constructs a new stochastic oscillator calculator with the default settings. Returns an array of objects with attributes:
+* `k`: The 'k' percentage
+* `d`: The 'd' percentage
 
 <a name="indicatorStochasticOscillator_" href="#indicatorStochasticOscillator_">#</a> *indicatorStochasticOscillator*(*data*)
 
