@@ -32,3 +32,6 @@ export { default as seriesSvgRepeat } from './src/svg/repeat';
 export { default as seriesCanvasRepeat } from './src/canvas/repeat';
 
 export { default as autoBandwidth } from './src/autoBandwidth';
+
+export { default as seriesSvgHeatmap } from './src/svg/heatmap';
+export { default as seriesCanvasHeatmap } from './src/canvas/heatmap';

@@ -17,7 +17,7 @@ const config = {
     },
     shotOffset: {
         left: bodyMargin,
-        right: bodyMargin
+        top: bodyMargin
     },
     renderDelay: 1000
 };

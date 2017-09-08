@@ -23,6 +23,11 @@ A collection of components for rendering data series to SVG and canvas, includin
   <td><a href="#stacked"><img src="screenshots/stacked.png"/></a></td>
   <td><a href="#repeat"><img src="screenshots/repeat.png"/></a></td>
 </tr>
+<tr>
+  <td><a href="#heatmap"><img src="screenshots/heatmap.png"/></a></td>
+  <td></td>
+  <td></td>
+</tr>
 </table>
 
 [Main d3fc package](https://github.com/ScottLogic/d3fc)
@@ -51,6 +56,7 @@ npm install d3fc-series
 * [OHLC](#ohlc)
 * [Boxplot](#boxplot)
 * [Errorbar](#errorbar)
+* [Heatmap](#heatmap)
 * [Multi](#multi)
 * [Repeat](#repeat)
 * [Grouped](#grouped)
@@ -622,6 +628,47 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
 <a name="seriesErrorBar_decorate" href="#seriesErrorBar_decorate">#</a> *seriesErrorBar*.**decorate**(*decorateFunc*)
+
+If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
+
+#### Canvas specific properties
+
+<a name="seriesCanvasErrorBar_context" href="#seriesCanvasErrorBar_context">#</a> *seriesCanvasErrorBar*.**context**(*ctx*)
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+### Heatmap
+
+![](screenshots/heatmap.png)
+
+<a name="seriesSvgHeatmap" href="#seriesSvgHeatmap">#</a> fc.**seriesSvgHeatmap**()  
+<a name="seriesCanvasHeatmap" href="#seriesCanvasHeatmap">#</a> fc.**seriesCanvasHeatmap**()
+
+Constructs a new heatmap series renderer for either canvas or SVG.
+
+#### Common properties
+
+<a name="seriesHeatmap_crossValue" href="#seriesHeatmap_crossValue">#</a> *seriesHeatmap*.**crossValue**(*accessorFunc*)  
+<a name="seriesHeatmap_highValue" href="#seriesHeatmap_highValue">#</a> *seriesHeatmap*.**highValue**(*accessorFunc*)  
+<a name="seriesHeatmap_colorValue" href="#seriesHeatmap_colorValue">#</a> *seriesHeatmap*.**colorValue**(*accessorFunc*)  
+
+If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
+
+<a name="seriesHeatmap_xScale" href="#seriesHeatmap_xScale">#</a> *seriesHeatmap*.**xScale**(*scale*)  
+<a name="seriesHeatmap_yScale" href="#seriesHeatmap_yScale">#</a> *seriesHeatmap*.**yScale**(*scale*)
+
+If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
+
+<a name="seriesHeatmap_colorInterpolate" href="#seriesHeatmap_colorInterpolate">#</a> *seriesHeatmap*.**colorInterpolate**(*interpolate*)
+
+If *colorInterpolate* is specified, sets the interpolator used to map color values to colors and returns this series. If *colorInterpolate* is not specified, returns the current interpolator.
+
+<a name="seriesHeatmap_xBandwidth" href="#seriesHeatmap_xBandwidth">#</a> *seriesHeatmap*.**xBandwidth**(*bandwidthFunc*)
+<a name="seriesHeatmap_yBandwidth" href="#seriesHeatmap_yBandwidth">#</a> *seriesHeatmap*.**yBandwidth**(*bandwidthFunc*)
+
+If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
+
+<a name="seriesHeatmap_decorate" href="#seriesHeatmap_decorate">#</a> *seriesHeatmap*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 

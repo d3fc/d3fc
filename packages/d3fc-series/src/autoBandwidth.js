@@ -1,6 +1,10 @@
 import { select, selection } from 'd3-selection';
 import { rebindAll } from 'd3fc-rebind';
-import { pairs, min } from 'd3-array';
+import { pairs, min, ascending } from 'd3-array';
+
+const sortUnique = arr =>
+    arr.sort(ascending)
+        .filter((value, index, self) => self.indexOf(value, index + 1) === -1);
 
 export default (adaptee) => {
 
@@ -13,7 +17,7 @@ export default (adaptee) => {
             return 10;
         }
 
-        screenValues.sort();
+        screenValues = sortUnique(screenValues);
 
         // compute the distance between neighbouring items
         const neighbourDistances = pairs(screenValues)
@@ -23,30 +27,40 @@ export default (adaptee) => {
         return widthFraction * minDistance;
     };
 
+    const determineBandwith = (crossScale, data, accessor) => {
+        // if the cross-scale has a bandwidth function, i.e. it is a scaleBand, use
+        // this to determine the width
+        if (crossScale.bandwidth) {
+            return crossScale.bandwidth();
+        } else {
+            // grouped series expect a nested array, which is flattened out
+            const flattenedData = Array.isArray(data) ? [].concat(...data) : data;
+
+            // obtain an array of points along the crossValue axis, mapped to screen coordinates.
+            const crossValuePoints = flattenedData.filter(adaptee.defined)
+                .map(accessor())
+                .map(crossScale);
+
+            const width = computeBandwidth(crossValuePoints);
+
+            return width;
+        }
+    };
+
     const autoBandwidth = (arg) => {
 
         const computeWidth = (data) => {
-            // if the series has an orient property, use this to determine the cross-scale, otherwise
-            // assume it is the x-scale
-            const crossScale = (adaptee.orient && adaptee.orient() === 'horizontal')
-                ? adaptee.yScale() : adaptee.xScale();
 
-            // if the cross-scale has a bandwidth function, i.e. it is a scaleBand, use
-            // this to determine the width
-            if (crossScale.bandwidth) {
-                adaptee.bandwidth(crossScale.bandwidth());
+            if (adaptee.xBandwidth && adaptee.yBandwidth) {
+                adaptee.xBandwidth(determineBandwith(adaptee.xScale(), data, adaptee.xValue));
+                adaptee.yBandwidth(determineBandwith(adaptee.yScale(), data, adaptee.yValue));
             } else {
-                // grouped series expect a nested array, which is flattened out
-                const flattenedData = Array.isArray(data) ? [].concat(...data) : data;
+                // if the series has an orient property, use this to determine the cross-scale, otherwise
+                // assume it is the x-scale
+                const crossScale = (adaptee.orient && adaptee.orient() === 'horizontal')
+                    ? adaptee.yScale() : adaptee.xScale();
 
-                // obtain an array of points along the crossValue axis, mapped to screen coordinates.
-                const crossValuePoints = flattenedData.filter(adaptee.defined)
-                    .map(adaptee.crossValue())
-                    .map(crossScale);
-
-                const width = computeBandwidth(crossValuePoints);
-
-                adaptee.bandwidth(width);
+                adaptee.bandwidth(determineBandwith(crossScale, data, adaptee.crossValue));
             }
         };
 
