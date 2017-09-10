@@ -29,3 +29,9 @@
     max-height: 55px;
   }
 }
+
+.gists:after {
+  content: "";
+  display: block;
+  clear: both;
+}
