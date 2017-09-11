@@ -1,0 +1,10 @@
+<div class='gists'>
+  {{#each gists}}
+    <div class='gist col-md-4 col-xs-6'>
+      <a href='https://bl.ocks.org/{{{ user }}}/{{{ block }}}'
+        style='background-image: url("https://gist.githubusercontent.com/{{{ user }}}/{{{ block }}}/raw/thumbnail.png")'/>
+        <div class='title'>{{{ title }}}</div>
+      </a>
+    </div>
+  {{/each}}
+</div>
