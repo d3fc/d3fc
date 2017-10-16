@@ -1,5 +1,6 @@
 import { sum } from 'd3-array';
 import { select } from 'd3-selection';
+import { scaleIdentity } from 'd3-scale';
 import functor from './util/functor';
 import { dataJoin as dataJoinUtil } from 'd3fc-data-join';
 import { include, rebindAll } from 'd3fc-rebind';
@@ -11,6 +12,8 @@ export default (layoutStrategy) => {
     let position = (d, i) => [d.x, d.y];
     let strategy = layoutStrategy || ((x) => x);
     let component = () => {};
+    let xScale = scaleIdentity();
+    let yScale = scaleIdentity();
 
     const dataJoin = dataJoinUtil('g', 'label');
 
@@ -26,7 +29,11 @@ export default (layoutStrategy) => {
             const childRects = nodes
                 .map((node, i) => {
                     let d = select(node).datum();
-                    let childPos = position(d, i, nodes);
+                    const pos = position(d, i, nodes);
+                    let childPos = [
+                        xScale(pos[0]),
+                        yScale(pos[1])
+                    ];
                     let childSize = size(d, i, nodes);
                     return {
                         hidden: false,
@@ -46,8 +53,8 @@ export default (layoutStrategy) => {
                 // set the layout width / height so that children can use SVG layout if required
                 .attr('layout-width', (_, i) => layout[i].width)
                 .attr('layout-height', (_, i) => layout[i].height)
-                .attr('anchor-x', (d, i, g) => position(d, i, g)[0] - layout[i].x)
-                .attr('anchor-y', (d, i, g) => position(d, i, g)[1] - layout[i].y);
+                .attr('anchor-x', (d, i, g) => childRects[i].x - layout[i].x)
+                .attr('anchor-y', (d, i, g) => childRects[i].y - layout[i].y);
 
             g.call(component);
 
@@ -87,6 +94,22 @@ export default (layoutStrategy) => {
             return decorate;
         }
         decorate = args[0];
+        return label;
+    };
+
+    label.xScale = (...args) => {
+        if (!args.length) {
+            return xScale;
+        }
+        xScale = args[0];
+        return label;
+    };
+
+    label.yScale = (...args) => {
+        if (!args.length) {
+            return yScale;
+        }
+        yScale = args[0];
         return label;
     };
 

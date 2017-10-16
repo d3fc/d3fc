@@ -24,11 +24,13 @@
     "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
   "devDependencies": {
+    "d3": "^4.11.0",
     "d3fc-scripts": "^1.1.4",
     "watch-cli": "^0.2.1"
   },
   "dependencies": {
     "d3-array": "^1.0.0",
+    "d3-scale": "^1.0.6",
     "d3-selection": "^1.0.0",
     "d3fc-data-join": "^2.0.0",
     "d3fc-rebind": "^4.0.0"

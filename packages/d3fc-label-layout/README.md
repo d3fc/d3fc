@@ -54,7 +54,9 @@ svg.datum(places.features)
      .call(labels);
 ```
 
-The above snippet is taken from block [389c76c6a544af9f0cab](http://bl.ocks.org/ColinEberhardt/389c76c6a544af9f0cab) which provides a complete example showing how this label layout component can be used to arrange labels on a map.
+The above snippet is taken from a complete example showing how this [label layout component can be used to arrange labels on a map](http://bl.ocks.org/ColinEberhardt/389c76c6a544af9f0cab).
+
+For integration with charts the label layout component exposes `xScale` and `yScale` properties, as [shown in this example](https://bl.ocks.org/ColinEberhardt/27508a7c0832d6e8132a9d1d8aaf231c/a49aac43f1bd770506dc3660aba149193f7def8b).
 
 ### Label
 
@@ -71,15 +73,22 @@ Each `g` element has the following properties set:
 
 <a name="layoutLabel_size" href="#layoutLabel_size">#</a> *layoutLabel*.**size**(*accessor*)
 
-Specifies the size for each item in the associated array. The *accessor* function is invoked exactly once per datum, and should return the size as an array of two values, `[width, height]`. The *accessor* function is invoked with the datum, and index. This function is invoked after the component has been rendered, and the value of the *this* context is the containing `g` element. As a result, you can measure the size of the component if the contents are dynamic, for example, measuring the size of a text label.
+Specifies the size for each item in the associated array. The *accessor* function is invoked exactly once per datum, and should return the size as an array of two values, `[width, height]`. The *accessor* function is invoked with the current datum (d), the current index (i), and the current group (nodes). This function is invoked after the component has been rendered, and the value of the *this* context is the containing `g` element. As a result, you can measure the size of the component if the contents are dynamic, for example, measuring the size of a text label.
 
 <a name="layoutLabel_position" href="#layoutLabel_position">#</a> *layoutLabel*.**position**(*accessor*)
 
-Specifies the position for each item in the associated array. The *accessor* function is invoked exactly once per datum, and should return the position as an array of two values, `[x, y]`.
+Specifies the position for each item in the associated array. The *accessor* function is invoked exactly once per datum, with the current datum (d), the current index (i), and the current group (nodes), and should return the position as an array of two values, `[x, y]`.
 
 <a name="layoutLabel_component" href="#layoutLabel_component">#</a> *layoutLabel*.**component**(*component*)
 
 Specified the component that is used to render each label.
+
+<a name="layoutLabel_xScale" href="#layoutLabel_xScale">#</a> *layoutLabel*.**xScale**(*scale*)  
+<a name="layoutLabel_yScale" href="#layoutLabel_yScale">#</a> *layoutLabel*.**yScale**(*scale*)
+
+If *scale* is specified, sets the scale and returns the label layout component. If *scale* is not specified, returns the current scale.
+
+The scales are applied to the position of each item, i.e. `[x, y] -> [xScale(x), yScale(y)]`, with the default scale being an identity.
 
 ### Strategy
 

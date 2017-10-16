@@ -7,8 +7,7 @@ describe('bundle', () => {
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
             scripts: [
-                './node_modules/d3-array/build/d3-array.js',
-                './node_modules/d3-selection/build/d3-selection.js',
+                './node_modules/d3/build/d3.js',
                 './node_modules/d3fc-data-join/build/d3fc-data-join.js',
                 './node_modules/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-label-layout.js'
