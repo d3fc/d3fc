@@ -24,9 +24,6 @@
     "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
   "devDependencies": {
-    "d3fc-rebind": "^4.0.1",
-    "js-combinatorics": "^0.5.0",
-    "ncp": "^2.0.0",
     "d3fc-scripts": "^1.1.4",
     "watch-cli": "^0.2.1"
   },
