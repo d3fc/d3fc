@@ -23,9 +23,13 @@ export default () => {
 
         selection.each((data, index, group) => {
             const path = join(select(group[index]), [data]);
-            path.attr('d', lineData)
-                .attr('fill', 'none')
-                .attr('stroke', colors.black);
+
+            path.enter()
+              .attr('fill', 'none')
+              .attr('stroke', colors.black);
+
+            path.attr('d', lineData);
+
             base.decorate()(path, data, index);
         });
     };

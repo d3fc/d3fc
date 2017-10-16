@@ -30,8 +30,12 @@ export default () => {
             areaData[valueComponent + '1']((_, i) => projectedData[i].y);
 
             const path = join(select(group[index]), [data]);
-            path.attr('d', areaData)
-                .attr('fill', colors.gray);
+
+            path.enter()
+              .attr('fill', colors.gray);
+
+            path.attr('d', areaData);
+
             base.decorate()(path, data, index);
         });
     };
