@@ -41,10 +41,8 @@ export default function() {
             var thisPoint = xyData[i];
             var nextPoint = xyData[i + 1];
 
-            var base = (lastPoint[0] - nextPoint[0]) * (thisPoint[1] - lastPoint[1]);
-            var height = (lastPoint[0] - thisPoint[0]) * (nextPoint[1] - lastPoint[1]);
-
-            return Math.abs(0.5 * base * height);
+            return 0.5 * Math.abs((lastPoint[0] - nextPoint[0]) * (thisPoint[1] - lastPoint[1]) -
+                (lastPoint[0] - thisPoint[0]) * (nextPoint[1] - lastPoint[1]));
         });
 
         return pointAreas;

@@ -52,11 +52,11 @@ describe('largestTriangleThreeBucket', function() {
 
         it('should return values that form the largest triangle in that bucket', function() {
             var sampledData = dataGenerator(data);
-            expect(sampledData[1].x).toEqual(1);
+            expect(sampledData[1].x).toEqual(2);
             expect(sampledData[2].x).toEqual(4);
             expect(sampledData[3].x).toEqual(7);
-            expect(sampledData[4].x).toEqual(11);
-            expect(sampledData[5].x).toEqual(15);
+            expect(sampledData[4].x).toEqual(12);
+            expect(sampledData[5].x).toEqual(13);
         });
 
     });
@@ -80,7 +80,7 @@ describe('largestTriangleThreeBucket', function() {
             var sampledData = dataGenerator(data);
 
             expect(sampledData[0][0]).toEqual(0);
-            expect(sampledData[1][0]).toEqual(1);
+            expect(sampledData[1][0]).toEqual(2);
             expect(sampledData[2][0]).toEqual(4);
         });
     });

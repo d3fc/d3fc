@@ -32,12 +32,8 @@ export default function() {
 
             var xyData = thisBucket.map((item) => [x(item), y(item)]);
 
-            var areas = xyData.map((item) => {
-                var base = (lastSelectedX - nextAvgX) * (item[1] - lastSelectedY);
-                var height = (lastSelectedX - item[0]) * (nextAvgY - lastSelectedY);
-
-                return Math.abs(0.5 * base * height);
-            });
+            var areas = xyData.map((item) => 0.5 * Math.abs((lastSelectedX - nextAvgX) * (item[1] - lastSelectedY) -
+                    (lastSelectedX - item[0]) * (nextAvgY - lastSelectedY)));
 
             var highestIndex = areas.indexOf(max(areas));
             var highestXY = xyData[highestIndex];
