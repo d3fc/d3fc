@@ -73,4 +73,12 @@ describe('linear', () => {
         dateExtent().accessors([d => [d, d]])([date]);
         expect(date.valueOf).toHaveBeenCalled();
     });
+
+    it('should handle null dates', function() {
+        const date1 = new Date(2014, 0, 10);
+        const date2 = null;
+        const date3 = new Date(2014, 0, 20);
+        var extent = dateExtent().accessors([d => d])([date1, date2, date3]);
+        expect(extent).toEqual([date1, date3]);
+    });
 });

@@ -10,10 +10,12 @@ export default function() {
 
     const extent = linearExtent();
 
+    const valueOf = date => date != null ? date.valueOf() : null;
+
     const instance = (data) => {
         const adaptedAccessors = accessors.map(accessor => (...args) => {
             const value = accessor(...args);
-            return Array.isArray(value) ? value.map(date => date.valueOf()) : value.valueOf();
+            return Array.isArray(value) ? value.map(valueOf) : valueOf(value);
         });
 
         extent.accessors(adaptedAccessors)
