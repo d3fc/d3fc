@@ -233,7 +233,7 @@ If *value* is not specified, returns the current interval length, which defaults
 If *value* is specified, sets the number of discrete steps to divide the interval into to the specified number and returns this generator instance.
 If *value* is not specified, returns the current number of steps, which defaults to `20`.
 
-<a name="rgbm_randomNormal" href="#rgbm_randomNormal"></a> *randomGeometricBrownianMotion*.**randomNormal**([*value*])
+<a name="rgbm_random" href="#rgbm_random"></a> *randomGeometricBrownianMotion*.**random**([*value*])
 
 If *value* is specified, sets the function used for generating random numbers with a normal (Gaussian) distribution to the specified function and returns this generator instance.
-If *value* is not specified, returns the current random normal function, which defaults to [`d3_random.randomNormal`](https://github.com/d3/d3-random#randomNormal).
+If *value* is not specified, returns the current random function, which defaults to [`d3_random.randomNormal`](https://github.com/d3/d3-random#randomNormal).

@@ -12,7 +12,7 @@ describe('geometricBrownianMotion', () => {
 
         const gbm = geometricBrownianMotion()
             .steps(5)
-            .randomNormal(normal());
+            .random(normal());
 
         const gbmData = gbm(10);
 
