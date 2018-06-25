@@ -107,6 +107,10 @@ Get/Set the [drift used by the geometric Brownian motion simulation](#gbm_mu).
 
 Get/Set the [volatility used by the geometric Brownian motion simulation](#gbm_sigma).  
 
+<a name="rf_random" href="#rf_random">#</a> *randomFinancial*.**random**([*value*])
+
+Get/Set the [random function used by the geometric Brownian motion simulation](#rgbm_random). 
+
 <a name="rf_unitInterval" href="#rf_unitInterval">#</a> *randomFinancial*.**unitInterval**([*value*])
 
 If *value* is specified, sets the time interval used for units of *mu* and *sigma* to the specified [d3 time interval](https://github.com/d3/d3-time#intervals) and returns this generator instance.

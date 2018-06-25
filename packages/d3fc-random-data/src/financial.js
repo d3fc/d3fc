@@ -1,6 +1,6 @@
 import geometricBrownianMotion from './geometricBrownianMotion';
 import { randomNormal } from 'd3-random';
-import { rebind } from 'd3fc-rebind';
+import { rebindAll } from 'd3fc-rebind';
 import { timeDay, timeYear } from 'd3-time';
 import { functor } from './fn';
 
@@ -143,7 +143,7 @@ export default function() {
         return financial;
     };
 
-    rebind(financial, gbm, 'steps', 'mu', 'sigma');
+    rebindAll(financial, gbm);
 
     return financial;
 }

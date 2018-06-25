@@ -63,6 +63,35 @@ describe('financial', () => {
         expect(result[1].volume).toBe(100);
     });
 
+    it('should allow setting random using function', () => {
+        // create a random number generator that produces a predictable sequence
+        // 0.2, 0.8, 0.2, 0.8 ...
+        const normal = () => {
+            let index = 0;
+            return () => index++ % 2 ? 0.2 : 0.8;
+        };
+        generator.random(normal());
+        const result = generator(3);
+
+        // this test data was generated at the following point:
+        // 56277c28ede1dacf79e1ea50ca8aac7341b34f74
+        // and is assumed correct for the purposes of further refactor.
+        expect(result[0].open).toBe(100);
+        expect(result[0].high).toBe(101.20362482900286);
+        expect(result[0].low).toBe(100);
+        expect(result[0].close).toBe(101.20362482900286);
+
+        expect(result[1].open).toBe(101.20362482900286);
+        expect(result[1].high).toBe(102.42173678529561);
+        expect(result[1].low).toBe(101.20362482900286);
+        expect(result[1].close).toBe(102.42173678529561);
+
+        expect(result[2].open).toBe(102.42173678529561);
+        expect(result[2].high).toBe(103.65451023953936);
+        expect(result[2].low).toBe(102.42173678529561);
+        expect(result[2].close).toBe(103.65451023953936);
+    });
+
     it('stream.next should initially return datum at start date', () => {
         const stream = generator.stream();
         const datum = stream.next();
