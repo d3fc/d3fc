@@ -2,6 +2,7 @@ import { scaleIdentity } from 'd3-scale';
 import defined from './defined';
 import functor from './functor';
 import alignOffset from './alignOffset';
+import createBase from './base';
 
 export default () => {
 
@@ -14,12 +15,20 @@ export default () => {
     let closeValue = (d) => d.close;
     let bandwidth = () => 5;
     let align = 'center';
-    let decorate = () => {};
     let crossValueScaled = (d, i) => xScale(crossValue(d, i));
 
-    let base = () => {};
-
-    base.defined = (d, i) => defined(crossValue, openValue, lowValue, highValue, closeValue)(d, i);
+    const base = createBase({
+        decorate: () => {},
+        defined: (d, i) => defined(
+            crossValue,
+            openValue,
+            lowValue,
+            highValue,
+            closeValue
+        )(d, i),
+        xScale,
+        yScale
+    });
 
     base.values = (d, i) => {
         const closeRaw = closeValue(d, i);
@@ -45,27 +54,6 @@ export default () => {
         };
     };
 
-    base.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
-        return base;
-    };
-    base.xScale = (...args) => {
-        if (!args.length) {
-            return xScale;
-        }
-        xScale = args[0];
-        return base;
-    };
-    base.yScale = (...args) => {
-        if (!args.length) {
-            return yScale;
-        }
-        yScale = args[0];
-        return base;
-    };
     base.crossValue = (...args) => {
         if (!args.length) {
             return crossValue;

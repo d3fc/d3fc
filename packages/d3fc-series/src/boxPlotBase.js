@@ -2,6 +2,7 @@ import { scaleIdentity } from 'd3-scale';
 import defined from './defined';
 import functor from './functor';
 import alignOffset from './alignOffset';
+import createBase from './base';
 
 export default () => {
 
@@ -16,11 +17,20 @@ export default () => {
     let orient = 'vertical';
     let align = 'center';
     let bandwidth = () => 5;
-    let decorate = () => {};
 
-    const base = () => {};
-
-    base.defined = (d, i) => defined(lowValue, highValue, lowerQuartileValue, upperQuartileValue, crossValue, medianValue)(d, i);
+    const base = createBase({
+        decorate: () => {},
+        defined: (d, i) => defined(
+            lowValue,
+            highValue,
+            lowerQuartileValue,
+            upperQuartileValue,
+            crossValue,
+            medianValue
+        )(d, i),
+        xScale,
+        yScale
+    });
 
     base.values = (d, i) => {
         const width = bandwidth(d, i);
@@ -51,32 +61,11 @@ export default () => {
         }
     };
 
-    base.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
-        return base;
-    };
     base.orient = (...args) => {
         if (!args.length) {
             return orient;
         }
         orient = args[0];
-        return base;
-    };
-    base.xScale = (...args) => {
-        if (!args.length) {
-            return xScale;
-        }
-        xScale = args[0];
-        return base;
-    };
-    base.yScale = (...args) => {
-        if (!args.length) {
-            return yScale;
-        }
-        yScale = args[0];
         return base;
     };
     base.lowerQuartileValue = (...args) => {
@@ -126,13 +115,6 @@ export default () => {
             return bandwidth;
         }
         bandwidth = functor(args[0]);
-        return base;
-    };
-    base.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
         return base;
     };
     base.align = (...args) => {

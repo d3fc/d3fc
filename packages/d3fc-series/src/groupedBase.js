@@ -3,18 +3,21 @@ import { range } from 'd3-array';
 import { rebindAll, includeMap } from 'd3fc-rebind';
 import functor from './functor';
 import alignOffset from './alignOffset';
+import createBase from './base';
 
 export default (series) => {
 
     let bandwidth = () => 50;
-    let decorate = () => {};
     let xScale = scaleLinear();
     let align = 'center';
 
     // the offset scale is used to offset each of the series within a group
     const offsetScale = scaleBand();
 
-    const grouped = () => {};
+    const grouped = createBase({
+        decorate: () => {},
+        xScale
+    });
 
     // the bandwidth for the grouped series can be a function of datum / index. As a result
     // the offset scale required to cluster the 'sub' series is also dependent on datum / index.
@@ -41,20 +44,6 @@ export default (series) => {
             return align;
         }
         align = args[0];
-        return grouped;
-    };
-    grouped.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
-        return grouped;
-    };
-    grouped.xScale = (...args) => {
-        if (!args.length) {
-            return xScale;
-        }
-        xScale = args[0];
         return grouped;
     };
 

@@ -1,7 +1,8 @@
-import {scaleIdentity} from 'd3-scale';
+import { scaleIdentity } from 'd3-scale';
 import functor from './functor';
 import defined from './defined';
 import alignOffset from './alignOffset';
+import createBase from './base';
 
 export default () => {
 
@@ -10,14 +11,16 @@ export default () => {
     let baseValue = () => 0;
     let crossValue = d => d.x;
     let mainValue = d => d.y;
-    let decorate = () => {};
     let align = 'center';
     let bandwidth = () => 5;
     let orient = 'vertical';
 
-    const base = () => {};
-
-    base.defined = (d, i) => defined(baseValue, crossValue, mainValue)(d, i);
+    const base = createBase({
+        decorate: () => {},
+        defined: (d, i) => defined(baseValue, crossValue, mainValue)(d, i),
+        xScale,
+        yScale
+    });
 
     base.values = (d, i) => {
         const width = bandwidth(d, i);
@@ -58,27 +61,6 @@ export default () => {
         }
     };
 
-    base.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
-        return base;
-    };
-    base.xScale = (...args) => {
-        if (!args.length) {
-            return xScale;
-        }
-        xScale = args[0];
-        return base;
-    };
-    base.yScale = (...args) => {
-        if (!args.length) {
-            return yScale;
-        }
-        yScale = args[0];
-        return base;
-    };
     base.baseValue = (...args) => {
         if (!args.length) {
             return baseValue;

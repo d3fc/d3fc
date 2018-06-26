@@ -4,6 +4,7 @@ import { rebindAll, includeMap, rebind } from 'd3fc-rebind';
 import { shapeBar } from 'd3fc-shape';
 import functor from './functor';
 import defined from './defined';
+import createBase from './base';
 
 export default () => {
 
@@ -15,11 +16,13 @@ export default () => {
     let yBandwidth = () => 5;
     let xBandwidth = () => 5;
     let colorInterpolate = interpolateViridis;
-    let decorate = () => {};
 
-    const heatmap = () => {};
-
-    heatmap.defined = (d, i) => defined(xValue, yValue, colorValue)(d, i);
+    const heatmap = createBase({
+        decorate: () => {},
+        defined: (d, i) => defined(xValue, yValue, colorValue)(d, i),
+        xScale,
+        yScale
+    });
 
     heatmap.pathGenerator = shapeBar()
         .x(0)
@@ -68,20 +71,6 @@ export default () => {
         colorInterpolate = args[0];
         return heatmap;
     };
-    heatmap.xScale = (...args) => {
-        if (!args.length) {
-            return xScale;
-        }
-        xScale = args[0];
-        return heatmap;
-    };
-    heatmap.yScale = (...args) => {
-        if (!args.length) {
-            return yScale;
-        }
-        yScale = args[0];
-        return heatmap;
-    };
     heatmap.xBandwidth = (...args) => {
         if (!args.length) {
             return xBandwidth;
@@ -94,13 +83,6 @@ export default () => {
             return yBandwidth;
         }
         yBandwidth = functor(args[0]);
-        return heatmap;
-    };
-    heatmap.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
         return heatmap;
     };
 

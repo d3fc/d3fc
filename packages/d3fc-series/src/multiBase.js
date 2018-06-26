@@ -1,15 +1,19 @@
 import {scaleIdentity} from 'd3-scale';
+import createBase from './base';
 
 export default () => {
 
-    let decorate = () => {};
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
     let series = [];
     let mapping = (d) => d;
     let key = (_, i) => i;
 
-    const multi = () => {};
+    const multi = createBase({
+        decorate: () => {},
+        xScale,
+        yScale
+    });
 
     multi.mapping = (...args) => {
         if (!args.length) {
@@ -30,27 +34,6 @@ export default () => {
             return series;
         }
         series = args[0];
-        return multi;
-    };
-    multi.xScale = (...args) => {
-        if (!args.length) {
-            return xScale;
-        }
-        xScale = args[0];
-        return multi;
-    };
-    multi.yScale = (...args) => {
-        if (!args.length) {
-            return yScale;
-        }
-        yScale = args[0];
-        return multi;
-    };
-    multi.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
         return multi;
     };
 
