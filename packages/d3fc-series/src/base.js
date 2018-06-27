@@ -1,5 +1,3 @@
-import { scaleIdentity } from 'd3-scale';
-
 export default initialValues => {
 
     const env = Object.assign({}, initialValues);
