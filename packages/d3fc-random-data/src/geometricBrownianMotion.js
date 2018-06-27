@@ -7,14 +7,14 @@ export default function() {
     let sigma = 0.1;
     let random = randomNormal();
 
-    var geometricBrownianMotion = value => {
+    var geometricBrownianMotion = (value = 0) => {
         const timeStep = period / steps;
         const pathData = [];
 
         for (let i = 0; i < steps + 1; i++) {
             pathData.push(value);
             const increment = (random() * Math.sqrt(timeStep) * sigma) +
-                 ((mu - sigma * sigma / 2) * timeStep);
+                ((mu - sigma * sigma / 2) * timeStep);
             value = value * Math.exp(increment);
         }
 

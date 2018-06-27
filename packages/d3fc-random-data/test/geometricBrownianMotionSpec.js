@@ -33,4 +33,12 @@ describe('geometricBrownianMotion', () => {
     it('should accommodate boundary values', () => {
         expect(geometricBrownianMotion().steps(0)(10)).toEqual([10]);
     });
+
+    it('should default seed value to 0', () => {
+        const data = geometricBrownianMotion()();
+        expect(data).toEqual([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ]);
+    });
+
 });
