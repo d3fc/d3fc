@@ -8,7 +8,6 @@ import createBase from './base';
 export default (series) => {
 
     let bandwidth = () => 50;
-    let xScale = scaleLinear();
     let align = 'center';
 
     // the offset scale is used to offset each of the series within a group
@@ -16,7 +15,7 @@ export default (series) => {
 
     const grouped = createBase({
         decorate: () => {},
-        xScale
+        xScale: scaleLinear()
     });
 
     // the bandwidth for the grouped series can be a function of datum / index. As a result

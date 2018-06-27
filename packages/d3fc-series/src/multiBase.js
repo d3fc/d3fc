@@ -3,16 +3,14 @@ import createBase from './base';
 
 export default () => {
 
-    let xScale = scaleIdentity();
-    let yScale = scaleIdentity();
     let series = [];
     let mapping = (d) => d;
     let key = (_, i) => i;
 
     const multi = createBase({
         decorate: () => {},
-        xScale,
-        yScale
+        xScale: scaleIdentity(),
+        yScale: scaleIdentity()
     });
 
     multi.mapping = (...args) => {

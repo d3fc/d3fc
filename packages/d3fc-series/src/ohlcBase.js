@@ -6,8 +6,7 @@ import createBase from './base';
 
 export default () => {
 
-    let xScale = scaleIdentity();
-    let yScale = scaleIdentity();
+    let base;
     let crossValue = (d) => d.date;
     let openValue = (d) => d.open;
     let highValue = (d) => d.high;
@@ -15,9 +14,9 @@ export default () => {
     let closeValue = (d) => d.close;
     let bandwidth = () => 5;
     let align = 'center';
-    let crossValueScaled = (d, i) => xScale(crossValue(d, i));
+    let crossValueScaled = (d, i) => base.xScale(crossValue(d, i));
 
-    const base = createBase({
+    base = createBase({
         decorate: () => {},
         defined: (d, i) => defined(
             crossValue,
@@ -26,8 +25,8 @@ export default () => {
             highValue,
             closeValue
         )(d, i),
-        xScale,
-        yScale
+        xScale: scaleIdentity(),
+        yScale: scaleIdentity()
     });
 
     base.values = (d, i) => {
@@ -45,10 +44,10 @@ export default () => {
 
         return {
             cross: crossValueScaled(d, i) + offset,
-            open: yScale(openRaw),
-            high: yScale(highValue(d, i)),
-            low: yScale(lowValue(d, i)),
-            close: yScale(closeRaw),
+            open: base.yScale(openRaw),
+            high: base.yScale(highValue(d, i)),
+            low: base.yScale(lowValue(d, i)),
+            close: base.yScale(closeRaw),
             width,
             direction
         };

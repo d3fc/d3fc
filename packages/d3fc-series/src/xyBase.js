@@ -6,8 +6,6 @@ import createBase from './base';
 
 export default () => {
 
-    let xScale = scaleIdentity();
-    let yScale = scaleIdentity();
     let baseValue = () => 0;
     let crossValue = d => d.x;
     let mainValue = d => d.y;
@@ -18,8 +16,8 @@ export default () => {
     const base = createBase({
         decorate: () => {},
         defined: (d, i) => defined(baseValue, crossValue, mainValue)(d, i),
-        xScale,
-        yScale
+        xScale: scaleIdentity(),
+        yScale: scaleIdentity()
     });
 
     base.values = (d, i) => {
@@ -27,9 +25,9 @@ export default () => {
         const offset = alignOffset(align, width);
 
         if (orient === 'vertical') {
-            const y = yScale(mainValue(d, i), i);
-            const y0 = yScale(baseValue(d, i), i);
-            const x = xScale(crossValue(d, i), i) + offset;
+            const y = base.yScale(mainValue(d, i), i);
+            const y0 = base.yScale(baseValue(d, i), i);
+            const x = base.xScale(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
@@ -43,9 +41,9 @@ export default () => {
                 transposedY: y
             };
         } else {
-            const y = xScale(mainValue(d, i), i);
-            const y0 = xScale(baseValue(d, i), i);
-            const x = yScale(crossValue(d, i), i) + offset;
+            const y = base.xScale(mainValue(d, i), i);
+            const y0 = base.xScale(baseValue(d, i), i);
+            const x = base.yScale(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,

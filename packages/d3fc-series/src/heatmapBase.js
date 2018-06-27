@@ -11,8 +11,6 @@ export default () => {
     let xValue = (d) => d.x;
     let yValue = (d) => d.y;
     let colorValue = (d) => d.color;
-    let xScale = scaleIdentity();
-    let yScale = scaleIdentity();
     let yBandwidth = () => 5;
     let xBandwidth = () => 5;
     let colorInterpolate = interpolateViridis;
@@ -20,8 +18,8 @@ export default () => {
     const heatmap = createBase({
         decorate: () => {},
         defined: (d, i) => defined(xValue, yValue, colorValue)(d, i),
-        xScale,
-        yScale
+        xScale: scaleIdentity(),
+        yScale: scaleIdentity()
     });
 
     heatmap.pathGenerator = shapeBar()
@@ -36,8 +34,8 @@ export default () => {
     };
 
     heatmap.values = (d, i) => ({
-        x: xScale(xValue(d, i)),
-        y: yScale(yValue(d, i)),
+        x: heatmap.xScale(xValue(d, i)),
+        y: heatmap.yScale(yValue(d, i)),
         colorValue: colorValue(d, i),
         width: xBandwidth(d, i),
         height: yBandwidth(d, i)
