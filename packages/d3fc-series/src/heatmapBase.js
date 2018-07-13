@@ -34,8 +34,8 @@ export default () => {
     };
 
     heatmap.values = (d, i) => ({
-        x: heatmap.xScale(xValue(d, i)),
-        y: heatmap.yScale(yValue(d, i)),
+        x: heatmap.xScale()(xValue(d, i)),
+        y: heatmap.yScale()(yValue(d, i)),
         colorValue: colorValue(d, i),
         width: xBandwidth(d, i),
         height: yBandwidth(d, i)

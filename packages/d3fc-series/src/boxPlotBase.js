@@ -35,24 +35,24 @@ export default () => {
         const offset = alignOffset(align, width);
 
         if (orient === 'vertical') {
-            const y = base.yScale(highValue(d, i));
+            const y = base.yScale()(highValue(d, i));
             return {
-                origin: [base.xScale(crossValue(d, i)) + offset, y],
+                origin: [base.xScale()(crossValue(d, i)) + offset, y],
                 high: 0,
-                upperQuartile: base.yScale(upperQuartileValue(d, i)) - y,
-                median: base.yScale(medianValue(d, i)) - y,
-                lowerQuartile: base.yScale(lowerQuartileValue(d, i)) - y,
-                low: base.yScale(lowValue(d, i)) - y,
+                upperQuartile: base.yScale()(upperQuartileValue(d, i)) - y,
+                median: base.yScale()(medianValue(d, i)) - y,
+                lowerQuartile: base.yScale()(lowerQuartileValue(d, i)) - y,
+                low: base.yScale()(lowValue(d, i)) - y,
                 width
             };
         } else {
-            const x = base.xScale(lowValue(d, i));
+            const x = base.xScale()(lowValue(d, i));
             return {
-                origin: [x, base.yScale(crossValue(d, i)) + offset],
-                high: base.xScale(highValue(d, i)) - x,
-                upperQuartile: base.xScale(upperQuartileValue(d, i)) - x,
-                median: base.xScale(medianValue(d, i)) - x,
-                lowerQuartile: base.xScale(lowerQuartileValue(d, i)) - x,
+                origin: [x, base.yScale()(crossValue(d, i)) + offset],
+                high: base.xScale()(highValue(d, i)) - x,
+                upperQuartile: base.xScale()(upperQuartileValue(d, i)) - x,
+                median: base.xScale()(medianValue(d, i)) - x,
+                lowerQuartile: base.xScale()(lowerQuartileValue(d, i)) - x,
                 low: 0,
                 width
             };

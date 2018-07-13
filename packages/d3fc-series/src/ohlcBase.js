@@ -14,7 +14,7 @@ export default () => {
     let closeValue = (d) => d.close;
     let bandwidth = () => 5;
     let align = 'center';
-    let crossValueScaled = (d, i) => base.xScale(crossValue(d, i));
+    let crossValueScaled = (d, i) => base.xScale()(crossValue(d, i));
 
     base = createBase({
         decorate: () => {},
@@ -44,10 +44,10 @@ export default () => {
 
         return {
             cross: crossValueScaled(d, i) + offset,
-            open: base.yScale(openRaw),
-            high: base.yScale(highValue(d, i)),
-            low: base.yScale(lowValue(d, i)),
-            close: base.yScale(closeRaw),
+            open: base.yScale()(openRaw),
+            high: base.yScale()(highValue(d, i)),
+            low: base.yScale()(lowValue(d, i)),
+            close: base.yScale()(closeRaw),
             width,
             direction
         };

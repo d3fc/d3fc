@@ -25,9 +25,9 @@ export default () => {
         const offset = alignOffset(align, width);
 
         if (orient === 'vertical') {
-            const y = base.yScale(mainValue(d, i), i);
-            const y0 = base.yScale(baseValue(d, i), i);
-            const x = base.xScale(crossValue(d, i), i) + offset;
+            const y = base.yScale()(mainValue(d, i), i);
+            const y0 = base.yScale()(baseValue(d, i), i);
+            const x = base.xScale()(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
@@ -41,9 +41,9 @@ export default () => {
                 transposedY: y
             };
         } else {
-            const y = base.xScale(mainValue(d, i), i);
-            const y0 = base.xScale(baseValue(d, i), i);
-            const x = base.yScale(crossValue(d, i), i) + offset;
+            const y = base.xScale()(mainValue(d, i), i);
+            const y0 = base.xScale()(baseValue(d, i), i);
+            const x = base.yScale()(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
