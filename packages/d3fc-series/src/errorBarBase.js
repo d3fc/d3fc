@@ -23,20 +23,22 @@ export default () => {
     base.values = (d, i) => {
         const width = bandwidth(d, i);
         const offset = alignOffset(align, width);
+        const xScale = base.xScale();
+        const yScale = base.yScale();
 
         if (orient === 'vertical') {
-            const y = base.yScale()(highValue(d, i));
+            const y = yScale(highValue(d, i));
             return {
-                origin: [base.xScale()(crossValue(d, i)) + offset, y],
+                origin: [xScale(crossValue(d, i)) + offset, y],
                 high: 0,
-                low: base.yScale()(lowValue(d, i)) - y,
+                low: yScale(lowValue(d, i)) - y,
                 width
             };
         } else {
-            const x = base.xScale()(lowValue(d, i));
+            const x = xScale(lowValue(d, i));
             return {
-                origin: [x, base.yScale()(crossValue(d, i)) + offset],
-                high: base.xScale()(highValue(d, i)) - x,
+                origin: [x, yScale(crossValue(d, i)) + offset],
+                high: xScale(highValue(d, i)) - x,
                 low: 0,
                 width
             };

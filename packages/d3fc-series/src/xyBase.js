@@ -23,11 +23,13 @@ export default () => {
     base.values = (d, i) => {
         const width = bandwidth(d, i);
         const offset = alignOffset(align, width);
+        const xScale = base.xScale();
+        const yScale = base.yScale();
 
         if (orient === 'vertical') {
-            const y = base.yScale()(mainValue(d, i), i);
-            const y0 = base.yScale()(baseValue(d, i), i);
-            const x = base.xScale()(crossValue(d, i), i) + offset;
+            const y = yScale(mainValue(d, i), i);
+            const y0 = yScale(baseValue(d, i), i);
+            const x = xScale(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
@@ -41,9 +43,9 @@ export default () => {
                 transposedY: y
             };
         } else {
-            const y = base.xScale()(mainValue(d, i), i);
-            const y0 = base.xScale()(baseValue(d, i), i);
-            const x = base.yScale()(crossValue(d, i), i) + offset;
+            const y = xScale(mainValue(d, i), i);
+            const y0 = xScale(baseValue(d, i), i);
+            const x = yScale(crossValue(d, i), i) + offset;
             return {
                 d,
                 x,
