@@ -1,4 +1,4 @@
-import { json } from 'd3-request';
+import { json } from 'd3-fetch';
 
 // https://docs.gdax.com/#market-data
 export default function() {
@@ -8,7 +8,7 @@ export default function() {
     var end = null;
     var granularity = null;
 
-    var gdax = function(cb) {
+    var gdax = function() {
         var params = [];
         if (start != null) {
             params.push('start=' + start.toISOString());
@@ -20,23 +20,19 @@ export default function() {
             params.push('granularity=' + granularity);
         }
         var url = 'https://api.gdax.com/products/' + product + '/candles?' + params.join('&');
-        json(url, function(error, data) {
-            if (error) {
-                cb(error);
-                return;
-            }
-            data = data.map(function(d) {
-                return {
-                    date: new Date(d[0] * 1000),
-                    open: d[3],
-                    high: d[2],
-                    low: d[1],
-                    close: d[4],
-                    volume: d[5]
-                };
+        return json(url)
+            .then(function(data) {
+                return data.map(function(d) {
+                    return {
+                        date: new Date(d[0] * 1000),
+                        open: d[3],
+                        high: d[2],
+                        low: d[1],
+                        close: d[4],
+                        volume: d[5]
+                    };
+                });
             });
-            cb(error, data);
-        });
     };
 
     gdax.product = function(x) {

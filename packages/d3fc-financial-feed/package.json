@@ -28,6 +28,6 @@
     "d3fc-scripts": "^1.6.1"
   },
   "dependencies": {
-    "d3-request": "^1.0.1"
+    "d3-fetch": "^1.1.0"
   }
 }

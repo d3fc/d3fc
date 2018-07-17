@@ -6,22 +6,17 @@ describe('bundle', function() {
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
             scripts: [
-                // transitive dependencies
-                './node_modules/d3-collection/build/d3-collection.js',
-                './node_modules/d3-dispatch/build/d3-dispatch.js',
-                './node_modules/d3-dsv/build/d3-dsv.js',
                 // direct dependencies
-                './node_modules/d3-request/build/d3-request.js',
+                './node_modules/d3-fetch/dist/d3-fetch.js',
                 './build/d3fc-financial-feed.js'
             ],
             done: (_, win) => {
-                const gdaxFeed = win.fc.feedGdax()
-                  .product('BTC-GBP');
+                const gdaxFeed = win.fc.feedGdax();
+                const quandlFeed = win.fc.feedQuandl();
 
-                gdaxFeed((_, data) => {
-                    expect(data).not.toBeUndefined();
-                    done();
-                });
+                expect(gdaxFeed).toBeDefined();
+                expect(quandlFeed).toBeDefined();
+                done();
             }
         });
     });

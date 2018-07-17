@@ -1,4 +1,4 @@
-import { json } from 'd3-request';
+import { json } from 'd3-fetch';
 
 //  https://www.quandl.com/docs/api#datasets
 export default function() {
@@ -17,7 +17,7 @@ export default function() {
     var collapse = null;
     var columnNameMap = defaultColumnNameMap;
 
-    var quandl = function(cb) {
+    var quandl = function() {
         var params = [];
         if (apiKey != null) {
             params.push('api_key=' + apiKey);
@@ -40,29 +40,23 @@ export default function() {
 
         var url = 'https://www.quandl.com/api/v3/datasets/' + database + '/' + dataset + '/data.json?' + params.join('&');
 
-        json(url, function(error, data) {
-            if (error) {
-                cb(error);
-                return;
-            }
+        return json(url)
+            .then(function(data) {
+                var datasetData = data.dataset_data;
 
-            var datasetData = data.dataset_data;
+                var nameMapping = columnNameMap || function(n) { return n; };
+                var colNames = datasetData.column_names
+                    .map(function(n, i) { return [i, nameMapping(n)]; })
+                    .filter(function(v) { return v[1]; });
 
-            var nameMapping = columnNameMap || function(n) { return n; };
-            var colNames = datasetData.column_names
-                .map(function(n, i) { return [i, nameMapping(n)]; })
-                .filter(function(v) { return v[1]; });
-
-            var mappedData = datasetData.data.map(function(d) {
-                var output = {};
-                colNames.forEach(function(v) {
-                    output[v[1]] = v[0] === 0 ? new Date(d[v[0]]) : d[v[0]];
+                return datasetData.data.map(function(d) {
+                    var output = {};
+                    colNames.forEach(function(v) {
+                        output[v[1]] = v[0] === 0 ? new Date(d[v[0]]) : d[v[0]];
+                    });
+                    return output;
                 });
-                return output;
             });
-
-            cb(error, mappedData);
-        });
     };
 
     // Unique Database Code (e.g. WIKI)

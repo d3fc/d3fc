@@ -22,7 +22,7 @@ declare namespace fc_financial_feed {
         granularity(): number;
         granularity(x: number): Gdax;
 
-        (callback: (error: any, data?: GdaxDatum[]) => void);
+        (): Promise<GdaxDatum[]>;
     }
 
     interface Quandl {
@@ -46,7 +46,7 @@ declare namespace fc_financial_feed {
         columnNameMap(mapFunction: (name: string) => string): Quandl;
         defaultColumnNameMap: (name: string) => string;
 
-        (callback: (error: any, data?: any[]) => void);
+        (): Promise<any[]>;
     }
 }
 

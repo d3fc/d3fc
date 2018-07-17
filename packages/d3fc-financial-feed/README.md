@@ -23,10 +23,8 @@ import { feedGdax } from 'd3fc-financial-feed';
 const gdax = feedGdax()
   .product('BTC-GBP');
 
-gdax((error, data) => {
-  if (error) throw error;
-  console.log(data);
-});
+gdax()
+  .then(data => { console.log(data); });
 
 // [
 //   {
@@ -47,10 +45,9 @@ https://docs.gdax.com/#get-historic-rates
 
 Constructs a new GDAX feed.
 
-<a name="feedGdax_" href="#feedGdax_">#</a> *feedGdax*(*callback*)
+<a name="feedGdax_" href="#feedGdax_">#</a> *feedGdax*()
 
-Makes a request to the GDAX API, with *callback* invoked when the request succeeds or fails.
-The callback is invoked with two arguments: the error, if any, and the data.
+Makes a request to the GDAX API, returns a `Promise` which resolves with data.
 Data returned from the API is mapped to an array of objects with numeric
 `open`, `high`, `low`, `close` and `volume` properties, and a `Date` instance `date` property.
 
@@ -87,10 +84,8 @@ const quandl = feedQuandl()
   .descending(true)
   .collapse('weekly');
 
-quandl((error, data) => {
-  if (error) throw error;
-  console.log(data);
-});
+quandl()
+  .then(data => { console.log(data); });
 
 // [
 //   {
@@ -118,10 +113,9 @@ https://www.quandl.com/docs/api#datasets
 
 Constructs a new quandl feed.
 
-<a name="feedQuandl_" href="#feedQuandl_">#</a> *feedQuandl*(*callback*)
+<a name="feedQuandl_" href="#feedQuandl_">#</a> *feedQuandl*()
 
-Makes a request to the Quandl API, with *callback* invoked when the request succeeds or fails.
-The callback is invoked with two arguments: the error, if any, and the data.
+Makes a request to the Quandl API, returns a `Promise` which resolves with data.
 Data returned from the API is mapped to an array of objects with properties for all non-null names mapped by *feedQuandl*.columnNameMap, with date column values converted to `Date` instances.
 
 <a name="feedQuandl_database" href="#feedQuandl_database">#</a> *feedQuandl*.**database**([*value*])
