@@ -38,11 +38,9 @@ export default (readmes) =>
       regex: ['\\[Main d3fc package\\]\\(.+?\\)[\\n\\r]+']
     };
 
-    console.log('FILTERING READMES');
     readmes.forEach(readme => {
       readme.structure = filterReadme(readme.structure, filters);
     });
-    console.log('DONE FILTERING READMES');
 
     resolve(readmes);
   });

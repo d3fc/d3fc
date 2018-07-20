@@ -3,21 +3,20 @@ import path from 'path';
 import glob from 'glob';
 import ensureExists from './ensureExists';
 
-const root = path.resolve(__dirname, '../../');
-const distFolder = path.resolve(root, '');
-const apiDistFolder = path.resolve(root, 'site/dist/api');
-const getDataFilename = (pathname) => path.join(distFolder, pathname.replace(new RegExp('site/src/'), 'site/dist/'));
-const getImageFilename = (pathname) => path.join(apiDistFolder, pathname.replace(new RegExp('node_modules/'), ''));
+const root = path.resolve(__dirname, '../../..');
+const apiDistFolder = path.resolve(root, 'packages/site/dist/api');
+const getDataFilename = (pathname) => path.join(root, pathname.replace(new RegExp('packages/site/src/'), 'packages/site/dist/'));
+const getImageFilename = (pathname) => path.join(apiDistFolder, pathname.replace(new RegExp('packages/'), ''));
 
 const globs = [
-  { src: 'node_modules/d3fc-*/**/*.png', dest: getImageFilename },
-  { src: 'site/src/examples/**/*.{csv,json}', dest: getDataFilename }
+  { src: 'packages/d3fc-*/**/*.png', dest: getImageFilename },
+  { src: 'packages/site/src/examples/**/*.{csv,json}', dest: getDataFilename }
 ];
 
 export default (data) =>
   new Promise((resolve, reject) => {
     globs.forEach(entry => {
-      glob(entry.src, { cwd: root }, (err, files) => {
+      glob(entry.src, { cwd: root, ignore: '**/node_modules/**/*' }, (err, files) => {
         if (err) {
           console.error('Finding README Images failed - ', err);
           reject(err);

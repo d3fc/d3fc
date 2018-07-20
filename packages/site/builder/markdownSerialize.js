@@ -19,7 +19,6 @@ ${safeDump(readme)}
 
 export default (readmes) =>
   new Promise((resolve, reject) => {
-    console.log('YAML-IFYING READMES');
 
     readmes = readmes.map(readme => ({
       ...readme,
@@ -44,7 +43,6 @@ export default (readmes) =>
 
     return Promise
       .all(writePromises)
-      .then(() => console.log('DONE YAML-IFYING READMES'))
       .then(() => readmeObject)
       .then(resolve)
       .catch(reject);

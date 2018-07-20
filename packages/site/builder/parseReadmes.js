@@ -74,15 +74,12 @@ function parseReadme(readme) {
 
 export default (readmes) =>
   new Promise((resolve, reject) => {
-    console.log('PARSING READMES');
     const structures = readmes
       .map(parseReadme)
       .map(readme => {
         delete readme.contents;
         return readme;
       });
-
-    console.log('DONE PARSING READMES');
 
     resolve(structures);
   });

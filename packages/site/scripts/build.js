@@ -16,8 +16,11 @@ const config = {
   destinationFolder: '../dist',
   filePattern: ['introduction/**/*.md', 'index.html', '404.md', 'examples/**/*.md', 'api/**/*.md'],
   globalData: globalData,
-  sourceFolder: 'site/src'
+  sourceFolder: 'src'
 };
 
 build(config)
-  .catch(err => console.error(err));
+  .catch(err => {
+    console.error('ERROR', err);
+    process.exit(1);
+  });
