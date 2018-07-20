@@ -1,5 +1,6 @@
 {
   "name": "d3fc-label-layout",
+  "version": "5.1.0",
   "description": "A D3 layout that places labels avoiding overlaps using either a greedy or simulated annealing strategy",
   "license": "MIT",
   "keywords": [
@@ -32,7 +33,7 @@
     "d3-array": "^1.0.0",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.0.0",
-    "d3fc-data-join": "^2.0.0",
+    "d3fc-data-join": "^4.1.1",
     "d3fc-rebind": "^4.0.0"
   }
 }

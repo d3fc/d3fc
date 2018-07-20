@@ -1,5 +1,6 @@
 {
   "name": "d3fc-annotation",
+  "version": "1.1.0",
   "description": "A collection of D3 components for rendering plot area annotations to SVG, including lines, crosshairs, gridlines and more",
   "license": "MIT",
   "keywords": [
@@ -30,7 +31,7 @@
     "d3-selection": "^1.0.2",
     "d3fc-data-join": "^4.1.0",
     "d3fc-rebind": "^4.0.1",
-    "d3fc-series": "^2.0.1",
+    "d3fc-series": "^3.2.1",
     "d3fc-shape": "^4.0.0"
   }
 }

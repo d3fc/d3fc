@@ -1,5 +1,6 @@
 {
   "name": "d3fc-sample",
+  "version": "3.0.5",
   "description": "A data subsampler that chooses representative data points using a largest triangle or mode-median approach.",
   "license": "MIT",
   "keywords": [

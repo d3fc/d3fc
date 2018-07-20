@@ -1,5 +1,6 @@
 {
   "name": "d3fc-group",
+  "version": "1.0.0",
   "description": "A utility for manipulating CSV / TSV data to allow rendering of grouped series.",
   "license": "MIT",
   "keywords": [
