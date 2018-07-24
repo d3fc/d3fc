@@ -6,8 +6,8 @@ describe('bundle', function() {
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
             scripts: [
-                './node_modules/d3-selection/build/d3-selection.js',
-                './build/d3fc-data-join.js'
+                require.resolve('d3-selection'),
+                require.resolve('..')
             ],
             done: (_, win) => {
                 const dataJoin = win.fc.dataJoin();
@@ -22,14 +22,14 @@ describe('bundle', function() {
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo(console),
             scripts: [
-                './node_modules/d3-selection/build/d3-selection.js',
-                './node_modules/d3-color/build/d3-color.js',
-                './node_modules/d3-dispatch/build/d3-dispatch.js',
-                './node_modules/d3-ease/build/d3-ease.js',
-                './node_modules/d3-interpolate/build/d3-interpolate.js',
-                './node_modules/d3-timer/build/d3-timer.js',
-                './node_modules/d3-transition/build/d3-transition.js',
-                './build/d3fc-data-join.js'
+                require.resolve('d3-selection'),
+                require.resolve('d3-color'),
+                require.resolve('d3-dispatch'),
+                require.resolve('d3-ease'),
+                require.resolve('d3-interpolate'),
+                require.resolve('d3-timer'),
+                require.resolve('d3-transition'),
+                require.resolve('..')
             ],
             done: (_, win) => {
                 const dataJoin = win.fc.dataJoin();
