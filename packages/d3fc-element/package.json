@@ -9,25 +9,28 @@
     "element"
   ],
   "homepage": "https://github.com/d3fc/d3fc-element",
-  "main" : "build/d3fc-element.js",
+  "main": "build/d3fc-element.js",
+  "jsnext:main": "index",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3fc/d3fc-element"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
-    "test": "eslint examples/**/*.js && d3fc-scripts test",
+    "test": "d3fc-scripts test",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "babel-polyfill": "^6.13.0",
+    "babel-plugin-transform-custom-element-classes": "0.1.0",
+    "custom-event-polyfill": "^0.3.0",
     "d3": "^4.1.1",
     "d3fc-series": "^3.2.1",
     "d3fc-extent": "^2.2.0",
-    "d3fc-scripts": "1.7.0"
+    "d3fc-scripts": "1.7.0",
+    "document-register-element": "^1.7.2"
   },
   "dependencies": {
-    "d3-selection": "^1.0.2",
-    "document-register-element": "^1.0.10"
+    "d3-selection": "^1.0.2"
   }
 }

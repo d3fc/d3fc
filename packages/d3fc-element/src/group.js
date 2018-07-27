@@ -3,9 +3,6 @@
 import requestRedraw from './requestRedraw';
 
 export default class extends HTMLElement {
-    // https://github.com/WebReflection/document-register-element/tree/v1.0.10#skipping-the-caveat-through-extends
-    // eslint-disable-next-line
-    constructor(_) { return (_ = super(_)), _; }
 
     requestRedraw() {
         requestRedraw(this);

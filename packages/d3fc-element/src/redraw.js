@@ -18,6 +18,10 @@ const measure = (element) => {
     data.set(element, { width, height, resized });
 };
 
+if (typeof CustomEvent !== 'function') {
+    throw new Error('d3fc-element depends on CustomEvent. Make sure that you load a polyfill in older browsers. See README.');
+}
+
 const resize = (element) => {
     if (element.tagName === 'D3FC-GROUP') {
         return;

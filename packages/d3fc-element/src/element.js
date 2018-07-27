@@ -2,18 +2,16 @@
 
 import requestRedraw from './requestRedraw';
 
-const init = (instance, node) => {
-    instance.__node__ = node;
-};
+if (typeof HTMLElement !== 'function') {
+    throw new Error('d3fc-element depends on Custom Elements (v1). Make sure that you load a polyfill in older browsers. See README.');
+}
 
 export default (createNode) => class extends HTMLElement {
 
-    // https://github.com/WebReflection/document-register-element/tree/v1.0.10#skipping-the-caveat-through-extends
-    // eslint-disable-next-line
-    constructor(_) { return init((_ = super(_)), createNode()), _; }
-
     connectedCallback() {
-        this.appendChild(this.__node__);
+        if (this.childNodes.length === 0) {
+            this.appendChild(createNode());
+        }
     }
 
     requestRedraw() {

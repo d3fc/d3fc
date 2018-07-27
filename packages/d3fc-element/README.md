@@ -10,6 +10,13 @@ Custom HTML elements that make it easier to create responsive D3 visualisations 
 npm install d3fc-element
 ```
 
+### Polyfills
+
+This package requires the Custom Elements (v1 i.e. `customElements.define` & no extending built-ins) and CustomEvent support. If you are targeting a browser which does not support these APIs, the following polyfills can be used -
+
+* [CustomEvent](https://github.com/krambuhl/custom-event-polyfill)
+* [Custom Elements](https://github.com/WebReflection/document-register-element)
+
 ## API Reference
 
 * [&lt;d3fc-svg&gt;](#d3fc-svg)
