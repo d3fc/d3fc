@@ -41,7 +41,11 @@
   "devDependencies": {
     "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",
-    "d3fc": "^12.0.0",
+    "d3fc-series": "^3.2.1",
+    "d3fc-extent": "^2.2.2",
+    "d3fc-random-data": "^2.0.1",
+    "d3fc-annotation": "^1.1.0",
+    "d3fc-rebind": "^4.1.1",
     "d3fc-scripts": "^1.6.1",
     "fs-promise": "^1.0.0"
   },
