@@ -1,4 +1,4 @@
-d3.json('https://d3fc.io/examples/bubble/data.json', function(_, data) {
+d3.json('https://d3fc.io/examples/bubble/data.json').then(function(data) {
   // convert string properties to numbers
   data.forEach(function(d) {
     d.income = Number(d.income);
