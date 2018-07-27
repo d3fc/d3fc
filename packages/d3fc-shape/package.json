@@ -28,7 +28,7 @@
     "d3-path": "^1.0.3",
     "d3fc-random-data": "^2.0.1",
     "js-combinatorics": "^0.5.0",
-    "d3fc-scripts": "^1.6.1"
+    "d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-path": "^1.0.0"

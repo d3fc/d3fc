@@ -23,7 +23,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "d3fc-scripts": "^1.6.1",
+    "d3fc-scripts": "1.7.0",
     "semantic-release": "^4.3.5"
   }
 }

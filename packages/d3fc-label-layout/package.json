@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "d3": "^4.11.0",
-    "d3fc-scripts": "^1.1.4",
+    "d3fc-scripts": "1.7.0",
     "watch-cli": "^0.2.1"
   },
   "dependencies": {

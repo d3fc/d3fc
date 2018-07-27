@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/d3fc/d3fc-pointer",
   "devDependencies": {
-    "d3fc-scripts": "^1.6.1"
+    "d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-dispatch": "^1.0.1",

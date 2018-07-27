@@ -46,7 +46,7 @@
     "d3fc-random-data": "^2.0.1",
     "d3fc-annotation": "^1.1.0",
     "d3fc-rebind": "^4.1.1",
-    "d3fc-scripts": "^1.6.1",
+    "d3fc-scripts": "1.7.0",
     "fs-promise": "^1.0.0"
   },
   "dependencies": {

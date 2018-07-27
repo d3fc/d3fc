@@ -24,7 +24,7 @@
     "d3-selection": "^1.0.0"
   },
   "devDependencies": {
-    "d3fc-scripts": "^1.1.4",
+    "d3fc-scripts": "1.7.0",
     "d3-transition": "^1.0.0"
   }
 }

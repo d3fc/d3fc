@@ -24,7 +24,7 @@
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
     "d3": "^4.3.0",
-    "d3fc-scripts": "^1.6.1",
+    "d3fc-scripts": "1.7.0",
     "webshot": "^0.18.0"
   },
   "dependencies": {

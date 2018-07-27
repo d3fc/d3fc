@@ -26,7 +26,7 @@
     "semantic-release": "semantic-release pre && npm run bundle && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "d3fc-scripts": "^1.6.1"
+    "d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-fetch": "^1.1.0"
