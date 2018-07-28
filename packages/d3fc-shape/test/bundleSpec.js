@@ -4,7 +4,9 @@ describe('bundle', function() {
     it('should corectly wire-up all the dependencies via their UMD-exposed globals', function(done) {
         jsdom.env({
             html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+            virtualConsole: jsdom.createVirtualConsole().sendTo({
+                error: fail
+            }),
             scripts: [
                 './node_modules/d3-path/build/d3-path.js',
                 './build/d3fc-shape.js'

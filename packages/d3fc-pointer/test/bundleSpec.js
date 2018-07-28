@@ -4,10 +4,12 @@ describe('bundle', function() {
     it('should corectly wire-up all the dependencies via their UMD-exposed globals', function(done) {
         jsdom.env({
             html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+            virtualConsole: jsdom.createVirtualConsole().sendTo({
+                error: fail
+            }),
             scripts: [
                 './node_modules/d3-dispatch/build/d3-dispatch.js',
-                './node_modules/d3-selection/build/d3-selection.js',
+                './node_modules/d3-selection/dist/d3-selection.js',
                 './node_modules/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-pointer.js'
             ],

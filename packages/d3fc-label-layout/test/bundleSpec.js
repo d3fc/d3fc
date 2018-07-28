@@ -5,7 +5,9 @@ describe('bundle', () => {
     it('should corectly wire-up all the dependencies via their UMD-exposed globals', (done) => {
         jsdom.env({
             html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+            virtualConsole: jsdom.createVirtualConsole().sendTo({
+                error: fail
+            }),
             scripts: [
                 './node_modules/d3/build/d3.js',
                 './node_modules/d3fc-data-join/build/d3fc-data-join.js',

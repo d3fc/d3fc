@@ -4,7 +4,9 @@ describe('bundle', function() {
     it('should corectly wire-up all the dependencies via their UMD-exposed globals', function(done) {
         jsdom.env({
             html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+            virtualConsole: jsdom.createVirtualConsole().sendTo({
+                error: fail
+            }),
             scripts: [
                 // transitive dependencies
                 './node_modules/d3-array/build/d3-array.js',

@@ -4,7 +4,9 @@ describe('bundle', function() {
     it('should corectly wire-up all the dependencies via their UMD-exposed globals', function(done) {
         jsdom.env({
             html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo(console),
+            virtualConsole: jsdom.createVirtualConsole().sendTo({
+                error: fail
+            }),
             scripts: [
                 './node_modules/d3-array/build/d3-array.js',
                 './node_modules/d3-collection/build/d3-collection.js',
@@ -14,7 +16,7 @@ describe('bundle', function() {
                 './node_modules/d3-time/build/d3-time.js',
                 './node_modules/d3-time-format/build/d3-time-format.js',
                 './node_modules/d3-scale/build/d3-scale.js',
-                './node_modules/d3-selection/build/d3-selection.js',
+                './node_modules/d3-selection/dist/d3-selection.js',
                 './node_modules/d3fc-data-join/build/d3fc-data-join.js',
                 './node_modules/d3fc-rebind/build/d3fc-rebind.js',
                 './node_modules/d3-path/build/d3-path.js',
