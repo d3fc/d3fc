@@ -4,7 +4,7 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "test": "lerna run test"
+    "test": "lerna run test --stream --concurrency 1"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,32 @@
   },
   "homepage": "https://d3fc.io",
   "devDependencies": {
-    "lerna": "^2.11.0"
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-es2015-rollup": "d3fc/babel-preset-es2015-rollup#fix-es2015-rollup-windows-error",
+    "babel-register": "^6.26.0",
+    "command-line-args": "^3.0.1",
+    "cross-spawn": "^5.0.1",
+    "eol": "^0.4.0",
+    "eslint": "^3.1.0",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.0",
+    "finalhandler": "^0.5.0",
+    "glob": "^7.1.0",
+    "jasmine": "^2.4.1",
+    "jsdom": "^9.4.1",
+    "lerna": "^2.11.0",
+    "markdownlint": "^0.3.1",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.2",
+    "rollup": "^0.37.2",
+    "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "semantic-release": "^6.3.2",
+    "serve-static": "^1.11.1",
+    "uglify-js": "^2.6.2",
+    "webshot": "^0.18.0"
   }
 }
