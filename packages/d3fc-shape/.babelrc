@@ -1,3 +1,6 @@
 {
+  "plugins": [
+    "babel-plugin-transform-custom-element-classes"
+  ],
   "presets": ["es2015"]
 }

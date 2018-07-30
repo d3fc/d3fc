@@ -35,6 +35,9 @@ module.exports = rollup.rollup({
     plugins: [
         babel({
             babelrc: false,
+            plugins: [
+              'babel-plugin-transform-custom-element-classes'
+            ],
             presets: ['es2015-rollup']
         }),
         nodeResolve({ jsnext: true, main: true })
