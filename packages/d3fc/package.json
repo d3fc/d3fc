@@ -5,8 +5,7 @@
   "main": "build/d3fc.js",
   "scripts": {
     "bundle": "d3fc-scripts bundle --include-d3fc",
-    "test": "d3fc-scripts test --include-d3fc",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "test": "d3fc-scripts test --include-d3fc"
   },
   "repository": {
     "type": "git",

@@ -18,16 +18,14 @@
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "test": "d3fc-scripts test"
   },
   "devDependencies": {
     "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",
     "d3fc-annotation": "^1.0.3",
     "d3fc-extent": "^2.2.1",
-    "d3fc-scripts": "1.7.0",
-    "semantic-release": "^4.3.5"
+    "d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-scale": "^1.0.3",

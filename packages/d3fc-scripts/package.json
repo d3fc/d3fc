@@ -19,7 +19,6 @@
     "d3fc-scripts": "./bin/d3fc-scripts.js"
   },
   "scripts": {
-    "test": "echo 'No tests'",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "test": "echo 'No tests'"
   }
 }

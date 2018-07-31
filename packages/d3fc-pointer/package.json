@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "d3fc-scripts test",
-    "bundle": "d3fc-scripts bundle",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "bundle": "d3fc-scripts bundle"
   },
   "repository": {
     "type": "git",

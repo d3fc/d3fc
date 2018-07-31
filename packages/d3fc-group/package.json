@@ -19,11 +19,9 @@
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "test": "d3fc-scripts test"
   },
   "devDependencies": {
-    "d3fc-scripts": "1.7.0",
-    "semantic-release": "^4.3.5"
+    "d3fc-scripts": "1.7.0"
   }
 }

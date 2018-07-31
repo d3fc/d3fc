@@ -35,8 +35,7 @@
   "scripts": {
     "bundle": "d3fc-scripts bundle",
     "test": "d3fc-scripts test",
-    "screenshot": "d3fc-scripts screenshot",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "screenshot": "d3fc-scripts screenshot"
   },
   "devDependencies": {
     "babel-polyfill": "^6.13.0",

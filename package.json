@@ -47,7 +47,6 @@
     "rollup": "^0.37.2",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "semantic-release": "^6.3.2",
     "serve-static": "^1.11.1",
     "uglify-js": "^2.6.2",
     "webshot": "^0.18.0"

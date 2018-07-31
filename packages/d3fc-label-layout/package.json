@@ -19,7 +19,6 @@
   "scripts": {
     "bundle": "d3fc-scripts bundle",
     "test": "d3fc-scripts test",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "site": "rollup -c site/rollup.config.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
     "deploy-site": "npm run site && bash ./site/deploy.sh"
