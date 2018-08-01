@@ -10,8 +10,8 @@ describe('bundle', () => {
             }),
             scripts: [
                 './node_modules/d3/build/d3.js',
-                './node_modules/d3fc-data-join/build/d3fc-data-join.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-data-join/build/d3fc-data-join.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-label-layout.js'
             ],
             done: (_, win) => {

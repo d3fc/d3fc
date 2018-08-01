@@ -1,6 +1,6 @@
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { range } from 'd3-array';
-import { rebindAll, includeMap } from 'd3fc-rebind';
+import { rebindAll, includeMap } from '@d3fc/d3fc-rebind';
 import functor from './functor';
 import alignOffset from './alignOffset';
 import createBase from './base';

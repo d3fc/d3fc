@@ -19,10 +19,10 @@ describe('bundle', () => {
                 './node_modules/d3-shape/build/d3-shape.js',
                 './node_modules/d3-scale/build/d3-scale.js',
                 './node_modules/d3-selection/dist/d3-selection.js',
-                './node_modules/d3fc-data-join/build/d3fc-data-join.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
-                './node_modules/d3fc-series/build/d3fc-series.js',
-                './node_modules/d3fc-axis/build/d3fc-axis.js',
+                './node_modules/@d3fc/d3fc-data-join/build/d3fc-data-join.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-series/build/d3fc-series.js',
+                './node_modules/@d3fc/d3fc-axis/build/d3fc-axis.js',
                 './build/d3fc-chart.js'
             ],
             done: (_, win) => {

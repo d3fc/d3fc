@@ -1,5 +1,5 @@
 import { zip } from 'd3-array';
-import { includeMap, rebindAll } from 'd3fc-rebind';
+import { includeMap, rebindAll } from '@d3fc/d3fc-rebind';
 import exponentialMovingAverage from './exponentialMovingAverage';
 import { identity } from './fn';
 

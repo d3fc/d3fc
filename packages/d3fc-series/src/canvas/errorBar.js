@@ -1,5 +1,5 @@
-import { shapeErrorBar } from 'd3fc-shape';
-import { rebind, rebindAll } from 'd3fc-rebind';
+import { shapeErrorBar } from '@d3fc/d3fc-shape';
+import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import errorBarBase from '../errorBarBase';
 import colors from '../colors';
 

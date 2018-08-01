@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-extent",
+  "name": "@d3fc/d3fc-extent",
   "version": "2.2.2",
   "description": "Extends the d3 extent functionality to allow multiple accessors, padding and date support",
   "license": "MIT",
@@ -24,9 +24,12 @@
   },
   "devDependencies": {
     "ms": "^1.0.0",
-    "d3fc-scripts": "1.7.0"
+    "@d3fc/d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-array": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

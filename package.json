@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-monorepo",
+  "name": "@d3fc/d3fc-monorepo",
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {

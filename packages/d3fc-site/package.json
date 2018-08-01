@@ -1,5 +1,5 @@
 {
-  "name": "site",
+  "name": "@d3fc/d3fc-site",
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
@@ -44,7 +44,7 @@
     "d3": "^5.5.0",
     "d3-svg-legend": "^2.18.0",
     "d3fc": "^13.2.1",
-    "d3fc-scripts": "1.7.0",
+    "@d3fc/d3fc-scripts": "1.7.0",
     "document-register-element": "^1.7.2",
     "fs-promise": "^2.0.0",
     "glob": "^7.1.1",

@@ -1,5 +1,5 @@
 import { extent } from 'd3-array';
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import bucket from './bucket';
 
 export default function() {

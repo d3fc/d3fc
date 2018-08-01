@@ -1,5 +1,5 @@
 import {area as areaShape} from 'd3-shape';
-import {rebind, exclude, rebindAll} from 'd3fc-rebind';
+import {rebind, exclude, rebindAll} from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
 

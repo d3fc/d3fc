@@ -1,7 +1,7 @@
 import { scaleIdentity } from 'd3-scale';
-import { shapeErrorBar } from 'd3fc-shape';
-import { dataJoin } from 'd3fc-data-join';
-import { rebind, rebindAll } from 'd3fc-rebind';
+import { shapeErrorBar } from '@d3fc/d3fc-shape';
+import { dataJoin } from '@d3fc/d3fc-data-join';
+import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import { select } from 'd3-selection';
 import errorBarBase from '../errorBarBase';
 import colors from '../colors';

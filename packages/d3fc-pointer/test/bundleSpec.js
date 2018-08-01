@@ -10,7 +10,7 @@ describe('bundle', function() {
             scripts: [
                 './node_modules/d3-dispatch/build/d3-dispatch.js',
                 './node_modules/d3-selection/dist/d3-selection.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-pointer.js'
             ],
             done: (_, win) => {

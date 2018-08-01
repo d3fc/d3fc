@@ -1,9 +1,9 @@
 import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
-import { dataJoin } from 'd3fc-data-join';
+import { dataJoin } from '@d3fc/d3fc-data-join';
 import constant from '../constant';
 import ticks from '../ticks';
-import { includeMap, prefix, rebindAll } from 'd3fc-rebind';
+import { includeMap, prefix, rebindAll } from '@d3fc/d3fc-rebind';
 
 const identity = d => d;
 

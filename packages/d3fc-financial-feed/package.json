@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-financial-feed",
+  "name": "@d3fc/d3fc-financial-feed",
   "version": "4.0.0",
   "description": "An API for fetching financial time-series data from different sources including Quandl and GDAX",
   "license": "MIT",
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/d3fc/d3fc-financial-feed",
   "main": "build/d3fc-financial-feed.js",
   "jsnext:main": "index",
-  "typings": "d3fc-financial-feed.d.ts",
+  "typings": "@d3fc/d3fc-financial-feed.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3fc/d3fc-financial-feed"
@@ -25,9 +25,12 @@
     "test": "d3fc-scripts test"
   },
   "devDependencies": {
-    "d3fc-scripts": "1.7.0"
+    "@d3fc/d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-fetch": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

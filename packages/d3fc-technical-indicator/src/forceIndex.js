@@ -1,4 +1,4 @@
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import _slidingWindow from './slidingWindow';
 import exponentialMovingAverage from './exponentialMovingAverage';
 import { convertNaN } from './fn';

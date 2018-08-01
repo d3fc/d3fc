@@ -1,8 +1,8 @@
 import { select, event } from 'd3-selection';
 import { scaleIdentity, scaleLinear } from 'd3-scale';
 import { dispatch } from 'd3-dispatch';
-import { rebind } from 'd3fc-rebind';
-import { dataJoin } from 'd3fc-data-join';
+import { rebind } from '@d3fc/d3fc-rebind';
+import { dataJoin } from '@d3fc/d3fc-data-join';
 import { brush as d3Brush, brushX as d3BrushX, brushY as d3BrushY } from 'd3-brush';
 
 const brushForOrient = (orient) => {

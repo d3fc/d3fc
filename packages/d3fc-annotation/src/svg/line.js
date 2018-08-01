@@ -1,6 +1,6 @@
 import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
-import { dataJoin } from 'd3fc-data-join';
+import { dataJoin } from '@d3fc/d3fc-data-join';
 import constant from '../constant';
 
 export default () => {

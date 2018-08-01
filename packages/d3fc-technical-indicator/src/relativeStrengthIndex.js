@@ -1,5 +1,5 @@
 import _slidingWindow from './slidingWindow';
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import { convertNaN } from './fn';
 import { pairs, mean } from 'd3-array';
 

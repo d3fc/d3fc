@@ -1,5 +1,5 @@
 import { mean, deviation } from 'd3-array';
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import _slidingWindow from './slidingWindow';
 import { convertNaN } from './fn';
 

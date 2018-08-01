@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-pointer",
+  "name": "@d3fc/d3fc-pointer",
   "version": "1.1.0",
   "description": "Component which emits the current mouse or touch position over a selection",
   "main": "index.js",
@@ -22,11 +22,14 @@
   },
   "homepage": "https://github.com/d3fc/d3fc-pointer",
   "devDependencies": {
-    "d3fc-scripts": "1.7.0"
+    "@d3fc/d3fc-scripts": "1.7.0"
   },
   "dependencies": {
     "d3-dispatch": "^1.0.1",
     "d3-selection": "^1.0.2",
-    "d3fc-rebind": "^4.1.1"
+    "@d3fc/d3fc-rebind": "^4.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

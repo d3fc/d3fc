@@ -10,7 +10,7 @@ describe('bundle', function() {
             scripts: [
                 './node_modules/d3-random/build/d3-random.js',
                 './node_modules/d3-time/build/d3-time.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-random-data.js'
             ],
             done: (_, win) => {

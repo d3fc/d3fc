@@ -1,5 +1,5 @@
 import {select} from 'd3-selection';
-import {rebindAll, exclude} from 'd3fc-rebind';
+import {rebindAll, exclude} from '@d3fc/d3fc-rebind';
 import multiSeries from './multi';
 import line from './line';
 

@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-technical-indicator",
+  "name": "@d3fc/d3fc-technical-indicator",
   "version": "6.1.1",
   "description": "Components for calculating technical indicators on data series",
   "license": "MIT",
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/d3fc/d3fc-technical-indicator",
   "main": "build/d3fc-technical-indicator.js",
   "jsnext:main": "index",
-  "typings": "d3fc-technical-indicator.d.ts",
+  "typings": "@d3fc/d3fc-technical-indicator.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3fc/d3fc-technical-indicator"
@@ -40,16 +40,19 @@
   "devDependencies": {
     "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",
-    "d3fc-series": "^3.2.1",
-    "d3fc-extent": "^2.2.2",
-    "d3fc-random-data": "^2.0.1",
-    "d3fc-annotation": "^1.1.0",
-    "d3fc-rebind": "^4.1.1",
-    "d3fc-scripts": "1.7.0",
+    "@d3fc/d3fc-series": "^3.2.1",
+    "@d3fc/d3fc-extent": "^2.2.2",
+    "@d3fc/d3fc-random-data": "^2.0.1",
+    "@d3fc/d3fc-annotation": "^1.1.0",
+    "@d3fc/d3fc-rebind": "^4.1.1",
+    "@d3fc/d3fc-scripts": "1.7.0",
     "fs-promise": "^1.0.0"
   },
   "dependencies": {
     "d3-array": "^1.0.0",
-    "d3fc-rebind": "^4.0.1"
+    "@d3fc/d3fc-rebind": "^4.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

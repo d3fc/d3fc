@@ -2,7 +2,7 @@
 set -e # exit with nonzero exit code if anything fails
 
 # go to the dist directory and create a *new* Git repo
-cd site/dist
+cd packages/d3fc-site/dist
 git init
 
 # inside this git repo we'll pretend to be a new user

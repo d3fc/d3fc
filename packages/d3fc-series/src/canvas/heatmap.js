@@ -1,5 +1,5 @@
 import heatmapBase from '../heatmapBase';
-import { rebindAll, rebind } from 'd3fc-rebind';
+import { rebindAll, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
 

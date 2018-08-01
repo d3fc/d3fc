@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import functor from './util/functor';
-import { dataJoin as dataJoinUtil } from 'd3fc-data-join';
+import { dataJoin as dataJoinUtil } from '@d3fc/d3fc-data-join';
 
 export default (layoutStrategy) => {
 

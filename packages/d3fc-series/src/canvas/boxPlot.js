@@ -1,5 +1,5 @@
-import { shapeBoxPlot } from 'd3fc-shape';
-import { rebind, rebindAll } from 'd3fc-rebind';
+import { shapeBoxPlot } from '@d3fc/d3fc-shape';
+import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import boxPlotBase from '../boxPlotBase';
 import colors from '../colors';
 

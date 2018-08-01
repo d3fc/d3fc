@@ -1,8 +1,8 @@
 import { scaleLinear } from 'd3-scale';
-import { dataJoin } from 'd3fc-data-join';
+import { dataJoin } from '@d3fc/d3fc-data-join';
 import { min, max } from 'd3-array';
 import { select } from 'd3-selection';
-import { rebindAll } from 'd3fc-rebind';
+import { rebindAll } from '@d3fc/d3fc-rebind';
 import heatmapBase from '../heatmapBase';
 
 export default () => {

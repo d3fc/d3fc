@@ -1,5 +1,5 @@
 import { zip } from 'd3-array';
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import exponentialMovingAverage from './exponentialMovingAverage';
 import { convertNaN } from './fn';
 

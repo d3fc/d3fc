@@ -1,7 +1,7 @@
 import { max, min } from 'd3-array';
 import slidingWindow from './slidingWindow';
 import movingAverage from './movingAverage';
-import { includeMap, rebindAll } from 'd3fc-rebind';
+import { includeMap, rebindAll } from '@d3fc/d3fc-rebind';
 import { convertNaN } from './fn';
 
 export default function() {

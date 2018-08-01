@@ -30,6 +30,8 @@ var globals = function(key) {
     }
 };
 
+const packageName = packageJson.name.replace('@d3fc/', '');
+
 module.exports = rollup.rollup({
     entry: 'index.js',
     plugins: [
@@ -46,15 +48,15 @@ module.exports = rollup.rollup({
 })
   .then(bundle =>
       bundle.write({
-          dest: `build/${packageJson.name}.js`,
+          dest: `build/${packageName}.js`,
           format: 'umd',
           globals: globals,
           moduleName: 'fc'
       })
   )
   .then(() => {
-      var result = uglifyJS.minify([`build/${packageJson.name}.js`]);
-      fs.writeFileSync(`build/${packageJson.name}.min.js`, result.code);
+      var result = uglifyJS.minify([`build/${packageName}.js`]);
+      fs.writeFileSync(`build/${packageName}.min.js`, result.code);
   })
   .catch(e => {
       console.log(e);

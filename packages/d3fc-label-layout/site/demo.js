@@ -1,5 +1,5 @@
 import { range, sum } from 'd3-array';
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import { select, selectAll } from 'd3-selection';
 import * as d3 from 'd3-selection';
 import { layoutLabel, layoutTextLabel, layoutAnnealing, layoutRemoveOverlaps } from '..';

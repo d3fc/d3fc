@@ -9,9 +9,9 @@ describe('bundle', function() {
             }),
             scripts: [
                 './node_modules/d3/build/d3.js',
-                './node_modules/d3fc-shape/build/d3fc-shape.js',
-                './node_modules/d3fc-data-join/build/d3fc-data-join.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-shape/build/d3fc-shape.js',
+                './node_modules/@d3fc/d3fc-data-join/build/d3fc-data-join.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-series.js'
             ],
             done: (_, win) => {

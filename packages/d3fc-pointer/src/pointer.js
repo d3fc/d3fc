@@ -1,6 +1,6 @@
 import { dispatch } from 'd3-dispatch';
 import { mouse } from 'd3-selection';
-import { rebind } from 'd3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const event = dispatch('point');

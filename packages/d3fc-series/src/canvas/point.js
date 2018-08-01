@@ -1,6 +1,6 @@
 import {symbol as symbolShape} from 'd3-shape';
 import xyBase from '../xyBase';
-import { rebind, rebindAll, exclude } from 'd3fc-rebind';
+import { rebind, rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import colors from '../colors';
 
 export default () => {

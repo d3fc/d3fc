@@ -9,7 +9,7 @@ describe('bundle', function() {
             }),
             scripts: [
                 './node_modules/d3-array/build/d3-array.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-sample.js'
             ],
             done: (_, win) => {

@@ -1,5 +1,5 @@
 import { select, selection } from 'd3-selection';
-import { rebindAll } from 'd3fc-rebind';
+import { rebindAll } from '@d3fc/d3fc-rebind';
 import { pairs, min, ascending } from 'd3-array';
 
 const sortUnique = arr =>

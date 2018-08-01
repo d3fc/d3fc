@@ -1,8 +1,8 @@
-import { dataJoin } from 'd3fc-data-join';
-import { shapeBar } from 'd3fc-shape';
+import { dataJoin } from '@d3fc/d3fc-data-join';
+import { shapeBar } from '@d3fc/d3fc-shape';
 import { select } from 'd3-selection';
 import xyBase from '../xyBase';
-import { rebind, rebindAll } from 'd3fc-rebind';
+import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import colors from '../colors';
 
 export default () => {

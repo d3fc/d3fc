@@ -1,7 +1,7 @@
 import { scaleIdentity, interpolateViridis, scaleLinear } from 'd3-scale';
 import { min, max } from 'd3-array';
-import { rebindAll, includeMap, rebind } from 'd3fc-rebind';
-import { shapeBar } from 'd3fc-shape';
+import { rebindAll, includeMap, rebind } from '@d3fc/d3fc-rebind';
+import { shapeBar } from '@d3fc/d3fc-shape';
 import functor from './functor';
 import defined from './defined';
 import createBase from './base';

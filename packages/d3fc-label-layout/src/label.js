@@ -2,8 +2,8 @@ import { sum } from 'd3-array';
 import { select } from 'd3-selection';
 import { scaleIdentity } from 'd3-scale';
 import functor from './util/functor';
-import { dataJoin as dataJoinUtil } from 'd3fc-data-join';
-import { include, rebindAll } from 'd3fc-rebind';
+import { dataJoin as dataJoinUtil } from '@d3fc/d3fc-data-join';
+import { include, rebindAll } from '@d3fc/d3fc-rebind';
 
 export default (layoutStrategy) => {
 

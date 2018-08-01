@@ -1,4 +1,4 @@
-import { rebindAll } from 'd3fc-rebind';
+import { rebindAll } from '@d3fc/d3fc-rebind';
 import { scan } from 'd3-array';
 import { collisionArea } from './util/collision';
 

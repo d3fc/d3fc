@@ -1,5 +1,5 @@
 {
-  "name": "d3fc-data-join",
+  "name": "@d3fc/d3fc-data-join",
   "version": "4.1.1",
   "description": "A component that simplifies the D3 data join and supports the d3fc decorate pattern",
   "license": "MIT",
@@ -23,7 +23,10 @@
     "d3-selection": "^1.0.0"
   },
   "devDependencies": {
-    "d3fc-scripts": "1.7.0",
+    "@d3fc/d3fc-scripts": "1.7.0",
     "d3-transition": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

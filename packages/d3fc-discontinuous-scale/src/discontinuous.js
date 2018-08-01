@@ -1,5 +1,5 @@
 import {scaleIdentity} from 'd3-scale';
-import {rebindAll, include} from 'd3fc-rebind';
+import {rebindAll, include} from '@d3fc/d3fc-rebind';
 import identity from './discontinuity/identity';
 import tickFilter from './tickFilter';
 

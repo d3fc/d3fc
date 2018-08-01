@@ -18,7 +18,7 @@ describe('bundle', function() {
                 // direct dependencies
                 './node_modules/d3-scale/build/d3-scale.js',
                 './node_modules/d3-time/build/d3-time.js',
-                './node_modules/d3fc-rebind/build/d3fc-rebind.js',
+                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-discontinuous-scale.js'
             ],
             done: (_, win) => {

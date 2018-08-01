@@ -1,6 +1,6 @@
 import geometricBrownianMotion from './geometricBrownianMotion';
 import { randomNormal } from 'd3-random';
-import { rebindAll } from 'd3fc-rebind';
+import { rebindAll } from '@d3fc/d3fc-rebind';
 import { timeDay, timeYear } from 'd3-time';
 import { functor } from './fn';
 
