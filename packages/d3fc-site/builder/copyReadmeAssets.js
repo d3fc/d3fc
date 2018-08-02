@@ -9,14 +9,14 @@ const getDataFilename = (pathname) => path.join(root, pathname.replace(new RegEx
 const getImageFilename = (pathname) => path.join(apiDistFolder, pathname.replace(new RegExp('packages/'), ''));
 
 const globs = [
-  { src: 'packages/d3fc-*/**/*.png', dest: getImageFilename },
-  { src: 'packages/d3fc-site/src/examples/**/*.{csv,json}', dest: getDataFilename }
+  { src: 'packages/d3fc-*/**/*.png', dest: getImageFilename, ignore: '**/{d3fc-site,node_modules}/**/*' },
+  { src: 'packages/d3fc-site/src/examples/**/*.{csv,json}', dest: getDataFilename, ignore: null }
 ];
 
 export default (data) =>
   new Promise((resolve, reject) => {
     globs.forEach(entry => {
-      glob(entry.src, { cwd: root, ignore: '**/{d3fc-site,node_modules}/**/*' }, (err, files) => {
+      glob(entry.src, { cwd: root, ignore: entry.ignore }, (err, files) => {
         if (err) {
           console.error('Finding README Images failed - ', err);
           reject(err);
