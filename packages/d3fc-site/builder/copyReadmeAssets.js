@@ -16,7 +16,7 @@ const globs = [
 export default (data) =>
   new Promise((resolve, reject) => {
     globs.forEach(entry => {
-      glob(entry.src, { cwd: root, ignore: '**/node_modules/**/*' }, (err, files) => {
+      glob(entry.src, { cwd: root, ignore: '**/{d3fc-site,node_modules}/**/*' }, (err, files) => {
         if (err) {
           console.error('Finding README Images failed - ', err);
           reject(err);
