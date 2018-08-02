@@ -10,7 +10,7 @@ const getImageFilename = (pathname) => path.join(apiDistFolder, pathname.replace
 
 const globs = [
   { src: 'packages/d3fc-*/**/*.png', dest: getImageFilename },
-  { src: 'packages/site/src/examples/**/*.{csv,json}', dest: getDataFilename }
+  { src: 'packages/d3fc-site/src/examples/**/*.{csv,json}', dest: getDataFilename }
 ];
 
 export default (data) =>
