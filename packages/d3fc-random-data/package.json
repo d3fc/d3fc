@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-random-data",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Components for generating random data series based on stochastic processes",
   "license": "MIT",
   "keywords": [
@@ -28,12 +28,12 @@
     "test": "d3fc-scripts test"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "1.7.0"
+    "@d3fc/d3fc-scripts": "^2.0.0"
   },
   "dependencies": {
+    "@d3fc/d3fc-rebind": "^5.0.0",
     "d3-random": "^1.0.0",
-    "d3-time": "^1.0.0",
-    "@d3fc/d3fc-rebind": "^4.0.1"
+    "d3-time": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

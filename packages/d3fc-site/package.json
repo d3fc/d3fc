@@ -32,6 +32,7 @@
   },
   "homepage": "https://d3fc.io",
   "devDependencies": {
+    "@d3fc/d3fc-scripts": "^2.0.0",
     "babel-cli": "^6.18.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-env": "^1.7.0",
@@ -44,7 +45,6 @@
     "d3": "^5.5.0",
     "d3-svg-legend": "^2.18.0",
     "d3fc": "^13.2.1",
-    "@d3fc/d3fc-scripts": "1.7.0",
     "document-register-element": "^1.7.2",
     "fs-promise": "^2.0.0",
     "glob": "^7.1.1",

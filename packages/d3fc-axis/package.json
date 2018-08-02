@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-axis",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "A drop-in replacement for d3 axis, with support for the d3fc decorate pattern",
   "license": "MIT",
   "keywords": [
@@ -20,17 +20,17 @@
     "test": "d3fc-scripts test"
   },
   "devDependencies": {
+    "@d3fc/d3fc-scripts": "^2.0.0",
     "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",
-    "@d3fc/d3fc-scripts": "1.7.0",
     "webshot": "^0.18.0"
   },
   "dependencies": {
+    "@d3fc/d3fc-data-join": "^5.0.0",
+    "@d3fc/d3fc-rebind": "^5.0.0",
     "d3-scale": "^1.0.3",
     "d3-selection": "^1.0.2",
-    "d3-shape": "^1.0.3",
-    "@d3fc/d3fc-data-join": "^4.1.0",
-    "@d3fc/d3fc-rebind": "^4.1.0"
+    "d3-shape": "^1.0.3"
   },
   "publishConfig": {
     "access": "public"
