@@ -6,13 +6,10 @@ cache:
 notifications:
   email: false
 node_js:
-  - '5.7'
-before_install:
-  - npm i -g npm@^3.0.0
+  - '8'
 before_script:
   - npm prune
 after_success:
-  - npm run semantic-release
   - >-
     test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" &&
     bash ./packages/d3fc-site/deploy.sh
