@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "13.2.1",
+  "version": "14.0.0-beta.0",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
