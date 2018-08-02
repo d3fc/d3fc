@@ -7,8 +7,6 @@ notifications:
   email: false
 node_js:
   - '10'
-before_script:
-  - npm prune
 after_success:
   - >-
     test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" &&
