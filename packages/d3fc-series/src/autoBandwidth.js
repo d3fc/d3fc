@@ -37,7 +37,7 @@ export default (adaptee) => {
             const flattenedData = Array.isArray(data) ? [].concat(...data) : data;
 
             // obtain an array of points along the crossValue axis, mapped to screen coordinates.
-            const crossValuePoints = flattenedData.filter(adaptee.defined)
+            const crossValuePoints = flattenedData.filter(adaptee.defined())
                 .map(accessor())
                 .map(crossScale);
 

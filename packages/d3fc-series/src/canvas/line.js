@@ -7,7 +7,7 @@ export default () => {
     const base = xyBase();
 
     const lineData = lineShape()
-        .defined(base.defined)
+        .defined(base.defined())
         .x((d, i) => base.values(d, i).transposedX)
         .y((d, i) => base.values(d, i).transposedY);
 

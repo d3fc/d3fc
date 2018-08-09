@@ -19,7 +19,7 @@ export default () => {
     const bar = (data) => {
         const context = pathGenerator.context();
 
-        const filteredData = data.filter(base.defined);
+        const filteredData = data.filter(base.defined());
         const projectedData = filteredData.map(base.values);
 
         if (base.orient() === 'vertical') {

@@ -31,7 +31,7 @@ export default () => {
 
         selection.each((data, index, group) => {
 
-            const filteredData = data.filter(base.defined);
+            const filteredData = data.filter(base.defined());
             const g = join(select(group[index]), filteredData);
 
             g.enter()

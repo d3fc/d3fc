@@ -7,7 +7,7 @@ export default () => {
     const base = xyBase();
 
     const areaData = areaShape()
-        .defined(base.defined);
+        .defined(base.defined());
 
     const area = (data) => {
         const context = areaData.context();
