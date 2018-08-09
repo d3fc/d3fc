@@ -10,7 +10,7 @@ const mockSeries = () => {
 
     const series  = () => {};
 
-    series.defined = () => true;
+    series.defined = () => () => true;
     series.xScale = () => xScale;
     series.yScale = () => yScale;
     series.crossValue = () => crossValue;

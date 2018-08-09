@@ -8,7 +8,7 @@ export default (pathGenerator) => {
     const base = ohlcBase();
 
     const candlestick = (data) => {
-        const filteredData = data.filter(base.defined);
+        const filteredData = data.filter(base.defined());
         const context = pathGenerator.context();
 
         filteredData.forEach((d, i) => {

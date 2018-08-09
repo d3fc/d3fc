@@ -10,7 +10,7 @@ export default () => {
     const base = xyBase();
 
     const point = (data) => {
-        const filteredData = data.filter(base.defined);
+        const filteredData = data.filter(base.defined());
         const context = symbol.context();
 
         filteredData.forEach((d, i) => {

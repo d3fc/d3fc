@@ -37,7 +37,7 @@ export default () => {
                 throw new Error('The bar series does not support an orientation of ' + orient);
             }
 
-            const filteredData = data.filter(base.defined);
+            const filteredData = data.filter(base.defined());
             const projectedData = filteredData.map(base.values);
 
             pathGenerator.width(0)

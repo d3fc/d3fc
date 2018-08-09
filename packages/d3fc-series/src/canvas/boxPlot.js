@@ -11,7 +11,7 @@ export default () => {
         .value(0);
 
     const boxPlot = (data) => {
-        const filteredData = data.filter(base.defined);
+        const filteredData = data.filter(base.defined());
         const context = pathGenerator.context();
 
         pathGenerator.orient(base.orient());

@@ -31,7 +31,7 @@ export default () => {
 
         selection.each((data, index, group) => {
 
-            const filteredData = data.filter(base.defined);
+            const filteredData = data.filter(base.defined());
             const projectedData = filteredData.map(base.values);
             const g = join(select(group[index]), filteredData);
 
