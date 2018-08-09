@@ -4,6 +4,7 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
     "postinstall": "lerna bootstrap",
+    "publish": "lerna publish --conventional-commits",
     "test": "lerna run test --stream --concurrency 1"
   },
   "repository": {
