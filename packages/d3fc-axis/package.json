@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-axis",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "A drop-in replacement for d3 axis, with support for the d3fc decorate pattern",
   "license": "MIT",
   "keywords": [
