@@ -10,6 +10,7 @@ node_js:
 after_success:
   - >-
     test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" &&
+    npm run publish &&
     bash ./packages/d3fc-site/deploy.sh
 branches:
   except:
