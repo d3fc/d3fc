@@ -14,8 +14,8 @@ after_success:
     git checkout master &&
     git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/* &&
     git fetch --tags --quiet &&
-    git tag &&
-    npx lerna updated
+    npm run publish &&
+    bash ./packages/d3fc-site/deploy.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
