@@ -8,7 +8,7 @@ notifications:
 node_js:
   - '10'
 before_install:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - echo //registry.npmjs.org/:_authToken=$NPM_TOKEN > .npmrc
 after_success:
   - >-
     test $TRAVIS_PULL_REQUEST == "false" &&
@@ -16,13 +16,8 @@ after_success:
     git checkout master &&
     git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/* &&
     git fetch --tags --quiet &&
-    git describe --tags --abbrev=0 &&
-    git status &&
-    git diff &&
-    git diff $(git describe --tags --abbrev=0) &&
-    npx lerna updated
-    # npm run publish &&
-    # bash ./packages/d3fc-site/deploy.sh
+    npm run publish &&
+    bash ./packages/d3fc-site/deploy.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
