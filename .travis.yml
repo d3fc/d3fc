@@ -9,11 +9,12 @@ node_js:
   - '10'
 after_success:
   - >-
-    test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" &&
+    test $TRAVIS_PULL_REQUEST == "false" &&
+    test $(git rev-parse master) == $TRAVIS_COMMIT &&
+    git checkout master &&
     git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/* &&
-    git fetch --tags && git checkout master &&
-    npm run publish &&
-    bash ./packages/d3fc-site/deploy.sh
+    git fetch --tags &&
+    npx lerna updated
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
