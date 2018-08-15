@@ -8,7 +8,7 @@ notifications:
 node_js:
   - '10'
 before_install:
-  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 after_success:
   - >-
     test $TRAVIS_PULL_REQUEST == "false" &&
