@@ -2,7 +2,7 @@
 
 Extends the D3 extent functionality (found in [d3-array](https://github.com/d3/d3-array#extent)) to allow padding, multiple accessors and date support
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

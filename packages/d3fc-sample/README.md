@@ -6,7 +6,7 @@ A D3 component for down-sampling data using a variety of methods. Data is typica
 
 For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-sample/).
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

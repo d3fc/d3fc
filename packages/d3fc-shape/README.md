@@ -2,7 +2,7 @@
 
 A collection of SVG/canvas path generators for creating chart series
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

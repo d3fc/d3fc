@@ -2,7 +2,7 @@
 
 Components for generating random data series based on stochastic processes.
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 
