@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-site",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
@@ -45,7 +45,7 @@
     "custom-event-polyfill": "^0.3.0",
     "d3": "^5.5.0",
     "d3-svg-legend": "^2.18.0",
-    "d3fc": "^14.0.8",
+    "d3fc": "^14.0.9",
     "document-register-element": "^1.7.2",
     "fs-promise": "^2.0.0",
     "glob": "^7.1.1",
