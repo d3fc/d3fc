@@ -15,7 +15,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 <a name="3.0.2"></a>
-## [3.0.2](https://github.com/d3fc/d3fc-random-data/compare/@d3fc/d3fc-random-data@3.0.1...@d3fc/d3fc-random-data@3.0.2) (2018-08-20)
+## [3.0.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-random-data@3.0.1...@d3fc/d3fc-random-data@3.0.2) (2018-08-20)
 
 
 
@@ -23,7 +23,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @d3fc/d3fc-random-data
 
 <a name="3.0.1"></a>
-## [3.0.1](https://github.com/d3fc/d3fc-random-data/compare/@d3fc/d3fc-random-data@3.0.0...@d3fc/d3fc-random-data@3.0.1) (2018-08-15)
+## [3.0.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-random-data@3.0.0...@d3fc/d3fc-random-data@3.0.1) (2018-08-15)
 
 
 

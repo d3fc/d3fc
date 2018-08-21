@@ -14,7 +14,7 @@ git commit -m "Deploy to GitHub Pages"
 # repo's gh-pages branch. (All previous history on the gh-pages branch
 # will be lost, since we are overwriting it.) We redirect any output to
 # /dev/null to hide any sensitive credential data that might otherwise be exposed.
-git push --force --quiet "https://github.com/d3fc/d3fc-label-layout.git" master:gh-pages > /dev/null 2>&1
+git push --force --quiet "https://github.com/d3fc/d3fc.git" master:gh-pages > /dev/null 2>&1
 
 # delete this repo
 rm -rf .git

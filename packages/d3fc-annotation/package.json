@@ -9,12 +9,12 @@
     "annotation",
     "crosshair"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-annotation",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-annotation.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-annotation"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

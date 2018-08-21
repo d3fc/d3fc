@@ -12,7 +12,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @d3fc/d3fc-sample
 
 <a name="4.0.2"></a>
-## [4.0.2](https://github.com/d3fc/d3fc-sample/compare/@d3fc/d3fc-sample@4.0.1...@d3fc/d3fc-sample@4.0.2) (2018-08-20)
+## [4.0.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-sample@4.0.1...@d3fc/d3fc-sample@4.0.2) (2018-08-20)
 
 
 
@@ -20,7 +20,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @d3fc/d3fc-sample
 
 <a name="4.0.1"></a>
-## [4.0.1](https://github.com/d3fc/d3fc-sample/compare/@d3fc/d3fc-sample@4.0.0...@d3fc/d3fc-sample@4.0.1) (2018-08-15)
+## [4.0.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-sample@4.0.0...@d3fc/d3fc-sample@4.0.1) (2018-08-15)
 
 
 

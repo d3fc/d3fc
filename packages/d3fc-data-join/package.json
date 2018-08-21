@@ -8,12 +8,12 @@
     "d3fc",
     "datajoin"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-data-join",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-data-join.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-data-join"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

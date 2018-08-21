@@ -12,7 +12,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @d3fc/d3fc-brush
 
 <a name="2.0.4"></a>
-## [2.0.4](https://github.com/d3fc/d3fc-brush/compare/@d3fc/d3fc-brush@2.0.3...@d3fc/d3fc-brush@2.0.4) (2018-08-20)
+## [2.0.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-brush@2.0.3...@d3fc/d3fc-brush@2.0.4) (2018-08-20)
 
 
 
@@ -20,7 +20,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @d3fc/d3fc-brush
 
 <a name="2.0.3"></a>
-## [2.0.3](https://github.com/d3fc/d3fc-brush/compare/@d3fc/d3fc-brush@2.0.2...@d3fc/d3fc-brush@2.0.3) (2018-08-15)
+## [2.0.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-brush@2.0.2...@d3fc/d3fc-brush@2.0.3) (2018-08-15)
 
 
 

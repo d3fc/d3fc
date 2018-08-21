@@ -10,12 +10,12 @@
     "rebindAll",
     "all"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-rebind",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-rebind.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-rebind"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

@@ -10,12 +10,12 @@
     "D3",
     "d3fc"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-group",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-group.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-group"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
