@@ -13,7 +13,7 @@ A collection of components for rendering plot area annotations (bands, crosshair
 </tr>
 </table>
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 # Installation
 

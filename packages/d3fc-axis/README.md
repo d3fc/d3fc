@@ -2,7 +2,7 @@
 
 A drop-in replacement for d3 axis, with support for the d3fc decorate pattern.
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

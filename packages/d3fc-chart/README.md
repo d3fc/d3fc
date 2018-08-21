@@ -4,7 +4,7 @@ A simple Cartesian chart component that renders to canvas or SVG.
 
 <img src="screenshots/cartesian.png"/>
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

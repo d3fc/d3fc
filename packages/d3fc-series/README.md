@@ -30,7 +30,7 @@ A collection of components for rendering data series to SVG and canvas, includin
 </tr>
 </table>
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

@@ -4,7 +4,7 @@ A wrapper around D3's data join which simplifies some of the common problems tha
 
 This blog post ([Building Components with Data Join](http://blog.scottlogic.com/2016/08/17/building-components-with-d3-data-join.html)) introduces the rationale behind this component.
 
-[Main d3fc package](https://github.com/ScottLogic/d3fc)
+[Main d3fc package](https://github.com/d3fc/d3fc)
 
 ## Installing
 
