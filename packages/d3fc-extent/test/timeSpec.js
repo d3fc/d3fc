@@ -1,13 +1,13 @@
-import dateExtent from '../src/date';
+import timeExtent from '../src/time';
 import ms from 'ms';
 
-describe('date', () => {
+describe('time', () => {
     it('should pad dates with domain padding', function() {
         var date1 = new Date(2014, 0, 10);
         var date2 = new Date(2014, 0, 20);
         var data = [{ date: date1 }, { date: date2 }];
 
-        var extents = dateExtent()
+        var extents = timeExtent()
             .accessors([d => d.date])
             .padUnit('domain')
             .pad([ms('1d'), ms('2d')])(data);
@@ -19,7 +19,7 @@ describe('date', () => {
         var date2 = new Date(2014, 0, 20);
         var data = [{ date: date1 }, { date: date2 }];
 
-        var extents = dateExtent()
+        var extents = timeExtent()
             .accessors([d => d.date])
             .padUnit('percent')
             .pad([0.6, 0.5])(data);
@@ -32,7 +32,7 @@ describe('date', () => {
 
         var data = [{ date: date1 }, { date: date2 }];
 
-        var extents = dateExtent()
+        var extents = timeExtent()
             .accessors([d => d.date])
             .symmetricalAbout(new Date(2014, 0, 14))(data);
         expect(extents).toEqual([new Date(2014, 0, 8), new Date(2014, 0, 20)]);
@@ -44,17 +44,17 @@ describe('date', () => {
 
         var data = [{ date: date1 }, { date: date2 }];
 
-        var extents = dateExtent()
+        var extents = timeExtent()
             .accessors([d => d.date])
             .include([new Date(2014, 0, 30)])(data);
         expect(extents).toEqual([new Date(2014, 0, 10), new Date(2014, 0, 30)]);
 
-        extents = dateExtent()
+        extents = timeExtent()
             .accessors([d => d.date])
             .include([new Date(2014, 0, 15)])(data);
         expect(extents).toEqual([new Date(2014, 0, 10), new Date(2014, 0, 20)]);
 
-        extents = dateExtent()
+        extents = timeExtent()
             .accessors([d => d.date])
             .include([new Date(2014, 0, 1)])(data);
         expect(extents).toEqual([new Date(2014, 0, 1), new Date(2014, 0, 20)]);
@@ -63,14 +63,14 @@ describe('date', () => {
     it('should always invoke valueOf on a scalar accessor result', function() {
         const date = new Date(2014, 0, 1);
         spyOn(date, 'valueOf');
-        dateExtent().accessors([d => d])([date]);
+        timeExtent().accessors([d => d])([date]);
         expect(date.valueOf).toHaveBeenCalled();
     });
 
     it('should always invoke valueOf on a scalar array accessor result', function() {
         const date = new Date(2014, 0, 1);
         spyOn(date, 'valueOf');
-        dateExtent().accessors([d => [d, d]])([date]);
+        timeExtent().accessors([d => [d, d]])([date]);
         expect(date.valueOf).toHaveBeenCalled();
     });
 
@@ -78,7 +78,7 @@ describe('date', () => {
         const date1 = new Date(2014, 0, 10);
         const date2 = null;
         const date3 = new Date(2014, 0, 20);
-        var extent = dateExtent().accessors([d => d])([date1, date2, date3]);
+        var extent = timeExtent().accessors([d => d])([date1, date2, date3]);
         expect(extent).toEqual([date1, date3]);
     });
 });
