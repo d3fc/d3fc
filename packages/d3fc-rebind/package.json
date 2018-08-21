@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-rebind",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "description": "Utilities for copying methods from one d3 component to another in a configurable way",
   "license": "MIT",
   "keywords": [
