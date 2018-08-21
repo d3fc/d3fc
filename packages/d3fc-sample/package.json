@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-sample",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "A data subsampler that chooses representative data points using a largest triangle or mode-median approach.",
   "license": "MIT",
   "keywords": [
@@ -24,14 +24,14 @@
     "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.3",
+    "@d3fc/d3fc-scripts": "^2.0.4",
     "browserify": "^13.0.1",
     "d3": "^4.1.1",
     "topojson": "^2.0.0",
     "watch-cli": "^0.2.1"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.3",
+    "@d3fc/d3fc-rebind": "^5.0.4",
     "d3-array": "^1.0.0"
   },
   "publishConfig": {

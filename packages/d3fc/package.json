@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "14.0.6",
+  "version": "14.0.7",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
@@ -24,26 +24,26 @@
   },
   "homepage": "https://d3fc.io",
   "dependencies": {
-    "@d3fc/d3fc-annotation": "^2.0.5",
-    "@d3fc/d3fc-axis": "^2.0.5",
-    "@d3fc/d3fc-brush": "^2.0.5",
-    "@d3fc/d3fc-chart": "^2.0.5",
-    "@d3fc/d3fc-data-join": "^5.0.3",
-    "@d3fc/d3fc-discontinuous-scale": "^3.0.3",
-    "@d3fc/d3fc-element": "^5.0.5",
-    "@d3fc/d3fc-extent": "^3.0.3",
-    "@d3fc/d3fc-financial-feed": "^5.0.3",
-    "@d3fc/d3fc-group": "^2.0.3",
-    "@d3fc/d3fc-label-layout": "^6.0.3",
-    "@d3fc/d3fc-pointer": "^2.0.3",
-    "@d3fc/d3fc-random-data": "^3.0.3",
-    "@d3fc/d3fc-rebind": "^5.0.3",
-    "@d3fc/d3fc-sample": "^4.0.3",
-    "@d3fc/d3fc-series": "^4.0.5",
-    "@d3fc/d3fc-shape": "^5.0.3",
-    "@d3fc/d3fc-technical-indicator": "^7.0.5"
+    "@d3fc/d3fc-annotation": "^2.0.6",
+    "@d3fc/d3fc-axis": "^2.0.6",
+    "@d3fc/d3fc-brush": "^2.0.6",
+    "@d3fc/d3fc-chart": "^2.0.6",
+    "@d3fc/d3fc-data-join": "^5.0.4",
+    "@d3fc/d3fc-discontinuous-scale": "^3.0.4",
+    "@d3fc/d3fc-element": "^5.0.6",
+    "@d3fc/d3fc-extent": "^3.0.4",
+    "@d3fc/d3fc-financial-feed": "^5.0.4",
+    "@d3fc/d3fc-group": "^2.0.4",
+    "@d3fc/d3fc-label-layout": "^6.0.4",
+    "@d3fc/d3fc-pointer": "^2.0.4",
+    "@d3fc/d3fc-random-data": "^3.0.4",
+    "@d3fc/d3fc-rebind": "^5.0.4",
+    "@d3fc/d3fc-sample": "^4.0.4",
+    "@d3fc/d3fc-series": "^4.0.6",
+    "@d3fc/d3fc-shape": "^5.0.4",
+    "@d3fc/d3fc-technical-indicator": "^7.0.6"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.3"
+    "@d3fc/d3fc-scripts": "^2.0.4"
   }
 }
