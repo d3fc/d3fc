@@ -13,6 +13,7 @@ npm install d3fc-extent
 ## API Reference
 
 * [Linear](#linear)
+* [Time](#time)
 * [Date](#date)
 
 
@@ -69,17 +70,17 @@ If *values* is specified, sets the array of additional values to include within 
 Note included values are applied before [symmetricalAbout](#linear_symmetricalAbout).
 If *values* is not specified, returns the current array of included values, which defaults `[]`.
 
-### Date
+### Time
 
 Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Equivalent in functionality to [linear](#linear) but for `Date` values.
 
 ```javascript
 
-import extentDate from 'd3fc-extent';
+import extentTime from 'd3fc-extent';
 
 const data = [{ x: new Date(2016, 0, 1) }, { x: new Date(2016, 0, 11) }];
 
-const extent = extentDate()
+const extent = extentTime()
   .accessors([d => d.x])
   .pad([0, 0.2]);
 
@@ -89,33 +90,37 @@ extent(data);
 
 ```
 
-<a name="date_padUnit" href="#date"></a> fc.**extentDate**()
+<a name="time_padUnit" href="#time"></a> fc.**extentTime**()
 
-Constructs a new date extent calculator.
+Constructs a new time extent calculator.
 
-<a name="date_accessors" href="#date_accessors"></a> *date*.**accessors**([*accessors*])
+<a name="time_accessors" href="#time_accessors"></a> *time*.**accessors**([*accessors*])
 
 If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned be the accessors must be a `Date` or an array of `Date`s. Defaults to an identity function (i.e. `d => d`).
 If *accessors* is not specified, returns the current array of value accessors, which defaults `[]`.
 
-<a name="date_pad" href="#date_pad"></a> *date*.**pad**([*values*])
+<a name="time_pad" href="#time_pad"></a> *time*.**pad**([*values*])
 
-If *values* is specified, sets the amount of padding applied to the minimum and maximum values of the extent, to the specified array `[minPad, maxPad]` and returns this extent instance. The unit of these values is set by [padUnit](#date_padUnit).
+If *values* is specified, sets the amount of padding applied to the minimum and maximum values of the extent, to the specified array `[minPad, maxPad]` and returns this extent instance. The unit of these values is set by [padUnit](#time_padUnit).
 If *values* is not specified, returns the current array of padding values, which defaults `[0, 0]`.
 
-<a name="date_padUnit" href="#date_padUnit"></a> *date*.**padUnit**([*value*])
+<a name="time_padUnit" href="#time_padUnit"></a> *time*.**padUnit**([*value*])
 
-If *value* is specified, sets the unit of the [pad](#date_pad) values applied to minimum and maximum values and returns this extent instance. Possible values are -
+If *value* is specified, sets the unit of the [pad](#time_pad) values applied to minimum and maximum values and returns this extent instance. Possible values are -
 * 'percent' - the default behavior of applying the values as a percentage of the extent e.g. pad values of `[0.5, 0.5]` would double the calculated extent.
 * 'domain' - the padding values specified in milliseconds are applied directly to the calculated extent.
 If *value* is not specified, returns the current array of padding unit, which defaults `percent`.
 
-<a name="date_symmetricalAbout" href="#date_symmetricalAbout"></a> *date*.**symmetricalAbout**([*value*])
+<a name="time_symmetricalAbout" href="#time_symmetricalAbout"></a> *time*.**symmetricalAbout**([*value*])
 
 If *value* is specified, sets the value around which the extent will be centered around and returns this extent instance. Can also be set to `null` to disable centering. Note this is applied before padding.
 If *value* is not specified, returns the current center value, which defaults `null`.
 
-<a name="date_include" href="#date_include"></a> *date*.**include**([*values*])
+<a name="time_include" href="#time_include"></a> *time*.**include**([*values*])
 
 If *values* is specified, sets the array of additional values to include within the calculated extent to the specified array and returns this extent instance.
 If *values* is not specified, returns the current array of included values, which defaults `[]`.
+
+### Date
+
+**Deprecated - use [time](#time) instead.**
