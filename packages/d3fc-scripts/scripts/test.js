@@ -72,6 +72,7 @@ require('./bundle')
               console.log('All tests passed');
           } else {
               console.error('At least one test failed');
+              process.exit(1);
           }
       });
   })
