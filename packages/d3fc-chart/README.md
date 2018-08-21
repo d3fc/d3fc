@@ -76,6 +76,19 @@ Rendering the following:
 
 The chart is constructed using a pair of scales. The scale configuration properties are rebound (i.e. re-exposed) via the chart component with `x` and `y` prefixes. The chart takes care of layout, and will also re-render if the size of the containing element changes.
 
+### Styles
+
+The component uses inline style attributes to apply the necessary CSS to the elements. To override these values, use the decorate functionality -
+
+```javascript
+chart.decorate(selection => {
+  selection.enter()
+      .select('.chart-label')
+      .style('height', '5em')
+      .style('line-height', '5em');
+});
+```
+
 ### Cartesian
 
 <a name="chartCanvasCartesian" href="#chartCanvasCartesian">#</a> fc.**chartCanvasCartesian**(*xScale*, *yScale*)  
