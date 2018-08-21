@@ -8,12 +8,12 @@
     "d3fc",
     "scale"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-discontinuous-scale",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-discontinuous-scale.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-discontinuous-scale"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

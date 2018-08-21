@@ -24,13 +24,13 @@
     "rsi",
     "stochastic oscillator"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-technical-indicator",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-technical-indicator.js",
   "jsnext:main": "index",
   "typings": "@d3fc/d3fc-technical-indicator.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-technical-indicator"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

@@ -12,13 +12,13 @@
     "coinbase",
     "gdax"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-financial-feed",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-financial-feed.js",
   "jsnext:main": "index",
   "typings": "@d3fc/d3fc-financial-feed.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-financial-feed"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

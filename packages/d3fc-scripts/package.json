@@ -5,16 +5,16 @@
   "description": "Inspired by react-scripts, common set of scripts for building the d3fc projects",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-scripts.git"
+    "url": "https://github.com/d3fc/d3fc.git"
   },
   "keywords": [
     "d3fc"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/d3fc/d3fc-scripts/issues"
+    "url": "https://github.com/d3fc/d3fc/issues"
   },
-  "homepage": "https://github.com/d3fc/d3fc-scripts#readme",
+  "homepage": "https://github.com/d3fc/d3fc#readme",
   "bin": {
     "d3fc-scripts": "./bin/d3fc-scripts.js"
   },

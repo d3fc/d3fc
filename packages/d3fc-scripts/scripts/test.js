@@ -52,7 +52,7 @@ try {
     console.log(`\n${numberPassed}/${files.length} required files OK\n`);
 
     if (!passed) {
-        throw new Error('Required files are not correct - check https://github.com/d3fc/d3fc-scripts/required');
+        throw new Error('Required files are not correct - check https://github.com/d3fc/d3fc/required');
     }
 } catch (err) {
     console.log('Required files check failed - ', err);

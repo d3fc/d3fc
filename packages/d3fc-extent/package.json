@@ -11,12 +11,12 @@
     "pad",
     "date"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-extent",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-extent.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-extent"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

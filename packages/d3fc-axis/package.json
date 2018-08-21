@@ -8,12 +8,12 @@
     "d3fc",
     "axis"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-axis",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-axis.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-axis"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

@@ -16,12 +16,12 @@
     "ohlc",
     "stream"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-random-data",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-random-data.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-random-data"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",

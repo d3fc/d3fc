@@ -9,12 +9,12 @@
     "chart",
     "cartesian"
   ],
-  "homepage": "https://github.com/d3fc/d3fc-chart",
+  "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-chart.js",
   "jsnext:main": "index",
   "repository": {
     "type": "git",
-    "url": "https://github.com/d3fc/d3fc-chart"
+    "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
     "bundle": "d3fc-scripts bundle",
