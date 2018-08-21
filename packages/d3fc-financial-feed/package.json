@@ -14,7 +14,7 @@
   ],
   "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-financial-feed.js",
-  "jsnext:main": "index",
+  "module": "index",
   "typings": "@d3fc/d3fc-financial-feed.d.ts",
   "repository": {
     "type": "git",
