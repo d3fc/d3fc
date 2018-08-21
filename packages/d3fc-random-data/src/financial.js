@@ -77,7 +77,7 @@ export default function() {
     const financial = numPoints => makeStream().take(numPoints);
     financial.stream = makeStream;
 
-    if (typeof Symbol !== 'object' || typeof Symbol.iterator !== 'symbol') {
+    if (typeof Symbol !== 'function' || typeof Symbol.iterator !== 'symbol') {
         throw new Error('d3fc-random-data depends on Symbol. Make sure that you load a polyfill in older browsers. See README.');
     }
 
