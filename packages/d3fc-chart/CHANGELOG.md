@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.9"></a>
+## [2.0.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.0.8...@d3fc/d3fc-chart@2.0.9) (2018-08-22)
+
+
+### Bug Fixes
+
+* add overflow hidden to plot-area ([92e6629](https://github.com/d3fc/d3fc/commit/92e6629)), closes [#1144](https://github.com/d3fc/d3fc/issues/1144)
+
+
+
+
 <a name="2.0.8"></a>
 ## [2.0.8](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.0.7...@d3fc/d3fc-chart@2.0.8) (2018-08-21)
 
