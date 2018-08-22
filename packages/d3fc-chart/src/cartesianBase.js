@@ -130,7 +130,7 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                           </div>
                           <div style='flex: 1; display: flex; ${colFlexDirection(xOrientValue)}; ${xPadding(yOrientValue)}'>
                               <div style='flex: 1; display: flex; ${rowFlexDirection(yOrientValue)}'>
-                                  <${d3fcElementType} class='plot-area' style='flex: 1'></${d3fcElementType}>
+                                  <${d3fcElementType} class='plot-area' style='flex: 1; overflow: hidden'></${d3fcElementType}>
                                   ${yAxisMarkup}
                               </div>
                               ${xAxisMarkup}
