@@ -2,7 +2,38 @@
 
 import requestRedraw from './requestRedraw';
 
+const updateAutoResize = (element) => {
+    if (element.autoResize) {
+        addAutoResizeListener(element);
+    } else {
+        removeAutoResizeListener(element);
+    }
+};
+
+const addAutoResizeListener = (element) => {
+    if (element.__autoResizeListener__ != null) {
+        return;
+    }
+    element.__autoResizeListener__ = () => requestRedraw(element);
+    addEventListener('resize', element.__autoResizeListener__);
+};
+
+const removeAutoResizeListener = (element) => {
+    if (element.__autoResizeListener__ == null) {
+        return;
+    }
+    removeEventListener('resize', element.__autoResizeListener__);
+    element.__autoResizeListener__ = null;
+};
+
 export default class extends HTMLElement {
+    connectedCallback() {
+        updateAutoResize(this);
+    }
+
+    disconnectedCallback() {
+        removeAutoResizeListener(this);
+    }
 
     requestRedraw() {
         requestRedraw(this);
@@ -18,18 +49,7 @@ export default class extends HTMLElement {
         } else if (!autoResize && this.autoResize) {
             this.removeAttribute('auto-resize');
         }
-        this.updateAutoResize();
-    }
-
-    updateAutoResize() {
-        if (this.autoResize) {
-            if (this.__autoResizeListener__ == null) {
-                this.__autoResizeListener__ = () => requestRedraw(this);
-            }
-            addEventListener('resize', this.__autoResizeListener__);
-        } else {
-            removeEventListener('resize', this.__autoResizeListener__);
-        }
+        updateAutoResize(this);
     }
 
     static get observedAttributes() {
@@ -39,7 +59,7 @@ export default class extends HTMLElement {
     attributeChangedCallback(name) {
         switch (name) {
         case 'auto-resize':
-            this.updateAutoResize();
+            updateAutoResize(this);
             break;
         }
     }
