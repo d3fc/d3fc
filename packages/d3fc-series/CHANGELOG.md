@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.9"></a>
+## [4.0.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.8...@d3fc/d3fc-series@4.0.9) (2018-08-23)
+
+
+### Bug Fixes
+
+* canvas shapes now fill then stroke ([1a53209](https://github.com/d3fc/d3fc/commit/1a53209)), closes [#1161](https://github.com/d3fc/d3fc/issues/1161)
+
+
+
+
 <a name="4.0.8"></a>
 ## [4.0.8](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.7...@d3fc/d3fc-series@4.0.8) (2018-08-22)
 
