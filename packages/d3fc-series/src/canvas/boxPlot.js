@@ -30,13 +30,13 @@ export default () => {
                 .width(values.width)
                 .low(values.low)([d]);
 
-            context.strokeStyle = colors.black;
             context.fillStyle = colors.gray;
+            context.strokeStyle = colors.black;
 
             base.decorate()(context, d, i);
 
-            context.stroke();
             context.fill();
+            context.stroke();
             context.closePath();
 
             context.restore();

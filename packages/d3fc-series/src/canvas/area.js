@@ -23,10 +23,12 @@ export default () => {
         context.beginPath();
         areaData(data);
         context.fillStyle = colors.gray;
+        context.strokeStyle = 'transparent';
 
         base.decorate()(context, data);
 
         context.fill();
+        context.stroke();
         context.closePath();
     };
 

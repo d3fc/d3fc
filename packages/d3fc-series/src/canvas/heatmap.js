@@ -21,6 +21,7 @@ export default () => {
             context.translate(values.x, values.y);
 
             context.fillStyle = colorInterpolate(colorScale(values.colorValue));
+            context.strokeStyle = 'transparent';
 
             base.pathGenerator.height(values.height)
                 .width(values.width)([d]);
@@ -28,6 +29,7 @@ export default () => {
             base.decorate()(context, d, i);
 
             context.fill();
+            context.stroke();
             context.closePath();
             context.restore();
         });

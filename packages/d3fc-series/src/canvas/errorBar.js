@@ -32,8 +32,8 @@ export default () => {
 
             base.decorate()(context, d, i);
 
-            context.stroke();
             context.fill();
+            context.stroke();
             context.closePath();
 
             context.restore();
