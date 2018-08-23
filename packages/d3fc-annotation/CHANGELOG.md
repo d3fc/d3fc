@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.10"></a>
+## [2.0.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.0.9...@d3fc/d3fc-annotation@2.0.10) (2018-08-23)
+
+
+### Bug Fixes
+
+* follow d3 tick/tickArguments behaviour ([ce45581](https://github.com/d3fc/d3fc/commit/ce45581)), closes [#1156](https://github.com/d3fc/d3fc/issues/1156)
+
+
+
+
 <a name="2.0.9"></a>
 ## [2.0.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.0.8...@d3fc/d3fc-annotation@2.0.9) (2018-08-23)
 

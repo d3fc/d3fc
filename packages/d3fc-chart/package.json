@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-chart",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "A simple Cartesian chart component that renders to canvas or SVG.",
   "license": "MIT",
   "keywords": [
@@ -21,7 +21,7 @@
     "test": "d3fc-scripts test"
   },
   "devDependencies": {
-    "@d3fc/d3fc-annotation": "^2.0.9",
+    "@d3fc/d3fc-annotation": "^2.0.10",
     "@d3fc/d3fc-extent": "^3.1.0",
     "@d3fc/d3fc-scripts": "^2.0.4",
     "babel-polyfill": "^6.13.0",
