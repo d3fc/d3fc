@@ -17,9 +17,11 @@ export default () => {
         context.beginPath();
         lineData(data);
         context.strokeStyle = colors.black;
+        context.fillStyle = 'transparent';
 
         base.decorate()(context, data);
 
+        context.fill();
         context.stroke();
         context.closePath();
     };

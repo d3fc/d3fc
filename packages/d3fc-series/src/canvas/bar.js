@@ -40,8 +40,10 @@ export default () => {
             pathGenerator([datum]);
 
             context.fillStyle = colors.darkGray;
+            context.strokeStyle = 'transparent';
             base.decorate()(context, datum.d, i);
             context.fill();
+            context.stroke();
 
             context.closePath();
             context.restore();
