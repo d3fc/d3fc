@@ -3,12 +3,12 @@ import { scaleIdentity } from 'd3-scale';
 export default () => {
 
     let scale = scaleIdentity();
-    let count = 10;
+    let tickArguments = [10];
     let tickValues = null;
 
     const ticks = () =>
         tickValues != null ? tickValues
-            : (scale.ticks ? scale.ticks(count) : scale.domain());
+            : (scale.ticks ? scale.ticks(...tickArguments) : scale.domain());
 
     ticks.scale = (...args) => {
         if (!args.length) {
@@ -19,10 +19,15 @@ export default () => {
     };
 
     ticks.ticks = (...args) => {
+        tickArguments = args;
+        return ticks;
+    };
+
+    ticks.tickArguments = (...args) => {
         if (!args.length) {
-            return count;
+            return tickArguments;
         }
-        count = args[0];
+        tickArguments = args[0];
         return ticks;
     };
 
