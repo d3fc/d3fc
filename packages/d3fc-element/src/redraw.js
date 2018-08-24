@@ -11,10 +11,11 @@ const measure = (element) => {
         return;
     }
     const { width: previousWidth, height: previousHeight } = data.get(element);
-    const width = element.clientWidth;
-    const height = element.clientHeight;
+    const pixelRatio = (element.useDevicePixelRatio && global.devicePixelRatio != null) ? global.devicePixelRatio : 1;
+    const width = element.clientWidth * pixelRatio;
+    const height = element.clientHeight * pixelRatio;
     const resized = width !== previousWidth || height !== previousHeight;
-    data.set(element, { width, height, resized });
+    data.set(element, { pixelRatio, width, height, resized });
 };
 
 if (typeof CustomEvent !== 'function') {
@@ -26,9 +27,6 @@ const resize = (element) => {
         return;
     }
     const detail = data.get(element);
-    const node = element.childNodes[0];
-    node.setAttribute('width', detail.width);
-    node.setAttribute('height', detail.height);
     const event = new CustomEvent('measure', { detail });
     element.dispatchEvent(event);
 };

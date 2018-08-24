@@ -73,6 +73,10 @@ Enqueues a redraw to occur on the next animation frame, only if there isn't alre
 
 It should be noted that `requestRedraw` is asynchronous. It does not directly invoke the draw event so any errors thrown in the event handler can not be caught.
 
+<a name="surface_useDevicePixelRatio" href="#surface_useDevicePixelRatio">#</a> *surface*.**useDevicePixelRatio**()
+
+Available as the property `useDevicePixelRatio` or the attribute `use-device-pixel-ratio`. Controls whether the surface dimensions are multiplied by the [`devicePixelDepth`](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio) if available.
+
 ### &lt;d3fc-group&gt;
 
 An element with no visual representation that is designed to group related rendering surfaces ([&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)). Its core purpose is to multi-cast [*group*.requestRedraw](#group-requestRedraw) calls to descendant surfaces and to provide an aggregate draw event. It additionally provides helpers to allow [auto-resizing](#group-autoResize) of descendant surfaces in response to window `resize` events.
