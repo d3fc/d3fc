@@ -7,9 +7,6 @@ const find = (element) => element.tagName === 'D3FC-GROUP'
   : [element];
 
 const measure = (element) => {
-    if (element.tagName === 'D3FC-GROUP') {
-        return;
-    }
     const { width: previousWidth, height: previousHeight } = data.get(element);
     const pixelRatio = (element.useDevicePixelRatio && global.devicePixelRatio != null) ? global.devicePixelRatio : 1;
     const width = element.clientWidth * pixelRatio;
@@ -23,9 +20,6 @@ if (typeof CustomEvent !== 'function') {
 }
 
 const resize = (element) => {
-    if (element.tagName === 'D3FC-GROUP') {
-        return;
-    }
     const detail = data.get(element);
     const event = new CustomEvent('measure', { detail });
     element.dispatchEvent(event);
