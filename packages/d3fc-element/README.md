@@ -108,8 +108,8 @@ Equivalent to invoking [*surface*.requestRedraw](#surface-requestRedraw) on all 
 
 The following custom DOM events are emitted by the elements -
 
-* `measure` - indicates that the rendering surface has been measured (only [&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)). Typically the `measure` event is used to set the [range](https://github.com/d3/d3-scale#continuous_range) on scales or apply transforms.
-* `draw` - indicates that the rendering surface requires drawing. Typically the `draw` event is used to render components or perform any bespoke data-joins.
+* `measure` - indicates that the element has been measured. Typically the `measure` event is used to set the [range](https://github.com/d3/d3-scale#continuous_range) on scales or apply transforms.
+* `draw` - indicates that the element requires drawing. Typically the `draw` event is used to render components or perform any bespoke data-joins.
 
 The following properties are available under the `detail` property on the event (not available for [&lt;d3fc-group&gt;](#d3fc-group)) -
 
