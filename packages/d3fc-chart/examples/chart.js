@@ -36,7 +36,7 @@ var chartSvg = fc.chartSvgCartesian(
   .xTickSizeOuter(10)
   .yTickValues([-1, -0.6, -0.2, 0.2, 0.6, 1])
   .yTickSize(15)
-  .yTickPadding(100)
+  .yTickPadding(10)
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
   .plotArea(multiSvg);
