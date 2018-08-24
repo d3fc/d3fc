@@ -126,7 +126,7 @@ export default (d3fcElementType, plotAreaDrawFunction) =>
                     .attr('style', 'display: flex; height: 100%; width: 100%; flex-direction: column; overflow: hidden')
                     .attr('auto-resize', '')
                     .html(`<div class='chart-label'
-                                style='height: ${chartLabel ? 2 : 0}em; line-height: 2em; text-align: center; ${xMargin(yOrientValue)}'>
+                                style='height: 2em; line-height: 2em; text-align: center; ${xMargin(yOrientValue)}'>
                           </div>
                           <div style='flex: 1; display: flex; ${colFlexDirection(xOrientValue)}; ${xPadding(yOrientValue)}'>
                               <div style='flex: 1; display: flex; ${rowFlexDirection(yOrientValue)}'>
