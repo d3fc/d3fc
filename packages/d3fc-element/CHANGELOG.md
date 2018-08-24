@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.0.11...@d3fc/d3fc-element@5.1.0) (2018-08-24)
+
+
+### Features
+
+* add use-device-pixel-ratio attribute ([3f8d78d](https://github.com/d3fc/d3fc/commit/3f8d78d)), closes [#1126](https://github.com/d3fc/d3fc/issues/1126) [#1125](https://github.com/d3fc/d3fc/issues/1125)
+* dispatch measure/draw events for d3fc-group ([67b0b5b](https://github.com/d3fc/d3fc/commit/67b0b5b))
+
+
+
+
 <a name="5.0.11"></a>
 ## [5.0.11](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.0.10...@d3fc/d3fc-element@5.0.11) (2018-08-24)
 

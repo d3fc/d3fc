@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-chart",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "A simple Cartesian chart component that renders to canvas or SVG.",
   "license": "MIT",
   "keywords": [
@@ -30,7 +30,7 @@
   "dependencies": {
     "@d3fc/d3fc-axis": "^2.0.7",
     "@d3fc/d3fc-data-join": "^5.0.5",
-    "@d3fc/d3fc-element": "^5.0.11",
+    "@d3fc/d3fc-element": "^5.1.0",
     "@d3fc/d3fc-rebind": "^5.0.5",
     "@d3fc/d3fc-series": "^4.0.9",
     "d3-scale": "^1.0.3",
