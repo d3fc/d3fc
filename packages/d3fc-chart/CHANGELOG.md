@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.13"></a>
+## [2.0.13](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.0.12...@d3fc/d3fc-chart@2.0.13) (2018-08-24)
+
+
+### Bug Fixes
+
+* remove broken conditional display of chartLabel ([a4c13b0](https://github.com/d3fc/d3fc/commit/a4c13b0)), closes [#1149](https://github.com/d3fc/d3fc/issues/1149)
+
+
+
+
 <a name="2.0.12"></a>
 ## [2.0.12](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.0.11...@d3fc/d3fc-chart@2.0.12) (2018-08-23)
 
