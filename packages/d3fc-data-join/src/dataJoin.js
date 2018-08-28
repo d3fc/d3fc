@@ -47,16 +47,14 @@ export default (element, className) => {
         // if transitions are enabled apply a default fade in/out transition
         const transition = implicitTransition || explicitTransition;
         if (transition) {
-            update = update.transition(transition);
-            enter.style('opacity', effectivelyZero)
-                .transition(transition)
+            update = update.transition(transition)
                 .style('opacity', 1);
+            enter.style('opacity', effectivelyZero);
             exit = exit.transition(transition)
-                .style('opacity', effectivelyZero)
-                .remove();
-        } else {
-            exit.remove();
+                .style('opacity', effectivelyZero);
         }
+
+        exit.remove();
 
         update.enter = () => enter;
         update.exit = () => exit;
