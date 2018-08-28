@@ -8,17 +8,7 @@ describe('bundle', () => {
                 error: fail
             }),
             scripts: [
-                // transitive dependencies
-                './node_modules/d3-array/build/d3-array.js',
-                './node_modules/d3-collection/build/d3-collection.js',
-                './node_modules/d3-color/build/d3-color.js',
-                './node_modules/d3-format/build/d3-format.js',
-                './node_modules/d3-interpolate/build/d3-interpolate.js',
-                './node_modules/d3-time-format/build/d3-time-format.js',
-                // direct dependencies
-                './node_modules/d3-shape/build/d3-shape.js',
-                './node_modules/d3-scale/build/d3-scale.js',
-                './node_modules/d3-selection/dist/d3-selection.js',
+                require.resolve('d3/dist/d3.js'),
                 './node_modules/@d3fc/d3fc-data-join/build/d3fc-data-join.js',
                 './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-axis.js'

@@ -8,8 +8,7 @@ describe('bundle', function() {
                 error: fail
             }),
             scripts: [
-                // direct dependencies
-                './node_modules/d3-fetch/dist/d3-fetch.js',
+                require.resolve('d3/dist/d3.js'),
                 './build/d3fc-financial-feed.js'
             ],
             done: (_, win) => {

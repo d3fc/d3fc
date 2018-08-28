@@ -8,7 +8,7 @@ describe('bundle', function() {
                 error: fail
             }),
             scripts: [
-                require.resolve('d3-selection'),
+                require.resolve('d3/dist/d3.js'),
                 require.resolve('..')
             ],
             done: (_, win) => {
@@ -26,13 +26,7 @@ describe('bundle', function() {
                 error: fail
             }),
             scripts: [
-                require.resolve('d3-selection'),
-                require.resolve('d3-color'),
-                require.resolve('d3-dispatch'),
-                require.resolve('d3-ease'),
-                require.resolve('d3-interpolate'),
-                require.resolve('d3-timer'),
-                require.resolve('d3-transition'),
+                require.resolve('d3/dist/d3.js'),
                 require.resolve('..')
             ],
             done: (_, win) => {
