@@ -41,18 +41,18 @@ export default () => {
             const xData = xTicks();
             const xLines = xJoin(container, xData);
 
+            xLines.enter()
+                .attr('x1', xScaleOld)
+                .attr('x2', xScaleOld)
+                .attr('y1', yScale.range()[0])
+                .attr('y2', yScale.range()[1]);
+
             xLines
                 .attr('x1', xScale)
                 .attr('x2', xScale)
                 .attr('y1', yScale.range()[0])
                 .attr('y2', yScale.range()[1])
                 .attr('stroke', '#bbb');
-
-            xLines.enter()
-                .attr('x1', xScaleOld)
-                .attr('x2', xScaleOld)
-                .attr('y1', yScale.range()[0])
-                .attr('y2', yScale.range()[1]);
 
             xLines.exit()
                 .attr('x1', xScale)
@@ -67,18 +67,18 @@ export default () => {
             const yData = yTicks();
             const yLines = yJoin(container, yData);
 
+            yLines.enter()
+                .attr('y1', yScaleOld)
+                .attr('y2', yScaleOld)
+                .attr('x1', xScale.range()[0])
+                .attr('x2', xScale.range()[1]);
+
             yLines
                 .attr('y1', yScale)
                 .attr('y2', yScale)
                 .attr('x1', xScale.range()[0])
                 .attr('x2', xScale.range()[1])
                 .attr('stroke', '#bbb');
-
-            yLines.enter()
-                .attr('y1', yScaleOld)
-                .attr('y2', yScaleOld)
-                .attr('x1', xScale.range()[0])
-                .attr('x2', xScale.range()[1]);
 
             yLines.exit()
                 .attr('y1', yScale)
