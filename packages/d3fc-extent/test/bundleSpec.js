@@ -8,7 +8,7 @@ describe('bundle', function() {
                 error: fail
             }),
             scripts: [
-                './node_modules/d3-array/build/d3-array.js',
+                require.resolve('d3/dist/d3.js'),
                 './build/d3fc-extent.js'
             ],
             done: (_, win) => {

@@ -8,7 +8,7 @@ describe('bundle', function() {
                 error: fail
             }),
             scripts: [
-                './node_modules/d3-array/build/d3-array.js',
+                require.resolve('d3/dist/d3.js'),
                 './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
                 './build/d3fc-sample.js'
             ],
