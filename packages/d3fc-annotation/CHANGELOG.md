@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.0.12"></a>
+## [2.0.12](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.0.11...@d3fc/d3fc-annotation@2.0.12) (2018-08-29)
+
+
+### Bug Fixes
+
+* incorrect gridline position on update ([2bf2e40](https://github.com/d3fc/d3fc/commit/2bf2e40)), closes [#1087](https://github.com/d3fc/d3fc/issues/1087)
+
+
+
+
 <a name="2.0.11"></a>
 ## [2.0.11](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.0.10...@d3fc/d3fc-annotation@2.0.11) (2018-08-29)
 
