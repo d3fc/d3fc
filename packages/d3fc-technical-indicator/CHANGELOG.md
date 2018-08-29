@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="7.0.11"></a>
+## [7.0.11](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-technical-indicator@7.0.10...@d3fc/d3fc-technical-indicator@7.0.11) (2018-08-29)
+
+
+### Bug Fixes
+
+* use single d3 reference for bundleSpecs ([3d0a47e](https://github.com/d3fc/d3fc/commit/3d0a47e))
+
+
+
+
 <a name="7.0.10"></a>
 ## [7.0.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-technical-indicator@7.0.9...@d3fc/d3fc-technical-indicator@7.0.10) (2018-08-23)
 

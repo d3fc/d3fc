@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-financial-feed",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "description": "An API for fetching financial time-series data from different sources including Quandl and GDAX",
   "license": "MIT",
   "keywords": [
