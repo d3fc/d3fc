@@ -1,11 +1,7 @@
 import cartesianBase from '../cartesianBase';
-import { select } from 'd3-selection';
+import { seriesSvgLine } from '@d3fc/d3fc-series';
 
-const cartesian = cartesianBase('d3fc-svg',
-    (data, element, plotArea, transitionPropagator) => {
-        transitionPropagator(select(element))
-            .select('svg')
-            .call(plotArea);
-    });
-
-export default (...args) => cartesian(...args);
+export default cartesianBase(
+    (cartesian, plotArea) => cartesian.svgPlotArea(plotArea),
+    seriesSvgLine
+);

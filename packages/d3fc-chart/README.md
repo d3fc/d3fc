@@ -41,28 +41,30 @@ var yExtent = fc.extentLinear()
   .pad([0.1, 0.1])
 
 // gridlines (from d3fc-annotation)
+// n.b. the gridlines are rendered using SVG
 var gridlines = fc.annotationSvgGridline();
 // series (from d3fc-series)
-var line = fc.seriesSvgLine();
-var area = fc.seriesSvgArea()
+// n.b. the series are rendered using canvas
+var line = fc.seriesCanvasLine();
+var area = fc.seriesCanvasArea()
   .mainValue(d => d.z);
 
 // combine into a single series
-var multi = fc.seriesSvgMulti()
-  .series([gridlines, area, line]);
+var multi = fc.seriesCanvasMulti()
+  .series([area, line]);
 
 // the Cartesian component, which uses d3fc-element for layout
 // of the standard features of a chart (axes, labels, plot area)
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
     d3.scaleLinear(),
     d3.scaleLinear()
   )
   .xLabel('Value')
   .yLabel('Sine / Cosine')
-  .chartLabel('Sine and Cosine')
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
-  .plotArea(multi);
+  .svgPlotArea(gridlines)
+  .canvasPlotArea(multi);
 
 // render
 d3.select('#sine')
@@ -78,33 +80,167 @@ The chart is constructed using a pair of scales. The scale configuration propert
 
 ### Styles
 
-The component uses inline style attributes to apply the necessary CSS to the elements. To override these values, use the decorate functionality -
+The component automatically injects a stylesheet to apply the necessary CSS to the elements. These styles can be augmented with CSS -
+
+```css
+d3fc-group.cartesian-chart > .x-label {
+  line-height: 5em;
+  color: red;
+}
+```
+
+Or through decoration -
 
 ```javascript
 chart.decorate(selection => {
   selection.enter()
-      .select('.chart-label')
-      .style('height', '5em')
-      .style('line-height', '5em');
+    .select('.x-label')
+    .style('line-height', '5em')
+    .style('color', 'red')
+});
+```
+
+### Grid
+
+Internally, the component uses CSS grid layout to arrange the various rendering surfaces and labels. The following diagram shows the grid structure and associated line indicies -
+
+```
+  1             2           3               4            5              6
+1 /-------------|-----------|---------------|------------|--------------\
+  |             |           |   top gutter  |            |              |
+2 |-------------|-----------|---------------|------------|--------------|
+  |             |           |    top axis   |            |              |
+3 |-------------|-----------|---------------|------------|--------------|
+  | left gutter | left axis |   plot area   | right axis | right gutter |
+4 |-------------|-----------|---------------|------------|--------------|
+  |             |           |  bottom axis  |            |              |
+5 |-------------|-----------|---------------|------------|--------------|
+  |             |           | bottom gutter |            |              |
+6 \-------------|-----------|---------------|------------|--------------/
+```
+
+Additional elements can be dropped into this grid, either in-place of or in addition to the existing elements using decoration. The following are some typical examples of this process.
+
+N.B. Each of these examples uses the modern CSS grid specification syntax. To make these work in legacy versions of IE, you'll need to additionally set the following equivalent prefixed properties -
+
+* `grid-column` - `-ms-grid-column`
+* `grid-row` - `-ms-grid-row`
+
+#### Add a Chart Label
+
+There's no configuration option to add a title to the chart itself but it can be easily added using decoration -
+
+```javascript
+chart.decorate(selection => {
+  // select the top-label (if it exists)
+  selection.select('.top-label')
+    // move the label down to make space for the chart label
+    .style('margin-top', '2em');
+
+  // when the chart is added to the DOM
+  selection.enter()
+    // additionally add a div element for the label
+    .append('div')
+    .attr('class', 'chart-label')
+    // move the element into the top-label cell
+    .style('grid-column', 3)
+    .style('grid-row', 1)
+    // add some styling to the label
+    .style('height', '2em')
+    .style('line-height', '2em')
+    .style('text-align', 'center');
+
+  // on every update, select the chart-label
+  selection.select('.chart-label')
+    // and set its text value
+    .text('A Fancy Chart Label');
+});
+```
+
+#### Adding a Second Axis
+
+By default the chart allows a left or a right axis (see [xOrient](#cartesian_xOrient)) but not both. This example shows how we can add in another using decoration -
+
+```javascript
+// create a scale for the second axis
+var zScale = d3.scaleLinear()
+  .domain([-1000, 1000]);
+// create an axis for the scale
+var zAxis = d3.axisRight(zScale);
+
+chart.decorate(selection => {
+  // when the chart is added to the DOM
+  selection.enter()
+    // additionally add a d3fc-svg element for the axis
+    .append('d3fc-svg')
+    // move the element into the right-axis cell
+    .style('grid-column', 4)
+    .style('grid-row', 3)
+    // and set the axis width
+    .style('width', '3em')
+    // when there's a measure event (namespaced to avoid removing existing handlers)
+    .on('measure.z-axis', () => {
+      // set the range on the scale to the elements height
+      zScale.range([d3.event.detail.height, 0]);
+    })
+    .on('draw.z-axis', (d, i, nodes) => {
+      // draw the axis into the svg within the d3fc-svg element
+      d3.select(nodes[i])
+        .select('svg')
+        .call(zAxis);
+    });
+});
+```
+
+#### Translating the Y-Axis
+
+More radical changes to the chart's structure can also be performed using decoration -
+
+```javascript
+chart.decorate(selection => {
+  // select the x-axis
+  selection.select('.x-axis')
+    // move it into the plot-area
+    .style('grid-row', 3)
+    // listen for the draw event (using a namespace to avoid removing any existing handlers)
+    .on('draw.move-axis', (d, i, nodes) => {
+      // select the x-axis
+      d3.select(nodes[i])
+        // apply a top margin to the axis to align it to 0 on the y-axis
+        .style('margin-top', `${yScale(0)}px`);
+    });
+
+  // optionally: add some padding to fill the gap left by the x-axis
+  selection.select('.x-label')
+    .style('padding-top', '1em');
+});
+
+// optionally: re-position the x-axis tick labels so they're readable
+chart.xDecorate(selection => {
+  selection.select('text')
+    .attr('transform', 'translate(-7, 7)');
 });
 ```
 
 ### Cartesian
 
-<a name="chartCanvasCartesian" href="#chartCanvasCartesian">#</a> fc.**chartCanvasCartesian**(*xScale*, *yScale*)  
-<a name="chartSvgCartesian" href="#chartSvgCartesian">#</a> fc.**chartSvgCartesian**(*xScale*, *yScale*)
+<a name="chartCartesian" href="#chartCartesian">#</a> fc.**chartCartesian**(*xScale*, *yScale*)  
 
 Constructs a new Cartesian chart with the given scales.
 
-For charts that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. The `chartCanvasCartesian` components provides exactly the same API as its SVG equivalent, but instead constructs a canvas element for rendering the series associated with the `plotArea` property. The canvas Cartesian chart should be used in conjunction with the canvas-based renderers from the d3fc-series package.
+<a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)  
+<a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)  
+
+If *component* is specified, sets the component to render onto the SVG/canvas, and returns the Cartesian chart. If *component* is not specified, returns the existing component.
+
+For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. For components that require user-interaction, rendering to SVG can simplify their implementation.
 
 <a name="cartesian_xLabel" href="#cartesian_xLabel">#</a> *cartesian*.**xLabel**(*label*)  
 <a name="cartesian_yLabel" href="#cartesian_yLabel">#</a> *cartesian*.**yLabel**(*label*)  
-<a name="cartesian_chartLabel" href="#cartesian_chartLabel">#</a> *cartesian*.**chartLabel**(*label*)
 
 If *label* is specified, sets the text for the given label, and returns the Cartesian chart. If *label* is not specified, returns the label text.
 
-The *label* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts, with different chart labels, using a data join.
+The *label* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
 
 <a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)  
 <a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)  
@@ -113,8 +249,7 @@ If *orient* is specified, sets the orientation for the axis in the given directi
 
 If an orientation of *none* is specified for an axis, the axis, axis label and their containers will not be rendered.
 
-The *orient* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts, with different chart labels, using a data join.
-
+The *orient* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
 
 <a name="cartesian_decorate" href="#cartesian_decorate">#</a> *cartesian*.**decorate**(*decorateFunc*)
 
