@@ -1,10 +1,7 @@
 import cartesianBase from '../cartesianBase';
+import { seriesCanvasLine } from '@d3fc/d3fc-series';
 
-const cartesian = cartesianBase('d3fc-canvas',
-    (data, element, plotArea) => {
-        const canvas = element.childNodes[0];
-        plotArea.context(canvas.getContext('2d'));
-        plotArea(data);
-    });
-
-export default (...args) => cartesian(...args);
+export default cartesianBase(
+    (cartesian, plotArea) => cartesian.canvasPlotArea(plotArea),
+    seriesCanvasLine
+);

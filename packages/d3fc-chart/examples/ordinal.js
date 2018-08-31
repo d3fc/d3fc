@@ -57,7 +57,7 @@ var bar = fc.seriesSvgBar()
     .crossValue(d => d.month)
     .mainValue(d => d.sales);
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
         d3.scalePoint().padding(0.5),
         d3.scaleLinear()
     )
@@ -66,7 +66,7 @@ var chart = fc.chartSvgCartesian(
     .yOrient('left')
     .yDomain(yExtent(data))
     .xDomain(data.map(d => d.month))
-    .plotArea(bar);
+    .svgPlotArea(bar);
 
 d3.select('#ordinal')
     .datum(data)

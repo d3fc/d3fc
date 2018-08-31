@@ -35,16 +35,15 @@ function render() {
 
     // the cartesian component, which uses d3fc-element for layout
     // of the standard feaures of a chart (axes, labels, plot area)
-    var chart = fc.chartSvgCartesian(
+    var chart = fc.chartCartesian(
         d3.scaleLinear(),
         d3.scaleLinear()
       )
       .xLabel('Value')
       .yLabel('Sine / Cosine')
-      .chartLabel('Sine and Cosine')
       .yDomain(yExtent(data))
       .xDomain(xExtent(data))
-      .plotArea(multi);
+      .svgPlotArea(multi);
 
     d3.select('#sine')
       .datum(data)
