@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.0.17...@d3fc/d3fc-chart@2.1.0) (2018-09-07)
+
+
+### Features
+
+* add chartCartesian - a CSS grid-based chart ([010a2d7](https://github.com/d3fc/d3fc/commit/010a2d7)), closes [#1147](https://github.com/d3fc/d3fc/issues/1147)
+
+
+
+
 <a name="2.0.17"></a>
 ## [2.0.17](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.0.16...@d3fc/d3fc-chart@2.0.17) (2018-08-29)
 
