@@ -17,6 +17,7 @@ var yScale = d3.scaleLinear()
 var svgLine = fc.seriesSvgArea()
     .xScale(xScale)
     .yScale(yScale)
+    .defined((_, i) => i % 20 !== 0)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });
 
@@ -32,6 +33,7 @@ var ctx = canvas.getContext('2d');
 var canvasLine = fc.seriesCanvasArea()
     .xScale(xScale)
     .yScale(yScale)
+    .defined((_, i) => i % 20 !== 0)
     .context(ctx)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });

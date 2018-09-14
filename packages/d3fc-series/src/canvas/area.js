@@ -6,11 +6,12 @@ import colors from '../colors';
 export default () => {
     const base = xyBase();
 
-    const areaData = areaShape()
-        .defined(base.defined());
+    const areaData = areaShape();
 
     const area = (data) => {
         const context = areaData.context();
+
+        areaData.defined(base.defined());
 
         const projectedData = data.map(base.values);
         areaData.x((_, i) => projectedData[i].transposedX)
