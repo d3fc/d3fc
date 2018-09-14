@@ -8,8 +8,7 @@ import colors from '../colors';
 export default () => {
     const base = xyBase();
 
-    const areaData = areaShape()
-        .defined(base.defined());
+    const areaData = areaShape();
 
     const join = dataJoin('path', 'area');
 
@@ -18,6 +17,8 @@ export default () => {
         if (selection.selection) {
             join.transition(selection);
         }
+
+        areaData.defined(base.defined());
 
         selection.each((data, index, group) => {
 

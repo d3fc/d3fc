@@ -9,7 +9,6 @@ export default () => {
     const base = xyBase();
 
     const lineData = lineShape()
-        .defined(base.defined())
         .x((d, i) => base.values(d, i).transposedX)
         .y((d, i) => base.values(d, i).transposedY);
 
@@ -20,6 +19,8 @@ export default () => {
         if (selection.selection) {
             join.transition(selection);
         }
+
+        lineData.defined(base.defined());
 
         selection.each((data, index, group) => {
             const path = join(select(group[index]), [data]);

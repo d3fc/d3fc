@@ -7,7 +7,6 @@ export default () => {
     const base = xyBase();
 
     const lineData = lineShape()
-        .defined(base.defined())
         .x((d, i) => base.values(d, i).transposedX)
         .y((d, i) => base.values(d, i).transposedY);
 
@@ -15,7 +14,7 @@ export default () => {
         const context = lineData.context();
 
         context.beginPath();
-        lineData(data);
+        lineData.defined(base.defined())(data);
         context.strokeStyle = colors.black;
         context.fillStyle = 'transparent';
 
