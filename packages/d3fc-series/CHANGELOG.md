@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.11"></a>
+## [4.0.11](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.10...@d3fc/d3fc-series@4.0.11) (2018-09-14)
+
+
+### Bug Fixes
+
+* ensure line and area series support defined ([d318219](https://github.com/d3fc/d3fc/commit/d318219))
+
+
+
+
 <a name="4.0.10"></a>
 ## [4.0.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.9...@d3fc/d3fc-series@4.0.10) (2018-08-29)
 
