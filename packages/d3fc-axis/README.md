@@ -48,9 +48,11 @@ const scale = d3.scaleBand()
 
 const axis = fc.axisBottom(scale)
   .decorate(s =>
-    s.enter().select('text')
-      .style('text-anchor', 'start')
-      .attr('transform', 'rotate(45 -10 10)')
+    s.enter()
+      .select('text')
+      .style("transform", function(d,index) {
+          return index % 2 === 0  ? "translate(0px,20px)" : "";
+        })
   );
 ```
 
