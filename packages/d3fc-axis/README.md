@@ -50,9 +50,7 @@ const axis = fc.axisBottom(scale)
   .decorate(s =>
     s.enter()
       .select('text')
-      .style("transform", function(d,index) {
-          return index % 2 === 0  ? "translate(0px,20px)" : "";
-        })
+      .style('transform', (d, i) => i % 2 === 0  ? 'translate(0 20)' : '');
   );
 ```
 
