@@ -3,9 +3,8 @@
   stroke-width: 0;
 }
 
-.plot-area {
-  background-color: white;
-  overflow: hidden;
+.y-label {
+  white-space: nowrap;
 }
 
 d3fc-svg svg {
