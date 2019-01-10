@@ -7,7 +7,7 @@ Components for generating random data series based on stochastic processes.
 ## Installing
 
 ```bash
-npm install d3fc-random-data
+npm install @d3fc/d3fc-random-data
 ```
 
 ## API Reference

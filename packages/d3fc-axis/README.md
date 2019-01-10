@@ -7,7 +7,7 @@ A drop-in replacement for d3 axis, with support for the d3fc decorate pattern.
 ## Installing
 
 ```bash
-npm install d3fc-axis
+npm install @d3fc/d3fc-axis
 ```
 
 ## API Reference

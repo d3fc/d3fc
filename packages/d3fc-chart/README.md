@@ -9,7 +9,7 @@ A simple Cartesian chart component that renders to canvas or SVG.
 ## Installing
 
 ```bash
-npm install d3fc-chart
+npm install @d3fc/d3fc-chart
 ```
 
 ## API Reference

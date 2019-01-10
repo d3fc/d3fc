@@ -11,7 +11,7 @@ For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-sample/)
 ## Installing
 
 ```bash
-npm install d3fc-sample
+npm install @d3fc/d3fc-sample
 ```
 
 ## API Reference

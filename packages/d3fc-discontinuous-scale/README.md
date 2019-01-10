@@ -7,7 +7,7 @@ A D3 scale that supports domains that are not continuous, creating gaps, or disc
 ## Installing
 
 ```bash
-npm install d3fc-discontinuous-scale
+npm install @d3fc/d3fc-discontinuous-scale
 ```
 
 ## API Reference
