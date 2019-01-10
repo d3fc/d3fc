@@ -13,10 +13,8 @@ describe('bundle', function() {
             ],
             done: (_, win) => {
                 const gdaxFeed = win.fc.feedGdax();
-                const quandlFeed = win.fc.feedQuandl();
 
                 expect(gdaxFeed).toBeDefined();
-                expect(quandlFeed).toBeDefined();
                 done();
             }
         });
