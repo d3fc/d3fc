@@ -7,7 +7,7 @@ A utility for manipulating CSV / TSV data to allow rendering of grouped series.
 ## Installation
 
 ```bash
-npm install d3fc-group
+npm install @d3fc/d3fc-group
 ```
 
 ## API Reference

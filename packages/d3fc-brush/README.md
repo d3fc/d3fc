@@ -9,7 +9,7 @@ Adapts the D3 brush, making it easier to create data-driven, responsive brushed 
 ## Installing
 
 ```bash
-npm install d3fc-brush
+npm install @d3fc/d3fc-brush
 ```
 
 ## API Reference

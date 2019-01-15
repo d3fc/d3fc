@@ -35,7 +35,7 @@ A collection of components for rendering data series to SVG and canvas, includin
 ## Installing
 
 ```bash
-npm install d3fc-series
+npm install @d3fc/d3fc-series
 ```
 
 ## API Reference

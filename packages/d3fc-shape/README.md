@@ -7,7 +7,7 @@ A collection of SVG/canvas path generators for creating chart series
 ## Installing
 
 ```bash
-npm install d3fc-shape
+npm install @d3fc/d3fc-shape
 ```
 
 ## API Reference
