@@ -7,7 +7,7 @@ Custom HTML elements that make it easier to create responsive D3 visualisations 
 ## Installation
 
 ```bash
-npm install d3fc-element
+npm install @d3fc/d3fc-element
 ```
 
 ### Polyfills

@@ -9,7 +9,7 @@ Adapts the D3 brush, making it easier to create data-driven, responsive brushed 
 ## Installing
 
 ```bash
-npm install d3fc-brush
+npm install @d3fc/d3fc-brush
 ```
 
 ## API Reference
@@ -19,7 +19,7 @@ npm install d3fc-brush
 The d3fc-brush component adapts the [d3-brush](https://github.com/d3/d3-brush), to achieve the following:
 
  1. The d3fc-brush is data-driven, with the location of the brush determined by the data supplied via a data join. This makes it easier to create charts that are responsive (i.e, support re-sizing), integrate with other interactive components such as zoom, and create chart rendering logic that is idempotent.
- 2. The d3fc-brush exposes `xScale` and `yScale` properties for integration with the [multi series](https://github.com/d3fc/d3fc#multi-series) component and [cartesian chart](https://github.com/d3fc/d3fc) component. As a result the extent of the brush is automatically set based on the range of each axis.
+ 2. The d3fc-brush exposes `xScale` and `yScale` properties for integration with the [multi series](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series#multi-series) component and [cartesian chart](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-chart#cartesian) component. As a result the extent of the brush is automatically set based on the range of each axis.
  3. The d3fc-brush selection (which defines the brushed range), is represented as a percentage, whereas d3-brush uses pixels. The use of a percentage selection makes it easier to resize a brushed chart.
  4. The brush events expose utility functions for computing the axis domain based on the current selection, making it easier to handle brush events and update the chart.
 

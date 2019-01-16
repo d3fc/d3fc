@@ -7,7 +7,7 @@ Extends the D3 extent functionality (found in [d3-array](https://github.com/d3/d
 ## Installing
 
 ```bash
-npm install d3fc-extent
+npm install @d3fc/d3fc-extent
 ```
 
 ## API Reference

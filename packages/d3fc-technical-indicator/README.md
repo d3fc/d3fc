@@ -7,7 +7,7 @@ Components for calculating technical indicators on data series.
 ## Installing
 
 ```bash
-npm install d3fc-technical-indicator
+npm install @d3fc/d3fc-technical-indicator
 ```
 
 ## API Reference

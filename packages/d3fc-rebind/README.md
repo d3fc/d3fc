@@ -7,7 +7,7 @@ Utilities for copying methods from one d3 component to another in a configurable
 ## Installing
 
 ```bash
-npm install d3fc-rebind
+npm install @d3fc/d3fc-rebind
 ```
 
 ## API Reference

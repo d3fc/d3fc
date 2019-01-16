@@ -35,7 +35,7 @@ A collection of components for rendering data series to SVG and canvas, includin
 ## Installing
 
 ```bash
-npm install d3fc-series
+npm install @d3fc/d3fc-series
 ```
 
 ## API Reference
@@ -826,7 +826,7 @@ Rendering a grouped series requires a nested array of data, the default format e
 ]
 ```
 
-The `fc.group` component from the [d3fc-group](https://github.com/d3fc/d3fc) package gives an easy way to construct this data from CSV / TSV.
+The `fc.group` component from the [d3fc-group](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-group#d3fc-group) package gives an easy way to construct this data from CSV / TSV.
 
 With the data in the correct format, the series is rendered just like the other series types:
 
