@@ -18,7 +18,6 @@ var yExtent = fc.extentLinear()
     .pad([0, 0.5])
     .accessors([function(d) { return d.sales; }]);
 
-
 // START
 var valueformatter = d3.format('$.0f');
 
