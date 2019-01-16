@@ -18,7 +18,7 @@ A collection of components for rendering plot area annotations (bands, crosshair
 # Installation
 
 ```bash
-npm install d3fc-annotation
+npm install @d3fc/d3fc-annotation
 ```
 
 # API

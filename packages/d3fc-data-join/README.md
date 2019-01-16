@@ -9,7 +9,7 @@ This blog post ([Building Components with Data Join](http://blog.scottlogic.com/
 ## Installing
 
 ```bash
-npm install d3fc-data-join
+npm install @d3fc/d3fc-data-join
 ```
 
 ## API Reference

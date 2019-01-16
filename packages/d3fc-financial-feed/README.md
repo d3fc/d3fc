@@ -7,7 +7,7 @@ An API for fetching financial time-series data from different sources including 
 ## Installing
 
 ```bash
-npm install d3fc-financial-feed
+npm install @d3fc/d3fc-financial-feed
 ```
 
 ## API Reference

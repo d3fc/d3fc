@@ -11,7 +11,7 @@ For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-label-la
 ## Installing
 
 ```bash
-npm install d3fc-label-layout
+npm install @d3fc/d3fc-label-layout
 ```
 
 ## API Reference
