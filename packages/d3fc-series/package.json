@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-series",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "description": "A collection of components for rendering data series to SVG and canvas, including line, bar, OHLC, candlestick and more",
   "license": "MIT",
   "keywords": [

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.4"></a>
+## [2.1.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.1.3...@d3fc/d3fc-chart@2.1.4) (2019-01-16)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-chart
+
 <a name="2.1.3"></a>
 ## [2.1.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.1.2...@d3fc/d3fc-chart@2.1.3) (2019-01-15)
 
