@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.29"></a>
+## [0.0.29](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.28...@d3fc/d3fc-site@0.0.29) (2019-01-16)
+
+
+### Bug Fixes
+
+* declaring valueformatter moved after // START tag. ([#1218](https://github.com/d3fc/d3fc/issues/1218)) ([bb20f8f](https://github.com/d3fc/d3fc/commit/bb20f8f))
+
+
+
+
 <a name="0.0.28"></a>
 ## [0.0.28](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.27...@d3fc/d3fc-site@0.0.28) (2019-01-16)
 
