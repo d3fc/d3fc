@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Chart</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/chart-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Chart</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-chart
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-chart/build/d3fc-chart.min.js">View on unpkg</a>
+        </h1>
+<p>A simple Cartesian chart component that renders to canvas or SVG.</p>
+<img src="d3fc-chart/screenshots/cartesian.png"/>
+
+
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="general-api" href="#general-api" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+General API
+                </h3>
+<p>d3fc provides a number of components / building blocks that make it easier to build bespoke d3 charts, using SVG and canvas. If you just need a simple Cartesian chart, this package is a good starting point, providing a simple component that is itself built using components from the other d3fc packages (<a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-element#d3fc-element">d3fc-element</a>, <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-data-join#d3fc-data-join">d3fc-data-join</a>, <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-axis#d3fc-axis">d3fc-axis</a>, <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series#d3fc-series">d3fc-series</a>, etc ...).</p>
+<p>Given the following div:</p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"sine"</span> style=<span class="hljs-string">"width: 500px; height: 250px"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
+<p>The following code renders a Cartesian chart:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">var</span> data = d3.range(<span class="hljs-number">50</span>).map(<span class="hljs-function">(<span class="hljs-params">d</span>) =&gt;</span> ({
+    x: d / <span class="hljs-number">4</span>,
+    y: <span class="hljs-built_in">Math</span>.sin(d / <span class="hljs-number">4</span>),
+    z: <span class="hljs-built_in">Math</span>.cos(d / <span class="hljs-number">4</span>) * <span class="hljs-number">0.7</span>
+}));
+
+<span class="hljs-comment">// use d3fc-extent to compute the domain for each axis</span>
+<span class="hljs-keyword">var</span> xExtent = fc.extentLinear()
+  .accessors([<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x]);
+<span class="hljs-keyword">var</span> yExtent = fc.extentLinear()
+  .accessors([<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.y, <span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.z])
+  .pad([<span class="hljs-number">0.1</span>, <span class="hljs-number">0.1</span>])
+
+<span class="hljs-comment">// gridlines (from d3fc-annotation)</span>
+<span class="hljs-comment">// n.b. the gridlines are rendered using SVG</span>
+<span class="hljs-keyword">var</span> gridlines = fc.annotationSvgGridline();
+<span class="hljs-comment">// series (from d3fc-series)</span>
+<span class="hljs-comment">// n.b. the series are rendered using canvas</span>
+<span class="hljs-keyword">var</span> line = fc.seriesCanvasLine();
+<span class="hljs-keyword">var</span> area = fc.seriesCanvasArea()
+  .mainValue(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.z);
+
+<span class="hljs-comment">// combine into a single series</span>
+<span class="hljs-keyword">var</span> multi = fc.seriesCanvasMulti()
+  .series([area, line]);
+
+<span class="hljs-comment">// the Cartesian component, which uses d3fc-element for layout</span>
+<span class="hljs-comment">// of the standard features of a chart (axes, labels, plot area)</span>
+<span class="hljs-keyword">var</span> chart = fc.chartCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear()
+  )
+  .xLabel(<span class="hljs-string">'Value'</span>)
+  .yLabel(<span class="hljs-string">'Sine / Cosine'</span>)
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .svgPlotArea(gridlines)
+  .canvasPlotArea(multi);
+
+<span class="hljs-comment">// render</span>
+d3.select(<span class="hljs-string">'#sine'</span>)
+  .datum(data)
+  .call(chart);</code></pre>
+<p>Rendering the following:</p>
+<img src="d3fc-chart/screenshots/cartesian.png"/>
+
+<p>The chart is constructed using a pair of scales. The scale configuration properties are rebound (i.e. re-exposed) via the chart component with <code>x</code> and <code>y</code> prefixes. The chart takes care of layout, and will also re-render if the size of the containing element changes.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="styles" href="#styles" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Styles
+                </h3>
+<p>The component automatically injects a stylesheet to apply the necessary CSS to the elements. These styles can be augmented with CSS -</p>
+<pre><code class="language-css"><span class="hljs-selector-tag">d3fc-group</span><span class="hljs-selector-class">.cartesian-chart</span> &gt; <span class="hljs-selector-class">.x-label</span> {
+  <span class="hljs-attribute">line-height</span>: <span class="hljs-number">5em</span>;
+  <span class="hljs-attribute">color</span>: red;
+}</code></pre>
+<p>Or through decoration -</p>
+<pre><code class="language-javascript"><span class="hljs-selector-tag">chart</span><span class="hljs-selector-class">.decorate</span>(selection =&gt; {
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.enter</span>()
+    <span class="hljs-selector-class">.select</span>(<span class="hljs-string">'.x-label'</span>)
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'line-height'</span>, <span class="hljs-string">'5em'</span>)
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'color'</span>, <span class="hljs-string">'red'</span>)
+});</code></pre>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="grid" href="#grid" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Grid
+                </h3>
+<p>Internally, the component uses CSS grid layout to arrange the various rendering surfaces and labels. The following diagram shows the grid structure and associated line indicies -</p>
+<pre><code>  1             2           3               4            5              6
+1 /-------------|<span class="hljs-string">-----------</span>|<span class="hljs-string">---------------</span>|<span class="hljs-string">------------</span>|<span class="hljs-string">--------------\
+  </span>|<span class="hljs-string">             </span>|<span class="hljs-string">           </span>|<span class="hljs-string">   top gutter  </span>|<span class="hljs-string">            </span>|<span class="hljs-string">              </span>|
+2 |<span class="hljs-string">-------------</span>|<span class="hljs-string">-----------</span>|<span class="hljs-string">---------------</span>|<span class="hljs-string">------------</span>|<span class="hljs-string">--------------</span>|
+  |<span class="hljs-string">             </span>|<span class="hljs-string">           </span>|<span class="hljs-string">    top axis   </span>|<span class="hljs-string">            </span>|<span class="hljs-string">              </span>|
+3 |<span class="hljs-string">-------------</span>|<span class="hljs-string">-----------</span>|<span class="hljs-string">---------------</span>|<span class="hljs-string">------------</span>|<span class="hljs-string">--------------</span>|
+  |<span class="hljs-string"> left gutter </span>|<span class="hljs-string"> left axis </span>|<span class="hljs-string">   plot area   </span>|<span class="hljs-string"> right axis </span>|<span class="hljs-string"> right gutter </span>|
+4 |<span class="hljs-string">-------------</span>|<span class="hljs-string">-----------</span>|<span class="hljs-string">---------------</span>|<span class="hljs-string">------------</span>|<span class="hljs-string">--------------</span>|
+  |<span class="hljs-string">             </span>|<span class="hljs-string">           </span>|<span class="hljs-string">  bottom axis  </span>|<span class="hljs-string">            </span>|<span class="hljs-string">              </span>|
+5 |<span class="hljs-string">-------------</span>|<span class="hljs-string">-----------</span>|<span class="hljs-string">---------------</span>|<span class="hljs-string">------------</span>|<span class="hljs-string">--------------</span>|
+  |<span class="hljs-string">             </span>|<span class="hljs-string">           </span>|<span class="hljs-string"> bottom gutter </span>|<span class="hljs-string">            </span>|<span class="hljs-string">              </span>|
+6 \-------------|<span class="hljs-string">-----------</span>|<span class="hljs-string">---------------</span>|<span class="hljs-string">------------</span>|<span class="hljs-string">--------------/</span></code></pre><p>Additional elements can be dropped into this grid, either in-place of or in addition to the existing elements using decoration. The following are some typical examples of this process.</p>
+<p>N.B. Each of these examples uses the modern CSS grid specification syntax. To make these work in legacy versions of IE, you&#39;ll need to additionally set the following equivalent prefixed properties -</p>
+<ul>
+<li><code>grid-column</code> - <code>-ms-grid-column</code></li>
+<li><code>grid-row</code> - <code>-ms-grid-row</code></li>
+</ul>
+<h4 id="add-a-chart-label">Add a Chart Label</h4>
+<p>There&#39;s no configuration option to add a title to the chart itself but it can be easily added using decoration -</p>
+<pre><code class="language-javascript"><span class="hljs-selector-tag">chart</span><span class="hljs-selector-class">.decorate</span>(selection =&gt; {
+  <span class="hljs-comment">// select the top-label (if it exists)</span>
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.select</span>(<span class="hljs-string">'.top-label'</span>)
+    <span class="hljs-comment">// move the label down to make space for the chart label</span>
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'margin-top'</span>, <span class="hljs-string">'2em'</span>);
+
+  <span class="hljs-comment">// when the chart is added to the DOM</span>
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.enter</span>()
+    <span class="hljs-comment">// additionally add a div element for the label</span>
+    <span class="hljs-selector-class">.append</span>(<span class="hljs-string">'div'</span>)
+    <span class="hljs-selector-class">.attr</span>(<span class="hljs-string">'class'</span>, <span class="hljs-string">'chart-label'</span>)
+    <span class="hljs-comment">// move the element into the top-label cell</span>
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'grid-column'</span>, <span class="hljs-number">3</span>)
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'grid-row'</span>, <span class="hljs-number">1</span>)
+    <span class="hljs-comment">// add some styling to the label</span>
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'height'</span>, <span class="hljs-string">'2em'</span>)
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'line-height'</span>, <span class="hljs-string">'2em'</span>)
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'text-align'</span>, <span class="hljs-string">'center'</span>);
+
+  <span class="hljs-comment">// on every update, select the chart-label</span>
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.select</span>(<span class="hljs-string">'.chart-label'</span>)
+    <span class="hljs-comment">// and set its text value</span>
+    <span class="hljs-selector-class">.text</span>(<span class="hljs-string">'A Fancy Chart Label'</span>);
+});</code></pre>
+<h4 id="adding-a-second-axis">Adding a Second Axis</h4>
+<p>By default the chart allows a left or a right axis (see <a href="#cartesian_xOrient">xOrient</a>) but not both. This example shows how we can add in another using decoration -</p>
+<pre><code class="language-javascript"><span class="hljs-comment">// create a scale for the second axis</span>
+<span class="hljs-keyword">var</span> zScale = d3.scaleLinear()
+  .domain([<span class="hljs-number">-1000</span>, <span class="hljs-number">1000</span>]);
+<span class="hljs-comment">// create an axis for the scale</span>
+<span class="hljs-keyword">var</span> zAxis = d3.axisRight(zScale);
+
+chart.decorate(<span class="hljs-function"><span class="hljs-params">selection</span> =&gt;</span> {
+  <span class="hljs-comment">// when the chart is added to the DOM</span>
+  selection.enter()
+    <span class="hljs-comment">// additionally add a d3fc-svg element for the axis</span>
+    .append(<span class="hljs-string">'d3fc-svg'</span>)
+    <span class="hljs-comment">// move the element into the right-axis cell</span>
+    .style(<span class="hljs-string">'grid-column'</span>, <span class="hljs-number">4</span>)
+    .style(<span class="hljs-string">'grid-row'</span>, <span class="hljs-number">3</span>)
+    <span class="hljs-comment">// and set the axis width</span>
+    .style(<span class="hljs-string">'width'</span>, <span class="hljs-string">'3em'</span>)
+    <span class="hljs-comment">// when there's a measure event (namespaced to avoid removing existing handlers)</span>
+    .on(<span class="hljs-string">'measure.z-axis'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-comment">// set the range on the scale to the elements height</span>
+      zScale.range([d3.event.detail.height, <span class="hljs-number">0</span>]);
+    })
+    .on(<span class="hljs-string">'draw.z-axis'</span>, <span class="hljs-function">(<span class="hljs-params">d, i, nodes</span>) =&gt;</span> {
+      <span class="hljs-comment">// draw the axis into the svg within the d3fc-svg element</span>
+      d3.select(nodes[i])
+        .select(<span class="hljs-string">'svg'</span>)
+        .call(zAxis);
+    });
+});</code></pre>
+<h4 id="translating-the-y-axis">Translating the Y-Axis</h4>
+<p>More radical changes to the chart&#39;s structure can also be performed using decoration -</p>
+<pre><code class="language-javascript"><span class="hljs-selector-tag">chart</span><span class="hljs-selector-class">.decorate</span>(selection =&gt; {
+  <span class="hljs-comment">// select the x-axis</span>
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.select</span>(<span class="hljs-string">'.x-axis'</span>)
+    <span class="hljs-comment">// move it into the plot-area</span>
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'grid-row'</span>, <span class="hljs-number">3</span>)
+    <span class="hljs-comment">// listen for the draw event (using a namespace to avoid removing any existing handlers)</span>
+    <span class="hljs-selector-class">.on</span>(<span class="hljs-string">'draw.move-axis'</span>, (d, i, nodes) =&gt; {
+      <span class="hljs-comment">// select the x-axis</span>
+      <span class="hljs-selector-tag">d3</span><span class="hljs-selector-class">.select</span>(nodes[i])
+        <span class="hljs-comment">// apply a top margin to the axis to align it to 0 on the y-axis</span>
+        <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'margin-top'</span>, <span class="hljs-built_in">`${yScale(0)}px`</span>);
+    });
+
+  <span class="hljs-comment">// optionally: add some padding to fill the gap left by the x-axis</span>
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.select</span>(<span class="hljs-string">'.x-label'</span>)
+    <span class="hljs-selector-class">.style</span>(<span class="hljs-string">'padding-top'</span>, <span class="hljs-string">'1em'</span>);
+});
+
+<span class="hljs-comment">// optionally: re-position the x-axis tick labels so they're readable</span>
+<span class="hljs-selector-tag">chart</span><span class="hljs-selector-class">.xDecorate</span>(selection =&gt; {
+  <span class="hljs-selector-tag">selection</span><span class="hljs-selector-class">.select</span>(<span class="hljs-string">'text'</span>)
+    <span class="hljs-selector-class">.attr</span>(<span class="hljs-string">'transform'</span>, <span class="hljs-string">'translate(-7, 7)'</span>);
+});</code></pre>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="cartesian" href="#cartesian" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Cartesian
+                </h3>
+<p><a name="chartCartesian" href="#chartCartesian">#</a> fc.<strong>chartCartesian</strong>(<em>xScale</em>, <em>yScale</em>)  </p>
+<p>Constructs a new Cartesian chart with the given scales.</p>
+<p><a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> <em>cartesian</em>.<strong>svgPlotArea</strong>(<em>component</em>)<br><a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> <em>cartesian</em>.<strong>canvasPlotArea</strong>(<em>component</em>)  </p>
+<p>If <em>component</em> is specified, sets the component to render onto the SVG/canvas, and returns the Cartesian chart. If <em>component</em> is not specified, returns the existing component.</p>
+<p>For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. For components that require user-interaction, rendering to SVG can simplify their implementation.</p>
+<p><a name="cartesian_xLabel" href="#cartesian_xLabel">#</a> <em>cartesian</em>.<strong>xLabel</strong>(<em>label</em>)<br><a name="cartesian_yLabel" href="#cartesian_yLabel">#</a> <em>cartesian</em>.<strong>yLabel</strong>(<em>label</em>)  </p>
+<p>If <em>label</em> is specified, sets the text for the given label, and returns the Cartesian chart. If <em>label</em> is not specified, returns the label text.</p>
+<p>The <em>label</em> value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is &#39;bound&#39; to the chart. This can be useful if you are rendering multiple charts using a data join.</p>
+<p><a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> <em>cartesian</em>.<strong>xOrient</strong>(<em>orient</em>)<br><a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> <em>cartesian</em>.<strong>yOrient</strong>(<em>orient</em>)  </p>
+<p>If <em>orient</em> is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If <em>orient</em> is not specified, returns the orientation. Valid values for <em>yOrient</em> are <em>left</em>, <em>right</em> or <em>none</em>, and for <em>xOrient</em> they are <em>top</em>, <em>bottom</em> or <em>none</em>.</p>
+<p>If an orientation of <em>none</em> is specified for an axis, the axis, axis label and their containers will not be rendered.</p>
+<p>The <em>orient</em> value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is &#39;bound&#39; to the chart. This can be useful if you are rendering multiple charts using a data join.</p>
+<p><a name="cartesian_decorate" href="#cartesian_decorate">#</a> <em>cartesian</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified, and returns the Cartesian chart. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+<p><a name="cartesian_xDomain" href="#cartesian_xDomain">#</a> <em>cartesian</em>.<strong>xDomain</strong>(...)<br><a name="cartesian_yDomain" href="#cartesian_yDomain">#</a> <em>cartesian</em>.<strong>yDomain</strong>(...)<br><a name="cartesian_xNice" href="#cartesian_xNice">#</a> <em>cartesian</em>.<strong>xNice</strong>(...)<br>...</p>
+<p>The Cartesian chart exposes the scale properties with either an <code>x</code> or <code>y</code> prefix.</p>
+<p><a name="cartesian_xTicks" href="#cartesian_xTicks">#</a> <em>cartesian</em>.<strong>xTicks</strong>(...)<br><a name="cartesian_xTickFormat" href="#cartesian_xTickFormat">#</a> <em>cartesian</em>.<strong>xTickFormat</strong>(...)<br><a name="cartesian_xDecorate" href="#cartesian_xDecorate">#</a> <em>cartesian</em>.<strong>xDecorate</strong>(...)<br><a name="cartesian_yTicks" href="#cartesian_yTicks">#</a> <em>cartesian</em>.<strong>yTicks</strong>(...)<br><a name="cartesian_yTickFormat" href="#cartesian_yTickFormat">#</a> <em>cartesian</em>.<strong>yTickFormat</strong>(...)<br><a name="cartesian_yDecorate" href="#cartesian_yDecorate">#</a> <em>cartesian</em>.<strong>yDecorate</strong>(...)<br>...</p>
+<p>The Cartesian chart exposes the <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-axis#d3fc-axis">d3fc-axis</a> <em>ticks</em>, <em>tickSize</em>, <em>tickValue</em>, <em>tickFormat</em> and <em>decorate</em> properties with either an <code>x</code> or <code>y</code> prefix.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-chart/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <span class="active">Chart</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#general-api">
+                    General API
+                  </a>
+                </li>
+                <li>
+                  <a href="#styles">
+                    Styles
+                  </a>
+                </li>
+                <li>
+                  <a href="#grid">
+                    Grid
+                  </a>
+                </li>
+                <li>
+                  <a href="#cartesian">
+                    Cartesian
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

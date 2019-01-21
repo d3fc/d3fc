@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Element</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/element-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Element</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-element
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-element/build/d3fc-element.min.js">View on unpkg</a>
+        </h1>
+<p>Custom HTML elements that make it easier to create responsive D3 visualisations using CSS that integrate easily with other UI frameworks (e.g. React, Angular).</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#d3fc-svg">&lt;d3fc-svg&gt;</a></li>
+<li><a href="#d3fc-canvas">&lt;d3fc-canvas&gt;</a></li>
+<li><a href="#d3fc-group">&lt;d3fc-group&gt;</a></li>
+</ul>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="d3fc-svg-d3fc-canvas" href="#d3fc-svg-d3fc-canvas" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+&lt;d3fc-svg&gt; &lt;d3fc-canvas&gt;
+                </h3>
+<p>These elements provide a nested <code>svg</code> or <code>canvas</code> element as a rendering surface for D3 visualisations. Use CSS to size the element and its pixel dimensions will be automatically propagated through to the nested element.</p>
+<p>Rendering is internally a three-phase process which is automatically aligned to animation frames, <em>measure</em>, <em>resize</em> (if required) and <em>draw</em>.  The <em>resize</em> and <em>draw</em> phases emit similarly named events to allow rendering code to be called.</p>
+<p>The split is required to allow the measuring logic to be performed across all surfaces in the document before any rendering takes place. This prevents layout thrashing by preventing interleaving of DOM reads (which occur in <em>measure</em>) with DOM writes (which should occur in <em>draw</em>).</p>
+<pre><code class="language-html">&lt;d3fc-svg <span class="hljs-attribute">id</span>=<span class="hljs-string">"x-axis"</span> <span class="hljs-attribute">style</span>=<span class="hljs-string">"width: 10vw; height: 6vw"</span>&gt;&lt;/d3fc-svg&gt;</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> xScale = d3.scaleLinear()
+  .domain([<span class="hljs-number">0</span>, <span class="hljs-number">10</span>]);
+
+<span class="hljs-keyword">const</span> xAxis = d3.axisBottom(xScale);
+
+<span class="hljs-keyword">const</span> xAxisContainer = d3.<span class="hljs-keyword">select</span>(<span class="hljs-string">'#x-axis'</span>)
+  .<span class="hljs-keyword">on</span>(<span class="hljs-string">'measure'</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> { width } = d3.<span class="hljs-keyword">event</span>.detail;
+    xScale.range([<span class="hljs-number">0</span>, width]);
+  })
+  .<span class="hljs-keyword">on</span>(<span class="hljs-string">'draw'</span>, (d, i, nodes) =&gt; {
+    d3.<span class="hljs-keyword">select</span>(nodes[i])
+      .<span class="hljs-keyword">select</span>(<span class="hljs-string">'svg'</span>)
+      .call(xAxis);
+  });
+
+<span class="hljs-comment">// Now that the event handlers are added, request a redraw</span>
+xAxisContainer.node()
+  .requestRedraw();
+
+<span class="hljs-comment">// Some time later...</span>
+setTimeout(() =&gt; {
+  <span class="hljs-comment">// ...a change requiring a redraw occurs...</span>
+  xScale.domain([<span class="hljs-number">0</span>, <span class="hljs-number">5</span>]);
+  <span class="hljs-comment">// ...so we request a redraw of the element.</span>
+  xAxisContainer.node()
+    .requestRedraw();
+}, <span class="hljs-number">1000</span>);</code></pre>
+<p><a name="surface_requestRedraw" href="#surface_requestRedraw">#</a> <em>surface</em>.<strong>requestRedraw</strong>()</p>
+<p>Enqueues a redraw to occur on the next animation frame, only if there isn&#39;t already one pending. If one is already pending, this call is ignored.</p>
+<p>It should be noted that <code>requestRedraw</code> is asynchronous. It does not directly invoke the draw event so any errors thrown in the event handler can not be caught.</p>
+<p><a name="surface_useDevicePixelRatio" href="#surface_useDevicePixelRatio">#</a> <em>surface</em>.<strong>useDevicePixelRatio</strong>()</p>
+<p>Available as the property <code>useDevicePixelRatio</code> or the attribute <code>use-device-pixel-ratio</code>. Controls whether the surface dimensions are multiplied by the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio"><code>devicePixelDepth</code></a> if available.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="d3fc-group" href="#d3fc-group" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+&lt;d3fc-group&gt;
+                </h3>
+<p>An element with no visual representation that is designed to group related rendering surfaces (<a href="#d3fc-svg">&lt;d3fc-svg&gt;</a>/<a href="#d3fc-canvas">&lt;d3fc-canvas&gt;</a>). Its core purpose is to multi-cast <a href="#group-requestRedraw"><em>group</em>.requestRedraw</a> calls to descendant surfaces and to provide an aggregate draw event. It additionally provides helpers to allow <a href="#group-autoResize">auto-resizing</a> of descendant surfaces in response to window <code>resize</code> events.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">d3fc-group</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"chart"</span> <span class="hljs-attr">auto-resize</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"display: flex; height: 40vw; width: 60vw; flex-direction: column"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"text-align: center"</span>&gt;</span>
+    A Cartesian Chart
+  <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"flex: 1; display: flex; flex-direction: row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">d3fc-svg</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"plot-area"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"flex: 1"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">d3fc-svg</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">d3fc-svg</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"y-axis"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 5em"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">d3fc-svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 3em; display: flex; flex-direction: row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">d3fc-svg</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"x-axis"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"flex: 1; margin-right: 5em"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">d3fc-svg</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">d3fc-group</span>&gt;</span></code></pre>
+<p><a name="group-autoResize" href="#group-autoResize">#</a> <em>group</em>.<strong>autoResize</strong> = <em>autoResize</em></p>
+<p>Available as the property <code>autoResize</code> or the attribute <code>auto-resize</code>. If <code>true</code>, listens to <code>window</code> <code>resize</code> events and automatically invokes <a href="#group-requestRedraw"><em>group</em>.requestRedraw</a>.</p>
+<p><a name="group_requestRedraw" href="#group_requestRedraw">#</a> <em>group</em>.<strong>requestRedraw</strong>()</p>
+<p>Equivalent to invoking <a href="#surface-requestRedraw"><em>surface</em>.requestRedraw</a> on all descendant group or surface elements. The order of events emitted on this and descendent groups or surfaces is guaranteed to be in document order (even if a redraw request on one of those elements occurs before or after this call).</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="events" href="#events" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Events
+                </h3>
+<p>The following custom DOM events are emitted by the elements -</p>
+<ul>
+<li><code>measure</code> - indicates that the element has been measured. Typically the <code>measure</code> event is used to set the <a href="https://github.com/d3/d3-scale#continuous_range">range</a> on scales or apply transforms.</li>
+<li><code>draw</code> - indicates that the element requires drawing. Typically the <code>draw</code> event is used to render components or perform any bespoke data-joins.</li>
+</ul>
+<p>The following properties are available under the <code>detail</code> property on the event (not available for <a href="#d3fc-group">&lt;d3fc-group&gt;</a>) -</p>
+<ul>
+<li><code>width</code> - the width of the surface in pixels.</li>
+<li><code>height</code> - the height of the surface in pixels.</li>
+<li><code>resized</code> - flag indicating whether the element has resized since the last draw.</li>
+</ul>
+<p>N.B. it is safe to immediately invoke <a href="#surface_requestRedraw"><em>surface</em>.requestRedraw</a> from event handlers if you wish to create an animation. The redraw will be scheduled for the subsequent animation frame.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-element/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <span class="active">Element</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#d3fc-svg-d3fc-canvas">
+                    &lt;d3fc-svg&gt; &lt;d3fc-canvas&gt;
+                  </a>
+                </li>
+                <li>
+                  <a href="#d3fc-group">
+                    &lt;d3fc-group&gt;
+                  </a>
+                </li>
+                <li>
+                  <a href="#events">
+                    Events
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

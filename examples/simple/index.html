@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Line / Area Chart</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/examples/simple/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      <div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Line / Area Chart
+    </h1>
+    <div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;simple-chart\&quot; class&#x3D;\&quot;chart large\&quot;&gt;&lt;/div&gt;\n",
+        "js": "// create some test data\nvar data = d3.range(50).map(function(d) {\n  return {\n    x: d / 4,\n    y: Math.sin(d / 4),\n    z: Math.cos(d / 4) * 0.7\n  };\n});\n\nvar yExtent = fc.extentLinear()\n  .accessors([\n    function(d) { return d.y; },\n    function(d) { return d.z; }\n  ])\n  .pad([0.4, 0.4])\n  .padUnit(\"domain\");\n\nvar xExtent = fc.extentLinear()\n  .accessors([function(d) { return d.x; }]);\n\n// create a chart\nvar chart = fc.chartSvgCartesian(\n    d3.scaleLinear(),\n    d3.scaleLinear())\n  .yDomain(yExtent(data))\n  .yLabel(\"Sine / Cosine\")\n  .yOrient(\"left\")\n  .xDomain(xExtent(data))\n  .xLabel(\"Value\")\n  .chartLabel(\"Sine/Cosine Line/Area Chart\");\n\n// create a pair of series and some gridlines\nvar sinLine = fc.seriesSvgLine()\n  .crossValue(function(d) { return d.x; })\n  .mainValue(function(d) { return d.y; })\n  .decorate(function(selection) {\n    selection.enter()\n      .style(\"stroke\", \"purple\");\n  });\n\nvar cosLine = fc.seriesSvgArea()\n  .crossValue(function(d) { return d.x; })\n  .mainValue(function(d) { return d.z; })\n  .decorate(function(selection) {\n    selection.enter()\n      .style(\"fill\", \"lightgreen\")\n      .style(\"fill-opacity\", 0.5);\n  });\n\nvar gridlines = fc.annotationSvgGridline();\n\n// combine using a multi-series\nvar multi = fc.seriesSvgMulti()\n  .series([gridlines, sinLine, cosLine]);\n\nchart.plotArea(multi);\n\n// render\nd3.select(\"#simple-chart\")\n  .datum(data)\n  .call(chart);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='simple-chart' class='chart large'></div>
+
+<script type="text/javascript">
+    (function() {
+        // create some test data
+var data = d3.range(50).map(function(d) {
+  return {
+    x: d / 4,
+    y: Math.sin(d / 4),
+    z: Math.cos(d / 4) * 0.7
+  };
+});
+
+var yExtent = fc.extentLinear()
+  .accessors([
+    function(d) { return d.y; },
+    function(d) { return d.z; }
+  ])
+  .pad([0.4, 0.4])
+  .padUnit('domain');
+
+var xExtent = fc.extentLinear()
+  .accessors([function(d) { return d.x; }]);
+
+// create a chart
+var chart = fc.chartSvgCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear())
+  .yDomain(yExtent(data))
+  .yLabel('Sine / Cosine')
+  .yOrient('left')
+  .xDomain(xExtent(data))
+  .xLabel('Value')
+  .chartLabel('Sine/Cosine Line/Area Chart');
+
+// create a pair of series and some gridlines
+var sinLine = fc.seriesSvgLine()
+  .crossValue(function(d) { return d.x; })
+  .mainValue(function(d) { return d.y; })
+  .decorate(function(selection) {
+    selection.enter()
+      .style('stroke', 'purple');
+  });
+
+var cosLine = fc.seriesSvgArea()
+  .crossValue(function(d) { return d.x; })
+  .mainValue(function(d) { return d.z; })
+  .decorate(function(selection) {
+    selection.enter()
+      .style('fill', 'lightgreen')
+      .style('fill-opacity', 0.5);
+  });
+
+var gridlines = fc.annotationSvgGridline();
+
+// combine using a multi-series
+var multi = fc.seriesSvgMulti()
+  .series([gridlines, sinLine, cosLine]);
+
+chart.plotArea(multi);
+
+// render
+d3.select('#simple-chart')
+  .datum(data)
+  .call(chart);
+
+    })();
+</script>
+
+
+<p>This example demonstrates how to render a simple Cartesian chart with a line and an area series. The chart is constructed from the following components:</p>
+<ul>
+<li>A <a href="/api/chart-api.html">Cartesian chart</a>, with linear scales for x and y, is used to render the plot area, axes and labels.</li>
+<li>The data is rendered via a <a href="/api/series-api.html#line">line series</a> and an <a href="/api/series-api.html#area">area series</a>, these are combined into a single series using the <a href="/api/series-api.html#multi">multi series</a> component.</li>
+<li>A <a href="/api/annotation-api.html#gridline">gridlines component</a> is also added to the multi series.</li>
+<li>The <a href="/api/extent-api.html">extent</a> utility function is used to calculate the domain for the x and y scale, with padding applied to the y scale.</li>
+</ul>
+<pre><code class="language-js"><span class="hljs-comment">// create some test data</span>
+<span class="hljs-keyword">var</span> data = d3.range(<span class="hljs-number">50</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">x</span>: d / <span class="hljs-number">4</span>,
+    <span class="hljs-attr">y</span>: <span class="hljs-built_in">Math</span>.sin(d / <span class="hljs-number">4</span>),
+    <span class="hljs-attr">z</span>: <span class="hljs-built_in">Math</span>.cos(d / <span class="hljs-number">4</span>) * <span class="hljs-number">0.7</span>
+  };
+});
+
+<span class="hljs-keyword">var</span> yExtent = fc.extentLinear()
+  .accessors([
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; },
+    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.z; }
+  ])
+  .pad([<span class="hljs-number">0.4</span>, <span class="hljs-number">0.4</span>])
+  .padUnit(<span class="hljs-string">'domain'</span>);
+
+<span class="hljs-keyword">var</span> xExtent = fc.extentLinear()
+  .accessors([<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; }]);
+
+<span class="hljs-comment">// create a chart</span>
+<span class="hljs-keyword">var</span> chart = fc.chartSvgCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear())
+  .yDomain(yExtent(data))
+  .yLabel(<span class="hljs-string">'Sine / Cosine'</span>)
+  .yOrient(<span class="hljs-string">'left'</span>)
+  .xDomain(xExtent(data))
+  .xLabel(<span class="hljs-string">'Value'</span>)
+  .chartLabel(<span class="hljs-string">'Sine/Cosine Line/Area Chart'</span>);
+
+<span class="hljs-comment">// create a pair of series and some gridlines</span>
+<span class="hljs-keyword">var</span> sinLine = fc.seriesSvgLine()
+  .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+  .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; })
+  .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection</span>) </span>{
+    selection.enter()
+      .style(<span class="hljs-string">'stroke'</span>, <span class="hljs-string">'purple'</span>);
+  });
+
+<span class="hljs-keyword">var</span> cosLine = fc.seriesSvgArea()
+  .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+  .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.z; })
+  .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection</span>) </span>{
+    selection.enter()
+      .style(<span class="hljs-string">'fill'</span>, <span class="hljs-string">'lightgreen'</span>)
+      .style(<span class="hljs-string">'fill-opacity'</span>, <span class="hljs-number">0.5</span>);
+  });
+
+<span class="hljs-keyword">var</span> gridlines = fc.annotationSvgGridline();
+
+<span class="hljs-comment">// combine using a multi-series</span>
+<span class="hljs-keyword">var</span> multi = fc.seriesSvgMulti()
+  .series([gridlines, sinLine, cosLine]);
+
+chart.plotArea(multi);
+
+<span class="hljs-comment">// render</span>
+d3.select(<span class="hljs-string">'#simple-chart'</span>)
+  .datum(data)
+  .call(chart);
+</code></pre>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

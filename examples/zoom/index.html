@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Canvas Chart Zoom</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/examples/zoom/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      <div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Canvas Chart Zoom
+    </h1>
+    <div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;zoom-chart\&quot; class&#x3D;\&quot;chart large\&quot;&gt;&lt;/div&gt;\n",
+        "js": "// create some test data\nvar data = d3.range(10000).map(function(d) {\n  return {\n    x: Math.random(),\n    y: Math.random()\n  };\n});\n\nvar x = d3.scaleLinear();\nvar y = d3.scaleLinear();\n\n// secondary scales for the purposes of computing the zoom\nvar x2 = d3.scaleLinear();\nvar y2 = d3.scaleLinear();\n\nvar area = fc.seriesCanvasPoint()\n  .crossValue(function(d) { return d.x; })\n  .mainValue(function(d) { return d.y; })\n  .size(4);\n\n// create a d3-zoom that handles the mouse / touch interactions\nvar zoom = d3.zoom()\n  .on(\"zoom\", function() {\n    // update the scale used by the chart to use the udpated domain\n    x.domain(d3.event.transform.rescaleX(x2).domain());\n    y.domain(d3.event.transform.rescaleY(y2).domain());\n    render();\n  });\n\n// the chart!\nvar chart = fc.chartCanvasCartesian(x, y)\n  .chartLabel(\"Canvas Zoom 10,000 Points\")\n  .plotArea(area)\n  .decorate((sel) => {\n    // add the zoom interaction on the enter selection\n    // NOTE: there is a much better zoom integration being developed\n    // for d3fc!!!\n    sel.enter()\n      .select(\".plot-area\")\n      .on(\"measure.range\", () => {\n        x2.range([0, d3.event.detail.width]);\n        y2.range([d3.event.detail.height, 0]);\n      })\n      .call(zoom);\n  });\n\nfunction render() {\n  d3.select(\"#zoom-chart\")\n    .datum(data)\n    .call(chart);\n}\n\nrender();\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='zoom-chart' class='chart large'></div>
+
+<script type="text/javascript">
+    (function() {
+        // create some test data
+var data = d3.range(10000).map(function(d) {
+  return {
+    x: Math.random(),
+    y: Math.random()
+  };
+});
+
+var x = d3.scaleLinear();
+var y = d3.scaleLinear();
+
+// secondary scales for the purposes of computing the zoom
+var x2 = d3.scaleLinear();
+var y2 = d3.scaleLinear();
+
+var area = fc.seriesCanvasPoint()
+  .crossValue(function(d) { return d.x; })
+  .mainValue(function(d) { return d.y; })
+  .size(4);
+
+// create a d3-zoom that handles the mouse / touch interactions
+var zoom = d3.zoom()
+  .on('zoom', function() {
+    // update the scale used by the chart to use the udpated domain
+    x.domain(d3.event.transform.rescaleX(x2).domain());
+    y.domain(d3.event.transform.rescaleY(y2).domain());
+    render();
+  });
+
+// the chart!
+var chart = fc.chartCanvasCartesian(x, y)
+  .chartLabel('Canvas Zoom 10,000 Points')
+  .plotArea(area)
+  .decorate((sel) => {
+    // add the zoom interaction on the enter selection
+    // NOTE: there is a much better zoom integration being developed
+    // for d3fc!!!
+    sel.enter()
+      .select('.plot-area')
+      .on('measure.range', () => {
+        x2.range([0, d3.event.detail.width]);
+        y2.range([d3.event.detail.height, 0]);
+      })
+      .call(zoom);
+  });
+
+function render() {
+  d3.select('#zoom-chart')
+    .datum(data)
+    .call(chart);
+}
+
+render();
+
+    })();
+</script>
+
+
+<p>This example demonstrates the rendering of 10,000 datapoints with pan / zoom via <a href="https://github.com/d3/d3-zoom">d3-zoom</a>. As you manipulate the chart it is being re-rendered by invoking <code>selection.call</code> on the top level component. Rendering the data to Canvas is approximately x10 faster than SVG in this case.</p>
+<p>The visual d3fc components support rendering to both Canvas and SVG. In this case the <code>cartesianCanvasChart</code> and <code>seriesCanvasPoint</code> are used to render the chart. You can swap then for SVG simply by changing the to <code>cartesianSvgChart</code> and <code>seriesSvgPoint</code>.</p>
+<pre><code class="language-js"><span class="hljs-comment">// create some test data</span>
+<span class="hljs-keyword">var</span> data = d3.range(<span class="hljs-number">10000</span>).map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">x</span>: <span class="hljs-built_in">Math</span>.random(),
+    <span class="hljs-attr">y</span>: <span class="hljs-built_in">Math</span>.random()
+  };
+});
+
+<span class="hljs-keyword">var</span> x = d3.scaleLinear();
+<span class="hljs-keyword">var</span> y = d3.scaleLinear();
+
+<span class="hljs-comment">// secondary scales for the purposes of computing the zoom</span>
+<span class="hljs-keyword">var</span> x2 = d3.scaleLinear();
+<span class="hljs-keyword">var</span> y2 = d3.scaleLinear();
+
+<span class="hljs-keyword">var</span> area = fc.seriesCanvasPoint()
+  .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+  .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; })
+  .size(<span class="hljs-number">4</span>);
+
+<span class="hljs-comment">// create a d3-zoom that handles the mouse / touch interactions</span>
+<span class="hljs-keyword">var</span> zoom = d3.zoom()
+  .on(<span class="hljs-string">'zoom'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-comment">// update the scale used by the chart to use the udpated domain</span>
+    x.domain(d3.event.transform.rescaleX(x2).domain());
+    y.domain(d3.event.transform.rescaleY(y2).domain());
+    render();
+  });
+
+<span class="hljs-comment">// the chart!</span>
+<span class="hljs-keyword">var</span> chart = fc.chartCanvasCartesian(x, y)
+  .chartLabel(<span class="hljs-string">'Canvas Zoom 10,000 Points'</span>)
+  .plotArea(area)
+  .decorate(<span class="hljs-function">(<span class="hljs-params">sel</span>) =&gt;</span> {
+    <span class="hljs-comment">// add the zoom interaction on the enter selection</span>
+    <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> there is a much better zoom integration being developed</span>
+    <span class="hljs-comment">// for d3fc!!!</span>
+    sel.enter()
+      .select(<span class="hljs-string">'.plot-area'</span>)
+      .on(<span class="hljs-string">'measure.range'</span>, () =&gt; {
+        x2.range([<span class="hljs-number">0</span>, d3.event.detail.width]);
+        y2.range([d3.event.detail.height, <span class="hljs-number">0</span>]);
+      })
+      .call(zoom);
+  });
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"></span>) </span>{
+  d3.select(<span class="hljs-string">'#zoom-chart'</span>)
+    .datum(data)
+    .call(chart);
+}
+
+render();
+</code></pre>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

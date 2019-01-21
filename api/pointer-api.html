@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pointer</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/pointer-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Pointer</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-pointer
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-pointer/build/d3fc-pointer.min.js">View on unpkg</a>
+        </h1>
+<p>Very simple component which emits an event to indicate the current mouse or touch position over a selection. Useful for implementing uni-directional data flow in a visualisation and not a lot else.</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<p><a name="pointer" href="#pointer">#</a> fc.<strong>pointer</strong>()</p>
+<p>Constructs a new pointer component instance.</p>
+<p><a name="pointer_on" href="#pointer_on">#</a> <em>pointer</em>.<strong>on</strong>(<em>typenames</em>[, <em>callback</em>])</p>
+<p>This component dispatches <code>point</code> events. The sole argument to the event handler is an array. If the mouse or touch interaction is over the selection then the array will contain a single object representing the co-ordinate (e.g. <code>{ x: 10, y: 10 }</code>). If the mouse or touch interaction is not over the selection then the array will be empty.</p>
+<p>See <a href="https://github.com/d3/d3-dispatch#dispatch_on">d3-dispatch&#39;s <code>on</code></a> for a full description.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-pointer/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <span class="active">Pointer</span>
+            <ul class="nav nav-stacked">
+            </ul>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

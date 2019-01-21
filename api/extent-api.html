@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Extent</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/extent-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Extent</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-extent
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-extent/build/d3fc-extent.min.js">View on unpkg</a>
+        </h1>
+<p>Extends the D3 extent functionality (found in <a href="https://github.com/d3/d3-array#extent">d3-array</a>) to allow padding, multiple accessors and date support</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#linear">Linear</a></li>
+<li><a href="#time">Time</a></li>
+<li><a href="#date">Date</a></li>
+</ul>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="linear" href="#linear" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Linear
+                </h3>
+<p>Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Internally makes use of <code>d3-array</code>&#39;s <a href="https://github.com/d3/d3-array#min"><code>min</code></a> and <a href="https://github.com/d3/d3-array#max"><code>max</code></a> methods.</p>
+<pre><code class="language-javascript">
+<span class="hljs-keyword">import</span> extentLinear <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-extent'</span>;
+
+<span class="hljs-keyword">const</span> data = [{ x: <span class="hljs-number">1</span> }, { x: <span class="hljs-number">2</span> }, { x: <span class="hljs-number">4</span> }, { x: <span class="hljs-number">8</span> }, { x: <span class="hljs-number">16</span> }];
+
+<span class="hljs-keyword">const</span> extent = extentLinear()
+  .accessors([d =&gt; d.x])
+  .pad([<span class="hljs-number">1</span>, <span class="hljs-number">4</span>])
+  .padUnit(<span class="hljs-string">'domain'</span>);
+
+extent(data);
+
+<span class="hljs-comment">// [0, 20]</span>
+</code></pre>
+<p><a name="linear_padUnit" href="#linear"></a> fc.<strong>extentLinear</strong>()</p>
+<p>Constructs a new linear extent calculator.</p>
+<p><a name="linear_accessors" href="#linear_accessors"></a> <em>linear</em>.<strong>accessors</strong>([<em>accessors</em>])</p>
+<p>If <em>accessors</em> is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned be the accessors must be a scalar value or an array of scalar values. Defaults to an identity function (i.e. <code>d =&gt; d</code>).
+If <em>accessors</em> is not specified, returns the current array of value accessors, which defaults <code>[]</code>.</p>
+<p><a name="linear_pad" href="#linear_pad"></a> <em>linear</em>.<strong>pad</strong>([<em>values</em>])</p>
+<p>If <em>values</em> is specified, sets the amount of padding applied to the minimum and maximum values of the extent, to the specified array <code>[minPad, maxPad]</code> and returns this extent instance. The unit of these values is set by <a href="#linear_padUnit">padUnit</a>.
+If <em>values</em> is not specified, returns the current array of padding values, which defaults <code>[0, 0]</code>.</p>
+<p><a name="linear_padUnit" href="#linear_padUnit"></a> <em>linear</em>.<strong>padUnit</strong>([<em>value</em>])</p>
+<p>If <em>value</em> is specified, sets the unit of the <a href="#linear_pad">pad</a> values applied to minimum and maximum values and returns this extent instance. Possible values are -</p>
+<ul>
+<li>&#39;percent&#39; - the default behavior of applying the values as a percentage of the extent e.g. pad values of <code>[0.5, 0.5]</code> would double the calculated extent.</li>
+<li>&#39;domain&#39; - the padding values specified are applied directly to the calculated extent.
+If <em>value</em> is not specified, returns the current array of padding unit, which defaults <code>percent</code>.</li>
+</ul>
+<p><a name="linear_symmetricalAbout" href="#linear_symmetricalAbout"></a> <em>linear</em>.<strong>symmetricalAbout</strong>([<em>value</em>])</p>
+<p>If <em>value</em> is specified, sets the value around which the extent will be centered around and returns this extent instance. Can also be set to <code>null</code> to disable centering. Note this is applied before padding.
+If <em>value</em> is not specified, returns the current center value, which defaults <code>null</code>.</p>
+<p><a name="linear_include" href="#linear_include"></a> <em>linear</em>.<strong>include</strong>([<em>values</em>])</p>
+<p>If <em>values</em> is specified, sets the array of additional values to include within the calculated extent to the specified array and returns this extent instance. This allows for always including an origin (e.g. <code>[0]</code>) or specifying a minimum extent to always be displayed (e.g. <code>[10, 20]</code>).
+Note included values are applied before <a href="#linear_symmetricalAbout">symmetricalAbout</a>.
+If <em>values</em> is not specified, returns the current array of included values, which defaults <code>[]</code>.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="time" href="#time" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Time
+                </h3>
+<p>Calculates the extent of an array of data which can be used to set the range on a scale. Can also optionally pad the data in various ways as described below. Equivalent in functionality to <a href="#linear">linear</a> but for <code>Date</code> values.</p>
+<pre><code class="language-javascript">
+<span class="hljs-keyword">import</span> extentTime <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-extent'</span>;
+
+<span class="hljs-keyword">const</span> data = [{ x: new Date(<span class="hljs-number">2016</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>) }, { x: new Date(<span class="hljs-number">2016</span>, <span class="hljs-number">0</span>, <span class="hljs-number">11</span>) }];
+
+<span class="hljs-keyword">const</span> extent = extentTime()
+  .accessors([d =&gt; d.x])
+  .pad([<span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>]);
+
+extent(data);
+
+<span class="hljs-comment">// [ 2016-01-01T00:00:00.000Z, 2016-01-13T00:00:00.000Z ]</span>
+</code></pre>
+<p><a name="time_padUnit" href="#time"></a> fc.<strong>extentTime</strong>()</p>
+<p>Constructs a new time extent calculator.</p>
+<p><a name="time_accessors" href="#time_accessors"></a> <em>time</em>.<strong>accessors</strong>([<em>accessors</em>])</p>
+<p>If <em>accessors</em> is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned be the accessors must be a <code>Date</code> or an array of <code>Date</code>s. Defaults to an identity function (i.e. <code>d =&gt; d</code>).
+If <em>accessors</em> is not specified, returns the current array of value accessors, which defaults <code>[]</code>.</p>
+<p><a name="time_pad" href="#time_pad"></a> <em>time</em>.<strong>pad</strong>([<em>values</em>])</p>
+<p>If <em>values</em> is specified, sets the amount of padding applied to the minimum and maximum values of the extent, to the specified array <code>[minPad, maxPad]</code> and returns this extent instance. The unit of these values is set by <a href="#time_padUnit">padUnit</a>.
+If <em>values</em> is not specified, returns the current array of padding values, which defaults <code>[0, 0]</code>.</p>
+<p><a name="time_padUnit" href="#time_padUnit"></a> <em>time</em>.<strong>padUnit</strong>([<em>value</em>])</p>
+<p>If <em>value</em> is specified, sets the unit of the <a href="#time_pad">pad</a> values applied to minimum and maximum values and returns this extent instance. Possible values are -</p>
+<ul>
+<li>&#39;percent&#39; - the default behavior of applying the values as a percentage of the extent e.g. pad values of <code>[0.5, 0.5]</code> would double the calculated extent.</li>
+<li>&#39;domain&#39; - the padding values specified in milliseconds are applied directly to the calculated extent.
+If <em>value</em> is not specified, returns the current array of padding unit, which defaults <code>percent</code>.</li>
+</ul>
+<p><a name="time_symmetricalAbout" href="#time_symmetricalAbout"></a> <em>time</em>.<strong>symmetricalAbout</strong>([<em>value</em>])</p>
+<p>If <em>value</em> is specified, sets the value around which the extent will be centered around and returns this extent instance. Can also be set to <code>null</code> to disable centering. Note this is applied before padding.
+If <em>value</em> is not specified, returns the current center value, which defaults <code>null</code>.</p>
+<p><a name="time_include" href="#time_include"></a> <em>time</em>.<strong>include</strong>([<em>values</em>])</p>
+<p>If <em>values</em> is specified, sets the array of additional values to include within the calculated extent to the specified array and returns this extent instance.
+If <em>values</em> is not specified, returns the current array of included values, which defaults <code>[]</code>.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="date" href="#date" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Date
+                </h3>
+<p><strong>Deprecated - use <a href="#time">time</a> instead.</strong></p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-extent/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <span class="active">Extent</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#linear">
+                    Linear
+                  </a>
+                </li>
+                <li>
+                  <a href="#time">
+                    Time
+                  </a>
+                </li>
+                <li>
+                  <a href="#date">
+                    Date
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

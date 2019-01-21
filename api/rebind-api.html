@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rebind</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/rebind-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Rebind</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-rebind
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-rebind/build/d3fc-rebind.min.js">View on unpkg</a>
+        </h1>
+<p>Utilities for copying methods from one d3 component to another in a configurable way</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#transform-functions">Transform Functions</a></li>
+</ul>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="functions" href="#functions" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Functions
+                </h3>
+<p><a name="rebind" href="#rebind">#</a> fc.<strong>rebind</strong>(<em>target</em>, <em>source</em>, <em>...names</em>)</p>
+<p>Provides the same functionality as <a href="https://github.com/mbostock/d3/wiki/Internals#rebind"><code>d3.rebind</code></a> -</p>
+<blockquote>
+<p>Copies the methods with the specified <code>names</code> from <code>source</code> to <code>target</code>, and returns <code>target</code>. Calling one of the named methods on the target object invokes the same-named method on the source object, passing any arguments passed to the target method, and using the source object as the this context. If the source method returns the source object, the target method returns the target object (“setter” method); otherwise, the target method returns the return value of the source method (“getter” mode). The rebind operator allows inherited methods (mix-ins) to be rebound to a subclass on a different object.</p>
+</blockquote>
+<p><a name="rebindAll" href="#rebindAll">#</a> fc.<strong>rebindAll</strong>(<em>target</em>, <em>source</em>, <em>[...transforms]</em>)</p>
+<p>Provides the same functionality as <code>rebind</code> but copies <strong>all</strong> properties found on <code>source</code> to <code>target</code>. Optionally, property name transforms can be specified. These receive a source property name and return either the target property name or a falsey value to indicate the property should not be copied.</p>
+<p>N.B. This method does not work with properties found on the source object&#39;s prototype e.g. <code>d3.dispatch().on</code>. If you need this functionality use <code>rebind</code>.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="transform-functions" href="#transform-functions" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Transform functions
+                </h3>
+<p>As well as creating transforms manually, the following may be useful (especially if you&#39;re not able to use ES2015 features) -</p>
+<p><a name="exclude" href="#exclude">#</a> fc.<strong>exclude</strong>(<em>...names</em>)</p>
+<p>Exclude a set of property <code>names</code>. Names can be specified as a <code>string</code> or <code>RegExp</code>.</p>
+<p><a name="include" href="#include">#</a> fc.<strong>include</strong>(<em>...names</em>)</p>
+<p>Include only the set of property <code>names</code>. Names can be specified as a <code>string</code> or <code>RegExp</code>.</p>
+<p><a name="includeMap" href="#includeMap">#</a> fc.<strong>includeMap</strong>(<em>mappings</em>)</p>
+<p>Include only the set of properties specified by the keys of <code>mappings</code> using their corresponding values as the target property name e.g. <code>{ &#39;sourceName&#39;: &#39;targetName&#39; }</code>.</p>
+<p><a name="prefix" href="#prefix">#</a> fc.<strong>prefix</strong>(<em>str</em>)</p>
+<p>Prefix all property names with <code>str</code>.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-rebind/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <span class="active">Rebind</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#functions">
+                    Functions
+                  </a>
+                </li>
+                <li>
+                  <a href="#transform-functions">
+                    Transform functions
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

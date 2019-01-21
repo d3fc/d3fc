@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>404 - Page not found</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/404.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      <style>
+#chart-404 text {
+    fill: white;
+}
+
+.tick path, .domain {
+    stroke: white;
+}
+
+#chart-404 {
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+#chart-404 .plot-area {
+    background-color: transparent;
+}
+
+svg:not(:root) {
+    overflow: visible;
+}
+
+@media (max-width: 768px) {
+  #chart-404 {
+    width: 100%;
+    height: 200px;
+    margin: 0 auto;
+  }
+}
+
+</style>
+
+<div class="jumbotron text-center">
+<div id="chart-404"></div>
+
+<script type="text/javascript">
+    (function() {
+        var data = [
+  // 4
+  {x: 1, y: 6, type: 4},
+  {x: 1, y: 9, type: 4},
+  {x: 2, y: 6, type: 4},
+  {x: 3, y: 9, type: 4},
+  {x: 3, y: 6, type: 4},
+  {x: 3, y: 3, type: 4},
+  // 0
+  {x: 5, y: 3, type: 0},
+  {x: 5, y: 6, type: 0},
+  {x: 5, y: 9, type: 0},
+  {x: 6, y: 3, type: 0},
+  {x: 6, y: 9, type: 0},
+  {x: 7, y: 3, type: 0},
+  {x: 7, y: 6, type: 0},
+  {x: 7, y: 9, type: 0},
+  // 4
+  {x: 9, y: 6, type: 4},
+  {x: 9, y: 9, type: 4},
+  {x: 10, y: 6, type: 4},
+  {x: 11, y: 9, type: 4},
+  {x: 11, y: 6, type: 4},
+  {x: 11, y: 3, type: 4}
+];
+
+var regions = d3.set(data.map(function(d) { return d.type; }));
+var color = d3.scaleOrdinal(d3.schemeCategory10)
+  .domain(regions.values());
+
+var legend = d3.legendColor().scale(color);
+
+var pointSeries = fc.seriesSvgPoint()
+    .crossValue(function(d) { return d.x; })
+    .mainValue(function(d) { return d.y; })
+    .size(function() { return $('#chart-404').width() <= 768 ? 500 : 2500; })
+    .decorate(function(sel) {
+      sel.enter()
+          .attr('fill', function(d) { return color(d.type); });
+    });
+
+var chart = fc.chartSvgCartesian(
+              d3.scaleLinear(),
+              d3.scaleLinear()
+            )
+    .xDomain([0, 13])
+    .yDomain([0, 13])
+    .yOrient('left')
+    .plotArea(pointSeries);
+
+d3.select('#chart-404')
+    .datum(data)
+    .call(chart);
+
+    })();
+</script>
+
+</div>
+
+<div class="container">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<h3>404 - Page not found</h3>
+<p>If you think this page should still exist please <a href="https://github.com/d3fc/d3fc/issues" target="_blank">raise an issue on GitHub</a>.</p>
+
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;chart-404\&quot;&gt;&lt;/div&gt;\n",
+        "js": "var data = [\n  // 4\n  {x: 1, y: 6, type: 4},\n  {x: 1, y: 9, type: 4},\n  {x: 2, y: 6, type: 4},\n  {x: 3, y: 9, type: 4},\n  {x: 3, y: 6, type: 4},\n  {x: 3, y: 3, type: 4},\n  // 0\n  {x: 5, y: 3, type: 0},\n  {x: 5, y: 6, type: 0},\n  {x: 5, y: 9, type: 0},\n  {x: 6, y: 3, type: 0},\n  {x: 6, y: 9, type: 0},\n  {x: 7, y: 3, type: 0},\n  {x: 7, y: 6, type: 0},\n  {x: 7, y: 9, type: 0},\n  // 4\n  {x: 9, y: 6, type: 4},\n  {x: 9, y: 9, type: 4},\n  {x: 10, y: 6, type: 4},\n  {x: 11, y: 9, type: 4},\n  {x: 11, y: 6, type: 4},\n  {x: 11, y: 3, type: 4}\n];\n\nvar regions = d3.set(data.map(function(d) { return d.type; }));\nvar color = d3.scaleOrdinal(d3.schemeCategory10)\n  .domain(regions.values());\n\nvar legend = d3.legendColor().scale(color);\n\nvar pointSeries = fc.seriesSvgPoint()\n    .crossValue(function(d) { return d.x; })\n    .mainValue(function(d) { return d.y; })\n    .size(function() { return $(\"#chart-404\").width() <= 768 ? 500 : 2500; })\n    .decorate(function(sel) {\n      sel.enter()\n          .attr(\"fill\", function(d) { return color(d.type); });\n    });\n\nvar chart = fc.chartSvgCartesian(\n              d3.scaleLinear(),\n              d3.scaleLinear()\n            )\n    .xDomain([0, 13])\n    .yDomain([0, 13])\n    .yOrient(\"left\")\n    .plotArea(pointSeries);\n\nd3.select(\"#chart-404\")\n    .datum(data)\n    .call(chart);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n#chart-404 text {\n    fill: white;\n}\n\n.tick path, .domain {\n    stroke: white;\n}\n\n#chart-404 {\n  width: 100%;\n  max-width: 800px;\n  height: 300px;\n  margin: 0 auto;\n}\n\n#chart-404 .plot-area {\n    background-color: transparent;\n}\n\nsvg:not(:root) {\n    overflow: visible;\n}\n\n@media (max-width: 768px) {\n  #chart-404 {\n    width: 100%;\n    height: 200px;\n    margin: 0 auto;\n  }\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<h3 id="html">HTML</h3>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"chart-404"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<pre><code class="language-js">var data = [
+  <span class="hljs-comment">// 4</span>
+  {x: <span class="hljs-number">1</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">1</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">2</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">3</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">3</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">3</span>, y: <span class="hljs-number">3</span>, type: <span class="hljs-number">4</span>},
+  <span class="hljs-comment">// 0</span>
+  {x: <span class="hljs-number">5</span>, y: <span class="hljs-number">3</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">5</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">5</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">6</span>, y: <span class="hljs-number">3</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">6</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">7</span>, y: <span class="hljs-number">3</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">7</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">0</span>},
+  {x: <span class="hljs-number">7</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">0</span>},
+  <span class="hljs-comment">// 4</span>
+  {x: <span class="hljs-number">9</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">9</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">10</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">11</span>, y: <span class="hljs-number">9</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">11</span>, y: <span class="hljs-number">6</span>, type: <span class="hljs-number">4</span>},
+  {x: <span class="hljs-number">11</span>, y: <span class="hljs-number">3</span>, type: <span class="hljs-number">4</span>}
+];
+
+var regions = d3.<span class="hljs-keyword">set</span>(data.map(function(d) { <span class="hljs-keyword">return</span> d.type; }));
+var color = d3.scaleOrdinal(d3.schemeCategory10)
+  .domain(regions.values());
+
+var legend = d3.legendColor().scale(color);
+
+var pointSeries = fc.seriesSvgPoint()
+    .crossValue(function(d) { <span class="hljs-keyword">return</span> d.x; })
+    .mainValue(function(d) { <span class="hljs-keyword">return</span> d.y; })
+    .size(function() { <span class="hljs-keyword">return</span> $(<span class="hljs-string">'#chart-404'</span>).width() &lt;= <span class="hljs-number">768</span> ? <span class="hljs-number">500</span> : <span class="hljs-number">2500</span>; })
+    .decorate(function(sel) {
+      sel.enter()
+          .attr(<span class="hljs-string">'fill'</span>, function(d) { <span class="hljs-keyword">return</span> color(d.type); });
+    });
+
+var chart = fc.chartSvgCartesian(
+              d3.scaleLinear(),
+              d3.scaleLinear()
+            )
+    .xDomain([<span class="hljs-number">0</span>, <span class="hljs-number">13</span>])
+    .yDomain([<span class="hljs-number">0</span>, <span class="hljs-number">13</span>])
+    .yOrient(<span class="hljs-string">'left'</span>)
+    .plotArea(pointSeries);
+
+d3.select(<span class="hljs-string">'#chart-404'</span>)
+    .datum(data)
+    .call(chart);
+</code></pre>
+</div>
+</div>
+
+
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

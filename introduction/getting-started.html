@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Getting Started</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/introduction/getting-started.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class="active"><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Getting Started
+    </h1>
+    <h2 id="grabbing-the-code">Grabbing the code</h2>
+<p>d3fc and its dependencies are available via npm or the unpkg CDN. The d3fc project is composed of a number of separate
+packages, detailed in the <a href="/api/annotation-api.html">API documentation</a>. Each of these packages can be installed via npm and used independently, or if you you can install the entire d3fc bundle, which includes all of the separate packages.</p>
+<p>This packaging style mirrors the way that D3 is distributed.</p>
+<h3 id="installing-the-bundle-with-npm">Installing the bundle with npm</h3>
+<p>d3fc depends on D3, you can install both the d3fc bundle and D3 via npm as follows:</p>
+<pre><code><span class="hljs-symbol">npm</span> install d3fc <span class="hljs-built_in">d3</span></code></pre><p>Once installed, you can reference both of these within an HTML page as follows:</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/d3/build/d3.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/d3fc/build/d3fc.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>d3fc supports modern browsers. Depending on the browsers you are targeting, you may need a few polyfills in order to run d3fc. The first is a polyfill for <code>Symbol</code>, such as <a href="https://github.com/medikoo/es6-symbol">es6-symbol</a>, or the general <a href="https://www.npmjs.com/package/babel-polyfill">babel-polyfill</a>, the second is a polyfill for <code>CustomEvent</code>, such as <a href="https://github.com/krambuhl/custom-event-polyfill">custom-event-polyfill</a> and finally a polyfill for <a href="https://github.com/WebReflection/document-register-element">Custom Elements</a>.</p>
+<h3 id="cdn-hosted-versions">CDN hosted versions</h3>
+<p>Alternatively you can link to the CDN hosted versions of d3fc and D3 directly:</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/d3/build/d3.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/d3fc/build/d3fc.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>You can also find the latest version (together with previous versions) on <a href="https://cdnjs.com/libraries/d3fc">cdnjs</a>.</p>
+<h2 id="a-quick-chart">A quick chart</h2>
+<p>If you want a quick verification that everything has installed correctly, the following code will render a Cartesian chart:</p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"chart"</span> style=<span class="hljs-string">"width: 100%; height: 250px"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> data = fc.randomFinancial()(<span class="hljs-number">50</span>);
+
+<span class="hljs-keyword">var</span> yExtent = fc.extentLinear()
+  .accessors([
+    <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.high; },
+    <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.low; }
+  ]);
+
+<span class="hljs-keyword">var</span> xExtent = fc.extentDate()
+  .accessors([<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d.date; }]);
+
+<span class="hljs-keyword">var</span> gridlines = fc.annotationSvgGridline();
+<span class="hljs-keyword">var</span> candlestick = fc.seriesSvgCandlestick();
+<span class="hljs-keyword">var</span> multi = fc.seriesSvgMulti()
+    .series([gridlines, candlestick]);
+
+<span class="hljs-keyword">var</span> chart = fc.chartSvgCartesian(
+    fc.scaleDiscontinuous(d3.scaleTime()),
+    d3.scaleLinear()
+  )
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .plotArea(multi);
+
+d3.select(<span class="hljs-string">'#chart'</span>)
+  .datum(data)
+  .call(chart);
+</code></pre>
+<p>Here is how the chart should look:</p>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;chart\&quot; style&#x3D;\&quot;width: 100%; height: 250px\&quot;&gt;&lt;/div&gt;\n",
+        "js": "var data = fc.randomFinancial()(50);\n\nvar yExtent = fc.extentLinear()\n  .accessors([\n    function(d) { return d.high; },\n    function(d) { return d.low; }\n  ]);\n\nvar xExtent = fc.extentDate()\n  .accessors([function(d) { return d.date; }]);\n\nvar gridlines = fc.annotationSvgGridline();\nvar candlestick = fc.seriesSvgCandlestick();\nvar multi = fc.seriesSvgMulti()\n    .series([gridlines, candlestick]);\n\nvar chart = fc.chartSvgCartesian(\n    fc.scaleDiscontinuous(d3.scaleTime()),\n    d3.scaleLinear()\n  )\n  .yDomain(yExtent(data))\n  .xDomain(xExtent(data))\n  .plotArea(multi);\n\nd3.select(\"#chart\")\n  .datum(data)\n  .call(chart);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id="chart" style="width: 100%; height: 250px"></div>
+
+<script type="text/javascript">
+var data = fc.randomFinancial()(50);
+
+var yExtent = fc.extentLinear()
+  .accessors([
+    function(d) { return d.high; },
+    function(d) { return d.low; }
+  ]);
+
+var xExtent = fc.extentDate()
+  .accessors([function(d) { return d.date; }]);
+
+var gridlines = fc.annotationSvgGridline();
+var candlestick = fc.seriesSvgCandlestick();
+var multi = fc.seriesSvgMulti()
+    .series([gridlines, candlestick]);
+
+var chart = fc.chartSvgCartesian(
+    fc.scaleDiscontinuous(d3.scaleTime()),
+    d3.scaleLinear()
+  )
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .plotArea(multi);
+
+d3.select('#chart')
+  .datum(data)
+  .call(chart);
+
+</script>
+
+<p>The next step is to follow the more in-depth tutorial on <a href="/introduction/building-a-chart.html">building a chart</a>.</p>
+
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc/tree/master/site/src/introduction/getting-started.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+               <span class="active">Getting Started</span>
+           </li>
+          <li>
+               <a href="/introduction/building-a-chart.html">Building A Chart</a>
+           </li>
+          <li>
+               <a href="/introduction/component-design.html">Component Design</a>
+           </li>
+          <li>
+               <a href="/introduction/decorate-pattern.html">Decorate Pattern</a>
+           </li>
+          <li>
+               <a href="/introduction/transitions.html">Transitions</a>
+           </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

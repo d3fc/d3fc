@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Group</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/group-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Group</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-group
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-group/build/d3fc-group.min.js">View on unpkg</a>
+        </h1>
+<p>A utility for manipulating CSV / TSV data to allow rendering of grouped series.</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="general-api" href="#general-api" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+General API
+                </h3>
+<p>The <a href="https://github.com/d3/d3-dsv">d3-dsv</a> package provides a number of utilities for parsing delimiter-separated values, such as comma-separated (CSV) or tab-separated (TSV). Given a DSV input these parsers produce an array of objects, with properties that correspond to the columns.</p>
+<p>For example, using a subset of the data from <a href="https://bl.ocks.org/mbostock/3887051">this D3 example</a>, a simple CSV is parsed as follows:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> data = d3.csvParse(
+    `State,Under <span class="hljs-number">5</span> Years,<span class="hljs-number">5</span> to <span class="hljs-number">13</span> Years
+    AL,<span class="hljs-number">310</span>,<span class="hljs-number">552</span>
+    AK,<span class="hljs-number">52</span>,<span class="hljs-number">85</span>
+    AZ,<span class="hljs-number">515</span>,<span class="hljs-number">828</span>`);</code></pre>
+<p>Resulting in the following structure:</p>
+<pre><code class="language-javascript">[
+   {<span class="hljs-symbol">'State</span><span class="hljs-symbol">':</span> <span class="hljs-symbol">'AL</span>', <span class="hljs-symbol">'Under</span> <span class="hljs-number">5</span> Years<span class="hljs-symbol">':</span> <span class="hljs-symbol">'310</span>', <span class="hljs-symbol">'5</span> to <span class="hljs-number">13</span> Years<span class="hljs-symbol">':</span> <span class="hljs-symbol">'552</span>' },
+   {<span class="hljs-symbol">'State</span><span class="hljs-symbol">':</span> <span class="hljs-symbol">'AK</span>', <span class="hljs-symbol">'Under</span> <span class="hljs-number">5</span> Years<span class="hljs-symbol">':</span> <span class="hljs-symbol">'52</span>', <span class="hljs-symbol">'5</span> to <span class="hljs-number">13</span> Years<span class="hljs-symbol">':</span> <span class="hljs-symbol">'85</span>' },
+   {<span class="hljs-symbol">'State</span><span class="hljs-symbol">':</span> <span class="hljs-symbol">'AZ</span>', <span class="hljs-symbol">'Under</span> <span class="hljs-number">5</span> Years<span class="hljs-symbol">':</span> <span class="hljs-symbol">'515</span>', <span class="hljs-symbol">'5</span> to <span class="hljs-number">13</span> Years<span class="hljs-symbol">':</span> <span class="hljs-symbol">'828</span>' }
+]<span class="hljs-comment">;</span></code></pre>
+<p>The group component takes this structure and manipulates it into a form that is more appropriate for rendering each row as an individual series within a grouped chart.</p>
+<p>Here is how the group component can be applied to the above output:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-keyword">group</span> = fc.<span class="hljs-keyword">group</span>()
+  .<span class="hljs-keyword">key</span>(<span class="hljs-comment">'State');</span>
+<span class="hljs-keyword">const</span> grouped = <span class="hljs-keyword">group</span>(data);</code></pre>
+<p>The default group orientation is &#39;vertical&#39;, which creates a &#39;series&#39; for each of the columns, other than the one which represents the key. With this example, a vertical group is as follows:</p>
+<pre><code class="language-javascript">[
+  [[<span class="hljs-string">"AL"</span>, <span class="hljs-number">310</span>], [<span class="hljs-string">"AK"</span>, <span class="hljs-number">52</span>], [<span class="hljs-string">"AZ"</span>, <span class="hljs-number">515</span>]],
+  [[<span class="hljs-string">"AL"</span>, <span class="hljs-number">552</span>], [<span class="hljs-string">"AK"</span>, <span class="hljs-number">85</span>], [<span class="hljs-string">"AZ"</span>, <span class="hljs-number">828</span>]]
+]</code></pre>
+<p>This structure very similar to the output of <a href="https://github.com/d3/d3-shape#stacks">d3.stack</a> and is suitable for rendering grouped series, in this case grouping by state.</p>
+<p>The key for each series is available as <em>series</em>.key and the input data element for each point is available as <em>point</em>.data.</p>
+<pre><code class="language-javascript">const group = fc.group()
+  .key(<span class="hljs-string">'State'</span>);
+const grouped = group(data);
+// [
+//   [[<span class="hljs-string">"AL"</span>, <span class="hljs-number">310</span>], [<span class="hljs-string">"AK"</span>, <span class="hljs-number">52</span>], [<span class="hljs-string">"AZ"</span>, <span class="hljs-number">515</span>]],
+//   [[<span class="hljs-string">"AL"</span>, <span class="hljs-number">552</span>], [<span class="hljs-string">"AK"</span>, <span class="hljs-number">85</span>], [<span class="hljs-string">"AZ"</span>, <span class="hljs-number">828</span>]]
+// ]
+
+// each series has a key property
+grouped[<span class="hljs-number">0</span>].key // <span class="hljs-string">'Under 5 Years'</span>
+grouped[<span class="hljs-number">1</span>].key // <span class="hljs-string">'5 to 13 Years'</span>
+
+// and each data element has a data property:
+grouped[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>].data //  {<span class="hljs-string">'State'</span>: <span class="hljs-string">'AL'</span>, <span class="hljs-string">'Under 5 Years'</span>: <span class="hljs-string">'310'</span>, <span class="hljs-string">'5 to 13 Years'</span>: <span class="hljs-string">'552'</span> }</code></pre>
+<p>You can also perform a horizontal grouping, as illustrated in the following example:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> <span class="hljs-keyword">group</span> = fc.<span class="hljs-keyword">group</span>()
+  .orient(<span class="hljs-comment">'horizontal')</span>
+  .<span class="hljs-keyword">key</span>(<span class="hljs-comment">'State');</span>
+<span class="hljs-keyword">const</span> grouped = <span class="hljs-keyword">group</span>(data);</code></pre>
+<p>Which creates a series for each row, in this case allowing grouping by age-band:</p>
+<pre><code class="language-javascript">[
+  [[<span class="hljs-string">"Under 5 Years"</span>, <span class="hljs-number">310</span>], [<span class="hljs-string">"5 to 13 Years"</span>, <span class="hljs-number">552</span>]],
+  [[<span class="hljs-string">"Under 5 Years"</span>, <span class="hljs-number">52</span> ], [<span class="hljs-string">"5 to 13 Years"</span>, <span class="hljs-number">85</span> ]],
+  [[<span class="hljs-string">"Under 5 Years"</span>, <span class="hljs-number">515</span>], [<span class="hljs-string">"5 to 13 Years"</span>, <span class="hljs-number">828</span>]]
+]</code></pre>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="api" href="#api" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+API
+                </h3>
+<p><a name="group" href="#group">#</a> fc.<strong>group</strong>()</p>
+<p>Constructs a new group generator with the default settings.</p>
+<p><a name="group_key" href="#group_key">#</a> <em>group</em>.<strong>key</strong>(<em>keyValue</em>)</p>
+<p>If <em>keyValue</em> is specified, sets the name of the column within the DSV data that represents the key. If <em>keyValue</em> is not specified, returns the current key.</p>
+<p><a name="group_value" href="#group_value">#</a> <em>group</em>.<strong>value</strong>(<em>valueFunc</em>)</p>
+<p>If <em>valueFunc</em> is specified, sets the accessor function used to obtain the value for a specific row / column. If <em>valueFunc</em> is not specified, returns the current accessor.</p>
+<p>The accessor is invoked each time the group component obtains the value for a cell. The <code>valueFunc(row, column)</code> function is invoked with the current row (as supplied by the DSV parser) and the name of the column. The default implementation of this accessor function coerces all cell values to be Number instances.</p>
+<p><a name="group_orient" href="#group_orient">#</a> <em>group</em>.<strong>orient</strong>(<em>orientation</em>)</p>
+<p>If <em>orientation</em> is specified, sets the orientation of the group operation. If <em>orientation</em> is not specified, returns the current orientation.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-group/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <span class="active">Group</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#general-api">
+                    General API
+                  </a>
+                </li>
+                <li>
+                  <a href="#api">
+                    API
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

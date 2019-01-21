@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sample</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/sample-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Sample</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-sample
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-sample/build/d3fc-sample.min.js">View on unpkg</a>
+        </h1>
+<p>A D3 component for down-sampling data using a variety of methods. Data is typically partitioned into equally-sized buckets, and one data point from each bucket is chosen. The algorithms employed here are Largest Triangle 1 (or 3) Bucket, or Mode-Median as detailed in the thesis <a href="http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf">Downsampling Time Series for Visual Representation</a>.</p>
+<p><img src="d3fc-sample/d3fc-sample.png" alt="d3fc sample"></p>
+<p>For a live demo, see the <a href="http://d3fc.github.io/d3fc-sample/">GitHub Pages site</a>.</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#mode-median">Mode Median</a></li>
+<li><a href="#largest-triangle-one-bucket">Largest Triangle One Bucket</a></li>
+<li><a href="#largest-triangle-three-buckets">Largest Triangle Three Buckets</a></li>
+<li><a href="#bucket">Bucket</a></li>
+</ul>
+<p>The sampling components provide an API for downsampling data. They are typically used to improve rendering performance of charts or maps when there is a significant amount of data. The data is passed to the component, which then returns a smaller downsampled array.</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> {largestTriangleThreeBucket} <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-sample'</span>;
+
+<span class="hljs-comment">// Create the sampler</span>
+<span class="hljs-keyword">const</span> sampler = largestTriangleThreeBucket();
+
+<span class="hljs-comment">// Configure the x / y value accessors</span>
+sampler.x(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x)
+    .y(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.y);
+
+<span class="hljs-comment">// Configure the size of the buckets used to downsample the data.</span>
+sampler.bucketSize(<span class="hljs-number">10</span>);
+
+<span class="hljs-comment">// Run the sampler</span>
+<span class="hljs-keyword">const</span> sampledData = sampler(data);</code></pre>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="mode-median" href="#mode-median" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Mode Median
+                </h3>
+<p>The mode-median sampler is fairly basic. It partitions the data, then selects a representative piece of data from that set: the mode -- if it exists -- or the median.</p>
+<p><a name="modeMedian" href="#modeMedian">#</a> fc.<strong>modeMedian</strong>()</p>
+<p>Constructs a new sampler.</p>
+<p><a name="modeMedian_" href="#modeMedian_">#</a> <em>modeMedian</em>(<em>data</em>)</p>
+<p>Runs the sampler. It returns the downsampled data (it doesn&#39;t modify the <code>data</code> array itself). The downsampler selects the mode (if it exists), or the median value.</p>
+<p><a name="modeMedian_value" href="#modeMedian_value">#</a> <em>modeMedian</em>.<strong>value</strong>(<em>accessorFunc</em>)</p>
+<p>Specifies the accessor function used to obtain the value from the supplied array of data. The accessor function is invoked exactly once per datum, and should return the value to be down-sampled.</p>
+<p><a name="modeMedian_bucketSize" href="#modeMedian_bucketSize">#</a> <em>modeMedian</em>.<strong>bucketSize</strong>(<em>size</em>)</p>
+<p>Denotes the amount of data points for each bucket. The first and last data points are always their own bucket. The second-last bucket will be of size <code>(data.length - 2) % size</code>.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="largest-triangle-one-bucket" href="#largest-triangle-one-bucket" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Largest Triangle One Bucket
+                </h3>
+<p>Largest Triangle is a sampler where, given two pre-determined points, the point in the bucket that forms the largest triangle has the largest effective area and so is the most important in the bucket. The largest triangle algorithm comes in two flavours -- one bucket and three bucket. The algorithms are described in detail in the thesis <a href="http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf">Downsampling Time Series for Visual Representation</a>, with a summary of their descriptions reproduced here:</p>
+<blockquote>
+<p>This algorithm is very simple. First all the points are ranked by calculating their effective areas. Points with effective areas as null are excluded. The data points are then split up into approximately equal number of buckets as the specified downsample threshold. Finally, one point with the highest rank (largest effective area) is selected to represent each bucket in the downsampled data.</p>
+</blockquote>
+<blockquote>
+<p>The effective area of a point is the area size of a triangle it forms with its two adjacent points.</p>
+</blockquote>
+<p><img src="d3fc-sample/largest-triangle-one-bucket.png" alt="largest triangle one bucket illustration"></p>
+<p><a name="largestTriangleOneBucket" href="#largestTriangleOneBucket">#</a> fc.<strong>largestTriangleOneBucket</strong>()</p>
+<p>Constructs a new sampler.</p>
+<p><a name="largestTriangle_one" href="#largestTriangle_one">#</a><em>largestTriangle</em>(<em>data</em>)</p>
+<p>Runs the sampler, returning the downsampled data (it doesn&#39;t modify the <code>data</code> array itself). The sampler selects the point in the bucket with the largest area between two other points (determined by algorithm).</p>
+<p><a name="largestTriangle_x_one" href="#largestTriangle_x_one">#</a> <em>largestTriangle</em>.<strong>x</strong>(<em>accessorFunc</em>)</p>
+<p><a name="largestTriangle_y_one" href="#largestTriangle_y_one">#</a> <em>largestTriangle</em>.<strong>y</strong>(<em>accessorFunc</em>)</p>
+<p>Specifies the accessor function used to obtain the x and y values from the supplied array of data. The accessor function is invoked exactly once per datum, and should return the value to be down-sampled.</p>
+<p><a name="largestTriangle_bucketSize_one" href="#largestTriangle_bucketSize_one">#</a> <em>largestTriangle</em>.<strong>bucketSize</strong>(<em>size</em>)</p>
+<p>Denotes the amount of data points for each bucket. The first and last data points are always their own bucket. The second-last bucket will be of size <code>(data.length - 2) % size</code>.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="largest-triangle-three-buckets" href="#largest-triangle-three-buckets" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Largest Triangle Three Buckets
+                </h3>
+<blockquote>
+<p>The algorithm is similar to the <a href="#largest-triangle-one-bucket">above</a>, except it works with three buckets at a time and proceeds from left to right. The first point which forms the left corner of the triangle (the effective area) is always fixed as the point that was previously selected and one of the points in the middle bucket shall be selected now.</p>
+</blockquote>
+<p>The point used to form the triangle in the last bucket is a temporary point which is the average of all other points within that bucket.</p>
+<p><img src="d3fc-sample/largest-triangle-three-bucket.png" alt="largest triangle three bucket illustration"></p>
+<p><a name="largestTriangleThreeBucket" href="#largestTriangleThreeBucket">#</a> fc.<strong>largestTriangleThreeBucket</strong>()</p>
+<p>Constructs a new sampler.</p>
+<p><a name="largestTriangle_three" href="#largestTriangle_three">#</a> <em>largestTriangle</em>(<em>data</em>)</p>
+<p>Runs the sampler, returning the downsampled data (it doesn&#39;t modify the <code>data</code> array itself). The sampler selects the point in the bucket with the largest area between two other points (determined by algorithm).</p>
+<p><a name="largestTriangle_x_three" href="#largestTriangle_x_three">#</a> <em>largestTriangle</em>.<strong>x</strong>(<em>accessorFunc</em>)</p>
+<p><a name="largestTriangle_y_three" href="#largestTriangle_y_three">#</a> <em>largestTriangle</em>.<strong>y</strong>(<em>accessorFunc</em>)</p>
+<p>Specifies the accessor function used to obtain the x and y values from the supplied array of data. The accessor function is invoked exactly once per datum, and should return the value to be down-sampled.</p>
+<p><a name="largestTriangle_bucketSize_three" href="#largestTriangle_bucketSize_three">#</a> <em>largestTriangle</em>.<strong>bucketSize</strong>(<em>size</em>)</p>
+<p>Denotes the amount of data points for each bucket. The first and last data points are always their own bucket. The second-last bucket will be of size <code>(data.length - 2) % size</code>.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="bucket" href="#bucket" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Bucket
+                </h3>
+<p>d3fc-sample also comes with a data bucket utility, used by the algorithms. It partitions data into evenly-sized chunks.</p>
+<p><a name="bucket" href="#bucket">#</a> fc.<strong>bucket</strong>()</p>
+<p>Construct a data bucket utility instance.</p>
+<p><a name="bucket_" href="#bucket_">#</a> <em>bucket</em>(<em>data</em>)</p>
+<p>Partitions the data into evenly sized buckets, in the form:</p>
+<pre><code>// <span class="hljs-keyword">where</span> n is the bucket size
+[
+    [<span class="hljs-class"><span class="hljs-keyword">data</span>[0], <span class="hljs-keyword">data</span>[1], ..., <span class="hljs-keyword">data</span>[n - 1]],</span>
+    [<span class="hljs-class"><span class="hljs-keyword">data</span>[n], <span class="hljs-keyword">data</span>[n + 1], ..., <span class="hljs-keyword">data</span>[2n - 1]],</span>
+    ...
+    [..., <span class="hljs-class"><span class="hljs-keyword">data</span>[<span class="hljs-keyword">data</span>.length - 1]]</span>
+]</code></pre><p><a name="bucket_bucketSize" href="#bucket_bucketSize">#</a> <em>bucket</em>.<strong>bucketSize</strong>(<em>size</em>)</p>
+<p>Denotes the amount of data points for each bucket. The last bucket will be of size <code>data.length % size</code>.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-sample/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <span class="active">Sample</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#mode-median">
+                    Mode Median
+                  </a>
+                </li>
+                <li>
+                  <a href="#largest-triangle-one-bucket">
+                    Largest Triangle One Bucket
+                  </a>
+                </li>
+                <li>
+                  <a href="#largest-triangle-three-buckets">
+                    Largest Triangle Three Buckets
+                  </a>
+                </li>
+                <li>
+                  <a href="#bucket">
+                    Bucket
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

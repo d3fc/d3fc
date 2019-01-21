@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Annotation</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/annotation-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <span class="active">Annotation</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-annotation
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-annotation/build/d3fc-annotation.min.js">View on unpkg</a>
+        </h1>
+<p>A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto Cartesian charts using SVG (canvas support is tracked in <a href="https://github.com/d3fc/d3fc/issues/1160">#1160</a>) .</p>
+<table>
+<tr>
+<td><a href="#gridline"><img src="d3fc-annotation/screenshots/gridline.png"/></a></td>
+<td><a href="#crosshair"><img src="d3fc-annotation/screenshots/crosshair.png"/></a></td>
+</tr>
+<tr>
+<td><a href="#band"><img src="d3fc-annotation/screenshots/band.png"/></a></td>
+<td><a href="#line"><img src="d3fc-annotation/screenshots/line.png"/></a></td>
+</tr>
+</table>
+
+
+        <!-- LEVEL 2 -->
+        <!-- /LEVEL 2 -->
+      </div>
+      <div class="section">
+        <h1>
+          API
+        </h1>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+Gridline Annotation
+            </h2>
+<p>The gridline component renders horizontal and vertical gridlines.</p>
+<p><a name="gridline" href="#gridline">#</a> <em>fc</em>.<strong>annotationSvgGridline</strong>()</p>
+<p>Constructs a new gridline annotation component. Once constructed, configure the component with scales and call it on a selection -</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> xScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> yScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> gridline = fc.annotationSvgGridline()
+  .xScale(xScale)
+  .yScale(yScale);
+
+d3.select(<span class="hljs-string">'svg'</span>)
+  .call(gridline);</code></pre>
+<p><a name="gridline_xScale" href="#gridline_xScale">#</a> <em>gridline</em>.<strong>xScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale used for the vertical gridline positions (combined with <a href="#gridline_xTicks">xTicks</a>). Additionally, its <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the horizontal gridlines. If <em>scale</em> is not specified, returns the current xScale.</p>
+<p><a name="gridline_yScale" href="#gridline_yScale">#</a> <em>gridline</em>.<strong>yScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale used for the horizontal gridline positions (combined with <a href="#gridline_yTicks">yTicks</a>). Additionally, its <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the vertical gridlines. If <em>scale</em> is not specified, returns the current yScale.</p>
+<p><a name="gridline_xTicks" href="#gridline_xTicks">#</a> <em>gridline</em>.<strong>xTicks</strong>(<em>[count]</em>)</p>
+<p><a name="gridline_xTicks" href="#gridline_xTicks">#</a> <em>gridline</em>.<strong>xTicks</strong>(<em>[interval]</em>)</p>
+<p>If <em>count</em> is specified, sets the count passed to <a href="https://github.com/d3/d3-scale#continuous_ticks">ticks</a> when requesting the horizontal gridline positions when <a href="#gridline_xScale">xScale</a> is a continuous scale. For other scales, this value is ignored and the <a href="https://github.com/d3/d3-scale#ordinal_domain">domain</a> is used directly. If <em>count</em> is not specified, returns the current count.</p>
+<p>When <a href="#gridline_xScale">xScale</a> is a <a href="https://github.com/d3/d3-scale#scaleTime">time scale</a> this method can be passed a <a href="https://github.com/d3/d3-time">time interval</a> to specify the position of the gridlines. For example to generate gridlines every fifteen minutes:</p>
+<pre><code>gridline.x<span class="hljs-constructor">Ticks(<span class="hljs-params">d3</span>.<span class="hljs-params">timeMinute</span>.<span class="hljs-params">every</span>(15)</span>);</code></pre><p><a name="gridline_xTickValues" href="#gridline_xTickValues">#</a> <em>gridline</em>.<strong>xTickValues</strong>(<em>[values]</em>)</p>
+<p>Manually specify the vertical gridline positions. Overrides <a href="#gridline_xTicks">xTicks</a>.</p>
+<p><a name="gridline_yTicks" href="#gridline_yTicks">#</a> <em>gridline</em>.<strong>yTicks</strong>(<em>[count]</em>)</p>
+<p><a name="gridline_yTicks" href="#gridline_yTicks">#</a> <em>gridline</em>.<strong>yTicks</strong>(<em>[interval]</em>)</p>
+<p>If <em>count</em> is specified, sets the count passed to <a href="https://github.com/d3/d3-scale#continuous_ticks">ticks</a> when requesting the vertical gridline positions when <a href="#gridline_yScale">yScale</a> is a continuous scale. For other scales, this value is ignored and the <a href="https://github.com/d3/d3-scale#ordinal_domain">domain</a> is used directly. If <em>count</em> is not specified, returns the current count.</p>
+<p>When <a href="#gridline_yScale">yScale</a> is a <a href="https://github.com/d3/d3-scale#scaleTime">time scale</a> this method can be passed a <a href="https://github.com/d3/d3-time">time interval</a> to specify the position of the gridlines. For example to generate gridlines every fifteen minutes:</p>
+<pre><code>gridline.y<span class="hljs-constructor">Ticks(<span class="hljs-params">d3</span>.<span class="hljs-params">timeMinute</span>.<span class="hljs-params">every</span>(15)</span>);</code></pre><p><a name="gridline_yTickValues" href="#gridline_yTickValues">#</a> <em>gridline</em>.<strong>yTickValues</strong>(<em>[args]</em>)</p>
+<p>Manually specify the vertical gridline positions. Overrides <a href="#gridline_yTicks">yTicks</a>.</p>
+<p><a name="gridline_xKey" href="#gridline_xKey">#</a> <em>gridline</em>.<strong>xKey</strong>(<em>[keyFunc]</em>)</p>
+<p>If <em>keyFunc</em> is specified, sets the key function used when joining the vertical gridlines to SVG elements. If not specified, returns the current key function.</p>
+<p><a name="gridline_yKey" href="#gridline_yKey">#</a> <em>gridline</em>.<strong>yKey</strong>(<em>[keyFunc]</em>)</p>
+<p>If <em>keyFunc</em> is specified, sets the key function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current key function.</p>
+<p><a name="gridline_xDecorate" href="#gridline_xDecorate">#</a> <em>gridline</em>.<strong>xDecorate</strong>(<em>[decorateFunc]</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorate function used when joining the vertical gridlines to SVG elements. If not specified, returns the current decorate function.</p>
+<p><a name="gridline_yDecorate" href="#gridline_yDecorate">#</a> <em>gridline</em>.<strong>yDecorate</strong>(<em>[decorateFunc]</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current decorate function.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Band Annotation
+            </h2>
+<p>The band component renders horizontal and vertical bands.</p>
+<p><a name="band" href="#band">#</a> <em>fc</em>.<strong>annotationSvgBand</strong>()</p>
+<p>Constructs a new band annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the band locations and call it on the selection -</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> xScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> yScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> band = fc.annotationSvgBand()
+  .xScale(xScale)
+  .yScale(yScale);
+
+d3.select(<span class="hljs-string">'svg'</span>)
+  .datum([{ <span class="hljs-keyword">from</span>: <span class="hljs-number">45</span>, to: <span class="hljs-number">55</span> }])
+  .call(band);</code></pre>
+<p><a name="band_xScale" href="#band_xScale">#</a> <em>band</em>.<strong>xScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale used for transforming the <a href="#band_fromValue">fromValue</a>/<a href="#band_toValue">toValue</a> positions of vertical bands. Additionally, its <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the horizontal bands. If <em>scale</em> is not specified, returns the current xScale.</p>
+<p><a name="band_yScale" href="#band_yScale">#</a> <em>band</em>.<strong>yScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale used for transforming the <a href="#band_fromValue">fromValue</a>/<a href="#band_toValue">toValue</a> positions of horizontal bands. Additionally, its <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the vertical bands. If <em>scale</em> is not specified, returns the current yScale.</p>
+<p><a name="band_orient" href="#band_orient">#</a> <em>band</em>.<strong>orient</strong>(<em>[orientation]</em>)</p>
+<p>If <em>orientation</em> is specified, sets the orientation of the bars to either <code>horizontal</code> or <code>vertical</code>. If <em>orientation</em> is not specified, returns the current orientation.</p>
+<p><a name="band_fromValue" href="#band_fromValue">#</a> <em>band</em>.<strong>fromValue</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the start value for bands. This value will be passed through the appropriate scale. If not specified, returns the current start value.</p>
+<p><a name="band_toValue" href="#band_toValue">#</a> <em>band</em>.<strong>toValue</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the end value for bands. This value will be passed through the appropriate scale. If not specified, returns the current end value.</p>
+<p><a name="band_decorate" href="#band_decorate">#</a> <em>band</em>.<strong>decorate</strong>(<em>[decorateFunc]</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorate function used when joining the bands to SVG elements. If not specified, returns the current decorate function.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Line Annotation
+            </h2>
+<p>The line component renders horizontal and vertical lines.</p>
+<p><a name="line" href="#line">#</a> <em>fc</em>.<strong>annotationSvgLine</strong>()</p>
+<p>Constructs a new line annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the line locations and call it on the selection -</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> xScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> yScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> line = fc.annotationSvgLine()
+  .xScale(xScale)
+  .yScale(yScale);
+
+d3.select(<span class="hljs-string">'svg'</span>)
+  .datum([<span class="hljs-number">50</span>])
+  .call(line);</code></pre>
+<p><a name="line_xScale" href="#line_xScale">#</a> <em>line</em>.<strong>xScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale used for transforming the <a href="#line_value">value</a> of the line. Additionally, its <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the horizontal lines. If <em>scale</em> is not specified, returns the current xScale.</p>
+<p><a name="line_yScale" href="#line_yScale">#</a> <em>line</em>.<strong>yScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale used for transforming the <a href="#line_value">value</a> of the line. Additionally, its <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the vertical lines. If <em>scale</em> is not specified, returns the current yScale.</p>
+<p><a name="line_orient" href="#line_orient">#</a> <em>line</em>.<strong>orient</strong>(<em>[orientation]</em>)</p>
+<p>If <em>orientation</em> is specified, sets the orientation of the lines to either <code>horizontal</code> or <code>vertical</code>. If <em>orientation</em> is not specified, returns the current orientation.</p>
+<p><a name="line_value" href="#line_value">#</a> <em>line</em>.<strong>value</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the value for lines. This value will be passed through the appropriate scale. If not specified, returns the current value.</p>
+<p><a name="line_label" href="#line_label">#</a> <em>line</em>.<strong>label</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the label for lines. If not specified, returns the current label.</p>
+<p><a name="line_decorate" href="#line_decorate">#</a> <em>line</em>.<strong>decorate</strong>(<em>[decorateFunc]</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorate function used when joining the lines to SVG elements. If not specified, returns the current decorate function.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+          <div class="block">
+            <h2 class="header">
+Crosshair Annotation
+            </h2>
+<p>The crosshair component renders a pair of vertical and horizontal lines with a point at their center.</p>
+<p><a name="crosshair" href="#crosshair">#</a> <em>fc</em>.<strong>annotationSvgCrosshair</strong>()</p>
+<p>Constructs a new crosshair annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the crosshair locations and call it on the selection -</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> xScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> yScale = d3.scaleLinear()
+  .range([<span class="hljs-number">0</span>, <span class="hljs-number">100</span>]);
+
+<span class="hljs-keyword">const</span> crosshair = fc.annotationSvgCrosshair()
+  .xScale(xScale)
+  .yScale(yScale);
+
+d3.select(<span class="hljs-string">'svg'</span>)
+  .datum([{x: <span class="hljs-number">50</span>, y: <span class="hljs-number">50</span>}])
+  .call(crosshair);</code></pre>
+<p><a name="crosshair_xScale" href="#crosshair_xScale">#</a> <em>crosshair</em>.<strong>xScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale whose <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the horizontal lines. If <em>scale</em> is not specified, returns the current xScale.</p>
+<p><a name="crosshair_yScale" href="#crosshair_yScale">#</a> <em>crosshair</em>.<strong>yScale</strong>(<em>[scale]</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale whose <a href="https://github.com/d3/d3-scale#continuous_range">range</a> is taken as the bounds of the vertical lines. If <em>scale</em> is not specified, returns the current yScale.</p>
+<p><a name="crosshair_x" href="#crosshair_x">#</a> <em>crosshair</em>.<strong>x</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the x position of the crosshair. N.B. this value will <strong>not</strong> be passed through the appropriate scale. If not specified, returns the current value.</p>
+<p><a name="crosshair_y" href="#crosshair_y">#</a> <em>crosshair</em>.<strong>y</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the y position of the crosshair. N.B. this value will <strong>not</strong> be passed through the appropriate scale. If not specified, returns the current value.</p>
+<p><a name="crosshair_xLabel" href="#crosshair_xLabel">#</a> <em>crosshair</em>.<strong>xLabel</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the label for vertical lines. If not specified, returns the current label.</p>
+<p><a name="crosshair_yLabel" href="#crosshair_yLabel">#</a> <em>crosshair</em>.<strong>yLabel</strong>(<em>[accessorFunc]</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the function used to retrieve the label for horizontal lines. If not specified, returns the current label.</p>
+<p><a name="crosshair_decorate" href="#crosshair_decorate">#</a> <em>crosshair</em>.<strong>decorate</strong>(<em>[decorateFunc]</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorate function used when joining the crosshairs to SVG elements. If not specified, returns the current decorate function.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-annotation/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <span class="active">Annotation</span>
+            <ul class="nav nav-stacked">
+            </ul>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Decorate Pattern</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/introduction/decorate-pattern.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class="active"><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Decorate Pattern
+    </h1>
+    <p>Most chart APIs are complex and expansive in order to provide flexibility. With d3fc we have taken a different approach ...</p>
+<p>One of the most powerful features of D3 is the <a href="http://bost.ocks.org/mike/join/">data join</a>, where DOM elements are constructed via data-binding. Furthermore, the <a href="http://bl.ocks.org/3808218">general update pattern</a> allows you to define exactly how these data-bound elements are modified as items are added, remove or updated.</p>
+<p>Unfortunately the <a href="http://bost.ocks.org/mike/chart/">D3 component pattern</a>, where reusable units are encapsulated as functions, also encapsulates the data-join, hiding its power. For example, the <a href="https://github.com/d3/d3-axis">D3 axis component</a> uses a data-join internally, but as a consumer of this component you cannot add extra logic to the enter selection. The decorate pattern addresses this issue, by allowing the construction of components in such a way that their internal data join is &#39;exposed&#39;.</p>
+<p>Components that implement the decorate pattern expose a <code>decorate</code> property which is passed the data join selection used to construct the component&#39;s DOM. This allows users of the component to add extra logic to the enter, update and exit selections.</p>
+<p>Here are a few examples of how the <code>decorate</code> property can be used in practice.</p>
+<h2 id="rotating-axis-labels">Rotating axis labels</h2>
+<p>The <a href="/api/axis-api.html">d3fc axis</a> re-implements the D3 axis to support the decorate pattern. Each axis tick is composed of a <code>g</code> element, which provides the required offset, and has two child elements, a <code>text</code> element and a <code>path</code> element which renders the tick lines.</p>
+<p>In this example the axis labels are rotated by adding a transform to the <code>text</code> elements:</p>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> axis = fc.axisBottom()
+  .scale(scaleBand)
+  .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(s)</span> </span>{
+    s.enter()
+        .select(<span class="hljs-string">'text'</span>)
+        .style(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'start'</span>)
+        .attr(<span class="hljs-string">'transform'</span>, <span class="hljs-string">'rotate(45 -10 10)'</span>);
+  });
+</code></pre>
+<style type="text/css">
+.tick text {
+  font-size: 13px;
+}
+
+</style>
+
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;decorate-axis\&quot; class&#x3D;\&quot;chart\&quot;&gt;&lt;/div&gt;\n",
+        "js": "var width = 500;\nvar height = 100;\nvar container = d3.select(\"#decorate-axis\")\n    .append(\"svg\")\n    .attr(\"style\", \"margin-top: 100px\")\n    .attr(\"width\", width)\n    .attr(\"height\", height);\n\nvar scaleBand = d3.scaleBand()\n  .domain([\"Carrots\", \"Bananas\", \"Sausages\", \"Pickles\", \"Aubergines\", \"Artichokes\", \"Spinach\", \"Cucumber\"])\n  .range([0, width]);\n\n// START\nvar axis = fc.axisBottom()\n  .scale(scaleBand)\n  .decorate(function(s) {\n    s.enter()\n        .select(\"text\")\n        .style(\"text-anchor\", \"start\")\n        .attr(\"transform\", \"rotate(45 -10 10)\");\n  });\n// END\n\ncontainer\n  .call(axis);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n.tick text {\n  font-size: 13px;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<div id='decorate-axis' class='chart'></div>
+
+<script type="text/javascript">
+var width = 500;
+var height = 100;
+var container = d3.select('#decorate-axis')
+    .append('svg')
+    .attr('style', 'margin-top: 100px')
+    .attr('width', width)
+    .attr('height', height);
+
+var scaleBand = d3.scaleBand()
+  .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles', 'Aubergines', 'Artichokes', 'Spinach', 'Cucumber'])
+  .range([0, width]);
+
+// START
+var axis = fc.axisBottom()
+  .scale(scaleBand)
+  .decorate(function(s) {
+    s.enter()
+        .select('text')
+        .style('text-anchor', 'start')
+        .attr('transform', 'rotate(45 -10 10)');
+  });
+// END
+
+container
+  .call(axis);
+
+</script>
+
+<p>The data join selection passed to the <code>decorate</code> function is the update selection for the <code>g</code> elements. The above code accesses the enter selection so that the DOM updates are only applied when ticks are first created. The child <code>text</code> element is selected and rotated accordingly.</p>
+<h2 id="bar-colouring">Bar colouring</h2>
+<p>The <a href="/api/series-api.html">d3fc series</a> APIs are deliberately very simple, instead you are encouraged to use the decorate pattern in order to configure the series for your needs.</p>
+<p>The example below shows how a bar series can be styled to cycle through a color palette:</p>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> <span class="hljs-built_in">color</span> = d3.scaleOrdinal(d3.schemeCategory10);
+
+<span class="hljs-keyword">var</span> svgBar = fc.seriesSvgBar()
+    .xScale(xScale)
+    .yScale(yScale)
+    .bandwidth(<span class="hljs-number">15</span>)
+    .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_, i</span>) </span>{ <span class="hljs-keyword">return</span> i; })
+    .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d; })
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection</span>) </span>{
+      selection.enter()
+        .style(<span class="hljs-string">'fill'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+          <span class="hljs-keyword">return</span> <span class="hljs-built_in">color</span>(i);
+        });
+    });
+</code></pre>
+<style type="text/css">
+.bar path {
+  stroke-width: 0;
+}
+
+</style>
+
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;svg id&#x3D;\&quot;decorate-svg\&quot; width&#x3D;\&quot;500\&quot; height&#x3D;\&quot;250\&quot;&gt;&lt;/svg&gt;\n",
+        "js": "var width = 500;\nvar height = 250;\nvar margin = 10;\nvar container = d3.select(\"#decorate-svg\");\n\nvar dataGenerator = fc.randomGeometricBrownianMotion()\n  .steps(15);\nvar data = dataGenerator(1);\n\nvar xScale = d3.scaleLinear()\n    .domain([0, data.length])\n    .range([margin, width - margin * 2]);\n\nvar yScale = d3.scaleLinear()\n    .domain(fc.extentLinear()(data))\n    .range([height, 0]);\n\n// START\nvar color = d3.scaleOrdinal(d3.schemeCategory10);\n\nvar svgBar = fc.seriesSvgBar()\n    .xScale(xScale)\n    .yScale(yScale)\n    .bandwidth(15)\n    .crossValue(function(_, i) { return i; })\n    .mainValue(function(d) { return d; })\n    .decorate(function(selection) {\n      selection.enter()\n        .style(\"fill\", function(d, i) {\n          return color(i);\n        });\n    });\n// END\n\ncontainer.append(\"g\")\n    .datum(data)\n    .call(svgBar);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n.bar path {\n  stroke-width: 0;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<p><svg id="decorate-svg" width="500" height="250"></svg></p>
+<script type="text/javascript">
+var width = 500;
+var height = 250;
+var margin = 10;
+var container = d3.select('#decorate-svg');
+
+var dataGenerator = fc.randomGeometricBrownianMotion()
+  .steps(15);
+var data = dataGenerator(1);
+
+var xScale = d3.scaleLinear()
+    .domain([0, data.length])
+    .range([margin, width - margin * 2]);
+
+var yScale = d3.scaleLinear()
+    .domain(fc.extentLinear()(data))
+    .range([height, 0]);
+
+// START
+var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+var svgBar = fc.seriesSvgBar()
+    .xScale(xScale)
+    .yScale(yScale)
+    .bandwidth(15)
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; })
+    .decorate(function(selection) {
+      selection.enter()
+        .style('fill', function(d, i) {
+          return color(i);
+        });
+    });
+// END
+
+container.append('g')
+    .datum(data)
+    .call(svgBar);
+
+</script>
+
+<p>Again, the enter selection is used and the required child element, in this case a <code>path</code> is selected. D3 selections allow you to specify values as functions of the bound data and index, here the index is used to cycle through a color scale.</p>
+<h2 id="adding-data-labels">Adding data labels</h2>
+<p>Using the decorate pattern you can also add new elements to a component via its data join. The d3fc series are designed so that the containing <code>g</code> element is translated to the location of each datum, as a result any elements that you add need only have a relative transform applied.</p>
+<p>In the example below datapoint labels are added via decorate:</p>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> svgBar = fc.seriesSvgBar()
+    .xScale(xScale)
+    .yScale(yScale)
+    .bandwidth(<span class="hljs-number">40</span>)
+    .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(_, i)</span> </span>{ <span class="hljs-keyword">return</span> i; })
+    .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d; })
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(selection)</span> </span>{
+      selection.enter()
+        .append(<span class="hljs-string">'text'</span>)
+        .style(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+        .attr(<span class="hljs-string">'transform'</span>, <span class="hljs-string">'translate(0, -10)'</span>)
+        .text(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(d)</span> </span>{ <span class="hljs-keyword">return</span> d3.format(<span class="hljs-string">'.2f'</span>)(d); })
+        .attr(<span class="hljs-string">'fill'</span>, <span class="hljs-string">'black'</span>);
+    });
+</code></pre>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;svg id&#x3D;\&quot;decorate-labels\&quot; width&#x3D;\&quot;500\&quot; height&#x3D;\&quot;250\&quot;&gt;&lt;/svg&gt;\n",
+        "js": "var width = 500;\nvar height = 250;\nvar margin = 15;\nvar container = d3.select(\"#decorate-labels\");\n\nvar dataGenerator = fc.randomGeometricBrownianMotion()\n  .steps(10);\nvar data = dataGenerator(1);\n\nvar xScale = d3.scaleLinear()\n    .domain([0, data.length])\n    .range([margin, width - margin * 2]);\n\nvar yScale = d3.scaleLinear()\n    .domain(fc.extentLinear().pad([0.1, 0.1])(data))\n    .range([height, 0]);\n\nvar color = d3.scaleOrdinal(d3.schemeCategory10);\n\n// START\nvar svgBar = fc.seriesSvgBar()\n    .xScale(xScale)\n    .yScale(yScale)\n    .bandwidth(40)\n    .crossValue(function(_, i) { return i; })\n    .mainValue(function(d) { return d; })\n    .decorate(function(selection) {\n      selection.enter()\n        .append(\"text\")\n        .style(\"text-anchor\", \"middle\")\n        .attr(\"transform\", \"translate(0, -10)\")\n        .text(function(d) { return d3.format(\".2f\")(d); })\n        .attr(\"fill\", \"black\");\n    });\n// END\n\ncontainer.append(\"g\")\n    .datum(data)\n    .call(svgBar);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+
+<p><svg id="decorate-labels" width="500" height="250"></svg></p>
+<script type="text/javascript">
+var width = 500;
+var height = 250;
+var margin = 15;
+var container = d3.select('#decorate-labels');
+
+var dataGenerator = fc.randomGeometricBrownianMotion()
+  .steps(10);
+var data = dataGenerator(1);
+
+var xScale = d3.scaleLinear()
+    .domain([0, data.length])
+    .range([margin, width - margin * 2]);
+
+var yScale = d3.scaleLinear()
+    .domain(fc.extentLinear().pad([0.1, 0.1])(data))
+    .range([height, 0]);
+
+var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+// START
+var svgBar = fc.seriesSvgBar()
+    .xScale(xScale)
+    .yScale(yScale)
+    .bandwidth(40)
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; })
+    .decorate(function(selection) {
+      selection.enter()
+        .append('text')
+        .style('text-anchor', 'middle')
+        .attr('transform', 'translate(0, -10)')
+        .text(function(d) { return d3.format('.2f')(d); })
+        .attr('fill', 'black');
+    });
+// END
+
+container.append('g')
+    .datum(data)
+    .call(svgBar);
+
+</script>
+
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc/tree/master/site/src/introduction/decorate-pattern.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+               <a href="/introduction/getting-started.html">Getting Started</a>
+           </li>
+          <li>
+               <a href="/introduction/building-a-chart.html">Building A Chart</a>
+           </li>
+          <li>
+               <a href="/introduction/component-design.html">Component Design</a>
+           </li>
+          <li>
+               <span class="active">Decorate Pattern</span>
+           </li>
+          <li>
+               <a href="/introduction/transitions.html">Transitions</a>
+           </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Component Design</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/introduction/component-design.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class="active"><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Component Design
+    </h1>
+    <p>A full description and example of each component can found in the navigation menu.</p>
+<h2 id="design">Design</h2>
+<p><strong>This library is opinionated.</strong></p>
+<p>Listed below are the conscious design decisions and trade-offs which you should be aware of.</p>
+<h3 id="re-use">Re-use</h3>
+<p><strong>Over everything else.</strong></p>
+<p>Components have no internal state. They can be called on multiple selections without needing to clear down any internal state. Additionally, the render lifecycle is identical whether creating or updating components.</p>
+<h3 id="composition">Composition</h3>
+<p><strong>Over customisability.</strong></p>
+<p>Components offer a basic set of customisation options but to keep the API as clean as possible, they do not allow every possible detail to be customised. For example, they will rebind selected properties of sub-components rather than expose them directly.</p>
+<p>If you do wish to heavily customise a component, you are expected to create your own implementation re-using the sub-components of the original.</p>
+<h3 id="simplicity">Simplicity</h3>
+<p><strong>Over performance.</strong></p>
+<p>Components do not cache the results of any calculations nor attempt any other performance optimisations (beyond <a href="http://bost.ocks.org/mike/selection/">D3&#39;s update pattern</a>). For example, every call will recalculate everything from the supplied data.</p>
+
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc/tree/master/site/src/introduction/component-design.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+          <li>
+               <a href="/introduction/getting-started.html">Getting Started</a>
+           </li>
+          <li>
+               <a href="/introduction/building-a-chart.html">Building A Chart</a>
+           </li>
+          <li>
+               <span class="active">Component Design</span>
+           </li>
+          <li>
+               <a href="/introduction/decorate-pattern.html">Decorate Pattern</a>
+           </li>
+          <li>
+               <a href="/introduction/transitions.html">Transitions</a>
+           </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

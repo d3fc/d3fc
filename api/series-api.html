@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Series</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/series-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Series</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-series
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-series/build/d3fc-series.min.js">View on unpkg</a>
+        </h1>
+<p>A collection of components for rendering data series to SVG and canvas, including line, bar, OHLC, candlestick and more.</p>
+<table>
+<tr>
+  <td><a href="#boxplot"><img src="d3fc-series/screenshots/boxplot.png"/></a></td>
+  <td><a href="#candlestick"><img src="d3fc-series/screenshots/candlestick.png"/></a></td>
+  <td><a href="#line"><img src="d3fc-series/screenshots/line.png"/></a></td>
+</tr>
+<tr>
+  <td><a href="#ohlc"><img src="d3fc-series/screenshots/ohlc.png"/></a></td>
+  <td><a href="#area"><img src="d3fc-series/screenshots/area.png"/></a></td>
+  <td><a href="#point"><img src="d3fc-series/screenshots/point.png"/></a></td>
+</tr>
+<tr>
+  <td><a href="#bar"><img src="d3fc-series/screenshots/bar.png"/></a></td>
+  <td><a href="#errorbar"><img src="d3fc-series/screenshots/errorbar.png"/></a></td>
+  <td><a href="#multi"><img src="d3fc-series/screenshots/multi.png"/></a></td>
+</tr>
+<tr>
+  <td><a href="#grouped"><img src="d3fc-series/screenshots/grouped.png"/></a></td>
+  <td><a href="#stacked"><img src="d3fc-series/screenshots/stacked.png"/></a></td>
+  <td><a href="#repeat"><img src="d3fc-series/screenshots/repeat.png"/></a></td>
+</tr>
+<tr>
+  <td><a href="#heatmap"><img src="d3fc-series/screenshots/heatmap.png"/></a></td>
+  <td></td>
+  <td></td>
+</tr>
+</table>
+
+
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#general-api">General API</a><ul>
+<li><a href="#svg-rendering">SVG Rendering</a></li>
+<li><a href="#canvas-rendering">Canvas Rendering</a></li>
+<li><a href="#decorate-pattern">Decorate Pattern</a></li>
+<li><a href="#orientation">Orientation</a></li>
+<li><a href="#multi-series">Multi Series</a></li>
+<li><a href="#decorate-pattern">Decorate Pattern</a></li>
+<li><a href="#auto-bandwidth">Auto Bandwidth</a></li>
+</ul>
+</li>
+<li><a href="#line">Line</a></li>
+<li><a href="#point">Point</a></li>
+<li><a href="#area">Area</a></li>
+<li><a href="#bar">Bar</a></li>
+<li><a href="#candlestick">Candlestick</a></li>
+<li><a href="#ohlc">OHLC</a></li>
+<li><a href="#boxplot">Boxplot</a></li>
+<li><a href="#errorbar">Errorbar</a></li>
+<li><a href="#heatmap">Heatmap</a></li>
+<li><a href="#multi">Multi</a></li>
+<li><a href="#repeat">Repeat</a></li>
+<li><a href="#grouped">Grouped</a></li>
+<li><a href="#stacked">Stacked</a></li>
+</ul>
+<p>This packages contains a number of D3 components that render various standard series types. They all share a common API, with the typical configuration requiring x and y scales together with a number of value accessors. There are SVG and Canvas versions of each series type, sharing the same configuration properties.</p>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="general-api" href="#general-api" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+General API
+                </h3>
+<h4 id="svg-rendering">SVG rendering</h4>
+<p>In order to render a line series to SVG, the data should be supplied via a data-join or <code>datum</code>, as follows:</p>
+<pre><code class="language-javascript">const data = <span class="hljs-literal">[
+    {<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>},
+    {<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">5</span>},
+    {<span class="hljs-identifier">x</span>: <span class="hljs-number">20</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>}
+]</span>;
+
+const line = fc.series<span class="hljs-constructor">SvgLine()</span>
+    .cross<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>.<span class="hljs-params">x</span>)</span>
+    .main<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>.<span class="hljs-params">y</span>)</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">xScale</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">yScale</span>)</span>;
+
+d3.select(<span class="hljs-character">'g'</span>)
+    .datum(data)
+    .call(line);</code></pre>
+<p>The line component is configured with the required value accessors and scales. In this case, the supplied data has <code>x</code> and <code>y</code> properties. The value accessors are invoked on each datum within the array, and simply obtain the value for their respective property. The scales are used to convert the values in the domain coordinate system (as returned by the accessors), to the screen coordinate system.</p>
+<p>The series is rendered into a group (<code>g</code>) element by first selecting it, using <code>datum</code> to associate the data with this DOM node, then using <code>call</code> to invoke the series component, causing it to be rendered.</p>
+<h4 id="canvas-rendering">Canvas rendering</h4>
+<p>The <code>seriesCanvasLine</code> component has an API that is almost identical to its SVG counterpart, <code>seriesSvgLine</code>, the only difference is the addition of a <code>context</code> property, which is set to the context of the canvas that this series renders to.</p>
+<pre><code class="language-javascript">const data = <span class="hljs-literal">[
+    {<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>},
+    {<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">5</span>},
+    {<span class="hljs-identifier">x</span>: <span class="hljs-number">20</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>}
+]</span>;
+
+var ctx = canvas.get<span class="hljs-constructor">Context('2d')</span>;
+
+const line = fc.series<span class="hljs-constructor">CanvasLine()</span>
+    .cross<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>.<span class="hljs-params">x</span>)</span>
+    .main<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>.<span class="hljs-params">y</span>)</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">xScale</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">yScale</span>)</span>
+    .context(ctx);
+
+line(data);</code></pre>
+<p>Because D3 data-joins and data-binding only work on HTML / SVG, the canvas components are invoked directly with the supplied data. This causes the component to render itself to the canvas.</p>
+<h4 id="decorate-pattern">Decorate Pattern</h4>
+<p>The series components implement the decorate pattern by exposing a <code>decorate</code> property which is passed the data join selection, or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.</p>
+<p>For further details, consult the <a href="https://d3fc.io/introduction/decorate-pattern.html">Decorate Pattern documentation</a>.</p>
+<p>The following example demonstrates how the fill color of each bar can be varied via decoration. The decorate property is passed the data join selection used to construct the component&#39;s DOM. Here, the enter selection is used to set the fill color based on the index:</p>
+<pre><code class="language-javascript">const color = d3.scaleOrdinal(d3.schemeCategory10);
+
+const svgBar = fc.seriesSvgBar()
+    .decorate(<span class="hljs-function"><span class="hljs-params">(selection)</span> =&gt;</span> {
+        selection.enter()
+            .style(<span class="hljs-string">'fill'</span>, <span class="hljs-function"><span class="hljs-params">(_, i)</span> =&gt;</span> color(i));
+    });</code></pre>
+<img src="d3fc-series/screenshots/decorate.png"/>
+
+<p>Here is the same example for a canvas bar series; the way that the decorate pattern works is subtly different. For SVG components the decorate function is invoked once with the selection that renders all of the bars (or points, candlesticks, ...), with canvas, the decorate function is invoked for each of the data-points in the series.</p>
+<p>The decorate function is passed the context, datum and index. The context is translated to the correct position and the fill color set before invoking the decorate function. After decoration the bar itself is rendered.</p>
+<pre><code class="language-javascript">const canvasLine = fc.seriesCanvasBar()
+    .decorate((<span class="hljs-built_in">context</span>, datum, index) =&gt; {
+        <span class="hljs-built_in">context</span>.fillStyle = color(index)<span class="hljs-comment">;</span>
+    })<span class="hljs-comment">;</span></code></pre>
+<img src="d3fc-series/screenshots/decorate-canvas.png"/>
+
+<p>Decoration can also be used to add extra elements to the series. In this example a text element is added to each bar via the enter selection.</p>
+<p>The origin of each data-point container, which is a <code>g</code> element, is always set to the data-point location. As a result, the text element is translated vertically by <code>-10</code>, in order to position them just above each bar.</p>
+<pre><code class="language-javascript">const svgBar = fc.seriesSvgBar()
+    .decorate(<span class="hljs-function"><span class="hljs-params">(selection)</span> =&gt;</span> {
+        selection.enter()
+            .append(<span class="hljs-string">'text'</span>)
+            .style(<span class="hljs-string">'text-anchor'</span>, <span class="hljs-string">'middle'</span>)
+            .attr(<span class="hljs-string">'transform'</span>, <span class="hljs-string">'translate(0, -10)'</span>)
+            .attr(<span class="hljs-string">'fill'</span>, <span class="hljs-string">'black'</span>)
+            .text(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d3.format(<span class="hljs-string">'.2f'</span>)(d));
+    });</code></pre>
+<img src="d3fc-series/screenshots/decorate-append.png"/>
+
+<p>With canvas, you can also perform additional rendering to the canvas in order to achieve the same effect. Once again, the canvas origin has been translated to the origin of each data-point before the decorate function is invoked.</p>
+<p>This example uses a point series, for a bit of variety!</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> canvasLine = fc.seriesCanvasPoint()
+    .decorate(<span class="hljs-function">(<span class="hljs-params">context, datum, index</span>) =&gt;</span> {
+        context.textAlign = <span class="hljs-string">'center'</span>;
+        context.fillStyle = <span class="hljs-string">'#000'</span>;
+        context.font = <span class="hljs-string">'15px Arial'</span>;
+        context.fillText(d3.format(<span class="hljs-string">'.2f'</span>)(datum), <span class="hljs-number">0</span>, <span class="hljs-number">-10</span>);
+        <span class="hljs-comment">// reset the fill style for the bar rendering</span>
+        context.fillStyle = <span class="hljs-string">'#999'</span>;
+    });</code></pre>
+<img src="d3fc-series/screenshots/decorate-append-canvas.png"/>
+
+<h4 id="orientation">Orientation</h4>
+<p>Most of the series renderers support both horizontal and vertical render orientations as specified by the <code>orient</code> property. In order to make it easy to change the orientation of a series, and to avoid redundant and repeated property names, a change in orientation is achieved by transposing the x and y scales.</p>
+<p>The following example shows a simple bar series rendered in its default vertical orientation:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> data = [<span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">10</span>];
+
+<span class="hljs-keyword">const</span> xScale = d3.scaleLinear()
+    .domain([<span class="hljs-number">0</span>, data.length])
+    .range([<span class="hljs-number">0</span>, width]);
+
+<span class="hljs-keyword">const</span> yScale = d3.scaleLinear()
+    .domain([<span class="hljs-number">0</span>, <span class="hljs-number">10</span>])
+    .range([height, <span class="hljs-number">0</span>]);
+
+<span class="hljs-keyword">const</span> barSeries = fc.seriesSvgBar()
+    .xScale(xScale)
+    .yScale(yScale)
+    .crossValue((_, i) =&gt; i)
+    .mainValue((d) =&gt; d);
+
+d3.select(<span class="hljs-string">'g'</span>)
+    .datum(data)
+    .call(svgBar);</code></pre>
+<p>By setting its <code>orient</code> property to <code>horizontal</code>, the x and y scales are transposed. As a result, the domain for both the x and y scale have to be switched. The following shows the changes required:</p>
+<pre><code class="language-javascript">const xScale = d3.scale<span class="hljs-constructor">Linear()</span>
+    .domain(<span class="hljs-literal">[<span class="hljs-number">0</span>, <span class="hljs-number">10</span>]</span>)           <span class="hljs-comment">// domain changed</span>
+    .range(<span class="hljs-literal">[<span class="hljs-number">0</span>, <span class="hljs-identifier">width</span>]</span>);
+
+const yScale = d3.scale<span class="hljs-constructor">Linear()</span>
+    .domain(<span class="hljs-literal">[<span class="hljs-number">0</span>, <span class="hljs-identifier">data</span>.<span class="hljs-identifier">length</span>]</span>)  <span class="hljs-comment">// domain changed</span>
+    .range(<span class="hljs-literal">[<span class="hljs-identifier">height</span>, <span class="hljs-number">0</span>]</span>);
+
+const barSeries = fc.series<span class="hljs-constructor">SvgBar()</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">xScale</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">yScale</span>)</span>
+    .orient('horizontal')      <span class="hljs-comment">// orient property updated</span>
+    .cross<span class="hljs-constructor">Value((<span class="hljs-params">_</span>, <span class="hljs-params">i</span>)</span> =&gt; i)
+    .main<span class="hljs-constructor">Value((<span class="hljs-params">d</span>)</span> =&gt; d);</code></pre>
+<p>This is part of the motivation behind naming the accessors <code>mainValue</code> and <code>crossValue</code>, rather than an orientation specific <code>xValue</code> / <code>yValue</code>.</p>
+<h4 id="multi-series">Multi series</h4>
+<p>One series type that is worthy of note is the multi series. This component provides a convenient way to render multiple series, that share scales, to the same SVG or canvas.</p>
+<p>The multi series renderers expose a <code>series</code> property which accepts an array of series renderers, together with the standard  <code>xScale</code> and <code>yScale</code> properties. The following example shows how a multi series can be used to render both a line and bar series:</p>
+<pre><code class="language-javascript"><span class="hljs-comment">// a couple of series - value accessor configuration omitted for clarity</span>
+const barSeries = fc.series<span class="hljs-constructor">SvgBar()</span>;
+const lineSeries = fc.series<span class="hljs-constructor">SvgLine()</span>;
+
+const multiSeries = fc.series<span class="hljs-constructor">SvgMulti()</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">xScale</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">yScale</span>)</span>
+    .series(<span class="hljs-literal">[<span class="hljs-identifier">barSeries</span>, <span class="hljs-identifier">lineSeries</span>]</span>);
+
+d3.select(<span class="hljs-character">'g'</span>)
+    .datum(data)
+    .call(svgMulti);</code></pre>
+<p>Notice that you do not have to set the <code>xScale</code> and <code>yScale</code> properties on each series - the scale are propagated down from the multi series.</p>
+<p>The canvas API is very similar:</p>
+<pre><code class="language-javascript"><span class="hljs-comment">// a couple of series - value accessor configuration omitted for clarity</span>
+const barSeries = fc.series<span class="hljs-constructor">CanvasBar()</span>;
+const lineSeries = fc.series<span class="hljs-constructor">CanvasLine()</span>;
+
+const multiSeries = fc.series<span class="hljs-constructor">CanvasMulti()</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">xScale</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">yScale</span>)</span>
+    .context(ctx)
+    .series(<span class="hljs-literal">[<span class="hljs-identifier">barSeries</span>, <span class="hljs-identifier">lineSeries</span>]</span>);
+
+multi<span class="hljs-constructor">Series(<span class="hljs-params">data</span>)</span></code></pre>
+<p>In this case the context is also propagated from the multi series to the children.</p>
+<p>The multi series allows you to combine a range of different series types. If instead you have multiple data series that you want to render using the same series type, e.g. a chart containing multiple lines, the <a href="#repeat">repeat series</a> is an easier way to achieve this.</p>
+<h4 id="auto-bandwidth">Auto bandwidth</h4>
+<p>A number of the series (bar, OHLC, boxplot) have a notion of &#39;width&#39;. They all expose a <code>bandwidth</code> property where you can supply the width as a value (in the screen coordinate system).</p>
+<p>Rather than specify a bandwidth directly, you can adapt a series with the <code>fc.autoBandwidth</code> component, which will either obtain the bandwidth directly from the scale, or compute it based on the distribution of data.</p>
+<p>When used with a <code>bandScale</code>, the scale is responsible for computing the width of each band. The <code>fc.autoBandwidth</code> component invokes the <code>bandwidth</code> function on the scale and uses the returned value to set the <code>bandwidth</code> on the series.</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">var</span> xScale = d3.scaleBand()
+    .domain(data.map(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d.x))
+    .rangeRound([<span class="hljs-number">0</span>, width]);
+
+<span class="hljs-keyword">var</span> svgBar = fc.autoBandwidth(fc.seriesSvgBar())
+    .align(<span class="hljs-string">'left'</span>)
+    .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.x; })
+    .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.y; });</code></pre>
+<p>Notice in the above example that the <code>align</code> property of the bar is set to <code>left</code>, which reflects the band scale coordinate system.</p>
+<p><strong>NOTE:</strong> The d3 point scale is a special cased band scale that has a zero bandwidth. As a result, if you use the <code>fc.autoBandwidth</code> component in conjunction with a point scale, the series will also have a bandwidth of zero!</p>
+<p>When used in conjunction with a linear scale, the <code>fc.autoBandwidth</code> component computes the bar width based on the smallest distance between consecutive datapoints:</p>
+<pre><code class="language-javascript">var xScale = d3.scale<span class="hljs-constructor">Linear()</span>
+    .domain(<span class="hljs-literal">[<span class="hljs-number">0</span>, <span class="hljs-number">10</span>]</span>)
+    .range(<span class="hljs-literal">[<span class="hljs-number">0</span>, <span class="hljs-identifier">width</span>]</span>);
+
+var svgBar = fc.auto<span class="hljs-constructor">Bandwidth(<span class="hljs-params">fc</span>.<span class="hljs-params">seriesSvgBar</span>()</span>)
+    .cross<span class="hljs-constructor">Value(<span class="hljs-params">function</span>(<span class="hljs-params">d</span>)</span> { return d.x; })
+    .main<span class="hljs-constructor">Value(<span class="hljs-params">function</span>(<span class="hljs-params">d</span>)</span> { return d.y; })
+    .width<span class="hljs-constructor">Fraction(0.5)</span>;</code></pre>
+<p>The <code>fc.autoBandwidth</code> component, when adapting a series, adds a <code>widthFraction</code> property which determines the fraction of this distance that is used to set the bandwidth.</p>
+<p>When using a multi, or repeat series, the <code>fc.autoBandwidth</code> component should be used to adapt the bar (or OHLC, boxplot, ...) series directly, rather than adapting the multi or repeat series.</p>
+<pre><code class="language-javascript">var canvasBar = fc.series<span class="hljs-constructor">CanvasBar()</span>
+
+var canvasLine = fc.series<span class="hljs-constructor">CanvasLine()</span>;
+
+var canvasMulti = fc.series<span class="hljs-constructor">CanvasMulti()</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">xScale</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">yScale</span>)</span>
+    .series(<span class="hljs-literal">[<span class="hljs-identifier">fc</span>.<span class="hljs-identifier">autoBandwidth</span>(<span class="hljs-identifier">canvasBar</span>), <span class="hljs-identifier">canvasLine</span>]</span>);</code></pre>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="line" href="#line" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Line
+                </h3>
+<p><img src="d3fc-series/screenshots/line.png" alt=""></p>
+<p><a name="seriesSvgLine" href="#seriesSvgLine">#</a> fc.<strong>seriesSvgLine</strong>()<br><a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.<strong>seriesCanvasLine</strong>()</p>
+<p>Constructs a new line renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesLine_crossValue" href="#seriesLine_crossValue">#</a> <em>seriesLine</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesLine_mainValue" href="#seriesLine_mainValue">#</a> <em>seriesLine</em>.<strong>mainValue</strong>(<em>accessorFunc</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesLine_xScale" href="#seriesLine_xScale">#</a> <em>seriesLine</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesLine_yScale" href="#seriesLine_yScale">#</a> <em>seriesLine</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesLine_orient" href="#seriesLine_orient">#</a> <em>seriesLine</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>horizontal</code> (default) or <code>vertical</code>.</p>
+<p><a name="seriesLine_curve" href="#seriesLine_curve">#</a> <em>seriesLine</em>.<strong>curve</strong>(<em>scale</em>)</p>
+<p>If <em>curve</em> is specified, sets the curve factory and returns this series. If <em>curve</em> is not specified, returns the current curve factory.</p>
+<p>This property is rebound from <a href="https://github.com/d3/d3-shape#line_curve">line.curve</a>.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasLine_context" href="#seriesCanvasLine_context">#</a> <em>seriesCanvasLine</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="point" href="#point" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Point
+                </h3>
+<p><img src="d3fc-series/screenshots/point.png" alt=""></p>
+<p><a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.<strong>seriesSvgPoint</strong>()<br><a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.<strong>seriesCanvasPoint</strong>()</p>
+<p>Constructs a new point series renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesPoint_crossValue" href="#seriesPoint_crossValue">#</a> <em>seriesPoint</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesPoint_mainValue" href="#seriesPoint_mainValue">#</a> <em>seriesPoint</em>.<strong>mainValue</strong>(<em>accessorFunc</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesPoint_xScale" href="#seriesPoint_xScale">#</a> <em>seriesPoint</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesPoint_yScale" href="#seriesPoint_yScale">#</a> <em>seriesPoint</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesPoint_orient" href="#seriesPoint_orient">#</a> <em>seriesPoint</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>horizontal</code> (default) or <code>vertical</code>.</p>
+<p><a name="seriesPoint_type" href="#seriesPoint_type">#</a> <em>seriesPoint</em>.<strong>type</strong>(<em>type</em>)</p>
+<p>If <em>type</em> is specified, sets the symbol type to the specified function or symbol type and returns this point series renderer. If <em>type</em> is not specified, returns the current symbol type accessor.</p>
+<p>This property is rebound from <a href="https://github.com/d3/d3-shape#symbol_type">symbol.type</a>.</p>
+<p><a name="seriesPoint_size" href="#seriesPoint_size">#</a> <em>seriesPoint</em>.<strong>size</strong>(<em>size</em>)</p>
+<p>If <em>size</em> is specified, sets the area to the specified function or number and returns this point series renderer. If <em>size</em> is not specified, returns the current size accessor.</p>
+<p>This property is rebound from <a href="https://github.com/d3/d3-shape#symbol_size">symbol.size</a>.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasPoint_context" href="#seriesCanvasPoint_context">#</a> <em>seriesCanvasPoint</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="area" href="#area" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Area
+                </h3>
+<p><img src="d3fc-series/screenshots/area.png" alt=""></p>
+<p><a name="seriesSvgArea" href="#seriesSvgArea">#</a> fc.<strong>seriesSvgArea</strong>()<br><a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.<strong>seriesCanvasArea</strong>()</p>
+<p>Constructs a new area series renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesArea_crossValue" href="#seriesArea_crossValue">#</a> <em>seriesArea</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesArea_mainValue" href="#seriesArea_mainValue">#</a> <em>seriesArea</em>.<strong>mainValue</strong>(<em>accessorFunc</em>)
+<a name="seriesArea_baseValue" href="#seriesArea_baseValue">#</a> <em>seriesArea</em>.<strong>baseValue</strong>(<em>accessorFunc</em>)  </p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesArea_orient" href="#seriesArea_orient">#</a> <em>seriesArea</em>.<strong>orient</strong>(<em>orientation</em>)</p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>horizontal</code> (default) or <code>vertical</code>.</p>
+<p><a name="seriesArea_xScale" href="#seriesArea_xScale">#</a> <em>seriesArea</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesArea_yScale" href="#seriesArea_yScale">#</a> <em>seriesArea</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesArea_curve" href="#seriesArea_curve">#</a> <em>seriesArea</em>.<strong>curve</strong>(<em>scale</em>)</p>
+<p>If <em>curve</em> is specified, sets the curve factory and returns this series. If <em>curve</em> is not specified, returns the current curve factory.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasArea_context" href="#seriesCanvasArea_context">#</a> <em>seriesCanvasArea</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="bar" href="#bar" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Bar
+                </h3>
+<p><img src="d3fc-series/screenshots/bar.png" alt=""></p>
+<p><a name="seriesSvgBar" href="#seriesSvgBar">#</a> fc.<strong>seriesSvgBar</strong>()<br><a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.<strong>seriesCanvasBar</strong>()</p>
+<p>Constructs a new bar series renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesBar_crossValue" href="#seriesBar_crossValue">#</a> <em>seriesBar</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBar_mainValue" href="#seriesBar_mainValue">#</a> <em>seriesBar</em>.<strong>mainValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBar_baseValue" href="#seriesBar_baseValue">#</a> <em>seriesBar</em>.<strong>baseValue</strong>(<em>accessorFunc</em>)  </p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesBar_orient" href="#seriesBar_orient">#</a> <em>seriesBar</em>.<strong>orient</strong>(<em>orientation</em>)</p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>horizontal</code> (default) or <code>vertical</code>.</p>
+<p><a name="seriesBar_xScale" href="#seriesBar_xScale">#</a> <em>seriesBar</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesBar_yScale" href="#seriesBar_yScale">#</a> <em>seriesBar</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesBar_bandwidth" href="#seriesBar_bandwidth">#</a> <em>seriesBar</em>.<strong>bandwidth</strong>(<em>bandwidthFunc</em>)</p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasArea_context" href="#seriesCanvasArea_context">#</a> <em>seriesCanvasArea</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="candlestick" href="#candlestick" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Candlestick
+                </h3>
+<p><img src="d3fc-series/screenshots/candlestick.png" alt=""></p>
+<p><a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a> fc.<strong>seriesSvgCandlestick</strong>()<br><a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.<strong>seriesCanvasCandlestick</strong>()</p>
+<p>Constructs a new candlestick renderer for either canvas or SVG.</p>
+<p><a name="seriesCandlestick_crossValue" href="#seriesCandlestick_crossValue">#</a> <em>seriesCandlestick</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesCandlestick_highValue" href="#seriesCandlestick_highValue">#</a> <em>seriesCandlestick</em>.<strong>highValue</strong>(<em>accessorFunc</em>)<br><a name="seriesCandlestick_lowValue" href="#seriesCandlestick_lowValue">#</a> <em>seriesCandlestick</em>.<strong>lowValue</strong>(<em>accessorFunc</em>)<br><a name="seriesCandlestick_openValue" href="#seriesCandlestick_openValue">#</a> <em>seriesCandlestick</em>.<strong>openValue</strong>(<em>accessorFunc</em>)<br><a name="seriesCandlestick_closeValue" href="#seriesCandlestick_closeValue">#</a> <em>seriesCandlestick</em>.<strong>closeValue</strong>(<em>accessorFunc</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesCandlestick_xScale" href="#seriesCandlestick_xScale">#</a> <em>seriesCandlestick</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesCandlestick_yScale" href="#seriesCandlestick_yScale">#</a> <em>seriesCandlestick</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesCandlestick_bandwidth" href="#seriesCandlestick_bandwidth">#</a> <em>seriesCandlestick</em>.<strong>bandwidth</strong>(<em>bandwidthFunc</em>)</p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<p><a name="seriesCandlestick_decorate" href="#seriesCandlestick_decorate">#</a> <em>seriesCandlestick</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified function, and returns this series. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="ohlc" href="#ohlc" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+OHLC
+                </h3>
+<p><img src="d3fc-series/screenshots/ohlc.png" alt=""></p>
+<p><a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a> fc.<strong>seriesSvgOhlc</strong>()<br><a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.<strong>seriesCanvasOhlc</strong>()</p>
+<p>Constructs a new OHLC renderer for either canvas or SVG.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="common-properties" href="#common-properties" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Common properties
+                </h3>
+<p><a name="seriesOhlc_crossValue" href="#seriesOhlc_crossValue">#</a> <em>seriesOhlc</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesOhlc_highValue" href="#seriesOhlc_highValue">#</a> <em>seriesOhlc</em>.<strong>highValue</strong>(<em>accessorFunc</em>)<br><a name="seriesOhlc_lowValue" href="#seriesOhlc_lowValue">#</a> <em>seriesOhlc</em>.<strong>lowValue</strong>(<em>accessorFunc</em>)<br><a name="seriesOhlc_openValue" href="#seriesOhlc_openValue">#</a> <em>seriesOhlc</em>.<strong>openValue</strong>(<em>accessorFunc</em>)<br><a name="seriesOhlc_closeValue" href="#seriesOhlc_closeValue">#</a> <em>seriesOhlc</em>.<strong>closeValue</strong>(<em>accessorFunc</em>)</p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesOhlc_xScale" href="#seriesOhlc_xScale">#</a> <em>seriesOhlc</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesOhlc_yScale" href="#seriesOhlc_yScale">#</a> <em>seriesOhlc</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesCandlestick_bandwidth" href="#seriesCandlestick_bandwidth">#</a> <em>seriesCandlestick</em>.<strong>bandwidth</strong>(<em>bandwidthFunc</em>)</p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<p><a name="seriesOhlc_decorate" href="#seriesOhlc_decorate">#</a> <em>seriesOhlc</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified function, and returns this series. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasOhlc_context" href="#seriesCanvasOhlc_context">#</a> <em>seriesCanvasOhlc</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="boxplot" href="#boxplot" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Boxplot
+                </h3>
+<p><img src="d3fc-series/screenshots/boxplot.png" alt=""></p>
+<p><a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a> fc.<strong>seriesSvgBoxPlot</strong>()<br><a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.<strong>seriesCanvasBoxPlot</strong>()</p>
+<p>Constructs a new boxplot renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesBoxPlot_crossValue" href="#seriesBoxPlot_crossValue">#</a> <em>seriesBoxPlot</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBoxPlot_medianValue" href="#seriesBoxPlot_medianValue">#</a> <em>seriesBoxPlot</em>.<strong>medianValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBoxPlot_upperQuartileValue" href="#seriesBoxPlot_upperQuartileValue">#</a> <em>seriesBoxPlot</em>.<strong>upperQuartileValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBoxPlot_lowerQuartileValue" href="#seriesBoxPlot_lowerQuartileValue">#</a> <em>seriesBoxPlot</em>.<strong>lowerQuartileValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBoxPlot_highValue" href="#seriesBoxPlot_highValue">#</a> <em>seriesBoxPlot</em>.<strong>highValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBoxPlot_lowValue" href="#seriesBoxPlot_lowValue">#</a> <em>seriesBoxPlot</em>.<strong>lowValue</strong>(<em>accessorFunc</em>)<br><a name="seriesBoxPlot_width" href="#seriesBoxPlot_width">#</a> <em>seriesBoxPlot</em>.<strong>width</strong>(<em>accessorFunc</em>)  </p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesBoxPlot_orient" href="#seriesBoxPlot_orient">#</a> <em>seriesBoxPlot</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>horizontal</code> (default) or <code>vertical</code></p>
+<p><a name="seriesBoxPlot_xScale" href="#seriesBoxPlot_xScale">#</a> <em>seriesBoxPlot</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesBoxPlot_yScale" href="#seriesBoxPlot_yScale">#</a> <em>seriesBoxPlot</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesBoxPlot_bandwidth" href="#seriesBoxPlot_bandwidth">#</a> <em>seriesBoxPlot</em>.<strong>bandwidth</strong>(<em>bandwidthFunc</em>)</p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<p><a name="seriesBoxPlot_decorate" href="#seriesBoxPlot_decorate">#</a> <em>seriesBoxPlot</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified function, and returns this series. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasBoxplot_context" href="#seriesCanvasBoxplot_context">#</a> <em>seriesCanvasBoxplot</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="errorbar" href="#errorbar" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Errorbar
+                </h3>
+<p><img src="d3fc-series/screenshots/errorbar.png" alt=""></p>
+<p><a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a> fc.<strong>seriesSvgErrorBar</strong>()<br><a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.<strong>seriesCanvasErrorBar</strong>()</p>
+<p>Constructs a new error bar renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesErrorBar_crossValue" href="#seriesErrorBar_crossValue">#</a> <em>seriesErrorBar</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesErrorBar_highValue" href="#seriesErrorBar_highValue">#</a> <em>seriesErrorBar</em>.<strong>highValue</strong>(<em>accessorFunc</em>)<br><a name="seriesErrorBar_lowValue" href="#seriesErrorBar_lowValue">#</a> <em>seriesErrorBar</em>.<strong>lowValue</strong>(<em>accessorFunc</em>)<br><a name="seriesErrorBar_width" href="#seriesErrorBar_width">#</a> <em>seriesErrorBar</em>.<strong>width</strong>(<em>accessorFunc</em>)  </p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesErrorBar_orient" href="#seriesErrorBar_orient">#</a> <em>seriesErrorBar</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>horizontal</code> (default) or <code>vertical</code></p>
+<p><a name="seriesErrorBar_xScale" href="#seriesErrorBar_xScale">#</a> <em>seriesErrorBar</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesErrorBar_yScale" href="#seriesErrorBar_yScale">#</a> <em>seriesErrorBar</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesErrorBar_bandwidth" href="#seriesErrorBar_bandwidth">#</a> <em>seriesErrorBar</em>.<strong>bandwidth</strong>(<em>bandwidthFunc</em>)</p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<p><a name="seriesErrorBar_decorate" href="#seriesErrorBar_decorate">#</a> <em>seriesErrorBar</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified function, and returns this series. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasErrorBar_context" href="#seriesCanvasErrorBar_context">#</a> <em>seriesCanvasErrorBar</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="heatmap" href="#heatmap" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Heatmap
+                </h3>
+<p><img src="d3fc-series/screenshots/heatmap.png" alt=""></p>
+<p><a name="seriesSvgHeatmap" href="#seriesSvgHeatmap">#</a> fc.<strong>seriesSvgHeatmap</strong>()<br><a name="seriesCanvasHeatmap" href="#seriesCanvasHeatmap">#</a> fc.<strong>seriesCanvasHeatmap</strong>()</p>
+<p>Constructs a new heatmap series renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesHeatmap_crossValue" href="#seriesHeatmap_crossValue">#</a> <em>seriesHeatmap</em>.<strong>crossValue</strong>(<em>accessorFunc</em>)<br><a name="seriesHeatmap_highValue" href="#seriesHeatmap_highValue">#</a> <em>seriesHeatmap</em>.<strong>highValue</strong>(<em>accessorFunc</em>)<br><a name="seriesHeatmap_colorValue" href="#seriesHeatmap_colorValue">#</a> <em>seriesHeatmap</em>.<strong>colorValue</strong>(<em>accessorFunc</em>)  </p>
+<p>If <em>accessorFunc</em> is specified, sets the accessor to the specified function and returns this series. If <em>accessorFunc</em> is not specified, returns the current accessor. The <code>accessorFunc(datum, index)</code> function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.</p>
+<p><a name="seriesHeatmap_xScale" href="#seriesHeatmap_xScale">#</a> <em>seriesHeatmap</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesHeatmap_yScale" href="#seriesHeatmap_yScale">#</a> <em>seriesHeatmap</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesHeatmap_colorInterpolate" href="#seriesHeatmap_colorInterpolate">#</a> <em>seriesHeatmap</em>.<strong>colorInterpolate</strong>(<em>interpolate</em>)</p>
+<p>If <em>colorInterpolate</em> is specified, sets the interpolator used to map color values to colors and returns this series. If <em>colorInterpolate</em> is not specified, returns the current interpolator.</p>
+<p><a name="seriesHeatmap_xBandwidth" href="#seriesHeatmap_xBandwidth">#</a> <em>seriesHeatmap</em>.<strong>xBandwidth</strong>(<em>bandwidthFunc</em>)
+<a name="seriesHeatmap_yBandwidth" href="#seriesHeatmap_yBandwidth">#</a> <em>seriesHeatmap</em>.<strong>yBandwidth</strong>(<em>bandwidthFunc</em>)</p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<p><a name="seriesHeatmap_decorate" href="#seriesHeatmap_decorate">#</a> <em>seriesHeatmap</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified function, and returns this series. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesCanvasErrorBar_context" href="#seriesCanvasErrorBar_context">#</a> <em>seriesCanvasErrorBar</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="multi" href="#multi" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Multi
+                </h3>
+<p><img src="d3fc-series/screenshots/multi.png" alt=""></p>
+<p><a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.<strong>seriesSvgMulti</strong>()<br><a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.<strong>seriesCanvasMulti</strong>()</p>
+<p>Constructs a new multi series renderer for either canvas or SVG.</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesMulti_series" href="#seriesMulti_series">#</a> <em>seriesMulti</em>.<strong>series</strong>(<em>seriesArray</em>)  </p>
+<p>If <em>seriesArray</em> is specified, sets the array of series that this multi series should render and returns this series. If <em>seriesArray</em> is not specified, returns the current array of series.</p>
+<p><a name="seriesMulti_xScale" href="#seriesMulti_xScale">#</a> <em>seriesMulti</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesMulti_yScale" href="#seriesMulti_yScale">#</a> <em>seriesMulti</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this series. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="seriesMulti_mapping" href="#seriesMulti_mapping">#</a> <em>seriesMulti</em>.<strong>mapping</strong>(<em>mappingFunc</em>)</p>
+<p>If <em>mappingFunc</em> is specified, sets the mapping function to the specified function, and returns this series. If <em>mappingFunc</em> is not specified, returns the current mapping function.</p>
+<p>When rendering the multi-series, the mapping function is invoked once for each of the series supplied via the <em>series</em> property. The purpose of the mapping function is to return the data supplied to each of these series. The default mapping is the identity function, <code>(d) =&gt; d</code>, which results in each series being supplied with the same data as the multi-series component.</p>
+<p>The mapping function is invoked with the data bound to the multi-series, (<em>data</em>), the index of the current series (<em>index</em>) and the array of series (<em>series</em>). A common pattern for the mapping function is to switch on the series type. For example, a multi-series could be used to render a line series together with an upper bound, indicated by a line annotation. In this case, the following would be a suitable mapping function:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> multi = fc.seriesSvgMulti()
+    .series([line, <span class="hljs-keyword">annotation</span>)
+    .mapping((<span class="hljs-keyword">data</span>, index, series) =&gt; {
+      switch(series[index]) {
+        case line:
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">data</span>.line;
+        case <span class="hljs-keyword">annotation</span>:
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">data</span>.upperBound;
+      }
+    });</code></pre>
+<p><a name="seriesMulti_decorate" href="#seriesMulti_decorate">#</a> <em>seriesMulti</em>.<strong>decorate</strong>(<em>decorateFunc</em>)</p>
+<p>If <em>decorateFunc</em> is specified, sets the decorator function to the specified function, and returns this series. If <em>decorateFunc</em> is not specified, returns the current decorator function.</p>
+<p>With the SVG multi series, the decorate function is invoked once, with the data join selection that creates the outer container. With the canvas multi series the decorate function is invoked for each of the associated series.</p>
+<h4 id="canvas-specific-properties">Canvas specific properties</h4>
+<p><a name="seriesMulti_context" href="#seriesMulti_context">#</a> <em>seriesMulti</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>If <em>ctx</em> is specified, sets the canvas context and returns this series. If <em>ctx</em> is not specified, returns the current context.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="repeat" href="#repeat" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Repeat
+                </h3>
+<p><img src="d3fc-series/screenshots/repeat.png" alt=""></p>
+<p><a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.<strong>seriesSvgRepeat</strong>()<br><a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.<strong>seriesCanvasRepeat</strong>()</p>
+<p>Constructs a new repeat series renderer for either canvas or SVG.</p>
+<p>The repeat series is very similar in function to the multi series, both are designed to render multiple series from the same bound data. The repeat series uses the same series type for each data series, e.g. multiple lines series, or multiple area series.</p>
+<p>The repeat series expects the data to be presented as an array of arrays. The following example demonstrates how it can be used to render multiple line series:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> data = [
+  [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>],
+  [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]
+];
+
+<span class="hljs-keyword">const</span> line = fc.seriesSvgLine();
+
+<span class="hljs-keyword">const</span> repeatSeries = fc.seriesSvgRepeat()
+    .xScale(xScale)
+    .yScale(yScale)
+    .series(line);
+
+d3.select(<span class="hljs-string">'g'</span>)
+    .datum(data)
+    .call(repeatSeries);</code></pre>
+<p>The repeat series also exposes an <em>orient</em> property which determines the &#39;orientation&#39; of the series within the bound data. In the above example, setting orient to <em>horizontal</em> would result in the data being rendered as two series of three points (rather than three series of two points).</p>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="seriesRepeat_series" href="#seriesRepeat_series">#</a> <em>seriesRepeat</em>.<strong>series</strong>(<em>series</em>)  </p>
+<p>If <em>series</em> is specified, sets the series that this repeat series should render and returns this series. If <em>series</em> is not specified, returns the current series.</p>
+<p><a name="seriesRepeat_orient" href="#seriesRepeat_orient">#</a> <em>seriesRepeat</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>If <em>orientation</em> is specified, sets the orientation and returns this series. If <em>orientation</em> is not specified, returns the current orientation. The orientation value should be either <code>vertical</code> (default) or <code>horizontal</code>.</p>
+<p><a name="seriesRepeat_xScale" href="#seriesRepeat_xScale">#</a> <em>seriesRepeat</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="seriesRepeat_yScale" href="#seriesRepeat_yScale">#</a> <em>seriesRepeat</em>.<strong>yScale</strong>(<em>scale</em>)<br><a name="seriesRepeat_decorate" href="#seriesRepeat_decorate">#</a> <em>seriesRepeat</em>.<strong>decorate</strong>(<em>decorateFunc</em>)<br><a name="seriesRepeat_context" href="#seriesRepeat_context">#</a> <em>seriesRepeat</em>.<strong>context</strong>(<em>ctx</em>)</p>
+<p>Please refer to the multi series for the documentation of these properties.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="grouped" href="#grouped" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Grouped
+                </h3>
+<p><img src="d3fc-series/screenshots/grouped.png" alt=""></p>
+<p><a name="seriesSvgGrouped" href="#seriesSvgGrouped">#</a> fc.<strong>seriesSvgGrouped</strong>(<em>adaptedSeries</em>)<br><a name="seriesCanvasGrouped" href="#seriesCanvasGrouped">#</a> fc.<strong>seriesCanvasGrouped</strong>(<em>adaptedSeries</em>)</p>
+<p>Constructs a new grouped series by adapting the given series. This allows the rendering of grouped bars, boxplots and point series etc ...</p>
+<p>The grouped series is responsible for applying a suitable offset, along the cross-axis, to create clustered groups of bars (or points etc ...). The grouped series rebinds all of the properties of the adapted series.</p>
+<p>The following example shows the construction of a grouped bar series, where the scales and value accessors are configured:</p>
+<pre><code class="language-javascript">var groupedBar = fc.series<span class="hljs-constructor">SvgGrouped(<span class="hljs-params">fc</span>.<span class="hljs-params">seriesSvgBar</span>()</span>)
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">x</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">y</span>)</span>
+    .cross<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>[0])</span>
+    .main<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>[1])</span>;</code></pre>
+<p>Rendering a grouped series requires a nested array of data, the default format expected by the grouped series expects each object in the array to have a <code>values</code> property with the nested data, however, this can be configured by the <code>values</code> accessor.</p>
+<pre><code class="language-javascript">[
+  {
+    <span class="hljs-attr">"key"</span>: <span class="hljs-string">"Under 5 Years"</span>,
+    <span class="hljs-attr">"values"</span>: [
+      { <span class="hljs-attr">"x"</span>: <span class="hljs-string">"AL"</span>, <span class="hljs-attr">"y"</span>: <span class="hljs-number">310</span> },
+      { <span class="hljs-attr">"x"</span>: <span class="hljs-string">"AK"</span>, <span class="hljs-attr">"y"</span>: <span class="hljs-number">52</span> },
+      { <span class="hljs-attr">"x"</span>: <span class="hljs-string">"AZ"</span>, <span class="hljs-attr">"y"</span>: <span class="hljs-number">515</span> }
+    ]
+  },
+  {
+    <span class="hljs-attr">"key"</span>: <span class="hljs-string">"5 to 13 Years"</span>,
+    <span class="hljs-attr">"values"</span>: [
+      { <span class="hljs-attr">"x"</span>: <span class="hljs-string">"AL"</span>, <span class="hljs-attr">"y"</span>: <span class="hljs-number">552</span> },
+      { <span class="hljs-attr">"x"</span>: <span class="hljs-string">"AK"</span>, <span class="hljs-attr">"y"</span>: <span class="hljs-number">85</span> },
+      { <span class="hljs-attr">"x"</span>: <span class="hljs-string">"AZ"</span>, <span class="hljs-attr">"y"</span>: <span class="hljs-number">828</span> }
+    ]
+  }
+]</code></pre>
+<p>The <code>fc.group</code> component from the <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-group#d3fc-group">d3fc-group</a> package gives an easy way to construct this data from CSV / TSV.</p>
+<p>With the data in the correct format, the series is rendered just like the other series types:</p>
+<pre><code class="language-javascript"><span class="hljs-selector-tag">container</span><span class="hljs-selector-class">.append</span>(<span class="hljs-string">'g'</span>)
+    <span class="hljs-selector-class">.datum</span>(series)
+    <span class="hljs-selector-class">.call</span>(groupedBar);</code></pre>
+<p>And the grouped canvas series is rendered as follows:</p>
+<pre><code class="language-javascript">groupedCanvasBar(<span class="hljs-name">series</span>)<span class="hljs-comment">;</span></code></pre>
+<h4 id="common-properties">Common properties</h4>
+<p><a name="grouped_bandwidth" href="#grouped_bandwidth">#</a> <em>grouped</em>.<strong>bandwidth</strong>(<em>bandwidthFunc</em>)  </p>
+<p>If <em>bandwidthFunc</em> is specified, sets the bandwidth function and returns this series. If <em>bandwidthFunc</em> is not specified, returns the current bandwidth function.</p>
+<p><a name="grouped_subPadding" href="#grouped_subPadding">#</a> <em>grouped</em>.<strong>subPadding</strong>(<em>padding</em>)  </p>
+<p>If <em>padding</em> is specified, sets the sub-padding to the specified value which must be in the range [0, 1]. If <em>padding</em> is not specified, returns the current sub-padding. The sub-padding value determines the padding between the bars within each group.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="stacked" href="#stacked" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Stacked
+                </h3>
+<p><img src="d3fc-series/screenshots/stacked.png" alt=""></p>
+<p>There is not an explicit series type for rendering stacked charts, it is a straightforward task to render stacked series with the existing components. This section illustrates this with a few examples.</p>
+<p>The following code demonstrates how to render a stacked bar series to an SVG. Note that the axis configuration is omitted for clarity:</p>
+<pre><code class="language-javascript">var stack = d3.stack<span class="hljs-literal">()</span>
+    .keys(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Object</span>.</span></span>keys(data<span class="hljs-literal">[<span class="hljs-number">0</span>]</span>).filter(k =&gt; k !== 'State'));
+
+var series = stack(data);
+
+var color = d3.scale<span class="hljs-constructor">Ordinal(<span class="hljs-params">d3</span>.<span class="hljs-params">schemeCategory10</span>)</span>;
+
+var barSeries = fc.series<span class="hljs-constructor">SvgBar()</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">x</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">y</span>)</span>
+    .cross<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>.<span class="hljs-params">data</span>.State)</span>
+    .main<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>[1])</span>
+    .base<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>[0])</span>
+    .decorate((group, data, index) =&gt; {
+        group.select<span class="hljs-constructor">All('<span class="hljs-params">path</span>')</span>
+            .attr('fill', color(index));
+    })
+
+var join = fc.data<span class="hljs-constructor">Join('<span class="hljs-params">g</span>', '<span class="hljs-params">series</span>')</span>;
+
+join(container, series)
+    .call(barSeries);</code></pre>
+<p>The <a href="https://github.com/d3/d3-shape/blob/master/README.md#stack">d3 stack</a> component is used to stack the data obtained from the d3 CSV parser. The SVG bar series value accessors are configured based on the output of the stack component. Finally a d3fc datajoin is used to render each row of data using the bar series.</p>
+<p>With canvas, the code is very similar, with a for each loop used in place of the data join:</p>
+<pre><code class="language-javascript">var canvasBarSeries = fc.series<span class="hljs-constructor">CanvasBar()</span>
+    .x<span class="hljs-constructor">Scale(<span class="hljs-params">x</span>)</span>
+    .y<span class="hljs-constructor">Scale(<span class="hljs-params">y</span>)</span>
+    .cross<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>.<span class="hljs-params">data</span>.State)</span>
+    .main<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>[1])</span>
+    .base<span class="hljs-constructor">Value(<span class="hljs-params">d</span> =&gt; <span class="hljs-params">d</span>[0])</span>
+    .context(ctx);
+
+series.for<span class="hljs-constructor">Each(<span class="hljs-params">function</span>(<span class="hljs-params">s</span>, <span class="hljs-params">i</span>)</span> {
+    canvasBarSeries
+        .decorate(<span class="hljs-keyword">function</span>(ctx) {
+            ctx.fillStyle = color(i);
+        })(s);
+});</code></pre>
+<p>In both cases, the decorate pattern is used to set the color for each bar series.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-series/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <span class="active">Series</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#general-api">
+                    General API
+                  </a>
+                </li>
+                <li>
+                  <a href="#line">
+                    Line
+                  </a>
+                </li>
+                <li>
+                  <a href="#point">
+                    Point
+                  </a>
+                </li>
+                <li>
+                  <a href="#area">
+                    Area
+                  </a>
+                </li>
+                <li>
+                  <a href="#bar">
+                    Bar
+                  </a>
+                </li>
+                <li>
+                  <a href="#candlestick">
+                    Candlestick
+                  </a>
+                </li>
+                <li>
+                  <a href="#ohlc">
+                    OHLC
+                  </a>
+                </li>
+                <li>
+                  <a href="#common-properties">
+                    Common properties
+                  </a>
+                </li>
+                <li>
+                  <a href="#boxplot">
+                    Boxplot
+                  </a>
+                </li>
+                <li>
+                  <a href="#errorbar">
+                    Errorbar
+                  </a>
+                </li>
+                <li>
+                  <a href="#heatmap">
+                    Heatmap
+                  </a>
+                </li>
+                <li>
+                  <a href="#multi">
+                    Multi
+                  </a>
+                </li>
+                <li>
+                  <a href="#repeat">
+                    Repeat
+                  </a>
+                </li>
+                <li>
+                  <a href="#grouped">
+                    Grouped
+                  </a>
+                </li>
+                <li>
+                  <a href="#stacked">
+                    Stacked
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

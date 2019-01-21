@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Streaming Financial Chart</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/examples/streaming/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      <div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Streaming Financial Chart
+    </h1>
+    <style>
+.bollinger .area {
+  fill: #9cf;
+  fill-opacity: 0.5;
+}
+
+.bollinger .line {
+  stroke: #06c;
+}
+
+</style>
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;streaming-chart\&quot; class&#x3D;\&quot;chart large\&quot;&gt;&lt;/div&gt;\n",
+        "js": "// create some test data\nconst stream = fc.randomFinancial().stream();\nconst data = stream.take(110);\n\nfunction renderChart() {\n  // add a new datapoint and remove an old one\n  data.push(stream.next());\n  data.shift();\n\n  const container = d3.select(\"#streaming-chart\");\n\n  // Create and apply the bollinger algorithm\n  const bollingerAlgorithm = fc.indicatorBollingerBands()\n    .value(function(d) {\n      return d.close;\n    });\n  const bollingerData = bollingerAlgorithm(data);\n  const mergedData = data.map(function(d, i) {\n    return Object.assign({}, d, {\n      bollinger: bollingerData[i]\n    });\n  });\n\n  // Offset the range to include the full bar for the latest value\n  const DAY_MS = 1000 * 60 * 60 * 24;\n  const xTicks = $(\"#streaming-chart\").width() >= 700 ? 10 : 5;\n  const xExtent = fc.extentDate()\n    .accessors([function(d) {\n      return d.date;\n    }])\n    .padUnit(\"domain\")\n    .pad([DAY_MS * -bollingerAlgorithm.period()(mergedData), DAY_MS]);\n\n  // ensure y extent includes the bollinger bands\n  const yExtent = fc.extentLinear()\n    .accessors([\n      function(d) {\n        return Math.max(d.bollinger.upper, d.high);\n      },\n      function(d) {\n        return Math.min(d.bollinger.lower, d.low);\n      }\n    ]);\n\n  // create a chart\n  const chart = fc.chartSvgCartesian(\n      d3.scaleTime(),\n      d3.scaleLinear()\n    )\n    .xDomain(xExtent(mergedData))\n    .xTicks(xTicks)\n    .yDomain(yExtent(mergedData))\n    .chartLabel(\"Streaming Candlestick\");\n\n  // Create the gridlines and series\n  const gridlines = fc.annotationSvgGridline().xTicks(xTicks);\n  const candlestick = fc.seriesSvgCandlestick();\n\n  const bollingerBands = function() {\n    const area = fc.seriesSvgArea()\n      .mainValue(function(d) {\n        return d.bollinger.upper;\n      })\n      .baseValue(function(d) {\n        return d.bollinger.lower;\n      });\n\n    const upperLine = fc.seriesSvgLine()\n      .mainValue(function(d) {\n        return d.bollinger.upper;\n      });\n\n    const averageLine = fc.seriesSvgLine()\n      .mainValue(function(d) {\n        return d.bollinger.average;\n      });\n\n    const lowerLine = fc.seriesSvgLine()\n      .mainValue(function(d) {\n        return d.bollinger.lower;\n      });\n\n    const crossValue = function(d) {\n      return d.date;\n    };\n    area.crossValue(crossValue);\n    upperLine.crossValue(crossValue);\n    averageLine.crossValue(crossValue);\n    lowerLine.crossValue(crossValue);\n\n    const bollingerMulti = fc.seriesSvgMulti()\n      .series([area, upperLine, lowerLine, averageLine])\n      .decorate(function(g, datum, index) {\n        g.enter()\n          .attr(\"class\", function(_, i) {\n            return \"multi bollinger \" + [\"area\", \"upper\", \"lower\", \"average\"][i];\n          });\n      });\n\n    return bollingerMulti;\n  };\n\n  // add them to the chart via a multi-series\n  const multi = fc.seriesSvgMulti()\n    .series([gridlines, bollingerBands(), candlestick]);\n\n  chart.plotArea(multi);\n\n  container\n    .style(\"margin-left\", \"20px\")\n    .datum(mergedData)\n    .call(chart);\n}\n\n// re-render the chart every 200ms\nrenderChart();\n\nif (window.intervalId) {\n  window.clearInterval(window.intervalId);\n}\n\nwindow.intervalId = setInterval(renderChart, 200);\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n.bollinger .area {\n  fill: #9cf;\n  fill-opacity: 0.5;\n}\n\n.bollinger .line {\n  stroke: #06c;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='streaming-chart' class='chart large'></div>
+
+<script type="text/javascript">
+    (function() {
+        // create some test data
+const stream = fc.randomFinancial().stream();
+const data = stream.take(110);
+
+function renderChart() {
+  // add a new datapoint and remove an old one
+  data.push(stream.next());
+  data.shift();
+
+  const container = d3.select('#streaming-chart');
+
+  // Create and apply the bollinger algorithm
+  const bollingerAlgorithm = fc.indicatorBollingerBands()
+    .value(function(d) {
+      return d.close;
+    });
+  const bollingerData = bollingerAlgorithm(data);
+  const mergedData = data.map(function(d, i) {
+    return Object.assign({}, d, {
+      bollinger: bollingerData[i]
+    });
+  });
+
+  // Offset the range to include the full bar for the latest value
+  const DAY_MS = 1000 * 60 * 60 * 24;
+  const xTicks = $('#streaming-chart').width() >= 700 ? 10 : 5;
+  const xExtent = fc.extentDate()
+    .accessors([function(d) {
+      return d.date;
+    }])
+    .padUnit('domain')
+    .pad([DAY_MS * -bollingerAlgorithm.period()(mergedData), DAY_MS]);
+
+  // ensure y extent includes the bollinger bands
+  const yExtent = fc.extentLinear()
+    .accessors([
+      function(d) {
+        return Math.max(d.bollinger.upper, d.high);
+      },
+      function(d) {
+        return Math.min(d.bollinger.lower, d.low);
+      }
+    ]);
+
+  // create a chart
+  const chart = fc.chartSvgCartesian(
+      d3.scaleTime(),
+      d3.scaleLinear()
+    )
+    .xDomain(xExtent(mergedData))
+    .xTicks(xTicks)
+    .yDomain(yExtent(mergedData))
+    .chartLabel('Streaming Candlestick');
+
+  // Create the gridlines and series
+  const gridlines = fc.annotationSvgGridline().xTicks(xTicks);
+  const candlestick = fc.seriesSvgCandlestick();
+
+  const bollingerBands = function() {
+    const area = fc.seriesSvgArea()
+      .mainValue(function(d) {
+        return d.bollinger.upper;
+      })
+      .baseValue(function(d) {
+        return d.bollinger.lower;
+      });
+
+    const upperLine = fc.seriesSvgLine()
+      .mainValue(function(d) {
+        return d.bollinger.upper;
+      });
+
+    const averageLine = fc.seriesSvgLine()
+      .mainValue(function(d) {
+        return d.bollinger.average;
+      });
+
+    const lowerLine = fc.seriesSvgLine()
+      .mainValue(function(d) {
+        return d.bollinger.lower;
+      });
+
+    const crossValue = function(d) {
+      return d.date;
+    };
+    area.crossValue(crossValue);
+    upperLine.crossValue(crossValue);
+    averageLine.crossValue(crossValue);
+    lowerLine.crossValue(crossValue);
+
+    const bollingerMulti = fc.seriesSvgMulti()
+      .series([area, upperLine, lowerLine, averageLine])
+      .decorate(function(g, datum, index) {
+        g.enter()
+          .attr('class', function(_, i) {
+            return 'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i];
+          });
+      });
+
+    return bollingerMulti;
+  };
+
+  // add them to the chart via a multi-series
+  const multi = fc.seriesSvgMulti()
+    .series([gridlines, bollingerBands(), candlestick]);
+
+  chart.plotArea(multi);
+
+  container
+    .style('margin-left', '20px')
+    .datum(mergedData)
+    .call(chart);
+}
+
+// re-render the chart every 200ms
+renderChart();
+
+if (window.intervalId) {
+  window.clearInterval(window.intervalId);
+}
+
+window.intervalId = setInterval(renderChart, 200);
+
+    })();
+</script>
+
+
+<p>This example shows how d3fc can be used to render dynamic data. The basic principle is that the chart render function should be an idempotent transformation of the data. As a result, if the data changes the entire render function is re-evaluated.</p>
+<pre><code class="language-js"><span class="hljs-comment">// create some test data</span>
+<span class="hljs-keyword">const</span> stream = fc.randomFinancial().stream();
+<span class="hljs-keyword">const</span> data = stream.take(<span class="hljs-number">110</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renderChart</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// add a new datapoint and remove an old one</span>
+  data.push(stream.next());
+  data.shift();
+
+  <span class="hljs-keyword">const</span> container = d3.select(<span class="hljs-string">'#streaming-chart'</span>);
+
+  <span class="hljs-comment">// Create and apply the bollinger algorithm</span>
+  <span class="hljs-keyword">const</span> bollingerAlgorithm = fc.indicatorBollingerBands()
+    .value(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+      <span class="hljs-keyword">return</span> d.close;
+    });
+  <span class="hljs-keyword">const</span> bollingerData = bollingerAlgorithm(data);
+  <span class="hljs-keyword">const</span> mergedData = data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d, i</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, d, {
+      <span class="hljs-attr">bollinger</span>: bollingerData[i]
+    });
+  });
+
+  <span class="hljs-comment">// Offset the range to include the full bar for the latest value</span>
+  <span class="hljs-keyword">const</span> DAY_MS = <span class="hljs-number">1000</span> * <span class="hljs-number">60</span> * <span class="hljs-number">60</span> * <span class="hljs-number">24</span>;
+  <span class="hljs-keyword">const</span> xTicks = $(<span class="hljs-string">'#streaming-chart'</span>).width() &gt;= <span class="hljs-number">700</span> ? <span class="hljs-number">10</span> : <span class="hljs-number">5</span>;
+  <span class="hljs-keyword">const</span> xExtent = fc.extentDate()
+    .accessors([<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+      <span class="hljs-keyword">return</span> d.date;
+    }])
+    .padUnit(<span class="hljs-string">'domain'</span>)
+    .pad([DAY_MS * -bollingerAlgorithm.period()(mergedData), DAY_MS]);
+
+  <span class="hljs-comment">// ensure y extent includes the bollinger bands</span>
+  <span class="hljs-keyword">const</span> yExtent = fc.extentLinear()
+    .accessors([
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(d.bollinger.upper, d.high);
+      },
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.min(d.bollinger.lower, d.low);
+      }
+    ]);
+
+  <span class="hljs-comment">// create a chart</span>
+  <span class="hljs-keyword">const</span> chart = fc.chartSvgCartesian(
+      d3.scaleTime(),
+      d3.scaleLinear()
+    )
+    .xDomain(xExtent(mergedData))
+    .xTicks(xTicks)
+    .yDomain(yExtent(mergedData))
+    .chartLabel(<span class="hljs-string">'Streaming Candlestick'</span>);
+
+  <span class="hljs-comment">// Create the gridlines and series</span>
+  <span class="hljs-keyword">const</span> gridlines = fc.annotationSvgGridline().xTicks(xTicks);
+  <span class="hljs-keyword">const</span> candlestick = fc.seriesSvgCandlestick();
+
+  <span class="hljs-keyword">const</span> bollingerBands = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">const</span> area = fc.seriesSvgArea()
+      .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> d.bollinger.upper;
+      })
+      .baseValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> d.bollinger.lower;
+      });
+
+    <span class="hljs-keyword">const</span> upperLine = fc.seriesSvgLine()
+      .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> d.bollinger.upper;
+      });
+
+    <span class="hljs-keyword">const</span> averageLine = fc.seriesSvgLine()
+      .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> d.bollinger.average;
+      });
+
+    <span class="hljs-keyword">const</span> lowerLine = fc.seriesSvgLine()
+      .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+        <span class="hljs-keyword">return</span> d.bollinger.lower;
+      });
+
+    <span class="hljs-keyword">const</span> crossValue = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{
+      <span class="hljs-keyword">return</span> d.date;
+    };
+    area.crossValue(crossValue);
+    upperLine.crossValue(crossValue);
+    averageLine.crossValue(crossValue);
+    lowerLine.crossValue(crossValue);
+
+    <span class="hljs-keyword">const</span> bollingerMulti = fc.seriesSvgMulti()
+      .series([area, upperLine, lowerLine, averageLine])
+      .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">g, datum, index</span>) </span>{
+        g.enter()
+          .attr(<span class="hljs-string">'class'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">_, i</span>) </span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-string">'multi bollinger '</span> + [<span class="hljs-string">'area'</span>, <span class="hljs-string">'upper'</span>, <span class="hljs-string">'lower'</span>, <span class="hljs-string">'average'</span>][i];
+          });
+      });
+
+    <span class="hljs-keyword">return</span> bollingerMulti;
+  };
+
+  <span class="hljs-comment">// add them to the chart via a multi-series</span>
+  <span class="hljs-keyword">const</span> multi = fc.seriesSvgMulti()
+    .series([gridlines, bollingerBands(), candlestick]);
+
+  chart.plotArea(multi);
+
+  container
+    .style(<span class="hljs-string">'margin-left'</span>, <span class="hljs-string">'20px'</span>)
+    .datum(mergedData)
+    .call(chart);
+}
+
+<span class="hljs-comment">// re-render the chart every 200ms</span>
+renderChart();
+
+<span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.intervalId) {
+  <span class="hljs-built_in">window</span>.clearInterval(<span class="hljs-built_in">window</span>.intervalId);
+}
+
+<span class="hljs-built_in">window</span>.intervalId = setInterval(renderChart, <span class="hljs-number">200</span>);
+</code></pre>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

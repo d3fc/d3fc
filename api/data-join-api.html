@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Data Join</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/data-join-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Data Join</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-data-join
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-data-join/build/d3fc-data-join.min.js">View on unpkg</a>
+        </h1>
+<p>A wrapper around D3&#39;s data join which simplifies some of the common problems that have been run into with <em>our particular usage patterns</em>, and facilitates the <em>d3fc decorate</em> pattern. These are not going to be universally applicable. As always it’s important to understand the abstraction and in many cases a vanilla data join may be simpler or perform better.</p>
+<p>This blog post (<a href="http://blog.scottlogic.com/2016/08/17/building-components-with-d3-data-join.html">Building Components with Data Join</a>) introduces the rationale behind this component.</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<p>The data-join component is a relatively lightweight wrapper around d3&#39;s selectAll/data data-join, which allows decoration of the result. This is achieved by appending the element to the enter selection before exposing it. A default transition of fade in/out is also implicitly added but can be modified.</p>
+<p><a name="dataJoin" href="#dataJoin">#</a> fc.<strong>dataJoin</strong>([<em>element</em>][, <em>className</em>])</p>
+<p>Constructs a new data-join component instance. Optionally an <code>element</code> or an <code>element</code> and a <code>className</code> can be specified, this is functionally equivalent to calling their methods as defined below.</p>
+<p><a name="dataJoin_" href="#dataJoin_">#</a> <em>dataJoin</em>(<em>selection</em>[, <em>data</em>])</p>
+<p>Invoke with a <code>selection</code> containing the parent element and the <code>data</code> to be joined.</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { dataJoin } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-data-join'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">select</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-selection'</span>;
+
+const join = dataJoin(<span class="hljs-string">'li'</span>, <span class="hljs-string">'animal'</span>);
+
+<span class="hljs-keyword">join</span>(<span class="hljs-keyword">select</span>(<span class="hljs-string">'ul'</span>), [<span class="hljs-string">'Aardvark'</span>, <span class="hljs-string">'Beaver'</span>, <span class="hljs-string">'Cat'</span>])
+  .text(d =&gt; d);</code></pre>
+<p>The return value is a selection containing all new and existing nodes. Two additional methods are exposed for retrieving a selection containing only the new nodes (<code>.enter()</code>) and the removed nodes (<code>.exit()</code>).</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { dataJoin } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-data-join'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">select</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-selection'</span>;
+
+const join = dataJoin(<span class="hljs-string">'li'</span>, <span class="hljs-string">'animal'</span>);
+
+const <span class="hljs-keyword">update</span> = <span class="hljs-keyword">join</span>(<span class="hljs-keyword">select</span>(<span class="hljs-string">'ul'</span>), [<span class="hljs-string">'Aardvark'</span>, <span class="hljs-string">'Beaver'</span>, <span class="hljs-string">'Cat'</span>])
+  .text(d =&gt; d);
+
+<span class="hljs-keyword">update</span>.enter()
+  .attr(<span class="hljs-string">'data-'</span>, d =&gt; d);
+</code></pre>
+<p>If <code>d3-transition</code> is available, new nodes will have a fade-in transition applied and removed nodes will have a fade-out transition applied. The transition timings can be controlled from the container selection passed in or by explicitly setting <a href="#dataJoin_transition"><code>transition</code></a>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">import</span> { dataJoin } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-data-join'</span>;
+<span class="hljs-keyword">import</span> { select } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-selection'</span>;
+<span class="hljs-keyword">import</span> { transition } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-transition'</span>;
+
+<span class="hljs-keyword">const</span> quickTransition = transition()
+  .duration(<span class="hljs-number">300</span>);
+
+<span class="hljs-keyword">const</span> join = dataJoin(<span class="hljs-string">'li'</span>, <span class="hljs-string">'animal'</span>);
+
+<span class="hljs-keyword">const</span> container = select(<span class="hljs-string">'ul'</span>)
+  .transition(quickTransition);
+
+join(container, [<span class="hljs-string">'Aardvark'</span>, <span class="hljs-string">'Beaver'</span>, <span class="hljs-string">'Cat'</span>])
+  .text(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d);</code></pre>
+<p>To disable transitions, explicitly retrieve the selection from the transition before passing it in -</p>
+<pre><code class="language-js">import { dataJoin } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-data-join'</span>;
+import { <span class="hljs-keyword">select</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-selection'</span>;
+import { transition } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-transition'</span>;
+
+<span class="hljs-keyword">const</span> quickTransition = transition()
+  .duration(<span class="hljs-number">300</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">join</span> = dataJoin(<span class="hljs-string">'li'</span>, <span class="hljs-string">'animal'</span>);
+
+<span class="hljs-keyword">const</span> root = <span class="hljs-keyword">select</span>(<span class="hljs-string">'body'</span>)
+  .transition(quickTransition);
+
+<span class="hljs-keyword">const</span> container = root.<span class="hljs-keyword">select</span>(<span class="hljs-string">'ul'</span>)
+  .selection();
+
+<span class="hljs-keyword">join</span>(container, [<span class="hljs-string">'Aardvark'</span>, <span class="hljs-string">'Beaver'</span>, <span class="hljs-string">'Cat'</span>])
+  .text(d =&gt; d);</code></pre>
+<p><a name="dataJoin_element" href="#dataJoin_element">#</a> <em>dataJoin</em>.<strong>element</strong>(<em>element</em>)</p>
+<p>Sets the element name used to select elements and to create elements for insertion. Defaults to an SVG <code>g</code> element. See <code>className</code> for a description of the selector used.</p>
+<p><a name="dataJoin_className" href="#dataJoin_className">#</a> <em>dataJoin</em>.<strong>className</strong>(<em>className</em>)</p>
+<p>Set the class name used to select elements and applied to inserted elements. Defaults to <code>null</code>. If set to <code>null</code>, only the <code>element</code> is used as the selector. If non-null, the selector provided to <code>selectAll</code> is -</p>
+<pre><code class="language-js"><span class="hljs-string">`<span class="hljs-subst">${element}</span>.<span class="hljs-subst">${className}</span>`</span></code></pre>
+<p><a name="dataJoin_key" href="#dataJoin_key">#</a> <em>dataJoin</em>.<strong>key</strong>(<em>keyFunc</em>)</p>
+<p>Specifies the key function used by the data-join. Defaults to index-based. Equivalent to specifying a <code>key</code> argument when calling <a href="https://github.com/d3/d3-selection#selection_data"><code>selection.data()</code></a>.</p>
+<p><a name="dataJoin_transition" href="#dataJoin_transition">#</a> <em>dataJoin</em>.<strong>transition</strong>(<em>transition</em>)</p>
+<p>Specifies the transition to be used if an implicit transition is not supplied as the container. Defaults to <code>null</code> which disables transitions.</p>
+            <!-- LEVEL 3 -->
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-data-join/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <span class="active">Data Join</span>
+            <ul class="nav nav-stacked">
+            </ul>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

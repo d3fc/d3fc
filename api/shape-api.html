@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Shape</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/shape-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/brush-api.html">Brush</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Shape</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-shape
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-shape/build/d3fc-shape.min.js">View on unpkg</a>
+        </h1>
+<p>A collection of SVG/canvas path generators for creating chart series</p>
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+<ul>
+<li><a href="#example-usage">Example usage</a></li>
+<li><a href="#bar">Bar</a></li>
+<li><a href="#boxplot">Boxplot</a></li>
+<li><a href="#candlestick">Candlestick</a></li>
+<li><a href="#error-bar">Error Bar</a></li>
+<li><a href="#ohlc">OHLC</a></li>
+</ul>
+<p>All of the exported functions have the same signature, <code>(context) =&gt; generator</code>. The context supplied must be an implementation of the subset of Context2D methods as implemented by <a href="https://github.com/d3/d3-path">d3-path</a> (or indeed a Context2D!).</p>
+<p>You can then configure the <code>generator</code> by invoking the relevant methods (e.g. <code>generator.x(/* ... */)</code>) as described below. Once suitably configured invoke the generator function itself with the required data (e.g. <code>generator([/* ... */])</code>).</p>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="example-usage" href="#example-usage" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Example usage
+                </h3>
+<h4 id="svg">SVG</h4>
+<pre><code class="language-javascript">
+<span class="hljs-keyword">import</span> { path } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3-path'</span>;
+<span class="hljs-keyword">import</span> { shapeCandlestick } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-shape'</span>;
+
+const ctx = path();
+
+const candlestick = shapeCandlestick()
+  .x(<span class="hljs-function"><span class="hljs-params">(d, i)</span> =&gt;</span> i)
+  .open(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.open)
+  .high(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.high)
+  .low(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.low)
+  .close(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.close);
+
+d3.<span class="hljs-built_in">select</span>(<span class="hljs-string">'path'</span>)
+  .datum([
+    { <span class="hljs-name">open</span>: <span class="hljs-number">4</span>, <span class="hljs-name">high</span>: <span class="hljs-number">5</span>, <span class="hljs-name">low</span>: <span class="hljs-number">3</span>, <span class="hljs-name">close</span>: <span class="hljs-number">3</span> }
+  ])
+  .attr(<span class="hljs-string">'d'</span>, candlestick);
+</code></pre>
+<h4 id="canvas">Canvas</h4>
+<pre><code class="language-javascript">
+<span class="hljs-keyword">import</span> { shapeCandlestick } <span class="hljs-keyword">from</span> <span class="hljs-string">'d3fc-shape'</span>;
+
+const ctx = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'canvas'</span>).getContext(<span class="hljs-string">'2d'</span>);
+
+const candlestick = shapeCandlestick()
+  .context(ctx)
+  .x(<span class="hljs-function"><span class="hljs-params">(d, i)</span> =&gt;</span> i)
+  .open(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.open)
+  .high(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.high)
+  .low(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.low)
+  .close(<span class="hljs-function"><span class="hljs-params">(d)</span> =&gt;</span> d.close);
+
+candlestick([
+  { open: <span class="hljs-number">4</span>, high: <span class="hljs-number">5</span>, low: <span class="hljs-number">3</span>, close: <span class="hljs-number">3</span> }
+]);
+
+ctx.stroke();
+</code></pre>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="bar" href="#bar" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Bar
+                </h3>
+<p><a name="shapeBar" href="#shapeBar">#</a> fc.<strong>shapeBar</strong>(<em>context</em>)</p>
+<p><a name="shapeBar_x" href="#shapeBar_x">#</a> <em>shapeBar</em>.<strong>x<em>*(</em>accessorFunc<em>)<br><a name="shapeBar_y" href="#shapeBar_y">#</a> *shapeBar</em>.</strong>y<strong>(<em>accessorFunc</em>)<br><a name="shapeBar_width" href="#shapeBar_width">#</a> <em>shapeBar</em>.</strong>width<strong>(<em>accessorFunc</em>)<br><a name="shapeBar_height" href="#shapeBar_height">#</a> <em>shapeBar</em>.</strong>height<em>*(</em>accessorFunc*)  </p>
+<p>The attribute accessor methods available to set the way the bar chart accesses the data.
+The <code>accessorFunc(datum, index)</code> function is called on each item of the data, and returns
+the relevant value for the relevant attribute for that item.</p>
+<p><a name="shapeBar_horizontalAlign" href="#shapeBar_horizontalAlign">#</a> <em>shapeBar</em>.<strong>horizontalAlign</strong>(<em>alignment</em>)  </p>
+<p><code>alignment</code> is one of: <code>left</code>, <code>right</code> or <code>center</code> (default)</p>
+<p><a name="shapeBar_verticalAlign" href="#shapeBar_verticalAlign">#</a> <em>shapeBar</em>.<strong>verticalAlign</strong>(<em>alignment</em>)  </p>
+<p><code>alignment</code> is one of: <code>bottom</code>, <code>top</code> or <code>center</code> (default)</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="boxplot" href="#boxplot" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Boxplot
+                </h3>
+<p><a name="shapeBoxPlot" href="#shapeBoxPlot">#</a> fc.<strong>shapeBoxPlot</strong>(<em>context</em>)</p>
+<p><a name="shapeBoxPlot_value" href="#shapeBoxPlot_value">#</a> <em>shapeBoxPlot</em>.<strong>value</strong>(<em>accessorFunc</em>)<br><a name="shapeBoxPlot_median" href="#shapeBoxPlot_median">#</a> <em>shapeBoxPlot</em>.<strong>median</strong>(<em>accessorFunc</em>)<br><a name="shapeBoxPlot_upperQuartile" href="#shapeBoxPlot_upperQuartile">#</a> <em>shapeBoxPlot</em>.<strong>upperQuartile</strong>(<em>accessorFunc</em>)<br><a name="shapeBoxPlot_lowerQuartile" href="#shapeBoxPlot_lowerQuartile">#</a> <em>shapeBoxPlot</em>.<strong>lowerQuartile</strong>(<em>accessorFunc</em>)<br><a name="shapeBoxPlot_high" href="#shapeBoxPlot_high">#</a> <em>shapeBoxPlot</em>.<strong>high</strong>(<em>accessorFunc</em>)<br><a name="shapeBoxPlot_low" href="#shapeBoxPlot_low">#</a> <em>shapeBoxPlot</em>.<strong>low</strong>(<em>accessorFunc</em>)<br><a name="shapeBoxPlot_width" href="#shapeBoxPlot_width">#</a> <em>shapeBoxPlot</em>.<strong>width</strong>(<em>accessorFunc</em>)  </p>
+<p>The attribute accessor methods available to set the way the bar chart accesses the data.
+The <code>accessorFunc(datum, index)</code> function is called on each item of the data, and returns
+the relevant value for the relevant attribute for that item.</p>
+<p><a name="shapeBoxPlot_cap" href="#shapeBoxPlot_cap">#</a> <em>shapeBoxPlot</em>.<strong>cap</strong>(<em>accessorFunc</em>)  </p>
+<p>The <code>accessorFunc(item, index)</code> function is called on each item of the data, and returns
+the <strong>proprtion</strong> of the box width that the caps width should be.</p>
+<p><a name="shapeBoxPlot_orient" href="#shapeBoxPlot_orient">#</a> <em>shapeBoxPlot</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>Orientation of the chart. Either <code>horizontal</code> (default) or <code>vertical</code></p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="candlestick" href="#candlestick" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Candlestick
+                </h3>
+<p><a name="shapeCandlestick" href="#shapeCandlestick">#</a> fc.<strong>shapeCandlestick</strong>(<em>context</em>)</p>
+<p><a name="shapeCandlestick_x" href="#shapeCandlestick_x">#</a> <em>shapeCandlestick</em>.<strong>x<em>*(</em>accessorFunc<em>)<br><a name="shapeCandlestick_open" href="#shapeCandlestick_open">#</a> *shapeCandlestick</em>.</strong>open<strong>(<em>accessorFunc</em>)<br><a name="shapeCandlestick_high" href="#shapeCandlestick_high">#</a> <em>shapeCandlestick</em>.</strong>high<strong>(<em>accessorFunc</em>)<br><a name="shapeCandlestick_low" href="#shapeCandlestick_low">#</a> <em>shapeCandlestick</em>.</strong>low<strong>(<em>accessorFunc</em>)<br><a name="shapeCandlestick_close" href="#shapeCandlestick_close">#</a> <em>shapeCandlestick</em>.</strong>close<strong>(<em>accessorFunc</em>)<br><a name="shapeCandlestick_width" href="#shapeCandlestick_width">#</a> <em>shapeCandlestick</em>.</strong>width<em>*(</em>accessorFunc*)  </p>
+<p>The attribute accessor methods available to set the way the bar chart accesses the data.
+The <code>accessorFunc(datum, index)</code> function is called on each item of the data, and returns
+the relevant value for the relevant attribute for that item.</p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="error-bar" href="#error-bar" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Error Bar
+                </h3>
+<p><a name="shapeErrorBar" href="#shapeErrorBar">#</a> fc.<strong>shapeErrorBar</strong>(<em>context</em>)</p>
+<p><a name="shapeErrorBar_value" href="#shapeErrorBar_value">#</a> <em>shapeErrorBar</em>.<strong>value</strong>(<em>accessorFunc</em>)<br><a name="shapeErrorBar_high" href="#shapeErrorBar_high">#</a> <em>shapeErrorBar</em>.<strong>high</strong>(<em>accessorFunc</em>)<br><a name="shapeErrorBar_low" href="#shapeErrorBar_low">#</a> <em>shapeErrorBar</em>.<strong>low</strong>(<em>accessorFunc</em>)<br><a name="shapeErrorBar_width" href="#shapeErrorBar_width">#</a> <em>shapeErrorBar</em>.<strong>width</strong>(<em>accessorFunc</em>)  </p>
+<p>The attribute accessor methods available to set the way the bar chart accesses the data.
+The <code>accessorFunc(datum, index)</code> function is called on each item of the data, and returns
+the relevant value for the relevant attribute for that item.</p>
+<p><a name="shapeErrorBar_orient" href="#shapeErrorBar_orient">#</a> <em>shapeErrorBar</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>Orientation of the chart. Either <code>horizontal</code> (default) or <code>vertical</code></p>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="ohlc" href="#ohlc" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+OHLC
+                </h3>
+<p><a name="shapeOhlc" href="#shapeOhlc">#</a> fc.<strong>shapeOhlc</strong>(<em>context</em>)</p>
+<p><a name="shapeOhlc_x" href="#shapeOhlc_x">#</a> <em>shapeOhlc</em>.<strong>x<em>*(</em>accessorFunc<em>)<br><a name="shapeOhlc_open" href="#shapeOhlc_open">#</a> *shapeOhlc</em>.</strong>open<strong>(<em>accessorFunc</em>)<br><a name="shapeOhlc_high" href="#shapeOhlc_high">#</a> <em>shapeOhlc</em>.</strong>high<strong>(<em>accessorFunc</em>)<br><a name="shapeOhlc_low" href="#shapeOhlc_low">#</a> <em>shapeOhlc</em>.</strong>low<strong>(<em>accessorFunc</em>)<br><a name="shapeOhlc_close" href="#shapeOhlc_close">#</a> <em>shapeOhlc</em>.</strong>close<strong>(<em>accessorFunc</em>)<br><a name="shapeOhlc_width" href="#shapeOhlc_width">#</a> <em>shapeOhlc</em>.</strong>width<em>*(</em>accessorFunc*)  </p>
+<p>The attribute accessor methods available to set the way the bar chart accesses the data.
+The <code>accessorFunc(datum, index)</code> function is called on each item of the data, and returns
+the relevant value for the relevant attribute for that item.</p>
+<p><a name="shapeOhlc_orient" href="#shapeOhlc_orient">#</a> <em>shapeOhlc</em>.<strong>orient</strong>(<em>orientation</em>)  </p>
+<p>Orientation of the chart. Either <code>horizontal</code> (default) or <code>vertical</code></p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-shape/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <a href="/api/brush-api.html">Brush</a>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <span class="active">Shape</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#example-usage">
+                    Example usage
+                  </a>
+                </li>
+                <li>
+                  <a href="#bar">
+                    Bar
+                  </a>
+                </li>
+                <li>
+                  <a href="#boxplot">
+                    Boxplot
+                  </a>
+                </li>
+                <li>
+                  <a href="#candlestick">
+                    Candlestick
+                  </a>
+                </li>
+                <li>
+                  <a href="#error-bar">
+                    Error Bar
+                  </a>
+                </li>
+                <li>
+                  <a href="#ohlc">
+                    OHLC
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

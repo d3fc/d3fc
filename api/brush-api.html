@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Brush</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/api/brush-api.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="active">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                      <ul class="sub-nav">
+                          <li class="sub-nav-item">
+                              <a href="/api/annotation-api.html">Annotation</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/axis-api.html">Axis</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <span class="active">Brush</span>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/chart-api.html">Chart</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/data-join-api.html">Data Join</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/element-api.html">Element</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/extent-api.html">Extent</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/financial-feed-api.html">Financial Feed</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/group-api.html">Group</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/label-layout-api.html">Label Layout</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/pointer-api.html">Pointer</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/random-data-api.html">Random Data</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/rebind-api.html">Rebind</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/sample-api.html">Sample</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/scripts-api.html">Scripts</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/series-api.html">Series</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/shape-api.html">Shape</a>
+                          </li>
+                          <li class="sub-nav-item">
+                              <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      
+<div class="container content">
+  <div class="col-sm-9">
+    <!-- LEVEL 1 -->
+      <div class="section">
+        <h1>
+          d3fc-brush
+            <a class="btn btn-default gh" href="https://github.com/d3fc/d3fc">View on GitHub</a>
+            <a class="btn btn-default unpkg" href="https://unpkg.com/@d3fc/d3fc-brush/build/d3fc-brush.min.js">View on unpkg</a>
+        </h1>
+<p>Adapts the D3 brush, making it easier to create data-driven, responsive brushed charts.</p>
+<img src="d3fc-brush/screenshots/screenshot.png"/>
+
+
+        <!-- LEVEL 2 -->
+          <div class="block">
+            <h2 class="header">
+API Reference
+            </h2>
+            <!-- LEVEL 3 -->
+              <div class="block">
+                <h3 class="header">
+                  <a id="general-api" href="#general-api" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+General API
+                </h3>
+<p>The d3fc-brush component adapts the <a href="https://github.com/d3/d3-brush">d3-brush</a>, to achieve the following:</p>
+<ol>
+<li>The d3fc-brush is data-driven, with the location of the brush determined by the data supplied via a data join. This makes it easier to create charts that are responsive (i.e, support re-sizing), integrate with other interactive components such as zoom, and create chart rendering logic that is idempotent.</li>
+<li>The d3fc-brush exposes <code>xScale</code> and <code>yScale</code> properties for integration with the <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series#multi-series">multi series</a> component and <a href="https://github.com/d3fc/d3fc/tree/master/packages/d3fc-chart#cartesian">cartesian chart</a> component. As a result the extent of the brush is automatically set based on the range of each axis.</li>
+<li>The d3fc-brush selection (which defines the brushed range), is represented as a percentage, whereas d3-brush uses pixels. The use of a percentage selection makes it easier to resize a brushed chart.</li>
+<li>The brush events expose utility functions for computing the axis domain based on the current selection, making it easier to handle brush events and update the chart.</li>
+</ol>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="creating-a-navigator-chart" href="#creating-a-navigator-chart" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Creating a navigator chart
+                </h3>
+<p>A common application of a brush is to create two linked charts, one which acts as a &#39;navigator&#39;, allowing the user to zoom in on a particular data region. The complete code for this example is found in the <code>examples</code> folder.</p>
+<p>The d3fc brush is data-driven, so the first step is to create data object that combines the standard series data with a range that specifies the brush location:</p>
+<pre><code class="language-javascript"><span class="hljs-attr">var</span> <span class="hljs-string">chartData = {</span>
+    <span class="hljs-attr">series</span>: <span class="hljs-string">data,</span>
+    <span class="hljs-attr">brushedRange</span>: <span class="hljs-string">[0, 1]</span>
+<span class="hljs-attr">};</span></code></pre>
+<p>The d3fc brush uses the same data format as the d3 brush:</p>
+<blockquote>
+<p>For a two-dimensional brush, it is [[x0, y0], [x1, y1]], where x0 is the minimum x-value, y0 is the minimum y-value, x1 is the maximum x-value, and y1 is the maximum y-value. For an x-brush, it is [x0, x1]; for a y-brush, it is [y0, y1].</p>
+</blockquote>
+<p>A multi series can be used to combine the brush with another series, for example an area series:</p>
+<pre><code class="language-javascript"><span class="hljs-symbol">var</span> <span class="hljs-keyword">brush </span>= fc.<span class="hljs-keyword">brushX();
+</span>
+<span class="hljs-symbol">var</span> <span class="hljs-keyword">multi </span>= fc.seriesSvgMulti()
+    .series([<span class="hljs-meta">area</span>, <span class="hljs-keyword">brush])
+</span>    .mapping((<span class="hljs-meta">data</span>, index, series) =&gt; {
+        <span class="hljs-keyword">switch </span>(series[index]) {
+        case <span class="hljs-meta">area</span>:
+            return <span class="hljs-meta">data</span>.series<span class="hljs-comment">;</span>
+        case <span class="hljs-keyword">brush:
+</span>            return <span class="hljs-meta">data</span>.<span class="hljs-keyword">brushedRange;
+</span>        }
+    })<span class="hljs-comment">;</span></code></pre>
+<p>The main and navigator charts are rendered using the cartesian chart component, with the navigator using the multi series defined above:</p>
+<pre><code class="language-javascript">var mainChart = fc.chart<span class="hljs-constructor">SvgCartesian(<span class="hljs-params">x</span>, <span class="hljs-params">y</span>)</span>
+    .plot<span class="hljs-constructor">Area(<span class="hljs-params">area</span>)</span>;
+
+var navigatorChart = fc.chart<span class="hljs-constructor">SvgCartesian(<span class="hljs-params">x</span>.<span class="hljs-params">copy</span>()</span>, y.copy<span class="hljs-literal">()</span>)
+    .plot<span class="hljs-constructor">Area(<span class="hljs-params">multi</span>)</span>;
+
+<span class="hljs-keyword">function</span> render<span class="hljs-literal">()</span> {
+    d3.select('#main-chart')
+        .datum(chartData.series)
+        .call(mainChart);
+
+    d3.select('#navigator-chart')
+        .datum(chartData)
+        .call(navigatorChart);
+}
+
+render<span class="hljs-literal">()</span>;</code></pre>
+<p>The final step is to add event handlers to the brush. The event returns the updated selection together with <code>xDomain</code> and <code>yDomain</code> properties that are set to the domain represented by brushed region.</p>
+<p>The event handler simply updates the data &#39;bound&#39; to the chart to reflect the new selection and updates the domain of the main chart. Because the charts are idempotent and data-drive, all that remains is to invoke the <code>render</code> function.</p>
+<pre><code class="language-javascript">var <span class="hljs-keyword">brush </span>= fc.<span class="hljs-keyword">brushX()
+</span>    .on(<span class="hljs-string">'brush end'</span>, function(evt) {
+        chartData.<span class="hljs-keyword">brushedRange </span>= evt.selection<span class="hljs-comment">;</span>
+        x.domain(evt.xDomain)<span class="hljs-comment">;</span>
+        render()<span class="hljs-comment">;</span>
+    })<span class="hljs-comment">;</span></code></pre>
+<p>If you want to initialise the brush so that it does not occupy the entire range <code>[0, 1]</code>, you&#39;ll need to set the initial domain for the main chart. This can be achieved by using a scale with the same domain and a unit range:</p>
+<pre><code class="language-javascript"><span class="hljs-built_in">var</span> <span class="hljs-built_in">scale</span> = d3.scaleLinear().<span class="hljs-built_in">domain</span>(x.<span class="hljs-built_in">domain</span>());
+x.<span class="hljs-built_in">domain</span>(chartData.brushedRange.<span class="hljs-built_in">map</span>(<span class="hljs-built_in">scale</span>.<span class="hljs-built_in">invert</span>));</code></pre>
+              </div>
+              <div class="block">
+                <h3 class="header">
+                  <a id="brush" href="#brush" class="header-link">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+                    </svg>
+                  </a>
+Brush
+                </h3>
+<p><a name="brush" href="#brush">#</a> fc.<strong>brush</strong>()</p>
+<p>Creates a new two-dimensional brush.</p>
+<p><a name="brushX" href="#brushX">#</a> fc.<strong>brushX</strong>()</p>
+<p>Creates a new one-dimensional brush along the x-dimension.</p>
+<p><a name="brushY" href="#brushY">#</a> fc.<strong>brushY</strong>()  </p>
+<p>Creates a new one-dimensional brush along the y-dimension.</p>
+<p><a name="on" href="#on">#</a> <em>brush</em>.<strong>on</strong>(<em>typenames</em>, <em>[listener]</em>)</p>
+<p>Adds an event listener for the given event types, see <a href="https://github.com/d3/d3-dispatch#dispatch_on">dispatch.on</a> for details. The <em>type</em> must be one of the following:</p>
+<ul>
+<li><code>start</code> - at the start of a brush gesture, such as on mousedown.</li>
+<li><code>brush</code> - when the brush moves, such as on mousemove.</li>
+<li><code>end</code> - at the end of a brush gesture, such as on mouseup.</li>
+</ul>
+<p>The event object exposes the following fields:</p>
+<ul>
+<li><code>selection</code> - the updated selection.</li>
+<li><code>xDomain</code> - the x-domain represented by the given selection.</li>
+<li><code>yDomain</code> - the y-domain represented by the given selection.</li>
+</ul>
+<p><a name="xScale" href="#xScale">#</a> <em>brush</em>.<strong>xScale</strong>(<em>scale</em>)<br><a name="yScale" href="#yScale">#</a> <em>brush</em>.<strong>yScale</strong>(<em>scale</em>)</p>
+<p>If <em>scale</em> is specified, sets the scale and returns this brush. If <em>scale</em> is not specified, returns the current scale.</p>
+<p><a name="filter" href="#filter">#</a> <em>brush</em>.<strong>filter</strong>(<em>[filter]</em>)</p>
+<p>See d3-brush <a href="https://github.com/d3/d3-brush#brush_filter">filter</a>.</p>
+<p><a name="handleSize" href="#filter">#</a> <em>brush</em>.<strong>handleSize</strong>(<em>[size]</em>)</p>
+<p>See d3-brush <a href="https://github.com/d3/d3-brush#brush_handleSize">handleSize</a>.</p>
+              </div>
+            <!-- /LEVEL 3 -->
+          </div>
+        <!-- /LEVEL 2 -->
+      </div>
+    <!-- /LEVEL 1 -->
+
+    <p class="edit-page-block">Found a problem in this page? <a href="https://github.com/d3fc/d3fc-brush/blob/master/README.md" target+"_blank">Submit a fix!</a></p>
+  </div>
+
+  <nav class="col-sm-3 hidden-xs nav-container">
+    <ul class="nav nav-stacked fixed nav-sidebar">
+        <li>
+            <a href="/api/annotation-api.html">Annotation</a>
+        </li>
+        <li>
+            <a href="/api/axis-api.html">Axis</a>
+        </li>
+        <li>
+            <span class="active">Brush</span>
+            <ul class="nav nav-stacked">
+                <li>
+                  <a href="#general-api">
+                    General API
+                  </a>
+                </li>
+                <li>
+                  <a href="#creating-a-navigator-chart">
+                    Creating a navigator chart
+                  </a>
+                </li>
+                <li>
+                  <a href="#brush">
+                    Brush
+                  </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="/api/chart-api.html">Chart</a>
+        </li>
+        <li>
+            <a href="/api/data-join-api.html">Data Join</a>
+        </li>
+        <li>
+            <a href="/api/discontinuous-scale-api.html">Discontinuous Scale</a>
+        </li>
+        <li>
+            <a href="/api/element-api.html">Element</a>
+        </li>
+        <li>
+            <a href="/api/extent-api.html">Extent</a>
+        </li>
+        <li>
+            <a href="/api/financial-feed-api.html">Financial Feed</a>
+        </li>
+        <li>
+            <a href="/api/group-api.html">Group</a>
+        </li>
+        <li>
+            <a href="/api/label-layout-api.html">Label Layout</a>
+        </li>
+        <li>
+            <a href="/api/pointer-api.html">Pointer</a>
+        </li>
+        <li>
+            <a href="/api/random-data-api.html">Random Data</a>
+        </li>
+        <li>
+            <a href="/api/rebind-api.html">Rebind</a>
+        </li>
+        <li>
+            <a href="/api/sample-api.html">Sample</a>
+        </li>
+        <li>
+            <a href="/api/scripts-api.html">Scripts</a>
+        </li>
+        <li>
+            <a href="/api/series-api.html">Series</a>
+        </li>
+        <li>
+            <a href="/api/shape-api.html">Shape</a>
+        </li>
+        <li>
+            <a href="/api/technical-indicator-api.html">Technical Indicator</a>
+        </li>
+    </ul>
+  </nav>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

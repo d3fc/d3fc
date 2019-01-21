@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Stacked Bar</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="https://d3fc.io/lib/d3fc.min.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="canonical" href="https://d3fc.io/examples/stacked/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="https://d3fc.io/"><img class="navbar-logo" alt="d3fc" src="https://d3fc.io/images/logo.svg" /></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div class="navbar-collapse collapse">
+              <div class="floating-nav inverted">
+                <ul class="nav navbar-nav">
+                  <li class=""><a href="https://d3fc.io/introduction/getting-started.html">Documentation</a></li>
+                  <li class="">
+                    <a href="https://d3fc.io/api/annotation-api.html">API</a>
+                  </li>
+                  <li><a href="https://d3fc.io/examples/">Examples</a></li>
+                  <li><a href="https://github.com/d3fc/d3fc">GitHub</a></li>
+                  <li class="separator"></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      <div class="container content">
+  <div class="col-sm-9 col-xs-12">
+    <h1>
+      Stacked Bar
+    </h1>
+    <style>
+#stacked-chart {
+  position: relative;
+}
+
+#stacked-chart .legend {
+  position: absolute;
+  bottom: auto;
+  top: 50px;
+  left: auto;
+  right: 10px;
+  width: 360px;
+  height: 120px;
+}
+
+@media (max-width: 567px) {
+  #stacked-chart .legend {
+    visibility: hidden;
+  }
+}
+
+.legend text {
+  font-size: 9pt;
+}
+
+</style>
+
+<div class="codepen-link">
+  <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+    <input type="text" name="data" hidden="true"
+      value='{
+        "html":"&lt;div id&#x3D;\&quot;stacked-chart\&quot; class&#x3D;\&quot;chart large\&quot;&gt;&lt;/div&gt;\n",
+        "js": "d3.csv(\"https://d3fc.io/examples/stacked/data.csv\").then(function(data) {\n  // manipulate the data into stacked series\n  var stack = d3.stack()\n    .keys(Object.keys(data[0]).filter(function(k) { return k !== \"Country\"; }));\n  var series = stack(data);\n\n  var color = d3.scaleOrdinal(d3.schemeCategory10)\n    .domain(series.map(function(s) {\n      return s.key;\n    }));\n\n  var legend = d3.legendColor()\n    .shapeWidth(70)\n    .orient(\"horizontal\")\n    .scale(color);\n\n  var barSeries = fc.seriesSvgBar()\n    .orient(\"horizontal\")\n    .bandwidth(40)\n    .crossValue(function(d) { return d.data.Country; })\n    .mainValue(function(d) { return d[1]; })\n    .baseValue(function(d) { return d[0]; });\n\n  var multi = fc.seriesSvgMulti()\n    .mapping(function(data, index) { return data[index]; })\n    .series(series.map(function() { return barSeries; }))\n    .decorate(function(selection) {\n      selection.each(function(data, index, nodes) {\n        d3.select(this)\n          .selectAll(\"g.bar\")\n          .attr(\"fill\", color(series[index].key));\n      });\n    });\n\n  var xExtent = fc.extentLinear()\n    .accessors([function(a) {\n      return a.map(function(d) { return d[1]; });\n    }])\n    .pad([0, 1])\n    .padUnit(\"domain\");\n\n  var chart = fc.chartSvgCartesian(\n      d3.scaleLinear(),\n      d3.scalePoint())\n    .xDomain(xExtent(series))\n    .yDomain(data.map(function(entry) {\n      return entry.Country;\n    }))\n    .yOrient(\"left\")\n    .yPadding([0.5])\n    .xLabel(\"Million tonnes of oil equivalent\")\n    .chartLabel(\"2013 Energy Production\")\n    .plotArea(multi)\n    .decorate(function(selection, data, index) {\n      // append an svg for the d3-legend\n      selection.enter()\n        .append(\"svg\")\n        .attr(\"class\", \"legend\");\n\n      // render the legend\n      selection.select(\"svg.legend\")\n        .call(legend);\n    });\n\n  d3.select(\"#stacked-chart\")\n    .text(null) // Remove the loading text from the container\n    .datum(series)\n    .call(chart);\n\n});\n",
+        "css": ".chart-label {\n  font-size: 1.5em;\n  line-height: normal;\n  color: black;\n}\n\n.chart {\n  margin: 10px 0;\n  width: 100%;\n  height: 250px;\n}\n\n.chart svg {\n  overflow: visible !important;\n}\n\n.chart.large {\n  height: 400px;\n}\n\n.y-axis-label {\n  white-space: nowrap;\n}\n",
+        "js_external": "https://code.jquery.com/jquery-3.1.1.slim.min.js;https://d3js.org/d3.v4.js;https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.18.0/d3-legend.js;https://d3fc.io/lib/d3fc.min.js"
+      }'/>
+    <input type="submit" class="btn btn-default" value="Codepen"/>
+  </form>
+</div>
+
+<div id='stacked-chart' class='chart large'></div>
+
+<script type="text/javascript">
+    (function() {
+        d3.csv('https://d3fc.io/examples/stacked/data.csv').then(function(data) {
+  // manipulate the data into stacked series
+  var stack = d3.stack()
+    .keys(Object.keys(data[0]).filter(function(k) { return k !== 'Country'; }));
+  var series = stack(data);
+
+  var color = d3.scaleOrdinal(d3.schemeCategory10)
+    .domain(series.map(function(s) {
+      return s.key;
+    }));
+
+  var legend = d3.legendColor()
+    .shapeWidth(70)
+    .orient('horizontal')
+    .scale(color);
+
+  var barSeries = fc.seriesSvgBar()
+    .orient('horizontal')
+    .bandwidth(40)
+    .crossValue(function(d) { return d.data.Country; })
+    .mainValue(function(d) { return d[1]; })
+    .baseValue(function(d) { return d[0]; });
+
+  var multi = fc.seriesSvgMulti()
+    .mapping(function(data, index) { return data[index]; })
+    .series(series.map(function() { return barSeries; }))
+    .decorate(function(selection) {
+      selection.each(function(data, index, nodes) {
+        d3.select(this)
+          .selectAll('g.bar')
+          .attr('fill', color(series[index].key));
+      });
+    });
+
+  var xExtent = fc.extentLinear()
+    .accessors([function(a) {
+      return a.map(function(d) { return d[1]; });
+    }])
+    .pad([0, 1])
+    .padUnit('domain');
+
+  var chart = fc.chartSvgCartesian(
+      d3.scaleLinear(),
+      d3.scalePoint())
+    .xDomain(xExtent(series))
+    .yDomain(data.map(function(entry) {
+      return entry.Country;
+    }))
+    .yOrient('left')
+    .yPadding([0.5])
+    .xLabel('Million tonnes of oil equivalent')
+    .chartLabel('2013 Energy Production')
+    .plotArea(multi)
+    .decorate(function(selection, data, index) {
+      // append an svg for the d3-legend
+      selection.enter()
+        .append('svg')
+        .attr('class', 'legend');
+
+      // render the legend
+      selection.select('svg.legend')
+        .call(legend);
+    });
+
+  d3.select('#stacked-chart')
+    .text(null) // Remove the loading text from the container
+    .datum(series)
+    .call(chart);
+
+});
+
+    })();
+</script>
+
+
+<p>This example demonstrates a stacked bar chart using energy production data from <a href="http://ec.europa.eu/eurostat/statistics-explained/index.php">eurostat</a>. The chart is constructed from the following components:</p>
+<ul>
+<li>A <a href="/api/chart-api.html">Cartesian chart</a>, with an ordinal y axis and a linear x axis.</li>
+<li>The data is prepared using the <a href="/api/group-api.html">group component</a>, which creates a two dimensional array of data, followed by a D3 stack layout, which stacks the &#39;y&#39; values.</li>
+<li>The data is rendered via a horizontally oriented <a href="/api/series-api.html#stacked">stacked bar series</a>.</li>
+<li>The decorate pattern is also used to add a legend (courtesy of the <a href="http://d3-legend.susielu.com">d3-legend</a> project).</li>
+</ul>
+<pre><code class="language-js">d3.csv(<span class="hljs-string">'https://d3fc.io/examples/stacked/data.csv'</span>).then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+  <span class="hljs-comment">// manipulate the data into stacked series</span>
+  <span class="hljs-keyword">var</span> stack = d3.stack()
+    .keys(<span class="hljs-built_in">Object</span>.keys(data[<span class="hljs-number">0</span>]).filter(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">k</span>) </span>{ <span class="hljs-keyword">return</span> k !== <span class="hljs-string">'Country'</span>; }));
+  <span class="hljs-keyword">var</span> series = stack(data);
+
+  <span class="hljs-keyword">var</span> <span class="hljs-built_in">color</span> = d3.scaleOrdinal(d3.schemeCategory10)
+    .domain(series.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+      <span class="hljs-keyword">return</span> s.key;
+    }));
+
+  <span class="hljs-keyword">var</span> legend = d3.legendColor()
+    .shapeWidth(<span class="hljs-number">70</span>)
+    .orient(<span class="hljs-string">'horizontal'</span>)
+    .scale(<span class="hljs-built_in">color</span>);
+
+  <span class="hljs-keyword">var</span> barSeries = fc.seriesSvgBar()
+    .orient(<span class="hljs-string">'horizontal'</span>)
+    .bandwidth(<span class="hljs-number">40</span>)
+    .crossValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d.data.Country; })
+    .mainValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d[<span class="hljs-number">1</span>]; })
+    .baseValue(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d[<span class="hljs-number">0</span>]; });
+
+  <span class="hljs-keyword">var</span> multi = fc.seriesSvgMulti()
+    .mapping(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, index</span>) </span>{ <span class="hljs-keyword">return</span> data[index]; })
+    .series(series.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> barSeries; }))
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection</span>) </span>{
+      selection.each(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, index, nodes</span>) </span>{
+        d3.select(<span class="hljs-keyword">this</span>)
+          .selectAll(<span class="hljs-string">'g.bar'</span>)
+          .attr(<span class="hljs-string">'fill'</span>, <span class="hljs-built_in">color</span>(series[index].key));
+      });
+    });
+
+  <span class="hljs-keyword">var</span> xExtent = fc.extentLinear()
+    .accessors([<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a</span>) </span>{
+      <span class="hljs-keyword">return</span> a.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">d</span>) </span>{ <span class="hljs-keyword">return</span> d[<span class="hljs-number">1</span>]; });
+    }])
+    .pad([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>])
+    .padUnit(<span class="hljs-string">'domain'</span>);
+
+  <span class="hljs-keyword">var</span> chart = fc.chartSvgCartesian(
+      d3.scaleLinear(),
+      d3.scalePoint())
+    .xDomain(xExtent(series))
+    .yDomain(data.map(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">entry</span>) </span>{
+      <span class="hljs-keyword">return</span> entry.Country;
+    }))
+    .yOrient(<span class="hljs-string">'left'</span>)
+    .yPadding([<span class="hljs-number">0.5</span>])
+    .xLabel(<span class="hljs-string">'Million tonnes of oil equivalent'</span>)
+    .chartLabel(<span class="hljs-string">'2013 Energy Production'</span>)
+    .plotArea(multi)
+    .decorate(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">selection, data, index</span>) </span>{
+      <span class="hljs-comment">// append an svg for the d3-legend</span>
+      selection.enter()
+        .append(<span class="hljs-string">'svg'</span>)
+        .attr(<span class="hljs-string">'class'</span>, <span class="hljs-string">'legend'</span>);
+
+      <span class="hljs-comment">// render the legend</span>
+      selection.select(<span class="hljs-string">'svg.legend'</span>)
+        .call(legend);
+    });
+
+  d3.select(<span class="hljs-string">'#stacked-chart'</span>)
+    .text(<span class="hljs-literal">null</span>) <span class="hljs-comment">// Remove the loading text from the container</span>
+    .datum(series)
+    .call(chart);
+
+});
+</code></pre>
+
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>
