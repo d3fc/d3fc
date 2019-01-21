@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-financial-feed@5.0.7...@d3fc/d3fc-financial-feed@6.0.0) (2019-01-21)
+
+
+### Bug Fixes
+
+* remove Quandl feed ([8e8a605](https://github.com/d3fc/d3fc/commit/8e8a605))
+
+
+### BREAKING CHANGES
+
+* removing Quandl feed as no longer supported
+
+
+
+
 <a name="5.0.7"></a>
 ## [5.0.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-financial-feed@5.0.6...@d3fc/d3fc-financial-feed@5.0.7) (2019-01-15)
 
