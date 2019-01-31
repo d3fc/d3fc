@@ -11,7 +11,7 @@ externals:
 ## Grabbing the code
 
 d3fc and its dependencies are available via npm or the unpkg CDN. The d3fc project is composed of a number of separate
-packages, detailed in the {{{ hyperlink 'annotation-api.html' title='API documentation' }}}. Each of these packages can be installed via npm and used independently, or if you you can install the entire d3fc bundle, which includes all of the separate packages.
+packages, detailed in the {{{ hyperlink 'annotation-api.html' title='API documentation' }}}. Each of these packages can be installed via npm and used independently, or if you prefer you can install the entire d3fc bundle, which includes all of the separate packages.
 
 This packaging style mirrors the way that D3 is distributed.
 
