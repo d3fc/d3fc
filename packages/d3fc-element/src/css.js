@@ -14,3 +14,5 @@ if (styleElement.styleSheet) {
 } else {
     styleElement.textContent += css;
 }
+
+export default css;

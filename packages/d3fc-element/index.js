@@ -2,7 +2,7 @@
 import Canvas from './src/canvas';
 import Group from './src/group';
 import Svg from './src/svg';
-import './src/css';
+export { default as cssElement } from './src/css';
 
 if (typeof customElements !== 'object' || typeof customElements.define !== 'function') {
     throw new Error('d3fc-element depends on Custom Elements (v1). Make sure that you load a polyfill in older browsers. See README.');
