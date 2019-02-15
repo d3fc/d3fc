@@ -122,6 +122,44 @@ d3.select('#grouped-svg-variable-bandwidth')
     .datum(series)
     .call(groupedBar);
 
+// Show a horizontal grouped bar
+var yHorizontal = d3.scaleBand()
+    .domain(data.map(function(d) { return d.State; }))
+    .paddingInner(0.2)
+    .paddingOuter(0.1)
+    .rangeRound([0, height]);
+
+var xHorizontalExtent = fc.extentLinear()
+    .accessors([
+        function(a) {
+            return a.map(function(d) { return d[1]; });
+        }
+    ])
+    .include([0]);
+
+var xHorizontal = d3.scaleLinear()
+    .domain(xHorizontalExtent(series))
+    .range([0, width]);
+
+var groupedHorizontal = fc.seriesSvgGrouped(groupedSeries)
+    .orient('horizontal')
+    .xScale(xHorizontal)
+    .yScale(yHorizontal)
+    .align('left')
+    .crossValue(function(d) { return d[0]; })
+    .mainValue(function(d) { return d[1]; })
+    .decorate(function(sel, data, index) {
+        sel.enter()
+            .select('path')
+            .attr('fill', function() { return color(index); });
+    });
+
+d3.select('#grouped-svg-horizontal')
+    .attr('width', width)
+    .attr('height', height)
+    .datum(series)
+    .call(fc.autoBandwidth(groupedHorizontal));
+
 var canvas = d3.select('#grouped-canvas').node();
 canvas.width = width;
 canvas.height = height;
@@ -142,3 +180,22 @@ var groupedCanvasBar = fc.autoBandwidth(fc.seriesCanvasGrouped(groupedCanvasSeri
     });
 
 groupedCanvasBar(series);
+
+var canvasHorizontal = d3.select('#grouped-canvas-horizontal').node();
+canvasHorizontal.width = width;
+canvasHorizontal.height = height;
+
+// create the horizontal grouped series
+var groupedCanvasBarHorizontal = fc.autoBandwidth(fc.seriesCanvasGrouped(fc.seriesCanvasBar()))
+    .orient('horizontal')
+    .xScale(xHorizontal)
+    .yScale(yHorizontal)
+    .align('left')
+    .crossValue(function(d) { return d[0]; })
+    .mainValue(function(d) { return d[1]; })
+    .context(canvasHorizontal.getContext('2d'))
+    .decorate(function(ctx, data, index) {
+        ctx.fillStyle = color(index);
+    });
+
+groupedCanvasBarHorizontal(series);
