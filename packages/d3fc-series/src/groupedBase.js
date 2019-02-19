@@ -15,7 +15,8 @@ export default (series) => {
 
     const grouped = createBase({
         decorate: () => {},
-        xScale: scaleLinear()
+        xScale: scaleLinear(),
+        yScale: scaleLinear()
     });
 
     // the bandwidth for the grouped series can be a function of datum / index. As a result

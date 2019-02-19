@@ -29,13 +29,22 @@ export default (series) => {
                     const container = select(group[index]);
 
                     // create a composite scale that applies the required offset
+                    const isVertical = series.orient() !== 'horizontal';
                     const compositeScale = (d, i) => {
                         const offset = base.offsetScaleForDatum(data, d, i);
-                        return base.xScale()(d) +
+                        const baseScale = isVertical ? base.xScale() : base.yScale();
+                        return baseScale(d) +
                           offset(index) +
                           offset.bandwidth() / 2;
                     };
-                    series.xScale(compositeScale);
+
+                    if (isVertical) {
+                        series.xScale(compositeScale);
+                        series.yScale(base.yScale());
+                    } else {
+                        series.yScale(compositeScale);
+                        series.xScale(base.xScale());
+                    }
 
                     // if the sub-series has a bandwidth, set this from the offset scale
                     if (series.bandwidth) {
@@ -53,7 +62,7 @@ export default (series) => {
         });
     };
 
-    rebindAll(grouped, series, exclude('decorate', 'xScale'));
+    rebindAll(grouped, series, exclude('decorate', 'xScale', 'yScale'));
     rebindAll(grouped, base, exclude('offsetScaleForDatum'));
 
     return grouped;
