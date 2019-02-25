@@ -13,6 +13,8 @@ const axis = (orient, scale) => {
     let tickSizeOuter = 6;
     let tickSizeInner = 6;
     let tickPadding = 3;
+    let centerAlignTicks = false;
+    let tickOffset = () => centerAlignTicks && scale.step ? scale.step() / 2 : 0;
 
     const svgDomainLine = line();
 
@@ -100,7 +102,7 @@ const axis = (orient, scale) => {
                 .append('path')
                 .attr('stroke', '#000');
 
-            const labelOffset = sign * (tickSizeInner + tickPadding);
+            const labelOffset = sign * ((centerAlignTicks ? 0 : tickSizeInner) + tickPadding);
             g.enter()
                 .append('text')
                 .attr('transform',  translate(0, labelOffset))
@@ -112,10 +114,14 @@ const axis = (orient, scale) => {
 
             // update
             g.select('path')
+                .attr('visibility', (d, i) => (i === ticksArray.length - 1 && centerAlignTicks) ? 'hidden' : '')
                 .attr('d',
-                    (d) => svgDomainLine(pathTranspose([
-                        [0, 0], [0, sign * tickSizeInner]
-                    ]))
+                    (d) => {
+                        const offset = sign * tickOffset(d);
+                        return svgDomainLine(pathTranspose([
+                            [offset, 0], [offset, sign * tickSizeInner]
+                        ]));
+                    }
                 );
 
             g.select('text')
@@ -174,6 +180,22 @@ const axis = (orient, scale) => {
             return tickPadding;
         }
         tickPadding = args[0];
+        return axis;
+    };
+
+    axis.centerAlignTicks = (...args) => {
+        if (!args.length) {
+            return centerAlignTicks;
+        }
+        centerAlignTicks = args[0];
+        return axis;
+    };
+
+    axis.tickOffset = (...args) => {
+        if (!args.length) {
+            return tickOffset;
+        }
+        tickOffset = args[0];
         return axis;
     };
 

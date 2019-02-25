@@ -75,3 +75,16 @@ const axis = fc.axisBottom(scale)
 ```
 
 <img src="screenshots/color.png"/>
+
+In the example below, the tick labels are centered between the tick lines:
+
+```
+const scale = d3.scaleBand()
+  .domain(['Apples', 'Bananas', 'Sausages', 'Soda', 'Pickles', 'Aubergines'])
+  .range([0, 400]);
+
+const axis = fc.axisBottom(scale)
+  .centerAlignTicks(true);
+```
+
+<img src="screenshots/center.png"/>
