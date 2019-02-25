@@ -242,6 +242,18 @@ If *label* is specified, sets the text for the given label, and returns the Cart
 
 The *label* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
 
+<a name="cartesian_xAxisHeight" href="#cartesian_xAxisHeight">#</a> *cartesian*.**xAxisHeight**(*height*)  
+
+If *height* is specified, sets the height for the x-axis, and returns the Cartesian chart. If *height* is not specified, returns the x-axis height or null if not set. The value should be a string with units (e.g. "2em").
+
+The *height* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
+
+<a name="cartesian_yAxisWidth" href="#cartesian_yAxisWidth">#</a> *cartesian*.**yAxisWidth**(*width*)  
+
+If *width* is specified, sets the width for the y-axis, and returns the Cartesian chart. If *width* is not specified, returns the y-axis width or null if not set. The value should be a string with units (e.g. "2em").
+
+The *width* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
+
 <a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)  
 <a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)  
 
