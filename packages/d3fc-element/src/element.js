@@ -1,6 +1,7 @@
 /* eslint-env browser */
 
 import requestRedraw from './requestRedraw';
+import {css as elementCss, insertCss} from './css';
 
 if (typeof HTMLElement !== 'function') {
     throw new Error('d3fc-element depends on Custom Elements (v1). Make sure that you load a polyfill in older browsers. See README.');
@@ -38,6 +39,7 @@ export default (createNode, applyMeasurements) => class extends HTMLElement {
 
     connectedCallback() {
         if (this.childNodes.length === 0) {
+            insertCss(this, elementCss, 'd3fc-element-css');
             this.appendChild(createNode());
         }
         addMeasureListener(this);
@@ -70,5 +72,9 @@ export default (createNode, applyMeasurements) => class extends HTMLElement {
 
     requestRedraw() {
         requestRedraw(this);
+    }
+
+    applyCss(css, id) {
+        insertCss(this, css, id);
     }
 };

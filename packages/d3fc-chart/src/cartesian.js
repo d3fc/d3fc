@@ -5,7 +5,7 @@ import { axisBottom, axisRight, axisLeft, axisTop } from '@d3fc/d3fc-axis';
 import { dataJoin } from '@d3fc/d3fc-data-join';
 import { rebindAll, exclude, prefix } from '@d3fc/d3fc-rebind';
 import store from './store';
-import './css';
+import { css } from './css';
 
 const functor = (v) =>
     typeof v === 'function' ? v : () => v;
@@ -46,6 +46,9 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
             container.enter()
                 .attr('auto-resize', '')
+                .each((d, i, nodes) => {
+                    nodes[i].applyCss(css, 'd3fc-chart-css');
+                })
                 .html(
                     '<d3fc-svg class="plot-area"></d3fc-svg>' +
                     '<d3fc-canvas class="plot-area"></d3fc-canvas>'

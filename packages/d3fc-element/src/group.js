@@ -1,6 +1,7 @@
 /* eslint-env browser */
 
 import requestRedraw from './requestRedraw';
+import {insertCss} from './css';
 
 const updateAutoResize = (element) => {
     if (element.autoResize) {
@@ -62,5 +63,9 @@ export default class extends HTMLElement {
             updateAutoResize(this);
             break;
         }
+    }
+
+    applyCss(css, id) {
+        insertCss(this, css, id);
     }
 };
