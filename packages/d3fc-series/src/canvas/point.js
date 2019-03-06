@@ -20,7 +20,7 @@ export default () => {
             context.translate(values.origin[0], values.origin[1]);
             context.beginPath();
 
-            symbol(data);
+            symbol(d, i);
 
             context.strokeStyle = colors.black;
             context.fillStyle = colors.gray;
