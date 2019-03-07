@@ -18,15 +18,19 @@ export default () => {
                 .xScale(xScale)
                 .yScale(yScale);
 
-            const adaptedDecorate = dataSeries.decorate();
-            dataSeries.decorate((c, d, i) => {
-                base.decorate()(c, data, index);
-                adaptedDecorate(c, d, i);
-            });
+            if (dataSeries.decorate) {
+                const adaptedDecorate = dataSeries.decorate();
+                dataSeries.decorate((c, d, i) => {
+                    base.decorate()(c, data, index);
+                    adaptedDecorate(c, d, i);
+                });
 
-            dataSeries(seriesData);
+                dataSeries(seriesData);
 
-            dataSeries.decorate(adaptedDecorate);
+                dataSeries.decorate(adaptedDecorate);
+            } else {
+                dataSeries(seriesData);
+            }
         });
     };
 
