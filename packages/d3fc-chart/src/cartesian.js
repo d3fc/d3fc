@@ -10,7 +10,8 @@ import './css';
 const functor = (v) =>
     typeof v === 'function' ? v : () => v;
 
-export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
+export default (...args) => {
+    const { xScale, yScale, xAxis, yAxis } = getArguments(...args);
 
     let xLabel = functor('');
     let yLabel = functor('');
@@ -74,11 +75,11 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                     xScale.range([0, width]);
                 })
                 .on('draw', (d, i, nodes) => {
-                    const xAxis = d === 'top' ? axisTop(xScale) : axisBottom(xScale);
-                    xAxis.decorate(xDecorate);
+                    const xAxisComponent = d === 'top' ? xAxis.axisTop(xScale) : xAxis.axisBottom(xScale);
+                    xAxisComponent.decorate(xDecorate);
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
-                        .call(xAxisStore(xAxis));
+                        .call(xAxisStore(xAxisComponent));
                 });
 
             yAxisDataJoin(container, [yOrient(data)])
@@ -94,11 +95,11 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
                     yScale.range([height, 0]);
                 })
                 .on('draw', (d, i, nodes) => {
-                    const yAxis = d === 'left' ? axisLeft(yScale) : axisRight(yScale);
-                    yAxis.decorate(yDecorate);
+                    const yAxisComponent = d === 'left' ? yAxis.axisLeft(yScale) : yAxis.axisRight(yScale);
+                    yAxisComponent.decorate(yDecorate);
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
-                        .call(yAxisStore(yAxis));
+                        .call(yAxisStore(yAxisComponent));
                 });
 
             container.select('d3fc-canvas.plot-area')
@@ -216,4 +217,24 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
     return cartesian;
 
+};
+
+const getArguments = (...args) => {
+    const defaultSettings = {
+        xScale: scaleIdentity(),
+        yScale: scaleIdentity(),
+        xAxis: { axisBottom, axisTop },
+        yAxis: { axisRight, axisLeft }
+    };
+
+    if (args.length === 1 && !args[0].domain && !args[0].range) {
+        // Settings object
+        return Object.assign(defaultSettings, args[0]);
+    }
+
+    // xScale/yScale parameters
+    return Object.assign(defaultSettings, {
+        xScale: args[0] || defaultSettings.xScale,
+        yScale: args[1] || defaultSettings.yScale
+    });
 };

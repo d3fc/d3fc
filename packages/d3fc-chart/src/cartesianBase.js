@@ -6,14 +6,14 @@ const functor = (v) =>
     typeof v === 'function' ? v : () => v;
 
 export default (setPlotArea, defaultPlotArea) =>
-    (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
+    (...args) => {
 
         let chartLabel = functor('');
         let yLabel = functor('');
         let plotArea = defaultPlotArea;
         let decorate = () => { };
 
-        const cartesian = cartesianChart(xScale, yScale);
+        const cartesian = cartesianChart(...args);
 
         const cartesianBase = (selection) => {
             setPlotArea(cartesian, plotArea);
