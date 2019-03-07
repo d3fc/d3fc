@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.1.6...@d3fc/d3fc-chart@2.2.0) (2019-03-07)
+
+
+### Features
+
+* Added chart x-axis width and y-axis height settings ([#1230](https://github.com/d3fc/d3fc/issues/1230)) ([374f925](https://github.com/d3fc/d3fc/commit/374f925))
+
+
+
+
 <a name="2.1.6"></a>
 ## [2.1.6](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.1.5...@d3fc/d3fc-chart@2.1.6) (2019-03-06)
 

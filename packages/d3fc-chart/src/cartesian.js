@@ -14,6 +14,8 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
     let xLabel = functor('');
     let yLabel = functor('');
+    let xAxisHeight = functor(null);
+    let yAxisWidth = functor(null);
     let yOrient = functor('right');
     let xOrient = functor('bottom');
     let canvasPlotArea = seriesCanvasMulti();
@@ -61,6 +63,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
             xAxisDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-axis ${d}-axis`)
+                .style('height', xAxisHeight(data))
                 .on('measure', (d, i, nodes) => {
                     const { width, height } = event.detail;
                     if (d === 'top') {
@@ -80,6 +83,7 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
 
             yAxisDataJoin(container, [yOrient(data)])
                 .attr('class', d => `y-axis ${d}-axis`)
+                .style('width', yAxisWidth(data))
                 .on('measure', (d, i, nodes) => {
                     const { width, height } = event.detail;
                     if (d === 'left') {
@@ -172,6 +176,20 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
             return yLabel;
         }
         yLabel = functor(args[0]);
+        return cartesian;
+    };
+    cartesian.xAxisHeight = (...args) => {
+        if (!args.length) {
+            return xAxisHeight;
+        }
+        xAxisHeight = functor(args[0]);
+        return cartesian;
+    };
+    cartesian.yAxisWidth = (...args) => {
+        if (!args.length) {
+            return yAxisWidth;
+        }
+        yAxisWidth = functor(args[0]);
         return cartesian;
     };
     cartesian.canvasPlotArea = (...args) => {
