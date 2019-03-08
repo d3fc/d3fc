@@ -20,9 +20,9 @@ export default (xScale = scaleIdentity(), yScale = scaleIdentity()) => {
     let xOrient = functor('bottom');
     let canvasPlotArea = seriesCanvasMulti();
     let svgPlotArea = seriesSvgMulti();
-    let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding');
+    let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel', 'tickLineAlign');
     let xDecorate = () => { };
-    let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding');
+    let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel', 'tickLineAlign');
     let yDecorate = () => { };
     let decorate = () => { };
 
