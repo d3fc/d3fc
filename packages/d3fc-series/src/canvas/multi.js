@@ -31,6 +31,7 @@ export default () => {
             } else {
                 dataSeries(seriesData);
             }
+            base.decorate()(context, data, index);
         });
     };
 
