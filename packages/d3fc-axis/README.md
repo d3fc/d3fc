@@ -75,3 +75,29 @@ const axis = fc.axisBottom(scale)
 ```
 
 <img src="screenshots/color.png"/>
+
+In the example below, the tick labels are centered between the tick lines:
+
+```
+const linear = d3.scaleTime()
+  .domain([new Date('2019-03-02'), new Date('2019-03-07')])
+  .range([margin, width - margin]);
+
+const axis = fc.axisBottom(linear)
+  .tickArguments([5])
+  .tickCenterLabel(true);
+```
+
+<img src="screenshots/center.png"/>
+
+In the example below, the tick lines are aligned to the right on a ordinal scale:
+
+```
+const scale = d3.scaleBand()
+  .domain(['Apples', 'Bananas', 'Sausages', 'Soda', 'Pickles', 'Aubergines'])
+  .range([0, 400]);
+
+const axis = fc.axisOrdinalBottom(scale);
+```
+
+<img src="screenshots/rightalign.png"/>
