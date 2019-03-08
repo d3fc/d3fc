@@ -52,10 +52,10 @@ var chart = fc.chartSvgCartesian({
     xScale: d3.scaleLinear(),
     yScale: d3.scaleLinear(),
     xAxis: {
-        axisBottom: scale => customAxis(fc.axisBottom(scale), false)
+        bottom: scale => customAxis(fc.axisBottom(scale), false)
     },
     yAxis: {
-        axisLeft: scale => customAxis(fc.axisLeft(scale), true, -1)
+        left: scale => customAxis(fc.axisLeft(scale), true, -1)
     }
 })
     .xLabel('Value')

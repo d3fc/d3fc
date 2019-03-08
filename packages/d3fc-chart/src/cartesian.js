@@ -75,7 +75,7 @@ export default (...args) => {
                     xScale.range([0, width]);
                 })
                 .on('draw', (d, i, nodes) => {
-                    const xAxisComponent = d === 'top' ? xAxis.axisTop(xScale) : xAxis.axisBottom(xScale);
+                    const xAxisComponent = d === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale);
                     xAxisComponent.decorate(xDecorate);
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
@@ -95,7 +95,7 @@ export default (...args) => {
                     yScale.range([height, 0]);
                 })
                 .on('draw', (d, i, nodes) => {
-                    const yAxisComponent = d === 'left' ? yAxis.axisLeft(yScale) : yAxis.axisRight(yScale);
+                    const yAxisComponent = d === 'left' ? yAxis.left(yScale) : yAxis.right(yScale);
                     yAxisComponent.decorate(yDecorate);
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
@@ -223,8 +223,8 @@ const getArguments = (...args) => {
     const defaultSettings = {
         xScale: scaleIdentity(),
         yScale: scaleIdentity(),
-        xAxis: { axisBottom, axisTop },
-        yAxis: { axisRight, axisLeft }
+        xAxis: { bottom: axisBottom, top: axisTop },
+        yAxis: { right: axisRight, left: axisLeft }
     };
 
     if (args.length === 1 && !args[0].domain && !args[0].range) {
