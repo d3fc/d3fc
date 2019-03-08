@@ -18,20 +18,21 @@ export default () => {
                 .xScale(xScale)
                 .yScale(yScale);
 
+            let adaptedDecorate;
             if (dataSeries.decorate) {
-                const adaptedDecorate = dataSeries.decorate();
+                adaptedDecorate = dataSeries.decorate();
                 dataSeries.decorate((c, d, i) => {
                     base.decorate()(c, data, index);
                     adaptedDecorate(c, d, i);
                 });
-
-                dataSeries(seriesData);
-
-                dataSeries.decorate(adaptedDecorate);
-            } else {
-                dataSeries(seriesData);
             }
+
+            dataSeries(seriesData);
             base.decorate()(context, data, index);
+
+            if (adaptedDecorate) {
+                dataSeries.decorate(adaptedDecorate);
+            }
         });
     };
 
