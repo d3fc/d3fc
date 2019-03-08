@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-element",
-  "version": "5.1.6",
+  "version": "5.2.0",
   "description": "Custom HTML elements that make it easier to create responsive visualisations that integrate easily with other UI frameworks (e.g. React, Angular)",
   "license": "MIT",
   "keywords": [
