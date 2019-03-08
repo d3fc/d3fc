@@ -23,6 +23,7 @@
   "devDependencies": {
     "@d3fc/d3fc-scripts": "^2.0.4",
     "babel-polyfill": "^6.16.0",
+    "canvas": "2.3.1",
     "d3": "^4.3.0",
     "webshot": "^0.18.0"
   },
