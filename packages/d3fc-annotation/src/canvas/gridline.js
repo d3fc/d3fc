@@ -18,7 +18,7 @@ export default () => {
         const xScale = xTicks.scale();
         const yScale = yTicks.scale();
 
-        xScale.ticks().forEach(xTick => {
+        xTicks().forEach(xTick => {
             context.save();
             context.beginPath();
             context.strokeStyle = '#bbb';
@@ -33,7 +33,7 @@ export default () => {
             context.restore();
         });
 
-        yScale.ticks().forEach(yTick => {
+        yTicks().forEach(yTick => {
             context.save();
             context.beginPath();
             context.strokeStyle = '#bbb';
