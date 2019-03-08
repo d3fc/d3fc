@@ -159,7 +159,7 @@ chart.decorate(selection => {
 
 #### Using custom axis components
 
-By default the chart uses d3fc-axis for the axis comonent. This example shows how to specify which axis components to use for the X and Y axis.
+By default the chart uses d3fc-axis for the axis component. This example shows how to specify which axis components to use for the X and Y axis.
 
 ```javascript
 var chart = fc.chartCartesian({
