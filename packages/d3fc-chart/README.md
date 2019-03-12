@@ -157,6 +157,29 @@ chart.decorate(selection => {
 });
 ```
 
+#### Using custom axis components
+
+By default the chart uses d3fc-axis for the axis component. This example shows how to specify which axis components to use for the X and Y axis.
+
+```javascript
+var chart = fc.chartCartesian({
+    xScale: d3.scaleLinear(),
+    yScale: d3.scaleLinear(),
+    xAxis: {
+      bottom: myCustomAxis
+    },
+    yAxis: {
+      left: fc.axisLeft
+    }
+  })
+  .xLabel('Value')
+  .yLabel('Sine / Cosine')
+  .yOrient('left')
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .canvasPlotArea(series);
+```
+
 #### Adding a Second Axis
 
 By default the chart allows a left or a right axis (see [xOrient](#cartesian_xOrient)) but not both. This example shows how we can add in another using decoration -
@@ -227,6 +250,14 @@ chart.xDecorate(selection => {
 <a name="chartCartesian" href="#chartCartesian">#</a> fc.**chartCartesian**(*xScale*, *yScale*)  
 
 Constructs a new Cartesian chart with the given scales.
+
+<a name="chartCartesianSettings" href="#chartCartesianSettings">#</a> fc.**chartCartesian**({ xScale: *xScale*, yScale: *yScale*, xAxis: axisFactory, yAxis: axisFactory })
+
+Constructs a new Cartesian chart with the given scales and axis components.
+
+If *xAxis* is specified, it must be an object with the required x-axis factory function (*left* if *yOrient*="left" or *right* if *yOrient*="right").
+
+If *yAxis* is specified, it must be an object with the required y-axis factory function (*top* if *xOrient*="top" or *bottom* if *xOrient*="bottom").
 
 <a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)  
 <a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)  
