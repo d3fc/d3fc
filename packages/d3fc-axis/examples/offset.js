@@ -28,7 +28,6 @@ var axisLinear = fc.axisBottom(linear)
     .tickSizeInner(10);
 
 var axisBetweenTicks = fc.axisOrdinalBottom(bands)
-    .tickLineAlign('right')
     .tickPadding(5)
     .tickSizeInner(10);
 

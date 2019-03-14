@@ -3,7 +3,6 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 import { axisBase } from './axisBase';
 
 const axisOrdinal = (orient, scale) => {
-    let tickLineAlign = 'center';
     let tickOffset = null;
 
     const step = (tick, index, ticksArray) => {
@@ -23,42 +22,25 @@ const axisOrdinal = (orient, scale) => {
 
     const tickPath = (tick, index, ticksArray) => {
         let x = 0;
-        let hidden = false;
-        if (tickLineAlign !== 'center') {
-            if (tickOffset) {
-                x = tickOffset(tick, index);
-            } else {
-                x = step(tick, index, ticksArray) / 2;
-            }
-            if (tickLineAlign === 'left') {
-                x = -x;
-                hidden = index === 0;
-            } else {
-                hidden = index === ticksArray.length - 1;
-            }
+        if (tickOffset) {
+            x = tickOffset(tick, index);
+        } else {
+            x = step(tick, index, ticksArray) / 2;
         }
-        return { path: [[x, 0], [x, base.tickSizeInner()]], hidden };
+        return {
+            path: [[x, 0], [x, base.tickSizeInner()]],
+            hidden: index === ticksArray.length - 1
+        };
     };
     const labelOffset = () => {
-        if (tickLineAlign !== 'center') {
-            // Don't include the tickSizeInner in the label positioning
-            return { offset: [0, base.tickPadding()] };
-        }
-        return { offset: [0, base.tickSizeInner() + base.tickPadding()] };
+        // Don't include the tickSizeInner in the label positioning
+        return { offset: [0, base.tickPadding()] };
     };
 
     const base = axisBase(orient, scale, {labelOffset, tickPath});
 
     const axis = (selection) => {
         return base(selection);
-    };
-
-    axis.tickLineAlign = (...args) => {
-        if (!args.length) {
-            return tickLineAlign;
-        }
-        tickLineAlign = args[0];
-        return axis;
     };
 
     axis.tickOffset = (...args) => {

@@ -16,8 +16,7 @@ var scale = d3.scaleBand()
 
 function center() {
     var axis = fc.axisOrdinalBottom(scale)
-        .tickPadding(5)
-        .tickLineAlign('right');
+        .tickPadding(5);
 
     var svg = d3.select('body').append('svg')
         .attr('width', width)
@@ -38,7 +37,6 @@ function categorisedScale() {
 
 function custom() {
     var axis = fc.axisOrdinalBottom(categorisedScale())
-        .tickLineAlign('right')
         .tickPadding(5)
         .tickOffset(d => map(d).length * scale.step() / 2);
 

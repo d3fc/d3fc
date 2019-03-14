@@ -97,8 +97,7 @@ const scale = d3.scaleBand()
   .domain(['Apples', 'Bananas', 'Sausages', 'Soda', 'Pickles', 'Aubergines'])
   .range([0, 400]);
 
-const axis = fc.axisOrdinalBottom(scale)
-  .tickLineAlign('right);
+const axis = fc.axisOrdinalBottom(scale);
 ```
 
 <img src="screenshots/rightalign.png"/>
