@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-axis@2.0.10...@d3fc/d3fc-axis@2.1.0) (2019-03-14)
+
+
+### Features
+
+* Two types of axis components, with specialisations ([5269d28](https://github.com/d3fc/d3fc/commit/5269d28))
+
+
+
+
 <a name="2.0.10"></a>
 ## [2.0.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-axis@2.0.9...@d3fc/d3fc-axis@2.0.10) (2019-01-15)
 
