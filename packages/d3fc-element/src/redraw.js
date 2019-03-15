@@ -25,6 +25,13 @@ const initialise = (element) => {
     element.dispatchEvent(event);
 };
 
+const initialiseIfResized = (element) => {
+    const detail = data.get(element);
+    if (detail.resized) {
+        initialise(element);
+    }
+};
+
 const resize = (element) => {
     const detail = data.get(element);
     const event = new CustomEvent('measure', { detail });
@@ -42,6 +49,8 @@ export default (elements) => {
       .reduce((a, b) => a.concat(b));
     allElements.forEach(measure);
     allElements.forEach(initialise);
+    allElements.forEach(measure);
+    allElements.forEach(initialiseIfResized);
     allElements.forEach(measure);
     allElements.forEach(resize);
     allElements.forEach(draw);

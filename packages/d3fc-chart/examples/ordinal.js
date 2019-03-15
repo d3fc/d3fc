@@ -51,23 +51,36 @@ var data = [
 
 const customAxis = (scale) => {
     const base = fc.axisOrdinalBottom(scale);
-    let rotate = false;
+    let rotate = 0;
+    let labelHeight = 10;
     let decorate = () => {};
 
     function axis(selection) {
         base.decorate(function(s) {
             s.select('text')
                 .style('text-anchor', rotate ? 'end' : 'middle')
-                .attr('transform', rotate ? 'rotate(-45 5 5)' : 'translate(0, 3)');
+                .attr('transform', rotate ? `translate(0, 3) rotate(-${Math.floor(90 * rotate)} 3 ${Math.floor(labelHeight / 2)})` : 'translate(0, 8)');
             decorate();
         });
         base(selection);
     }
 
-    axis.height = () => {
+    axis.height = (d, i, nodes) => {
+        const labels = scale.domain();
         const width = scale.range()[1];
-        rotate = width < 600;
-        return rotate ? '60px': '1em';
+
+        // Use a test element to measure the text in the axis SVG container
+        const tester = d3.select(nodes[i]).select('svg')
+            .attr('font-size', 10).attr('font-family', 'sans-serif')
+            .append('text');
+        labelHeight = tester.text("Ty").node().getBBox().height;
+        const maxWidth = Math.max(...labels.map(l => tester.text(l).node().getBBox().width));
+        tester.remove();
+
+        // The more the overlap, the more we rotate
+        const allowedSize = labels.length * maxWidth;
+        rotate = width < allowedSize ? Math.min(1, (allowedSize / width - 0.8) / 2) : 0;
+        return rotate ? `${Math.floor(maxWidth * rotate + labelHeight) + 10}px`: null;
     }
 
     axis.decorate = (...args) => {

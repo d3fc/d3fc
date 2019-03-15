@@ -15,8 +15,8 @@ export default (...args) => {
 
     let xLabel = functor('');
     let yLabel = functor('');
-    let xAxisHeight = () => xAxisComponent && xAxisComponent.height ? xAxisComponent.height() : null;
-    let yAxisWidth = () => yAxisComponent && yAxisComponent.height ? yAxisComponent.width() : null;
+    let xAxisHeight = (...args) => xAxisComponent && xAxisComponent.height ? xAxisComponent.height(...args) : null;
+    let yAxisWidth = (...args) => yAxisComponent && yAxisComponent.width ? yAxisComponent.width(...args) : null;
     let yOrient = functor('right');
     let xOrient = functor('bottom');
     let canvasPlotArea = seriesCanvasMulti();
@@ -72,9 +72,11 @@ export default (...args) => {
                 .attr('class', d => `x-axis ${d}-axis`)
                 .on('initialise', (d, i, nodes) => {
                     const { width } = event.detail;
-                    xScale.range([0, width]);
+                    if (xScale.range()[1] !== width) {
+                        xScale.range([0, width]);
 
-                    select(nodes[i]).style('height', xAxisHeight(data));
+                        select(nodes[i]).style('height', xAxisHeight(data, i, nodes));
+                    }
                 })
                 .on('measure', (d, i, nodes) => {
                     const { width, height } = event.detail;
@@ -96,9 +98,11 @@ export default (...args) => {
                 .attr('class', d => `y-axis ${d}-axis`)
                 .on('initialise', (d, i, nodes) => {
                     const { height } = event.detail;
-                    yScale.range([height, 0]);
+                    if (yScale.range()[0] !== height) {
+                        yScale.range([height, 0]);
 
-                    select(nodes[i]).style('width', yAxisWidth(data));
+                        select(nodes[i]).style('width', yAxisWidth(data, i, nodes));
+                    }
                 })
                 .on('measure', (d, i, nodes) => {
                     const { width, height } = event.detail;
