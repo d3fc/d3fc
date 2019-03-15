@@ -1,18 +1,18 @@
 var data = [
     {
-        'month': 'Jan',
+        'month': 'January',
         'sales': 1
     },
     {
-        'month': 'Feb',
+        'month': 'February',
         'sales': 1.5332793661950717
     },
     {
-        'month': 'Mar',
+        'month': 'March',
         'sales': 2.0486834288742597
     },
     {
-        'month': 'Apr',
+        'month': 'April',
         'sales': 2.556310832331535
     },
     {
@@ -20,34 +20,67 @@ var data = [
         'sales': 3.029535759511747
     },
     {
-        'month': 'Jun',
+        'month': 'June',
         'sales': 3.507418002703505
     },
     {
-        'month': 'Jul',
+        'month': 'July',
         'sales': 4.02130992651795
     },
     {
-        'month': 'Aug',
+        'month': 'August',
         'sales': 4.482485234741706
     },
     {
-        'month': 'Sep',
+        'month': 'September',
         'sales': 4.957935275183866
     },
     {
-        'month': 'Oct',
+        'month': 'October',
         'sales': 5.427273488256043
     },
     {
-        'month': 'Nov',
+        'month': 'November',
         'sales': 5.943007604008045
     },
     {
-        'month': 'Dec',
+        'month': 'December',
         'sales': 6.454464059891373
     }
 ];
+
+const customAxis = (scale) => {
+    const base = fc.axisOrdinalBottom(scale);
+    let rotate = false;
+    let decorate = () => {};
+
+    function axis(selection) {
+        base.decorate(function(s) {
+            s.select('text')
+                .style('text-anchor', rotate ? 'end' : 'middle')
+                .attr('transform', rotate ? 'rotate(-45 5 5)' : 'translate(0, 3)');
+            decorate();
+        });
+        base(selection);
+    }
+
+    axis.height = () => {
+        const width = scale.range()[1];
+        rotate = width < 600;
+        return rotate ? '60px': '1em';
+    }
+
+    axis.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
+        return axis;
+    };
+
+    fc.rebindAll(axis, base, fc.exclude("decorate"));
+    return axis;
+};
 
 var yExtent = fc.extentLinear()
     .accessors([d => d.sales])
@@ -57,10 +90,13 @@ var bar = fc.seriesSvgBar()
     .crossValue(d => d.month)
     .mainValue(d => d.sales);
 
-var chart = fc.chartCartesian(
-        d3.scalePoint().padding(0.5),
-        d3.scaleLinear()
-    )
+var chart = fc.chartCartesian({
+        xScale: d3.scalePoint().padding(0.5),
+        yScale: d3.scaleLinear(),
+        xAxis: {
+            bottom: customAxis
+        }
+    })
     .xLabel('Value')
     .yLabel('Sine / Cosine')
     .yOrient('left')

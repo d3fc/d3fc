@@ -19,6 +19,12 @@ if (typeof CustomEvent !== 'function') {
     throw new Error('d3fc-element depends on CustomEvent. Make sure that you load a polyfill in older browsers. See README.');
 }
 
+const initialise = (element) => {
+    const detail = data.get(element);
+    const event = new CustomEvent('initialise', { detail });
+    element.dispatchEvent(event);
+};
+
 const resize = (element) => {
     const detail = data.get(element);
     const event = new CustomEvent('measure', { detail });
@@ -34,6 +40,8 @@ const draw = (element) => {
 export default (elements) => {
     const allElements = elements.map(find)
       .reduce((a, b) => a.concat(b));
+    allElements.forEach(measure);
+    allElements.forEach(initialise);
     allElements.forEach(measure);
     allElements.forEach(resize);
     allElements.forEach(draw);
