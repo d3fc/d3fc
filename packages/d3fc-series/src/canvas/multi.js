@@ -25,10 +25,11 @@ export default () => {
                     base.decorate()(c, data, index);
                     adaptedDecorate(c, d, i);
                 });
+            } else {
+                base.decorate()(context, data, index);
             }
 
             dataSeries(seriesData);
-            base.decorate()(context, data, index);
 
             if (adaptedDecorate) {
                 dataSeries.decorate(adaptedDecorate);
