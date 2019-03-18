@@ -6,11 +6,18 @@ const find = (element) => element.tagName === 'D3FC-GROUP'
   ? [element, ...element.querySelectorAll('d3fc-canvas, d3fc-group, d3fc-svg')]
   : [element];
 
+const size = (element) => {
+    const pixelRatio = (element.useDevicePixelRatio && global.devicePixelRatio != null) ? global.devicePixelRatio : 1;
+    return {
+        pixelRatio,
+        width: element.clientWidth * pixelRatio,
+        height: element.clientHeight * pixelRatio
+    };
+};
+
 const measure = (element) => {
     const { width: previousWidth, height: previousHeight } = data.get(element);
-    const pixelRatio = (element.useDevicePixelRatio && global.devicePixelRatio != null) ? global.devicePixelRatio : 1;
-    const width = element.clientWidth * pixelRatio;
-    const height = element.clientHeight * pixelRatio;
+    const { pixelRatio, width, height } = size(element);
     const resized = width !== previousWidth || height !== previousHeight;
     data.set(element, { pixelRatio, width, height, resized });
 };
@@ -20,15 +27,15 @@ if (typeof CustomEvent !== 'function') {
 }
 
 const initialise = (element) => {
-    const detail = data.get(element);
-    const event = new CustomEvent('initialise', { detail });
-    element.dispatchEvent(event);
-};
+    const eData = data.get(element);
+    const { width, height } = size(element);
+    const { width: previousWidth, height: previousHeight } = eData.initial || {};
 
-const initialiseIfResized = (element) => {
-    const detail = data.get(element);
-    if (detail.resized) {
-        initialise(element);
+    if (width !== previousWidth || height !== previousHeight) {
+        data.set(element, Object.assign({ initial: { width, height } }, eData));
+
+        const event = new CustomEvent('initialise', { detail: { width, height } });
+        element.dispatchEvent(event);
     }
 };
 
@@ -47,10 +54,8 @@ const draw = (element) => {
 export default (elements) => {
     const allElements = elements.map(find)
       .reduce((a, b) => a.concat(b));
-    allElements.forEach(measure);
     allElements.forEach(initialise);
-    allElements.forEach(measure);
-    allElements.forEach(initialiseIfResized);
+    allElements.forEach(initialise);
     allElements.forEach(measure);
     allElements.forEach(resize);
     allElements.forEach(draw);
