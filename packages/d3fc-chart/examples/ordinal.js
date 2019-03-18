@@ -60,7 +60,7 @@ const customAxis = (scale) => {
             s.select('text')
                 .style('text-anchor', rotate ? 'end' : 'middle')
                 .attr('transform', rotate ? `translate(0, 3) rotate(-${Math.floor(90 * rotate)} 3 ${Math.floor(labelHeight / 2)})` : 'translate(0, 8)');
-            decorate();
+            decorate(s);
         });
         base(selection);
     }
