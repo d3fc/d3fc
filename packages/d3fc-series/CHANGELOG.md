@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.16"></a>
+## [4.0.16](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.15...@d3fc/d3fc-series@4.0.16) (2019-03-19)
+
+
+### Bug Fixes
+
+* Canvas multi series checks if series decorate exists before invoking ([d7a4b9f](https://github.com/d3fc/d3fc/commit/d7a4b9f))
+
+
+
+
 <a name="4.0.15"></a>
 ## [4.0.15](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.14...@d3fc/d3fc-series@4.0.15) (2019-03-06)
 
