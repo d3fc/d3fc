@@ -4,7 +4,8 @@ import glob from 'glob';
 
 const root = path.resolve(__dirname, '../../..');
 
-const readmeGlob = 'packages/d3fc-*/README.md';
+const excludes = ['scripts'];
+const readmeGlob = `packages/d3fc-!(${excludes.join('|')})/README.md`;
 
 const getPackageName = (inputPath) =>
   path.parse(path.resolve(inputPath, '../')).name.replace('d3fc-', '') + '-api';
