@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-axis@2.1.0...@d3fc/d3fc-axis@2.1.1) (2019-03-20)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-axis
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-axis@2.0.10...@d3fc/d3fc-axis@2.1.0) (2019-03-14)
 
