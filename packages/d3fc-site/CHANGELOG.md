@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.41"></a>
+## [0.0.41](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.40...@d3fc/d3fc-site@0.0.41) (2019-03-21)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
 <a name="0.0.40"></a>
 ## [0.0.40](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.39...@d3fc/d3fc-site@0.0.40) (2019-03-21)
 
