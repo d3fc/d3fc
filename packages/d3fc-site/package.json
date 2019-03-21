@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-site",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
