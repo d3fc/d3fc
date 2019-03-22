@@ -48,14 +48,6 @@ d3.select('svg')
   .call(gridline);
 ```
 
-<a name="gridline_xKey" href="#gridline_xKey">#</a> *gridline*.**xKey**(*[keyFunc]*)
-
-If *keyFunc* is specified, sets the key function used when joining the vertical gridlines to SVG elements. If not specified, returns the current key function.
-
-<a name="gridline_yKey" href="#gridline_yKey">#</a> *gridline*.**yKey**(*[keyFunc]*)
-
-If *keyFunc* is specified, sets the key function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current key function.
-
 ### Canvas Rendering
 
 <a name="gridline_canvas" href="#gridline_canvas">#</a> *fc*.**annotationCanvasGridline**()
@@ -128,6 +120,22 @@ If *decorateFunc* is specified, sets the decorate function used when joining the
 <a name="gridline_yDecorate" href="#gridline_yDecorate">#</a> *gridline*.**yDecorate**(*[decorateFunc]*)
 
 If *decorateFunc* is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current decorate function.
+
+### SVG Specific Properties
+
+<a name="svgGridline_xKey" href="#svgGridline_xKey">#</a> *svgGridline*.**xKey**(*[keyFunc]*)
+
+If *keyFunc* is specified, sets the key function used when joining the vertical gridlines to SVG elements. If not specified, returns the current key function.
+
+<a name="svgGridline_yKey" href="#svgGridline_yKey">#</a> *svgGridline*.**yKey**(*[keyFunc]*)
+
+If *keyFunc* is specified, sets the key function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current key function.
+
+### Canvas Specific Properties
+
+<a name="canvasGridline_context" href="#canvasGridline_context">#</a> *canvasGridline*.**context**(*ctx*)
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
 ## Band Annotation
 
