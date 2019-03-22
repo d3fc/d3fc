@@ -1,6 +1,6 @@
 # d3fc-annotation
 
-A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto Cartesian charts using SVG (canvas support is tracked in [#1160](https://github.com/d3fc/d3fc/issues/1160)) .
+A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto Cartesian charts using SVG and canvas (canvas support is tracked in [#1160](https://github.com/d3fc/d3fc/issues/1160)).
 
 <table>
 <tr>
@@ -27,9 +27,11 @@ npm install @d3fc/d3fc-annotation
 
 The gridline component renders horizontal and vertical gridlines.
 
+### SVG Rendering
+
 <a name="gridline" href="#gridline">#</a> *fc*.**annotationSvgGridline**()
 
-Constructs a new gridline annotation component. Once constructed, configure the component with scales and call it on a selection -
+Constructs a new SVG gridline annotation component. Once constructed, configure the component with scales and call it on a selection -
 
 ```js
 const xScale = d3.scaleLinear()
@@ -45,6 +47,39 @@ const gridline = fc.annotationSvgGridline()
 d3.select('svg')
   .call(gridline);
 ```
+
+<a name="gridline_xKey" href="#gridline_xKey">#</a> *gridline*.**xKey**(*[keyFunc]*)
+
+If *keyFunc* is specified, sets the key function used when joining the vertical gridlines to SVG elements. If not specified, returns the current key function.
+
+<a name="gridline_yKey" href="#gridline_yKey">#</a> *gridline*.**yKey**(*[keyFunc]*)
+
+If *keyFunc* is specified, sets the key function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current key function.
+
+### Canvas Rendering
+
+<a name="gridline_canvas" href="#gridline_canvas">#</a> *fc*.**annotationCanvasGridline**()
+
+Constructs a new canvas gridline annotation component. Once constructed, configure the component with scales and call it on a selection -
+
+```js
+var ctx = canvas.getContext('2d');
+
+const xScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const yScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const gridline = fc.annotationCanvasGridline()
+  .xScale(xScale)
+  .yScale(yScale)
+  .context(ctx);
+
+gridline();
+```
+
+### Common Properties
 
 <a name="gridline_xScale" href="#gridline_xScale">#</a> *gridline*.**xScale**(*[scale]*)
 
@@ -85,14 +120,6 @@ gridline.yTicks(d3.timeMinute.every(15));
 <a name="gridline_yTickValues" href="#gridline_yTickValues">#</a> *gridline*.**yTickValues**(*[args]*)
 
 Manually specify the vertical gridline positions. Overrides [yTicks](#gridline_yTicks).
-
-<a name="gridline_xKey" href="#gridline_xKey">#</a> *gridline*.**xKey**(*[keyFunc]*)
-
-If *keyFunc* is specified, sets the key function used when joining the vertical gridlines to SVG elements. If not specified, returns the current key function.
-
-<a name="gridline_yKey" href="#gridline_yKey">#</a> *gridline*.**yKey**(*[keyFunc]*)
-
-If *keyFunc* is specified, sets the key function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current key function.
 
 <a name="gridline_xDecorate" href="#gridline_xDecorate">#</a> *gridline*.**xDecorate**(*[decorateFunc]*)
 
