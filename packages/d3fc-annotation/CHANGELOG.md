@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.0.18...@d3fc/d3fc-annotation@2.1.0) (2019-03-27)
+
+
+### Features
+
+* Canvas gridline ([#1237](https://github.com/d3fc/d3fc/issues/1237)) ([8fd3377](https://github.com/d3fc/d3fc/commit/8fd3377))
+
+
+
+
 <a name="2.0.18"></a>
 ## [2.0.18](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.0.17...@d3fc/d3fc-annotation@2.0.18) (2019-03-19)
 
