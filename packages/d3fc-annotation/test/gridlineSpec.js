@@ -1,44 +1,76 @@
 import { select } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-import annotationGridline from '../src/svg/gridline';
+import { createCanvas } from 'canvas';
+import annotationSvgGridline from '../src/svg/gridline';
+import annotationCanvasGridline from '../src/canvas/gridline';
 
 describe('gridline', () => {
 
     let element;
+    let context;
     let container;
 
     beforeEach(() => {
         element = document.createElement('svg');
+        context = createCanvas().getContext('2d');
         container = select(element);
     });
 
-    it('should work with continuous scales', () => {
+    it('should work with continuous scales for svg', () => {
         const xScale = scaleLinear()
             .range([0, 100]);
 
         const yScale = scaleLinear()
             .range([0, 100]);
 
-        const gridline = annotationGridline()
+        const svgGridline = annotationSvgGridline()
             .xScale(xScale)
             .yScale(yScale);
 
         select('svg')
-            .call(gridline);
+            .call(svgGridline);
     });
 
-    it('should work with ordinal scales', () => {
+    it('should work with continuous scales for canvas', () => {
+        const xScale = scaleLinear()
+            .range([0, 100]);
+
+        const yScale = scaleLinear()
+            .range([0, 100]);
+
+        const canvasGridline = annotationCanvasGridline()
+            .xScale(xScale)
+            .yScale(yScale);
+
+        canvasGridline.context(context)();
+    });
+
+    it('should work with ordinal scales for svg', () => {
         const xScale = scaleOrdinal()
             .range([0, 100]);
 
         const yScale = scaleOrdinal()
             .range([0, 100]);
 
-        const gridline = annotationGridline()
+        const svgGridline = annotationSvgGridline()
             .xScale(xScale)
             .yScale(yScale);
 
         select('svg')
-            .call(gridline);
+            .call(svgGridline);
+    });
+
+    it('should work with ordinal scales for canvas', () => {
+        const xScale = scaleOrdinal()
+            .range([0, 100]);
+
+        const yScale = scaleOrdinal()
+            .range([0, 100]);
+
+        const canvasGridline = annotationCanvasGridline()
+            .xScale(xScale)
+            .yScale(yScale);
+
+        canvasGridline.context(context)();
     });
 });
