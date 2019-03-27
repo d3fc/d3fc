@@ -8,7 +8,7 @@ const hashes = level => Array(level).fill('#').join('');
 const createBlockPattern = (level) => new RegExp(
   `(${hashes(level)}\\s${title}(?:${any})+?` +
   `(?=(?:\\n${hashes(level)}\\s))|` +
-  `${hashes(level)}\\s${title}(?:${any})+?\\n$)`,
+  `${hashes(level)}\\s${title}(?:${any})+?$)`,
   'g'
 );
 
@@ -77,6 +77,9 @@ export default (readmes) =>
     const structures = readmes
       .map(parseReadme)
       .map(readme => {
+        if (readme.structure.length === 0) {
+          throw new Error(`No content for Readme - ${readme.name}`);
+        }
         delete readme.contents;
         return readme;
       });
