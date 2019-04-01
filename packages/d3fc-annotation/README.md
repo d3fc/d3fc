@@ -115,11 +115,11 @@ Manually specify the vertical gridline positions. Overrides [yTicks](#gridline_y
 
 <a name="gridline_xDecorate" href="#gridline_xDecorate">#</a> *gridline*.**xDecorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the vertical gridlines to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the vertical gridlines to SVG elements or drawing canvas gridlines. If not specified, returns the current decorate function.
 
 <a name="gridline_yDecorate" href="#gridline_yDecorate">#</a> *gridline*.**yDecorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements or drawing canvas gridlines. If not specified, returns the current decorate function.
 
 ### SVG Specific Properties
 
