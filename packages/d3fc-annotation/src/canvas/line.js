@@ -6,6 +6,7 @@ export default () => {
 
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
+    let decorate = () => {};
     let orient = 'horizontal';
 
     const lineData = lineShape();
@@ -21,12 +22,13 @@ export default () => {
         const crossScale = horizontal ? xScale : yScale;
         const valueScale = horizontal ? yScale : xScale;
 
-        data.forEach(d => {
+        data.forEach((d, i) => {
             context.save();
             context.beginPath();
             context.strokeStyle = '#bbb';
             context.fillStyle = 'transparent';
 
+            decorate(context, d, i);
             lineData.context(context)(crossScale.domain().map(extent => {
                 const point = [crossScale(extent), valueScale(d)];
                 return horizontal ? point : point.reverse();
@@ -51,6 +53,13 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
+        return instance;
+    };
+    instance.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return instance;
     };
     instance.orient = (...args) => {

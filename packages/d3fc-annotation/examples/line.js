@@ -12,12 +12,14 @@ var verticalSvgLine = fc.annotationSvgLine()
 
 var horizontalCanvasLine = fc.annotationCanvasLine()
   .xScale(xScale)
-  .yScale(yScale);
+  .yScale(yScale)
+  .decorate(ctx => ctx.strokeStyle = "#c60");
 
 var verticalCanvasLine = fc.annotationCanvasLine()
   .orient('vertical')
   .xScale(xScale)
-  .yScale(yScale);
+  .yScale(yScale)
+  .decorate(ctx => ctx.strokeStyle = "#06c");
 
 // eslint-disable-next-line no-unused-vars
 function renderComponent() {
