@@ -189,6 +189,8 @@ If *decorateFunc* is specified, sets the decorate function used when joining the
 
 The line component renders horizontal and vertical lines.
 
+### SVG Rendering
+
 <a name="line" href="#line">#</a> *fc*.**annotationSvgLine**()
 
 Constructs a new line annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the line locations and call it on the selection -
@@ -208,6 +210,30 @@ d3.select('svg')
   .datum([50])
   .call(line);
 ```
+
+### Canvas Rendering
+
+<a name="line_canvas" href="#line_canvas">#</a> *fc*.**annotationCanvasLine**()
+
+Constructs a new line annotation component. Once constructed, configure the component with scales and call it with some data representing the line locations -
+
+```js
+var ctx = canvas.getContext('2d');
+
+const xScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const yScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const line = fc.annotationCanvasLine()
+  .xScale(xScale)
+  .yScale(yScale);
+
+line([50]);
+```
+
+### Shared Components
 
 <a name="line_xScale" href="#line_xScale">#</a> *line*.**xScale**(*[scale]*)
 
@@ -231,7 +257,7 @@ If *accessorFunc* is specified, sets the function used to retrieve the label for
 
 <a name="line_decorate" href="#line_decorate">#</a> *line*.**decorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the lines to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the lines to SVG elements or drawing the lines on the canvas. If not specified, returns the current decorate function.
 
 ## Crosshair Annotation
 
