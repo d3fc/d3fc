@@ -14,14 +14,14 @@ var horizontalCanvasLine = fc.annotationCanvasLine()
   .label('')
   .xScale(xScale)
   .yScale(yScale)
-  .lineDecorate(ctx => ctx.strokeStyle = "#c60");
+  .lineDecorate(ctx => { ctx.strokeStyle = '#c60'; });
 
 var verticalCanvasLine = fc.annotationCanvasLine()
   .orient('vertical')
   .label('')
   .xScale(xScale)
   .yScale(yScale)
-  .lineDecorate(ctx => ctx.strokeStyle = "#06c");
+  .lineDecorate(ctx => { ctx.strokeStyle = '#06c'; });
 
 // eslint-disable-next-line no-unused-vars
 function renderComponent() {
@@ -32,7 +32,7 @@ function renderComponent() {
     svg.select('.vertical')
       .datum([0.2, 0.4, 0.6, 0.8])
       .call(verticalSvgLine);
-    
+
     var canvas = d3.select('canvas').node();
     var ctx = canvas.getContext('2d');
     horizontalCanvasLine.context(ctx)([0.15, 0.85]);
