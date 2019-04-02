@@ -1,12 +1,15 @@
 import {line as lineShape} from 'd3-shape';
 import { scaleIdentity } from 'd3-scale';
 import {rebind} from '@d3fc/d3fc-rebind';
+import constant from '../constant';
 
 export default () => {
 
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
-    let decorate = () => {};
+    let label = d => d;
+    let lineDecorate = () => {};
+    let labelDecorate = () => {};
     let orient = 'horizontal';
 
     const lineData = lineShape();
@@ -21,15 +24,21 @@ export default () => {
         // is the other. Which is which depends on the orienation!
         const crossScale = horizontal ? xScale : yScale;
         const valueScale = horizontal ? yScale : xScale;
+        const crossDomain = crossScale.domain();
+        const textOffsetX = horizontal ? 9 : 0;
+        const textOffsetY = horizontal ? 0 : 9;
+        const textAlign = horizontal ? 'left' : 'center';
+        const textBaseline = horizontal ? 'middle' : 'hanging';
 
         data.forEach((d, i) => {
+            // Draw line
             context.save();
             context.beginPath();
             context.strokeStyle = '#bbb';
             context.fillStyle = 'transparent';
 
-            decorate(context, d, i);
-            lineData.context(context)(crossScale.domain().map(extent => {
+            lineDecorate(context, d, i);
+            lineData.context(context)(crossDomain.map(extent => {
                 const point = [crossScale(extent), valueScale(d)];
                 return horizontal ? point : point.reverse();
             }));
@@ -37,6 +46,20 @@ export default () => {
             context.fill();
             context.stroke();
             context.closePath();
+            context.restore();
+
+            // Draw label
+            context.save();
+            context.fillStyle = '#000';
+            context.font =  '16px Times New Roman';
+            context.textAlign = textAlign;
+            context.textBaseline = textBaseline;
+
+            labelDecorate(context, d, i);
+            const x = horizontal ? crossScale(crossDomain[1]) : valueScale(d);
+            const y = horizontal ? valueScale(d) : crossScale(crossDomain[1]);
+            context.fillText(label(d), x + textOffsetX, y + textOffsetY);
+
             context.restore();
         });
     };
@@ -55,11 +78,25 @@ export default () => {
         yScale = args[0];
         return instance;
     };
-    instance.decorate = (...args) => {
+    instance.label = (...args) => {
         if (!args.length) {
-            return decorate;
+            return label;
         }
-        decorate = args[0];
+        label = constant(args[0]);
+        return instance;
+    };
+    instance.lineDecorate = (...args) => {
+        if (!args.length) {
+            return lineDecorate;
+        }
+        lineDecorate = args[0];
+        return instance;
+    };
+    instance.labelDecorate = (...args) => {
+        if (!args.length) {
+            return labelDecorate;
+        }
+        labelDecorate = args[0];
         return instance;
     };
     instance.orient = (...args) => {
