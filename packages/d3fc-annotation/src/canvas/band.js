@@ -8,6 +8,7 @@ export default () => {
     let orient = 'horizontal';
     let fromValue = d => d.from;
     let toValue = d => d.to;
+    let decorate = () => {};
     let context = null;
 
     var instance = (data) => {
@@ -27,12 +28,13 @@ export default () => {
         const valueScale = horizontal ? yScale : xScale;
         const crossScaleRange = crossScale.range();
 
-        data.forEach(d => {
+        data.forEach((d, i) => {
             context.save();
             context.beginPath();
             context.strokeStyle = 'transparent';
             context.fillStyle = '#bbb';
 
+            decorate(context, d, i);
             const x = horizontal ? crossScaleRange[0] : valueScale(fromValue(d));
             const y = horizontal ? valueScale(fromValue(d)) : crossScaleRange[0];
             const width = horizontal ? crossScaleRange[1] - crossScaleRange[0] : valueScale(toValue(d)) - valueScale(fromValue(d));
@@ -65,6 +67,13 @@ export default () => {
             return orient;
         }
         orient = args[0];
+        return instance;
+    };
+    instance.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return instance;
     };
     instance.fromValue = (...args) => {
