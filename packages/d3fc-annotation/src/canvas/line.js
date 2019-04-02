@@ -7,7 +7,8 @@ export default () => {
 
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
-    let label = d => d;
+    let value = d => d;
+    let label = value;
     let decorate = () => {};
     let orient = 'horizontal';
 
@@ -46,8 +47,8 @@ export default () => {
             }));
 
             // Draw label
-            const x = horizontal ? crossScale(crossDomain[1]) : valueScale(d);
-            const y = horizontal ? valueScale(d) : crossScale(crossDomain[1]);
+            const x = horizontal ? crossScale(crossDomain[1]) : valueScale(value(d));
+            const y = horizontal ? valueScale(value(d)) : crossScale(crossDomain[1]);
             context.fillText(label(d), x + textOffsetX, y + textOffsetY);
 
             context.fill();
@@ -69,6 +70,13 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
+        return instance;
+    };
+    instance.value = (...args) => {
+        if (!args.length) {
+            return value;
+        }
+        value = constant(args[0]);
         return instance;
     };
     instance.label = (...args) => {
