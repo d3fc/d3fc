@@ -259,6 +259,12 @@ If *accessorFunc* is specified, sets the function used to retrieve the label for
 
 If *decorateFunc* is specified, sets the decorate function used when joining the lines to SVG elements or drawing the lines on the canvas. If not specified, returns the current decorate function.
 
+### Canvas Specific Properties
+
+<a name="canvasLine_context" href="#canvasLine_context">#</a> *canvasLine*.**context**(*ctx*)
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
 ## Crosshair Annotation
 
 The crosshair component renders a pair of vertical and horizontal lines with a point at their center.
