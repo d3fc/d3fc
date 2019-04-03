@@ -32,6 +32,17 @@ var crosshairCanvas = fc.annotationCanvasCrosshair()
       var format = d3.format('.2f');
       var value = yScale.invert(d.y);
       return format(value);
+  })
+  .xDecorate(function(context) {
+      context.strokeStyle = "rgba(204, 0, 0, 0.25)";
+  })
+  .yDecorate(function(context) {
+      context.strokeStyle = "rgba(204, 0, 0, 0.25)";
+  })
+  .decorate(function(context) {
+      context.strokeStyle = "rgba(204, 0, 0, 0.25)";
+      context.fillStyle = "rgba(0, 0, 0, 0)";
+      context.scale(95, 95);
   });
 
 var svgData = [{ x: 215, y: 106 }];
@@ -50,6 +61,7 @@ function renderComponent() {
 
     var canvas = d3.select('canvas').node();
     var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     crosshairCanvas.context(ctx)(canvasData);
 }
 

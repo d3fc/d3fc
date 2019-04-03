@@ -78,9 +78,10 @@ export default () => {
         return instance;
     };
 
-    const lineIncludes = include('label');
+    const lineIncludes = include('label', 'decorate');
     rebindAll(instance, horizontalLine, lineIncludes, prefix('y'));
     rebindAll(instance, verticalLine, lineIncludes, prefix('x'));
+    rebind(instance, point, 'decorate');
     rebind(instance, multi, 'context');
 
     return instance;
