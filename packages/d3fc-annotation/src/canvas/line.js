@@ -42,7 +42,7 @@ export default () => {
 
             // Draw line
             lineData.context(context)(crossDomain.map(extent => {
-                const point = [crossScale(extent), valueScale(d)];
+                const point = [crossScale(extent), valueScale(value(d))];
                 return horizontal ? point : point.reverse();
             }));
 
