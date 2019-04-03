@@ -228,7 +228,8 @@ const yScale = d3.scaleLinear()
 
 const line = fc.annotationCanvasLine()
   .xScale(xScale)
-  .yScale(yScale);
+  .yScale(yScale)
+  .context(ctx);
 
 line([50]);
 ```
