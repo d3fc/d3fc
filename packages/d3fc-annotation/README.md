@@ -1,6 +1,6 @@
 # d3fc-annotation
 
-A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto Cartesian charts using SVG and canvas (canvas support is tracked in [#1160](https://github.com/d3fc/d3fc/issues/1160)).
+A collection of components for rendering plot area annotations (bands, crosshairs, gridlines and lines) onto Cartesian charts using SVG and canvas.
 
 <table>
 <tr>
@@ -269,6 +269,8 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 The crosshair component renders a pair of vertical and horizontal lines with a point at their center.
 
+### SVG Rendering
+
 <a name="crosshair" href="#crosshair">#</a> *fc*.**annotationSvgCrosshair**()
 
 Constructs a new crosshair annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the crosshair locations and call it on the selection -
@@ -288,6 +290,31 @@ d3.select('svg')
   .datum([{x: 50, y: 50}])
   .call(crosshair);
 ```
+
+### Canvas Rendering
+
+<a name="crosshair_canvas" href="#crosshair_canvas">#</a> *fc*.**annotationCanvasCrosshair**()
+
+Constructs a new crosshair annotation component. Once constructed, configure the component with scales and call with some data representing the crosshair locations -
+
+```js
+var ctx = canvas.getContext('2d');
+
+const xScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const yScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const crosshair = fc.annotationCanvasCrosshair()
+  .xScale(xScale)
+  .yScale(yScale)
+  .context(ctx);
+
+crosshair([{x: 50, y: 50}]);
+```
+
+### Common Properties
 
 <a name="crosshair_xScale" href="#crosshair_xScale">#</a> *crosshair*.**xScale**(*[scale]*)
 
@@ -313,6 +340,26 @@ If *accessorFunc* is specified, sets the function used to retrieve the label for
 
 If *accessorFunc* is specified, sets the function used to retrieve the label for horizontal lines. If not specified, returns the current label.
 
-<a name="crosshair_decorate" href="#crosshair_decorate">#</a> *crosshair*.**decorate**(*[decorateFunc]*)
+### SVG Specific Properties
+
+<a name="svg_crosshair_decorate" href="#svg_crosshair_decorate">#</a> *svgCrosshair*.**decorate**(*[decorateFunc]*)
 
 If *decorateFunc* is specified, sets the decorate function used when joining the crosshairs to SVG elements. If not specified, returns the current decorate function.
+
+### Canvas Specific Properties
+
+<a name="svg_crosshair_decorate" href="#svg_crosshair_decorate">#</a> *canvasCrosshair*.**decorate**(*[decorateFunc]*)
+
+If *decorateFunc* is specified, sets the decorate function used when drawing the point of the crosshair. If not specified, returns the current decorate function.
+
+<a name="svg_crosshair_xdecorate" href="#svg_crosshair_xdecorate">#</a> *canvasCrosshair*.**xDecorate**(*[decorateFunc]*)
+
+If *decorateFunc* is specified, sets the decorate function used when drawing the vertical line of the crosshair. If not specified, returns the current decorate function.
+
+<a name="svg_crosshair_ydecorate" href="#svg_crosshair_ydecorate">#</a> *canvasCrosshair*.**yDecorate**(*[decorateFunc]*)
+
+If *decorateFunc* is specified, sets the decorate function used when drawing the horizontal line of the crosshair. If not specified, returns the current decorate function.
+
+<a name="canvasLine_context" href="#canvasLine_context">#</a> *canvasLine*.**context**(*ctx*)
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
