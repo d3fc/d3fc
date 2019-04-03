@@ -34,14 +34,14 @@ var crosshairCanvas = fc.annotationCanvasCrosshair()
       return format(value);
   })
   .xDecorate(function(context) {
-      context.strokeStyle = "rgba(204, 0, 0, 0.25)";
+      context.strokeStyle = 'rgba(204, 0, 0, 0.25)';
   })
   .yDecorate(function(context) {
-      context.strokeStyle = "rgba(204, 0, 0, 0.25)";
+      context.strokeStyle = 'rgba(204, 0, 0, 0.25)';
   })
   .decorate(function(context) {
-      context.strokeStyle = "rgba(204, 0, 0, 0.25)";
-      context.fillStyle = "rgba(0, 0, 0, 0)";
+      context.strokeStyle = 'rgba(204, 0, 0, 0.25)';
+      context.fillStyle = 'rgba(0, 0, 0, 0)';
       context.scale(95, 95);
   });
 
@@ -66,7 +66,7 @@ function renderComponent() {
     canvas.onmousemove = function({ offsetX, offsetY }) {
         canvasData[0] = { x: offsetX, y: offsetY };
         render();
-    }
+    };
 }
 
 render();
