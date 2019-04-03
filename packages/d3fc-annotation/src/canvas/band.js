@@ -32,7 +32,6 @@ export default () => {
             context.save();
             context.beginPath();
             context.strokeStyle = 'transparent';
-            context.fillStyle = '#bbb';
 
             decorate(context, d, i);
             const x = horizontal ? crossScaleRange[0] : valueScale(fromValue(d));
