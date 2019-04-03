@@ -17,7 +17,7 @@ var horizontalCanvasBand = fc.annotationCanvasBand()
   .yScale(yScale)
   .fromValue(function(d) { return d[0]; })
   .toValue(function(d) { return d[1]; })
-  .decorate(context => { context.fillStyle = "rgba(102, 0, 204, 0.1)"; });
+  .decorate(context => { context.fillStyle = 'rgba(102, 0, 204, 0.1)'; });
 
 var verticalCanvasBand = fc.annotationCanvasBand()
   .orient('vertical')
@@ -25,7 +25,7 @@ var verticalCanvasBand = fc.annotationCanvasBand()
   .yScale(yScale)
   .fromValue(function(d) { return d[0]; })
   .toValue(function(d) { return d[1]; })
-  .decorate(context => { context.fillStyle = "rgba(0, 204, 0, 0.1)"; });
+  .decorate(context => { context.fillStyle = 'rgba(0, 204, 0, 0.1)'; });
 
 // eslint-disable-next-line no-unused-vars
 function renderComponent() {
