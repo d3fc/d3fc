@@ -63,6 +63,10 @@ function renderComponent() {
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     crosshairCanvas.context(ctx)(canvasData);
+    canvas.onmousemove = function({ offsetX, offsetY }) {
+        canvasData[0] = { x: offsetX, y: offsetY };
+        render();
+    }
 }
 
 render();
