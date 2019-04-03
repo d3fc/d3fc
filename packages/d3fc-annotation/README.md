@@ -180,7 +180,8 @@ const yScale = d3.scaleLinear()
 
 const band = fc.annotationCanvasBand()
   .xScale(xScale)
-  .yScale(yScale);
+  .yScale(yScale)
+  .context(ctx);
 
 band([{ from: 45, to: 55 }]);
 ```
