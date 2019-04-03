@@ -52,7 +52,7 @@ d3.select('svg')
 
 <a name="gridline_canvas" href="#gridline_canvas">#</a> *fc*.**annotationCanvasGridline**()
 
-Constructs a new canvas gridline annotation component. Once constructed, configure the component with scales and call it on a selection -
+Constructs a new canvas gridline annotation component. Once constructed, configure the component with scales and call it -
 
 ```js
 var ctx = canvas.getContext('2d');
