@@ -18,13 +18,13 @@ export default () => {
         const xScale = xTicks.scale();
         const yScale = yTicks.scale();
 
-        xTicks().forEach(xTick => {
+        xTicks().forEach((xTick, i) => {
             context.save();
             context.beginPath();
             context.strokeStyle = '#bbb';
             context.fillStyle = 'transparent';
 
-            xDecorate(context);
+            xDecorate(context, xTick, i);
             lineData.context(context)(yScale.domain().map(d => [xScale(xTick), yScale(d)]));
 
             context.fill();
@@ -33,13 +33,13 @@ export default () => {
             context.restore();
         });
 
-        yTicks().forEach(yTick => {
+        yTicks().forEach((yTick, i) => {
             context.save();
             context.beginPath();
             context.strokeStyle = '#bbb';
             context.fillStyle = 'transparent';
 
-            yDecorate(context);
+            yDecorate(context, yTick, i);
             lineData.context(context)(xScale.domain().map(d => [xScale(d), yScale(yTick)]));
 
             context.fill();

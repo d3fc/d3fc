@@ -52,7 +52,7 @@ d3.select('svg')
 
 <a name="gridline_canvas" href="#gridline_canvas">#</a> *fc*.**annotationCanvasGridline**()
 
-Constructs a new canvas gridline annotation component. Once constructed, configure the component with scales and call it on a selection -
+Constructs a new canvas gridline annotation component. Once constructed, configure the component with scales and call it -
 
 ```js
 var ctx = canvas.getContext('2d');
@@ -115,11 +115,11 @@ Manually specify the vertical gridline positions. Overrides [yTicks](#gridline_y
 
 <a name="gridline_xDecorate" href="#gridline_xDecorate">#</a> *gridline*.**xDecorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the vertical gridlines to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the vertical gridlines to SVG elements or drawing canvas gridlines. If not specified, returns the current decorate function.
 
 <a name="gridline_yDecorate" href="#gridline_yDecorate">#</a> *gridline*.**yDecorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the horizontal gridlines to SVG elements or drawing canvas gridlines. If not specified, returns the current decorate function.
 
 ### SVG Specific Properties
 
@@ -189,6 +189,8 @@ If *decorateFunc* is specified, sets the decorate function used when joining the
 
 The line component renders horizontal and vertical lines.
 
+### SVG Rendering
+
 <a name="line" href="#line">#</a> *fc*.**annotationSvgLine**()
 
 Constructs a new line annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the line locations and call it on the selection -
@@ -208,6 +210,31 @@ d3.select('svg')
   .datum([50])
   .call(line);
 ```
+
+### Canvas Rendering
+
+<a name="line_canvas" href="#line_canvas">#</a> *fc*.**annotationCanvasLine**()
+
+Constructs a new line annotation component. Once constructed, configure the component with scales and call it with some data representing the line locations -
+
+```js
+var ctx = canvas.getContext('2d');
+
+const xScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const yScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const line = fc.annotationCanvasLine()
+  .xScale(xScale)
+  .yScale(yScale)
+  .context(ctx);
+
+line([50]);
+```
+
+### Shared Components
 
 <a name="line_xScale" href="#line_xScale">#</a> *line*.**xScale**(*[scale]*)
 
@@ -231,7 +258,13 @@ If *accessorFunc* is specified, sets the function used to retrieve the label for
 
 <a name="line_decorate" href="#line_decorate">#</a> *line*.**decorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the lines to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the lines to SVG elements or drawing the lines on the canvas. If not specified, returns the current decorate function.
+
+### Canvas Specific Properties
+
+<a name="canvasLine_context" href="#canvasLine_context">#</a> *canvasLine*.**context**(*ctx*)
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
 ## Crosshair Annotation
 
