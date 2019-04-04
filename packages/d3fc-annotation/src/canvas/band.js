@@ -46,7 +46,7 @@ export default () => {
             pathGenerator[valueAxisDimension](valueScale(toValue(d)) - valueScale(fromValue(d)));
 
             decorate(context, d, i);
-            pathGenerator.context(context)(d, i);
+            pathGenerator.context(context)([d], i);
 
             context.fill();
             context.stroke();
