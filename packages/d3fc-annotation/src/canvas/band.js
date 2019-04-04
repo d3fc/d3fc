@@ -1,4 +1,6 @@
+import { shapeBar } from '@d3fc/d3fc-shape';
 import { scaleIdentity } from 'd3-scale';
+import { rebind } from '@d3fc/d3fc-rebind';
 import constant from '../constant';
 
 export default () => {
@@ -9,7 +11,10 @@ export default () => {
     let fromValue = d => d.from;
     let toValue = d => d.to;
     let decorate = () => {};
-    let context = null;
+
+    const pathGenerator = shapeBar()
+      .horizontalAlign('right')
+      .verticalAlign('top');
 
     var instance = (data) => {
 
@@ -17,28 +22,31 @@ export default () => {
             throw new Error('Invalid orientation');
         }
 
-        if (context === null) {
-            throw new Error('Context is not defined');
-        }
-
+        const context = pathGenerator.context();
         const horizontal = orient === 'horizontal';
         // the value scale which the annotation 'value' relates to, the crossScale
         // is the other. Which is which depends on the orienation!
         const crossScale = horizontal ? xScale : yScale;
         const valueScale = horizontal ? yScale : xScale;
         const crossScaleRange = crossScale.range();
+        const crossScaleSize = crossScaleRange[1] - crossScaleRange[0];
+        const valueAxisStart = horizontal ? 'x' : 'y';
+        const crossAxisStart = horizontal ? 'y' : 'x';
+        const valueAxisDimension = horizontal ? 'height' : 'width';
+        const crossAxisDimension = horizontal ? 'width' : 'height';
 
         data.forEach((d, i) => {
             context.save();
             context.beginPath();
             context.strokeStyle = 'transparent';
 
+            pathGenerator[crossAxisStart](valueScale(fromValue(d)));
+            pathGenerator[valueAxisStart](crossScaleRange[0]);
+            pathGenerator[crossAxisDimension](crossScaleSize);
+            pathGenerator[valueAxisDimension](valueScale(toValue(d)) - valueScale(fromValue(d)));
+
             decorate(context, d, i);
-            const x = horizontal ? crossScaleRange[0] : valueScale(fromValue(d));
-            const y = horizontal ? valueScale(fromValue(d)) : crossScaleRange[0];
-            const width = horizontal ? crossScaleRange[1] - crossScaleRange[0] : valueScale(toValue(d)) - valueScale(fromValue(d));
-            const height = horizontal ? valueScale(toValue(d)) - valueScale(fromValue(d)) : crossScaleRange[1] - crossScaleRange[0];
-            context.fillRect(x, y, width, height);
+            pathGenerator.context(context)(d, i);
 
             context.fill();
             context.stroke();
@@ -89,13 +97,8 @@ export default () => {
         toValue = constant(args[0]);
         return instance;
     };
-    instance.context = (...args) => {
-        if (!args.length) {
-            return context;
-        }
-        context = args[0];
-        return instance;
-    };
+
+    rebind(instance, pathGenerator, 'context');
 
     return instance;
 };
