@@ -382,18 +382,18 @@ If *decorateFunc* is specified, sets the decorate function used when joining the
 
 ### Canvas Specific Properties
 
-<a name="svg_crosshair_decorate" href="#svg_crosshair_decorate">#</a> *canvasCrosshair*.**decorate**(*[decorateFunc]*)
+<a name="canvas_crosshair_decorate" href="#canvas_crosshair_decorate">#</a> *canvasCrosshair*.**decorate**(*[decorateFunc]*)
 
 If *decorateFunc* is specified, sets the decorate function used when drawing the point of the crosshair. If not specified, returns the current decorate function.
 
-<a name="svg_crosshair_xdecorate" href="#svg_crosshair_xdecorate">#</a> *canvasCrosshair*.**xDecorate**(*[decorateFunc]*)
+<a name="canvas_crosshair_xdecorate" href="#canvas_crosshair_xdecorate">#</a> *canvasCrosshair*.**xDecorate**(*[decorateFunc]*)
 
 If *decorateFunc* is specified, sets the decorate function used when drawing the vertical line of the crosshair. If not specified, returns the current decorate function.
 
-<a name="svg_crosshair_ydecorate" href="#svg_crosshair_ydecorate">#</a> *canvasCrosshair*.**yDecorate**(*[decorateFunc]*)
+<a name="canvas_crosshair_ydecorate" href="#canvas_crosshair_ydecorate">#</a> *canvasCrosshair*.**yDecorate**(*[decorateFunc]*)
 
 If *decorateFunc* is specified, sets the decorate function used when drawing the horizontal line of the crosshair. If not specified, returns the current decorate function.
 
-<a name="canvasLine_context" href="#canvasLine_context">#</a> *canvasLine*.**context**(*ctx*)
+<a name="canvas_crosshair_context" href="#canvas_crosshair_context">#</a> *canvasCrosshair*.**context**(*ctx*)
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
