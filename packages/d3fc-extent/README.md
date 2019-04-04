@@ -23,7 +23,7 @@ Calculates the extent of an array of data which can be used to set the range on 
 
 ```javascript
 
-import extentLinear from 'd3fc-extent';
+import { extentLinear } from 'd3fc-extent';
 
 const data = [{ x: 1 }, { x: 2 }, { x: 4 }, { x: 8 }, { x: 16 }];
 
