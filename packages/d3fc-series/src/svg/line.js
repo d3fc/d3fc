@@ -4,6 +4,7 @@ import {select} from 'd3-selection';
 import {rebind, exclude, rebindAll} from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
+import { assertIsSelection } from './assert';
 
 export default () => {
     const base = xyBase();
@@ -15,6 +16,8 @@ export default () => {
     const join = dataJoin('path', 'line');
 
     const line = (selection) => {
+
+        assertIsSelection(selection);
 
         if (selection.selection) {
             join.transition(selection);

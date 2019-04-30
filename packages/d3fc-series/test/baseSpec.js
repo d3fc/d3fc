@@ -1,4 +1,4 @@
-import * as d3Scale from 'd3-scale';
+/* global d3 */
 import * as fc from '../index';
 
 describe('xScale', () => {
@@ -23,6 +23,29 @@ describe('xScale', () => {
         });
     });
 
+});
+
+describe('SVG error reporting', () => {
+
+    let svgSeries;
+
+    beforeEach(() => (svgSeries = getSvgSeries()));
+
+    it('should not throw if supplied with a data-joined selection', () => {
+        svgSeries.forEach(series => {
+            const selection = d3.select('body').datum([]);
+            selection.call(series);
+        });
+    });
+
+    it('should throw if invoked with a non-selection', () => {
+        const notASelection = () => {};
+        svgSeries.forEach(series => {
+            expect(() => {
+                series(notASelection);
+            }).toThrow(new Error('Series components must be invoked with a D3 selection. If you are using in conjunction with d3fc chart, check you are adding the series to an svgPlotArea'));
+        });
+    });
 });
 
 describe('yScale', () => {

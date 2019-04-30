@@ -1,9 +1,8 @@
-import { scaleLinear } from 'd3-scale';
 import { dataJoin } from '@d3fc/d3fc-data-join';
-import { min, max } from 'd3-array';
 import { select } from 'd3-selection';
 import { rebindAll } from '@d3fc/d3fc-rebind';
 import heatmapBase from '../heatmapBase';
+import { assertIsSelection } from './assert';
 
 export default () => {
 
@@ -16,6 +15,8 @@ export default () => {
         ', ' + values.y + ')';
 
     const heatmap = (selection) => {
+
+        assertIsSelection(selection);
 
         selection.each((data, index, group) => {
 

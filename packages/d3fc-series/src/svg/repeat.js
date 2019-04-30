@@ -2,6 +2,7 @@ import {select} from 'd3-selection';
 import {rebindAll, exclude} from '@d3fc/d3fc-rebind';
 import multiSeries from './multi';
 import line from './line';
+import { assertIsSelection } from './assert';
 
 export default () => {
 
@@ -9,7 +10,10 @@ export default () => {
     let series = line();
     const multi = multiSeries();
 
-    const repeat = (selection) =>
+    const repeat = (selection) => {
+
+        assertIsSelection(selection);
+
         selection.each((data, index, group) => {
             if (orient === 'vertical') {
                 multi.series(data[0].map(_ => series))
@@ -20,6 +24,7 @@ export default () => {
             }
             select(group[index]).call(multi);
         });
+    };
 
     repeat.series = (...args) => {
         if (!args.length) {

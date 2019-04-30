@@ -2,6 +2,7 @@ import {dataJoin} from '@d3fc/d3fc-data-join';
 import {select} from 'd3-selection';
 import {rebindAll, rebind} from '@d3fc/d3fc-rebind';
 import multiBase from '../multiBase';
+import { assertIsSelection } from './assert';
 
 export default () => {
 
@@ -12,6 +13,8 @@ export default () => {
     const join = dataJoin('g', 'multi');
 
     const multi = (selection) => {
+
+        assertIsSelection(selection);
 
         if (selection.selection) {
             join.transition(selection);

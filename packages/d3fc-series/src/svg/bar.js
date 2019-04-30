@@ -4,6 +4,7 @@ import { select } from 'd3-selection';
 import xyBase from '../xyBase';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import colors from '../colors';
+import { assertIsSelection } from './assert';
 
 export default () => {
 
@@ -25,6 +26,8 @@ export default () => {
         'translate(' + origin[0] + ', ' + origin[1] + ')';
 
     const bar = (selection) => {
+
+        assertIsSelection(selection);
 
         if (selection.selection) {
             join.transition(selection);

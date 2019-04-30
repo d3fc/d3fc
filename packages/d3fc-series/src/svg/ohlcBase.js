@@ -1,9 +1,9 @@
 import { dataJoin } from '@d3fc/d3fc-data-join';
-import { shapeCandlestick } from '@d3fc/d3fc-shape';
 import ohlcBase from '../ohlcBase';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import { select } from 'd3-selection';
 import colors from '../colors';
+import { assertIsSelection } from './assert';
 
 export default (pathGenerator, seriesName) => {
     const base = ohlcBase();
@@ -15,6 +15,8 @@ export default (pathGenerator, seriesName) => {
         maybeTransition.selection ? selection.transition(maybeTransition) : selection;
 
     const candlestick = (selection) => {
+
+        assertIsSelection(selection);
 
         if (selection.selection) {
             join.transition(selection);

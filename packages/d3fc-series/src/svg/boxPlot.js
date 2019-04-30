@@ -5,6 +5,7 @@ import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import { select } from 'd3-selection';
 import boxPlotBase from '../boxPlotBase';
 import colors from '../colors';
+import { assertIsSelection } from './assert';
 
 export default () => {
 
@@ -22,6 +23,8 @@ export default () => {
         (values) => 'translate(' + values.origin[0] + ', ' + values.origin[1] + ')';
 
     const boxPlot = (selection) => {
+
+        assertIsSelection(selection);
 
         if (selection.selection) {
             join.transition(selection);
