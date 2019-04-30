@@ -50,8 +50,8 @@ export default (...args) => {
             container.enter()
                 .attr('auto-resize', '')
                 .html(
-                    '<d3fc-svg class="plot-area"></d3fc-svg>' +
-                    '<d3fc-canvas class="plot-area"></d3fc-canvas>'
+                    '<d3fc-canvas class="plot-area"></d3fc-canvas>' +
+                    '<d3fc-svg class="plot-area"></d3fc-svg>'
                 );
 
             xLabelDataJoin(container, [xOrient(data)])
