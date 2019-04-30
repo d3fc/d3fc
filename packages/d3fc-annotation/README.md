@@ -141,6 +141,8 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 The band component renders horizontal and vertical bands.
 
+### SVG Rendering
+
 <a name="band" href="#band">#</a> *fc*.**annotationSvgBand**()
 
 Constructs a new band annotation component. Once constructed, configure the component with scales, associate a selection with some data representing the band locations and call it on the selection -
@@ -160,6 +162,31 @@ d3.select('svg')
   .datum([{ from: 45, to: 55 }])
   .call(band);
 ```
+
+### Canvas Rendering
+
+<a name="band_canvas" href="#band_canvas">#</a> *fc*.**annotationCanvasBand**()
+
+Constructs a new band annotation component. Once constructed, configure the component with scales and call with some data representing the band locations -
+
+```js
+var ctx = canvas.getContext('2d');
+
+const xScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const yScale = d3.scaleLinear()
+  .range([0, 100]);
+
+const band = fc.annotationCanvasBand()
+  .xScale(xScale)
+  .yScale(yScale)
+  .context(ctx);
+
+band([{ from: 45, to: 55 }]);
+```
+
+### Common Properties
 
 <a name="band_xScale" href="#band_xScale">#</a> *band*.**xScale**(*[scale]*)
 
@@ -183,7 +210,13 @@ If *accessorFunc* is specified, sets the function used to retrieve the end value
 
 <a name="band_decorate" href="#band_decorate">#</a> *band*.**decorate**(*[decorateFunc]*)
 
-If *decorateFunc* is specified, sets the decorate function used when joining the bands to SVG elements. If not specified, returns the current decorate function.
+If *decorateFunc* is specified, sets the decorate function used when joining the bands to SVG elements or drawing the canvas. If not specified, returns the current decorate function.
+
+### Canvas Specific Properties
+
+<a name="canvasBand_context" href="#canvasBand_context">#</a> *canvasBand*.**context**(*ctx*)
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
 ## Line Annotation
 
