@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.3.0...@d3fc/d3fc-annotation@2.4.0) (2019-05-01)
+
+
+### Features
+
+* canvas crosshair annotation ([b9fd9c1](https://github.com/d3fc/d3fc/commit/b9fd9c1))
+
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.2.0...@d3fc/d3fc-annotation@2.3.0) (2019-04-04)
 
