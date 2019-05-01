@@ -223,5 +223,7 @@ export const axisBase = (orient, scale, custom = {}) => {
         return axis;
     };
 
+    axis.orient = () => orient;
+
     return axis;
 };
