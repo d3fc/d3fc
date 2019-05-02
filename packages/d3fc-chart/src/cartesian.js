@@ -65,8 +65,8 @@ export default (...args) => {
                 .attr('class', d => `y-label ${d}-label`)
                 .text(yLabel(data));
 
-            xAxisComponent = xOrient(data) === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale);
-            yAxisComponent = yOrient(data) === 'left' ? yAxis.left(yScale) : yAxis.right(yScale);
+            xAxisComponent = xAxisStore(xOrient(data) === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale));
+            yAxisComponent = yAxisStore(yOrient(data) === 'left' ? yAxis.left(yScale) : yAxis.right(yScale));
 
             xAxisDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-axis ${d}-axis`)
@@ -75,7 +75,7 @@ export default (...args) => {
                     if (xScale.range()[1] !== width) {
                         xScale.range([0, width]);
 
-                        select(nodes[i]).style('height', xAxisHeight(data, i, nodes));
+                        select(nodes[i]).style('height', xAxisHeight(select(nodes[i]).select('svg')));
                     }
                 })
                 .on('measure', (d, i, nodes) => {
@@ -91,7 +91,7 @@ export default (...args) => {
                     xAxisComponent.decorate(xDecorate);
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
-                            .call(xAxisStore(xAxisComponent));
+                            .call(xAxisComponent);
                 });
 
             yAxisDataJoin(container, [yOrient(data)])
@@ -101,7 +101,7 @@ export default (...args) => {
                     if (yScale.range()[0] !== height) {
                         yScale.range([height, 0]);
 
-                        select(nodes[i]).style('width', yAxisWidth(data, i, nodes));
+                        select(nodes[i]).style('width', yAxisWidth(select(nodes[i]).select('svg')));
                     }
                 })
                 .on('measure', (d, i, nodes) => {
@@ -117,7 +117,7 @@ export default (...args) => {
                     yAxisComponent.decorate(yDecorate);
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
-                            .call(yAxisStore(yAxisComponent));
+                            .call(yAxisComponent);
                 });
 
             container.select('d3fc-canvas.plot-area')

@@ -65,12 +65,12 @@ const customAxis = (scale) => {
         base(selection);
     }
 
-    axis.height = (d, i, nodes) => {
+    axis.height = selection => {
         const labels = scale.domain();
         const width = scale.range()[1];
 
         // Use a test element to measure the text in the axis SVG container
-        const tester = d3.select(nodes[i]).select('svg')
+        const tester = selection
             .attr('font-size', 10).attr('font-family', 'sans-serif')
             .append('text');
         labelHeight = tester.text("Ty").node().getBBox().height;
