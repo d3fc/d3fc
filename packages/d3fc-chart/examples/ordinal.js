@@ -73,15 +73,15 @@ const customAxis = (scale) => {
         const tester = selection
             .attr('font-size', 10).attr('font-family', 'sans-serif')
             .append('text');
-        labelHeight = tester.text("Ty").node().getBBox().height;
+        labelHeight = tester.text('Ty').node().getBBox().height;
         const maxWidth = Math.max(...labels.map(l => tester.text(l).node().getBBox().width));
         tester.remove();
 
         // The more the overlap, the more we rotate
         const allowedSize = labels.length * maxWidth;
         rotate = width < allowedSize ? Math.min(1, (allowedSize / width - 0.8) / 2) : 0;
-        return rotate ? `${Math.floor(maxWidth * rotate + labelHeight) + 10}px`: null;
-    }
+        return rotate ? `${Math.floor(maxWidth * rotate + labelHeight) + 10}px` : null;
+    };
 
     axis.decorate = (...args) => {
         if (!args.length) {
@@ -91,7 +91,7 @@ const customAxis = (scale) => {
         return axis;
     };
 
-    fc.rebindAll(axis, base, fc.exclude("decorate"));
+    fc.rebindAll(axis, base, fc.exclude('decorate'));
     return axis;
 };
 
@@ -104,12 +104,12 @@ var bar = fc.seriesSvgBar()
     .mainValue(d => d.sales);
 
 var chart = fc.chartCartesian({
-        xScale: d3.scalePoint().padding(0.5),
-        yScale: d3.scaleLinear(),
-        xAxis: {
-            bottom: customAxis
-        }
-    })
+    xScale: d3.scalePoint().padding(0.5),
+    yScale: d3.scaleLinear(),
+    xAxis: {
+        bottom: customAxis
+    }
+})
     .xLabel('Value')
     .yLabel('Sine / Cosine')
     .yOrient('left')
