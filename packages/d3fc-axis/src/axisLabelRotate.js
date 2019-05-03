@@ -6,18 +6,19 @@ export default (adaptee) => {
     let decorate = () => { };
 
     const measureLabels = s => {
-        const labels = adaptee.scale().domain();
+        const scale = adaptee.scale();
+        const labels = scale['ticks'] ? scale.ticks() : scale.domain();
 
-        // Use a test element to measure the text in the axis SVG container
         const tester = s.append('text');
-        const labelHeight = tester.text('Ty').node().getBBox().height;
-        const maxWidth = Math.max(...labels.map(l => tester.text(l).node().getBBox().width));
+        const boundingBoxes = labels.map(l => tester.text(l).node().getBBox());
+        const maxHeight = Math.max(...boundingBoxes.map(b => b.height));
+        const maxWidth = Math.max(...boundingBoxes.map(b => b.width));
         tester.remove();
 
         return {
-            labelHeight,
+            maxHeight,
             maxWidth,
-            measuredSize: labels.length * maxWidth
+            labelCount: labels.length
         };
     };
 
@@ -36,7 +37,8 @@ export default (adaptee) => {
     };
 
     const calculateRotation = s => {
-        const { labelHeight, maxWidth, measuredSize } = measureLabels(s);
+        const { maxHeight, maxWidth, labelCount } = measureLabels(s);
+        const measuredSize = labelCount * maxWidth;
 
         // The more the overlap, the more we rotate
         let rotate;
@@ -49,19 +51,19 @@ export default (adaptee) => {
 
         return {
             rotate: isVertical() ? Math.floor(sign() * (90 - rotate)) : Math.floor(-rotate),
-            labelHeight,
+            maxHeight,
             maxWidth,
             anchor: rotate ? labelAnchor() : 'middle'
         };
     };
 
     const decorateRotation = sel => {
-        const { rotate, labelHeight, anchor } = calculateRotation(sel);
+        const { rotate, maxHeight, anchor } = calculateRotation(sel);
 
         const text = sel.select('text');
         const existingTransform = text.attr('transform');
 
-        const offset = sign() * Math.floor(labelHeight / 2);
+        const offset = sign() * Math.floor(maxHeight / 2);
         const offsetTransform = isVertical() ? `translate(${offset}, 0)` : `translate(0, ${offset})`;
 
         text.style('text-anchor', anchor)
