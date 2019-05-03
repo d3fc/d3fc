@@ -40,9 +40,7 @@ const axisOrdinal = (orient, scale) => {
     const base = axisBase(orient, scale, {labelOffset, tickPath});
 
     const axis = (selection) => {
-        // if (!rotation) calculateRotation(selection);
         base(selection);
-        // rotation = null;
     };
 
     axis.tickOffset = (...args) => {
