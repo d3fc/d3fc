@@ -149,7 +149,7 @@ A drop-in replacement for D3 axis, see the [D3 documentation for API reference](
 
 ![](screenshots/offset.png)
 
-<a name="axisLabelOffset" href="#axisLabelOffset">#</a> fc.**axisLabelOffset**()
+<a name="axisLabelOffset" href="#axisLabelOffset">#</a> fc.**axisLabelOffset**(*axis*)
 
 An adapter that offsets axis labels in order to avoid collisions.
 
