@@ -159,3 +159,16 @@ If *offset* is specified, sets the offset depth and returns this series. If *off
 
 If *offset* is set to `auto`, the adapter will determine the required offset depth (i.e. number of levels) that labels need to be offset by in order to avoid collisions. If *offset* is set to a number, it will offset labels by the given depth.
 
+### Axis Label Rotate
+
+<img src="screenshots/rotate.png" style="width:400px;"/>
+
+<a name="axisLabelRotate" href="#axisLabelRotate">#</a> fc.**axisLabelRotate**(*axis*)
+
+An adapter that rotates axis labels in order to avoid collisions.
+
+<a name="axisLabelRotate_labelRotate" href="#axisLabelRotate_labelRotate">#</a> *axis*.**labelRotate**(*degrees*)
+
+If *degrees* is specified, sets the rotation angle in degrees. If *degrees* is not specified, returns the current rotation angle.
+
+If *degrees* is set to `auto`, the adapter will determine whether the labels will overlap then rotate them to avoid collisions. Depending on the available space, the angle will vary from fairly shallow, all the way up to 90 degrees. If *degrees* is set to a number, it will rotate labels by the given angle.
