@@ -3,9 +3,6 @@ export default (...names) => {
 
     const store = (target) => {
         for (const key of Object.keys(data)) {
-            if (!target[key]) {
-                throw new Error(`target.${key} is not a function`);
-            }
             target[key](data[key]);
         }
         return target;

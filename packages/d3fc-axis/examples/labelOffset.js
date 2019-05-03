@@ -14,13 +14,13 @@ const draw = () => {
         join(d3.select(selector), [{}])
             .attr('transform', transform)
             .call(axis);
-    }
+    };
 
     renderAxis(scale => fc.axisLabelOffset(fc.axisBottom(scale)), '#bottom svg', '');
     renderAxis(scale => fc.axisLabelOffset(fc.axisTop(scale)), '#top svg', 'translate(0, 80)');
     renderAxis(scale => fc.axisLabelOffset(fc.axisLeft(scale)), '#left svg', 'translate(160, 0)');
     renderAxis(scale => fc.axisLabelOffset(fc.axisRight(scale)), '#right svg', 'translate(0, 0)');
-}
+};
 
 draw();
 window.addEventListener('resize', () => draw());
