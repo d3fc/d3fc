@@ -1,26 +1,10 @@
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
+import measureLabels from './measureLabels';
 
 export default (adaptee) => {
 
     let labelRotate = 'auto';
     let decorate = () => { };
-
-    const measureLabels = s => {
-        const scale = adaptee.scale();
-        const labels = scale['ticks'] ? scale.ticks() : scale.domain();
-
-        const tester = s.append('text');
-        const boundingBoxes = labels.map(l => tester.text(l).node().getBBox());
-        const maxHeight = Math.max(...boundingBoxes.map(b => b.height));
-        const maxWidth = Math.max(...boundingBoxes.map(b => b.width));
-        tester.remove();
-
-        return {
-            maxHeight,
-            maxWidth,
-            labelCount: labels.length
-        };
-    };
 
     const isVertical = () =>
       adaptee.orient() === 'left' || adaptee.orient() === 'right';
@@ -37,7 +21,7 @@ export default (adaptee) => {
     };
 
     const calculateRotation = s => {
-        const { maxHeight, maxWidth, labelCount } = measureLabels(s);
+        const { maxHeight, maxWidth, labelCount } = measureLabels(adaptee.scale())(s);
         const measuredSize = labelCount * maxWidth;
 
         // The more the overlap, the more we rotate
