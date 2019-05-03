@@ -24,8 +24,8 @@ svg.append('g')
 const draw = () => {
     const groupRect = d3.select('.ordinal-group').node().getBoundingClientRect();
     const groupSize = {
-        width: groupRect.width - 2 * height,
-        height: groupRect.height - 2 * height
+        width: Math.max(50, groupRect.width - 2 * height),
+        height: Math.max(50, groupRect.height - 2 * height)
     };
 
     const renderAxis = (target, axis) => {
@@ -40,8 +40,6 @@ const draw = () => {
 
         let axisElement = target.select('g');
         if (!axisElement.size()) axisElement = target.append('g');
-        let backgroundElement = axisElement.select('rect');
-        if (!backgroundElement.size()) backgroundElement = axisElement.append('rect');
 
         axisElement
             .attr('transform', () => {
