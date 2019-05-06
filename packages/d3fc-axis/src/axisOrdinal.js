@@ -40,7 +40,7 @@ const axisOrdinal = (orient, scale) => {
     const base = axisBase(orient, scale, {labelOffset, tickPath});
 
     const axis = (selection) => {
-        return base(selection);
+        base(selection);
     };
 
     axis.tickOffset = (...args) => {
