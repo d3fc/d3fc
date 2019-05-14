@@ -49,11 +49,11 @@ var multi = fc.seriesSvgMulti()
         }
     });
 
-var mainChart = fc.chartSvgCartesian(x, y)
-    .plotArea(area);
+var mainChart = fc.chartCartesian(x, y)
+    .svgPlotArea(area);
 
-var navigatorChart = fc.chartSvgCartesian(x.copy(), y.copy())
-    .plotArea(multi);
+var navigatorChart = fc.chartCartesian(x.copy(), y.copy())
+    .svgPlotArea(multi);
 
 // set the initial domain based on the brushed range
 var scale = d3.scaleLinear().domain(x.domain());

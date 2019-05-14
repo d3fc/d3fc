@@ -48,7 +48,7 @@ var area = fc.seriesSvgArea()
 var multi = fc.seriesSvgMulti()
     .series([gridlines, area, line]);
 
-var chart = fc.chartSvgCartesian({
+var chart = fc.chartCartesian({
     xScale: d3.scaleLinear(),
     yScale: d3.scaleLinear(),
     xAxis: {
@@ -64,7 +64,7 @@ var chart = fc.chartSvgCartesian({
     .yTicks([5])
     .yDomain(yExtent(data))
     .xDomain(xExtent(data))
-    .plotArea(multi);
+    .svgPlotArea(multi);
 
 d3.select('#custom-axis')
     .datum(data)
