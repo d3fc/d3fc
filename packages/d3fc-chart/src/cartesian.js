@@ -19,8 +19,8 @@ export default (...args) => {
     let yAxisWidth = functor(null);
     let yOrient = functor('right');
     let xOrient = functor('bottom');
-    let canvasPlotArea = seriesCanvasMulti();
-    let svgPlotArea = seriesSvgMulti();
+    let canvasPlotArea = null;
+    let svgPlotArea = null;
     let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
     let xDecorate = () => { };
     let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
@@ -28,6 +28,8 @@ export default (...args) => {
     let decorate = () => { };
 
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
+    const canvasDataJoin = dataJoin('d3fc-canvas', 'plot-area');
+    const svgDataJoin = dataJoin('d3fc-svg', 'plot-area');
     const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis')
         .key(d => d);
     const yAxisDataJoin = dataJoin('d3fc-svg', 'y-axis')
@@ -48,11 +50,7 @@ export default (...args) => {
             const container = containerDataJoin(select(group[index]), [data]);
 
             container.enter()
-                .attr('auto-resize', '')
-                .html(
-                    '<d3fc-svg class="plot-area"></d3fc-svg>' +
-                    '<d3fc-canvas class="plot-area"></d3fc-canvas>'
-                );
+                .attr('auto-resize', '');
 
             xLabelDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-label ${d}-label`)
@@ -102,7 +100,16 @@ export default (...args) => {
                         .call(yAxisStore(yAxisComponent));
                 });
 
-            container.select('d3fc-canvas.plot-area')
+            svgDataJoin(container, svgPlotArea ? [data] : [])
+                .on('draw', (d, i, nodes) => {
+                    svgPlotArea.xScale(xScale)
+                        .yScale(yScale);
+                    transitionPropagator(select(nodes[i]))
+                        .select('svg')
+                        .call(svgPlotArea);
+                });
+
+            canvasDataJoin(container, canvasPlotArea ? [data] : [])
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])
                         .select('canvas')
@@ -111,15 +118,6 @@ export default (...args) => {
                         .xScale(xScale)
                         .yScale(yScale);
                     canvasPlotArea(d);
-                });
-
-            container.select('d3fc-svg.plot-area')
-                .on('draw', (d, i, nodes) => {
-                    svgPlotArea.xScale(xScale)
-                        .yScale(yScale);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
-                        .call(svgPlotArea);
                 });
 
             container.each((d, i, nodes) => nodes[i].requestRedraw());
