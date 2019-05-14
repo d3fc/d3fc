@@ -100,15 +100,6 @@ export default (...args) => {
                         .call(yAxisStore(yAxisComponent));
                 });
 
-            svgDataJoin(container, svgPlotArea ? [data] : [])
-                .on('draw', (d, i, nodes) => {
-                    svgPlotArea.xScale(xScale)
-                        .yScale(yScale);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
-                        .call(svgPlotArea);
-                });
-
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])
@@ -118,6 +109,15 @@ export default (...args) => {
                         .xScale(xScale)
                         .yScale(yScale);
                     canvasPlotArea(d);
+                });
+
+            svgDataJoin(container, svgPlotArea ? [data] : [])
+                .on('draw', (d, i, nodes) => {
+                    svgPlotArea.xScale(xScale)
+                        .yScale(yScale);
+                    transitionPropagator(select(nodes[i]))
+                        .select('svg')
+                        .call(svgPlotArea);
                 });
 
             container.each((d, i, nodes) => nodes[i].requestRedraw());
