@@ -71,12 +71,13 @@ d3.select('#sine-svg')
 
 // and now in canvas ...
 
+var gridlinesCanvas = fc.annotationCanvasGridline();
 var areaCanvas = fc.seriesCanvasArea()
   .mainValue(d => d.z);
 var lineCanvas = fc.seriesCanvasLine();
 
 var multiCanvas = fc.seriesCanvasMulti()
-  .series([areaCanvas, lineCanvas]);
+  .series([gridlinesCanvas, areaCanvas, lineCanvas]);
 
 var chartCanvas = fc.chartCanvasCartesian(
     d3.scaleLinear(),

@@ -68,8 +68,8 @@ var multi = fc.seriesSvgMulti()
         }
     });
 
-var mainChart = fc.chartSvgCartesian(x, y)
-  .plotArea(multi);
+var mainChart = fc.chartCartesian(x, y)
+  .svgPlotArea(multi);
 
 function render() {
     d3.select('#main-chart')
