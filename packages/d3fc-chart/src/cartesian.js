@@ -34,8 +34,7 @@ export default (...args) => {
         .key(d => d);
     const xLabelDataJoin = dataJoin('div', 'x-label')
         .key(d => d);
-    const yContainerDataJoin = dataJoin('div', 'y-label-container');
-    const yLabelDataJoin = dataJoin('div', 'y-label')
+    const yContainerDataJoin = dataJoin('div', 'y-label-container')
         .key(d => d);
 
     const propagateTransition = maybeTransition => selection =>
@@ -67,8 +66,13 @@ export default (...args) => {
                 .style('grid-row', 3)
                 .style('-ms-grid-row', 3);
 
-            yLabelDataJoin(yLabelContainer, [yOrientValue])
-                .attr('class', 'y-label')
+            yLabelContainer
+                .enter()
+                .append('div')
+                .attr('class', 'y-label');
+
+            yLabelContainer
+                .select('.y-label')
                 .text(yLabel(data));
 
             xAxisDataJoin(container, [xOrient(data)])
