@@ -24,15 +24,6 @@ export default (setPlotArea, defaultPlotArea) =>
                     .style('height', '1em')
                     .style('line-height', '1em');
 
-                container
-                    .select('div.y-label-container')
-                    .style('display', 'flex')
-                    .style('align-items', 'center')
-                    .style('justify-content', 'center')
-                    .style('width', '1em')
-                    .select('div.y-label')
-                    .style('transform', 'rotate(-90deg)');
-
                 container.select('.y-label-container>.y-label')
                     .text(yLabel);
 
