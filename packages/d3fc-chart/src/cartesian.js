@@ -34,6 +34,7 @@ export default (...args) => {
         .key(d => d);
     const xLabelDataJoin = dataJoin('div', 'x-label')
         .key(d => d);
+    const yContainerDataJoin = dataJoin('div', 'y-label-container');
     const yLabelDataJoin = dataJoin('div', 'y-label')
         .key(d => d);
 
@@ -58,8 +59,16 @@ export default (...args) => {
                 .attr('class', d => `x-label ${d}-label`)
                 .text(xLabel(data));
 
-            yLabelDataJoin(container, [yOrient(data)])
-                .attr('class', d => `y-label ${d}-label`)
+            const yOrientValue = yOrient(data);
+            const yLabelContainer = yContainerDataJoin(container, [yOrientValue])
+                .attr('class', d => `y-label-container ${d}-label`)
+                .style('grid-column', yOrientValue === 'left' ? 1 : 5)
+                .style('-ms-grid-column', yOrientValue === 'left' ? 1 : 5)
+                .style('grid-row', 3)
+                .style('-ms-grid-row', 3);
+
+            yLabelDataJoin(yLabelContainer, [yOrientValue])
+                .attr('class', 'y-label')
                 .text(yLabel(data));
 
             xAxisDataJoin(container, [xOrient(data)])

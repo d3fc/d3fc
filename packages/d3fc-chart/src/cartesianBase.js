@@ -24,21 +24,13 @@ export default (setPlotArea, defaultPlotArea) =>
                     .style('height', '1em')
                     .style('line-height', '1em');
 
-                const yOrientValue = cartesian.yOrient()(data);
-
-                container.enter()
-                    .append('div')
-                    .attr('class', 'y-label-container')
-                    .style('grid-column', yOrientValue === 'left' ? 1 : 5)
-                    .style('-ms-grid-column', yOrientValue === 'left' ? 1 : 5)
-                    .style('grid-row', 3)
-                    .style('-ms-grid-row', 3)
-                    .style('width', '1em')
+                container
+                    .select('div.y-label-container')
                     .style('display', 'flex')
                     .style('align-items', 'center')
                     .style('justify-content', 'center')
-                    .append('div')
-                    .attr('class', 'y-label')
+                    .style('width', '1em')
+                    .select('div.y-label')
                     .style('transform', 'rotate(-90deg)');
 
                 container.select('.y-label-container>.y-label')
