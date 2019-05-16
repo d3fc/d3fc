@@ -60,11 +60,7 @@ export default (...args) => {
 
             const yOrientValue = yOrient(data);
             const yLabelContainer = yContainerDataJoin(container, [yOrientValue])
-                .attr('class', d => `y-label-container ${d}-label`)
-                .style('grid-column', yOrientValue === 'left' ? 1 : 5)
-                .style('-ms-grid-column', yOrientValue === 'left' ? 1 : 5)
-                .style('grid-row', 3)
-                .style('-ms-grid-row', 3);
+                .attr('class', d => `y-label-container ${d}-label`);
 
             yLabelContainer
                 .enter()
