@@ -37,6 +37,7 @@ export default (setPlotArea, defaultPlotArea) =>
                     .style('display', 'flex')
                     .style('align-items', 'center')
                     .style('justify-content', 'center')
+                    .style('white-space', 'nowrap')
                     .append('div')
                     .attr('class', 'y-label')
                     .style('transform', 'rotate(-90deg)');
