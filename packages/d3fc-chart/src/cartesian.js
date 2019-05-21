@@ -55,9 +55,9 @@ export default (...args) => {
                 .attr('auto-resize', '');
 
             chartLabelDataJoin(container, [xOrient(data)])
-                .attr('class', d => d === 'bottom' ? 'top-label' : 'bottom-label')
-                .style('margin-bottom', d => d === 'bottom' ? '1em' : 0)
-                .style('margin-top', d => d === 'bottom' ? 0 : '1em')
+                .attr('class', d => d === 'top' ? 'bottom-label' : 'top-label')
+                .style('margin-bottom', d => d === 'top' ? 0 : '1em')
+                .style('margin-top', d => d === 'top' ? '1em' : 0)
                 .text(chartLabel(data));
 
             xLabelDataJoin(container, [xOrient(data)])
