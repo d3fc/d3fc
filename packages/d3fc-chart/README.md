@@ -61,6 +61,7 @@ var chart = fc.chartCartesian(
   )
   .xLabel('Value')
   .yLabel('Sine / Cosine')
+  .chartLabel('Sine and Cosine')
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
   .svgPlotArea(gridlines)
