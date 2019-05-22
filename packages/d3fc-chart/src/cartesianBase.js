@@ -1,4 +1,4 @@
-import { rebindAll, include, rebind } from '@d3fc/d3fc-rebind';
+import { rebindAll, include } from '@d3fc/d3fc-rebind';
 import cartesianChart from './cartesian';
 
 const functor = (v) =>
@@ -49,8 +49,7 @@ export default (setPlotArea, defaultPlotArea) =>
             selection.call(cartesian);
         };
 
-        rebindAll(cartesianBase, cartesian, include(/^x/, /^y/));
-        rebind(cartesianBase, cartesian, 'chartLabel');
+        rebindAll(cartesianBase, cartesian, include(/^x/, /^y/, 'chartLabel'));
 
         cartesianBase.yLabel = (...args) => {
             if (!args.length) {
