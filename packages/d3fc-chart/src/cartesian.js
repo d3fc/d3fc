@@ -68,6 +68,26 @@ export default (...args) => {
                 .attr('class', d => `y-label ${d}-label`)
                 .text(yLabel(data));
 
+            canvasDataJoin(container, canvasPlotArea ? [data] : [])
+                .on('draw', (d, i, nodes) => {
+                    const canvas = select(nodes[i])
+                        .select('canvas')
+                        .node();
+                    canvasPlotArea.context(canvas.getContext('2d'))
+                        .xScale(xScale)
+                        .yScale(yScale);
+                    canvasPlotArea(d);
+                });
+
+            svgDataJoin(container, svgPlotArea ? [data] : [])
+                .on('draw', (d, i, nodes) => {
+                    svgPlotArea.xScale(xScale)
+                        .yScale(yScale);
+                    transitionPropagator(select(nodes[i]))
+                        .select('svg')
+                        .call(svgPlotArea);
+                });
+
             xAxisDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-axis ${d}-axis`)
                 .style('height', xAxisHeight(data))
@@ -106,26 +126,6 @@ export default (...args) => {
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
                         .call(yAxisStore(yAxisComponent));
-                });
-
-            canvasDataJoin(container, canvasPlotArea ? [data] : [])
-                .on('draw', (d, i, nodes) => {
-                    const canvas = select(nodes[i])
-                        .select('canvas')
-                        .node();
-                    canvasPlotArea.context(canvas.getContext('2d'))
-                        .xScale(xScale)
-                        .yScale(yScale);
-                    canvasPlotArea(d);
-                });
-
-            svgDataJoin(container, svgPlotArea ? [data] : [])
-                .on('draw', (d, i, nodes) => {
-                    svgPlotArea.xScale(xScale)
-                        .yScale(yScale);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
-                        .call(svgPlotArea);
                 });
 
             container.each((d, i, nodes) => nodes[i].requestRedraw());
