@@ -39,7 +39,7 @@ d3.csv('https://d3fc.io/examples/stacked/data.csv').then(function(data) {
     .pad([0, 1])
     .padUnit('domain');
 
-  var chart = fc.chartSvgCartesian(
+  var chart = fc.chartCartesian(
       d3.scaleLinear(),
       d3.scalePoint())
     .xDomain(xExtent(series))
@@ -50,7 +50,7 @@ d3.csv('https://d3fc.io/examples/stacked/data.csv').then(function(data) {
     .yPadding([0.5])
     .xLabel('Million tonnes of oil equivalent')
     .chartLabel('2013 Energy Production')
-    .plotArea(multi)
+    .svgPlotArea(multi)
     .decorate(function(selection, data, index) {
       // append an svg for the d3-legend
       selection.enter()

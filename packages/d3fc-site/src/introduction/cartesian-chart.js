@@ -14,7 +14,7 @@ var data = generator(1).map(function(d, i) {
 });
 
 // START
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
         d3.scaleBand(),
         d3.scaleLinear())
     .xDomain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
@@ -26,7 +26,7 @@ var series = fc.autoBandwidth(fc.seriesSvgBar())
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; });
 
-chart.plotArea(series);
+chart.svgPlotArea(series);
 
 d3.select('#cartesian')
     .datum(data)

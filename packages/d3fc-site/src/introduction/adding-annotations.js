@@ -30,7 +30,7 @@ var data = {
   })
 };
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
         d3.scaleBand(),
         d3.scaleLinear())
     .chartLabel('2015 Cumulative Sales')
@@ -61,7 +61,7 @@ var multi = fc.seriesSvgMulti()
       }
     });
 
-chart.plotArea(multi);
+chart.svgPlotArea(multi);
 // END
 
 d3.select('#adding-annotations')

@@ -60,11 +60,11 @@ var multi = fc.seriesSvgMulti()
 The main and navigator charts are rendered using the cartesian chart component, with the navigator using the multi series defined above:
 
 ~~~javascript
-var mainChart = fc.chartSvgCartesian(x, y)
-    .plotArea(area);
+var mainChart = fc.chartCartesian(x, y)
+    .svgPlotArea(area);
 
-var navigatorChart = fc.chartSvgCartesian(x.copy(), y.copy())
-    .plotArea(multi);
+var navigatorChart = fc.chartCartesian(x.copy(), y.copy())
+    .svgPlotArea(multi);
 
 function render() {
     d3.select('#main-chart')

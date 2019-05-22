@@ -43,7 +43,7 @@ function renderChart() {
     ]);
 
   // create a chart
-  const chart = fc.chartSvgCartesian(
+  const chart = fc.chartCartesian(
       d3.scaleTime(),
       d3.scaleLinear()
     )
@@ -104,7 +104,7 @@ function renderChart() {
   const multi = fc.seriesSvgMulti()
     .series([gridlines, bollingerBands(), candlestick]);
 
-  chart.plotArea(multi);
+  chart.svgPlotArea(multi);
 
   container
     .style('margin-left', '20px')

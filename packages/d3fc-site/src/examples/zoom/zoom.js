@@ -28,9 +28,9 @@ var zoom = d3.zoom()
   });
 
 // the chart!
-var chart = fc.chartCanvasCartesian(x, y)
+var chart = fc.chartCartesian(x, y)
   .chartLabel('Canvas Zoom 10,000 Points')
-  .plotArea(area)
+  .canvasPlotArea(area)
   .decorate((sel) => {
     // add the zoom interaction on the enter selection
     // NOTE: there is a much better zoom integration being developed

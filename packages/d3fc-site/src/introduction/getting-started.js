@@ -14,13 +14,13 @@ var candlestick = fc.seriesSvgCandlestick();
 var multi = fc.seriesSvgMulti()
     .series([gridlines, candlestick]);
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
     fc.scaleDiscontinuous(d3.scaleTime()),
     d3.scaleLinear()
   )
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
-  .plotArea(multi);
+  .svgPlotArea(multi);
 
 d3.select('#chart')
   .datum(data)

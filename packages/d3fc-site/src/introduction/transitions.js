@@ -7,11 +7,11 @@ var barSeries = fc.seriesSvgBar()
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
               d3.scaleLinear(),
               d3.scaleLinear())
     .xDomain([-1, data.length])
-    .plotArea(barSeries);
+    .svgPlotArea(barSeries);
 
 var index = 0;
 function render() {
