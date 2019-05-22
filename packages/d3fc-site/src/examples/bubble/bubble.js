@@ -26,7 +26,7 @@ d3.json('https://d3fc.io/examples/bubble/data.json').then(function(data) {
             .attr('fill', function(d) { return color(d.region); });
       });
 
-  var chart = fc.chartSvgCartesian(
+  var chart = fc.chartCartesian(
                 d3.scaleLog(),
                 d3.scaleLinear()
               )
@@ -39,7 +39,7 @@ d3.json('https://d3fc.io/examples/bubble/data.json').then(function(data) {
       .yLabel('Life expectancy (years)')
       .xTicks(2, d3.format(',d'))
       .yOrient('left')
-      .plotArea(pointSeries)
+      .svgPlotArea(pointSeries)
       .decorate(function(selection) {
         // append an svg for the d3-legend
         selection.enter()

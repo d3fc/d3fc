@@ -19,7 +19,7 @@ var xExtent = fc.extentLinear()
   .accessors([function(d) { return d.x; }]);
 
 // create a chart
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
     d3.scaleLinear(),
     d3.scaleLinear())
   .yDomain(yExtent(data))
@@ -53,7 +53,7 @@ var gridlines = fc.annotationSvgGridline();
 var multi = fc.seriesSvgMulti()
   .series([gridlines, sinLine, cosLine]);
 
-chart.plotArea(multi);
+chart.svgPlotArea(multi);
 
 // render
 d3.select('#simple-chart')
