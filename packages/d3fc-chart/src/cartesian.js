@@ -13,6 +13,7 @@ const functor = (v) =>
 export default (...args) => {
     const { xScale, yScale, xAxis, yAxis } = getArguments(...args);
 
+    let chartLabel = functor('');
     let xLabel = functor('');
     let yLabel = functor('');
     let xAxisHeight = functor(null);
@@ -34,6 +35,7 @@ export default (...args) => {
         .key(d => d);
     const yAxisDataJoin = dataJoin('d3fc-svg', 'y-axis')
         .key(d => d);
+    const chartLabelDataJoin = dataJoin('div', 'chart-label');
     const xLabelDataJoin = dataJoin('div', 'x-label')
         .key(d => d);
     const yLabelDataJoin = dataJoin('div', 'y-label')
@@ -51,6 +53,12 @@ export default (...args) => {
 
             container.enter()
                 .attr('auto-resize', '');
+
+            chartLabelDataJoin(container, [xOrient(data)])
+                .attr('class', d => d === 'top' ? 'bottom-label' : 'top-label')
+                .style('margin-bottom', d => d === 'top' ? 0 : '1em')
+                .style('margin-top', d => d === 'top' ? '1em' : 0)
+                .text(chartLabel(data));
 
             xLabelDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-label ${d}-label`)
@@ -161,6 +169,13 @@ export default (...args) => {
             return yDecorate;
         }
         yDecorate = args[0];
+        return cartesian;
+    };
+    cartesian.chartLabel = (...args) => {
+        if (!args.length) {
+            return chartLabel;
+        }
+        chartLabel = functor(args[0]);
         return cartesian;
     };
     cartesian.xLabel = (...args) => {

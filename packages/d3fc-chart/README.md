@@ -126,37 +126,6 @@ N.B. Each of these examples uses the modern CSS grid specification syntax. To ma
 * `grid-column` - `-ms-grid-column`
 * `grid-row` - `-ms-grid-row`
 
-#### Add a Chart Label
-
-There's no configuration option to add a title to the chart itself but it can be easily added using decoration -
-
-```javascript
-chart.decorate(selection => {
-  // select the top-label (if it exists)
-  selection.select('.top-label')
-    // move the label down to make space for the chart label
-    .style('margin-top', '2em');
-
-  // when the chart is added to the DOM
-  selection.enter()
-    // additionally add a div element for the label
-    .append('div')
-    .attr('class', 'chart-label')
-    // move the element into the top-label cell
-    .style('grid-column', 3)
-    .style('grid-row', 1)
-    // add some styling to the label
-    .style('height', '2em')
-    .style('line-height', '2em')
-    .style('text-align', 'center');
-
-  // on every update, select the chart-label
-  selection.select('.chart-label')
-    // and set its text value
-    .text('A Fancy Chart Label');
-});
-```
-
 #### Using custom axis components
 
 By default the chart uses d3fc-axis for the axis component. This example shows how to specify which axis components to use for the X and Y axis.
@@ -266,6 +235,7 @@ If *component* is specified, sets the component to render onto the SVG/canvas, a
 
 For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. For components that require user-interaction, rendering to SVG can simplify their implementation.
 
+<a name="cartesian_chartLabel" href="#cartesian_chartLabel">#</a> *cartesian*.**chartLabel**(*label*)  
 <a name="cartesian_xLabel" href="#cartesian_xLabel">#</a> *cartesian*.**xLabel**(*label*)  
 <a name="cartesian_yLabel" href="#cartesian_yLabel">#</a> *cartesian*.**yLabel**(*label*)  
 
