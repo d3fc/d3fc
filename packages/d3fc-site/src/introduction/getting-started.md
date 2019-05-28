@@ -20,7 +20,7 @@ This packaging style mirrors the way that D3 is distributed.
 D3FC depends on D3, you can install both the D3FC bundle and D3 via npm as follows:
 
 ```
-npm install D3FC d3
+npm install d3fc d3
 ```
 
 Once installed, you can reference both of these within an HTML page as follows:
