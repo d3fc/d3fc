@@ -301,7 +301,7 @@ var svgBar = fc.autoBandwidth(fc.seriesSvgBar())
 
 Notice in the above example that the `align` property of the bar is set to `left`, which reflects the band scale coordinate system.
 
-**NOTE:** The d3 point scale is a special cased band scale that has a zero bandwidth. As a result, if you use the `fc.autoBandwidth` component in conjunction with a point scale, the series will also have a bandwidth of zero!
+**NOTE:** The D3 point scale is a special cased band scale that has a zero bandwidth. As a result, if you use the `fc.autoBandwidth` component in conjunction with a point scale, the series will also have a bandwidth of zero!
 
 When used in conjunction with a linear scale, the `fc.autoBandwidth` component computes the bar width based on the smallest distance between consecutive datapoints:
 
@@ -885,7 +885,7 @@ join(container, series)
     .call(barSeries);
 ```
 
-The [d3 stack](https://github.com/d3/d3-shape/blob/master/README.md#stack) component is used to stack the data obtained from the d3 CSV parser. The SVG bar series value accessors are configured based on the output of the stack component. Finally a D3FC datajoin is used to render each row of data using the bar series.
+The [d3 stack](https://github.com/d3/d3-shape/blob/master/README.md#stack) component is used to stack the data obtained from the D3 CSV parser. The SVG bar series value accessors are configured based on the output of the stack component. Finally a D3FC datajoin is used to render each row of data using the bar series.
 
 With canvas, the code is very similar, with a for each loop used in place of the data join:
 

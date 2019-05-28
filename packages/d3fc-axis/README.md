@@ -1,6 +1,6 @@
 # d3fc-axis
 
-A drop-in replacement for d3 axis, with support for the D3FC decorate pattern, improved layout options for ordinal scales, and automatic label rotation / re-positioning.
+A drop-in replacement for D3 axis, with support for the D3FC decorate pattern, improved layout options for ordinal scales, and automatic label rotation / re-positioning.
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 
@@ -40,7 +40,7 @@ const axis = fc.axisBottom(linear)
 
 ##### Band scales
 
-Band scales are often used for rendering charts with a categorical dimension. With the d3 axis, the ticks and labels are rendered at the central point of each bar / column. However, it can make more sense to render the ticks at the boundary between each bar / category.
+Band scales are often used for rendering charts with a categorical dimension. With the D3 axis, the ticks and labels are rendered at the central point of each bar / column. However, it can make more sense to render the ticks at the boundary between each bar / category.
 
 The D3FC ordinal axis is a drop-in replacement that renders the labels at the central point of the bar / column, and the ticks at the boundaries:
 

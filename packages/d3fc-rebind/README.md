@@ -1,6 +1,6 @@
 # d3fc-rebind
 
-Utilities for copying methods from one d3 component to another in a configurable way
+Utilities for copying methods from one D3 component to another in a configurable way
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 

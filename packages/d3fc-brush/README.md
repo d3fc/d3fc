@@ -36,7 +36,7 @@ var chartData = {
 };
 ~~~
 
-The D3FC brush uses the same data format as the d3 brush:
+The D3FC brush uses the same data format as the D3 brush:
 
 > For a two-dimensional brush, it is [[x0, y0], [x1, y1]], where x0 is the minimum x-value, y0 is the minimum y-value, x1 is the maximum x-value, and y1 is the maximum y-value. For an x-brush, it is [x0, x1]; for a y-brush, it is [y0, y1].
 

@@ -16,7 +16,7 @@ npm install @d3fc/d3fc-chart
 
 ### General API
 
-d3fc provides a number of components / building blocks that make it easier to build bespoke d3 charts, using SVG and canvas. If you just need a simple Cartesian chart, this package is a good starting point, providing a simple component that is itself built using components from the other D3FC packages ([d3fc-element](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-element#d3fc-element), [d3fc-data-join](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-data-join#d3fc-data-join), [d3fc-axis](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-axis#d3fc-axis), [d3fc-series](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series#d3fc-series), etc ...).
+d3fc provides a number of components / building blocks that make it easier to build bespoke D3 charts, using SVG and canvas. If you just need a simple Cartesian chart, this package is a good starting point, providing a simple component that is itself built using components from the other D3FC packages ([d3fc-element](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-element#d3fc-element), [d3fc-data-join](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-data-join#d3fc-data-join), [d3fc-axis](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-axis#d3fc-axis), [d3fc-series](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series#d3fc-series), etc ...).
 
 Given the following div:
 

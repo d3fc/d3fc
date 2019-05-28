@@ -25,7 +25,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* use single d3 reference for bundleSpecs ([3d0a47e](https://github.com/d3fc/d3fc/commit/3d0a47e))
+* use single D3 reference for bundleSpecs ([3d0a47e](https://github.com/d3fc/d3fc/commit/3d0a47e))
 
 
 
@@ -36,7 +36,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* rename dateExtent to timeExtent to match d3 ([3dd84ed](https://github.com/d3fc/d3fc/commit/3dd84ed)), closes [#1111](https://github.com/d3fc/d3fc/issues/1111)
+* rename dateExtent to timeExtent to match D3 ([3dd84ed](https://github.com/d3fc/d3fc/commit/3dd84ed)), closes [#1111](https://github.com/d3fc/d3fc/issues/1111)
 
 
 
