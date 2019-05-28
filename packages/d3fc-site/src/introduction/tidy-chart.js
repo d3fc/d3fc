@@ -21,7 +21,7 @@ var yExtent = fc.extentLinear()
 // START
 var valueformatter = d3.format('$.0f');
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
         d3.scaleBand(),
         d3.scaleLinear())
     .chartLabel('2015 Cumulative Sales')
@@ -39,7 +39,7 @@ var series = fc.autoBandwidth(fc.seriesSvgBar())
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; });
 
-chart.plotArea(series);
+chart.svgPlotArea(series);
 
 d3.select('#tidied-chart')
     .datum(data)

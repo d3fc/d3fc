@@ -39,14 +39,14 @@ var pointSeries = fc.seriesSvgPoint()
           .attr('fill', function(d) { return color(d.type); });
     });
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
               d3.scaleLinear(),
               d3.scaleLinear()
             )
     .xDomain([0, 13])
     .yDomain([0, 13])
     .yOrient('left')
-    .plotArea(pointSeries);
+    .svgPlotArea(pointSeries);
 
 d3.select('#chart-404')
     .datum(data)

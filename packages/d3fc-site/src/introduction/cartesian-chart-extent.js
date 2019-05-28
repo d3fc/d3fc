@@ -19,7 +19,7 @@ var yExtent = fc.extentLinear()
     .pad([0, 0.5])
     .accessors([function(d) { return d.sales; }]);
 
-var chart = fc.chartSvgCartesian(
+var chart = fc.chartCartesian(
         d3.scaleBand(),
         d3.scaleLinear())
     .xDomain(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
@@ -32,7 +32,7 @@ var series = fc.autoBandwidth(fc.seriesSvgBar())
     .crossValue(function(d) { return d.month; })
     .mainValue(function(d) { return d.sales; });
 
-chart.plotArea(series);
+chart.svgPlotArea(series);
 
 d3.select('#cartesian-extent')
     .datum(data)

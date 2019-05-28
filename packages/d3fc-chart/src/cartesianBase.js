@@ -1,4 +1,3 @@
-import { scaleIdentity } from 'd3-scale';
 import { rebindAll, include } from '@d3fc/d3fc-rebind';
 import cartesianChart from './cartesian';
 
@@ -8,7 +7,6 @@ const functor = (v) =>
 export default (setPlotArea, defaultPlotArea) =>
     (...args) => {
 
-        let chartLabel = functor('');
         let yLabel = functor('');
         let plotArea = defaultPlotArea;
         let decorate = () => { };
@@ -37,6 +35,7 @@ export default (setPlotArea, defaultPlotArea) =>
                     .style('display', 'flex')
                     .style('align-items', 'center')
                     .style('justify-content', 'center')
+                    .style('white-space', 'nowrap')
                     .append('div')
                     .attr('class', 'y-label')
                     .style('transform', 'rotate(-90deg)');
@@ -44,38 +43,14 @@ export default (setPlotArea, defaultPlotArea) =>
                 container.select('.y-label-container>.y-label')
                     .text(yLabel);
 
-                container.select('.top-label')
-                    .style('margin-top', '2em');
-
-                container.enter()
-                    .append('div')
-                    .attr('class', 'chart-label')
-                    .style('grid-column', 3)
-                    .style('-ms-grid-column', 3)
-                    .style('grid-row', 1)
-                    .style('-ms-grid-row', 1)
-                    .style('height', '2em')
-                    .style('line-height', '2em')
-                    .style('text-align', 'center');
-
-                container.select('.chart-label')
-                    .text(chartLabel(data));
-
                 decorate(container, data, index);
             });
 
             selection.call(cartesian);
         };
 
-        rebindAll(cartesianBase, cartesian, include(/^x/, /^y/));
+        rebindAll(cartesianBase, cartesian, include(/^x/, /^y/, 'chartLabel'));
 
-        cartesianBase.chartLabel = (...args) => {
-            if (!args.length) {
-                return chartLabel;
-            }
-            chartLabel = functor(args[0]);
-            return cartesianBase;
-        };
         cartesianBase.yLabel = (...args) => {
             if (!args.length) {
                 return yLabel;

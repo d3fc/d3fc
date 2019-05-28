@@ -12,14 +12,14 @@ var yExtent = fc.extentLinear()
   .pad([0.1, 0.1]);
 
 // gridlines (from d3fc-annotation)
-var gridlines = fc.annotationSvgGridline();
+var gridlines = fc.annotationCanvasGridline();
 // series (from d3fc-series)
-var line = fc.seriesCanvasLine();
-var area = fc.seriesCanvasArea()
+var line = fc.seriesSvgLine();
+var area = fc.seriesSvgArea()
   .mainValue(d => d.z);
 
 // combine into a single series
-var multi = fc.seriesCanvasMulti()
+var multi = fc.seriesSvgMulti()
   .series([area, line]);
 
 // the cartesian component, which uses d3fc-element for layout
@@ -30,10 +30,11 @@ var chart = fc.chartCartesian(
 )
   .xLabel('Value')
   .yLabel('Sine / Cosine')
+  .chartLabel('Sine and Cosine')
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
-  .svgPlotArea(gridlines)
-  .canvasPlotArea(multi);
+  .svgPlotArea(multi)
+  .canvasPlotArea(gridlines);
 
 d3.select('#sine-chart')
   .datum(data)

@@ -13,14 +13,15 @@ const functor = (v) =>
 export default (...args) => {
     const { xScale, yScale, xAxis, yAxis } = getArguments(...args);
 
+    let chartLabel = functor('');
     let xLabel = functor('');
     let yLabel = functor('');
     let xAxisHeight = functor(null);
     let yAxisWidth = functor(null);
     let yOrient = functor('right');
     let xOrient = functor('bottom');
-    let canvasPlotArea = seriesCanvasMulti();
-    let svgPlotArea = seriesSvgMulti();
+    let canvasPlotArea = null;
+    let svgPlotArea = null;
     let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
     let xDecorate = () => { };
     let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
@@ -28,10 +29,13 @@ export default (...args) => {
     let decorate = () => { };
 
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
+    const canvasDataJoin = dataJoin('d3fc-canvas', 'plot-area');
+    const svgDataJoin = dataJoin('d3fc-svg', 'plot-area');
     const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis')
         .key(d => d);
     const yAxisDataJoin = dataJoin('d3fc-svg', 'y-axis')
         .key(d => d);
+    const chartLabelDataJoin = dataJoin('div', 'chart-label');
     const xLabelDataJoin = dataJoin('div', 'x-label')
         .key(d => d);
     const yLabelDataJoin = dataJoin('div', 'y-label')
@@ -48,11 +52,13 @@ export default (...args) => {
             const container = containerDataJoin(select(group[index]), [data]);
 
             container.enter()
-                .attr('auto-resize', '')
-                .html(
-                    '<d3fc-svg class="plot-area"></d3fc-svg>' +
-                    '<d3fc-canvas class="plot-area"></d3fc-canvas>'
-                );
+                .attr('auto-resize', '');
+
+            chartLabelDataJoin(container, [xOrient(data)])
+                .attr('class', d => d === 'top' ? 'bottom-label' : 'top-label')
+                .style('margin-bottom', d => d === 'top' ? 0 : '1em')
+                .style('margin-top', d => d === 'top' ? '1em' : 0)
+                .text(chartLabel(data));
 
             xLabelDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-label ${d}-label`)
@@ -61,6 +67,26 @@ export default (...args) => {
             yLabelDataJoin(container, [yOrient(data)])
                 .attr('class', d => `y-label ${d}-label`)
                 .text(yLabel(data));
+
+            canvasDataJoin(container, canvasPlotArea ? [data] : [])
+                .on('draw', (d, i, nodes) => {
+                    const canvas = select(nodes[i])
+                        .select('canvas')
+                        .node();
+                    canvasPlotArea.context(canvas.getContext('2d'))
+                        .xScale(xScale)
+                        .yScale(yScale);
+                    canvasPlotArea(d);
+                });
+
+            svgDataJoin(container, svgPlotArea ? [data] : [])
+                .on('draw', (d, i, nodes) => {
+                    svgPlotArea.xScale(xScale)
+                        .yScale(yScale);
+                    transitionPropagator(select(nodes[i]))
+                        .select('svg')
+                        .call(svgPlotArea);
+                });
 
             xAxisDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-axis ${d}-axis`)
@@ -100,26 +126,6 @@ export default (...args) => {
                     transitionPropagator(select(nodes[i]))
                         .select('svg')
                         .call(yAxisStore(yAxisComponent));
-                });
-
-            container.select('d3fc-canvas.plot-area')
-                .on('draw', (d, i, nodes) => {
-                    const canvas = select(nodes[i])
-                        .select('canvas')
-                        .node();
-                    canvasPlotArea.context(canvas.getContext('2d'))
-                        .xScale(xScale)
-                        .yScale(yScale);
-                    canvasPlotArea(d);
-                });
-
-            container.select('d3fc-svg.plot-area')
-                .on('draw', (d, i, nodes) => {
-                    svgPlotArea.xScale(xScale)
-                        .yScale(yScale);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
-                        .call(svgPlotArea);
                 });
 
             container.each((d, i, nodes) => nodes[i].requestRedraw());
@@ -163,6 +169,13 @@ export default (...args) => {
             return yDecorate;
         }
         yDecorate = args[0];
+        return cartesian;
+    };
+    cartesian.chartLabel = (...args) => {
+        if (!args.length) {
+            return chartLabel;
+        }
+        chartLabel = functor(args[0]);
         return cartesian;
     };
     cartesian.xLabel = (...args) => {
