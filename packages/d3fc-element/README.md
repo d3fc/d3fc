@@ -2,7 +2,7 @@
 
 Custom HTML elements that make it easier to create responsive D3 visualisations using CSS that integrate easily with other UI frameworks (e.g. React, Angular).
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installation
 

@@ -1,5 +1,5 @@
 # d3fc-scripts
 
-Inspired by react-scripts, common set of scripts for building the d3fc projects
+Inspired by react-scripts, common set of scripts for building the D3FC projects
 
-This module is only intended to be used by d3fc organisation projects.
+This module is only intended to be used by D3FC organisation projects.

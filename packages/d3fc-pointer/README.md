@@ -2,7 +2,7 @@
 
 Very simple component which emits an event to indicate the current mouse or touch position over a selection. Useful for implementing uni-directional data flow in a visualisation and not a lot else.
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

@@ -2,7 +2,7 @@
 
 An API for fetching financial time-series data from different sources including GDAX.
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

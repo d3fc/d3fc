@@ -10,17 +10,17 @@ externals:
 
 ## Grabbing the code
 
-d3fc and its dependencies are available via npm or the unpkg CDN. The d3fc project is composed of a number of separate
-packages, detailed in the {{{ hyperlink 'annotation-api.html' title='API documentation' }}}. Each of these packages can be installed via npm and used independently, or if you prefer you can install the entire d3fc bundle, which includes all of the separate packages.
+d3fc and its dependencies are available via npm or the unpkg CDN. The D3FC project is composed of a number of separate
+packages, detailed in the {{{ hyperlink 'annotation-api.html' title='API documentation' }}}. Each of these packages can be installed via npm and used independently, or if you prefer you can install the entire D3FC bundle, which includes all of the separate packages.
 
 This packaging style mirrors the way that D3 is distributed.
 
 ### Installing the bundle with npm
 
-d3fc depends on D3, you can install both the d3fc bundle and D3 via npm as follows:
+d3fc depends on D3, you can install both the D3FC bundle and D3 via npm as follows:
 
 ```
-npm install d3fc d3
+npm install D3FC d3
 ```
 
 Once installed, you can reference both of these within an HTML page as follows:
@@ -34,7 +34,7 @@ d3fc supports modern browsers. Depending on the browsers you are targeting, you 
 
 ### CDN hosted versions
 
-Alternatively you can link to the CDN hosted versions of d3fc and D3 directly:
+Alternatively you can link to the CDN hosted versions of D3FC and D3 directly:
 
 ```html
 <script src="https://unpkg.com/d3/build/d3.min.js"></script>

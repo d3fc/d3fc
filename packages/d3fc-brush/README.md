@@ -4,7 +4,7 @@ Adapts the D3 brush, making it easier to create data-driven, responsive brushed 
 
 <img src="screenshots/screenshot.png"/>
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 
@@ -27,7 +27,7 @@ The d3fc-brush component adapts the [d3-brush](https://github.com/d3/d3-brush), 
 
 A common application of a brush is to create two linked charts, one which acts as a 'navigator', allowing the user to zoom in on a particular data region. The complete code for this example is found in the `examples` folder.
 
-The d3fc brush is data-driven, so the first step is to create data object that combines the standard series data with a range that specifies the brush location:
+The D3FC brush is data-driven, so the first step is to create data object that combines the standard series data with a range that specifies the brush location:
 
 ~~~javascript
 var chartData = {
@@ -36,7 +36,7 @@ var chartData = {
 };
 ~~~
 
-The d3fc brush uses the same data format as the d3 brush:
+The D3FC brush uses the same data format as the d3 brush:
 
 > For a two-dimensional brush, it is [[x0, y0], [x1, y1]], where x0 is the minimum x-value, y0 is the minimum y-value, x1 is the maximum x-value, and y1 is the maximum y-value. For an x-brush, it is [x0, x1]; for a y-brush, it is [y0, y1].
 

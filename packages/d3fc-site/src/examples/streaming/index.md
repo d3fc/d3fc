@@ -15,7 +15,7 @@ externals:
 {{{ streaming-html }}}
 {{{ dynamic-include 'javascript' js='streaming-js' }}}
 
-This example shows how d3fc can be used to render dynamic data. The basic principle is that the chart render function should be an idempotent transformation of the data. As a result, if the data changes the entire render function is re-evaluated.
+This example shows how D3FC can be used to render dynamic data. The basic principle is that the chart render function should be an idempotent transformation of the data. As a result, if the data changes the entire render function is re-evaluated.
 
 ```js
 {{{ codeblock streaming-js }}}

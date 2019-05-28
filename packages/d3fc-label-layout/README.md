@@ -6,7 +6,7 @@ A D3 layout that places labels avoiding overlaps, with strategies including simu
 
 For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-label-layout/).
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

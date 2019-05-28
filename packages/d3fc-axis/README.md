@@ -1,8 +1,8 @@
 # d3fc-axis
 
-A drop-in replacement for d3 axis, with support for the d3fc decorate pattern, improved layout options for ordinal scales, and automatic label rotation / re-positioning.
+A drop-in replacement for d3 axis, with support for the D3FC decorate pattern, improved layout options for ordinal scales, and automatic label rotation / re-positioning.
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 
@@ -24,7 +24,7 @@ When rendering an axis that is associated with a linear scale, the default behav
 
 However, in some cases the label may refer to a range of data. For example, on a time scale, 'Monday' refers to a time range rather than an instance in time. As a result, it makes more sense to render this label between the tick marks.
 
-With the d3fc axis, setting `tickCenterLabel` to `true` will render the labels in between the tick marks, offsetting them to the right:
+With the D3FC axis, setting `tickCenterLabel` to `true` will render the labels in between the tick marks, offsetting them to the right:
 
 ```
 const linear = d3.scaleTime()
@@ -42,7 +42,7 @@ const axis = fc.axisBottom(linear)
 
 Band scales are often used for rendering charts with a categorical dimension. With the d3 axis, the ticks and labels are rendered at the central point of each bar / column. However, it can make more sense to render the ticks at the boundary between each bar / category.
 
-The d3fc ordinal axis is a drop-in replacement that renders the labels at the central point of the bar / column, and the ticks at the boundaries:
+The D3FC ordinal axis is a drop-in replacement that renders the labels at the central point of the bar / column, and the ticks at the boundaries:
 
 ```
 const vegetableScale = d3.scaleBand()
@@ -58,7 +58,7 @@ const barSeries = fc.autoBandwidth(fc.seriesSvgBar())
   .xScale(vegetableScale)
   .yScale(qtyScale);
 
-// this is the d3fc ordinal axis
+// this is the D3FC ordinal axis
 const axis = fc.axisOrdinalBottom(scale);
 
 // render the above components to SVG ...
@@ -70,7 +70,7 @@ var svg = d3.select('body').append('svg')
 
 #### Label rotation / offset
 
-With the D3 axis, if tick marks are too close together, their associated labels might overlap. With d3fc you can apply an adapter to the axis in order to automatically move / rotate labels in order to avoid collisions.
+With the D3 axis, if tick marks are too close together, their associated labels might overlap. With D3FC you can apply an adapter to the axis in order to automatically move / rotate labels in order to avoid collisions.
 
 Here's a simple example where the axis labels overlap:
 

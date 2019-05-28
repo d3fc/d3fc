@@ -30,7 +30,7 @@ A collection of components for rendering data series to SVG and canvas, includin
 </tr>
 </table>
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 
@@ -885,7 +885,7 @@ join(container, series)
     .call(barSeries);
 ```
 
-The [d3 stack](https://github.com/d3/d3-shape/blob/master/README.md#stack) component is used to stack the data obtained from the d3 CSV parser. The SVG bar series value accessors are configured based on the output of the stack component. Finally a d3fc datajoin is used to render each row of data using the bar series.
+The [d3 stack](https://github.com/d3/d3-shape/blob/master/README.md#stack) component is used to stack the data obtained from the d3 CSV parser. The SVG bar series value accessors are configured based on the output of the stack component. Finally a D3FC datajoin is used to render each row of data using the bar series.
 
 With canvas, the code is very similar, with a for each loop used in place of the data join:
 
