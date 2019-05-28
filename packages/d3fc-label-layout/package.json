@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-label-layout",
-  "version": "6.0.7",
+  "version": "6.0.8",
   "description": "A D3 layout that places labels avoiding overlaps using either a greedy or simulated annealing strategy",
   "license": "MIT",
   "keywords": [
@@ -24,13 +24,13 @@
     "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.4",
+    "@d3fc/d3fc-scripts": "^2.0.5",
     "d3": "^4.11.0",
     "watch-cli": "^0.2.1"
   },
   "dependencies": {
-    "@d3fc/d3fc-data-join": "^5.0.7",
-    "@d3fc/d3fc-rebind": "^5.0.6",
+    "@d3fc/d3fc-data-join": "^5.0.8",
+    "@d3fc/d3fc-rebind": "^5.0.7",
     "d3-array": "^1.0.0",
     "d3-scale": "^1.0.6",
     "d3-selection": "^1.0.0"
