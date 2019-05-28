@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.6.0"></a>
+# [2.6.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.5.9...@d3fc/d3fc-chart@2.6.0) (2019-05-28)
+
+
+### Bug Fixes
+
+* move canvas plot area to back ([e261d10](https://github.com/d3fc/d3fc/commit/e261d10))
+* moved both axis to give them a higher z-order than the plot area ([4f6367c](https://github.com/d3fc/d3fc/commit/4f6367c))
+
+
+### Features
+
+* add chart label to chartCartesian ([cb58dc5](https://github.com/d3fc/d3fc/commit/cb58dc5))
+* default null plot area to hide unused ([673a15d](https://github.com/d3fc/d3fc/commit/673a15d))
+
+
+
+
 <a name="2.5.9"></a>
 ## [2.5.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.5.8...@d3fc/d3fc-chart@2.5.9) (2019-05-15)
 
