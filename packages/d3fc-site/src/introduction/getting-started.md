@@ -10,14 +10,14 @@ externals:
 
 ## Grabbing the code
 
-d3fc and its dependencies are available via npm or the unpkg CDN. The D3FC project is composed of a number of separate
+D3FC and its dependencies are available via npm or the unpkg CDN. The D3FC project is composed of a number of separate
 packages, detailed in the {{{ hyperlink 'annotation-api.html' title='API documentation' }}}. Each of these packages can be installed via npm and used independently, or if you prefer you can install the entire D3FC bundle, which includes all of the separate packages.
 
 This packaging style mirrors the way that D3 is distributed.
 
 ### Installing the bundle with npm
 
-d3fc depends on D3, you can install both the D3FC bundle and D3 via npm as follows:
+D3FC depends on D3, you can install both the D3FC bundle and D3 via npm as follows:
 
 ```
 npm install D3FC d3
@@ -30,7 +30,7 @@ Once installed, you can reference both of these within an HTML page as follows:
 <script src="node_modules/d3fc/build/d3fc.min.js"></script>
 ```
 
-d3fc supports modern browsers. Depending on the browsers you are targeting, you may need a few polyfills in order to run d3fc. The first is a polyfill for `Symbol`, such as [es6-symbol](https://github.com/medikoo/es6-symbol), or the general [babel-polyfill](https://www.npmjs.com/package/babel-polyfill), the second is a polyfill for `CustomEvent`, such as [custom-event-polyfill](https://github.com/krambuhl/custom-event-polyfill) and finally a polyfill for [Custom Elements](https://github.com/WebReflection/document-register-element).
+d3fc supports modern browsers. Depending on the browsers you are targeting, you may need a few polyfills in order to run D3FC. The first is a polyfill for `Symbol`, such as [es6-symbol](https://github.com/medikoo/es6-symbol), or the general [babel-polyfill](https://www.npmjs.com/package/babel-polyfill), the second is a polyfill for `CustomEvent`, such as [custom-event-polyfill](https://github.com/krambuhl/custom-event-polyfill) and finally a polyfill for [Custom Elements](https://github.com/WebReflection/document-register-element).
 
 ### CDN hosted versions
 

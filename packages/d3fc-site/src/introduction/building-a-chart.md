@@ -21,7 +21,7 @@ externals:
   adding-annotations-js: adding-annotations.js
 ---
 
-This brief tutorial introduces the core concepts behind d3fc, via the process of building a chart. You'll find out why we created D3FC and what makes it different from the numerous other charting libraries out there!
+This brief tutorial introduces the core concepts behind D3FC, via the process of building a chart. You'll find out why we created D3FC and what makes it different from the numerous other charting libraries out there!
 
 Here's the chart you're going to be building:
 
@@ -67,7 +67,7 @@ Here's the resulting data:
 
 The sales data is rendered as a bar chart. With D3 this typically involves rendering paths or rectangles and doing a bit of maths to locate each bar correctly, as illustrated in [Mike Bostock's excellent tutorial](http://bost.ocks.org/mike/bar/).
 
-d3fc has a {{{ hyperlink 'series-api.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `mainValue` and `crossValue` accessors (which the component uses to extract the x and y values from the datapoints). Notice these value accessors are prefixed `main` and `cross`, this is because d3fc-series component support both horizontal and vertical orientations where the meanings of x and y would be transposed.
+D3FC has a {{{ hyperlink 'series-api.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `mainValue` and `crossValue` accessors (which the component uses to extract the x and y values from the datapoints). Notice these value accessors are prefixed `main` and `cross`, this is because d3fc-series component support both horizontal and vertical orientations where the meanings of x and y would be transposed.
 
 The bar series is a regular D3 component, and is rendered via the `call` method on a D3 selection:
 
@@ -148,7 +148,7 @@ This gives a much more appealing chart:
 
 As you can see from the above code, the Cartesian chart exposes a number of the properties of the components it encapsulates. Most of the x and y scale and axes properties are exposed, with a suitable `x` or `y` prefix. This makes use of a standard D3 concept of property {{{ hyperlink 'rebind-api.html' title='rebinding' }}}, which gives rise to a compositional pattern rather than inheritance.
 
-d3fc extends the D3 rebind concept by making it easier to rebind all of the properties of a component, and allowing prefixing / renaming.
+D3FC extends the D3 rebind concept by making it easier to rebind all of the properties of a component, and allowing prefixing / renaming.
 
 ## Annotations
 
