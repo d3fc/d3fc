@@ -21,7 +21,7 @@ externals:
   adding-annotations-js: adding-annotations.js
 ---
 
-This brief tutorial introduces the core concepts behind d3fc, via the process of building a chart. You'll find out why we created d3fc and what makes it different from the numerous other charting libraries out there!
+This brief tutorial introduces the core concepts behind D3FC, via the process of building a chart. You'll find out why we created D3FC and what makes it different from the numerous other charting libraries out there!
 
 Here's the chart you're going to be building:
 
@@ -45,13 +45,13 @@ D3 offers a fresh perspective, offering a different way to create charts and vis
 
 There are a number of charting libraries built with D3, however these invariably hide the underlying power of D3 behind the same-old complex and confusing APIs.
 
-With d3fc our aim is to enhance D3 by providing a suite of powerful [charting components](http://bost.ocks.org/mike/chart/) that make it easy for you to assemble exactly the chart you want. These components 'speak the language' of D3, supporting [selections](https://github.com/d3/d3-selection) and [data joins](http://bl.ocks.org/mbostock/3808218). Furthermore, using the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}, you can enhance and manipulate the way in which they are rendered.
+With D3FC our aim is to enhance D3 by providing a suite of powerful [charting components](http://bost.ocks.org/mike/chart/) that make it easy for you to assemble exactly the chart you want. These components 'speak the language' of D3, supporting [selections](https://github.com/d3/d3-selection) and [data joins](http://bl.ocks.org/mbostock/3808218). Furthermore, using the {{{ hyperlink 'decorate-pattern.html' title='decorate pattern' }}}, you can enhance and manipulate the way in which they are rendered.
 
-With d3fc components you can quickly assemble bespoke charts, without hiding the power of D3.
+With D3FC components you can quickly assemble bespoke charts, without hiding the power of D3.
 
 ## Creating the data
 
-Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we'll just generate some random data. d3fc has a number of `data` utilities, including components that help construct realistic random data. For this example we'll use the {{{ hyperlink 'random-data-api.html' title='random Brownian motion component' }}} to generate 12 datapoints, mapping them to create datapoints with `sales` and `month` properties:
+Typically chart data will be supplied by some external source, in JSON or CSV format. For the purposes of this example we'll just generate some random data. D3FC has a number of `data` utilities, including components that help construct realistic random data. For this example we'll use the {{{ hyperlink 'random-data-api.html' title='random Brownian motion component' }}} to generate 12 datapoints, mapping them to create datapoints with `sales` and `month` properties:
 
 ```js
 {{{creating-some-data-js}}}
@@ -67,7 +67,7 @@ Here's the resulting data:
 
 The sales data is rendered as a bar chart. With D3 this typically involves rendering paths or rectangles and doing a bit of maths to locate each bar correctly, as illustrated in [Mike Bostock's excellent tutorial](http://bost.ocks.org/mike/bar/).
 
-d3fc has a {{{ hyperlink 'series-api.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `mainValue` and `crossValue` accessors (which the component uses to extract the x and y values from the datapoints). Notice these value accessors are prefixed `main` and `cross`, this is because d3fc-series component support both horizontal and vertical orientations where the meanings of x and y would be transposed.
+D3FC has a {{{ hyperlink 'series-api.html' title='bar series component' }}} (among others) that makes this task much easier. To render the data, we create a bar series component and supply it with suitable D3 scales, configure the `mainValue` and `crossValue` accessors (which the component uses to extract the x and y values from the datapoints). Notice these value accessors are prefixed `main` and `cross`, this is because d3fc-series component support both horizontal and vertical orientations where the meanings of x and y would be transposed.
 
 The bar series is a regular D3 component, and is rendered via the `call` method on a D3 selection:
 
@@ -108,7 +108,7 @@ This renders a more complete chart:
 
 You'll notice that the x-axis for this chart uses the [d3 band scale](https://github.com/d3/d3-scale#band-scales). This scale is typically used for bar charts, where it computes the width of each bar, returning this via the `bandwidth` function.
 
-You can set the `bandwidth` directly on the d3fc bar series, or, as per this example, adapt a series using the `autoBandwidth` component. This detects whether the scale associated with the series exposes a `bandwidth` function, and uses this to set the series band width automatically (hence the 'auto' name!).
+You can set the `bandwidth` directly on the D3FC bar series, or, as per this example, adapt a series using the `autoBandwidth` component. This detects whether the scale associated with the series exposes a `bandwidth` function, and uses this to set the series band width automatically (hence the 'auto' name!).
 
 ## Setting the axis domain
 
@@ -120,7 +120,7 @@ data.map(function(d) { return d.month; })
 
 The current y-domain is a bit of a guess, being hard-coded to a range `[0, 10]`. Ideally the domain should be computed based on the data. In this case the domain should accommodate the greatest sales value, plus some padding, and also extent to zero.
 
-There's another d3fc component that can help here, the {{{ hyperlink 'extent-api.html' title='extent' }}} utility. The following code ensures that zero is included, and adds a small amount of padding, as a percentage of the overall extent, to the 'top' end of the range:
+There's another D3FC component that can help here, the {{{ hyperlink 'extent-api.html' title='extent' }}} utility. The following code ensures that zero is included, and adds a small amount of padding, as a percentage of the overall extent, to the 'top' end of the range:
 
 ```js
 {{{ codeblock cartesian-chart-extent-js }}}
@@ -148,7 +148,7 @@ This gives a much more appealing chart:
 
 As you can see from the above code, the Cartesian chart exposes a number of the properties of the components it encapsulates. Most of the x and y scale and axes properties are exposed, with a suitable `x` or `y` prefix. This makes use of a standard D3 concept of property {{{ hyperlink 'rebind-api.html' title='rebinding' }}}, which gives rise to a compositional pattern rather than inheritance.
 
-d3fc extends the D3 rebind concept by making it easier to rebind all of the properties of a component, and allowing prefixing / renaming.
+D3FC extends the D3 rebind concept by making it easier to rebind all of the properties of a component, and allowing prefixing / renaming.
 
 ## Annotations
 
@@ -202,4 +202,4 @@ The Cartesian component uses a combination of standard and custom DOM elements, 
 
 Now that you've learnt the basic concepts of d3fc, why not browse the various charting components and see what you can build?
 
-If you want to make a more complex chart, for example, one with multiple axes, a good starting point is to look at the source code for the Cartesian chart component to see how that has been constructed form other d3fc components.
+If you want to make a more complex chart, for example, one with multiple axes, a good starting point is to look at the source code for the Cartesian chart component to see how that has been constructed form other D3FC components.

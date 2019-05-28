@@ -2,7 +2,7 @@
 
 A D3 scale that supports domains that are not continuous, creating gaps, or discontinuities. For example, this can be used to create a linear scale that has certain ranges removed, creating discontinuities in the rendered axis, or it can be used in conjunction with a time scale, in order to 'skip' weekends.
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installing
 

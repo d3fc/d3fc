@@ -2,7 +2,7 @@
 
 A utility for manipulating CSV / TSV data to allow rendering of grouped series.
 
-[Main d3fc package](https://github.com/d3fc/d3fc)
+[Main D3FC package](https://github.com/d3fc/d3fc)
 
 ## Installation
 

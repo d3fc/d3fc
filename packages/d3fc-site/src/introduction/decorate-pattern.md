@@ -14,7 +14,7 @@ externals:
   decorate-labels-js: decorate-labels.js
 ---
 
-Most chart APIs are complex and expansive in order to provide flexibility. With d3fc we have taken a different approach ...
+Most chart APIs are complex and expansive in order to provide flexibility. With D3FC we have taken a different approach ...
 
 One of the most powerful features of D3 is the [data join](http://bost.ocks.org/mike/join/), where DOM elements are constructed via data-binding. Furthermore, the [general update pattern](http://bl.ocks.org/3808218) allows you to define exactly how these data-bound elements are modified as items are added, remove or updated.
 
@@ -72,7 +72,7 @@ Again, the enter selection is used and the required child element, in this case 
 
 ## Adding data labels
 
-Using the decorate pattern you can also add new elements to a component via its data join. The d3fc series are designed so that the containing `g` element is translated to the location of each datum, as a result any elements that you add need only have a relative transform applied.
+Using the decorate pattern you can also add new elements to a component via its data join. The D3FC series are designed so that the containing `g` element is translated to the location of each datum, as a result any elements that you add need only have a relative transform applied.
 
 In the example below datapoint labels are added via decorate:
 

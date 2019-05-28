@@ -18,7 +18,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 * sub-transition interval redraws hide nodes ([180a242](https://github.com/d3fc/d3fc/commit/180a242)), closes [#1164](https://github.com/d3fc/d3fc/issues/1164)
-* use single d3 reference for bundleSpecs ([3d0a47e](https://github.com/d3fc/d3fc/commit/3d0a47e))
+* use single D3 reference for bundleSpecs ([3d0a47e](https://github.com/d3fc/d3fc/commit/3d0a47e))
 
 
 

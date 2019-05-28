@@ -21,7 +21,7 @@ d3.select("body")
 
 For a detailed introduction to transitions, take a look at the [API documentation](https://github.com/d3/d3-transition).
 
-All of the d3fc components have been implemented in order to work with transitions. What this means is that they will perform logical animations on enter, update or exit (for example bars animate upwards from the baseline on enter). In order for a series component to transition correctly you need to supply a key-function, via the `key` property, this is equivalent to the key function that you supply when performing a data-join via [selection.data](https://github.com/d3/d3-selection/blob/master/README.md#selection_data). The key-function is used to determine the 'identity' of each datapoint, if the array of data that is used to render a series is re-ordered, the key-function allows the series to perform a suitable transition.
+All of the D3FC components have been implemented in order to work with transitions. What this means is that they will perform logical animations on enter, update or exit (for example bars animate upwards from the baseline on enter). In order for a series component to transition correctly you need to supply a key-function, via the `key` property, this is equivalent to the key function that you supply when performing a data-join via [selection.data](https://github.com/d3/d3-selection/blob/master/README.md#selection_data). The key-function is used to determine the 'identity' of each datapoint, if the array of data that is used to render a series is re-ordered, the key-function allows the series to perform a suitable transition.
 
 The following example shows transitions in action, where the code indicated below converts the selection into a transition before 'calling' the chart component:
 
