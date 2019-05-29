@@ -3,7 +3,7 @@ export default (...names) => {
 
     const store = (target) => {
         for (const key of Object.keys(data)) {
-            target[key](data[key]);
+            target[key].apply(null, data[key]);
         }
         return target;
     };
@@ -13,7 +13,7 @@ export default (...names) => {
             if (!args.length) {
                 return data[name];
             }
-            data[name] = args[0];
+            data[name] = args;
             return store;
         };
     }
