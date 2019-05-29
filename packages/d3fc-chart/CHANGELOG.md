@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.6.2"></a>
+## [2.6.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.6.1...@d3fc/d3fc-chart@2.6.2) (2019-05-29)
+
+
+### Bug Fixes
+
+* property store correctly applies values from multiple argument functions ([#1281](https://github.com/d3fc/d3fc/issues/1281)) ([642c3ff](https://github.com/d3fc/d3fc/commit/642c3ff))
+
+
+
+
 <a name="2.6.1"></a>
 ## [2.6.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.6.0...@d3fc/d3fc-chart@2.6.1) (2019-05-28)
 
