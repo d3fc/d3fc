@@ -6,49 +6,49 @@ const speed = 0.1;
 
 let data;
 const generateData = () => {
-  const numPerSeries = Math.floor(numPoints / symbols.length);
-  data = symbols.map(() => {
-    const series = [];
-    for (let n = 0; n < numPerSeries; n++) {
-      series.push({
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        s: 50 + Math.random() * 50,
-        dx: Math.random() * speed - speed / 2,
-        dy: Math.random() * speed - speed / 2
-      });
-    }
-    return series;
-  });
-}
+    const numPerSeries = Math.floor(numPoints / symbols.length);
+    data = symbols.map(() => {
+        const series = [];
+        for (let n = 0; n < numPerSeries; n++) {
+            series.push({
+                x: Math.random() * 100,
+                y: Math.random() * 100,
+                s: 50 + Math.random() * 50,
+                dx: Math.random() * speed - speed / 2,
+                dy: Math.random() * speed - speed / 2
+            });
+        }
+        return series;
+    });
+};
 generateData();
 
 let showBorders = false;
 const createSeries = (asWebGL) => {
-  const seriesType = asWebGL ? fc.seriesWebglPoint : fc.seriesCanvasPoint;
-  const multiType = asWebGL ? fc.seriesWebglMulti : fc.seriesCanvasMulti;
-  
-  var allSeries = symbols.map((symbol, i) =>
-    seriesType()
-      .size(d => d.s)
-      .type(symbol)
-      .decorate(context => {
-        const color = d3.color(colors[i]);
-        if (showBorders) {
-          context.strokeStyle = color + '';
-          color.opacity = 0.5;
-        } else {
-          context.strokeStyle = 'transparent';
-        }
-        context.fillStyle = color + '';
-      })
-  );
+    const seriesType = asWebGL ? fc.seriesWebglPoint : fc.seriesCanvasPoint;
+    const multiType = asWebGL ? fc.seriesWebglMulti : fc.seriesCanvasMulti;
 
-  return multiType()
-    .series(allSeries)
-    .mapping((data, index) => {
-      return data[index];
-    });
+    var allSeries = symbols.map((symbol, i) =>
+        seriesType()
+            .size(d => d.s)
+            .type(symbol)
+            .decorate(context => {
+                const color = d3.color(colors[i]);
+                if (showBorders) {
+                    context.strokeStyle = color + '';
+                    color.opacity = 0.5;
+                } else {
+                    context.strokeStyle = 'transparent';
+                }
+                context.fillStyle = color + '';
+            })
+    );
+
+    return multiType()
+        .series(allSeries)
+        .mapping((data, index) => {
+            return data[index];
+        });
 };
 
 const createChart = (asWebGL) => {
@@ -66,81 +66,81 @@ const createChart = (asWebGL) => {
 let chart = createChart(true);
 
 const moveBubbles = () => {
-  data.forEach(series => {
-    series.forEach(b => {
-      b.x += b.dx;
-      b.y += b.dy;
-  
-      if (b.x > 100 || b.x < 0) b.dx = -b.dx;
-      if (b.y > 100 || b.y < 0) b.dy = -b.dy;
+    data.forEach(series => {
+        series.forEach(b => {
+            b.x += b.dx;
+            b.y += b.dy;
+
+            if (b.x > 100 || b.x < 0) b.dx = -b.dx;
+            if (b.y > 100 || b.y < 0) b.dy = -b.dy;
+        });
     });
-  });
-}
+};
 
-d3.select("#seriesCanvas").on("click", () => restart(false));
-d3.select("#seriesWebGL").on("click", () => restart(true));
+d3.select('#seriesCanvas').on('click', () => restart(false));
+d3.select('#seriesWebGL').on('click', () => restart(true));
 
-d3.select("#withBorders").on("click", () => { showBorders = true; });
-d3.select("#withoutBorders").on("click", () => { showBorders = false; });
+d3.select('#withBorders').on('click', () => { showBorders = true; });
+d3.select('#withoutBorders').on('click', () => { showBorders = false; });
 
 let lastTime = 0;
 const times = [];
 let i = 0;
 
 const showFPS = (t) => {
-  const dt = t - lastTime;
-  lastTime = t;
-  times.push(dt);
-  i++;
-  if (times.length > 10) times.splice(0, 1);
-  if (i > 10) {
-    i = 0;
-    const avg = times.reduce((s, t) => s + t, 0) / times.length;
-    d3.select('#fps').text(`fps: ${Math.floor(1000 / avg)}`);
-  }
+    const dt = t - lastTime;
+    lastTime = t;
+    times.push(dt);
+    i++;
+    if (times.length > 10) times.splice(0, 1);
+    if (i > 10) {
+        i = 0;
+        const avg = times.reduce((s, t) => s + t, 0) / times.length;
+        d3.select('#fps').text(`fps: ${Math.floor(1000 / avg)}`);
+    }
 };
 
 const render = (t) => {
-  showFPS(t);
-  moveBubbles();
+    showFPS(t);
+    moveBubbles();
 
-  // render
-  d3.select('#content')
-    .datum(data)
-    .call(chart);
+    // render
+    d3.select('#content')
+        .datum(data)
+        .call(chart);
 
-  if (stopRequest) {
-    stopRequest();
-  } else {
-    requestAnimationFrame(render);
-  }
-}
+    if (stopRequest) {
+        stopRequest();
+    } else {
+        requestAnimationFrame(render);
+    }
+};
 
 const pointSlider = window.slider().max(50000).value(numPoints).on('change', value => {
-  numPoints = value;
-  generateData();
-})
+    numPoints = value;
+    generateData();
+});
 d3.select('#slider').call(pointSlider);
 
 let stopRequest = null;
 const stop = () => {
-  return new Promise(resolve => {
-    stopRequest = () => {
-      stopRequest = null;
-      resolve();
-    };
-  });
+    return new Promise(resolve => {
+        stopRequest = () => {
+            stopRequest = null;
+            resolve();
+        };
+    });
 };
 const start = () => requestAnimationFrame(render);
 
 const restart = asWebGL => {
-  stop().then(() => {
-    d3.select('#content').html('');
+    stop().then(() => {
+        d3.select('#content').html('');
 
-    chart = createChart(asWebGL);
+        chart = createChart(asWebGL);
 
-    start();
-  });
+        start();
+    });
 };
 
 start();
