@@ -52,4 +52,28 @@ d3.text('repeat-data.csv', function(text) {
         });
 
     canvasMulti(data);
+
+    var webgl = d3.select('#repeat-webgl').node();
+    webgl.width = width;
+    webgl.height = height;
+    var webglctx = webgl.getContext('webgl');
+
+    var webglPoint = fc.seriesWebglPoint()
+        .crossValue(function(_, i) { return i; })
+        .mainValue(function(d) { return d; });
+
+    var webglMulti = fc.seriesWebglRepeat()
+        .xScale(xScale)
+        .yScale(yScale)
+        .context(webglctx)
+        .series(webglPoint)
+        .decorate(function(context, _, index) {
+            const col = color(index);
+            const fill = d3.color(col);
+            fill.opacity = 0.5;
+            context.fillStyle = fill + '';
+            context.strokeStyle = col;
+        });
+
+    webglMulti(data);
 });

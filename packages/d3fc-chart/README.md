@@ -215,6 +215,18 @@ chart.xDecorate(selection => {
 });
 ```
 
+#### Using WebGL series components
+
+A subset of series components are provided, which can offer even greater performance than 2d drawing to canvas.
+
+```javascript
+var series = fc.seriesWebglPoint();
+var chart = fc.chartCartesian(d3.scaleLinear(), d3.scaleLinear())
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .webglPlotArea(series);
+```
+
 ### Cartesian
 
 <a name="chartCartesian" href="#chartCartesian">#</a> fc.**chartCartesian**(*xScale*, *yScale*)  
@@ -231,10 +243,11 @@ If *yAxis* is specified, it must be an object with the required y-axis factory f
 
 <a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)  
 <a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)  
+<a name="cartesian_webglPlotArea" href="#cartesian_webglPlotArea">#</a> *cartesian*.**webglPlotArea**(*component*)  
 
 If *component* is specified, sets the component to render onto the SVG/canvas, and returns the Cartesian chart. If *component* is not specified, returns the existing component.
 
-For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. For components that require user-interaction, rendering to SVG can simplify their implementation.
+For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. Rendering to canvas using WebGL can offer even higher performance. For components that require user-interaction, rendering to SVG can simplify their implementation.
 
 <a name="cartesian_chartLabel" href="#cartesian_chartLabel">#</a> *cartesian*.**chartLabel**(*label*)  
 <a name="cartesian_xLabel" href="#cartesian_xLabel">#</a> *cartesian*.**xLabel**(*label*)  

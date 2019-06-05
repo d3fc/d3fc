@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
+  <script src="../node_modules/d3/build/d3.js"></script>
+  <script src="../../d3fc-data-join/build/d3fc-data-join.js"></script>
+  <script src="../../d3fc-rebind/build/d3fc-rebind.js"></script>
+  <script src="../../d3fc-axis/build/d3fc-axis.js"></script>
+  <script src="../../d3fc-extent/build/d3fc-extent.js"></script>
+  <script src="../../d3fc-element/build/d3fc-element.js"></script>
+  <script src="../../d3fc-series/build/d3fc-series.js"></script>
+  <script src="../../d3fc-annotation/build/d3fc-annotation.js"></script>
+  <script src="../build/d3fc-chart.js"></script>
+
+  <style>
+    html, body, #content {
+      height: 100%;
+      margin: 0;
+    }
+    #type {
+      position: absolute;
+      bottom: 5px;
+      left: 20px;
+
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #type li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    #fps {
+      position: absolute;
+      bottom: 5px;;
+      right: 20px;
+    }
+    #slider {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 250px;
+      height: 40px;
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="content"></div>
+  <ul id="type">
+    <li><input type="radio" name="seriesType" id="seriesCanvas" /><label for="seriesCanvas">Canvas</label></li>
+    <li><input type="radio" name="seriesType" id="seriesWebGL" checked /><label for="seriesWebGL">WebGL</label></li>
+    <li><input type="radio" name="borderStyle" id="withBorders" /><label for="withBorders">With Borders</label></li>
+    <li><input type="radio" name="borderStyle" id="withoutBorders" checked /><label for="withoutBorders">No Borders</label></li>
+  </ul>
+  <svg id="slider"></svg>
+  <div id="fps"></div>
+  <script src="slider.js"></script>
+  <script src="webgl-performance.js"></script>
+</body>
+</html>

@@ -43,6 +43,7 @@ npm install @d3fc/d3fc-series
 * [General API](#general-api)
  * [SVG Rendering](#svg-rendering)
  * [Canvas Rendering](#canvas-rendering)
+ * [WebGL Rendering](#webgl-rendering)
  * [Decorate Pattern](#decorate-pattern)
  * [Orientation](#orientation)
  * [Multi Series](#multi-series)
@@ -62,7 +63,7 @@ npm install @d3fc/d3fc-series
 * [Grouped](#grouped)
 * [Stacked](#stacked)
 
-This packages contains a number of D3 components that render various standard series types. They all share a common API, with the typical configuration requiring x and y scales together with a number of value accessors. There are SVG and Canvas versions of each series type, sharing the same configuration properties.
+This packages contains a number of D3 components that render various standard series types. They all share a common API, with the typical configuration requiring x and y scales together with a number of value accessors. There are SVG and Canvas versions of each series type, sharing the same configuration properties. There are a subset of WebGL based series components offering higher performance rendering.
 
 ### General API
 
@@ -119,9 +120,35 @@ line(data);
 Because D3 data-joins and data-binding only work on HTML / SVG, the canvas components are invoked directly with the supplied data. This causes the component to render itself to the canvas.
 
 
+#### WebGL rendering
+
+The `seriesWebGLPoint` component has an API that is almost identical to its SVG/Canvas counterparts, `seriesSvgPoint`, like the canvas version, it has a `context` property, which is set to the "web-gl" context of the canvas that this series renders to.
+
+```javascript
+const data = [
+    {x: 0, y: 0},
+    {x: 10, y: 5},
+    {x: 20, y: 0}
+];
+
+var ctx = canvas.getContext('web-gl');
+
+const point = fc.seriesWebglPoint()
+    .crossValue(d => d.x)
+    .mainValue(d => d.y)
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(ctx);
+
+point(data);
+```
+
+Like the canvas version, WebGL components are invoked directly with the supplied data. This causes the component to render itself to the canvas.
+
+
 #### Decorate Pattern
 
-The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection, or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.
+The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection, or canvas/WebGL context, used to render the component. This allows users of the component to perform additional rendering logic.
 
 For further details, consult the [Decorate Pattern documentation](https://d3fc.io/introduction/decorate-pattern.html).
 
@@ -188,6 +215,17 @@ const canvasLine = fc.seriesCanvasPoint()
 
 <img src="screenshots/decorate-append-canvas.png"/>
 
+With WebGL, you can still modifiy the line and fill styles in the decorate function, but that is all.
+
+```javascript
+const canvasLine = fc.seriesWebglPoint()
+    .decorate((context, datum, index) => {
+        context.fillStyle = 'rgba(255, 0, 0, 0.5)';
+        context.strokeStyle = 'rgb(255, 0, 0)';
+        context.lineWidth = 2;
+    });
+```
+
 #### Orientation
 
 Most of the series renderers support both horizontal and vertical render orientations as specified by the `orient` property. In order to make it easy to change the orientation of a series, and to avoid redundant and repeated property names, a change in orientation is achieved by transposing the x and y scales.
@@ -239,7 +277,7 @@ This is part of the motivation behind naming the accessors `mainValue` and `cros
 
 #### Multi series
 
-One series type that is worthy of note is the multi series. This component provides a convenient way to render multiple series, that share scales, to the same SVG or canvas.
+One series type that is worthy of note is the multi series. This component provides a convenient way to render multiple series, that share scales, to the same SVG, canvas or WebGL plot area.
 
 The multi series renderers expose a `series` property which accepts an array of series renderers, together with the standard  `xScale` and `yScale` properties. The following example shows how a multi series can be used to render both a line and bar series:
 
@@ -277,6 +315,22 @@ multiSeries(data)
 ```
 
 In this case the context is also propagated from the multi series to the children.
+
+The WebGL API is also similar:
+
+```javascript
+// a limit subset of series types are supported
+const crossSeries = fc.seriesWebglPoint().type(d3.symbolCross);
+const starSeries = fc.seriesWebglPoint().type(d3.symbolStar);
+
+const multiSeries = fc.seriesWebglMulti()
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(ctx)
+    .series([crossSeries, starSeries]);
+
+multiSeries(data)
+```
 
 The multi series allows you to combine a range of different series types. If instead you have multiple data series that you want to render using the same series type, e.g. a chart containing multiple lines, the [repeat series](#repeat) is an easier way to achieve this.
 
@@ -374,8 +428,9 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 <a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.**seriesSvgPoint**()  
 <a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()
+<a name="seriesWebglPoint" href="#seriesWebglPoint">#</a> fc.**seriesWebglPoint**()
 
-Constructs a new point series renderer for either canvas or SVG.
+Constructs a new point series renderer for either canvas, SVG or WebGL.
 
 #### Common properties
 
@@ -405,11 +460,11 @@ If *size* is specified, sets the area to the specified function or number and re
 
 This property is rebound from [symbol.size](https://github.com/d3/d3-shape#symbol_size).
 
-#### Canvas specific properties
+#### Canvas and WebGL specific properties
 
 <a name="seriesCanvasPoint_context" href="#seriesCanvasPoint_context">#</a> *seriesCanvasPoint*.**context**(*ctx*)
 
-If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context. For WebGL this should be the "webgl" context from the canvas element. Otherwise it should be "2d".
 
 ### Area
 
@@ -684,8 +739,9 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 <a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.**seriesSvgMulti**()  
 <a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()
+<a name="seriesWebglMulti" href="#seriesWebglMulti">#</a> fc.**seriesWebglMulti**()
 
-Constructs a new multi series renderer for either canvas or SVG.
+Constructs a new multi series renderer for either canvas, SVG or WebGL.
 
 #### Common properties
 
@@ -726,11 +782,11 @@ If *decorateFunc* is specified, sets the decorator function to the specified fun
 With the SVG multi series, the decorate function is invoked once, with the data join selection that creates the outer container. With the canvas multi series the decorate function is invoked for each of the associated series.
 
 
-#### Canvas specific properties
+#### Canvas and WebGL specific properties
 
 <a name="seriesMulti_context" href="#seriesMulti_context">#</a> *seriesMulti*.**context**(*ctx*)
 
-If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context. For WebGL this should be the "webgl" context from the canvas element. Otherwise it should be "2d".
 
 ### Repeat
 
@@ -738,8 +794,9 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 <a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.**seriesSvgRepeat**()  
 <a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()
+<a name="seriesWebglRepeat" href="#seriesWebglRepeat">#</a> fc.**seriesWebglRepeat**()
 
-Constructs a new repeat series renderer for either canvas or SVG.
+Constructs a new repeat series renderer for either canvas, SVG or WebGL.
 
 The repeat series is very similar in function to the multi series, both are designed to render multiple series from the same bound data. The repeat series uses the same series type for each data series, e.g. multiple lines series, or multiple area series.
 

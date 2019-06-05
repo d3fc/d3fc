@@ -51,3 +51,26 @@ var canvasMulti = fc.seriesCanvasMulti()
     .series([fc.autoBandwidth(canvasBar), canvasLine]);
 
 canvasMulti(data);
+
+var webgl = d3.select('#multi-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var webglctx = webgl.getContext('webgl');
+
+var webglCrosses = fc.seriesWebglPoint()
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d + 0.01; })
+    .type(d3.symbolCross);
+
+var webglStars = fc.seriesWebglPoint()
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d - 0.01; })
+    .type(d3.symbolStar);
+
+var webglMulti = fc.seriesWebglMulti()
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(webglctx)
+    .series([webglCrosses, webglStars]);
+
+webglMulti(data);

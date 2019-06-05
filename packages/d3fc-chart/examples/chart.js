@@ -22,6 +22,9 @@ var area = fc.seriesSvgArea()
 var multi = fc.seriesSvgMulti()
   .series([area, line]);
 
+var glPoints = fc.seriesWebglPoint()
+  .mainValue(d => d.y * 0.8);
+
 // the cartesian component, which uses d3fc-element for layout
 // of the standard feaures of a chart (axes, labels, plot area)
 var chart = fc.chartCartesian(
@@ -34,7 +37,8 @@ var chart = fc.chartCartesian(
   .yDomain(yExtent(data))
   .xDomain(xExtent(data))
   .svgPlotArea(multi)
-  .canvasPlotArea(gridlines);
+  .canvasPlotArea(gridlines)
+  .webglPlotArea(glPoints);
 
 d3.select('#sine-chart')
   .datum(data)

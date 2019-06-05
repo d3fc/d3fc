@@ -3,6 +3,7 @@ export { default as seriesCanvasLine } from './src/canvas/line';
 
 export { default as seriesSvgPoint } from './src/svg/point';
 export { default as seriesCanvasPoint } from './src/canvas/point';
+export { default as seriesWebglPoint } from './src/webgl/point';
 
 export { default as seriesSvgBar } from './src/svg/bar';
 export { default as seriesCanvasBar } from './src/canvas/bar';
@@ -24,12 +25,14 @@ export { default as seriesCanvasOhlc } from './src/canvas/ohlc';
 
 export { default as seriesSvgMulti } from './src/svg/multi';
 export { default as seriesCanvasMulti } from './src/canvas/multi';
+export { default as seriesWebglMulti } from './src/canvas/multi';
 
 export { default as seriesSvgGrouped } from './src/svg/grouped';
 export { default as seriesCanvasGrouped } from './src/canvas/grouped';
 
 export { default as seriesSvgRepeat } from './src/svg/repeat';
 export { default as seriesCanvasRepeat } from './src/canvas/repeat';
+export { default as seriesWebglRepeat } from './src/canvas/repeat';
 
 export { default as autoBandwidth } from './src/autoBandwidth';
 
