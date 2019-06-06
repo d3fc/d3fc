@@ -1,5 +1,3 @@
-import * as d3Scales from 'd3-scale';
-
 import setup from './setup';
 import modelScale from './modelScale';
 
