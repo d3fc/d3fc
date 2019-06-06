@@ -18,7 +18,9 @@ export default (gl) => {
     const { projectionMatrix, modelViewMatrix } = setup(gl);
 
     // Helper API functions
-    const api = {};
+    const api = {
+        applyScales
+    };
 
     let activated;
     Object.keys(drawFunctions).forEach(key => {
@@ -38,4 +40,20 @@ export default (gl) => {
 
     gl[PRIVATE] = api;
     return api;
+};
+
+const applyScales = (xScale, yScale) => {
+    const xRange = xScale.range();
+    const yRange = yScale.range();
+
+    const pixel = {
+        x: Math.abs(2 / (xRange[1] - xRange[0])),
+        y: Math.abs(2 / (yRange[1] - yRange[0]))
+    };
+
+    return {
+        pixel,
+        xScale: xScale.copy().range([-1, 1]),
+        yScale: yScale.copy().range([-1, 1])
+    };
 };

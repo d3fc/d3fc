@@ -1,4 +1,4 @@
-const symbols = [d3.symbolCircle, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
+const symbols = [d3.symbolCircle] //, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
 const colors = ['blue', 'green', 'red', 'cyan', 'gray', 'yellow', 'purple'];
 
 let numPoints = 20000;

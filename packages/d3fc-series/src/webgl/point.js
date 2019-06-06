@@ -21,20 +21,21 @@ export default () => {
         base();
         glAPI = helperAPI || helper(context);
 
+        const scales = glAPI.applyScales(base.xScale(), base.yScale());
+
         context.strokeStyle = colors.black;
         context.fillStyle = colors.gray;
         context.lineWidth = 1;
         base.decorate()(context, data, 0);
 
         const filteredData = data.filter(base.defined());
-        const projectedData = getProjectedData(filteredData);
+        const projectedData = getProjectedData(filteredData, scales);
 
         const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
-        const pixel = getPixel();
 
         renderer()
-            .pixelX(pixel.x)
-            .pixelY(pixel.y)
+            .pixelX(scales.pixel.x)
+            .pixelY(scales.pixel.y)
             .lineWidth(lineWidth)
             .callback(drawPoints)(projectedData);
     };
@@ -63,26 +64,26 @@ export default () => {
         }
     };
 
-    const getProjectedData = (data) => {
-        const xScale = base.xScale().copy().range([-1, 1]);
-        const yScale = base.yScale().copy().range([-1, 1]);
+    const getProjectedData = (data, scales) => {
+        const crossFn = base.crossValue();
+        const mainFn = base.mainValue();
         const sizeFn = typeof size === 'function' ? size : () => size;
-        const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
 
+        const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
         const vertical = base.orient() === 'vertical';
 
         return pointData()
             .pointFn((d, i) => {
                 if (vertical) {
                     return {
-                        x: xScale(base.crossValue()(d, i), i),
-                        y: yScale(base.mainValue()(d, i), i),
+                        x: scales.xScale(crossFn(d, i), i),
+                        y: scales.yScale(mainFn(d, i), i),
                         size: sizeFn(d) + lineWidth
                     };
                 } else {
                     return {
-                        x: yScale(base.mainValue()(d, i), i),
-                        y: xScale(base.crossValue()(d, i), i),
+                        x: scales.yScale(mainFn(d, i), i),
+                        y: scales.xScale(crossFn(d, i), i),
                         size: sizeFn(d) + lineWidth
                     };
                 }
