@@ -1,3 +1,4 @@
+import { symbol } from 'd3-shape';
 import edges from './edges';
 
 //
@@ -7,11 +8,12 @@ export default () => {
     let pixelX = 1;
     let pixelY = 1;
     let lineWidth = 0;
-    let shape = [];
+    let type = null;
     let callback = () => { };
 
     // Input should be a Float32Array of [x,y,size]
     const shapes = (data) => {
+        const shape = shapeToPoints(type);
         const trianglesPerShape = (shape.length / 2 - 1);
         const points = new Float32Array(data.length * trianglesPerShape * 6);
 
@@ -69,11 +71,11 @@ export default () => {
         return shapes;
     };
 
-    shapes.shape = (...args) => {
+    shapes.type = (...args) => {
         if (!args.length) {
-            return shape;
+            return type;
         }
-        shape = args[0];
+        type = args[0];
         return shapes;
     };
 
@@ -87,3 +89,23 @@ export default () => {
 
     return shapes;
 };
+
+function shapeToPoints(d3Shape) {
+    const shapeSymbol = symbol().type(d3Shape);
+    const shapePath = shapeSymbol.size(3)();
+    const points = shapePath
+        .substring(1, shapePath.length - 1)
+        .split('L')
+        .map(p => p.split(',').map(c => parseFloat(c)));
+
+    if (points.length === 1) {
+        // Square
+        const l = -points[0][0];
+        points.push([l, -l]);
+        points.push([l, l]);
+        points.push([-l, l]);
+    }
+
+    points.push(points[0]);
+    return Float32Array.from(points.reduce((acc, val) => acc.concat(val), []));
+}

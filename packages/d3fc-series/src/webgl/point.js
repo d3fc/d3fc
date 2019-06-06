@@ -1,4 +1,4 @@
-import { symbol, symbolCircle } from 'd3-shape';
+import { symbolCircle } from 'd3-shape';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
@@ -15,7 +15,6 @@ export default () => {
 
     let size = 70;
     let type = symbolCircle;
-    let typePoints = null;
 
     const point = (data, helperAPI) => {
         base();
@@ -41,7 +40,7 @@ export default () => {
     };
 
     const renderer = () => {
-        return typePoints ? shapes().shape(typePoints) : circles();
+        return (type === symbolCircle) ? circles() : shapes().type(type);
     };
 
     const drawPoints = (points, edges) => {
@@ -104,37 +103,9 @@ export default () => {
             return type;
         }
         type = args[0];
-        if (type === symbolCircle) {
-            typePoints = null;
-        } else {
-            typePoints = shapeToPoints(type);
-        }
         return point;
     };
 
     rebindAll(point, base, exclude('baseValue', 'bandwidth', 'align'));
     return point;
 };
-
-function shapeToPoints(d3Shape) {
-    if (d3Shape) {
-        const shapeSymbol = symbol().type(d3Shape);
-        const shapePath = shapeSymbol.size(3)();
-        const points = shapePath
-            .substring(1, shapePath.length - 1)
-            .split('L')
-            .map(p => p.split(',').map(c => parseFloat(c)));
-
-        if (points.length === 1) {
-            // Square
-            const l = -points[0][0];
-            points.push([l, -l]);
-            points.push([l, l]);
-            points.push([-l, l]);
-        }
-
-        points.push(points[0]);
-        return Float32Array.from(points.reduce((acc, val) => acc.concat(val), []));
-    }
-    return [];
-}
