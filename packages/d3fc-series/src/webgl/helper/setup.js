@@ -2,7 +2,6 @@ import { mat4 } from 'gl-matrix';
 
 export default (gl) => {
     const projectionMatrix = mat4.create();
-    const modelViewMatrix = mat4.create();
 
         // Create a perspective matrix, a special matrix that is
         // used to simulate the distortion of perspective in a camera.
@@ -23,15 +22,9 @@ export default (gl) => {
             zNear,
             zFar);
 
-        // Now move the drawing position a bit to where we want to
-        // start drawing the square.
-    mat4.translate(modelViewMatrix,     // destination matrix
-            modelViewMatrix,     // matrix to translate
-            [-0.0, 0.0, -1.0]);  // amount to translate
-
     // Enable blending semi-transparent colors
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    return { projectionMatrix, modelViewMatrix };
+    return { projectionMatrix };
 };

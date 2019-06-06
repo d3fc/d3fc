@@ -1,4 +1,7 @@
+import * as d3Scales from 'd3-scale';
+
 import setup from './setup';
+import modelScale from './modelScale';
 
 import triangles from '../shaders/triangles';
 import edges from '../shaders/edges';
@@ -15,45 +18,70 @@ export default (gl) => {
     if (gl[PRIVATE]) return gl[PRIVATE];
 
     const drawModules = {};
-    const { projectionMatrix, modelViewMatrix } = setup(gl);
+    const { projectionMatrix } = setup(gl);
+    let modelViewMatrix = null;
 
     // Helper API functions
-    const api = {
-        applyScales
-    };
+    const api = {};
 
     let activated;
     Object.keys(drawFunctions).forEach(key => {
         api[key] = (...args) => {
             if (!drawModules[key]) {
                 // Lazy-load the shaders when used
-                drawModules[key] = drawFunctions[key](gl, projectionMatrix, modelViewMatrix);
+                drawModules[key] = drawFunctions[key](gl, projectionMatrix);
             }
 
             // Activate the shader if not already activate
             if (activated !== key) drawModules[key].activate();
             activated = key;
 
+            drawModules[key].setModelView(modelViewMatrix);
             return drawModules[key](...args);
         };
     });
 
+    api.applyScales = (xScale, yScale) => {
+        const x = convertScale(xScale);
+        const y = convertScale(yScale);
+
+        modelViewMatrix = modelScale([x.modelScale, y.modelScale]);
+        return {
+            pixel: {
+                x: x.pixelSize,
+                y: y.pixelSize
+            },
+            xScale: x.scale,
+            yScale: y.scale
+        };
+    };
+
+    const isLinear = scale => {
+        if (scale.domain && scale.range && scale.clamp && !scale.exponent && !scale.base) {
+            return !scale.clamp();
+        }
+        return false;
+    };
+
+    const convertScale = scale => {
+        const range = scale.range();
+        const domain = scale.domain();
+
+        if (isLinear(scale)) {
+            return {
+                pixelSize: Math.abs((domain[1] - domain[0]) / (range[1] - range[0])),
+                modelScale: scale,
+                scale: d => d
+            };
+        } else {
+            return {
+                pixelSize: Math.abs(2 / (range[1] - range[0])),
+                modelScale: null,
+                scale: scale.copy().range([-1, 1])
+            };
+        }
+    };
+
     gl[PRIVATE] = api;
     return api;
-};
-
-const applyScales = (xScale, yScale) => {
-    const xRange = xScale.range();
-    const yRange = yScale.range();
-
-    const pixel = {
-        x: Math.abs(2 / (xRange[1] - xRange[0])),
-        y: Math.abs(2 / (yRange[1] - yRange[0]))
-    };
-
-    return {
-        pixel,
-        xScale: xScale.copy().range([-1, 1]),
-        yScale: yScale.copy().range([-1, 1])
-    };
 };

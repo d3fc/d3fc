@@ -32,7 +32,7 @@ const fsSource = `
 // gl.TRIANGLES
 // gl.TRIANGLE_STRIP
 // gl.TRIANGLE_FAN
-export default (gl, projectionMatrix, modelViewMatrix) => {
+export default (gl, projectionMatrix) => {
     const positionBuffer = buffer(gl);
     const buffers = {
         position: positionBuffer.addr()
@@ -52,6 +52,13 @@ export default (gl, projectionMatrix, modelViewMatrix) => {
     draw.activate = () => {
         setupProgram(buffers);
         lastColor = [-1, -1, -1, -1];
+    };
+
+    draw.setModelView = modelViewMatrix => {
+        gl.uniformMatrix4fv(
+            programInfo.uniformLocations.modelViewMatrix,
+            false,
+            modelViewMatrix);
     };
 
     const shaderProgram = initShaders(gl, vsSource, fsSource);
@@ -76,10 +83,6 @@ export default (gl, projectionMatrix, modelViewMatrix) => {
             programInfo.uniformLocations.projectionMatrix,
             false,
             projectionMatrix);
-        gl.uniformMatrix4fv(
-            programInfo.uniformLocations.modelViewMatrix,
-            false,
-            modelViewMatrix);
 
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute.

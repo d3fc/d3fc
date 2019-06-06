@@ -28,8 +28,8 @@ export default () => {
         context.lineWidth = 1;
         base.decorate()(context, data, 0);
 
-        const filteredData = data.filter(base.defined());
-        const projectedData = getProjectedData(filteredData, scales);
+        const projectedData = (data.constructor === Float32Array)
+                ? data : getProjectedData(data, scales);
 
         const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
 
@@ -44,15 +44,6 @@ export default () => {
         return typePoints ? shapes().shape(typePoints) : circles();
     };
 
-    const getPixel = () => {
-        const xRange = base.xScale().range();
-        const yRange = base.yScale().range();
-        return {
-            x: Math.abs(2 / (xRange[1] - xRange[0])),
-            y: Math.abs(2 / (yRange[1] - yRange[0]))
-        };
-    };
-
     const drawPoints = (points, edges) => {
         const fillColor = glColor(context.fillStyle);
         const strokeColor = context.strokeStyle !== 'transparent' ? glColor(context.strokeStyle) : null;
@@ -65,6 +56,8 @@ export default () => {
     };
 
     const getProjectedData = (data, scales) => {
+        const filteredData = data.filter(base.defined());
+
         const crossFn = base.crossValue();
         const mainFn = base.mainValue();
         const sizeFn = typeof size === 'function' ? size : () => size;
@@ -87,7 +80,7 @@ export default () => {
                         size: sizeFn(d) + lineWidth
                     };
                 }
-            })(data);
+            })(filteredData);
     };
 
     point.context = (...args) => {

@@ -1,23 +1,28 @@
-const symbols = [d3.symbolCircle] //, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
+const symbols = [d3.symbolCircle, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
 const colors = ['blue', 'green', 'red', 'cyan', 'gray', 'yellow', 'purple'];
 
 let numPoints = 20000;
 const speed = 0.1;
 
 let data;
+let speedData = [];
 const generateData = () => {
     const numPerSeries = Math.floor(numPoints / symbols.length);
     data = symbols.map(() => {
-        const series = [];
+        const series = new Float32Array(numPerSeries * 3);
+        const seriesSpeed = [];
+        let index = 0;
         for (let n = 0; n < numPerSeries; n++) {
-            series.push({
-                x: Math.random() * 100,
-                y: Math.random() * 100,
-                s: 50 + Math.random() * 50,
+            series[index++] = Math.random() * 100;
+            series[index++] = Math.random() * 100;
+            series[index++] = 3 + Math.random() * 4;
+            
+            seriesSpeed.push({
                 dx: Math.random() * speed - speed / 2,
                 dy: Math.random() * speed - speed / 2
             });
         }
+        speedData.push(seriesSpeed);
         return series;
     });
 };
@@ -66,10 +71,12 @@ const createChart = (asWebGL) => {
 let chart = createChart(true);
 
 const moveBubbles = () => {
-    data.forEach(series => {
-        series.forEach(b => {
-            b.x += b.dx;
-            b.y += b.dy;
+    data.forEach((series, seriesIndex) => {
+        speedData[seriesIndex].forEach((b, i) => {
+            const index = i * 3;
+
+            series[index] += b.dx;
+            series[index + 1] += b.dy;
 
             if (b.x > 100 || b.x < 0) b.dx = -b.dx;
             if (b.y > 100 || b.y < 0) b.dy = -b.dy;
