@@ -8,9 +8,11 @@ const drawFunctions = {
     edges
 };
 
+export const PRIVATE = '__d3fcAPI';
+
 export default (gl) => {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    if (gl.api) return gl.api;
+    if (gl[PRIVATE]) return gl[PRIVATE];
 
     const drawModules = {};
     const { projectionMatrix, modelViewMatrix } = setup(gl);
@@ -34,6 +36,6 @@ export default (gl) => {
         };
     });
 
-    gl.api = api;
+    gl[PRIVATE] = api;
     return api;
 };

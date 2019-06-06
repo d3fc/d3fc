@@ -27,11 +27,20 @@ export default () => {
         base.decorate()(context, data, 0);
 
         const filteredData = data.filter(base.defined());
-        if (typePoints) {
-            shapePoints(filteredData);
-        } else {
-            circlePoints(filteredData);
-        }
+        const projectedData = getProjectedData(filteredData);
+
+        const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
+        const pixel = getPixel();
+
+        renderer()
+            .pixelX(pixel.x)
+            .pixelY(pixel.y)
+            .lineWidth(lineWidth)
+            .callback(drawPoints)(projectedData);
+    };
+
+    const renderer = () => {
+        return typePoints ? shapes().shape(typePoints) : circles();
     };
 
     const getPixel = () => {
@@ -54,32 +63,7 @@ export default () => {
         }
     };
 
-    const shapePoints = (filteredData) => {
-        const projectedData = getProjectedData(filteredData, false);
-        const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
-        const pixel = getPixel();
-
-        shapes()
-            .pixelX(pixel.x)
-            .pixelY(pixel.y)
-            .lineWidth(lineWidth)
-            .shape(typePoints)
-            .callback(drawPoints)(projectedData.data);
-    };
-
-    const circlePoints = (filteredData) => {
-        const projectedData = getProjectedData(filteredData, true);
-        const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
-        const pixel = getPixel();
-
-        circles()
-            .pixelX(pixel.x)
-            .pixelY(pixel.y)
-            .lineWidth(lineWidth)
-            .callback(drawPoints)(projectedData.data, projectedData.segmentCount);
-    };
-
-    const getProjectedData = (data, circles = false) => {
+    const getProjectedData = (data) => {
         const xScale = base.xScale().copy().range([-1, 1]);
         const yScale = base.yScale().copy().range([-1, 1]);
         const sizeFn = typeof size === 'function' ? size : () => size;
@@ -88,7 +72,6 @@ export default () => {
         const vertical = base.orient() === 'vertical';
 
         return pointData()
-            .circles(circles)
             .pointFn((d, i) => {
                 if (vertical) {
                     return {

@@ -3,6 +3,9 @@ export default () => {
     let pixelY = 1;
     let lineWidth = 0;
 
+    // Input is a Float32Array of triangle vertices (3 x/y vertices per triangle)
+    // The first vertex of each triangle is considered the center, with the other
+    // two being on the "edge"
     const edges = (positions) => {
         const edges = new Float32Array(positions.length);
         const edgeWidth = lineWidth - 1.0;

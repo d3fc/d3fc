@@ -1,22 +1,28 @@
 import edges from './edges';
 
+//
+// Generate the triangle data needed to render a set of circles
+//
 export default () => {
     let pixelX = 1;
     let pixelY = 1;
     let lineWidth = 0;
     let callback = () => { };
 
-    const circles = (data, totalSegments) => {
-        const points = new Float32Array(totalSegments * 6);
+    // Input should be a Float32Array of [x,y,size]
+    const circles = (data) => {
+        const circleCount = data.length / 3;
+        const segmentsCounts = getSegmentCounts(data);
+        const points = new Float32Array(segmentsCounts.total * 6);
 
         let index = 0;
         let target = 0;
 
-        while (index < data.length) {
+        for (let n = 0; n < circleCount; n++) {
             const x = data[index++];
             const y = data[index++];
             const size = data[index++];
-            const segments = data[index++];
+            const segments = segmentsCounts.counts[n];
 
             const sizeX = size * pixelX;
             const sizeY = size * pixelY;
@@ -38,6 +44,10 @@ export default () => {
                 points[target++] = lastX;
                 points[target++] = lastY;
             }
+
+            // pixel-correction for the last two (prevents overlaps)
+            points[target - 2] = x;
+            points[target - 1] = y + sizeY;
         }
 
         let edgesData = null;
@@ -49,6 +59,24 @@ export default () => {
         }
 
         callback(points, edgesData);
+    };
+
+    const getSegmentCounts = data => {
+        // Number of each circle's segments depends on its size
+        const circleCount = data.length / 3;
+        const counts = new Float32Array(data.length / 3);
+        let total = 0;
+        let index = 0;
+        for (let n = 0; n < circleCount; n++) {
+            index += 2;
+            const size = data[index++];
+            const count = Math.max(8, Math.floor(size * 1.5));
+
+            counts[n] = count;
+            total += count;
+        }
+
+        return { total, counts };
     };
 
     circles.pixelX = (...args) => {

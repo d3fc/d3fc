@@ -1,5 +1,8 @@
 import edges from './edges';
 
+//
+// Generate the triangle data needed to render a set of shapes
+//
 export default () => {
     let pixelX = 1;
     let pixelY = 1;
@@ -7,6 +10,7 @@ export default () => {
     let shape = [];
     let callback = () => { };
 
+    // Input should be a Float32Array of [x,y,size]
     const shapes = (data) => {
         const trianglesPerShape = (shape.length / 2 - 1);
         const points = new Float32Array(data.length * trianglesPerShape * 6);

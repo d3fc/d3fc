@@ -1,11 +1,11 @@
+//
+// Take an array of data and return a Float32Array of [x,y,size]
+//
 export default () => {
-    let circles = false;
     let pointFn = (d) => ({ x: d.x, y: d.y, size: d.size });
 
     const pointData = (data) => {
-        const dataPerPoint = circles ? 4 : 3;
-        const result = new Float32Array(data.length * dataPerPoint);
-        let allSegments = 0;
+        const result = new Float32Array(data.length * 3);
         let index = 0;
 
         data.forEach((d, i) => {
@@ -16,26 +16,9 @@ export default () => {
             // Adjust to match the size with the d3-shapes
             const size = Math.sqrt(dataPoint.size) * 0.65;
             result[index++] = size;
-
-            if (circles) {
-                const segments = Math.floor(size * 2);
-                result[index++] = segments;
-                allSegments += segments;
-            }
         });
 
-        return {
-            data: result,
-            segmentCount: allSegments
-        };
-    };
-
-    pointData.circles = (...args) => {
-        if (!args.length) {
-            return circles;
-        }
-        circles = args[0];
-        return pointData;
+        return result;
     };
 
     pointData.pointFn = (...args) => {
