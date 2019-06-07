@@ -1,4 +1,4 @@
-const symbols = [d3.symbolCircle]; //, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
+const symbols = [d3.symbolCircle, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
 const colors = ['blue', 'green', 'red', 'cyan', 'gray', 'yellow', 'purple'];
 
 let numPoints = 20000;
@@ -7,11 +7,15 @@ const speed = 0.1;
 let usingWebGL = true;
 let data;
 let speedData; 
+let bubbleMovement = true;
+let allShapes = false;
 
 const generateData = () => {
-    const numPerSeries = Math.floor(numPoints / symbols.length);
+    const numSeries = allShapes ? symbols.length : 1;
+    const numPerSeries = Math.floor(numPoints / numSeries);
     speedData = [];
-    data = symbols.map(() => {
+    data = [];
+    for (let s = 0; s < numSeries; s++) {
         const series = usingWebGL ? new Float32Array(numPerSeries * 3) :  []; 
         const seriesSpeed = []; 
         let index = 0; 
@@ -35,8 +39,8 @@ const generateData = () => {
             }
         } 
         speedData.push(seriesSpeed); 
-        return series;
-    });
+        data.push(series);
+    }
 };
 generateData();
 
@@ -106,11 +110,13 @@ const moveBubbles = () => {
     }); 
 };
 
-d3.select('#seriesCanvas').on('click', () => restart(false));
-d3.select('#seriesWebGL').on('click', () => restart(true));
-
-d3.select('#withBorders').on('click', () => { showBorders = true; });
-d3.select('#withoutBorders').on('click', () => { showBorders = false; });
+d3.select('#seriesCanvas').on('click', () => restart(!d3.event.target.checked));
+d3.select('#withBorders').on('click', () => { showBorders = d3.event.target.checked; });
+d3.select('#moveBubbles').on('click', () => { bubbleMovement = d3.event.target.checked; });
+d3.select('#allShapes').on('click', () => {
+    allShapes = d3.event.target.checked;
+    restart(usingWebGL);
+});
 
 let lastTime = 0;
 const times = [];
@@ -131,7 +137,7 @@ const showFPS = (t) => {
 
 const render = (t) => {
     showFPS(t);
-    moveBubbles();
+    if (bubbleMovement) moveBubbles();
 
     // render
     d3.select('#content')

@@ -32,8 +32,7 @@ uniform vec4 uSeriesColor;
 varying float vSize;
 
 void main() {
-    vec2 circCoord = 2.0 * gl_PointCoord - 1.0;
-    float dist = sqrt(dot(circCoord, circCoord)) * vSize;
+    float dist = length(2.0 * gl_PointCoord - 1.0) * vSize;
     float inner = vSize - 2.0 * uLineWidth - 1.0;
 
     if (dist > vSize + 1.0) {
@@ -42,7 +41,7 @@ void main() {
         gl_FragColor = uSeriesColor;
     } else {
         float rAlias = clamp((dist - vSize) / 2.0 + 0.5, 0.0, 1.0);
-        vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+        vec4 transparent = vec4(0.0);
         vec4 edgeColor = rAlias * transparent + (1.0 - rAlias) * uEdgeColor;
 
         float rEdge = clamp(dist - inner, 0.0, 1.0);
