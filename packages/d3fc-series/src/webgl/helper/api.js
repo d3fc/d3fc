@@ -1,6 +1,3 @@
-import setup from './setup';
-import modelScale from './modelScale';
-
 import triangles from '../shaders/triangles';
 import edges from '../shaders/edges';
 
@@ -15,9 +12,11 @@ export default (gl) => {
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     if (gl[PRIVATE]) return gl[PRIVATE];
 
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
     const drawModules = {};
-    const { projectionMatrix } = setup(gl);
-    let modelViewMatrix = null;
+    let modelView = null;
 
     // Helper API functions
     const api = {};
@@ -27,14 +26,14 @@ export default (gl) => {
         api[key] = (...args) => {
             if (!drawModules[key]) {
                 // Lazy-load the shaders when used
-                drawModules[key] = drawFunctions[key](gl, projectionMatrix);
+                drawModules[key] = drawFunctions[key](gl);
             }
 
             // Activate the shader if not already activate
             if (activated !== key) drawModules[key].activate();
             activated = key;
 
-            drawModules[key].setModelView(modelViewMatrix);
+            drawModules[key].setModelView(modelView);
             return drawModules[key](...args);
         };
     });
@@ -43,7 +42,11 @@ export default (gl) => {
         const x = convertScale(xScale);
         const y = convertScale(yScale);
 
-        modelViewMatrix = modelScale([x.modelScale, y.modelScale]);
+        modelView = {
+            offset: [x.offset, y.offset],
+            scale: [x.scaleFactor, y.scaleFactor]
+        };
+
         return {
             pixel: {
                 x: x.pixelSize,
@@ -68,13 +71,15 @@ export default (gl) => {
         if (isLinear(scale)) {
             return {
                 pixelSize: Math.abs((domain[1] - domain[0]) / (range[1] - range[0])),
-                modelScale: scale,
+                offset: domain[0],
+                scaleFactor: domain[1] - domain[0],
                 scale: d => d
             };
         } else {
             return {
                 pixelSize: Math.abs(2 / (range[1] - range[0])),
-                modelScale: null,
+                offset: -1,
+                scaleFactor: 2,
                 scale: scale.copy().range([-1, 1])
             };
         }

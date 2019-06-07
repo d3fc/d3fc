@@ -9,36 +9,36 @@ const vsSource = `
   attribute vec4 aVertexPosition;
   attribute vec4 aVertexEdge;
 
-  uniform vec4 uEdgeColor;
-  uniform vec4 uSeriesColor;
-
-  uniform mat4 uModelViewMatrix;
-  uniform mat4 uProjectionMatrix;
+  uniform vec2 uOffset;
+  uniform vec2 uScale;
 
   varying lowp vec4 vEdge;
-  varying lowp vec4 vColor;
-  varying lowp vec4 vColorEdge;
 
   void main() {
-    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-    vColor = uSeriesColor;
-    vColorEdge = uEdgeColor;
+    vec2 vertex = vec2(aVertexPosition[0], aVertexPosition[1]);
+    vec2 clipSpace = 2.0 * (vertex - uOffset) / uScale - 1.0;
+
+    gl_PointSize = 10.0;
+    gl_Position = vec4(clipSpace, 0.0, 1.0);
     vEdge = aVertexEdge;
   }
 `;
 
 const fsSource = `
+  precision mediump float;
+
   varying lowp vec4 vEdge;
-  varying lowp vec4 vColor;
-  varying lowp vec4 vColorEdge;
+
+  uniform vec4 uEdgeColor;
+  uniform vec4 uSeriesColor;
 
   void main() {
     lowp float r = clamp((vEdge[1] - vEdge[0]) / 2.0, 0.0, 1.0);
-    gl_FragColor = r * vColor + (1.0 - r) * vColorEdge;
+    gl_FragColor = r * uSeriesColor + (1.0 - r) * uEdgeColor;
   }
 `;
 
-export default (gl, projectionMatrix) => {
+export default (gl) => {
     const positionBuffer = buffer(gl);
     const edgeBuffer = buffer(gl);
     const buffers = {
@@ -67,11 +67,13 @@ export default (gl, projectionMatrix) => {
         lastColor = [-1, -1, -1, -1];
     };
 
-    draw.setModelView = modelViewMatrix => {
-        gl.uniformMatrix4fv(
-            programInfo.uniformLocations.modelViewMatrix,
-            false,
-            modelViewMatrix);
+    draw.setModelView = ({offset, scale}) => {
+        gl.uniform2fv(
+            programInfo.uniformLocations.offset,
+            offset);
+        gl.uniform2fv(
+            programInfo.uniformLocations.scale,
+            scale);
     };
 
     const shaderProgram = initShaders(gl, vsSource, fsSource);
@@ -82,8 +84,8 @@ export default (gl, projectionMatrix) => {
             vertexEdge: gl.getAttribLocation(shaderProgram, 'aVertexEdge')
         },
         uniformLocations: {
-            projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-            modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
+            offset: gl.getUniformLocation(shaderProgram, 'uOffset'),
+            scale: gl.getUniformLocation(shaderProgram, 'uScale'),
             seriesColor: gl.getUniformLocation(shaderProgram, 'uSeriesColor'),
             edgeColor: gl.getUniformLocation(shaderProgram, 'uEdgeColor')
         }
@@ -92,12 +94,6 @@ export default (gl, projectionMatrix) => {
     function setupProgram(buffers) {
         // Tell WebGL to use our program when drawing
         gl.useProgram(programInfo.program);
-
-        // Set the shader uniforms
-        gl.uniformMatrix4fv(
-            programInfo.uniformLocations.projectionMatrix,
-            false,
-            projectionMatrix);
 
         // Tell WebGL how to pull out the positions from the position
         // buffer into the vertexPosition attribute.
