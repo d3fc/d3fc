@@ -22,7 +22,7 @@ export default () => {
         while (index < data.length) {
             const x = data[index++];
             const y = data[index++];
-            const size = data[index++];
+            const size = Math.sqrt(data[index++]);
 
             for (let n = 0; n < shape.length - 2; n += 2) {
                 points[target++] = x;
@@ -92,7 +92,7 @@ export default () => {
 
 function shapeToPoints(d3Shape) {
     const shapeSymbol = symbol().type(d3Shape);
-    const shapePath = shapeSymbol.size(3)();
+    const shapePath = shapeSymbol.size(1)();
     const points = shapePath
         .substring(1, shapePath.length - 1)
         .split('L')

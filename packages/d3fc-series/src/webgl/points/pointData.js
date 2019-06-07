@@ -12,10 +12,7 @@ export default () => {
             const dataPoint = pointFn(d, i);
             result[index++] = dataPoint.x;
             result[index++] = dataPoint.y;
-
-            // Adjust to match the size with the d3-shapes
-            const size = Math.sqrt(dataPoint.size) * 0.65;
-            result[index++] = size;
+            result[index++] = dataPoint.size;
         });
 
         return result;

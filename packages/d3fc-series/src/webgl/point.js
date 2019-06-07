@@ -6,7 +6,7 @@ import colors from '../colors';
 import helper from './helper/api';
 import glColor from './helper/glColor';
 
-import { circles, shapes, pointData } from './points/index';
+import { shapes, pointData } from './points/index';
 
 export default () => {
     let context = null;
@@ -30,20 +30,32 @@ export default () => {
         const projectedData = (data.constructor === Float32Array)
                 ? data : getProjectedData(data, scales);
 
+        if (type === symbolCircle) {
+            drawPoints(projectedData);
+        } else {
+            const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
+            shapes()
+                .type(type)
+                .pixelX(scales.pixel.x)
+                .pixelY(scales.pixel.y)
+                .lineWidth(lineWidth)
+                .callback(drawTriangles)(projectedData);
+        }
+    };
+
+    const drawPoints = (points, glType) => {
+        const fillColor = glColor(context.fillStyle);
         const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
+        const strokeColor = context.strokeStyle !== 'transparent' ? glColor(context.strokeStyle) : null;
 
-        renderer()
-            .pixelX(scales.pixel.x)
-            .pixelY(scales.pixel.y)
-            .lineWidth(lineWidth)
-            .callback(drawPoints)(projectedData);
+        pointDrawFn(points, fillColor, lineWidth, strokeColor);
     };
 
-    const renderer = () => {
-        return (type === symbolCircle) ? circles() : shapes().type(type);
+    const pointDrawFn = (...args) => {
+        return glAPI.circles(...args);
     };
 
-    const drawPoints = (points, edges) => {
+    const drawTriangles = (points, edges) => {
         const fillColor = glColor(context.fillStyle);
         const strokeColor = context.strokeStyle !== 'transparent' ? glColor(context.strokeStyle) : null;
 
