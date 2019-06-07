@@ -1,4 +1,4 @@
-const symbols = [d3.symbolCircle, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
+const allSymbols = [d3.symbolCircle, d3.symbolCross, d3.symbolDiamond, d3.symbolSquare, d3.symbolStar, d3.symbolTriangle, d3.symbolWye];
 const colors = ['blue', 'green', 'red', 'cyan', 'gray', 'yellow', 'purple'];
 
 let numPoints = 20000;
@@ -9,13 +9,13 @@ let data;
 let speedData; 
 let bubbleMovement = true;
 let allShapes = false;
+let symbols = allSymbols;
 
 const generateData = () => {
-    const numSeries = allShapes ? symbols.length : 1;
-    const numPerSeries = Math.floor(numPoints / numSeries);
+    symbols = allShapes ? allSymbols : [allSymbols[0]];
+    const numPerSeries = Math.floor(numPoints / symbols.length);
     speedData = [];
-    data = [];
-    for (let s = 0; s < numSeries; s++) {
+    data = symbols.map(() => {
         const series = usingWebGL ? new Float32Array(numPerSeries * 3) :  []; 
         const seriesSpeed = []; 
         let index = 0; 
@@ -39,8 +39,8 @@ const generateData = () => {
             }
         } 
         speedData.push(seriesSpeed); 
-        data.push(series);
-    }
+        return series;
+    });
 };
 generateData();
 
@@ -72,8 +72,27 @@ const createSeries = (asWebGL) => {
         });
 };
 
+const xScale = d3.scaleLinear().domain([0, 100]);
+const yScale = d3.scaleLinear().domain([0, 100]);
+
+var xCopy = xScale.copy();
+var yCopy = yScale.copy().domain([100, 0]);
+
+var zoom = d3.zoom()
+  .on('zoom', function() {
+    // use the rescaleX utility function to compute the new scale
+    const {transform} = d3.event;
+    var rescaledX = transform.rescaleX(xCopy).domain();
+    var rescaledY = transform.rescaleY(yCopy).domain();
+
+    xScale.domain(rescaledX);
+    yScale.domain([rescaledY[1], rescaledY[0]]);
+
+    if (!running) render();
+  });
+
 const createChart = (asWebGL) => {
-    const chart = fc.chartCartesian(d3.scaleLinear(), d3.scaleLinear())
+    const chart = fc.chartCartesian(xScale, yScale)
         .yDomain([0, 100])
         .xDomain([0, 100]);
 
@@ -82,6 +101,17 @@ const createChart = (asWebGL) => {
     } else {
         chart.canvasPlotArea(createSeries(asWebGL));
     }
+
+    chart.decorate(sel => {
+        sel.enter()
+        .select('.plot-area')
+        .on('measure.range', () => {
+          xCopy.range([0, d3.event.detail.width]);
+          yCopy.range([0, d3.event.detail.height]);
+        })
+        .call(zoom);
+    });
+
     return chart;
 };
 let chart = createChart(true);
@@ -111,8 +141,17 @@ const moveBubbles = () => {
 };
 
 d3.select('#seriesCanvas').on('click', () => restart(!d3.event.target.checked));
-d3.select('#withBorders').on('click', () => { showBorders = d3.event.target.checked; });
-d3.select('#moveBubbles').on('click', () => { bubbleMovement = d3.event.target.checked; });
+d3.select('#withBorders').on('click', () => {
+    showBorders = d3.event.target.checked;
+    if (!running) render();
+});
+d3.select('#moveBubbles').on('click', () => { 
+    if (d3.event.target.checked) {
+        start();
+    } else {
+        stop();
+    }
+});
 d3.select('#allShapes').on('click', () => {
     allShapes = d3.event.target.checked;
     restart(usingWebGL);
@@ -135,49 +174,67 @@ const showFPS = (t) => {
     }
 };
 
-const render = (t) => {
-    showFPS(t);
-    if (bubbleMovement) moveBubbles();
-
+const render = () => {
     // render
     d3.select('#content')
         .datum(data)
         .call(chart);
+};
+
+const animateFrame = (t) => {
+    showFPS(t);
+    if (bubbleMovement) moveBubbles();
+
+    render();
 
     if (stopRequest) {
         stopRequest();
     } else {
-        requestAnimationFrame(render);
+        requestAnimationFrame(animateFrame);
     }
 };
 
-const pointSlider = window.slider().max(100000).value(numPoints).on('change', value => {
+const pointSlider = window.slider().max(500000).value(numPoints).on('change', value => {
     numPoints = value;
     generateData();
+    if (!running) render();
 });
 d3.select('#slider').call(pointSlider);
 
+let running = false;
 let stopRequest = null;
 const stop = () => {
     return new Promise(resolve => {
         stopRequest = () => {
             stopRequest = null;
+            running = false;
+            d3.select('#fps').text('');
             resolve();
         };
     });
 };
-const start = () => requestAnimationFrame(render);
+const start = () => {
+    running = true;
+    requestAnimationFrame(animateFrame);
+};
 
 const restart = asWebGL => {
-    stop().then(() => {
-        d3.select('#content').html('');
-
+    const reset = () => {
         usingWebGL = asWebGL;
         generateData();
         chart = createChart(asWebGL);
+    };
 
-        start();
-    });
+    if (running) {
+        stop().then(() => {
+            d3.select('#content').html('');
+            reset();
+            start();
+        });
+    } else {
+        reset();
+        render();
+    }
 };
 
 start();

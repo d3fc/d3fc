@@ -12,7 +12,7 @@ window.slider = () => {
 
     const slider = (selection) => {
         const size = selection.node().getBoundingClientRect();
-        const textSize = 80;
+        const textSize = 100;
         const data = [value];
         const sliderWidth = size.width - textSize;
 
@@ -28,7 +28,7 @@ window.slider = () => {
             .attr('y', size.height / 2 + 5)
             .attr('text-anchor', 'end')
             .style('fill', '#888')
-            .text(d => d);
+            .text(d => d.toLocaleString());
 
         const moveToPosition = x => {
             const position = 100 * Math.floor((max / 100) * (x / sliderWidth));
