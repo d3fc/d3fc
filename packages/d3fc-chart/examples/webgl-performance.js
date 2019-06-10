@@ -7,8 +7,11 @@ const speed = 0.1;
 let usingWebGL = true;
 let data;
 let speedData; 
+
 let bubbleMovement = true;
 let allShapes = false;
+let showBorders = false;
+
 let symbols = allSymbols;
 
 const generateData = () => {
@@ -44,7 +47,6 @@ const generateData = () => {
 };
 generateData();
 
-let showBorders = false;
 const createSeries = (asWebGL) => {
     const seriesType = asWebGL ? fc.seriesWebglPoint : fc.seriesCanvasPoint;
     const multiType = asWebGL ? fc.seriesWebglMulti : fc.seriesCanvasMulti;
@@ -88,7 +90,7 @@ var zoom = d3.zoom()
     xScale.domain(rescaledX);
     yScale.domain([rescaledY[1], rescaledY[0]]);
 
-    if (!running) render();
+    requestRender();
   });
 
 const createChart = (asWebGL) => {
@@ -143,7 +145,7 @@ const moveBubbles = () => {
 d3.select('#seriesCanvas').on('click', () => restart(!d3.event.target.checked));
 d3.select('#withBorders').on('click', () => {
     showBorders = d3.event.target.checked;
-    if (!running) render();
+    requestRender();
 });
 d3.select('#moveBubbles').on('click', () => { 
     if (d3.event.target.checked) {
@@ -174,6 +176,12 @@ const showFPS = (t) => {
     }
 };
 
+const requestRender = () => {
+    if (!running) {
+        requestAnimationFrame(render);
+    }
+};
+
 const render = () => {
     // render
     d3.select('#content')
@@ -197,7 +205,7 @@ const animateFrame = (t) => {
 const pointSlider = window.slider().max(500000).value(numPoints).on('change', value => {
     numPoints = value;
     generateData();
-    if (!running) render();
+    requestRender();
 });
 d3.select('#slider').call(pointSlider);
 

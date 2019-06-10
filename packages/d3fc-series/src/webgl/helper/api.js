@@ -1,11 +1,13 @@
 import triangles from '../shaders/triangles';
 import edges from '../shaders/edges';
 import circles from '../shaders/circles';
+import pointTextures from '../shaders/pointTextures';
 
 const drawFunctions = {
     triangles,
     edges,
-    circles
+    circles,
+    pointTextures
 };
 
 export const PRIVATE = '__d3fcAPI';
@@ -15,7 +17,6 @@ export default (gl) => {
     if (gl[PRIVATE]) return gl[PRIVATE];
 
     gl.enable(gl.BLEND);
-    gl.blendEquation(gl.FUNC_ADD);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     const drawModules = {};

@@ -1,12 +1,10 @@
-import { symbolCircle } from 'd3-shape';
+import { symbol, symbolCircle } from 'd3-shape';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
 
 import helper from './helper/api';
 import glColor from './helper/glColor';
-
-import { shapes, pointData } from './points/index';
 
 export default () => {
     let context = null;
@@ -15,6 +13,7 @@ export default () => {
 
     let size = 70;
     let type = symbolCircle;
+    let typeImage = null;
 
     const point = (data, helperAPI) => {
         base();
@@ -30,39 +29,15 @@ export default () => {
         const projectedData = (data.constructor === Float32Array)
                 ? data : getProjectedData(data, scales);
 
-        if (type === symbolCircle) {
-            drawPoints(projectedData);
-        } else {
-            const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
-            shapes()
-                .type(type)
-                .pixelX(scales.pixel.x)
-                .pixelY(scales.pixel.y)
-                .lineWidth(lineWidth)
-                .callback(drawTriangles)(projectedData);
-        }
-    };
-
-    const drawPoints = (points, glType) => {
         const fillColor = glColor(context.fillStyle);
         const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
-        const strokeColor = context.strokeStyle !== 'transparent' ? glColor(context.strokeStyle) : null;
-
-        pointDrawFn(points, fillColor, lineWidth, strokeColor);
-    };
-
-    const pointDrawFn = (...args) => {
-        return glAPI.circles(...args);
-    };
-
-    const drawTriangles = (points, edges) => {
-        const fillColor = glColor(context.fillStyle);
-        const strokeColor = context.strokeStyle !== 'transparent' ? glColor(context.strokeStyle) : null;
-
-        if (strokeColor || edges) {
-            glAPI.edges(points, edges, fillColor, strokeColor);
+        const strokeColor = lineWidth > 0 ? glColor(context.strokeStyle) : null;
+        if (type === symbolCircle) {
+            glAPI.circles(projectedData, fillColor, lineWidth, strokeColor);
         } else {
-            glAPI.triangles(points, fillColor);
+            typeImage.then(image => {
+                glAPI.pointTextures(projectedData, image, fillColor, lineWidth, strokeColor);
+            });
         }
     };
 
@@ -72,26 +47,26 @@ export default () => {
         const crossFn = base.crossValue();
         const mainFn = base.mainValue();
         const sizeFn = typeof size === 'function' ? size : () => size;
-
-        const lineWidth = context.strokeStyle !== 'transparent' ? parseInt(context.lineWidth) : 0;
         const vertical = base.orient() === 'vertical';
 
-        return pointData()
-            .pointFn((d, i) => {
-                if (vertical) {
-                    return {
-                        x: scales.xScale(crossFn(d, i), i),
-                        y: scales.yScale(mainFn(d, i), i),
-                        size: sizeFn(d) + lineWidth
-                    };
-                } else {
-                    return {
-                        x: scales.yScale(mainFn(d, i), i),
-                        y: scales.xScale(crossFn(d, i), i),
-                        size: sizeFn(d) + lineWidth
-                    };
-                }
-            })(filteredData);
+        const result = new Float32Array(data.length * 3);
+        let index = 0;
+
+        if (vertical) {
+            filteredData.forEach((d, i) => {
+                result[index++] = scales.xScale(crossFn(d, i), i);
+                result[index++] = scales.yScale(mainFn(d, i), i);
+                result[index++] = sizeFn(d);
+            });
+        } else {
+            filteredData.forEach((d, i) => {
+                result[index++] = scales.yScale(mainFn(d, i), i);
+                result[index++] = scales.xScale(crossFn(d, i), i);
+                result[index++] = sizeFn(d);
+            });
+        }
+
+        return result;
     };
 
     point.context = (...args) => {
@@ -115,9 +90,39 @@ export default () => {
             return type;
         }
         type = args[0];
+
+        if (type !== symbolCircle) {
+            typeImage = getSymbolImage(type);
+        } else {
+            typeImage = null;
+        }
         return point;
     };
 
     rebindAll(point, base, exclude('baseValue', 'bandwidth', 'align'));
     return point;
+};
+
+const textureSize = 256;
+const getSymbolImage = (type) => {
+    return new Promise(resolve => {
+        const canvas = document.createElement('canvas');
+        canvas.width = textureSize;
+        canvas.height = textureSize;
+
+        const context = canvas.getContext('2d');
+        context.fillStyle = '#000';
+        const halfSize = textureSize / 2;
+        context.translate(halfSize, halfSize);
+        context.beginPath();
+        symbol().type(type).size(halfSize * halfSize).context(context)();
+        context.closePath();
+        context.fill();
+
+        var image = new Image();
+        image.src = canvas.toDataURL();
+        image.onload = () => {
+            resolve(image);
+        };
+    });
 };
