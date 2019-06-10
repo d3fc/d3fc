@@ -44,13 +44,17 @@ bool edge(vec2 coord) {
 }
 
 void main() {
-    float edgeAlpha = texture2D(uSampler, gl_PointCoord, -0.5)[3];
+    vec4 edgeTex = texture2D(uSampler, gl_PointCoord, -0.5);
 
-    if (uLineWidth < 0.1) {
-        gl_FragColor = uSeriesColor * edgeAlpha;
+    if (uEdgeColor[3] < 0.1) {
+        gl_FragColor = edgeTex;
+    } else if (uLineWidth < 0.1) {
+        gl_FragColor = uSeriesColor * edgeTex[3];
     } else {
         if (edge(gl_PointCoord)) {
-            gl_FragColor = uEdgeColor * edgeAlpha;
+            gl_FragColor = uEdgeColor * edgeTex[3];
+        } else if (uSeriesColor[3] < 0.1) {
+            gl_FragColor = edgeTex;
         } else {
             gl_FragColor = uSeriesColor;
         }

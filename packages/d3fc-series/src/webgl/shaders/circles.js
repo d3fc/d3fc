@@ -38,6 +38,8 @@ void main() {
 
     if (dist > vSize + 1.0) {
         discard;
+    } else if (uEdgeColor[3] < 0.1) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
     } else if (dist < inner) {
         gl_FragColor = uSeriesColor;
     } else {

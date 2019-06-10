@@ -19,13 +19,14 @@ export default (gl, vsSource, fsSource) => {
     const lineWidthLocation = gl.getUniformLocation(shaderProgram, 'uLineWidth');
 
     const draw = (positions, color, lineWidth = 0, strokeColor = null) => {
-        const sColor = strokeColor || color;
+        const fColor = color || [0.0, 0.0, 0.0, 0.0];
+        const sColor = strokeColor || fColor;
         if ((lineWidth !== lastWidth) ||
-                color.some((c, i) => c !== lastColor[i]) ||
+                fColor.some((c, i) => c !== lastColor[i]) ||
                 sColor.some((c, i) => c !== lastStrokeColor[i])) {
-            setColor(color, lineWidth, sColor);
+            setColor(fColor, lineWidth, sColor);
             lastWidth = lineWidth;
-            lastColor = color;
+            lastColor = fColor;
             lastStrokeColor = sColor;
         }
 

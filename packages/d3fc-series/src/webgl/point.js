@@ -13,7 +13,7 @@ export default () => {
 
     let size = 70;
     let type = symbolCircle;
-    let typeImage = null;
+    let imagePromise = null;
 
     const point = (data, helperAPI) => {
         base();
@@ -21,8 +21,6 @@ export default () => {
 
         const scales = glAPI.applyScales(base.xScale(), base.yScale());
 
-        context.strokeStyle = colors.black;
-        context.fillStyle = colors.gray;
         context.lineWidth = 1;
         base.decorate()(context, data, 0);
 
@@ -35,7 +33,7 @@ export default () => {
         if (type === symbolCircle) {
             glAPI.circles(projectedData, fillColor, lineWidth, strokeColor);
         } else {
-            typeImage.then(image => {
+            imagePromise.then(image => {
                 glAPI.pointTextures(projectedData, image, fillColor, lineWidth, strokeColor);
             });
         }
@@ -92,10 +90,24 @@ export default () => {
         type = args[0];
 
         if (type !== symbolCircle) {
-            typeImage = getSymbolImage(type);
+            imagePromise = getSymbolImage(type);
         } else {
-            typeImage = null;
+            imagePromise = null;
         }
+        return point;
+    };
+
+    point.image = img => {
+        type = null;
+        imagePromise = new Promise(resolve => {
+            if (img.complete) {
+                resolve(img);
+            } else {
+                img.onload = () => {
+                    resolve(img);
+                };
+            }
+        });
         return point;
     };
 
@@ -119,7 +131,7 @@ const getSymbolImage = (type) => {
         context.closePath();
         context.fill();
 
-        var image = new Image();
+        var image = new window.Image();
         image.src = canvas.toDataURL();
         image.onload = () => {
             resolve(image);
