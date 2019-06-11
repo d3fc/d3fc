@@ -1,4 +1,4 @@
-import {rebindAll, exclude} from '@d3fc/d3fc-rebind';
+import {rebindAll} from '@d3fc/d3fc-rebind';
 import pointsBase from './pointsBase';
 
 // Shader program to draw circles at points
@@ -59,6 +59,6 @@ export default gl => {
         base(positions, color, lineWidth, strokeColor);
     };
 
-    rebindAll(draw, base, exclude('shaderProgram'));
+    rebindAll(draw, base);
     return draw;
 };

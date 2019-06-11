@@ -1,4 +1,4 @@
-import {rebindAll, exclude} from '@d3fc/d3fc-rebind';
+import {rebindAll} from '@d3fc/d3fc-rebind';
 import pointsBase from './pointsBase';
 
 // Shader program to draw circles at points
@@ -65,7 +65,7 @@ export default (gl) => {
     const base = pointsBase(gl, vsSource, fsSource);
 
     const texture = gl.createTexture();
-    const samplerLocation = gl.getUniformLocation(base.shaderProgram, 'uSampler');
+    const samplerLocation = gl.getUniformLocation(base.shaderProgram(), 'uSampler');
 
     const draw = (positions, image, color, lineWidth = 0, strokeColor = null) => {
         setupTexture(image);
@@ -97,7 +97,7 @@ export default (gl) => {
         gl.uniform1i(samplerLocation, 0);
     };
 
-    rebindAll(draw, base, exclude('shaderProgram'));
+    rebindAll(draw, base);
     return draw;
 };
 

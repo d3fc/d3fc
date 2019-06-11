@@ -1,7 +1,6 @@
 import { symbol, symbolCircle } from 'd3-shape';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
-import colors from '../colors';
 
 import helper from './helper/api';
 import glColor from './helper/glColor';

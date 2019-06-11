@@ -18,7 +18,6 @@ const vsSource = `
     vec2 vertex = vec2(aVertexPosition[0], aVertexPosition[1]);
     vec2 clipSpace = 2.0 * (vertex - uOffset) / uScale - 1.0;
 
-    gl_PointSize = 10.0;
     gl_Position = vec4(clipSpace, 0.0, 1.0);
     vEdge = aVertexEdge;
   }
@@ -33,7 +32,7 @@ const fsSource = `
   uniform vec4 uSeriesColor;
 
   void main() {
-    lowp float r = clamp((vEdge[1] - vEdge[0]) / 2.0, 0.0, 1.0);
+    lowp float r = clamp(vEdge[1] - vEdge[0], 0.0, 1.0);
     gl_FragColor = r * uSeriesColor + (1.0 - r) * uEdgeColor;
   }
 `;
