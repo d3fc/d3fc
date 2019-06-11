@@ -1,6 +1,7 @@
 import { symbol, symbolCircle } from 'd3-shape';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
+import colors from '../colors';
 
 import helper from './helper/api';
 import glColor from './helper/glColor';
@@ -20,6 +21,8 @@ export default () => {
 
         const scales = glAPI.applyScales(base.xScale(), base.yScale());
 
+        context.strokeStyle = type ? colors.black : undefined;
+        context.fillStyle = type ? colors.gray : undefined;
         context.lineWidth = 1;
         base.decorate()(context, data, 0);
 
@@ -57,8 +60,8 @@ export default () => {
             });
         } else {
             filteredData.forEach((d, i) => {
-                result[index++] = scales.yScale(mainFn(d, i), i);
-                result[index++] = scales.xScale(crossFn(d, i), i);
+                result[index++] = scales.xScale(mainFn(d, i), i);
+                result[index++] = scales.yScale(crossFn(d, i), i);
                 result[index++] = sizeFn(d);
             });
         }
