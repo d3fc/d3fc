@@ -1,11 +1,9 @@
 import triangles from '../shaders/triangles';
-import edges from '../shaders/edges';
 import circles from '../shaders/circles';
 import pointTextures from '../shaders/pointTextures';
 
 const drawFunctions = {
     triangles,
-    edges,
     circles,
     pointTextures
 };
@@ -73,11 +71,15 @@ export default (gl) => {
         const domain = scale.domain();
 
         if (isLinear(scale)) {
+            const asDate = domain[0] instanceof Date;
+            const numDomain = asDate ? domain.map(d => d.valueOf()) : domain;
+            const scaleFn = asDate ? d => d.valueOf() :  d => d;
+
             return {
-                pixelSize: Math.abs((domain[1] - domain[0]) / (range[1] - range[0])),
-                offset: domain[0],
-                scaleFactor: domain[1] - domain[0],
-                scale: d => d
+                pixelSize: Math.abs((numDomain[1] - numDomain[0]) / (range[1] - range[0])),
+                offset: numDomain[0],
+                scaleFactor: numDomain[1] - numDomain[0],
+                scale: scaleFn
             };
         } else {
             return {
