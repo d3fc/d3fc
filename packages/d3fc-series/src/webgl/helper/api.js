@@ -41,8 +41,8 @@ export default (gl) => {
     });
 
     api.applyScales = (xScale, yScale) => {
-        const x = convertScale(xScale);
-        const y = convertScale(yScale);
+        const x = convertScale(xScale, gl.canvas.width, false);
+        const y = convertScale(yScale, gl.canvas.height, true);
 
         modelView = {
             offset: [x.offset, y.offset],
@@ -66,27 +66,37 @@ export default (gl) => {
         return false;
     };
 
-    const convertScale = scale => {
+    const convertScale = (scale, screenSize, invert = false) => {
         const range = scale.range();
         const domain = scale.domain();
+        const invertConst = invert ? -1 : 1;
 
+        // screen: (0 -> screenSize), scale: (range[0] -> range[1])
         if (isLinear(scale)) {
             const asDate = domain[0] instanceof Date;
             const numDomain = asDate ? domain.map(d => d.valueOf()) : domain;
             const scaleFn = asDate ? d => d.valueOf() :  d => d;
 
+            // Calculate the screen-space domain for the projection
+            const domainSize = (numDomain[1] - numDomain[0]) * screenSize / (range[1] - range[0]);
+
+            // numDomain[0] = screenDomainStart + range[0] * domainSize / screenSize;
+            const screenDomainStart = numDomain[0] - domainSize * range[0] / screenSize;
+            const screenDomain = [screenDomainStart, screenDomainStart + domainSize];
+
             return {
-                pixelSize: Math.abs((numDomain[1] - numDomain[0]) / (range[1] - range[0])),
-                offset: numDomain[0],
-                scaleFactor: numDomain[1] - numDomain[0],
+                pixelSize: Math.abs((screenDomain[1] - screenDomain[0]) / screenSize),
+                offset: screenDomain[invert ? 1 : 0],
+                scaleFactor: invertConst * (screenDomain[1] - screenDomain[0]),
                 scale: scaleFn
             };
         } else {
+            const screenRange = range.map(r => 2 * r / screenSize - 1);
             return {
-                pixelSize: Math.abs(2 / (range[1] - range[0])),
-                offset: -1,
-                scaleFactor: 2,
-                scale: scale.copy().range([-1, 1])
+                pixelSize: Math.abs(2 / screenSize),
+                offset: invert ? 1 : -1,
+                scaleFactor: invertConst * 2,
+                scale: scale.copy().range(screenRange)
             };
         }
     };
