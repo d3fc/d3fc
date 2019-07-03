@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.55"></a>
+## [0.0.55](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.54...@d3fc/d3fc-site@0.0.55) (2019-07-03)
+
+
+### Bug Fixes
+
+* update d3 links in getting started docs from /build to /dist ([#1288](https://github.com/d3fc/d3fc/issues/1288)) ([1100920](https://github.com/d3fc/d3fc/commit/1100920))
+
+
+
+
 <a name="0.0.54"></a>
 ## [0.0.54](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.53...@d3fc/d3fc-site@0.0.54) (2019-06-28)
 
