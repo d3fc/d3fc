@@ -26,7 +26,7 @@ npm install d3fc d3
 Once installed, you can reference both of these within an HTML page as follows:
 
 ```html
-<script src="node_modules/d3/build/d3.min.js"></script>
+<script src="node_modules/d3/dist/d3.min.js"></script>
 <script src="node_modules/d3fc/build/d3fc.min.js"></script>
 ```
 
@@ -37,7 +37,7 @@ d3fc supports modern browsers. Depending on the browsers you are targeting, you 
 Alternatively you can link to the CDN hosted versions of D3FC and D3 directly:
 
 ```html
-<script src="https://unpkg.com/d3/build/d3.min.js"></script>
+<script src="https://unpkg.com/d3/dist/d3.min.js"></script>
 <script src="https://unpkg.com/d3fc/build/d3fc.min.js"></script>
 ```
 
