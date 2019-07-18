@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.6.3"></a>
+## [2.6.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.6.2...@d3fc/d3fc-chart@2.6.3) (2019-06-28)
+
+
+### Bug Fixes
+
+* avoid reconstruction	of top-label element by retaining the required class ([#1286](https://github.com/d3fc/d3fc/issues/1286)) ([3720178](https://github.com/d3fc/d3fc/commit/3720178))
+
+
+
+
 <a name="2.6.2"></a>
 ## [2.6.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.6.1...@d3fc/d3fc-chart@2.6.2) (2019-05-29)
 
