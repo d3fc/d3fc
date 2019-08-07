@@ -8,7 +8,7 @@
 /**
  *  Functors used to provide number returning functions to shape drawing routines 
  */
-export type Functor = () => number
+export type Functor = (datum: CandlestickData, index?: number) => number
 
 /**
  *  Parameter type to be provided to shapes, such as candlestick width
@@ -55,9 +55,11 @@ export interface Candlestick {
     low(value: FunctorParameter) : Candlestick;
     close(value: FunctorParameter) : Candlestick;
     width(value: FunctorParameter) : Candlestick;
+
+    (data: CandlestickData[]): void;
 }
 
 /**
  * Creates a candlestick
  */
-export const Candlestick: (data: CandlestickData) => Candlestick;
+export const Candlestick: (data?: CandlestickData) => Candlestick;
