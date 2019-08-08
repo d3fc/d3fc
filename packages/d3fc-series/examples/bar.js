@@ -29,10 +29,10 @@ canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext('2d');
 
-var canvasLine = fc.seriesCanvasBar()
+var canvasBar = fc.seriesCanvasBar()
     .xScale(xScale)
     .yScale(yScale)
     .context(ctx)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });
-canvasLine(data);
+canvasBar(data);

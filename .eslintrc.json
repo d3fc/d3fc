@@ -14,7 +14,7 @@
     "semi": ["error", "always"]
   },
   "overrides": [
-		{
+   {
       "files": ["**/examples/**/*.js"],
       "parserOptions": {
         "sourceType": "script"
@@ -27,7 +27,7 @@
         "d3": "readable"
       }
     },
-		{
+   {
       "files": ["**/test/**/*.js"],
       "env": {
         "browser": true,
@@ -35,7 +35,7 @@
         "node": true
       }
     },
-		{
+   {
       "files": [
         "./packages/d3fc-chart/src/**/*.js",
         "./packages/d3fc-element/src/**/*.js"
@@ -57,7 +57,7 @@
         "node": true
       }
     },
-		{
+    {
       "files": ["./packages/d3fc-site/src/**/*.js"],
       "env": {
         "browser": true
@@ -68,8 +68,42 @@
         "$": "readable"
       }
     },
-		{
-      "files": ["./scripts/**/*.js"],
+    {
+      "files": [
+        "./packages/d3fc-webgl/src/**/*.js",
+        "./scripts/**/*.js"
+      ],
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"
+      ]
+    },
+    {
+      "files": ["./packages/d3fc-webgl/examples/**/*.js"],
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "env": {
+        "browser": true
+      },
+      "globals": {
+        "fc": "readable",
+        "d3": "readable"
+      },
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"    
+      ]
+    },
+    {
+      "files": ["./packages/d3fc-webgl/test/**/*.js"],
+      "env": {
+        "browser": true,
+        "jasmine": true,
+        "node": true
+      },
       "extends": [
         "semistandard",
         "plugin:prettier/recommended",
