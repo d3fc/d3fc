@@ -27,8 +27,8 @@ export default () => {
         yScale.glScale.coordinate(1);
 
         const accessor = getAccessors();
-
-        const points = new Float32Array(filteredData.length * 3);
+        const numComponents = 3;
+        const points = new Float32Array(filteredData.length * numComponents);
         let pi = 0;
         filteredData.forEach((d, i) => {
             const sizeFn = typeof size === 'function' ? size : () => size;
