@@ -37,6 +37,17 @@ export default () => {
         program.apply(xScale);
         program.apply(yScale);
         decorate();
+
+        if (typeof program.fill === 'function') {
+            program.fill(program);
+        }
+        if (typeof program.stroke === 'function') {
+            program.stroke(program);
+        }
+        if (typeof program.antialias === 'function') {
+            program.antialias(program);
+        }
+
         drawFn();
     };
 

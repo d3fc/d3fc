@@ -44,6 +44,10 @@ export default () => {
         draw.xScale(xScale.glScale);
         draw.yScale(yScale.glScale);
 
+        program.fill = circleFill();
+        program.stroke = circleStroke();
+        program.antialias = circleAntiAlias();
+
         draw.decorate(() => base.decorate()(program, filteredData, 0));
         draw();
     };
