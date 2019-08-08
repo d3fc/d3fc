@@ -1,6 +1,6 @@
-import shaderBuilder, { vertexShaderBase, fragmentShaderBase } from './shaderBuilder';
-import * as vertexShaderSnippets from './vertexShaderSnippets';
-import * as fragmentShaderSnippets from './fragmentShaderSnippets';
+import shaderBuilder, { vertexShaderBase, fragmentShaderBase } from '../../shaderBuilder';
+import * as vertexShaderSnippets from '../../vertexShaderSnippets';
+import * as fragmentShaderSnippets from '../../fragmentShaderSnippets';
 
 export default () => {
     const vertexShader = shaderBuilder(vertexShaderBase);
