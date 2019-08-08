@@ -42,7 +42,7 @@
     "@d3fc/d3fc-series": "^4.0.18",
     "@d3fc/d3fc-shape": "^5.0.8",
     "@d3fc/d3fc-technical-indicator": "^7.0.24",
-    "@d3fc/d3fc-webgl": "^1.0.0"
+    "@d3fc/d3fc-webgl": "^0.0.1"
   },
   "devDependencies": {
     "@d3fc/d3fc-scripts": "^2.0.5"

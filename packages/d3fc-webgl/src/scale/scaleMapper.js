@@ -8,6 +8,8 @@ export default (scale) => {
     let glScale = null;
     const scaleCopyString = scale.copy.toString();
 
+    // compare the stringified 'copy' function of the scale to
+    // determine the scale type.
     if (scaleCopyString === d3Scale.scaleLinear().copy.toString()) {
         glScale = glScaleLinear()
             .domain(scale.domain());

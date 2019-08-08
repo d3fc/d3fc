@@ -11,8 +11,10 @@ export default () => {
     let yScale = glScaleBase();
     let decorate = () => {};
 
+    const vertexAttribute = 'aVertexPosition';
+
     const firstDraw = () => {
-        program.buffers().attribute('aVertexPosition', attributeBuilder(data));
+        program.buffers().attribute(vertexAttribute, attributeBuilder(data));
 
         context.enable(context.BLEND);
         context.blendFuncSeparate(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA, context.ONE, context.ONE_MINUS_SRC_ALPHA);
@@ -23,7 +25,7 @@ export default () => {
 
     const redraw = () => {
         if (changed) {
-            program.buffers().attribute('aVertexPosition').data(data);
+            program.buffers().attribute(vertexAttribute).data(data);
         }
 
         program(context);

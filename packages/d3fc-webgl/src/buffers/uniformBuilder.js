@@ -22,6 +22,8 @@ export default (_data) => {
             case 4:
                 gl.uniform4fv(loc, data);
                 break;
+            default:
+                throw new Error(`Uniform supports up to 4 elements. ${data.length} provided.`);
             }
         } else {
             gl.uniform1f(loc, data);
