@@ -16,3 +16,4 @@ export * from '@d3fc/d3fc-pointer';
 export * from '@d3fc/d3fc-group';
 export * from '@d3fc/d3fc-chart';
 export * from '@d3fc/d3fc-brush';
+export * from '@d3fc/d3fc-webgl';

@@ -100,3 +100,22 @@ series.forEach(function(s, i) {
             ctx.fillStyle = color(i);
         })(s);
 });
+
+var webgl = d3.select('#stacked-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglBarSeries = fc.seriesWebglBar()
+    .xScale(x)
+    .yScale(y)
+    .crossValue(function(d) { return d.data.State; })
+    .mainValue(function(d) { return d[1]; })
+    .baseValue(function(d) { return d[0]; })
+    .context(gl);
+series.forEach(function(s, i) {
+    webglBarSeries
+        .decorate((program) => {
+            fc.barFill().color(color(i))(program);
+        })(s);
+});
