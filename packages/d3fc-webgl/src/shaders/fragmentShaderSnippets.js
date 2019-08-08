@@ -25,5 +25,5 @@ export const circleEdge = {
     header: `uniform vec4 uEdgeColor;
              uniform float uEdgeSize;`,
     body: `float sEdge = smoothstep(vSize - (2.0 + uEdgeSize), vSize - uEdgeSize, distance * vSize);
-           gl_FragColor.rgb = (uEdgeColor.rgb * sEdge) + ((1.0 - sEdge) * gl_FragColor.rgb);`
+           gl_FragColor = (uEdgeColor * sEdge) + ((1.0 - sEdge) * gl_FragColor);`
 };

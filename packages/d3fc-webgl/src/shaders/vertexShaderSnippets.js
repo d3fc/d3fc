@@ -16,7 +16,7 @@ export const multiColor = {
 
 export const point = {
     header: `varying float vSize;`,
-    body: `vSize = aVertexPosition.z;
+    body: `vSize = 2.0 * sqrt(aVertexPosition.z / 3.14159);
            gl_PointSize = vSize;
            gl_Position = vec4(aVertexPosition.xy, 0, 1);`
 };

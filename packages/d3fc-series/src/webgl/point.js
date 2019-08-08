@@ -1,12 +1,12 @@
-import { glDraw, circlePointShader } from '@d3fc/d3fc-webgl';
+import { glDraw, circlePointShader, circleFill, circleStroke, circleAntiAlias } from '@d3fc/d3fc-webgl';
 import xyBase from '../xyBase';
-import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
+import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 import scaleMapper from '@d3fc/d3fc-webgl/src/scale/scaleMapper';
 
 export default () => {
     let context = null;
     const base = xyBase();
-    let size = 70;
+    let size = 64;
 
     let draw = glDraw();
 
@@ -34,7 +34,7 @@ export default () => {
             const sizeFn = typeof size === 'function' ? size : () => size;
             points[pi++] = xScale.scale(accessor.x(d, i));
             points[pi++] = yScale.scale(accessor.y(d, i));
-            points[pi++] = sizeFn(d);
+            points[pi++] = sizeFn(d, i);
         });
 
         program.mode(context.POINTS);
@@ -43,6 +43,7 @@ export default () => {
         draw.data(points);
         draw.xScale(xScale.glScale);
         draw.yScale(yScale.glScale);
+
         draw.decorate(() => base.decorate()(program, filteredData, 0));
         draw();
     };
