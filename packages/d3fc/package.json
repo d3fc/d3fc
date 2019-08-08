@@ -42,7 +42,8 @@
     "@d3fc/d3fc-sample": "^4.0.9",
     "@d3fc/d3fc-series": "^4.0.27",
     "@d3fc/d3fc-shape": "^5.0.17",
-    "@d3fc/d3fc-technical-indicator": "^7.0.33"
+    "@d3fc/d3fc-technical-indicator": "^7.0.33",
+    "@d3fc/d3fc-webgl": "^1.0.0"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^3.0.0",

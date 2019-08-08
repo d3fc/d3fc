@@ -20,6 +20,7 @@ export default (...args) => {
     let yAxisWidth = functor(null);
     let yOrient = functor('right');
     let xOrient = functor('bottom');
+    let webglPlotArea = null;
     let canvasPlotArea = null;
     let svgPlotArea = null;
     let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
@@ -29,7 +30,8 @@ export default (...args) => {
     let decorate = () => { };
 
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
-    const canvasDataJoin = dataJoin('d3fc-canvas', 'plot-area');
+    const webglDataJoin = dataJoin('d3fc-canvas', 'gl-plot-area')
+    const canvasDataJoin = dataJoin('d3fc-canvas', 'canvas-plot-area');
     const svgDataJoin = dataJoin('d3fc-svg', 'plot-area');
     const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis')
         .key(d => d);
@@ -68,7 +70,20 @@ export default (...args) => {
                 .attr('class', d => `y-label ${d}-label`)
                 .text(yLabel(data));
 
+            webglDataJoin(container, webglPlotArea ? [data] : [])
+                .classed('plot-area', true)
+                .on('draw', (d, i, nodes) => {
+                    const canvas = select(nodes[i])
+                        .select('canvas')
+                        .node();
+                    webglPlotArea.context(canvas.getContext('webgl'))
+                        .xScale(xScale)
+                        .yScale(yScale);
+                    webglPlotArea(d);
+                });
+
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
+                .classed('plot-area', true)
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])
                         .select('canvas')
@@ -204,6 +219,13 @@ export default (...args) => {
             return yAxisWidth;
         }
         yAxisWidth = functor(args[0]);
+        return cartesian;
+    };
+    cartesian.webglPlotArea = (...args) => {
+        if (!args.length) {
+            return webglPlotArea;
+        }
+        webglPlotArea = args[0];
         return cartesian;
     };
     cartesian.canvasPlotArea = (...args) => {
