@@ -69,7 +69,41 @@
       }
     },
 		{
-      "files": ["./scripts/**/*.js"],
+      "files": [
+        "./packages/d3fc-webgl/src/**/*.js",
+        "./scripts/**/*.js"
+      ],
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"
+      ]
+    },
+    {
+      "files": ["./packages/d3fc-webgl/examples/**/*.js"],
+      "parserOptions": {
+        "sourceType": "script"
+      },
+      "env": {
+        "browser": true
+      },
+      "globals": {
+        "fc": "readable",
+        "d3": "readable"
+      },
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"    
+      ]
+    },
+		{
+      "files": ["./packages/d3fc-webgl/test/**/*.js"],
+      "env": {
+        "browser": true,
+        "jasmine": true,
+        "node": true
+      },
       "extends": [
         "semistandard",
         "plugin:prettier/recommended",
