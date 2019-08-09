@@ -105,9 +105,8 @@ export default () => {
         gl.linkProgram(program);
 
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.log(gl.getProgramInfoLog(program));
             gl.deleteProgram(program);
-            return null;
+            throw new Error(`Failed to link program : ${gl.getProgramInfoLog(program)}`);
         }
 
         return program;
@@ -119,9 +118,8 @@ export default () => {
         gl.compileShader(shader);
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.log(gl.getShaderInfoLog(shader));
             gl.deleteShader(shader);
-            return null;
+            throw new Error(`Failed to compile shader : ${gl.getShaderInfoLog(shader)}`);
         }
 
         return shader;
