@@ -24,6 +24,6 @@ export const seriesColor = {
 export const circleEdge = {
     header: `uniform vec4 uEdgeColor;
              uniform float uEdgeSize;`,
-    body: `float sEdge = smoothstep(vSize - (2.0 + uEdgeSize), vSize - uEdgeSize, distance * vSize);
+    body: `float sEdge = smoothstep(vSize - uEdgeSize - 2.0, vSize - uEdgeSize, distance * (vSize + uEdgeSize));
            gl_FragColor = (uEdgeColor * sEdge) + ((1.0 - sEdge) * gl_FragColor);`
 };
