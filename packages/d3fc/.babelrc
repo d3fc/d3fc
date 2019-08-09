@@ -1,10 +1,7 @@
 {
-  "presets": [
-    [
-      "env"
-    ]
-  ],
+  "presets": ["env"],
   "plugins": [
-    "babel-plugin-transform-custom-element-classes"
+    "babel-plugin-transform-custom-element-classes",
+    "external-helpers"
   ]
 }

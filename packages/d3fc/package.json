@@ -4,8 +4,9 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
-    "bundle": "d3fc-scripts bundle --include-d3fc",
-    "test": "d3fc-scripts test --include-d3fc"
+    "start": "rollup -c dev.rollup.config.js --watch",
+    "bundle": "rollup -c",
+    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json"
   },
   "repository": {
     "type": "git",
@@ -41,9 +42,13 @@
     "@d3fc/d3fc-sample": "^4.0.8",
     "@d3fc/d3fc-series": "^4.0.18",
     "@d3fc/d3fc-shape": "^5.0.8",
-    "@d3fc/d3fc-technical-indicator": "^7.0.24"
+    "@d3fc/d3fc-technical-indicator": "^7.0.24",
+    "nollup": "^0.6.3"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5"
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "rollup-plugin-livereload": "^1.0.1",
+    "rollup-plugin-progress": "^1.1.1",
+    "rollup-plugin-serve": "^1.0.1"
   }
 }

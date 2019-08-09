@@ -1,7 +1,3 @@
-node_modules
-.git
-.npm
-build
 site/dist/*
 *log
 site/src/api

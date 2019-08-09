@@ -17,14 +17,14 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test",
+    "bundle": "rollup -c ../../util/rollup.config.js",
+    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json",
     "site": "npm run test && mkdirp site/lib && browserify site/demo.js -o site/lib/bundle.js",
     "dev": "npm run site && watch -p '{site,src,test}/**/*.js' -c 'npm run site'",
-    "deploy-site": "npm run site && bash ./site/deploy.sh"
+    "deploy-site": "npm run site && bash ./site/deploy.sh",
+    "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5",
     "browserify": "^13.0.1",
     "d3": "^4.1.1",
     "topojson": "^2.0.0",

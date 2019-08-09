@@ -16,11 +16,12 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test"
+    "bundle": "rollup -c ../../util/rollup.config.js",
+    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json",
+    "lint": "eslint src/**/*.js",
+    "screenshots": "node ../../util/screenshot.js"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5",
     "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",
     "webshot": "^0.18.0"

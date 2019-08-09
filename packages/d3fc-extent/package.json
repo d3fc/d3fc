@@ -19,11 +19,11 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test"
+    "bundle": "rollup -c ../../util/rollup.config.js",
+    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json",
+    "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5",
     "ms": "^1.0.0"
   },
   "dependencies": {
