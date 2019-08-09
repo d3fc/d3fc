@@ -36,3 +36,16 @@ var canvasLine = fc.seriesCanvasPoint()
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });
 canvasLine(data);
+
+var webgl = d3.select('#point-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglPoint = fc.seriesWebglPoint()
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(gl)
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; });
+webglPoint(data);
