@@ -25,6 +25,15 @@ npx lerna run bundle --since --concurrency 1
 
 This uses `lerna run` to execute the `bundle` run script for all packages that have been modified (or have modified dependencies).
 
+To start developing packages, it is recommended that you run 
+
+~~~
+npm start
+~~~
+
+from the project root, which will open a development sandbox that is automatically updated when you change your package.
+
+
 Releases are managed via CI and [semantic release](https://github.com/semantic-release/semantic-release).
 
 ## License

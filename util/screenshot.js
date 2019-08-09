@@ -67,12 +67,12 @@ const server = http.createServer(function(req, res) {
 server.listen(port, () =>
   takeScreenshots()
     .then(() => {
-        console.error('Screenshots complete 📷');
+        console.log('Screenshots complete 📷');
         server.close();
     })
     .catch(err => {
         if (err) {
-            console.error('Screenshots failed - ', err);
+            console.error('Screenshots failed ❌ ', err);
         }
         server.close();
     })
