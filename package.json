@@ -5,6 +5,8 @@
   "scripts": {
     "postinstall": "./node_modules/.bin/lerna bootstrap",
     "publish": "./node_modules/.bin/lerna publish --conventional-commits --message \"chore: publish\" --yes",
+    "bundle": "./node_modules/.bin/lerna run bundle --stream --concurrency 1",
+    "pretest": "./node_modules/.bin/lerna run bundle --stream --concurrency 1",
     "test": "./node_modules/.bin/lerna run test --stream --concurrency 1",
     "lint": "./node_modules/.bin/eslint **/*.js -c .eslintrc.json && ./node_modules/.bin/markdownlint **/*.md --ignore **/node_modules/**",
     "screenshots": "./node_modules/.bin/lerna run screenshots --stream --concurrency 1",
