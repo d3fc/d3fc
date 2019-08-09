@@ -23,7 +23,6 @@
     "screenshots": "node ../../util/screenshot.js"
   },
   "devDependencies": {
-    
     "babel-polyfill": "^6.16.0",
     "canvas": "2.3.1",
     "d3": "^4.3.0",
