@@ -17,8 +17,6 @@ export default () => {
         const filteredData = data.filter(base.defined());
         const program = draw.program();
 
-        program.numElements(filteredData.length);
-
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
@@ -52,7 +50,7 @@ export default () => {
         program.antialias = circleAntiAlias();
 
         draw.decorate(() => base.decorate()(program, filteredData, 0));
-        draw();
+        draw(filteredData.length);
     };
 
     function getAccessors() {

@@ -19,7 +19,10 @@ export default () => {
     program.vertexShader(shaderBuilder.vertex());
     program.fragmentShader(shaderBuilder.fragment());
 
-    const draw = () => {
+    const draw = (numPoints) => {
+        if (numPoints !== undefined) {
+            program.numElements(numPoints);
+        }
         program.mode(context.POINTS);
 
         xScale.coordinate(0);
@@ -29,6 +32,7 @@ export default () => {
 
         decorate();
 
+        // this has problems if we don't reset the shaders beforehand -  a good candidate for upsert?
         if (typeof program.fill === 'function') {
             program.fill(program);
         }
