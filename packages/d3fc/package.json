@@ -4,9 +4,9 @@
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
-    "start": "rollup -c dev.rollup.config.js --watch",
-    "bundle": "rollup -c",
-    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json"
+    "start": "npx rollup -c --environment BUILD:dev --watch",
+    "bundle": "npx rollup -c",
+    "test": "npx jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json"
   },
   "repository": {
     "type": "git",
