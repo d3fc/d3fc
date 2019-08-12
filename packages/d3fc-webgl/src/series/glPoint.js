@@ -19,9 +19,10 @@ export default () => {
     program.vertexShader(shaderBuilder.vertex());
     program.fragmentShader(shaderBuilder.fragment());
 
-    const draw = () => {
-        context.viewport(0, 0, context.canvas.width, context.canvas.height);
-
+    const draw = (numPoints) => {
+        if (numPoints !== undefined) {
+            program.numElements(numPoints);
+        }
         program.mode(context.POINTS);
 
         xScale.coordinate(0);
@@ -30,6 +31,17 @@ export default () => {
         program.apply(yScale);
 
         decorate();
+
+        // this has problems if we don't reset the shaders beforehand -  a good candidate for upsert?
+        if (typeof program.fill === 'function') {
+            program.fill(program);
+        }
+        if (typeof program.stroke === 'function') {
+            program.stroke(program);
+        }
+        if (typeof program.antialias === 'function') {
+            program.antialias(program);
+        }
 
         program(context);
     };
