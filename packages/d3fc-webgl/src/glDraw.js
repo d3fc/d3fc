@@ -1,52 +1,18 @@
-import attributeBuilder from './buffers/attributeBuilder';
 import glScaleBase from './scale/glScaleBase';
 import programBuilder from './program/programBuilder';
 
 export default () => {
-    let data = null;
     let context = null;
-    let changed = false;
     let program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const vertexAttribute = 'aVertexPosition';
-
-    const firstDraw = () => {
-        program.buffers().attribute(vertexAttribute, attributeBuilder(data));
-
-        context.enable(context.BLEND);
-        context.blendFuncSeparate(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA, context.ONE, context.ONE_MINUS_SRC_ALPHA);
-
-        program(context);
-        drawFn = redraw;
-    };
-
-    const redraw = () => {
-        if (changed) {
-            program.buffers().attribute(vertexAttribute).data(data);
-        }
-
-        program(context);
-    };
-
-    let drawFn = firstDraw;
     const draw = () => {
         context.viewport(0, 0, context.canvas.width, context.canvas.height);
         program.apply(xScale);
         program.apply(yScale);
         decorate();
-        drawFn();
-    };
-
-    draw.data = (...args) => {
-        if (!args.length) {
-            return data;
-        }
-        data = args[0];
-        changed = true;
-        return draw;
     };
 
     draw.decorate = (...args) => {

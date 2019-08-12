@@ -1,4 +1,4 @@
-import { glDraw, circlePointShader } from '@d3fc/d3fc-webgl';
+import { glPoint } from '@d3fc/d3fc-webgl';
 import xyBase from '../xyBase';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import scaleMapper from '@d3fc/d3fc-webgl/src/scale/scaleMapper';
@@ -8,39 +8,33 @@ export default () => {
     const base = xyBase();
     let size = 70;
 
-    let draw = glDraw();
+    let draw = glPoint();
 
     const point = (data) => {
         const filteredData = data.filter(base.defined());
         const program = draw.program();
-
-        const shaderBuilder = circlePointShader();
-        program.vertexShader(shaderBuilder.vertex());
-        program.fragmentShader(shaderBuilder.fragment());
 
         program.numElements(filteredData.length);
 
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
-        xScale.glScale.coordinate(0);
-        yScale.glScale.coordinate(1);
-
         const accessor = getAccessors();
-        const numComponents = 3;
-        const points = new Float32Array(filteredData.length * numComponents);
-        let pi = 0;
+
+        const x = new Float32Array(filteredData.length);
+        const y = new Float32Array(filteredData.length);
+        const s = new Float32Array(filteredData.length);
         filteredData.forEach((d, i) => {
             const sizeFn = typeof size === 'function' ? size : () => size;
-            points[pi++] = xScale.scale(accessor.x(d, i));
-            points[pi++] = yScale.scale(accessor.y(d, i));
-            points[pi++] = sizeFn(d);
+            x[i] = xScale.scale(accessor.x(d, i));
+            y[i] = yScale.scale(accessor.y(d, i));
+            s[i] = sizeFn(d);
         });
 
-        program.mode(context.POINTS);
-
         draw.context(context);
-        draw.data(points);
+        draw.x(x)
+            .y(y)
+            .size(s);
         draw.xScale(xScale.glScale);
         draw.yScale(yScale.glScale);
         draw.decorate(() => base.decorate()(program, filteredData, 0));
