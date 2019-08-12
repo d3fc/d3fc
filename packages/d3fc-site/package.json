@@ -4,7 +4,7 @@
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
-    "lint": "eslint src/**/*.js",
+    "lint": "npx eslint src/**/*.js",
     "start": "npm run site",
     "site": "npm-run-all site:clean site:build site:styles site:copy",
     "site:dev": "cross-env NODE_ENV=dev npm-run-all site site:serve",

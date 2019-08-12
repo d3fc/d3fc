@@ -18,9 +18,9 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "rollup -c ../../scripts/rollup.config.js",
-    "test": " jasmine --config=../../scripts/jasmine.json",
-    "lint": "eslint src/**/*.js"
+    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+    "test": "npx jasmine --config=../../scripts/jasmine.json",
+    "lint": "npx eslint src/**/*.js"
   },
   "publishConfig": {
     "access": "public"
