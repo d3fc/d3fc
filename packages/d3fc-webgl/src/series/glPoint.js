@@ -20,8 +20,6 @@ export default () => {
     program.fragmentShader(shaderBuilder.fragment());
 
     const draw = () => {
-        context.viewport(0, 0, context.canvas.width, context.canvas.height);
-
         program.mode(context.POINTS);
 
         xScale.coordinate(0);
@@ -30,6 +28,16 @@ export default () => {
         program.apply(yScale);
 
         decorate();
+
+        if (typeof program.fill === 'function') {
+            program.fill(program);
+        }
+        if (typeof program.stroke === 'function') {
+            program.stroke(program);
+        }
+        if (typeof program.antialias === 'function') {
+            program.antialias(program);
+        }
 
         program(context);
     };

@@ -3,7 +3,7 @@ import uniformBuilder from '../../../buffers/uniformBuilder';
 
 export default() => {
     let color = [0.0, 0.0, 0.0, 1.0];
-    let width = 2.0;
+    let width = 1.0;
 
     const stroke = (program) => {
         program.fragmentShader()

@@ -1,4 +1,4 @@
-import { glPoint } from '@d3fc/d3fc-webgl';
+import { glPoint, circleFill, circleStroke, circleAntiAlias } from '@d3fc/d3fc-webgl';
 import xyBase from '../xyBase';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import scaleMapper from '@d3fc/d3fc-webgl/src/scale/scaleMapper';
@@ -6,7 +6,7 @@ import scaleMapper from '@d3fc/d3fc-webgl/src/scale/scaleMapper';
 export default () => {
     let context = null;
     const base = xyBase();
-    let size = 70;
+    let size = 64;
 
     let draw = glPoint();
 
@@ -34,12 +34,23 @@ export default () => {
             s[i] = sizeFn(d);
         });
 
+        // set some sensible parameters for viewport and blend function
+        // this could be moved to some optional utilities in future?
+        context.viewport(0, 0, context.canvas.width, context.canvas.height);
+        context.enable(context.BLEND);
+        context.blendFuncSeparate(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA, context.ONE, context.ONE_MINUS_SRC_ALPHA);
+
         draw.context(context);
         draw.x(x)
             .y(y)
             .size(s);
         draw.xScale(xScale.glScale);
         draw.yScale(yScale.glScale);
+
+        program.fill = circleFill();
+        program.stroke = circleStroke();
+        program.antialias = circleAntiAlias();
+
         draw.decorate(() => base.decorate()(program, filteredData, 0));
         draw();
     };
