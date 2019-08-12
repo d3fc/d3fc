@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.21"></a>
+## [4.0.21](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.20...@d3fc/d3fc-series@4.0.21) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-series
+
 <a name="4.0.20"></a>
 ## [4.0.20](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.19...@d3fc/d3fc-series@4.0.20) (2019-08-12)
 
