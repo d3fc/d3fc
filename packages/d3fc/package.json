@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npx rollup -c --environment BUILD:dev --watch",
     "bundle": "npx rollup -c",
-    "test": "npx jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json"
+    "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "repository": {
     "type": "git",
