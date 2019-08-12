@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.61"></a>
+## [0.0.61](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.60...@d3fc/d3fc-site@0.0.61) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
+<a name="0.0.60"></a>
+## [0.0.60](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.59...@d3fc/d3fc-site@0.0.60) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
+<a name="0.0.59"></a>
+## [0.0.59](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.58...@d3fc/d3fc-site@0.0.59) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
+<a name="0.0.58"></a>
+## [0.0.58](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.57...@d3fc/d3fc-site@0.0.58) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
+<a name="0.0.57"></a>
+## [0.0.57](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.56...@d3fc/d3fc-site@0.0.57) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
+<a name="0.0.56"></a>
+## [0.0.56](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.55...@d3fc/d3fc-site@0.0.56) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-site
+
 <a name="0.0.55"></a>
 ## [0.0.55](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.54...@d3fc/d3fc-site@0.0.55) (2019-07-03)
 

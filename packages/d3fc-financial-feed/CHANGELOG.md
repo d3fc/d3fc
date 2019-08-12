@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="6.0.2"></a>
+## [6.0.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-financial-feed@6.0.1...@d3fc/d3fc-financial-feed@6.0.2) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-financial-feed
+
 <a name="6.0.1"></a>
 ## [6.0.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-financial-feed@6.0.0...@d3fc/d3fc-financial-feed@6.0.1) (2019-05-28)
 

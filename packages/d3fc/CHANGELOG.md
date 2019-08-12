@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="14.0.50"></a>
+## [14.0.50](https://github.com/d3fc/d3fc/compare/d3fc@14.0.49...d3fc@14.0.50) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package d3fc
+
+<a name="14.0.49"></a>
+## [14.0.49](https://github.com/d3fc/d3fc/compare/d3fc@14.0.48...d3fc@14.0.49) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package d3fc
+
+<a name="14.0.48"></a>
+## [14.0.48](https://github.com/d3fc/d3fc/compare/d3fc@14.0.47...d3fc@14.0.48) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package d3fc
+
+<a name="14.0.47"></a>
+## [14.0.47](https://github.com/d3fc/d3fc/compare/d3fc@14.0.46...d3fc@14.0.47) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package d3fc
+
+<a name="14.0.46"></a>
+## [14.0.46](https://github.com/d3fc/d3fc/compare/d3fc@14.0.45...d3fc@14.0.46) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package d3fc
+
+<a name="14.0.45"></a>
+## [14.0.45](https://github.com/d3fc/d3fc/compare/d3fc@14.0.44...d3fc@14.0.45) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package d3fc
+
 <a name="14.0.44"></a>
 ## [14.0.44](https://github.com/d3fc/d3fc/compare/d3fc@14.0.43...d3fc@14.0.44) (2019-06-28)
 
