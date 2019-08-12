@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.0.14"></a>
+## [3.0.14](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-random-data@3.0.13...@d3fc/d3fc-random-data@3.0.14) (2019-08-12)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-random-data
+
 <a name="3.0.13"></a>
 ## [3.0.13](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-random-data@3.0.12...@d3fc/d3fc-random-data@3.0.13) (2019-08-12)
 
