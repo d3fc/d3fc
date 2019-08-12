@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>d3fc</title>
+    <meta name="description" content="A collection of components that make it easy to build interactive charts with D3.">
+
+    <script src="https://d3fc.io/lib/browser.js"></script>
+    <script src="https://d3fc.io/lib/custom-event-polyfill.js"></script>
+    <script src="https://d3fc.io/lib/document-register-element.js"></script>
+    <script src="https://d3fc.io/lib/d3.min.js"></script>
+    <script src="https://d3fc.io/lib/jquery.min.js"></script>
+    <script src="https://d3fc.io/lib/bootstrap.min.js"></script>
+    <script src="../build/d3fc.js"></script>
+    <script src="https://d3fc.io/lib/d3-legend.min.js"></script>
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://d3fc.io/images/favicon-96x96.png" sizes="96x96">
+    <link rel="stylesheet" href="https://d3fc.io/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="canonical" href="https://d3fc.io/index.html" />
+  </head>
+  <body>
+    <div class="content">
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+          </div>
+      </nav>
+
+      <div class="jumbotron">
+  <div class="container">
+    <div class="row">
+        <img alt="d3fc" src="https://d3fc.io/images/logo.svg" />
+        <p class='developerNotice'>Developer Sandbox 👷‍️🖥️</p>
+    </div>
+  </div>
+</div>
+
+<div class="top-chart container">
+  <div class="row">
+    <div class="col-md-6">
+      <style>#stacked-chart {
+  position: relative;
+}
+
+#stacked-chart .legend {
+  position: absolute;
+  bottom: auto;
+  top: 50px;
+  left: auto;
+  right: 10px;
+  width: 360px;
+  height: 120px;
+}
+
+@media (max-width: 567px) {
+  #stacked-chart .legend {
+    visibility: hidden;
+  }
+}
+
+.legend text {
+  font-size: 9pt;
+}
+</style>
+      <a href="/examples/">
+        <div id='stacked-chart' class='chart large'></div>
+
+      </a>
+      <script type="text/javascript">
+    (function() {
+        d3.csv('https://d3fc.io/examples/stacked/data.csv').then(function(data) {
+  // manipulate the data into stacked series
+  var stack = d3.stack()
+    .keys(Object.keys(data[0]).filter(function(k) { return k !== 'Country'; }));
+  var series = stack(data);
+
+  var color = d3.scaleOrdinal(d3.schemeCategory10)
+    .domain(series.map(function(s) {
+      return s.key;
+    }));
+
+  var legend = d3.legendColor()
+    .shapeWidth(70)
+    .orient('horizontal')
+    .scale(color);
+
+  var barSeries = fc.seriesSvgBar()
+    .orient('horizontal')
+    .bandwidth(40)
+    .crossValue(function(d) { return d.data.Country; })
+    .mainValue(function(d) { return d[1]; })
+    .baseValue(function(d) { return d[0]; });
+
+  var multi = fc.seriesSvgMulti()
+    .mapping(function(data, index) { return data[index]; })
+    .series(series.map(function() { return barSeries; }))
+    .decorate(function(selection) {
+      selection.each(function(data, index, nodes) {
+        d3.select(this)
+          .selectAll('g.bar')
+          .attr('fill', color(series[index].key));
+      });
+    });
+
+  var xExtent = fc.extentLinear()
+    .accessors([function(a) {
+      return a.map(function(d) { return d[1]; });
+    }])
+    .pad([0, 1])
+    .padUnit('domain');
+
+  var chart = fc.chartCartesian(
+      d3.scaleLinear(),
+      d3.scalePoint())
+    .xDomain(xExtent(series))
+    .yDomain(data.map(function(entry) {
+      return entry.Country;
+    }))
+    .yOrient('left')
+    .yPadding([0.5])
+    .xLabel('Million tonnes of oil equivalent')
+    .chartLabel('2013 Energy Production')
+    .svgPlotArea(multi)
+    .decorate(function(selection, data, index) {
+      // append an svg for the d3-legend
+      selection.enter()
+        .append('svg')
+        .attr('class', 'legend');
+
+      // render the legend
+      selection.select('svg.legend')
+        .call(legend);
+    });
+
+  d3.select('#stacked-chart')
+    .text(null) // Remove the loading text from the container
+    .datum(series)
+    .call(chart);
+
+});
+
+    })();
+</script>
+
+    </div>
+    <div class="col-md-6">
+      <style>
+      #bubble-chart .legend {
+  position: absolute;
+  bottom: 40px;
+  right: 0;
+  left: auto;
+  width: 170px;
+  height: 110px;
+}
+
+#bubble-chart {
+  position: relative;
+}
+
+#bubble-chart .point {
+  stroke: transparent;
+}
+
+#bubble-chart text.label {
+  stroke: none;
+  fill: #000;
+  font: 12px sans-serif;
+}
+
+      </style>
+      <a href="/examples/">
+        <div id='bubble-chart' class='chart large'>Loading...</div>
+
+      </a>
+      <script type="text/javascript">
+    (function() {
+        d3.json('https://d3fc.io/examples/bubble/data.json').then(function(data) {
+  // convert string properties to numbers
+  data.forEach(function(d) {
+    d.income = Number(d.income);
+    d.population = Number(d.population);
+    d.lifeExpectancy = Number(d.lifeExpectancy);
+  });
+
+  var regions = d3.set(data.map(function(d) { return d.region; }));
+  var color = d3.scaleOrdinal(d3.schemeCategory10)
+    .domain(regions.values());
+
+  var legend = d3.legendColor()
+    .scale(color);
+
+  var size = d3.scaleLinear().range([20, 800])
+    .domain(fc.extentLinear()
+    .accessors([function(d) { return d.population; }])(data));
+
+  var pointSeries = fc.seriesSvgPoint()
+      .crossValue(function(d) { return d.income; })
+      .mainValue(function(d) { return d.lifeExpectancy; })
+      .size(function(d) { return size(d.population); })
+      .decorate(function(sel) {
+        sel.enter()
+            .attr('fill', function(d) { return color(d.region); });
+      });
+
+  var chart = fc.chartCartesian(
+                d3.scaleLog(),
+                d3.scaleLinear()
+              )
+      .xDomain(fc.extentLinear()
+        .accessors([function(d) { return d.income; }])(data))
+      .yDomain(fc.extentLinear()
+        .accessors([function(d) { return d.lifeExpectancy; }])(data))
+      .chartLabel('The Wealth & Health of Nations')
+      .xLabel('Income (dollars)')
+      .yLabel('Life expectancy (years)')
+      .xTicks(2, d3.format(',d'))
+      .yOrient('left')
+      .svgPlotArea(pointSeries)
+      .decorate(function(selection) {
+        // append an svg for the d3-legend
+        selection.enter()
+          .append('svg')
+          .attr('class', 'legend');
+
+        // render the legend
+        selection.select('.legend')
+          .call(legend);
+      });
+
+  d3.select('#bubble-chart')
+      // remove the loading text from the container
+      .text(null)
+      .datum(data)
+      .call(chart);
+});
+
+    })();
+</script>
+
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <img alt="module" src="https://d3fc.io/images/modular.png" />
+        <h3>Modular</h3>
+        <p>D3FC is a collection of modules that are designed to make it easier to build charts with D3, extending its vocabulary from SVG paths,
+          rectangles and groups, into series, annotation and chart. You can use the modules independently, or you can use them together
+          as part of the default bundle.</p>
+      </div>
+      <div class="col-sm-4">
+        <img alt="responsive" src="https://d3fc.io/images/responsive.png" />
+        <h3>Responsive</h3>
+        <p>With D3FC, building responsive charts that re-render as their size changes is straightforward. For simple charts,
+        use the <a href="/api/chart-api.html">Cartesian chart</a> component, or create more complex charting
+        layouts with <a href="/api/element-api.html">d3fc-element</a>.</p>
+      </div>
+      <div class="col-sm-4">
+        <img alt="canvas / svg" src="https://d3fc.io/images/canvas-svg.png" />
+        <h3>Canvas / SVG</h3>
+        <p>D3(v4) introduced d3-path, which is an abstraction over SVG and Canvas, allowing path generators to write to both. D3FC
+        embraces this pattern throughout our components, all of the <a href="/api/series-api.html">d3fc-series</a> components
+        support both Canvas and SVG rendering.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <img alt="transitions" src="https://d3fc.io/images/transitions.png" />
+        <h3>Transitions</h3>
+        <p>Creating D3 charts where each of the elements transitions correctly is a challenge. All of the D3FC components have been built
+        with <a href="/introduction/transitions.html">transitions support</a> included.</p>
+      </div>
+      <div class="col-sm-4">
+        <img alt="decorate" src="https://d3fc.io/images/decorate.png" />
+        <h3>Decorate</h3>
+        <p>Most chart APIs are complex and expansive in order to provide flexibility. D3FC takes a fundamentally different approach, where the underlying
+        power of the data-join is exposed via the <a href="/introduction/decorate-pattern.html">decorate pattern</a>.</p>
+      </div>
+      <div class="col-sm-4">
+        <img alt="composition" src="https://d3fc.io/images/composition.png" />
+        <h3>Composition</h3>
+        <p>D3FC favours simple interfaces and composition. If the interface for a component does not fulfil your needs, just open it up, look at the code
+        and make use of the lower-level components that it was built with.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="top-chart container">
+  <div class="row">
+    <div class="col-md-6">
+      <style>
+      
+      </style>
+      <a href="/examples/">
+        <div id='simple-chart' class='chart large'></div>
+
+      </a>
+      <script type="text/javascript">
+    (function() {
+        // create some test data
+var data = d3.range(50).map(function(d) {
+  return {
+    x: d / 4,
+    y: Math.sin(d / 4),
+    z: Math.cos(d / 4) * 0.7
+  };
+});
+
+var yExtent = fc.extentLinear()
+  .accessors([
+    function(d) { return d.y; },
+    function(d) { return d.z; }
+  ])
+  .pad([0.4, 0.4])
+  .padUnit('domain');
+
+var xExtent = fc.extentLinear()
+  .accessors([function(d) { return d.x; }]);
+
+// create a chart
+var chart = fc.chartCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear())
+  .yDomain(yExtent(data))
+  .yLabel('Sine / Cosine')
+  .yOrient('left')
+  .xDomain(xExtent(data))
+  .xLabel('Value')
+  .chartLabel('Sine/Cosine Line/Area Chart');
+
+// create a pair of series and some gridlines
+var sinLine = fc.seriesSvgLine()
+  .crossValue(function(d) { return d.x; })
+  .mainValue(function(d) { return d.y; })
+  .decorate(function(selection) {
+    selection.enter()
+      .style('stroke', 'purple');
+  });
+
+var cosLine = fc.seriesSvgArea()
+  .crossValue(function(d) { return d.x; })
+  .mainValue(function(d) { return d.z; })
+  .decorate(function(selection) {
+    selection.enter()
+      .style('fill', 'lightgreen')
+      .style('fill-opacity', 0.5);
+  });
+
+var gridlines = fc.annotationSvgGridline();
+
+// combine using a multi-series
+var multi = fc.seriesSvgMulti()
+  .series([gridlines, sinLine, cosLine]);
+
+chart.svgPlotArea(multi);
+
+// render
+d3.select('#simple-chart')
+  .datum(data)
+  .call(chart);
+
+    })();
+</script>
+
+    </div>
+    <div class="col-md-6">
+      <style>
+      .bollinger .area {
+  fill: #9cf;
+  fill-opacity: 0.5;
+}
+
+.bollinger .line {
+  stroke: #06c;
+}
+
+      </style>
+      <a href="/examples/">
+        <div id='streaming-chart' class='chart large'></div>
+
+      </a>
+      <script type="text/javascript">
+    (function() {
+        // create some test data
+const stream = fc.randomFinancial().stream();
+const data = stream.take(110);
+
+function renderChart() {
+  // add a new datapoint and remove an old one
+  data.push(stream.next());
+  data.shift();
+
+  const container = d3.select('#streaming-chart');
+
+  // Create and apply the bollinger algorithm
+  const bollingerAlgorithm = fc.indicatorBollingerBands()
+    .value(function(d) {
+      return d.close;
+    });
+  const bollingerData = bollingerAlgorithm(data);
+  const mergedData = data.map(function(d, i) {
+    return Object.assign({}, d, {
+      bollinger: bollingerData[i]
+    });
+  });
+
+  // Offset the range to include the full bar for the latest value
+  const DAY_MS = 1000 * 60 * 60 * 24;
+  const xTicks = $('#streaming-chart').width() >= 700 ? 10 : 5;
+  const xExtent = fc.extentDate()
+    .accessors([function(d) {
+      return d.date;
+    }])
+    .padUnit('domain')
+    .pad([DAY_MS * -bollingerAlgorithm.period()(mergedData), DAY_MS]);
+
+  // ensure y extent includes the bollinger bands
+  const yExtent = fc.extentLinear()
+    .accessors([
+      function(d) {
+        return Math.max(d.bollinger.upper, d.high);
+      },
+      function(d) {
+        return Math.min(d.bollinger.lower, d.low);
+      }
+    ]);
+
+  // create a chart
+  const chart = fc.chartCartesian(
+      d3.scaleTime(),
+      d3.scaleLinear()
+    )
+    .xDomain(xExtent(mergedData))
+    .xTicks(xTicks)
+    .yDomain(yExtent(mergedData))
+    .chartLabel('Streaming Candlestick');
+
+  // Create the gridlines and series
+  const gridlines = fc.annotationSvgGridline().xTicks(xTicks);
+  const candlestick = fc.seriesSvgCandlestick();
+
+  const bollingerBands = function() {
+    const area = fc.seriesSvgArea()
+      .mainValue(function(d) {
+        return d.bollinger.upper;
+      })
+      .baseValue(function(d) {
+        return d.bollinger.lower;
+      });
+
+    const upperLine = fc.seriesSvgLine()
+      .mainValue(function(d) {
+        return d.bollinger.upper;
+      });
+
+    const averageLine = fc.seriesSvgLine()
+      .mainValue(function(d) {
+        return d.bollinger.average;
+      });
+
+    const lowerLine = fc.seriesSvgLine()
+      .mainValue(function(d) {
+        return d.bollinger.lower;
+      });
+
+    const crossValue = function(d) {
+      return d.date;
+    };
+    area.crossValue(crossValue);
+    upperLine.crossValue(crossValue);
+    averageLine.crossValue(crossValue);
+    lowerLine.crossValue(crossValue);
+
+    const bollingerMulti = fc.seriesSvgMulti()
+      .series([area, upperLine, lowerLine, averageLine])
+      .decorate(function(g, datum, index) {
+        g.enter()
+          .attr('class', function(_, i) {
+            return 'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i];
+          });
+      });
+
+    return bollingerMulti;
+  };
+
+  // add them to the chart via a multi-series
+  const multi = fc.seriesSvgMulti()
+    .series([gridlines, bollingerBands(), candlestick]);
+
+  chart.svgPlotArea(multi);
+
+  container
+    .style('margin-left', '20px')
+    .datum(mergedData)
+    .call(chart);
+}
+
+// re-render the chart every 200ms
+renderChart();
+
+if (window.intervalId) {
+  window.clearInterval(window.intervalId);
+}
+
+window.intervalId = setInterval(renderChart, 200);
+
+    })();
+</script>
+
+    </div>
+  </div>
+</div>
+
+
+    </div>
+    <footer>
+      <div class="container">
+        <p class="muted credit text-center">Project supported by <a href="http://www.scottlogic.com">Scott Logic</a>.</p>
+      </div>
+    </footer>
+  </body>
+</html>

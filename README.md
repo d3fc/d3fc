@@ -1,6 +1,11 @@
-# D3FC [![Build Status](https://travis-ci.org/d3fc/d3fc.svg?branch=master)](https://travis-ci.org/d3fc/d3fc) [![Semver](http://img.shields.io/SemVer/2.0.0.png)](http://semver.org/spec/v2.0.0.html) [![npm version](https://badge.fury.io/js/d3fc.svg)](https://badge.fury.io/js/d3fc)
+<p align="center">
+<img alt="D3FC Logo" src="https://d3fc.io/images/logo.svg" style="height:100px"/>
+<br/><br/>
+<a href="https://travis-ci.org/d3fc/d3fc"><img alt="Build status" src="https://travis-ci.org/d3fc/d3fc.svg?branch=master"/></a>
+<a href="https://badge.fury.io/js/d3fc"><img alt="npm version" src="https://badge.fury.io/js/d3fc.svg"/></a>
+</p> 
 
-A collection of components that make it easy to build interactive charts with D3.
+__A collection of components that make it easy to build interactive charts with D3.__
 
 ## Installation and Documentation
 
@@ -8,22 +13,28 @@ For details of installation and general usage, visit the [d3fc project webpage](
 
 ## Developing
 
-This project is a mono-repo that uses [Lerna](https://lernajs.io/) to manage dependencies between packages. To get started, run the following:
-
+This project is a mono-repo that uses [Lerna](https://lernajs.io/) to manage dependencies between packages. To get started, run:
 ~~~
 npm install
 npm test
 ~~~
 
-This install dependencies, and runs `lerna bootstrap` in order to manage the cross-dependencies between the various projects. The test script bundles all of the packages and runs the tests.
+<br/>
 
-When making changes to a package, you can either execute `npm run bundle` within the package folder to build just that package, or you can run the following from the project root:
-
+When making changes to a package, you can execute the following either from within the package folder to build just that package or from the project root to build all packages.
 ~~~
-npx lerna run bundle --since --concurrency 1
+npm run bundle
 ~~~
 
-This uses `lerna run` to execute the `bundle` run script for all packages that have been modified (or have modified dependencies).
+<br/>
+
+To open a development sandbox which is automatically updated when you save changes to source files, navigate to the project root and run
+~~~
+npm start
+~~~
+
+
+## Releases
 
 Releases are managed via CI and [semantic release](https://github.com/semantic-release/semantic-release).
 

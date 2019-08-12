@@ -1,5 +1,4 @@
 {
-  "extends": "../node_modules/@d3fc/d3fc-scripts/.eslintrc.json",
   "env": {
     "browser": true
   },

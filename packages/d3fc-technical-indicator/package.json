@@ -33,16 +33,16 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test",
-    "screenshot": "d3fc-scripts screenshot"
+    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+    "test": "npx jasmine --config=../../scripts/jasmine.json",
+    "lint": "npx eslint src/**/*.js",
+    "screenshots": "node ../../scripts/screenshot.js"
   },
   "devDependencies": {
     "@d3fc/d3fc-annotation": "^2.4.1",
     "@d3fc/d3fc-extent": "^3.1.4",
     "@d3fc/d3fc-random-data": "^3.0.8",
     "@d3fc/d3fc-rebind": "^5.0.7",
-    "@d3fc/d3fc-scripts": "^2.0.5",
     "@d3fc/d3fc-series": "^4.0.18",
     "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",

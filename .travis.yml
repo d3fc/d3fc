@@ -7,6 +7,11 @@ notifications:
   email: false
 node_js:
   - '10'
+
+script:
+  - npm run bundle
+  - npm test 
+
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 after_success:

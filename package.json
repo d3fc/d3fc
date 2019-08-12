@@ -5,7 +5,11 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "publish": "lerna publish --conventional-commits --message \"chore: publish\" --yes",
-    "test": "lerna run test --stream --concurrency 1"
+    "bundle": "lerna run bundle --stream --concurrency 1",
+    "test": "lerna run test --stream --concurrency 1",
+    "lint": "eslint **/*.js -c .eslintrc.json && markdownlint **/*.md --ignore **/node_modules/**",
+    "screenshots": "lerna run screenshots --stream --concurrency 1",
+    "start": "lerna run bundle && npm start --prefix ./packages/d3fc"
   },
   "repository": {
     "type": "git",
@@ -28,7 +32,9 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-custom-element-classes": "^0.1.0",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.26.0",
+    "babelrc-rollup": "^3.0.0",
     "command-line-args": "^3.0.1",
     "cross-spawn": "^5.0.1",
     "d3": "^5.7.0",
@@ -43,14 +49,14 @@
     "jasmine": "^2.4.1",
     "jsdom": "^9.4.1",
     "lerna": "^2.11.0",
-    "markdownlint": "^0.3.1",
+    "markdownlint": "^0.16.0",
+    "markdownlint-cli": "^0.17.0",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.5.2",
-    "rollup": "^0.37.2",
+    "puppeteer": "^1.19.0",
+    "rollup": "^1.19.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "serve-static": "^1.11.1",
-    "uglify-js": "^2.6.2",
-    "webshot": "^0.18.0"
+    "uglify-js": "^2.6.2"
   }
 }

@@ -17,14 +17,14 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test",
-    "site": "rollup -c site/rollup.config.js",
+    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+    "test": "npx jasmine --config=../../scripts/jasmine.json",
+    "site": "npx rollup -c site/rollup.config.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
-    "deploy-site": "npm run site && bash ./site/deploy.sh"
+    "deploy-site": "npm run site && bash ./site/deploy.sh",
+    "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5",
     "d3": "^4.11.0",
     "watch-cli": "^0.2.1"
   },

@@ -4,7 +4,8 @@
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
-    "test": "eslint src && npm run site",
+    "lint": "npx eslint src/**/*.js",
+    "start": "npm run site",
     "site": "npm-run-all site:clean site:build site:styles site:copy",
     "site:dev": "cross-env NODE_ENV=dev npm-run-all site site:serve",
     "site:styles": "node-sass src/style/styles.scss dist/styles.css",
@@ -33,7 +34,7 @@
   },
   "homepage": "https://d3fc.io",
   "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5",
+    
     "babel-cli": "^6.18.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-env": "^1.7.0",

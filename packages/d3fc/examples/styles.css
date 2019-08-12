@@ -1,0 +1,14 @@
+.content .developerNotice { 
+    font-family:monospace;
+    font-style: normal;
+    border: solid red 4px;
+    text-align: center;
+    width: 100%;
+    padding: 4px;
+    background:lightcoral;
+    color: black;
+}
+
+.jumbotron img {
+    width: 33%;
+}

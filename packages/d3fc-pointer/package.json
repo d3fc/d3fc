@@ -4,8 +4,9 @@
   "description": "Component which emits the current mouse or touch position over a selection",
   "main": "index.js",
   "scripts": {
-    "test": "d3fc-scripts test",
-    "bundle": "d3fc-scripts bundle"
+    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+    "test": "npx jasmine --config=../../scripts/jasmine.json",
+    "lint": "npx eslint src/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,6 @@
     "url": "https://github.com/d3fc/d3fc/issues"
   },
   "homepage": "https://github.com/d3fc/d3fc",
-  "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5"
-  },
   "dependencies": {
     "@d3fc/d3fc-rebind": "^5.0.7",
     "d3-dispatch": "^1.0.1",
