@@ -11,6 +11,9 @@ export default () => {
     let draw = glPoint();
 
     const point = (data) => {
+        // make sure we're starting with a fresh program
+        draw.initCircle();
+
         const filteredData = data.filter(base.defined());
         const program = draw.program();
 

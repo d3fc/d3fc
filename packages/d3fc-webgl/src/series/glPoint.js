@@ -34,6 +34,15 @@ export default () => {
         program(context);
     };
 
+    // we need this here so that point.js can clean the shaders before each decorate call
+    draw.initCircle = () => {
+        const shaderBuilder = circlePointShader();
+        program.vertexShader(shaderBuilder.vertex());
+        program.fragmentShader(shaderBuilder.fragment());
+
+        return draw;
+    };
+
     draw.x = (...args) => {
         const builder = program.buffers().attribute(xAttrib);
         if (builder) {
