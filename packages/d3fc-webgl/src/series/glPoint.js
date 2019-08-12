@@ -14,6 +14,7 @@ export default () => {
     const yAttrib = 'aYVertex';
     const sizeAttrib = 'aSize';
 
+    // we'll eventually want to switch this out depending on the symbol type for the series
     const shaderBuilder = circlePointShader();
     program.vertexShader(shaderBuilder.vertex());
     program.fragmentShader(shaderBuilder.fragment());
