@@ -10,9 +10,11 @@ export default () => {
     let buffers = bufferBuilder();
 
     const build = (gl) => {
-        if (newProgram(gl, program, vertexShader(), fragmentShader())) {
+        const vtx = vertexShader();
+        const frg = fragmentShader();
+        if (newProgram(gl, program, vtx, frg)) {
             gl.deleteProgram(program);
-            program = createProgram(gl, vertexShader(), fragmentShader());
+            program = createProgram(gl, vtx, frg);
         }
         gl.useProgram(program);
 
@@ -105,8 +107,11 @@ export default () => {
         gl.linkProgram(program);
 
         if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            const message = gl.getProgramInfoLog(program);
             gl.deleteProgram(program);
-            throw new Error(`Failed to link program : ${gl.getProgramInfoLog(program)}`);
+            throw new Error(`Failed to link program : ${message}
+            Vertex Shader : ${vertexShader}
+            Fragment Shader : ${fragmentShader}`);
         }
 
         return program;
@@ -118,8 +123,10 @@ export default () => {
         gl.compileShader(shader);
 
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            const message = gl.getShaderInfoLog(shader);
             gl.deleteShader(shader);
-            throw new Error(`Failed to compile shader : ${gl.getShaderInfoLog(shader)}`);
+            throw new Error(`Failed to compile shader : ${message}
+            Shader : ${source}`);
         }
 
         return shader;

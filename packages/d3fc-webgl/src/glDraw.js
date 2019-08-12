@@ -78,7 +78,7 @@ export default () => {
             return xScale;
         }
         xScale = args[0];
-        return xScale;
+        return draw;
     };
 
     draw.yScale = (...args) => {
@@ -86,7 +86,7 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
-        return yScale;
+        return draw;
     };
 
     return draw;
