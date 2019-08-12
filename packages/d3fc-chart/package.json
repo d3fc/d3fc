@@ -17,15 +17,16 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "rollup -c ../../util/rollup.config.js",
-    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json",
-    "lint": "eslint src/**/*.js",
+    "bundle": "npx rollup -c ../../util/rollup.config.js",
+    "test": " npx jasmine --config=../../util/jasmine.json",
+    "lint": "npx eslint src/**/*.js",
     "screenshots": "node ../../util/screenshot.js"
   },
   "devDependencies": {
     "@d3fc/d3fc-annotation": "^2.4.1",
     "@d3fc/d3fc-extent": "^3.1.4",
     "babel-polyfill": "^6.13.0",
+    "custom-event-polyfill": "^0.3.0",
     "d3": "^4.2.5"
   },
   "dependencies": {

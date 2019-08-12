@@ -3,14 +3,14 @@
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
-    "postinstall": "./node_modules/.bin/lerna bootstrap",
-    "publish": "./node_modules/.bin/lerna publish --conventional-commits --message \"chore: publish\" --yes",
-    "bundle": "./node_modules/.bin/lerna run bundle --stream --concurrency 1",
+    "postinstall": "npx lerna bootstrap",
+    "publish": "npx lerna publish --conventional-commits --message \"chore: publish\" --yes",
+    "bundle": "npx lerna run bundle --stream --concurrency 1",
     "pretest": "npm run bundle",
-    "test": "./node_modules/.bin/lerna run test --stream --concurrency 1",
-    "lint": "./node_modules/.bin/eslint **/*.js -c .eslintrc.json && ./node_modules/.bin/markdownlint **/*.md --ignore **/node_modules/**",
-    "screenshots": "./node_modules/.bin/lerna run screenshots --stream --concurrency 1",
-    "start": "./node_modules/.bin/lerna run bundle && npm start --prefix ./packages/d3fc"
+    "test": "npx lerna run test --stream --concurrency 1",
+    "lint": "npx eslint **/*.js -c .eslintrc.json && npx markdownlint **/*.md --ignore **/node_modules/**",
+    "screenshots": "npx lerna run screenshots --stream --concurrency 1",
+    "start": "npx lerna run bundle && npm start --prefix ./packages/d3fc"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-custom-element-classes": "^0.1.0",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.26.0",
     "babelrc-rollup": "^3.0.0",
     "command-line-args": "^3.0.1",
@@ -56,7 +57,6 @@
     "rollup": "^1.19.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "babel-preset-es2015-rollup": "^3.0.0",
     "serve-static": "^1.11.1",
     "uglify-js": "^2.6.2",
     "webshot": "^0.18.0"

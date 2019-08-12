@@ -17,12 +17,12 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "rollup -c ../../util/rollup.config.js",
-    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json",
+    "bundle": "npx rollup -c ../../util/rollup.config.js",
+    "test": " npx jasmine --config=../../util/jasmine.json",
     "site": "rollup -c site/rollup.config.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
     "deploy-site": "npm run site && bash ./site/deploy.sh",
-    "lint": "eslint src/**/*.js"
+    "lint": "npx eslint src/**/*.js"
   },
   "devDependencies": {
     "d3": "^4.11.0",

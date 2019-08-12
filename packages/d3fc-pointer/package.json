@@ -4,9 +4,9 @@
   "description": "Component which emits the current mouse or touch position over a selection",
   "main": "index.js",
   "scripts": {
-    "bundle": "rollup -c ../../util/rollup.config.js",
-    "test": " jasmine JASMINE_CONFIG_PATH=../../util/jasmine.json",
-    "lint": "eslint src/**/*.js"
+    "bundle": "npx rollup -c ../../util/rollup.config.js",
+    "test": " npx jasmine --config=../../util/jasmine.json",
+    "lint": "npx eslint src/**/*.js"
   },
   "repository": {
     "type": "git",
