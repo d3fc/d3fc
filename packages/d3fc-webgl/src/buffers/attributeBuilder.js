@@ -13,6 +13,14 @@ export default (_data) => {
      * @param {*} numElements
      */
     let bind = (gl, program, name, numElements) => {
+        if (numComponents !== null) {
+            const bufferComponents = data.length / numElements;
+            if (bufferComponents !== numComponents) {
+                throw Error(`Attribute buffer ${name} has incorrect number of elements ` +
+                `${bufferComponents}, expected ${numComponents}`);
+            }
+        }
+
         const dataType = getGLType(data.constructor, gl);
 
         buffer = buffer || gl.createBuffer();

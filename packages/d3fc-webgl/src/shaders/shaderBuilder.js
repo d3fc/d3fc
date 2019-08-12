@@ -35,7 +35,6 @@ export default (base) => {
 export const vertexShaderBase = (header, body) => `
 precision mediump float;
 float inf = 1.0 / 0.0;
-attribute vec4 aVertexPosition;
 ${header}
 void main() {
     ${body}
