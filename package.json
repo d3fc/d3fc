@@ -3,14 +3,14 @@
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "scripts": {
-    "postinstall": "npx lerna bootstrap",
-    "publish": "npx lerna publish --conventional-commits --message \"chore: publish\" --yes",
-    "bundle": "npx lerna run bundle --stream --concurrency 1",
+    "postinstall": "lerna bootstrap",
+    "publish": "lerna publish --conventional-commits --message \"chore: publish\" --yes",
+    "bundle": "lerna run bundle --stream --concurrency 1",
     "pretest": "npm run bundle",
-    "test": "npx lerna run test --stream --concurrency 1",
-    "lint": "npx eslint **/*.js -c .eslintrc.json && npx markdownlint **/*.md --ignore **/node_modules/**",
-    "screenshots": "npx lerna run screenshots --stream --concurrency 1",
-    "start": "npx lerna run bundle && npm start --prefix ./packages/d3fc"
+    "test": "lerna run test --stream --concurrency 1",
+    "lint": "eslint **/*.js -c .eslintrc.json && markdownlint **/*.md --ignore **/node_modules/**",
+    "screenshots": "lerna run screenshots --stream --concurrency 1",
+    "start": "lerna run bundle && npm start --prefix ./packages/d3fc"
   },
   "repository": {
     "type": "git",
@@ -53,12 +53,11 @@
     "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.5.2",
+    "puppeteer": "^1.19.0",
     "rollup": "^1.19.4",
     "rollup-plugin-babel": "^2.4.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "serve-static": "^1.11.1",
-    "uglify-js": "^2.6.2",
-    "webshot": "^0.18.0"
+    "uglify-js": "^2.6.2"
   }
 }

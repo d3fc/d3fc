@@ -17,10 +17,10 @@
     "url": "https://github.com/d3fc/d3fc"
   },
   "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": " npx jasmine --config=../../scripts/jasmine.json",
-    "lint": "npx eslint src/**/*.js",
-    "screenshots": "node ../../scripts/screenshot.js"
+    "bundle": "rollup -c ../../scripts/rollup.config.js",
+    "test": " jasmine --config=../../scripts/jasmine.json",
+    "lint": "eslint src/**/*.js",
+    "screenshots": "node ../../scripts/screenshot.js -- --selector div"
   },
   "devDependencies": {
     "@d3fc/d3fc-annotation": "^2.4.1",
