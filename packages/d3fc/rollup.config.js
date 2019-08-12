@@ -4,16 +4,16 @@ import babelrc from 'babelrc-rollup';
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 
-const devMode = () => process.env.BUILD === 'dev'
+const devMode = process.env.BUILD === 'dev'
 
 let pkg = require('./package.json');
 
-const plugins = [
+const plugins = () => [
     nodeResolve({ jsnext: true, main: true }),
     babel(babelrc())
 ];
 
-const devPlugins = plugins.concat([
+const devPlugins = () => plugins().concat([
     serve({
         contentBase: ['.', 'build'],
         open: true,
@@ -28,7 +28,7 @@ const devPlugins = plugins.concat([
 
 export default {
     input: 'index.js',
-    plugins: devMode() ? devPlugins : plugins,
+    plugins: devMode ? devPlugins() : plugins(),
     external: (key) => key.indexOf('d3-') === 0,
     output: {
         file: pkg.main,
