@@ -7,8 +7,8 @@ export default() => {
 
     const stroke = (program) => {
         program.fragmentShader()
-            .appendHeader(fragmentShaderSnippets.circleEdge.header)
-            .appendBody(fragmentShaderSnippets.circleEdge.body);
+            .appendHeaderIfNotExists(fragmentShaderSnippets.circleEdge.header)
+            .appendBodyIfNotExists(fragmentShaderSnippets.circleEdge.body);
 
         program.buffers().uniform('uEdgeColor', uniformBuilder(color));
         program.buffers().uniform('uEdgeSize', uniformBuilder(width));

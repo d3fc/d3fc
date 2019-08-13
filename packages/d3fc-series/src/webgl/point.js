@@ -4,18 +4,13 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 import scaleMapper from '@d3fc/d3fc-webgl/src/scale/scaleMapper';
 
 export default () => {
-    let context = null;
     const base = xyBase();
     let size = 64;
 
     let draw = glPoint();
 
     const point = (data) => {
-        // make sure we're starting with a fresh program
-        draw.initCircle();
-
         const filteredData = data.filter(base.defined());
-        const program = draw.program();
 
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
@@ -32,18 +27,13 @@ export default () => {
             s[i] = sizeFn(d);
         });
 
-        draw.context(context);
-        draw.x(x)
-            .y(y)
-            .size(s);
-        draw.xScale(xScale.glScale);
-        draw.yScale(yScale.glScale);
+        draw.xValues(x)
+            .yValues(y)
+            .sizeValues(s)
+            .xScale(xScale.glScale)
+            .yScale(yScale.glScale)
+            .decorate((program) => base.decorate()(program, filteredData, 0));
 
-        program.fill = circleFill();
-        program.stroke = circleStroke();
-        program.antialias = circleAntiAlias();
-
-        draw.decorate(() => base.decorate()(program, filteredData, 0));
         draw(filteredData.length);
     };
 
@@ -61,14 +51,6 @@ export default () => {
         }
     }
 
-    point.context = (...args) => {
-        if (!args.length) {
-            return context;
-        }
-        context = args[0];
-        return point;
-    };
-
     point.size = (...args) => {
         if (!args.length) {
             return size;
@@ -78,6 +60,7 @@ export default () => {
     };
 
     rebindAll(point, base, exclude('baseValue', 'bandwidth', 'align'));
+    rebind(point, draw, 'context');
 
     return point;
 };
