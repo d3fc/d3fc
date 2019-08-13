@@ -1,10 +1,10 @@
 import * as fragmentShaderSnippets from '../../fragmentShaderSnippets';
 
 export default() => {
-    const antialias = (program) => {
+    const antiAlias = (program) => {
         program.fragmentShader()
             .appendBodyIfNotExists(fragmentShaderSnippets.circleAlias.body);
     };
 
-    return antialias;
+    return antiAlias;
 };

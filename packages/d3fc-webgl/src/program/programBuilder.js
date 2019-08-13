@@ -6,23 +6,21 @@ export default () => {
     let program = null;
     let vertexShader = null;
     let fragmentShader = null;
-    let numElements = null;
     let mode = drawModes.TRIANGLES;
-    let first = 0;
     let buffers = bufferBuilder();
 
-    const build = () => {
-        const vtx = vertexShader();
-        const frg = fragmentShader();
-        if (newProgram(program, vtx, frg)) {
+    const build = (numElements) => {
+        const vertexShaderSource = vertexShader();
+        const fragmentShaderSource = fragmentShader();
+        if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
             context.deleteProgram(program);
-            program = createProgram(vtx, frg);
+            program = createProgram(vertexShaderSource, fragmentShaderSource);
         }
         context.useProgram(program);
 
         buffers(context, program, numElements);
 
-        context.drawArrays(mode, first, numElements);
+        context.drawArrays(mode, 0, numElements);
     };
 
     build.context = (...args) => {
@@ -57,27 +55,11 @@ export default () => {
         return build;
     };
 
-    build.numElements = (...args) => {
-        if (!args.length) {
-            return numElements;
-        }
-        numElements = args[0];
-        return build;
-    };
-
     build.mode = (...args) => {
         if (!args.length) {
             return mode;
         }
         mode = args[0];
-        return build;
-    };
-
-    build.first = (...args) => {
-        if (!args.length) {
-            return first;
-        }
-        first = args[0];
         return build;
     };
 
@@ -89,27 +71,27 @@ export default () => {
         }
 
         const shaders = context.getAttachedShaders(program);
-        const vSource = context.getShaderSource(shaders[0]);
-        const fSource = context.getShaderSource(shaders[1]);
+        const vertexShaderSource = context.getShaderSource(shaders[0]);
+        const fragmentShaderSource = context.getShaderSource(shaders[1]);
 
-        return vertexShader !== vSource || fragmentShader !== fSource;
+        return vertexShader !== vertexShaderSource || fragmentShader !== fragmentShaderSource;
     }
 
-    function createProgram(vertexShader, fragmentShader) {
-        const vShader = loadShader(vertexShader, context.VERTEX_SHADER);
-        const fShader = loadShader(fragmentShader, context.FRAGMENT_SHADER);
+    function createProgram(vertexShaderSource, fragmentShaderSource) {
+        const vertexShader = loadShader(vertexShaderSource, context.VERTEX_SHADER);
+        const fragmentShader = loadShader(fragmentShaderSource, context.FRAGMENT_SHADER);
 
         const program = context.createProgram();
-        context.attachShader(program, vShader);
-        context.attachShader(program, fShader);
+        context.attachShader(program, vertexShader);
+        context.attachShader(program, fragmentShader);
         context.linkProgram(program);
 
         if (!context.getProgramParameter(program, context.LINK_STATUS)) {
             const message = context.getProgramInfoLog(program);
             context.deleteProgram(program);
             throw new Error(`Failed to link program : ${message}
-            Vertex Shader : ${vertexShader}
-            Fragment Shader : ${fragmentShader}`);
+            Vertex Shader : ${vertexShaderSource}
+            Fragment Shader : ${fragmentShaderSource}`);
         }
 
         return program;
