@@ -28,7 +28,7 @@ export default () => {
 
         draw.xValues(x)
             .yValues(y)
-            .sizeValues(s)
+            .sizes(s)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => base.decorate()(program, filteredData, 0));

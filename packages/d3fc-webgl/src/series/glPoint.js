@@ -11,21 +11,17 @@ export default () => {
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const xAttrib = 'aXVertex';
-    const yAttrib = 'aYVertex';
+    const xValueAttrib = 'aXValue';
+    const yValueAttrib = 'aYValue';
     const sizeAttrib = 'aSize';
 
-    const draw = (numPoints) => {
+    const draw = (numElements) => {
         // we are resetting the shader each draw here, to avoid issues with decorate
         // we'll eventually need a way to change the symbol type here
         const shaderBuilder = circlePointShader();
-        program.vertexShader(shaderBuilder.vertex());
-        program.fragmentShader(shaderBuilder.fragment());
-
-        if (numPoints !== undefined) {
-            program.numElements(numPoints);
-        }
-        program.mode(drawModes.POINTS);
+        program.vertexShader(shaderBuilder.vertex())
+               .fragmentShader(shaderBuilder.fragment())
+               .mode(drawModes.POINTS);
 
         xScale.coordinate(0);
         xScale(program);
@@ -34,30 +30,30 @@ export default () => {
 
         decorate(program);
 
-        program();
+        program(numElements);
     };
 
     draw.xValues = (...args) => {
-        const builder = program.buffers().attribute(xAttrib);
+        const builder = program.buffers().attribute(xValueAttrib);
         if (builder) {
             builder.data(args[0]);
         } else {
-            program.buffers().attribute(xAttrib, attributeBuilder(args[0]).components(1));
+            program.buffers().attribute(xValueAttrib, attributeBuilder(args[0]).components(1));
         }
         return draw;
     };
 
     draw.yValues = (...args) => {
-        const builder = program.buffers().attribute(yAttrib);
+        const builder = program.buffers().attribute(yValueAttrib);
         if (builder) {
             builder.data(args[0]);
         } else {
-            program.buffers().attribute(yAttrib, attributeBuilder(args[0]).components(1));
+            program.buffers().attribute(yValueAttrib, attributeBuilder(args[0]).components(1));
         }
         return draw;
     };
 
-    draw.sizeValues = (...args) => {
+    draw.sizes = (...args) => {
         const builder = program.buffers().attribute(sizeAttrib);
         if (builder) {
             builder.data(args[0]);
