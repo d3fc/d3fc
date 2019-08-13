@@ -5,7 +5,6 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 export default () => {
     const glBase = glScaleBase();
     let base = 10;
-    let doneProgram = false;
 
     function log(v, base) {
         return Math.log10(v) / Math.log10(base);
@@ -14,9 +13,7 @@ export default () => {
     const prefix = () => `log${glBase.coordinate()}`;
 
     const apply = (program) => {
-        if (!doneProgram) {
-            updateProgram(program);
-        }
+        updateProgram(program);
 
         const domainSize = log(glBase.domain()[1], base) - log(glBase.domain()[0], base);
         const rangeSize = glBase.range()[1] - glBase.range()[0];
@@ -50,8 +47,6 @@ export default () => {
 
         program.vertexShader()
             .appendBody(`gl_Position = (${prefix()}Include * (${logPart})) + ((1.0 - ${prefix()}Include) * gl_Position);`);
-
-        doneProgram = true;
     }
 
     apply.base = (...args) => {

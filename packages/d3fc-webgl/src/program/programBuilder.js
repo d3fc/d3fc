@@ -1,30 +1,35 @@
 import bufferBuilder from '../buffers/bufferBuilder';
+import drawModes from './drawModes';
 
 export default () => {
+    let context = null;
     let program = null;
     let vertexShader = null;
     let fragmentShader = null;
     let numElements = null;
-    let mode = 4; // gl.TRIANGLES
+    let mode = drawModes.TRIANGLES;
     let first = 0;
     let buffers = bufferBuilder();
 
-    const build = (gl) => {
+    const build = () => {
         const vtx = vertexShader();
         const frg = fragmentShader();
-        if (newProgram(gl, program, vtx, frg)) {
-            gl.deleteProgram(program);
-            program = createProgram(gl, vtx, frg);
+        if (newProgram(program, vtx, frg)) {
+            context.deleteProgram(program);
+            program = createProgram(vtx, frg);
         }
-        gl.useProgram(program);
+        context.useProgram(program);
 
-        buffers(gl, program, numElements);
+        buffers(context, program, numElements);
 
-        gl.drawArrays(mode, first, numElements);
+        context.drawArrays(mode, first, numElements);
     };
 
-    build.apply = (fn, ...args) => {
-        fn(build, ...args);
+    build.context = (...args) => {
+        if (!args.length) {
+            return context;
+        }
+        context = args[0];
         return build;
     };
 
@@ -78,37 +83,30 @@ export default () => {
 
     return build;
 
-    /**
-     *
-     * @param {WebGLRenderingContext} gl
-     * @param {WebGLProgram} program
-     * @param {string} vertexShader
-     * @param {string} fragmentShader
-     */
-    function newProgram(gl, program, vertexShader, fragmentShader) {
+    function newProgram(program, vertexShader, fragmentShader) {
         if (!program) {
             return true;
         }
 
-        const shaders = gl.getAttachedShaders(program);
-        const vSource = gl.getShaderSource(shaders[0]);
-        const fSource = gl.getShaderSource(shaders[1]);
+        const shaders = context.getAttachedShaders(program);
+        const vSource = context.getShaderSource(shaders[0]);
+        const fSource = context.getShaderSource(shaders[1]);
 
         return vertexShader !== vSource || fragmentShader !== fSource;
     }
 
-    function createProgram(gl, vertexShader, fragmentShader) {
-        const vShader = loadShader(gl, vertexShader, gl.VERTEX_SHADER);
-        const fShader = loadShader(gl, fragmentShader, gl.FRAGMENT_SHADER);
+    function createProgram(vertexShader, fragmentShader) {
+        const vShader = loadShader(vertexShader, context.VERTEX_SHADER);
+        const fShader = loadShader(fragmentShader, context.FRAGMENT_SHADER);
 
-        const program = gl.createProgram();
-        gl.attachShader(program, vShader);
-        gl.attachShader(program, fShader);
-        gl.linkProgram(program);
+        const program = context.createProgram();
+        context.attachShader(program, vShader);
+        context.attachShader(program, fShader);
+        context.linkProgram(program);
 
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            const message = gl.getProgramInfoLog(program);
-            gl.deleteProgram(program);
+        if (!context.getProgramParameter(program, context.LINK_STATUS)) {
+            const message = context.getProgramInfoLog(program);
+            context.deleteProgram(program);
             throw new Error(`Failed to link program : ${message}
             Vertex Shader : ${vertexShader}
             Fragment Shader : ${fragmentShader}`);
@@ -117,14 +115,14 @@ export default () => {
         return program;
     }
 
-    function loadShader(gl, source, type) {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
+    function loadShader(source, type) {
+        const shader = context.createShader(type);
+        context.shaderSource(shader, source);
+        context.compileShader(shader);
 
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            const message = gl.getShaderInfoLog(shader);
-            gl.deleteShader(shader);
+        if (!context.getShaderParameter(shader, context.COMPILE_STATUS)) {
+            const message = context.getShaderInfoLog(shader);
+            context.deleteShader(shader);
             throw new Error(`Failed to compile shader : ${message}
             Shader : ${source}`);
         }

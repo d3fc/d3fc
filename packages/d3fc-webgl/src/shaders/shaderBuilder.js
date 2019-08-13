@@ -6,25 +6,49 @@ export default (base) => {
         return base(shaderHeaders.join('\n'), shaderBodies.join('\n'));
     };
 
+    function append(array, element) {
+        array.push(element);
+    }
+
+    function insert(array, element, before) {
+        let beforeIndex = array.indexOf(before);
+        array.splice(beforeIndex >= 0 ? beforeIndex : array.length, 0, element);
+    }
+
+    function appendIfNotExists(array, element) {
+        let elementIndex = array.indexOf(element);
+        if (elementIndex === -1) {
+            array.push(element);
+        }
+    }
+
     build.appendHeader = (header) => {
-        shaderHeaders.push(header);
+        append(shaderHeaders, header);
         return build;
     };
 
     build.insertHeader = (header, before) => {
-        let bi = shaderHeaders.indexOf(before);
-        shaderHeaders.splice(bi >= 0 ? bi : shaderHeaders.length, 0, header);
+        insert(shaderHeaders, header, before);
         return build;
     };
 
-    build.appendBody = (header) => {
-        shaderBodies.push(header);
+    build.appendHeaderIfNotExists = (header) => {
+        appendIfNotExists(shaderHeaders, header);
         return build;
     };
 
-    build.insertBody = (header, before) => {
-        let bi = shaderBodies.indexOf(before);
-        shaderBodies.splice(bi >= 0 ? bi : shaderBodies.length, 0, header);
+    build.appendBody = (body) => {
+        append(shaderBodies, body);
+        return build;
+    };
+
+    build.insertBody = (body, before) => {
+        insert(shaderBodies, body, before);
+        return build;
+    };
+
+    build.appendBodyIfNotExists = (body) => {
+        appendIfNotExists(shaderBodies, body);
         return build;
     };
 

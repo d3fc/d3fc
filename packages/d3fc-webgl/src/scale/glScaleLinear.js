@@ -4,14 +4,12 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = glScaleBase();
-    let doneProgram = false;
 
     const prefix = () => `linear${base.coordinate()}`;
 
     const apply = (program) => {
-        if (!doneProgram) {
-            updateProgram(program);
-        }
+        updateProgram(program);
+
         const domainSize = base.domain()[1] - base.domain()[0];
         const rangeSize = base.range()[1] - base.range()[0];
 
@@ -37,8 +35,6 @@ export default () => {
         program.vertexShader()
             .appendBody(`gl_Position = gl_Position + ${prefix()}Offset;`)
             .appendBody(`gl_Position = gl_Position * ${prefix()}Scale;`);
-
-        doneProgram = true;
     }
 
     rebindAll(apply, base);

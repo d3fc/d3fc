@@ -6,8 +6,8 @@ export default() => {
 
     const fill = (program) => {
         program.fragmentShader()
-            .appendHeader(fragmentShaderSnippets.seriesColor.header)
-            .appendBody(fragmentShaderSnippets.seriesColor.body);
+            .appendHeaderIfNotExists(fragmentShaderSnippets.seriesColor.header)
+            .appendBodyIfNotExists(fragmentShaderSnippets.seriesColor.body);
 
         program.buffers().uniform('uColor', uniformBuilder(color));
     };

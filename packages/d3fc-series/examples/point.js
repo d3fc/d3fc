@@ -47,5 +47,10 @@ var webglPoint = fc.seriesWebglPoint()
     .yScale(yScale)
     .context(gl)
     .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; });
+    .mainValue(function(d) { return d; })
+    .decorate(function(program) {
+        fc.circleFill()(program);
+        fc.circleStroke()(program);
+        fc.circleAntiAlias()(program);
+    });
 webglPoint(data);

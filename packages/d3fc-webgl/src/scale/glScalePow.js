@@ -5,7 +5,6 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = glScaleBase();
     let exponent = 1;
-    let doneProgram = false;
 
     function pow(b, e) {
         return Math.sign(b) * Math.pow(Math.abs(b), e);
@@ -14,9 +13,8 @@ export default () => {
     const prefix = () => `pow${base.coordinate()}`;
 
     const apply = (program) => {
-        if (!doneProgram) {
-            updateProgram(program);
-        }
+        updateProgram(program);
+
         const domainSize = pow(base.domain()[1], exponent) - pow(base.domain()[0], exponent);
         const rangeSize = base.range()[1] - base.range()[0];
 
@@ -49,8 +47,6 @@ export default () => {
 
         program.vertexShader()
             .appendBody(`gl_Position = (${prefix()}Include * (${powPart})) + ((1.0 - ${prefix()}Include) * gl_Position);`);
-
-        doneProgram = true;
     }
 
     apply.exponent = (...args) => {
