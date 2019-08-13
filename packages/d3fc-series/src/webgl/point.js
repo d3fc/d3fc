@@ -1,7 +1,6 @@
-import { glPoint } from '@d3fc/d3fc-webgl';
 import xyBase from '../xyBase';
+import { glPoint, scaleMapper } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
-import scaleMapper from '@d3fc/d3fc-webgl/src/scale/scaleMapper';
 
 export default () => {
     const base = xyBase();
