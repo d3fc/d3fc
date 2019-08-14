@@ -11,14 +11,13 @@
   "main": "build/d3fc-webgl.js",
   "module": "index",
   "scripts": {
-    "bundle": "d3fc-scripts bundle",
-    "test": "d3fc-scripts test"
-  },
-  "devDependencies": {
-    "@d3fc/d3fc-scripts": "^2.0.5"
+    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+    "test": "npx jasmine --config=../../scripts/jasmine.json",
+    "lint": "npx eslint src/**/*.js",
+    "screenshots": "node ../../scripts/screenshot.js"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.7"
+    "@d3fc/d3fc-rebind": "^5.0.8"
   },
   "publishConfig": {
     "access": "public"
