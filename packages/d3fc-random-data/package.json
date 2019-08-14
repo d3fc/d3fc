@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-random-data",
-  "version": "3.0.14",
+  "version": "3.0.15",
   "description": "Components for generating random data series based on stochastic processes",
   "license": "MIT",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-shape",
-  "version": "5.0.14",
+  "version": "5.0.15",
   "description": "A collection of SVG/canvas path generators for creating chart series",
   "license": "MIT",
   "keywords": [
@@ -25,7 +25,7 @@
     "lint": "npx eslint src/**/*.js"
   },
   "devDependencies": {
-    "@d3fc/d3fc-random-data": "^3.0.14",
+    "@d3fc/d3fc-random-data": "^3.0.15",
     "d3-path": "^1.0.3",
     "js-combinatorics": "^0.5.0"
   },
