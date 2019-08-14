@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.4.10"></a>
+## [2.4.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.4.9...@d3fc/d3fc-annotation@2.4.10) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-annotation
+
+<a name="2.4.9"></a>
+## [2.4.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.4.8...@d3fc/d3fc-annotation@2.4.9) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-annotation
+
+<a name="2.4.8"></a>
+## [2.4.8](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.4.7...@d3fc/d3fc-annotation@2.4.8) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-annotation
+
 <a name="2.4.7"></a>
 ## [2.4.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.4.6...@d3fc/d3fc-annotation@2.4.7) (2019-08-12)
 

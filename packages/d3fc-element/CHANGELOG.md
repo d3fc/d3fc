@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="5.2.12"></a>
+## [5.2.12](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.2.11...@d3fc/d3fc-element@5.2.12) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+<a name="5.2.11"></a>
+## [5.2.11](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.2.10...@d3fc/d3fc-element@5.2.11) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+<a name="5.2.10"></a>
+## [5.2.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.2.9...@d3fc/d3fc-element@5.2.10) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
 <a name="5.2.9"></a>
 ## [5.2.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.2.8...@d3fc/d3fc-element@5.2.9) (2019-08-12)
 

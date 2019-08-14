@@ -7,11 +7,10 @@ notifications:
   email: false
 node_js:
   - '10'
-
 script:
   - npm run bundle
-  - npm test 
-
+  - npm test
+  - npx lerna run --scope @d3fc/d3fc-site site
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 after_success:

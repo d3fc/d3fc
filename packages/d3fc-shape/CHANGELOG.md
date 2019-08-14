@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="5.0.17"></a>
+## [5.0.17](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-shape@5.0.16...@d3fc/d3fc-shape@5.0.17) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-shape
+
+<a name="5.0.16"></a>
+## [5.0.16](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-shape@5.0.15...@d3fc/d3fc-shape@5.0.16) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-shape
+
+<a name="5.0.15"></a>
+## [5.0.15](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-shape@5.0.14...@d3fc/d3fc-shape@5.0.15) (2019-08-14)
+
+
+
+
+**Note:** Version bump only for package @d3fc/d3fc-shape
+
 <a name="5.0.14"></a>
 ## [5.0.14](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-shape@5.0.13...@d3fc/d3fc-shape@5.0.14) (2019-08-12)
 
