@@ -16,19 +16,19 @@ export default () => {
 
         const accessor = getAccessors();
 
-        const x = new Float32Array(filteredData.length);
-        const y = new Float32Array(filteredData.length);
-        const s = new Float32Array(filteredData.length);
+        const xValues = new Float32Array(filteredData.length);
+        const yValues = new Float32Array(filteredData.length);
+        const sizes = new Float32Array(filteredData.length);
         filteredData.forEach((d, i) => {
             const sizeFn = typeof size === 'function' ? size : () => size;
-            x[i] = xScale.scale(accessor.x(d, i));
-            y[i] = yScale.scale(accessor.y(d, i));
-            s[i] = sizeFn(d);
+            xValues[i] = xScale.scale(accessor.x(d, i));
+            yValues[i] = yScale.scale(accessor.y(d, i));
+            sizes[i] = sizeFn(d);
         });
 
-        draw.xValues(x)
-            .yValues(y)
-            .sizes(s)
+        draw.xValues(xValues)
+            .yValues(yValues)
+            .sizes(sizes)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => base.decorate()(program, filteredData, 0));
