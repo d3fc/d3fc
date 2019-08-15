@@ -42,12 +42,16 @@ export default () => {
             .appendHeader(`uniform vec4 ${prefix()}Scale;`)
             .appendHeader(`uniform vec4 ${prefix()}Include;`)
             .appendHeader(`uniform float ${prefix()}Base;`);
+        apply.scaleComponent(program, 'gl_Position');
+    }
 
-        const logPart = `${prefix()}Offset + (${prefix()}Scale * clamp(log(gl_Position) / log(${prefix()}Base), -inf, inf))`;
+    apply.scaleComponent = (program, component) => {
+        const logPart = `${prefix()}Offset + (${prefix()}Scale * clamp(log(${component}) / log(${prefix()}Base), -inf, inf))`;
 
         program.vertexShader()
-            .appendBody(`gl_Position = (${prefix()}Include * (${logPart})) + ((1.0 - ${prefix()}Include) * gl_Position);`);
-    }
+            .appendBody(`${component} = (${prefix()}Include * (${logPart})) + ((1.0 - ${prefix()}Include) * ${component});`);
+        return apply;
+    };
 
     apply.base = (...args) => {
         if (!args.length) {

@@ -11,6 +11,7 @@ export { default as circleStroke } from './src/shaders/point/circle/stroke';
 export { default as circleAntiAlias } from './src/shaders/point/circle/antiAlias';
 
 export { default as glPoint } from './src/series/glPoint';
+export { default as glLine } from './src/series/glLine';
 
 export { default as glScaleLinear } from './src/scale/glScaleLinear';
 export { default as glScaleLog } from './src/scale/glScaleLog';

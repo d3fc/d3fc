@@ -32,10 +32,15 @@ export default () => {
             .appendHeader(`uniform vec4 ${prefix()}Offset;`)
             .appendHeader(`uniform vec4 ${prefix()}Scale;`);
 
-        program.vertexShader()
-            .appendBody(`gl_Position = gl_Position + ${prefix()}Offset;`)
-            .appendBody(`gl_Position = gl_Position * ${prefix()}Scale;`);
+        apply.scaleComponent(program, 'gl_Position');
     }
+
+    apply.scaleComponent = (program, component) => {
+        program.vertexShader()
+            .appendBody(`${component} = ${component} + ${prefix()}Offset;`)
+            .appendBody(`${component} = ${component} * ${prefix()}Scale;`);
+        return apply;
+    };
 
     rebindAll(apply, base);
 

@@ -1,5 +1,6 @@
 export { default as seriesSvgLine } from './src/svg/line';
 export { default as seriesCanvasLine } from './src/canvas/line';
+export { default as seriesWebglLine } from './src/webgl/line';
 
 export { default as seriesSvgPoint } from './src/svg/point';
 export { default as seriesCanvasPoint } from './src/canvas/point';

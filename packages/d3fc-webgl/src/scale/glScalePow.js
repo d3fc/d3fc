@@ -43,11 +43,16 @@ export default () => {
             .appendHeader(`uniform vec4 ${prefix()}Include;`)
             .appendHeader(`uniform float ${prefix()}Exp;`);
 
-        const powPart = `${prefix()}Offset + (${prefix()}Scale * sign(gl_Position) * pow(abs(gl_Position), vec4(${prefix()}Exp)))`;
+        apply.scaleComponent(program, 'gl_Position');
+    }
+
+    apply.scaleComponent = (program, component) => {
+        const powPart = `${prefix()}Offset + (${prefix()}Scale * sign(${component}) * pow(abs(gl_Position), vec4(${prefix()}Exp)))`;
 
         program.vertexShader()
-            .appendBody(`gl_Position = (${prefix()}Include * (${powPart})) + ((1.0 - ${prefix()}Include) * gl_Position);`);
-    }
+            .appendBody(`${component} = (${prefix()}Include * (${powPart})) + ((1.0 - ${prefix()}Include) * ${component});`);
+        return apply;
+    };
 
     apply.exponent = (...args) => {
         if (!args.length) {
