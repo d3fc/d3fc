@@ -13,7 +13,7 @@ export default () => {
         const vertexShaderSource = vertexShader();
         const fragmentShaderSource = fragmentShader();
         if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
-            context.deleteProgram(program);
+            context.isProgram(program) && context.deleteProgram(program);
             program = createProgram(vertexShaderSource, fragmentShaderSource);
         }
         context.useProgram(program);
@@ -66,7 +66,7 @@ export default () => {
     return build;
 
     function newProgram(program, vertexShader, fragmentShader) {
-        if (!program) {
+        if (!context.isProgram(program)) {
             return true;
         }
 
