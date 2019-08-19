@@ -18,6 +18,7 @@ export const point = {
     header: `attribute float aXValue;
              attribute float aYValue;
              attribute float aSize;
+             uniform float uEdgeSize;
              varying float vSize;`,
     body: `vSize = 2.0 * sqrt(aSize / 3.14159);
            gl_PointSize = vSize + uEdgeSize + 1.0;
