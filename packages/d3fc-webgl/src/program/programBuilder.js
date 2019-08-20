@@ -27,10 +27,6 @@ export default () => {
         if (!args.length) {
             return context;
         }
-        // if we have switched context the buffers are invalid - create new buffers
-        if (args[0] !== context) {
-            buffers = bufferBuilder();
-        }
         context = args[0];
         return build;
     };

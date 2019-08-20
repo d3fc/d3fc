@@ -23,8 +23,6 @@ export default (_data) => {
 
         const dataType = getGLType(data.constructor, gl);
 
-        // if we already have a buffer, use it
-        // if the WebGL context is switched out, programBuilder recreates the bufferBuilder
         buffer = buffer || gl.createBuffer();
 
         const location = gl.getAttribLocation(program, name);
