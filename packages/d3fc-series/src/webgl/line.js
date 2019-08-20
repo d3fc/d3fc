@@ -26,7 +26,6 @@ export default () => {
 
             draw.xValues(x)
                 .yValues(y)
-                .context(context)
                 .xScale(xScale.glScale)
                 .yScale(yScale.glScale)
                 .decorate((program) => base.decorate()(program, l.map(v => v.d), 0));
@@ -81,6 +80,7 @@ export default () => {
     };
 
     rebindAll(line, base, exclude('baseValue', 'bandwidth', 'align'));
+    rebind(line, draw, 'context');
 
     return line;
 }
