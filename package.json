@@ -55,7 +55,9 @@
     "puppeteer": "^1.19.0",
     "rollup": "^1.19.4",
     "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-serve": "^1.0.1",
     "serve-static": "^1.11.1",
     "uglify-js": "^2.6.2"
   }

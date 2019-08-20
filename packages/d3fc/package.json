@@ -46,8 +46,6 @@
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^3.0.0",
-    "rollup-plugin-livereload": "^1.0.1",
-    "rollup-plugin-progress": "^1.1.1",
-    "rollup-plugin-serve": "^1.0.1"
+    "rollup-plugin-progress": "^1.1.1"
   }
 }
