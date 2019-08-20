@@ -26,7 +26,6 @@ export default () => {
 
             draw.xValues(x)
                 .yValues(y)
-                .width(2)
                 .context(context)
                 .xScale(xScale.glScale)
                 .yScale(yScale.glScale)

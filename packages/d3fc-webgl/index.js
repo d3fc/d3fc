@@ -9,6 +9,7 @@ export { default as circlePointShader } from './src/shaders/point/circle/baseSha
 export { default as circleFill } from './src/shaders/point/circle/fill';
 export { default as circleStroke } from './src/shaders/point/circle/stroke';
 export { default as circleAntiAlias } from './src/shaders/point/circle/antiAlias';
+export { default as lineWidth } from './src/shaders/line/width';
 
 export { default as glPoint } from './src/series/glPoint';
 export { default as glLine } from './src/series/glLine';

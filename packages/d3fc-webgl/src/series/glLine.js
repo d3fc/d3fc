@@ -5,6 +5,7 @@ import lineShader from '../shaders/line/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import uniformBuilder from '../buffers/uniformBuilder';
+import width from '../shaders/line/width';
 
 export default () => {
     let program = programBuilder();
@@ -53,13 +54,15 @@ export default () => {
             .appendBody(`vec2 tangent = normalize(A + B);`)
             .appendBody(`vec2 miter = vec2(-tangent.y, tangent.x);`)
             .appendBody(`vec2 normalA = vec2(-A.y, A.x);`)
-            .appendBody(`float miterLength = (1.0 / 2.0) / dot(miter, normalA);`)
+            .appendBody(`float miterLength = 1.0 / dot(miter, normalA);`)
             .appendBody(`gl_Position.xy = gl_Position.xy + (aSide * (miter * uWidth * miterLength)) / uScreen.xy;`);
 
         program.buffers().uniform(screenUniform, uniformBuilder([
             program.context().canvas.width,
             program.context().canvas.height
         ]));
+
+        width()(program);
 
         decorate(program);
 
