@@ -6,6 +6,8 @@ export default () => {
     const base = xyBase();
     let context = null;
 
+    let draw = glLine();
+
     const line = (data) => {
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
@@ -21,8 +23,6 @@ export default () => {
                 x[i] = xScale.scale(accessor.x(dataPoint.d, dataPoint.i));
                 y[i] = yScale.scale(accessor.y(dataPoint.d, dataPoint.i));
             });
-
-            let draw = glLine();
 
             draw.xValues(x)
                 .yValues(y)
@@ -66,7 +66,9 @@ export default () => {
                 }
             }
         });
-        lines.push(currentLine);
+        if (currentLine.length) {
+            lines.push(currentLine);
+        }
 
         return lines;
     }
