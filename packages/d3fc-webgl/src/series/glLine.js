@@ -19,11 +19,18 @@ export default () => {
     const yNextValueAttrib = 'aNextYValue';
     const xPrevValueAttrib = 'aPrevXValue';
     const yPrevValueAttrib = 'aPrevYValue';
-    const invValueAttrib = 'aSide';
+    const cornerValueAttrib = 'aCorner';
     const widthUniform = 'uWidth';
     const screenUniform = 'uScreen';
 
-    const draw = (numElements) => {
+    const draw = (numElements, segments = []) => {
+        if (!segments.length) {
+            segments = [{
+                numElements: numElements,
+                start: 0,
+                bufferSize: numElements
+            }];
+        }
         // we are resetting the shader each draw here, to avoid issues with decorate
         // we'll eventually need a way to change the symbol type here
         const shaderBuilder = lineShader();
@@ -55,7 +62,12 @@ export default () => {
             .appendBody(`vec2 miter = vec2(-tangent.y, tangent.x);`)
             .appendBody(`vec2 normalA = vec2(-A.y, A.x);`)
             .appendBody(`float miterLength = 1.0 / dot(miter, normalA);`)
-            .appendBody(`gl_Position.xy = gl_Position.xy + (aSide * (miter * uWidth * miterLength)) / uScreen.xy;`);
+            .appendBody(`vec2 point = normalize(A - B);`)
+            .appendBody(`if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
+                gl_Position.xy = gl_Position.xy - (sign(dot(normalA, miter)) * aCorner.x * aCorner.y * uWidth * normalA) / uScreen.xy;
+            } else {
+                gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uWidth * miterLength) / uScreen.xy;
+            }`);
 
         program.buffers().uniform(screenUniform, uniformBuilder([
             program.context().canvas.width,
@@ -66,36 +78,40 @@ export default () => {
 
         decorate(program);
 
-        program(numElements * 2);
+        segments.forEach(segment => {
+            // we're sending every vertex to the shader four times, hence * 4
+            program(segment.numElements * 4, segment.start * 4, segment.bufferSize * 4);
+        });
     };
 
     draw.xValues = (...args) => {
         const builder = program.buffers().attribute(xValueAttrib);
         const next = program.buffers().attribute(xNextValueAttrib);
         const prev = program.buffers().attribute(xPrevValueAttrib);
-        const inv = program.buffers().attribute(invValueAttrib);
+        const corner = program.buffers().attribute(cornerValueAttrib);
 
-        let currArray = new Float32Array(args[0].length * 2);
-        currArray = currArray.map((d, i) => args[0][Math.floor(i / 2)]);
+        let currArray = new Float32Array(args[0].length * 4);
+        currArray = currArray.map((d, i) => args[0][Math.floor(i / 4)]);
         const nextArray = new Float32Array(currArray);
         const prevArray = new Float32Array(currArray);
-        nextArray.copyWithin(0, 2);
-        prevArray.copyWithin(2, 0);
+        nextArray.copyWithin(0, 4);
+        prevArray.copyWithin(4, 0);
 
-        let invArray = new Float32Array(args[0].length * 2);
-        let invValue = -1;
-        invArray = invArray.map((d, i) => invValue = invValue * -1);
+        let cornerArray = new Float32Array(args[0].length * 8);
+        // x and y positions of the 4 corners for the vertex join.
+        let cornerValues = [-1, -1, 1, -1, -1, 1, 1, 1];
+        cornerArray = cornerArray.map((d, i) => cornerValues[i % 8]);
 
         if (builder) {
             builder.data(currArray);
             next.data(nextArray);
             prev.data(prevArray);
-            inv.data(invArray);
+            corner.data(cornerArray);
         } else {
-            program.buffers().attribute(xValueAttrib, attributeBuilder(currArray).components(1));
-            program.buffers().attribute(xNextValueAttrib, attributeBuilder(nextArray).components(1));
-            program.buffers().attribute(xPrevValueAttrib, attributeBuilder(prevArray).components(1));
-            program.buffers().attribute(invValueAttrib, attributeBuilder(invArray).components(1));
+            program.buffers().attribute(xValueAttrib, attributeBuilder(currArray));
+            program.buffers().attribute(xNextValueAttrib, attributeBuilder(nextArray));
+            program.buffers().attribute(xPrevValueAttrib, attributeBuilder(prevArray));
+            program.buffers().attribute(cornerValueAttrib, attributeBuilder(cornerArray).components(2));
         }
         return draw;
     };
@@ -105,21 +121,21 @@ export default () => {
         const next = program.buffers().attribute(yNextValueAttrib);
         const prev = program.buffers().attribute(yPrevValueAttrib);
 
-        let currArray = new Float32Array(args[0].length * 2);
-        currArray = currArray.map((d, i) => args[0][Math.floor(i / 2)]);
+        let currArray = new Float32Array(args[0].length * 4);
+        currArray = currArray.map((d, i) => args[0][Math.floor(i / 4)]);
         const nextArray = new Float32Array(currArray);
         const prevArray = new Float32Array(currArray);
-        nextArray.copyWithin(0, 2);
-        prevArray.copyWithin(2, 0);
+        nextArray.copyWithin(0, 4);
+        prevArray.copyWithin(4, 0);
 
         if (builder) {
             builder.data(currArray);
             next.data(nextArray);
             prev.data(prevArray);
         } else {
-            program.buffers().attribute(yValueAttrib, attributeBuilder(currArray).components(1));
-            program.buffers().attribute(yNextValueAttrib, attributeBuilder(nextArray).components(1));
-            program.buffers().attribute(yPrevValueAttrib, attributeBuilder(prevArray).components(1));
+            program.buffers().attribute(yValueAttrib, attributeBuilder(currArray));
+            program.buffers().attribute(yNextValueAttrib, attributeBuilder(nextArray));
+            program.buffers().attribute(yPrevValueAttrib, attributeBuilder(prevArray));
         }
         return draw;
     };

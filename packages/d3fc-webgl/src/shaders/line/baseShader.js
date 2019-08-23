@@ -7,7 +7,7 @@ export default () => {
     vertexShader
         .appendHeader(`uniform float uWidth;`) // defines the width of the line
         .appendHeader(`uniform vec2 uScreen;`) // the screen space canvas size (for normalizing vectors)
-        .appendHeader(`attribute float aSide;`) // defines which side of the line we are placing the vertex
+        .appendHeader(`attribute vec2 aCorner;`) // defines which vertex in the line join we are considering
         .appendHeader(`attribute float aXValue; attribute float aYValue;`) // the current vertex positions
         .appendHeader(`attribute float aNextXValue; attribute float aNextYValue;`) // the next vertex positions
         .appendHeader(`attribute float aPrevXValue; attribute float aPrevYValue;`) // the previous vertex positions

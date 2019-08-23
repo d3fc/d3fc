@@ -1,5 +1,5 @@
 import xyBase from '../xyBase';
-import { glLine, scaleMapper } from '@d3fc/d3fc-webgl';
+import { glLine, scaleMapper, uniformBuilder } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
@@ -14,24 +14,29 @@ export default () => {
 
         const accessor = getAccessors();
 
-        const lines = getLines(data);
-        lines.forEach(l => {
-            const x = new Float32Array(l.length);
-            const y = new Float32Array(l.length);
+        const x = new Float32Array(data.length);
+        const y = new Float32Array(data.length);
 
-            l.forEach((dataPoint, i) => {
-                x[i] = xScale.scale(accessor.x(dataPoint.d, dataPoint.i));
-                y[i] = yScale.scale(accessor.y(dataPoint.d, dataPoint.i));
+        data.forEach((d, i) => {
+            x[i] = xScale.scale(accessor.x(d, i));
+            y[i] = yScale.scale(accessor.y(d, i));
+        });
+
+        draw.xValues(x)
+            .yValues(y)
+            .xScale(xScale.glScale)
+            .yScale(yScale.glScale)
+            .decorate((program) => {
+                program.buffers().uniform('uScreen', uniformBuilder([
+                    program.context().canvas.width,
+                    program.context().canvas.height
+                ]));
+
+                base.decorate()(program, data, 0);
             });
 
-            draw.xValues(x)
-                .yValues(y)
-                .xScale(xScale.glScale)
-                .yScale(yScale.glScale)
-                .decorate((program) => base.decorate()(program, l.map(v => v.d), 0));
-
-            draw(l.length);
-        });
+        const segments = getLineSegments(data);
+        draw(0, segments);
     };
 
     function getAccessors() {
@@ -50,25 +55,38 @@ export default () => {
 
     // split the data into continuous segments of line
     // they'll each be drawn individually
-    function getLines(data) {
-        const lines = [];
+    function getLineSegments(data) {
+        const segments = [];
 
-        let currentLine = [];
+        let length = 0;
+        let start = 0;
         data.forEach((d, i) => {
             if (line.defined()(d, i)) {
-                currentLine.push({ d, i });
+                if (length === 0) {
+                    start = i;
+                }
+                length++;
             } else {
-                if (currentLine.length) {
-                    lines.push(currentLine);
-                    currentLine = [];
+                if (length > 0) {
+                    segments.push({
+                        numElements: length,
+                        start: start,
+                        bufferSize: data.length
+                    });
+                    length = 0;
                 }
             }
         });
-        if (currentLine.length) {
-            lines.push(currentLine);
+
+        if (length > 0) {
+            segments.push({
+                numElements: length,
+                start: start,
+                bufferSize: data.length
+            });
         }
 
-        return lines;
+        return segments;
     }
 
     line.context = (...args) => {
