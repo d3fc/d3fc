@@ -6,47 +6,69 @@ import livereload from 'rollup-plugin-livereload'
 
 const devMode = process.env.BUILD === 'dev'
 
-let pkg = require('./package.json');
+let d3fcPkg = require('./package.json');
 
-const plugins = () => [
-    nodeResolve({ jsnext: true, main: true }),
-    babel(babelrc())
-];
+/**
+ * Provides a method for building d3fc, or for testing code live 
+ * by providing the 'dev' environment variable.
+ * 
+ * Command line options for use with 'dev':
+ * 
+ * --configOpen='foo.html'  
+ *      Starts debugging at /examples/foo.html. If omitted, defaults to index.html
+ * 
+ * --configPkg='d3fc-bar'
+ *      Starts debugging for the package /packages/d3fc-bar. If omitted defaults to d3fc
+ * 
+ * --port=1234
+ *      Starts debugging with host on port 1234. If omitted defaults to 8080
+ */
+export default commandLineArgs => {
+    let devPage = commandLineArgs.configOpen || 'index.html'
+    const devPkg = commandLineArgs.configPkg || 'd3fc'
+    const devPort = commandLineArgs.configPort || 8080
 
-const devPlugins = () => plugins().concat([
-    serve({
-        contentBase: ['.', 'build'],
-        open: true,
-        openPage: '/examples/index.html',
-        host: 'localhost',
-        port: 8080
-    }),
-    livereload({
-        watch: ['build', 'examples']
-    })
-]);
+    devPage = devPage.endsWith('.html') ? devPage : devPage + '.html'
+    const plugins = () => [
+        nodeResolve({ jsnext: true, main: true }),
+        babel(babelrc())
+    ];
 
-export default {
-    input: 'index.js',
-    plugins: devMode ? devPlugins() : plugins(),
-    external: (key) => key.indexOf('d3-') === 0,
-    output: {
-        file: pkg.main,
-        format: 'umd',
-        name: 'fc',
-        globals: (key) => {
-            if(key.indexOf('d3-') === 0) {
-                return 'd3'
-            }
+    const devPlugins = () => plugins().concat([
+        serve({
+            contentBase: '../..',
+            open: true,
+            openPage: `/packages/${devPkg}/examples/${devPage}`,
+            host: 'localhost',
+            port: devPort
+        }),
+        livereload({
+            watch: ['build', `../${devPkg}/examples`]
+        })
+    ]);
+
+    return {
+        input: 'index.js',
+        plugins: devMode ? devPlugins() : plugins(),
+        external: (key) => key.indexOf('d3-') === 0,
+        output: {
+            file: d3fcPkg.main,
+            format: 'umd',
+            name: 'fc',
+            globals: (key) => {
+                if(key.indexOf('d3-') === 0) {
+                    return 'd3'
+                }
+            },
         },
-    },
-    // There are circular dependencies in d3, https://github.com/d3/d3-interpolate/issues/58
-    // Don't pollute the build with other modules errors
-    onwarn: (warning, rollupWarn) => {
-        if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.indexOf('d3-') !== -1) {
-            return
+        // There are circular dependencies in d3, https://github.com/d3/d3-interpolate/issues/58
+        // Don't pollute the build with other modules errors
+        onwarn: (warning, rollupWarn) => {
+            if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.indexOf('d3-') !== -1) {
+                return
+            }
+            
+            rollupWarn(warning);
         }
-        
-        rollupWarn(warning);
-      }
+    }
 };
