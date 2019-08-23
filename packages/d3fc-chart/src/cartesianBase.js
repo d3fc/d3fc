@@ -20,7 +20,7 @@ export default (setPlotArea, defaultPlotArea) =>
                 container.enter()
                     .select('.x-label')
                     .style('height', '1em')
-                    .style('line-height', '4em');
+                    .style('line-height', '1em');
 
                 const yOrientValue = cartesian.yOrient()(data);
 
