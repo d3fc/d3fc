@@ -23,9 +23,7 @@
     "screenshots": "node ../../scripts/screenshot.js"
   },
   "devDependencies": {
-    "babel-polyfill": "^6.13.0",
-    "d3": "^4.2.5",
-    "webshot": "^0.18.0"
+    "d3": "^4.2.5"
   },
   "dependencies": {
     "@d3fc/d3fc-data-join": "^5.0.9",

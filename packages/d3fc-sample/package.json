@@ -19,7 +19,7 @@
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
     "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "site": "npm run test && mkdirp site/lib && browserify site/demo.js -o site/lib/bundle.js",
+    "site": "npm run test && make-dir site/lib && browserify site/demo.js -o site/lib/bundle.js",
     "dev": "npm run site && watch -p '{site,src,test}/**/*.js' -c 'npm run site'",
     "deploy-site": "npm run site && bash ./site/deploy.sh",
     "lint": "npx eslint src/**/*.js"
@@ -27,8 +27,9 @@
   "devDependencies": {
     "browserify": "^13.0.1",
     "d3": "^4.1.1",
+    "make-dir-cli": "^2.0.0",
     "topojson": "^2.0.0",
-    "watch-cli": "^0.2.1"
+    "watch": "^1.0.2"
   },
   "dependencies": {
     "@d3fc/d3fc-rebind": "^5.0.8",

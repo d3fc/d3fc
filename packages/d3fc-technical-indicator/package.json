@@ -45,7 +45,6 @@
     "@d3fc/d3fc-random-data": "^3.0.17",
     "@d3fc/d3fc-rebind": "^5.0.8",
     "@d3fc/d3fc-series": "^4.0.27",
-    "babel-polyfill": "^6.13.0",
     "d3": "^4.2.5",
     "fs-promise": "^1.0.0"
   },

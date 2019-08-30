@@ -59,7 +59,7 @@
     "js-yaml": "^3.7.0",
     "lerna": "^2.11.0",
     "live-server": "^1.1.0",
-    "marked": "^0.4.0",
+    "marked": "^0.7.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.5.0",
     "npm-run-all": "^4.0.1",

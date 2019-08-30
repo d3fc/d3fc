@@ -25,8 +25,7 @@
     "lint": "eslint src/**/*.js"
   },
   "devDependencies": {
-    "d3": "^4.11.0",
-    "watch-cli": "^0.2.1"
+    "d3": "^4.11.0"
   },
   "dependencies": {
     "@d3fc/d3fc-data-join": "^5.0.9",
