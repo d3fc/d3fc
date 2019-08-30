@@ -5,7 +5,7 @@
   "main": "build/d3fc.js",
   "scripts": {
     "start": "npx rollup -c --environment BUILD:dev --watch",
-    "bundle": "npx rollup -c && npx uglifyjs ./build/d3fc.js -o ./build/d3fc.min.js --compress --mangle",
+    "bundle": "npx rollup -c",
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "repository": {
