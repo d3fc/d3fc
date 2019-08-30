@@ -1,11 +1,11 @@
 {
   "name": "d3fc",
-  "version": "14.0.53",
+  "version": "14.0.54",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
     "start": "npx rollup -c --environment BUILD:dev --watch",
-    "bundle": "npx rollup -c",
+    "bundle": "npx rollup -c && npx uglifyjs ./build/d3fc.js -o ./build/d3fc.min.js --compress --mangle",
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "repository": {
@@ -25,13 +25,13 @@
   },
   "homepage": "https://d3fc.io",
   "dependencies": {
-    "@d3fc/d3fc-annotation": "^2.4.10",
-    "@d3fc/d3fc-axis": "^2.2.2",
-    "@d3fc/d3fc-brush": "^2.0.50",
-    "@d3fc/d3fc-chart": "^2.6.12",
+    "@d3fc/d3fc-annotation": "^2.4.11",
+    "@d3fc/d3fc-axis": "^2.2.3",
+    "@d3fc/d3fc-brush": "^2.0.51",
+    "@d3fc/d3fc-chart": "^2.6.13",
     "@d3fc/d3fc-data-join": "^5.0.9",
     "@d3fc/d3fc-discontinuous-scale": "^3.0.9",
-    "@d3fc/d3fc-element": "^5.2.12",
+    "@d3fc/d3fc-element": "^5.2.13",
     "@d3fc/d3fc-extent": "^3.1.5",
     "@d3fc/d3fc-financial-feed": "^6.0.2",
     "@d3fc/d3fc-group": "^2.0.8",
@@ -40,14 +40,15 @@
     "@d3fc/d3fc-random-data": "^3.0.17",
     "@d3fc/d3fc-rebind": "^5.0.8",
     "@d3fc/d3fc-sample": "^4.0.9",
-    "@d3fc/d3fc-series": "^4.0.27",
+    "@d3fc/d3fc-series": "^4.0.28",
     "@d3fc/d3fc-shape": "^5.0.17",
-    "@d3fc/d3fc-technical-indicator": "^7.0.33"
+    "@d3fc/d3fc-technical-indicator": "^7.0.34"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^3.0.0",
     "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-progress": "^1.1.1",
-    "rollup-plugin-serve": "^1.0.1"
+    "rollup-plugin-serve": "^1.0.1",
+    "uglify-js": "^3.6.0"
   }
 }
