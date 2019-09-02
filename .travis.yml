@@ -8,6 +8,7 @@ notifications:
 node_js:
   - '10'
 script:
+  - npm run commitlint
   - npm run bundle
   - npm run bundle-min
   - npm test

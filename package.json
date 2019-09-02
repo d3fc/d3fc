@@ -10,7 +10,18 @@
     "test": "lerna run test --stream --concurrency 1",
     "lint": "eslint **/*.js -c .eslintrc.json && markdownlint **/*.md --ignore **/node_modules/**",
     "screenshots": "lerna run screenshots --stream --concurrency 1",
-    "start": "lerna run bundle && npm start --prefix ./packages/d3fc"
+    "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
+    "commitlint": "commitlint --from HEAD~1 to HEAD --verbose"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": [
+        "echo +----------------------------------------------+ &&",
+        "echo.^|      This repo is Commitzen Friendly!        ^| &&",
+        "echo.^| Use git cz to generate a conventional commit ^| &&",
+        "echo.+----------------------------------------------+"
+      ]
+    }
   },
   "repository": {
     "type": "git",
@@ -29,12 +40,26 @@
   },
   "homepage": "https://d3fc.io",
   "devDependencies": {
+<<<<<<< HEAD
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
+=======
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/travis-cli": "^8.1.0",
+    "babel-core": "^6.14.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-custom-element-classes": "^0.1.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-register": "^6.26.0",
+>>>>>>> feat: add Conventional Commit Support
     "babelrc-rollup": "^3.0.0",
     "command-line-args": "^3.0.1",
+    "commitizen": "^4.0.3",
     "cross-spawn": "^5.0.1",
+    "cz-conventional-changelog": "^3.0.2",
     "d3": "^5.7.0",
     "eol": "^0.4.0",
     "eslint": "^3.1.0",
@@ -44,6 +69,7 @@
     "eslint-plugin-standard": "^2.0.0",
     "finalhandler": "^1.1.2",
     "glob": "^7.1.0",
+    "husky": "^3.0.5",
     "jasmine": "^2.4.1",
     "jsdom": "^9.4.1",
     "lerna": "^3.16.4",
@@ -57,5 +83,10 @@
     "rollup-plugin-babel-minify": "^9.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "serve-static": "^1.11.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
