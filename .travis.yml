@@ -8,6 +8,7 @@ notifications:
 node_js:
   - '10'
 script:
+  - npm run commitlint
   - npm run bundle
   - npm test
   - npx lerna run --scope @d3fc/d3fc-site site
