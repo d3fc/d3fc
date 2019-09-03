@@ -14,7 +14,7 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "node ./scripts/commit-notice"
+      "prepare-commit-msg": "env FORCE_COLOR=1 node ./scripts/commit-notice.js"
     }
   },
   "repository": {
