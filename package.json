@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": "node ./scripts/commit-notice"
+      "prepare-commit-msg": "env FORCE_COLOR=1 node ./scripts/commit-notice.js"
     }
   },
   "repository": {
@@ -35,21 +35,12 @@
   },
   "homepage": "https://d3fc.io",
   "devDependencies": {
-<<<<<<< HEAD
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
-=======
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/travis-cli": "^8.1.0",
-    "babel-core": "^6.14.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-custom-element-classes": "^0.1.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "babel-register": "^6.26.0",
->>>>>>> feat: add Conventional Commit Support
     "babelrc-rollup": "^3.0.0",
     "chalk": "^2.4.2",
     "command-line-args": "^3.0.1",
