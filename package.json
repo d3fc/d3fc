@@ -14,12 +14,7 @@
   },
   "husky": {
     "hooks": {
-      "prepare-commit-msg": [
-        "echo +----------------------------------------------+ &&",
-        "echo.^|      This repo is Commitzen Friendly!        ^| &&",
-        "echo.^| Use git cz to generate a conventional commit ^| &&",
-        "echo.+----------------------------------------------+"
-      ]
+      "prepare-commit-msg": "node ./scripts/commit-notice"
     }
   },
   "repository": {
@@ -49,6 +44,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-register": "^6.26.0",
     "babelrc-rollup": "^3.0.0",
+    "chalk": "^2.4.2",
     "command-line-args": "^3.0.1",
     "commitizen": "^4.0.3",
     "cross-spawn": "^5.0.1",
