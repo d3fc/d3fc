@@ -5,7 +5,7 @@
   "main": "build/d3fc.js",
   "scripts": {
     "start": "npx rollup -c --environment BUILD:dev --watch",
-    "bundle": "npx rollup -c && npx uglifyjs ./build/d3fc.js -o ./build/d3fc.min.js --compress --mangle",
+    "bundle": "npx rollup -c",
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "repository": {
@@ -45,10 +45,7 @@
     "@d3fc/d3fc-technical-indicator": "^7.0.34"
   },
   "devDependencies": {
-    "babel-preset-es2015-rollup": "^3.0.0",
     "rollup-plugin-livereload": "^1.0.1",
-    "rollup-plugin-progress": "^1.1.1",
-    "rollup-plugin-serve": "^1.0.1",
-    "uglify-js": "^3.6.0"
+    "rollup-plugin-serve": "^1.0.1"
   }
 }

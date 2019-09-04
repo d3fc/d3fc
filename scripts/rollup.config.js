@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel';
-import babelrc from 'babelrc-rollup';
-import nodeResolve from 'rollup-plugin-node-resolve';
+import babelrc from 'read-babelrc-up'
+import resolve from 'rollup-plugin-node-resolve';
+import minify from 'rollup-plugin-babel-minify';
 
 var external = (key) => key.indexOf('d3-') === 0 || key.indexOf('d3fc-') === 0
 var globals = function(key) {
@@ -12,12 +13,16 @@ var globals = function(key) {
   }
 };
 
-let plugins = [
-  babel(babelrc()),
-  nodeResolve({ jsnext: true, main: true })
-];
-
 export default commandLineArgs => {
+    process.env = commandLineArgs.configEnv || 'dev'
+    const shouldMinify = process.env === 'prod'
+    let plugins = [
+      babel(babelrc()),
+      resolve()
+    ];
+    if(shouldMinify) {
+      plugins.push(minify({ comments: false }))
+    }
     const pkgInfo = require(`${process.cwd()}/package.json`)
     if(!pkgInfo) {
       throw Error('Expected build to be triggered from directory containing package.json')
@@ -32,7 +37,7 @@ export default commandLineArgs => {
       plugins: plugins,
       external: external,
       output: {
-          file: `build/${name}.js`,
+          file: `build/${name}${shouldMinify ? '.min' : ''}.js`,
           format: 'umd',
           globals: globals,
           extend: true,
