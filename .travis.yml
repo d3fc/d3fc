@@ -14,9 +14,6 @@ script:
   - npx lerna run --scope @d3fc/d3fc-site site
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-install:
-  - npm i
-  - npx lerna bootstrap --ci
 after_success:
   - >-
     test $TRAVIS_PULL_REQUEST == "false" &&
