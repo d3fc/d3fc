@@ -10,6 +10,7 @@ node_js:
 script:
   - npm run commitlint
   - npm run bundle
+  - npm run bundle-min
   - npm test
   - npx lerna run --scope @d3fc/d3fc-site site
 before_install:

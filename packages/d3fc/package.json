@@ -1,11 +1,11 @@
 {
   "name": "d3fc",
-  "version": "14.0.54",
+  "version": "14.0.55",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
     "start": "npx rollup -c --environment BUILD:dev --watch",
-    "bundle": "npx rollup -c && npx uglifyjs ./build/d3fc.js -o ./build/d3fc.min.js --compress --mangle",
+    "bundle": "npx rollup -c",
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "repository": {
@@ -25,30 +25,27 @@
   },
   "homepage": "https://d3fc.io",
   "dependencies": {
-    "@d3fc/d3fc-annotation": "^2.4.11",
-    "@d3fc/d3fc-axis": "^2.2.3",
-    "@d3fc/d3fc-brush": "^2.0.51",
-    "@d3fc/d3fc-chart": "^2.6.13",
-    "@d3fc/d3fc-data-join": "^5.0.9",
-    "@d3fc/d3fc-discontinuous-scale": "^3.0.9",
-    "@d3fc/d3fc-element": "^5.2.13",
-    "@d3fc/d3fc-extent": "^3.1.5",
-    "@d3fc/d3fc-financial-feed": "^6.0.2",
-    "@d3fc/d3fc-group": "^2.0.8",
-    "@d3fc/d3fc-label-layout": "^6.0.9",
-    "@d3fc/d3fc-pointer": "^2.0.9",
-    "@d3fc/d3fc-random-data": "^3.0.17",
-    "@d3fc/d3fc-rebind": "^5.0.8",
-    "@d3fc/d3fc-sample": "^4.0.9",
-    "@d3fc/d3fc-series": "^4.0.28",
-    "@d3fc/d3fc-shape": "^5.0.17",
-    "@d3fc/d3fc-technical-indicator": "^7.0.34"
+    "@d3fc/d3fc-annotation": "^2.4.12",
+    "@d3fc/d3fc-axis": "^2.2.4",
+    "@d3fc/d3fc-brush": "^2.0.52",
+    "@d3fc/d3fc-chart": "^2.6.14",
+    "@d3fc/d3fc-data-join": "^5.0.10",
+    "@d3fc/d3fc-discontinuous-scale": "^3.0.10",
+    "@d3fc/d3fc-element": "^5.2.14",
+    "@d3fc/d3fc-extent": "^3.1.6",
+    "@d3fc/d3fc-financial-feed": "^6.0.3",
+    "@d3fc/d3fc-group": "^2.0.9",
+    "@d3fc/d3fc-label-layout": "^6.0.10",
+    "@d3fc/d3fc-pointer": "^2.0.10",
+    "@d3fc/d3fc-random-data": "^3.0.18",
+    "@d3fc/d3fc-rebind": "^5.0.9",
+    "@d3fc/d3fc-sample": "^4.0.10",
+    "@d3fc/d3fc-series": "^4.0.29",
+    "@d3fc/d3fc-shape": "^5.0.18",
+    "@d3fc/d3fc-technical-indicator": "^7.0.35"
   },
   "devDependencies": {
-    "babel-preset-es2015-rollup": "^3.0.0",
     "rollup-plugin-livereload": "^1.0.1",
-    "rollup-plugin-progress": "^1.1.1",
-    "rollup-plugin-serve": "^1.0.1",
-    "uglify-js": "^3.6.0"
+    "rollup-plugin-serve": "^1.0.1"
   }
 }

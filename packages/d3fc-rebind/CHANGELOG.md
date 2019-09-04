@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-rebind@5.0.8...@d3fc/d3fc-rebind@5.0.9) (2019-09-04)
+
+**Note:** Version bump only for package @d3fc/d3fc-rebind
+
+
+
+
+
 <a name="5.0.8"></a>
 ## [5.0.8](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-rebind@5.0.7...@d3fc/d3fc-rebind@5.0.8) (2019-08-12)
 
