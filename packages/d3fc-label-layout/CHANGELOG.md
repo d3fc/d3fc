@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.10](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-label-layout@6.0.9...@d3fc/d3fc-label-layout@6.0.10) (2019-09-04)
+
+**Note:** Version bump only for package @d3fc/d3fc-label-layout
+
+
+
+
+
 <a name="6.0.9"></a>
 ## [6.0.9](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-label-layout@6.0.8...@d3fc/d3fc-label-layout@6.0.9) (2019-08-12)
 

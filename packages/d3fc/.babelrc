@@ -1,7 +1,3 @@
 {
-  "presets": ["env"],
-  "plugins": [
-    "babel-plugin-transform-custom-element-classes",
-    "external-helpers"
-  ]
+    "presets": ["@babel/preset-env"]
 }

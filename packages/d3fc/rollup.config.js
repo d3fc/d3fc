@@ -1,6 +1,8 @@
 import babel from 'rollup-plugin-babel';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import babelrc from 'babelrc-rollup';
+import babelrc from 'read-babelrc-up'
+import resolve from 'rollup-plugin-node-resolve';
+import minify from 'rollup-plugin-babel-minify';
+
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 
@@ -27,12 +29,21 @@ export default commandLineArgs => {
     let devPage = commandLineArgs.configOpen || 'index.html'
     const devPkg = commandLineArgs.configPkg || 'd3fc'
     const devPort = commandLineArgs.configPort || 8080
-
+    
     devPage = devPage.endsWith('.html') ? devPage : devPage + '.html'
-    const plugins = () => [
-        nodeResolve({ jsnext: true, main: true }),
-        babel(babelrc())
+
+    process.env = commandLineArgs.configEnv || 'dev'
+    const shouldMinify = process.env === 'prod'
+
+    const _plugins = [
+        babel(babelrc()),
+        resolve()
     ];
+
+    if(shouldMinify) {
+        _plugins.push(minify({ comments: false }))
+    }
+    let plugins = () => _plugins
 
     const devPlugins = () => plugins().concat([
         serve({
@@ -52,7 +63,7 @@ export default commandLineArgs => {
         plugins: devMode ? devPlugins() : plugins(),
         external: (key) => key.indexOf('d3-') === 0,
         output: {
-            file: d3fcPkg.main,
+            file: `build/${d3fcPkg.name}${shouldMinify ? '.min' : ''}.js`,
             format: 'umd',
             name: 'fc',
             globals: (key) => {
