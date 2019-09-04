@@ -15,7 +15,7 @@ script:
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 install:
-  - npm i
+  - npm i --ignore-scripts
   - npx lerna bootstrap --ci
 after_success:
   - >-
