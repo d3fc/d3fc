@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.67...@d3fc/d3fc-site@0.1.0) (2019-09-04)
+
+
+### Features
+
+* add Conventional Commit Support ([477dcc4](https://github.com/d3fc/d3fc/commit/477dcc4))
+
+
+
+
+
 ## [0.0.67](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.0.66...@d3fc/d3fc-site@0.0.67) (2019-09-04)
 
 **Note:** Version bump only for package @d3fc/d3fc-site
