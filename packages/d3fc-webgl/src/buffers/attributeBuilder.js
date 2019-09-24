@@ -23,7 +23,7 @@ export default (_data) => {
 
         const dataType = getGLType(data.constructor, gl);
 
-        buffer = buffer && gl.isBuffer(buffer) ? buffer : gl.createBuffer();
+        buffer = buffer || gl.createBuffer();
 
         const location = gl.getAttribLocation(program, name);
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);

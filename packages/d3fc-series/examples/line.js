@@ -38,3 +38,18 @@ var canvasLine = fc.seriesCanvasLine()
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; });
 canvasLine(data);
+
+var canvasgl = d3.select('#line-webgl').node();
+canvasgl.width = width;
+canvasgl.height = height;
+var gl = canvasgl.getContext('webgl');
+
+var webglLine = fc.seriesWebglLine()
+    .xScale(xScale)
+    .yScale(yScale)
+    .defined((_, i) => i % 20 !== 0)
+    .context(gl)
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; });
+
+webglLine(data);

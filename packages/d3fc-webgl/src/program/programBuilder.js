@@ -8,8 +8,7 @@ export default () => {
     let fragmentShader = null;
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
-
-    const build = (numElements) => {
+    const build = (numElements, start = 0, bufferSize = numElements) => {
         const vertexShaderSource = vertexShader();
         const fragmentShaderSource = fragmentShader();
         if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
@@ -18,9 +17,9 @@ export default () => {
         }
         context.useProgram(program);
 
-        buffers(context, program, numElements);
+        buffers(context, program, bufferSize);
 
-        context.drawArrays(mode, 0, numElements);
+        context.drawArrays(mode, start, numElements);
     };
 
     build.context = (...args) => {
@@ -66,7 +65,7 @@ export default () => {
     return build;
 
     function newProgram(program, vertexShader, fragmentShader) {
-        if (!context.isProgram(program)) {
+        if (!program) {
             return true;
         }
 
