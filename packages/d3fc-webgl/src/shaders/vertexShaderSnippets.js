@@ -14,7 +14,12 @@ export const multiColor = {
     body: `vColor = aColor;`
 };
 
-export const point = {
+export const positionalColor = {
+    header: `varying vec4 vColor;`,
+    body: `vColor = vec4(aXValue, aYValue, 0.0, 1.0);`
+};
+
+export const circle = {
     header: `attribute float aXValue;
              attribute float aYValue;
              attribute float aSize;
@@ -23,4 +28,13 @@ export const point = {
     body: `vSize = 2.0 * sqrt(aSize / 3.14159);
            gl_PointSize = vSize + uEdgeSize + 1.0;
            gl_Position = vec4(aXValue, aYValue, 0, 1);`
+};
+
+export const square = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aSize;`,
+    body: `float vSize = sqrt(aSize);
+        gl_PointSize = vSize + 1.0;
+        gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };

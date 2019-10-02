@@ -27,3 +27,7 @@ export const circleEdge = {
     body: `float sEdge = smoothstep(vSize - uEdgeSize - 2.0, vSize - uEdgeSize, distance * (vSize + uEdgeSize));
            gl_FragColor = (uEdgeColor * sEdge) + ((1.0 - sEdge) * gl_FragColor);`
 };
+
+export const square = {
+    body: `gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);`
+};
