@@ -9,6 +9,7 @@ export default () => {
     .appendHeader(vertexShaderSnippets.square.header)
     .appendBody(vertexShaderSnippets.square.body);
   fragmentShader
+    .appendHeader(fragmentShaderSnippets.square.header)
     .appendBody(fragmentShaderSnippets.square.body);
 
   return {

@@ -33,8 +33,10 @@ export const circle = {
 export const square = {
     header: `attribute float aXValue;
         attribute float aYValue;
-        attribute float aSize;`,
-    body: `float vSize = sqrt(aSize);
-        gl_PointSize = vSize + 1.0;
+        attribute float aSize;
+        uniform float uEdgeSize;
+        varying float vSize;`,
+    body: `vSize = sqrt(aSize);
+        gl_PointSize = vSize + uEdgeSize + 1.0;
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
