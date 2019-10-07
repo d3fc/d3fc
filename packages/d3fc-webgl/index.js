@@ -4,6 +4,7 @@ export { default as uniformBuilder } from './src/buffers/uniformBuilder';
 export { default as shaderBuilder } from './src/shaders/shaderBuilder';
 export { default as programBuilder } from './src/program/programBuilder';
 export { default as scaleMapper } from './src/scale/scaleMapper';
+export { default as symbolMapper } from './src/symbolMapper';
 
 export { default as circlePointShader } from './src/shaders/point/circle/baseShader';
 export { default as pointFill } from './src/shaders/point/fill';
