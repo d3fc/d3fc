@@ -15,9 +15,6 @@ var d3YScale = d3.scaleLinear()
     .domain([fc.extentLinear()(data)[0], fc.extentLinear()(data)[1]])
     .range([height, 0]);
 
-var xScale = fc.scaleMapper(d3XScale);
-var yScale = fc.scaleMapper(d3YScale);
-
 var canvas = d3.select('#line-webgl').node();
 canvas.width = width;
 canvas.height = height;
