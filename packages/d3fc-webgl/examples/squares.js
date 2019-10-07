@@ -33,6 +33,7 @@ const getWebglSeries = () => fc.seriesWebglPoint()
     .crossValue(crossValue)
     .mainValue(mainValue)
     .size(size)
+    .type(d3.symbolSquare)
     .decorate(program => {
         // program.vertexShader()
         //     .appendHeader(fc.vertexShaderSnippets.positionalColor.header)

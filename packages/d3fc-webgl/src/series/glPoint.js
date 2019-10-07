@@ -9,6 +9,7 @@ export default () => {
     let program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
+    let type = () => circlePointShader();
     let decorate = () => {};
 
     const xValueAttrib = 'aXValue';
@@ -18,7 +19,7 @@ export default () => {
     const draw = (numElements) => {
         // we are resetting the shader each draw here, to avoid issues with decorate
         // we'll eventually need a way to change the symbol type here
-        const shaderBuilder = circlePointShader();
+        const shaderBuilder = type();
         program.vertexShader(shaderBuilder.vertex())
                .fragmentShader(shaderBuilder.fragment())
                .mode(drawModes.POINTS);
@@ -87,7 +88,17 @@ export default () => {
         return draw;
     };
 
+    draw.type = (...args) => {
+        if (!args.length) {
+            return type;
+        }
+        type = functor(args[0]);
+        return draw;
+    };
+
     rebind(draw, program, 'context');
 
     return draw;
 };
+
+const functor = v => typeof v === 'function' ? v : () => v;
