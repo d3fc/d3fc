@@ -7,6 +7,7 @@ export { default as scaleMapper } from './src/scale/scaleMapper';
 export { default as symbolMapper } from './src/symbolMapper';
 
 export { default as circlePointShader } from './src/shaders/point/circle/baseShader';
+export { default as squarePointShader } from './src/shaders/point/square/baseShader';
 export { default as pointFill } from './src/shaders/point/fill';
 export { default as pointStroke } from './src/shaders/point/stroke';
 export { default as pointAntiAlias } from './src/shaders/point/antiAlias';
