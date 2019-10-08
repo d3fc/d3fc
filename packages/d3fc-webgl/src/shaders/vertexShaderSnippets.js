@@ -14,11 +14,6 @@ export const multiColor = {
     body: `vColor = aColor;`
 };
 
-export const positionalColor = {
-    header: `varying vec4 vColor;`,
-    body: `vColor = vec4(aXValue, aYValue, 0.0, 1.0);`
-};
-
 export const circle = {
     header: `attribute float aXValue;
              attribute float aYValue;
