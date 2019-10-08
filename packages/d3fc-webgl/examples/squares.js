@@ -21,13 +21,13 @@ const getWebglSeries = () => fc.seriesWebglPoint()
   .mainValue(mainValue)
   .type(d3.symbolSquare)
   .decorate(program => {
-      fc.pointFill()(program);
-      fc.pointStroke()(program);
-      fc.pointAntiAlias()(program);
+    fc.pointFill()(program);
+    fc.pointStroke()(program);
+    fc.pointAntiAlias()(program);
 
-      const context = program.context();
-      context.enable(context.BLEND);
-      context.blendFuncSeparate(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA, context.ONE, context.ONE_MINUS_SRC_ALPHA);
+    const context = program.context();
+    context.enable(context.BLEND);
+    context.blendFuncSeparate(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA, context.ONE, context.ONE_MINUS_SRC_ALPHA);
   });
 
 // create a d3-zoom that handles the mouse / touch interactions
