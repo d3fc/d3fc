@@ -15,6 +15,7 @@ export { default as lineWidth } from './src/shaders/line/width';
 
 export { default as glPoint } from './src/series/glPoint';
 export { default as glLine } from './src/series/glLine';
+export { default as glOhlc } from './src/series/glOhlc';
 
 export { default as glScaleLinear } from './src/scale/glScaleLinear';
 export { default as glScaleLog } from './src/scale/glScaleLog';
