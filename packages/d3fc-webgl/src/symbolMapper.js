@@ -3,7 +3,6 @@ import circlePointShader from './shaders/point/circle/baseShader';
 import squarePointShader from './shaders/point/square/baseShader';
 
 export default (symbol) => {
-  let outSymbol = d3Shape.symbolCircle;
   let glSymbol = null;
 
   switch (symbol) {
@@ -14,12 +13,8 @@ export default (symbol) => {
       glSymbol = squarePointShader();
       break;
     default:
-      glSymbol = circlePointShader();
-      outSymbol = symbol;
+      throw new Error(`Unrecognised symbol: ${symbol}`);
   }
 
-  return {
-    symbol: outSymbol,
-    glSymbol
-  };
+  return glSymbol;
 };

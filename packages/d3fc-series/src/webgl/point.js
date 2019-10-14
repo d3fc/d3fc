@@ -34,7 +34,7 @@ export default () => {
             .sizes(sizes)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .type(symbolType.glSymbol)
+            .type(symbolType)
             .decorate((program) => base.decorate()(program, filteredData, 0));
 
         draw(filteredData.length);
