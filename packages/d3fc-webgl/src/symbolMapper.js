@@ -1,6 +1,6 @@
 import d3Shape from 'd3-shape';
 import circlePointShader from './shaders/point/circle/baseShader';
-import squarePointShader from './shaders/point/square/baseShader';
+import squarePointShader from './shaders/point/square/shader';
 
 export default (symbol) => {
   let glSymbol = null;
