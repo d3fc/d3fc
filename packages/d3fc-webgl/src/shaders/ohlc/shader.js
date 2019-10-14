@@ -10,10 +10,15 @@ export default () => {
     .appendHeader(`
       attribute float aXValue;
       attribute float aYValue;
+      attribute float aXLineWidth;
+      attribute float aYLineWidth;
+      attribute float aBandwidth;
     `)
     .appendHeader(vertexShaderSnippets.multiColor.header)
     .appendBody(`
-      gl_Position = vec4(aXValue, aYValue, 0, 1);
+      vec4 xOffset = vec4((aXLineWidth / 2.0) + (aBandwidth / 2.0), 0, 0, 0);
+      vec4 yOffset = vec4(0, (aYLineWidth / 2.0), 0, 0);
+      gl_Position = vec4(aXValue + xOffset.x, aYValue + yOffset.y, 0, 1);
     `)
     .appendBody(vertexShaderSnippets.multiColor.body);
 

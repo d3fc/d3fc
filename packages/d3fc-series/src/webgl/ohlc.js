@@ -5,7 +5,7 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = ohlcBase();
-    let lineWidth = functor(1);
+    let lineWidth = functor(1.0);
 
     let draw = glOhlc();
 
@@ -45,7 +45,7 @@ export default () => {
             .xScale(xScale.glScale)
             .yScale(yScale.glScale);
 
-        draw(filteredData.length * 6);
+        draw(filteredData.length);
     };
 
     function getAccessors() {

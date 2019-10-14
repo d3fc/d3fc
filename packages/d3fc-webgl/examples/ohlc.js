@@ -18,7 +18,9 @@ const x2 = x.copy();
 const y2 = y.copy();
 
 const getWebglSeries = () => fc.seriesWebglOhlc()
-  .crossValue(d => d.x);
+  .crossValue(d => d.x)
+  .bandwidth(0.1)
+  .lineWidth(0.1);
 
 const zoom = d3.zoom()
   .on('zoom', () => {
