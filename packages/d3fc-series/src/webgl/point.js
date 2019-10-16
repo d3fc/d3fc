@@ -1,10 +1,12 @@
+import d3Shape from 'd3-shape';
 import xyBase from '../xyBase';
-import { glPoint, scaleMapper } from '@d3fc/d3fc-webgl';
+import { glPoint, scaleMapper, symbolMapper } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = xyBase();
     let size = 64;
+    let type = d3Shape.symbolCircle;
 
     let draw = glPoint();
 
@@ -13,6 +15,7 @@ export default () => {
 
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
+        const symbolType = symbolMapper(type);
 
         const accessor = getAccessors();
 
@@ -31,6 +34,7 @@ export default () => {
             .sizes(sizes)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
+            .type(symbolType)
             .decorate((program) => base.decorate()(program, filteredData, 0));
 
         draw(filteredData.length);
@@ -55,6 +59,14 @@ export default () => {
             return size;
         }
         size = args[0];
+        return point;
+    };
+
+    point.type = (...args) => {
+        if (!args.length) {
+            return type;
+        }
+        type = args[0];
         return point;
     };
 

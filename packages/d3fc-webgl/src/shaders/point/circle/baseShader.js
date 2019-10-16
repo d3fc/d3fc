@@ -6,8 +6,8 @@ export default () => {
     const vertexShader = shaderBuilder(vertexShaderBase);
     const fragmentShader = shaderBuilder(fragmentShaderBase);
     vertexShader
-        .appendHeader(vertexShaderSnippets.point.header)
-        .appendBody(vertexShaderSnippets.point.body);
+        .appendHeader(vertexShaderSnippets.circle.header)
+        .appendBody(vertexShaderSnippets.circle.body);
     fragmentShader
         .appendHeader(fragmentShaderSnippets.circle.header)
         .appendBody(fragmentShaderSnippets.circle.body);

@@ -4,11 +4,13 @@ export { default as uniformBuilder } from './src/buffers/uniformBuilder';
 export { default as shaderBuilder } from './src/shaders/shaderBuilder';
 export { default as programBuilder } from './src/program/programBuilder';
 export { default as scaleMapper } from './src/scale/scaleMapper';
+export { default as symbolMapper } from './src/symbolMapper';
 
 export { default as circlePointShader } from './src/shaders/point/circle/baseShader';
-export { default as circleFill } from './src/shaders/point/circle/fill';
-export { default as circleStroke } from './src/shaders/point/circle/stroke';
-export { default as circleAntiAlias } from './src/shaders/point/circle/antiAlias';
+export { default as squarePointShader } from './src/shaders/point/square/shader';
+export { default as pointFill } from './src/shaders/point/fill';
+export { default as pointStroke } from './src/shaders/point/stroke';
+export { default as pointAntiAlias } from './src/shaders/point/antiAlias';
 export { default as lineWidth } from './src/shaders/line/width';
 
 export { default as glPoint } from './src/series/glPoint';
