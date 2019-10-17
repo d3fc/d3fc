@@ -1,4 +1,5 @@
 import attributeBuilder from '../buffers/attributeBuilder';
+import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import ohlcShader from '../shaders/ohlc/shader';
@@ -36,10 +37,20 @@ export default () => {
     yScale.coordinate(1);
     yScale(program);
 
+    program.buffers().uniform('uScreen', uniformBuilder([
+      program.context().canvas.width,
+      program.context().canvas.height
+    ]));
+
+    program.vertexShader()
+      .appendBody(`
+        gl_Position.x += ((aXLineWidth / 2.0) + (aBandwidth / 2.0)) / uScreen.x;
+        gl_Position.y += (aYLineWidth / 2.0) / uScreen.y;
+      `);
+
     decorate(program);
 
     const buffers = buildBuffers(x, open, high, low, close, bandwidth, lineWidth, numElements);
-    console.log('buffers:', buffers);
     bindBuffers(program, buffers);
 
     program(numElements * 18);
@@ -143,8 +154,8 @@ export default () => {
       buffers.bandwidth.push(bandwidthBuf);
     };
 
-    const red = [1, 0, 0, 1];
-    const green = [0, 1, 0, 1];
+    const red = [0.8, 0.4, 0, 1];
+    const green = [0.4, 0.8, 0, 1];
     const redArray = [];
     const greenArray = [];
     for (let i = 0; i < 18; i += 1) {
@@ -171,20 +182,20 @@ export default () => {
       addToBuffers(xi, highi, -lineWidthi, 0, 0);
 
       // Open bar
-      addToBuffers(xi, openi, -lineWidthi, lineWidthi, 0);
-      addToBuffers(xi, openi, -lineWidthi, -lineWidthi, 0);
+      addToBuffers(xi, openi, 0, lineWidthi, 0);
+      addToBuffers(xi, openi, 0, -lineWidthi, 0);
       addToBuffers(xi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
 
-      addToBuffers(xi, openi, -lineWidthi, lineWidthi, 0);
+      addToBuffers(xi, openi, 0, lineWidthi, 0);
       addToBuffers(xi, openi, -lineWidthi, lineWidthi, -bandwidthi);
       addToBuffers(xi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
 
       // Close bar
-      addToBuffers(xi, closei, lineWidthi, -lineWidthi, 0);
-      addToBuffers(xi, closei, lineWidthi, lineWidthi, 0);
+      addToBuffers(xi, closei, 0, -lineWidthi, 0);
+      addToBuffers(xi, closei, 0, lineWidthi, 0);
       addToBuffers(xi, closei, lineWidthi, lineWidthi, bandwidthi);
 
-      addToBuffers(xi, closei, lineWidthi, -lineWidthi, 0);
+      addToBuffers(xi, closei, 0, -lineWidthi, 0);
       addToBuffers(xi, closei, lineWidthi, -lineWidthi, bandwidthi);
       addToBuffers(xi, closei, lineWidthi, lineWidthi, bandwidthi);
 

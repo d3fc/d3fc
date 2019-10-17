@@ -6,7 +6,6 @@ data = data.map((val) => ({
   ...val,
   x: counter++
 }));
-console.log('data:', data);
 
 const x = d3.scaleLinear();
 const y = d3.scaleLinear();
@@ -19,8 +18,8 @@ const y2 = y.copy();
 
 const getWebglSeries = () => fc.seriesWebglOhlc()
   .crossValue(d => d.x)
-  .bandwidth(0.1)
-  .lineWidth(0.1);
+  .bandwidth(10)
+  .lineWidth(2);
 
 const zoom = d3.zoom()
   .on('zoom', () => {
