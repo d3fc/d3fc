@@ -18,7 +18,8 @@ var svgPoint = fc.seriesSvgPoint()
     .xScale(xScale)
     .yScale(yScale)
     .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; });
+    .mainValue(function(d) { return d; })
+    .type(d3.symbolCircle);
 
 container.append('g')
     .datum(data)
@@ -29,13 +30,14 @@ canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext('2d');
 
-var canvasLine = fc.seriesCanvasPoint()
+var canvasPoint = fc.seriesCanvasPoint()
     .xScale(xScale)
     .yScale(yScale)
     .context(ctx)
     .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; });
-canvasLine(data);
+    .mainValue(function(d) { return d; })
+    .type(d3.symbolCircle);
+canvasPoint(data);
 
 var webgl = d3.select('#point-webgl').node();
 webgl.width = width;
@@ -48,9 +50,28 @@ var webglPoint = fc.seriesWebglPoint()
     .context(gl)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; })
+    .type(d3.symbolCircle)
     .decorate(function(program) {
         fc.pointFill()(program);
         fc.pointStroke()(program);
         fc.pointAntiAlias()(program);
     });
 webglPoint(data);
+
+d3.select('#point-symbol').on('change', function() {
+  var newSymbol = d3.select(this).property('value');
+
+  svgPoint.type(d3[newSymbol]);
+  container.selectAll('g').remove();
+  container.append('g')
+    .datum(data)
+    .call(svgPoint);
+
+  canvas.width = width;
+  canvasPoint.type(d3[newSymbol]);
+  canvasPoint(data);
+
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  webglPoint.type(d3[newSymbol]);
+  webglPoint(data);
+});
