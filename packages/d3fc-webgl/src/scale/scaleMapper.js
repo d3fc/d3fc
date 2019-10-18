@@ -21,6 +21,9 @@ export default (scale) => {
         glScale = glScalePow()
             .domain(scale.domain())
             .exponent(scale.exponent());
+    } else if (scaleCopyString === d3Scale.scaleTime().copy.toString()) {
+        glScale = glScaleLinear()
+            .domain(scale.domain());
     } else {
         glScale = glScaleLinear()
             .domain(scale.range());

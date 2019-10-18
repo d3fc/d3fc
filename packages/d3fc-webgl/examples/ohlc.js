@@ -1,23 +1,16 @@
 const dataGenerator = fc.randomFinancial();
 let data = dataGenerator(10);
 
-let counter = 0;
-data = data.map((val) => ({
-  ...val,
-  x: counter++
-}));
-
-const x = d3.scaleLinear();
+const x = d3.scaleTime();
 const y = d3.scaleLinear();
 
-x.domain(fc.extentLinear().accessors([d => d.x])(data));
+x.domain(fc.extentTime().accessors([d => d.date])(data));
 y.domain(fc.extentLinear().accessors([d => d.high, d => d.low])(data));
 
 const x2 = x.copy();
 const y2 = y.copy();
 
 const getWebglSeries = () => fc.seriesWebglOhlc()
-  .crossValue(d => d.x)
   .bandwidth(10)
   .lineWidth(2);
 
