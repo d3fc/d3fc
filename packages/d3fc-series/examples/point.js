@@ -63,8 +63,7 @@ d3.select('#point-symbol').on('change', function() {
   var newSymbol = d3[newSymbolString];
 
   svgPoint.type(newSymbol);
-  container.selectAll('g').remove();
-  container.append('g')
+  container.select('g')
     .datum(data)
     .call(svgPoint);
 
