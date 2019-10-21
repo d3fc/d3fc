@@ -59,19 +59,20 @@ var webglPoint = fc.seriesWebglPoint()
 webglPoint(data);
 
 d3.select('#point-symbol').on('change', function() {
-  var newSymbol = d3.select(this).property('value');
+  var newSymbolString = d3.select(this).property('value');
+  var newSymbol = d3[newSymbolString];
 
-  svgPoint.type(d3[newSymbol]);
+  svgPoint.type(newSymbol);
   container.selectAll('g').remove();
   container.append('g')
     .datum(data)
     .call(svgPoint);
 
   canvas.width = width;
-  canvasPoint.type(d3[newSymbol]);
+  canvasPoint.type(newSymbol);
   canvasPoint(data);
 
   gl.clear(gl.COLOR_BUFFER_BIT);
-  webglPoint.type(d3[newSymbol]);
+  webglPoint.type(newSymbol);
   webglPoint(data);
 });
