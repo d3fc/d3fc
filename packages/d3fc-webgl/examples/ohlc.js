@@ -1,5 +1,5 @@
 const dataGenerator = fc.randomFinancial();
-let data = dataGenerator(10);
+let data = dataGenerator(40);
 
 const x = d3.scaleTime();
 const y = d3.scaleLinear();

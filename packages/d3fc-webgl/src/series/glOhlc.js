@@ -11,7 +11,7 @@ export default () => {
   let xScale = glScaleBase();
   let yScale = glScaleBase();
   let decorate = () => {};
-  let x = null;
+  let xValues = null;
   let open = null;
   let high = null;
   let low = null;
@@ -50,17 +50,17 @@ export default () => {
 
     decorate(program);
 
-    const buffers = buildBuffers(x, open, high, low, close, bandwidth, lineWidth, numElements);
+    const buffers = buildBuffers(xValues, open, high, low, close, bandwidth, lineWidth, numElements);
     bindBuffers(program, buffers);
 
     program(numElements * 18);
   };
 
-  draw.x = (...args) => {
+  draw.xValues = (...args) => {
     if (!args.length) {
-      return x;
+      return xValues;
     }
-    x = args[0];
+    xValues = args[0];
     return draw;
   };
 
@@ -136,10 +136,10 @@ export default () => {
     return draw;
   };
 
-  const buildBuffers = (x, open, high, low, close, bandwidth, lineWidth, numElements) => {
+  const buildBuffers = (xValues, open, high, low, close, bandwidth, lineWidth, numElements) => {
     const buffers = {
-      x: [],
-      y: [],
+      xValues: [],
+      yValues: [],
       xLineWidth: [],
       yLineWidth: [],
       bandwidth: [],
@@ -147,8 +147,8 @@ export default () => {
     };
 
     const addToBuffers = (xBuf, yBuf, xLineWidthBuf, yLineWidthBuf, bandwidthBuf) => {
-      buffers.x.push(xBuf);
-      buffers.y.push(yBuf);
+      buffers.xValues.push(xBuf);
+      buffers.yValues.push(yBuf);
       buffers.xLineWidth.push(xLineWidthBuf);
       buffers.yLineWidth.push(yLineWidthBuf);
       buffers.bandwidth.push(bandwidthBuf);
@@ -164,7 +164,7 @@ export default () => {
     }
 
     for (let i = 0; i < numElements; i += 1) {
-      const xi = x[i];
+      const xValuesi = xValues[i];
       const openi = open[i];
       const highi = high[i];
       const lowi = low[i];
@@ -173,31 +173,31 @@ export default () => {
       const lineWidthi = lineWidth[i];
 
       // Low to High bar
-      addToBuffers(xi, lowi, lineWidthi, 0, 0);
-      addToBuffers(xi, lowi, -lineWidthi, 0, 0);
-      addToBuffers(xi, highi, -lineWidthi, 0, 0);
+      addToBuffers(xValuesi, lowi, lineWidthi, 0, 0);
+      addToBuffers(xValuesi, lowi, -lineWidthi, 0, 0);
+      addToBuffers(xValuesi, highi, -lineWidthi, 0, 0);
 
-      addToBuffers(xi, lowi, lineWidthi, 0, 0);
-      addToBuffers(xi, highi, lineWidthi, 0, 0);
-      addToBuffers(xi, highi, -lineWidthi, 0, 0);
+      addToBuffers(xValuesi, lowi, lineWidthi, 0, 0);
+      addToBuffers(xValuesi, highi, lineWidthi, 0, 0);
+      addToBuffers(xValuesi, highi, -lineWidthi, 0, 0);
 
       // Open bar
-      addToBuffers(xi, openi, 0, lineWidthi, 0);
-      addToBuffers(xi, openi, 0, -lineWidthi, 0);
-      addToBuffers(xi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
+      addToBuffers(xValuesi, openi, 0, lineWidthi, 0);
+      addToBuffers(xValuesi, openi, 0, -lineWidthi, 0);
+      addToBuffers(xValuesi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
 
-      addToBuffers(xi, openi, 0, lineWidthi, 0);
-      addToBuffers(xi, openi, -lineWidthi, lineWidthi, -bandwidthi);
-      addToBuffers(xi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
+      addToBuffers(xValuesi, openi, 0, lineWidthi, 0);
+      addToBuffers(xValuesi, openi, -lineWidthi, lineWidthi, -bandwidthi);
+      addToBuffers(xValuesi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
 
       // Close bar
-      addToBuffers(xi, closei, 0, -lineWidthi, 0);
-      addToBuffers(xi, closei, 0, lineWidthi, 0);
-      addToBuffers(xi, closei, lineWidthi, lineWidthi, bandwidthi);
+      addToBuffers(xValuesi, closei, 0, -lineWidthi, 0);
+      addToBuffers(xValuesi, closei, 0, lineWidthi, 0);
+      addToBuffers(xValuesi, closei, lineWidthi, lineWidthi, bandwidthi);
 
-      addToBuffers(xi, closei, 0, -lineWidthi, 0);
-      addToBuffers(xi, closei, lineWidthi, -lineWidthi, bandwidthi);
-      addToBuffers(xi, closei, lineWidthi, lineWidthi, bandwidthi);
+      addToBuffers(xValuesi, closei, 0, -lineWidthi, 0);
+      addToBuffers(xValuesi, closei, lineWidthi, -lineWidthi, bandwidthi);
+      addToBuffers(xValuesi, closei, lineWidthi, lineWidthi, bandwidthi);
 
       // Set color
       const barColor = openi < closei ? greenArray : redArray;

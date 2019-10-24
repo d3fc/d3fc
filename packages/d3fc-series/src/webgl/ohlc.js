@@ -17,7 +17,7 @@ export default () => {
 
         const accessor = getAccessors();
 
-        const x = new Float32Array(filteredData.length);
+        const xValues = new Float32Array(filteredData.length);
         const open = new Float32Array(filteredData.length);
         const high = new Float32Array(filteredData.length);
         const low = new Float32Array(filteredData.length);
@@ -26,7 +26,7 @@ export default () => {
         const lineWidths = new Float32Array(filteredData.length);
 
         filteredData.forEach((d, i) => {
-            x[i] = xScale.scale(accessor.x(d, i));
+            xValues[i] = xScale.scale(accessor.x(d, i));
             open[i] = yScale.scale(accessor.open(d, i));
             high[i] = yScale.scale(accessor.high(d, i));
             low[i] = yScale.scale(accessor.low(d, i));
@@ -35,7 +35,7 @@ export default () => {
             lineWidths[i] = lineWidth(d, i);
         });
 
-        draw.x(x)
+        draw.xValues(xValues)
             .open(open)
             .high(high)
             .low(low)
