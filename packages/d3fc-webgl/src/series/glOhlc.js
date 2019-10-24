@@ -215,8 +215,8 @@ export default () => {
     const bandwidthBuffer = program.buffers().attribute(bandwidthAttrib);
     const colorBuffer = program.buffers().attribute(colorAttrib);
 
-    const xArray = new Float32Array(buffers.x);
-    const yArray = new Float32Array(buffers.y);
+    const xArray = new Float32Array(buffers.xValues);
+    const yArray = new Float32Array(buffers.yValues);
     const xLineWidthArray = new Float32Array(buffers.xLineWidth);
     const yLineWidthArray = new Float32Array(buffers.yLineWidth);
     const bandwidthArray = new Float32Array(buffers.bandwidth);

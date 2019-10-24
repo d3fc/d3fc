@@ -26,7 +26,7 @@ export default () => {
         const lineWidths = new Float32Array(filteredData.length);
 
         filteredData.forEach((d, i) => {
-            xValues[i] = xScale.scale(accessor.x(d, i));
+            xValues[i] = xScale.scale(accessor.xValues(d, i));
             open[i] = yScale.scale(accessor.open(d, i));
             high[i] = yScale.scale(accessor.high(d, i));
             low[i] = yScale.scale(accessor.low(d, i));
@@ -50,7 +50,7 @@ export default () => {
 
     function getAccessors() {
         return {
-            x: base.crossValue(),
+            xValues: base.crossValue(),
             open: base.openValue(),
             high: base.highValue(),
             low: base.lowValue(),
