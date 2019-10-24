@@ -7,18 +7,9 @@ export default () => {
   const fragmentShader = shaderBuilder(fragmentShaderBase);
 
   vertexShader
-    .appendHeader(`
-      uniform vec2 uScreen;
-      attribute float aXValue;
-      attribute float aYValue;
-      attribute float aXLineWidth;
-      attribute float aYLineWidth;
-      attribute float aBandwidth;
-    `)
+    .appendHeader(vertexShaderSnippets.ohlc.header)
     .appendHeader(vertexShaderSnippets.multiColor.header)
-    .appendBody(`
-      gl_Position = vec4(aXValue, aYValue, 0, 1);
-    `)
+    .appendBody(vertexShaderSnippets.ohlc.body)
     .appendBody(vertexShaderSnippets.multiColor.body);
 
   fragmentShader
