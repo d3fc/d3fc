@@ -3,7 +3,6 @@ import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
-import functor from '../functor';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
