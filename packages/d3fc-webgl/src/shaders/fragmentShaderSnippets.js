@@ -13,6 +13,17 @@ export const square = {
         float distance = max(abs(pointCoordTransform.x), abs(pointCoordTransform.y));`
 };
 
+export const triangle = {
+    header: `varying float vSize;`,
+    body: `vec2 pointCoordTransform = 2.0 * gl_PointCoord - 1.0;
+    float topEdgesDistance = abs(pointCoordTransform.x) - ((pointCoordTransform.y - 0.6) / sqrt(3.0));
+    float bottomEdgeDistance = pointCoordTransform.y + 0.5;
+    float distance = max(topEdgesDistance, bottomEdgeDistance);
+    if (distance > 1.0) {
+        discard;
+    }`
+}
+
 export const pointAlias = {
     body: `gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(vSize - 2.0, vSize, distance * vSize));`
 };

@@ -1,6 +1,7 @@
 import d3Shape from 'd3-shape';
 import circlePointShader from './shaders/point/circle/baseShader';
 import squarePointShader from './shaders/point/square/shader';
+import trianglePointShader from './shaders/point/triangle/shader';
 
 export default (symbol) => {
   switch (symbol) {
@@ -8,6 +9,8 @@ export default (symbol) => {
       return circlePointShader();
     case d3Shape.symbolSquare:
       return squarePointShader();
+    case d3Shape.symbolTriangle:
+      return trianglePointShader();
     default:
       throw new Error(`Unrecognised symbol: ${symbol}`);
   }
