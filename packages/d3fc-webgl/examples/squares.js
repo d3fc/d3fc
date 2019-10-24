@@ -36,6 +36,9 @@ const zoom = d3.zoom()
     // update the scale used by the chart to use the updated domain
     x.domain(d3.event.transform.rescaleX(x2).domain());
     y.domain(d3.event.transform.rescaleY(y2).domain());
+    d3.select('d3fc-group')
+      .node()
+      .requestRedraw();
   });
 
 const decorate = (sel) => {
@@ -49,19 +52,11 @@ const decorate = (sel) => {
     .call(zoom);
 };
 
-const getChart = () => fc.chartCartesian(x, y)
+const chart = fc.chartCartesian(x, y)
   .chartLabel(`${numPoints} Points`)
-  .decorate(decorate);
-
-const getWebglChart = () => getChart()
+  .decorate(decorate)
   .webglPlotArea(getWebglSeries());
 
-const render = () => {
-  d3.select('#chart')
-    .datum(data)
-    .call(getWebglChart());
-
-  requestAnimationFrame(render);
-};
-
-requestAnimationFrame(render);
+d3.select('#chart')
+  .datum(data)
+  .call(chart);

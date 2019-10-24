@@ -1,25 +1,17 @@
 import d3Shape from 'd3-shape';
 import circlePointShader from './shaders/point/circle/baseShader';
-import squarePointShader from './shaders/point/square/baseShader';
+import squarePointShader from './shaders/point/square/shader';
+import trianglePointShader from './shaders/point/triangle/shader';
 
 export default (symbol) => {
-  let outSymbol = d3Shape.symbolCircle;
-  let glSymbol = null;
-
   switch (symbol) {
     case d3Shape.symbolCircle:
-      glSymbol = circlePointShader();
-      break;
+      return circlePointShader();
     case d3Shape.symbolSquare:
-      glSymbol = squarePointShader();
-      break;
+      return squarePointShader();
+    case d3Shape.symbolTriangle:
+      return trianglePointShader();
     default:
-      glSymbol = circlePointShader();
-      outSymbol = symbol;
+      throw new Error(`Unrecognised symbol: ${symbol}`);
   }
-
-  return {
-    symbol: outSymbol,
-    glSymbol
-  };
 };

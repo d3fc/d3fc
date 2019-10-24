@@ -11,7 +11,7 @@ export default() => {
             .appendBodyIfNotExists(fragmentShaderSnippets.pointEdge.body);
 
         program.buffers().uniform('uEdgeColor', uniformBuilder(color));
-        program.buffers().uniform('uEdgeSize', uniformBuilder(width));
+        program.buffers().uniform('uStrokeWidth', uniformBuilder(width));
     };
 
     stroke.color = (...args) => {
