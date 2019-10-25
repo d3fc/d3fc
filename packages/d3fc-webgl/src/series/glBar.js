@@ -31,13 +31,10 @@ import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const program = programBuilder();
-
-    // Builder state.
     let xScale = null;
     let yScale = null;
     let decorate = () => {};
 
-    // Attributes.
     const xValueAttrib = 'aXValue';
     const yValueAttrib = 'aYValue';
     const widthValueAttrib = 'aWidthValue';
@@ -52,7 +49,6 @@ export default () => {
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
 
-        // Scaling.
         xScale.coordinate(0);
         xScale(program);
 
@@ -64,11 +60,9 @@ export default () => {
 
         decorate(program);
 
-        // Draw.
         program(numElements * verticesPerBar);
     };
 
-    // Builder methods.
     draw.xScale = (...args) => {
         if (!args.length) {
             return xScale;

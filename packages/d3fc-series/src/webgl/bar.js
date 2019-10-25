@@ -36,7 +36,6 @@ export default () => {
         draw(filteredData.length);
     };
 
-    // Rebinding methods.
     rebindAll(bar, base, exclude('align'));
     rebind(bar, draw, 'context');
 
