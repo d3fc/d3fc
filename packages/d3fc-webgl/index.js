@@ -12,6 +12,7 @@ export { default as pointFill } from './src/shaders/point/fill';
 export { default as pointStroke } from './src/shaders/point/stroke';
 export { default as pointAntiAlias } from './src/shaders/point/antiAlias';
 export { default as lineWidth } from './src/shaders/line/width';
+export { default as barFill } from './src/shaders/bar/fill';
 
 export { default as glPoint } from './src/series/glPoint';
 export { default as glLine } from './src/series/glLine';
