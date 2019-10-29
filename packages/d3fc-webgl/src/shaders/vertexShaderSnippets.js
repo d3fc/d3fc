@@ -50,9 +50,10 @@ export const triangle = {
 export const ohlc = {
     header: `attribute float aXValue;
         attribute float aYValue;
-        attribute float aXLineWidth;
-        attribute float aYLineWidth;
+        attribute float aXDirection;
+        attribute float aYDirection;
         attribute float aBandwidth;
-        uniform vec2 uScreen;`,
+        uniform vec2 uScreen;
+        uniform float uWidth;`,
     body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };

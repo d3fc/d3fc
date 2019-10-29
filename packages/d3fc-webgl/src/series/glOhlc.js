@@ -3,6 +3,7 @@ import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import ohlcShader from '../shaders/ohlc/shader';
+import width from '../shaders/line/width';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
@@ -11,20 +12,16 @@ export default () => {
   let xScale = glScaleBase();
   let yScale = glScaleBase();
   let decorate = () => {};
-  let xValues = null;
-  let open = null;
-  let high = null;
-  let low = null;
-  let close = null;
-  let bandwidth = null;
-  let lineWidth = null;
 
   const xValueAttrib = 'aXValue';
   const yValueAttrib = 'aYValue';
-  const xLineWidthAttrib = 'aXLineWidth';
-  const yLineWidthAttrib = 'aYLineWidth';
+  const xDirectionAttrib = 'aXDirection';
+  const yDirectionAttrib = 'aYDirection';
   const bandwidthAttrib = 'aBandwidth';
   const colorAttrib = 'aColor';
+
+  const yDirections = [0, 0, 0, 0, 0, 0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1];
+  const verticesPerElement = 18;
 
   const draw = (numElements) => {
     const shaderBuilder = ohlcShader();
@@ -42,73 +39,79 @@ export default () => {
       program.context().canvas.height
     ]));
 
+    width()(program);
+    setColors(numElements);
+
     program.vertexShader()
       .appendBody(`
-        gl_Position.x += ((aXLineWidth / 2.0) + (aBandwidth / 2.0)) / uScreen.x;
-        gl_Position.y += (aYLineWidth / 2.0) / uScreen.y;
+        gl_Position.x += ((uWidth * aXDirection / 2.0) + (aBandwidth / 2.0)) / uScreen.x;
+        gl_Position.y += (uWidth * aYDirection / 2.0) / uScreen.y;
       `);
 
     decorate(program);
 
-    const buffers = buildBuffers(xValues, open, high, low, close, bandwidth, lineWidth, numElements);
-    bindBuffers(program, buffers);
-
-    program(numElements * 18);
+    program(numElements * verticesPerElement);
   };
 
   draw.xValues = (...args) => {
-    if (!args.length) {
-      return xValues;
+    const builder = program.buffers().attribute(xValueAttrib);
+    let xArray = new Float32Array(args[0].length * verticesPerElement);
+    xArray = xArray.map((_, i) => args[0][Math.floor(i / verticesPerElement)]);
+
+    const xDirBuffer = program.buffers().attribute(xDirectionAttrib);
+    let xDirArray = new Float32Array(args[0].length * verticesPerElement);
+    const xDirections = [1, -1, -1, 1, 1, -1, 0, 0, -1, 0, -1, -1, 0, 0, 1, 0, 1, 1];
+    xDirArray = xDirArray.map((_, i) => xDirections[i % verticesPerElement]);
+
+    if (builder) {
+      builder.data(xArray);
+      xDirBuffer.data(xDirArray);
+    } else {
+      program.buffers().attribute(xValueAttrib, attributeBuilder(xArray).components(1));
+      program.buffers().attribute(xDirectionAttrib, attributeBuilder(xDirArray).components(1));
     }
-    xValues = args[0];
     return draw;
   };
 
   draw.open = (...args) => {
-    if (!args.length) {
-      return open;
-    }
-    open = args[0];
+    addToYBuffers(args[0], [6, 7, 8, 9, 10, 11]);
     return draw;
   };
 
   draw.high = (...args) => {
-    if (!args.length) {
-      return high;
-    }
-    high = args[0];
+    addToYBuffers(args[0], [2, 4, 5]);
     return draw;
   };
 
   draw.low = (...args) => {
-    if (!args.length) {
-      return low;
-    }
-    low = args[0];
+    addToYBuffers(args[0], [0, 1, 3]);
     return draw;
   };
 
   draw.close = (...args) => {
-    if (!args.length) {
-      return close;
-    }
-    close = args[0];
+    addToYBuffers(args[0], [12, 13, 14, 15, 16, 17]);
     return draw;
   };
 
   draw.bandwidth = (...args) => {
-    if (!args.length) {
-      return bandwidth;
-    }
-    bandwidth = args[0];
-    return draw;
-  };
+    const builder = program.buffers().attribute(bandwidthAttrib);
+    let bandwidthArray = new Float32Array(args[0].length * verticesPerElement);
+    bandwidthArray = bandwidthArray.map((d, i) => {
+      if ([8, 10, 11, 14, 16, 17].includes(i % verticesPerElement)) {
+        const val = args[0][Math.floor(i / verticesPerElement)];
+        return [8, 10, 11].includes(i % verticesPerElement) ?
+          -val :
+          val;
+      } else {
+        return d;
+      }
+    });
 
-  draw.lineWidth = (...args) => {
-    if (!args.length) {
-      return lineWidth;
+    if (builder) {
+      builder.data(bandwidthArray);
+    } else {
+      program.buffers().attribute(bandwidthAttrib, attributeBuilder(bandwidthArray).components(1));
     }
-    lineWidth = args[0];
     return draw;
   };
 
@@ -136,24 +139,42 @@ export default () => {
     return draw;
   };
 
-  const buildBuffers = (xValues, open, high, low, close, bandwidth, lineWidth, numElements) => {
-    const buffers = {
-      xValues: [],
-      yValues: [],
-      xLineWidth: [],
-      yLineWidth: [],
-      bandwidth: [],
-      color: []
-    };
+  const addToYBuffers = (values, indexPositions) => {
+    const yValBuffer = program.buffers().attribute(yValueAttrib);
+    const yDirBuffer = program.buffers().attribute(yDirectionAttrib);
+    let yArray = new Float32Array(values.length * verticesPerElement);
+    let yDirArray = new Float32Array(values.length * verticesPerElement);
 
-    const addToBuffers = (xBuf, yBuf, xLineWidthBuf, yLineWidthBuf, bandwidthBuf) => {
-      buffers.xValues.push(xBuf);
-      buffers.yValues.push(yBuf);
-      buffers.xLineWidth.push(xLineWidthBuf);
-      buffers.yLineWidth.push(yLineWidthBuf);
-      buffers.bandwidth.push(bandwidthBuf);
-    };
+    if (yValBuffer) {
+      const existingYValues = yValBuffer.data();
+      yArray = yArray.map((_, i) => indexPositions.includes(i % verticesPerElement) ?
+        values[Math.floor(i / verticesPerElement)] :
+        existingYValues[i]
+      );
+      yValBuffer.data(yArray);
 
+      const existingYDirValues = yDirBuffer.data();
+      yDirArray = yDirArray.map((_, i) => indexPositions.includes(i % verticesPerElement) ?
+        yDirections[i % verticesPerElement] :
+        existingYDirValues[i]
+      );
+      yDirBuffer.data(yDirArray);
+    } else {
+      yArray = yArray.map((d, i) => indexPositions.includes(i % verticesPerElement) ?
+        values[Math.floor(i / verticesPerElement)] :
+        d
+      );
+      program.buffers().attribute(yValueAttrib, attributeBuilder(yArray).components(1));
+
+      yDirArray = yDirArray.map((d, i) => indexPositions.includes(i % verticesPerElement) ?
+        yDirections[i % verticesPerElement] :
+        d
+      );
+      program.buffers().attribute(yDirectionAttrib, attributeBuilder(yDirArray).components(1));
+    }
+  };
+
+  const setColors = (numElements) => {
     const red = [0.8, 0.4, 0, 1];
     const green = [0.4, 0.8, 0, 1];
     const redArray = [];
@@ -163,78 +184,20 @@ export default () => {
       greenArray.push(...green);
     }
 
+    const yValues = program.buffers().attribute(yValueAttrib).data();
+    const colors = [];
     for (let i = 0; i < numElements; i += 1) {
-      const xValuesi = xValues[i];
-      const openi = open[i];
-      const highi = high[i];
-      const lowi = low[i];
-      const closei = close[i];
-      const bandwidthi = bandwidth[i];
-      const lineWidthi = lineWidth[i];
-
-      // Low to High bar
-      addToBuffers(xValuesi, lowi, lineWidthi, 0, 0);
-      addToBuffers(xValuesi, lowi, -lineWidthi, 0, 0);
-      addToBuffers(xValuesi, highi, -lineWidthi, 0, 0);
-
-      addToBuffers(xValuesi, lowi, lineWidthi, 0, 0);
-      addToBuffers(xValuesi, highi, lineWidthi, 0, 0);
-      addToBuffers(xValuesi, highi, -lineWidthi, 0, 0);
-
-      // Open bar
-      addToBuffers(xValuesi, openi, 0, lineWidthi, 0);
-      addToBuffers(xValuesi, openi, 0, -lineWidthi, 0);
-      addToBuffers(xValuesi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
-
-      addToBuffers(xValuesi, openi, 0, lineWidthi, 0);
-      addToBuffers(xValuesi, openi, -lineWidthi, lineWidthi, -bandwidthi);
-      addToBuffers(xValuesi, openi, -lineWidthi, -lineWidthi, -bandwidthi);
-
-      // Close bar
-      addToBuffers(xValuesi, closei, 0, -lineWidthi, 0);
-      addToBuffers(xValuesi, closei, 0, lineWidthi, 0);
-      addToBuffers(xValuesi, closei, lineWidthi, lineWidthi, bandwidthi);
-
-      addToBuffers(xValuesi, closei, 0, -lineWidthi, 0);
-      addToBuffers(xValuesi, closei, lineWidthi, -lineWidthi, bandwidthi);
-      addToBuffers(xValuesi, closei, lineWidthi, lineWidthi, bandwidthi);
-
-      // Set color
-      const barColor = openi < closei ? greenArray : redArray;
-      buffers.color.push(...barColor);
+      const openVal = yValues[(i * verticesPerElement) + 6];
+      const closeVal = yValues[(i * verticesPerElement) + 12];
+      const barColor = openVal < closeVal ? greenArray : redArray;
+      colors.push(...barColor);
     }
+    const colorArray = new Float32Array(colors);
 
-    return buffers;
-  };
-
-  const bindBuffers = (program, buffers) => {
-    const xBuffer = program.buffers().attribute(xValueAttrib);
-    const yBuffer = program.buffers().attribute(yValueAttrib);
-    const xLineWidthBuffer = program.buffers().attribute(xLineWidthAttrib);
-    const yLineWidthBuffer = program.buffers().attribute(yLineWidthAttrib);
-    const bandwidthBuffer = program.buffers().attribute(bandwidthAttrib);
     const colorBuffer = program.buffers().attribute(colorAttrib);
-
-    const xArray = new Float32Array(buffers.xValues);
-    const yArray = new Float32Array(buffers.yValues);
-    const xLineWidthArray = new Float32Array(buffers.xLineWidth);
-    const yLineWidthArray = new Float32Array(buffers.yLineWidth);
-    const bandwidthArray = new Float32Array(buffers.bandwidth);
-    const colorArray = new Float32Array(buffers.color);
-
-    if (xBuffer) {
-      xBuffer.data(xArray);
-      yBuffer.data(yArray);
-      xLineWidthBuffer.data(xLineWidthArray);
-      yLineWidthBuffer.data(yLineWidthArray);
-      bandwidthBuffer.data(bandwidthArray);
+    if (colorBuffer) {
       colorBuffer.data(colorArray);
     } else {
-      program.buffers().attribute(xValueAttrib, attributeBuilder(xArray).components(1));
-      program.buffers().attribute(yValueAttrib, attributeBuilder(yArray).components(1));
-      program.buffers().attribute(xLineWidthAttrib, attributeBuilder(xLineWidthArray).components(1));
-      program.buffers().attribute(yLineWidthAttrib, attributeBuilder(yLineWidthArray).components(1));
-      program.buffers().attribute(bandwidthAttrib, attributeBuilder(bandwidthArray).components(1));
       program.buffers().attribute(colorAttrib, attributeBuilder(colorArray).components(4));
     }
   };

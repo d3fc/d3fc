@@ -1,11 +1,9 @@
 import ohlcBase from '../ohlcBase';
-import functor from '../functor';
 import { glOhlc, scaleMapper } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = ohlcBase();
-    let lineWidth = functor(1.0);
 
     let draw = glOhlc();
 
@@ -23,7 +21,6 @@ export default () => {
         const low = new Float32Array(filteredData.length);
         const close = new Float32Array(filteredData.length);
         const bandwidths = new Float32Array(filteredData.length);
-        const lineWidths = new Float32Array(filteredData.length);
 
         filteredData.forEach((d, i) => {
             xValues[i] = xScale.scale(accessor.xValues(d, i));
@@ -32,7 +29,6 @@ export default () => {
             low[i] = yScale.scale(accessor.low(d, i));
             close[i] = yScale.scale(accessor.close(d, i));
             bandwidths[i] = accessor.bandwidth(d, i);
-            lineWidths[i] = lineWidth(d, i);
         });
 
         draw.xValues(xValues)
@@ -41,9 +37,9 @@ export default () => {
             .low(low)
             .close(close)
             .bandwidth(bandwidths)
-            .lineWidth(lineWidths)
             .xScale(xScale.glScale)
-            .yScale(yScale.glScale);
+            .yScale(yScale.glScale)
+            .decorate((program) => base.decorate()(program, filteredData, 0));
 
         draw(filteredData.length);
     };
@@ -58,14 +54,6 @@ export default () => {
             bandwidth: base.bandwidth()
         };
     }
-
-    ohlc.lineWidth = (...args) => {
-        if (!args.length) {
-            return lineWidth;
-        }
-        lineWidth = functor(args[0]);
-        return ohlc;
-    };
 
     rebindAll(ohlc, base, exclude('align'));
     rebind(ohlc, draw, 'context');
