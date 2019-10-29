@@ -12,7 +12,9 @@ const y2 = y.copy();
 
 const getWebglSeries = () => fc.seriesWebglOhlc()
   .bandwidth(10)
-  .lineWidth(2);
+  .decorate(program => {
+    fc.lineWidth().width(2)(program);
+  });
 
 const zoom = d3.zoom()
   .on('zoom', () => {
