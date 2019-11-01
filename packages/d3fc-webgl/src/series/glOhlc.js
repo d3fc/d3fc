@@ -18,7 +18,7 @@ export default () => {
   const xDirectionAttrib = 'aXDirection';
   const yDirectionAttrib = 'aYDirection';
   const bandwidthAttrib = 'aBandwidth';
-  const colorAttrib = 'aColor';
+  const colorIndicatorAttrib = 'aColorIndicator';
 
   const yDirections = [0, 0, 0, 0, 0, 0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1];
   const verticesPerElement = 18;
@@ -175,30 +175,21 @@ export default () => {
   };
 
   const setColors = (numElements) => {
-    const red = [0.8, 0.4, 0, 1];
-    const green = [0.4, 0.8, 0, 1];
-    const redArray = [];
-    const greenArray = [];
-    for (let i = 0; i < 18; i += 1) {
-      redArray.push(...red);
-      greenArray.push(...green);
-    }
-
+    const colorBuffer = program.buffers().attribute(colorIndicatorAttrib);
+    let colorArray = new Float32Array(numElements * verticesPerElement);
     const yValues = program.buffers().attribute(yValueAttrib).data();
-    const colors = [];
-    for (let i = 0; i < numElements; i += 1) {
-      const openVal = yValues[(i * verticesPerElement) + 6];
-      const closeVal = yValues[(i * verticesPerElement) + 12];
-      const barColor = openVal < closeVal ? greenArray : redArray;
-      colors.push(...barColor);
-    }
-    const colorArray = new Float32Array(colors);
-
-    const colorBuffer = program.buffers().attribute(colorAttrib);
+  
+    colorArray = colorArray.map((_, i) => {
+      const elementStartIndex = Math.floor(i / verticesPerElement) * verticesPerElement; 
+      const openVal = yValues[elementStartIndex + 6];
+      const closeVal = yValues[elementStartIndex + 12];
+      return openVal < closeVal ? 1 : -1;
+    });
+  
     if (colorBuffer) {
       colorBuffer.data(colorArray);
     } else {
-      program.buffers().attribute(colorAttrib, attributeBuilder(colorArray).components(4));
+      program.buffers().attribute(colorIndicatorAttrib, attributeBuilder(colorArray).components(1));
     }
   };
 

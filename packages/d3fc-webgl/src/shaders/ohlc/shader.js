@@ -8,13 +8,11 @@ export default () => {
 
   vertexShader
     .appendHeader(vertexShaderSnippets.ohlc.header)
-    .appendHeader(vertexShaderSnippets.multiColor.header)
-    .appendBody(vertexShaderSnippets.ohlc.body)
-    .appendBody(vertexShaderSnippets.multiColor.body);
+    .appendBody(vertexShaderSnippets.ohlc.body);
 
   fragmentShader
-    .appendHeader(fragmentShaderSnippets.multiColor.header)
-    .appendBody(fragmentShaderSnippets.multiColor.body);
+    .appendHeader(fragmentShaderSnippets.ohlc.header)
+    .appendBody(fragmentShaderSnippets.ohlc.body);
 
   return {
     vertex: () => vertexShader,
