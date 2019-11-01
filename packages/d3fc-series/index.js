@@ -8,6 +8,7 @@ export { default as seriesWebglPoint } from './src/webgl/point';
 
 export { default as seriesSvgBar } from './src/svg/bar';
 export { default as seriesCanvasBar } from './src/canvas/bar';
+export { default as seriesWebglBar } from './src/webgl/bar';
 
 export { default as seriesSvgErrorBar } from './src/svg/errorBar';
 export { default as seriesCanvasErrorBar } from './src/canvas/errorBar';
