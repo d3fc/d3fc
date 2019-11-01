@@ -2,7 +2,7 @@ d3.json('star-data.json', (data) => {
     const x = d3.scaleLinear();
     const y = d3.scaleLinear();
 
-    x.domain(fc.extentLinear().accessors([d => d.x])(data)); 
+    x.domain(fc.extentLinear().accessors([d => d.x])(data));
     y.domain(fc.extentLinear().accessors([d => d.y])(data));
 
     const x2 = x.copy();
@@ -18,11 +18,10 @@ d3.json('star-data.json', (data) => {
         colors[i++] = d.color[3];
     });
     let colorBuilder = fc.attributeBuilder(colors);
-    
+
     const getWebglSeries = () => fc.seriesWebglPoint()
         .size(d => d.size)
         .decorate(program => {
-
             program.vertexShader()
                 .appendHeader(fc.vertexShaderSnippets.multiColor.header)
                 .appendBody(fc.vertexShaderSnippets.multiColor.body);
@@ -30,7 +29,7 @@ d3.json('star-data.json', (data) => {
             program.fragmentShader()
                 .appendHeader(fc.fragmentShaderSnippets.multiColor.header)
                 .appendBody(fc.fragmentShaderSnippets.multiColor.body);
-            
+
             program.buffers().attribute('aColor', colorBuilder);
 
             const context = program.context();
@@ -46,7 +45,7 @@ d3.json('star-data.json', (data) => {
                 .style('fill', 'transparent')
                 .attr('stroke', 'yellow')
                 .attr('stroke-opacity', 0.8);
-            
+
             selection.on('mouseover', (data, i, sel) =>  {
                 d3.select(sel[i])
                     .attr('stroke-width', 3)
@@ -85,7 +84,7 @@ d3.json('star-data.json', (data) => {
             });
         sel.enter().call(zoom);
     };
-    
+
     const getChart = (includeOverlay = true) => {
         const chart = fc.chartCartesian(x, y)
             .chartLabel(`Stars`)
@@ -99,7 +98,7 @@ d3.json('star-data.json', (data) => {
     }
 
     let chart = getChart();
-    
+
     function render() {
         d3.select('#chart')
             .datum(data)
@@ -110,6 +109,6 @@ d3.json('star-data.json', (data) => {
         chart = getChart(d3.event.target.checked);
         requestAnimationFrame(render);
     });
-    
+
     requestAnimationFrame(render);
 });
