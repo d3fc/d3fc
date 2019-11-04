@@ -24,6 +24,14 @@ export const triangle = {
     }`
 }
 
+export const ohlc = {
+    header: `varying float vColorIndicator;`,
+    body: `gl_FragColor = vec4(0.4, 0.8, 0, 1);
+    if (vColorIndicator < 0.0) {
+        gl_FragColor = vec4(0.8, 0.4, 0, 1);
+    }`
+};
+
 export const pointAlias = {
     body: `gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(vSize - 2.0, vSize, distance * vSize));`
 };

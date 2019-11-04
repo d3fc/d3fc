@@ -46,3 +46,17 @@ export const triangle = {
         gl_PointSize = vSize + uStrokeWidth + 1.0;
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
+
+export const ohlc = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aXDirection;
+        attribute float aYDirection;
+        attribute float aBandwidth;
+        attribute float aColorIndicator;
+        varying float vColorIndicator;
+        uniform vec2 uScreen;
+        uniform float uWidth;`,
+    body: `vColorIndicator = aColorIndicator;
+    gl_Position = vec4(aXValue, aYValue, 0, 1);`
+};

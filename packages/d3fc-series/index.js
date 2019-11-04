@@ -24,6 +24,7 @@ export { default as seriesCanvasBoxPlot } from './src/canvas/boxPlot';
 
 export { default as seriesSvgOhlc } from './src/svg/ohlc';
 export { default as seriesCanvasOhlc } from './src/canvas/ohlc';
+export { default as seriesWebglOhlc } from './src/webgl/ohlc';
 
 export { default as seriesSvgMulti } from './src/svg/multi';
 export { default as seriesCanvasMulti } from './src/canvas/multi';

@@ -16,6 +16,7 @@ export { default as barFill } from './src/shaders/bar/fill';
 
 export { default as glPoint } from './src/series/glPoint';
 export { default as glLine } from './src/series/glLine';
+export { default as glOhlc } from './src/series/glOhlc';
 export { default as glBar } from './src/series/glBar';
 
 export { default as glScaleLinear } from './src/scale/glScaleLinear';
