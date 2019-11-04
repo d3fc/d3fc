@@ -16,14 +16,17 @@ export default () => {
 
         const x = new Float32Array(data.length);
         const y = new Float32Array(data.length);
+        const defined = new Float32Array(data.length);
 
         data.forEach((d, i) => {
             x[i] = xScale.scale(accessor.x(d, i));
             y[i] = yScale.scale(accessor.y(d, i));
+            defined[i] = accessor.defined(d, i);
         });
 
         draw.xValues(x)
             .yValues(y)
+            .defined(defined)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => {
@@ -35,58 +38,23 @@ export default () => {
                 base.decorate()(program, data, 0);
             });
 
-        const segments = getLineSegments(data);
-        draw(0, segments);
+        draw(data.length);
     };
 
     function getAccessors() {
         if (base.orient() === 'vertical') {
             return {
                 x: base.crossValue(),
-                y: base.mainValue()
+                y: base.mainValue(),
+                defined: base.defined()
             };
         } else {
             return {
                 x: base.mainValue(),
-                y: base.crossValue()
+                y: base.crossValue(),
+                defined: base.defined()
             };
         }
-    }
-
-    // split the data into continuous segments of line
-    // they'll each be drawn individually
-    function getLineSegments(data) {
-        const segments = [];
-
-        let length = 0;
-        let start = 0;
-        data.forEach((d, i) => {
-            if (line.defined()(d, i)) {
-                if (length === 0) {
-                    start = i;
-                }
-                length++;
-            } else {
-                if (length > 0) {
-                    segments.push({
-                        numElements: length,
-                        start: start,
-                        bufferSize: data.length
-                    });
-                    length = 0;
-                }
-            }
-        });
-
-        if (length > 0) {
-            segments.push({
-                numElements: length,
-                start: start,
-                bufferSize: data.length
-            });
-        }
-
-        return segments;
     }
 
     line.context = (...args) => {
@@ -101,4 +69,4 @@ export default () => {
     rebind(line, draw, 'context');
 
     return line;
-}
+};
