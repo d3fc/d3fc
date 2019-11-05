@@ -20,7 +20,7 @@ export default () => {
   const bandwidthAttrib = 'aBandwidth';
   const colorIndicatorAttrib = 'aColorIndicator';
 
-  const verticesPerElement = 18;
+  const verticesPerElement = 12;
 
   const draw = (numElements) => {
     const shaderBuilder = rectShader();
@@ -60,7 +60,7 @@ export default () => {
 
     const xDirBuffer = program.buffers().attribute(xDirectionAttrib);
     let xDirArray = new Float32Array(args[0].length * verticesPerElement);
-    const xDirections = [1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1];
+    const xDirections = [1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1];
     xDirArray = xDirArray.map((_, i) => xDirections[i % verticesPerElement]);
 
     if (builder) {
@@ -74,12 +74,12 @@ export default () => {
   };
 
   draw.open = (...args) => {
-    addToYBuffer(args[0], [2, 4, 5, 6, 7, 9, 12, 13, 15]);
+    addToYBuffer(args[0], [6, 7, 9]);
     return draw;
   };
 
   draw.high = (...args) => {
-    addToYBuffer(args[0], [14, 16, 17]);
+    addToYBuffer(args[0], [2, 4, 5]);
     return draw;
   };
 
@@ -182,7 +182,6 @@ export default () => {
     const yDirBuffer = program.buffers().attribute(yDirectionAttrib);
     let yDirArray = new Float32Array(numElements * verticesPerElement);
     const yValues = program.buffers().attribute(yValueAttrib).data();
-    const yDirections = [0, 0, -1, 0, -1, -1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0];
 
     yDirArray = yDirArray.map((_, i) => {
       const elementStartIndex = Math.floor(i / verticesPerElement) * verticesPerElement;
@@ -196,7 +195,7 @@ export default () => {
           return openValMin ? 1 : -1;
         }
       } else {
-        return yDirections[i % verticesPerElement];
+        return 0;
       }
     });
 
