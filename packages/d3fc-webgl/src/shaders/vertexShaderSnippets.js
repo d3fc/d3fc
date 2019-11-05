@@ -47,7 +47,7 @@ export const triangle = {
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
-export const ohlc = {
+export const rect = {
     header: `attribute float aXValue;
         attribute float aYValue;
         attribute float aXDirection;

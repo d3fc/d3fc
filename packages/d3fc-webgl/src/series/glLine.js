@@ -5,7 +5,7 @@ import lineShader from '../shaders/line/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import uniformBuilder from '../buffers/uniformBuilder';
-import width from '../shaders/line/width';
+import width from '../shaders/lineWidth';
 
 export default () => {
     let program = programBuilder();

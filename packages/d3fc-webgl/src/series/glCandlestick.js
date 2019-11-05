@@ -2,8 +2,8 @@ import attributeBuilder from '../buffers/attributeBuilder';
 import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
-import ohlcShader from '../shaders/ohlc/shader';
-import width from '../shaders/line/width';
+import rectShader from '../shaders/rect/shader';
+import width from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
@@ -23,7 +23,7 @@ export default () => {
   const verticesPerElement = 18;
 
   const draw = (numElements) => {
-    const shaderBuilder = ohlcShader();
+    const shaderBuilder = rectShader();
     program.vertexShader(shaderBuilder.vertex())
       .fragmentShader(shaderBuilder.fragment())
       .mode(drawModes.TRIANGLES);
