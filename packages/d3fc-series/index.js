@@ -18,6 +18,7 @@ export { default as seriesCanvasArea } from './src/canvas/area';
 
 export { default as seriesSvgCandlestick } from './src/svg/candlestick';
 export { default as seriesCanvasCandlestick } from './src/canvas/candlestick';
+export { default as seriesWebglCandlestick } from './src/webgl/candlestick';
 
 export { default as seriesSvgBoxPlot } from './src/svg/boxPlot';
 export { default as seriesCanvasBoxPlot } from './src/canvas/boxPlot';
