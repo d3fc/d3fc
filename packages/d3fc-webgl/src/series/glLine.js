@@ -139,13 +139,13 @@ export default () => {
 
         for (let i = 0; i < values.length; i += 1) {
             const val = values[i];
-            const lastVal = i === 0 ? val : values[i - 1];
+            const prevVal = i === 0 ? val : values[i - 1];
             const nextVal = i === (values.length - 1) ? val : values[i + 1];
             const bufferIndex = i * 4;
 
             if (val) {
-                definedArray[bufferIndex] = lastVal;
-                definedArray[bufferIndex + 1] = lastVal;
+                definedArray[bufferIndex] = prevVal;
+                definedArray[bufferIndex + 1] = prevVal;
                 definedArray[bufferIndex + 2] = nextVal;
                 definedArray[bufferIndex + 3] = nextVal;
             } else {
