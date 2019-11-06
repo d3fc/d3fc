@@ -138,22 +138,15 @@ export default () => {
         const values = args[0];
 
         for (let i = 0; i < values.length; i += 1) {
-            const val = values[i];
-            const prevVal = i === 0 ? val : values[i - 1];
-            const nextVal = i === (values.length - 1) ? val : values[i + 1];
+            const value = values[i];
+            const previousValue = i === 0 ? value : values[i - 1];
+            const nextValue = i === (values.length - 1) ? value : values[i + 1];
             const bufferIndex = i * 4;
 
-            if (val) {
-                definedArray[bufferIndex] = prevVal;
-                definedArray[bufferIndex + 1] = prevVal;
-                definedArray[bufferIndex + 2] = nextVal;
-                definedArray[bufferIndex + 3] = nextVal;
-            } else {
-                definedArray[bufferIndex] = val;
-                definedArray[bufferIndex + 1] = val;
-                definedArray[bufferIndex + 2] = val;
-                definedArray[bufferIndex + 3] = val;
-            }
+            definedArray[bufferIndex] = value ? previousValue : value;
+            definedArray[bufferIndex + 1] = value ? previousValue : value;
+            definedArray[bufferIndex + 2] = value ? nextValue : value;
+            definedArray[bufferIndex + 3] = value ? nextValue : value;
         }
 
         if (builder) {
