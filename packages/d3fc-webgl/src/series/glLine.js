@@ -12,6 +12,7 @@ export default () => {
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
+    let lineWidth = width();
 
     const xValueAttrib = 'aXValue';
     const yValueAttrib = 'aYValue';
@@ -64,7 +65,7 @@ export default () => {
             .appendBody(`float miterLength = 1.0 / dot(miter, normalA);`)
             .appendBody(`vec2 point = normalize(A - B);`)
             .appendBody(`if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
-                gl_Position.xy = gl_Position.xy - (sign(dot(normalA, miter)) * aCorner.x * aCorner.y * uWidth * normalA) / uScreen.xy;
+                gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uWidth * normalA) / uScreen.xy;
             } else {
                 gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uWidth * miterLength) / uScreen.xy;
             }`);
@@ -74,7 +75,7 @@ export default () => {
             program.context().canvas.height
         ]));
 
-        width()(program);
+        lineWidth(program);
 
         decorate(program);
 
@@ -175,6 +176,7 @@ export default () => {
     };
 
     rebind(draw, program, 'context');
+    rebind(draw, lineWidth, 'width');
 
     return draw;
 };
