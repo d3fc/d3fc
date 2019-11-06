@@ -135,24 +135,24 @@ export default () => {
         const builder = program.buffers().attribute(definedAttrib);
 
         const definedArray = new Float32Array(args[0].length * 4);
-        
-        const length = definedArray.length;
-        definedArray[0] = args[0][0];
-        definedArray[length - 2] = args[0][Math.floor((length - 2) / 4)];
-        definedArray[length - 1] = args[0][Math.floor((length - 1) / 4)];
+        const values = args[0];
 
-        for (let i = 1; i < definedArray.length - 2; i += 1) {
-            const val = args[0][Math.floor(i / 4)];
-            const nextVal = args[0][Math.floor((i + 1) / 4)];
-            definedArray[i] = val;
+        for (let i = 0; i < values.length; i += 1) {
+            const val = values[i];
+            const lastVal = i === 0 ? val : values[i - 1];
+            const nextVal = i === (values.length - 1) ? val : values[i + 1];
+            const bufferIndex = i * 4;
 
-            if (val && !nextVal) {
-                definedArray[i - 1] = 0;
-                definedArray[i] = 0;
-            } else if (!val && nextVal) {
-                definedArray[i + 1] = 0;
-                definedArray[i + 2] = 0;
-                i += 2;
+            if (val) {
+                definedArray[bufferIndex] = lastVal;
+                definedArray[bufferIndex + 1] = lastVal;
+                definedArray[bufferIndex + 2] = nextVal;
+                definedArray[bufferIndex + 3] = nextVal;
+            } else {
+                definedArray[bufferIndex] = val;
+                definedArray[bufferIndex + 1] = val;
+                definedArray[bufferIndex + 2] = val;
+                definedArray[bufferIndex + 3] = val;
             }
         }
 
