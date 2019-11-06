@@ -11,6 +11,7 @@ export default () => {
   let program = programBuilder();
   let xScale = glScaleBase();
   let yScale = glScaleBase();
+  let lineWidth = width();
   let decorate = () => {};
 
   const xValueAttrib = 'aXValue';
@@ -38,7 +39,7 @@ export default () => {
       program.context().canvas.height
     ]));
 
-    width()(program);
+    lineWidth(program);
     setColors(numElements);
     setYDirections(numElements);
 
@@ -207,6 +208,7 @@ export default () => {
   };
 
   rebind(draw, program, 'context');
+  rebind(draw, lineWidth, 'width');
 
   return draw;
 };

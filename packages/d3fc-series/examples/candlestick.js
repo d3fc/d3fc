@@ -40,7 +40,5 @@ var webglCandlestick = fc.seriesWebglCandlestick()
     .yScale(yScale)
     .context(gl)
     .bandwidth(10)
-    .decorate(program => {
-        fc.lineWidth().width(2)(program);
-    });
+    .lineWidth(2);
 webglCandlestick(data);
