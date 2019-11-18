@@ -17,7 +17,7 @@ export default () => {
     let bandwidth = () => 5;
 
     const base = createBase({
-        decorate: () => {},
+        decorate: () => { },
         defined: (d, i) => defined(
             lowValue,
             highValue,
@@ -61,6 +61,20 @@ export default () => {
         }
     };
 
+    base.xValues = () => orient === 'vertical' ? [crossValue] : [
+        upperQuartileValue,
+        lowerQuartileValue,
+        highValue,
+        lowValue,
+        medianValue
+    ];
+    base.yValues = () => orient !== 'vertical' ? [crossValue] : [
+        upperQuartileValue,
+        lowerQuartileValue,
+        highValue,
+        lowValue,
+        medianValue
+    ];
     base.orient = (...args) => {
         if (!args.length) {
             return orient;
