@@ -12,6 +12,7 @@ export { default as seriesWebglBar } from './src/webgl/bar';
 
 export { default as seriesSvgErrorBar } from './src/svg/errorBar';
 export { default as seriesCanvasErrorBar } from './src/canvas/errorBar';
+export { default as seriesWebglErrorBar } from './src/webgl/errorBar';
 
 export { default as seriesSvgArea } from './src/svg/area';
 export { default as seriesCanvasArea } from './src/canvas/area';
