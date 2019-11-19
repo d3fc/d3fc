@@ -3,7 +3,7 @@ var height = 250;
 var container = d3.select('#area-svg');
 
 var dataGenerator = fc.randomGeometricBrownianMotion()
-  .steps(10);
+  .steps(50);
 var data = dataGenerator(10);
 
 var xScale = d3.scaleLinear()
@@ -37,7 +37,7 @@ var canvasLine = fc.seriesCanvasArea()
     .context(ctx)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; })
-    .baseValue(11);
+    .baseValue((_, i) => i < 25 ? i : 50 - i);
 canvasLine(data);
 
 var webgl = d3.select('#area-webgl').node();
@@ -55,5 +55,5 @@ var webglArea = fc.seriesWebglArea()
   .context(gl)
   .crossValue((_, i) => i)
   .mainValue((d) => d)
-  .baseValue(11);
+  .baseValue((_, i) => i < 25 ? i : 50 - i);
 webglArea(data);

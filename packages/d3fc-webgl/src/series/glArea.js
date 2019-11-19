@@ -16,7 +16,8 @@ export default () => {
   const xPreviousValueAttrib = 'aXPrevValue';
   const yValueAttrib = 'aYValue';
   const yPreviousValueAttrib = 'aYPrevValue';
-  const y0ValueUniform = 'uY0Value';
+  const y0ValueAttrib = 'aY0Value';
+  const y0PreviousValueAttrib = 'aY0PrevValue';
   const cornerValueAttrib = 'aCorner';
   const definedAttrib = 'aDefined';
 
@@ -79,12 +80,21 @@ export default () => {
     return draw;
   };
 
-  draw.y0Value = (...args) => {
-    const y0Buffer = program.buffers().uniform(y0ValueUniform);
+  draw.y0Values = (...args) => {
+    const y0Buffer = program.buffers().attribute(y0ValueAttrib);
+    const y0PreviousBuffer = program.buffers().attribute(y0PreviousValueAttrib);
+    let y0Array = new Float32Array((args[0].length - 1) * verticesPerElement);
+    let y0PreviousArray = new Float32Array((args[0].length - 1) * verticesPerElement);
+
+    y0Array = y0Array.map((_, i) => args[0][Math.floor((i + verticesPerElement) / verticesPerElement)]);
+    y0PreviousArray = y0PreviousArray.map((_, i) => args[0][Math.floor(i / verticesPerElement)]);
+
     if (y0Buffer) {
-      y0Buffer.data(args[0]);
+      y0Buffer.data(y0Array);
+      y0PreviousBuffer.data(y0PreviousArray);
     } else {
-      program.buffers().uniform(y0ValueUniform, uniformBuilder(args[0]));
+      program.buffers().attribute(y0ValueAttrib, attributeBuilder(y0Array).components(1));
+      program.buffers().attribute(y0PreviousValueAttrib, attributeBuilder(y0PreviousArray).components(1));
     }
     return draw;
   };

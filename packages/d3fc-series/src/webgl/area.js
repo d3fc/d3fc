@@ -15,17 +15,19 @@ export default () => {
 
         const xValues = new Float32Array(data.length);
         const yValues = new Float32Array(data.length);
+        const y0Values = new Float32Array(data.length);
         const defined = new Float32Array(data.length);
 
         data.forEach((d, i) => {
             xValues[i] = xScale.scale(accessor.x(d, i));
             yValues[i] = yScale.scale(accessor.y(d, i));
+            y0Values[i] = yScale.scale(accessor.y0(d, i));
             defined[i] = accessor.defined(d, i);
         });
 
         draw.xValues(xValues)
             .yValues(yValues)
-            .y0Value(yScale.scale(accessor.y0(0, 0)))
+            .y0Values(y0Values)
             .defined(defined)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale);
