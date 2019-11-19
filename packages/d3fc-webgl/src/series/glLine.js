@@ -21,17 +21,11 @@ export default () => {
     const xPrevValueAttrib = 'aPrevXValue';
     const yPrevValueAttrib = 'aPrevYValue';
     const cornerValueAttrib = 'aCorner';
+    const definedAttrib = 'aDefined';
     const widthUniform = 'uWidth';
     const screenUniform = 'uScreen';
 
-    const draw = (numElements, segments = []) => {
-        if (!segments.length) {
-            segments = [{
-                numElements: numElements,
-                start: 0,
-                bufferSize: numElements
-            }];
-        }
+    const draw = (numElements) => {
         // we are resetting the shader each draw here, to avoid issues with decorate
         // we'll eventually need a way to change the symbol type here
         const shaderBuilder = lineShader();
@@ -79,10 +73,7 @@ export default () => {
 
         decorate(program);
 
-        segments.forEach(segment => {
-            // we're sending every vertex to the shader four times, hence * 4
-            program(segment.numElements * 4, segment.start * 4, segment.bufferSize * 4);
-        });
+        program(numElements * 4);
     };
 
     draw.xValues = (...args) => {
@@ -137,6 +128,32 @@ export default () => {
             program.buffers().attribute(yValueAttrib, attributeBuilder(currArray));
             program.buffers().attribute(yNextValueAttrib, attributeBuilder(nextArray));
             program.buffers().attribute(yPrevValueAttrib, attributeBuilder(prevArray));
+        }
+        return draw;
+    };
+
+    draw.defined = (...args) => {
+        const builder = program.buffers().attribute(definedAttrib);
+
+        const definedArray = new Float32Array(args[0].length * 4);
+        const values = args[0];
+
+        for (let i = 0; i < values.length; i += 1) {
+            const value = values[i];
+            const previousValue = i === 0 ? value : values[i - 1];
+            const nextValue = i === (values.length - 1) ? value : values[i + 1];
+            const bufferIndex = i * 4;
+
+            definedArray[bufferIndex] = value ? previousValue : value;
+            definedArray[bufferIndex + 1] = value ? previousValue : value;
+            definedArray[bufferIndex + 2] = value ? nextValue : value;
+            definedArray[bufferIndex + 3] = value ? nextValue : value;
+        }
+
+        if (builder) {
+            builder.data(definedArray);
+        } else {
+            program.buffers().attribute(definedAttrib, attributeBuilder(definedArray).components(1));
         }
         return draw;
     };
