@@ -60,3 +60,14 @@ export const ohlc = {
     body: `vColorIndicator = aColorIndicator;
     gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
+
+export const errorBar = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aXDirection;
+        attribute float aYDirection;
+        attribute float aBandwidth;
+        uniform vec2 uScreen;
+        uniform float uWidth;`,
+    body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
+};
