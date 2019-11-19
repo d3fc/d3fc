@@ -60,3 +60,21 @@ export const ohlc = {
     body: `vColorIndicator = aColorIndicator;
     gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
+
+export const area = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aXPrevValue;
+        attribute float aYPrevValue;
+        attribute vec2 aCorner;
+        attribute float aDefined;
+        varying float vDefined;
+        uniform float uY0Value;
+        attribute vec4 aColor;
+        varying vec4 vColor;`,
+    body: `vDefined = aDefined;
+        gl_Position = vec4(0, 0, 0, 1);
+        gl_Position.x += (aCorner.x * aXValue) + ((1.0 - aCorner.x) * aXPrevValue);
+        gl_Position.y += (aCorner.x * (1.0 - aCorner.y) * aYValue) + ((1.0 - aCorner.x) * (1.0 - aCorner.y) * aYPrevValue) + (aCorner.y * uY0Value);
+        vColor = aColor;`
+};
