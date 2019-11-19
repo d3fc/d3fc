@@ -23,7 +23,6 @@ export default () => {
         .appendHeader(`varying float vDefined;`)
         .appendBody(`if (vDefined < 0.5) {
             discard;
-            return;
         }`);
 
     return {

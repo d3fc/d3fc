@@ -12,6 +12,7 @@ export default () => {
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
+    let lineWidth = width();
 
     const xValueAttrib = 'aXValue';
     const yValueAttrib = 'aYValue';
@@ -58,7 +59,7 @@ export default () => {
             .appendBody(`float miterLength = 1.0 / dot(miter, normalA);`)
             .appendBody(`vec2 point = normalize(A - B);`)
             .appendBody(`if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
-                gl_Position.xy = gl_Position.xy - (sign(dot(normalA, miter)) * aCorner.x * aCorner.y * uWidth * normalA) / uScreen.xy;
+                gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uWidth * normalA) / uScreen.xy;
             } else {
                 gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uWidth * miterLength) / uScreen.xy;
             }`);
@@ -68,7 +69,7 @@ export default () => {
             program.context().canvas.height
         ]));
 
-        width()(program);
+        lineWidth(program);
 
         decorate(program);
 
@@ -135,25 +136,18 @@ export default () => {
         const builder = program.buffers().attribute(definedAttrib);
 
         const definedArray = new Float32Array(args[0].length * 4);
-        
-        const length = definedArray.length;
-        definedArray[0] = args[0][0];
-        definedArray[length - 2] = args[0][Math.floor((length - 2) / 4)];
-        definedArray[length - 1] = args[0][Math.floor((length - 1) / 4)];
+        const values = args[0];
 
-        for (let i = 1; i < definedArray.length - 2; i += 1) {
-            const val = args[0][Math.floor(i / 4)];
-            const nextVal = args[0][Math.floor((i + 1) / 4)];
-            definedArray[i] = val;
+        for (let i = 0; i < values.length; i += 1) {
+            const value = values[i];
+            const previousValue = i === 0 ? value : values[i - 1];
+            const nextValue = i === (values.length - 1) ? value : values[i + 1];
+            const bufferIndex = i * 4;
 
-            if (val && !nextVal) {
-                definedArray[i - 1] = 0;
-                definedArray[i] = 0;
-            } else if (!val && nextVal) {
-                definedArray[i + 1] = 0;
-                definedArray[i + 2] = 0;
-                i += 2;
-            }
+            definedArray[bufferIndex] = value ? previousValue : value;
+            definedArray[bufferIndex + 1] = value ? previousValue : value;
+            definedArray[bufferIndex + 2] = value ? nextValue : value;
+            definedArray[bufferIndex + 3] = value ? nextValue : value;
         }
 
         if (builder) {
@@ -199,6 +193,7 @@ export default () => {
     };
 
     rebind(draw, program, 'context');
+    rebind(draw, lineWidth, 'width');
 
     return draw;
 };
