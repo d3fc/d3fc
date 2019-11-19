@@ -41,6 +41,9 @@ export default () => {
         height: yBandwidth(d, i)
     });
 
+
+    heatmap.xValues = () => [xValue];
+    heatmap.yValues = () => [yValue];
     heatmap.xValue = (...args) => {
         if (!args.length) {
             return xValue;

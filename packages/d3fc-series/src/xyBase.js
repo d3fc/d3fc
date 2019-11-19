@@ -14,7 +14,7 @@ export default () => {
     let orient = 'vertical';
 
     const base = createBase({
-        decorate: () => {},
+        decorate: () => { },
         defined: (d, i) => defined(baseValue, crossValue, mainValue)(d, i),
         xScale: scaleIdentity(),
         yScale: scaleIdentity()
@@ -61,6 +61,14 @@ export default () => {
         }
     };
 
+    base.xValues = () => orient === 'vertical' ? [crossValue] : [
+        baseValue,
+        mainValue
+    ];
+    base.yValues = () => orient !== 'vertical' ? [crossValue] : [
+        baseValue,
+        mainValue
+    ];
     base.baseValue = (...args) => {
         if (!args.length) {
             return baseValue;

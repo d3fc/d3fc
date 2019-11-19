@@ -48,6 +48,7 @@ npm install @d3fc/d3fc-series
  * [Multi Series](#multi-series)
  * [Decorate Pattern](#decorate-pattern)
  * [Auto Bandwidth](#auto-bandwidth)
+ * [Accessors](#accessors)
 * [Line](#line)
 * [Point](#point)
 * [Area](#area)
@@ -330,6 +331,10 @@ var canvasMulti = fc.seriesCanvasMulti()
     .yScale(yScale)
     .series([fc.autoBandwidth(canvasBar), canvasLine]);
 ```
+
+#### Accessors
+
+All of the series expose `xValues`/`yValues` methods which return an array of all of the accessors used by the series when retrieving values for use with the `xScale`/`yScale` respectively. 
 
 ### Line
 

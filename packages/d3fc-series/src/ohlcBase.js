@@ -17,7 +17,7 @@ export default () => {
     let crossValueScaled = (d, i) => base.xScale()(crossValue(d, i));
 
     base = createBase({
-        decorate: () => {},
+        decorate: () => { },
         defined: (d, i) => defined(
             crossValue,
             openValue,
@@ -53,6 +53,13 @@ export default () => {
         };
     };
 
+    base.xValues = () => [crossValue];
+    base.yValues = () => [
+        openValue,
+        highValue,
+        lowValue,
+        closeValue
+    ];
     base.crossValue = (...args) => {
         if (!args.length) {
             return crossValue;

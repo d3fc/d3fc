@@ -13,6 +13,10 @@ export default () => {
         yScale: scaleIdentity()
     });
 
+    multi.xValues = () => series.map(s => s.xValues())
+        .reduce((a, b) => a.concat(b));
+    multi.yValues = () => series.map(s => s.yValues())
+        .reduce((a, b) => a.concat(b));
     multi.mapping = (...args) => {
         if (!args.length) {
             return mapping;
