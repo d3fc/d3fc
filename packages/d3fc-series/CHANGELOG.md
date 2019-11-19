@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.29...@d3fc/d3fc-series@4.1.0) (2019-11-19)
+
+
+### Features
+
+* add xValues/yValues to all series ([#1335](https://github.com/d3fc/d3fc/issues/1335)) ([413b611](https://github.com/d3fc/d3fc/commit/413b611))
+
+
+
+
+
 ## [4.0.29](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.0.28...@d3fc/d3fc-series@4.0.29) (2019-09-04)
 
 **Note:** Version bump only for package @d3fc/d3fc-series

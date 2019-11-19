@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.53](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-brush@2.0.52...@d3fc/d3fc-brush@2.0.53) (2019-11-19)
+
+**Note:** Version bump only for package @d3fc/d3fc-brush
+
+
+
+
+
 ## [2.0.52](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-brush@2.0.51...@d3fc/d3fc-brush@2.0.52) (2019-09-04)
 
 **Note:** Version bump only for package @d3fc/d3fc-brush
