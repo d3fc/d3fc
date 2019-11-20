@@ -40,7 +40,5 @@ var webglOhlc = fc.seriesWebglOhlc()
     .yScale(yScale)
     .context(gl)
     .bandwidth(10)
-    .decorate(program => {
-        fc.lineWidth().width(2)(program);
-    });
+    .width(2);
 webglOhlc(data);
