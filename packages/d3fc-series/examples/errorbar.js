@@ -46,3 +46,17 @@ var canvasErrorBar = fc.seriesCanvasErrorBar()
     .highValue(function(d) { return d.high; })
     .lowValue(function(d) { return d.low; });
 canvasErrorBar(data);
+
+var webgl = d3.select('#errorbar-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglErrorBar = fc.seriesWebglErrorBar()
+    .context(gl)
+    .xScale(xScale)
+    .yScale(yScale)
+    .crossValue(function(d) { return d.value; })
+    .highValue(function(d) { return d.high; })
+    .lowValue(function(d) { return d.low });
+webglErrorBar(data);
