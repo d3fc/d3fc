@@ -83,10 +83,6 @@ export const area = {
         attribute float aDefined;
         varying float vDefined;
         
-        float when_eq(float a, float b) {
-            return 1.0 - abs(sign(a - b));
-        }
-        
         float when_lt(float a, float b) {
             return max(sign(b - a), 0.0);
         }
@@ -105,10 +101,9 @@ export const area = {
     body: `vDefined = aDefined;
         gl_Position = vec4(0, 0, 0, 1);
 
-        float correctCorner = when_eq(aCorner.z, 1.0);
         float interceptY0PosGrad = and(when_lt(aYPrevValue, aY0PrevValue), when_gt(aYValue, aY0Value));
         float interceptY0NegGrad = and(when_gt(aYPrevValue, aY0PrevValue), when_lt(aYValue, aY0Value));
-        float useIntercept = and(correctCorner, or(interceptY0PosGrad, interceptY0NegGrad));
+        float useIntercept = and(aCorner.z, or(interceptY0PosGrad, interceptY0NegGrad));
         
         float yGradient = (aYValue - aYPrevValue) / (aXValue - aXPrevValue);
         float yConstant = aYValue - (yGradient * aXValue);
