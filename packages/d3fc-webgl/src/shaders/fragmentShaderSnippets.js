@@ -33,13 +33,11 @@ export const ohlc = {
 };
 
 export const area = {
-    header: `varying float vDefined;
-        varying vec4 vColor;`,
+    header: `varying float vDefined;`,
     body: `if (vDefined < 0.5) {
             discard;
         }
-        gl_FragColor = vec4(0.86, 0.86, 0.86, 1);
-        gl_FragColor = vColor;`
+        gl_FragColor = vec4(0.86, 0.86, 0.86, 1);`
 }
 
 export const pointAlias = {

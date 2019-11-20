@@ -1,5 +1,4 @@
 import attributeBuilder from '../buffers/attributeBuilder';
-import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
@@ -35,7 +34,6 @@ export default () => {
     yScale(program);
 
     initCornerArray(numElements);
-    setColors(numElements);
 
     decorate(program);
 
@@ -147,31 +145,15 @@ export default () => {
 
   const initCornerArray = (numElements) => {
     const cornerBuffer = program.buffers().attribute(cornerValueAttrib);
-    const cornerValues = [0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1];
+    const cornerValues = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0];
 
-    let cornerArray = new Float32Array((numElements - 1) * verticesPerElement * 2);
-    cornerArray = cornerArray.map((_, i) => cornerValues[i % 12]);
+    let cornerArray = new Float32Array((numElements - 1) * verticesPerElement * 3);
+    cornerArray = cornerArray.map((_, i) => cornerValues[i % (verticesPerElement * 3)]);
 
     if (cornerBuffer) {
       cornerBuffer.data(cornerArray);
     } else {
-      program.buffers().attribute(cornerValueAttrib, attributeBuilder(cornerArray).components(2));
-    }
-  };
-
-  const setColors = (numElements) => {
-    const colorBuffer = program.buffers().attribute('aColor');
-    const red = [1, 0, 0, 0.5];
-    const blue = [0, 0, 1, 0.5];
-    const colors = [...red, ...red, ...red, ...blue, ...blue, ...blue];
-
-    let colorArray = new Float32Array((numElements - 1) * verticesPerElement * 4);
-    colorArray = colorArray.map((_, i) => colors[i % (verticesPerElement * 4)]);
-
-    if (colorBuffer) {
-      colorBuffer.data(colorArray);
-    } else {
-      program.buffers().attribute('aColor', attributeBuilder(colorArray).components(4));
+      program.buffers().attribute(cornerValueAttrib, attributeBuilder(cornerArray).components(3));
     }
   };
 

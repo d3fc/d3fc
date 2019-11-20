@@ -68,15 +68,24 @@ export const area = {
         attribute float aYPrevValue;
         attribute float aY0Value;
         attribute float aY0PrevValue;
-        attribute vec2 aCorner;
+        attribute vec3 aCorner;
         attribute float aDefined;
-        varying float vDefined;
-        attribute vec4 aColor;
-        varying vec4 vColor;`,
+        varying float vDefined;`,
     body: `vDefined = aDefined;
         gl_Position = vec4(0, 0, 0, 1);
-        gl_Position.x += (aCorner.x * aXValue) + ((1.0 - aCorner.x) * aXPrevValue);
-        gl_Position.y += (aCorner.x * (1.0 - aCorner.y) * aYValue) + ((1.0 - aCorner.x) * (1.0 - aCorner.y) * aYPrevValue);
-        gl_Position.y += (aCorner.x * aCorner.y * aY0Value) + ((1.0 - aCorner.x) * aCorner.y * aY0PrevValue);
-        vColor = aColor;`
+        if (aCorner.z == 1.0 && ((aYPrevValue < aY0PrevValue && aYValue > aY0Value) || (aYPrevValue > aY0PrevValue && aYValue < aY0Value))) {
+            float yGradient = (aYValue - aYPrevValue) / (aXValue - aXPrevValue);
+            float yConstant = aYValue - (yGradient * aXValue);
+            
+            float y0Gradient = (aY0Value - aY0PrevValue) / (aXValue - aXPrevValue);
+            float y0Constant = aY0Value - (y0Gradient * aXValue);
+            
+            float finalXValue = (y0Constant - yConstant) / (yGradient - y0Gradient);
+            float finalYValue = (yGradient * finalXValue) + yConstant;
+            gl_Position = vec4(finalXValue, finalYValue, 0, 1);
+        } else {
+            gl_Position.x += (aCorner.x * aXValue) + ((1.0 - aCorner.x) * aXPrevValue);
+            gl_Position.y += (aCorner.x * (1.0 - aCorner.y) * aYValue) + ((1.0 - aCorner.x) * (1.0 - aCorner.y) * aYPrevValue);
+            gl_Position.y += (aCorner.x * aCorner.y * aY0Value) + ((1.0 - aCorner.x) * aCorner.y * aY0PrevValue);
+        }`
 };
