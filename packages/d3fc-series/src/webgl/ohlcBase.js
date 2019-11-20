@@ -4,7 +4,6 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default (pathGenerator) => {
     const base = ohlcBase();
-    let lineWidth = 1;
 
     const candlestick = (data) => {
         const filteredData = data.filter(base.defined());
@@ -36,7 +35,6 @@ export default (pathGenerator) => {
             .low(low)
             .close(close)
             .bandwidth(bandwidths)
-            .width(lineWidth)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => base.decorate()(program, filteredData, 0));
@@ -55,16 +53,8 @@ export default (pathGenerator) => {
         };
     }
 
-    candlestick.lineWidth = (...args) => {
-        if (!args.length) {
-            return lineWidth;
-        }
-        lineWidth = args[0];
-        return candlestick;
-    };
-
     rebindAll(candlestick, base, exclude('align'));
-    rebind(candlestick, pathGenerator, 'context');
+    rebind(candlestick, pathGenerator, 'context', 'width');
 
     return candlestick;
 };
