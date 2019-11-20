@@ -33,8 +33,6 @@ export default () => {
     yScale.coordinate(1);
     yScale(program);
 
-    initCornerArray(numElements);
-
     decorate(program);
 
     program((numElements - 1) * verticesPerElement);
@@ -43,18 +41,25 @@ export default () => {
   draw.xValues = (...args) => {
     const xBuffer = program.buffers().attribute(xValueAttrib);
     const xPreviousBuffer = program.buffers().attribute(xPreviousValueAttrib);
+    const cornerBuffer = program.buffers().attribute(cornerValueAttrib);
+
     let xArray = new Float32Array((args[0].length - 1) * verticesPerElement);
     let xPreviousArray = new Float32Array((args[0].length - 1) * verticesPerElement);
+    let cornerArray = new Float32Array((args[0].length - 1) * verticesPerElement * 3);
     
     xArray = xArray.map((_, i) => args[0][Math.floor((i + verticesPerElement) / verticesPerElement)]);
     xPreviousArray = xPreviousArray.map((_, i) => args[0][Math.floor(i / verticesPerElement)]);
+    const cornerValues = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0];
+    cornerArray = cornerArray.map((_, i) => cornerValues[i % (verticesPerElement * 3)]);
 
     if (xBuffer) {
       xBuffer.data(xArray);
       xPreviousBuffer.data(xPreviousArray);
+      cornerBuffer.data(cornerArray);
     } else {
       program.buffers().attribute(xValueAttrib, attributeBuilder(xArray).components(1));
       program.buffers().attribute(xPreviousValueAttrib, attributeBuilder(xPreviousArray).components(1));
+      program.buffers().attribute(cornerValueAttrib, attributeBuilder(cornerArray).components(3));
     }
     return draw;
   };
@@ -141,20 +146,6 @@ export default () => {
     }
     yScale = args[0];
     return draw;
-  };
-
-  const initCornerArray = (numElements) => {
-    const cornerBuffer = program.buffers().attribute(cornerValueAttrib);
-    const cornerValues = [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0];
-
-    let cornerArray = new Float32Array((numElements - 1) * verticesPerElement * 3);
-    cornerArray = cornerArray.map((_, i) => cornerValues[i % (verticesPerElement * 3)]);
-
-    if (cornerBuffer) {
-      cornerBuffer.data(cornerArray);
-    } else {
-      program.buffers().attribute(cornerValueAttrib, attributeBuilder(cornerArray).components(3));
-    }
   };
 
   rebind(draw, program, 'context');
