@@ -30,7 +30,8 @@ export default () => {
             .y0Values(y0Values)
             .defined(defined)
             .xScale(xScale.glScale)
-            .yScale(yScale.glScale);
+            .yScale(yScale.glScale)
+            .decorate((program) => base.decorate()(program, data, 0));
 
         draw(data.length);
     };
