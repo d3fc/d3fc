@@ -3,7 +3,7 @@ import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import ohlcShader from '../shaders/ohlc/shader';
-import width from '../shaders/line/width';
+import lineWidthShader from '../shaders/line/width';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
@@ -11,7 +11,7 @@ export default () => {
   let program = programBuilder();
   let xScale = glScaleBase();
   let yScale = glScaleBase();
-  let lineWidth = width();
+  let lineWidth = lineWidthShader();
   let decorate = () => {};
 
   const xValueAttrib = 'aXValue';
