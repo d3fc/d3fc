@@ -56,7 +56,7 @@ export default () => {
     }
 
     rebindAll(ohlc, base, exclude('align'));
-    rebind(ohlc, draw, 'context');
+    rebind(ohlc, draw, 'context', 'width');
 
     return ohlc;
 };
