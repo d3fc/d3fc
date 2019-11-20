@@ -4,7 +4,6 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = ohlcBase();
-    let lineWidth = 1;
 
     let draw = glOhlc();
 
@@ -38,7 +37,6 @@ export default () => {
             .low(low)
             .close(close)
             .bandwidth(bandwidths)
-            .width(lineWidth)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => base.decorate()(program, filteredData, 0));
@@ -57,16 +55,8 @@ export default () => {
         };
     }
 
-    ohlc.lineWidth = (...args) => {
-        if (!args.length) {
-            return lineWidth;
-        }
-        lineWidth = args[0];
-        return ohlc;
-    };
-
     rebindAll(ohlc, base, exclude('align'));
-    rebind(ohlc, draw, 'context');
+    rebind(ohlc, draw, 'context', 'width');
 
     return ohlc;
 };
