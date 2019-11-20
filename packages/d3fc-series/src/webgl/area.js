@@ -11,18 +11,16 @@ export default () => {
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
-        const accessor = getAccessors();
-
         const xValues = new Float32Array(data.length);
         const yValues = new Float32Array(data.length);
         const y0Values = new Float32Array(data.length);
         const defined = new Float32Array(data.length);
 
         data.forEach((d, i) => {
-            xValues[i] = xScale.scale(accessor.x(d, i));
-            yValues[i] = yScale.scale(accessor.y(d, i));
-            y0Values[i] = yScale.scale(accessor.y0(d, i));
-            defined[i] = accessor.defined(d, i);
+            xValues[i] = xScale.scale(base.crossValue()(d, i));
+            yValues[i] = yScale.scale(base.mainValue()(d, i));
+            y0Values[i] = yScale.scale(base.baseValue()(d, i));
+            defined[i] = base.defined()(d, i);
         });
 
         draw.xValues(xValues)
@@ -35,13 +33,6 @@ export default () => {
 
         draw(data.length);
     };
-
-    const getAccessors = () => ({
-        x: base.crossValue(),
-        y: base.mainValue(),
-        y0: base.baseValue(),
-        defined: base.defined()
-    });
 
     rebindAll(area, base, exclude('bandwidth', 'align'));
     rebind(area, draw, 'context');
