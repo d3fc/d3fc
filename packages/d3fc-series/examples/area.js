@@ -19,7 +19,8 @@ var svgLine = fc.seriesSvgArea()
     .yScale(yScale)
     .defined((_, i) => i % 20 !== 0)
     .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; });
+    .mainValue(function(d) { return d; })
+    .baseValue(10.5);
 
 container.append('g')
     .datum(data)
@@ -36,5 +37,21 @@ var canvasLine = fc.seriesCanvasArea()
     .defined((_, i) => i % 20 !== 0)
     .context(ctx)
     .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; });
+    .mainValue(function(d) { return d; })
+    .baseValue(10.5);
 canvasLine(data);
+
+var webgl = d3.select('#area-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglArea = fc.seriesWebglArea()
+  .xScale(xScale)
+  .yScale(yScale)
+  .defined((_, i) => i % 20 !== 0)
+  .context(gl)
+  .crossValue((_, i) => i)
+  .mainValue((d) => d)
+  .baseValue(10.5);
+webglArea(data);

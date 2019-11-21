@@ -16,6 +16,7 @@ export { default as seriesWebglErrorBar } from './src/webgl/errorBar';
 
 export { default as seriesSvgArea } from './src/svg/area';
 export { default as seriesCanvasArea } from './src/canvas/area';
+export { default as seriesWebglArea } from './src/webgl/area';
 
 export { default as seriesSvgCandlestick } from './src/svg/candlestick';
 export { default as seriesCanvasCandlestick } from './src/canvas/candlestick';
