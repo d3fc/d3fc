@@ -71,3 +71,52 @@ export const errorBar = {
         uniform float uWidth;`,
     body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
+
+export const area = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aXPrevValue;
+        attribute float aYPrevValue;
+        attribute float aY0Value;
+        attribute float aY0PrevValue;
+        attribute vec3 aCorner;
+        attribute float aDefined;
+        varying float vDefined;
+        
+        float when_lt(float a, float b) {
+            return max(sign(b - a), 0.0);
+        }
+        
+        float when_gt(float a, float b) {
+            return max(sign(a - b), 0.0);
+        }
+        
+        float and(float a, float b) {
+            return a * b;
+        }
+        
+        float or(float a, float b) {
+            return min(a + b, 1.0);
+        }`,
+    body: `vDefined = aDefined;
+        gl_Position = vec4(0, 0, 0, 1);
+
+        float interceptY0PosGrad = and(when_lt(aYPrevValue, aY0PrevValue), when_gt(aYValue, aY0Value));
+        float interceptY0NegGrad = and(when_gt(aYPrevValue, aY0PrevValue), when_lt(aYValue, aY0Value));
+        float useIntercept = and(aCorner.z, or(interceptY0PosGrad, interceptY0NegGrad));
+        
+        float yGradient = (aYValue - aYPrevValue) / (aXValue - aXPrevValue);
+        float yConstant = aYValue - (yGradient * aXValue);
+        
+        float y0Gradient = (aY0Value - aY0PrevValue) / (aXValue - aXPrevValue);
+        float y0Constant = aY0Value - (y0Gradient * aXValue);
+        
+        float interceptXValue = (y0Constant - yConstant) / (yGradient - y0Gradient);
+        float interceptYValue = (yGradient * interceptXValue) + yConstant;
+
+        gl_Position = vec4(interceptXValue * useIntercept, interceptYValue * useIntercept, 0, 1);
+        
+        gl_Position.x += (1.0 - useIntercept) * ((aCorner.x * aXValue) + ((1.0 - aCorner.x) * aXPrevValue));
+        gl_Position.y += (1.0 - useIntercept) * (1.0 - aCorner.y) * ((aCorner.x * aYValue) + ((1.0 - aCorner.x) * aYPrevValue));
+        gl_Position.y += (1.0 - useIntercept) * aCorner.y * ((aCorner.x * aY0Value) + ((1.0 - aCorner.x) * aY0PrevValue));`
+};

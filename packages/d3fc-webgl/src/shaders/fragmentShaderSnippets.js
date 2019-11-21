@@ -32,6 +32,14 @@ export const rect = {
     }`
 };
 
+export const area = {
+    header: `varying float vDefined;`,
+    body: `if (vDefined < 0.5) {
+            discard;
+        }
+        gl_FragColor = vec4(0.86, 0.86, 0.86, 1);`
+}
+
 export const pointAlias = {
     body: `gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(vSize - 2.0, vSize, distance * vSize));`
 };
