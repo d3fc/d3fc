@@ -116,7 +116,7 @@ export const area = {
 
         gl_Position = vec4(interceptXValue * useIntercept, interceptYValue * useIntercept, 0, 1);
         
-        gl_Position.x += ((aCorner.x * aXValue) + ((1.0 - aCorner.x) * aXPrevValue)) * (1.0 - useIntercept);
-        gl_Position.y += ((aCorner.x * (1.0 - aCorner.y) * aYValue) + ((1.0 - aCorner.x) * (1.0 - aCorner.y) * aYPrevValue)) * (1.0 - useIntercept);
-        gl_Position.y += ((aCorner.x * aCorner.y * aY0Value) + ((1.0 - aCorner.x) * aCorner.y * aY0PrevValue)) * (1.0 - useIntercept);`
+        gl_Position.x += (1.0 - useIntercept) * ((aCorner.x * aXValue) + ((1.0 - aCorner.x) * aXPrevValue));
+        gl_Position.y += (1.0 - useIntercept) * (1.0 - aCorner.y) * ((aCorner.x * aYValue) + ((1.0 - aCorner.x) * aYPrevValue));
+        gl_Position.y += (1.0 - useIntercept) * aCorner.y * ((aCorner.x * aY0Value) + ((1.0 - aCorner.x) * aY0PrevValue));`
 };
