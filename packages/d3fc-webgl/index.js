@@ -21,6 +21,7 @@ export { default as glBar } from './src/series/glBar';
 export { default as glErrorBar } from './src/series/glErrorBar';
 export { default as glArea } from './src/series/glArea';
 export { default as glCandlestick } from './src/series/glCandlestick';
+export { default as glBoxPlot } from './src/series/glBoxPlot';
 
 export { default as glScaleLinear } from './src/scale/glScaleLinear';
 export { default as glScaleLog } from './src/scale/glScaleLog';

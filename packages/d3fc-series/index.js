@@ -24,6 +24,7 @@ export { default as seriesWebglCandlestick } from './src/webgl/candlestick';
 
 export { default as seriesSvgBoxPlot } from './src/svg/boxPlot';
 export { default as seriesCanvasBoxPlot } from './src/canvas/boxPlot';
+export { default as seriesWebglBoxPlot } from './src/webgl/boxPlot';
 
 export { default as seriesSvgOhlc } from './src/svg/ohlc';
 export { default as seriesCanvasOhlc } from './src/canvas/ohlc';

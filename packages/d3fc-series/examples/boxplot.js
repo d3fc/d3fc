@@ -44,7 +44,7 @@ canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext('2d');
 
-var canvasBoxplot = fc.autoBandwidth(fc.seriesCanvasBoxPlot())
+var canvasBoxPlot = fc.autoBandwidth(fc.seriesCanvasBoxPlot())
     .context(ctx)
     .xScale(xScale)
     .yScale(yScale)
@@ -54,4 +54,21 @@ var canvasBoxplot = fc.autoBandwidth(fc.seriesCanvasBoxPlot())
     .lowerQuartileValue(function(d) { return d.lowerQuartile; })
     .highValue(function(d) { return d.high; })
     .lowValue(function(d) { return d.low; });
-canvasBoxplot(data);
+canvasBoxPlot(data);
+
+var webgl = d3.select('#boxplot-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglBoxPlot = fc.autoBandwidth(fc.seriesWebglBoxPlot())
+    .context(gl)
+    .xScale(xScale)
+    .yScale(yScale)
+    .crossValue(function(d) { return d.value; })
+    .medianValue(function(d) { return d.median; })
+    .upperQuartileValue(function(d) { return d.upperQuartile; })
+    .lowerQuartileValue(function(d) { return d.lowerQuartile; })
+    .highValue(function(d) { return d.high; })
+    .lowValue(function(d) { return d.low; });
+webglBoxPlot(data);
