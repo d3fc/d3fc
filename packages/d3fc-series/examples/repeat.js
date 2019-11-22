@@ -52,4 +52,24 @@ d3.text('repeat-data.csv', function(text) {
         });
 
     canvasMulti(data);
+
+    var webgl = d3.select('#repeat-webgl').node();
+    webgl.width = width;
+    webgl.height = height;
+    var gl = webgl.getContext('webgl');
+
+    var webglLine = fc.seriesWebglLine()
+        .crossValue(function(_, i) { return i; })
+        .mainValue(function(d) { return d; });
+
+    var webglMulti = fc.seriesWebglRepeat()
+        .xScale(xScale)
+        .yScale(yScale)
+        .context(gl)
+        .series(webglLine)
+        .decorate(function(context, _, index) {
+            fc.barFill().color(color(index))(context);
+        });
+
+    webglMulti(data);
 });
