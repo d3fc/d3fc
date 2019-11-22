@@ -12,6 +12,7 @@ export default () => {
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
+    let lineWidth = lineWidthShader();
 
     const xValueAttrib = 'aXValue';
     const yValueAttrib = 'aYValue';
@@ -38,7 +39,7 @@ export default () => {
             program.context().canvas.height
         ]));
 
-        lineWidthShader()(program);
+        lineWidth(program);
 
         program.vertexShader()
             .appendBody(`
@@ -156,6 +157,7 @@ export default () => {
     };
 
     rebind(draw, program, 'context');
+    rebind(draw, lineWidth, 'width');
 
     return draw;
 };
