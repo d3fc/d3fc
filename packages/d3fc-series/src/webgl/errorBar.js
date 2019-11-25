@@ -5,7 +5,7 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = errorBarBase();
 
-    let draw = glErrorBar();
+    const draw = glErrorBar();
 
     const errorBar = (data) => {
         const filteredData = data.filter(base.defined());
