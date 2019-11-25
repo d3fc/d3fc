@@ -7,7 +7,7 @@ export default () => {
     const base = boxPlotBase();
     let cap = functor(0.5);
 
-    let draw = glBoxPlot();
+    const draw = glBoxPlot();
 
     const boxPlot = (data) => {
         const filteredData = data.filter(base.defined());
