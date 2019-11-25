@@ -7,12 +7,12 @@ export default () => {
   const fragmentShader = shaderBuilder(fragmentShaderBase);
 
   vertexShader
-    .appendHeader(vertexShaderSnippets.ohlc.header)
-    .appendBody(vertexShaderSnippets.ohlc.body);
+    .appendHeader(vertexShaderSnippets.rect.header)
+    .appendBody(vertexShaderSnippets.rect.body);
 
   fragmentShader
-    .appendHeader(fragmentShaderSnippets.ohlc.header)
-    .appendBody(fragmentShaderSnippets.ohlc.body);
+    .appendHeader(fragmentShaderSnippets.rect.header)
+    .appendBody(fragmentShaderSnippets.rect.body);
 
   return {
     vertex: () => vertexShader,

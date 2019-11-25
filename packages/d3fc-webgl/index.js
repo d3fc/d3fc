@@ -11,7 +11,7 @@ export { default as squarePointShader } from './src/shaders/point/square/shader'
 export { default as pointFill } from './src/shaders/point/fill';
 export { default as pointStroke } from './src/shaders/point/stroke';
 export { default as pointAntiAlias } from './src/shaders/point/antiAlias';
-export { default as lineWidth } from './src/shaders/line/width';
+export { default as lineWidth } from './src/shaders/lineWidth';
 export { default as barFill } from './src/shaders/bar/fill';
 
 export { default as glPoint } from './src/series/glPoint';
@@ -20,6 +20,7 @@ export { default as glOhlc } from './src/series/glOhlc';
 export { default as glBar } from './src/series/glBar';
 export { default as glErrorBar } from './src/series/glErrorBar';
 export { default as glArea } from './src/series/glArea';
+export { default as glCandlestick } from './src/series/glCandlestick';
 
 export { default as glScaleLinear } from './src/scale/glScaleLinear';
 export { default as glScaleLog } from './src/scale/glScaleLog';

@@ -3,7 +3,7 @@ import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import errorBarShader from '../shaders/errorBar/shader';
-import width from '../shaders/line/width';
+import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
@@ -38,7 +38,7 @@ export default () => {
             program.context().canvas.height
         ]));
 
-        width()(program);
+        lineWidthShader()(program);
 
         program.vertexShader()
             .appendBody(`
