@@ -3,7 +3,7 @@ import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import boxPlotShader from '../shaders/boxPlot/shader';
-import lineWidthShader from '../shaders/line/width';
+import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
