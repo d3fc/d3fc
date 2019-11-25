@@ -11,8 +11,6 @@ export default (pathGenerator) => {
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
-        const accessor = getAccessors();
-
         const xValues = new Float32Array(filteredData.length);
         const open = new Float32Array(filteredData.length);
         const high = new Float32Array(filteredData.length);
@@ -21,12 +19,12 @@ export default (pathGenerator) => {
         const bandwidths = new Float32Array(filteredData.length);
 
         filteredData.forEach((d, i) => {
-            xValues[i] = xScale.scale(accessor.xValues(d, i));
-            open[i] = yScale.scale(accessor.open(d, i));
-            high[i] = yScale.scale(accessor.high(d, i));
-            low[i] = yScale.scale(accessor.low(d, i));
-            close[i] = yScale.scale(accessor.close(d, i));
-            bandwidths[i] = accessor.bandwidth(d, i);
+            xValues[i] = xScale.scale(base.crossValue()(d, i));
+            open[i] = yScale.scale(base.openValue()(d, i));
+            high[i] = yScale.scale(base.highValue()(d, i));
+            low[i] = yScale.scale(base.lowValue()(d, i));
+            close[i] = yScale.scale(base.closeValue()(d, i));
+            bandwidths[i] = base.bandwidth()(d, i);
         });
 
         pathGenerator.xValues(xValues)
@@ -41,17 +39,6 @@ export default (pathGenerator) => {
 
         pathGenerator(filteredData.length);
     };
-
-    function getAccessors() {
-        return {
-            xValues: base.crossValue(),
-            open: base.openValue(),
-            high: base.highValue(),
-            low: base.lowValue(),
-            close: base.closeValue(),
-            bandwidth: base.bandwidth()
-        };
-    }
 
     rebindAll(candlestick, base, exclude('align'));
     rebind(candlestick, pathGenerator, 'context', 'width');
