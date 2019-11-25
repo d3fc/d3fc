@@ -47,6 +47,17 @@ export const triangle = {
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
+export const cross = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aSize;
+        uniform float uStrokeWidth;
+        varying float vSize;`,
+    body: `vSize = 3.0 * sqrt(aSize / 5.0);
+        gl_PointSize = vSize + uStrokeWidth + 1.0;
+        gl_Position = vec4(aXValue, aYValue, 0, 1);`
+};
+
 export const rect = {
     header: `attribute float aXValue;
         attribute float aYValue;
