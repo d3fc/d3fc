@@ -1,4 +1,5 @@
 import bufferBuilder from '../buffers/bufferBuilder';
+import uniformBuilder from '../buffers/uniformBuilder';
 import drawModes from './drawModes';
 
 export default () => {
@@ -9,6 +10,11 @@ export default () => {
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
     const build = (numElements, start = 0, bufferSize = numElements) => {
+        buffers.uniform('uScreen', uniformBuilder([
+            context.canvas.width,
+            context.canvas.height
+        ]));
+
         const vertexShaderSource = vertexShader();
         const fragmentShaderSource = fragmentShader();
         if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
