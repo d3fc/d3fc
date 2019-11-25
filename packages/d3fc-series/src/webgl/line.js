@@ -7,7 +7,7 @@ export default () => {
     let context = null;
     let width = 1;
 
-    let draw = glLine();
+    const draw = glLine();
 
     const line = (data) => {
         const xScale = scaleMapper(base.xScale());
