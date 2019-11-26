@@ -1,9 +1,0 @@
-{
-  "env": {
-    "browser": true
-  },
-  "globals": {
-    "fc": true,
-    "d3": true
-  }
-}

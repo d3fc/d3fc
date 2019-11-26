@@ -1,3 +1,10 @@
-node_modules
-build
-**/*.config.js
+# Ignore these folder names no matter where they appear
+node_modules/
+build/
+dist/
+
+# Ignore specific paths
+# Ignore all subfolders of the root packages folder
+/packages/*
+# Example of un-ignoring a particular package (uncomment)
+#!/packages/d3fc-extent/

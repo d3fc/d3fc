@@ -8,7 +8,9 @@
     "bundle": "lerna run bundle --stream --concurrency 1",
     "bundle-min": "lerna run bundle --stream --concurrency 1 -- -- --configEnv=prod",
     "test": "lerna run test --stream --concurrency 1",
-    "lint": "eslint **/*.js -c .eslintrc.json && markdownlint **/*.md --ignore **/node_modules/**",
+    "eslint": "eslint \"**/*.js\"",
+    "markdownlint": "markdownlint **/*.md --ignore **/node_modules/**",
+    "lint": "npm run eslint && npm run markdownlint",
     "screenshots": "lerna run screenshots --stream --concurrency 1",
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
     "commitlint": "commitlint --from HEAD~1 to HEAD --verbose"
@@ -17,6 +19,10 @@
     "hooks": {
       "prepare-commit-msg": "env FORCE_COLOR=1 node ./scripts/commit-notice.js"
     }
+  },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 4
   },
   "repository": {
     "type": "git",
@@ -35,12 +41,12 @@
   },
   "homepage": "https://d3fc.io",
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/config-conventional": "^8.1.0",
-    "@commitlint/travis-cli": "^8.1.0",
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/register": "^7.5.5",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/travis-cli": "^8.1.0",
     "babelrc-rollup": "^3.0.0",
     "chalk": "^2.4.2",
     "command-line-args": "^3.0.1",
@@ -49,11 +55,13 @@
     "cz-conventional-changelog": "^3.0.2",
     "d3": "^5.7.0",
     "eol": "^0.4.0",
-    "eslint": "^6.3.0",
-    "eslint-config-defaults": "^9.0.0",
+    "eslint": "^6.7.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-semistandard": "^15.0.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "finalhandler": "^1.1.2",
@@ -65,6 +73,7 @@
     "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
     "mkdirp": "^0.5.1",
+    "prettier": "^1.19.1",
     "puppeteer": "^1.19.0",
     "read-babelrc-up": "^0.4.0",
     "rollup": "^1.20.3",
