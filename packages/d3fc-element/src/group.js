@@ -61,4 +61,4 @@ export default class extends HTMLElement {
             break;
         }
     }
-};
+}
