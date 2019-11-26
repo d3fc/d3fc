@@ -10,11 +10,6 @@ export default () => {
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
     const build = (numElements, start = 0, bufferSize = numElements) => {
-        buffers.uniform('uScreen', uniformBuilder([
-            context.canvas.width,
-            context.canvas.height
-        ]));
-
         const vertexShaderSource = vertexShader();
         const fragmentShaderSource = fragmentShader();
         if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
@@ -23,6 +18,10 @@ export default () => {
         }
         context.useProgram(program);
 
+        buffers.uniform('uScreen', uniformBuilder([
+            context.canvas.width,
+            context.canvas.height
+        ]));
         buffers(context, program, bufferSize);
 
         context.drawArrays(mode, start, numElements);
