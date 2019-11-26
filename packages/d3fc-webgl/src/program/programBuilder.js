@@ -1,4 +1,5 @@
 import bufferBuilder from '../buffers/bufferBuilder';
+import uniformBuilder from '../buffers/uniformBuilder';
 import drawModes from './drawModes';
 
 export default () => {
@@ -17,6 +18,10 @@ export default () => {
         }
         context.useProgram(program);
 
+        buffers.uniform('uScreen', uniformBuilder([
+            context.canvas.width,
+            context.canvas.height
+        ]));
         buffers(context, program, bufferSize);
 
         context.drawArrays(mode, start, numElements);

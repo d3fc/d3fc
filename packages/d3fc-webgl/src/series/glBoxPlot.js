@@ -1,5 +1,4 @@
 import attributeBuilder from '../buffers/attributeBuilder';
-import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import boxPlotShader from '../shaders/boxPlot/shader';
@@ -77,11 +76,6 @@ export default () => {
         xScale(program);
         yScale.coordinate(1);
         yScale(program);
-
-        program.buffers().uniform('uScreen', uniformBuilder([
-            program.context().canvas.width,
-            program.context().canvas.height
-        ]));
 
         lineWidth(program);
 

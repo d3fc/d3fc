@@ -1,5 +1,5 @@
 import xyBase from '../xyBase';
-import { glLine, scaleMapper, uniformBuilder } from '@d3fc/d3fc-webgl';
+import { glLine, scaleMapper } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
@@ -32,11 +32,6 @@ export default () => {
             .yScale(yScale.glScale)
             .width(width)
             .decorate((program) => {
-                program.buffers().uniform('uScreen', uniformBuilder([
-                    program.context().canvas.width,
-                    program.context().canvas.height
-                ]));
-
                 base.decorate()(program, data, 0);
             });
 
