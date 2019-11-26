@@ -6,14 +6,10 @@ import annotationCanvasCrosshair from '../src/canvas/crosshair';
 
 describe('crosshair', () => {
 
-    let element;
     let context;
-    let container;
 
     beforeEach(() => {
-        element = document.createElement('svg');
         context = createCanvas().getContext('2d');
-        container = select(element);
     });
 
     it('should work with continuous scales for svg', () => {

@@ -15,8 +15,6 @@ var yScale = d3.scaleLinear()
     .domain(fc.extentLinear().pad([0.1, 0.1])(data))
     .range([height, 0]);
 
-var color = d3.scaleOrdinal(d3.schemeCategory10);
-
 // START
 var svgBar = fc.seriesSvgBar()
     .xScale(xScale)

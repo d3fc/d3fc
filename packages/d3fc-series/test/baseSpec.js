@@ -1,4 +1,3 @@
-import * as d3Scale from 'd3-scale';
 import * as fc from '../index';
 
 describe('xScale', () => {

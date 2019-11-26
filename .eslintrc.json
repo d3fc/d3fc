@@ -1,29 +1,79 @@
 {
   "extends": [
-    "semistandard",
-    "plugin:prettier/recommended",
-    "prettier/standard"
+    "eslint:recommended"
   ],
+  "env": {
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
   "rules": {
+    "no-unused-vars": ["error", { "args": "none" }]
   },
   "overrides": [
 		{
       "files": ["**/examples/**/*.js"],
+      "parserOptions": {
+        "sourceType": "script"
+      },
       "env": {
-        "env": {
-          "browser": true
-        },
-        "globals": {
-          "fc": true,
-          "d3": true
-        }
+        "browser": true
+      },
+      "globals": {
+        "fc": "readable",
+        "d3": "readable"
       }
     },
 		{
       "files": ["**/test/**/*.js"],
       "env": {
-        "jasmine": true
+        "browser": true,
+        "jasmine": true,
+        "node": true
       }
+    },
+		{
+      "files": [
+        "./packages/d3fc-chart/src/**/*.js",
+        "./packages/d3fc-element/src/**/*.js"
+      ],
+      "env": {
+        "browser": true
+      },
+      "globals": {
+        "global": "writable"
+      }
+    },
+		{
+      "files": [
+        "./packages/d3fc/rollup.config.js",
+        "./packages/d3fc-site/builder/**/*.js",
+        "./packages/d3fc-site/scripts/**/*.js"
+      ],
+      "env": {
+        "node": true
+      }
+    },
+		{
+      "files": ["./packages/d3fc-site/src/**/*.js"],
+      "env": {
+        "browser": true
+      },
+      "globals": {
+        "fc": "readable",
+        "d3": "readable",
+        "$": "readable"
+      }
+    },
+		{
+      "files": ["./scripts/**/*.js"],
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"    
+      ]
     }
   ]
 }

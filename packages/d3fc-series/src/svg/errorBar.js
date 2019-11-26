@@ -1,4 +1,3 @@
-import { scaleIdentity } from 'd3-scale';
 import { shapeErrorBar } from '@d3fc/d3fc-shape';
 import { dataJoin } from '@d3fc/d3fc-data-join';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';

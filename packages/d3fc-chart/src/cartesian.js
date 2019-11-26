@@ -1,6 +1,5 @@
 import { select, event } from 'd3-selection';
 import { scaleIdentity } from 'd3-scale';
-import { seriesSvgMulti, seriesCanvasMulti } from '@d3fc/d3fc-series';
 import { axisBottom, axisRight, axisLeft, axisTop } from '@d3fc/d3fc-axis';
 import { dataJoin } from '@d3fc/d3fc-data-join';
 import { rebindAll, exclude, prefix } from '@d3fc/d3fc-rebind';

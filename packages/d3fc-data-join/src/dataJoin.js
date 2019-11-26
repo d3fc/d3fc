@@ -1,5 +1,3 @@
-import { select, selection } from 'd3-selection';
-
 // "Caution: avoid interpolating to or from the number zero when the interpolator is used to generate
 // a string (such as with attr).
 // Very small values, when stringified, may be converted to scientific notation and

@@ -1,4 +1,3 @@
-import { sum } from 'd3-array';
 import { select } from 'd3-selection';
 import { scaleIdentity } from 'd3-scale';
 import functor from './util/functor';

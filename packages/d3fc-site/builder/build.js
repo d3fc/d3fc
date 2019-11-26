@@ -33,9 +33,6 @@ const markCurrentPage = fileSteps.markCurrentPage;
 const renderTemplate = fileSteps.renderTemplate;
 const renderLayout = fileSteps.renderLayout;
 const renderMarkdown = fileSteps.renderMarkdown;
-const writePost = fileSteps.writePost;
-
-const util = require('tiny-ssg/es5/util');
 
 // load the helpers required by the site build
 require('handlebars-helpers').misc({ handlebars });

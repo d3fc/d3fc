@@ -3,12 +3,10 @@ import { rebindAll, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
 
-    let context = null;
     const base = heatmapBase();
 
     const heatmap = (data) => {
         const filteredData = data.filter(base.defined());
-        const colorValue = base.colorValue();
         const colorInterpolate = base.colorInterpolate();
         const colorScale = base.colorScale(filteredData);
         const context = base.pathGenerator.context();

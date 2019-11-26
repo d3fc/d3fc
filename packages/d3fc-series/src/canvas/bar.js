@@ -1,5 +1,5 @@
 import {shapeBar} from '@d3fc/d3fc-shape';
-import {rebind, exclude, rebindAll} from '@d3fc/d3fc-rebind';
+import {rebind, rebindAll} from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
 

@@ -1,4 +1,3 @@
-import { shapeCandlestick } from '@d3fc/d3fc-shape';
 import ohlcBase from '../ohlcBase';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import colors from '../colors';

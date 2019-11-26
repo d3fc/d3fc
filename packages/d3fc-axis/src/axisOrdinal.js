@@ -1,4 +1,3 @@
-import { dataJoin as _dataJoin } from '@d3fc/d3fc-data-join';
 import { rebindAll } from '@d3fc/d3fc-rebind';
 import { axisBase } from './axisBase';
 
