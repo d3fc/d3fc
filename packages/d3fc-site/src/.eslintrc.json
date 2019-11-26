@@ -1,8 +1,0 @@
-{
-  "parserOptions": {
-    "ecmaVersion": 5
-  },
-  "rules": {
-    "indent": ["error", 2]
-  }
-}

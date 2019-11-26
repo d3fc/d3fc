@@ -28,8 +28,6 @@ var regions = d3.set(data.map(function(d) { return d.type; }));
 var color = d3.scaleOrdinal(d3.schemeCategory10)
   .domain(regions.values());
 
-var legend = d3.legendColor().scale(color);
-
 var pointSeries = fc.seriesSvgPoint()
     .crossValue(function(d) { return d.x; })
     .mainValue(function(d) { return d.y; })

@@ -1,4 +1,3 @@
-import { sum } from 'd3-array';
 import { collisionArea } from './util/collision';
 import intersect from './util/intersect';
 import placements from './util/placements';

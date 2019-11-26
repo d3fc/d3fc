@@ -1,10 +1,7 @@
-import { scaleBand } from 'd3-scale';
 import { dataJoin } from '@d3fc/d3fc-data-join';
 import { select } from 'd3-selection';
-import { range } from 'd3-array';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import groupedBase from '../groupedBase';
-import alignOffset from '../alignOffset';
 
 export default (series) => {
 

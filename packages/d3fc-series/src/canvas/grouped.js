@@ -1,4 +1,3 @@
-import { scaleLinear } from 'd3-scale';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import groupedBase from '../groupedBase';
 

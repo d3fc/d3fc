@@ -1,4 +1,3 @@
-import { select } from 'd3-selection';
 import { scaleIdentity } from 'd3-scale';
 import * as fc from '../index';
 

@@ -3,8 +3,5 @@ node_modules/
 build/
 dist/
 
-# Ignore specific paths
-# Ignore all subfolders of the root packages folder
-/packages/*
-# Example of un-ignoring a particular package (uncomment)
-#!/packages/d3fc-extent/
+/packages/d3fc-label-layout/site/
+/packages/d3fc-sample/site/

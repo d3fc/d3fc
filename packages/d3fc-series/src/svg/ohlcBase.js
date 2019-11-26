@@ -1,5 +1,4 @@
 import { dataJoin } from '@d3fc/d3fc-data-join';
-import { shapeCandlestick } from '@d3fc/d3fc-shape';
 import ohlcBase from '../ohlcBase';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import { select } from 'd3-selection';

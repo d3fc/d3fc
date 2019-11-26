@@ -1,4 +1,3 @@
-import intersect from './intersect';
 import { sum } from 'd3-array';
 
 const substitute = (array, index, substitution) =>

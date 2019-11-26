@@ -6,14 +6,10 @@ import annotationCanvasLine from '../src/canvas/line';
 
 describe('line', () => {
 
-    let element;
     let context;
-    let container;
 
     beforeEach(() => {
-        element = document.createElement('svg');
         context = createCanvas().getContext('2d');
-        container = select(element);
     });
 
     it('should work with continuous scales for svg', () => {
