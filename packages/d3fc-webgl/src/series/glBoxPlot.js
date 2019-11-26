@@ -2,10 +2,44 @@ import attributeBuilder from '../buffers/attributeBuilder';
 import uniformBuilder from '../buffers/uniformBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
-import errorBarShader from '../shaders/errorBar/shader';
+import boxPlotShader from '../shaders/boxPlot/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
+
+//           αL1     α     αR1
+//            .------.------.
+//                   |
+//                   |
+//                   |
+//    βL2            β           βR2
+//     .-------------.------------.
+//     |                          |
+//     |                          |
+//     |                          |
+//     γL2            γ           γR2
+//     .-------------.------------.
+//     |                          |
+//     |                          |
+//     |                          |
+//    δL2            δ           δR2
+//     .-------------.------------.
+//                   |
+//                   |
+//                   |
+//           εL1     ε     εR1
+//            .------.------.
+
+// Line drawing order
+// αL1 -> αR1
+// α -> β
+// βL2 -> βR2
+// γL2 -> γR2
+// δL2 -> δR2
+// βL2 -> δL2
+// βR2 -> δR2
+// δ -> ε
+// εL1 -> εR1
 
 export default () => {
     let program = programBuilder();
@@ -20,11 +54,21 @@ export default () => {
     const yDirectionAttrib = 'aYDirection';
     const bandwidthAttrib = 'aBandwidth';
 
-    const yDirections = [0, 0, 0, 0, 0, 0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1];
-    const verticesPerElement = 18;
+    const yDirections = [
+        1, 1, -1, 1, -1, -1,
+        -1, -1, 1, -1, 1, 1,
+        1, 1, -1, 1, -1, -1,
+        1, 1, -1, 1, -1, -1,
+        1, 1, -1, 1, -1, -1,
+        1, 1, -1, 1, -1, -1,
+        1, 1, -1, 1, -1, -1,
+        -1, -1, 1, -1, 1, 1,
+        1, 1, -1, 1, -1, -1
+    ];
+    const verticesPerElement = 54;
 
     const draw = (numElements) => {
-        const shader = errorBarShader();
+        const shader = boxPlotShader();
         program.vertexShader(shader.vertex())
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
@@ -59,7 +103,17 @@ export default () => {
 
         const xDirBuffer = program.buffers().attribute(xDirectionAttrib);
         let xDirArray = new Float32Array(args[0].length * verticesPerElement);
-        const xDirections = [1, -1, -1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1];
+        const xDirections = [
+            0, 0, 0, 0, 0, 0,
+            -1, 1, 1, -1, -1, 1,
+            1, -1, -1, 1, 1, -1,
+            1, -1, -1, 1, 1, -1,
+            1, -1, -1, 1, 1, -1,
+            -1, 1, 1, -1, -1, 1,
+            -1, 1, 1, -1, -1, 1,
+            -1, 1, 1, -1, -1, 1,
+            0, 0, 0, 0, 0, 0
+        ];
         xDirArray = xDirArray.map((_, i) => xDirections[i % verticesPerElement]);
 
         if (builder) {
@@ -72,36 +126,97 @@ export default () => {
 
         return draw;
     };
-    
-    draw.high = (...args) => {
-        addToYBuffers(args[0], [2, 4, 5, 6, 7, 8, 9, 10, 11]);
+
+    draw.medianValues = (...args) => {
+        addToYBuffers(args[0], [18, 19, 20, 21, 22, 23]);
         return draw;
     };
 
-    draw.low = (...args) => {
-        addToYBuffers(args[0], [0, 1, 3, 12, 13, 14, 15, 16, 17]);
+    draw.upperQuartileValues = (...args) => {
+        addToYBuffers(args[0], [8, 10, 11, 12, 13, 14, 15, 16, 17, 30, 31, 33, 36, 37, 39]);
+        return draw;
+    };
+
+    draw.lowerQuartileValues = (...args) => {
+        addToYBuffers(args[0], [24, 25, 26, 27, 28, 29, 32, 34, 35, 38, 40, 41, 42, 43, 45]);
+        return draw;
+    };
+
+    draw.highValues = (...args) => {
+        addToYBuffers(args[0], [0, 1, 2, 3, 4, 5, 6, 7, 9]);
+        return draw;
+    };
+
+    draw.lowValues = (...args) => {
+        addToYBuffers(args[0], [44, 46, 47, 48, 49, 50, 51, 52, 53]);
         return draw;
     };
 
     draw.bandwidth = (...args) => {
         const builder = program.buffers().attribute(bandwidthAttrib);
         let bandwidthArray = new Float32Array(args[0].length * verticesPerElement);
-        bandwidthArray = bandwidthArray.map((d, i) => {
-            if ((i % verticesPerElement) > 5) {
-                const val = args[0][Math.floor(i / verticesPerElement)];
-                return [8, 10, 11, 12, 13, 15].includes(i % verticesPerElement) ?
-                    -val :
-                    val;
-            } else {
-                return d;
-            }
-        });
 
         if (builder) {
+            const existingBandwidths = builder.data();
+            bandwidthArray = bandwidthArray.map((_, i) => {
+                if ((i % verticesPerElement) > 11 && (i % verticesPerElement) < 42) {
+                    const val = args[0][Math.floor(i / verticesPerElement)];
+                    return [12, 15, 16, 18, 21, 22, 24, 27, 28, 30, 31, 32, 33, 34, 35].includes(i % verticesPerElement) ?
+                        -val :
+                        val;
+                } else {
+                    return existingBandwidths[i];
+                }
+            });
             builder.data(bandwidthArray);
         } else {
+            bandwidthArray = bandwidthArray.map((d, i) => {
+                if ((i % verticesPerElement) > 11 && (i % verticesPerElement) < 42) {
+                    const val = args[0][Math.floor(i / verticesPerElement)];
+                    return [12, 15, 16, 18, 21, 22, 24, 27, 28, 30, 31, 32, 33, 34, 35].includes(i % verticesPerElement) ?
+                        -val :
+                        val;
+                } else {
+                    return d;
+                }
+            });
             program.buffers().attribute(bandwidthAttrib, attributeBuilder(bandwidthArray).components(1));
         }
+
+        return draw;
+    };
+
+    draw.capWidth = (...args) => {
+        const builder = program.buffers().attribute(bandwidthAttrib);
+        let bandwidthArray = new Float32Array(args[0].length * verticesPerElement);
+
+        if (builder) {
+            const existingBandwidths = builder.data();
+            bandwidthArray = bandwidthArray.map((_, i) => {
+                if ((i % verticesPerElement) <= 5 || (i % verticesPerElement) >= 48) {
+                    const val = args[0][Math.floor(i / verticesPerElement)];
+                    return [0, 3, 4, 48, 51, 52].includes(i % verticesPerElement) ?
+                        -val :
+                        val;
+                } else {
+                    return existingBandwidths[i];
+                }
+            });
+            builder.data(bandwidthArray);
+        } else {
+            bandwidthArray = bandwidthArray.map((d, i) => {
+                if ((i % verticesPerElement) <= 5 || (i % verticesPerElement) >= 48) {
+                    const val = args[0][Math.floor(i / verticesPerElement)];
+                    return [0, 3, 4, 48, 51, 52].includes(i % verticesPerElement) ?
+                        -val :
+                        val;
+                } else {
+                    return d;
+                }
+            });
+            program.buffers().attribute(bandwidthAttrib, attributeBuilder(bandwidthArray).components(1));
+        }
+
         return draw;
     };
 

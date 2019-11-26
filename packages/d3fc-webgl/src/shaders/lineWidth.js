@@ -1,4 +1,4 @@
-import uniformBuilder from "../../buffers/uniformBuilder";
+import uniformBuilder from "../buffers/uniformBuilder";
 
 export default () => {
     let width = 1;

@@ -29,3 +29,16 @@ var canvasCandlestick = fc.seriesCanvasCandlestick()
     .yScale(yScale)
     .context(ctx);
 canvasCandlestick(data);
+
+var webgl = d3.select('#candlestick-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglCandlestick = fc.seriesWebglCandlestick()
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(gl)
+    .bandwidth(10)
+    .width(2);
+webglCandlestick(data);

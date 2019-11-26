@@ -51,3 +51,27 @@ var canvasMulti = fc.seriesCanvasMulti()
     .series([fc.autoBandwidth(canvasBar), canvasLine]);
 
 canvasMulti(data);
+
+var webgl = d3.select('#multi-webgl').node();
+webgl.width = width;
+webgl.height = height;
+var gl = webgl.getContext('webgl');
+
+var webglBar = fc.seriesWebglBar()
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; })
+    .decorate((program) => {
+        fc.barFill().color('#999999')(program);
+    });
+
+var webglLine = fc.seriesWebglLine()
+    .crossValue(function(_, i) { return i; })
+    .mainValue(function(d) { return d; });
+
+var webglMulti = fc.seriesWebglMulti()
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(gl)
+    .series([fc.autoBandwidth(webglBar), webglLine]);
+
+webglMulti(data);

@@ -20,9 +20,11 @@ export { default as seriesWebglArea } from './src/webgl/area';
 
 export { default as seriesSvgCandlestick } from './src/svg/candlestick';
 export { default as seriesCanvasCandlestick } from './src/canvas/candlestick';
+export { default as seriesWebglCandlestick } from './src/webgl/candlestick';
 
 export { default as seriesSvgBoxPlot } from './src/svg/boxPlot';
 export { default as seriesCanvasBoxPlot } from './src/canvas/boxPlot';
+export { default as seriesWebglBoxPlot } from './src/webgl/boxPlot';
 
 export { default as seriesSvgOhlc } from './src/svg/ohlc';
 export { default as seriesCanvasOhlc } from './src/canvas/ohlc';
@@ -30,12 +32,14 @@ export { default as seriesWebglOhlc } from './src/webgl/ohlc';
 
 export { default as seriesSvgMulti } from './src/svg/multi';
 export { default as seriesCanvasMulti } from './src/canvas/multi';
+export { default as seriesWebglMulti } from './src/canvas/multi';
 
 export { default as seriesSvgGrouped } from './src/svg/grouped';
 export { default as seriesCanvasGrouped } from './src/canvas/grouped';
 
 export { default as seriesSvgRepeat } from './src/svg/repeat';
 export { default as seriesCanvasRepeat } from './src/canvas/repeat';
+export { default as seriesWebglRepeat } from './src/canvas/repeat';
 
 export { default as autoBandwidth } from './src/autoBandwidth';
 

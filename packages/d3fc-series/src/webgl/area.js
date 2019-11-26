@@ -5,7 +5,7 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    let draw = glArea();
+    const draw = glArea();
 
     const area = (data) => {
         const xScale = scaleMapper(base.xScale());

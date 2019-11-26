@@ -47,7 +47,7 @@ export const triangle = {
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
-export const ohlc = {
+export const rect = {
     header: `attribute float aXValue;
         attribute float aYValue;
         attribute float aXDirection;
@@ -120,3 +120,14 @@ export const area = {
         gl_Position.y += (1.0 - useIntercept) * (1.0 - aCorner.y) * ((aCorner.x * aYValue) + ((1.0 - aCorner.x) * aYPrevValue));
         gl_Position.y += (1.0 - useIntercept) * aCorner.y * ((aCorner.x * aY0Value) + ((1.0 - aCorner.x) * aY0PrevValue));`
 };
+
+export const boxPlot = {
+    header: `attribute float aXValue;
+        attribute float aYValue;
+        attribute float aXDirection;
+        attribute float aYDirection;
+        attribute float aBandwidth;
+        uniform vec2 uScreen;
+        uniform float uWidth;`,
+    body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
+}

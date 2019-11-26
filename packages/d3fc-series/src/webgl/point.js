@@ -8,7 +8,7 @@ export default () => {
     let size = 64;
     let type = d3Shape.symbolCircle;
 
-    let draw = glPoint();
+    const draw = glPoint();
 
     const point = (data) => {
         const filteredData = data.filter(base.defined());
