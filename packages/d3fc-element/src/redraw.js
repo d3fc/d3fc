@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import * as data from './data';
 
 const find = (element) => element.tagName === 'D3FC-GROUP'
