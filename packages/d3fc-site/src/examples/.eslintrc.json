@@ -1,6 +1,0 @@
-{
-  "globals": {
-    "d3": true,
-    "fc": true
-  }
-}
