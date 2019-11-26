@@ -10,6 +10,7 @@ export default (adaptedStrategy) => {
 
     const removeOverlaps = (layout) => {
         layout = adaptedStrategy(layout);
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             // find the collision area for all overlapping rectangles, hiding the one
             // with the greatest overlap
