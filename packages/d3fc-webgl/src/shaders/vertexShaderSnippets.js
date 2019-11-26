@@ -82,6 +82,10 @@ export const area = {
         attribute vec3 aCorner;
         attribute float aDefined;
         varying float vDefined;
+
+        float when_zero(float a) {
+            return 1.0 - abs(sign(a));
+        }
         
         float when_lt(float a, float b) {
             return max(sign(b - a), 0.0);
@@ -111,7 +115,8 @@ export const area = {
         float y0Gradient = (aY0Value - aY0PrevValue) / (aXValue - aXPrevValue);
         float y0Constant = aY0Value - (y0Gradient * aXValue);
         
-        float interceptXValue = (y0Constant - yConstant) / (yGradient - y0Gradient);
+        float denominator = (yGradient - y0Gradient) + when_zero(yGradient - y0Gradient);
+        float interceptXValue = (y0Constant - yConstant) / denominator;
         float interceptYValue = (yGradient * interceptXValue) + yConstant;
 
         gl_Position = vec4(interceptXValue * useIntercept, interceptYValue * useIntercept, 0, 1);
