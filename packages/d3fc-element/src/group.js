@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import requestRedraw from './requestRedraw';
 
 const updateAutoResize = (element) => {

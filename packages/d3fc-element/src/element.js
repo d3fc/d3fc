@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import requestRedraw from './requestRedraw';
 
 if (typeof HTMLElement !== 'function') {
