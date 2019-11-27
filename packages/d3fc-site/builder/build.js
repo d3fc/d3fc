@@ -97,4 +97,4 @@ export default async (config) => {
   } finally {
     process.chdir(workingDirectory);
   }
-}
+};
