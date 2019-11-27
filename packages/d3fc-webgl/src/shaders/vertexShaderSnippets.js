@@ -52,8 +52,10 @@ export const cross = {
         attribute float aYValue;
         attribute float aSize;
         uniform float uStrokeWidth;
-        varying float vSize;`,
+        varying float vSize;
+        varying float vStrokeWidthRatio;`,
     body: `vSize = 3.0 * sqrt(aSize / 5.0);
+        vStrokeWidthRatio = uStrokeWidth / (vSize + uStrokeWidth + 1.0);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };

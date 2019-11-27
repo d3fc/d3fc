@@ -25,9 +25,10 @@ export const triangle = {
 };
 
 export const cross = {
-    header: `varying float vSize;`,
+    header: `varying float vSize;
+            varying float vStrokeWidthRatio;`,
     body: `vec2 pointCoordTransform = 2.0 * gl_PointCoord - 1.0;
-    float innerCornerDistance = min(abs(pointCoordTransform.x), abs(pointCoordTransform.y)) + 0.56;
+    float innerCornerDistance = min(abs(pointCoordTransform.x), abs(pointCoordTransform.y)) + 0.66 - vStrokeWidthRatio;
     float outerEdgeDistance = max(abs(pointCoordTransform.x), abs(pointCoordTransform.y));
     float distance = max(innerCornerDistance, outerEdgeDistance);
     if (distance > 1.0) {
