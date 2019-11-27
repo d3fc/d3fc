@@ -82,40 +82,27 @@ export const area = {
         attribute vec3 aCorner;
         attribute float aDefined;
         varying float vDefined;
-
-        float when_zero(float a) {
-            return 1.0 - abs(sign(a));
-        }
         
         float when_lt(float a, float b) {
             return max(sign(b - a), 0.0);
         }
         
-        float when_gt(float a, float b) {
-            return max(sign(a - b), 0.0);
-        }
-        
         float and(float a, float b) {
             return a * b;
-        }
-        
-        float or(float a, float b) {
-            return min(a + b, 1.0);
         }`,
     body: `vDefined = aDefined;
         gl_Position = vec4(0, 0, 0, 1);
 
-        float interceptY0PosGrad = and(when_lt(aYPrevValue, aY0PrevValue), when_gt(aYValue, aY0Value));
-        float interceptY0NegGrad = and(when_gt(aYPrevValue, aY0PrevValue), when_lt(aYValue, aY0Value));
-        float useIntercept = and(aCorner.z, or(interceptY0PosGrad, interceptY0NegGrad));
+        float hasIntercepted = when_lt((aYValue - aY0Value) * (aYPrevValue - aY0PrevValue), 0.0);
+        float useIntercept = and(aCorner.z, hasIntercepted);
         
         float yGradient = (aYValue - aYPrevValue) / (aXValue - aXPrevValue);
         float yConstant = aYValue - (yGradient * aXValue);
-        
+
         float y0Gradient = (aY0Value - aY0PrevValue) / (aXValue - aXPrevValue);
         float y0Constant = aY0Value - (y0Gradient * aXValue);
-        
-        float denominator = (yGradient - y0Gradient) + when_zero(yGradient - y0Gradient);
+
+        float denominator = (yGradient - y0Gradient) + step(abs(yGradient - y0Gradient), 0.0);
         float interceptXValue = (y0Constant - yConstant) / denominator;
         float interceptYValue = (yGradient * interceptXValue) + yConstant;
 
