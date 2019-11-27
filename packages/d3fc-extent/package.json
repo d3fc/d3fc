@@ -20,8 +20,7 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "lint": "npx eslint src/**/*.js"
+    "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "devDependencies": {
     "ms": "^1.0.0"
