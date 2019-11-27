@@ -18,10 +18,10 @@ export const circle = {
     header: `attribute float aXValue;
              attribute float aYValue;
              attribute float aSize;
-             uniform float uStrokeWidth;
+             uniform float uLineWidth;
              varying float vSize;`,
     body: `vSize = 2.0 * sqrt(aSize / 3.14159);
-           gl_PointSize = vSize + uStrokeWidth + 1.0;
+           gl_PointSize = vSize + uLineWidth + 1.0;
            gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
@@ -29,10 +29,10 @@ export const square = {
     header: `attribute float aXValue;
         attribute float aYValue;
         attribute float aSize;
-        uniform float uStrokeWidth;
+        uniform float uLineWidth;
         varying float vSize;`,
     body: `vSize = sqrt(aSize);
-        gl_PointSize = vSize + uStrokeWidth + 1.0;
+        gl_PointSize = vSize + uLineWidth + 1.0;
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
@@ -40,10 +40,10 @@ export const triangle = {
     header: `attribute float aXValue;
         attribute float aYValue;
         attribute float aSize;
-        uniform float uStrokeWidth;
+        uniform float uLineWidth;
         varying float vSize;`,
     body: `vSize = sqrt((16.0 * aSize) / (3.0 * sqrt(3.0)));
-        gl_PointSize = vSize + uStrokeWidth + 1.0;
+        gl_PointSize = vSize + uLineWidth + 1.0;
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
@@ -56,7 +56,7 @@ export const rect = {
         attribute float aColorIndicator;
         varying float vColorIndicator;
         uniform vec2 uScreen;
-        uniform float uWidth;`,
+        uniform float uLineWidth;`,
     body: `vColorIndicator = aColorIndicator;
     gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
@@ -68,7 +68,7 @@ export const errorBar = {
         attribute float aYDirection;
         attribute float aBandwidth;
         uniform vec2 uScreen;
-        uniform float uWidth;`,
+        uniform float uLineWidth;`,
     body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
@@ -128,6 +128,6 @@ export const boxPlot = {
         attribute float aYDirection;
         attribute float aBandwidth;
         uniform vec2 uScreen;
-        uniform float uWidth;`,
+        uniform float uLineWidth;`,
     body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
 }

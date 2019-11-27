@@ -5,7 +5,7 @@ export default () => {
     const fragmentShader = shaderBuilder(fragmentShaderBase);
 
     vertexShader
-        .appendHeader(`uniform float uWidth;`) // defines the width of the line
+        .appendHeader(`uniform float uLineWidth;`) // defines the width of the line
         .appendHeader(`uniform vec2 uScreen;`) // the screen space canvas size (for normalizing vectors)
         .appendHeader(`attribute vec2 aCorner;`) // defines which vertex in the line join we are considering
         .appendHeader(`attribute float aXValue; attribute float aYValue;`) // the current vertex positions

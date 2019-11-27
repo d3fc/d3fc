@@ -37,8 +37,8 @@ export default () => {
 
         program.vertexShader()
             .appendBody(`
-                gl_Position.x += ((uWidth * aXDirection) + aBandwidth) / uScreen.x;
-                gl_Position.y += (uWidth * aYDirection) / uScreen.y;
+                gl_Position.x += ((uLineWidth * aXDirection) + aBandwidth) / uScreen.x;
+                gl_Position.y += (uLineWidth * aYDirection) / uScreen.y;
             `);
 
         decorate(program);

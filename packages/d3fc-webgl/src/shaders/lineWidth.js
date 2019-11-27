@@ -4,7 +4,7 @@ export default () => {
     let width = 1;
 
     const lineWidth = (program) => {
-        program.buffers().uniform('uWidth', uniformBuilder(width));
+        program.buffers().uniform('uLineWidth', uniformBuilder(width));
     };
 
     lineWidth.lineWidth = (...args) => {

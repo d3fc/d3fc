@@ -58,9 +58,9 @@ export default () => {
             .appendBody(`float miterLength = 1.0 / dot(miter, normalA);`)
             .appendBody(`vec2 point = normalize(A - B);`)
             .appendBody(`if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
-                gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uWidth * normalA) / uScreen.xy;
+                gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uLineWidth * normalA) / uScreen.xy;
             } else {
-                gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uWidth * miterLength) / uScreen.xy;
+                gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uLineWidth * miterLength) / uScreen.xy;
             }`);
 
         program.buffers().uniform(screenUniform, uniformBuilder([

@@ -56,7 +56,7 @@ export const seriesColor = {
 
 export const pointEdge = {
     header: `uniform vec4 uEdgeColor;
-             uniform float uStrokeWidth;`,
-    body: `float sEdge = smoothstep(vSize - uStrokeWidth - 2.0, vSize - uStrokeWidth, distance * (vSize + uStrokeWidth));
+             uniform float uLineWidth;`,
+    body: `float sEdge = smoothstep(vSize - uLineWidth - 2.0, vSize - uLineWidth, distance * (vSize + uLineWidth));
            gl_FragColor = (uEdgeColor * sEdge) + ((1.0 - sEdge) * gl_FragColor);`
 };
