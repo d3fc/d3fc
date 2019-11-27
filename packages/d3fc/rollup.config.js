@@ -1,12 +1,12 @@
 import babel from 'rollup-plugin-babel';
-import babelrc from 'read-babelrc-up'
+import babelrc from 'read-babelrc-up';
 import resolve from 'rollup-plugin-node-resolve';
 import minify from 'rollup-plugin-babel-minify';
 
-import serve from 'rollup-plugin-serve'
-import livereload from 'rollup-plugin-livereload'
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 
-const devMode = process.env.BUILD === 'dev'
+const devMode = process.env.BUILD === 'dev';
 
 let d3fcPkg = require('./package.json');
 
@@ -26,14 +26,14 @@ let d3fcPkg = require('./package.json');
  *      Starts debugging with host on port 1234. If omitted defaults to 8080
  */
 export default commandLineArgs => {
-    let devPage = commandLineArgs.configOpen || 'index.html'
-    const devPkg = commandLineArgs.configPkg || 'd3fc'
-    const devPort = commandLineArgs.configPort || 8080
+    let devPage = commandLineArgs.configOpen || 'index.html';
+    const devPkg = commandLineArgs.configPkg || 'd3fc';
+    const devPort = commandLineArgs.configPort || 8080;
     
-    devPage = devPage.endsWith('.html') ? devPage : devPage + '.html'
+    devPage = devPage.endsWith('.html') ? devPage : devPage + '.html';
 
-    process.env = commandLineArgs.configEnv || 'dev'
-    const shouldMinify = process.env === 'prod'
+    process.env = commandLineArgs.configEnv || 'dev';
+    const shouldMinify = process.env === 'prod';
 
     const _plugins = [
         babel(babelrc()),
@@ -41,9 +41,9 @@ export default commandLineArgs => {
     ];
 
     if(shouldMinify) {
-        _plugins.push(minify({ comments: false }))
+        _plugins.push(minify({ comments: false }));
     }
-    let plugins = () => _plugins
+    let plugins = () => _plugins;
 
     const devPlugins = () => plugins().concat([
         serve({
@@ -68,7 +68,7 @@ export default commandLineArgs => {
             name: 'fc',
             globals: (key) => {
                 if(key.indexOf('d3-') === 0) {
-                    return 'd3'
+                    return 'd3';
                 }
             },
         },
@@ -76,10 +76,10 @@ export default commandLineArgs => {
         // Don't pollute the build with other modules errors
         onwarn: (warning, rollupWarn) => {
             if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.indexOf('d3-') !== -1) {
-                return
+                return;
             }
             
             rollupWarn(warning);
         }
-    }
+    };
 };
