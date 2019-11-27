@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "lint": "npx eslint src/**/*.js"
+    "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "repository": {
     "type": "git",

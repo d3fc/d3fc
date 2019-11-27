@@ -21,8 +21,7 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json",
     "site": "npx rollup -c site/rollup.config.js",
     "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
-    "deploy-site": "npm run site && bash ./site/deploy.sh",
-    "lint": "eslint src/**/*.js"
+    "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
   "devDependencies": {
     "d3": "^4.11.0"

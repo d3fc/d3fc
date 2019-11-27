@@ -21,8 +21,7 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "lint": "npx eslint src/**/*.js"
+    "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "dependencies": {
     "d3-fetch": "^1.1.0"
