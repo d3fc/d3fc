@@ -5,7 +5,6 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
     let context = null;
-    let width = 1;
 
     const draw = glLine();
 
@@ -30,7 +29,6 @@ export default () => {
             .defined(defined)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .width(width)
             .decorate((program) => {
                 base.decorate()(program, data, 0);
             });
@@ -62,16 +60,8 @@ export default () => {
         return line;
     };
 
-    line.width = (...args) => {
-        if (!args.length) {
-            return width;
-        }
-        width = args[0];
-        return line;
-    };
-
     rebindAll(line, base, exclude('baseValue', 'bandwidth', 'align'));
-    rebind(line, draw, 'context');
+    rebind(line, draw, 'context', 'lineWidth');
 
     return line;
 };

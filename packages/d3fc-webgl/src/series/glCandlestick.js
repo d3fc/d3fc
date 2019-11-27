@@ -202,7 +202,7 @@ export default () => {
   };
 
   rebind(draw, program, 'context');
-  rebind(draw, lineWidth, 'width');
+  rebind(draw, lineWidth, 'lineWidth');
 
   return draw;
 };

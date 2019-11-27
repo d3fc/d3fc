@@ -7,7 +7,7 @@ export default () => {
         program.buffers().uniform('uWidth', uniformBuilder(width));
     };
 
-    lineWidth.width = (...args) => {
+    lineWidth.lineWidth = (...args) => {
         if (!args.length) {
             return width;
         }

@@ -36,7 +36,7 @@ export default () => {
     };
 
     rebindAll(errorBar, base,  exclude('align'))
-    rebind(errorBar, draw, 'context');
+    rebind(errorBar, draw, 'context', 'lineWidth');
 
     return errorBar;
 };

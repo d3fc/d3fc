@@ -58,7 +58,7 @@ export default () => {
     };
     
     rebindAll(boxPlot, base, exclude('align'));
-    rebind(boxPlot, draw, 'context');
+    rebind(boxPlot, draw, 'context', 'lineWidth');
 
     return boxPlot;
 };

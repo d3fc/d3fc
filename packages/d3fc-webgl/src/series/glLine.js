@@ -5,14 +5,14 @@ import lineShader from '../shaders/line/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import uniformBuilder from '../buffers/uniformBuilder';
-import width from '../shaders/lineWidth';
+import lineWidthShader from '../shaders/lineWidth';
 
 export default () => {
     let program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
-    let lineWidth = width();
+    let lineWidth = lineWidthShader();
 
     const xValueAttrib = 'aXValue';
     const yValueAttrib = 'aYValue';
@@ -22,7 +22,6 @@ export default () => {
     const yPrevValueAttrib = 'aPrevYValue';
     const cornerValueAttrib = 'aCorner';
     const definedAttrib = 'aDefined';
-    const widthUniform = 'uWidth';
     const screenUniform = 'uScreen';
 
     const draw = (numElements) => {
@@ -158,16 +157,6 @@ export default () => {
         return draw;
     };
 
-    draw.width = (...args) => {
-        const builder = program.buffers().uniform(widthUniform);
-        if (builder) {
-            builder.data(args[0]);
-        } else {
-            program.buffers().uniform(widthUniform, uniformBuilder(args[0]));
-        }
-        return draw;
-    }
-
     draw.decorate = (...args) => {
         if (!args.length) {
             return decorate;
@@ -193,7 +182,7 @@ export default () => {
     };
 
     rebind(draw, program, 'context');
-    rebind(draw, lineWidth, 'width');
+    rebind(draw, lineWidth, 'lineWidth');
 
     return draw;
 };
