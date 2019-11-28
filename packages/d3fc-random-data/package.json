@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-random-data",
-  "version": "3.0.18",
+  "version": "3.0.19",
   "description": "Components for generating random data series based on stochastic processes",
   "license": "MIT",
   "keywords": [
@@ -28,7 +28,7 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.9",
+    "@d3fc/d3fc-rebind": "^5.0.10",
     "d3-random": "^1.0.0",
     "d3-time": "^1.0.0"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-discontinuous-scale",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "A D3 scale that supports domains that are not continuous, allowing 'breaks' in the scale, for example skipping weekends for a date scale.",
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,7 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.9",
+    "@d3fc/d3fc-rebind": "^5.0.10",
     "d3-scale": "^1.0.0",
     "d3-time": "^1.0.0"
   },
