@@ -231,8 +231,11 @@ If *yAxis* is specified, it must be an object with the required y-axis factory f
 
 <a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)  
 <a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)  
+<a name="cartesian_webglPlotArea" href="#cartesian_webglPlotArea">#</a> *cartesian*.**webglPlotArea**(*component*)  
 
 If *component* is specified, sets the component to render onto the SVG/canvas, and returns the Cartesian chart. If *component* is not specified, returns the existing component.
+
+If *canvasPlotArea* or *webglPlotArea* is used, the relavent *context* is automatically applied to the chart.
 
 For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. For components that require user-interaction, rendering to SVG can simplify their implementation.
 
