@@ -32,7 +32,7 @@ export default commandLineArgs => {
     
     devPage = devPage.endsWith('.html') ? devPage : devPage + '.html';
 
-    process.env = commandLineArgs.configEnv || 'dev';
+    process.env.env = commandLineArgs.configEnv || 'dev';
     const shouldMinify = process.env === 'prod';
 
     const _plugins = [
