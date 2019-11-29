@@ -1,6 +1,6 @@
 # d3fc-series
 
-A collection of components for rendering data series to SVG and canvas, including line, bar, OHLC, candlestick and more.
+A collection of components for rendering data series to SVG, canvas and WebGL, including line, bar, OHLC, candlestick and more.
 
 <table>
 <tr>
@@ -43,6 +43,7 @@ npm install @d3fc/d3fc-series
 * [General API](#general-api)
  * [SVG Rendering](#svg-rendering)
  * [Canvas Rendering](#canvas-rendering)
+ * [WebGL Rendering](#webgl-rendering)
  * [Decorate Pattern](#decorate-pattern)
  * [Orientation](#orientation)
  * [Multi Series](#multi-series)
@@ -63,7 +64,7 @@ npm install @d3fc/d3fc-series
 * [Grouped](#grouped)
 * [Stacked](#stacked)
 
-This packages contains a number of D3 components that render various standard series types. They all share a common API, with the typical configuration requiring x and y scales together with a number of value accessors. There are SVG and Canvas versions of each series type, sharing the same configuration properties.
+This package contains a number of D3 components that render various standard series types. They all share a common API, with the typical configuration requiring x and y scales together with a number of value accessors. There are SVG, Canvas and WebGL versions of each series type, sharing the same configuration properties.
 
 ### General API
 
@@ -108,6 +109,34 @@ const data = [
 var ctx = canvas.getContext('2d');
 
 const line = fc.seriesCanvasLine()
+    .crossValue(d => d.x)
+    .mainValue(d => d.y)
+    .xScale(xScale)
+    .yScale(yScale)
+    .context(ctx);
+
+line(data);
+```
+
+Because D3 data-joins and data-binding only work on HTML / SVG, the canvas components are invoked directly with the supplied data. This causes the component to render itself to the canvas.
+
+
+#### WebGL rendering
+
+***WebGL rendering is not feature complete. Please check the API documentation against the methods to see what is currently supported.***
+
+The `seriesWebglLine` component has an API that is almost identical to its canvas counterpart, `seriesCanvasLine`. The only difference is the `context` property, which requires a `contextType` of `'webgl'`. 
+
+```javascript
+const data = [
+    {x: 0, y: 0},
+    {x: 10, y: 5},
+    {x: 20, y: 0}
+];
+
+var ctx = canvas.getContext('webgl');
+
+const line = fc.seriesWebglLine()
     .crossValue(d => d.x)
     .mainValue(d => d.y)
     .xScale(xScale)
@@ -189,6 +218,8 @@ const canvasLine = fc.seriesCanvasPoint()
 
 <img src="screenshots/decorate-append-canvas.png"/>
 
+The `decorate` property intentionally exposes the inner workings of components. With WebGL, the inner workings of the implementations (i.e. `d3fc-webgl`) have not been finalised. Therefore, expect that as the API matures, your decorate functions will also have to change.
+
 #### Orientation
 
 Most of the series renderers support both horizontal and vertical render orientations as specified by the `orient` property. In order to make it easy to change the orientation of a series, and to avoid redundant and repeated property names, a change in orientation is achieved by transposing the x and y scales.
@@ -259,7 +290,7 @@ d3.select('g')
     .call(svgMulti);
 ```
 
-Notice that you do not have to set the `xScale` and `yScale` properties on each series - the scale are propagated down from the multi series.
+Notice that you do not have to set the `xScale` and `yScale` properties on each series - the scales are propagated down from the multi series.
 
 The canvas API is very similar:
 
@@ -341,9 +372,10 @@ All of the series expose `xValues`/`yValues` methods which return an array of al
 ![](screenshots/line.png)
 
 <a name="seriesSvgLine" href="#seriesSvgLine">#</a> fc.**seriesSvgLine**()  
-<a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.**seriesCanvasLine**()
+<a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.**seriesCanvasLine**()  
+<a name="seriesWebglLine" href="#seriesWebglLine">#</a> fc.**seriesWebglLine**()
 
-Constructs a new line renderer for either canvas or SVG.
+Constructs a new line renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
@@ -363,24 +395,33 @@ If *orientation* is specified, sets the orientation and returns this series. If 
 
 <a name="seriesLine_curve" href="#seriesLine_curve">#</a> *seriesLine*.**curve**(*scale*)
 
+The WebGL implementation does not support this property.
+
 If *curve* is specified, sets the curve factory and returns this series. If *curve* is not specified, returns the current curve factory.
 
 This property is rebound from [line.curve](https://github.com/d3/d3-shape#line_curve).
 
-#### Canvas specific properties
+<a name="seriesLine_context" href="#seriesLine_context">#</a> *seriesLine*.**context**(*ctx*)
 
-<a name="seriesCanvasLine_context" href="#seriesCanvasLine_context">#</a> *seriesCanvasLine*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+<a name="seriesLine_lineWidth" href="#seriesLine_lineWidth">#</a> *seriesLine*.**lineWidth**(*width*)
+
+The SVG and canvas implementations do not support this property.
+
+If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
 ### Point
 
 ![](screenshots/point.png)
 
 <a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.**seriesSvgPoint**()  
-<a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()
+<a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()  
+<a name="seriesWebglPoint" href="#seriesWebglPoint">#</a> fc.**seriesWebglPoint**()
 
-Constructs a new point series renderer for either canvas or SVG.
+Constructs a new point series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
@@ -400,6 +441,8 @@ If *orientation* is specified, sets the orientation and returns this series. If 
 
 <a name="seriesPoint_type" href="#seriesPoint_type">#</a> *seriesPoint*.**type**(*type*)
 
+The WebGL implementation does not support the following shapes: diamond, star, wye.
+
 If *type* is specified, sets the symbol type to the specified function or symbol type and returns this point series renderer. If *type* is not specified, returns the current symbol type accessor.
 
 This property is rebound from [symbol.type](https://github.com/d3/d3-shape#symbol_type).
@@ -410,9 +453,9 @@ If *size* is specified, sets the area to the specified function or number and re
 
 This property is rebound from [symbol.size](https://github.com/d3/d3-shape#symbol_size).
 
-#### Canvas specific properties
+<a name="seriesPoint_context" href="#seriesPoint_context">#</a> *seriesPoint*.**context**(*ctx*)
 
-<a name="seriesCanvasPoint_context" href="#seriesCanvasPoint_context">#</a> *seriesCanvasPoint*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
@@ -421,9 +464,10 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 ![](screenshots/area.png)
 
 <a name="seriesSvgArea" href="#seriesSvgArea">#</a> fc.**seriesSvgArea**()  
-<a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.**seriesCanvasArea**()
+<a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.**seriesCanvasArea**()  
+<a name="seriesWebglArea" href="#seriesWebglArea">#</a> fc.**seriesWebglArea**()
 
-Constructs a new area series renderer for either canvas or SVG.
+Constructs a new area series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
@@ -435,6 +479,8 @@ If *accessorFunc* is specified, sets the accessor to the specified function and 
 
 <a name="seriesArea_orient" href="#seriesArea_orient">#</a> *seriesArea*.**orient**(*orientation*)
 
+The WebGL implementation does not support this property.
+
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
 <a name="seriesArea_xScale" href="#seriesArea_xScale">#</a> *seriesArea*.**xScale**(*scale*)  
@@ -444,11 +490,13 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 <a name="seriesArea_curve" href="#seriesArea_curve">#</a> *seriesArea*.**curve**(*scale*)
 
+The WebGL implementation does not support this property.
+
 If *curve* is specified, sets the curve factory and returns this series. If *curve* is not specified, returns the current curve factory.
 
-#### Canvas specific properties
+<a name="seriesArea_context" href="#seriesArea_context">#</a> *seriesArea*.**context**(*ctx*)
 
-<a name="seriesCanvasArea_context" href="#seriesCanvasArea_context">#</a> *seriesCanvasArea*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
@@ -457,9 +505,10 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 ![](screenshots/bar.png)
 
 <a name="seriesSvgBar" href="#seriesSvgBar">#</a> fc.**seriesSvgBar**()  
-<a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.**seriesCanvasBar**()
+<a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.**seriesCanvasBar**()  
+<a name="seriesWebglBar" href="#seriesWebglBar">#</a> fc.**seriesWebglBar**()
 
-Constructs a new bar series renderer for either canvas or SVG.
+Constructs a new bar series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
@@ -470,6 +519,8 @@ Constructs a new bar series renderer for either canvas or SVG.
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
 <a name="seriesBar_orient" href="#seriesBar_orient">#</a> *seriesBar*.**orient**(*orientation*)
+
+The WebGL implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
@@ -482,9 +533,9 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
-#### Canvas specific properties
+<a name="seriesBar_context" href="#seriesBar_context">#</a> *seriesBar*.**context**(*ctx*)
 
-<a name="seriesCanvasArea_context" href="#seriesCanvasArea_context">#</a> *seriesCanvasArea*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
@@ -494,9 +545,10 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 ![](screenshots/candlestick.png)
 
 <a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a> fc.**seriesSvgCandlestick**()  
-<a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.**seriesCanvasCandlestick**()
+<a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.**seriesCanvasCandlestick**()  
+<a name="seriesWebglCandlestick" href="#seriesWebglCandlestick">#</a> fc.**seriesWebglCandlestick**()
 
-Constructs a new candlestick renderer for either canvas or SVG.
+Constructs a new candlestick renderer for canvas, WebGL or SVG.
 
 <a name="seriesCandlestick_crossValue" href="#seriesCandlestick_crossValue">#</a> *seriesCandlestick*.**crossValue**(*accessorFunc*)  
 <a name="seriesCandlestick_highValue" href="#seriesCandlestick_highValue">#</a> *seriesCandlestick*.**highValue**(*accessorFunc*)  
@@ -519,14 +571,27 @@ If *bandwidthFunc* is specified, sets the bandwidth function and returns this se
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
+<a name="seriesCandlestick_context" href="#seriesCandlestick_context">#</a> *seriesCandlestick*.**context**(*ctx*)
+
+The SVG implementation does not support this property.
+
+If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+<a name="seriesCandlestick_lineWidth" href="#seriesCandlestick_lineWidth">#</a> *seriesCandlestick*.**lineWidth**(*width*)
+
+The SVG and canvas implementations do not support this property.
+
+If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
+
 ### OHLC
 
 ![](screenshots/ohlc.png)
 
 <a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a> fc.**seriesSvgOhlc**()  
-<a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.**seriesCanvasOhlc**()
+<a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.**seriesCanvasOhlc**()  
+<a name="seriesWebglOhlc" href="#seriesWebglOhlc">#</a> fc.**seriesWebglOhlc**()
 
-Constructs a new OHLC renderer for either canvas or SVG.
+Constructs a new OHLC renderer for canvas, WebGL or SVG.
 
 ### Common properties
 
@@ -551,20 +616,27 @@ If *bandwidthFunc* is specified, sets the bandwidth function and returns this se
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-#### Canvas specific properties
+<a name="seriesOhlc_context" href="#seriesOhlc_context">#</a> *seriesOhlc*.**context**(*ctx*)
 
-<a name="seriesCanvasOhlc_context" href="#seriesCanvasOhlc_context">#</a> *seriesCanvasOhlc*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+<a name="seriesOhlc_lineWidth" href="#seriesOhlc_lineWidth">#</a> *seriesOhlc*.**lineWidth**(*width*)
+
+The SVG and canvas implementations do not support this property.
+
+If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
 ### Boxplot
 
 ![](screenshots/boxplot.png)
 
 <a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a> fc.**seriesSvgBoxPlot**()  
-<a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.**seriesCanvasBoxPlot**()
+<a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.**seriesCanvasBoxPlot**()  
+<a name="seriesWebglBoxPlot" href="#seriesWebglBoxPlot">#</a> fc.**seriesWebglBoxPlot**()
 
-Constructs a new boxplot renderer for either canvas or SVG.
+Constructs a new boxplot renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
@@ -573,12 +645,13 @@ Constructs a new boxplot renderer for either canvas or SVG.
 <a name="seriesBoxPlot_upperQuartileValue" href="#seriesBoxPlot_upperQuartileValue">#</a> *seriesBoxPlot*.**upperQuartileValue**(*accessorFunc*)  
 <a name="seriesBoxPlot_lowerQuartileValue" href="#seriesBoxPlot_lowerQuartileValue">#</a> *seriesBoxPlot*.**lowerQuartileValue**(*accessorFunc*)  
 <a name="seriesBoxPlot_highValue" href="#seriesBoxPlot_highValue">#</a> *seriesBoxPlot*.**highValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_lowValue" href="#seriesBoxPlot_lowValue">#</a> *seriesBoxPlot*.**lowValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_width" href="#seriesBoxPlot_width">#</a> *seriesBoxPlot*.**width**(*accessorFunc*)  
+<a name="seriesBoxPlot_lowValue" href="#seriesBoxPlot_lowValue">#</a> *seriesBoxPlot*.**lowValue**(*accessorFunc*)    
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
 <a name="seriesBoxPlot_orient" href="#seriesBoxPlot_orient">#</a> *seriesBoxPlot*.**orient**(*orientation*)  
+
+The WebGL implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`
 
@@ -591,35 +664,47 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
+<a name="seriesBoxPlot_cap" href="#seriesBoxPlot_cap">#</a> *seriesBoxPlot*.**cap**(*capFunc*)
+
+If *capFunc* is specified, sets the cap function and returns this series. If *capFunc* is not specified, returns the current cap function. The `capFunc(item, index)` function is called on each item of the data, and returns the **proportion** of the box width that the caps width should be.
+
 <a name="seriesBoxPlot_decorate" href="#seriesBoxPlot_decorate">#</a> *seriesBoxPlot*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-#### Canvas specific properties
+<a name="seriesBoxplot_context" href="#seriesBoxplot_context">#</a> *seriesBoxplot*.**context**(*ctx*)
 
-<a name="seriesCanvasBoxplot_context" href="#seriesCanvasBoxplot_context">#</a> *seriesCanvasBoxplot*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+<a name="seriesBoxplot_lineWidth" href="#seriesBoxplot_lineWidth">#</a> *seriesBoxplot*.**lineWidth**(*width*)
+
+The SVG and canvas implementations do not support this property.
+
+If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
 ### Errorbar
 
 ![](screenshots/errorbar.png)
 
 <a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a> fc.**seriesSvgErrorBar**()  
-<a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.**seriesCanvasErrorBar**()
+<a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.**seriesCanvasErrorBar**()  
+<a name="seriesWebglErrorBar" href="#seriesWebglErrorBar">#</a> fc.**seriesWebglErrorBar**()
 
-Constructs a new error bar renderer for either canvas or SVG.
+Constructs a new error bar renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
 <a name="seriesErrorBar_crossValue" href="#seriesErrorBar_crossValue">#</a> *seriesErrorBar*.**crossValue**(*accessorFunc*)  
 <a name="seriesErrorBar_highValue" href="#seriesErrorBar_highValue">#</a> *seriesErrorBar*.**highValue**(*accessorFunc*)  
-<a name="seriesErrorBar_lowValue" href="#seriesErrorBar_lowValue">#</a> *seriesErrorBar*.**lowValue**(*accessorFunc*)  
-<a name="seriesErrorBar_width" href="#seriesErrorBar_width">#</a> *seriesErrorBar*.**width**(*accessorFunc*)  
+<a name="seriesErrorBar_lowValue" href="#seriesErrorBar_lowValue">#</a> *seriesErrorBar*.**lowValue**(*accessorFunc*)   
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
 <a name="seriesErrorBar_orient" href="#seriesErrorBar_orient">#</a> *seriesErrorBar*.**orient**(*orientation*)  
+
+The SVG implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`
 
@@ -636,11 +721,17 @@ If *bandwidthFunc* is specified, sets the bandwidth function and returns this se
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-#### Canvas specific properties
+<a name="seriesErrorBar_context" href="#seriesErrorBar_context">#</a> *seriesErrorBar*.**context**(*ctx*)
 
-<a name="seriesCanvasErrorBar_context" href="#seriesCanvasErrorBar_context">#</a> *seriesCanvasErrorBar*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
+
+<a name="seriesErrorBar_lineWidth" href="#seriesErrorBar_lineWidth">#</a> *seriesErrorBar*.**lineWidth**(*width*)
+
+The SVG and canvas implementations do not support this property.
+
+If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
 ### Heatmap
 
@@ -677,9 +768,9 @@ If *bandwidthFunc* is specified, sets the bandwidth function and returns this se
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
 
-#### Canvas specific properties
+<a name="seriesErrorBar_context" href="#seriesErrorBar_context">#</a> *seriesErrorBar*.**context**(*ctx*)
 
-<a name="seriesCanvasErrorBar_context" href="#seriesCanvasErrorBar_context">#</a> *seriesCanvasErrorBar*.**context**(*ctx*)
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
@@ -688,9 +779,10 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 ![](screenshots/multi.png)
 
 <a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.**seriesSvgMulti**()  
-<a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()
+<a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()  
+<a name="seriesWebglMulti" href="#seriesWebglMulti">#</a> fc.**seriesWebglMulti**()
 
-Constructs a new multi series renderer for either canvas or SVG.
+Constructs a new multi series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
@@ -730,10 +822,9 @@ If *decorateFunc* is specified, sets the decorator function to the specified fun
 
 With the SVG multi series, the decorate function is invoked once, with the data join selection that creates the outer container. With the canvas multi series the decorate function is invoked for each of the associated series.
 
-
-#### Canvas specific properties
-
 <a name="seriesMulti_context" href="#seriesMulti_context">#</a> *seriesMulti*.**context**(*ctx*)
+
+The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
@@ -742,9 +833,10 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 ![](screenshots/repeat.png)
 
 <a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.**seriesSvgRepeat**()  
-<a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()
+<a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()  
+<a name="seriesWebglRepeat" href="#seriesWebglRepeat">#</a> fc.**seriesWebglRepeat**()
 
-Constructs a new repeat series renderer for either canvas or SVG.
+Constructs a new repeat series renderer for canvas, WebGL or SVG.
 
 The repeat series is very similar in function to the multi series, both are designed to render multiple series from the same bound data. The repeat series uses the same series type for each data series, e.g. multiple lines series, or multiple area series.
 
@@ -911,4 +1003,23 @@ series.forEach(function(s, i) {
 });
 ```
 
-In both cases, the decorate pattern is used to set the color for each bar series.
+With WebGL, the code is also very similar:
+
+```javascript
+var webglBarSeries = fc.seriesWebglBar()
+    .xScale(x)
+    .yScale(y)
+    .crossValue(d => d.data.State)
+    .mainValue(d => d[1])
+    .baseValue(d => d[0])
+    .context(ctx);
+
+series.forEach(function(s, i) {
+    webglBarSeries
+        .decorate(function(program) {
+            fc.barFill().color(color(i))(program);
+        })(s);
+});
+```
+
+In all cases, the decorate pattern is used to set the color for each bar series.
