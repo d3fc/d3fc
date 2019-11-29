@@ -49,12 +49,12 @@ export default () => {
         draw(filteredData.length);
     };
 
-    draw.cap = (...args) => {
+    boxPlot.cap = (...args) => {
         if (!args.length) {
             return cap;
         }
-        cap = args[0];
-        return draw;
+        cap = functor(args[0]);
+        return boxPlot;
     };
     
     rebindAll(boxPlot, base, exclude('align'));
