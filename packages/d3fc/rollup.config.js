@@ -33,7 +33,7 @@ export default commandLineArgs => {
     devPage = devPage.endsWith('.html') ? devPage : devPage + '.html';
 
     process.env.env = commandLineArgs.configEnv || 'dev';
-    const shouldMinify = process.env === 'prod';
+    const shouldMinify = process.env.env === 'prod';
 
     const _plugins = [
         babel(babelrc()),
