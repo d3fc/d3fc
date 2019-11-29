@@ -4,7 +4,6 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = xyBase();
-    let context = null;
 
     const draw = glLine();
 
@@ -51,14 +50,6 @@ export default () => {
             };
         }
     }
-
-    line.context = (...args) => {
-        if (!args.length) {
-            return context;
-        }
-        context = args[0];
-        return line;
-    };
 
     rebindAll(line, base, exclude('baseValue', 'bandwidth', 'align'));
     rebind(line, draw, 'context', 'lineWidth');
