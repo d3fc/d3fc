@@ -72,3 +72,10 @@ export const pointEdge = {
     body: `float sEdge = smoothstep(vSize - uLineWidth - 2.0, vSize - uLineWidth, distance * (vSize + uLineWidth));
            gl_FragColor = (uEdgeColor * sEdge) + ((1.0 - sEdge) * gl_FragColor);`
 };
+
+export const line = {
+    header: `varying float vDefined;`,
+    body: `if (vDefined < 0.5) {
+        discard;
+    }`
+};
