@@ -6,6 +6,7 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import uniformBuilder from '../buffers/uniformBuilder';
 import lineWidthShader from '../shaders/lineWidth';
+import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
 
 export default () => {
     const program = programBuilder();
@@ -46,32 +47,7 @@ export default () => {
         // from here we are dealing with pre-scaled vertex positions
         program
             .vertexShader()
-            .appendBody(
-                `if (all(equal(gl_Position.xy, prev.xy))) {
-                prev.xy = gl_Position.xy + normalize(gl_Position.xy - next.xy);
-            }`
-            )
-            .appendBody(
-                `if (all(equal(gl_Position.xy, next.xy))) {
-                next.xy = gl_Position.xy + normalize(gl_Position.xy - prev.xy);
-            }`
-            )
-            .appendBody(
-                `vec2 A = normalize(normalize(gl_Position.xy - prev.xy) * uScreen);`
-            )
-            .appendBody(
-                `vec2 B = normalize(normalize(next.xy - gl_Position.xy) * uScreen);`
-            )
-            .appendBody(`vec2 tangent = normalize(A + B);`)
-            .appendBody(`vec2 miter = vec2(-tangent.y, tangent.x);`)
-            .appendBody(`vec2 normalA = vec2(-A.y, A.x);`)
-            .appendBody(`float miterLength = 1.0 / dot(miter, normalA);`)
-            .appendBody(`vec2 point = normalize(A - B);`)
-            .appendBody(`if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
-                gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uLineWidth * normalA) / uScreen.xy;
-            } else {
-                gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uLineWidth * miterLength) / uScreen.xy;
-            }`);
+            .appendBody(vertexShaderSnippets.postScaleLine.body);
 
         program
             .buffers()
