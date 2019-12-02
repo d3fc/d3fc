@@ -14,8 +14,8 @@ var globals = function(key) {
 };
 
 export default commandLineArgs => {
-    process.env = commandLineArgs.configEnv || 'dev';
-    const shouldMinify = process.env === 'prod';
+    process.env.env = commandLineArgs.configEnv || 'dev';
+    const shouldMinify = process.env.env === 'prod';
     const plugins = [babel(babelrc()), resolve()];
     if (shouldMinify) {
         plugins.push(minify({ comments: false }));
