@@ -1,8 +1,7 @@
-import {timeDay, timeSaturday, timeMonday} from 'd3-time';
+import { timeDay, timeSaturday, timeMonday } from 'd3-time';
 
-export default function() {
-
-    // the indices returned by date.getDay()
+export const base = (dayAccessor, intervalDay, intervalSaturday, intervalMonday) => {
+    // the indices returned by dayAccessor(date)
     const day = {
         sunday: 0,
         monday: 1,
@@ -16,17 +15,17 @@ export default function() {
     const skipWeekends = {};
 
     const isWeekend = (date) =>
-        date.getDay() === 0 || date.getDay() === 6;
+        dayAccessor(date) === 0 || dayAccessor(date) === 6;
 
     skipWeekends.clampDown = (date) => {
         if (date && isWeekend(date)) {
             // round the date up to midnight
-            const newDate = timeDay.ceil(date);
+            const newDate = intervalDay.ceil(date);
             // then subtract the required number of days
-            if (newDate.getDay() === day.sunday) {
-                return timeDay.offset(newDate, -1);
-            } else if (newDate.getDay() === day.monday) {
-                return timeDay.offset(newDate, -2);
+            if (dayAccessor(newDate) === day.sunday) {
+                return intervalDay.offset(newDate, -1);
+            } else if (dayAccessor(newDate) === day.monday) {
+                return intervalDay.offset(newDate, -2);
             } else {
                 return newDate;
             }
@@ -38,12 +37,12 @@ export default function() {
     skipWeekends.clampUp = (date) => {
         if (date && isWeekend(date)) {
             // round the date down to midnight
-            const newDate = timeDay.floor(date);
+            const newDate = intervalDay.floor(date);
             // then add the required number of days
-            if (newDate.getDay() === day.saturday) {
-                return timeDay.offset(newDate, 2);
-            } else if (newDate.getDay() === day.sunday) {
-                return timeDay.offset(newDate, 1);
+            if (dayAccessor(newDate) === day.saturday) {
+                return intervalDay.offset(newDate, 2);
+            } else if (dayAccessor(newDate) === day.sunday) {
+                return intervalDay.offset(newDate, 1);
             } else {
                 return newDate;
             }
@@ -54,12 +53,12 @@ export default function() {
 
     // returns the number of included milliseconds (i.e. those which do not fall)
     // within discontinuities, along this scale
-    skipWeekends.distance = function(startDate, endDate) {
+    skipWeekends.distance = function (startDate, endDate) {
         startDate = skipWeekends.clampUp(startDate);
         endDate = skipWeekends.clampDown(endDate);
 
         // move the start date to the end of week boundary
-        const offsetStart = timeSaturday.ceil(startDate);
+        const offsetStart = intervalSaturday.ceil(startDate);
         if (endDate < offsetStart) {
             return endDate.getTime() - startDate.getTime();
         }
@@ -67,7 +66,7 @@ export default function() {
         const msAdded = offsetStart.getTime() - startDate.getTime();
 
         // move the end date to the end of week boundary
-        const offsetEnd = timeSaturday.ceil(endDate);
+        const offsetEnd = intervalSaturday.ceil(endDate);
         const msRemoved = offsetEnd.getTime() - endDate.getTime();
 
         // determine how many weeks there are between these two dates
@@ -77,7 +76,7 @@ export default function() {
         return weeks * millisPerWorkWeek + msAdded - msRemoved;
     };
 
-    skipWeekends.offset = function(startDate, ms) {
+    skipWeekends.offset = function (startDate, ms) {
         let date = isWeekend(startDate) ? skipWeekends.clampUp(startDate) : startDate;
 
         if (ms === 0) {
@@ -89,7 +88,7 @@ export default function() {
         let remainingms = ms;
 
         // move to the end of week boundary for a postive offset or to the start of a week for a negative offset
-        const weekBoundary = isNegativeOffset ? timeMonday.floor(date) : timeSaturday.ceil(date);
+        const weekBoundary = isNegativeOffset ? intervalMonday.floor(date) : intervalSaturday.ceil(date);
         remainingms -= (weekBoundary.getTime() - date.getTime());
 
         // if the distance to the boundary is greater than the number of ms
@@ -99,11 +98,11 @@ export default function() {
         }
 
         // skip the weekend for a positive offset
-        date = isNegativeOffset ? weekBoundary : timeDay.offset(weekBoundary, 2);
+        date = isNegativeOffset ? weekBoundary : intervalDay.offset(weekBoundary, 2);
 
         // add all of the complete weeks to the date
         const completeWeeks = Math.floor(remainingms / millisPerWorkWeek);
-        date = timeDay.offset(date, completeWeeks * 7);
+        date = intervalDay.offset(date, completeWeeks * 7);
         remainingms -= completeWeeks * millisPerWorkWeek;
 
         // add the remaining time
@@ -111,7 +110,9 @@ export default function() {
         return date;
     };
 
-    skipWeekends.copy = function() { return skipWeekends; };
+    skipWeekends.copy = function () { return skipWeekends; };
 
     return skipWeekends;
-}
+};
+
+export default () => base(date => date.getDay(), timeDay, timeSaturday, timeMonday);

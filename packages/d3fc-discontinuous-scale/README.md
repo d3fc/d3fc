@@ -112,6 +112,7 @@ const range = discontinuityRange([start, end]);
 ### discontinuitySkipWeekends
 
 <a name="discontinuitySkipWeekends" href="#discontinuitySkipWeekends">#</a> fc.**discontinuitySkipWeekends**()
+<a name="discontinuitySkipUtcWeekends" href="#discontinuitySkipUtcWeekends">#</a> fc.**discontinuitySkipUtcWeekends**()
 
 This discontinuity provider is intended to be used with a time scale. This provider will remove all weekends from the domain, a feature which is particularly useful for financial time-series charts.
 
