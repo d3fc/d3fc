@@ -9,9 +9,9 @@ export const translate = {
 };
 
 export const multiColor = {
-    header: `uniform vec4 uColor;
+    header: `attribute vec4 aColor;
              varying vec4 vColor;`,
-    body: `vColor = uColor;`
+    body: `vColor = aColor;`
 };
 
 export const circle = {
