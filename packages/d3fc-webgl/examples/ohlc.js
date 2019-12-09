@@ -14,7 +14,7 @@ const getWebglSeries = () =>
     fc
         .seriesWebglOhlc()
         .bandwidth(10)
-        .width(2);
+        .lineWidth(2);
 
 const zoom = d3.zoom().on('zoom', () => {
     x.domain(d3.event.transform.rescaleX(x2).domain());
