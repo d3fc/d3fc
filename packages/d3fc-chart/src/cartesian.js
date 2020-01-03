@@ -70,6 +70,7 @@ export default (...args) => {
                 .text(yLabel(data));
 
             webglDataJoin(container, webglPlotArea ? [data] : [])
+                .attr('set-webgl-viewport','')
                 .classed('plot-area', true)
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])

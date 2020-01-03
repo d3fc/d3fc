@@ -50,7 +50,7 @@ export default (createNode, applyMeasurements) => class extends HTMLElement {
         if (other.length > 0) {
             throw new Error('A d3fc-svg/canvas element must only contain a single svg/canvas element.');
         }
-        applyMeasurements(node, { width, height });
+        applyMeasurements(this, node, { width, height });
     }
 
     get useDevicePixelRatio() {
