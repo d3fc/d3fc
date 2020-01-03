@@ -15,18 +15,18 @@ export default () => {
 
         const xValues = new Float32Array(filteredData.length);
         const y0Values = new Float32Array(filteredData.length);
-        const y1Values = new Float32Array(filteredData.length);
+        const yValues = new Float32Array(filteredData.length);
         const widths = new Float32Array(filteredData.length);
         filteredData.forEach((d, i) => {
             xValues[i] = xScale.scale(base.crossValue()(d, i));
             y0Values[i] = yScale.scale(base.baseValue()(d, i));
-            y1Values[i] = yScale.scale(base.mainValue()(d, i));
+            yValues[i] = yScale.scale(base.mainValue()(d, i));
             widths[i] = yScale.scale(base.bandwidth()(d, i));
         });
 
         draw.xValues(xValues)
             .y0Values(y0Values)
-            .y1Values(y1Values)
+            .yValues(yValues)
             .widths(widths)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)

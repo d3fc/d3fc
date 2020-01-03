@@ -1,4 +1,4 @@
-import attributeBuilder from '../buffers/attributeBuilder';
+import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import boxPlotShader from '../shaders/boxPlot/shader';
@@ -41,110 +41,80 @@ import { rebind } from '@d3fc/d3fc-rebind';
 // εL1 -> εR1
 
 export default () => {
-    const program = programBuilder();
+    const verticesPerElement = 54;
+    const program = programBuilder().verticesPerElement(verticesPerElement);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     const decorate = () => {};
     const lineWidth = lineWidthShader();
 
-    const xValueAttrib = 'aXValue';
-    const yValueAttrib = 'aYValue';
-    const xDirectionAttrib = 'aXDirection';
-    const yDirectionAttrib = 'aYDirection';
-    const bandwidthAttrib = 'aBandwidth';
-
-    const yDirections = [
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1,
-        -1,
-        -1,
-        1,
-        -1,
-        1,
-        1,
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1,
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1,
-        -1,
-        -1,
-        1,
-        -1,
-        1,
-        1,
-        1,
-        1,
-        -1,
-        1,
-        -1,
-        -1
-    ];
-    const verticesPerElement = 54;
-
-    const draw = numElements => {
-        const shader = boxPlotShader();
-        program
-            .vertexShader(shader.vertex())
-            .fragmentShader(shader.fragment())
-            .mode(drawModes.TRIANGLES);
-
-        xScale.coordinate(0);
-        xScale(program);
-        yScale.coordinate(1);
-        yScale(program);
-
-        lineWidth(program);
-
-        program.vertexShader().appendBody(`
-                gl_Position.x += ((uLineWidth * aXDirection) + aBandwidth) / uScreen.x;
-                gl_Position.y += (uLineWidth * aYDirection) / uScreen.y;
-            `);
-
-        decorate(program);
-
-        program(numElements * verticesPerElement);
-    };
-
-    draw.xValues = (...args) => {
-        const builder = program.buffers().attribute(xValueAttrib);
-        let xArray = new Float32Array(args[0].length * verticesPerElement);
-        xArray = xArray.map(
-            (_, i) => args[0][Math.floor(i / verticesPerElement)]
-        );
-
-        const xDirBuffer = program.buffers().attribute(xDirectionAttrib);
-        let xDirArray = new Float32Array(args[0].length * verticesPerElement);
-        const xDirections = [
+    const xValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const yValueAttribute = projectedAttributeBuilder()
+        .data({
+            median: null,
+            upperQuartile: null,
+            lowerQuartile: null,
+            high: null,
+            low: null
+        })
+        .value((data, element, vertex) => {
+            if ([18, 19, 20, 21, 22, 23].includes(vertex)) {
+                return data.median[element];
+            }
+            if (
+                [
+                    8,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    30,
+                    31,
+                    33,
+                    36,
+                    37,
+                    39
+                ].includes(vertex)
+            ) {
+                return data.upperQuartile[element];
+            }
+            if (
+                [
+                    24,
+                    25,
+                    26,
+                    27,
+                    28,
+                    29,
+                    32,
+                    34,
+                    35,
+                    38,
+                    40,
+                    41,
+                    42,
+                    43,
+                    45
+                ].includes(vertex)
+            ) {
+                return data.lowerQuartile[element];
+            }
+            if ([0, 1, 2, 3, 4, 5, 6, 7, 9].includes(vertex)) {
+                return data.high[element];
+            }
+            if ([44, 46, 47, 48, 49, 50, 51, 52, 53].includes(vertex)) {
+                return data.low[element];
+            }
+            return 0;
+        });
+    const xDirectionAttribute = projectedAttributeBuilder()
+        .data([
             0,
             0,
             0,
@@ -199,216 +169,174 @@ export default () => {
             0,
             0,
             0
-        ];
-        xDirArray = xDirArray.map(
-            (_, i) => xDirections[i % verticesPerElement]
-        );
+        ])
+        .value((data, element, vertex) => data[vertex]);
+    const yDirectionAttribute = projectedAttributeBuilder()
+        .data([
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            -1,
+            -1,
+            1,
+            -1,
+            1,
+            1,
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            -1,
+            -1,
+            1,
+            -1,
+            1,
+            1,
+            1,
+            1,
+            -1,
+            1,
+            -1,
+            -1
+        ])
+        .value((data, element, vertex) => data[vertex]);
+    const bandwidthAttribute = projectedAttributeBuilder()
+        .data({ bandwidth: null, capWidth: null })
+        .value((data, element, vertex) => {
+            if (vertex <= 5 || vertex >= 48) {
+                const value = data.capWidth[element];
+                return [0, 3, 4, 48, 51, 52].includes(vertex) ? -value : value;
+            }
+            if (vertex > 11 && vertex < 42) {
+                const value = data.bandwidth[element];
+                return [
+                    12,
+                    15,
+                    16,
+                    18,
+                    21,
+                    22,
+                    24,
+                    27,
+                    28,
+                    30,
+                    31,
+                    32,
+                    33,
+                    34,
+                    35
+                ].includes(vertex)
+                    ? -value
+                    : value;
+            }
+            return 0;
+        });
 
-        if (builder) {
-            builder.data(xArray);
-            xDirBuffer.data(xDirArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    xValueAttrib,
-                    attributeBuilder(xArray).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    xDirectionAttrib,
-                    attributeBuilder(xDirArray).components(1)
-                );
-        }
+    const draw = numElements => {
+        const shader = boxPlotShader();
+        program
+            .vertexShader(shader.vertex())
+            .fragmentShader(shader.fragment())
+            .mode(drawModes.TRIANGLES);
 
+        program
+            .buffers()
+            .attribute('aXValue', xValueAttribute)
+            .attribute('aYValue', yValueAttribute)
+            .attribute('aXDirection', xDirectionAttribute)
+            .attribute('aYDirection', yDirectionAttribute)
+            .attribute('aBandwidth', bandwidthAttribute);
+
+        xScale.coordinate(0);
+        xScale(program);
+        yScale.coordinate(1);
+        yScale(program);
+
+        lineWidth(program);
+
+        program.vertexShader().appendBody(`
+                gl_Position.x += ((uLineWidth * aXDirection) + aBandwidth) / uScreen.x;
+                gl_Position.y += (uLineWidth * aYDirection) / uScreen.y;
+            `);
+
+        decorate(program);
+
+        program(numElements);
+    };
+
+    draw.xValues = data => {
+        xValueAttribute.data(data);
         return draw;
     };
 
-    draw.medianValues = (...args) => {
-        addToYBuffers(args[0], [18, 19, 20, 21, 22, 23]);
+    draw.medianValues = data => {
+        const existing = yValueAttribute.data();
+        yValueAttribute.data({ ...existing, median: data });
         return draw;
     };
 
-    draw.upperQuartileValues = (...args) => {
-        addToYBuffers(args[0], [
-            8,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            30,
-            31,
-            33,
-            36,
-            37,
-            39
-        ]);
+    draw.upperQuartileValues = data => {
+        const existing = yValueAttribute.data();
+        yValueAttribute.data({ ...existing, upperQuartile: data });
         return draw;
     };
 
-    draw.lowerQuartileValues = (...args) => {
-        addToYBuffers(args[0], [
-            24,
-            25,
-            26,
-            27,
-            28,
-            29,
-            32,
-            34,
-            35,
-            38,
-            40,
-            41,
-            42,
-            43,
-            45
-        ]);
+    draw.lowerQuartileValues = data => {
+        const existing = yValueAttribute.data();
+        yValueAttribute.data({ ...existing, lowerQuartile: data });
         return draw;
     };
 
-    draw.highValues = (...args) => {
-        addToYBuffers(args[0], [0, 1, 2, 3, 4, 5, 6, 7, 9]);
+    draw.highValues = data => {
+        const existing = yValueAttribute.data();
+        yValueAttribute.data({ ...existing, high: data });
         return draw;
     };
 
-    draw.lowValues = (...args) => {
-        addToYBuffers(args[0], [44, 46, 47, 48, 49, 50, 51, 52, 53]);
+    draw.lowValues = data => {
+        const existing = yValueAttribute.data();
+        yValueAttribute.data({ ...existing, low: data });
         return draw;
     };
 
-    draw.bandwidth = (...args) => {
-        const builder = program.buffers().attribute(bandwidthAttrib);
-        let bandwidthArray = new Float32Array(
-            args[0].length * verticesPerElement
-        );
-
-        if (builder) {
-            const existingBandwidths = builder.data();
-            bandwidthArray = bandwidthArray.map((_, i) => {
-                if (
-                    i % verticesPerElement > 11 &&
-                    i % verticesPerElement < 42
-                ) {
-                    const val = args[0][Math.floor(i / verticesPerElement)];
-                    return [
-                        12,
-                        15,
-                        16,
-                        18,
-                        21,
-                        22,
-                        24,
-                        27,
-                        28,
-                        30,
-                        31,
-                        32,
-                        33,
-                        34,
-                        35
-                    ].includes(i % verticesPerElement)
-                        ? -val
-                        : val;
-                } else {
-                    return existingBandwidths[i];
-                }
-            });
-            builder.data(bandwidthArray);
-        } else {
-            bandwidthArray = bandwidthArray.map((d, i) => {
-                if (
-                    i % verticesPerElement > 11 &&
-                    i % verticesPerElement < 42
-                ) {
-                    const val = args[0][Math.floor(i / verticesPerElement)];
-                    return [
-                        12,
-                        15,
-                        16,
-                        18,
-                        21,
-                        22,
-                        24,
-                        27,
-                        28,
-                        30,
-                        31,
-                        32,
-                        33,
-                        34,
-                        35
-                    ].includes(i % verticesPerElement)
-                        ? -val
-                        : val;
-                } else {
-                    return d;
-                }
-            });
-            program
-                .buffers()
-                .attribute(
-                    bandwidthAttrib,
-                    attributeBuilder(bandwidthArray).components(1)
-                );
-        }
-
+    draw.bandwidth = data => {
+        const existing = bandwidthAttribute.data();
+        bandwidthAttribute.data({ ...existing, bandwidth: data });
         return draw;
     };
 
-    draw.capWidth = (...args) => {
-        const builder = program.buffers().attribute(bandwidthAttrib);
-        let bandwidthArray = new Float32Array(
-            args[0].length * verticesPerElement
-        );
-
-        if (builder) {
-            const existingBandwidths = builder.data();
-            bandwidthArray = bandwidthArray.map((_, i) => {
-                if (
-                    i % verticesPerElement <= 5 ||
-                    i % verticesPerElement >= 48
-                ) {
-                    const val = args[0][Math.floor(i / verticesPerElement)];
-                    return [0, 3, 4, 48, 51, 52].includes(
-                        i % verticesPerElement
-                    )
-                        ? -val
-                        : val;
-                } else {
-                    return existingBandwidths[i];
-                }
-            });
-            builder.data(bandwidthArray);
-        } else {
-            bandwidthArray = bandwidthArray.map((d, i) => {
-                if (
-                    i % verticesPerElement <= 5 ||
-                    i % verticesPerElement >= 48
-                ) {
-                    const val = args[0][Math.floor(i / verticesPerElement)];
-                    return [0, 3, 4, 48, 51, 52].includes(
-                        i % verticesPerElement
-                    )
-                        ? -val
-                        : val;
-                } else {
-                    return d;
-                }
-            });
-            program
-                .buffers()
-                .attribute(
-                    bandwidthAttrib,
-                    attributeBuilder(bandwidthArray).components(1)
-                );
-        }
-
+    draw.capWidth = data => {
+        const existing = bandwidthAttribute.data();
+        bandwidthAttribute.data({ ...existing, capWidth: data });
         return draw;
     };
 
@@ -426,55 +354,6 @@ export default () => {
         }
         yScale = args[0];
         return draw;
-    };
-
-    const addToYBuffers = (values, indexPositions) => {
-        const yValBuffer = program.buffers().attribute(yValueAttrib);
-        const yDirBuffer = program.buffers().attribute(yDirectionAttrib);
-        let yArray = new Float32Array(values.length * verticesPerElement);
-        let yDirArray = new Float32Array(values.length * verticesPerElement);
-
-        if (yValBuffer) {
-            const existingYValues = yValBuffer.data();
-            yArray = yArray.map((_, i) =>
-                indexPositions.includes(i % verticesPerElement)
-                    ? values[Math.floor(i / verticesPerElement)]
-                    : existingYValues[i]
-            );
-            yValBuffer.data(yArray);
-
-            const existingYDirValues = yDirBuffer.data();
-            yDirArray = yDirArray.map((_, i) =>
-                indexPositions.includes(i % verticesPerElement)
-                    ? yDirections[i % verticesPerElement]
-                    : existingYDirValues[i]
-            );
-            yDirBuffer.data(yDirArray);
-        } else {
-            yArray = yArray.map((d, i) =>
-                indexPositions.includes(i % verticesPerElement)
-                    ? values[Math.floor(i / verticesPerElement)]
-                    : d
-            );
-            program
-                .buffers()
-                .attribute(
-                    yValueAttrib,
-                    attributeBuilder(yArray).components(1)
-                );
-
-            yDirArray = yDirArray.map((d, i) =>
-                indexPositions.includes(i % verticesPerElement)
-                    ? yDirections[i % verticesPerElement]
-                    : d
-            );
-            program
-                .buffers()
-                .attribute(
-                    yDirectionAttrib,
-                    attributeBuilder(yDirArray).components(1)
-                );
-        }
     };
 
     rebind(draw, program, 'context');

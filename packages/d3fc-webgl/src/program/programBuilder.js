@@ -9,7 +9,9 @@ export default () => {
     let fragmentShader = null;
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
-    const build = (numElements, start = 0, bufferSize = numElements) => {
+    let verticesPerElement = 1;
+
+    const build = count => {
         const vertexShaderSource = vertexShader();
         const fragmentShaderSource = fragmentShader();
         if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
@@ -22,9 +24,9 @@ export default () => {
             'uScreen',
             uniformBuilder([context.canvas.width, context.canvas.height])
         );
-        buffers(context, program, bufferSize);
+        buffers(context, program, verticesPerElement, count);
 
-        context.drawArrays(mode, start, numElements);
+        context.drawArrays(mode, 0, count * verticesPerElement);
     };
 
     build.context = (...args) => {
@@ -64,6 +66,14 @@ export default () => {
             return mode;
         }
         mode = args[0];
+        return build;
+    };
+
+    build.verticesPerElement = (...args) => {
+        if (!args.length) {
+            return verticesPerElement;
+        }
+        verticesPerElement = args[0];
         return build;
     };
 

@@ -1,40 +1,80 @@
-import attributeBuilder from '../buffers/attributeBuilder';
+import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import lineShader from '../shaders/line/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import uniformBuilder from '../buffers/uniformBuilder';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
 
 export default () => {
-    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
-    const lineWidth = lineWidthShader();
 
-    const xValueAttrib = 'aXValue';
-    const yValueAttrib = 'aYValue';
-    const xNextValueAttrib = 'aNextXValue';
-    const yNextValueAttrib = 'aNextYValue';
-    const xPrevValueAttrib = 'aPrevXValue';
-    const yPrevValueAttrib = 'aPrevYValue';
-    const cornerValueAttrib = 'aCorner';
-    const definedAttrib = 'aDefined';
-    const screenUniform = 'uScreen';
+    const lineWidth = lineWidthShader();
+    const xValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const xNextValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    );
+    const xPreviousValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.max(element - 1, 0)]
+    );
+    const yValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const yNextValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    );
+    const yPreviousValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.max(element - 1, 0)]
+    );
+    const cornerAttribute = projectedAttributeBuilder()
+        .size(2)
+        .data([
+            [-1, -1],
+            [1, -1],
+            [-1, 1],
+            [1, 1]
+        ])
+        .value((data, element, vertex, component) => data[vertex][component]);
+    const definedAttribute = projectedAttributeBuilder().value(
+        (data, element, vertex, component) => {
+            const value = data[element];
+            if (vertex <= 1) {
+                const previousValue = element === 0 ? value : data[element - 1];
+                return value ? previousValue : value;
+            } else {
+                const nextValue =
+                    element === data.length - 1 ? value : data[element + 1];
+                return value ? nextValue : value;
+            }
+        }
+    );
+
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLE_STRIP)
+        .verticesPerElement(4);
+
+    program
+        .buffers()
+        .attribute('aXValue', xValueAttribute)
+        .attribute('aNextXValue', xNextValueAttribute)
+        .attribute('aPrevXValue', xPreviousValueAttribute)
+        .attribute('aYValue', yValueAttribute)
+        .attribute('aNextYValue', yNextValueAttribute)
+        .attribute('aPrevYValue', yPreviousValueAttribute)
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
-        // we are resetting the shader each draw here, to avoid issues with decorate
-        // we'll eventually need a way to change the symbol type here
         const shaderBuilder = lineShader();
         program
             .vertexShader(shaderBuilder.vertex())
-            .fragmentShader(shaderBuilder.fragment())
-            .mode(drawModes.TRIANGLE_STRIP);
+            .fragmentShader(shaderBuilder.fragment());
 
-        // apply the scale to our current, next and previous coordinates
         xScale.coordinate(0);
         xScale(program);
         yScale.coordinate(1);
@@ -44,129 +84,33 @@ export default () => {
         xScale.scaleComponent(program, 'prev');
         yScale.scaleComponent(program, 'prev');
 
-        // from here we are dealing with pre-scaled vertex positions
         program
             .vertexShader()
             .appendBody(vertexShaderSnippets.postScaleLine.body);
-
-        program
-            .buffers()
-            .uniform(
-                screenUniform,
-                uniformBuilder([
-                    program.context().canvas.width,
-                    program.context().canvas.height
-                ])
-            );
 
         lineWidth(program);
 
         decorate(program);
 
-        program(numElements * 4);
+        program(numElements);
     };
 
-    draw.xValues = (...args) => {
-        const builder = program.buffers().attribute(xValueAttrib);
-        const next = program.buffers().attribute(xNextValueAttrib);
-        const prev = program.buffers().attribute(xPrevValueAttrib);
-        const corner = program.buffers().attribute(cornerValueAttrib);
-
-        let currArray = new Float32Array(args[0].length * 4);
-        currArray = currArray.map((d, i) => args[0][Math.floor(i / 4)]);
-        const nextArray = new Float32Array(currArray);
-        const prevArray = new Float32Array(currArray);
-        nextArray.copyWithin(0, 4);
-        prevArray.copyWithin(4, 0);
-
-        let cornerArray = new Float32Array(args[0].length * 8);
-        // x and y positions of the 4 corners for the vertex join.
-        const cornerValues = [-1, -1, 1, -1, -1, 1, 1, 1];
-        cornerArray = cornerArray.map((d, i) => cornerValues[i % 8]);
-
-        if (builder) {
-            builder.data(currArray);
-            next.data(nextArray);
-            prev.data(prevArray);
-            corner.data(cornerArray);
-        } else {
-            program
-                .buffers()
-                .attribute(xValueAttrib, attributeBuilder(currArray));
-            program
-                .buffers()
-                .attribute(xNextValueAttrib, attributeBuilder(nextArray));
-            program
-                .buffers()
-                .attribute(xPrevValueAttrib, attributeBuilder(prevArray));
-            program
-                .buffers()
-                .attribute(
-                    cornerValueAttrib,
-                    attributeBuilder(cornerArray).components(2)
-                );
-        }
+    draw.xValues = data => {
+        xValueAttribute.data(data);
+        xNextValueAttribute.data(data);
+        xPreviousValueAttribute.data(data);
         return draw;
     };
 
-    draw.yValues = (...args) => {
-        const builder = program.buffers().attribute(yValueAttrib);
-        const next = program.buffers().attribute(yNextValueAttrib);
-        const prev = program.buffers().attribute(yPrevValueAttrib);
-
-        let currArray = new Float32Array(args[0].length * 4);
-        currArray = currArray.map((d, i) => args[0][Math.floor(i / 4)]);
-        const nextArray = new Float32Array(currArray);
-        const prevArray = new Float32Array(currArray);
-        nextArray.copyWithin(0, 4);
-        prevArray.copyWithin(4, 0);
-
-        if (builder) {
-            builder.data(currArray);
-            next.data(nextArray);
-            prev.data(prevArray);
-        } else {
-            program
-                .buffers()
-                .attribute(yValueAttrib, attributeBuilder(currArray));
-            program
-                .buffers()
-                .attribute(yNextValueAttrib, attributeBuilder(nextArray));
-            program
-                .buffers()
-                .attribute(yPrevValueAttrib, attributeBuilder(prevArray));
-        }
+    draw.yValues = data => {
+        yValueAttribute.data(data);
+        yNextValueAttribute.data(data);
+        yPreviousValueAttribute.data(data);
         return draw;
     };
 
-    draw.defined = (...args) => {
-        const builder = program.buffers().attribute(definedAttrib);
-
-        const definedArray = new Float32Array(args[0].length * 4);
-        const values = args[0];
-
-        for (let i = 0; i < values.length; i += 1) {
-            const value = values[i];
-            const previousValue = i === 0 ? value : values[i - 1];
-            const nextValue = i === values.length - 1 ? value : values[i + 1];
-            const bufferIndex = i * 4;
-
-            definedArray[bufferIndex] = value ? previousValue : value;
-            definedArray[bufferIndex + 1] = value ? previousValue : value;
-            definedArray[bufferIndex + 2] = value ? nextValue : value;
-            definedArray[bufferIndex + 3] = value ? nextValue : value;
-        }
-
-        if (builder) {
-            builder.data(definedArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    definedAttrib,
-                    attributeBuilder(definedArray).components(1)
-                );
-        }
+    draw.defined = data => {
+        definedAttribute.data(data);
         return draw;
     };
 

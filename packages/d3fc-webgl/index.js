@@ -1,5 +1,6 @@
 export { default as bufferBuilder } from './src/buffers/bufferBuilder';
-export { default as attributeBuilder } from './src/buffers/attributeBuilder';
+export { default as baseAttributeBuilder } from './src/buffers/baseAttributeBuilder';
+export { default as projectedAttributeBuilder } from './src/buffers/projectedAttributeBuilder';
 export { default as uniformBuilder } from './src/buffers/uniformBuilder';
 export { default as shaderBuilder } from './src/shaders/shaderBuilder';
 export { default as programBuilder } from './src/program/programBuilder';

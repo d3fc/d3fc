@@ -1,4 +1,4 @@
-import attributeBuilder from '../buffers/attributeBuilder';
+import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
@@ -6,28 +6,68 @@ import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
-    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const xValueAttrib = 'aXValue';
-    const xPreviousValueAttrib = 'aXPrevValue';
-    const yValueAttrib = 'aYValue';
-    const yPreviousValueAttrib = 'aYPrevValue';
-    const y0ValueAttrib = 'aY0Value';
-    const y0PreviousValueAttrib = 'aY0PrevValue';
-    const cornerValueAttrib = 'aCorner';
-    const definedAttrib = 'aDefined';
+    const xValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    );
+    const xPreviousValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const yValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    );
+    const yPreviousValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const y0ValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    );
+    const y0PreviousValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const cornerAttribute = projectedAttributeBuilder()
+        .size(3)
+        .data([
+            [0, 0, 0],
+            [0, 1, 0],
+            [1, 1, 1],
+            [0, 0, 1],
+            [1, 0, 0],
+            [1, 1, 0]
+        ])
+        .value((data, element, vertex, component) => data[vertex][component]);
+    const definedAttribute = projectedAttributeBuilder().value(
+        (data, element, vertex, component) => {
+            const value = data[element];
+            const nextValue =
+                element === data.length - 1 ? 0 : data[element + 1];
+            return value ? nextValue : value;
+        }
+    );
 
-    const verticesPerElement = 6;
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .verticesPerElement(6);
+
+    program
+        .buffers()
+        .attribute('aXValue', xValueAttribute)
+        .attribute('aXPrevValue', xPreviousValueAttribute)
+        .attribute('aYValue', yValueAttribute)
+        .attribute('aYPrevValue', yPreviousValueAttribute)
+        .attribute('aY0Value', y0ValueAttribute)
+        .attribute('aY0PrevValue', y0PreviousValueAttribute)
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         const shaderBuilder = areaShader();
         program
             .vertexShader(shaderBuilder.vertex())
-            .fragmentShader(shaderBuilder.fragment())
-            .mode(drawModes.TRIANGLES);
+            .fragmentShader(shaderBuilder.fragment());
 
         xScale.coordinate(0);
         xScale(program);
@@ -36,201 +76,29 @@ export default () => {
 
         decorate(program);
 
-        program((numElements - 1) * verticesPerElement);
+        program(numElements - 1);
     };
 
-    draw.xValues = (...args) => {
-        const xBuffer = program.buffers().attribute(xValueAttrib);
-        const xPreviousBuffer = program
-            .buffers()
-            .attribute(xPreviousValueAttrib);
-        const cornerBuffer = program.buffers().attribute(cornerValueAttrib);
-
-        let xArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-        let xPreviousArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-        let cornerArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement * 3
-        );
-
-        xArray = xArray.map(
-            (_, i) =>
-                args[0][
-                    Math.floor((i + verticesPerElement) / verticesPerElement)
-                ]
-        );
-        xPreviousArray = xPreviousArray.map(
-            (_, i) => args[0][Math.floor(i / verticesPerElement)]
-        );
-        const cornerValues = [
-            0,
-            0,
-            0,
-            0,
-            1,
-            0,
-            1,
-            1,
-            1,
-            0,
-            0,
-            1,
-            1,
-            0,
-            0,
-            1,
-            1,
-            0
-        ];
-        cornerArray = cornerArray.map(
-            (_, i) => cornerValues[i % (verticesPerElement * 3)]
-        );
-
-        if (xBuffer) {
-            xBuffer.data(xArray);
-            xPreviousBuffer.data(xPreviousArray);
-            cornerBuffer.data(cornerArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    xValueAttrib,
-                    attributeBuilder(xArray).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    xPreviousValueAttrib,
-                    attributeBuilder(xPreviousArray).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    cornerValueAttrib,
-                    attributeBuilder(cornerArray).components(3)
-                );
-        }
+    draw.xValues = data => {
+        xValueAttribute.data(data);
+        xPreviousValueAttribute.data(data);
         return draw;
     };
 
-    draw.yValues = (...args) => {
-        const yBuffer = program.buffers().attribute(yValueAttrib);
-        const yPreviousBuffer = program
-            .buffers()
-            .attribute(yPreviousValueAttrib);
-        let yArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-        let yPreviousArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-
-        yArray = yArray.map(
-            (_, i) =>
-                args[0][
-                    Math.floor((i + verticesPerElement) / verticesPerElement)
-                ]
-        );
-        yPreviousArray = yPreviousArray.map(
-            (_, i) => args[0][Math.floor(i / verticesPerElement)]
-        );
-
-        if (yBuffer) {
-            yBuffer.data(yArray);
-            yPreviousBuffer.data(yPreviousArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    yValueAttrib,
-                    attributeBuilder(yArray).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    yPreviousValueAttrib,
-                    attributeBuilder(yPreviousArray).components(1)
-                );
-        }
+    draw.yValues = data => {
+        yValueAttribute.data(data);
+        yPreviousValueAttribute.data(data);
         return draw;
     };
 
-    draw.y0Values = (...args) => {
-        const y0Buffer = program.buffers().attribute(y0ValueAttrib);
-        const y0PreviousBuffer = program
-            .buffers()
-            .attribute(y0PreviousValueAttrib);
-        let y0Array = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-        let y0PreviousArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-
-        y0Array = y0Array.map(
-            (_, i) =>
-                args[0][
-                    Math.floor((i + verticesPerElement) / verticesPerElement)
-                ]
-        );
-        y0PreviousArray = y0PreviousArray.map(
-            (_, i) => args[0][Math.floor(i / verticesPerElement)]
-        );
-
-        if (y0Buffer) {
-            y0Buffer.data(y0Array);
-            y0PreviousBuffer.data(y0PreviousArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    y0ValueAttrib,
-                    attributeBuilder(y0Array).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    y0PreviousValueAttrib,
-                    attributeBuilder(y0PreviousArray).components(1)
-                );
-        }
+    draw.y0Values = data => {
+        y0ValueAttribute.data(data);
+        y0PreviousValueAttribute.data(data);
         return draw;
     };
 
-    draw.defined = (...args) => {
-        const definedBuffer = program.buffers().attribute(definedAttrib);
-
-        const definedArray = new Float32Array(
-            (args[0].length - 1) * verticesPerElement
-        );
-        const values = args[0];
-
-        for (let i = 0; i < values.length - 1; i += 1) {
-            const bufferIndex = i * verticesPerElement;
-            const value = values[i] ? values[i + 1] : values[i];
-
-            definedArray[bufferIndex] = definedArray[
-                bufferIndex + 1
-            ] = definedArray[bufferIndex + 2] = definedArray[
-                bufferIndex + 3
-            ] = definedArray[bufferIndex + 4] = definedArray[
-                bufferIndex + 5
-            ] = value;
-        }
-
-        if (definedBuffer) {
-            definedBuffer.data(definedArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    definedAttrib,
-                    attributeBuilder(definedArray).components(1)
-                );
-        }
+    draw.defined = data => {
+        definedAttribute.data(data);
         return draw;
     };
 
