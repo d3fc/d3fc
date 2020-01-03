@@ -1,4 +1,4 @@
-import attributeBuilder from '../buffers/attributeBuilder';
+import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import circlePointShader from '../shaders/point/circle/baseShader';
@@ -6,23 +6,31 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
-    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let type = circlePointShader();
     let decorate = () => {};
 
-    const xValueAttrib = 'aXValue';
-    const yValueAttrib = 'aYValue';
-    const sizeAttrib = 'aSize';
+    const xValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const yValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const sizeAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+
+    const program = programBuilder().mode(drawModes.POINTS);
+
+    program
+        .buffers()
+        .attribute('aXValue', xValueAttribute)
+        .attribute('aYValue', yValueAttribute)
+        .attribute('aSize', sizeAttribute);
 
     const draw = numElements => {
-        // we are resetting the shader each draw here, to avoid issues with decorate
-        // we'll eventually need a way to change the symbol type here
-        program
-            .vertexShader(type.vertex())
-            .fragmentShader(type.fragment())
-            .mode(drawModes.POINTS);
+        program.vertexShader(type.vertex()).fragmentShader(type.fragment());
 
         xScale.coordinate(0);
         xScale(program);
@@ -34,45 +42,18 @@ export default () => {
         program(numElements);
     };
 
-    draw.xValues = (...args) => {
-        const builder = program.buffers().attribute(xValueAttrib);
-        if (builder) {
-            builder.data(args[0]);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    xValueAttrib,
-                    attributeBuilder(args[0]).components(1)
-                );
-        }
+    draw.xValues = data => {
+        xValueAttribute.data(data);
         return draw;
     };
 
-    draw.yValues = (...args) => {
-        const builder = program.buffers().attribute(yValueAttrib);
-        if (builder) {
-            builder.data(args[0]);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    yValueAttrib,
-                    attributeBuilder(args[0]).components(1)
-                );
-        }
+    draw.yValues = data => {
+        yValueAttribute.data(data);
         return draw;
     };
 
-    draw.sizes = (...args) => {
-        const builder = program.buffers().attribute(sizeAttrib);
-        if (builder) {
-            builder.data(args[0]);
-        } else {
-            program
-                .buffers()
-                .attribute(sizeAttrib, attributeBuilder(args[0]).components(1));
-        }
+    draw.sizes = data => {
+        sizeAttribute.data(data);
         return draw;
     };
 

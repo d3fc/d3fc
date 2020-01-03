@@ -26,8 +26,8 @@ export default () => {
         });
 
         draw.xValues(xValues)
-            .high(high)
-            .low(low)
+            .highValues(high)
+            .lowValues(low)
             .bandwidth(bandwidth)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale);

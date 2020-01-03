@@ -2,9 +2,9 @@ export default () => {
     const attributes = {};
     const uniforms = {};
 
-    const build = (gl, program, numElements) => {
+    const build = (gl, program, verticesPerElement, count) => {
         Object.keys(attributes).forEach(key => {
-            attributes[key](gl, program, key, numElements);
+            attributes[key](gl, program, key, verticesPerElement, count);
         });
 
         Object.keys(uniforms).forEach(key => {

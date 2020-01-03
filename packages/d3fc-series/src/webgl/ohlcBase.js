@@ -28,10 +28,10 @@ export default (pathGenerator) => {
         });
 
         pathGenerator.xValues(xValues)
-            .open(open)
-            .high(high)
-            .low(low)
-            .close(close)
+            .openValues(open)
+            .highValues(high)
+            .lowValues(low)
+            .closeValues(close)
             .bandwidth(bandwidths)
             .xScale(xScale.glScale)
             .yScale(yScale.glScale)

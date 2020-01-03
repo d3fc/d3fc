@@ -1,4 +1,4 @@
-import attributeBuilder from '../buffers/attributeBuilder';
+import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import drawModes from '../program/drawModes';
 import programBuilder from '../program/programBuilder';
 import barShader from '../shaders/bar/shader';
@@ -30,18 +30,27 @@ import { rebind } from '@d3fc/d3fc-rebind';
 // β -> βR.
 
 export default () => {
-    const program = programBuilder();
+    const program = programBuilder().verticesPerElement(6);
     let xScale = null;
     let yScale = null;
     let decorate = () => {};
 
-    const xValueAttrib = 'aXValue';
-    const yValueAttrib = 'aYValue';
-    const widthValueAttrib = 'aWidthValue';
-    const directionAttrib = 'aDirection';
-    const LEFT = -1.0;
-    const RIGHT = 1.0;
-    const verticesPerBar = 6;
+    const xValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const yValueAttribute = projectedAttributeBuilder()
+        .data([null, null])
+        .value((data, element, vertex) => {
+            const array = [1, 2, 4].includes(vertex) ? 0 : 1;
+            return data[array][element];
+        });
+    const widthValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const directionAttribute = projectedAttributeBuilder()
+        .size(2)
+        .data([-1, -1, 1, -1, 1, 1])
+        .value((data, element, vertex) => data[vertex]);
 
     const draw = numElements => {
         const shader = barShader();
@@ -49,6 +58,13 @@ export default () => {
             .vertexShader(shader.vertex())
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
+
+        program
+            .buffers()
+            .attribute('aXValue', xValueAttribute)
+            .attribute('aYValue', yValueAttribute)
+            .attribute('aWidthValue', widthValueAttribute)
+            .attribute('aDirection', directionAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -61,7 +77,7 @@ export default () => {
 
         decorate(program);
 
-        program(numElements * verticesPerBar);
+        program(numElements);
     };
 
     draw.xScale = (...args) => {
@@ -88,114 +104,23 @@ export default () => {
         return draw;
     };
 
-    draw.xValues = (...args) => {
-        const builder = program.buffers().attribute(xValueAttrib);
-        let xArray = new Float32Array(args[0].length * verticesPerBar);
-        xArray = xArray.map((d, i) => args[0][Math.floor(i / verticesPerBar)]);
-
-        const dirBuffer = program.buffers().attribute(directionAttrib);
-        let dirArray = new Float32Array(args[0].length * verticesPerBar);
-        dirArray = dirArray.map((d, i) =>
-            [0, 1, 3].includes(i % verticesPerBar) ? LEFT : RIGHT
-        );
-
-        if (builder) {
-            builder.data(xArray);
-            dirBuffer.data(dirArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    xValueAttrib,
-                    attributeBuilder(xArray).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    directionAttrib,
-                    attributeBuilder(dirArray).components(1)
-                );
-        }
+    draw.xValues = data => {
+        xValueAttribute.data(data);
         return draw;
     };
 
-    draw.y0Values = (...args) => {
-        const builder = program.buffers().attribute(yValueAttrib);
-
-        if (builder) {
-            const existingYValues = builder.data();
-            let yArray = new Float32Array(existingYValues.length);
-            yArray = yArray.map((d, i) =>
-                [1, 2, 4].includes(i % verticesPerBar)
-                    ? args[0][Math.floor(i / verticesPerBar)]
-                    : existingYValues[i]
-            );
-            builder.data(yArray);
-        } else {
-            let yArray = new Float32Array(args[0].length * verticesPerBar);
-            yArray = yArray.map((d, i) =>
-                [1, 2, 4].includes(i % verticesPerBar)
-                    ? args[0][Math.floor(i / verticesPerBar)]
-                    : d
-            );
-            program
-                .buffers()
-                .attribute(
-                    yValueAttrib,
-                    attributeBuilder(yArray).components(1)
-                );
-        }
-
+    draw.y0Values = data => {
+        yValueAttribute.data([data, yValueAttribute.data()[1]]);
         return draw;
     };
 
-    draw.y1Values = (...args) => {
-        const builder = program.buffers().attribute(yValueAttrib);
-
-        if (builder) {
-            const existingYValues = builder.data();
-            let yArray = new Float32Array(existingYValues.length);
-            yArray = yArray.map((d, i) =>
-                [0, 3, 5].includes(i % verticesPerBar)
-                    ? args[0][Math.floor(i / verticesPerBar)]
-                    : existingYValues[i]
-            );
-            builder.data(yArray);
-        } else {
-            let yArray = new Float32Array(args[0].length * verticesPerBar);
-            yArray = yArray.map((d, i) =>
-                [0, 3, 5].includes(i % verticesPerBar)
-                    ? args[0][Math.floor(i / verticesPerBar)]
-                    : d
-            );
-            program
-                .buffers()
-                .attribute(
-                    yValueAttrib,
-                    attributeBuilder(yArray).components(1)
-                );
-        }
-
+    draw.yValues = data => {
+        yValueAttribute.data([yValueAttribute.data()[0], data]);
         return draw;
     };
 
-    draw.widths = (...args) => {
-        const builder = program.buffers().attribute(widthValueAttrib);
-        let widthArray = new Float32Array(args[0].length * verticesPerBar);
-        widthArray = widthArray.map(
-            (d, i) => args[0][Math.floor(i / verticesPerBar)]
-        );
-
-        if (builder) {
-            builder.data(widthArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    widthValueAttrib,
-                    attributeBuilder(widthArray).components(1)
-                );
-        }
+    draw.widths = data => {
+        widthValueAttribute.data(data);
         return draw;
     };
 

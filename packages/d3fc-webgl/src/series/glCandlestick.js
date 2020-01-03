@@ -1,4 +1,4 @@
-import attributeBuilder from '../buffers/attributeBuilder';
+import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import rectShader from '../shaders/rect/shader';
@@ -7,20 +7,66 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
-    const program = programBuilder();
+    const program = programBuilder().verticesPerElement(12);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     const lineWidth = lineWidthShader();
     let decorate = () => {};
 
-    const xValueAttrib = 'aXValue';
-    const yValueAttrib = 'aYValue';
-    const xDirectionAttrib = 'aXDirection';
-    const yDirectionAttrib = 'aYDirection';
-    const bandwidthAttrib = 'aBandwidth';
-    const colorIndicatorAttrib = 'aColorIndicator';
-
-    const verticesPerElement = 12;
+    const xValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+    const yValueAttribute = projectedAttributeBuilder()
+        .data({ open: null, high: null, low: null, close: null })
+        .value((data, element, vertex) => {
+            if ([6, 7, 9].includes(vertex)) {
+                return data.open[element];
+            }
+            if ([2, 4, 5].includes(vertex)) {
+                return data.high[element];
+            }
+            if ([0, 1, 3].includes(vertex)) {
+                return data.low[element];
+            }
+            if ([8, 10, 11].includes(vertex)) {
+                return data.close[element];
+            }
+            return 0;
+        });
+    const xDirectionAttribute = projectedAttributeBuilder()
+        .data([1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1])
+        .value((data, element, vertex) => data[vertex]);
+    const yDirectionAttribute = projectedAttributeBuilder().value(
+        (data, element, vertex) => {
+            const openVal = data.open[element];
+            const closeVal = data.close[element];
+            if ([6, 7, 8, 9, 10, 11].includes(vertex)) {
+                const openValMin = Math.min(openVal, closeVal) === openVal;
+                if ([6, 7, 9].includes(vertex)) {
+                    return openValMin ? -1 : 1;
+                } else {
+                    return openValMin ? 1 : -1;
+                }
+            }
+            return 0;
+        }
+    );
+    const bandwidthAttribute = projectedAttributeBuilder().value(
+        (data, element, vertex) => {
+            if (vertex >= 6 && vertex <= 11) {
+                const value = data[element];
+                return [6, 9, 10].includes(vertex) ? value : -value;
+            }
+            return 0;
+        }
+    );
+    const colorIndicatorAttribute = projectedAttributeBuilder().value(
+        (data, element, vertex) => {
+            const openVal = data.open[element];
+            const closeVal = data.close[element];
+            return openVal < closeVal ? 1 : -1;
+        }
+    );
 
     const draw = numElements => {
         const shaderBuilder = rectShader();
@@ -29,14 +75,21 @@ export default () => {
             .fragmentShader(shaderBuilder.fragment())
             .mode(drawModes.TRIANGLES);
 
+        program
+            .buffers()
+            .attribute('aXValue', xValueAttribute)
+            .attribute('aYValue', yValueAttribute)
+            .attribute('aXDirection', xDirectionAttribute)
+            .attribute('aYDirection', yDirectionAttribute)
+            .attribute('aBandwidth', bandwidthAttribute)
+            .attribute('aColorIndicator', colorIndicatorAttribute);
+
         xScale.coordinate(0);
         xScale(program);
         yScale.coordinate(1);
         yScale(program);
 
         lineWidth(program);
-        setColors(numElements);
-        setYDirections(numElements);
 
         program.vertexShader().appendBody(`
         gl_Position.x += ((uLineWidth * aXDirection / 2.0) + (aBandwidth / 2.0)) / uScreen.x;
@@ -45,87 +98,52 @@ export default () => {
 
         decorate(program);
 
-        program(numElements * verticesPerElement);
+        program(numElements);
     };
 
-    draw.xValues = (...args) => {
-        const builder = program.buffers().attribute(xValueAttrib);
-        let xArray = new Float32Array(args[0].length * verticesPerElement);
-        xArray = xArray.map(
-            (_, i) => args[0][Math.floor(i / verticesPerElement)]
-        );
-
-        const xDirBuffer = program.buffers().attribute(xDirectionAttrib);
-        let xDirArray = new Float32Array(args[0].length * verticesPerElement);
-        const xDirections = [1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1];
-        xDirArray = xDirArray.map(
-            (_, i) => xDirections[i % verticesPerElement]
-        );
-
-        if (builder) {
-            builder.data(xArray);
-            xDirBuffer.data(xDirArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    xValueAttrib,
-                    attributeBuilder(xArray).components(1)
-                );
-            program
-                .buffers()
-                .attribute(
-                    xDirectionAttrib,
-                    attributeBuilder(xDirArray).components(1)
-                );
-        }
+    draw.xValues = data => {
+        xValueAttribute.data(data);
         return draw;
     };
 
-    draw.open = (...args) => {
-        addToYBuffer(args[0], [6, 7, 9]);
+    draw.openValues = data => {
+        const existing = yValueAttribute.data();
+        const updated = { ...existing, open: data };
+        yValueAttribute.data(updated);
+        yDirectionAttribute.data(updated);
+        colorIndicatorAttribute.data(updated);
         return draw;
     };
 
-    draw.high = (...args) => {
-        addToYBuffer(args[0], [2, 4, 5]);
+    draw.highValues = data => {
+        const existing = yValueAttribute.data();
+        const updated = { ...existing, high: data };
+        yValueAttribute.data(updated);
+        yDirectionAttribute.data(updated);
+        colorIndicatorAttribute.data(updated);
         return draw;
     };
 
-    draw.low = (...args) => {
-        addToYBuffer(args[0], [0, 1, 3]);
+    draw.lowValues = data => {
+        const existing = yValueAttribute.data();
+        const updated = { ...existing, low: data };
+        yValueAttribute.data(updated);
+        yDirectionAttribute.data(updated);
+        colorIndicatorAttribute.data(updated);
         return draw;
     };
 
-    draw.close = (...args) => {
-        addToYBuffer(args[0], [8, 10, 11]);
+    draw.closeValues = data => {
+        const existing = yValueAttribute.data();
+        const updated = { ...existing, close: data };
+        yValueAttribute.data(updated);
+        yDirectionAttribute.data(updated);
+        colorIndicatorAttribute.data(updated);
         return draw;
     };
 
-    draw.bandwidth = (...args) => {
-        const builder = program.buffers().attribute(bandwidthAttrib);
-        let bandwidthArray = new Float32Array(
-            args[0].length * verticesPerElement
-        );
-        bandwidthArray = bandwidthArray.map((d, i) => {
-            if ([6, 7, 8, 9, 10, 11].includes(i % verticesPerElement)) {
-                const val = args[0][Math.floor(i / verticesPerElement)];
-                return [6, 9, 10].includes(i % verticesPerElement) ? val : -val;
-            } else {
-                return d;
-            }
-        });
-
-        if (builder) {
-            builder.data(bandwidthArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    bandwidthAttrib,
-                    attributeBuilder(bandwidthArray).components(1)
-                );
-        }
+    draw.bandwidth = data => {
+        bandwidthAttribute.data(data);
         return draw;
     };
 
@@ -151,98 +169,6 @@ export default () => {
         }
         yScale = args[0];
         return draw;
-    };
-
-    const addToYBuffer = (values, indexPositions) => {
-        const yValBuffer = program.buffers().attribute(yValueAttrib);
-        let yArray = new Float32Array(values.length * verticesPerElement);
-
-        if (yValBuffer) {
-            const existingYValues = yValBuffer.data();
-            yArray = yArray.map((_, i) =>
-                indexPositions.includes(i % verticesPerElement)
-                    ? values[Math.floor(i / verticesPerElement)]
-                    : existingYValues[i]
-            );
-            yValBuffer.data(yArray);
-        } else {
-            yArray = yArray.map((d, i) =>
-                indexPositions.includes(i % verticesPerElement)
-                    ? values[Math.floor(i / verticesPerElement)]
-                    : d
-            );
-            program
-                .buffers()
-                .attribute(
-                    yValueAttrib,
-                    attributeBuilder(yArray).components(1)
-                );
-        }
-    };
-
-    const setColors = numElements => {
-        const colorBuffer = program.buffers().attribute(colorIndicatorAttrib);
-        let colorArray = new Float32Array(numElements * verticesPerElement);
-        const yValues = program
-            .buffers()
-            .attribute(yValueAttrib)
-            .data();
-
-        colorArray = colorArray.map((_, i) => {
-            const elementStartIndex =
-                Math.floor(i / verticesPerElement) * verticesPerElement;
-            const openVal = yValues[elementStartIndex + 7];
-            const closeVal = yValues[elementStartIndex + 8];
-            return openVal < closeVal ? 1 : -1;
-        });
-
-        if (colorBuffer) {
-            colorBuffer.data(colorArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    colorIndicatorAttrib,
-                    attributeBuilder(colorArray).components(1)
-                );
-        }
-    };
-
-    const setYDirections = numElements => {
-        const yDirBuffer = program.buffers().attribute(yDirectionAttrib);
-        let yDirArray = new Float32Array(numElements * verticesPerElement);
-        const yValues = program
-            .buffers()
-            .attribute(yValueAttrib)
-            .data();
-
-        yDirArray = yDirArray.map((_, i) => {
-            const elementStartIndex =
-                Math.floor(i / verticesPerElement) * verticesPerElement;
-            const openVal = yValues[elementStartIndex + 7];
-            const closeVal = yValues[elementStartIndex + 8];
-            if ([6, 7, 8, 9, 10, 11].includes(i % verticesPerElement)) {
-                const openValMin = Math.min(openVal, closeVal) === openVal;
-                if ([6, 7, 9].includes(i % elementStartIndex)) {
-                    return openValMin ? -1 : 1;
-                } else {
-                    return openValMin ? 1 : -1;
-                }
-            } else {
-                return 0;
-            }
-        });
-
-        if (yDirBuffer) {
-            yDirBuffer.data(yDirArray);
-        } else {
-            program
-                .buffers()
-                .attribute(
-                    yDirectionAttrib,
-                    attributeBuilder(yDirArray).components(1)
-                );
-        }
     };
 
     rebind(draw, program, 'context');
