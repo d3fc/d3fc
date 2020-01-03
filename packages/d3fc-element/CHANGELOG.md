@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.3.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.2.16...@d3fc/d3fc-element@5.3.0) (2020-01-03)
+
+
+### Features
+
+* add set-webgl-viewport to d3fc-canvas ([6c870e4](https://github.com/d3fc/d3fc/commit/6c870e4))
+
+
+
+
+
 ## [5.2.16](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.2.15...@d3fc/d3fc-element@5.2.16) (2019-11-28)
 
 **Note:** Version bump only for package @d3fc/d3fc-element

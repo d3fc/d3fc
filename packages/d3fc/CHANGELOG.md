@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.1.0](https://github.com/d3fc/d3fc/compare/d3fc@14.0.60...d3fc@14.1.0) (2020-01-03)
+
+
+### Features
+
+* webgl series implementations ([233ed25](https://github.com/d3fc/d3fc/commit/233ed25))
+
+
+
+
+
 ## [14.0.60](https://github.com/d3fc/d3fc/compare/d3fc@14.0.59...d3fc@14.0.60) (2019-12-10)
 
 **Note:** Version bump only for package d3fc

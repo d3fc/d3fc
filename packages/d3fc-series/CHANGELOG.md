@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.1.1...@d3fc/d3fc-series@4.2.0) (2020-01-03)
+
+
+### Bug Fixes
+
+* fix cap function on boxPlot ([5d3f220](https://github.com/d3fc/d3fc/commit/5d3f220))
+
+
+### Features
+
+* webgl series implementations ([233ed25](https://github.com/d3fc/d3fc/commit/233ed25))
+
+
+
+
+
 ## [4.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.1.0...@d3fc/d3fc-series@4.1.1) (2019-11-28)
 
 **Note:** Version bump only for package @d3fc/d3fc-series
