@@ -77,6 +77,12 @@ It should be noted that `requestRedraw` is asynchronous. It does not directly in
 
 Available as the property `useDevicePixelRatio` or the attribute `use-device-pixel-ratio`. Controls whether the surface dimensions are multiplied by the [`devicePixelDepth`](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio) if available.
 
+<a name="canvas_setWebGlViewport" href="#canvas_setWebGlViewport">#</a> *canvas*.**setWebGlViewport**()
+
+Note `d3fc-svg` does not support this property.
+
+Available as the property `setWebglViewport` or the attribute `set-webgl-viewport`. Controls whether the surface dimensions are additionally set on the WebGL context [viewport](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/viewport).
+
 ### &lt;d3fc-group&gt;
 
 An element with no visual representation that is designed to group related rendering surfaces ([&lt;d3fc-svg&gt;](#d3fc-svg)/[&lt;d3fc-canvas&gt;](#d3fc-canvas)). Its core purpose is to multi-cast [*group*.requestRedraw](#group-requestRedraw) calls to descendant surfaces and to provide an aggregate draw event. It additionally provides helpers to allow [auto-resizing](#group-autoResize) of descendant surfaces in response to window `resize` events.
