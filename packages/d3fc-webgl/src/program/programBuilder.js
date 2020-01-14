@@ -90,7 +90,7 @@ export default () => {
     return build;
 
     function newProgram(program, vertexShader, fragmentShader) {
-        if (!program) {
+        if (!context.isProgram(program)) {
             return true;
         }
 
