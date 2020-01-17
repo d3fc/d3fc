@@ -5,6 +5,7 @@ import errorBarShader from '../shaders/errorBar/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 export default () => {
     const program = programBuilder().verticesPerElement(18);
@@ -13,21 +14,13 @@ export default () => {
     const decorate = () => {};
     const lineWidth = lineWidthShader();
 
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const xValueAttribute = elementConstantAttributeBuilder();
 
-    const highValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const highValueAttribute = elementConstantAttributeBuilder();
 
-    const lowValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const lowValueAttribute = elementConstantAttributeBuilder();
 
-    const bandwidthAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const bandwidthAttribute = elementConstantAttributeBuilder();
 
     /*
      * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).

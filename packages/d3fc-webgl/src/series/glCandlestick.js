@@ -5,6 +5,7 @@ import candlestickShader from '../shaders/candlestick/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 export default () => {
     const program = programBuilder().verticesPerElement(12);
@@ -13,29 +14,17 @@ export default () => {
     const lineWidth = lineWidthShader();
     let decorate = () => {};
 
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const xValueAttribute = elementConstantAttributeBuilder();
 
-    const highAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const highAttribute = elementConstantAttributeBuilder();
 
-    const openAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const openAttribute = elementConstantAttributeBuilder();
 
-    const closeAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const closeAttribute = elementConstantAttributeBuilder();
 
-    const lowAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const lowAttribute = elementConstantAttributeBuilder();
 
-    const bandwidthAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => data[element]
-    );
+    const bandwidthAttribute = elementConstantAttributeBuilder();
 
     /*
      * x-y coordinate to locate the "corners" of the element.

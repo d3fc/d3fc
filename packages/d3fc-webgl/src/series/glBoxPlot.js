@@ -5,6 +5,7 @@ import boxPlotShader from '../shaders/boxPlot/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 //           αL1     α     αR1
 //            .------.------.
@@ -48,9 +49,7 @@ export default () => {
     const decorate = () => {};
     const lineWidth = lineWidthShader();
 
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const xValueAttribute = elementConstantAttributeBuilder();
     const yValueAttribute = projectedAttributeBuilder()
         .data({
             median: null,

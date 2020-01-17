@@ -3,6 +3,7 @@ import drawModes from '../program/drawModes';
 import programBuilder from '../program/programBuilder';
 import barShader from '../shaders/bar/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 //     βL            β            βR
 //     .-------------.------------.
@@ -35,18 +36,14 @@ export default () => {
     let yScale = null;
     let decorate = () => {};
 
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const xValueAttribute = elementConstantAttributeBuilder();
     const yValueAttribute = projectedAttributeBuilder()
         .data([null, null])
         .value((data, element, vertex) => {
             const array = [1, 2, 4].includes(vertex) ? 0 : 1;
             return data[array][element];
         });
-    const widthValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const widthValueAttribute = elementConstantAttributeBuilder();
     const directionAttribute = projectedAttributeBuilder()
         .size(2)
         .data([-1, -1, 1, -1, 1, 1])
