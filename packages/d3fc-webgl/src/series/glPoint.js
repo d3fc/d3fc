@@ -1,9 +1,9 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -11,15 +11,9 @@ export default () => {
     let type = circlePointShader();
     let decorate = () => {};
 
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
-    const yValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
-    const sizeAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const xValueAttribute = elementConstantAttributeBuilder();
+    const yValueAttribute = elementConstantAttributeBuilder();
+    const sizeAttribute = elementConstantAttributeBuilder();
 
     const program = programBuilder().mode(drawModes.POINTS);
 

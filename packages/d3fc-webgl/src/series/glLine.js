@@ -6,6 +6,7 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -13,22 +14,18 @@ export default () => {
     let decorate = () => {};
 
     const lineWidth = lineWidthShader();
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
-    const xNextValueAttribute = projectedAttributeBuilder().value(
+    const xValueAttribute = elementConstantAttributeBuilder();
+    const xNextValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const xPreviousValueAttribute = projectedAttributeBuilder().value(
+    const xPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
-    const yValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
-    const yNextValueAttribute = projectedAttributeBuilder().value(
+    const yValueAttribute = elementConstantAttributeBuilder();
+    const yNextValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const yPreviousValueAttribute = projectedAttributeBuilder().value(
+    const yPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
     const cornerAttribute = projectedAttributeBuilder()
