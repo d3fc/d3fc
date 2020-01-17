@@ -16,57 +16,50 @@ export default () => {
     const xValueAttribute = projectedAttributeBuilder().value(
         (data, element) => data[element]
     );
-    const yValueAttribute = projectedAttributeBuilder()
-        .data({ open: null, high: null, low: null, close: null })
-        .value((data, element, vertex) => {
-            if ([6, 7, 9].includes(vertex)) {
-                return data.open[element];
-            }
-            if ([2, 4, 5].includes(vertex)) {
-                return data.high[element];
-            }
-            if ([0, 1, 3].includes(vertex)) {
-                return data.low[element];
-            }
-            if ([8, 10, 11].includes(vertex)) {
-                return data.close[element];
-            }
-            return 0;
-        });
-    const xDirectionAttribute = projectedAttributeBuilder()
-        .data([1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1])
-        .value((data, element, vertex) => data[vertex]);
-    const yDirectionAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => {
-            const openVal = data.open[element];
-            const closeVal = data.close[element];
-            if ([6, 7, 8, 9, 10, 11].includes(vertex)) {
-                const openValMin = Math.min(openVal, closeVal) === openVal;
-                if ([6, 7, 9].includes(vertex)) {
-                    return openValMin ? -1 : 1;
-                } else {
-                    return openValMin ? 1 : -1;
-                }
-            }
-            return 0;
-        }
+
+    const highAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
     );
+
+    const openAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+
+    const closeAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+
+    const lowAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+
     const bandwidthAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => {
-            if (vertex >= 6 && vertex <= 11) {
-                const value = data[element];
-                return [6, 9, 10].includes(vertex) ? value : -value;
-            }
-            return 0;
-        }
+        (data, element, vertex) => data[element]
     );
-    const colorIndicatorAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => {
-            const openVal = data.open[element];
-            const closeVal = data.close[element];
-            return openVal < closeVal ? 1 : -1;
-        }
-    );
+
+    /*
+     * x-y coordinate to locate the "corners" of the element.
+     * X: -1: LEFT, 0: MIDDLE, 1: RIGHT
+     * Y: -2: HIGH, -1: OPEN, 1: CLOSE, 2: LOW
+     * Z: -1: LEFT, 1: RIGHT (only valid for HIGH/LOW corners)
+     */
+    const cornerAttribute = projectedAttributeBuilder()
+        .size(3)
+        .data([
+            [0, 2, 1],
+            [0, 2, -1],
+            [0, -2, -1],
+            [0, 2, 1],
+            [0, -2, 1],
+            [0, -2, -1],
+            [1, -1, 0],
+            [-1, -1, 0],
+            [-1, 1, 0],
+            [1, -1, 0],
+            [1, 1, 0],
+            [-1, 1, 0]
+        ])
+        .value((data, element, vertex, component) => data[vertex][component]);
 
     const draw = numElements => {
         const shaderBuilder = rectShader();
@@ -78,11 +71,12 @@ export default () => {
         program
             .buffers()
             .attribute('aXValue', xValueAttribute)
-            .attribute('aYValue', yValueAttribute)
-            .attribute('aXDirection', xDirectionAttribute)
-            .attribute('aYDirection', yDirectionAttribute)
+            .attribute('aHigh', highAttribute)
+            .attribute('aOpen', openAttribute)
+            .attribute('aClose', closeAttribute)
+            .attribute('aLow', lowAttribute)
             .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aColorIndicator', colorIndicatorAttribute);
+            .attribute('aCorner', cornerAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -92,9 +86,9 @@ export default () => {
         lineWidth(program);
 
         program.vertexShader().appendBody(`
-        gl_Position.x += ((uLineWidth * aXDirection / 2.0) + (aBandwidth / 2.0)) / uScreen.x;
-        gl_Position.y += (uLineWidth * aYDirection / 2.0) / uScreen.y;
-      `);
+          gl_Position.x += xModifier / uScreen.x;
+          gl_Position.y += yModifier / uScreen.y;
+        `);
 
         decorate(program);
 
@@ -107,38 +101,22 @@ export default () => {
     };
 
     draw.openValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, open: data };
-        yValueAttribute.data(updated);
-        yDirectionAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        openAttribute.data(data);
         return draw;
     };
 
     draw.highValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, high: data };
-        yValueAttribute.data(updated);
-        yDirectionAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        highAttribute.data(data);
         return draw;
     };
 
     draw.lowValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, low: data };
-        yValueAttribute.data(updated);
-        yDirectionAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        lowAttribute.data(data);
         return draw;
     };
 
     draw.closeValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, close: data };
-        yValueAttribute.data(updated);
-        yDirectionAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        closeAttribute.data(data);
         return draw;
     };
 
