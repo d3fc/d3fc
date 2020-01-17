@@ -16,34 +16,48 @@ export default () => {
     const xValueAttribute = projectedAttributeBuilder().value(
         (data, element) => data[element]
     );
-    const yValueAttribute = projectedAttributeBuilder()
-        .data({ high: null, low: null })
-        .value((data, element, vertex) => {
-            if ([2, 4, 5, 6, 7, 8, 9, 10, 11].includes(vertex)) {
-                return data.high[element];
-            }
-            if ([0, 1, 3, 12, 13, 14, 15, 16, 17].includes(vertex)) {
-                return data.low[element];
-            }
-            return 0;
-        });
-    const xDirectionAttribute = projectedAttributeBuilder()
-        .data([1, -1, -1, 1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1])
-        .value((data, element, vertex) => data[vertex]);
-    const yDirectionAttribute = projectedAttributeBuilder()
-        .data([0, 0, 0, 0, 0, 0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1])
-        .value((data, element, vertex) => data[vertex]);
-    const bandwidthAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => {
-            if (vertex > 5) {
-                const value = data[element];
-                return [8, 10, 11, 12, 13, 15].includes(vertex)
-                    ? -value
-                    : value;
-            }
-            return 0;
-        }
+
+    const highValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
     );
+
+    const lowValueAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+
+    const bandwidthAttribute = projectedAttributeBuilder().value(
+        (data, element) => data[element]
+    );
+
+    /*
+     * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
+     * X: -1: LEFT, 0: MIDDLE, 1: RIGHT
+     * Y: -1: HIGH, 1: LOW
+     * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
+     */
+    const cornerAttribute = projectedAttributeBuilder()
+        .size(3)
+        .data([
+            [0, 1, 1],
+            [0, 1, -1],
+            [0, -1, -1],
+            [0, 1, 1],
+            [0, -1, 1],
+            [0, -1, -1],
+            [1, -1, 1],
+            [1, -1, -1],
+            [-1, -1, -1],
+            [1, -1, 1],
+            [-1, -1, 1],
+            [-1, -1, -1],
+            [-1, 1, -1],
+            [-1, 1, 1],
+            [1, 1, 1],
+            [-1, 1, -1],
+            [1, 1, -1],
+            [1, 1, 1]
+        ])
+        .value((data, element, vertex, component) => data[vertex][component]);
 
     const draw = numElements => {
         const shader = errorBarShader();
@@ -56,10 +70,10 @@ export default () => {
             .buffers()
 
             .attribute('aXValue', xValueAttribute)
-            .attribute('aYValue', yValueAttribute)
-            .attribute('aXDirection', xDirectionAttribute)
-            .attribute('aYDirection', yDirectionAttribute)
-            .attribute('aBandwidth', bandwidthAttribute);
+            .attribute('aHighValue', highValueAttribute)
+            .attribute('aLowValue', lowValueAttribute)
+            .attribute('aBandwidth', bandwidthAttribute)
+            .attribute('aCorner', cornerAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -69,8 +83,8 @@ export default () => {
         lineWidth(program);
 
         program.vertexShader().appendBody(`
-                gl_Position.x += ((uLineWidth * aXDirection) + aBandwidth) / uScreen.x;
-                gl_Position.y += (uLineWidth * aYDirection) / uScreen.y;
+                gl_Position.x += xModifier / uScreen.x;
+                gl_Position.y += yModifier / uScreen.y;
             `);
 
         decorate(program);
@@ -84,14 +98,12 @@ export default () => {
     };
 
     draw.highValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, high: data });
+        highValueAttribute.data(data);
         return draw;
     };
 
     draw.lowValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, low: data });
+        lowValueAttribute.data(data);
         return draw;
     };
 
