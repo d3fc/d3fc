@@ -124,13 +124,25 @@ export const postScaleLine = {
 
 export const errorBar = {
     header: `attribute float aXValue;
-        attribute float aYValue;
-        attribute float aXDirection;
-        attribute float aYDirection;
+        attribute float aHighValue;
+        attribute float aLowValue;
         attribute float aBandwidth;
+        attribute vec3 aCorner;
         uniform vec2 uScreen;
         uniform float uLineWidth;`,
-    body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
+    body: `
+        float isLow = (aCorner.y + 1.0) / 2.0;
+        float yValue = isLow * aLowValue + (1.0 - isLow) * aHighValue;
+
+        float isEdgeCorner = abs(aCorner.x);
+        float lineWidthXDirection = (1.0 - isEdgeCorner) * aCorner.z;
+        float lineWidthYDirection = isEdgeCorner * aCorner.z;
+        
+        gl_Position = vec4(aXValue, yValue, 0, 1);
+        
+        float xModifier = ((uLineWidth * lineWidthXDirection) + (aBandwidth * aCorner.x));
+        float yModifier = (uLineWidth * lineWidthYDirection);
+    `
 };
 
 export const area = {
