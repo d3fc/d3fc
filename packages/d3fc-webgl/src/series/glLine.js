@@ -1,4 +1,3 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import lineShader from '../shaders/line/baseShader';
@@ -7,6 +6,7 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -28,16 +28,15 @@ export default () => {
     const yPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
-    const cornerAttribute = projectedAttributeBuilder()
+    const cornerAttribute = vertexConstantAttributeBuilder()
         .size(2)
         .data([
             [-1, -1],
             [1, -1],
             [-1, 1],
             [1, 1]
-        ])
-        .value((data, element, vertex, component) => data[vertex][component]);
-    const definedAttribute = projectedAttributeBuilder().value(
+        ]);
+    const definedAttribute = elementConstantAttributeBuilder().value(
         (data, element, vertex, component) => {
             const value = data[element];
             if (vertex <= 1) {
