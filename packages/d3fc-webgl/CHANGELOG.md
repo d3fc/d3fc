@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.2.2...@d3fc/d3fc-webgl@1.2.3) (2020-01-20)
+
+
+### Bug Fixes
+
+* separate candlestick and ohlc into separate shaders ([4d1f6f7](https://github.com/d3fc/d3fc/commit/4d1f6f7))
+
+
+
+
+
 ## [1.2.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.2.1...@d3fc/d3fc-webgl@1.2.2) (2020-01-20)
 
 **Note:** Version bump only for package @d3fc/d3fc-webgl
