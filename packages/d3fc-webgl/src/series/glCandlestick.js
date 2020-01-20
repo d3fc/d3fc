@@ -1,7 +1,7 @@
 import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
-import rectShader from '../shaders/rect/shader';
+import candlestickShader from '../shaders/candlestick/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
@@ -62,7 +62,7 @@ export default () => {
         .value((data, element, vertex, component) => data[vertex][component]);
 
     const draw = numElements => {
-        const shaderBuilder = rectShader();
+        const shaderBuilder = candlestickShader();
         program
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment())

@@ -36,6 +36,14 @@ export const cross = {
     }`
 };
 
+export const candlestick = {
+    header: `varying float vColorIndicator;`,
+    body: `gl_FragColor = vec4(0.4, 0.8, 0, 1);
+    if (vColorIndicator < 0.0) {
+        gl_FragColor = vec4(0.8, 0.4, 0, 1);
+    }`
+};
+
 export const rect = {
     header: `varying float vColorIndicator;`,
     body: `gl_FragColor = vec4(0.4, 0.8, 0, 1);
