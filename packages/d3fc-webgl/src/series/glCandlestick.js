@@ -1,4 +1,3 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import candlestickShader from '../shaders/candlestick/shader';
@@ -6,6 +5,7 @@ import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 
 export default () => {
     const program = programBuilder().verticesPerElement(12);
@@ -32,7 +32,7 @@ export default () => {
      * Y: -2: HIGH, -1: OPEN, 1: CLOSE, 2: LOW
      * Z: -1: LEFT, 1: RIGHT (only valid for HIGH/LOW corners)
      */
-    const cornerAttribute = projectedAttributeBuilder()
+    const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
             [0, 2, 1],
@@ -47,8 +47,7 @@ export default () => {
             [1, -1, 0],
             [1, 1, 0],
             [-1, 1, 0]
-        ])
-        .value((data, element, vertex, component) => data[vertex][component]);
+        ]);
 
     const draw = numElements => {
         const shaderBuilder = candlestickShader();
