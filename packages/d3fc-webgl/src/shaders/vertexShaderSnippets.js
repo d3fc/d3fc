@@ -60,7 +60,7 @@ export const cross = {
         gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
-export const rect = {
+export const candlestick = {
     header: `
         attribute float aXValue;
         attribute float aHigh;
@@ -91,6 +91,20 @@ export const rect = {
         float yModifier = uLineWidth * yDirection / 2.0;
 
         gl_Position = vec4(aXValue, yValue, 0, 1);`
+};
+
+export const rect = {
+    header: `attribute float aXValue;
+      attribute float aYValue;
+      attribute float aXDirection;
+      attribute float aYDirection;
+      attribute float aBandwidth;
+      attribute float aColorIndicator;
+      varying float vColorIndicator;
+      uniform vec2 uScreen;
+      uniform float uLineWidth;`,
+    body: `vColorIndicator = aColorIndicator;
+      gl_Position = vec4(aXValue, aYValue, 0, 1);`
 };
 
 export const bar = {
