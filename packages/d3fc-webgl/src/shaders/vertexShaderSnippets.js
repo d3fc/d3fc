@@ -93,18 +93,37 @@ export const candlestick = {
         gl_Position = vec4(aXValue, yValue, 0, 1);`
 };
 
-export const rect = {
-    header: `attribute float aXValue;
-      attribute float aYValue;
-      attribute float aXDirection;
-      attribute float aYDirection;
+export const ohlc = {
+    header: `
+      attribute float aXValue;
+      attribute float aHigh;
+      attribute float aOpen;
+      attribute float aClose;
+      attribute float aLow;
       attribute float aBandwidth;
-      attribute float aColorIndicator;
+      attribute vec3 aCorner;
+  
       varying float vColorIndicator;
       uniform vec2 uScreen;
       uniform float uLineWidth;`,
-    body: `vColorIndicator = aColorIndicator;
-      gl_Position = vec4(aXValue, aYValue, 0, 1);`
+    body: `
+      vColorIndicator = sign(aClose - aOpen);
+
+      float isPositiveY = (sign(aCorner.y) + 1.0) / 2.0;
+      float isNotPositiveY = 1.0 - isPositiveY;
+      float isExtremeY = abs(aCorner.y) - 1.0;
+      float isNotExtremeY = 1.0 - isExtremeY;
+      float yValue = (isPositiveY * isExtremeY * aLow) + (isPositiveY * isNotExtremeY * aClose) + (isNotPositiveY * isNotExtremeY * aOpen) + (isNotPositiveY * isExtremeY * aHigh);
+
+      float xDirection = isExtremeY * aCorner.z;
+      float yDirection = isNotExtremeY * aCorner.z;
+
+      float bandwidthModifier = isNotExtremeY * aCorner.x * aBandwidth / 2.0;
+
+      float xModifier = (uLineWidth * xDirection / 2.0) + bandwidthModifier;
+      float yModifier = uLineWidth * yDirection / 2.0;
+
+      gl_Position = vec4(aXValue, yValue, 0, 1);`
 };
 
 export const bar = {

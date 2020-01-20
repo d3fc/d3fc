@@ -1,7 +1,7 @@
 import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
-import rectShader from '../shaders/rect/shader';
+import ohlcShader from '../shaders/ohlc/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
@@ -15,48 +15,49 @@ export default () => {
     let decorate = () => {};
 
     const xValueAttribute = elementConstantAttributeBuilder();
-    const yValueAttribute = projectedAttributeBuilder()
-        .data({ open: null, high: null, low: null, close: null })
-        .value((data, element, vertex) => {
-            if ([6, 7, 8, 9, 10, 11].includes(vertex)) {
-                return data.open[element];
-            }
-            if ([2, 4, 5].includes(vertex)) {
-                return data.high[element];
-            }
-            if ([0, 1, 3].includes(vertex)) {
-                return data.low[element];
-            }
-            if ([12, 13, 14, 15, 16, 17].includes(vertex)) {
-                return data.close[element];
-            }
-            throw new Error(`Invalid vertex ${vertex}`);
-        });
-    const xDirectionAttribute = projectedAttributeBuilder()
-        .data([1, -1, -1, 1, 1, -1, 0, 0, -1, 0, -1, -1, 0, 0, 1, 0, 1, 1])
-        .value((data, element, vertex) => data[vertex]);
-    const yDirectionAttribute = projectedAttributeBuilder()
-        .data([0, 0, 0, 0, 0, 0, 1, -1, -1, 1, 1, -1, -1, 1, 1, -1, -1, 1])
-        .value((data, element, vertex) => data[vertex]);
-    const bandwidthAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => {
-            if ([8, 10, 11, 14, 16, 17].includes(vertex)) {
-                const value = data[element];
-                return [8, 10, 11].includes(vertex) ? -value : value;
-            }
-            return 0;
-        }
-    );
-    const colorIndicatorAttribute = projectedAttributeBuilder().value(
-        (data, element, vertex) => {
-            const openVal = data.open[element];
-            const closeVal = data.close[element];
-            return openVal < closeVal ? 1 : -1;
-        }
-    );
+
+    const highAttribute = elementConstantAttributeBuilder();
+
+    const openAttribute = elementConstantAttributeBuilder();
+
+    const closeAttribute = elementConstantAttributeBuilder();
+
+    const lowAttribute = elementConstantAttributeBuilder();
+
+    const bandwidthAttribute = elementConstantAttributeBuilder();
+
+    /*
+     * x-y coordinate to locate the "corners" of the element.
+     * X: -1: LEFT, 0: MIDDLE, 1: RIGHT
+     * Y: -2: HIGH, -1: OPEN, 1: CLOSE, 2: LOW
+     * Z - Follows convention for X/Y (appropriate direction will be selected by the shader): -1: LEFT/TOP, 1: RIGHT/BOTTOM
+     */
+    const cornerAttribute = projectedAttributeBuilder()
+        .size(3)
+        .data([
+            [0, -2, -1],
+            [0, -2, 1],
+            [0, 2, 1],
+            [0, -2, -1],
+            [0, 2, -1],
+            [0, 2, 1],
+            [-1, -1, -1],
+            [-1, -1, 1],
+            [0, -1, 1],
+            [-1, -1, -1],
+            [0, -1, -1],
+            [0, -1, 1],
+            [1, 1, 1],
+            [0, 1, 1],
+            [0, 1, -1],
+            [0, 1, -1],
+            [1, 1, -1],
+            [1, 1, 1]
+        ])
+        .value((data, element, vertex, component) => data[vertex][component]);
 
     const draw = numElements => {
-        const shaderBuilder = rectShader();
+        const shaderBuilder = ohlcShader();
         program
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment())
@@ -65,11 +66,12 @@ export default () => {
         program
             .buffers()
             .attribute('aXValue', xValueAttribute)
-            .attribute('aYValue', yValueAttribute)
-            .attribute('aXDirection', xDirectionAttribute)
-            .attribute('aYDirection', yDirectionAttribute)
+            .attribute('aHigh', highAttribute)
+            .attribute('aOpen', openAttribute)
+            .attribute('aClose', closeAttribute)
+            .attribute('aLow', lowAttribute)
             .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aColorIndicator', colorIndicatorAttribute);
+            .attribute('aCorner', cornerAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -79,9 +81,9 @@ export default () => {
         lineWidth(program);
 
         program.vertexShader().appendBody(`
-        gl_Position.x += ((uLineWidth * aXDirection / 2.0) + (aBandwidth / 2.0)) / uScreen.x;
-        gl_Position.y += (uLineWidth * aYDirection / 2.0) / uScreen.y;
-      `);
+          gl_Position.x += xModifier / uScreen.x;
+          gl_Position.y += yModifier / uScreen.y;
+        `);
 
         decorate(program);
 
@@ -94,34 +96,22 @@ export default () => {
     };
 
     draw.openValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, open: data };
-        yValueAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        openAttribute.data(data);
         return draw;
     };
 
     draw.highValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, high: data };
-        yValueAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        highAttribute.data(data);
         return draw;
     };
 
     draw.lowValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, low: data };
-        yValueAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        lowAttribute.data(data);
         return draw;
     };
 
     draw.closeValues = data => {
-        const existing = yValueAttribute.data();
-        const updated = { ...existing, close: data };
-        yValueAttribute.data(updated);
-        colorIndicatorAttribute.data(updated);
+        closeAttribute.data(data);
         return draw;
     };
 
