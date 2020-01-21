@@ -5,6 +5,7 @@ import rectShader from '../shaders/rect/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 export default () => {
     const program = programBuilder().verticesPerElement(18);
@@ -13,9 +14,7 @@ export default () => {
     const lineWidth = lineWidthShader();
     let decorate = () => {};
 
-    const xValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const xValueAttribute = elementConstantAttributeBuilder();
     const yValueAttribute = projectedAttributeBuilder()
         .data({ open: null, high: null, low: null, close: null })
         .value((data, element, vertex) => {

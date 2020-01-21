@@ -1,4 +1,5 @@
 import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
+import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
@@ -10,24 +11,18 @@ export default () => {
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const xValueAttribute = projectedAttributeBuilder().value(
+    const xValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const xPreviousValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
-    const yValueAttribute = projectedAttributeBuilder().value(
+    const xPreviousValueAttribute = elementConstantAttributeBuilder();
+    const yValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const yPreviousValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
-    const y0ValueAttribute = projectedAttributeBuilder().value(
+    const yPreviousValueAttribute = elementConstantAttributeBuilder();
+    const y0ValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const y0PreviousValueAttribute = projectedAttributeBuilder().value(
-        (data, element) => data[element]
-    );
+    const y0PreviousValueAttribute = elementConstantAttributeBuilder();
     const cornerAttribute = projectedAttributeBuilder()
         .size(3)
         .data([

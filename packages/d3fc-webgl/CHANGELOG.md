@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.2.3...@d3fc/d3fc-webgl@1.3.0) (2020-01-21)
+
+
+### Features
+
+* add elementConstantAttributeBuilder for appropriate attributes ([ba51b0c](https://github.com/d3fc/d3fc/commit/ba51b0c))
+
+
+
+
+
 ## [1.2.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.2.2...@d3fc/d3fc-webgl@1.2.3) (2020-01-20)
 
 
