@@ -21,10 +21,10 @@ export default () => {
             context.fillStyle = colorInterpolate(colorScale(values.colorValue));
             context.strokeStyle = 'transparent';
 
+            base.decorate()(context, d, i);
+
             base.pathGenerator.height(values.height)
                 .width(values.width)([d]);
-
-            base.decorate()(context, d, i);
 
             context.fill();
             context.stroke();
