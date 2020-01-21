@@ -22,11 +22,13 @@ export default () => {
         areaData[valueComponent + '1']((_, i) => projectedData[i].y);
 
         context.beginPath();
-        areaData(data);
+
         context.fillStyle = colors.gray;
         context.strokeStyle = 'transparent';
 
         base.decorate()(context, data);
+
+        areaData(data);
 
         context.fill();
         context.stroke();

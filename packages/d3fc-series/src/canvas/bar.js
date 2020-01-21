@@ -35,13 +35,14 @@ export default () => {
             context.beginPath();
             context.translate(datum.origin[0], datum.origin[1]);
 
+            context.fillStyle = colors.darkGray;
+            context.strokeStyle = 'transparent';
+            base.decorate()(context, datum.d, i);
+
             valueAxisDimension(pathGenerator)(-datum.height);
             crossAxisDimension(pathGenerator)(datum.width);
             pathGenerator([datum]);
 
-            context.fillStyle = colors.darkGray;
-            context.strokeStyle = 'transparent';
-            base.decorate()(context, datum.d, i);
             context.fill();
             context.stroke();
 

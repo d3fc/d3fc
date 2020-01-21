@@ -14,11 +14,13 @@ export default () => {
         const context = lineData.context();
 
         context.beginPath();
-        lineData.defined(base.defined())(data);
+
         context.strokeStyle = colors.black;
         context.fillStyle = 'transparent';
 
         base.decorate()(context, data);
+
+        lineData.defined(base.defined())(data);
 
         context.fill();
         context.stroke();

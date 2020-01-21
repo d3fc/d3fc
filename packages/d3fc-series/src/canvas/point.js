@@ -20,12 +20,12 @@ export default () => {
             context.translate(values.origin[0], values.origin[1]);
             context.beginPath();
 
-            symbol(d, i);
-
             context.strokeStyle = colors.black;
             context.fillStyle = colors.gray;
 
             base.decorate()(context, d, i);
+
+            symbol(d, i);
 
             context.fill();
             context.stroke();

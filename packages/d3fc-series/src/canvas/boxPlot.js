@@ -23,17 +23,17 @@ export default () => {
             context.translate(values.origin[0], values.origin[1]);
             context.beginPath();
 
+            context.fillStyle = colors.gray;
+            context.strokeStyle = colors.black;
+
+            base.decorate()(context, d, i);
+
             pathGenerator.median(values.median)
                 .upperQuartile(values.upperQuartile)
                 .lowerQuartile(values.lowerQuartile)
                 .high(values.high)
                 .width(values.width)
                 .low(values.low)([d]);
-
-            context.fillStyle = colors.gray;
-            context.strokeStyle = colors.black;
-
-            base.decorate()(context, d, i);
 
             context.fill();
             context.stroke();
