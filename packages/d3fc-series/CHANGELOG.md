@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.5](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.3.4...@d3fc/d3fc-series@4.3.5) (2020-01-21)
+
+
+### Bug Fixes
+
+* ensure decorate function is invoked before path rendering ([#1394](https://github.com/d3fc/d3fc/issues/1394)) ([6bafc84](https://github.com/d3fc/d3fc/commit/6bafc84))
+
+
+
+
+
 ## [4.3.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.3.3...@d3fc/d3fc-series@4.3.4) (2020-01-21)
 
 **Note:** Version bump only for package @d3fc/d3fc-series
