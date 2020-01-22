@@ -7,11 +7,14 @@ export default () => {
     let normalized = false;
     let stride = 0;
     let offset = 0;
+    let validSize = 0;
 
     const base = (gl, program, name) => {
-        if (buffer == null) {
+        if (buffer == null || !gl.isBuffer(buffer)) {
             buffer = gl.createBuffer();
+            validSize = 0;
         }
+
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         const location = gl.getAttribLocation(program, name);
         gl.vertexAttribPointer(
@@ -25,11 +28,20 @@ export default () => {
         gl.enableVertexAttribArray(location);
     };
 
+    base.validSize = (...args) => {
+        if (!args.length) {
+            return validSize;
+        }
+        validSize = args[0];
+        return base;
+    };
+
     base.buffer = (...args) => {
         if (!args.length) {
             return buffer;
         }
         buffer = args[0];
+        validSize = 0;
         return base;
     };
 
@@ -38,6 +50,7 @@ export default () => {
             return size;
         }
         size = args[0];
+        validSize = 0;
         return base;
     };
 
@@ -46,6 +59,7 @@ export default () => {
             return type;
         }
         type = args[0];
+        validSize = 0;
         return base;
     };
 
@@ -54,6 +68,7 @@ export default () => {
             return normalized;
         }
         normalized = args[0];
+        validSize = 0;
         return base;
     };
 
@@ -62,6 +77,7 @@ export default () => {
             return stride;
         }
         stride = args[0];
+        validSize = 0;
         return base;
     };
 
@@ -70,6 +86,7 @@ export default () => {
             return offset;
         }
         offset = args[0];
+        validSize = 0;
         return base;
     };
 

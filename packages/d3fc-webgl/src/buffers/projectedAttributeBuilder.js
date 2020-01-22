@@ -6,7 +6,6 @@ export default () => {
 
     let value = (data, element, vertex, component, index) => data[index];
     let data = null;
-    let validSize = 0;
 
     const project = (elementCount, verticesPerElement) => {
         const components = base.size();
@@ -32,7 +31,7 @@ export default () => {
     };
 
     const build = (gl, program, name, verticesPerElement, count) => {
-        if (validSize >= count) {
+        if (base.validSize() >= count) {
             return;
         }
 
@@ -43,7 +42,7 @@ export default () => {
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
 
-        validSize = count;
+        base.validSize(count);
     };
 
     build.value = (...args) => {
@@ -51,7 +50,7 @@ export default () => {
             return value;
         }
         value = args[0];
-        validSize = 0;
+        base.validSize(0);
         return build;
     };
 
@@ -60,7 +59,7 @@ export default () => {
             return data;
         }
         data = args[0];
-        validSize = 0;
+        base.validSize(0);
         return build;
     };
 
