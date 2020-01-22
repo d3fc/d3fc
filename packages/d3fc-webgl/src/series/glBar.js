@@ -3,6 +3,7 @@ import drawModes from '../program/drawModes';
 import programBuilder from '../program/programBuilder';
 import barShader from '../shaders/bar/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
+import glScaleBase from '../scale/glScaleBase';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 //     βL            β            βR
@@ -32,22 +33,29 @@ import elementConstantAttributeBuilder from '../buffers/elementConstantAttribute
 
 export default () => {
     const program = programBuilder().verticesPerElement(6);
-    let xScale = null;
-    let yScale = null;
+    let xScale = glScaleBase();
+    let yScale = glScaleBase();
     let decorate = () => {};
 
     const xValueAttribute = elementConstantAttributeBuilder();
-    const yValueAttribute = projectedAttributeBuilder()
-        .data([null, null])
-        .value((data, element, vertex) => {
-            const array = [1, 2, 4].includes(vertex) ? 0 : 1;
-            return data[array][element];
-        });
+
+    const yValueAttribute = elementConstantAttributeBuilder();
+
+    const y0ValueAttribute = elementConstantAttributeBuilder();
+
     const widthValueAttribute = elementConstantAttributeBuilder();
-    const directionAttribute = projectedAttributeBuilder()
+
+    const cornerAttribute = projectedAttributeBuilder()
         .size(2)
-        .data([-1, -1, 1, -1, 1, 1])
-        .value((data, element, vertex) => data[vertex]);
+        .data([
+            [-1, -1],
+            [1, 1],
+            [-1, 1],
+            [-1, -1],
+            [1, 1],
+            [1, -1]
+        ])
+        .value((data, element, vertex, component) => data[vertex][component]);
 
     const draw = numElements => {
         const shader = barShader();
@@ -60,21 +68,42 @@ export default () => {
             .buffers()
             .attribute('aXValue', xValueAttribute)
             .attribute('aYValue', yValueAttribute)
+            .attribute('aY0Value', y0ValueAttribute)
             .attribute('aWidthValue', widthValueAttribute)
-            .attribute('aDirection', directionAttribute);
+            .attribute('aCorner', cornerAttribute);
 
         xScale.coordinate(0);
         xScale(program);
-
         yScale.coordinate(1);
         yScale(program);
 
-        xScale.scaleComponent(program, 'origin');
-        xScale.scaleComponent(program, 'width');
+        program.vertexShader().appendBody(`
+            gl_Position.x += xModifier / uScreen.x * 2.0;
+        `);
 
         decorate(program);
 
         program(numElements);
+    };
+
+    draw.xValues = data => {
+        xValueAttribute.data(data);
+        return draw;
+    };
+
+    draw.y0Values = data => {
+        y0ValueAttribute.data(data);
+        return draw;
+    };
+
+    draw.yValues = data => {
+        yValueAttribute.data(data);
+        return draw;
+    };
+
+    draw.widths = data => {
+        widthValueAttribute.data(data);
+        return draw;
     };
 
     draw.xScale = (...args) => {
@@ -98,26 +127,6 @@ export default () => {
             return decorate;
         }
         decorate = args[0];
-        return draw;
-    };
-
-    draw.xValues = data => {
-        xValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.y0Values = data => {
-        yValueAttribute.data([data, yValueAttribute.data()[1]]);
-        return draw;
-    };
-
-    draw.yValues = data => {
-        yValueAttribute.data([yValueAttribute.data()[0], data]);
-        return draw;
-    };
-
-    draw.widths = data => {
-        widthValueAttribute.data(data);
         return draw;
     };
 

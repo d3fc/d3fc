@@ -128,13 +128,21 @@ export const ohlc = {
 
 export const bar = {
     header: `attribute float aXValue;
+        attribute float aY0Value;
         attribute float aYValue;
         attribute float aWidthValue;
-        attribute float aDirection;`,
-    body: `gl_Position = vec4(aXValue, aYValue, 0, 1);
-        vec4 origin = vec4(0.0, 0.0, 0.0, 0.0);
-        vec4 width = vec4(aWidthValue, 0.0, 0.0, 0.0);
-        gl_Position.x += (width.x - origin.x) / 2.0 * aDirection;`
+        attribute vec2 aCorner;
+        
+        uniform vec2 uScreen;
+        uniform float uLineWidth;`,
+    body: `
+        float isBaseline = (1.0 - aCorner.y) / 2.0;
+        float yValue = (isBaseline * aY0Value) + ((1.0 - isBaseline) * aYValue);
+
+        float xModifier = aCorner.x * (aWidthValue) / 2.0;
+
+        gl_Position = vec4(aXValue, yValue, 0, 1);
+        `
 };
 
 export const preScaleLine = {
