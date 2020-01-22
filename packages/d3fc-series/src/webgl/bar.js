@@ -19,9 +19,9 @@ export default () => {
         const widths = new Float32Array(filteredData.length);
         filteredData.forEach((d, i) => {
             xValues[i] = xScale.scale(base.crossValue()(d, i));
+            widths[i] = xScale.scale(base.bandwidth()(d, i));
             y0Values[i] = yScale.scale(base.baseValue()(d, i));
             yValues[i] = yScale.scale(base.mainValue()(d, i));
-            widths[i] = yScale.scale(base.bandwidth()(d, i));
         });
 
         draw.xValues(xValues)

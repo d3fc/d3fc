@@ -47,6 +47,5 @@ var webglBar = fc.seriesWebglBar()
     .yScale(yScale)
     .context(gl)
     .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; })
-    .bandwidth(0.5);
+    .mainValue(function(d) { return d; });
 webglBar(data);
