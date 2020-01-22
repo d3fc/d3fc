@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-webgl",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "A collection of utilities to enable drawing to WebGL canvases",
   "license": "MIT",
   "keywords": [
