@@ -22,5 +22,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "glsl-transpiler": "^1.8.5"
   }
 }
