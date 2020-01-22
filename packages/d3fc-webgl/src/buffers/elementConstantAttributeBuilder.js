@@ -6,7 +6,6 @@ export default () => {
 
     let value = (data, element, vertex, component, index) => data[element];
     let data = null;
-    let validSize = 0;
 
     const project = (elementCount, verticesPerElement) => {
         const components = base.size();
@@ -31,7 +30,7 @@ export default () => {
     };
 
     const build = (gl, program, name, verticesPerElement, count) => {
-        if (validSize >= count) {
+        if (base.validSize() >= count) {
             return;
         }
 
@@ -56,7 +55,7 @@ export default () => {
         } else {
             throw new Error(`Expected function or array, received: ${value}`);
         }
-        validSize = count;
+        base.validSize(count);
     };
 
     build.value = (...args) => {
@@ -64,7 +63,7 @@ export default () => {
             return value;
         }
         value = args[0];
-        validSize = 0;
+        base.validSize(0);
         return build;
     };
 
@@ -73,7 +72,7 @@ export default () => {
             return data;
         }
         data = args[0];
-        validSize = 0;
+        base.validSize(0);
         return build;
     };
 
