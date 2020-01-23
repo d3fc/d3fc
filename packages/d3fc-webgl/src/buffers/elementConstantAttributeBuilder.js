@@ -2,42 +2,38 @@ import baseAttributeBuilder from './baseAttributeBuilder';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 
 export default () => {
-    const base = baseAttributeBuilder();
+    const base = baseAttributeBuilder().divisor(1);
 
     let value = (data, element, vertex, component, index) => data[element];
     let data = null;
 
-    const project = (elementCount, verticesPerElement) => {
+    const project = elementCount => {
         const components = base.size();
         const offset = base.offset();
         const projectedData = new Float32Array(
-            offset + elementCount * verticesPerElement * components
+            offset + elementCount * components
         );
         let element = 0;
         for (
             let index = offset;
             index < projectedData.length;
-            index += verticesPerElement * components
+            index += components
         ) {
-            projectedData.fill(
-                value(data, element),
-                index,
-                index + verticesPerElement * components
-            );
+            projectedData.fill(value(data, element), index, index + components);
             element++;
         }
         return projectedData;
     };
 
     const build = (gl, program, name, verticesPerElement, count) => {
-        base(gl, program, name);
+        base(gl, program, name, verticesPerElement);
 
         if (base.validSize() >= count) {
             return;
         }
 
         if (typeof value === 'function') {
-            const projectedData = project(count, verticesPerElement);
+            const projectedData = project(count);
             gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
             gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
         } else if (Array.isArray(value)) {
