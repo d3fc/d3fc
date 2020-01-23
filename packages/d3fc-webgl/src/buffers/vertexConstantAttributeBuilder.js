@@ -5,15 +5,12 @@ export default () => {
     const base = baseAttributeBuilder();
 
     let data = null;
-    let validSize = 0;
 
-    const project = (elementCount, verticesPerElement) => {
+    const project = verticesPerElement => {
         const components = base.size();
         const offset = base.offset();
         const componentsPerElement = verticesPerElement * components;
-        const projectedData = new Float32Array(
-            offset + elementCount * componentsPerElement
-        );
+        const projectedData = new Float32Array(offset + componentsPerElement);
         if (data.length !== verticesPerElement) {
             throw new Error(
                 `Expected vertices array of size ${verticesPerElement}, recieved array with length ${data.length}.`
@@ -31,32 +28,22 @@ export default () => {
                 target++;
             }
         }
-        for (
-            let index = componentsPerElement;
-            index < projectedData.length;
-            index += componentsPerElement
-        ) {
-            projectedData.copyWithin(
-                offset + index,
-                offset,
-                offset + componentsPerElement
-            );
-        }
         return projectedData;
     };
 
     const build = (gl, program, name, verticesPerElement, count) => {
         base(gl, program, name);
 
-        if (validSize >= count) {
+        if (base.validSize() >= verticesPerElement) {
             return;
         }
-        const projectedData = project(count, verticesPerElement);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
+        const projectedData = project(verticesPerElement);
+
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
+        gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
 
-        validSize = count;
+        base.validSize(verticesPerElement);
     };
 
     build.data = (...args) => {
@@ -64,7 +51,7 @@ export default () => {
             return data;
         }
         data = args[0];
-        validSize = 0;
+        base.validSize(0);
         return build;
     };
 

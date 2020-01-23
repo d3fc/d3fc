@@ -8,8 +8,9 @@ export default () => {
     let stride = 0;
     let offset = 0;
     let validSize = 0;
+    let divisor = 0;
 
-    const base = (gl, program, name) => {
+    const base = (gl, program, name, verticesPerElement) => {
         if (buffer == null || !gl.isBuffer(buffer)) {
             buffer = gl.createBuffer();
             validSize = 0;
@@ -19,13 +20,17 @@ export default () => {
         const location = gl.getAttribLocation(program, name);
         gl.vertexAttribPointer(
             location,
-            base.size(),
-            base.type(),
-            base.normalized(),
-            base.stride(),
-            base.offset()
+            size,
+            type,
+            normalized,
+            stride,
+            offset
         );
         gl.enableVertexAttribArray(location);
+        if (verticesPerElement !== 1) {
+            const ext = gl.getExtension('ANGLE_instanced_arrays');
+            ext.vertexAttribDivisorANGLE(location, divisor);
+        }
     };
 
     base.validSize = (...args) => {
@@ -87,6 +92,14 @@ export default () => {
         }
         offset = args[0];
         validSize = 0;
+        return base;
+    };
+
+    base.divisor = (...args) => {
+        if (!args.length) {
+            return divisor;
+        }
+        divisor = args[0];
         return base;
     };
 

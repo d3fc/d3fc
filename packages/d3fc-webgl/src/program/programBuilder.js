@@ -26,7 +26,12 @@ export default () => {
         );
         buffers(context, program, verticesPerElement, count);
 
-        context.drawArrays(mode, 0, count * verticesPerElement);
+        if (verticesPerElement !== 1) {
+            var ext = context.getExtension('ANGLE_instanced_arrays');
+            ext.drawArraysInstancedANGLE(mode, 0, verticesPerElement, count);
+        } else {
+            context.drawArrays(mode, 0, count * verticesPerElement);
+        }
     };
 
     build.context = (...args) => {
