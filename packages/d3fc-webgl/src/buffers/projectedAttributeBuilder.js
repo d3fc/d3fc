@@ -31,13 +31,13 @@ export default () => {
     };
 
     const build = (gl, program, name, verticesPerElement, count) => {
+        base(gl, program, name);
+
         if (base.validSize() >= count) {
             return;
         }
 
         const projectedData = project(count, verticesPerElement);
-
-        base(gl, program, name);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);

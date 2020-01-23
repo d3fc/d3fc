@@ -30,11 +30,11 @@ export default () => {
     };
 
     const build = (gl, program, name, verticesPerElement, count) => {
+        base(gl, program, name);
+
         if (base.validSize() >= count) {
             return;
         }
-
-        base(gl, program, name);
 
         if (typeof value === 'function') {
             const projectedData = project(count, verticesPerElement);
