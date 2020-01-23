@@ -200,7 +200,7 @@ export const errorBar = {
         
         gl_Position = vec4(aXValue, yValue, 0, 1);
         
-        float xModifier = ((uLineWidth * lineWidthXDirection) + (aBandwidth * aCorner.x / 2.0));
+        float xModifier = (uLineWidth * lineWidthXDirection) + (aBandwidth * aCorner.x / 2.0);
         float yModifier = (uLineWidth * lineWidthYDirection);
     `
 };

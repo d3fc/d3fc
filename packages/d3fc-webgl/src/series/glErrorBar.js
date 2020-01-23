@@ -11,7 +11,7 @@ export default () => {
     const program = programBuilder().verticesPerElement(18);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
-    const decorate = () => {};
+    let decorate = () => {};
     const lineWidth = lineWidthShader();
 
     const xValueAttribute = elementConstantAttributeBuilder();
@@ -117,6 +117,14 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
+        return draw;
+    };
+
+    draw.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return draw;
     };
 
