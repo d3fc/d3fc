@@ -80,7 +80,10 @@
       ]
     },
     {
-      "files": ["./packages/d3fc-webgl/examples/**/*.js"],
+      "files": [
+        "./examples/**/*.js",
+        "./packages/d3fc-webgl/examples/**/*.js"
+      ],
       "parserOptions": {
         "sourceType": "script"
       },
@@ -94,11 +97,34 @@
       "extends": [
         "semistandard",
         "plugin:prettier/recommended",
-        "prettier/standard"    
+        "prettier/standard"
       ]
     },
     {
-      "files": ["./packages/d3fc-webgl/test/**/*.js"],
+      "files": [
+        "./examples/__helpers__/*.js",
+        "./examples/**/__tests__/*.js"
+      ],
+      "env": {
+        "jest": true
+      },
+      "globals": {
+        "d3fc": true,
+        "page": true,
+        "browser": true,
+        "context": true,
+        "jestPuppeteer": true
+      },
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"
+      ]
+    },
+    {
+      "files": [
+        "./packages/d3fc-webgl/test/**/*.js"
+      ],
       "env": {
         "browser": true,
         "jasmine": true,
@@ -107,7 +133,7 @@
       "extends": [
         "semistandard",
         "plugin:prettier/recommended",
-        "prettier/standard"    
+        "prettier/standard"
       ]
     }
   ]

@@ -1,3 +1,5 @@
 node_modules
 *.log
 build
+examples/*/__tests__/__snapshots__
+examples/*/__tests__/__image_snapshots__
