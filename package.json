@@ -13,7 +13,8 @@
     "lint": "npm run eslint && npm run markdownlint",
     "screenshots": "lerna run screenshots --stream --concurrency 1",
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
-    "commitlint": "commitlint --from HEAD~1 to HEAD --verbose"
+    "commitlint": "commitlint --from HEAD~1 to HEAD --verbose",
+    "examples": "cd examples && npx jest"
   },
   "husky": {
     "hooks": {
@@ -68,18 +69,22 @@
     "glob": "^7.1.0",
     "husky": "^3.0.5",
     "jasmine": "^2.4.1",
+    "jest": "^24.9.0",
+    "jest-image-snapshot": "^2.12.0",
+    "jest-puppeteer": "^4.4.0",
     "jsdom": "^9.4.1",
     "lerna": "^3.16.4",
     "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
     "mkdirp": "^0.5.1",
     "prettier": "^1.19.1",
-    "puppeteer": "^1.19.0",
+    "puppeteer": "^1.20.0",
     "read-babelrc-up": "^0.4.0",
     "rollup": "^1.20.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "seedrandom": "^3.0.5",
     "serve-static": "^1.11.1"
   },
   "config": {
