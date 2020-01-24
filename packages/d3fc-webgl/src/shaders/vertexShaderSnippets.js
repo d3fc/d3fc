@@ -247,12 +247,45 @@ export const area = {
 };
 
 export const boxPlot = {
-    header: `attribute float aXValue;
-        attribute float aYValue;
-        attribute float aXDirection;
-        attribute float aYDirection;
+    header: `
+        attribute float aXValue;
+        attribute float aHigh;
+        attribute float aUpperQuartile;
+        attribute float aMedian;
+        attribute float aLowerQuartile;
+        attribute float aLow;
         attribute float aBandwidth;
+        attribute float aCapWidth;
+        attribute vec4 aCorner;
         uniform vec2 uScreen;
         uniform float uLineWidth;`,
-    body: `gl_Position = vec4(aXValue, aYValue, 0, 1);`
+    body: `   
+        float isExtremeY = sign(abs(aCorner.y) - 2.0) + 1.0;
+        float isNotExtremeY = 1.0 - isExtremeY;
+
+        float isNonZeroY = abs(sign(aCorner.y));
+        float isZeroY = 1.0 - isNonZeroY;
+
+        float isQuartileY = isNotExtremeY * isNonZeroY;
+
+        float isPositiveY = (sign(aCorner.y + 0.5) + 1.0) / 2.0;
+        float isNegativeY = 1.0 - isPositiveY;
+
+        float yValue =
+          (isExtremeY * isNegativeY) * aHigh +
+          (isQuartileY * isNegativeY) * aUpperQuartile +
+          isZeroY * aMedian +
+          (isQuartileY * isPositiveY) * aLowerQuartile +
+          (isExtremeY * isPositiveY) * aLow;
+
+        gl_Position = vec4(aXValue, yValue, 0, 1);
+
+        float isHorizontal = aCorner.w;
+        float isVertical = 1.0 - isHorizontal;
+
+        float xDisplacement = aCorner.x * (isExtremeY * aCapWidth + isNotExtremeY * aBandwidth) / 2.0;
+        
+        float xModifier = (isVertical * uLineWidth * aCorner.z / 2.0) + xDisplacement;
+        float yModifier = isHorizontal * uLineWidth * aCorner.z / 2.0;
+        `
 };
