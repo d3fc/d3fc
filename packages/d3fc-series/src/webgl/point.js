@@ -1,5 +1,6 @@
 import d3Shape from 'd3-shape';
 import xyBase from '../xyBase';
+import isIdentityScale from '../isIdentityScale';
 import { glPoint, scaleMapper, symbolMapper } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
@@ -10,6 +11,9 @@ export default () => {
 
     const draw = glPoint();
 
+    let equals = (previousData, data) => false;
+    let previousData = [];
+
     const point = (data) => {
         const filteredData = data.filter(base.defined());
 
@@ -17,22 +21,27 @@ export default () => {
         const yScale = scaleMapper(base.yScale());
         const symbolType = symbolMapper(type);
 
-        const accessor = getAccessors();
+        if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
+            previousData = data;
 
-        const xValues = new Float32Array(filteredData.length);
-        const yValues = new Float32Array(filteredData.length);
-        const sizes = new Float32Array(filteredData.length);
-        filteredData.forEach((d, i) => {
-            const sizeFn = typeof size === 'function' ? size : () => size;
-            xValues[i] = xScale.scale(accessor.x(d, i));
-            yValues[i] = yScale.scale(accessor.y(d, i));
-            sizes[i] = sizeFn(d);
-        });
+            const accessor = getAccessors();
 
-        draw.xValues(xValues)
-            .yValues(yValues)
-            .sizes(sizes)
-            .xScale(xScale.glScale)
+            const xValues = new Float32Array(filteredData.length);
+            const yValues = new Float32Array(filteredData.length);
+            const sizes = new Float32Array(filteredData.length);
+            filteredData.forEach((d, i) => {
+                const sizeFn = typeof size === 'function' ? size : () => size;
+                xValues[i] = xScale.scale(accessor.x(d, i));
+                yValues[i] = yScale.scale(accessor.y(d, i));
+                sizes[i] = sizeFn(d);
+            });
+
+            draw.xValues(xValues)
+                .yValues(yValues)
+                .sizes(sizes);
+        }
+
+        draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .type(symbolType)
             .decorate((program) => base.decorate()(program, filteredData, 0));
@@ -67,6 +76,14 @@ export default () => {
             return type;
         }
         type = args[0];
+        return point;
+    };
+
+    point.equals = (...args) => {
+        if (!args.length) {
+            return equals;
+        }
+        equals = args[0];
         return point;
     };
 
