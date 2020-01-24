@@ -1,4 +1,5 @@
 import xyBase from '../xyBase';
+import isIdentityScale from '../isIdentityScale';
 import { glLine, scaleMapper } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
@@ -7,26 +8,34 @@ export default () => {
 
     const draw = glLine();
 
+    let equals = (previousData, data) => false;
+    let previousData = [];
+
     const line = (data) => {
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
-        const accessor = getAccessors();
+        if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
+            previousData = data;
 
-        const x = new Float32Array(data.length);
-        const y = new Float32Array(data.length);
-        const defined = new Float32Array(data.length);
+            const accessor = getAccessors();
 
-        data.forEach((d, i) => {
-            x[i] = xScale.scale(accessor.x(d, i));
-            y[i] = yScale.scale(accessor.y(d, i));
-            defined[i] = accessor.defined(d, i);
-        });
+            const x = new Float32Array(data.length);
+            const y = new Float32Array(data.length);
+            const defined = new Float32Array(data.length);
 
-        draw.xValues(x)
-            .yValues(y)
-            .defined(defined)
-            .xScale(xScale.glScale)
+            data.forEach((d, i) => {
+                x[i] = xScale.scale(accessor.x(d, i));
+                y[i] = yScale.scale(accessor.y(d, i));
+                defined[i] = accessor.defined(d, i);
+            });
+
+            draw.xValues(x)
+                .yValues(y)
+                .defined(defined);
+        }
+
+        draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => {
                 base.decorate()(program, data, 0);
@@ -50,6 +59,14 @@ export default () => {
             };
         }
     }
+
+    line.equals = (...args) => {
+        if (!args.length) {
+            return equals;
+        }
+        equals = args[0];
+        return line;
+    };
 
     rebindAll(line, base, exclude('baseValue', 'bandwidth', 'align'));
     rebind(line, draw, 'context', 'lineWidth');
