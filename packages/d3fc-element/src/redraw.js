@@ -6,7 +6,7 @@ const find = (element) => element.tagName === 'D3FC-GROUP'
 
 const measure = (element) => {
     const { width: previousWidth, height: previousHeight } = data.get(element);
-    const pixelRatio = (element.useDevicePixelRatio && global.devicePixelRatio != null) ? global.devicePixelRatio : 1;
+    const pixelRatio = (element.useDevicePixelRatio && window.devicePixelRatio != null) ? window.devicePixelRatio : 1;
     const width = element.clientWidth * pixelRatio;
     const height = element.clientHeight * pixelRatio;
     const resized = width !== previousWidth || height !== previousHeight;
