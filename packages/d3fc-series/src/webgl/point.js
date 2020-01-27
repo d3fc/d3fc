@@ -13,16 +13,15 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
+    let filteredData = [];
 
     const point = (data) => {
-        const filteredData = data.filter(base.defined());
-
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
-        const symbolType = symbolMapper(type);
 
         if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
             previousData = data;
+            filteredData = data.filter(base.defined());
 
             const accessor = getAccessors();
 
@@ -43,7 +42,7 @@ export default () => {
 
         draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .type(symbolType)
+            .type(symbolMapper(type))
             .decorate((program) => base.decorate()(program, filteredData, 0));
 
         draw(filteredData.length);
