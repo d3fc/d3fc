@@ -46,219 +46,100 @@ export default () => {
     const program = programBuilder().verticesPerElement(verticesPerElement);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
-    const decorate = () => {};
+    let decorate = () => {};
     const lineWidth = lineWidthShader();
 
     const xValueAttribute = elementConstantAttributeBuilder();
-    const yValueAttribute = projectedAttributeBuilder()
-        .data({
-            median: null,
-            upperQuartile: null,
-            lowerQuartile: null,
-            high: null,
-            low: null
-        })
-        .value((data, element, vertex) => {
-            if ([18, 19, 20, 21, 22, 23].includes(vertex)) {
-                return data.median[element];
-            }
-            if (
-                [
-                    8,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17,
-                    30,
-                    31,
-                    33,
-                    36,
-                    37,
-                    39
-                ].includes(vertex)
-            ) {
-                return data.upperQuartile[element];
-            }
-            if (
-                [
-                    24,
-                    25,
-                    26,
-                    27,
-                    28,
-                    29,
-                    32,
-                    34,
-                    35,
-                    38,
-                    40,
-                    41,
-                    42,
-                    43,
-                    45
-                ].includes(vertex)
-            ) {
-                return data.lowerQuartile[element];
-            }
-            if ([0, 1, 2, 3, 4, 5, 6, 7, 9].includes(vertex)) {
-                return data.high[element];
-            }
-            if ([44, 46, 47, 48, 49, 50, 51, 52, 53].includes(vertex)) {
-                return data.low[element];
-            }
-            return 0;
-        });
-    const xDirectionAttribute = projectedAttributeBuilder()
+
+    const highAttribute = elementConstantAttributeBuilder();
+
+    const upperQuartileAttribute = elementConstantAttributeBuilder();
+
+    const medianAttribute = elementConstantAttributeBuilder();
+
+    const lowerQuartileAttribute = elementConstantAttributeBuilder();
+
+    const lowAttribute = elementConstantAttributeBuilder();
+
+    const bandwidthAttribute = elementConstantAttributeBuilder();
+
+    const capWidthAttribute = elementConstantAttributeBuilder();
+
+    /*
+     * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
+     * X: -1: LEFT, 0: MIDDLE, 1: RIGHT
+     * Y: -2: HIGH, -1: UPPER QUARTILE, 0: MEDIAN, 1: LOWER QUARTILE, 2: LOW
+     * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
+     * W: Indicator to determine line orientation (needed because some corners are part of two lines). - 0: VERTICAL, 1: HORIZONTAL
+     */
+    const cornerAttribute = projectedAttributeBuilder()
+        .size(4)
         .data([
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            -1,
-            1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            -1,
-            1,
-            -1,
-            1,
-            1,
-            -1,
-            -1,
-            1,
-            -1,
-            1,
-            1,
-            -1,
-            -1,
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            // Top cap line
+            [-1, -2, -1, 1],
+            [1, -2, -1, 1],
+            [1, -2, 1, 1],
+            [-1, -2, -1, 1],
+            [1, -2, 1, 1],
+            [-1, -2, 1, 1],
+            // Top whisker line
+            [0, -2, -1, 0],
+            [0, -2, 1, 0],
+            [0, -1, 1, 0],
+            [0, -2, -1, 0],
+            [0, -1, 1, 0],
+            [0, -1, -1, 0],
+            // Upper quartile line
+            [-1, -1, -1, 1],
+            [1, -1, -1, 1],
+            [1, -1, 1, 1],
+            [-1, -1, -1, 1],
+            [1, -1, 1, 1],
+            [-1, -1, 1, 1],
+            // Median line
+            [-1, 0, -1, 1],
+            [1, 0, -1, 1],
+            [1, 0, 1, 1],
+            [-1, 0, -1, 1],
+            [1, 0, 1, 1],
+            [-1, 0, 1, 1],
+            // Lower quartile line
+            [-1, 1, -1, 1],
+            [1, 1, -1, 1],
+            [1, 1, 1, 1],
+            [-1, 1, -1, 1],
+            [1, 1, 1, 1],
+            [-1, 1, 1, 1],
+            // Left box vertical line
+            [-1, -1, -1, 0],
+            [-1, -1, 1, 0],
+            [-1, 1, 1, 0],
+            [-1, -1, -1, 0],
+            [-1, 1, 1, 0],
+            [-1, 1, -1, 0],
+            // Right box vertical line
+            [1, -1, -1, 0],
+            [1, -1, 1, 0],
+            [1, 1, 1, 0],
+            [1, -1, -1, 0],
+            [1, 1, 1, 0],
+            [1, 1, -1, 0],
+            // Bottom whisker line
+            [0, 2, -1, 0],
+            [0, 2, 1, 0],
+            [0, 1, 1, 0],
+            [0, 2, -1, 0],
+            [0, 1, 1, 0],
+            [0, 1, -1, 0],
+            // Bottom cap line
+            [-1, 2, -1, 1],
+            [1, 2, -1, 1],
+            [1, 2, 1, 1],
+            [-1, 2, -1, 1],
+            [1, 2, 1, 1],
+            [-1, 2, 1, 1]
         ])
-        .value((data, element, vertex) => data[vertex]);
-    const yDirectionAttribute = projectedAttributeBuilder()
-        .data([
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            -1,
-            -1,
-            1,
-            -1,
-            1,
-            1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1,
-            -1,
-            -1,
-            1,
-            -1,
-            1,
-            1,
-            1,
-            1,
-            -1,
-            1,
-            -1,
-            -1
-        ])
-        .value((data, element, vertex) => data[vertex]);
-    const bandwidthAttribute = projectedAttributeBuilder()
-        .data({ bandwidth: null, capWidth: null })
-        .value((data, element, vertex) => {
-            if (vertex <= 5 || vertex >= 48) {
-                const value = data.capWidth[element];
-                return [0, 3, 4, 48, 51, 52].includes(vertex) ? -value : value;
-            }
-            if (vertex > 11 && vertex < 42) {
-                const value = data.bandwidth[element];
-                return [
-                    12,
-                    15,
-                    16,
-                    18,
-                    21,
-                    22,
-                    24,
-                    27,
-                    28,
-                    30,
-                    31,
-                    32,
-                    33,
-                    34,
-                    35
-                ].includes(vertex)
-                    ? -value
-                    : value;
-            }
-            return 0;
-        });
+        .value((data, element, vertex, component) => data[vertex][component]);
 
     const draw = numElements => {
         const shader = boxPlotShader();
@@ -270,10 +151,14 @@ export default () => {
         program
             .buffers()
             .attribute('aXValue', xValueAttribute)
-            .attribute('aYValue', yValueAttribute)
-            .attribute('aXDirection', xDirectionAttribute)
-            .attribute('aYDirection', yDirectionAttribute)
-            .attribute('aBandwidth', bandwidthAttribute);
+            .attribute('aHigh', highAttribute)
+            .attribute('aUpperQuartile', upperQuartileAttribute)
+            .attribute('aMedian', medianAttribute)
+            .attribute('aLowerQuartile', lowerQuartileAttribute)
+            .attribute('aLow', lowAttribute)
+            .attribute('aBandwidth', bandwidthAttribute)
+            .attribute('aCapWidth', capWidthAttribute)
+            .attribute('aCorner', cornerAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -283,9 +168,9 @@ export default () => {
         lineWidth(program);
 
         program.vertexShader().appendBody(`
-                gl_Position.x += ((uLineWidth * aXDirection) + aBandwidth) / uScreen.x;
-                gl_Position.y += (uLineWidth * aYDirection) / uScreen.y;
-            `);
+            gl_Position.x += xModifier / uScreen.x * 2.0;
+            gl_Position.y += yModifier / uScreen.y * 2.0;
+        `);
 
         decorate(program);
 
@@ -297,45 +182,38 @@ export default () => {
         return draw;
     };
 
-    draw.medianValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, median: data });
+    draw.highValues = data => {
+        highAttribute.data(data);
         return draw;
     };
 
     draw.upperQuartileValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, upperQuartile: data });
+        upperQuartileAttribute.data(data);
+        return draw;
+    };
+
+    draw.medianValues = data => {
+        medianAttribute.data(data);
         return draw;
     };
 
     draw.lowerQuartileValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, lowerQuartile: data });
-        return draw;
-    };
-
-    draw.highValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, high: data });
+        lowerQuartileAttribute.data(data);
         return draw;
     };
 
     draw.lowValues = data => {
-        const existing = yValueAttribute.data();
-        yValueAttribute.data({ ...existing, low: data });
+        lowAttribute.data(data);
         return draw;
     };
 
     draw.bandwidth = data => {
-        const existing = bandwidthAttribute.data();
-        bandwidthAttribute.data({ ...existing, bandwidth: data });
+        bandwidthAttribute.data(data);
         return draw;
     };
 
     draw.capWidth = data => {
-        const existing = bandwidthAttribute.data();
-        bandwidthAttribute.data({ ...existing, capWidth: data });
+        capWidthAttribute.data(data);
         return draw;
     };
 
@@ -352,6 +230,14 @@ export default () => {
             return yScale;
         }
         yScale = args[0];
+        return draw;
+    };
+
+    draw.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return draw;
     };
 
