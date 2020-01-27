@@ -61,7 +61,7 @@ export default () => {
 
     const lowAttribute = elementConstantAttributeBuilder();
 
-    const bandwidthNewAttribute = elementConstantAttributeBuilder();
+    const bandwidthAttribute = elementConstantAttributeBuilder();
 
     const capWidthAttribute = elementConstantAttributeBuilder();
 
@@ -156,7 +156,7 @@ export default () => {
             .attribute('aMedian', medianAttribute)
             .attribute('aLowerQuartile', lowerQuartileAttribute)
             .attribute('aLow', lowAttribute)
-            .attribute('aBandwidth', bandwidthNewAttribute)
+            .attribute('aBandwidth', bandwidthAttribute)
             .attribute('aCapWidth', capWidthAttribute)
             .attribute('aCorner', cornerAttribute);
 
@@ -208,7 +208,7 @@ export default () => {
     };
 
     draw.bandwidth = data => {
-        bandwidthNewAttribute.data(data);
+        bandwidthAttribute.data(data);
         return draw;
     };
 
