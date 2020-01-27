@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.3.4...@d3fc/d3fc-webgl@1.3.5) (2020-01-27)
+
+
+### Bug Fixes
+
+* typo in boxplot code ([a0e8152](https://github.com/d3fc/d3fc/commit/a0e8152))
+
+
+
+
+
 ## [1.3.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.3.3...@d3fc/d3fc-webgl@1.3.4) (2020-01-27)
 
 **Note:** Version bump only for package @d3fc/d3fc-webgl
