@@ -10,15 +10,15 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
+    let filteredData = [];
 
     const bar = (data) => {
-        const filteredData = data.filter(base.defined());
-
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
         if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
             previousData = data;
+            filteredData = data.filter(base.defined());
 
             const xValues = new Float32Array(filteredData.length);
             const y0Values = new Float32Array(filteredData.length);
