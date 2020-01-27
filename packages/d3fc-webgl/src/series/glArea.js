@@ -1,10 +1,10 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
+import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -23,7 +23,7 @@ export default () => {
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
     const y0PreviousValueAttribute = elementConstantAttributeBuilder();
-    const cornerAttribute = projectedAttributeBuilder()
+    const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
             [0, 0, 0],
@@ -32,9 +32,8 @@ export default () => {
             [0, 0, 1],
             [1, 0, 0],
             [1, 1, 0]
-        ])
-        .value((data, element, vertex, component) => data[vertex][component]);
-    const definedAttribute = projectedAttributeBuilder().value(
+        ]);
+    const definedAttribute = elementConstantAttributeBuilder().value(
         (data, element, vertex, component) => {
             const value = data[element];
             const nextValue =

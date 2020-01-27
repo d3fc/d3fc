@@ -1,10 +1,10 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import drawModes from '../program/drawModes';
 import programBuilder from '../program/programBuilder';
 import barShader from '../shaders/bar/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 import glScaleBase from '../scale/glScaleBase';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 
 //     βL            β            βR
 //     .-------------.------------.
@@ -45,7 +45,7 @@ export default () => {
 
     const widthValueAttribute = elementConstantAttributeBuilder();
 
-    const cornerAttribute = projectedAttributeBuilder()
+    const cornerAttribute = vertexConstantAttributeBuilder()
         .size(2)
         .data([
             [-1, -1],
@@ -54,8 +54,7 @@ export default () => {
             [-1, -1],
             [1, 1],
             [1, -1]
-        ])
-        .value((data, element, vertex, component) => data[vertex][component]);
+        ]);
 
     const draw = numElements => {
         const shader = barShader();

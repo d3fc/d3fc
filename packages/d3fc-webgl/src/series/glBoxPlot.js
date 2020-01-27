@@ -1,4 +1,3 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import boxPlotShader from '../shaders/boxPlot/shader';
@@ -6,6 +5,7 @@ import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 
 //           αL1     α     αR1
 //            .------.------.
@@ -72,7 +72,7 @@ export default () => {
      * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
      * W: Indicator to determine line orientation (needed because some corners are part of two lines). - 0: VERTICAL, 1: HORIZONTAL
      */
-    const cornerAttribute = projectedAttributeBuilder()
+    const cornerAttribute = vertexConstantAttributeBuilder()
         .size(4)
         .data([
             // Top cap line
@@ -138,8 +138,7 @@ export default () => {
             [-1, 2, -1, 1],
             [1, 2, 1, 1],
             [-1, 2, 1, 1]
-        ])
-        .value((data, element, vertex, component) => data[vertex][component]);
+        ]);
 
     const draw = numElements => {
         const shader = boxPlotShader();

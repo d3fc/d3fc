@@ -1,4 +1,3 @@
-import projectedAttributeBuilder from '../buffers/projectedAttributeBuilder';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import errorBarShader from '../shaders/errorBar/shader';
@@ -6,6 +5,7 @@ import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 
 export default () => {
     const program = programBuilder().verticesPerElement(18);
@@ -28,7 +28,7 @@ export default () => {
      * Y: -1: HIGH, 1: LOW
      * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
      */
-    const cornerAttribute = projectedAttributeBuilder()
+    const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
             [0, 1, 1],
@@ -49,8 +49,7 @@ export default () => {
             [-1, 1, -1],
             [1, 1, -1],
             [1, 1, 1]
-        ])
-        .value((data, element, vertex, component) => data[vertex][component]);
+        ]);
 
     const draw = numElements => {
         const shader = errorBarShader();
