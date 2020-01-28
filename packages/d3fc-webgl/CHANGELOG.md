@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.4.0...@d3fc/d3fc-webgl@1.4.1) (2020-01-28)
+
+
+### Bug Fixes
+
+* added decorate function to errorbar ([887e34a](https://github.com/d3fc/d3fc/commit/887e34a))
+
+
+
+
+
 # [1.4.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.3.5...@d3fc/d3fc-webgl@1.4.0) (2020-01-27)
 
 
