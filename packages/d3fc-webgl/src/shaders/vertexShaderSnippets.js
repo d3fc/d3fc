@@ -95,6 +95,18 @@ export const candlestick = {
 
 export const ohlc = {
     header: `
+      float and(float a, float b) {
+          return a * b;
+      }
+      
+      float takeIf(float a, float b) {
+          return and(a,b);
+      }
+
+      float not(float a) {
+          return 1.0 - a;
+      }
+
       attribute float aXValue;
       attribute float aHigh;
       attribute float aOpen;
@@ -110,18 +122,22 @@ export const ohlc = {
       vColorIndicator = sign(aClose - aOpen);
 
       float isPositiveY = (sign(aCorner.y) + 1.0) / 2.0;
-      float isNotPositiveY = 1.0 - isPositiveY;
+      float isNotPositiveY = not(isPositiveY);
       float isExtremeY = abs(aCorner.y) - 1.0;
-      float isNotExtremeY = 1.0 - isExtremeY;
-      float yValue = (isPositiveY * isExtremeY * aLow) + (isPositiveY * isNotExtremeY * aClose) + (isNotPositiveY * isNotExtremeY * aOpen) + (isNotPositiveY * isExtremeY * aHigh);
+      float isNotExtremeY = not(isExtremeY);
+      float yValue =
+        takeIf(and(isPositiveY, isExtremeY), aLow) + 
+        takeIf(and(isPositiveY, isNotExtremeY), aClose) + 
+        takeIf(and(isNotPositiveY, isNotExtremeY), aOpen) + 
+        takeIf(and(isNotPositiveY, isExtremeY), aHigh);
 
-      float xDirection = isExtremeY * aCorner.z;
-      float yDirection = isNotExtremeY * aCorner.z;
+      float xDirection = takeIf(isExtremeY, aCorner.z);
+      float yDirection = takeIf(isNotExtremeY, aCorner.z);
 
-      float bandwidthModifier = isNotExtremeY * aCorner.x * aBandwidth / 2.0;
+      float bandwidthModifier = takeIf(and(isNotExtremeY, aCorner.x), aBandwidth / 2.0);
 
-      float xModifier = (uLineWidth * xDirection / 2.0) + bandwidthModifier;
-      float yModifier = uLineWidth * yDirection / 2.0;
+      float xModifier = (xDirection * uLineWidth / 2.0) + bandwidthModifier;
+      float yModifier = (yDirection * uLineWidth / 2.0);
 
       gl_Position = vec4(aXValue, yValue, 0, 1);`
 };
@@ -183,7 +199,20 @@ export const postScaleLine = {
 };
 
 export const errorBar = {
-    header: `attribute float aXValue;
+    header: `
+        float takeIf(float a, float b) {
+            return a * b;
+        }
+
+        float not(float a) {
+            return 1.0 - a;
+        }
+
+        float takeOr(float condition, float trueValue, float falseValue) {
+            return takeIf(condition, trueValue) + takeIf(not(condition), falseValue);
+        }
+
+        attribute float aXValue;
         attribute float aHighValue;
         attribute float aLowValue;
         attribute float aBandwidth;
@@ -192,7 +221,7 @@ export const errorBar = {
         uniform float uLineWidth;`,
     body: `
         float isLow = (aCorner.y + 1.0) / 2.0;
-        float yValue = isLow * aLowValue + (1.0 - isLow) * aHighValue;
+        float yValue = takeOr(isLow, aLowValue, aHighValue);
 
         float isEdgeCorner = abs(aCorner.x);
         float lineWidthXDirection = (1.0 - isEdgeCorner) * aCorner.z;
