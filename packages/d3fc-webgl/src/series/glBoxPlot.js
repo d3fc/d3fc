@@ -199,14 +199,14 @@ export default () => {
         program
             .buffers()
             .elementIndices(elementIndices)
-            .attribute('aXValue', xValueAttribute)
-            .attribute('aHigh', highAttribute)
-            .attribute('aUpperQuartile', upperQuartileAttribute)
-            .attribute('aMedian', medianAttribute)
-            .attribute('aLowerQuartile', lowerQuartileAttribute)
-            .attribute('aLow', lowAttribute)
+            .attribute('aCrossValue', xValueAttribute)
+            .attribute('aHighValue', highAttribute)
+            .attribute('aUpperQuartileValue', upperQuartileAttribute)
+            .attribute('aMedianValue', medianAttribute)
+            .attribute('aLowerQuartileValue', lowerQuartileAttribute)
+            .attribute('aLowValue', lowAttribute)
             .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aCapWidth', capWidthAttribute)
+            .attribute('aCap', capWidthAttribute)
             .attribute('aCorner', cornerAttribute);
 
         xScale.coordinate(0);

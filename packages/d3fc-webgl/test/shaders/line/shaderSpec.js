@@ -11,7 +11,7 @@ describe('glLine', () => {
 
     const uniforms = {
         uScreen: [500, 250],
-        uLineWidth: 2,
+        uStrokeWidth: 2,
         linear0Offset: [0, 0, 0, 0],
         linear0Scale: [1, 1, 1, 1],
         linear1Offset: [0, 0, 0, 0],
@@ -21,14 +21,14 @@ describe('glLine', () => {
     it('correctly positions the first point in a series', () => {
         const attributes = {
             aCorner: [-1, 0, 0],
-            aXValue: 1,
-            aYValue: 5,
-            aNextXValue: 2,
-            aNextYValue: 4,
-            aPrevXValue: 0,
-            aPrevYValue: 4,
-            aPrevPrevXValue: 0,
-            aPrevPrevYValue: 4,
+            aCrossValue: 1,
+            aMainValue: 5,
+            aCrossNextValue: 2,
+            aMainNextValue: 4,
+            aCrossPrevValue: 0,
+            aMainPrevValue: 4,
+            aCrossPrevPrevValue: 0,
+            aMainPrevPrevValue: 4,
             aDefined: 1
         };
 
@@ -42,14 +42,14 @@ describe('glLine', () => {
     it('correctly positions a point in the middle of a series', () => {
         const attributes = {
             aCorner: [-1, 0, 0],
-            aXValue: 2,
-            aYValue: 4,
-            aNextXValue: 3,
-            aNextYValue: 5,
-            aPrevXValue: 1,
-            aPrevYValue: 5,
-            aPrevPrevXValue: 0,
-            aPrevPrevYValue: 4,
+            aCrossValue: 2,
+            aMainValue: 4,
+            aCrossNextValue: 3,
+            aMainNextValue: 5,
+            aCrossPrevValue: 1,
+            aMainPrevValue: 5,
+            aCrossPrevPrevValue: 0,
+            aMainPrevPrevValue: 4,
             aDefined: 1
         };
 
@@ -63,14 +63,14 @@ describe('glLine', () => {
     it('correctly positions the last point in a series', () => {
         const attributes = {
             aCorner: [-1, 0, 0],
-            aXValue: 8,
-            aYValue: 5,
-            aNextXValue: 8,
-            aNextYValue: 5,
-            aPrevXValue: 7,
-            aPrevYValue: 4,
-            aPrevPrevXValue: 6,
-            aPrevPrevYValue: 5,
+            aCrossValue: 8,
+            aMainValue: 5,
+            aCrossNextValue: 8,
+            aMainNextValue: 5,
+            aCrossPrevValue: 7,
+            aMainPrevValue: 4,
+            aCrossPrevPrevValue: 6,
+            aMainPrevPrevValue: 5,
             aDefined: 1
         };
 

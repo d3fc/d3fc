@@ -5,7 +5,7 @@ it('test', () => {
     const shaders = getShaders(fc.glErrorBar());
 
     const attributes = {
-        aXValue: 0,
+        aCrossValue: 0,
         aHighValue: 20,
         aLowValue: 10,
         aBandwidth: 5,
@@ -14,7 +14,7 @@ it('test', () => {
 
     const uniforms = {
         uScreen: [2, 2],
-        uLineWidth: 1
+        uStrokeWidth: 1
     };
 
     expectVertexShader(

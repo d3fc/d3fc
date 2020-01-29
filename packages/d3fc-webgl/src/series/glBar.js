@@ -68,10 +68,10 @@ export default () => {
             .buffers()
             .elementIndices(elementIndices)
             .attribute('aCorner', cornerAttribute)
-            .attribute('aXValue', xValueAttribute)
-            .attribute('aYValue', yValueAttribute)
-            .attribute('aY0Value', y0ValueAttribute)
-            .attribute('aWidthValue', widthValueAttribute);
+            .attribute('aCrossValue', xValueAttribute)
+            .attribute('aMainValue', yValueAttribute)
+            .attribute('aBaseValue', y0ValueAttribute)
+            .attribute('aBandwidth', widthValueAttribute);
 
         xScale.coordinate(0);
         xScale(program);

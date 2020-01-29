@@ -83,7 +83,7 @@ export default () => {
         program
             .buffers()
             .elementIndices(elementIndices)
-            .attribute('aXValue', xValueAttribute)
+            .attribute('aCrossValue', xValueAttribute)
             .attribute('aHighValue', highValueAttribute)
             .attribute('aLowValue', lowValueAttribute)
             .attribute('aBandwidth', bandwidthAttribute)
