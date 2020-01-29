@@ -65,14 +65,14 @@ export default () => {
 
     program
         .buffers()
-        .attribute('aXValue', xValueAttribute)
-        .attribute('aNextXValue', xNextValueAttribute)
-        .attribute('aPrevXValue', xPreviousValueAttribute)
-        .attribute('aPrevPrevXValue', xPreviousPreviousValueAttribute)
-        .attribute('aYValue', yValueAttribute)
-        .attribute('aNextYValue', yNextValueAttribute)
-        .attribute('aPrevYValue', yPreviousValueAttribute)
-        .attribute('aPrevPrevYValue', yPreviousPreviousValueAttribute)
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aCrossNextValue', xNextValueAttribute)
+        .attribute('aCrossPrevValue', xPreviousValueAttribute)
+        .attribute('aCrossPrevPrevValue', xPreviousPreviousValueAttribute)
+        .attribute('aMainValue', yValueAttribute)
+        .attribute('aMainNextValue', yNextValueAttribute)
+        .attribute('aMainPrevValue', yPreviousValueAttribute)
+        .attribute('aMainPrevPrevValue', yPreviousPreviousValueAttribute)
         .attribute('aCorner', cornerAttribute)
         .attribute('aDefined', definedAttribute);
 

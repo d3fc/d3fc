@@ -19,8 +19,8 @@ export default () => {
 
     program
         .buffers()
-        .attribute('aXValue', xValueAttribute)
-        .attribute('aYValue', yValueAttribute)
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aMainValue', yValueAttribute)
         .attribute('aSize', sizeAttribute);
 
     const draw = numElements => {

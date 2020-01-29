@@ -75,11 +75,11 @@ export default () => {
         program
             .buffers()
             .elementIndices(elementIndices)
-            .attribute('aXValue', xValueAttribute)
-            .attribute('aHigh', highAttribute)
-            .attribute('aOpen', openAttribute)
-            .attribute('aClose', closeAttribute)
-            .attribute('aLow', lowAttribute)
+            .attribute('aCrossValue', xValueAttribute)
+            .attribute('aHighValue', highAttribute)
+            .attribute('aOpenValue', openAttribute)
+            .attribute('aCloseValue', closeAttribute)
+            .attribute('aLowValue', lowAttribute)
             .attribute('aBandwidth', bandwidthAttribute)
             .attribute('aCorner', cornerAttribute);
 
