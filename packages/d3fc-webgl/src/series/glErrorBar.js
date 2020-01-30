@@ -6,9 +6,10 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 
 export default () => {
-    const program = programBuilder().verticesPerElement(18);
+    const program = programBuilder().verticesPerElement(12);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
@@ -31,25 +32,46 @@ export default () => {
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
+            // Main stem
             [0, 1, 1],
             [0, 1, -1],
             [0, -1, -1],
-            [0, 1, 1],
             [0, -1, 1],
-            [0, -1, -1],
+            // Top cap
             [1, -1, 1],
             [1, -1, -1],
             [-1, -1, -1],
-            [1, -1, 1],
             [-1, -1, 1],
-            [-1, -1, -1],
+            // Bottom cap
             [-1, 1, -1],
             [-1, 1, 1],
             [1, 1, 1],
-            [-1, 1, -1],
-            [1, 1, -1],
-            [1, 1, 1]
+            [1, 1, -1]
         ]);
+
+    const elementIndices = elementIndicesBuilder().data([
+        // Main stem
+        0,
+        1,
+        2,
+        0,
+        3,
+        2,
+        // Top cap
+        4,
+        5,
+        6,
+        4,
+        7,
+        6,
+        // Bottom cap
+        8,
+        9,
+        10,
+        8,
+        11,
+        10
+    ]);
 
     const draw = numElements => {
         const shader = errorBarShader();
@@ -60,7 +82,7 @@ export default () => {
 
         program
             .buffers()
-
+            .elementIndices(elementIndices)
             .attribute('aXValue', xValueAttribute)
             .attribute('aHighValue', highValueAttribute)
             .attribute('aLowValue', lowValueAttribute)
