@@ -16,7 +16,7 @@ export default () => {
         let element = 0;
         for (
             let index = offset;
-            index <= projectedData.length;
+            index < projectedData.length;
             index += verticesPerElement * components
         ) {
             projectedData.fill(
