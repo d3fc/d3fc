@@ -1,8 +1,10 @@
 import baseAttributeBuilder from './baseAttributeBuilder';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
+import float32ArrayFactory from './float32ArrayFactory';
 
 export default () => {
     const base = baseAttributeBuilder();
+    const factory = float32ArrayFactory();
 
     let data = null;
 
@@ -10,7 +12,8 @@ export default () => {
         const components = base.size();
         const offset = base.offset();
         const componentsPerElement = verticesPerElement * components;
-        const projectedData = new Float32Array(offset + componentsPerElement);
+        const requiredLength = offset + componentsPerElement;
+        const projectedData = factory(requiredLength);
         if (data.length !== verticesPerElement) {
             throw new Error(
                 `Expected vertices array of size ${verticesPerElement}, recieved array with length ${data.length}.`
