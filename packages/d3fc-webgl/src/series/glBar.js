@@ -5,6 +5,7 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import glScaleBase from '../scale/glScaleBase';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 
 //     βL            β            βR
 //     .-------------.------------.
@@ -32,7 +33,7 @@ import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBu
 // β -> βR.
 
 export default () => {
-    const program = programBuilder().verticesPerElement(6);
+    const program = programBuilder().verticesPerElement(4);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
@@ -51,10 +52,10 @@ export default () => {
             [-1, -1],
             [1, 1],
             [-1, 1],
-            [-1, -1],
-            [1, 1],
             [1, -1]
         ]);
+
+    const elementIndices = elementIndicesBuilder().data([0, 1, 2, 0, 1, 3]);
 
     const draw = numElements => {
         const shader = barShader();
@@ -65,11 +66,12 @@ export default () => {
 
         program
             .buffers()
+            .elementIndices(elementIndices)
+            .attribute('aCorner', cornerAttribute)
             .attribute('aXValue', xValueAttribute)
             .attribute('aYValue', yValueAttribute)
             .attribute('aY0Value', y0ValueAttribute)
-            .attribute('aWidthValue', widthValueAttribute)
-            .attribute('aCorner', cornerAttribute);
+            .attribute('aWidthValue', widthValueAttribute);
 
         xScale.coordinate(0);
         xScale(program);
