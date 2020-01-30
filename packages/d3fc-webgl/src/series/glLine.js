@@ -14,54 +14,65 @@ export default () => {
     let decorate = () => {};
 
     const lineWidth = lineWidthShader();
-    const xValueAttribute = elementConstantAttributeBuilder();
-    const xNextValueAttribute = elementConstantAttributeBuilder().value(
+    const xValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const xPreviousValueAttribute = elementConstantAttributeBuilder().value(
+    const xNextValueAttribute = elementConstantAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 2, data.length - 1)]
+    );
+    const xPreviousValueAttribute = elementConstantAttributeBuilder();
+    const xPreviousPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
-    const yValueAttribute = elementConstantAttributeBuilder();
-    const yNextValueAttribute = elementConstantAttributeBuilder().value(
+    const yValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
-    const yPreviousValueAttribute = elementConstantAttributeBuilder().value(
+    const yNextValueAttribute = elementConstantAttributeBuilder().value(
+        (data, element) => data[Math.min(element + 2, data.length - 1)]
+    );
+    const yPreviousValueAttribute = elementConstantAttributeBuilder();
+    const yPreviousPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
     const cornerAttribute = vertexConstantAttributeBuilder()
-        .size(2)
+        .size(3)
         .data([
-            [-1, -1],
-            [1, -1],
-            [-1, 1],
-            [1, 1]
+            [-1, 0, 0],
+            [1, 1, 0],
+            [1, -1, 1],
+            [1, 1, 0],
+            [1, -1, 1],
+            [-1, 0, 1],
+            [-1, 0, 0],
+            [1, -1, 1],
+            [-1, 0, 1],
+            [1, -1, 1],
+            [-1, 0, 1],
+            [1, 1, 1]
         ]);
     const definedAttribute = elementConstantAttributeBuilder().value(
-        (data, element, vertex, component) => {
+        (data, element) => {
             const value = data[element];
-            if (vertex <= 1) {
-                const previousValue = element === 0 ? value : data[element - 1];
-                return value ? previousValue : value;
-            } else {
-                const nextValue =
-                    element === data.length - 1 ? value : data[element + 1];
-                return value ? nextValue : value;
-            }
+            const nextValue =
+                element === data.length - 1 ? 0 : data[element + 1];
+            return value ? nextValue : value;
         }
     );
 
     const program = programBuilder()
-        .mode(drawModes.TRIANGLE_STRIP)
-        .verticesPerElement(4);
+        .mode(drawModes.TRIANGLES)
+        .verticesPerElement(12);
 
     program
         .buffers()
         .attribute('aXValue', xValueAttribute)
         .attribute('aNextXValue', xNextValueAttribute)
         .attribute('aPrevXValue', xPreviousValueAttribute)
+        .attribute('aPrevPrevXValue', xPreviousPreviousValueAttribute)
         .attribute('aYValue', yValueAttribute)
         .attribute('aNextYValue', yNextValueAttribute)
         .attribute('aPrevYValue', yPreviousValueAttribute)
+        .attribute('aPrevPrevYValue', yPreviousPreviousValueAttribute)
         .attribute('aCorner', cornerAttribute)
         .attribute('aDefined', definedAttribute);
 
@@ -79,6 +90,8 @@ export default () => {
         yScale.scaleComponent(program, 'next');
         xScale.scaleComponent(program, 'prev');
         yScale.scaleComponent(program, 'prev');
+        xScale.scaleComponent(program, 'prevPrev');
+        yScale.scaleComponent(program, 'prevPrev');
 
         program
             .vertexShader()
@@ -88,13 +101,14 @@ export default () => {
 
         decorate(program);
 
-        program(numElements);
+        program(numElements - 1);
     };
 
     draw.xValues = data => {
         xValueAttribute.data(data);
         xNextValueAttribute.data(data);
         xPreviousValueAttribute.data(data);
+        xPreviousPreviousValueAttribute.data(data);
         return draw;
     };
 
@@ -102,6 +116,7 @@ export default () => {
         yValueAttribute.data(data);
         yNextValueAttribute.data(data);
         yPreviousValueAttribute.data(data);
+        yPreviousPreviousValueAttribute.data(data);
         return draw;
     };
 

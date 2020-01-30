@@ -146,39 +146,61 @@ export const bar = {
 };
 
 export const preScaleLine = {
-    header: `uniform float uLineWidth; // defines the width of the line
-        uniform vec2 uScreen; // the screen space canvas size (for normalizing vectors)
-        attribute vec2 aCorner; // defines which vertex in the line join we are considering
-        attribute float aXValue; attribute float aYValue; // the current vertex positions
-        attribute float aNextXValue; attribute float aNextYValue; // the next vertex positions
-        attribute float aPrevXValue; attribute float aPrevYValue; // the previous vertex positions
+    header: `uniform float uLineWidth;
+        uniform vec2 uScreen;
+        attribute vec3 aCorner;
+        attribute float aNextXValue; attribute float aNextYValue;
+        attribute float aXValue; attribute float aYValue;
+        attribute float aPrevXValue; attribute float aPrevYValue;
+        attribute float aPrevPrevXValue; attribute float aPrevPrevYValue;
         attribute float aDefined;
         varying float vDefined;`,
     body: `vDefined = aDefined;
-        vec4 curr = vec4(aXValue, aYValue, 0, 1);
-        gl_Position = curr;
         vec4 next = vec4(aNextXValue, aNextYValue, 0, 0);
-        vec4 prev = vec4(aPrevXValue, aPrevYValue, 0, 0);`
+        gl_Position = vec4(aXValue, aYValue, 0, 1);
+        vec4 prev = vec4(aPrevXValue, aPrevYValue, 0, 0);
+        vec4 prevPrev = vec4(aPrevPrevXValue, aPrevPrevYValue, 0, 0);`
 };
 
 export const postScaleLine = {
-    body: `if (all(equal(gl_Position.xy, prev.xy))) {
-            prev.xy = gl_Position.xy + normalize(gl_Position.xy - next.xy);
-        }
-        if (all(equal(gl_Position.xy, next.xy))) {
-            next.xy = gl_Position.xy + normalize(gl_Position.xy - prev.xy);
-        }
-        vec2 A = normalize(normalize(gl_Position.xy - prev.xy) * uScreen);
-        vec2 B = normalize(normalize(next.xy - gl_Position.xy) * uScreen);
-        vec2 tangent = normalize(A + B);
-        vec2 miter = vec2(-tangent.y, tangent.x);
-        vec2 normalA = vec2(-A.y, A.x);
-        float miterLength = 1.0 / dot(miter, normalA);
-        vec2 point = normalize(A - B);
-        if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
-            gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uLineWidth * normalA) / uScreen.xy;
+    body: `if (aCorner.z < 0.5) {
+            if (all(equal(prev.xy, prevPrev.xy))) {
+                prevPrev.xy = prev.xy + normalize(prev.xy - gl_Position.xy);
+            }
+            if (all(equal(prev.xy, gl_Position.xy))) {
+                gl_Position.xy = prev.xy + normalize(prev.xy - prevPrev.xy);
+            }
+            vec2 A = normalize(normalize(prev.xy - prevPrev.xy) * uScreen);
+            vec2 B = normalize(normalize(gl_Position.xy - prev.xy) * uScreen);
+            vec2 tangent = normalize(A + B);
+            vec2 miter = vec2(-tangent.y, tangent.x);
+            vec2 normalA = vec2(-A.y, A.x);
+            float miterLength = 1.0 / dot(miter, normalA);
+            vec2 point = normalize(A - B);
+            if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
+                gl_Position.xy = prev.xy - (aCorner.x * aCorner.y * uLineWidth * normalA) / uScreen.xy;
+            } else {
+                gl_Position.xy = prev.xy + (aCorner.x * miter * uLineWidth * miterLength) / uScreen.xy;
+            }
         } else {
-            gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uLineWidth * miterLength) / uScreen.xy;
+            if (all(equal(gl_Position.xy, prev.xy))) {
+                prev.xy = gl_Position.xy + normalize(gl_Position.xy - next.xy);
+            }
+            if (all(equal(gl_Position.xy, next.xy))) {
+                next.xy = gl_Position.xy + normalize(gl_Position.xy - prev.xy);
+            }
+            vec2 A = normalize(normalize(gl_Position.xy - prev.xy) * uScreen);
+            vec2 B = normalize(normalize(next.xy - gl_Position.xy) * uScreen);
+            vec2 tangent = normalize(A + B);
+            vec2 miter = vec2(-tangent.y, tangent.x);
+            vec2 normalA = vec2(-A.y, A.x);
+            float miterLength = 1.0 / dot(miter, normalA);
+            vec2 point = normalize(A - B);
+            if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
+                gl_Position.xy = gl_Position.xy - (aCorner.x * aCorner.y * uLineWidth * normalA) / uScreen.xy;
+            } else {
+                gl_Position.xy = gl_Position.xy + (aCorner.x * miter * uLineWidth * miterLength) / uScreen.xy;
+            }
         }`
 };
 
