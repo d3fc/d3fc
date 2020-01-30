@@ -28,9 +28,25 @@ export default () => {
 
         if (verticesPerElement !== 1) {
             var ext = context.getExtension('ANGLE_instanced_arrays');
-            ext.drawArraysInstancedANGLE(mode, 0, verticesPerElement, count);
+
+            if (buffers.elementIndices() != null) {
+                ext.drawElementsInstancedANGLE(
+                    mode,
+                    buffers.elementIndices().data().length,
+                    context.UNSIGNED_SHORT,
+                    0,
+                    count
+                );
+            } else {
+                ext.drawArraysInstancedANGLE(
+                    mode,
+                    0,
+                    verticesPerElement,
+                    count
+                );
+            }
         } else {
-            context.drawArrays(mode, 0, count * verticesPerElement);
+            context.drawArrays(mode, 0, count);
         }
     };
 
