@@ -21,11 +21,26 @@ export const getShaders = element => {
 };
 
 export const expectVertexShader = (shader, attributes, uniforms) => {
+    const shaderOutput = executeVertexShader(shader, attributes, uniforms);
+
     return {
-        toHaveGlPosition: glPosition =>
-            expect(executeVertexShader(shader, attributes, uniforms)).toEqual({
+        toHaveGlPositionExact: glPosition =>
+            expect(shaderOutput).toEqual({
                 gl_Position: glPosition
-            })
+            }),
+        toHaveGlPosition: glPosition => {
+            const TEN_THOUSAND = 10000;
+
+            shaderOutput.gl_Position = shaderOutput.gl_Position.map(
+                x =>
+                    Math.round((x + Number.EPSILON) * TEN_THOUSAND) /
+                    TEN_THOUSAND
+            );
+
+            return expect(shaderOutput).toEqual({
+                gl_Position: glPosition
+            });
+        }
     };
 };
 

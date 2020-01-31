@@ -6,9 +6,10 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 
 export default () => {
-    const program = programBuilder().verticesPerElement(12);
+    const program = programBuilder().verticesPerElement(8);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     const lineWidth = lineWidthShader();
@@ -35,19 +36,34 @@ export default () => {
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
+            // Vertical line
             [0, 2, 1],
             [0, 2, -1],
             [0, -2, -1],
-            [0, 2, 1],
             [0, -2, 1],
-            [0, -2, -1],
+            // Central box
             [1, -1, 0],
             [-1, -1, 0],
             [-1, 1, 0],
-            [1, -1, 0],
-            [1, 1, 0],
-            [-1, 1, 0]
+            [1, 1, 0]
         ]);
+
+    const elementIndices = elementIndicesBuilder().data([
+        // Vertical line
+        0,
+        1,
+        2,
+        0,
+        3,
+        2,
+        // Central box
+        4,
+        5,
+        6,
+        4,
+        7,
+        6
+    ]);
 
     const draw = numElements => {
         const shaderBuilder = candlestickShader();
@@ -58,6 +74,7 @@ export default () => {
 
         program
             .buffers()
+            .elementIndices(elementIndices)
             .attribute('aXValue', xValueAttribute)
             .attribute('aHigh', highAttribute)
             .attribute('aOpen', openAttribute)
