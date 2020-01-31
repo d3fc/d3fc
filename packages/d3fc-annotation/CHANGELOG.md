@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.34](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.4.33...@d3fc/d3fc-annotation@2.4.34) (2020-01-31)
+
+**Note:** Version bump only for package @d3fc/d3fc-annotation
+
+
+
+
+
 ## [2.4.33](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-annotation@2.4.32...@d3fc/d3fc-annotation@2.4.33) (2020-01-31)
 
 **Note:** Version bump only for package @d3fc/d3fc-annotation
