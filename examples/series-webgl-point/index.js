@@ -1,4 +1,4 @@
-const data = fc.randomGeometricBrownianMotion().steps(1e4)(1);
+const data = fc.randomGeometricBrownianMotion().steps(1e6)(1);
 
 const extent = fc.extentLinear();
 
@@ -15,13 +15,14 @@ const gl = d3
     .getContext('webgl');
 
 const series = fc
-    .seriesWebglBar()
+    .seriesWebglPoint()
     .xScale(xScale)
     .yScale(yScale)
     .context(gl)
     .crossValue((d, i) => i)
     .mainValue(d => d)
-    .bandwidth(0.05);
+    .defined(() => true)
+    .equals((previousData, data) => previousData.length > 0);
 
 const pixels = new Uint8Array(
     gl.drawingBufferWidth * gl.drawingBufferHeight * 4
@@ -33,7 +34,6 @@ d3.select(container)
         const domain = xScale.domain();
         const max = Math.round(domain[1] / 2);
         xScale.domain([0, max]);
-        series.bandwidth(series.bandwidth()() * 2);
         container.requestRedraw();
     })
     .on('measure', () => {
