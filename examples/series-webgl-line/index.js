@@ -22,6 +22,9 @@ const series = fc
     .crossValue((_, i) => i)
     .mainValue(d => d);
 
+const pixels = new Uint8Array(
+    gl.drawingBufferWidth * gl.drawingBufferHeight * 4
+);
 let frame = 0;
 
 d3.select(container)
@@ -29,7 +32,6 @@ d3.select(container)
         const domain = xScale.domain();
         const max = Math.round(domain[1] / 2);
         xScale.domain([0, max]);
-        yScale.domain(extent(data.slice(0, max)));
         container.requestRedraw();
     })
     .on('measure', () => {
@@ -40,6 +42,16 @@ d3.select(container)
     .on('draw', () => {
         performance.mark(`draw-start-${frame}`);
         series(data);
+        // Force GPU to complete rendering to allow accurate performance measurements to be taken
+        gl.readPixels(
+            0,
+            0,
+            gl.drawingBufferWidth,
+            gl.drawingBufferHeight,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            pixels
+        );
         performance.measure(`draw-duration-${frame}`, `draw-start-${frame}`);
         frame++;
     });
