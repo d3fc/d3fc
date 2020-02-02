@@ -1,7 +1,16 @@
+const { mkdirSync } = require('fs');
+const { dirname, join } = require('path');
+
 exports.toHaveConsistentPerformance = async function(received, runs = 3) {
+    const tracesDirectory = join(dirname(this.testPath), '__traces__');
+    mkdirSync(tracesDirectory, { recursive: true });
     const averages = {};
     for (let run = 0; run < runs; run++) {
+        await page.tracing.start({
+            path: join(tracesDirectory, `trace-${run}.json`)
+        });
         await received(run);
+        await page.tracing.stop();
         const entries = await page.evaluate(() => {
             const measures = performance.getEntriesByType('measure');
             performance.clearMeasures();
