@@ -12,7 +12,11 @@ it('should have consistent performance', async () => {
 
     expect(page).not.toHaveLogs();
 
-    await page.screenshot({ path: join(__dirname, '..', 'screenshot.png') });
     const image = await page.screenshot();
     expect(image).toMatchImageSnapshot();
+});
+
+it('should look good on the website!', async () => {
+    await page.goto('file://' + join(__dirname, '..', 'index.html'));
+    await page.screenshot({ path: join(__dirname, '..', 'screenshot.png') });
 });
