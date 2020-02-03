@@ -9,7 +9,6 @@ export default () => {
     let fragmentShader = null;
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
-    let verticesPerElement = 1;
 
     const build = count => {
         const vertexShaderSource = vertexShader();
@@ -24,29 +23,33 @@ export default () => {
             'uScreen',
             uniformBuilder([context.canvas.width, context.canvas.height])
         );
-        buffers(context, program, verticesPerElement, count);
 
-        if (verticesPerElement !== 1) {
-            var ext = context.getExtension('ANGLE_instanced_arrays');
+        buffers(context, program, count);
 
-            if (buffers.elementIndices() != null) {
-                ext.drawElementsInstancedANGLE(
-                    mode,
-                    buffers.elementIndices().data().length,
-                    context.UNSIGNED_SHORT,
-                    0,
-                    count
-                );
-            } else {
-                ext.drawArraysInstancedANGLE(
-                    mode,
-                    0,
-                    verticesPerElement,
-                    count
+        var ext = context.getExtension('ANGLE_instanced_arrays');
+
+        if (mode !== drawModes.POINTS && mode !== drawModes.TRIANGLES) {
+            throw Error(
+                `Expected mode TRIANGLES (${drawModes.TRIANGLES}) or POINTS (${drawModes.POINTS}). ${mode} received instead.`
+            );
+        }
+
+        if (buffers.elementIndices() !== null) {
+            ext.drawElementsInstancedANGLE(
+                mode,
+                buffers.elementIndices().data().length,
+                context.UNSIGNED_SHORT,
+                0,
+                count
+            );
+        } else {
+            if (mode === drawModes.POINTS) {
+                context.drawArrays(mode, 0, count);
+            } else if (mode === drawModes.TRIANGLES) {
+                throw Error(
+                    'Element indices must be provided for drawMode TRIANGLES.'
                 );
             }
-        } else {
-            context.drawArrays(mode, 0, count);
         }
     };
 
@@ -87,14 +90,6 @@ export default () => {
             return mode;
         }
         mode = args[0];
-        return build;
-    };
-
-    build.verticesPerElement = (...args) => {
-        if (!args.length) {
-            return verticesPerElement;
-        }
-        verticesPerElement = args[0];
         return build;
     };
 

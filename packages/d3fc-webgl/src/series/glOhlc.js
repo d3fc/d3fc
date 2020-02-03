@@ -9,7 +9,7 @@ import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBu
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 
 export default () => {
-    const program = programBuilder().verticesPerElement(12);
+    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     const lineWidth = lineWidthShader();

@@ -3,13 +3,13 @@ export default () => {
     const uniforms = {};
     let elementIndices = null;
 
-    const build = (gl, program, verticesPerElement, count) => {
-        Object.keys(attributes).forEach(key => {
-            attributes[key](gl, program, key, verticesPerElement, count);
+    const build = (gl, program, count) => {
+        Object.keys(attributes).forEach(name => {
+            attributes[name](gl, program, name, count);
         });
 
-        Object.keys(uniforms).forEach(key => {
-            uniforms[key](gl, program, key);
+        Object.keys(uniforms).forEach(name => {
+            uniforms[name](gl, program, name);
         });
 
         if (elementIndices !== null) {

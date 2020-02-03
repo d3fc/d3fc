@@ -26,10 +26,10 @@ export default () => {
         return projectedData;
     };
 
-    const build = (gl, program, name, verticesPerElement, count) => {
-        base(gl, program, name, verticesPerElement);
+    const build = (gl, program, name, count) => {
+        base(gl, program, name);
 
-        if (base.validSize() >= count) {
+        if (!base.hasPropertyChanged()) {
             return;
         }
 
@@ -52,7 +52,7 @@ export default () => {
         } else {
             throw new Error(`Expected function or array, received: ${value}`);
         }
-        base.validSize(count);
+        base.hasPropertyChanged(false);
     };
 
     build.value = (...args) => {
@@ -60,7 +60,7 @@ export default () => {
             return value;
         }
         value = args[0];
-        base.validSize(0);
+        base.hasPropertyChanged(true);
         return build;
     };
 
@@ -69,7 +69,7 @@ export default () => {
             return data;
         }
         data = args[0];
-        base.validSize(0);
+        base.hasPropertyChanged(true);
         return build;
     };
 
