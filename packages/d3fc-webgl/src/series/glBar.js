@@ -33,7 +33,7 @@ import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 // β -> βR.
 
 export default () => {
-    const program = programBuilder().verticesPerElement(4);
+    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};

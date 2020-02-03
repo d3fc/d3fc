@@ -6,27 +6,32 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 
 export default () => {
+    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let type = circlePointShader();
     let decorate = () => {};
 
-    const xValueAttribute = elementConstantAttributeBuilder();
-    const yValueAttribute = elementConstantAttributeBuilder();
-    const sizeAttribute = elementConstantAttributeBuilder();
-    const definedAttribute = elementConstantAttributeBuilder();
+    const xValueAttribute = elementConstantAttributeBuilder().divisor(0);
 
-    const program = programBuilder().mode(drawModes.POINTS);
+    const yValueAttribute = elementConstantAttributeBuilder().divisor(0);
 
-    program
-        .buffers()
-        .attribute('aCrossValue', xValueAttribute)
-        .attribute('aMainValue', yValueAttribute)
-        .attribute('aSize', sizeAttribute)
-        .attribute('aDefined', definedAttribute);
+    const sizeAttribute = elementConstantAttributeBuilder().divisor(0);
+
+    const definedAttribute = elementConstantAttributeBuilder().divisor(0);
 
     const draw = numElements => {
-        program.vertexShader(type.vertex()).fragmentShader(type.fragment());
+        program
+            .vertexShader(type.vertex())
+            .fragmentShader(type.fragment())
+            .mode(drawModes.POINTS);
+
+        program
+            .buffers()
+            .attribute('aCrossValue', xValueAttribute)
+            .attribute('aMainValue', yValueAttribute)
+            .attribute('aSize', sizeAttribute)
+            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);

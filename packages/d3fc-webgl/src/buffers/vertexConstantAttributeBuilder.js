@@ -8,19 +8,14 @@ export default () => {
 
     let data = null;
 
-    const project = verticesPerElement => {
+    const project = () => {
         const components = base.size();
         const offset = base.offset();
-        const componentsPerElement = verticesPerElement * components;
+        const componentsPerElement = data.length * components;
         const requiredLength = offset + componentsPerElement;
         const projectedData = factory(requiredLength);
-        if (data.length !== verticesPerElement) {
-            throw new Error(
-                `Expected vertices array of size ${verticesPerElement}, recieved array with length ${data.length}.`
-            );
-        }
         let target = 0;
-        for (let vertex = 0; vertex < verticesPerElement; vertex++) {
+        for (let vertex = 0; vertex < data.length; vertex++) {
             if (data[vertex].length !== components) {
                 throw new Error(
                     `Expected components array of size ${components}, recieved array with length ${data[vertex].length}.`
@@ -31,22 +26,23 @@ export default () => {
                 target++;
             }
         }
+
         return projectedData;
     };
 
-    const build = (gl, program, name, verticesPerElement, count) => {
+    const build = (gl, program, name, count) => {
         base(gl, program, name);
 
-        if (base.validSize() >= verticesPerElement) {
+        if (!base.hasPropertyChanged()) {
             return;
         }
 
-        const projectedData = project(verticesPerElement);
+        const projectedData = project();
 
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
 
-        base.validSize(verticesPerElement);
+        base.hasPropertyChanged(false);
     };
 
     build.data = (...args) => {
@@ -54,7 +50,7 @@ export default () => {
             return data;
         }
         data = args[0];
-        base.validSize(0);
+        base.hasPropertyChanged(true);
         return build;
     };
 

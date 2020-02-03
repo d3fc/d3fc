@@ -7,6 +7,7 @@ import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -14,42 +15,45 @@ export default () => {
     let decorate = () => {};
 
     const lineWidth = lineWidthShader();
+
     const xValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
+
     const xNextValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 2, data.length - 1)]
     );
+
     const xPreviousValueAttribute = elementConstantAttributeBuilder();
+
     const xPreviousPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
+
     const yValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
+
     const yNextValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 2, data.length - 1)]
     );
+
     const yPreviousValueAttribute = elementConstantAttributeBuilder();
+
     const yPreviousPreviousValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.max(element - 1, 0)]
     );
+
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
             [-1, 0, 0],
             [1, 1, 0],
             [1, -1, 1],
-            [1, 1, 0],
-            [1, -1, 1],
-            [-1, 0, 1],
-            [-1, 0, 0],
-            [1, -1, 1],
-            [-1, 0, 1],
-            [1, -1, 1],
             [-1, 0, 1],
             [1, 1, 1]
         ]);
+
     const definedAttribute = elementConstantAttributeBuilder().value(
         (data, element) => {
             const value = data[element];
@@ -59,12 +63,26 @@ export default () => {
         }
     );
 
-    const program = programBuilder()
-        .mode(drawModes.TRIANGLES)
-        .verticesPerElement(12);
+    const elementIndices = elementIndicesBuilder().data([
+        0,
+        1,
+        2,
+        1,
+        2,
+        3,
+        0,
+        2,
+        3,
+        2,
+        3,
+        4
+    ]);
+
+    const program = programBuilder().mode(drawModes.TRIANGLES);
 
     program
         .buffers()
+        .elementIndices(elementIndices)
         .attribute('aCrossValue', xValueAttribute)
         .attribute('aCrossNextValue', xNextValueAttribute)
         .attribute('aCrossPrevValue', xPreviousValueAttribute)

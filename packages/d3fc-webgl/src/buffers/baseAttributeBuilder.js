@@ -7,13 +7,13 @@ export default () => {
     let normalized = false;
     let stride = 0;
     let offset = 0;
-    let validSize = 0;
+    let hasPropertyChanged = true;
     let divisor = 0;
 
-    const base = (gl, program, name, verticesPerElement) => {
+    const base = (gl, program, name) => {
         if (buffer == null || !gl.isBuffer(buffer)) {
             buffer = gl.createBuffer();
-            validSize = 0;
+            hasPropertyChanged = true;
         }
 
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -27,17 +27,16 @@ export default () => {
             offset
         );
         gl.enableVertexAttribArray(location);
-        if (verticesPerElement !== 1) {
-            const ext = gl.getExtension('ANGLE_instanced_arrays');
-            ext.vertexAttribDivisorANGLE(location, divisor);
-        }
+
+        const ext = gl.getExtension('ANGLE_instanced_arrays');
+        ext.vertexAttribDivisorANGLE(location, divisor);
     };
 
-    base.validSize = (...args) => {
+    base.hasPropertyChanged = (...args) => {
         if (!args.length) {
-            return validSize;
+            return hasPropertyChanged;
         }
-        validSize = args[0];
+        hasPropertyChanged = args[0];
         return base;
     };
 
@@ -46,7 +45,7 @@ export default () => {
             return buffer;
         }
         buffer = args[0];
-        validSize = 0;
+        hasPropertyChanged = true;
         return base;
     };
 
@@ -55,7 +54,7 @@ export default () => {
             return size;
         }
         size = args[0];
-        validSize = 0;
+        hasPropertyChanged = true;
         return base;
     };
 
@@ -64,7 +63,7 @@ export default () => {
             return type;
         }
         type = args[0];
-        validSize = 0;
+        hasPropertyChanged = true;
         return base;
     };
 
@@ -73,7 +72,7 @@ export default () => {
             return normalized;
         }
         normalized = args[0];
-        validSize = 0;
+        hasPropertyChanged = true;
         return base;
     };
 
@@ -82,7 +81,7 @@ export default () => {
             return stride;
         }
         stride = args[0];
-        validSize = 0;
+        hasPropertyChanged = true;
         return base;
     };
 
@@ -91,7 +90,7 @@ export default () => {
             return offset;
         }
         offset = args[0];
-        validSize = 0;
+        hasPropertyChanged = true;
         return base;
     };
 

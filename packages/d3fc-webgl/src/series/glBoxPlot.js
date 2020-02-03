@@ -43,8 +43,7 @@ import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 // εL1 -> εR1
 
 export default () => {
-    const verticesPerElement = 36;
-    const program = programBuilder().verticesPerElement(verticesPerElement);
+    const program = programBuilder();
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};

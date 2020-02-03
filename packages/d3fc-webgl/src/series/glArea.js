@@ -5,6 +5,7 @@ import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -14,15 +15,21 @@ export default () => {
     const xValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
+
     const xPreviousValueAttribute = elementConstantAttributeBuilder();
+
     const yValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
+
     const yPreviousValueAttribute = elementConstantAttributeBuilder();
+
     const y0ValueAttribute = elementConstantAttributeBuilder().value(
         (data, element) => data[Math.min(element + 1, data.length - 1)]
     );
+
     const y0PreviousValueAttribute = elementConstantAttributeBuilder();
+
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
         .data([
@@ -33,6 +40,7 @@ export default () => {
             [1, 0, 0],
             [1, 1, 0]
         ]);
+
     const definedAttribute = elementConstantAttributeBuilder().value(
         (data, element, vertex, component) => {
             const value = data[element];
@@ -42,12 +50,13 @@ export default () => {
         }
     );
 
-    const program = programBuilder()
-        .mode(drawModes.TRIANGLES)
-        .verticesPerElement(6);
+    const elementIndices = elementIndicesBuilder().data([0, 1, 2, 3, 4, 5]);
+
+    const program = programBuilder().mode(drawModes.TRIANGLES);
 
     program
         .buffers()
+        .elementIndices(elementIndices)
         .attribute('aCrossValue', xValueAttribute)
         .attribute('aCrossPrevValue', xPreviousValueAttribute)
         .attribute('aMainValue', yValueAttribute)
