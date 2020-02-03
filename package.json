@@ -14,7 +14,7 @@
     "screenshots": "lerna run screenshots --stream --concurrency 1",
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
     "commitlint": "commitlint --from HEAD~1 to HEAD --verbose",
-    "examples": "cd examples && npx jest"
+    "examples": "cd examples && npx jest --runInBand"
   },
   "husky": {
     "hooks": {

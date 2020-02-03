@@ -13,7 +13,7 @@ First the performance tests need baselining for the machine they are being run
 on. Check out the code prior to the change under test and run -
 
 ```bash
-npm run examples -- --updateSnapshot
+HEADLESS=false EXECUTABLE_PATH="path_to_chrome\chrome.exe" npm run examples -- --updateSnapshot
 ```
 
 At this stage the `*/__tests__/__snapshots__` files will have been updated
@@ -23,9 +23,12 @@ files with the visual output of the examples.
 Check out the code containing the change under test and run -
 
 ```bash
-npm run examples
+HEADLESS=false EXECUTABLE_PATH="path_to_chrome\chrome.exe" npm run examples
 ```
 
 Any errors at this stage should correlate with known changes to either the
 performance or visual output of the examples (please don't ignore
 non-determinism).
+
+It is advised that the `HEADLESS` and `EXECUTABLE_PATH` environment variables
+are set as puppeteer does not use the GPU in headless mode.
