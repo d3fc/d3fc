@@ -13,7 +13,6 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
-    let filteredData = [];
 
     const point = (data) => {
         const xScale = scaleMapper(base.xScale());
@@ -21,31 +20,34 @@ export default () => {
 
         if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
             previousData = data;
-            filteredData = data.filter(base.defined());
 
             const accessor = getAccessors();
 
-            const xValues = new Float32Array(filteredData.length);
-            const yValues = new Float32Array(filteredData.length);
-            const sizes = new Float32Array(filteredData.length);
-            filteredData.forEach((d, i) => {
+            const xValues = new Float32Array(data.length);
+            const yValues = new Float32Array(data.length);
+            const sizes = new Float32Array(data.length);
+            const defined = new Float32Array(data.length);
+
+            data.forEach((d, i) => {
                 const sizeFn = typeof size === 'function' ? size : () => size;
                 xValues[i] = xScale.scale(accessor.x(d, i));
                 yValues[i] = yScale.scale(accessor.y(d, i));
                 sizes[i] = sizeFn(d);
+                defined[i] = base.defined()(d, i);
             });
 
             draw.xValues(xValues)
                 .yValues(yValues)
-                .sizes(sizes);
+                .sizes(sizes)
+                .defined(defined);
         }
 
         draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .type(symbolMapper(type))
-            .decorate((program) => base.decorate()(program, filteredData, 0));
+            .decorate((program) => base.decorate()(program, data, 0));
 
-        draw(filteredData.length);
+        draw(data.length);
     };
 
     function getAccessors() {

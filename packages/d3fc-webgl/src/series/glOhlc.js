@@ -53,6 +53,8 @@ export default () => {
             [1, 1, -1]
         ]);
 
+    const definedAttribute = elementConstantAttributeBuilder();
+
     const elementIndices = elementIndicesBuilder().data([
         // Main stem
         0,
@@ -93,7 +95,8 @@ export default () => {
             .attribute('aCloseValue', closeAttribute)
             .attribute('aLowValue', lowAttribute)
             .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aCorner', cornerAttribute);
+            .attribute('aCorner', cornerAttribute)
+            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -139,6 +142,11 @@ export default () => {
 
     draw.bandwidth = data => {
         bandwidthAttribute.data(data);
+        return draw;
+    };
+
+    draw.defined = data => {
+        definedAttribute.data(data);
         return draw;
     };
 

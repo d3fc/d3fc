@@ -14,6 +14,7 @@ export default () => {
     const xValueAttribute = elementConstantAttributeBuilder();
     const yValueAttribute = elementConstantAttributeBuilder();
     const sizeAttribute = elementConstantAttributeBuilder();
+    const definedAttribute = elementConstantAttributeBuilder();
 
     const program = programBuilder().mode(drawModes.POINTS);
 
@@ -21,7 +22,8 @@ export default () => {
         .buffers()
         .attribute('aCrossValue', xValueAttribute)
         .attribute('aMainValue', yValueAttribute)
-        .attribute('aSize', sizeAttribute);
+        .attribute('aSize', sizeAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         program.vertexShader(type.vertex()).fragmentShader(type.fragment());
@@ -48,6 +50,11 @@ export default () => {
 
     draw.sizes = data => {
         sizeAttribute.data(data);
+        return draw;
+    };
+
+    draw.defined = data => {
+        definedAttribute.data(data);
         return draw;
     };
 

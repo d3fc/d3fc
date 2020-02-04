@@ -3,6 +3,7 @@ import shaderBuilder, {
     fragmentShaderBase
 } from '../shaderBuilder';
 import * as vertexShaderSnippets from '../vertexShaderSnippets';
+import * as fragmentShaderSnippets from '../fragmentShaderSnippets';
 
 export default () => {
     const vertexShader = shaderBuilder(vertexShaderBase);
@@ -11,6 +12,10 @@ export default () => {
     vertexShader
         .appendHeader(vertexShaderSnippets.bar.header)
         .appendBody(vertexShaderSnippets.bar.body);
+
+    fragmentShader
+        .appendHeader(fragmentShaderSnippets.bar.header)
+        .appendBody(fragmentShaderSnippets.bar.body);
 
     return {
         vertex: () => vertexShader,

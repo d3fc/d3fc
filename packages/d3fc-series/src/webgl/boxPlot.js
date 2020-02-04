@@ -12,7 +12,6 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
-    let filteredData = [];
 
     const boxPlot = (data) => {
         const xScale = scaleMapper(base.xScale());
@@ -20,18 +19,18 @@ export default () => {
 
         if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
             previousData = data;
-            filteredData = data.filter(base.defined());
         
-            const xValues = new Float32Array(filteredData.length);
-            const medianValues = new Float32Array(filteredData.length);
-            const upperQuartileValues = new Float32Array(filteredData.length);
-            const lowerQuartileValues = new Float32Array(filteredData.length);
-            const highValues = new Float32Array(filteredData.length);
-            const lowValues = new Float32Array(filteredData.length);
-            const bandwidth = new Float32Array(filteredData.length);
-            const capWidth = new Float32Array(filteredData.length);
+            const xValues = new Float32Array(data.length);
+            const medianValues = new Float32Array(data.length);
+            const upperQuartileValues = new Float32Array(data.length);
+            const lowerQuartileValues = new Float32Array(data.length);
+            const highValues = new Float32Array(data.length);
+            const lowValues = new Float32Array(data.length);
+            const bandwidth = new Float32Array(data.length);
+            const capWidth = new Float32Array(data.length);
+            const defined = new Float32Array(data.length);
 
-            filteredData.forEach((d, i) => {
+            data.forEach((d, i) => {
                 xValues[i] = xScale.scale(base.crossValue()(d, i));
                 medianValues[i] = yScale.scale(base.medianValue()(d, i));
                 upperQuartileValues[i] = yScale.scale(base.upperQuartileValue()(d, i));
@@ -40,6 +39,7 @@ export default () => {
                 lowValues[i] = yScale.scale(base.lowValue()(d, i));
                 bandwidth[i] = base.bandwidth()(d, i);
                 capWidth[i] = bandwidth[i] * cap(d, i);
+                defined[i] = base.defined()(d, i);
             });
 
             draw.xValues(xValues)
@@ -49,13 +49,15 @@ export default () => {
                 .highValues(highValues)
                 .lowValues(lowValues)
                 .bandwidth(bandwidth)
-                .capWidth(capWidth);
+                .capWidth(capWidth)
+                .defined(defined);
         }
 
         draw.xScale(xScale.glScale)
-            .yScale(yScale.glScale);
+            .yScale(yScale.glScale)
+            .decorate((program) => base.decorate()(program, data, 0));
 
-        draw(filteredData.length);
+        draw(data.length);
     };
 
     boxPlot.cap = (...args) => {

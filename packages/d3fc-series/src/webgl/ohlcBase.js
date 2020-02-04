@@ -8,7 +8,6 @@ export default (pathGenerator) => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
-    let filteredData = [];
 
     const candlestick = (data) => {
         const xScale = scaleMapper(base.xScale());
@@ -16,22 +15,23 @@ export default (pathGenerator) => {
 
         if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
             previousData = data;
-            filteredData = data.filter(base.defined());
 
-            const xValues = new Float32Array(filteredData.length);
-            const open = new Float32Array(filteredData.length);
-            const high = new Float32Array(filteredData.length);
-            const low = new Float32Array(filteredData.length);
-            const close = new Float32Array(filteredData.length);
-            const bandwidths = new Float32Array(filteredData.length);
+            const xValues = new Float32Array(data.length);
+            const open = new Float32Array(data.length);
+            const high = new Float32Array(data.length);
+            const low = new Float32Array(data.length);
+            const close = new Float32Array(data.length);
+            const bandwidths = new Float32Array(data.length);
+            const defined = new Float32Array(data.length);
 
-            filteredData.forEach((d, i) => {
+            data.forEach((d, i) => {
                 xValues[i] = xScale.scale(base.crossValue()(d, i));
                 open[i] = yScale.scale(base.openValue()(d, i));
                 high[i] = yScale.scale(base.highValue()(d, i));
                 low[i] = yScale.scale(base.lowValue()(d, i));
                 close[i] = yScale.scale(base.closeValue()(d, i));
                 bandwidths[i] = base.bandwidth()(d, i);
+                defined[i] = base.defined()(d, i);
             });
 
             pathGenerator.xValues(xValues)
@@ -39,14 +39,15 @@ export default (pathGenerator) => {
                 .highValues(high)
                 .lowValues(low)
                 .closeValues(close)
-                .bandwidth(bandwidths);
+                .bandwidth(bandwidths)
+                .defined(defined);
         }
 
         pathGenerator.xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .decorate((program) => base.decorate()(program, filteredData, 0));
+            .decorate((program) => base.decorate()(program, data, 0));
 
-        pathGenerator(filteredData.length);
+        pathGenerator(data.length);
     };
 
     candlestick.equals = (...args) => {

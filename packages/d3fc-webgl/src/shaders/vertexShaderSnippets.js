@@ -15,46 +15,74 @@ export const multiColor = {
 };
 
 export const circle = {
-    header: `attribute float aCrossValue;
-             attribute float aMainValue;
-             attribute float aSize;
-             uniform float uStrokeWidth;
-             varying float vSize;`,
-    body: `vSize = 2.0 * sqrt(aSize / 3.14159);
-           gl_PointSize = vSize + uStrokeWidth + 1.0;
-           gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+    header: `
+        attribute float aCrossValue;
+        attribute float aMainValue;
+        attribute float aSize;
+        attribute float aDefined;
+
+        uniform float uStrokeWidth;
+
+        varying float vSize;
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
+        vSize = 2.0 * sqrt(aSize / 3.14159);
+        gl_PointSize = vSize + uStrokeWidth + 1.0;
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
 };
 
 export const square = {
-    header: `attribute float aCrossValue;
+    header: `
+        attribute float aCrossValue;
         attribute float aMainValue;
         attribute float aSize;
+        attribute float aDefined;
+
         uniform float uStrokeWidth;
-        varying float vSize;`,
-    body: `vSize = sqrt(aSize);
+
+        varying float vSize;
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
+        vSize = sqrt(aSize);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
 };
 
 export const triangle = {
-    header: `attribute float aCrossValue;
+    header: `
+        attribute float aCrossValue;
         attribute float aMainValue;
         attribute float aSize;
+        attribute float aDefined;
+
         uniform float uStrokeWidth;
-        varying float vSize;`,
-    body: `vSize = sqrt((16.0 * aSize) / (3.0 * sqrt(3.0)));
+
+        varying float vSize;
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
+        vSize = sqrt((16.0 * aSize) / (3.0 * sqrt(3.0)));
         gl_PointSize = vSize + uStrokeWidth + 1.0;
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
 };
 
 export const cross = {
-    header: `attribute float aCrossValue;
+    header: `
+        attribute float aCrossValue;
         attribute float aMainValue;
         attribute float aSize;
+        attribute float aDefined;
+
         uniform float uStrokeWidth;
+
         varying float vSize;
-        varying float vStrokeWidthRatio;`,
-    body: `vSize = 3.0 * sqrt(aSize / 5.0);
+        varying float vStrokeWidthRatio;
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
+        vSize = 3.0 * sqrt(aSize / 5.0);
         vStrokeWidthRatio = uStrokeWidth / (vSize + uStrokeWidth + 1.0);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
@@ -69,11 +97,15 @@ export const candlestick = {
         attribute float aCloseValue;
         attribute float aLowValue;
         attribute vec3 aCorner;
+        attribute float aDefined;
     
-        varying float vColorIndicator;
         uniform vec2 uScreen;
-        uniform float uStrokeWidth;`,
+        uniform float uStrokeWidth;
+        
+        varying float vColorIndicator;
+        varying float vDefined`,
     body: `
+        vDefined = aDefined;
         vColorIndicator = sign(aCloseValue - aOpenValue);
 
         float isPositiveY = (sign(aCorner.y) + 1.0) / 2.0;
@@ -99,39 +131,43 @@ export const candlestick = {
 
 export const ohlc = {
     header: `
-      attribute float aCrossValue;
-      attribute float aBandwidth;
-      attribute float aHighValue;
-      attribute float aOpenValue;
-      attribute float aCloseValue;
-      attribute float aLowValue;
-      attribute vec3 aCorner;
+        attribute float aCrossValue;
+        attribute float aBandwidth;
+        attribute float aHighValue;
+        attribute float aOpenValue;
+        attribute float aCloseValue;
+        attribute float aLowValue;
+        attribute vec3 aCorner;
+        attribute float aDefined;
 
-      varying float vColorIndicator;
-      uniform vec2 uScreen;
-      uniform float uStrokeWidth;`,
+        uniform vec2 uScreen;
+        uniform float uStrokeWidth;
+
+        varying float vColorIndicator;
+        varying float vDefined;`,
     body: `
-      vColorIndicator = sign(aCloseValue - aOpenValue);
+        vDefined = aDefined;
+        vColorIndicator = sign(aCloseValue - aOpenValue);
 
-      float isPositiveY = (sign(aCorner.y) + 1.0) / 2.0;
-      float isNotPositiveY = 1.0 - isPositiveY;
-      float isExtremeY = abs(aCorner.y) - 1.0;
-      float isNotExtremeY = 1.0 - isExtremeY;
-      float yValue = 
-        (isPositiveY * isExtremeY * aLowValue) + 
-        (isPositiveY * isNotExtremeY * aCloseValue) +
-        (isNotPositiveY * isNotExtremeY * aOpenValue) +
-        (isNotPositiveY * isExtremeY * aHighValue);
+        float isPositiveY = (sign(aCorner.y) + 1.0) / 2.0;
+        float isNotPositiveY = 1.0 - isPositiveY;
+        float isExtremeY = abs(aCorner.y) - 1.0;
+        float isNotExtremeY = 1.0 - isExtremeY;
+        float yValue = 
+            (isPositiveY * isExtremeY * aLowValue) + 
+            (isPositiveY * isNotExtremeY * aCloseValue) +
+            (isNotPositiveY * isNotExtremeY * aOpenValue) +
+            (isNotPositiveY * isExtremeY * aHighValue);
 
-      float lineWidthXDirection = isExtremeY * aCorner.z;
-      float lineWidthYDirection = isNotExtremeY * aCorner.z;
+        float lineWidthXDirection = isExtremeY * aCorner.z;
+        float lineWidthYDirection = isNotExtremeY * aCorner.z;
 
-      float bandwidthModifier = isNotExtremeY * aCorner.x * aBandwidth / 2.0;
+        float bandwidthModifier = isNotExtremeY * aCorner.x * aBandwidth / 2.0;
 
-      float xModifier = (uStrokeWidth * lineWidthXDirection / 2.0) + bandwidthModifier;
-      float yModifier = uStrokeWidth * lineWidthYDirection / 2.0;
+        float xModifier = (uStrokeWidth * lineWidthXDirection / 2.0) + bandwidthModifier;
+        float yModifier = uStrokeWidth * lineWidthYDirection / 2.0;
 
-      gl_Position = vec4(aCrossValue, yValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, yValue, 0, 1);`
 };
 
 export const bar = {
@@ -141,17 +177,20 @@ export const bar = {
         attribute float aMainValue;
         attribute float aBaseValue;
         attribute vec2 aCorner;
+        attribute float aDefined;
         
         uniform vec2 uScreen;
-        uniform float uStrokeWidth;`,
+        uniform float uStrokeWidth;
+        
+        varying float vDefined;`,
     body: `
+        vDefined = aDefined;
         float isBaseline = (1.0 - aCorner.y) / 2.0;
         float yValue = (isBaseline * aBaseValue) + ((1.0 - isBaseline) * aMainValue);
 
         float xModifier = aCorner.x * (aBandwidth) / 2.0;
 
-        gl_Position = vec4(aCrossValue, yValue, 0, 1);
-        `
+        gl_Position = vec4(aCrossValue, yValue, 0, 1);`
 };
 
 export const preScaleLine = {
@@ -171,7 +210,8 @@ export const preScaleLine = {
         uniform vec2 uScreen;
 
         varying float vDefined;`,
-    body: `vDefined = aDefined;
+    body: `
+        vDefined = aDefined;
         vec4 next = vec4(aCrossNextValue, aMainNextValue, 0, 0);
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);
         vec4 prev = vec4(aCrossPrevValue, aMainPrevValue, 0, 0);
@@ -179,7 +219,8 @@ export const preScaleLine = {
 };
 
 export const postScaleLine = {
-    body: `vec4 prevVertexPosition = gl_Position;
+    body: `
+        vec4 prevVertexPosition = gl_Position;
         vec4 currVertexPosition = gl_Position;
         
         if (all(equal(prev.xy, prevPrev.xy))) {
@@ -230,10 +271,14 @@ export const errorBar = {
         attribute float aBandwidth;
         attribute float aHighValue;
         attribute float aLowValue;
+        attribute float aDefined;
 
         uniform vec2 uScreen;
-        uniform float uStrokeWidth;`,
+        uniform float uStrokeWidth;
+        
+        varying float vDefined;`,
     body: `
+        vDefined = aDefined;
         float isLow = (aCorner.y + 1.0) / 2.0;
         float yValue = isLow * aLowValue + (1.0 - isLow) * aHighValue;
 
@@ -244,8 +289,7 @@ export const errorBar = {
         gl_Position = vec4(aCrossValue, yValue, 0, 1);
         
         float xModifier = (uStrokeWidth * lineWidthXDirection) + (aBandwidth * aCorner.x / 2.0);
-        float yModifier = (uStrokeWidth * lineWidthYDirection);
-    `
+        float yModifier = (uStrokeWidth * lineWidthYDirection);`
 };
 
 export const area = {
@@ -268,7 +312,8 @@ export const area = {
         float and(float a, float b) {
             return a * b;
         }`,
-    body: `vDefined = aDefined;
+    body: `
+        vDefined = aDefined;
         gl_Position = vec4(0, 0, 0, 1);
 
         float hasIntercepted = when_lt((aMainValue - aBaseValue) * (aMainPrevValue - aBasePrevValue), 0.0);
@@ -302,10 +347,14 @@ export const boxPlot = {
         attribute float aMedianValue;
         attribute float aLowerQuartileValue;
         attribute float aLowValue;
+        attribute float aDefined;
 
         uniform vec2 uScreen;
-        uniform float uStrokeWidth;`,
-    body: `   
+        uniform float uStrokeWidth;
+        
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
         float isExtremeY = sign(abs(aCorner.y) - 2.0) + 1.0;
         float isNotExtremeY = 1.0 - isExtremeY;
 
@@ -332,6 +381,5 @@ export const boxPlot = {
         float xDisplacement = aCorner.x * (isExtremeY * aCap + isNotExtremeY * aBandwidth) / 2.0;
         
         float xModifier = (isVertical * uStrokeWidth * aCorner.z / 2.0) + xDisplacement;
-        float yModifier = isHorizontal * uStrokeWidth * aCorner.z / 2.0;
-        `
+        float yModifier = isHorizontal * uStrokeWidth * aCorner.z / 2.0;`
 };

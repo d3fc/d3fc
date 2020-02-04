@@ -10,7 +10,6 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
-    let filteredData = [];
 
     const bar = (data) => {
         const xScale = scaleMapper(base.xScale());
@@ -18,30 +17,33 @@ export default () => {
 
         if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
             previousData = data;
-            filteredData = data.filter(base.defined());
 
-            const xValues = new Float32Array(filteredData.length);
-            const y0Values = new Float32Array(filteredData.length);
-            const yValues = new Float32Array(filteredData.length);
-            const widths = new Float32Array(filteredData.length);
-            filteredData.forEach((d, i) => {
+            const xValues = new Float32Array(data.length);
+            const y0Values = new Float32Array(data.length);
+            const yValues = new Float32Array(data.length);
+            const widths = new Float32Array(data.length);
+            const defined = new Float32Array(data.length);
+
+            data.forEach((d, i) => {
                 xValues[i] = xScale.scale(base.crossValue()(d, i));
                 widths[i] = xScale.scale(base.bandwidth()(d, i));
                 y0Values[i] = yScale.scale(base.baseValue()(d, i));
                 yValues[i] = yScale.scale(base.mainValue()(d, i));
+                defined[i] = base.defined()(d, i);
             });
 
             draw.xValues(xValues)
                 .y0Values(y0Values)
                 .yValues(yValues)
-                .widths(widths);
+                .widths(widths)
+                .defined(defined);
         }
 
         draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .decorate((program) => base.decorate()(program, filteredData, 0));
+            .decorate((program) => base.decorate()(program, data, 0));
 
-        draw(filteredData.length);
+        draw(data.length);
     };
 
     bar.equals = (...args) => {
