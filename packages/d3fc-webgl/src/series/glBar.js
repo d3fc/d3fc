@@ -55,6 +55,8 @@ export default () => {
             [1, -1]
         ]);
 
+    const definedAttribute = elementConstantAttributeBuilder();
+
     const elementIndices = elementIndicesBuilder().data([0, 1, 2, 0, 1, 3]);
 
     const draw = numElements => {
@@ -71,7 +73,8 @@ export default () => {
             .attribute('aCrossValue', xValueAttribute)
             .attribute('aMainValue', yValueAttribute)
             .attribute('aBaseValue', y0ValueAttribute)
-            .attribute('aBandwidth', widthValueAttribute);
+            .attribute('aBandwidth', widthValueAttribute)
+            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);
@@ -104,6 +107,11 @@ export default () => {
 
     draw.widths = data => {
         widthValueAttribute.data(data);
+        return draw;
+    };
+
+    draw.defined = data => {
+        definedAttribute.data(data);
         return draw;
     };
 
