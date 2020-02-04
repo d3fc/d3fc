@@ -6,23 +6,33 @@ export default () => {
     const base = baseAttributeBuilder().divisor(1);
     const factory = float32ArrayFactory();
 
-    let value = (data, element, vertex, component, index) => data[element];
+    let value = (data, element) => data[element];
     let data = null;
 
     const project = elementCount => {
-        const components = base.size();
+        const componentCount = base.size();
         const offset = base.offset();
-        const requiredLength = offset + elementCount * components;
+        const requiredLength = offset + elementCount * componentCount;
         const projectedData = factory(requiredLength);
-        let element = 0;
-        for (
-            let index = offset;
-            index < projectedData.length;
-            index += components
-        ) {
-            projectedData.fill(value(data, element), index, index + components);
-            element++;
+
+        if (componentCount > 1) {
+            for (let element = 0; element < elementCount; element++) {
+                for (
+                    let component = 0;
+                    component < componentCount;
+                    component++
+                ) {
+                    projectedData[
+                        offset + element * componentCount + component
+                    ] = value(data, element)[component];
+                }
+            }
+        } else {
+            for (let element = 0; element < elementCount; element++) {
+                projectedData[offset + element] = value(data, element);
+            }
         }
+
         return projectedData;
     };
 
