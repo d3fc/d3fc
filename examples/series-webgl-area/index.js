@@ -15,13 +15,12 @@ const gl = d3
     .getContext('webgl');
 
 const series = fc
-    .seriesWebglBar()
+    .seriesWebglArea()
     .xScale(xScale)
     .yScale(yScale)
     .context(gl)
-    .crossValue((d, i) => i)
+    .crossValue((_, i) => i)
     .mainValue(d => d)
-    .bandwidth(0.05)
     .defined(() => true)
     .equals(previousData => previousData.length > 0);
 
@@ -33,7 +32,6 @@ d3.select(container)
         const domain = xScale.domain();
         const max = Math.round(domain[1] / 2);
         xScale.domain([0, max]);
-        series.bandwidth(series.bandwidth()() * 2);
         container.requestRedraw();
     })
     .on('measure', () => {
