@@ -20,11 +20,11 @@ const series = fc
     .yScale(yScale)
     .context(gl)
     .crossValue((_, i) => i)
-    .mainValue(d => d);
+    .mainValue(d => d)
+    .defined(() => true)
+    .equals(previousData => previousData.length > 0);
 
-const pixels = new Uint8Array(
-    gl.drawingBufferWidth * gl.drawingBufferHeight * 4
-);
+let pixels = null;
 let frame = 0;
 
 d3.select(container)
@@ -40,6 +40,11 @@ d3.select(container)
         yScale.range([height, 0]);
     })
     .on('draw', () => {
+        if (pixels == null) {
+            pixels = new Uint8Array(
+                gl.drawingBufferWidth * gl.drawingBufferHeight * 4
+            );
+        }
         performance.mark(`draw-start-${frame}`);
         series(data);
         // Force GPU to complete rendering to allow accurate performance measurements to be taken
