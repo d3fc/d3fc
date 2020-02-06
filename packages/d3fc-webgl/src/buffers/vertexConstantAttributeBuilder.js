@@ -1,10 +1,10 @@
 import baseAttributeBuilder from './baseAttributeBuilder';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
-import float32ArrayFactory from './float32ArrayFactory';
+import arrayViewFactory from './arrayViewFactory';
 
 export default () => {
     const base = baseAttributeBuilder();
-    const factory = float32ArrayFactory();
+    const factory = arrayViewFactory();
 
     let data = null;
 
@@ -13,7 +13,7 @@ export default () => {
         const offset = base.offset();
         const componentsPerElement = data.length * components;
         const requiredLength = offset + componentsPerElement;
-        const projectedData = factory(requiredLength);
+        const projectedData = factory.type(base.type())(requiredLength);
         let target = 0;
         for (let vertex = 0; vertex < data.length; vertex++) {
             if (data[vertex].length !== components) {

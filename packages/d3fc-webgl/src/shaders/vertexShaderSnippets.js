@@ -103,7 +103,7 @@ export const candlestick = {
         uniform float uStrokeWidth;
         
         varying float vColorIndicator;
-        varying float vDefined`,
+        varying float vDefined;`,
     body: `
         vDefined = aDefined;
         vColorIndicator = sign(aCloseValue - aOpenValue);

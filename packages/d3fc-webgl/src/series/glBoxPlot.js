@@ -7,6 +7,7 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import types from '../buffers/types';
 
 //           αL1     α     αR1
 //            .------.------.
@@ -61,9 +62,13 @@ export default () => {
 
     const lowAttribute = elementConstantAttributeBuilder();
 
-    const bandwidthAttribute = elementConstantAttributeBuilder();
+    const bandwidthAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_SHORT
+    );
 
-    const capWidthAttribute = elementConstantAttributeBuilder();
+    const capWidthAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_SHORT
+    );
 
     /*
      * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
@@ -74,6 +79,7 @@ export default () => {
      */
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(4)
+        .type(types.BYTE)
         .data([
             // Top cap line
             [-1, -2, -1, 1],
@@ -122,7 +128,9 @@ export default () => {
             [-1, 2, 1, 1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder();
+    const definedAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_BYTE
+    );
 
     const elementIndices = elementIndicesBuilder().data([
         // Top cap line

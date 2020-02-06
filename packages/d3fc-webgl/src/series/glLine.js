@@ -8,6 +8,7 @@ import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import types from '../buffers/types';
 
 export default () => {
     let xScale = glScaleBase();
@@ -46,6 +47,7 @@ export default () => {
 
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
+        .type(types.BYTE)
         .data([
             [-1, 0, 0],
             [1, 1, 0],
@@ -54,14 +56,14 @@ export default () => {
             [1, 1, 1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => {
+    const definedAttribute = elementConstantAttributeBuilder()
+        .type(types.UNSIGNED_BYTE)
+        .value((data, element) => {
             const value = data[element];
             const nextValue =
                 element === data.length - 1 ? 0 : data[element + 1];
             return value ? nextValue : value;
-        }
-    );
+        });
 
     const elementIndices = elementIndicesBuilder().data([
         0,
