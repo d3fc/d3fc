@@ -4,6 +4,7 @@ import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import types from '../buffers/types';
 
 export default () => {
     const program = programBuilder();
@@ -16,9 +17,13 @@ export default () => {
 
     const yValueAttribute = elementConstantAttributeBuilder().divisor(0);
 
-    const sizeAttribute = elementConstantAttributeBuilder().divisor(0);
+    const sizeAttribute = elementConstantAttributeBuilder()
+        .divisor(0)
+        .type(types.UNSIGNED_SHORT);
 
-    const definedAttribute = elementConstantAttributeBuilder().divisor(0);
+    const definedAttribute = elementConstantAttributeBuilder()
+        .divisor(0)
+        .type(types.UNSIGNED_BYTE);
 
     const draw = numElements => {
         program

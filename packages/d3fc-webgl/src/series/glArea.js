@@ -6,6 +6,7 @@ import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import types from '../buffers/types';
 
 export default () => {
     let xScale = glScaleBase();
@@ -32,6 +33,7 @@ export default () => {
 
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
+        .type(types.UNSIGNED_BYTE)
         .data([
             [0, 0, 0],
             [0, 1, 0],
@@ -41,14 +43,14 @@ export default () => {
             [1, 1, 0]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder().value(
-        (data, element, vertex, component) => {
+    const definedAttribute = elementConstantAttributeBuilder()
+        .type(types.UNSIGNED_BYTE)
+        .value((data, element) => {
             const value = data[element];
             const nextValue =
                 element === data.length - 1 ? 0 : data[element + 1];
             return value ? nextValue : value;
-        }
-    );
+        });
 
     const elementIndices = elementIndicesBuilder().data([0, 1, 2, 3, 4, 5]);
 

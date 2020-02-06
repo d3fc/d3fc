@@ -1,24 +1,18 @@
-const types = {
-    BYTE: 5120,
-    UNSIGNED_BYTE: 5121,
-    SHORT: 5122,
-    UNSIGNED_SHORT: 5123,
-    FLOAT: 5126
-};
+import types from './types';
 
-export default types;
-
-export function length(type) {
+export default type => {
     switch (type) {
         case types.BYTE:
+            return Int8Array;
         case types.UNSIGNED_BYTE:
-            return 1;
+            return Uint8Array;
         case types.SHORT:
+            return Int16Array;
         case types.UNSIGNED_SHORT:
-            return 2;
+            return Uint16Array;
         case types.FLOAT:
-            return 4;
+            return Float32Array;
         default:
             throw new Error(`Unknown type ${type}`);
     }
-}
+};

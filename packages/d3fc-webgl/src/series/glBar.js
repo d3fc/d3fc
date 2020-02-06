@@ -6,6 +6,7 @@ import glScaleBase from '../scale/glScaleBase';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import types from '../buffers/types';
 
 //     βL            β            βR
 //     .-------------.------------.
@@ -44,10 +45,13 @@ export default () => {
 
     const y0ValueAttribute = elementConstantAttributeBuilder();
 
-    const widthValueAttribute = elementConstantAttributeBuilder();
+    const widthValueAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_SHORT
+    );
 
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(2)
+        .type(types.BYTE)
         .data([
             [-1, -1],
             [1, 1],
@@ -55,7 +59,9 @@ export default () => {
             [1, -1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder();
+    const definedAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_BYTE
+    );
 
     const elementIndices = elementIndicesBuilder().data([0, 1, 2, 0, 1, 3]);
 

@@ -7,6 +7,7 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import types from '../buffers/types';
 
 export default () => {
     const program = programBuilder();
@@ -21,7 +22,9 @@ export default () => {
 
     const lowValueAttribute = elementConstantAttributeBuilder();
 
-    const bandwidthAttribute = elementConstantAttributeBuilder();
+    const bandwidthAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_SHORT
+    );
 
     /*
      * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
@@ -31,6 +34,7 @@ export default () => {
      */
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
+        .type(types.BYTE)
         .data([
             // Main stem
             [0, 1, 1],
@@ -49,7 +53,9 @@ export default () => {
             [1, 1, -1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder();
+    const definedAttribute = elementConstantAttributeBuilder().type(
+        types.UNSIGNED_BYTE
+    );
 
     const elementIndices = elementIndicesBuilder().data([
         // Main stem

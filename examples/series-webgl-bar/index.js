@@ -21,7 +21,7 @@ const series = fc
     .context(gl)
     .crossValue((d, i) => i)
     .mainValue(d => d)
-    .bandwidth(0.05)
+    .bandwidth(1)
     .defined(() => true)
     .equals(previousData => previousData.length > 0);
 
