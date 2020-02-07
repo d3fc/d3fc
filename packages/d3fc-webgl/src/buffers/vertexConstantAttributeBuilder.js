@@ -1,39 +1,39 @@
 import baseAttributeBuilder from './baseAttributeBuilder';
-import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
-import arrayViewFactory from './arrayViewFactory';
+import { rebind } from '@d3fc/d3fc-rebind';
+import defaultArrayViewFactory from './arrayViewFactory';
 
 export default () => {
     const base = baseAttributeBuilder();
-    const factory = arrayViewFactory();
+    const arrayViewFactory = defaultArrayViewFactory();
 
+    let dirty = true;
     let data = null;
+    let size = 0;
 
     const project = () => {
-        const components = base.size();
-        const offset = base.offset();
-        const componentsPerElement = data.length * components;
-        const requiredLength = offset + componentsPerElement;
-        const projectedData = factory.type(base.type())(requiredLength);
+        const componentsPerElement = data.length * size;
+        const projectedData = arrayViewFactory(componentsPerElement);
         let target = 0;
         for (let vertex = 0; vertex < data.length; vertex++) {
-            if (data[vertex].length !== components) {
+            if (data[vertex].length !== size) {
                 throw new Error(
-                    `Expected components array of size ${components}, recieved array with length ${data[vertex].length}.`
+                    `Expected components array of size ${size}, recieved array with length ${data[vertex].length}.`
                 );
             }
-            for (let component = 0; component < components; component++) {
-                projectedData[offset + target] = data[vertex][component];
+            for (let component = 0; component < size; component++) {
+                projectedData[target] = data[vertex][component];
                 target++;
             }
         }
-
         return projectedData;
     };
 
     const build = (gl, program, name, count) => {
+        base.size(size).type(build.type());
+
         base(gl, program, name);
 
-        if (!base.hasPropertyChanged()) {
+        if (!dirty) {
             return;
         }
 
@@ -42,7 +42,7 @@ export default () => {
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
 
-        base.hasPropertyChanged(false);
+        dirty = false;
     };
 
     build.data = (...args) => {
@@ -50,11 +50,21 @@ export default () => {
             return data;
         }
         data = args[0];
-        base.hasPropertyChanged(true);
+        dirty = true;
         return build;
     };
 
-    rebindAll(build, base, exclude('buffer'));
+    build.size = (...args) => {
+        if (!args.length) {
+            return size;
+        }
+        size = args[0];
+        dirty = true;
+        return build;
+    };
+
+    rebind(build, base, 'normalized');
+    rebind(build, arrayViewFactory, 'type');
 
     return build;
 };
