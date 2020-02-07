@@ -7,29 +7,33 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
+import slidingWindowElementConstantAttributeBuilder from '../buffers/slidingWindowElementConstantAttributeBuilder';
 
 export default () => {
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const xValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    const xPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
+        0,
+        1
     );
 
-    const xPreviousValueAttribute = elementConstantAttributeBuilder();
+    const xValueAttribute = xPreviousValueAttribute.offset(1);
 
-    const yValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    const yPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
+        0,
+        1
     );
 
-    const yPreviousValueAttribute = elementConstantAttributeBuilder();
+    const yValueAttribute = yPreviousValueAttribute.offset(1);
 
-    const y0ValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    const y0PreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
+        0,
+        1
     );
 
-    const y0PreviousValueAttribute = elementConstantAttributeBuilder();
+    const y0ValueAttribute = y0PreviousValueAttribute.offset(1);
 
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
@@ -85,19 +89,16 @@ export default () => {
     };
 
     draw.xValues = data => {
-        xValueAttribute.data(data);
         xPreviousValueAttribute.data(data);
         return draw;
     };
 
     draw.yValues = data => {
-        yValueAttribute.data(data);
         yPreviousValueAttribute.data(data);
         return draw;
     };
 
     draw.y0Values = data => {
-        y0ValueAttribute.data(data);
         y0PreviousValueAttribute.data(data);
         return draw;
     };
