@@ -9,6 +9,7 @@ import elementConstantAttributeBuilder from '../buffers/elementConstantAttribute
 import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
+import slidingWindowElementConstantAttributeBuilder from '../buffers/slidingWindowElementConstantAttributeBuilder';
 
 export default () => {
     let xScale = glScaleBase();
@@ -17,33 +18,27 @@ export default () => {
 
     const lineWidth = lineWidthShader();
 
-    const xValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 1, data.length - 1)]
+    const xPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
+        -1,
+        2
     );
 
-    const xNextValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 2, data.length - 1)]
+    const xValueAttribute = xPreviousValueAttribute.offset(1);
+
+    const xNextValueAttribute = xPreviousValueAttribute.offset(2);
+
+    const xPreviousPreviousValueAttribute = xPreviousValueAttribute.offset(-1);
+
+    const yPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
+        -1,
+        2
     );
 
-    const xPreviousValueAttribute = elementConstantAttributeBuilder();
+    const yValueAttribute = yPreviousValueAttribute.offset(1);
 
-    const xPreviousPreviousValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.max(element - 1, 0)]
-    );
+    const yNextValueAttribute = yPreviousValueAttribute.offset(2);
 
-    const yValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 1, data.length - 1)]
-    );
-
-    const yNextValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.min(element + 2, data.length - 1)]
-    );
-
-    const yPreviousValueAttribute = elementConstantAttributeBuilder();
-
-    const yPreviousPreviousValueAttribute = elementConstantAttributeBuilder().value(
-        (data, element) => data[Math.max(element - 1, 0)]
-    );
+    const yPreviousPreviousValueAttribute = yPreviousValueAttribute.offset(-1);
 
     const cornerAttribute = vertexConstantAttributeBuilder()
         .size(3)
@@ -125,18 +120,12 @@ export default () => {
     };
 
     draw.xValues = data => {
-        xValueAttribute.data(data);
-        xNextValueAttribute.data(data);
         xPreviousValueAttribute.data(data);
-        xPreviousPreviousValueAttribute.data(data);
         return draw;
     };
 
     draw.yValues = data => {
-        yValueAttribute.data(data);
-        yNextValueAttribute.data(data);
         yPreviousValueAttribute.data(data);
-        yPreviousPreviousValueAttribute.data(data);
         return draw;
     };
 
