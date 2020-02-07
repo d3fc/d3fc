@@ -7,13 +7,11 @@ export default () => {
     let normalized = false;
     let stride = 0;
     let offset = 0;
-    let hasPropertyChanged = true;
     let divisor = 0;
 
     const base = (gl, program, name) => {
         if (buffer == null || !gl.isBuffer(buffer)) {
             buffer = gl.createBuffer();
-            hasPropertyChanged = true;
         }
 
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -32,20 +30,11 @@ export default () => {
         ext.vertexAttribDivisorANGLE(location, divisor);
     };
 
-    base.hasPropertyChanged = (...args) => {
-        if (!args.length) {
-            return hasPropertyChanged;
-        }
-        hasPropertyChanged = args[0];
-        return base;
-    };
-
     base.buffer = (...args) => {
         if (!args.length) {
             return buffer;
         }
         buffer = args[0];
-        hasPropertyChanged = true;
         return base;
     };
 
@@ -54,7 +43,6 @@ export default () => {
             return size;
         }
         size = args[0];
-        hasPropertyChanged = true;
         return base;
     };
 
@@ -63,7 +51,6 @@ export default () => {
             return type;
         }
         type = args[0];
-        hasPropertyChanged = true;
         return base;
     };
 
@@ -72,7 +59,6 @@ export default () => {
             return normalized;
         }
         normalized = args[0];
-        hasPropertyChanged = true;
         return base;
     };
 
@@ -81,7 +67,6 @@ export default () => {
             return stride;
         }
         stride = args[0];
-        hasPropertyChanged = true;
         return base;
     };
 
@@ -90,7 +75,6 @@ export default () => {
             return offset;
         }
         offset = args[0];
-        hasPropertyChanged = true;
         return base;
     };
 
