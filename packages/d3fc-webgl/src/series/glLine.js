@@ -5,11 +5,11 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
-import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
+import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
-import slidingWindowElementConstantAttributeBuilder from '../buffers/slidingWindowElementConstantAttributeBuilder';
+import adjacentElementAttribute from '../buffers/adjacentElementAttribute';
 
 export default () => {
     let xScale = glScaleBase();
@@ -18,10 +18,7 @@ export default () => {
 
     const lineWidth = lineWidthShader();
 
-    const xPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
-        -1,
-        2
-    );
+    const xPreviousValueAttribute = adjacentElementAttribute(-1, 2);
 
     const xValueAttribute = xPreviousValueAttribute.offset(1);
 
@@ -29,10 +26,7 @@ export default () => {
 
     const xPreviousPreviousValueAttribute = xPreviousValueAttribute.offset(-1);
 
-    const yPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
-        -1,
-        2
-    );
+    const yPreviousValueAttribute = adjacentElementAttribute(-1, 2);
 
     const yValueAttribute = yPreviousValueAttribute.offset(1);
 
@@ -40,7 +34,7 @@ export default () => {
 
     const yPreviousPreviousValueAttribute = yPreviousValueAttribute.offset(-1);
 
-    const cornerAttribute = vertexConstantAttributeBuilder()
+    const cornerAttribute = vertexAttribute()
         .size(3)
         .type(types.BYTE)
         .data([
@@ -51,7 +45,7 @@ export default () => {
             [1, 1, 1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder()
+    const definedAttribute = elementAttribute()
         .type(types.UNSIGNED_BYTE)
         .value((data, element) => {
             const value = data[element];
