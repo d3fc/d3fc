@@ -3,8 +3,8 @@ import programBuilder from '../program/programBuilder';
 import barShader from '../shaders/bar/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 import glScaleBase from '../scale/glScaleBase';
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
-import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
+import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
 
@@ -39,17 +39,15 @@ export default () => {
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const xValueAttribute = elementConstantAttributeBuilder();
+    const xValueAttribute = elementAttribute();
 
-    const yValueAttribute = elementConstantAttributeBuilder();
+    const yValueAttribute = elementAttribute();
 
-    const y0ValueAttribute = elementConstantAttributeBuilder();
+    const y0ValueAttribute = elementAttribute();
 
-    const widthValueAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_SHORT
-    );
+    const widthValueAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
-    const cornerAttribute = vertexConstantAttributeBuilder()
+    const cornerAttribute = vertexAttribute()
         .size(2)
         .type(types.BYTE)
         .data([
@@ -59,9 +57,7 @@ export default () => {
             [1, -1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_BYTE
-    );
+    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
     const elementIndices = elementIndicesBuilder().data([0, 1, 2, 0, 1, 3]);
 

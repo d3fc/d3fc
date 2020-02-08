@@ -4,8 +4,8 @@ import boxPlotShader from '../shaders/boxPlot/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
-import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
+import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
 
@@ -50,25 +50,21 @@ export default () => {
     let decorate = () => {};
     const lineWidth = lineWidthShader();
 
-    const xValueAttribute = elementConstantAttributeBuilder();
+    const xValueAttribute = elementAttribute();
 
-    const highAttribute = elementConstantAttributeBuilder();
+    const highAttribute = elementAttribute();
 
-    const upperQuartileAttribute = elementConstantAttributeBuilder();
+    const upperQuartileAttribute = elementAttribute();
 
-    const medianAttribute = elementConstantAttributeBuilder();
+    const medianAttribute = elementAttribute();
 
-    const lowerQuartileAttribute = elementConstantAttributeBuilder();
+    const lowerQuartileAttribute = elementAttribute();
 
-    const lowAttribute = elementConstantAttributeBuilder();
+    const lowAttribute = elementAttribute();
 
-    const bandwidthAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_SHORT
-    );
+    const bandwidthAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
-    const capWidthAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_SHORT
-    );
+    const capWidthAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
     /*
      * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
@@ -77,7 +73,7 @@ export default () => {
      * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
      * W: Indicator to determine line orientation (needed because some corners are part of two lines). - 0: VERTICAL, 1: HORIZONTAL
      */
-    const cornerAttribute = vertexConstantAttributeBuilder()
+    const cornerAttribute = vertexAttribute()
         .size(4)
         .type(types.BYTE)
         .data([
@@ -128,9 +124,7 @@ export default () => {
             [-1, 2, 1, 1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_BYTE
-    );
+    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
     const elementIndices = elementIndicesBuilder().data([
         // Top cap line

@@ -1,4 +1,4 @@
-import baseAttributeBuilder from './baseAttributeBuilder';
+import baseAttributeBuilder from './baseAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {

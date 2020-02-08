@@ -4,8 +4,8 @@ import ohlcShader from '../shaders/ohlc/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
-import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
+import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
 
@@ -16,19 +16,17 @@ export default () => {
     const lineWidth = lineWidthShader();
     let decorate = () => {};
 
-    const xValueAttribute = elementConstantAttributeBuilder();
+    const xValueAttribute = elementAttribute();
 
-    const highAttribute = elementConstantAttributeBuilder();
+    const highAttribute = elementAttribute();
 
-    const openAttribute = elementConstantAttributeBuilder();
+    const openAttribute = elementAttribute();
 
-    const closeAttribute = elementConstantAttributeBuilder();
+    const closeAttribute = elementAttribute();
 
-    const lowAttribute = elementConstantAttributeBuilder();
+    const lowAttribute = elementAttribute();
 
-    const bandwidthAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_SHORT
-    );
+    const bandwidthAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
     /*
      * x-y coordinate to locate the "corners" of the element.
@@ -36,7 +34,7 @@ export default () => {
      * Y: -2: HIGH, -1: OPEN, 1: CLOSE, 2: LOW
      * Z - Follows convention for X/Y (appropriate direction will be selected by the shader): -1: LEFT/TOP, 1: RIGHT/BOTTOM
      */
-    const cornerAttribute = vertexConstantAttributeBuilder()
+    const cornerAttribute = vertexAttribute()
         .size(3)
         .type(types.BYTE)
         .data([
@@ -57,9 +55,7 @@ export default () => {
             [1, 1, -1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_BYTE
-    );
+    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
     const elementIndices = elementIndicesBuilder().data([
         // Main stem

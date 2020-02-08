@@ -4,8 +4,8 @@ import errorBarShader from '../shaders/errorBar/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
-import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
+import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
 
@@ -16,15 +16,13 @@ export default () => {
     let decorate = () => {};
     const lineWidth = lineWidthShader();
 
-    const xValueAttribute = elementConstantAttributeBuilder();
+    const xValueAttribute = elementAttribute();
 
-    const highValueAttribute = elementConstantAttributeBuilder();
+    const highValueAttribute = elementAttribute();
 
-    const lowValueAttribute = elementConstantAttributeBuilder();
+    const lowValueAttribute = elementAttribute();
 
-    const bandwidthAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_SHORT
-    );
+    const bandwidthAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
     /*
      * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
@@ -32,7 +30,7 @@ export default () => {
      * Y: -1: HIGH, 1: LOW
      * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
      */
-    const cornerAttribute = vertexConstantAttributeBuilder()
+    const cornerAttribute = vertexAttribute()
         .size(3)
         .type(types.BYTE)
         .data([
@@ -53,9 +51,7 @@ export default () => {
             [1, 1, -1]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder().type(
-        types.UNSIGNED_BYTE
-    );
+    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
     const elementIndices = elementIndicesBuilder().data([
         // Main stem
