@@ -1,9 +1,9 @@
-import baseAttributeBuilder from './baseAttributeBuilder';
+import baseAttribute from './baseAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 import defaultArrayViewFactory from './arrayViewFactory';
 
 export default () => {
-    const base = baseAttributeBuilder();
+    const base = baseAttribute();
     const arrayViewFactory = defaultArrayViewFactory();
 
     let dirty = true;

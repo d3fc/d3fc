@@ -1,4 +1,4 @@
-import baseAttributeBuilder from './baseAttributeBuilder';
+import baseAttribute from './baseAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 import attributeProjector from './attributeProjector';
 import { length } from './types';
@@ -9,7 +9,7 @@ export default (minOffset = 0, maxOffset = 0) => {
             `Offset values (${minOffset} & ${maxOffset}) must straddle 0 `
         );
     }
-    const base = baseAttributeBuilder().divisor(1);
+    const base = baseAttribute().divisor(1);
     const projector = attributeProjector();
 
     const build = (gl, program, name, count) => {

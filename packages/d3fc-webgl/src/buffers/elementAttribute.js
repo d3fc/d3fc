@@ -1,9 +1,9 @@
-import baseAttributeBuilder from './baseAttributeBuilder';
+import baseAttribute from './baseAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 import attributeProjector from './attributeProjector';
 
 export default () => {
-    const base = baseAttributeBuilder().divisor(1);
+    const base = baseAttribute().divisor(1);
     const projector = attributeProjector();
 
     const build = (gl, program, name, count) => {
