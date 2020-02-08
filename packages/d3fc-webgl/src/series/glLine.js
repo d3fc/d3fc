@@ -13,7 +13,7 @@ import adjacentElementAttribute from '../buffers/adjacentElementAttribute';
 export default () => {
     let xScale = glScaleBase();
     let yScale = glScaleBase();
-    let decorate = () => {};
+    let decorate = () => { };
 
     const lineWidth = lineWidthShader();
 
