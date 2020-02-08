@@ -6,24 +6,35 @@ export default () => {
     let size = 1; // per vertex
     let type = types.FLOAT;
     let arrayViewFactory = defaultArrayViewFactory();
-    let value = (data, element) => data[element];
+    let value = (data, i) => data[i];
     let data = null;
 
-    const projector = elementCount => {
-        const requiredLength = elementCount * size;
-        const projectedData = arrayViewFactory.type(type)(requiredLength);
+    const projector = () => {
+        const length = data.length;
+        const projectedData = arrayViewFactory.type(type)(length * size);
 
         if (size > 1) {
-            for (let element = 0; element < elementCount; element++) {
-                const componentValues = value(data, element);
+            for (let i = 0; i < length; i++) {
+                const componentValues = value(data, i);
+                if (componentValues.length !== size) {
+                    throw new Error(
+                        `Expected components array of size ${size}, recieved array with length ${componentValues.length}.`
+                    );
+                }
                 for (let component = 0; component < size; component++) {
-                    projectedData[element * size + component] =
+                    projectedData[i * size + component] =
                         componentValues[component];
                 }
             }
         } else {
-            for (let element = 0; element < elementCount; element++) {
-                projectedData[element] = value(data, element);
+            for (let i = 0; i < length; i++) {
+                const componentValue = value(data, i);
+                if (Array.isArray(componentValue)) {
+                    throw new Error(
+                        `Expected a single component value, recieved array with length ${componentValue.length}.`
+                    );
+                }
+                projectedData[i] = componentValue;
             }
         }
 

@@ -12,11 +12,9 @@ export default (minOffset = 0, maxOffset = 0) => {
     const base = baseAttribute().divisor(1);
     const projector = attributeProjector();
 
-    const build = (gl, program, name, count) => {
+    const build = (gl, program, name) => {
         const elementSize = build.size() * length(build.type());
         const bufferOffset = Math.abs(minOffset) * elementSize;
-        const bufferLength =
-            (Math.abs(minOffset) + count + maxOffset) * elementSize;
 
         base.offset(bufferOffset)
             .size(build.size())
@@ -27,7 +25,12 @@ export default (minOffset = 0, maxOffset = 0) => {
         if (!projector.dirty()) {
             return;
         }
-        const projectedData = projector(count);
+        const projectedData = projector();
+        const bufferPadding = maxOffset * elementSize;
+        const bufferLength =
+            bufferOffset +
+            projectedData.length * length(build.type()) +
+            bufferPadding;
 
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
         gl.bufferData(gl.ARRAY_BUFFER, bufferLength, gl.DYNAMIC_DRAW);
@@ -40,7 +43,7 @@ export default (minOffset = 0, maxOffset = 0) => {
                 `Requested offset ${offset} exceeds bounds (${minOffset} & ${maxOffset}) `
             );
         }
-        return (gl, program, name, count) => {
+        return (gl, program, name) => {
             base.offset(
                 (offset - minOffset) * build.size() * length(build.type())
             );
