@@ -13,7 +13,7 @@ export default (pathGenerator) => {
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
-        if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
+        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
             const xValues = new Float32Array(data.length);

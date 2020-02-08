@@ -18,7 +18,7 @@ export default () => {
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
-        if (isIdentityScale(xScale.scale) && isIdentityScale(yScale.scale) && !equals(previousData, data)) {
+        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
             const accessor = getAccessors();
