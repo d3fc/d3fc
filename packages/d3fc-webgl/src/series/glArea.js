@@ -1,4 +1,3 @@
-import elementAttribute from '../buffers/elementAttribute';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
@@ -38,14 +37,11 @@ export default () => {
             [1, 1, 0]
         ]);
 
-    const definedAttribute = elementAttribute()
-        .type(types.UNSIGNED_BYTE)
-        .value((data, element) => {
-            const value = data[element];
-            const nextValue =
-                element === data.length - 1 ? 0 : data[element + 1];
-            return value ? nextValue : value;
-        });
+    const definedAttribute = adjacentElementAttribute(0, 1).type(
+        types.UNSIGNED_BYTE
+    );
+
+    const definedNextAttribute = definedAttribute.offset(1);
 
     const elementIndices = elementIndicesBuilder().data([0, 1, 2, 3, 4, 5]);
 
@@ -61,7 +57,8 @@ export default () => {
         .attribute('aBaseValue', y0ValueAttribute)
         .attribute('aBasePrevValue', y0PreviousValueAttribute)
         .attribute('aCorner', cornerAttribute)
-        .attribute('aDefined', definedAttribute);
+        .attribute('aDefined', definedAttribute)
+        .attribute('aDefinedNext', definedNextAttribute);
 
     const draw = numElements => {
         const shaderBuilder = areaShader();
