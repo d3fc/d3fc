@@ -5,7 +5,6 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
-import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
@@ -45,14 +44,11 @@ export default () => {
             [1, 1, 1]
         ]);
 
-    const definedAttribute = elementAttribute()
-        .type(types.UNSIGNED_BYTE)
-        .value((data, element) => {
-            const value = data[element];
-            const nextValue =
-                element === data.length - 1 ? 0 : data[element + 1];
-            return value ? nextValue : value;
-        });
+    const definedAttribute = adjacentElementAttribute(0, 1).type(
+        types.UNSIGNED_BYTE
+    );
+
+    const definedNextAttribute = definedAttribute.offset(1);
 
     const elementIndices = elementIndicesBuilder().data([
         0,
@@ -83,7 +79,8 @@ export default () => {
         .attribute('aMainPrevValue', yPreviousValueAttribute)
         .attribute('aMainPrevPrevValue', yPreviousPreviousValueAttribute)
         .attribute('aCorner', cornerAttribute)
-        .attribute('aDefined', definedAttribute);
+        .attribute('aDefined', definedAttribute)
+        .attribute('aDefinedNext', definedNextAttribute);
 
     const draw = numElements => {
         const shaderBuilder = lineShader();

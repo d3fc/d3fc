@@ -205,13 +205,14 @@ export const preScaleLine = {
         attribute float aCrossPrevPrevValue;
         attribute float aMainPrevPrevValue;
         attribute float aDefined;
+        attribute float aDefinedNext;
         
         uniform float uStrokeWidth;
         uniform vec2 uScreen;
 
         varying float vDefined;`,
     body: `
-        vDefined = aDefined;
+        vDefined = aDefined * aDefinedNext;
         vec4 next = vec4(aCrossNextValue, aMainNextValue, 0, 0);
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);
         vec4 prev = vec4(aCrossPrevValue, aMainPrevValue, 0, 0);
@@ -302,6 +303,7 @@ export const area = {
         attribute float aBaseValue;
         attribute float aBasePrevValue;
         attribute float aDefined;
+        attribute float aDefinedNext;
 
         varying float vDefined;
         
@@ -313,7 +315,7 @@ export const area = {
             return a * b;
         }`,
     body: `
-        vDefined = aDefined;
+        vDefined = aDefined * aDefinedNext;
         gl_Position = vec4(0, 0, 0, 1);
 
         float hasIntercepted = when_lt((aMainValue - aBaseValue) * (aMainPrevValue - aBasePrevValue), 0.0);

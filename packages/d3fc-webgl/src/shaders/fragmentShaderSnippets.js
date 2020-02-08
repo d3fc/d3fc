@@ -80,7 +80,8 @@ export const ohlc = {
 };
 
 export const area = {
-    header: `varying float vDefined;`,
+    header: `
+        varying float vDefined;`,
     body: `if (vDefined < 0.5) {
             discard;
         }
