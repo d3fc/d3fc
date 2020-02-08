@@ -3,9 +3,9 @@ export default () => {
     const uniforms = {};
     let elementIndices = null;
 
-    const build = (gl, program, count) => {
+    const build = (gl, program) => {
         Object.keys(attributes).forEach(name => {
-            attributes[name](gl, program, name, count);
+            attributes[name](gl, program, name);
         });
 
         Object.keys(uniforms).forEach(name => {

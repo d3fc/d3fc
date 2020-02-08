@@ -5,7 +5,7 @@ export default () => {
     const base = baseAttributeBuilder().divisor(1);
     let value = null;
 
-    const build = (gl, program, name, count) => {
+    const build = (gl, program, name) => {
         base(gl, program, name);
 
         if (!Array.isArray(value)) {

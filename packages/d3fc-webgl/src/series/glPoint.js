@@ -3,8 +3,8 @@ import programBuilder from '../program/programBuilder';
 import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementAttribute from '../buffers/elementAttribute';
 import types from '../buffers/types';
+import vertexAttribute from '../buffers/vertexAttribute';
 
 export default () => {
     const program = programBuilder();
@@ -13,17 +13,13 @@ export default () => {
     let type = circlePointShader();
     let decorate = () => {};
 
-    const xValueAttribute = elementAttribute().divisor(0);
+    const xValueAttribute = vertexAttribute();
 
-    const yValueAttribute = elementAttribute().divisor(0);
+    const yValueAttribute = vertexAttribute();
 
-    const sizeAttribute = elementAttribute()
-        .divisor(0)
-        .type(types.UNSIGNED_SHORT);
+    const sizeAttribute = vertexAttribute().type(types.UNSIGNED_SHORT);
 
-    const definedAttribute = elementAttribute()
-        .divisor(0)
-        .type(types.UNSIGNED_BYTE);
+    const definedAttribute = vertexAttribute().type(types.UNSIGNED_BYTE);
 
     const draw = numElements => {
         program

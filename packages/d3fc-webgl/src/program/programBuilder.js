@@ -24,7 +24,7 @@ export default () => {
             uniformBuilder([context.canvas.width, context.canvas.height])
         );
 
-        buffers(context, program, count);
+        buffers(context, program);
 
         var ext = context.getExtension('ANGLE_instanced_arrays');
 

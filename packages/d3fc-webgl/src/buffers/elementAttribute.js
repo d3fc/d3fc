@@ -6,7 +6,7 @@ export default () => {
     const base = baseAttribute().divisor(1);
     const projector = attributeProjector();
 
-    const build = (gl, program, name, count) => {
+    const build = (gl, program, name) => {
         base.size(build.size()).type(build.type());
 
         base(gl, program, name);
@@ -15,12 +15,12 @@ export default () => {
             return;
         }
 
-        const projectedData = projector(count);
+        const projectedData = projector();
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
     };
 
-    rebind(build, base, 'normalized', 'divisor');
+    rebind(build, base, 'normalized');
     rebind(build, projector, 'data', 'value', 'size', 'type');
 
     return build;
