@@ -3,7 +3,7 @@ import programBuilder from '../program/programBuilder';
 import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
 import types from '../buffers/types';
 
 export default () => {
@@ -13,15 +13,15 @@ export default () => {
     let type = circlePointShader();
     let decorate = () => {};
 
-    const xValueAttribute = elementConstantAttributeBuilder().divisor(0);
+    const xValueAttribute = elementAttribute().divisor(0);
 
-    const yValueAttribute = elementConstantAttributeBuilder().divisor(0);
+    const yValueAttribute = elementAttribute().divisor(0);
 
-    const sizeAttribute = elementConstantAttributeBuilder()
+    const sizeAttribute = elementAttribute()
         .divisor(0)
         .type(types.UNSIGNED_SHORT);
 
-    const definedAttribute = elementConstantAttributeBuilder()
+    const definedAttribute = elementAttribute()
         .divisor(0)
         .type(types.UNSIGNED_BYTE);
 

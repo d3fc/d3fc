@@ -1,41 +1,32 @@
-import elementConstantAttributeBuilder from '../buffers/elementConstantAttributeBuilder';
+import elementAttribute from '../buffers/elementAttribute';
 import glScaleBase from '../scale/glScaleBase';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexConstantAttributeBuilder from '../buffers/vertexConstantAttributeBuilder';
+import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
 import types from '../buffers/types';
-import slidingWindowElementConstantAttributeBuilder from '../buffers/slidingWindowElementConstantAttributeBuilder';
+import adjacentElementAttribute from '../buffers/adjacentElementAttribute';
 
 export default () => {
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
 
-    const xPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
-        0,
-        1
-    );
+    const xPreviousValueAttribute = adjacentElementAttribute(0, 1);
 
     const xValueAttribute = xPreviousValueAttribute.offset(1);
 
-    const yPreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
-        0,
-        1
-    );
+    const yPreviousValueAttribute = adjacentElementAttribute(0, 1);
 
     const yValueAttribute = yPreviousValueAttribute.offset(1);
 
-    const y0PreviousValueAttribute = slidingWindowElementConstantAttributeBuilder(
-        0,
-        1
-    );
+    const y0PreviousValueAttribute = adjacentElementAttribute(0, 1);
 
     const y0ValueAttribute = y0PreviousValueAttribute.offset(1);
 
-    const cornerAttribute = vertexConstantAttributeBuilder()
+    const cornerAttribute = vertexAttribute()
         .size(3)
         .type(types.UNSIGNED_BYTE)
         .data([
@@ -47,7 +38,7 @@ export default () => {
             [1, 1, 0]
         ]);
 
-    const definedAttribute = elementConstantAttributeBuilder()
+    const definedAttribute = elementAttribute()
         .type(types.UNSIGNED_BYTE)
         .value((data, element) => {
             const value = data[element];
