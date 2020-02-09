@@ -3,10 +3,10 @@ import programBuilder from '../program/programBuilder';
 import barShader from '../shaders/bar/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 import glScaleBase from '../scale/glScaleBase';
-import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
+import rebindCurry from '../rebindCurry';
 
 //     βL            β            βR
 //     .-------------.------------.
@@ -34,18 +34,10 @@ import types from '../buffers/types';
 // β -> βR.
 
 export default () => {
-    const program = programBuilder();
+    const program = programBuilder().mode(drawModes.TRIANGLES);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
-
-    const xValueAttribute = elementAttribute();
-
-    const yValueAttribute = elementAttribute();
-
-    const y0ValueAttribute = elementAttribute();
-
-    const widthValueAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
     const cornerAttribute = vertexAttribute()
         .size(2)
@@ -57,24 +49,16 @@ export default () => {
             [1, -1]
         ]);
 
-    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
-
     program
         .buffers()
         .elementIndices(elementIndices([0, 1, 2, 0, 1, 3]))
-        .attribute('aCorner', cornerAttribute)
-        .attribute('aCrossValue', xValueAttribute)
-        .attribute('aMainValue', yValueAttribute)
-        .attribute('aBaseValue', y0ValueAttribute)
-        .attribute('aBandwidth', widthValueAttribute)
-        .attribute('aDefined', definedAttribute);
+        .attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
-        const shader = barShader();
+        const shaderBuilder = barShader();
         program
-            .vertexShader(shader.vertex())
-            .fragmentShader(shader.fragment())
-            .mode(drawModes.TRIANGLES);
+            .vertexShader(shaderBuilder.vertex())
+            .fragmentShader(shaderBuilder.fragment());
 
         xScale(program, 'gl_Position', 0);
         yScale(program, 'gl_Position', 1);
@@ -88,28 +72,11 @@ export default () => {
         program(numElements);
     };
 
-    draw.xValues = data => {
-        xValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.y0Values = data => {
-        y0ValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.yValues = data => {
-        yValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.widths = data => {
-        widthValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.defined = data => {
-        definedAttribute.data(data);
+    draw.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return draw;
     };
 
@@ -129,15 +96,42 @@ export default () => {
         return draw;
     };
 
-    draw.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
-        return draw;
-    };
-
     rebind(draw, program, 'context');
+    rebindCurry(
+        draw,
+        'crossValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aCrossValue'
+    );
+    rebindCurry(
+        draw,
+        'mainValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aMainValue'
+    );
+    rebindCurry(
+        draw,
+        'baseValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aBaseValue'
+    );
+    rebindCurry(
+        draw,
+        'bandwidthAttribute',
+        program.buffers(),
+        'attribute',
+        'aBandwidth'
+    );
+    rebindCurry(
+        draw,
+        'definedAttribute',
+        program.buffers(),
+        'attribute',
+        'aDefined'
+    );
 
     return draw;
 };

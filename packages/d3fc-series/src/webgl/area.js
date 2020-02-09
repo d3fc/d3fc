@@ -1,12 +1,35 @@
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
-import { glArea, scaleMapper } from '@d3fc/d3fc-webgl';
+import {
+    webglSeriesArea,
+    webglAdjacentElementAttribute,
+    webglScaleMapper,
+    webglTypes
+} from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = xyBase();
 
-    const draw = glArea();
+    const crossPreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const crossValueAttribute = crossPreviousValueAttribute.offset(1);
+    const mainPreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const mainValueAttribute = mainPreviousValueAttribute.offset(1);
+    const basePreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const baseValueAttribute = basePreviousValueAttribute.offset(1);
+    const definedAttribute = webglAdjacentElementAttribute(0, 1)
+        .type(webglTypes.UNSIGNED_BYTE);
+    const definedNextAttribute = definedAttribute.offset(1);
+
+    const draw = webglSeriesArea()
+        .crossValueAttribute(crossValueAttribute)
+        .crossPreviousValueAttribute(crossPreviousValueAttribute)
+        .mainValueAttribute(mainValueAttribute)
+        .mainPreviousValueAttribute(mainPreviousValueAttribute)
+        .baseValueAttribute(baseValueAttribute)
+        .basePreviousValueAttribute(basePreviousValueAttribute)
+        .definedAttribute(definedAttribute)
+        .definedNextAttribute(definedNextAttribute);
 
     let equals = (previousData, data) => false;
     let previousData = [];
@@ -16,31 +39,20 @@ export default () => {
             throw new Error(`Unsupported orientation ${base.orient()}`);
         }
 
-        const xScale = scaleMapper(base.xScale());
-        const yScale = scaleMapper(base.yScale());
+        const xScale = webglScaleMapper(base.xScale());
+        const yScale = webglScaleMapper(base.yScale());
 
         if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
-            const xValues = new Float32Array(data.length);
-            const yValues = new Float32Array(data.length);
-            const y0Values = new Float32Array(data.length);
-            const defined = new Float32Array(data.length);
-
-            data.forEach((d, i) => {
-                xValues[i] = xScale.scale(base.crossValue()(d, i));
-                yValues[i] = yScale.scale(base.mainValue()(d, i));
-                y0Values[i] = yScale.scale(base.baseValue()(d, i));
-                defined[i] = base.defined()(d, i);
-            });
-
-            draw.xValues(xValues)
-                .yValues(yValues)
-                .y0Values(y0Values)
-                .defined(defined);
+            crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            basePreviousValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
-        draw.xScale(xScale.glScale)
+        draw
+            .xScale(xScale.glScale)
             .yScale(yScale.glScale)
             .decorate((program) => base.decorate()(program, data, 0));
 
