@@ -1,68 +1,65 @@
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
-import { glLine, scaleMapper } from '@d3fc/d3fc-webgl';
+import {
+    glLine,
+    webglAdjacentElementAttribute,
+    webglScaleMapper,
+    webglTypes
+} from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = xyBase();
 
-    const draw = glLine();
+    const crossPreviousValueAttribute = webglAdjacentElementAttribute(-1, 2);
+    const crossValueAttribute = crossPreviousValueAttribute.offset(1);
+    const crossNextValueAttribute = crossPreviousValueAttribute.offset(2);
+    const crossPreviousPreviousValueAttribute = crossPreviousValueAttribute.offset(-1);
+    const mainPreviousValueAttribute = webglAdjacentElementAttribute(-1, 2);
+    const mainValueAttribute = mainPreviousValueAttribute.offset(1);
+    const mainNextValueAttribute = mainPreviousValueAttribute.offset(2);
+    const mainPreviousPreviousValueAttribute = mainPreviousValueAttribute.offset(-1);
+    const definedAttribute = webglAdjacentElementAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
+    const definedNextAttribute = definedAttribute.offset(1);
+
+    const draw = glLine()
+        .crossPreviousValueAttribute(crossPreviousValueAttribute)
+        .crossValueAttribute(crossValueAttribute)
+        .crossNextValueAttribute(crossNextValueAttribute)
+        .crossPreviousPreviousValueAttribute(crossPreviousPreviousValueAttribute)
+        .mainPreviousValueAttribute(mainPreviousValueAttribute)
+        .mainValueAttribute(mainValueAttribute)
+        .mainNextValueAttribute(mainNextValueAttribute)
+        .mainPreviousPreviousValueAttribute(mainPreviousPreviousValueAttribute)
+        .definedAttribute(definedAttribute)
+        .definedNextAttribute(definedNextAttribute);
 
     let equals = (previousData, data) => false;
     let previousData = [];
 
     const line = (data) => {
-        if (base.orient() !== 'vertical') {
-            throw new Error(`Unsupported orientation ${base.orient()}`);
-        }
-
-        const xScale = scaleMapper(base.xScale());
-        const yScale = scaleMapper(base.yScale());
+        const xScale = webglScaleMapper(base.xScale());
+        const yScale = webglScaleMapper(base.yScale());
 
         if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
-            const accessor = getAccessors();
-
-            const x = new Float32Array(data.length);
-            const y = new Float32Array(data.length);
-            const defined = new Float32Array(data.length);
-
-            data.forEach((d, i) => {
-                x[i] = xScale.scale(accessor.x(d, i));
-                y[i] = yScale.scale(accessor.y(d, i));
-                defined[i] = accessor.defined(d, i);
-            });
-
-            draw.xValues(x)
-                .yValues(y)
-                .defined(defined);
+            if (base.orient() === 'vertical') {
+                crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+                mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            } else {
+                crossPreviousValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+                mainPreviousValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+            }
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
         draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .decorate((program) => {
-                base.decorate()(program, data, 0);
-            });
+            .decorate((program) => base.decorate()(program, data, 0));
 
         draw(data.length);
     };
-
-    function getAccessors() {
-        if (base.orient() === 'vertical') {
-            return {
-                x: base.crossValue(),
-                y: base.mainValue(),
-                defined: base.defined()
-            };
-        } else {
-            return {
-                x: base.mainValue(),
-                y: base.crossValue(),
-                defined: base.defined()
-            };
-        }
-    }
 
     line.equals = (...args) => {
         if (!args.length) {

@@ -6,24 +6,13 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
-import adjacentElementAttribute from '../buffers/adjacentElementAttribute';
+import rebindCurry from '../rebindCurry';
 
 export default () => {
+    const program = programBuilder().mode(drawModes.TRIANGLES);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
-
-    const xPreviousValueAttribute = adjacentElementAttribute(0, 1);
-
-    const xValueAttribute = xPreviousValueAttribute.offset(1);
-
-    const yPreviousValueAttribute = adjacentElementAttribute(0, 1);
-
-    const yValueAttribute = yPreviousValueAttribute.offset(1);
-
-    const y0PreviousValueAttribute = adjacentElementAttribute(0, 1);
-
-    const y0ValueAttribute = y0PreviousValueAttribute.offset(1);
 
     const cornerAttribute = vertexAttribute()
         .size(3)
@@ -37,26 +26,10 @@ export default () => {
             [1, 1, 0]
         ]);
 
-    const definedAttribute = adjacentElementAttribute(0, 1).type(
-        types.UNSIGNED_BYTE
-    );
-
-    const definedNextAttribute = definedAttribute.offset(1);
-
-    const program = programBuilder().mode(drawModes.TRIANGLES);
-
     program
         .buffers()
         .elementIndices(elementIndices([0, 1, 2, 3, 4, 5]))
-        .attribute('aCrossValue', xValueAttribute)
-        .attribute('aCrossPrevValue', xPreviousValueAttribute)
-        .attribute('aMainValue', yValueAttribute)
-        .attribute('aMainPrevValue', yPreviousValueAttribute)
-        .attribute('aBaseValue', y0ValueAttribute)
-        .attribute('aBasePrevValue', y0PreviousValueAttribute)
-        .attribute('aCorner', cornerAttribute)
-        .attribute('aDefined', definedAttribute)
-        .attribute('aDefinedNext', definedNextAttribute);
+        .attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
         const shaderBuilder = areaShader();
@@ -70,26 +43,6 @@ export default () => {
         decorate(program);
 
         program(numElements - 1);
-    };
-
-    draw.xValues = data => {
-        xPreviousValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.yValues = data => {
-        yPreviousValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.y0Values = data => {
-        y0PreviousValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.defined = data => {
-        definedAttribute.data(data);
-        return draw;
     };
 
     draw.decorate = (...args) => {
@@ -117,6 +70,62 @@ export default () => {
     };
 
     rebind(draw, program, 'context');
+    rebindCurry(
+        draw,
+        'crossValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aCrossValue'
+    );
+    rebindCurry(
+        draw,
+        'crossPreviousValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aCrossPrevValue'
+    );
+    rebindCurry(
+        draw,
+        'mainValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aMainValue'
+    );
+    rebindCurry(
+        draw,
+        'mainPreviousValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aMainPrevValue'
+    );
+    rebindCurry(
+        draw,
+        'baseValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aBaseValue'
+    );
+    rebindCurry(
+        draw,
+        'basePreviousValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aBasePrevValue'
+    );
+    rebindCurry(
+        draw,
+        'definedAttribute',
+        program.buffers(),
+        'attribute',
+        'aDefined'
+    );
+    rebindCurry(
+        draw,
+        'definedNextAttribute',
+        program.buffers(),
+        'attribute',
+        'aDefinedNext'
+    );
 
     return draw;
 };

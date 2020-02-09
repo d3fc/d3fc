@@ -1,49 +1,51 @@
 import d3Shape from 'd3-shape';
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
-import { glPoint, scaleMapper, symbolMapper } from '@d3fc/d3fc-webgl';
+import {
+    glPoint,
+    webglVertexAttribute,
+    webglScaleMapper,
+    symbolMapper,
+    webglTypes
+} from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
+import functor from '../functor';
 
 export default () => {
     const base = xyBase();
-    let size = 64;
+    let size = functor(64);
     let type = d3Shape.symbolCircle;
 
-    const draw = glPoint();
+    const crossValueAttribute = webglVertexAttribute();
+    const mainValueAttribute = webglVertexAttribute();
+    const sizeAttribute = webglVertexAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglVertexAttribute().type(webglTypes.UNSIGNED_BYTE);
+
+    const draw = glPoint()
+        .crossValueAttribute(crossValueAttribute)
+        .mainValueAttribute(mainValueAttribute)
+        .sizeAttribute(sizeAttribute)
+        .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
     let previousData = [];
 
     const point = (data) => {
-        if (base.orient() !== 'vertical') {
-            throw new Error(`Unsupported orientation ${base.orient()}`);
-        }
-
-        const xScale = scaleMapper(base.xScale());
-        const yScale = scaleMapper(base.yScale());
+        const xScale = webglScaleMapper(base.xScale());
+        const yScale = webglScaleMapper(base.yScale());
 
         if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
-            const accessor = getAccessors();
-
-            const xValues = new Float32Array(data.length);
-            const yValues = new Float32Array(data.length);
-            const sizes = new Float32Array(data.length);
-            const defined = new Float32Array(data.length);
-
-            data.forEach((d, i) => {
-                const sizeFn = typeof size === 'function' ? size : () => size;
-                xValues[i] = xScale.scale(accessor.x(d, i));
-                yValues[i] = yScale.scale(accessor.y(d, i));
-                sizes[i] = sizeFn(d);
-                defined[i] = base.defined()(d, i);
-            });
-
-            draw.xValues(xValues)
-                .yValues(yValues)
-                .sizes(sizes)
-                .defined(defined);
+            if (base.orient() === 'vertical') {
+                crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            } else {
+                crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+                mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+            }
+            sizeAttribute.value((d, i) => size(d, i)).data(data);
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
         draw.xScale(xScale.glScale)
@@ -54,25 +56,11 @@ export default () => {
         draw(data.length);
     };
 
-    function getAccessors() {
-        if (base.orient() === 'vertical') {
-            return {
-                x: base.crossValue(),
-                y: base.mainValue()
-            };
-        } else {
-            return {
-                x: base.mainValue(),
-                y: base.crossValue()
-            };
-        }
-    }
-
     point.size = (...args) => {
         if (!args.length) {
             return size;
         }
-        size = args[0];
+        size = functor(args[0]);
         return point;
     };
 

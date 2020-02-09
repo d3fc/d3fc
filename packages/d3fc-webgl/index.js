@@ -1,3 +1,12 @@
+export { default as webglSeriesArea } from './src/series/area';
+export { default as webglAdjacentElementAttribute } from './src/buffers/adjacentElementAttribute';
+export { default as webglElementAttribute } from './src/buffers/elementAttribute';
+export { default as webglVertexAttribute } from './src/buffers/vertexAttribute';
+export { default as webglTypes } from './src/buffers/types';
+export { default as webglScaleMapper } from './src/scale/scaleMapper';
+
+// DELIMITER - REMOVE ME
+
 export { default as bufferBuilder } from './src/buffers/bufferBuilder';
 export { default as baseAttribute } from './src/buffers/baseAttribute';
 export { default as uniform } from './src/buffers/uniform';
@@ -14,14 +23,13 @@ export { default as pointAntiAlias } from './src/shaders/point/antiAlias';
 export { default as lineWidth } from './src/shaders/lineWidth';
 export { default as barFill } from './src/shaders/bar/fill';
 
-export { default as glPoint } from './src/series/glPoint';
-export { default as glLine } from './src/series/glLine';
-export { default as glOhlc } from './src/series/glOhlc';
-export { default as glBar } from './src/series/glBar';
-export { default as glErrorBar } from './src/series/glErrorBar';
-export { default as glArea } from './src/series/glArea';
-export { default as glCandlestick } from './src/series/glCandlestick';
-export { default as glBoxPlot } from './src/series/glBoxPlot';
+export { default as glPoint } from './src/series/point';
+export { default as glLine } from './src/series/line';
+export { default as glOhlc } from './src/series/ohlc';
+export { default as glBar } from './src/series/bar';
+export { default as glErrorBar } from './src/series/errorBar';
+export { default as glCandlestick } from './src/series/candlestick';
+export { default as glBoxPlot } from './src/series/boxPlot';
 
 export { default as glScaleLinear } from './src/scale/glScaleLinear';
 export { default as glScaleLog } from './src/scale/glScaleLog';

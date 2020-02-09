@@ -4,29 +4,17 @@ import ohlcShader from '../shaders/ohlc/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
+import rebindCurry from '../rebindCurry';
 
 export default () => {
-    const program = programBuilder();
+    const program = programBuilder().mode(drawModes.TRIANGLES);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     const lineWidth = lineWidthShader();
     let decorate = () => {};
-
-    const xValueAttribute = elementAttribute();
-
-    const highAttribute = elementAttribute();
-
-    const openAttribute = elementAttribute();
-
-    const closeAttribute = elementAttribute();
-
-    const lowAttribute = elementAttribute();
-
-    const bandwidthAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
     /*
      * x-y coordinate to locate the "corners" of the element.
@@ -55,8 +43,6 @@ export default () => {
             [1, 1, -1]
         ]);
 
-    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
-
     program
         .buffers()
         .elementIndices(
@@ -84,21 +70,13 @@ export default () => {
                 8
             ])
         )
-        .attribute('aCrossValue', xValueAttribute)
-        .attribute('aHighValue', highAttribute)
-        .attribute('aOpenValue', openAttribute)
-        .attribute('aCloseValue', closeAttribute)
-        .attribute('aLowValue', lowAttribute)
-        .attribute('aBandwidth', bandwidthAttribute)
-        .attribute('aCorner', cornerAttribute)
-        .attribute('aDefined', definedAttribute);
+        .attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
         const shaderBuilder = ohlcShader();
         program
             .vertexShader(shaderBuilder.vertex())
-            .fragmentShader(shaderBuilder.fragment())
-            .mode(drawModes.TRIANGLES);
+            .fragmentShader(shaderBuilder.fragment());
 
         xScale(program, 'gl_Position', 0);
         yScale(program, 'gl_Position', 1);
@@ -113,41 +91,6 @@ export default () => {
         decorate(program);
 
         program(numElements);
-    };
-
-    draw.xValues = data => {
-        xValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.openValues = data => {
-        openAttribute.data(data);
-        return draw;
-    };
-
-    draw.highValues = data => {
-        highAttribute.data(data);
-        return draw;
-    };
-
-    draw.lowValues = data => {
-        lowAttribute.data(data);
-        return draw;
-    };
-
-    draw.closeValues = data => {
-        closeAttribute.data(data);
-        return draw;
-    };
-
-    draw.bandwidth = data => {
-        bandwidthAttribute.data(data);
-        return draw;
-    };
-
-    draw.defined = data => {
-        definedAttribute.data(data);
-        return draw;
     };
 
     draw.decorate = (...args) => {
@@ -176,6 +119,55 @@ export default () => {
 
     rebind(draw, program, 'context');
     rebind(draw, lineWidth, 'lineWidth');
+    rebindCurry(
+        draw,
+        'crossValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aCrossValue'
+    );
+    rebindCurry(
+        draw,
+        'openValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aOpenValue'
+    );
+    rebindCurry(
+        draw,
+        'highValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aHighValue'
+    );
+    rebindCurry(
+        draw,
+        'lowValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aLowValue'
+    );
+    rebindCurry(
+        draw,
+        'closeValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aCloseValue'
+    );
+    rebindCurry(
+        draw,
+        'bandwidthAttribute',
+        program.buffers(),
+        'attribute',
+        'aBandwidth'
+    );
+    rebindCurry(
+        draw,
+        'definedAttribute',
+        program.buffers(),
+        'attribute',
+        'aDefined'
+    );
 
     return draw;
 };

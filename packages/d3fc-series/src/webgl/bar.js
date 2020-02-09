@@ -1,12 +1,28 @@
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
-import { glBar, scaleMapper } from '@d3fc/d3fc-webgl';
+import {
+    glBar,
+    webglElementAttribute,
+    webglScaleMapper,
+    webglTypes
+} from '@d3fc/d3fc-webgl';
 import { exclude, rebind, rebindAll } from '@d3fc/d3fc-rebind';
 
 export default () => {
     const base = xyBase();
 
-    const draw = glBar();
+    const crossValueAttribute = webglElementAttribute();
+    const mainValueAttribute = webglElementAttribute();
+    const baseValueAttribute = webglElementAttribute();
+    const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+
+    const draw = glBar()
+        .crossValueAttribute(crossValueAttribute)
+        .mainValueAttribute(mainValueAttribute)
+        .baseValueAttribute(baseValueAttribute)
+        .bandwidthAttribute(bandwidthAttribute)
+        .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
     let previousData = [];
@@ -16,31 +32,17 @@ export default () => {
             throw new Error(`Unsupported orientation ${base.orient()}`);
         }
 
-        const xScale = scaleMapper(base.xScale());
-        const yScale = scaleMapper(base.yScale());
+        const xScale = webglScaleMapper(base.xScale());
+        const yScale = webglScaleMapper(base.yScale());
 
         if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
-            const xValues = new Float32Array(data.length);
-            const y0Values = new Float32Array(data.length);
-            const yValues = new Float32Array(data.length);
-            const widths = new Float32Array(data.length);
-            const defined = new Float32Array(data.length);
-
-            data.forEach((d, i) => {
-                xValues[i] = xScale.scale(base.crossValue()(d, i));
-                widths[i] = xScale.scale(base.bandwidth()(d, i));
-                y0Values[i] = yScale.scale(base.baseValue()(d, i));
-                yValues[i] = yScale.scale(base.mainValue()(d, i));
-                defined[i] = base.defined()(d, i);
-            });
-
-            draw.xValues(xValues)
-                .y0Values(y0Values)
-                .yValues(yValues)
-                .widths(widths)
-                .defined(defined);
+            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            baseValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
+            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
         draw.xScale(xScale.glScale)
