@@ -4,25 +4,17 @@ import errorBarShader from '../shaders/errorBar/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
 import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
+import rebindCurry from '../rebindCurry';
 
 export default () => {
-    const program = programBuilder();
+    const program = programBuilder().mode(drawModes.TRIANGLES);
     let xScale = glScaleBase();
     let yScale = glScaleBase();
     let decorate = () => {};
     const lineWidth = lineWidthShader();
-
-    const xValueAttribute = elementAttribute();
-
-    const highValueAttribute = elementAttribute();
-
-    const lowValueAttribute = elementAttribute();
-
-    const bandwidthAttribute = elementAttribute().type(types.UNSIGNED_SHORT);
 
     /*
      * x-y coordinate to locate the "corners" of the element (ie errorbar). The `z` coordinate locates the corner relative to the line (this takes line width into account).
@@ -51,8 +43,6 @@ export default () => {
             [1, 1, -1]
         ]);
 
-    const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
-
     program
         .buffers()
         .elementIndices(
@@ -80,19 +70,13 @@ export default () => {
                 10
             ])
         )
-        .attribute('aCrossValue', xValueAttribute)
-        .attribute('aHighValue', highValueAttribute)
-        .attribute('aLowValue', lowValueAttribute)
-        .attribute('aBandwidth', bandwidthAttribute)
-        .attribute('aCorner', cornerAttribute)
-        .attribute('aDefined', definedAttribute);
+        .attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
-        const shader = errorBarShader();
+        const shaderBuilder = errorBarShader();
         program
-            .vertexShader(shader.vertex())
-            .fragmentShader(shader.fragment())
-            .mode(drawModes.TRIANGLES);
+            .vertexShader(shaderBuilder.vertex())
+            .fragmentShader(shaderBuilder.fragment());
 
         xScale(program, 'gl_Position', 0);
         yScale(program, 'gl_Position', 1);
@@ -109,28 +93,11 @@ export default () => {
         program(numElements);
     };
 
-    draw.xValues = data => {
-        xValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.highValues = data => {
-        highValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.lowValues = data => {
-        lowValueAttribute.data(data);
-        return draw;
-    };
-
-    draw.bandwidth = data => {
-        bandwidthAttribute.data(data);
-        return draw;
-    };
-
-    draw.defined = data => {
-        definedAttribute.data(data);
+    draw.decorate = (...args) => {
+        if (!args.length) {
+            return decorate;
+        }
+        decorate = args[0];
         return draw;
     };
 
@@ -150,16 +117,43 @@ export default () => {
         return draw;
     };
 
-    draw.decorate = (...args) => {
-        if (!args.length) {
-            return decorate;
-        }
-        decorate = args[0];
-        return draw;
-    };
-
     rebind(draw, program, 'context');
     rebind(draw, lineWidth, 'lineWidth');
+    rebindCurry(
+        draw,
+        'crossValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aCrossValue'
+    );
+    rebindCurry(
+        draw,
+        'highValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aHighValue'
+    );
+    rebindCurry(
+        draw,
+        'lowValueAttribute',
+        program.buffers(),
+        'attribute',
+        'aLowValue'
+    );
+    rebindCurry(
+        draw,
+        'bandwidthAttribute',
+        program.buffers(),
+        'attribute',
+        'aBandwidth'
+    );
+    rebindCurry(
+        draw,
+        'definedAttribute',
+        program.buffers(),
+        'attribute',
+        'aDefined'
+    );
 
     return draw;
 };
