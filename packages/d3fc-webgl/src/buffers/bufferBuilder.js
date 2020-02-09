@@ -5,11 +5,23 @@ export default () => {
 
     const build = (gl, program) => {
         Object.keys(attributes).forEach(name => {
-            attributes[name](gl, program, name);
+            const attribute = attributes[name];
+            if (typeof attribute !== 'function') {
+                throw new Error(
+                    `Expected an attribute for ${name}, found ${attribute}`
+                );
+            }
+            attribute(gl, program, name);
         });
 
         Object.keys(uniforms).forEach(name => {
-            uniforms[name](gl, program, name);
+            const uniform = uniforms[name];
+            if (typeof uniform !== 'function') {
+                throw new Error(
+                    `Expected a uniform for ${name}, found ${uniform}`
+                );
+            }
+            uniform(gl, program, name);
         });
 
         if (elementIndices !== null) {
