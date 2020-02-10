@@ -6,7 +6,7 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
 import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
 import adjacentElementAttribute from '../buffers/adjacentElementAttribute';
 
@@ -50,26 +50,11 @@ export default () => {
 
     const definedNextAttribute = definedAttribute.offset(1);
 
-    const elementIndices = elementIndicesBuilder().data([
-        0,
-        1,
-        2,
-        1,
-        2,
-        3,
-        0,
-        2,
-        3,
-        2,
-        3,
-        4
-    ]);
-
     const program = programBuilder().mode(drawModes.TRIANGLES);
 
     program
         .buffers()
-        .elementIndices(elementIndices)
+        .elementIndices(elementIndices([0, 1, 2, 1, 2, 3, 0, 2, 3, 2, 3, 4]))
         .attribute('aCrossValue', xValueAttribute)
         .attribute('aCrossNextValue', xNextValueAttribute)
         .attribute('aCrossPrevValue', xPreviousValueAttribute)
