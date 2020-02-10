@@ -5,7 +5,7 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import glScaleBase from '../scale/glScaleBase';
 import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
 
 //     βL            β            βR
@@ -59,7 +59,15 @@ export default () => {
 
     const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
-    const elementIndices = elementIndicesBuilder().data([0, 1, 2, 0, 1, 3]);
+    program
+        .buffers()
+        .elementIndices(elementIndices([0, 1, 2, 0, 1, 3]))
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aMainValue', yValueAttribute)
+        .attribute('aBaseValue', y0ValueAttribute)
+        .attribute('aBandwidth', widthValueAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         const shader = barShader();
@@ -67,16 +75,6 @@ export default () => {
             .vertexShader(shader.vertex())
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
-
-        program
-            .buffers()
-            .elementIndices(elementIndices)
-            .attribute('aCorner', cornerAttribute)
-            .attribute('aCrossValue', xValueAttribute)
-            .attribute('aMainValue', yValueAttribute)
-            .attribute('aBaseValue', y0ValueAttribute)
-            .attribute('aBandwidth', widthValueAttribute)
-            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);

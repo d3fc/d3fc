@@ -6,7 +6,7 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
 
 export default () => {
@@ -52,22 +52,34 @@ export default () => {
 
     const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
-    const elementIndices = elementIndicesBuilder().data([
-        // Vertical line
-        0,
-        1,
-        2,
-        0,
-        3,
-        2,
-        // Central box
-        4,
-        5,
-        6,
-        4,
-        7,
-        6
-    ]);
+    program
+        .buffers()
+        .elementIndices(
+            elementIndices([
+                // Vertical line
+                0,
+                1,
+                2,
+                0,
+                3,
+                2,
+                // Central box
+                4,
+                5,
+                6,
+                4,
+                7,
+                6
+            ])
+        )
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aHighValue', highAttribute)
+        .attribute('aOpenValue', openAttribute)
+        .attribute('aCloseValue', closeAttribute)
+        .attribute('aLowValue', lowAttribute)
+        .attribute('aBandwidth', bandwidthAttribute)
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         const shaderBuilder = candlestickShader();
@@ -75,18 +87,6 @@ export default () => {
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment())
             .mode(drawModes.TRIANGLES);
-
-        program
-            .buffers()
-            .elementIndices(elementIndices)
-            .attribute('aCrossValue', xValueAttribute)
-            .attribute('aHighValue', highAttribute)
-            .attribute('aOpenValue', openAttribute)
-            .attribute('aCloseValue', closeAttribute)
-            .attribute('aLowValue', lowAttribute)
-            .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aCorner', cornerAttribute)
-            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);

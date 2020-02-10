@@ -1,36 +1,34 @@
-export default () => {
+export default initialData => {
     let buffer = null;
-    let data = null;
-    let changed = false;
+    let data = initialData;
+    let dirty = true;
 
-    const base = gl => {
-        if (!changed) {
-            return;
-        }
-        if (buffer == null) {
+    const base = programBuilder => {
+        const gl = programBuilder.context();
+
+        if (buffer == null || !gl.isBuffer(buffer)) {
             buffer = gl.createBuffer();
         }
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+
+        if (!dirty) {
+            return;
+        }
+
         gl.bufferData(
             gl.ELEMENT_ARRAY_BUFFER,
             new Uint16Array(data),
             gl.STATIC_DRAW
         );
-    };
 
-    base.buffer = (...args) => {
-        if (!args.length) {
-            return buffer;
-        }
-        buffer = args[0];
-        return base;
+        dirty = false;
     };
 
     base.data = (...args) => {
         if (!args.length) {
             return data;
         }
-        changed = true;
+        dirty = true;
         data = args[0];
         return base;
     };

@@ -27,7 +27,7 @@ export default () => {
         });
 
         if (elementIndices !== null) {
-            elementIndices(gl);
+            elementIndices(programBuilder);
         }
     };
 

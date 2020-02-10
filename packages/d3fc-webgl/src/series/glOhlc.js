@@ -6,7 +6,7 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
 
 export default () => {
@@ -57,29 +57,41 @@ export default () => {
 
     const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
-    const elementIndices = elementIndicesBuilder().data([
-        // Main stem
-        0,
-        1,
-        2,
-        0,
-        3,
-        2,
-        // Open bar
-        4,
-        5,
-        6,
-        4,
-        7,
-        6,
-        // Close bar
-        8,
-        9,
-        10,
-        10,
-        11,
-        8
-    ]);
+    program
+        .buffers()
+        .elementIndices(
+            elementIndices([
+                // Main stem
+                0,
+                1,
+                2,
+                0,
+                3,
+                2,
+                // Open bar
+                4,
+                5,
+                6,
+                4,
+                7,
+                6,
+                // Close bar
+                8,
+                9,
+                10,
+                10,
+                11,
+                8
+            ])
+        )
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aHighValue', highAttribute)
+        .attribute('aOpenValue', openAttribute)
+        .attribute('aCloseValue', closeAttribute)
+        .attribute('aLowValue', lowAttribute)
+        .attribute('aBandwidth', bandwidthAttribute)
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         const shaderBuilder = ohlcShader();
@@ -87,18 +99,6 @@ export default () => {
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment())
             .mode(drawModes.TRIANGLES);
-
-        program
-            .buffers()
-            .elementIndices(elementIndices)
-            .attribute('aCrossValue', xValueAttribute)
-            .attribute('aHighValue', highAttribute)
-            .attribute('aOpenValue', openAttribute)
-            .attribute('aCloseValue', closeAttribute)
-            .attribute('aLowValue', lowAttribute)
-            .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aCorner', cornerAttribute)
-            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);
