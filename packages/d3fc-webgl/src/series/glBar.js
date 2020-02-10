@@ -76,10 +76,8 @@ export default () => {
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
 
-        xScale.coordinate(0);
-        xScale(program);
-        yScale.coordinate(1);
-        yScale(program);
+        xScale(program, 'gl_Position', 0);
+        yScale(program, 'gl_Position', 1);
 
         program.vertexShader().appendBody(`
             gl_Position.x += xModifier / uScreen.x * 2.0;

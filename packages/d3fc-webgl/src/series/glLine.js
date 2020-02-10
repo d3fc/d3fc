@@ -73,16 +73,14 @@ export default () => {
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment());
 
-        xScale.coordinate(0);
-        xScale(program);
-        yScale.coordinate(1);
-        yScale(program);
-        xScale.scaleComponent(program, 'next');
-        yScale.scaleComponent(program, 'next');
-        xScale.scaleComponent(program, 'prev');
-        yScale.scaleComponent(program, 'prev');
-        xScale.scaleComponent(program, 'prevPrev');
-        yScale.scaleComponent(program, 'prevPrev');
+        xScale(program, 'gl_Position', 0);
+        yScale(program, 'gl_Position', 1);
+        xScale(program, 'next', 0);
+        yScale(program, 'next', 1);
+        xScale(program, 'prev', 0);
+        yScale(program, 'prev', 1);
+        xScale(program, 'prevPrev', 0);
+        yScale(program, 'prevPrev', 1);
 
         program
             .vertexShader()
