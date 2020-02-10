@@ -5,8 +5,8 @@ export default () => {
     const base = baseAttributeBuilder().divisor(1);
     let value = null;
 
-    const build = (gl, program, name) => {
-        base(gl, program, name);
+    const constantAttribute = programBuilder => {
+        base(programBuilder);
 
         if (!Array.isArray(value)) {
             throw new Error(`Expected an array, received: ${value}`);
@@ -18,20 +18,20 @@ export default () => {
                 }`
             );
         }
-        const location = gl.getAttribLocation(program, name);
-        gl[`vertexAttrib${value.length}fv`](location, value);
-        gl.disableVertexAttribArray(location);
+        const gl = programBuilder.context();
+        gl[`vertexAttrib${value.length}fv`](base.location(), value);
+        gl.disableVertexAttribArray(base.location());
     };
 
-    build.value = (...args) => {
+    constantAttribute.value = (...args) => {
         if (!args.length) {
             return value;
         }
         value = args[0];
-        return build;
+        return constantAttribute;
     };
 
-    rebind(build, base, 'normalized', 'size');
+    rebind(constantAttribute, base, 'normalized', 'size', 'location');
 
-    return build;
+    return constantAttribute;
 };
