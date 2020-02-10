@@ -1,5 +1,5 @@
 import bufferBuilder from '../buffers/bufferBuilder';
-import uniformBuilder from '../buffers/uniformBuilder';
+import uniform from '../buffers/uniform';
 import drawModes from './drawModes';
 
 export default () => {
@@ -21,10 +21,10 @@ export default () => {
 
         buffers.uniform(
             'uScreen',
-            uniformBuilder([context.canvas.width, context.canvas.height])
+            uniform([context.canvas.width, context.canvas.height])
         );
 
-        buffers(context, program);
+        buffers(build, program);
 
         var ext = context.getExtension('ANGLE_instanced_arrays');
 

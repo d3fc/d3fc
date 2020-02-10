@@ -1,5 +1,5 @@
 import * as fragmentShaderSnippets from '../fragmentShaderSnippets';
-import uniformBuilder from '../../buffers/uniformBuilder';
+import uniform from '../../buffers/uniform';
 
 export default () => {
     let color = [0.0, 0.0, 0.0, 1.0];
@@ -11,8 +11,10 @@ export default () => {
             .appendHeaderIfNotExists(fragmentShaderSnippets.pointEdge.header)
             .appendBodyIfNotExists(fragmentShaderSnippets.pointEdge.body);
 
-        program.buffers().uniform('uEdgeColor', uniformBuilder(color));
-        program.buffers().uniform('uStrokeWidth', uniformBuilder(width));
+        program
+            .buffers()
+            .uniform('uEdgeColor', uniform(color))
+            .uniform('uStrokeWidth', uniform(width));
     };
 
     stroke.color = (...args) => {

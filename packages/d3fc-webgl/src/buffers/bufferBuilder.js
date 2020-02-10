@@ -3,7 +3,8 @@ export default () => {
     const uniforms = {};
     let elementIndices = null;
 
-    const build = (gl, program) => {
+    const build = (programBuilder, program) => {
+        const gl = programBuilder.context();
         Object.keys(attributes).forEach(name => {
             const attribute = attributes[name];
             if (typeof attribute !== 'function') {
@@ -21,7 +22,8 @@ export default () => {
                     `Expected a uniform for ${name}, found ${uniform}`
                 );
             }
-            uniform(gl, program, name);
+            const location = gl.getUniformLocation(program, name);
+            uniform.location(location)(programBuilder);
         });
 
         if (elementIndices !== null) {
