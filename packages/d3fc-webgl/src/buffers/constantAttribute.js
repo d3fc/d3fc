@@ -1,9 +1,9 @@
 import baseAttributeBuilder from './baseAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 
-export default () => {
+export default initialValue => {
     const base = baseAttributeBuilder().divisor(1);
-    let value = null;
+    let value = initialValue;
 
     const build = (gl, program, name) => {
         base(gl, program, name);
