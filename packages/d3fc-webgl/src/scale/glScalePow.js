@@ -10,10 +10,30 @@ export default () => {
         return Math.sign(b) * Math.pow(Math.abs(b), e);
     }
 
-    const prefix = () => `pow${base.coordinate()}`;
+    const prefix = component => `pow${component}`;
 
-    const apply = program => {
-        updateProgram(program);
+    const scale = (programBuilder, identifier, component) => {
+        const powPart = `${prefix(component)}Offset + (${prefix(
+            component
+        )}Scale * sign(${identifier}) * pow(abs(${identifier}), vec4(${prefix(
+            component
+        )}Exp)))`;
+
+        programBuilder
+            .vertexShader()
+            .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Offset;`)
+            .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Scale;`)
+            .appendHeaderIfNotExists(
+                `uniform vec4 ${prefix(component)}Include;`
+            )
+            .appendHeaderIfNotExists(`uniform float ${prefix(component)}Exp;`)
+            .appendBody(
+                `${identifier} = (${prefix(
+                    component
+                )}Include * (${powPart})) + ((1.0 - ${prefix(
+                    component
+                )}Include) * ${identifier});`
+            );
 
         const domainSize =
             pow(base.domain()[1], exponent) - pow(base.domain()[0], exponent);
@@ -27,49 +47,27 @@ export default () => {
         const scale = [0, 0, 0, 0];
         const include = [0, 0, 0, 0];
 
-        offset[base.coordinate()] = translate;
-        scale[base.coordinate()] = scaleFactor;
-        include[base.coordinate()] = 1;
+        offset[component] = translate;
+        scale[component] = scaleFactor;
+        include[component] = 1;
 
-        program
+        programBuilder
             .buffers()
-            .uniform(`${prefix()}Offset`, uniform(offset))
-            .uniform(`${prefix()}Scale`, uniform(scale))
-            .uniform(`${prefix()}Include`, uniform(include))
-            .uniform(`${prefix()}Exp`, uniform(exponent));
+            .uniform(`${prefix(component)}Offset`, uniform(offset))
+            .uniform(`${prefix(component)}Scale`, uniform(scale))
+            .uniform(`${prefix(component)}Include`, uniform(include))
+            .uniform(`${prefix(component)}Exp`, uniform(exponent));
     };
 
-    function updateProgram(program) {
-        program
-            .vertexShader()
-            .appendHeader(`uniform vec4 ${prefix()}Offset;`)
-            .appendHeader(`uniform vec4 ${prefix(0)}Scale;`)
-            .appendHeader(`uniform vec4 ${prefix()}Include;`)
-            .appendHeader(`uniform float ${prefix()}Exp;`);
-
-        apply.scaleComponent(program, 'gl_Position');
-    }
-
-    apply.scaleComponent = (program, component) => {
-        const powPart = `${prefix()}Offset + (${prefix()}Scale * sign(${component}) * pow(abs(gl_Position), vec4(${prefix()}Exp)))`;
-
-        program
-            .vertexShader()
-            .appendBody(
-                `${component} = (${prefix()}Include * (${powPart})) + ((1.0 - ${prefix()}Include) * ${component});`
-            );
-        return apply;
-    };
-
-    apply.exponent = (...args) => {
+    scale.exponent = (...args) => {
         if (!args.length) {
             return exponent;
         }
         exponent = args[0];
-        return apply;
+        return scale;
     };
 
-    rebindAll(apply, base);
+    rebindAll(scale, base);
 
-    return apply;
+    return scale;
 };
