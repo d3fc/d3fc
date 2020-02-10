@@ -10,10 +10,30 @@ export default () => {
         return Math.log10(v) / Math.log10(base);
     }
 
-    const prefix = () => `log${glBase.coordinate()}`;
+    const prefix = component => `log${component}`;
 
-    const apply = program => {
-        updateProgram(program);
+    const scale = (programBuilder, identifier, component) => {
+        const logPart = `${prefix(component)}Offset + (${prefix(
+            component
+        )}Scale * clamp(log(${identifier}) / log(${prefix(
+            component
+        )}Base), -inf, inf))`;
+
+        programBuilder
+            .vertexShader()
+            .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Offset;`)
+            .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Scale;`)
+            .appendHeaderIfNotExists(
+                `uniform vec4 ${prefix(component)}Include;`
+            )
+            .appendHeaderIfNotExists(`uniform float ${prefix(component)}Base;`)
+            .appendBody(
+                `${identifier} = (${prefix(
+                    component
+                )}Include * (${logPart})) + ((1.0 - ${prefix(
+                    component
+                )}Include) * ${identifier});`
+            );
 
         const domainSize =
             log(glBase.domain()[1], base) - log(glBase.domain()[0], base);
@@ -27,48 +47,27 @@ export default () => {
         const scale = [0, 0, 0, 0];
         const include = [0, 0, 0, 0];
 
-        offset[glBase.coordinate()] = translate;
-        scale[glBase.coordinate()] = scaleFactor;
-        include[glBase.coordinate()] = 1;
+        offset[component] = translate;
+        scale[component] = scaleFactor;
+        include[component] = 1;
 
-        program
+        programBuilder
             .buffers()
-            .uniform(`${prefix()}Offset`, uniform(offset))
-            .uniform(`${prefix()}Scale`, uniform(scale))
-            .uniform(`${prefix()}Include`, uniform(include))
-            .uniform(`${prefix()}Base`, uniform(base));
+            .uniform(`${prefix(component)}Offset`, uniform(offset))
+            .uniform(`${prefix(component)}Scale`, uniform(scale))
+            .uniform(`${prefix(component)}Include`, uniform(include))
+            .uniform(`${prefix(component)}Base`, uniform(base));
     };
 
-    function updateProgram(program) {
-        program
-            .vertexShader()
-            .appendHeader(`uniform vec4 ${prefix()}Offset;`)
-            .appendHeader(`uniform vec4 ${prefix()}Scale;`)
-            .appendHeader(`uniform vec4 ${prefix()}Include;`)
-            .appendHeader(`uniform float ${prefix()}Base;`);
-        apply.scaleComponent(program, 'gl_Position');
-    }
-
-    apply.scaleComponent = (program, component) => {
-        const logPart = `${prefix()}Offset + (${prefix()}Scale * clamp(log(${component}) / log(${prefix()}Base), -inf, inf))`;
-
-        program
-            .vertexShader()
-            .appendBody(
-                `${component} = (${prefix()}Include * (${logPart})) + ((1.0 - ${prefix()}Include) * ${component});`
-            );
-        return apply;
-    };
-
-    apply.base = (...args) => {
+    scale.base = (...args) => {
         if (!args.length) {
             return base;
         }
         base = args[0];
-        return apply;
+        return scale;
     };
 
-    rebindAll(apply, glBase);
+    rebindAll(scale, glBase);
 
-    return apply;
+    return scale;
 };
