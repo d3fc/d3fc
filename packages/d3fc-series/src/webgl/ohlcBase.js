@@ -10,6 +10,10 @@ export default (pathGenerator) => {
     let previousData = [];
 
     const candlestick = (data) => {
+        if (base.orient() !== 'vertical') {
+            throw new Error(`Unsupported orientation ${base.orient()}`);
+        }
+
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 

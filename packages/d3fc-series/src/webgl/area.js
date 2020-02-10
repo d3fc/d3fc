@@ -12,6 +12,10 @@ export default () => {
     let previousData = [];
 
     const area = (data) => {
+        if (base.orient() !== 'vertical') {
+            throw new Error(`Unsupported orientation ${base.orient()}`);
+        }
+
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
 
