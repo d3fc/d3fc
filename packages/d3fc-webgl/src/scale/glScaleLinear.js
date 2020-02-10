@@ -5,10 +5,19 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = glScaleBase();
 
-    const prefix = () => `linear${base.coordinate()}`;
+    const prefix = component => `linear${component}`;
 
-    const apply = program => {
-        updateProgram(program);
+    const scale = (programBuilder, identifier, component) => {
+        programBuilder
+            .vertexShader()
+            .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Offset;`)
+            .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Scale;`)
+            .appendBody(
+                `${identifier} = ${identifier} + ${prefix(component)}Offset;`
+            )
+            .appendBody(
+                `${identifier} = ${identifier} * ${prefix(component)}Scale;`
+            );
 
         const domainSize = base.domain()[1] - base.domain()[0];
         const rangeSize = base.range()[1] - base.range()[0];
@@ -20,33 +29,16 @@ export default () => {
         const offset = [0, 0, 0, 0];
         const scale = [1, 1, 1, 1];
 
-        offset[base.coordinate()] = translate;
-        scale[base.coordinate()] = scaleFactor;
+        offset[component] = translate;
+        scale[component] = scaleFactor;
 
-        program
+        programBuilder
             .buffers()
-            .uniform(`${prefix()}Offset`, uniform(offset))
-            .uniform(`${prefix()}Scale`, uniform(scale));
+            .uniform(`${prefix(component)}Offset`, uniform(offset))
+            .uniform(`${prefix(component)}Scale`, uniform(scale));
     };
 
-    function updateProgram(program) {
-        program
-            .vertexShader()
-            .appendHeader(`uniform vec4 ${prefix()}Offset;`)
-            .appendHeader(`uniform vec4 ${prefix()}Scale;`);
+    rebindAll(scale, base);
 
-        apply.scaleComponent(program, 'gl_Position');
-    }
-
-    apply.scaleComponent = (program, component) => {
-        program
-            .vertexShader()
-            .appendBody(`${component} = ${component} + ${prefix()}Offset;`)
-            .appendBody(`${component} = ${component} * ${prefix()}Scale;`);
-        return apply;
-    };
-
-    rebindAll(apply, base);
-
-    return apply;
+    return scale;
 };

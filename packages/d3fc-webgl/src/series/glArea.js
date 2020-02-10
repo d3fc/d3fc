@@ -64,10 +64,8 @@ export default () => {
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment());
 
-        xScale.coordinate(0);
-        xScale(program);
-        yScale.coordinate(1);
-        yScale(program);
+        xScale(program, 'gl_Position', 0);
+        yScale(program, 'gl_Position', 1);
 
         decorate(program);
 

@@ -1,7 +1,6 @@
 export default () => {
     let domain = [0, 1];
     let range = [-1, 1];
-    let coordinate = 0;
 
     const base = () => {};
 
@@ -18,14 +17,6 @@ export default () => {
             return range;
         }
         range = args[0];
-        return base;
-    };
-
-    base.coordinate = (...args) => {
-        if (!args.length) {
-            return coordinate;
-        }
-        coordinate = args[0];
         return base;
     };
 
