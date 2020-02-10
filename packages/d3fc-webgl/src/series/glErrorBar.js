@@ -6,7 +6,7 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
 
 export default () => {
@@ -53,29 +53,39 @@ export default () => {
 
     const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
-    const elementIndices = elementIndicesBuilder().data([
-        // Main stem
-        0,
-        1,
-        2,
-        0,
-        3,
-        2,
-        // Top cap
-        4,
-        5,
-        6,
-        4,
-        7,
-        6,
-        // Bottom cap
-        8,
-        9,
-        10,
-        8,
-        11,
-        10
-    ]);
+    program
+        .buffers()
+        .elementIndices(
+            elementIndices([
+                // Main stem
+                0,
+                1,
+                2,
+                0,
+                3,
+                2,
+                // Top cap
+                4,
+                5,
+                6,
+                4,
+                7,
+                6,
+                // Bottom cap
+                8,
+                9,
+                10,
+                8,
+                11,
+                10
+            ])
+        )
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aHighValue', highValueAttribute)
+        .attribute('aLowValue', lowValueAttribute)
+        .attribute('aBandwidth', bandwidthAttribute)
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         const shader = errorBarShader();
@@ -83,16 +93,6 @@ export default () => {
             .vertexShader(shader.vertex())
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
-
-        program
-            .buffers()
-            .elementIndices(elementIndices)
-            .attribute('aCrossValue', xValueAttribute)
-            .attribute('aHighValue', highValueAttribute)
-            .attribute('aLowValue', lowValueAttribute)
-            .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aCorner', cornerAttribute)
-            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);

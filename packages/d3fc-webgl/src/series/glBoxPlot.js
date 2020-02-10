@@ -6,7 +6,7 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import elementAttribute from '../buffers/elementAttribute';
 import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndicesBuilder from '../buffers/elementIndicesBuilder';
+import elementIndices from '../buffers/elementIndices';
 import types from '../buffers/types';
 
 //           αL1     α     αR1
@@ -126,71 +126,85 @@ export default () => {
 
     const definedAttribute = elementAttribute().type(types.UNSIGNED_BYTE);
 
-    const elementIndices = elementIndicesBuilder().data([
-        // Top cap line
-        0,
-        1,
-        2,
-        0,
-        2,
-        3,
-        // Top whisker line
-        4,
-        5,
-        6,
-        4,
-        6,
-        7,
-        // Upper quartile line
-        8,
-        9,
-        10,
-        8,
-        10,
-        11,
-        // Median line
-        12,
-        13,
-        14,
-        12,
-        14,
-        15,
-        // Lower quartile line
-        16,
-        17,
-        18,
-        16,
-        18,
-        19,
-        // Left box vertical line
-        20,
-        21,
-        22,
-        20,
-        22,
-        23,
-        // Right box vertical line
-        24,
-        25,
-        26,
-        24,
-        26,
-        27,
-        // Bottom whisker line
-        28,
-        29,
-        30,
-        28,
-        30,
-        31,
-        // Bottom cap line
-        32,
-        33,
-        34,
-        32,
-        34,
-        35
-    ]);
+    program
+        .buffers()
+        .elementIndices(
+            elementIndices([
+                // Top cap line
+                0,
+                1,
+                2,
+                0,
+                2,
+                3,
+                // Top whisker line
+                4,
+                5,
+                6,
+                4,
+                6,
+                7,
+                // Upper quartile line
+                8,
+                9,
+                10,
+                8,
+                10,
+                11,
+                // Median line
+                12,
+                13,
+                14,
+                12,
+                14,
+                15,
+                // Lower quartile line
+                16,
+                17,
+                18,
+                16,
+                18,
+                19,
+                // Left box vertical line
+                20,
+                21,
+                22,
+                20,
+                22,
+                23,
+                // Right box vertical line
+                24,
+                25,
+                26,
+                24,
+                26,
+                27,
+                // Bottom whisker line
+                28,
+                29,
+                30,
+                28,
+                30,
+                31,
+                // Bottom cap line
+                32,
+                33,
+                34,
+                32,
+                34,
+                35
+            ])
+        )
+        .attribute('aCrossValue', xValueAttribute)
+        .attribute('aHighValue', highAttribute)
+        .attribute('aUpperQuartileValue', upperQuartileAttribute)
+        .attribute('aMedianValue', medianAttribute)
+        .attribute('aLowerQuartileValue', lowerQuartileAttribute)
+        .attribute('aLowValue', lowAttribute)
+        .attribute('aBandwidth', bandwidthAttribute)
+        .attribute('aCap', capWidthAttribute)
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aDefined', definedAttribute);
 
     const draw = numElements => {
         const shader = boxPlotShader();
@@ -198,20 +212,6 @@ export default () => {
             .vertexShader(shader.vertex())
             .fragmentShader(shader.fragment())
             .mode(drawModes.TRIANGLES);
-
-        program
-            .buffers()
-            .elementIndices(elementIndices)
-            .attribute('aCrossValue', xValueAttribute)
-            .attribute('aHighValue', highAttribute)
-            .attribute('aUpperQuartileValue', upperQuartileAttribute)
-            .attribute('aMedianValue', medianAttribute)
-            .attribute('aLowerQuartileValue', lowerQuartileAttribute)
-            .attribute('aLowValue', lowAttribute)
-            .attribute('aBandwidth', bandwidthAttribute)
-            .attribute('aCap', capWidthAttribute)
-            .attribute('aCorner', cornerAttribute)
-            .attribute('aDefined', definedAttribute);
 
         xScale.coordinate(0);
         xScale(program);
