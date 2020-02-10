@@ -3,7 +3,7 @@ export default () => {
     const uniforms = {};
     let elementIndices = null;
 
-    const build = (programBuilder, program) => {
+    const bufferBuilder = (programBuilder, program) => {
         const gl = programBuilder.context();
         Object.keys(attributes).forEach(name => {
             const attribute = attributes[name];
@@ -12,7 +12,8 @@ export default () => {
                     `Expected an attribute for ${name}, found ${attribute}`
                 );
             }
-            attribute(gl, program, name);
+            const location = gl.getAttribLocation(program, name);
+            attribute.location(location)(programBuilder);
         });
 
         Object.keys(uniforms).forEach(name => {
@@ -31,29 +32,29 @@ export default () => {
         }
     };
 
-    build.attribute = (...args) => {
+    bufferBuilder.attribute = (...args) => {
         if (args.length === 1) {
             return attributes[args[0]];
         }
         attributes[args[0]] = args[1];
-        return build;
+        return bufferBuilder;
     };
 
-    build.uniform = (...args) => {
+    bufferBuilder.uniform = (...args) => {
         if (args.length === 1) {
             return uniforms[args[0]];
         }
         uniforms[args[0]] = args[1];
-        return build;
+        return bufferBuilder;
     };
 
-    build.elementIndices = (...args) => {
+    bufferBuilder.elementIndices = (...args) => {
         if (!args.length) {
             return elementIndices;
         }
         elementIndices = args[0];
-        return build;
+        return bufferBuilder;
     };
 
-    return build;
+    return bufferBuilder;
 };

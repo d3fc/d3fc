@@ -6,22 +6,23 @@ export default () => {
     const base = baseAttribute();
     const projector = attributeProjector();
 
-    const build = (gl, program, name) => {
-        base.size(build.size()).type(build.type());
+    const vertexAttribute = programBuilder => {
+        base.size(vertexAttribute.size()).type(vertexAttribute.type());
 
-        base(gl, program, name);
+        base(programBuilder);
 
         if (!projector.dirty()) {
             return;
         }
 
         const projectedData = projector();
+        const gl = programBuilder.context();
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
     };
 
-    rebind(build, base, 'normalized');
-    rebind(build, projector, 'data', 'value', 'size', 'type');
+    rebind(vertexAttribute, base, 'normalized', 'location');
+    rebind(vertexAttribute, projector, 'data', 'value', 'size', 'type');
 
-    return build;
+    return vertexAttribute;
 };

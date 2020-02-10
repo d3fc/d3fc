@@ -1,6 +1,7 @@
 import types from './types';
 
 export default () => {
+    let location = -1;
     let buffer = null;
     let size = 1; // per vertex
     let type = types.FLOAT;
@@ -9,13 +10,14 @@ export default () => {
     let offset = 0;
     let divisor = 0;
 
-    const base = (gl, program, name) => {
+    const baseAttribute = programBuilder => {
+        const gl = programBuilder.context();
+
         if (buffer == null || !gl.isBuffer(buffer)) {
             buffer = gl.createBuffer();
         }
 
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        const location = gl.getAttribLocation(program, name);
         gl.vertexAttribPointer(
             location,
             size,
@@ -30,61 +32,69 @@ export default () => {
         ext.vertexAttribDivisorANGLE(location, divisor);
     };
 
-    base.buffer = (...args) => {
+    baseAttribute.location = (...args) => {
+        if (!args.length) {
+            return location;
+        }
+        location = args[0];
+        return baseAttribute;
+    };
+
+    baseAttribute.buffer = (...args) => {
         if (!args.length) {
             return buffer;
         }
         buffer = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    base.size = (...args) => {
+    baseAttribute.size = (...args) => {
         if (!args.length) {
             return size;
         }
         size = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    base.type = (...args) => {
+    baseAttribute.type = (...args) => {
         if (!args.length) {
             return type;
         }
         type = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    base.normalized = (...args) => {
+    baseAttribute.normalized = (...args) => {
         if (!args.length) {
             return normalized;
         }
         normalized = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    base.stride = (...args) => {
+    baseAttribute.stride = (...args) => {
         if (!args.length) {
             return stride;
         }
         stride = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    base.offset = (...args) => {
+    baseAttribute.offset = (...args) => {
         if (!args.length) {
             return offset;
         }
         offset = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    base.divisor = (...args) => {
+    baseAttribute.divisor = (...args) => {
         if (!args.length) {
             return divisor;
         }
         divisor = args[0];
-        return base;
+        return baseAttribute;
     };
 
-    return base;
+    return baseAttribute;
 };
