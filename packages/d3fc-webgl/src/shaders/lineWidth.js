@@ -1,10 +1,10 @@
-import uniformBuilder from '../buffers/uniformBuilder';
+import uniform from '../buffers/uniform';
 
 export default () => {
     let width = 1;
 
     const lineWidth = program => {
-        program.buffers().uniform('uStrokeWidth', uniformBuilder(width));
+        program.buffers().uniform('uStrokeWidth', uniform(width));
     };
 
     lineWidth.lineWidth = (...args) => {
