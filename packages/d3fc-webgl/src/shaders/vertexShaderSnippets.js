@@ -14,6 +14,18 @@ export const multiColor = {
     body: `vColor = aColor;`
 };
 
+export const fillColor = {
+    header: `attribute vec4 aFillColor;
+             varying vec4 vFillColor;`,
+    body: `vFillColor = aFillColor;`
+};
+
+export const strokeColor = {
+    header: `attribute vec4 aStrokeColor;
+             varying vec4 vStrokeColor;`,
+    body: `vStrokeColor = aStrokeColor;`
+};
+
 export const circle = {
     header: `
         attribute float aCrossValue;

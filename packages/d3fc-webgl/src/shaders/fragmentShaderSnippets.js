@@ -126,6 +126,16 @@ export const seriesColor = {
     body: `gl_FragColor = uColor;`
 };
 
+export const fillColor = {
+    header: `varying vec4 vFillColor;`,
+    body: `gl_FragColor = vFillColor;`
+};
+
+export const strokeColor = {
+    header: `varying vec4 vStrokeColor;`,
+    body: `gl_FragColor = vStrokeColor;`
+};
+
 export const pointEdge = {
     header: `uniform vec4 uEdgeColor;
              uniform float uStrokeWidth;`,
