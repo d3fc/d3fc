@@ -1,5 +1,5 @@
 import * as fragmentShaderSnippets from '../fragmentShaderSnippets';
-import uniformBuilder from '../../buffers/uniformBuilder';
+import uniform from '../../buffers/uniform';
 
 export default () => {
     let color = [0.86, 0.86, 0.86, 1.0];
@@ -10,7 +10,7 @@ export default () => {
             .appendHeaderIfNotExists(fragmentShaderSnippets.seriesColor.header)
             .appendBodyIfNotExists(fragmentShaderSnippets.seriesColor.body);
 
-        program.buffers().uniform('uColor', uniformBuilder(color));
+        program.buffers().uniform('uColor', uniform(color));
     };
 
     fill.color = (...args) => {

@@ -1,4 +1,4 @@
-import uniformBuilder from '../buffers/uniformBuilder';
+import uniform from '../buffers/uniform';
 import glScaleBase from '../scale/glScaleBase';
 import { rebindAll } from '@d3fc/d3fc-rebind';
 
@@ -33,10 +33,10 @@ export default () => {
 
         program
             .buffers()
-            .uniform(`${prefix()}Offset`, uniformBuilder(offset))
-            .uniform(`${prefix()}Scale`, uniformBuilder(scale))
-            .uniform(`${prefix()}Include`, uniformBuilder(include))
-            .uniform(`${prefix()}Base`, uniformBuilder(base));
+            .uniform(`${prefix()}Offset`, uniform(offset))
+            .uniform(`${prefix()}Scale`, uniform(scale))
+            .uniform(`${prefix()}Include`, uniform(include))
+            .uniform(`${prefix()}Base`, uniform(base));
     };
 
     function updateProgram(program) {

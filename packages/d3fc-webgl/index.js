@@ -1,6 +1,6 @@
 export { default as bufferBuilder } from './src/buffers/bufferBuilder';
 export { default as baseAttribute } from './src/buffers/baseAttribute';
-export { default as uniformBuilder } from './src/buffers/uniformBuilder';
+export { default as uniform } from './src/buffers/uniform';
 export { default as shaderBuilder } from './src/shaders/shaderBuilder';
 export { default as programBuilder } from './src/program/programBuilder';
 export { default as scaleMapper } from './src/scale/scaleMapper';
