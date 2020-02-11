@@ -19,7 +19,7 @@ export default () => {
     const lowerQuartileValueAttribute = webglElementAttribute();
     const lowValueAttribute = webglElementAttribute();
     const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const capWidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const capAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
     const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = glBoxPlot()
@@ -30,12 +30,12 @@ export default () => {
         .lowerQuartileValueAttribute(lowerQuartileValueAttribute)
         .lowValueAttribute(lowValueAttribute)
         .bandwidthAttribute(bandwidthAttribute)
-        .capWidthAttribute(capWidthAttribute)
+        .capAttribute(capAttribute)
         .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
     let previousData = [];
-    let capWidth = functor(20);
+    let cap = functor(20);
 
     const boxPlot = (data) => {
         if (base.orient() !== 'vertical') {
@@ -55,7 +55,7 @@ export default () => {
             lowerQuartileValueAttribute.value((d, i) => yScale.scale(base.lowerQuartileValue()(d, i))).data(data);
             lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
             bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
-            capWidthAttribute.value((d, i) => capWidth(d, i)).data(data);
+            capAttribute.value((d, i) => cap(d, i)).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
@@ -66,11 +66,11 @@ export default () => {
         draw(data.length);
     };
 
-    boxPlot.capWidth = (...args) => {
+    boxPlot.cap = (...args) => {
         if (!args.length) {
-            return capWidth;
+            return cap;
         }
-        capWidth = functor(args[0]);
+        cap = functor(args[0]);
         return boxPlot;
     };
 
