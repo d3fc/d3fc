@@ -1,7 +1,7 @@
 import * as fragmentShaderSnippets from '../shaders/fragmentShaderSnippets';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
-import constantAttribute from '../buffers/constantAttribute';
-import elementAttribute from '../buffers/elementAttribute';
+import constantAttribute from '../buffer/constantAttribute';
+import elementAttribute from '../buffer/elementAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default (initialValue = [0, 0, 0, 1]) => {

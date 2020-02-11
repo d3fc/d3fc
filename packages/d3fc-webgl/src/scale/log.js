@@ -1,9 +1,9 @@
-import uniform from '../buffers/uniform';
-import glScaleBase from '../scale/glScaleBase';
+import uniform from '../buffer/uniform';
+import baseScale from './base';
 import { rebindAll } from '@d3fc/d3fc-rebind';
 
 export default () => {
-    const glBase = glScaleBase();
+    const glBase = baseScale();
     let base = 10;
 
     function log(v, base) {

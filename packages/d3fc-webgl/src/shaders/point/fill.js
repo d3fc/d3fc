@@ -1,5 +1,5 @@
 import * as fragmentShaderSnippets from '../fragmentShaderSnippets';
-import uniform from '../../buffers/uniform';
+import uniform from '../../buffer/uniform';
 
 export default () => {
     let color = [0.86, 0.86, 0.86, 1.0];

@@ -1,7 +1,7 @@
 import errorBarBase from '../errorBarBase';
 import isIdentityScale from '../isIdentityScale';
 import {
-    glErrorBar,
+    webglSeriesErrorBar,
     webglElementAttribute,
     webglScaleMapper,
     webglTypes
@@ -17,7 +17,7 @@ export default () => {
     const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
     const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
 
-    const draw = glErrorBar()
+    const draw = webglSeriesErrorBar()
         .crossValueAttribute(crossValueAttribute)
         .highValueAttribute(highValueAttribute)
         .lowValueAttribute(lowValueAttribute)
