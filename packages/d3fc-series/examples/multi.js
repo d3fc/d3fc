@@ -61,7 +61,7 @@ var webglBar = fc.seriesWebglBar()
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; })
     .decorate((program) => {
-        fc.barFill().color('#999999')(program);
+        fc.webglFillColor([0.6, 0.6, 0.6, 1])(program);
     });
 
 var webglLine = fc.seriesWebglLine()

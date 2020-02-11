@@ -1,4 +1,4 @@
-import glScaleBase from '../scale/glScaleBase';
+import baseScale from '../scale/base';
 import programBuilder from '../program/programBuilder';
 import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
@@ -7,8 +7,8 @@ import rebindCurry from '../rebindCurry';
 
 export default () => {
     const program = programBuilder().mode(drawModes.POINTS);
-    let xScale = glScaleBase();
-    let yScale = glScaleBase();
+    let xScale = baseScale();
+    let yScale = baseScale();
     let type = circlePointShader();
     let decorate = () => {};
 

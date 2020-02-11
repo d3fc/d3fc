@@ -1,4 +1,4 @@
-import uniform from '../buffers/uniform';
+import uniform from '../buffer/uniform';
 
 export default () => {
     let width = 1;

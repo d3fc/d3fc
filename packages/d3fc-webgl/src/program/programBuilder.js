@@ -1,5 +1,5 @@
-import bufferBuilder from '../buffers/bufferBuilder';
-import uniform from '../buffers/uniform';
+import bufferBuilder from '../buffer/bufferBuilder';
+import uniform from '../buffer/uniform';
 import drawModes from './drawModes';
 
 export default () => {

@@ -1,7 +1,7 @@
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
 import {
-    glLine,
+    webglSeriesLine,
     webglAdjacentElementAttribute,
     webglScaleMapper,
     webglTypes
@@ -22,7 +22,7 @@ export default () => {
     const definedAttribute = webglAdjacentElementAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
-    const draw = glLine()
+    const draw = webglSeriesLine()
         .crossPreviousValueAttribute(crossPreviousValueAttribute)
         .crossValueAttribute(crossValueAttribute)
         .crossNextValueAttribute(crossNextValueAttribute)

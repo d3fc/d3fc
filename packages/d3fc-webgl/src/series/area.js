@@ -1,17 +1,17 @@
-import glScaleBase from '../scale/glScaleBase';
+import baseScale from '../scale/base';
 import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndices from '../buffers/elementIndices';
-import types from '../buffers/types';
+import vertexAttribute from '../buffer/vertexAttribute';
+import elementIndices from '../buffer/elementIndices';
+import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
 export default () => {
     const program = programBuilder().mode(drawModes.TRIANGLES);
-    let xScale = glScaleBase();
-    let yScale = glScaleBase();
+    let xScale = baseScale();
+    let yScale = baseScale();
     let decorate = () => {};
 
     const cornerAttribute = vertexAttribute()

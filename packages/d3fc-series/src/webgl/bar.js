@@ -1,7 +1,7 @@
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
 import {
-    glBar,
+    webglSeriesBar,
     webglElementAttribute,
     webglScaleMapper,
     webglTypes
@@ -17,7 +17,7 @@ export default () => {
     const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
     const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
 
-    const draw = glBar()
+    const draw = webglSeriesBar()
         .crossValueAttribute(crossValueAttribute)
         .mainValueAttribute(mainValueAttribute)
         .baseValueAttribute(baseValueAttribute)

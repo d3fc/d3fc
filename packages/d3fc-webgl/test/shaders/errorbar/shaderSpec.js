@@ -2,7 +2,7 @@ import * as fc from '../../../index';
 import { expectVertexShader, getShaders } from '../../util/vertextShaderUtil';
 
 it('test', () => {
-    const shaders = getShaders(fc.glErrorBar());
+    const shaders = getShaders(fc.webglSeriesErrorBar());
 
     const attributes = {
         aCrossValue: 0,
