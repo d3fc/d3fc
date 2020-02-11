@@ -29,7 +29,7 @@ export default (...args) => {
     let decorate = () => { };
 
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
-    const webglDataJoin = dataJoin('d3fc-canvas', 'gl-plot-area');
+    const webglDataJoin = dataJoin('d3fc-canvas', 'webgl-plot-area');
     const canvasDataJoin = dataJoin('d3fc-canvas', 'canvas-plot-area');
     const svgDataJoin = dataJoin('d3fc-svg', 'svg-plot-area');
     const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis')
