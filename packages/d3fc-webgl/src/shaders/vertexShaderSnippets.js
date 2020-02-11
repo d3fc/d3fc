@@ -343,7 +343,7 @@ export const boxPlot = {
         attribute vec4 aCorner;
         attribute float aCrossValue;
         attribute float aBandwidth;
-        attribute float aCap;
+        attribute float aCapWidth;
         attribute float aHighValue;
         attribute float aUpperQuartileValue;
         attribute float aMedianValue;
@@ -380,7 +380,7 @@ export const boxPlot = {
         float isHorizontal = aCorner.w;
         float isVertical = 1.0 - isHorizontal;
 
-        float xDisplacement = aCorner.x * (isExtremeY * aCap + isNotExtremeY * aBandwidth) / 2.0;
+        float xDisplacement = aCorner.x * (isExtremeY * aCapWidth + isNotExtremeY * aBandwidth) / 2.0;
         
         float xModifier = (isVertical * uStrokeWidth * aCorner.z / 2.0) + xDisplacement;
         float yModifier = isHorizontal * uStrokeWidth * aCorner.z / 2.0;`
