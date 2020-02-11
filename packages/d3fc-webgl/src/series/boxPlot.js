@@ -277,7 +277,7 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'capWidthAttribute',
+        'capAttribute',
         program.buffers(),
         'attribute',
         'aCapWidth'
