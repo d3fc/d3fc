@@ -3,9 +3,9 @@ import { expectVertexShader, getShaders } from '../../util/vertextShaderUtil';
 
 describe('glLine', () => {
     const line = fc
-        .glLine()
-        .xScale(fc.glScaleLinear())
-        .yScale(fc.glScaleLinear());
+        .webglSeriesLine()
+        .xScale(fc.webglScaleLinear())
+        .yScale(fc.webglScaleLinear());
 
     const shaders = getShaders(line);
 

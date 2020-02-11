@@ -50,12 +50,7 @@ var webglPoint = fc.seriesWebglPoint()
     .context(gl)
     .crossValue(function(_, i) { return i; })
     .mainValue(function(d) { return d; })
-    .type(d3.symbolCircle)
-    .decorate(function(program) {
-        fc.pointFill()(program);
-        fc.pointStroke()(program);
-        fc.pointAntiAlias()(program);
-    });
+    .type(d3.symbolCircle);
 webglPoint(data);
 
 d3.select('#point-symbol').on('change', function() {

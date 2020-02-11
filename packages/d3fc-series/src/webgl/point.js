@@ -2,10 +2,10 @@ import d3Shape from 'd3-shape';
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
 import {
-    glPoint,
+    webglSeriesPoint,
     webglVertexAttribute,
     webglScaleMapper,
-    symbolMapper,
+    webglSymbolMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
@@ -21,7 +21,7 @@ export default () => {
     const sizeAttribute = webglVertexAttribute().type(webglTypes.UNSIGNED_SHORT);
     const definedAttribute = webglVertexAttribute().type(webglTypes.UNSIGNED_BYTE);
 
-    const draw = glPoint()
+    const draw = webglSeriesPoint()
         .crossValueAttribute(crossValueAttribute)
         .mainValueAttribute(mainValueAttribute)
         .sizeAttribute(sizeAttribute)
@@ -50,7 +50,7 @@ export default () => {
 
         draw.xScale(xScale.glScale)
             .yScale(yScale.glScale)
-            .type(symbolMapper(type))
+            .type(webglSymbolMapper(type))
             .decorate((program) => base.decorate()(program, data, 0));
 
         draw(data.length);
