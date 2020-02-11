@@ -39,3 +39,5 @@ import * as v from './src/shaders/vertexShaderSnippets';
 import * as f from './src/shaders/fragmentShaderSnippets';
 export { v as vertexShaderSnippets };
 export { f as fragmentShaderSnippets };
+
+export { default as fillColor } from './src/style/fillColor';
