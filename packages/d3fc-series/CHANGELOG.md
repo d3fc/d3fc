@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.15](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.14...@d3fc/d3fc-series@4.4.15) (2020-02-10)
+
+
+### Bug Fixes
+
+* webgl series render with non-identity scale ([ca46e1a](https://github.com/d3fc/d3fc/commit/ca46e1a))
+
+
+
+
+
 ## [4.4.14](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.13...@d3fc/d3fc-series@4.4.14) (2020-02-06)
 
 **Note:** Version bump only for package @d3fc/d3fc-series
