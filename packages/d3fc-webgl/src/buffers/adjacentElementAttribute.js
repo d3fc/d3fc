@@ -12,15 +12,16 @@ export default (minOffset = 0, maxOffset = 0) => {
     const base = baseAttribute().divisor(1);
     const projector = attributeProjector();
 
-    const build = (gl, program, name) => {
-        const elementSize = build.size() * length(build.type());
+    const adjacentAttribute = programBuilder => {
+        const elementSize =
+            adjacentAttribute.size() * length(adjacentAttribute.type());
         const bufferOffset = Math.abs(minOffset) * elementSize;
 
         base.offset(bufferOffset)
-            .size(build.size())
-            .type(build.type());
+            .size(adjacentAttribute.size())
+            .type(adjacentAttribute.type());
 
-        base(gl, program, name);
+        base(programBuilder);
 
         if (!projector.dirty()) {
             return;
@@ -29,30 +30,37 @@ export default (minOffset = 0, maxOffset = 0) => {
         const bufferPadding = maxOffset * elementSize;
         const bufferLength =
             bufferOffset +
-            projectedData.length * length(build.type()) +
+            projectedData.length * length(adjacentAttribute.type()) +
             bufferPadding;
 
+        const gl = programBuilder.context();
         gl.bindBuffer(gl.ARRAY_BUFFER, base.buffer());
         gl.bufferData(gl.ARRAY_BUFFER, bufferLength, gl.DYNAMIC_DRAW);
         gl.bufferSubData(gl.ARRAY_BUFFER, bufferOffset, projectedData);
     };
 
-    build.offset = offset => {
+    adjacentAttribute.offset = offset => {
         if (minOffset > offset || offset > maxOffset) {
             throw new Error(
                 `Requested offset ${offset} exceeds bounds (${minOffset} & ${maxOffset}) `
             );
         }
-        return (gl, program, name) => {
+        const offsetAttribute = programBuilder => {
             base.offset(
-                (offset - minOffset) * build.size() * length(build.type())
+                (offset - minOffset) *
+                    adjacentAttribute.size() *
+                    length(adjacentAttribute.type())
             );
-            base(gl, program, name);
+            base(programBuilder);
         };
+
+        rebind(offsetAttribute, base, 'location');
+
+        return offsetAttribute;
     };
 
-    rebind(build, base, 'normalized');
-    rebind(build, projector, 'data', 'value', 'size', 'type');
+    rebind(adjacentAttribute, base, 'normalized', 'location');
+    rebind(adjacentAttribute, projector, 'data', 'value', 'size', 'type');
 
-    return build;
+    return adjacentAttribute;
 };
