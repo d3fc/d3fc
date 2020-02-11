@@ -215,6 +215,33 @@ chart.xDecorate(selection => {
 });
 ```
 
+#### Changing the z-order of plot areas
+
+By default the z-order of the plot areas is webgl at the back, canvas in the middle and svg on top. This is to accomodate the most common use-case of supporting more interactive components being drawn in the foreground with less interactive components being drawn in the background. 
+
+Interactivity in this case means responding directly to user input to for example draw annotations or highlight data elements. It is typically easier to develop these components using svg (due to its richer user-initiated events model) or canvas (due to its simpler API). 
+
+Where this z-ordering is not appropriate, it is possible to modify the order using decorate -
+
+```javascript
+chart.decorate(selection => {
+  // using the enter selection to ensure this only runs once, select each plot area node
+  const svgPlotArea = selection.enter()
+    .select('.svg-plot-area')
+    .node();
+  const canvasPlotArea = selection.enter()
+    .select('.canvas-plot-area')
+    .node();
+  const webglPlotArea = selection.enter()
+    .select('.webgl-plot-area')
+    .node();
+  // create a selection of the nodes in the required order
+  d3.selectAll([canvasPlotArea, svgPlotArea, webglPlotArea])
+    // order the nodes in the DOM by their selection order
+    .order();
+});
+```
+
 ### Cartesian
 
 <a name="chartCartesian" href="#chartCartesian">#</a> fc.**chartCartesian**(*xScale*, *yScale*)  
