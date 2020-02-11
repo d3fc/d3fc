@@ -31,7 +31,7 @@ export default (...args) => {
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
     const webglDataJoin = dataJoin('d3fc-canvas', 'gl-plot-area');
     const canvasDataJoin = dataJoin('d3fc-canvas', 'canvas-plot-area');
-    const svgDataJoin = dataJoin('d3fc-svg', 'plot-area');
+    const svgDataJoin = dataJoin('d3fc-svg', 'svg-plot-area');
     const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis')
         .key(d => d);
     const yAxisDataJoin = dataJoin('d3fc-svg', 'y-axis')
@@ -95,6 +95,7 @@ export default (...args) => {
                 });
 
             svgDataJoin(container, svgPlotArea ? [data] : [])
+                .classed('plot-area', true)
                 .on('draw', (d, i, nodes) => {
                     svgPlotArea.xScale(xScale)
                         .yScale(yScale);
