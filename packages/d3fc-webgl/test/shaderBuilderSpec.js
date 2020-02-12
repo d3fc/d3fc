@@ -5,7 +5,7 @@ describe('shaderBuilder', () => {
 
     beforeEach(
         () =>
-            (shaderBuilder = fc.shaderBuilder(
+            (shaderBuilder = fc.webglShaderBuilder(
                 (header, body) => `${header} ${body}`
             ))
     );

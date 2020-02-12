@@ -1,7 +1,7 @@
 import boxPlotBase from '../boxPlotBase';
 import isIdentityScale from '../isIdentityScale';
 import {
-    glBoxPlot,
+    webglSeriesBoxPlot,
     webglElementAttribute,
     webglScaleMapper,
     webglTypes
@@ -22,7 +22,7 @@ export default () => {
     const capAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
     const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
 
-    const draw = glBoxPlot()
+    const draw = webglSeriesBoxPlot()
         .crossValueAttribute(crossValueAttribute)
         .highValueAttribute(highValueAttribute)
         .upperQuartileValueAttribute(upperQuartileValueAttribute)

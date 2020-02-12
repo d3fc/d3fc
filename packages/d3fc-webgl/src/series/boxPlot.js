@@ -1,12 +1,12 @@
-import glScaleBase from '../scale/glScaleBase';
+import baseScale from '../scale/base';
 import programBuilder from '../program/programBuilder';
 import boxPlotShader from '../shaders/boxPlot/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffers/vertexAttribute';
-import elementIndices from '../buffers/elementIndices';
-import types from '../buffers/types';
+import vertexAttribute from '../buffer/vertexAttribute';
+import elementIndices from '../buffer/elementIndices';
+import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
 //           αL1     α     αR1
@@ -45,8 +45,8 @@ import rebindCurry from '../rebindCurry';
 
 export default () => {
     const program = programBuilder().mode(drawModes.TRIANGLES);
-    let xScale = glScaleBase();
-    let yScale = glScaleBase();
+    let xScale = baseScale();
+    let yScale = baseScale();
     let decorate = () => {};
     const lineWidth = lineWidthShader();
 
