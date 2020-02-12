@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.1.27](https://github.com/d3fc/d3fc/compare/d3fc@14.1.26...d3fc@14.1.27) (2020-02-12)
+
+**Note:** Version bump only for package d3fc
+
+
+
+
+
 ## [14.1.26](https://github.com/d3fc/d3fc/compare/d3fc@14.1.25...d3fc@14.1.26) (2020-02-10)
 
 **Note:** Version bump only for package d3fc

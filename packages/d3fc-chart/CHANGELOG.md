@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.7.26...@d3fc/d3fc-chart@3.0.0) (2020-02-12)
+
+
+### Bug Fixes
+
+* add explicit class to svg .plot-area ([0986eaa](https://github.com/d3fc/d3fc/commit/0986eaa))
+
+
+### Code Refactoring
+
+* rename .gl-plot-area to .webgl-plot-area ([788191d](https://github.com/d3fc/d3fc/commit/788191d))
+
+
+### BREAKING CHANGES
+
+* If you were using the selector .gl-plot-area it needs to
+be updated to .webgl-plot-area
+
+
+
+
+
 ## [2.7.26](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@2.7.25...@d3fc/d3fc-chart@2.7.26) (2020-02-10)
 
 **Note:** Version bump only for package @d3fc/d3fc-chart
