@@ -22,15 +22,16 @@ npm install @d3fc/d3fc-webgl
   * [Line](#line)
   * [Ohlc](#ohlc)
   * [Point](#point)
-* [Attribute Buffer Builders](#attribute-buffer-builders)
-  * [Element Attribute](#element-attribute)
-  * [Adjacent Element Attribute](#adjacent-element-attribute)
-  * [Vertex Attribute](#vertex-attribute)
-  * [Base Attribute](#base-attribute)
-* [Uniform](#uniform)
-* [Buffer Builder](#buffer-builder)
-* [Types](#types)
-* [Element Indices](#element-indices)
+* [Buffers](#buffers)
+  * [Attribute Buffer Builders](#attribute-buffer-builders)
+    * [Element Attribute](#element-attribute)
+    * [Adjacent Element Attribute](#adjacent-element-attribute)
+    * [Vertex Attribute](#vertex-attribute)
+    * [Base Attribute](#base-attribute)
+  * [Uniform Builder](#uniform-builder)
+  * [Buffer Builder](#buffer-builder)
+  * [Element Indices](#element-indices)
+  * [Types](#types)
 * [Shader Naming Convention](#shader-naming-convention)
 
 This package contains the components needed to render a standard or custom series with WebGL. The standard series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
@@ -446,13 +447,19 @@ If *attributeBufferBuilder* is specified, sets the size attribute and returns th
 
 This property is used to create the buffer for the `aSize` shader attribute. Values generated for the size should be an area in **pixels squared**.
 
-### Attribute Buffer Builders
+### Buffers
+
+The buffer components can be used for creating and modifying buffers. These are used to pass values into attributes and uniforms so that they can be accessed in a shader.
+
+The types file is also available for managing the typing of values being passed into the WebGL pipeline.
+
+#### Attribute Buffer Builders
 
 The attribute components can be used to generate [WebGLBuffers](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer) and bind them to the context of a given [webglProgramBuilder](link to programBuilder). A number of different builders are available to accomodate the most common use cases.
 
 Example use of the builders can be seen in the [series](#series) components where the builders are used to provide the attribute values.
 
-#### Element Attribute
+##### Element Attribute
 
 <a name="webglElementAttribute" href="#webglElementAttribute">#</a> fc.**webglElementAttribute**()
 
@@ -502,7 +509,7 @@ If *type* is specified, sets the type property and returns this attribute builde
 
 The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](link to webglTypes).
 
-#### Adjacent Element Attribute
+##### Adjacent Element Attribute
 
 <a name="webglAdjacentElementAttribute" href="#webglAdjacentElementAttribute">#</a> fc.**webglAdjacentElementAttribute**()
 
@@ -556,7 +563,7 @@ If *type* is specified, sets the type property and returns this attribute builde
 
 The type property is used to specify the type of the typed array used for the buffer data, the default is `Float`. Valid types can be accessed from [webglTypes](link to webglTypes).
 
-#### Vertex Attribute
+##### Vertex Attribute
 
 <a name="webglVertexAttribute" href="#webglVertexAttribute">#</a> fc.**webglVertexAttribute**()
 
@@ -606,7 +613,7 @@ If *type* is specified, sets the type property and returns this attribute builde
 
 The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](link to webglTypes).
 
-#### Base Attribute
+##### Base Attribute
 
 <a name="webglBaseAttribute" href="#webglBaseAttribute">#</a> fc.**webglBaseAttribute**()
 
@@ -658,7 +665,7 @@ If *offset* is specified, sets the offset property and returns this attribute bu
 
 The offset property is used to specify the offset in bytes of the first value in the vertex attribute array. If set, the offset must be a multiple of the byte length of [type](#webglBaseAttribute_type).
 
-### Uniform Builder
+#### Uniform Builder
 
 <a name="webglUniform" href="#webglUniform">#</a> fc.**webglUniform**()
 
@@ -675,6 +682,61 @@ The location property is used to specify the index location of the uniform being
 If *data* is specified, sets the data property and returns this uniform builder. If *data* is not specified, returns the current data.
 
 The data property is used to set the value of the uniform, the value provided can either be a single value or an array with a maximum length of `4`.
+
+#### Buffer Builder
+
+<a name="webglBufferBuilder" href="#webglBufferBuilder">#</a> fc.**webglBufferBuilder**()
+
+Used to manage and execute multiple attribute and uniform builders.
+
+This component is useful for executing multiple builders that contain values to be passed to a single program.
+
+<a name="webglBufferBuilder_attribute" href="#webglBufferBuilder_attribute">#</a> *webglBufferBuilder*.**attribute**(*attributeName*, *attributeBufferBuilder*)
+
+*attributeName* is required  
+*attributeBufferBuilder* is optional
+
+If *attributeBufferBuilder* is specified, links the attribute buffer builder to the given *attributeName* and returns this builder. If *attributeBufferBuilder* is not specified, returns the attribute buffer builder linked to *attributeName*.
+
+<a name="webglBufferBuilder_uniform" href="#webglBufferBuilder_uniform">#</a> *webglBufferBuilder*.**uniform**(*uniformName*, *uniformBuilder*)
+
+*uniformName* is required  
+*uniformBuilder* is optional
+
+If *uniformBuilder* is specified, links the uniform builder to the given *uniformName* and returns this builder. If *uniformBuilder* is not specified, returns the uniform builder linked to *uniformName*.
+
+<a name="webglBufferBuilder_elementIndices" href="#webglBufferBuilder_elementIndices">#</a> *webglBufferBuilder*.**elementIndices**(*elementIndicesBuilder*)
+
+If *elementIndicesBuilder* is specified, sets element indices and returns this builder. If *elementIndicesBuilder* is not specified, returns the current element indices.
+
+Element indices are used to specify which vertex is to be drawn, this is used to avoid duplicating data when a vertex is reused.
+
+#### Element Indices
+
+<a name="webglElementIndices" href="#webglElementIndices">#</a> fc.**webglElementIndices**()
+
+Used to create an element array buffer. This allows vertices to be defined once and reused by providing an index specifying which vertex we are currently using.
+
+For example to draw two triangles that share a vertex we could provide the values `[0, 1, 2, 1, 3, 4]`. Here we will draw a triangle with the vertices `0`, `1`, and `2`, and a second triangle with the vertices `1`, `3`, and `4`. We only have to specify the data for `5` vertices as we are reusing vertex `1`.
+
+<a name="webglElementIndices_data" href="#webglElementIndices_data">#</a> *webglElementIndices*.**data**(*data*)
+
+If *data* is specified, sets data and returns this builder. If *data* is not specified, returns the current data.
+
+*data* should be an array containing an ordered list of the vertices to draw.
+
+#### Types
+
+<a name="webglTypes" href="#webglTypes">#</a> fc.**webglTypes**
+
+An enum used to access the WebGL values associated with different data types.
+
+Types:
+* BYTE
+* UNSIGNED_BYTE
+* SHORT
+* UNSIGNED_SHORT
+* FLOAT
 
 ### Shader Naming Convention
 
