@@ -32,7 +32,14 @@ npm install @d3fc/d3fc-webgl
   * [Buffer Builder](#buffer-builder)
   * [Element Indices](#element-indices)
   * [Types](#types)
-* [Shader Naming Convention](#shader-naming-convention)
+* [Scales](#scales)
+  * [Linear](#linear)
+  * [Log](#log)
+  * [Pow](#pow)
+  * [Scale Mapper](#scale-mapper)
+* [Shaders](#shaders)
+  * [Shader Builder](#shader-builder)
+  * [Shader Naming Convention](#shader-naming-convention)
 
 This package contains the components needed to render a standard or custom series with WebGL. The standard series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
 
@@ -738,13 +745,100 @@ Types:
 * UNSIGNED_SHORT
 * FLOAT
 
-### Shader Naming Convention
+### Scales
+
+The scale components can be used for applying a scaling and translation to a variable within the vertex shader. This is useful for converting values from a data range to screen space.
+
+Any `vec4` variables can have a scaling applied to them.
+
+Please note that the [Log](#log) and [Pow](#pow) scales do not behave correctly for all `base` and `exponent` values respectively, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1387).
+
+#### Linear
+
+<a name="webglScaleLinear" href="#webglScaleLinear">#</a> fc.**webglScaleLinear**()
+
+Used to apply a linear scaling and translation to variables.
+
+<a name="webglScaleLinear_domain" href="#webglScaleLinear_domain">#</a> *webglScaleLinear*.**domain**(*domain*)
+
+If *domain* is specified, sets the domain and returns this scale. If *domain* is not specified, returns the current domain.
+
+*domain* should be an array containing the lower and upper bounds for the data set to be scaled.
+
+<a name="webglScaleLinear_range" href="#webglScaleLinear_range">#</a> *webglScaleLinear*.**range**(*range*)
+
+If *range* is specified, sets the range and returns this scale. If *range* is not specified, returns the current range.
+
+*range* should be an array containing the lower and upper bounds for the drawing area, given in draw space coordinates. Defaults to `[-1, 1]`, the full canvas.
+
+#### Log
+
+<a name="webglScaleLog" href="#webglScaleLog">#</a> fc.**webglScaleLog**()
+
+Used to apply a logarithmic scaling and translation to variables.
+
+<a name="webglScaleLog_base" href="#webglScaleLog_base">#</a> *webglScaleLog*.**base**(*base*)
+
+If *base* is specified, sets the base and returns this scale. If *base* is not specified, returns the current base.
+
+The value provided is used as the logarithm base.
+
+<a name="webglScaleLog_domain" href="#webglScaleLog_domain">#</a> *webglScaleLog*.**domain**(*domain*)
+
+If *domain* is specified, sets the domain and returns this scale. If *domain* is not specified, returns the current domain.
+
+*domain* should be an array containing the lower and upper bounds for the data set to be scaled.
+
+<a name="webglScaleLog_range" href="#webglScaleLog_range">#</a> *webglScaleLog*.**range**(*range*)
+
+If *range* is specified, sets the range and returns this scale. If *range* is not specified, returns the current range.
+
+*range* should be an array containing the lower and upper bounds for the drawing area, given in draw space coordinates. Defaults to `[-1, 1]`, the full canvas.
+
+#### Pow
+
+<a name="webglScalePow" href="#webglScalePow">#</a> fc.**webglScalePow**()
+
+Used to apply an exponential scaling and translation to variables.
+
+<a name="webglScalePow_exponent" href="#webglScalePow_exponent">#</a> *webglScalePow*.**exponent**(*exponent*)
+
+If *exponent* is specified, sets the exponent and returns this scale. If *exponent* is not specified, returns the current exponent.
+
+The value provided is used as the exponent.
+
+<a name="webglScalePow_domain" href="#webglScalePow_domain">#</a> *webglScalePow*.**domain**(*domain*)
+
+If *domain* is specified, sets the domain and returns this scale. If *domain* is not specified, returns the current domain.
+
+*domain* should be an array containing the lower and upper bounds for the data set to be scaled.
+
+<a name="webglScalePow_range" href="#webglScalePow_range">#</a> *webglScalePow*.**range**(*range*)
+
+If *range* is specified, sets the range and returns this scale. If *range* is not specified, returns the current range.
+
+*range* should be an array containing the lower and upper bounds for the drawing area, given in draw space coordinates. Defaults to `[-1, 1]`, the full canvas.
+
+#### Scale Mapper
+
+<a name="webglScaleMapper" href="#webglScaleMapper">#</a> fc.**webglScaleMapper**(*scale*)
+
+Used to map a [D3 Scale](https://github.com/d3/d3-scale#continuous-scales) (*scale*) to a WebGL equivalent, all relevant properties are copied across.
+
+Returns an object containing two fields, `scale`, and `glScale`.
+
+On a successful mapping the `scale` field will contain a [`d3.scaleIdentity`](https://github.com/d3/d3-scale#scaleIdentity) and the `glScale` field will contain an appropriate WebGL scale.  
+On an unsuccessful mapping the `scale` field will contain *scale* and the `glScale` field will contain a [`webglScaleLinear`](#webglScaleLinear).
+
+### Shaders
+
+### Shader Builder
+
+#### Shader Naming Convention
 
 The naming convention for shader inputs follows the convention found on the [series-api page](https://d3fc.io/api/series-api.html) in the web docs.
 
 One key difference is that shader inputs should be written in camelCase and have a qualifier prefix.
-
-#### Qualifier
 
 Shader inputs can have one of three qualifiers. Each qualifier has a corresponding prefix.
 
