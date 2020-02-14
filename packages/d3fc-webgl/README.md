@@ -39,6 +39,10 @@ npm install @d3fc/d3fc-webgl
   * [Scale Mapper](#scale-mapper)
 * [Shader Builder](#shader-builder)
   * [Shader Naming Convention](#shader-naming-convention)
+* [Program Builder](#program-builder)
+* [Symbol Mapper](#symbol-mapper)
+* [Fill Color](#fill-color)
+* [Stroke Color](#stroke-color)
 
 This package contains the components needed to render a standard or custom series with WebGL. The standard series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
 
@@ -59,19 +63,19 @@ A few properties are shared across all of the series.
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-Set scales must be Webgl scales, these can be created [manually](Link to scales) or can be generated from D3 scales using the [webglScaleMapper](Link to scaleMapper).
+Set scales must be Webgl scales, these can be created [manually](#scales) or can be generated from D3 scales using the [webglScaleMapper](#scale-mapper).
 
 <a name="series_decorate" href="#series_decorate">#</a> *series*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets decorate to the given function and returns this series. If *decorateFunc* is not specified, returns the current decorate function.
 
-The `decorateFunc(program)` function is called before draw time allowing a user of the series to change the drawing behaviour. The `program` argument is an instance of [`webglProgramBuilder`](link to programBuilder) which exposes properties such as the shaders used for drawing to be modified.
+The `decorateFunc(program)` function is called before draw time allowing a user of the series to change the drawing behaviour. The `program` argument is an instance of [`webglProgramBuilder`](#program-builder) which exposes properties such as the shaders used for drawing to be modified.
 
 <a name="series_context" href="#series_context">#</a> *series*.**context**(*WebGLRenderingContext*)
 
 If *WebGLRenderingContext* is specified, sets the rendering context and returns this series. If *WebGLRenderingContext* is not specified, returns the current rendering context.
 
-This property is rebound from [webglProgramBuilder.context](Link to programBuilder).
+This property is rebound from [webglProgramBuilder.context](#program-builder).
 
 <a name="series_definedAttribute" href="#series_definedAttribute">#</a> *series*.**definedAttribute**(*attributeBufferBuilder*)
 
@@ -431,7 +435,7 @@ Used to construct a new WebGL Point series.
 
 If *symbolTypeShader* is specified, sets the symbol type shader and returns this series. If *symbolTypeShader* is not specified, returns the current symbol type shader.
 
-A *symbolTypeShader* can be generated using the [webglSymbolMapper](Link to webglSymbolMapper).
+A *symbolTypeShader* can be generated using the [webglSymbolMapper](#symbol-mapper).
 
 <a name="webglSeriesPoint_crossValueAttribute" href="#webglSeriesPoint_crossValueAttribute">#</a> *webglSeriesPoint*.**crossValueAttribute**(*attributeBufferBuilder*)
 
@@ -459,7 +463,7 @@ The types file is also available for managing the typing of values being passed 
 
 #### Attribute Buffer Builders
 
-The attribute components can be used to generate [WebGLBuffers](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer) and bind them to the context of a given [webglProgramBuilder](link to programBuilder). A number of different builders are available to accomodate the most common use cases.
+The attribute components can be used to generate [WebGLBuffers](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer) and bind them to the context of a given [webglProgramBuilder](#program-builder). A number of different builders are available to accomodate the most common use cases.
 
 Example use of the builders can be seen in the [series](#series) components where the builders are used to provide the attribute values.
 
@@ -477,7 +481,7 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
 
-This property is rebound from [webglBaseAttribute.normalized](#webglBaseAttribute_normalized).
+This property is rebound from [webglBaseAttribute.normalized](#base-attribute).
 
 <a name="webglElementAttribute_location" href="#webglElementAttribute_location">#</a> *webglElementAttribute*.**location**(*index*)
 
@@ -485,7 +489,7 @@ If *index* is specified, sets the location property and returns this attribute b
 
 The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
 
-This property is rebound from [webglBaseAttribute.location](#webglBaseAttribute_location).
+This property is rebound from [webglBaseAttribute.location](#base-attribute).
 
 <a name="webglElementAttribute_data" href="#webglElementAttribute_data">#</a> *webglElementAttribute*.**data**(*array*)
 
@@ -511,7 +515,7 @@ The size property is used to specify the number of components to the attribute. 
 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
-The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](link to webglTypes).
+The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
 
 ##### Adjacent Element Attribute
 
@@ -536,7 +540,7 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
 
-This property is rebound from [webglBaseAttribute.normalized](#webglBaseAttribute_normalized).
+This property is rebound from [webglBaseAttribute.normalized](#base-attribute).
 
 <a name="webglAdjacentElementAttribute_location" href="#webglAdjacentElementAttribute_location">#</a> *webglAdjacentElementAttribute*.**location**(*index*)
 
@@ -544,7 +548,7 @@ If *index* is specified, sets the location property and returns this attribute b
 
 The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
 
-This property is rebound from [webglBaseAttribute.location](#webglBaseAttribute_location).
+This property is rebound from [webglBaseAttribute.location](#base-attribute).
 
 <a name="webglAdjacentElementAttribute_data" href="#webglAdjacentElementAttribute_data">#</a> *webglAdjacentElementAttribute*.**data**(*array*)
 
@@ -570,7 +574,7 @@ The size property is used to specify the number of components to the attribute. 
 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
-The type property is used to specify the type of the typed array used for the buffer data, the default is `Float`. Valid types can be accessed from [webglTypes](link to webglTypes).
+The type property is used to specify the type of the typed array used for the buffer data, the default is `Float`. Valid types can be accessed from [webglTypes](#types).
 
 ##### Vertex Attribute
 
@@ -586,7 +590,7 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
 
-This property is rebound from [webglBaseAttribute.normalized](#webglBaseAttribute_normalized).
+This property is rebound from [webglBaseAttribute.normalized](#base-attribute).
 
 <a name="webglVertexAttribute_location" href="#webglVertexAttribute_location">#</a> *webglVertexAttribute*.**location**(*index*)
 
@@ -594,7 +598,7 @@ If *index* is specified, sets the location property and returns this attribute b
 
 The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
 
-This property is rebound from [webglBaseAttribute.location](#webglBaseAttribute_location).
+This property is rebound from [webglBaseAttribute.location](#base-attribute).
 
 <a name="webglVertexAttribute_data" href="#webglVertexAttribute_data">#</a> *webglVertexAttribute*.**data**(*array*)
 
@@ -620,13 +624,13 @@ The size property is used to specify the number of components to the attribute. 
 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
-The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](link to webglTypes).
+The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
 
 ##### Base Attribute
 
 <a name="webglBaseAttribute" href="#webglBaseAttribute">#</a> fc.**webglBaseAttribute**()
 
-The generic base attribute builder that all the other attribute builders inherit from to provide their functionality. This will bind a buffer to a generic vertex attribute, accessed at [**location**](#webglBaseAttribute_location), but *is not* responsible for binding data to the buffer.
+The generic base attribute builder that all the other attribute builders inherit from to provide their functionality. This will bind a buffer to a generic vertex attribute, accessed at [**location**](#base-attribute), but *is not* responsible for binding data to the buffer.
 
 This component can be used to create a custom attribute builder, or to simply bind a buffer to a vertex attribute so that data can be provided.
 
@@ -652,7 +656,7 @@ The size property is used to specify the number of components to the attribute. 
 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
-The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](link to webglTypes).
+The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
 
 <a name="webglBaseAttribute_normalized" href="#webglBaseAttribute_normalized">#</a> *webglBaseAttribute*.**normalized**(*boolean*)
 
@@ -672,7 +676,7 @@ The stride property is used to specify the offset in bytes between the start of 
 
 If *offset* is specified, sets the offset property and returns this attribute builder. If *offset* is not specified, returns the current offset.
 
-The offset property is used to specify the offset in bytes of the first value in the vertex attribute array. If set, the offset must be a multiple of the byte length of [type](#webglBaseAttribute_type).
+The offset property is used to specify the offset in bytes of the first value in the vertex attribute array. If set, the offset must be a multiple of the byte length of [type](#base-attribute).
 
 #### Uniform Builder
 
@@ -828,7 +832,64 @@ Used to map a [D3 Scale](https://github.com/d3/d3-scale#continuous-scales) (*sca
 Returns an object containing two fields, `scale`, and `glScale`.
 
 On a successful mapping the `scale` field will contain a [`d3.scaleIdentity`](https://github.com/d3/d3-scale#scaleIdentity) and the `glScale` field will contain an appropriate WebGL scale.  
-On an unsuccessful mapping the `scale` field will contain *scale* and the `glScale` field will contain a [`webglScaleLinear`](#webglScaleLinear).
+On an unsuccessful mapping the `scale` field will contain *scale* and the `glScale` field will contain a [`webglScaleLinear`](#linear).
+
+### Shader Builder
+
+<a name="webglShaderBuilder" href="#webglShaderBuilder">#</a> fc.**webglShaderBuilder**(*base*)
+
+Used to allow shaders to be built in parts, this can be useful for allowing optional lines of shader code to be added. For example, given a condition, a line can be appended to a shader to change the output color.
+
+*base* must be a function that accepts two arguments, a header for the shader and a body for the shader. It must return a string that contains the header and a main function surrounding the body.
+
+An example of a base could be:
+```javascript
+const base = (header, body) => `
+  precision mediump float;
+  ${header}
+  void main() {
+    ${body}
+  }
+`;
+```
+
+<a name="webglShaderBuilder_appendHeader" href="#webglShaderBuilder_appendHeader">#</a> *webglShaderBuilder*.**appendHeader**(*header*)
+
+Appends *header* to the end of the current headers.
+
+*header* must be a string containing GLSL code.
+
+<a name="webglShaderBuilder_insertHeader" href="#webglShaderBuilder_insertHeader">#</a> *webglShaderBuilder*.**insertHeader**(*header*, *before*)
+
+Inserts *header* before the line provided in the *before* argument.
+
+*header* must be a string containing GLSL code.  
+*before* must be a string containing GLSL code already in the current headers. If *before* does not match any existing headers then *header* will be appended to the end of the current headers.
+
+<a name="webglShaderBuilder_appendHeaderIfNotExists" href="#webglShaderBuilder_appendHeaderIfNotExists"> *webglShaderBuilder*.**appendHeaderIfNotExists**(*header*)
+
+Appends *header* to the end of the current headers as long as it does not already exist.
+
+*header* must be a string containing GLSL code.
+
+<a name="webglShaderBuilder_appendBody" href="#webglShaderBuilder_appendBody">#</a> *webglShaderBuilder*.**appendBody**(*body*)
+
+Appends *body* to the end of the current bodies.
+
+*body* must be a string containing GLSL code.
+
+<a name="webglShaderBuilder_insertBody" href="#webglShaderBuilder_insertBody">#</a> *webglShaderBuilder*.**insertBody**(*body*, *before*)
+
+Inserts *body* before the line provided in the *before* argument.
+
+*body* must be a string containing GLSL code.  
+*before* must be a string containing GLSL code already in the current bodies. If *before* does not match any existing bodies then *body* will be appended to the end of the current bodies.
+
+<a name="webglShaderBuilder_appendBodyIfNotExists" href="#webglShaderBuilder_appendBodyIfNotExists"> *webglShaderBuilder*.**appendBodyIfNotExists**(*body*)
+
+Appends *body* to the end of the current bodies as long as it does not already exist.
+
+*body* must be a string containing GLSL code.
 
 #### Shader Naming Convention
 
@@ -845,3 +906,103 @@ Shader inputs can have one of three qualifiers. Each qualifier has a correspondi
 | Varying   | v      |
 
 For example: `aCrossValue`
+
+### Program Builder
+
+<a name="webglProgramBuilder" href="#webglProgramBuilder">#</a> fc.**webglProgramBuilder**()
+
+This component manages the creation and execution of a [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram).
+
+<a name="webglProgramBuilder_context" href="#webglProgramBuilder_context">#</a> *webglProgramBuilder*.**context**(*context*)
+
+If *context* is specified, sets the context and returns this builder. If *context* is not specified, returns the current context.
+
+*context* must be an instance of [WebGLRenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) from the canvas to be drawn to.
+
+<a name="webglProgramBuilder_buffers" href="#webglProgramBuilder_buffers">#</a> *webglProgramBuilder*.**buffers**(*bufferBuilder*)
+
+If *bufferBuilder* is specified, sets the buffers and returns this builder. If *bufferBuilder* is not specified, returns the current buffers.
+
+*bufferBuilder* must be an instance of [`webglBufferBuilder`](#buffer-builder)
+
+<a name="webglProgramBuilder_vertexShader" href="#webglProgramBuilder_vertexShader">#</a> *webglProgramBuilder*.**vertexShader**(*shaderBuilder*)
+
+If *shaderBuilder* is specified, sets the vertex shader and returns this builder. If *shaderBuilder* is not specified, returns the current vertex shader.
+
+*shaderBuilder* must be an instance of [`webglShaderBuilder`](#shader-builder)
+
+<a name="webglProgramBuilder_fragmentShader" href="#webglProgramBuilder_fragmentShader">#</a> *webglProgramBuilder*.**fragmentShader**(*shaderBuilder*)
+
+If *shaderBuilder* is specified, sets the fragment shader and returns this builder. If *shaderBuilder* is not specified, returns the current fragment shader.
+
+*shaderBuilder* must be an instance of [`webglShaderBuilder`](#shader-builder)
+
+<a name="webglProgramBuilder_mode" href="#webglProgramBuilder_mode">#</a> *webglProgramBuilder*.**mode**(*mode*)
+
+If *mode* is specified, sets the mode and returns this builder. If *mode* is not specified, returns the current mode.
+
+*mode* must be a WebGL draw mode, modes supported by `webglProgramBuilder` are `WebGLRenderingContext.POINTS` and `WebGLRenderingContext.TRIANGLES`.
+
+### Symbol Mapper
+
+<a name="webglSymbolMapper" href="#webglSymbolMapper">#</a> fc.**webglSymbolMapper**(*symbol*)
+
+Used to map a [D3 symbol](https://github.com/d3/d3-shape#symbols) (*symbol*) to a shader used for drawing the equivalent symbol.
+
+Supported symbols:
+* Circle
+* Square
+* Triangle
+* Cross
+
+### Fill Color
+
+<a name="webglFillColor" href="#webglFillColor">#</a> fc.**webglFillColor**(*color*)
+
+Used to set a fill color for the elements being drawn.
+
+*color* is an optional parameter, the default value is `black`. The value set by *color* can be overwritten using the `value` function.  
+*color* can either be an array or a function.  
+If *color* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
+If *color* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+
+<a name="webglFillColor_value" href="#webglFillColor_value">#</a> *webglFillColor*.**value**(*value*)
+
+If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
+
+*value* can either be an array or a function.  
+If *value* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
+If *value* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+
+<a name="webglFillColor_data" href="#webglFillColor_data">#</a> *webglFillColor*.**data**(*data*)
+
+If *data* is specified, sets the data and returns this component. If *data* is not specified, returns the current data.
+
+The data property is used to allow the value function to run for each entry in the data set.
+
+### Stroke Color
+
+<a name="webglStrokeColor" href="#webglStrokeColor">#</a> fc.**webglStrokeColor**(*color*)
+
+Used to set a stroke color for the elements being drawn.
+
+*color* is an optional parameter, the default value is `black`. The value set by *color* can be overwritten using the `value` function.  
+*color* can either be an array or a function.  
+If *color* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
+If *color* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+
+Please note that there is currently no functional difference between `webglFillColor` and `webglStrokeColor`, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1427).
+
+<a name="webglStrokeColor_value" href="#webglStrokeColor_value">#</a> *webglStrokeColor*.**value**(*value*)
+
+If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
+
+*value* can either be an array or a function.  
+If *value* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
+If *value* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+
+<a name="webglStrokeColor_data" href="#webglStrokeColor_data">#</a> *webglStrokeColor*.**data**(*data*)
+
+If *data* is specified, sets the data and returns this component. If *data* is not specified, returns the current data.
+
+The data property is used to allow the value function to run for each entry in the data set.
