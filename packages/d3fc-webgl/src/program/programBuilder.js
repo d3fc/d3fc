@@ -34,23 +34,17 @@ export default () => {
             );
         }
 
-        if (buffers.elementIndices() !== null) {
-            ext.drawElementsInstancedANGLE(
-                mode,
-                buffers.elementIndices().data().length,
-                context.UNSIGNED_SHORT,
-                0,
-                count
-            );
-        } else {
-            if (mode === drawModes.POINTS) {
-                context.drawArrays(mode, 0, count);
-            } else if (mode === drawModes.TRIANGLES) {
-                throw Error(
-                    'Element indices must be provided for drawMode TRIANGLES.'
-                );
-            }
+        if (buffers.elementIndices() == null) {
+            throw Error('Element indices must be provided.');
         }
+
+        ext.drawElementsInstancedANGLE(
+            mode,
+            buffers.elementIndices().data().length,
+            context.UNSIGNED_SHORT,
+            0,
+            count
+        );
     };
 
     build.context = (...args) => {
