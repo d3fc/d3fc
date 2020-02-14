@@ -37,8 +37,7 @@ npm install @d3fc/d3fc-webgl
   * [Log](#log)
   * [Pow](#pow)
   * [Scale Mapper](#scale-mapper)
-* [Shaders](#shaders)
-  * [Shader Builder](#shader-builder)
+* [Shader Builder](#shader-builder)
   * [Shader Naming Convention](#shader-naming-convention)
 
 This package contains the components needed to render a standard or custom series with WebGL. The standard series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
@@ -50,8 +49,6 @@ The series components can be used to generate a WebGL series of the relevant cha
 Some of the series make use of `next`/`previous` attributes. These are needed in situations where the current element requires information about adjacent elements in order to be drawn correctly. For example when drawing a line we need to know information about adjacent data points so that we can draw the connection between them correctly.
 
 Currently only the [line](#line) and [point](#point) series are able to render different orientations (`horizontal` and `vertical`), all other charts render as a `vertical` chart. Despite this the series components maintain an agnostic naming convention using `cross` and `main` values to provide a consistent interface and to better support orientation in the future.
-
-Most values used in the series components are scaled during the execution of the vertex shader, the scaling values are provided by the [WebGL scales](link to scales). The exception to this rule are values provided as properties rather than data point values, for example `bandwidth` and `point size`. Instead these properties should be given values in an appropriate scale as documented.
 
 #### Common Properties
 
@@ -500,15 +497,15 @@ The data property is used to allow the value function to run for each entry in t
 
 If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
 
-The value function is run for each entry in the data set and should return appropriate values for the current attribute buffer being built.
+The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*.
+
+If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
 
 <a name="webglElementAttribute_size" href="#webglElementAttribute_size">#</a> *webglElementAttribute*.**size**(*size*)
 
 If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
 
 The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
-
-If the size property is set to a value other than `1` then the given value function must return an array of length equal to the size property.
 
 <a name="webglElementAttribute_type" href="#webglElementAttribute_type">#</a> *webglElementAttribute*.**type**(*type*)
 
@@ -518,13 +515,18 @@ The type property is used to specify the type of the typed array used for the bu
 
 ##### Adjacent Element Attribute
 
-<a name="webglAdjacentElementAttribute" href="#webglAdjacentElementAttribute">#</a> fc.**webglAdjacentElementAttribute**()
+<a name="webglAdjacentElementAttribute" href="#webglAdjacentElementAttribute">#</a> fc.**webglAdjacentElementAttribute**(*minOffset*, *maxOffset*)
 
 Used to generate a buffer where each element requires data from another element adjacent to it. In this context an element is an instance of a repeatedly drawn object, for example each individual candlestick on a candlestick chart is an element.
+
+*minOffset* specifies the minimum bound for the offset property, this controls how many previous elements are available to access from the builder. The default value is `0`.  
+*maxOffset* specifies the maximum bound for the offset property, this controls how many following elements are available to access from the builder. The default value is `0`.
 
 <a name="webglAdjacentElementAttribute_offset" href="#webglAdjacentElementAttribute_offset">#</a> *webglAdjacentElementAttribute*.**offset**(*offset*)
 
 Sets the offset property and returns an attribute builder that accesses the same data with the given *offset*.
+
+The value of *offset* must be within the bounds of `minOffset` and `maxOffset`.
 
 <a name="webglAdjacentElementAttribute_normalized" href="#webglAdjacentElementAttribute_normalized">#</a> *webglAdjacentElementAttribute*.**normalized**(*boolean*)
 
@@ -554,15 +556,15 @@ The data property is used to allow the value function to run for each entry in t
 
 If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
 
-The value function is run for each entry in the data set and should return appropriate values for the current attribute buffer being built.
+The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*. 
+
+If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
 
 <a name="webglAdjacentElementAttribute_size" href="#webglAdjacentElementAttribute_size">#</a> *webglAdjacentElementAttribute*.**size**(*size*)
 
 If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
 
 The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
-
-If the size property is set to a value other than `1` then the given value function must return an array of length equal to the size property.
 
 <a name="webglAdjacentElementAttribute_type" href="#webglAdjacentElementAttribute_type">#</a> *webglAdjacentElementAttribute*.**type**(*type*)
 
@@ -604,15 +606,15 @@ The data property is used to allow the value function to run for each entry in t
 
 If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
 
-The value function is run for each entry in the data set and should return appropriate values for the current attribute buffer being built.
+The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*.
+
+If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
 
 <a name="webglVertexAttribute_size" href="#webglVertexAttribute_size">#</a> *webglVertexAttribute*.**size**(*size*)
 
 If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
 
 The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
-
-If the size property is set to a value other than `1` then the given value function must return an array of length equal to the size property.
 
 <a name="webglVertexAttribute_type" href="#webglVertexAttribute_type">#</a> *webglVertexAttribute*.**type**(*type*)
 
@@ -694,9 +696,7 @@ The data property is used to set the value of the uniform, the value provided ca
 
 <a name="webglBufferBuilder" href="#webglBufferBuilder">#</a> fc.**webglBufferBuilder**()
 
-Used to manage and execute multiple attribute and uniform builders.
-
-This component is useful for executing multiple builders that contain values to be passed to a single program.
+This component manages the mapping of attribute/uniform builders to their shader identifiers.
 
 <a name="webglBufferBuilder_attribute" href="#webglBufferBuilder_attribute">#</a> *webglBufferBuilder*.**attribute**(*attributeName*, *attributeBufferBuilder*)
 
@@ -829,10 +829,6 @@ Returns an object containing two fields, `scale`, and `glScale`.
 
 On a successful mapping the `scale` field will contain a [`d3.scaleIdentity`](https://github.com/d3/d3-scale#scaleIdentity) and the `glScale` field will contain an appropriate WebGL scale.  
 On an unsuccessful mapping the `scale` field will contain *scale* and the `glScale` field will contain a [`webglScaleLinear`](#webglScaleLinear).
-
-### Shaders
-
-### Shader Builder
 
 #### Shader Naming Convention
 
