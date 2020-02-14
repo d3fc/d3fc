@@ -3,7 +3,7 @@ import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesPoint,
-    webglVertexAttribute,
+    webglElementAttribute,
     webglScaleMapper,
     webglSymbolMapper,
     webglTypes
@@ -16,10 +16,10 @@ export default () => {
     let size = functor(64);
     let type = d3Shape.symbolCircle;
 
-    const crossValueAttribute = webglVertexAttribute();
-    const mainValueAttribute = webglVertexAttribute();
-    const sizeAttribute = webglVertexAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglVertexAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglElementAttribute();
+    const mainValueAttribute = webglElementAttribute();
+    const sizeAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = webglSeriesPoint()
         .crossValueAttribute(crossValueAttribute)
