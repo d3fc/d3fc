@@ -44,15 +44,15 @@ npm install @d3fc/d3fc-webgl
 * [Fill Color](#fill-color)
 * [Stroke Color](#stroke-color)
 
-This package contains the components needed to render a standard or custom series with WebGL. The standard series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
+This package contains the components needed to render a standard or custom series types with WebGL. 
 
 ### Series
 
-The series components can be used to generate a WebGL series of the relevant chart, all chart types are supported.
+The series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
 
 Some of the series make use of `next`/`previous` attributes. These are needed in situations where the current element requires information about adjacent elements in order to be drawn correctly. For example when drawing a line we need to know information about adjacent data points so that we can draw the connection between them correctly.
 
-Currently only the [line](#line) and [point](#point) series are able to render different orientations (`horizontal` and `vertical`), all other charts render as a `vertical` chart. Despite this the series components maintain an agnostic naming convention using `cross` and `main` values to provide a consistent interface and to better support orientation in the future.
+Currently only the [line](#line) and [point](#point) series are able to render different orientations (`horizontal` and `vertical`), all other charts render as a `vertical` chart.
 
 #### Common Properties
 
@@ -63,13 +63,13 @@ A few properties are shared across all of the series.
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-Set scales must be Webgl scales, these can be created [manually](#scales) or can be generated from D3 scales using the [webglScaleMapper](#scale-mapper).
+N.B. scales are Webgl scales not D3 scales. These can be created [manually](#scales) or generated from D3 scales using the [webglScaleMapper](#scale-mapper).
 
 <a name="series_decorate" href="#series_decorate">#</a> *series*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets decorate to the given function and returns this series. If *decorateFunc* is not specified, returns the current decorate function.
 
-The `decorateFunc(program)` function is called before draw time allowing a user of the series to change the drawing behaviour. The `program` argument is an instance of [`webglProgramBuilder`](#program-builder) which exposes properties such as the shaders used for drawing to be modified.
+The function is called immediately prior to the underlying WebGL calls. It is passed a single argument which is an instance of [`webglProgramBuilder`](#program-builder). This allows users of the components to modify the shaders, as well as change or pass in additional attribute/uniform values.
 
 <a name="series_context" href="#series_context">#</a> *series*.**context**(*WebGLRenderingContext*)
 
@@ -77,13 +77,11 @@ If *WebGLRenderingContext* is specified, sets the rendering context and returns 
 
 This property is rebound from [webglProgramBuilder.context](#program-builder).
 
-<a name="series_definedAttribute" href="#series_definedAttribute">#</a> *series*.**definedAttribute**(*attributeBufferBuilder*)
+<a name="series_definedAttribute" href="#series_definedAttribute">#</a> *series*.**definedAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the defined attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current defined attribute.
+If *attribute* is specified, sets the defined attribute and returns this series. If *attribute* is not specified, returns the current defined attribute.
 
-This property is used to create the buffer for the `aDefined` shader attribute.
-
-Values calculated from the given *attributeBufferBuilder* should either be `1` (to indicate the data point is defined) or `0` (to indicate the data point is not defined).
+The attribute values should either be `1` (to indicate the data point is defined) or `0` (to indicate the data point is not defined).
 
 #### Area
 
@@ -91,49 +89,35 @@ Values calculated from the given *attributeBufferBuilder* should either be `1` (
 
 Used to construct a new WebGL Area series.
 
-<a name="webglSeriesArea_crossValueAttribute" href="#webglSeriesArea_crossValueAttribute">#</a> *webglSeriesArea*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesArea_crossValueAttribute" href="#webglSeriesArea_crossValueAttribute">#</a> *webglSeriesArea*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesArea_crossPreviousValueAttribute" href="#webglSeriesArea_crossPreviousValueAttribute">#</a> *webglSeriesArea*.**crossPreviousValueAttribute**(*attribute*)
 
-<a name="webglSeriesArea_crossPreviousValueAttribute" href="#webglSeriesArea_crossPreviousValueAttribute">#</a> *webglSeriesArea*.**crossPreviousValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the cross previous value attribute and returns this series. If *attribute* is not specified, returns the current cross previous value attribute.
 
-If *attributeBufferBuilder* is specified, sets the cross previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross previous value attribute.
+<a name="webglSeriesArea_mainValueAttribute" href="#webglSeriesArea_mainValueAttribute">#</a> *webglSeriesArea*.**mainValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aCrossPrevValue` shader attribute.
+If *attribute* is specified, sets the main value attribute and returns this series. If *attribute* is not specified, returns the current main value attribute.
 
-<a name="webglSeriesArea_mainValueAttribute" href="#webglSeriesArea_mainValueAttribute">#</a> *webglSeriesArea*.**mainValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesArea_mainPreviousValueAttribute" href="#webglSeriesArea_mainPreviousValueAttribute">#</a> *webglSeriesArea*.**mainPreviousValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the main value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main value attribute.
+If *attribute* is specified, sets the main previous value attribute and returns this series. If *attribute* is not specified, returns the current main previous value attribute.
 
-This property is used to create the buffer for the `aMainValue` shader attribute.
+<a name="webglSeriesArea_baseValueAttribute" href="#webglSeriesArea_baseValueAttribute">#</a> *webglSeriesArea*.**baseValueAttribute**(*attribute*)
 
-<a name="webglSeriesArea_mainPreviousValueAttribute" href="#webglSeriesArea_mainPreviousValueAttribute">#</a> *webglSeriesArea*.**mainPreviousValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the base value attribute and returns this series. If *attribute* is not specified, returns the current base value attribute.
 
-If *attributeBufferBuilder* is specified, sets the main previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main previous value attribute.
+<a name="webglSeriesArea_basePreviousValueAttribute" href="#webglSeriesArea_basePreviousValueAttribute">#</a> *webglSeriesArea*.**basePreviousValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aMainPrevValue` shader attribute.
+If *attribute* is specified, sets the base previous value attribute and returns this series. If *attribute* is not specified, returns the current base previous value attribute.
 
-<a name="webglSeriesArea_baseValueAttribute" href="#webglSeriesArea_baseValueAttribute">#</a> *webglSeriesArea*.**baseValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesArea_definedNextAttribute" href="#webglSeriesArea_definedNextAttribute">#</a> *webglSeriesArea*.**definedNextAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the base value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current base value attribute.
+If *attribute* is specified, sets the defined next attribute and returns this series. If *attribute* is not specified, returns the current defined next attribute.
 
-This property is used to create the buffer for the `aBaseValue` shader attribute.
-
-<a name="webglSeriesArea_basePreviousValueAttribute" href="#webglSeriesArea_basePreviousValueAttribute">#</a> *webglSeriesArea*.**basePreviousValueAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the base previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current base previous value attribute.
-
-This property is used to create the buffer for the `aBasePrevValue` shader attribute.
-
-<a name="webglSeriesArea_definedNextAttribute" href="#webglSeriesArea_definedNextAttribute">#</a> *webglSeriesArea*.**definedNextAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the defined next attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current defined next attribute.
-
-This property is used to create the buffer for the `aDefinedNext` shader attribute.
-
-Values calculated from the given *attributeBufferBuilder* should either be `1` (to indicate the data point is defined) or `0` (to indicate the data point is not defined).
+The attribute values should either be `1` (to indicate the data point is defined) or `0` (to indicate the data point is not defined).
 
 #### Bar
 
@@ -141,29 +125,23 @@ Values calculated from the given *attributeBufferBuilder* should either be `1` (
 
 Used to construct a new WebGL Bar series.
 
-<a name="webglSeriesBar_crossValueAttribute" href="#webglSeriesBar_crossValueAttribute">#</a> *webglSeriesBar*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesBar_crossValueAttribute" href="#webglSeriesBar_crossValueAttribute">#</a> *webglSeriesBar*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesBar_mainValueAttribute" href="#webglSeriesBar_mainValueAttribute">#</a> *webglSeriesBar*.**mainValueAttribute**(*attribute*)
 
-<a name="webglSeriesBar_mainValueAttribute" href="#webglSeriesBar_mainValueAttribute">#</a> *webglSeriesBar*.**mainValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the main value attribute and returns this series. If *attribute* is not specified, returns the current main value attribute.
 
-If *attributeBufferBuilder* is specified, sets the main value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main value attribute.
+<a name="webglSeriesBar_baseValueAttribute" href="#webglSeriesBar_baseValueAttribute">#</a> *webglSeriesBar*.**baseValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aMainValue` shader attribute.
+If *attribute* is specified, sets the base value attribute and returns this series. If *attribute* is not specified, returns the current base value attribute.
 
-<a name="webglSeriesBar_baseValueAttribute" href="#webglSeriesBar_baseValueAttribute">#</a> *webglSeriesBar*.**baseValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesBar_bandwidthAttribute" href="#webglSeriesBar_bandwidthAttribute">#</a> *webglSeriesBar*.**bandwidthAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the base value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current base value attribute.
+If *attribute* is specified, sets the bandwidth attribute and returns this series. If *attribute* is not specified, returns the current bandwidth attribute.
 
-This property is used to create the buffer for the `aBaseValue` shader attribute.
-
-<a name="webglSeriesBar_bandwidthAttribute" href="#webglSeriesBar_bandwidthAttribute">#</a> *webglSeriesBar*.**bandwidthAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the bandwidth attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current bandwidth attribute.
-
-This property is used to create the buffer for the `aBandwidth` shader attribute. Values generated for the bandwidth should be in **pixels**.
+The attribute values should be provided in pixels.
 
 #### BoxPlot
 
@@ -175,55 +153,43 @@ Used to construct a new WebGL BoxPlot series
 
 If *width* is specified, sets the width to the given value and returns this series. If *width* is not specified, returns the current width value.
 
-The value of *width* should be provided in **pixels**.
+The value should be provided in pixels.
 
-<a name="webglSeriesBoxPlot_crossValueAttribute" href="#webglSeriesBoxPlot_crossValueAttribute">#</a> *webglSeriesBoxPlot*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesBoxPlot_crossValueAttribute" href="#webglSeriesBoxPlot_crossValueAttribute">#</a> *webglSeriesBoxPlot*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesBoxPlot_highValueAttribute" href="#webglSeriesBoxPlot_highValueAttribute">#</a> *webglSeriesBoxPlot*.**highValueAttribute**(*attribute*)
 
-<a name="webglSeriesBoxPlot_highValueAttribute" href="#webglSeriesBoxPlot_highValueAttribute">#</a> *webglSeriesBoxPlot*.**highValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the high value attribute and returns this series. If *attribute* is not specified, returns the current high value attribute.
 
-If *attributeBufferBuilder* is specified, sets the high value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current high value attribute.
+<a name="webglSeriesBoxPlot_upperQuartileValueAttribute" href="#webglSeriesBoxPlot_upperQuartileValueAttribute">#</a> *webglSeriesBoxPlot*.**upperQuartileValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aHighValue` shader attribute.
+If *attribute* is specified, sets the upper quartile value attribute and returns this series. If *attribute* is not specified, returns the current upper quartile value attribute.
 
-<a name="webglSeriesBoxPlot_upperQuartileValueAttribute" href="#webglSeriesBoxPlot_upperQuartileValueAttribute">#</a> *webglSeriesBoxPlot*.**upperQuartileValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesBoxPlot_medianValueAttribute" href="#webglSeriesBoxPlot_medianValueAttribute">#</a> *webglSeriesBoxPlot*.**medianValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the upper quartile value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current upper quartile value attribute.
+If *attribute* is specified, sets the median value attribute and returns this series. If *attribute* is not specified, returns the current median value attribute.
 
-This property is used to create the buffer for the `aUpperQuartileValue` shader attribute.
+<a name="webglSeriesBoxPlot_lowerQuartileValueAttribute" href="#webglSeriesBoxPlot_lowerQuartileValueAttribute">#</a> *webglSeriesBoxPlot*.**lowerQuartileValueAttribute**(*attribute*)
 
-<a name="webglSeriesBoxPlot_medianValueAttribute" href="#webglSeriesBoxPlot_medianValueAttribute">#</a> *webglSeriesBoxPlot*.**medianValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the lower quartile value attribute and returns this series. If *attribute* is not specified, returns the current lower quartile value attribute.
 
-If *attributeBufferBuilder* is specified, sets the median value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current median value attribute.
+<a name="webglSeriesBoxPlot_lowValueAttribute" href="#webglSeriesBoxPlot_lowValueAttribute">#</a> *webglSeriesBoxPlot*.**lowValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aMedianValue` shader attribute.
+If *attribute* is specified, sets the low value attribute and returns this series. If *attribute* is not specified, returns the current low value attribute.
 
-<a name="webglSeriesBoxPlot_lowerQuartileValueAttribute" href="#webglSeriesBoxPlot_lowerQuartileValueAttribute">#</a> *webglSeriesBoxPlot*.**lowerQuartileValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesBoxPlot_bandwidthAttribute" href="#webglSeriesBoxPlot_bandwidthAttribute">#</a> *webglSeriesBoxPlot*.**bandwidthAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the lower quartile value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current lower quartile value attribute.
+If *attribute* is specified, sets the bandwidth attribute and returns this series. If *attribute* is not specified, returns the current bandwidth attribute.
 
-This property is used to create the buffer for the `aLowerQuartileValue` shader attribute.
+The attribute values should be provided in pixels.
 
-<a name="webglSeriesBoxPlot_lowValueAttribute" href="#webglSeriesBoxPlot_lowValueAttribute">#</a> *webglSeriesBoxPlot*.**lowValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesBoxPlot_capAttribute" href="#webglSeriesBoxPlot_capAttribute">#</a> *webglSeriesBoxPlot*.**capAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the low value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current low value attribute.
+If *attribute* is specified, sets the cap attribute and returns this series. If *attribute* is not specified, returns the current cap attribute.
 
-This property is used to create the buffer for the `aLowValue` shader attribute.
-
-<a name="webglSeriesBoxPlot_bandwidthAttribute" href="#webglSeriesBoxPlot_bandwidthAttribute">#</a> *webglSeriesBoxPlot*.**bandwidthAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the bandwidth attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current bandwidth attribute.
-
-This property is used to create the buffer for the `aBandwidth` shader attribute. Values generated for the bandwidth should be in **pixels**.
-
-<a name="webglSeriesBoxPlot_capAttribute" href="#webglSeriesBoxPlot_capAttribute">#</a> *webglSeriesBoxPlot*.**capAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the cap attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cap attribute.
-
-This property is used to create the buffer for the `aCapWidth` shader attribute. Values generated for the cap should be in **pixels**.
+The attribute values should be provided in pixels.
 
 #### Candlestick
 
@@ -235,43 +201,33 @@ Used to construct a new WebGL Candlestick series.
 
 If *width* is specified, sets the width to the given value and returns this series. If *width* is not specified, returns the current width value.
 
-The value of *width* should be provided in **pixels**.
+The value should be provided in pixels.
 
-<a name="webglSeriesCandlestick_crossValueAttribute" href="#webglSeriesCandlestick_crossValueAttribute">#</a> *webglSeriesCandlestick*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesCandlestick_crossValueAttribute" href="#webglSeriesCandlestick_crossValueAttribute">#</a> *webglSeriesCandlestick*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesCandlestick_openValueAttribute" href="#webglSeriesCandlestick_openValueAttribute">#</a> *webglSeriesCandlestick*.**openValueAttribute**(*attribute*)
 
-<a name="webglSeriesCandlestick_openValueAttribute" href="#webglSeriesCandlestick_openValueAttribute">#</a> *webglSeriesCandlestick*.**openValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the open value attribute and returns this series. If *attribute* is not specified, returns the current open value attribute.
 
-If *attributeBufferBuilder* is specified, sets the open value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current open value attribute.
+<a name="webglSeriesCandlestick_highValueAttribute" href="#webglSeriesCandlestick_highValueAttribute">#</a> *webglSeriesCandlestick*.**highValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aOpenValue` shader attribute.
+If *attribute* is specified, sets the high value attribute and returns this series. If *attribute* is not specified, returns the current high value attribute.
 
-<a name="webglSeriesCandlestick_highValueAttribute" href="#webglSeriesCandlestick_highValueAttribute">#</a> *webglSeriesCandlestick*.**highValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesCandlestick_lowValueAttribute" href="#webglSeriesCandlestick_lowValueAttribute">#</a> *webglSeriesCandlestick*.**lowValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the high value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current high value attribute.
+If *attribute* is specified, sets the low value attribute and returns this series. If *attribute* is not specified, returns the current low value attribute.
 
-This property is used to create the buffer for the `aHighValue` shader attribute.
+<a name="webglSeriesCandlestick_closeValueAttribute" href="#webglSeriesCandlestick_closeValueAttribute">#</a> *webglSeriesCandlestick*.**closeValueAttribute**(*attribute*)
 
-<a name="webglSeriesCandlestick_lowValueAttribute" href="#webglSeriesCandlestick_lowValueAttribute">#</a> *webglSeriesCandlestick*.**lowValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the close value attribute and returns this series. If *attribute* is not specified, returns the current close value attribute.
 
-If *attributeBufferBuilder* is specified, sets the low value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current low value attribute.
+<a name="webglSeriesCandlestick_bandwidthAttribute" href="#webglSeriesCandlestick_bandwidthAttribute">#</a> *webglSeriesCandlestick*.**bandwidthAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aLowValue` shader attribute.
+If *attribute* is specified, sets the bandwidth attribute and returns this series. If *attribute* is not specified, returns the current bandwidth attribute.
 
-<a name="webglSeriesCandlestick_closeValueAttribute" href="#webglSeriesCandlestick_closeValueAttribute">#</a> *webglSeriesCandlestick*.**closeValueAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the close value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current close value attribute.
-
-This property is used to create the buffer for the `aCloseValue` shader attribute.
-
-<a name="webglSeriesCandlestick_bandwidthAttribute" href="#webglSeriesCandlestick_bandwidthAttribute">#</a> *webglSeriesCandlestick*.**bandwidthAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the bandwidth attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current bandwidth attribute.
-
-This property is used to create the buffer for the `aBandwidth` shader attribute. Values generated for the bandwidth should be in **pixels**.
+The attribute values should be provided in pixels.
 
 #### ErrorBar
 
@@ -283,31 +239,25 @@ Used to construct a new WebGL ErrorBar series.
 
 If *width* is specified, sets the width to the given value and returns this series. If *width* is not specified, returns the current width value.
 
-The value of *width* should be provided in **pixels**.
+The value should be provided in pixels.
 
-<a name="webglSeriesErrorBar_crossValueAttribute" href="#webglSeriesErrorBar_crossValueAttribute">#</a> *webglSeriesErrorBar*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesErrorBar_crossValueAttribute" href="#webglSeriesErrorBar_crossValueAttribute">#</a> *webglSeriesErrorBar*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesErrorBar_highValueAttribute" href="#webglSeriesErrorBar_highValueAttribute">#</a> *webglSeriesErrorBar*.**highValueAttribute**(*attribute*)
 
-<a name="webglSeriesErrorBar_highValueAttribute" href="#webglSeriesErrorBar_highValueAttribute">#</a> *webglSeriesErrorBar*.**highValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the high value attribute and returns this series. If *attribute* is not specified, returns the current high value attribute.
 
-If *attributeBufferBuilder* is specified, sets the high value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current high value attribute.
+<a name="webglSeriesErrorBar_lowValueAttribute" href="#webglSeriesErrorBar_lowValueAttribute">#</a> *webglSeriesErrorBar*.**lowValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aHighValue` shader attribute.
+If *attribute* is specified, sets the low value attribute and returns this series. If *attribute* is not specified, returns the current low value attribute.
 
-<a name="webglSeriesErrorBar_lowValueAttribute" href="#webglSeriesErrorBar_lowValueAttribute">#</a> *webglSeriesErrorBar*.**lowValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesErrorBar_bandwidthAttribute" href="#webglSeriesErrorBar_bandwidthAttribute">#</a> *webglSeriesErrorBar*.**bandwidthAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the low value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current low value attribute.
+If *attribute* is specified, sets the bandwidth attribute and returns this series. If *attribute* is not specified, returns the current bandwidth attribute.
 
-This property is used to create the buffer for the `aLowValue` shader attribute.
-
-<a name="webglSeriesErrorBar_bandwidthAttribute" href="#webglSeriesErrorBar_bandwidthAttribute">#</a> *webglSeriesErrorBar*.**bandwidthAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the bandwidth attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current bandwidth attribute.
-
-This property is used to create the buffer for the `aBandwidth` shader attribute. Values generated for the bandwidth should be in **pixels**.
+The attribute values should be provided in pixels.
 
 #### Line
 
@@ -319,63 +269,45 @@ Used to construct a new WebGL Line series.
 
 If *width* is specified, sets the width to the given value and returns this series. If *width* is not specified, returns the current width value.
 
-The value of *width* should be provided in **pixels**.
+The value should be provided in pixels.
 
-<a name="webglSeriesLine_crossPreviousValueAttribute" href="#webglSeriesLine_crossPreviousValueAttribute">#</a> *webglSeriesLine*.**crossPreviousValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesLine_crossPreviousValueAttribute" href="#webglSeriesLine_crossPreviousValueAttribute">#</a> *webglSeriesLine*.**crossPreviousValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross previous value attribute.
+If *attribute* is specified, sets the cross previous value attribute and returns this series. If *attribute* is not specified, returns the current cross previous value attribute.
 
-This property is used to create the buffer for the `aCrossPrevValue` shader attribute.
+<a name="webglSeriesLine_crossValueAttribute" href="#webglSeriesLine_crossValueAttribute">#</a> *webglSeriesLine*.**crossValueAttribute**(*attribute*)
 
-<a name="webglSeriesLine_crossValueAttribute" href="#webglSeriesLine_crossValueAttribute">#</a> *webglSeriesLine*.**crossValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+<a name="webglSeriesLine_crossNextValueAttribute" href="#webglSeriesLine_crossNextValueAttribute">#</a> *webglSeriesLine*.**crossNextValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+If *attribute* is specified, sets the cross next value attribute and returns this series. If *attribute* is not specified, returns the current cross next value attribute.
 
-<a name="webglSeriesLine_crossNextValueAttribute" href="#webglSeriesLine_crossNextValueAttribute">#</a> *webglSeriesLine*.**crossNextValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesLine_crossPreviousPreviousValueAttribute" href="#webglSeriesLine_crossPreviousPreviousValueAttribute">#</a> *webglSeriesLine*.**crossPreviousPreviousValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross next value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross next value attribute.
+If *attribute* is specified, sets the cross previous previous value attribute and returns this series. If *attribute* is not specified, returns the current cross previous previous value attribute.
 
-This property is used to create the buffer for the `aCrossNextValue` shader attribute.
+<a name="webglSeriesLine_mainPreviousValueAttribute" href="#webglSeriesLine_mainPreviousValueAttribute">#</a> *webglSeriesLine*.**mainPreviousValueAttribute**(*attribute*)
 
-<a name="webglSeriesLine_crossPreviousPreviousValueAttribute" href="#webglSeriesLine_crossPreviousPreviousValueAttribute">#</a> *webglSeriesLine*.**crossPreviousPreviousValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the main previous value attribute and returns this series. If *attribute* is not specified, returns the current main previous value attribute.
 
-If *attributeBufferBuilder* is specified, sets the cross previous previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross previous previous value attribute.
+<a name="webglSeriesLine_mainValueAttribute" href="#webglSeriesLine_mainValueAttribute">#</a> *webglSeriesLine*.**mainValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aCrossPrevPrevValue` shader attribute.
+If *attribute* is specified, sets the main value attribute and returns this series. If *attribute* is not specified, returns the current main value attribute.
 
-<a name="webglSeriesLine_mainPreviousValueAttribute" href="#webglSeriesLine_mainPreviousValueAttribute">#</a> *webglSeriesLine*.**mainPreviousValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesLine_mainNextValueAttribute" href="#webglSeriesLine_mainNextValueAttribute">#</a> *webglSeriesLine*.**mainNextValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the main previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main previous value attribute.
+If *attribute* is specified, sets the main next value attribute and returns this series. If *attribute* is not specified, returns the current main next value attribute.
 
-This property is used to create the buffer for the `aMainPrevValue` shader attribute.
+<a name="webglSeriesLine_mainPreviousPreviousValueAttribute" href="#webglSeriesLine_mainPreviousPreviousValueAttribute">#</a> *webglSeriesLine*.**mainPreviousPreviousValueAttribute**(*attribute*)
 
-<a name="webglSeriesLine_mainValueAttribute" href="#webglSeriesLine_mainValueAttribute">#</a> *webglSeriesLine*.**mainValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the main previous previous value attribute and returns this series. If *attribute* is not specified, returns the current main previous previous value attribute.
 
-If *attributeBufferBuilder* is specified, sets the main value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main value attribute.
+<a name="webglSeriesLine_definedNextAttribute" href="#webglSeriesLine_definedNextAttribute">#</a> *webglSeriesLine*.**definedNextAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aMainValue` shader attribute.
+If *attribute* is specified, sets the defined next attribute and returns this series. If *attribute* is not specified, returns the current defined next attribute.
 
-<a name="webglSeriesLine_mainNextValueAttribute" href="#webglSeriesLine_mainNextValueAttribute">#</a> *webglSeriesLine*.**mainNextValueAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the main next value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main next value attribute.
-
-This property is used to create the buffer for the `aMainNextValue` shader attribute.
-
-<a name="webglSeriesLine_mainPreviousPreviousValueAttribute" href="#webglSeriesLine_mainPreviousPreviousValueAttribute">#</a> *webglSeriesLine*.**mainPreviousPreviousValueAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the main previous previous value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main previous previous value attribute.
-
-This property is used to create the buffer for the `aMainPrevPrevValue` shader attribute.
-
-<a name="webglSeriesLine_definedNextAttribute" href="#webglSeriesLine_definedNextAttribute">#</a> *webglSeriesLine*.**definedNextAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the defined next attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current defined next attribute.
-
-This property is used to create the buffer for the `aDefinedNext` shader attribute.
-
-Values calculated from the given *attributeBufferBuilder* should either be `1` (to indicate the data point is defined) or `0` (to indicate the data point is not defined).
+The attribute values should either be `1` (to indicate the data point is defined) or `0` (to indicate the data point is not defined).
 
 #### Ohlc
 
@@ -387,43 +319,33 @@ Used to construct a new WebGL Ohlc series.
 
 If *width* is specified, sets the width to the given value and returns this series. If *width* is not specified, returns the current width value.
 
-The value of *width* should be provided in **pixels**.
+The value should be provided in pixels.
 
-<a name="webglSeriesOhlc_crossValueAttribute" href="#webglSeriesOhlc_crossValueAttribute">#</a> *webglSeriesOhlc*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesOhlc_crossValueAttribute" href="#webglSeriesOhlc_crossValueAttribute">#</a> *webglSeriesOhlc*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesOhlc_openValueAttribute" href="#webglSeriesOhlc_openValueAttribute">#</a> *webglSeriesOhlc*.**openValueAttribute**(*attribute*)
 
-<a name="webglSeriesOhlc_openValueAttribute" href="#webglSeriesOhlc_openValueAttribute">#</a> *webglSeriesOhlc*.**openValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the open value attribute and returns this series. If *attribute* is not specified, returns the current open value attribute.
 
-If *attributeBufferBuilder* is specified, sets the open value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current open value attribute.
+<a name="webglSeriesOhlc_highValueAttribute" href="#webglSeriesOhlc_highValueAttribute">#</a> *webglSeriesOhlc*.**highValueAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aOpenValue` shader attribute.
+If *attribute* is specified, sets the high value attribute and returns this series. If *attribute* is not specified, returns the current high value attribute.
 
-<a name="webglSeriesOhlc_highValueAttribute" href="#webglSeriesOhlc_highValueAttribute">#</a> *webglSeriesOhlc*.**highValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesOhlc_lowValueAttribute" href="#webglSeriesOhlc_lowValueAttribute">#</a> *webglSeriesOhlc*.**lowValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the high value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current high value attribute.
+If *attribute* is specified, sets the low value attribute and returns this series. If *attribute* is not specified, returns the current low value attribute.
 
-This property is used to create the buffer for the `aHighValue` shader attribute.
+<a name="webglSeriesOhlc_closeValueAttribute" href="#webglSeriesOhlc_closeValueAttribute">#</a> *webglSeriesOhlc*.**closeValueAttribute**(*attribute*)
 
-<a name="webglSeriesOhlc_lowValueAttribute" href="#webglSeriesOhlc_lowValueAttribute">#</a> *webglSeriesOhlc*.**lowValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the close value attribute and returns this series. If *attribute* is not specified, returns the current close value attribute.
 
-If *attributeBufferBuilder* is specified, sets the low value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current low value attribute.
+<a name="webglSeriesOhlc_bandwidthAttribute" href="#webglSeriesOhlc_bandwidthAttribute">#</a> *webglSeriesOhlc*.**bandwidthAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aLowValue` shader attribute.
+If *attribute* is specified, sets the bandwidth attribute and returns this series. If *attribute* is not specified, returns the current bandwidth attribute.
 
-<a name="webglSeriesOhlc_closeValueAttribute" href="#webglSeriesOhlc_closeValueAttribute">#</a> *webglSeriesOhlc*.**closeValueAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the close value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current close value attribute.
-
-This property is used to create the buffer for the `aCloseValue` shader attribute.
-
-<a name="webglSeriesOhlc_bandwidthAttribute" href="#webglSeriesOhlc_bandwidthAttribute">#</a> *webglSeriesOhlc*.**bandwidthAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the bandwidth attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current bandwidth attribute.
-
-This property is used to create the buffer for the `aBandwidth` shader attribute. Values generated for the bandwidth should be in **pixels**.
+The attribute values should be provided in pixels.
 
 #### Point
 
@@ -437,27 +359,23 @@ If *symbolTypeShader* is specified, sets the symbol type shader and returns this
 
 A *symbolTypeShader* can be generated using the [webglSymbolMapper](#symbol-mapper).
 
-<a name="webglSeriesPoint_crossValueAttribute" href="#webglSeriesPoint_crossValueAttribute">#</a> *webglSeriesPoint*.**crossValueAttribute**(*attributeBufferBuilder*)
+<a name="webglSeriesPoint_crossValueAttribute" href="#webglSeriesPoint_crossValueAttribute">#</a> *webglSeriesPoint*.**crossValueAttribute**(*attribute*)
 
-If *attributeBufferBuilder* is specified, sets the cross value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current cross value attribute.
+If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-This property is used to create the buffer for the `aCrossValue` shader attribute.
+<a name="webglSeriesPoint_mainValueAttribute" href="#webglSeriesPoint_mainValueAttribute">#</a> *webglSeriesPoint*.**mainValueAttribute**(*attribute*)
 
-<a name="webglSeriesPoint_mainValueAttribute" href="#webglSeriesPoint_mainValueAttribute">#</a> *webglSeriesPoint*.**mainValueAttribute**(*attributeBufferBuilder*)
+If *attribute* is specified, sets the main value attribute and returns this series. If *attribute* is not specified, returns the current main value attribute.
 
-If *attributeBufferBuilder* is specified, sets the main value attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current main value attribute.
+<a name="webglSeriesPoint_sizeAttribute" href="#webglSeriesPoint_sizeAttribute">#</a> *webglSeriesPoint*.**sizeAttribute**(*attribute*)
 
-This property is used to create the buffer for the `aMainValue` shader attribute.
+If *attribute* is specified, sets the size attribute and returns this series. If *attribute* is not specified, returns the current size attribute.
 
-<a name="webglSeriesPoint_sizeAttribute" href="#webglSeriesPoint_sizeAttribute">#</a> *webglSeriesPoint*.**sizeAttribute**(*attributeBufferBuilder*)
-
-If *attributeBufferBuilder* is specified, sets the size attribute and returns this series. If *attributeBufferBuilder* is not specified, returns the current size attribute.
-
-This property is used to create the buffer for the `aSize` shader attribute. Values generated for the size should be an area in **pixels squared**.
+The attribute values should be provided as pixel areas.
 
 ### Buffers
 
-The buffer components can be used for creating and modifying buffers. These are used to pass values into attributes and uniforms so that they can be accessed in a shader.
+The buffer components can be used for creating and modifying WebGL buffers. These are used to pass values into attributes and uniforms so that they can be accessed in a shader.
 
 The types file is also available for managing the typing of values being passed into the WebGL pipeline.
 
@@ -481,15 +399,11 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
 
-This property is rebound from [webglBaseAttribute.normalized](#base-attribute).
-
 <a name="webglElementAttribute_location" href="#webglElementAttribute_location">#</a> *webglElementAttribute*.**location**(*index*)
 
 If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
 
-The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
-
-This property is rebound from [webglBaseAttribute.location](#base-attribute).
+The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
 <a name="webglElementAttribute_data" href="#webglElementAttribute_data">#</a> *webglElementAttribute*.**data**(*array*)
 
@@ -540,15 +454,11 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
 
-This property is rebound from [webglBaseAttribute.normalized](#base-attribute).
-
 <a name="webglAdjacentElementAttribute_location" href="#webglAdjacentElementAttribute_location">#</a> *webglAdjacentElementAttribute*.**location**(*index*)
 
 If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
 
-The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
-
-This property is rebound from [webglBaseAttribute.location](#base-attribute).
+The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
 <a name="webglAdjacentElementAttribute_data" href="#webglAdjacentElementAttribute_data">#</a> *webglAdjacentElementAttribute*.**data**(*array*)
 
@@ -580,7 +490,7 @@ The type property is used to specify the type of the typed array used for the bu
 
 <a name="webglVertexAttribute" href="#webglVertexAttribute">#</a> fc.**webglVertexAttribute**()
 
-Used to generate a buffer where values are to be used on a per vertex basis.
+Used to generate a buffer where values are to be used on a per vertex basis within an element. For example, the corners of a single bar element within a bar series.
 
 <a name="webglVertexAttribute_normalized" href="#webglVertexAttribute_normalized">#</a> *webglVertexAttribute*.**normalized**(*boolean*)
 
@@ -590,15 +500,11 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
 
-This property is rebound from [webglBaseAttribute.normalized](#base-attribute).
-
 <a name="webglVertexAttribute_location" href="#webglVertexAttribute_location">#</a> *webglVertexAttribute*.**location**(*index*)
 
 If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
 
-The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
-
-This property is rebound from [webglBaseAttribute.location](#base-attribute).
+The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
 <a name="webglVertexAttribute_data" href="#webglVertexAttribute_data">#</a> *webglVertexAttribute*.**data**(*array*)
 
@@ -644,7 +550,7 @@ This property does not need to be set as the component will create a buffer if n
 
 If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
 
-The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation).
+The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
 <a name="webglBaseAttribute_size" href="#webglBaseAttribute_size">#</a> *webglBaseAttribute*.**size**(*size*)
 
@@ -682,13 +588,13 @@ The offset property is used to specify the offset in bytes of the first value in
 
 <a name="webglUniform" href="#webglUniform">#</a> fc.**webglUniform**()
 
-Used to create a uniform value that is provided to every vertex.
+Used to create a single value that is provided to every vertex.
 
 <a name="webglUniform_location" href="#webglUniform_location">#</a> *webglUniform*.**location**(*index*)
 
 If *index* is specified, sets the location property and returns this uniform builder. If *index* is not specified, returns the current location.
 
-The location property is used to specify the index location of the uniform being modified. The appropriate value can be found using [`WebGLRenderingContext.getUniformLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getUniformLocation).
+The location property is used to specify the index location of the uniform being modified. The appropriate value can be found using [`WebGLRenderingContext.getUniformLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getUniformLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
 <a name="webglUniform_data" href="#webglUniform_data">#</a> *webglUniform*.**data**(*data*)
 
@@ -702,25 +608,19 @@ The data property is used to set the value of the uniform, the value provided ca
 
 This component manages the mapping of attribute/uniform builders to their shader identifiers.
 
-<a name="webglBufferBuilder_attribute" href="#webglBufferBuilder_attribute">#</a> *webglBufferBuilder*.**attribute**(*attributeName*, *attributeBufferBuilder*)
+<a name="webglBufferBuilder_attribute" href="#webglBufferBuilder_attribute">#</a> *webglBufferBuilder*.**attribute**(*attributeName*, *attribute*)
 
-*attributeName* is required  
-*attributeBufferBuilder* is optional
+If *attribute* is specified, assigns the *attribute* for the specified *attributeName* and returns this builder. If *attribute* is not specified, returns the attribute  to *attributeName*.
 
-If *attributeBufferBuilder* is specified, links the attribute buffer builder to the given *attributeName* and returns this builder. If *attributeBufferBuilder* is not specified, returns the attribute buffer builder linked to *attributeName*.
+<a name="webglBufferBuilder_uniform" href="#webglBufferBuilder_uniform">#</a> *webglBufferBuilder*.**uniform**(*uniformName*, *uniform*)
 
-<a name="webglBufferBuilder_uniform" href="#webglBufferBuilder_uniform">#</a> *webglBufferBuilder*.**uniform**(*uniformName*, *uniformBuilder*)
+If *uniform* is specified, assigns the *uniform* for the specified *uniformName* and returns this builder. If *uniform* is not specified, returns the uniform  to *uniformName*.
 
-*uniformName* is required  
-*uniformBuilder* is optional
+<a name="webglBufferBuilder_elementIndices" href="#webglBufferBuilder_elementIndices">#</a> *webglBufferBuilder*.**elementIndices**(*elementIndices*)
 
-If *uniformBuilder* is specified, links the uniform builder to the given *uniformName* and returns this builder. If *uniformBuilder* is not specified, returns the uniform builder linked to *uniformName*.
+If *elementIndices* is specified, sets element indices and returns this builder. If *elementIndices* is not specified, returns the current element indices.
 
-<a name="webglBufferBuilder_elementIndices" href="#webglBufferBuilder_elementIndices">#</a> *webglBufferBuilder*.**elementIndices**(*elementIndicesBuilder*)
-
-If *elementIndicesBuilder* is specified, sets element indices and returns this builder. If *elementIndicesBuilder* is not specified, returns the current element indices.
-
-Element indices are used to specify which vertex is to be drawn, this is used to avoid duplicating data when a vertex is reused.
+See [webglElementIndices](#webglElementIndices).
 
 #### Element Indices
 
@@ -742,18 +642,11 @@ If *data* is specified, sets data and returns this builder. If *data* is not spe
 
 An enum used to access the WebGL values associated with different data types.
 
-Types:
-* BYTE
-* UNSIGNED_BYTE
-* SHORT
-* UNSIGNED_SHORT
-* FLOAT
-
 ### Scales
 
 The scale components can be used for applying a scaling and translation to a variable within the vertex shader. This is useful for converting values from a data range to screen space.
 
-Any `vec4` variables can have a scaling applied to them.
+Any vector variables can have a scaling applied to them.
 
 Please note that the [Log](#log) and [Pow](#pow) scales do not behave correctly for all `base` and `exponent` values respectively, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1387).
 
@@ -911,7 +804,7 @@ For example: `aCrossValue`
 
 <a name="webglProgramBuilder" href="#webglProgramBuilder">#</a> fc.**webglProgramBuilder**()
 
-This component manages the creation and execution of a [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram).
+This component manages the creation and execution of a [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram). No underlying WebGL methods are invoked until the program builder itself is invoked.
 
 <a name="webglProgramBuilder_context" href="#webglProgramBuilder_context">#</a> *webglProgramBuilder*.**context**(*context*)
 
@@ -959,20 +852,17 @@ Supported symbols:
 
 <a name="webglFillColor" href="#webglFillColor">#</a> fc.**webglFillColor**(*color*)
 
-Used to set a fill color for the elements being drawn.
+Used to set a fill color for the elements being drawn. If *color* is specified, it is used as the initial [value](#webglFillColor_value).
 
-*color* is an optional parameter, the default value is `black`. The value set by *color* can be overwritten using the `value` function.  
-*color* can either be an array or a function.  
-If *color* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
-If *color* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+Please note that there is currently no functional difference between `webglFillColor` and `webglStrokeColor`, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1427).
 
 <a name="webglFillColor_value" href="#webglFillColor_value">#</a> *webglFillColor*.**value**(*value*)
 
 If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
 
-*value* can either be an array or a function.  
-If *value* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
-If *value* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow.
+
+The *value* can either be an array representing a constant value or a function which returns a colour for every datum in [data](#webglFillColor_data).
 
 <a name="webglFillColor_data" href="#webglFillColor_data">#</a> *webglFillColor*.**data**(*data*)
 
@@ -984,22 +874,17 @@ The data property is used to allow the value function to run for each entry in t
 
 <a name="webglStrokeColor" href="#webglStrokeColor">#</a> fc.**webglStrokeColor**(*color*)
 
-Used to set a stroke color for the elements being drawn.
+Used to set a stroke color for the elements being drawn. If *color* is specified, it is used as the initial [value](#webglStrokeColor_value).
 
-*color* is an optional parameter, the default value is `black`. The value set by *color* can be overwritten using the `value` function.  
-*color* can either be an array or a function.  
-If *color* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
-If *color* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
-
-Please note that there is currently no functional difference between `webglFillColor` and `webglStrokeColor`, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1427).
+Please note that there is currently no functional difference between `webgStrokelColor` and `webglStrokeColor`, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1427).
 
 <a name="webglStrokeColor_value" href="#webglStrokeColor_value">#</a> *webglStrokeColor*.**value**(*value*)
 
 If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
 
-*value* can either be an array or a function.  
-If *value* is passed an array it must contain four values representing `rgba` values given in the range `0` to `1`.  
-If *value* is passed a function it will run for each data point receiving the arguments `data` and `index`. It must return an array of length four, representing `rgba` values given in the range `0` to `1`.
+Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow.
+
+The *value* can either be an array representing a constant value or a function which returns a colour for every datum in [data](#webglStrokeColor_data).
 
 <a name="webglStrokeColor_data" href="#webglStrokeColor_data">#</a> *webglStrokeColor*.**data**(*data*)
 
