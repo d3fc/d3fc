@@ -151,7 +151,7 @@ As with the canvas, the components are invoked directly with the supplied data.
 
 #### Decorate Pattern
 
-The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection, or canvas context, used to render the component. This allows users of the component to perform additional rendering logic.
+The series components implement the decorate pattern by exposing a `decorate` property which is passed the data join selection, canvas context or program builder, used to render the component. This allows users of the component to perform additional rendering logic.
 
 For further details, consult the [Decorate Pattern documentation](https://d3fc.io/introduction/decorate-pattern.html).
 
@@ -181,6 +181,22 @@ const canvasLine = fc.seriesCanvasBar()
 ```
 
 <img src="screenshots/decorate-canvas.png"/>
+
+And here is the same example for a WebGL series; again the pattern is subtly different. In WebGL the fill color needs to be passed down to the GPU using an attribute and then applied by a shader to the rendered bar. This is all wrapped up by the `webglFillColor` component.
+
+```javascript
+const webglBar = fc.seriesWebglBar()
+    .decorate((program, data) => {
+        fc.webglFillColor()
+            .value((_, i) => {
+                const rgba = d3.color(color(i));
+                return [rgba.r / 255, rgba.g / 255, rgba.b / 255, rgba.opacity];
+            })
+            .data(data)(program);
+    });
+
+webglBar(data);
+```
 
 Decoration can also be used to add extra elements to the series. In this example a text element is added to each bar via the enter selection.
 
@@ -218,7 +234,7 @@ const canvasLine = fc.seriesCanvasPoint()
 
 <img src="screenshots/decorate-append-canvas.png"/>
 
-The `decorate` property intentionally exposes the inner workings of components. With WebGL, the inner workings of the implementations (i.e. `d3fc-webgl`) have not been finalised. Therefore, expect that as the API matures, your decorate functions will also have to change.
+Whilst it is possible to do something similar with WebGL, it would be a much more involved process involving heavy customisation of the shaders. In most cases it would be easier to render the bulk of the data as a WebGL base series and then overlay a subset of the data using a decorated SVG/canvas series.
 
 #### Orientation
 
