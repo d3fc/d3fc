@@ -838,7 +838,7 @@ If *mode* is specified, sets the mode and returns this builder. If *mode* is not
 
 <a name="webglProgramBuilder_debug" href="#webglProgramBuilder_debug">#</a> *webglProgramBuilder*.**debug**(*debug*)
 
-If *debug* is specified, enables or disables additional verfication checks and error logging. This is very useful when working with custom shaders or debugging `INVALID_OPERATION` messages. However, it should not be enabled in production as the checks serverly impact rendering performance. If *debug* is not specified, returns the current debug setting.
+If *debug* is specified, enables or disables additional verification checks and error logging. This is very useful when working with custom shaders or debugging `INVALID_OPERATION` messages. However, it should not be enabled in production as the checks severely impact rendering performance. If *debug* is not specified, returns the current debug setting.
 
 ### Symbol Mapper
 
