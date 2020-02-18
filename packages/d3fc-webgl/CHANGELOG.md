@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.6.0...@d3fc/d3fc-webgl@1.7.0) (2020-02-18)
+
+
+### Bug Fixes
+
+* always use instanced rendering to fix fill/stroke ([4f2f5cd](https://github.com/d3fc/d3fc/commit/4f2f5cd))
+
+
+### Features
+
+* add fill/strokeColor decorators ([aacaacd](https://github.com/d3fc/d3fc/commit/aacaacd))
+* add slidingWindowElementConstantAttributeBuilder ([2f15863](https://github.com/d3fc/d3fc/commit/2f15863))
+* add useful error messages to bufferBuilder ([9f043f2](https://github.com/d3fc/d3fc/commit/9f043f2))
+* support initialValue for constantAttribute ([890d3a2](https://github.com/d3fc/d3fc/commit/890d3a2))
+
+
+
+
+
 # [1.6.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.5.7...@d3fc/d3fc-webgl@1.6.0) (2020-02-06)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.16](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.15...@d3fc/d3fc-series@4.4.16) (2020-02-18)
+
+
+### Bug Fixes
+
+* always use instanced rendering to fix fill/stroke ([4f2f5cd](https://github.com/d3fc/d3fc/commit/4f2f5cd))
+* throw if invalid orient ([e8afc16](https://github.com/d3fc/d3fc/commit/e8afc16))
+
+
+
+
+
 ## [4.4.15](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.14...@d3fc/d3fc-series@4.4.15) (2020-02-10)
 
 

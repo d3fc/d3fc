@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.64](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-technical-indicator@7.0.63...@d3fc/d3fc-technical-indicator@7.0.64) (2020-02-18)
+
+**Note:** Version bump only for package @d3fc/d3fc-technical-indicator
+
+
+
+
+
 ## [7.0.63](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-technical-indicator@7.0.62...@d3fc/d3fc-technical-indicator@7.0.63) (2020-02-10)
 
 **Note:** Version bump only for package @d3fc/d3fc-technical-indicator
