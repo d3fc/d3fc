@@ -397,7 +397,7 @@ If *boolean* is specified, sets the normalized property and returns this attribu
 
 The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
 
-More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
+More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
 <a name="webglElementAttribute_location" href="#webglElementAttribute_location">#</a> *webglElementAttribute*.**location**(*index*)
 
@@ -452,7 +452,7 @@ If *boolean* is specified, sets the normalized property and returns this attribu
 
 The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
 
-More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
+More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
 <a name="webglAdjacentElementAttribute_location" href="#webglAdjacentElementAttribute_location">#</a> *webglAdjacentElementAttribute*.**location**(*index*)
 
@@ -498,7 +498,7 @@ If *boolean* is specified, sets the normalized property and returns this attribu
 
 The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
 
-More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
+More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
 <a name="webglVertexAttribute_location" href="#webglVertexAttribute_location">#</a> *webglVertexAttribute*.**location**(*index*)
 
@@ -570,7 +570,7 @@ If *boolean* is specified, sets the normalized property and returns this attribu
 
 The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
 
-More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer)
+More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
 <a name="webglBaseAttribute_stride" href="#webglBaseAttribute_stride">#</a> *webglBaseAttribute*.**stride**(*stride*)
 
