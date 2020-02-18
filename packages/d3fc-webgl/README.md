@@ -836,6 +836,10 @@ If *mode* is specified, sets the mode and returns this builder. If *mode* is not
 
 *mode* must be a WebGL draw mode, modes supported by `webglProgramBuilder` are `WebGLRenderingContext.POINTS` and `WebGLRenderingContext.TRIANGLES`.
 
+<a name="webglProgramBuilder_debug" href="#webglProgramBuilder_debug">#</a> *webglProgramBuilder*.**debug**(*debug*)
+
+If *debug* is specified, enables or disables additional verfication checks and error logging. This is very useful when working with custom shaders or debugging `INVALID_OPERATION` messages. However, it should not be enabled in production as the checks serverly impact rendering performance. If *debug* is not specified, returns the current debug setting.
+
 ### Symbol Mapper
 
 <a name="webglSymbolMapper" href="#webglSymbolMapper">#</a> fc.**webglSymbolMapper**(*symbol*)

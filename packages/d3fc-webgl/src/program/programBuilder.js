@@ -9,6 +9,7 @@ export default () => {
     let fragmentShader = null;
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
+    let debug = false;
 
     const build = count => {
         const vertexShaderSource = vertexShader();
@@ -87,6 +88,14 @@ export default () => {
         return build;
     };
 
+    build.debug = (...args) => {
+        if (!args.length) {
+            return debug;
+        }
+        debug = args[0];
+        return build;
+    };
+
     return build;
 
     function newProgram(program, vertexShader, fragmentShader) {
@@ -119,7 +128,10 @@ export default () => {
         context.attachShader(program, fragmentShader);
         context.linkProgram(program);
 
-        if (!context.getProgramParameter(program, context.LINK_STATUS)) {
+        if (
+            debug &&
+            !context.getProgramParameter(program, context.LINK_STATUS)
+        ) {
             const message = context.getProgramInfoLog(program);
             context.deleteProgram(program);
             throw new Error(`Failed to link program : ${message}
@@ -135,7 +147,10 @@ export default () => {
         context.shaderSource(shader, source);
         context.compileShader(shader);
 
-        if (!context.getShaderParameter(shader, context.COMPILE_STATUS)) {
+        if (
+            debug &&
+            !context.getShaderParameter(shader, context.COMPILE_STATUS)
+        ) {
             const message = context.getShaderInfoLog(shader);
             context.deleteShader(shader);
             throw new Error(`Failed to compile shader : ${message}
