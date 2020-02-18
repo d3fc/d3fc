@@ -13,7 +13,7 @@ export default () => {
     const baseAttribute = programBuilder => {
         const gl = programBuilder.context();
 
-        if (buffer == null || !gl.isBuffer(buffer)) {
+        if (buffer == null) {
             buffer = gl.createBuffer();
         }
 

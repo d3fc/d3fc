@@ -6,7 +6,7 @@ export default initialData => {
     const base = programBuilder => {
         const gl = programBuilder.context();
 
-        if (buffer == null || !gl.isBuffer(buffer)) {
+        if (buffer == null) {
             buffer = gl.createBuffer();
         }
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
