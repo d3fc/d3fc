@@ -21,14 +21,14 @@ describe('glLine', () => {
     it('correctly positions the first point in a series', () => {
         const attributes = {
             aCorner: [-1, 0, 0],
-            aCrossValue: 1,
-            aMainValue: 5,
-            aCrossNextValue: 2,
-            aMainNextValue: 4,
+            aCrossNextValue: 1,
+            aMainNextValue: 5,
+            aCrossNextNextValue: 2,
+            aMainNextNextValue: 4,
+            aCrossValue: 0,
+            aMainValue: 4,
             aCrossPrevValue: 0,
             aMainPrevValue: 4,
-            aCrossPrevPrevValue: 0,
-            aMainPrevPrevValue: 4,
             aDefined: 1
         };
 
@@ -42,14 +42,14 @@ describe('glLine', () => {
     it('correctly positions a point in the middle of a series', () => {
         const attributes = {
             aCorner: [-1, 0, 0],
-            aCrossValue: 2,
-            aMainValue: 4,
-            aCrossNextValue: 3,
-            aMainNextValue: 5,
-            aCrossPrevValue: 1,
-            aMainPrevValue: 5,
-            aCrossPrevPrevValue: 0,
-            aMainPrevPrevValue: 4,
+            aCrossNextValue: 2,
+            aMainNextValue: 4,
+            aCrossNextNextValue: 3,
+            aMainNextNextValue: 5,
+            aCrossValue: 1,
+            aMainValue: 5,
+            aCrossPrevValue: 0,
+            aMainPrevValue: 4,
             aDefined: 1
         };
 
@@ -63,14 +63,14 @@ describe('glLine', () => {
     it('correctly positions the last point in a series', () => {
         const attributes = {
             aCorner: [-1, 0, 0],
-            aCrossValue: 8,
-            aMainValue: 5,
             aCrossNextValue: 8,
             aMainNextValue: 5,
-            aCrossPrevValue: 7,
-            aMainPrevValue: 4,
-            aCrossPrevPrevValue: 6,
-            aMainPrevPrevValue: 5,
+            aCrossNextNextValue: 8,
+            aMainNextNextValue: 5,
+            aCrossValue: 7,
+            aMainValue: 4,
+            aCrossPrevValue: 6,
+            aMainPrevValue: 5,
             aDefined: 1
         };
 
