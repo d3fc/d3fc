@@ -93,25 +93,25 @@ Used to construct a new WebGL Area series.
 
 If *attribute* is specified, sets the cross value attribute and returns this series. If *attribute* is not specified, returns the current cross value attribute.
 
-<a name="webglSeriesArea_crossPreviousValueAttribute" href="#webglSeriesArea_crossPreviousValueAttribute">#</a> *webglSeriesArea*.**crossPreviousValueAttribute**(*attribute*)
+<a name="webglSeriesArea_crossNextValueAttribute" href="#webglSeriesArea_crossNextValueAttribute">#</a> *webglSeriesArea*.**crossNextValueAttribute**(*attribute*)
 
-If *attribute* is specified, sets the cross previous value attribute and returns this series. If *attribute* is not specified, returns the current cross previous value attribute.
+If *attribute* is specified, sets the cross next value attribute and returns this series. If *attribute* is not specified, returns the current cross next value attribute.
 
 <a name="webglSeriesArea_mainValueAttribute" href="#webglSeriesArea_mainValueAttribute">#</a> *webglSeriesArea*.**mainValueAttribute**(*attribute*)
 
 If *attribute* is specified, sets the main value attribute and returns this series. If *attribute* is not specified, returns the current main value attribute.
 
-<a name="webglSeriesArea_mainPreviousValueAttribute" href="#webglSeriesArea_mainPreviousValueAttribute">#</a> *webglSeriesArea*.**mainPreviousValueAttribute**(*attribute*)
+<a name="webglSeriesArea_mainNextValueAttribute" href="#webglSeriesArea_mainNextValueAttribute">#</a> *webglSeriesArea*.**mainNextValueAttribute**(*attribute*)
 
-If *attribute* is specified, sets the main previous value attribute and returns this series. If *attribute* is not specified, returns the current main previous value attribute.
+If *attribute* is specified, sets the main next value attribute and returns this series. If *attribute* is not specified, returns the current main next value attribute.
 
 <a name="webglSeriesArea_baseValueAttribute" href="#webglSeriesArea_baseValueAttribute">#</a> *webglSeriesArea*.**baseValueAttribute**(*attribute*)
 
 If *attribute* is specified, sets the base value attribute and returns this series. If *attribute* is not specified, returns the current base value attribute.
 
-<a name="webglSeriesArea_basePreviousValueAttribute" href="#webglSeriesArea_basePreviousValueAttribute">#</a> *webglSeriesArea*.**basePreviousValueAttribute**(*attribute*)
+<a name="webglSeriesArea_baseNextValueAttribute" href="#webglSeriesArea_baseNextValueAttribute">#</a> *webglSeriesArea*.**baseNextValueAttribute**(*attribute*)
 
-If *attribute* is specified, sets the base previous value attribute and returns this series. If *attribute* is not specified, returns the current base previous value attribute.
+If *attribute* is specified, sets the base next value attribute and returns this series. If *attribute* is not specified, returns the current base next value attribute.
 
 <a name="webglSeriesArea_definedNextAttribute" href="#webglSeriesArea_definedNextAttribute">#</a> *webglSeriesArea*.**definedNextAttribute**(*attribute*)
 
@@ -283,9 +283,9 @@ If *attribute* is specified, sets the cross value attribute and returns this ser
 
 If *attribute* is specified, sets the cross next value attribute and returns this series. If *attribute* is not specified, returns the current cross next value attribute.
 
-<a name="webglSeriesLine_crossPreviousPreviousValueAttribute" href="#webglSeriesLine_crossPreviousPreviousValueAttribute">#</a> *webglSeriesLine*.**crossPreviousPreviousValueAttribute**(*attribute*)
+<a name="webglSeriesLine_crossNextNextValueAttribute" href="#webglSeriesLine_crossNextNextValueAttribute">#</a> *webglSeriesLine*.**crossNextNextValueAttribute**(*attribute*)
 
-If *attribute* is specified, sets the cross previous previous value attribute and returns this series. If *attribute* is not specified, returns the current cross previous previous value attribute.
+If *attribute* is specified, sets the cross next next value attribute and returns this series. If *attribute* is not specified, returns the current cross next next value attribute.
 
 <a name="webglSeriesLine_mainPreviousValueAttribute" href="#webglSeriesLine_mainPreviousValueAttribute">#</a> *webglSeriesLine*.**mainPreviousValueAttribute**(*attribute*)
 
@@ -299,9 +299,9 @@ If *attribute* is specified, sets the main value attribute and returns this seri
 
 If *attribute* is specified, sets the main next value attribute and returns this series. If *attribute* is not specified, returns the current main next value attribute.
 
-<a name="webglSeriesLine_mainPreviousPreviousValueAttribute" href="#webglSeriesLine_mainPreviousPreviousValueAttribute">#</a> *webglSeriesLine*.**mainPreviousPreviousValueAttribute**(*attribute*)
+<a name="webglSeriesLine_mainNextNextValueAttribute" href="#webglSeriesLine_mainNextNextValueAttribute">#</a> *webglSeriesLine*.**mainNextNextValueAttribute**(*attribute*)
 
-If *attribute* is specified, sets the main previous previous value attribute and returns this series. If *attribute* is not specified, returns the current main previous previous value attribute.
+If *attribute* is specified, sets the main next next value attribute and returns this series. If *attribute* is not specified, returns the current main next next value attribute.
 
 <a name="webglSeriesLine_definedNextAttribute" href="#webglSeriesLine_definedNextAttribute">#</a> *webglSeriesLine*.**definedNextAttribute**(*attribute*)
 

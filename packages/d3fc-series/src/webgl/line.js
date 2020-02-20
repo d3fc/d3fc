@@ -11,14 +11,14 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossPreviousValueAttribute = webglAdjacentElementAttribute(-1, 2);
-    const crossValueAttribute = crossPreviousValueAttribute.offset(1);
-    const crossNextValueAttribute = crossPreviousValueAttribute.offset(2);
-    const crossPreviousPreviousValueAttribute = crossPreviousValueAttribute.offset(-1);
-    const mainPreviousValueAttribute = webglAdjacentElementAttribute(-1, 2);
-    const mainValueAttribute = mainPreviousValueAttribute.offset(1);
-    const mainNextValueAttribute = mainPreviousValueAttribute.offset(2);
-    const mainPreviousPreviousValueAttribute = mainPreviousValueAttribute.offset(-1);
+    const crossValueAttribute = webglAdjacentElementAttribute(-1, 2);
+    const crossPreviousValueAttribute = crossValueAttribute.offset(-1);
+    const crossNextValueAttribute = crossValueAttribute.offset(1);
+    const crossNextNextValueAttribute = crossValueAttribute.offset(2);
+    const mainValueAttribute = webglAdjacentElementAttribute(-1, 2);
+    const mainPreviousValueAttribute = mainValueAttribute.offset(-1);
+    const mainNextValueAttribute = mainValueAttribute.offset(1);
+    const mainNextNextValueAttribute = mainValueAttribute.offset(2);
     const definedAttribute = webglAdjacentElementAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
@@ -26,11 +26,11 @@ export default () => {
         .crossPreviousValueAttribute(crossPreviousValueAttribute)
         .crossValueAttribute(crossValueAttribute)
         .crossNextValueAttribute(crossNextValueAttribute)
-        .crossPreviousPreviousValueAttribute(crossPreviousPreviousValueAttribute)
+        .crossNextNextValueAttribute(crossNextNextValueAttribute)
         .mainPreviousValueAttribute(mainPreviousValueAttribute)
         .mainValueAttribute(mainValueAttribute)
         .mainNextValueAttribute(mainNextValueAttribute)
-        .mainPreviousPreviousValueAttribute(mainPreviousPreviousValueAttribute)
+        .mainNextNextValueAttribute(mainNextNextValueAttribute)
         .definedAttribute(definedAttribute)
         .definedNextAttribute(definedNextAttribute);
 
@@ -45,11 +45,11 @@ export default () => {
             previousData = data;
 
             if (base.orient() === 'vertical') {
-                crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-                mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+                crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
             } else {
-                crossPreviousValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
-                mainPreviousValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+                crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+                mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
             }
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }

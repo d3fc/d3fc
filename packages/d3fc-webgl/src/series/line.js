@@ -39,14 +39,14 @@ export default () => {
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment());
 
-        xScale(program, 'gl_Position', 0);
-        yScale(program, 'gl_Position', 1);
-        xScale(program, 'next', 0);
-        yScale(program, 'next', 1);
         xScale(program, 'prev', 0);
         yScale(program, 'prev', 1);
-        xScale(program, 'prevPrev', 0);
-        yScale(program, 'prevPrev', 1);
+        xScale(program, 'curr', 0);
+        yScale(program, 'curr', 1);
+        xScale(program, 'gl_Position', 0);
+        yScale(program, 'gl_Position', 1);
+        xScale(program, 'nextNext', 0);
+        yScale(program, 'nextNext', 1);
 
         program
             .vertexShader()
@@ -108,10 +108,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'crossPreviousPreviousValueAttribute',
+        'crossNextNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossPrevPrevValue'
+        'aCrossNextNextValue'
     );
     rebindCurry(
         draw,
@@ -136,10 +136,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'mainPreviousPreviousValueAttribute',
+        'mainNextNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainPrevPrevValue'
+        'aMainNextNextValue'
     );
     rebindCurry(
         draw,
