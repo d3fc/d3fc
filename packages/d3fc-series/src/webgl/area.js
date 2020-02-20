@@ -11,23 +11,23 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossPreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
-    const crossValueAttribute = crossPreviousValueAttribute.offset(1);
-    const mainPreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
-    const mainValueAttribute = mainPreviousValueAttribute.offset(1);
-    const basePreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
-    const baseValueAttribute = basePreviousValueAttribute.offset(1);
+    const crossValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const crossNextValueAttribute = crossValueAttribute.offset(1);
+    const mainValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const mainNextValueAttribute = mainValueAttribute.offset(1);
+    const baseValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const baseNextValueAttribute = baseValueAttribute.offset(1);
     const definedAttribute = webglAdjacentElementAttribute(0, 1)
         .type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesArea()
         .crossValueAttribute(crossValueAttribute)
-        .crossPreviousValueAttribute(crossPreviousValueAttribute)
+        .crossNextValueAttribute(crossNextValueAttribute)
         .mainValueAttribute(mainValueAttribute)
-        .mainPreviousValueAttribute(mainPreviousValueAttribute)
+        .mainNextValueAttribute(mainNextValueAttribute)
         .baseValueAttribute(baseValueAttribute)
-        .basePreviousValueAttribute(basePreviousValueAttribute)
+        .baseNextValueAttribute(baseNextValueAttribute)
         .definedAttribute(definedAttribute)
         .definedNextAttribute(definedNextAttribute);
 
@@ -45,9 +45,9 @@ export default () => {
         if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
             previousData = data;
 
-            crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-            mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
-            basePreviousValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
+            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            baseValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 

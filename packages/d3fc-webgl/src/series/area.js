@@ -79,10 +79,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'crossPreviousValueAttribute',
+        'crossNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossPrevValue'
+        'aCrossNextValue'
     );
     rebindCurry(
         draw,
@@ -93,10 +93,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'mainPreviousValueAttribute',
+        'mainNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainPrevValue'
+        'aMainNextValue'
     );
     rebindCurry(
         draw,
@@ -107,10 +107,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'basePreviousValueAttribute',
+        'baseNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aBasePrevValue'
+        'aBaseNextValue'
     );
     rebindCurry(
         draw,
