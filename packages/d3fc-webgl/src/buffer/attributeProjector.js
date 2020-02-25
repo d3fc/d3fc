@@ -49,7 +49,14 @@ export default () => {
         if (!args.length) {
             return size;
         }
+
         size = args[0];
+        if (![1, 2, 3, 4].includes(size)) {
+            throw new Error(
+                'Number of components per vertex attribute must be 1, 2, 3 or 4.'
+            );
+        }
+
         dirty = true;
         return projector;
     };
