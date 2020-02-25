@@ -110,10 +110,10 @@ export const candlestick = {
         attribute float aLowValue;
         attribute vec3 aCorner;
         attribute float aDefined;
-    
+
         uniform vec2 uScreen;
         uniform float uStrokeWidth;
-        
+
         varying float vColorIndicator;
         varying float vDefined;`,
     body: `
@@ -125,7 +125,7 @@ export const candlestick = {
         float isExtremeY = abs(aCorner.y) - 1.0;
         float isNotExtremeY = 1.0 - isExtremeY;
         float yValue =
-         (isPositiveY * isExtremeY * aLowValue) + 
+         (isPositiveY * isExtremeY * aLowValue) +
          (isPositiveY * isNotExtremeY * aCloseValue) +
          (isNotPositiveY * isNotExtremeY * aOpenValue) +
          (isNotPositiveY * isExtremeY * aHighValue);
@@ -165,8 +165,8 @@ export const ohlc = {
         float isNotPositiveY = 1.0 - isPositiveY;
         float isExtremeY = abs(aCorner.y) - 1.0;
         float isNotExtremeY = 1.0 - isExtremeY;
-        float yValue = 
-            (isPositiveY * isExtremeY * aLowValue) + 
+        float yValue =
+            (isPositiveY * isExtremeY * aLowValue) +
             (isPositiveY * isNotExtremeY * aCloseValue) +
             (isNotPositiveY * isNotExtremeY * aOpenValue) +
             (isNotPositiveY * isExtremeY * aHighValue);
@@ -190,10 +190,10 @@ export const bar = {
         attribute float aBaseValue;
         attribute vec2 aCorner;
         attribute float aDefined;
-        
+
         uniform vec2 uScreen;
         uniform float uStrokeWidth;
-        
+
         varying float vDefined;`,
     body: `
         vDefined = aDefined;
@@ -218,7 +218,7 @@ export const preScaleLine = {
         attribute float aMainPrevValue;
         attribute float aDefined;
         attribute float aDefinedNext;
-        
+
         uniform float uStrokeWidth;
         uniform vec2 uScreen;
 
@@ -235,7 +235,7 @@ export const postScaleLine = {
     body: `
         vec4 currVertexPosition = gl_Position;
         vec4 nextVertexPosition = gl_Position;
-        
+
         if (all(equal(curr.xy, prev.xy))) {
             prev.xy = curr.xy + normalize(curr.xy - currVertexPosition.xy);
         }
@@ -273,7 +273,7 @@ export const postScaleLine = {
         } else {
             nextVertexPosition.xy = nextVertexPosition.xy + (aCorner.x * miterCD * uStrokeWidth * miterCDLength) / uScreen.xy;
         }
-        
+
         gl_Position.xy = ((1.0 - aCorner.z) * currVertexPosition.xy) + (aCorner.z * nextVertexPosition.xy);`
 };
 
@@ -288,7 +288,7 @@ export const errorBar = {
 
         uniform vec2 uScreen;
         uniform float uStrokeWidth;
-        
+
         varying float vDefined;`,
     body: `
         vDefined = aDefined;
@@ -298,9 +298,9 @@ export const errorBar = {
         float isEdgeCorner = abs(aCorner.x);
         float lineWidthXDirection = (1.0 - isEdgeCorner) * aCorner.z;
         float lineWidthYDirection = isEdgeCorner * aCorner.z;
-        
+
         gl_Position = vec4(aCrossValue, yValue, 0, 1);
-        
+
         float xModifier = (uStrokeWidth * lineWidthXDirection) + (aBandwidth * aCorner.x / 2.0);
         float yModifier = (uStrokeWidth * lineWidthYDirection);`
 };
@@ -318,11 +318,11 @@ export const area = {
         attribute float aDefinedNext;
 
         varying float vDefined;
-        
+
         float when_lt(float a, float b) {
             return max(sign(b - a), 0.0);
         }
-        
+
         float and(float a, float b) {
             return a * b;
         }`,
@@ -332,7 +332,7 @@ export const area = {
 
         float hasIntercepted = when_lt((aMainNextValue - aBaseNextValue) * (aMainValue - aBaseValue), 0.0);
         float useIntercept = and(aCorner.z, hasIntercepted);
-        
+
         float yGradient = (aMainNextValue - aMainValue) / (aCrossNextValue - aCrossValue);
         float yConstant = aMainNextValue - (yGradient * aCrossNextValue);
 
@@ -344,7 +344,7 @@ export const area = {
         float interceptYValue = (yGradient * interceptXValue) + yConstant;
 
         gl_Position = vec4(interceptXValue * useIntercept, interceptYValue * useIntercept, 0, 1);
-        
+
         gl_Position.x += (1.0 - useIntercept) * ((aCorner.x * aCrossNextValue) + ((1.0 - aCorner.x) * aCrossValue));
         gl_Position.y += (1.0 - useIntercept) * (1.0 - aCorner.y) * ((aCorner.x * aMainNextValue) + ((1.0 - aCorner.x) * aMainValue));
         gl_Position.y += (1.0 - useIntercept) * aCorner.y * ((aCorner.x * aBaseNextValue) + ((1.0 - aCorner.x) * aBaseValue));`
@@ -362,13 +362,17 @@ export const boxPlot = {
         attribute float aLowerQuartileValue;
         attribute float aLowValue;
         attribute float aDefined;
+        attribute float aCanFill;
 
         uniform vec2 uScreen;
         uniform float uStrokeWidth;
-        
-        varying float vDefined;`,
+
+        varying float vDefined;
+        varying float vCanFill;
+    `,
     body: `
         vDefined = aDefined;
+        vCanFill = aCanFill;
         float isExtremeY = sign(abs(aCorner.y) - 2.0) + 1.0;
         float isNotExtremeY = 1.0 - isExtremeY;
 
@@ -393,7 +397,7 @@ export const boxPlot = {
         float isVertical = 1.0 - isHorizontal;
 
         float xDisplacement = aCorner.x * (isExtremeY * aCapWidth + isNotExtremeY * aBandwidth) / 2.0;
-        
+
         float xModifier = (isVertical * uStrokeWidth * aCorner.z / 2.0) + xDisplacement;
         float yModifier = isHorizontal * uStrokeWidth * aCorner.z / 2.0;`
 };

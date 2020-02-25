@@ -105,79 +105,82 @@ export default () => {
             [-1, 2, -1, 1],
             [1, 2, -1, 1],
             [1, 2, 1, 1],
-            [-1, 2, 1, 1]
+            [-1, 2, 1, 1],
+            // Fill
+            [-1, -1, 1, 0],
+            [-1, 1, 1, 0],
+            [1, -1, 1, 0],
+            [1, 1, 1, 0]
         ]);
 
+    /* eslint-disable */
+    const canFillAttribute = vertexAttribute()
+        .size(1)
+        .type(types.BYTE)
+        .data([
+            // Top cap line
+            0, 0, 0, 0,
+            // Top whisker line
+            0, 0, 0, 0,
+            // Upper quartile line
+            0, 0, 0, 0,
+            // Median line
+            0, 0, 0, 0,
+            // Lower quartile line
+            0, 0, 0, 0,
+            // Left box vertical line
+            0, 0, 0, 0,
+            // Right box vertical line
+            0, 0, 0, 0,
+            // Bottom whisker line
+            0, 0, 0, 0,
+            // Bottom cap line
+            0, 0, 0, 0,
+            // Fill
+            1, 1, 1, 1
+        ]);
+    /* eslint-enable */
+
+    /* eslint-disable */
     program
         .buffers()
         .elementIndices(
             elementIndices([
+                // Fill
+                36, 37, 38,
+                38, 37, 39,
                 // Top cap line
-                0,
-                1,
-                2,
-                0,
-                2,
-                3,
+                0, 1, 2,
+                0, 2, 3,
                 // Top whisker line
-                4,
-                5,
-                6,
-                4,
-                6,
-                7,
+                4, 5, 6,
+                4, 6, 7,
                 // Upper quartile line
-                8,
-                9,
-                10,
-                8,
-                10,
-                11,
+                8, 9, 10,
+                8, 10, 11,
                 // Median line
-                12,
-                13,
-                14,
-                12,
-                14,
-                15,
+                12, 13, 14,
+                12, 14, 15,
                 // Lower quartile line
-                16,
-                17,
-                18,
-                16,
-                18,
-                19,
+                16, 17, 18,
+                16, 18, 19,
                 // Left box vertical line
-                20,
-                21,
-                22,
-                20,
-                22,
-                23,
+                20, 21, 22,
+                20, 22, 23,
                 // Right box vertical line
-                24,
-                25,
-                26,
-                24,
-                26,
-                27,
+                24, 25, 26,
+                24, 26, 27,
                 // Bottom whisker line
-                28,
-                29,
-                30,
-                28,
-                30,
-                31,
+                28, 29, 30,
+                28, 30, 31,
                 // Bottom cap line
-                32,
-                33,
-                34,
-                32,
-                34,
-                35
+                32, 33, 34,
+                32, 34, 35
             ])
         )
-        .attribute('aCorner', cornerAttribute);
+        .attribute('aCorner', cornerAttribute)
+        .attribute('aCanFill', canFillAttribute);
+    /* eslint-enable */
 
     const draw = numElements => {
         const shaderBuilder = boxPlotShader();
