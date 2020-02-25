@@ -70,9 +70,6 @@ var webglBoxPlot = fc.autoBandwidth(fc.seriesWebglBoxPlot())
     .upperQuartileValue(function(d) { return d.upperQuartile; })
     .lowerQuartileValue(function(d) { return d.lowerQuartile; })
     .highValue(function(d) { return d.high; })
-    .lowValue(function(d) { return d.low; })
-    .decorate((program) => {
-        // fc.webglFillColor([0.6, 0.6, 0.3, 1.0])(program);
-        // fc.webglStrokeColor([0.4, 0.2, 0.0, 1.0])(program);
-    });
+    .lowValue(function(d) { return d.low; });
+
 webglBoxPlot(data);
