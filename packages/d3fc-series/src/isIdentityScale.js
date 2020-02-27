@@ -1,3 +1,3 @@
-import d3Scale from 'd3-scale';
+import { scaleIdentity } from 'd3-scale';
 
-export default (scale) => scale.copy.toString() === d3Scale.scaleIdentity().copy.toString();
+export default (scale) => scale.copy.toString() === scaleIdentity().copy.toString();

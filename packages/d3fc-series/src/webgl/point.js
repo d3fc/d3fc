@@ -1,4 +1,4 @@
-import d3Shape from 'd3-shape';
+import { symbolCircle } from 'd3-shape';
 import xyBase from '../xyBase';
 import isIdentityScale from '../isIdentityScale';
 import {
@@ -14,7 +14,7 @@ import functor from '../functor';
 export default () => {
     const base = xyBase();
     let size = functor(64);
-    let type = d3Shape.symbolCircle;
+    let type = symbolCircle;
 
     const crossValueAttribute = webglElementAttribute();
     const mainValueAttribute = webglElementAttribute();
