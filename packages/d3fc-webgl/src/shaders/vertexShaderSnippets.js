@@ -362,7 +362,6 @@ export const boxPlot = {
         attribute float aLowerQuartileValue;
         attribute float aLowValue;
         attribute float aDefined;
-        attribute float aCanFill;
 
         uniform vec2 uScreen;
         uniform float uStrokeWidth;
@@ -372,7 +371,7 @@ export const boxPlot = {
     `,
     body: `
         vDefined = aDefined;
-        vCanFill = aCanFill;
+        vCanFill = abs(aCorner.x) * (1.0 - aCorner.w) * aCorner.z;
         float isExtremeY = sign(abs(aCorner.y) - 2.0) + 1.0;
         float isNotExtremeY = 1.0 - isExtremeY;
 

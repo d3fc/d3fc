@@ -109,7 +109,7 @@ export const boxPlot = {
         varying float vCanFill;
     `,
     body: `
-        float canFill = vCanFill;
+        float canFill = clamp(vCanFill, 0.0, 1.0);
         float canStroke = 1.0 - vCanFill;
 
         vec4 defaultFillColor = vec4(0.86, 0.86, 0.86, 1.0);
@@ -136,8 +136,7 @@ export const bar = {
         float canFill = 1.0;
         float canStroke = 0.0;
 
-        vec4 defaultFillColor = vec4(0.60, 0.60, 0.60, 1.0);
-        gl_FragColor = (canFill * defaultFillColor) + ((1.0 - canFill) * gl_FragColor);
+        gl_FragColor = vec4(0.60, 0.60, 0.60, 1.0);
 
         if (vDefined < 0.5) {
             discard;
