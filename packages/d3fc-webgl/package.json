@@ -18,12 +18,14 @@
   },
   "dependencies": {
     "@d3fc/d3fc-rebind": "^5.0.8",
-    "d3": "^4.1.1"
+    "d3-scale": "^3.2.1",
+    "d3-shape": "^1.3.7"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
+    "d3": "^5.15.0",
     "glsl-transpiler": "^1.8.5"
   }
 }
