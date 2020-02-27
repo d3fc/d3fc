@@ -71,5 +71,4 @@ var webglBoxPlot = fc.autoBandwidth(fc.seriesWebglBoxPlot())
     .lowerQuartileValue(function(d) { return d.lowerQuartile; })
     .highValue(function(d) { return d.high; })
     .lowValue(function(d) { return d.low; });
-
 webglBoxPlot(data);

@@ -105,68 +105,7 @@ export default () => {
             [-1, 2, -1, 1],
             [1, 2, -1, 1],
             [1, 2, 1, 1],
-            [-1, 2, 1, 1],
-            // Fill
-            [-1, -1, 1, 0],
-            [-1, 1, 1, 0],
-            [1, -1, 1, 0],
-            [1, 1, 1, 0]
-        ]);
-
-    const canFillAttribute = vertexAttribute()
-        .size(1)
-        .type(types.BYTE)
-        .data([
-            // Top cap line
-            0,
-            0,
-            0,
-            0,
-            // Top whisker line
-            0,
-            0,
-            0,
-            0,
-            // Upper quartile line
-            0,
-            0,
-            0,
-            0,
-            // Median line
-            0,
-            0,
-            0,
-            0,
-            // Lower quartile line
-            0,
-            0,
-            0,
-            0,
-            // Left box vertical line
-            0,
-            0,
-            0,
-            0,
-            // Right box vertical line
-            0,
-            0,
-            0,
-            0,
-            // Bottom whisker line
-            0,
-            0,
-            0,
-            0,
-            // Bottom cap line
-            0,
-            0,
-            0,
-            0,
-            // Fill
-            1,
-            1,
-            1,
-            1
+            [-1, 2, 1, 1]
         ]);
 
     program
@@ -174,12 +113,12 @@ export default () => {
         .elementIndices(
             elementIndices([
                 // Fill
-                36,
-                37,
-                38,
-                38,
-                37,
-                39,
+                21,
+                22,
+                25,
+                22,
+                25,
+                26,
                 // Top cap line
                 0,
                 1,
@@ -245,8 +184,7 @@ export default () => {
                 35
             ])
         )
-        .attribute('aCorner', cornerAttribute)
-        .attribute('aCanFill', canFillAttribute);
+        .attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
         const shaderBuilder = boxPlotShader();
