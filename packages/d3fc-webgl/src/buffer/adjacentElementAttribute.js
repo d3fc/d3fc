@@ -55,8 +55,14 @@ export default (minOffset = 0, maxOffset = 0) => {
         };
 
         rebind(offsetAttribute, base, 'location');
+        rebind(offsetAttribute, adjacentAttribute, 'clear');
 
         return offsetAttribute;
+    };
+
+    adjacentAttribute.clear = () => {
+        base.buffer(null);
+        projector.clear();
     };
 
     rebind(adjacentAttribute, base, 'normalized', 'location');

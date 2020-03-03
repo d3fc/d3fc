@@ -7,16 +7,26 @@ export default () => {
     let program = null;
     let vertexShader = null;
     let fragmentShader = null;
+    let programVertexShader = null;
+    let programFragmentShader = null;
     let mode = drawModes.TRIANGLES;
     let buffers = bufferBuilder();
     let debug = false;
+    let extInstancedArrays = null;
+    let dirty = true;
 
     const build = count => {
+        if (context == null) {
+            return;
+        }
+
         const vertexShaderSource = vertexShader();
         const fragmentShaderSource = fragmentShader();
         if (newProgram(program, vertexShaderSource, fragmentShaderSource)) {
-            context.isProgram(program) && context.deleteProgram(program);
             program = createProgram(vertexShaderSource, fragmentShaderSource);
+            programVertexShader = vertexShaderSource;
+            programFragmentShader = fragmentShaderSource;
+            dirty = false;
         }
         context.useProgram(program);
 
@@ -26,8 +36,6 @@ export default () => {
         );
 
         buffers(build, program);
-
-        var ext = context.getExtension('ANGLE_instanced_arrays');
 
         if (mode !== drawModes.POINTS && mode !== drawModes.TRIANGLES) {
             throw Error(
@@ -39,7 +47,7 @@ export default () => {
             throw Error('Element indices must be provided.');
         }
 
-        ext.drawElementsInstancedANGLE(
+        extInstancedArrays.drawElementsInstancedANGLE(
             mode,
             buffers.elementIndices().data().length,
             context.UNSIGNED_SHORT,
@@ -48,9 +56,18 @@ export default () => {
         );
     };
 
+    build.extInstancedArrays = () => extInstancedArrays;
+
     build.context = (...args) => {
         if (!args.length) {
             return context;
+        }
+        if (args[0] == null || args[0] !== context) {
+            buffers.flush();
+            dirty = true;
+        }
+        if (args[0] != null && args[0] !== context) {
+            extInstancedArrays = args[0].getExtension('ANGLE_instanced_arrays');
         }
         context = args[0];
         return build;
@@ -99,17 +116,13 @@ export default () => {
     return build;
 
     function newProgram(program, vertexShader, fragmentShader) {
-        if (!program) {
+        if (!program || dirty) {
             return true;
         }
 
-        const shaders = context.getAttachedShaders(program);
-        const vertexShaderSource = context.getShaderSource(shaders[0]);
-        const fragmentShaderSource = context.getShaderSource(shaders[1]);
-
         return (
-            vertexShader !== vertexShaderSource ||
-            fragmentShader !== fragmentShaderSource
+            vertexShader !== programVertexShader ||
+            fragmentShader !== programFragmentShader
         );
     }
 

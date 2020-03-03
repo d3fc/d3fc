@@ -24,6 +24,11 @@ export default initialData => {
         dirty = false;
     };
 
+    base.clear = () => {
+        buffer = null;
+        dirty = true;
+    };
+
     base.data = (...args) => {
         if (!args.length) {
             return data;

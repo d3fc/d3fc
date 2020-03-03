@@ -22,6 +22,7 @@ export default (...args) => {
     let webglPlotArea = null;
     let canvasPlotArea = null;
     let svgPlotArea = null;
+    let isContextLost = false;
     let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
     let xDecorate = () => { };
     let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
@@ -76,10 +77,23 @@ export default (...args) => {
                     const canvas = select(nodes[i])
                         .select('canvas')
                         .node();
-                    webglPlotArea.context(canvas.getContext('webgl'))
+                    webglPlotArea.context(isContextLost ? null : canvas.getContext('webgl'))
                         .xScale(xScale)
                         .yScale(yScale);
                     webglPlotArea(d);
+                });
+
+            container.select('.webgl-plot-area>canvas')
+                .on('webglcontextlost', () => {
+                    console.warn('WebGLRenderingContext lost');
+                    event.preventDefault();
+                    isContextLost = true;
+                    container.node().requestRedraw();
+                })
+                .on('webglcontextrestored', () => {
+                    console.info('WebGLRenderingContext restored');
+                    isContextLost = false;
+                    container.node().requestRedraw();
                 });
 
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
