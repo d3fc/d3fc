@@ -4,9 +4,14 @@ import { rebind } from '@d3fc/d3fc-rebind';
 export default initialValue => {
     const base = baseAttributeBuilder().divisor(1);
     let value = initialValue;
+    let dirty = true;
 
     const constantAttribute = programBuilder => {
         base(programBuilder);
+
+        if (!dirty) {
+            return;
+        }
 
         if (!Array.isArray(value)) {
             throw new Error(`Expected an array, received: ${value}`);
@@ -21,6 +26,11 @@ export default initialValue => {
         const gl = programBuilder.context();
         gl[`vertexAttrib${value.length}fv`](base.location(), value);
         gl.disableVertexAttribArray(base.location());
+        dirty = false;
+    };
+
+    constantAttribute.clear = () => {
+        dirty = true;
     };
 
     constantAttribute.value = (...args) => {
@@ -28,6 +38,7 @@ export default initialValue => {
             return value;
         }
         value = args[0];
+        dirty = true;
         return constantAttribute;
     };
 

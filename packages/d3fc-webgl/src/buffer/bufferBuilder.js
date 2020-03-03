@@ -32,6 +32,12 @@ export default () => {
         }
     };
 
+    bufferBuilder.flush = () => {
+        Object.values(attributes).forEach(attribute => attribute.clear());
+        Object.values(uniforms).forEach(uniform => uniform.clear());
+        if (elementIndices !== null) elementIndices.clear();
+    };
+
     bufferBuilder.attribute = (...args) => {
         if (args.length === 1) {
             return attributes[args[0]];

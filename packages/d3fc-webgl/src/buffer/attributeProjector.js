@@ -45,6 +45,10 @@ export default () => {
 
     projector.dirty = () => dirty;
 
+    projector.clear = () => {
+        dirty = true;
+    };
+
     projector.size = (...args) => {
         if (!args.length) {
             return size;

@@ -28,8 +28,8 @@ export default () => {
         );
         gl.enableVertexAttribArray(location);
 
-        const ext = gl.getExtension('ANGLE_instanced_arrays');
-        ext.vertexAttribDivisorANGLE(location, divisor);
+        const extInstancedArrays = programBuilder.extInstancedArrays();
+        extInstancedArrays.vertexAttribDivisorANGLE(location, divisor);
     };
 
     baseAttribute.location = (...args) => {
