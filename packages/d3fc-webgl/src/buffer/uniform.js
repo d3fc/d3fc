@@ -36,6 +36,10 @@ export default initialData => {
         dirty = false;
     };
 
+    build.clear = () => {
+        dirty = true;
+    };
+
     build.location = (...args) => {
         if (!args.length) {
             return location;

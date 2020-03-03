@@ -21,6 +21,11 @@ export default () => {
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
     };
 
+    elementAttribute.clear = () => {
+        base.buffer(null);
+        projector.clear();
+    };
+
     rebind(elementAttribute, base, 'normalized', 'location');
     rebind(elementAttribute, projector, 'data', 'value', 'size', 'type');
 

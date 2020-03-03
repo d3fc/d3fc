@@ -21,6 +21,11 @@ export default () => {
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
     };
 
+    vertexAttribute.clear = () => {
+        base.buffer(null);
+        projector.clear();
+    };
+
     rebind(vertexAttribute, base, 'normalized', 'location');
     rebind(vertexAttribute, projector, 'data', 'value', 'size', 'type');
 

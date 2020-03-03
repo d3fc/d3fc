@@ -40,6 +40,7 @@ npm install @d3fc/d3fc-webgl
 * [Shader Builder](#shader-builder)
   * [Shader Naming Convention](#shader-naming-convention)
 * [Program Builder](#program-builder)
+  * [Handling Lost Context](#handling-lost-context)
 * [Symbol Mapper](#symbol-mapper)
 * [Fill Color](#fill-color)
 * [Stroke Color](#stroke-color)
@@ -431,6 +432,10 @@ If *type* is specified, sets the type property and returns this attribute builde
 
 The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
 
+<a name="webglElementAttribute_clear" href="#webglElementAttribute_clear">#</a> *webglElementAttribute*.**clear**()
+
+Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
+
 ##### Adjacent Element Attribute
 
 <a name="webglAdjacentElementAttribute" href="#webglAdjacentElementAttribute">#</a> fc.**webglAdjacentElementAttribute**(*minOffset*, *maxOffset*)
@@ -486,6 +491,10 @@ If *type* is specified, sets the type property and returns this attribute builde
 
 The type property is used to specify the type of the typed array used for the buffer data, the default is `Float`. Valid types can be accessed from [webglTypes](#types).
 
+<a name="webglAdjacentElementAttribute_clear" href="#webglAdjacentElementAttribute_clear">#</a> *webglAdjacentElementAttribute*.**clear**()
+
+Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
+
 ##### Vertex Attribute
 
 <a name="webglVertexAttribute" href="#webglVertexAttribute">#</a> fc.**webglVertexAttribute**()
@@ -531,6 +540,10 @@ The size property is used to specify the number of components to the attribute. 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
 The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
+
+<a name="webglVertexAttribute_clear" href="#webglVertexAttribute_clear">#</a> *webglVertexAttribute*.**clear**()
+
+Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
 
 ##### Base Attribute
 
@@ -602,11 +615,19 @@ If *data* is specified, sets the data property and returns this uniform builder.
 
 The data property is used to set the value of the uniform, the value provided can either be a single value or an array with a maximum length of `4`.
 
+<a name="webglUniform_clear" href="#webglUniform_clear">#</a> *webglUniform*.**clear**()
+
+Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
+
 #### Buffer Builder
 
 <a name="webglBufferBuilder" href="#webglBufferBuilder">#</a> fc.**webglBufferBuilder**()
 
 This component manages the mapping of attribute/uniform builders to their shader identifiers.
+
+<a name="webglBufferBuilder_flush" href="#webglBufferBuilder_flush">#</a> *webglBufferBuilder*.**flush**()
+
+Used to ensure that all attributes and uniforms associated with the builder are rebuilt on the next render. This is equivalent to calling the `clear` function for all associated attributes and uniforms.
 
 <a name="webglBufferBuilder_attribute" href="#webglBufferBuilder_attribute">#</a> *webglBufferBuilder*.**attribute**(*attributeName*, *attribute*)
 
@@ -635,6 +656,10 @@ For example to draw two triangles that share a vertex we could provide the value
 If *data* is specified, sets data and returns this builder. If *data* is not specified, returns the current data.
 
 *data* should be an array containing an ordered list of the vertices to draw.
+
+<a name="webglElementIndices_clear" href="#webglElementIndices_clear">#</a> *webglElementIndices*.**clear**()
+
+Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
 
 #### Types
 
@@ -806,11 +831,15 @@ For example: `aCrossValue`
 
 This component manages the creation and execution of a [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram). No underlying WebGL methods are invoked until the program builder itself is invoked.
 
+<a name="webglProgramBuilder_extInstancedArrays" href="#webglProgramBuilder_extInstancedArrays">#</a> *webglProgramBuilder*.**extInstancedArrays**()
+
+Returns a reference to the [`ANGLE_instanced_arrays`](https://developer.mozilla.org/en-US/docs/Web/API/ANGLE_instanced_arrays) WebGL extension used for drawing to the canvas.
+
 <a name="webglProgramBuilder_context" href="#webglProgramBuilder_context">#</a> *webglProgramBuilder*.**context**(*context*)
 
 If *context* is specified, sets the context and returns this builder. If *context* is not specified, returns the current context.
 
-*context* must be an instance of [WebGLRenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) from the canvas to be drawn to.
+*context* must be an instance of [WebGLRenderingContext](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext) from the canvas to be drawn to. *context* can also be set to null if the context has been lost, see [Handling Lost Context](#handling-lost-context) for more information.
 
 <a name="webglProgramBuilder_buffers" href="#webglProgramBuilder_buffers">#</a> *webglProgramBuilder*.**buffers**(*bufferBuilder*)
 
@@ -839,6 +868,28 @@ If *mode* is specified, sets the mode and returns this builder. If *mode* is not
 <a name="webglProgramBuilder_debug" href="#webglProgramBuilder_debug">#</a> *webglProgramBuilder*.**debug**(*debug*)
 
 If *debug* is specified, enables or disables additional verification checks and error logging. This is very useful when working with custom shaders or debugging `INVALID_OPERATION` messages. However, it should not be enabled in production as the checks severely impact rendering performance. If *debug* is not specified, returns the current debug setting.
+
+#### Handling Lost Context
+
+As the GPU is a shared resource it is possible for situations to arise where it is taken away from the program, this will result in a `webglcontextlost` event. If you are working with a [Cartesian Chart](https://d3fc.io/api/chart-api.html) then both the `webglcontextlost` and `webglcontextrestored` events are automatically handled for you. However if you are not working with a Cartesian Chart then you must handle these events yourself.
+
+If the `webglcontextlost` event occurs then null should be passed to the context property of the component being used, for example [program builder](#program-builder) or [series](#series). This will invalidate the relevant resources associated with the lost context and block the rendering pipeline. If a subsequent `webglcontextrestored` event occurs then the new context can be passed to the component to recreate the needed resources and unblock the rendering pipeline.
+
+Both the `webglcontextlost` and `webglcontextrestored` event listeners must be added to the canvas being used:
+
+```javascript
+canvas.addEventListener('webglcontextlost', event => {
+  event.preventDefault();
+  component.context(null);
+}, false);
+
+canvas.addEventListener('webglcontextrestored', () => {
+  component.context(canvas.getContext('webgl'));
+  component();
+}, false);
+```
+
+For more information on handling lost context you can view [this guide](https://www.khronos.org/webgl/wiki/HandlingContextLost).
 
 ### Symbol Mapper
 
