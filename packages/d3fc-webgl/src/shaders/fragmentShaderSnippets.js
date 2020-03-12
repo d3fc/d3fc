@@ -161,14 +161,10 @@ export const area = {
 export const boxPlot = {
     header: `
         varying float vDefined;
-        varying float vCanFill;
     `,
     body: `
-        float canFill = clamp(vCanFill, 0.0, 1.0);
-        float canStroke = 1.0 - vCanFill;
-
-        vec4 defaultFillColor = vec4(0.86, 0.86, 0.86, 1.0);
-        gl_FragColor = (canFill * defaultFillColor) + (canStroke * gl_FragColor);
+        float canFill = 0.0;
+        float canStroke = 1.0;
 
         if (vDefined < 0.5) {
             discard;

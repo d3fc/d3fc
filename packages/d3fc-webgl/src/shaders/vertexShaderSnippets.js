@@ -385,11 +385,9 @@ export const boxPlot = {
         uniform float uStrokeWidth;
 
         varying float vDefined;
-        varying float vCanFill;
     `,
     body: `
         vDefined = aDefined;
-        vCanFill = abs(aCorner.x) * (1.0 - aCorner.w) * aCorner.z;
         float isExtremeY = sign(abs(aCorner.y) - 2.0) + 1.0;
         float isNotExtremeY = 1.0 - isExtremeY;
 

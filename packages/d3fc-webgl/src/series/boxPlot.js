@@ -112,13 +112,6 @@ export default () => {
         .buffers()
         .elementIndices(
             elementIndices([
-                // Fill
-                21,
-                22,
-                25,
-                22,
-                25,
-                26,
                 // Top cap line
                 0,
                 1,
