@@ -864,9 +864,16 @@ Please note that there is currently no functional difference between `webglFillC
 
 If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
 
-Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow.
+Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow. To convert an arbitrary CSS color string into this format -
 
-The *value* can either be an array representing a constant value or a function which returns a colour for every datum in [data](#webglFillColor_data).
+```
+const webglColor = identifier => {
+    const { r, g, b, opacity } = d3.color(identifier).rgb();
+    return [r / 255, g / 255, b / 255, opacity];
+};
+```
+
+The *value* can either be an array representing a constant value or a function which returns a color for every datum in [data](#webglFillColor_data).
 
 <a name="webglFillColor_data" href="#webglFillColor_data">#</a> *webglFillColor*.**data**(*data*)
 
@@ -886,9 +893,16 @@ Please note that there is currently no functional difference between `webgStroke
 
 If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
 
-Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow.
+Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow. To convert an arbitrary CSS color string into this format -
 
-The *value* can either be an array representing a constant value or a function which returns a colour for every datum in [data](#webglStrokeColor_data).
+```
+const webglColor = identifier => {
+    const { r, g, b, opacity } = d3.color(identifier).rgb();
+    return [r / 255, g / 255, b / 255, opacity];
+};
+```
+
+The *value* can either be an array representing a constant value or a function which returns a color for every datum in [data](#webglStrokeColor_data).
 
 <a name="webglStrokeColor_data" href="#webglStrokeColor_data">#</a> *webglStrokeColor*.**data**(*data*)
 
