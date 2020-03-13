@@ -52,8 +52,8 @@ export default () => {
         }
 
         draw
-            .xScale(xScale.glScale)
-            .yScale(yScale.glScale)
+            .xScale(xScale.webglScale)
+            .yScale(yScale.webglScale)
             .decorate((program) => base.decorate()(program, data, 0));
 
         draw(data.length);

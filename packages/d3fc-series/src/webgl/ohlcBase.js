@@ -46,8 +46,8 @@ export default (pathGenerator) => {
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
-        pathGenerator.xScale(xScale.glScale)
-            .yScale(yScale.glScale)
+        pathGenerator.xScale(xScale.webglScale)
+            .yScale(yScale.webglScale)
             .decorate((program) => base.decorate()(program, data, 0));
 
         pathGenerator(data.length);
