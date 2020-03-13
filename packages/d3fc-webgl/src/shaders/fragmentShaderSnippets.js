@@ -26,6 +26,61 @@ export const square = {
         float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);`
 };
 
+// Diamond is symmetrical about the x, and y axes, so only consider x, y > 0.
+// (x, y) are the coordinates of the fragment within the gl point (after
+// transformed to be [-1, 1]).
+// a, b control the width, height of the triangle, so diamond is 2a, 2b.
+// Line L is a ray from the origin through (x, y), the distance function is then
+// the distance to (x, y) divided by the distance to where L intersects with the
+// diamond, this makes the distance function < 1 inside, 1 on the boundary, and
+// > 1 outside the diamond.
+//    |
+// b ---
+//    |\             L
+//    | -\          /
+//    |   \        /
+//    |    \      /
+//    |     -\   /
+//    |       \ /
+// Y ---       X
+//    |       / -\
+//    |      /    \
+//    |     /      \
+// y ---   X        -\
+//    |   /           \
+//    |  /             \
+//    | /               -\
+//    |/                  \
+//    +----|---|-----------|---
+//         x   X           a
+export const diamond = {
+    header: `
+        varying float vSize;
+        varying float vDefined;
+        float a = 0.6;
+        float b = 1.0;
+    `,
+    body: `
+        if (vDefined < 0.5) {
+            discard;
+        }
+
+        vec2 pointCoordTransform = 2.0 * gl_PointCoord - 1.0;
+
+        float x = abs(pointCoordTransform.x);
+        float y = abs(pointCoordTransform.y);
+
+        float X = (a * b * x) / (a * y + b * x);
+        float Y = (a * b * y) / (a * y + b * x);
+
+        float distance = length(vec2(x, y)) / length(vec2(X, Y));
+
+        if (distance > 1.0) {
+            discard;
+        }
+    `
+};
+
 export const triangle = {
     header: `
         varying float vSize;
