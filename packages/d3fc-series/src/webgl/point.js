@@ -48,8 +48,8 @@ export default () => {
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
-        draw.xScale(xScale.glScale)
-            .yScale(yScale.glScale)
+        draw.xScale(xScale.webglScale)
+            .yScale(yScale.webglScale)
             .type(webglSymbolMapper(type))
             .decorate((program) => base.decorate()(program, data, 0));
 

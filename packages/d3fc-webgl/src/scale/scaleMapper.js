@@ -9,32 +9,43 @@ import linear from './linear';
 import log from './log';
 import pow from './pow';
 
+// we compare the stringified 'copy' function of the scale to
+// determine the scale type.
+const scaleLinearCopy = scaleLinear().copy.toString();
+const scaleLogCopy = scaleLog().copy.toString();
+const scalePowCopy = scalePow().copy.toString();
+const scaleTimeCopy = scaleTime().copy.toString();
+
 export default scale => {
-    let outScale = scaleIdentity();
-    let glScale = null;
-    const scaleCopyString = scale.copy.toString();
-
-    // compare the stringified 'copy' function of the scale to
-    // determine the scale type.
-    if (scaleCopyString === scaleLinear().copy.toString()) {
-        glScale = linear().domain(scale.domain());
-    } else if (scaleCopyString === scaleLog().copy.toString()) {
-        glScale = log()
-            .domain(scale.domain())
-            .base(scale.base());
-    } else if (scaleCopyString === scalePow().copy.toString()) {
-        glScale = pow()
-            .domain(scale.domain())
-            .exponent(scale.exponent());
-    } else if (scaleCopyString === scaleTime().copy.toString()) {
-        glScale = linear().domain(scale.domain());
-    } else {
-        glScale = linear().domain(scale.range());
-        outScale = scale;
+    switch (scale.copy.toString()) {
+        case scaleLinearCopy:
+        case scaleTimeCopy: {
+            return {
+                scale: scaleIdentity(),
+                webglScale: linear().domain(scale.domain())
+            };
+        }
+        case scaleLogCopy: {
+            return {
+                scale: scaleIdentity(),
+                webglScale: log()
+                    .domain(scale.domain())
+                    .base(scale.base())
+            };
+        }
+        case scalePowCopy: {
+            return {
+                scale: scaleIdentity(),
+                webglScale: pow()
+                    .domain(scale.domain())
+                    .exponent(scale.exponent())
+            };
+        }
+        default: {
+            return {
+                scale,
+                webglScale: linear().domain(scale.range())
+            };
+        }
     }
-
-    return {
-        scale: outScale,
-        glScale: glScale
-    };
 };
