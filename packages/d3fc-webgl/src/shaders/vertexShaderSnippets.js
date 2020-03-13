@@ -62,6 +62,24 @@ export const square = {
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
 };
 
+export const diamond = {
+    header: `
+        attribute float aCrossValue;
+        attribute float aMainValue;
+        attribute float aSize;
+        attribute float aDefined;
+
+        uniform float uStrokeWidth;
+
+        varying float vSize;
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
+        vSize = sqrt(aSize);
+        gl_PointSize = 2.0 * (vSize + uStrokeWidth + 1.0);
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+};
+
 export const triangle = {
     header: `
         attribute float aCrossValue;
