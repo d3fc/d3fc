@@ -45,7 +45,7 @@ npm install @d3fc/d3fc-webgl
 * [Fill Color](#fill-color)
 * [Stroke Color](#stroke-color)
 
-This package contains the components needed to render a standard or custom series types with WebGL. 
+This package contains the components needed to render a standard or custom series types with WebGL.
 
 ### Series
 
@@ -442,7 +442,7 @@ Used to indicate that the buffer should be rebuilt on the next render, by defaul
 
 Used to generate a buffer where each element requires data from another element adjacent to it. In this context an element is an instance of a repeatedly drawn object, for example each individual candlestick on a candlestick chart is an element.
 
-*minOffset* specifies the minimum bound for the offset property, this controls how many previous elements are available to access from the builder. The default value is `0`.  
+*minOffset* specifies the minimum bound for the offset property, this controls how many previous elements are available to access from the builder. The default value is `0`.
 *maxOffset* specifies the maximum bound for the offset property, this controls how many following elements are available to access from the builder. The default value is `0`.
 
 <a name="webglAdjacentElementAttribute_offset" href="#webglAdjacentElementAttribute_offset">#</a> *webglAdjacentElementAttribute*.**offset**(*offset*)
@@ -475,7 +475,7 @@ The data property is used to allow the value function to run for each entry in t
 
 If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
 
-The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*. 
+The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*.
 
 If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
 
@@ -749,7 +749,7 @@ Used to map a [D3 Scale](https://github.com/d3/d3-scale#continuous-scales) (*sca
 
 Returns an object containing two fields, `scale`, and `webglScale`.
 
-On a successful mapping the `scale` field will contain a [`d3.scaleIdentity`](https://github.com/d3/d3-scale#scaleIdentity) and the `webglScale` field will contain an appropriate WebGL scale.  
+On a successful mapping the `scale` field will contain a [`d3.scaleIdentity`](https://github.com/d3/d3-scale#scaleIdentity) and the `webglScale` field will contain an appropriate WebGL scale.
 On an unsuccessful mapping the `scale` field will contain *scale* and the `webglScale` field will contain a [`webglScaleLinear`](#linear).
 
 ### Shader Builder
@@ -781,7 +781,7 @@ Appends *header* to the end of the current headers.
 
 Inserts *header* before the line provided in the *before* argument.
 
-*header* must be a string containing GLSL code.  
+*header* must be a string containing GLSL code.
 *before* must be a string containing GLSL code already in the current headers. If *before* does not match any existing headers then *header* will be appended to the end of the current headers.
 
 <a name="webglShaderBuilder_appendHeaderIfNotExists" href="#webglShaderBuilder_appendHeaderIfNotExists"> *webglShaderBuilder*.**appendHeaderIfNotExists**(*header*)
@@ -800,7 +800,7 @@ Appends *body* to the end of the current bodies.
 
 Inserts *body* before the line provided in the *before* argument.
 
-*body* must be a string containing GLSL code.  
+*body* must be a string containing GLSL code.
 *before* must be a string containing GLSL code already in the current bodies. If *before* does not match any existing bodies then *body* will be appended to the end of the current bodies.
 
 <a name="webglShaderBuilder_appendBodyIfNotExists" href="#webglShaderBuilder_appendBodyIfNotExists"> *webglShaderBuilder*.**appendBodyIfNotExists**(*body*)
@@ -909,8 +909,6 @@ Supported symbols:
 
 Used to set a fill color for the elements being drawn. If *color* is specified, it is used as the initial [value](#webglFillColor_value).
 
-Please note that there is currently no functional difference between `webglFillColor` and `webglStrokeColor`, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1427).
-
 <a name="webglFillColor_value" href="#webglFillColor_value">#</a> *webglFillColor*.**value**(*value*)
 
 If *value* is specified, sets value and returns this component. If *value* is not specified, returns the current value.
@@ -937,8 +935,6 @@ The data property is used to allow the value function to run for each entry in t
 <a name="webglStrokeColor" href="#webglStrokeColor">#</a> fc.**webglStrokeColor**(*color*)
 
 Used to set a stroke color for the elements being drawn. If *color* is specified, it is used as the initial [value](#webglStrokeColor_value).
-
-Please note that there is currently no functional difference between `webgStrokelColor` and `webglStrokeColor`, this issue can be tracked [here](https://github.com/d3fc/d3fc/issues/1427).
 
 <a name="webglStrokeColor_value" href="#webglStrokeColor_value">#</a> *webglStrokeColor*.**value**(*value*)
 
