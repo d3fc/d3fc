@@ -44,29 +44,33 @@ webgl.width = width;
 webgl.height = height;
 var gl = webgl.getContext('webgl');
 
-var webglPoint = fc.seriesWebglPoint()
+// attribute float aCrossValue;
+// attribute float aMainValue;
+// attribute float aSize;
+// attribute float aDefined;
+
+const packData = data => data.map((y, i) => [i, y, 64, 1])
+
+var webglPoint = fc.seriesWebglPointPacked()
     .xScale(xScale)
     .yScale(yScale)
-    .context(gl)
-    .crossValue(function(_, i) { return i; })
-    .mainValue(function(d) { return d; })
-    .type(d3.symbolCircle);
-webglPoint(data);
+    .context(gl);
+webglPoint(packData(data));
 
-// d3.select('#point-symbol').on('change', function() {
-//   var newSymbolString = d3.select(this).property('value');
-//   var newSymbol = d3[newSymbolString];
+d3.select('#point-symbol').on('change', function() {
+  var newSymbolString = d3.select(this).property('value');
+  var newSymbol = d3[newSymbolString];
 
-//   svgPoint.type(newSymbol);
-//   container.select('g')
-//     .datum(data)
-//     .call(svgPoint);
+  svgPoint.type(newSymbol);
+  container.select('g')
+    .datum(data)
+    .call(svgPoint);
 
-//   canvas.width = width;
-//   canvasPoint.type(newSymbol);
-//   canvasPoint(data);
+  canvas.width = width;
+  canvasPoint.type(newSymbol);
+  canvasPoint(data);
 
-//   gl.clear(gl.COLOR_BUFFER_BIT);
-//   webglPoint.type(newSymbol);
-//   webglPoint(data);
-// });
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  webglPoint.type(newSymbol);
+  webglPoint(data);
+});

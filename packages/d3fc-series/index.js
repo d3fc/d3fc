@@ -5,6 +5,7 @@ export { default as seriesWebglLine } from './src/webgl/line';
 export { default as seriesSvgPoint } from './src/svg/point';
 export { default as seriesCanvasPoint } from './src/canvas/point';
 export { default as seriesWebglPoint } from './src/webgl/point';
+export { default as seriesWebglPointPacked } from './src/webgl/point-packed';
 
 export { default as seriesSvgBar } from './src/svg/bar';
 export { default as seriesCanvasBar } from './src/canvas/bar';

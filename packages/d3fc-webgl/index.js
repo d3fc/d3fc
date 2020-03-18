@@ -1,5 +1,6 @@
 export { default as webglSeriesArea } from './src/series/area';
 export { default as webglSeriesPoint } from './src/series/point';
+export { default as webglSeriesPointPacked } from './src/series/point-packed';
 export { default as webglSeriesLine } from './src/series/line';
 export { default as webglSeriesOhlc } from './src/series/ohlc';
 export { default as webglSeriesBar } from './src/series/bar';

@@ -6,6 +6,7 @@ import {
     symbolDiamond
 } from 'd3-shape';
 import circlePointShader from './shaders/point/circle/baseShader';
+import circlePackedPointShader from './shaders/point/circlePacked/baseShader';
 import squarePointShader from './shaders/point/square/shader';
 import trianglePointShader from './shaders/point/triangle/shader';
 import crossPointShader from './shaders/point/cross/shader';
@@ -23,6 +24,8 @@ export default symbol => {
             return crossPointShader();
         case symbolDiamond:
             return diamondPointShader();
+        case 'circlePacked':
+            return circlePackedPointShader();
         default:
             throw new Error(`Unrecognised symbol: ${symbol}`);
     }
