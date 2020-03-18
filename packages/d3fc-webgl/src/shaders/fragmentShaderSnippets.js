@@ -12,6 +12,40 @@ export const circle = {
         }`
 };
 
+// See https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+export const star = {
+    header: `
+        varying float vSize;
+        varying float vDefined;
+
+        // anterior, exterior angles
+        float an = 0.628319;
+        vec2 acs = vec2(0.809017, 0.587786); // (cos, sin)
+        float en = 0.952000;
+        vec2 ecs = vec2(0.580055, 0.814577);
+    `,
+    body: `
+        float canFill = 1.0;
+
+        vec2 p = 2.0 * gl_PointCoord - 1.0;
+        p.y *= -1.0;
+
+        // sector
+        float bn = mod(atan(p.x, p.y), 2.0 * an) - an;
+        p = length(p) * vec2(cos(bn), abs(sin(bn)));
+
+        p -= acs;
+        p += ecs * clamp(-dot(p, ecs), 0.0, acs.y / ecs.y);
+        float d = length(p) * sign(p.x);
+
+        float distance = 1.0 + d;
+        float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);
+        if (distance > 1.0 || vDefined < 0.5) {
+            discard;
+            return;
+        }`
+};
+
 export const square = {
     header: `
         varying float vSize;
