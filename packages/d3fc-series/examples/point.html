@@ -1,5 +1,7 @@
 <html>
 <head>
+    <script src="../../../node_modules/seedrandom/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
     <script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
     <script src="../node_modules/d3/build/d3.js"></script>
     <script src="../../d3fc/build/d3fc.js"></script>
@@ -11,6 +13,7 @@
         <option value="symbolTriangle">Triangle</option>
         <option value="symbolCross">Cross</option>
         <option value="symbolDiamond">Diamond</option>
+        <option value="symbolStar">Star</option>
     </select>
     <svg id="point-svg" width="500" height="250"></svg>
     <canvas id="point-canvas"  width="500" height="250"></canvas>

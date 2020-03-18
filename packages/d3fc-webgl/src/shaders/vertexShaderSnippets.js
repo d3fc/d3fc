@@ -44,6 +44,24 @@ export const circle = {
         gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
 };
 
+export const star = {
+    header: `
+        attribute float aCrossValue;
+        attribute float aMainValue;
+        attribute float aSize;
+        attribute float aDefined;
+
+        uniform float uStrokeWidth;
+
+        varying float vSize;
+        varying float vDefined;`,
+    body: `
+        vDefined = aDefined;
+        vSize = 4.0 * sqrt(aSize / 3.14159);
+        gl_PointSize = vSize + uStrokeWidth + 1.0;
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+};
+
 export const square = {
     header: `
         attribute float aCrossValue;
