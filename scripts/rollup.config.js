@@ -3,12 +3,13 @@ import babelrc from 'read-babelrc-up';
 import resolve from 'rollup-plugin-node-resolve';
 import minify from 'rollup-plugin-babel-minify';
 
-var external = key => key.indexOf('d3-') === 0 || key.indexOf('d3fc-') === 0;
+var external = key =>
+    key.indexOf('d3-') === 0 || key.indexOf('@d3fc/d3fc-') === 0;
 var globals = function(key) {
     if (key.indexOf('d3-') === 0) {
         return 'd3';
     }
-    if (key.indexOf('d3fc-') === 0) {
+    if (key.indexOf('@d3fc/d3fc-') === 0) {
         return 'fc';
     }
 };
