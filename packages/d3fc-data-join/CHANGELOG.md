@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 5.1.0 (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+
+
+
+
+
 ## [5.0.11](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-data-join@5.0.10...@d3fc/d3fc-data-join@5.0.11) (2019-11-28)
 
 **Note:** Version bump only for package @d3fc/d3fc-data-join

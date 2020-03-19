@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.5.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.17...@d3fc/d3fc-series@4.5.0) (2020-03-19)
+
+
+### Bug Fixes
+
+* update imports to fix standalone package use ([cbb810e](https://github.com/d3fc/d3fc/commit/cbb810e))
+* webgl bar colour ([98679ff](https://github.com/d3fc/d3fc/commit/98679ff))
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+* add webgl diamond symbol ([#1481](https://github.com/d3fc/d3fc/issues/1481)) ([7605bb2](https://github.com/d3fc/d3fc/commit/7605bb2))
+
+
+
+
+
 ## [4.4.17](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.16...@d3fc/d3fc-series@4.4.17) (2020-02-18)
 
 **Note:** Version bump only for package @d3fc/d3fc-series

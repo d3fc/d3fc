@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.2.0](https://github.com/d3fc/d3fc/compare/d3fc@14.1.30...d3fc@14.2.0) (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+
+
+
+
+
 ## [14.1.30](https://github.com/d3fc/d3fc/compare/d3fc@14.1.29...d3fc@14.1.30) (2020-02-18)
 
 **Note:** Version bump only for package d3fc

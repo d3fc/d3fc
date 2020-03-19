@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-data-join",
-  "version": "5.0.11",
+  "version": "5.1.0",
   "description": "A component that simplifies the D3 data join and supports the d3fc decorate pattern",
   "license": "MIT",
   "keywords": [

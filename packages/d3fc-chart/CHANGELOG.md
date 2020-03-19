@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@3.0.2...@d3fc/d3fc-chart@3.1.0) (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+* add handling for context lost ([2f4b391](https://github.com/d3fc/d3fc/commit/2f4b391))
+
+
+
+
+
 ## [3.0.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@3.0.1...@d3fc/d3fc-chart@3.0.2) (2020-02-18)
 
 **Note:** Version bump only for package @d3fc/d3fc-chart

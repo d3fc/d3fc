@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-pointer@2.1.0...@d3fc/d3fc-pointer@2.2.0) (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+
+
+
+
+
 # 2.1.0 (2020-02-13)
 
 

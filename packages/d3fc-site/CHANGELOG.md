@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.1.36...@d3fc/d3fc-site@0.2.0) (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+
+
+
+
+
 ## [0.1.36](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-site@0.1.35...@d3fc/d3fc-site@0.1.36) (2020-02-18)
 
 **Note:** Version bump only for package @d3fc/d3fc-site

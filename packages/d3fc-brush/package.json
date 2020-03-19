@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-brush",
-  "version": "2.0.84",
+  "version": "2.1.0",
   "description": "Adapts the D3 brush, making it easier to create data-driven brushed charts.",
   "license": "MIT",
   "keywords": [
@@ -22,13 +22,13 @@
     "screenshots": "node ../../scripts/screenshot.js -- --selector #main-chart"
   },
   "devDependencies": {
-    "@d3fc/d3fc-chart": "^3.0.2",
-    "@d3fc/d3fc-extent": "^3.1.7",
-    "@d3fc/d3fc-random-data": "^3.0.19",
+    "@d3fc/d3fc-chart": "^3.1.0",
+    "@d3fc/d3fc-extent": "^3.2.0",
+    "@d3fc/d3fc-random-data": "^3.1.0",
     "d3": "^4.2.5"
   },
   "dependencies": {
-    "@d3fc/d3fc-data-join": "^5.0.11",
+    "@d3fc/d3fc-data-join": "^5.1.0",
     "@d3fc/d3fc-rebind": "^5.0.10",
     "d3-brush": "^1.0.3",
     "d3-dispatch": "^1.0.2",
