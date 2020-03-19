@@ -32,3 +32,7 @@ non-determinism).
 
 It is advised that the `HEADLESS` and `EXECUTABLE_PATH` environment variables
 are set as puppeteer does not use the GPU in headless mode.
+
+N.B Some of the tests require a webserver to be running in order for data
+files to be served correctly. This can be done by running `npm start` from
+the project root.
