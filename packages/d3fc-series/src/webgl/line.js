@@ -41,7 +41,7 @@ export default () => {
         const xScale = webglScaleMapper(base.xScale());
         const yScale = webglScaleMapper(base.yScale());
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (!equals(previousData, data)) {
             previousData = data;
 
             if (base.orient() === 'vertical') {
@@ -52,6 +52,21 @@ export default () => {
                 mainPreviousValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
             }
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
+        } else {
+            if (!isIdentityScale(xScale.scale)) {
+                if (base.orient() === 'vertical') {
+                    crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+                } else {
+                    crossPreviousValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+                }
+            }
+            if (!isIdentityScale(yScale.scale)) {
+                if (base.orient() === 'vertical') {
+                    mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+                } else {
+                    mainPreviousValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+                }
+            }
         }
 
         draw.xScale(xScale.glScale)
