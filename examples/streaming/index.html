@@ -1,10 +1,9 @@
 <html>
 
 <head>
-    <script src="//unpkg.com/seedrandom@3.0.5"></script>
-    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
     <script src="//unpkg.com/d3@5.7.0"></script>
     <script src="//unpkg.com/d3fc@14.1.30"></script>
+    <script src="//unpkg.com/jquery@3.3.1"></script>
     <style>
         body {
             display: flex;
@@ -14,10 +13,11 @@
             flex: auto;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <d3fc-canvas use-device-pixel-ratio set-webgl-viewport></d3fc-canvas>
+    <div id='streaming-chart' class='chart large'></div>
     <script src="index.js"></script>
 </body>
 
