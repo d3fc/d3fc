@@ -1,0 +1,9 @@
+{
+  "name": "examples-to-public",
+  "version": "1.0.0",
+  "description": "Copies files from /example to /public.",
+  "main": "gatsby-node.js",
+  "dependencies": {
+    "fs-extra": "^4.0.0"
+  }
+}

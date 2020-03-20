@@ -1,0 +1,63 @@
+.gist {
+  a {
+    background-position: 50% 0%;
+    border: solid 1px #eee;
+    border-bottom: solid 1px #ccc;
+    display: inline-block;
+    float: left;
+    line-height: normal;
+    margin: 0 30px 10px 0;
+    text-shadow: 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+      -1px -1px 0 #fff;
+    transition: ease 750ms background-position;
+    width: 100%;
+    padding: 8px 10px;
+    height: 82px;
+    color: #000;
+    background-size: 100%;
+
+    &:hover,
+    &:focus {
+      background-color: #eee;
+      background-position: 50% 100%;
+      text-decoration: none;
+    }
+  }
+
+  .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 55px;
+  }
+}
+
+.gists:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.d3fc-preview {
+  border-width: 0;
+  width: 100%;
+  height: 480px;
+
+  &-home {
+    @extend .d3fc-preview;
+    height: 300px;
+    z-index: 2;
+  }
+}
+
+.d3fc-preview-link {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  .d3fc-preview-cover {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+}
