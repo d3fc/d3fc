@@ -11,7 +11,7 @@ const symbols = [
     d3.symbolWye
 ];
 
-const xScale = d3.scaleLinear().domain([0, data.length]);
+const xScale = d3.scaleLinear().domain([0, data.length - 1]);
 
 const yScale = d3.scaleLinear().domain(fc.extentLinear()(data));
 

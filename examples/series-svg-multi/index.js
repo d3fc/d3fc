@@ -2,7 +2,7 @@ const data = fc.randomGeometricBrownianMotion().steps(25)(1);
 
 const container = document.querySelector('d3fc-svg');
 
-const xScale = d3.scaleLinear().domain([0, data.length]);
+const xScale = d3.scaleLinear().domain([0, data.length - 1]);
 
 const yScale = d3.scaleLinear().domain(fc.extentLinear().pad([0.5, 0.5])(data));
 
