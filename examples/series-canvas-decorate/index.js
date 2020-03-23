@@ -5,7 +5,7 @@ const margin = 10;
 
 const extent = fc.extentLinear();
 
-const xScale = d3.scaleLinear().domain([0, data.length]);
+const xScale = d3.scaleLinear().domain([0, data.length - 1]);
 
 const yScale = d3.scaleLinear().domain(extent(data));
 
@@ -34,7 +34,7 @@ d3.select(container)
     })
     .on('measure', () => {
         const { width, height } = event.detail;
-        xScale.range([margin, width - margin * 2]);
+        xScale.range([margin, width - margin]);
         yScale.range([height, 0]);
     });
 

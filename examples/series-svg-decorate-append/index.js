@@ -1,9 +1,9 @@
 const data = fc.randomGeometricBrownianMotion().steps(25)(1);
 
 const container = document.querySelector('d3fc-svg');
-const margin = 15;
+const margin = 25;
 
-const xScale = d3.scaleLinear().domain([0, data.length]);
+const xScale = d3.scaleLinear().domain([0, data.length - 1]);
 
 const yScale = d3.scaleLinear().domain(fc.extentLinear().pad([0.1, 0.1])(data));
 
@@ -32,7 +32,7 @@ d3.select(container)
     })
     .on('measure', () => {
         const { width, height } = event.detail;
-        xScale.range([margin, width - margin * 2]);
+        xScale.range([margin, width - margin]);
         yScale.range([height, 0]);
     });
 
