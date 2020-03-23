@@ -14,6 +14,7 @@ it('should look good on the website!', async () => {
     );
     await page.screenshot({ path: join(__dirname, '..', 'screenshot.png') });
     await page.screenshot({
-        path: '../packages/d3fc-series/screenshots/repeat.png'
+        path: '../packages/d3fc-series/screenshots/repeat.png',
+        omitBackground: true
     });
 });

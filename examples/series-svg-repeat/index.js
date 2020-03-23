@@ -3,7 +3,7 @@ d3.text('../__data-files__/repeat-data.csv').then(text => {
 
     const container = document.querySelector('d3fc-svg');
 
-    const xScale = d3.scaleLinear().domain([0, data.length]);
+    const xScale = d3.scaleLinear().domain([0, data.length - 1]);
 
     const yScale = d3.scaleLinear().domain([0, 60]);
 
