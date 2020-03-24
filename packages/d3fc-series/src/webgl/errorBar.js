@@ -1,5 +1,4 @@
 import errorBarBase from '../errorBarBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesErrorBar,
     webglElementAttribute,
@@ -26,23 +25,32 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
 
     const errorBar = (data) => {
         if (base.orient() !== 'vertical') {
             throw new Error(`Unsupported orientation ${base.orient()}`);
         }
 
+
         const xScale = webglScaleMapper(base.xScale());
         const yScale = webglScaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-
-            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-            highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
-            lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
             bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
+        }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
+            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
+            highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
+            lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
         }
 
         draw.xScale(xScale.webglScale)
