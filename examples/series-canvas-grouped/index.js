@@ -60,12 +60,6 @@ const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 const verticalContainer = document.querySelector('#vertical');
 
-const verticalContext = d3
-    .select(verticalContainer)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 // Create the grouped series
 const verticalGroupedBar = fc
     .autoBandwidth(fc.seriesCanvasGrouped(fc.seriesCanvasBar()))
@@ -74,7 +68,6 @@ const verticalGroupedBar = fc
     .yScale(yScale)
     .crossValue(d => d[0])
     .mainValue(d => d[1])
-    .context(verticalContext)
     .decorate((ctx, _, index) => {
         ctx.fillStyle = color(index);
     });
@@ -107,12 +100,6 @@ const xScaleHorizontal = d3.scaleLinear().domain(xHorizontalExtent(series));
 
 const horizontalContainer = document.querySelector('#horizontal');
 
-const horizontalContext = d3
-    .select(horizontalContainer)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const horizontalGroupedBar = fc
     .autoBandwidth(fc.seriesCanvasGrouped(fc.seriesCanvasBar()))
     .orient('horizontal')
@@ -121,7 +108,6 @@ const horizontalGroupedBar = fc
     .yScale(yScaleHorizontal)
     .crossValue(d => d[0])
     .mainValue(d => d[1])
-    .context(horizontalContext)
     .decorate((ctx, _, index) => {
         ctx.fillStyle = color(index);
     });
@@ -134,6 +120,15 @@ d3.select(horizontalContainer)
         const { width, height } = event.detail;
         xScaleHorizontal.range([0, width]);
         yScaleHorizontal.rangeRound([0, height]);
+
+        const verticalContext = verticalContainer
+            .querySelector('canvas')
+            .getContext('2d');
+        verticalGroupedBar.context(verticalContext);
+        const horizontalContext = horizontalContainer
+            .querySelector('canvas')
+            .getContext('2d');
+        horizontalGroupedBar.context(horizontalContext);
     });
 
 horizontalContainer.requestRedraw();

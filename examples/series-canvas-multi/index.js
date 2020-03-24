@@ -16,17 +16,10 @@ const line = fc
     .crossValue((_, i) => i)
     .mainValue(d => d);
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const series = fc
     .seriesCanvasMulti()
     .xScale(xScale)
     .yScale(yScale)
-    .context(ctx)
     .series([fc.autoBandwidth(bar), line]);
 
 d3.select(container)
@@ -37,6 +30,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        series.context(ctx);
     });
 
 container.requestRedraw();

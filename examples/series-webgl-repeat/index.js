@@ -12,19 +12,12 @@ d3.text('../__data-files__/repeat-data.csv').then(text => {
         .crossValue((_, i) => i)
         .mainValue(d => d);
 
-    const gl = d3
-        .select(container)
-        .select('canvas')
-        .node()
-        .getContext('webgl');
-
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     const series = fc
         .seriesWebglRepeat()
         .xScale(xScale)
         .yScale(yScale)
-        .context(gl)
         .series(line)
         .decorate((program, _, index) => {
             fc
@@ -38,6 +31,7 @@ d3.text('../__data-files__/repeat-data.csv').then(text => {
 
     let pixels = null;
     let frame = 0;
+    let gl = null;
 
     d3.select(container)
         .on('click', () => {
@@ -50,6 +44,9 @@ d3.text('../__data-files__/repeat-data.csv').then(text => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);
+
+            gl = container.querySelector('canvas').getContext('webgl');
+            series.context(gl);
         })
         .on('draw', () => {
             if (pixels == null) {

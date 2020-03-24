@@ -54,19 +54,12 @@ const yExtent = fc
 
 const yScale = d3.scaleLinear().domain(yExtent(series));
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 const barSeries = fc
     .seriesCanvasBar()
     .xScale(xScale)
     .yScale(yScale)
-    .context(ctx)
     .crossValue(d => d.data.State)
     .mainValue(d => d[1])
     .baseValue(d => d[0]);
@@ -83,6 +76,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        barSeries.context(ctx);
     });
 
 container.requestRedraw();
