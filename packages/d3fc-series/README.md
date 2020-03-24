@@ -429,6 +429,20 @@ The SVG and canvas implementations do not support this property.
 
 If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
+<a name="seriesLine_equals" href="#seriesLine_equals">#</a> *seriesLine*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesLine_scaleMapper" href="#seriesLine_scaleMapper">#</a> *seriesLine*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
+
 ### Point
 
 ![](screenshots/point.png)
@@ -475,6 +489,20 @@ The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
+<a name="seriesPoint_equals" href="#seriesPoint_equals">#</a> *seriesPoint*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesPoint_scaleMapper" href="#seriesPoint_scaleMapper">#</a> *seriesPoint*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
+
 ### Area
 
 ![](screenshots/area.png)
@@ -516,6 +544,20 @@ The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
+<a name="seriesArea_equals" href="#seriesArea_equals">#</a> *seriesArea*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesArea_scaleMapper" href="#seriesArea_scaleMapper">#</a> *seriesArea*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
+
 ### Bar
 
 ![](screenshots/bar.png)
@@ -555,6 +597,19 @@ The SVG implementation does not support this property.
 
 If *ctx* is specified, sets the canvas context and returns this series. If *ctx* is not specified, returns the current context.
 
+<a name="seriesBar_equals" href="#seriesBar_equals">#</a> *seriesBar*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesBar_scaleMapper" href="#seriesBar_scaleMapper">#</a> *seriesBar*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
 ### Candlestick
 
@@ -599,6 +654,20 @@ The SVG and canvas implementations do not support this property.
 
 If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
+<a name="seriesCandlestick_equals" href="#seriesCandlestick_equals">#</a> *seriesCandlestick*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesCandlestick_scaleMapper" href="#seriesCandlestick_scaleMapper">#</a> *seriesCandlestick*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
+
 ### OHLC
 
 ![](screenshots/ohlc.png)
@@ -609,7 +678,7 @@ If *width* is specified, sets the line width and returns this series. If *width*
 
 Constructs a new OHLC renderer for canvas, WebGL or SVG.
 
-### Common properties
+#### Common properties
 
 <a name="seriesOhlc_crossValue" href="#seriesOhlc_crossValue">#</a> *seriesOhlc*.**crossValue**(*accessorFunc*)  
 <a name="seriesOhlc_highValue" href="#seriesOhlc_highValue">#</a> *seriesOhlc*.**highValue**(*accessorFunc*)  
@@ -643,6 +712,20 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 The SVG and canvas implementations do not support this property.
 
 If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
+
+<a name="seriesOhlc_equals" href="#seriesOhlc_equals">#</a> *seriesOhlc*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesOhlc_scaleMapper" href="#seriesOhlc_scaleMapper">#</a> *seriesOhlc*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
 ### Boxplot
 
@@ -700,6 +783,20 @@ The SVG and canvas implementations do not support this property.
 
 If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
 
+<a name="seriesBoxplot_equals" href="#seriesBoxplot_equals">#</a> *seriesBoxplot*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesBoxplot_scaleMapper" href="#seriesBoxplot_scaleMapper">#</a> *seriesBoxplot*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
+
 ### Errorbar
 
 ![](screenshots/errorbar.png)
@@ -748,6 +845,20 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 The SVG and canvas implementations do not support this property.
 
 If *width* is specified, sets the line width and returns this series. If *width* is not specified, returns the current line width.
+
+<a name="seriesErrorBar_equals" href="#seriesErrorBar_equals">#</a> *seriesErrorBar*.**equals**(*equals*)
+
+The SVG and canvas implementations do not support this property.
+
+If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesErrorBar_scaleMapper" href="#seriesErrorBar_scaleMapper">#</a> *seriesErrorBar*.**scaleMapper**(*scaleMapper*)
+
+The SVG and canvas implementations do not support this property.
+
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+
+The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
 ### Heatmap
 
