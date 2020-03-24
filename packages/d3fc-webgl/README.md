@@ -784,7 +784,7 @@ Inserts *header* before the line provided in the *before* argument.
 *header* must be a string containing GLSL code.
 *before* must be a string containing GLSL code already in the current headers. If *before* does not match any existing headers then *header* will be appended to the end of the current headers.
 
-<a name="webglShaderBuilder_appendHeaderIfNotExists" href="#webglShaderBuilder_appendHeaderIfNotExists"> *webglShaderBuilder*.**appendHeaderIfNotExists**(*header*)
+<a name="webglShaderBuilder_appendHeaderIfNotExists" href="#webglShaderBuilder_appendHeaderIfNotExists">#</a> *webglShaderBuilder*.**appendHeaderIfNotExists**(*header*)
 
 Appends *header* to the end of the current headers as long as it does not already exist.
 
@@ -803,7 +803,7 @@ Inserts *body* before the line provided in the *before* argument.
 *body* must be a string containing GLSL code.
 *before* must be a string containing GLSL code already in the current bodies. If *before* does not match any existing bodies then *body* will be appended to the end of the current bodies.
 
-<a name="webglShaderBuilder_appendBodyIfNotExists" href="#webglShaderBuilder_appendBodyIfNotExists"> *webglShaderBuilder*.**appendBodyIfNotExists**(*body*)
+<a name="webglShaderBuilder_appendBodyIfNotExists" href="#webglShaderBuilder_appendBodyIfNotExists">#</a> *webglShaderBuilder*.**appendBodyIfNotExists**(*body*)
 
 Appends *body* to the end of the current bodies as long as it does not already exist.
 
