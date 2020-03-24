@@ -1,5 +1,4 @@
 import xyBase from '../xyBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesLine,
     webglAdjacentElementAttribute,
@@ -36,22 +35,33 @@ export default () => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
 
     const line = (data) => {
         const xScale = webglScaleMapper(base.xScale());
         const yScale = webglScaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
+        }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
             if (base.orient() === 'vertical') {
                 crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
             } else {
                 crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+            }
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
+            if (base.orient() === 'vertical') {
+                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            } else {
                 mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
             }
-            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
         draw.xScale(xScale.webglScale)
