@@ -745,12 +745,11 @@ If *range* is specified, sets the range and returns this scale. If *range* is no
 
 <a name="webglScaleMapper" href="#webglScaleMapper">#</a> fc.**webglScaleMapper**(*scale*)
 
-Used to map a [D3 Scale](https://github.com/d3/d3-scale#continuous-scales) (*scale*) to a WebGL equivalent, all relevant properties are copied across.
+Used to map a [D3 Scale](https://github.com/d3/d3-scale#continuous-scales) (*scale*) to a matched pair of JavaScript and WebGL scales with appropriate properties (e.g. `domain`) copied over. Returns an object containing two fields, `scale`, and `webglScale`.
 
-Returns an object containing two fields, `scale`, and `webglScale`.
+The JavaScript scale is guaranteed to be a pure function if the returned reference is equal to a previously returned reference.
 
-On a successful mapping the `scale` field will contain a [`d3.scaleIdentity`](https://github.com/d3/d3-scale#scaleIdentity) and the `webglScale` field will contain an appropriate WebGL scale.
-On an unsuccessful mapping the `scale` field will contain *scale* and the `webglScale` field will contain a [`webglScaleLinear`](#linear).
+As there is no reliable way to test for the type of a scale, this implementation is naive and may return non-optimal mappings.
 
 ### Shader Builder
 

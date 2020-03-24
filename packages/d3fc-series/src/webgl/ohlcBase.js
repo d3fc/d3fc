@@ -1,5 +1,4 @@
 import ohlcBase from '../ohlcBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglElementAttribute,
     webglScaleMapper,
@@ -29,21 +28,29 @@ export default (pathGenerator) => {
 
     let equals = (previousData, data) => false;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
 
     const candlestick = (data) => {
         const xScale = webglScaleMapper(base.xScale());
         const yScale = webglScaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-
+            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
+        }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
             crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
             openValueAttribute.value((d, i) => yScale.scale(base.openValue()(d, i))).data(data);
             highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
             lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
             closeValueAttribute.value((d, i) => yScale.scale(base.closeValue()(d, i))).data(data);
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
-            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
         pathGenerator.xScale(xScale.webglScale)

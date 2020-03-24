@@ -16,18 +16,22 @@ const scaleLogCopy = scaleLog().copy.toString();
 const scalePowCopy = scalePow().copy.toString();
 const scaleTimeCopy = scaleTime().copy.toString();
 
+// always return the same reference to hint to consumers that
+// it is a pure function
+const identity = scaleIdentity();
+
 export default scale => {
     switch (scale.copy.toString()) {
         case scaleLinearCopy:
         case scaleTimeCopy: {
             return {
-                scale: scaleIdentity(),
+                scale: identity,
                 webglScale: linear().domain(scale.domain())
             };
         }
         case scaleLogCopy: {
             return {
-                scale: scaleIdentity(),
+                scale: identity,
                 webglScale: log()
                     .domain(scale.domain())
                     .base(scale.base())
@@ -35,15 +39,17 @@ export default scale => {
         }
         case scalePowCopy: {
             return {
-                scale: scaleIdentity(),
+                scale: identity,
                 webglScale: pow()
                     .domain(scale.domain())
                     .exponent(scale.exponent())
             };
         }
         default: {
+            // always return a copy of the scale to hint to consumers
+            // that it may be an impure function
             return {
-                scale,
+                scale: scale.copy(),
                 webglScale: linear().domain(scale.range())
             };
         }
