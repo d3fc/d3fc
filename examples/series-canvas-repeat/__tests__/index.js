@@ -12,5 +12,8 @@ it('should look good on the website!', async () => {
     await page.goto(
         'http://localhost:8080/examples/series-canvas-repeat/index.html'
     );
-    await page.screenshot({ path: join(__dirname, '..', 'screenshot.png') });
+    await page.screenshot({
+        path: join(__dirname, '..', 'screenshot.png'),
+        omitBackground: true
+    });
 });
