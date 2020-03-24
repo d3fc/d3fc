@@ -8,17 +8,10 @@ const yScale = d3.scaleLinear().domain([0, 1]);
 
 const format = d3.format('.2f');
 
-const canvas = d3
-    .select(container)
-    .select('canvas')
-    .node();
-const ctx = canvas.getContext('2d');
-
 const crosshair = fc
     .annotationCanvasCrosshair()
     .xScale(xScale)
     .yScale(yScale)
-    .context(ctx)
     .xLabel(d => format(xScale.invert(d.x)))
     .yLabel(d => format(yScale.invert(d.y)))
     .xDecorate(context => {
@@ -33,9 +26,10 @@ const crosshair = fc
         context.scale(95, 95);
     });
 
+const canvas = container.querySelector('canvas');
+
 d3.select(container)
     .on('draw', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         crosshair(data);
         canvas.onmousemove = ({ offsetX, offsetY }) => {
             data[0] = { x: offsetX, y: offsetY };
@@ -46,6 +40,10 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
+
+        const ctx = canvas.getContext('2d');
+        crosshair.context(ctx);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
 container.requestRedraw();

@@ -11,19 +11,12 @@ const xScale = d3.scaleLinear().domain([0, 1]);
 
 const yScale = d3.scaleLinear().domain([0, 1]);
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const horizontalBand = fc
     .annotationCanvasBand()
     .xScale(xScale)
     .yScale(yScale)
     .fromValue(d => d[0])
     .toValue(d => d[1])
-    .context(ctx)
     .decorate(context => {
         context.fillStyle = 'rgba(102, 0, 204, 0.1)';
     });
@@ -35,7 +28,6 @@ const verticalBand = fc
     .yScale(yScale)
     .fromValue(d => d[0])
     .toValue(d => d[1])
-    .context(ctx)
     .decorate(context => {
         context.fillStyle = 'rgba(0, 204, 0, 0.1)';
     });
@@ -49,6 +41,10 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        horizontalBand.context(ctx);
+        verticalBand.context(ctx);
     });
 
 container.requestRedraw();

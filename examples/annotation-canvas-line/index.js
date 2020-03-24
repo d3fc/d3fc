@@ -4,17 +4,10 @@ const xScale = d3.scaleLinear().domain([0, 1]);
 
 const yScale = d3.scaleLinear().domain([0, 1]);
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const horizontalLine = fc
     .annotationCanvasLine()
     .xScale(xScale)
     .yScale(yScale)
-    .context(ctx)
     .decorate(context => {
         context.fillStyle = 'rgba(204, 0, 0, 0.7)';
         context.strokeStyle = '#c60';
@@ -25,7 +18,6 @@ const verticalLine = fc
     .orient('vertical')
     .xScale(xScale)
     .yScale(yScale)
-    .context(ctx)
     .decorate(context => {
         context.fillStyle = 'rgba(204, 0, 0, 0.7)';
         context.strokeStyle = '#06c';
@@ -40,6 +32,10 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        horizontalLine.context(ctx);
+        verticalLine.context(ctx);
     });
 
 container.requestRedraw();
