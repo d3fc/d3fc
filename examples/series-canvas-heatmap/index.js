@@ -7,12 +7,6 @@ d3.csv('../__data-files__/heatmap-data.csv', type).then(data => {
 
     const yScale = d3.scaleBand().domain(d3.range(1, 8));
 
-    const ctx = d3
-        .select(container)
-        .select('canvas')
-        .node()
-        .getContext('2d');
-
     const series = fc
         .autoBandwidth(fc.seriesCanvasHeatmap())
         .xValue(d => d.hour)
@@ -23,7 +17,6 @@ d3.csv('../__data-files__/heatmap-data.csv', type).then(data => {
         // The band scales require different alignments
         .xAlign('right')
         .yAlign('top')
-        .context(ctx)
         .widthFraction(1.0);
 
     d3.select(container)
@@ -34,6 +27,9 @@ d3.csv('../__data-files__/heatmap-data.csv', type).then(data => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);
+
+            const ctx = container.querySelector('canvas').getContext('2d');
+            series.context(ctx);
         });
 
     container.requestRedraw();

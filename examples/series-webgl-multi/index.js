@@ -24,21 +24,15 @@ const line = fc
     .defined(() => true)
     .equals(previousData => previousData.length > 0);
 
-const gl = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('webgl');
-
 const series = fc
     .seriesWebglMulti()
     .xScale(xScale)
     .yScale(yScale)
-    .context(gl)
     .series([bar, line]);
 
 let pixels = null;
 let frame = 0;
+let gl = null;
 
 d3.select(container)
     .on('click', () => {
@@ -51,6 +45,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
+
+        gl = container.querySelector('canvas').getContext('webgl');
+        series.context(gl);
     })
     .on('draw', () => {
         if (pixels == null) {

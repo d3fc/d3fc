@@ -54,25 +54,19 @@ const yExtent = fc
 
 const yScale = d3.scaleLinear().domain(yExtent(series));
 
-const gl = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('webgl');
-
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 const barSeries = fc
     .seriesWebglBar()
     .xScale(xScale)
     .yScale(yScale)
-    .context(gl)
     .crossValue(d => d.data.State)
     .mainValue(d => d[1])
     .baseValue(d => d[0]);
 
 let pixels = null;
 let frame = 0;
+let gl = null;
 
 d3.select(container)
     .on('click', () => {
@@ -85,6 +79,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
+
+        gl = container.querySelector('canvas').getContext('webgl');
+        barSeries.context(gl);
     })
     .on('draw', () => {
         if (pixels == null) {

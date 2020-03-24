@@ -9,12 +9,6 @@ const xScale = d3.scaleLinear().domain([0, data.length - 1]);
 
 const yScale = d3.scaleLinear().domain(extent(data));
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 const series = fc
@@ -23,7 +17,6 @@ const series = fc
     .yScale(yScale)
     .crossValue((_, i) => i)
     .mainValue(d => d)
-    .context(ctx)
     .decorate((context, _, index) => {
         context.fillStyle = color(index);
     });
@@ -36,6 +29,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([margin, width - margin]);
         yScale.range([height, 0]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        series.context(ctx);
     });
 
 container.requestRedraw();

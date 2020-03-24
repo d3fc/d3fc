@@ -21,12 +21,6 @@ const yScale = d3
     .scaleLinear()
     .domain(extent.accessors([d => d.high, d => d.low])(data));
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const series = fc
     .autoBandwidth(fc.seriesCanvasBoxPlot())
     .xScale(xScale)
@@ -36,8 +30,7 @@ const series = fc
     .upperQuartileValue(d => d.upperQuartile)
     .lowerQuartileValue(d => d.lowerQuartile)
     .highValue(d => d.high)
-    .lowValue(d => d.low)
-    .context(ctx);
+    .lowValue(d => d.low);
 
 d3.select(container)
     .on('draw', () => {
@@ -47,6 +40,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        series.context(ctx);
     });
 
 container.requestRedraw();
