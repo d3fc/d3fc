@@ -24,6 +24,7 @@ export default () => {
         .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
     let previousXScale = null;
     let previousYScale = null;
@@ -34,8 +35,8 @@ export default () => {
         }
 
 
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
         const dataChanged = !equals(previousData, data);
 
         if (dataChanged) {
@@ -65,6 +66,14 @@ export default () => {
             return equals;
         }
         equals = args[0];
+        return errorBar;
+    };
+
+    errorBar.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return errorBar;
     };
 
