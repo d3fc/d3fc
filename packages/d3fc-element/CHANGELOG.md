@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.4.0...@d3fc/d3fc-element@5.4.1) (2020-03-24)
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+
+
+
+
 # [5.4.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.3.28...@d3fc/d3fc-element@5.4.0) (2020-03-19)
 
 
