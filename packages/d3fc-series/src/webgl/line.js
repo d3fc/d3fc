@@ -34,13 +34,14 @@ export default () => {
         .definedNextAttribute(definedNextAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
     let previousXScale = null;
     let previousYScale = null;
 
     const line = (data) => {
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
         const dataChanged = !equals(previousData, data);
 
         if (dataChanged) {
@@ -76,6 +77,14 @@ export default () => {
             return equals;
         }
         equals = args[0];
+        return line;
+    };
+
+    line.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return line;
     };
 

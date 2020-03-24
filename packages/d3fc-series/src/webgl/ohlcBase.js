@@ -27,13 +27,14 @@ export default (pathGenerator) => {
         .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
     let previousXScale = null;
     let previousYScale = null;
 
     const candlestick = (data) => {
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
         const dataChanged = !equals(previousData, data);
 
         if (dataChanged) {
@@ -65,6 +66,14 @@ export default (pathGenerator) => {
             return equals;
         }
         equals = args[0];
+        return candlestick;
+    };
+
+    candlestick.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return candlestick;
     };
 
