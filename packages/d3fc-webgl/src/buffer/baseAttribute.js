@@ -29,7 +29,9 @@ export default () => {
         gl.enableVertexAttribArray(location);
 
         const extInstancedArrays = programBuilder.extInstancedArrays();
-        extInstancedArrays.vertexAttribDivisorANGLE(location, divisor);
+        if (extInstancedArrays != null) {
+            extInstancedArrays.vertexAttribDivisorANGLE(location, divisor);
+        }
     };
 
     baseAttribute.location = (...args) => {
