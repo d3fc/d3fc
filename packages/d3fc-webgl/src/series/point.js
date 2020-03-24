@@ -4,19 +4,9 @@ import circlePointShader from '../shaders/point/circle/baseShader';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import rebindCurry from '../rebindCurry';
-import vertexAttribute from '../buffer/vertexAttribute';
-import elementIndices from '../buffer/elementIndices';
 
 export default () => {
     const program = programBuilder().mode(drawModes.POINTS);
-
-    // hack to allow a consistent instanced render path
-    const ignoredAttribute = vertexAttribute().data([0]);
-
-    program
-        .buffers()
-        .attribute('aIgnored', ignoredAttribute)
-        .elementIndices(elementIndices([0]));
 
     let xScale = baseScale();
     let yScale = baseScale();
@@ -24,14 +14,7 @@ export default () => {
     let decorate = () => {};
 
     const draw = numElements => {
-        program
-            .vertexShader(
-                type
-                    .vertex()
-                    .appendHeader('attribute float aIgnored;')
-                    .appendBody('gl_Position += aIgnored;')
-            )
-            .fragmentShader(type.fragment());
+        program.vertexShader(type.vertex()).fragmentShader(type.fragment());
 
         xScale(program, 'gl_Position', 0);
         yScale(program, 'gl_Position', 1);
