@@ -30,13 +30,12 @@ const svg = d3.select(container).select('svg');
 
 d3.select(container)
     .on('draw', () => {
-        svg.datum(data)
-            .call(crosshair)
-            .on('mousemove', () => {
-                const { clientX, clientY } = event;
-                data[0] = { x: clientX, y: clientY };
-                container.requestRedraw();
-            });
+        svg.datum(data).call(crosshair);
+    })
+    .on('mousemove', () => {
+        const { clientX, clientY } = event;
+        data[0] = { x: clientX, y: clientY };
+        container.requestRedraw();
     })
     .on('measure', () => {
         const { width, height } = event.detail;
