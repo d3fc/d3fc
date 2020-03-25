@@ -1,5 +1,4 @@
 import boxPlotBase from '../boxPlotBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesBoxPlot,
     webglElementAttribute,
@@ -34,7 +33,10 @@ export default () => {
         .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
     let cap = functor(20);
 
     const boxPlot = (data) => {
@@ -42,21 +44,27 @@ export default () => {
             throw new Error(`Unsupported orientation ${base.orient()}`);
         }
 
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-        
+            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            capAttribute.value((d, i) => cap(d, i)).data(data);
+            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
+        }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
             crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
             highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
             upperQuartileValueAttribute.value((d, i) => yScale.scale(base.upperQuartileValue()(d, i))).data(data);
             medianValueAttribute.value((d, i) => yScale.scale(base.medianValue()(d, i))).data(data);
             lowerQuartileValueAttribute.value((d, i) => yScale.scale(base.lowerQuartileValue()(d, i))).data(data);
             lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
-            capAttribute.value((d, i) => cap(d, i)).data(data);
-            definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
 
         draw.xScale(xScale.webglScale)
@@ -79,6 +87,14 @@ export default () => {
             return equals;
         }
         equals = args[0];
+        return boxPlot;
+    };
+
+    boxPlot.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return boxPlot;
     };
     

@@ -37,26 +37,42 @@ export default () => {
 
         buffers(build, program);
 
-        if (mode !== drawModes.POINTS && mode !== drawModes.TRIANGLES) {
-            throw Error(
-                `Expected mode TRIANGLES (${drawModes.TRIANGLES}) or POINTS (${drawModes.POINTS}). ${mode} received instead.`
-            );
+        switch (mode) {
+            case drawModes.TRIANGLES: {
+                if (buffers.elementIndices() == null) {
+                    throw new Error('Element indices must be provided.');
+                }
+                extInstancedArrays.drawElementsInstancedANGLE(
+                    mode,
+                    buffers.elementIndices().data().length,
+                    context.UNSIGNED_SHORT,
+                    0,
+                    count
+                );
+                break;
+            }
+            case drawModes.POINTS: {
+                if (buffers.elementIndices() != null) {
+                    throw new Error('Element indices must not be provided.');
+                }
+                context.drawArrays(mode, 0, count);
+                break;
+            }
+            default: {
+                throw new Error(`Unsupported drawing mode ${mode}.`);
+            }
         }
-
-        if (buffers.elementIndices() == null) {
-            throw Error('Element indices must be provided.');
-        }
-
-        extInstancedArrays.drawElementsInstancedANGLE(
-            mode,
-            buffers.elementIndices().data().length,
-            context.UNSIGNED_SHORT,
-            0,
-            count
-        );
     };
 
-    build.extInstancedArrays = () => extInstancedArrays;
+    build.extInstancedArrays = () => {
+        // This equates the choice of drawing mode with opting-in to instanced
+        // rendering. These are not equivalent. However, we don't currently
+        // have a use case for distinguishing between them.
+        if (mode === drawModes.TRIANGLES) {
+            return extInstancedArrays;
+        }
+        return null;
+    };
 
     build.context = (...args) => {
         if (!args.length) {
