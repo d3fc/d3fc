@@ -16,20 +16,13 @@ const yScale = d3
     .scaleLinear()
     .domain(fc.extentLinear().include([0])(data.map(d => d.y)));
 
-const ctx = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('2d');
-
 const series = fc
     .autoBandwidth(fc.seriesCanvasBar())
     .xScale(xScale)
     .yScale(yScale)
     .align('left')
     .crossValue(d => d.x)
-    .mainValue(d => d.y)
-    .context(ctx);
+    .mainValue(d => d.y);
 
 d3.select(container)
     .on('draw', () => {
@@ -39,6 +32,9 @@ d3.select(container)
         const { width, height } = event.detail;
         xScale.rangeRound([0, width]);
         yScale.range([height, 0]);
+
+        const ctx = container.querySelector('canvas').getContext('2d');
+        series.context(ctx);
     });
 
 container.requestRedraw();
