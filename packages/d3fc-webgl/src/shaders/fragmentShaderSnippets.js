@@ -46,6 +46,34 @@ export const star = {
         }`
 };
 
+export const wye = {
+    header: `
+        varying float vSize;
+        varying float vDefined;
+    `,
+    body: `
+        float canFill = 1.0;
+
+        vec2 p = 2.0 * gl_PointCoord - 1.0;
+        p.y *= -1.0;
+
+        // sector
+        float an = 3.141593 / 3.0;
+        float bn = mod(atan(p.x, p.y), 2.0 * an) - an;
+        p = length(p) * vec2(cos(bn), abs(sin(bn)));
+
+        // box
+        vec2 d = abs(p) - vec2(0.9, 0.35);
+        float sdf = length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+
+        float distance = 1.0 + sdf;
+        float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);
+        if (distance > 1.0 || vDefined < 0.5) {
+            discard;
+            return;
+        }`
+};
+
 export const square = {
     header: `
         varying float vSize;
