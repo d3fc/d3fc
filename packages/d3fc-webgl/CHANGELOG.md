@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.8.2...@d3fc/d3fc-webgl@1.9.0) (2020-03-25)
+
+
+### Features
+
+* add webgl star symbol ([c5124dd](https://github.com/d3fc/d3fc/commit/c5124dd))
+* add webgl wye symbol ([267ba37](https://github.com/d3fc/d3fc/commit/267ba37))
+
+
+
+
+
 ## [1.8.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.8.1...@d3fc/d3fc-webgl@1.8.2) (2020-03-25)
 
 **Note:** Version bump only for package @d3fc/d3fc-webgl

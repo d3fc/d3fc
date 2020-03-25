@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.7.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.6.0...@d3fc/d3fc-series@4.7.0) (2020-03-25)
+
+
+### Features
+
+* add webgl star symbol ([c5124dd](https://github.com/d3fc/d3fc/commit/c5124dd))
+* add webgl wye symbol ([267ba37](https://github.com/d3fc/d3fc/commit/267ba37))
+
+
+
+
+
 # [4.6.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.5.1...@d3fc/d3fc-series@4.6.0) (2020-03-25)
 
 
