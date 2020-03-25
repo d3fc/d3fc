@@ -31,10 +31,11 @@ const canvas = container.querySelector('canvas');
 d3.select(container)
     .on('draw', () => {
         crosshair(data);
-        canvas.onmousemove = ({ offsetX, offsetY }) => {
-            data[0] = { x: offsetX, y: offsetY };
-            container.requestRedraw();
-        };
+    })
+    .on('mousemove', () => {
+        const { clientX, clientY } = event;
+        data[0] = { x: clientX, y: clientY };
+        container.requestRedraw();
     })
     .on('measure', () => {
         const { width, height } = event.detail;
