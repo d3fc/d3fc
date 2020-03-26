@@ -123,6 +123,8 @@ Because D3 data-joins and data-binding only work on HTML / SVG, the canvas compo
 
 #### WebGL rendering
 
+*If this is your first time using WebGL, this collection of higher-level series components is the best place to start. Only investigate the low-level components in [d3fc-webgl](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#d3fc-webgl) if you need bespoke functionality.*
+
 ***WebGL rendering does not yet have full feature parity with the other rendering methods. Please check the API documentation against the methods to see what is currently supported.***
 
 The `seriesWebglLine` component has an API that is almost identical to its canvas counterpart, `seriesCanvasLine`. The only difference is the `context` property, which requires a `contextType` of `'webgl'`. 
