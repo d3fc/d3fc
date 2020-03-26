@@ -24,7 +24,7 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "dependencies": {
-    "d3-fetch": "^1.1.0"
+    "d3-fetch": "^1.1.2"
   },
   "publishConfig": {
     "access": "public"

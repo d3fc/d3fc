@@ -54,7 +54,7 @@
     "commitizen": "^4.0.3",
     "cross-spawn": "^5.0.1",
     "cz-conventional-changelog": "^3.0.2",
-    "d3": "^5.7.0",
+    "d3": "^5.15.0",
     "eol": "^0.4.0",
     "eslint": "^6.7.1",
     "eslint-config-prettier": "^6.7.0",

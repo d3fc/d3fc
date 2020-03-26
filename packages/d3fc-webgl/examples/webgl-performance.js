@@ -36,9 +36,9 @@ const getWebglSeries = () =>
             // decorated so that styling matches canvas point implementation
             // ideally this wouldn't be needed (i.e. web gl points would natively be styled the same as canvas points)
 
-            fc.pointFill()(program);
-            fc.pointStroke()(program);
-            fc.pointAntiAlias()(program);
+            fc.webglFillColor()(program);
+            fc.webglStrokeColor()(program);
+            // fc.pointAntiAlias()(program);
 
             const context = program.context();
             context.enable(context.BLEND);

@@ -44,12 +44,12 @@
     "@d3fc/d3fc-random-data": "^3.1.0",
     "@d3fc/d3fc-rebind": "^5.0.8",
     "@d3fc/d3fc-series": "^4.7.2",
-    "d3": "^4.2.5",
+    "d3": "^5.15.0",
     "fs-promise": "^1.0.0"
   },
   "dependencies": {
     "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-array": "^1.0.0"
+    "d3-array": "^2.4.0"
   },
   "publishConfig": {
     "access": "public"

@@ -24,14 +24,14 @@
     "deploy-site": "npm run site && bash ./site/deploy.sh"
   },
   "devDependencies": {
-    "d3": "^4.11.0"
+    "d3": "^5.15.0"
   },
   "dependencies": {
     "@d3fc/d3fc-data-join": "^5.1.0",
     "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-array": "^1.0.0",
-    "d3-scale": "^1.0.6",
-    "d3-selection": "^1.0.0"
+    "d3-array": "^2.4.0",
+    "d3-scale": "^3.2.1",
+    "d3-selection": "^1.4.1"
   },
   "publishConfig": {
     "access": "public"

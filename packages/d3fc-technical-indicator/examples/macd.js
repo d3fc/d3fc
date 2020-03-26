@@ -52,7 +52,7 @@ const macdExample = () => {
         return macd;
     };
 
-    fc.rebind(macd, divergenceBar, 'barWidth');
+    fc.rebind(macd, divergenceBar, 'bandwidth');
 
     return macd;
 };
