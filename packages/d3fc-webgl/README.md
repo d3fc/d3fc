@@ -49,6 +49,8 @@ This package contains the components needed to render a standard or custom serie
 
 ### Series
 
+*If this is your first time using WebGL, this collection of very low-level components is not the best place to start. See other packages (e.g. [d3fc-series](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series#d3fc-series)) for higher-level components which make use of these low-level components.*
+
 The series share a common API with a typical configuration requiring x and y WebGL scales together with a number of attribute buffers.
 
 Some of the series make use of `next`/`previous` attributes. These are needed in situations where the current element requires information about adjacent elements in order to be drawn correctly. For example when drawing a line we need to know information about adjacent data points so that we can draw the connection between them correctly.
