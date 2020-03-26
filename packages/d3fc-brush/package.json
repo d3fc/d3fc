@@ -25,15 +25,15 @@
     "@d3fc/d3fc-chart": "^3.1.4",
     "@d3fc/d3fc-extent": "^3.2.0",
     "@d3fc/d3fc-random-data": "^3.1.0",
-    "d3": "^4.2.5"
+    "d3": "^5.15.0"
   },
   "dependencies": {
     "@d3fc/d3fc-data-join": "^5.1.0",
     "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-brush": "^1.0.3",
-    "d3-dispatch": "^1.0.2",
-    "d3-scale": "^1.0.3",
-    "d3-selection": "^1.0.2"
+    "d3-brush": "^1.1.5",
+    "d3-dispatch": "^1.0.6",
+    "d3-scale": "^3.2.1",
+    "d3-selection": "^1.4.1"
   },
   "publishConfig": {
     "access": "public"
