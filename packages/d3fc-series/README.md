@@ -148,8 +148,18 @@ const line = fc.seriesWebglLine()
 line(data);
 ```
 
-As with the canvas, the components are invoked directly with the supplied data.
+As with the canvas, the components are invoked directly with the supplied data. However, as with the transition from SVG to canvas, WebGL has its own subtle differences.
 
+WebGL is based upon a pipeline of processing the data into the an appropriate format for the GPU, loading this data into the GPU and then allowing the GPU to process the data in a highly parallel fashion. When using these components, the bottlenecks in this pipeline are most commonly the pre-processing of data and the loading of data into the GPU, both of which are performed or controlled by JavaScript.
+
+Some of this performance optimisation is addressed by the design of the components (e.g. how we pre-process the data and in to what form) and some of it necessitates the optimal use of the components by consumers (e.g. when we need to pre-process/load the data). In all cases consumers should be aiming to reduce the amount of pre-processing and loading of data to achieve the best performance. 
+
+The components offer two WebGL-specific methods to allow finer control over these processses -
+
+* `equals` - This property is an equality function to control whether any pre-processing of the data is required i.e. is the data being rendered equal to the rendered on the previous call. If the data is considered equal, then the value accessors will not be invoked and the data previously loaded into the GPU will be re-used. The only exception to this is if one of the scales has a JavaScript pre-processing requirement, see the next bullet.
+* `scaleMapper` - This property is a mapping function which controls whether the scales require JavaScript pre-processing or are pure GPU implementations. If a scale has a pure GPU implemention, then the data previously loaded into the GPU will be re-used and no JavaScript processing will be required. If not, the value accessor for the scaled value as well as the scaling function itself will be invoked for each data point, the resulting data will then be transferred to the GPU before rendering.
+
+Where datasets are static, the above properties will be sufficient to achieve the best performance. Where datasets are dynamic, splitting the datasets into separate dynamic/static datasets and rendering each as a separate series (following the above advice) will achieve the best performance. If this is not possible then dropping down to lower-level [d3fc-webgl](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#d3fc-webgl) components may be required to achieve the best performance. However, this requires a considered approach and should only be attempted if the above advice can't be followed.
 
 #### Decorate Pattern
 
