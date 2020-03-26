@@ -29,8 +29,8 @@
   },
   "dependencies": {
     "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-random": "^1.0.0",
-    "d3-time": "^1.0.0"
+    "d3-random": "^2.1.0",
+    "d3-time": "^1.1.0"
   },
   "publishConfig": {
     "access": "public"
