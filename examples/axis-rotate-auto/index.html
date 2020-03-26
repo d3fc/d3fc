@@ -1,11 +1,12 @@
 <html>
-<head>
-    <script src="../node_modules/babel-polyfill/dist/polyfill.js"></script>
-    <script src="../node_modules/d3/dist/d3.js"></script>
-    <script src="../../d3fc/build/d3fc.js"></script>
 
+<head>
+    <script src="../../node_modules/seedrandom/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="../../node_modules/d3/dist/d3.js"></script>
+    <script src="../../packages/d3fc/build/d3fc.js"></script>
     <style>
-        .container {
+        body {
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -55,27 +56,25 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h4>Decorate</h4>
-        <svg id="decorateRotate"></svg>
 
-        <div class="side-by-side">
-            <div class="ordinal-group">
-                <div class="label">Auto rotate</div>
-                <svg id="topAuto" class="top"></svg>
-                <svg id="leftAuto" class="left"></svg>
-                <svg id="rightAuto" class="right"></svg>
-                <svg id="bottomAuto" class="bottom"></svg>
-            </div>
-            <div class="ordinal-group">
-                <div class="label">Fixed rotation</div>
-                <svg id="topFixed" class="top"></svg>
-                <svg id="leftFixed" class="left"></svg>
-                <svg id="rightFixed" class="right"></svg>
-                <svg id="bottomFixed" class="bottom"></svg>
-            </div>
+<body>
+    <div class="side-by-side">
+        <div class="ordinal-group">
+            <div class="label">Auto rotate</div>
+            <svg id="topAuto" class="top"></svg>
+            <svg id="leftAuto" class="left"></svg>
+            <svg id="rightAuto" class="right"></svg>
+            <svg id="bottomAuto" class="bottom"></svg>
         </div>
-    <script src="rotate.js"></script>
+        <div class="ordinal-group">
+            <div class="label">Fixed rotation</div>
+            <svg id="topFixed" class="top"></svg>
+            <svg id="leftFixed" class="left"></svg>
+            <svg id="rightFixed" class="right"></svg>
+            <svg id="bottomFixed" class="bottom"></svg>
+        </div>
+    </div>
+    <script src="index.js"></script>
 </body>
+
 </html>
