@@ -23,9 +23,9 @@ const getWebglSeries = () =>
         .mainValue(mainValue)
         .type(d3.symbolSquare)
         .decorate(program => {
-            fc.pointFill()(program);
-            fc.pointStroke()(program);
-            fc.pointAntiAlias()(program);
+            fc.webglFillColor()(program);
+            fc.webglStrokeColor()(program);
+            // fc.pointAntiAlias()(program);
 
             const context = program.context();
             context.enable(context.BLEND);
