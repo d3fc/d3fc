@@ -28,6 +28,7 @@ npm install @d3fc/d3fc-webgl
     * [Adjacent Element Attribute](#adjacent-element-attribute)
     * [Vertex Attribute](#vertex-attribute)
     * [Base Attribute](#base-attribute)
+    * [Constant Attribute](#constant-attribute)
   * [Uniform Builder](#uniform-builder)
   * [Buffer Builder](#buffer-builder)
   * [Element Indices](#element-indices)
@@ -598,6 +599,44 @@ The stride property is used to specify the offset in bytes between the start of 
 If *offset* is specified, sets the offset property and returns this attribute builder. If *offset* is not specified, returns the current offset.
 
 The offset property is used to specify the offset in bytes of the first value in the vertex attribute array. If set, the offset must be a multiple of the byte length of [type](#base-attribute).
+
+##### Constant Attribute
+
+<a name="webglConstantAttribute" href="#webglConstantAttribute">#</a> fc.**webglConstantAttribute**()
+
+Used to generate a buffer containing a single constant value to be used on for each vertex. 
+
+<a name="webglConstantAttribute_location" href="#webglConstantAttribute_location">#</a> *webglConstantAttribute*.**location**(*index*)
+
+If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
+
+The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
+
+<a name="webglConstantAttribute_size" href="#webglConstantAttribute_size">#</a> *webglConstantAttribute*.**size**(*size*)
+
+If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
+
+The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
+
+<a name="webglConstantAttribute_type" href="#webglConstantAttribute_type">#</a> *webglConstantAttribute*.**type**(*type*)
+
+If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
+
+The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
+
+<a name="webglConstantAttribute_normalized" href="#webglConstantAttribute_normalized">#</a> *webglConstantAttribute*.**normalized**(*boolean*)
+
+If *boolean* is specified, sets the normalized property and returns this attribute builder. If *boolean* is not specified, returns the current value of normalized.
+
+The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
+
+More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
+
+<a name="webglConstantAttribute_value" href="#webglConstantAttribute_value">#</a> *webglConstantAttribute*.**value**(*value*)
+
+If *value* is specified, sets the constant value and returns this attribute builder. If *value* is not specified, returns the current value.
+
+The value property is an array of length [size](#webglConstantAttribute_size).
 
 #### Uniform Builder
 
