@@ -1,4 +1,4 @@
-const data = fc.randomGeometricBrownianMotion().steps(1e4)(1);
+const data = fc.randomGeometricBrownianMotion().steps(1e5)(1);
 
 const extent = fc.extentLinear();
 
@@ -14,6 +14,19 @@ const gl = d3
     .node()
     .getContext('webgl');
 
+const mainValueAttribute = fc
+    .webglStreamingElementAttribute()
+    .value(() => 1)
+    .count(data.length);
+
+setInterval(() => {
+    mainValueAttribute.enqueue(
+        { length: 100 },
+        Math.floor(Math.random() * 1000) * 100
+    );
+    container.requestRedraw();
+}, 10);
+
 const series = fc
     .seriesWebglPoint()
     .xScale(xScale)
@@ -22,7 +35,10 @@ const series = fc
     .crossValue((d, i) => i)
     .mainValue(d => d)
     .defined(() => true)
-    .equals((previousData, data) => previousData.length > 0);
+    .equals((previousData, data) => previousData.length > 0)
+    .decorate(program => {
+        program.buffers().attribute('aDefined', mainValueAttribute);
+    });
 
 let pixels = null;
 let frame = 0;
