@@ -26,6 +26,7 @@ npm install @d3fc/d3fc-webgl
   * [Attribute Buffer Builders](#attribute-buffer-builders)
     * [Element Attribute](#element-attribute)
     * [Adjacent Element Attribute](#adjacent-element-attribute)
+    * [Streaming Element Attribute](#streaming-element-attribute)
     * [Vertex Attribute](#vertex-attribute)
     * [Base Attribute](#base-attribute)
     * [Constant Attribute](#constant-attribute)
@@ -495,6 +496,60 @@ If *type* is specified, sets the type property and returns this attribute builde
 The type property is used to specify the type of the typed array used for the buffer data, the default is `Float`. Valid types can be accessed from [webglTypes](#types).
 
 <a name="webglAdjacentElementAttribute_clear" href="#webglAdjacentElementAttribute_clear">#</a> *webglAdjacentElementAttribute*.**clear**()
+
+Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
+
+##### Streaming Element Attribute
+
+<a name="webglStreamingElementAttribute" href="#webglStreamingElementAttribute">#</a> fc.**webglStreamingElementAttribute**()
+
+Used to generate a buffer containing values to be used on a per element basis. Values are updated in ranges using [enqueue](#webglStreamingElementAttribute_enqueue). In this context an element is an instance of a repeatedly drawn object, for example each individual candlestick on a candlestick chart is an element.
+
+<a name="webglStreamingElementAttribute_enqueue" href="#webglStreamingElementAttribute_enqueue">#</a> *webglStreamingElementAttribute*.**enqueue**(*data*, *offset*)
+
+The enqueue method specifies a range of *data* to be updated starting at the supplied *offset*. The length of the range is set by the length of *data*. 
+
+<a name="webglStreamingElementAttribute_normalized" href="#webglStreamingElementAttribute_normalized">#</a> *webglStreamingElementAttribute*.**normalized**(*boolean*)
+
+If *boolean* is specified, sets the normalized property and returns this attribute builder. If *boolean* is not specified, returns the current value of normalized.
+
+The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
+
+More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
+
+<a name="webglStreamingElementAttribute_location" href="#webglStreamingElementAttribute_location">#</a> *webglStreamingElementAttribute*.**location**(*index*)
+
+If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
+
+The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
+
+<a name="webglStreamingElementAttribute_count" href="#webglStreamingElementAttribute_count">#</a> *webglStreamingElementAttribute*.**count**(*count*)
+
+If *count* is specified, sets the count property and returns this attribute builder. If *count* is not specified, returns the current value of count.
+
+The count property sets the total number of values.
+
+<a name="webglStreamingElementAttribute_value" href="#webglStreamingElementAttribute_value">#</a> *webglStreamingElementAttribute*.**value**(*valueFunc*)
+
+If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
+
+The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*.
+
+If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
+
+<a name="webglStreamingElementAttribute_size" href="#webglStreamingElementAttribute_size">#</a> *webglStreamingElementAttribute*.**size**(*size*)
+
+If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
+
+The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
+
+<a name="webglStreamingElementAttribute_type" href="#webglStreamingElementAttribute_type">#</a> *webglStreamingElementAttribute*.**type**(*type*)
+
+If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
+
+The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
+
+<a name="webglStreamingElementAttribute_clear" href="#webglStreamingElementAttribute_clear">#</a> *webglStreamingElementAttribute*.**clear**()
 
 Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
 

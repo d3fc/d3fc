@@ -11,6 +11,7 @@ export { default as webglBufferBuilder } from './src/buffer/bufferBuilder';
 export { default as webglBaseAttribute } from './src/buffer/baseAttribute';
 export { default as webglAdjacentElementAttribute } from './src/buffer/adjacentElementAttribute';
 export { default as webglElementAttribute } from './src/buffer/elementAttribute';
+export { default as webglStreamingElementAttribute } from './src/buffer/streamingElementAttribute';
 export { default as webglConstantAttribute } from './src/buffer/constantAttribute';
 export { default as webglVertexAttribute } from './src/buffer/vertexAttribute';
 export { default as webglUniform } from './src/buffer/uniform';
