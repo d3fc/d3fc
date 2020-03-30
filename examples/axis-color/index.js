@@ -16,8 +16,6 @@ d3.select(container)
     .on('draw', () => {
         d3.select(container)
             .select('svg')
-            .append('g')
-            .attr('transform', 'translate(0, 10)')
             .call(axis);
     })
     .on('measure', () => {

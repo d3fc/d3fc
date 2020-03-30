@@ -17,48 +17,46 @@ const domain = [
     'Popcorn'
 ];
 
-const scale = d3.scaleBand().domain(domain);
-
 const draw = () => {
-    const renderAxis = (axisFactory, selector, transform) => {
-        const hostElement = d3.select(selector).node();
-        const groupRect = hostElement.getBoundingClientRect();
+    const renderAxis = (axisFactory, selector) => {
+        const container = document.querySelector(selector);
 
-        scale.range([
-            0,
-            hostElement.getAttribute('data-orient') === 'vertical'
-                ? groupRect.height
-                : groupRect.width
-        ]);
-
+        const scale = d3.scaleBand().domain(domain);
         const axis = axisFactory(scale);
 
-        const join = fc.dataJoin('g', 'axis');
-        join(d3.select(selector), [{}])
-            .attr('transform', transform)
-            .call(axis);
+        d3.select(container)
+            .on('draw', () => {
+                d3.select(container)
+                    .select('svg')
+                    .call(axis);
+            })
+            .on('measure', () => {
+                const { width, height } = event.detail;
+                scale.range([
+                    0,
+                    container.getAttribute('data-orient') === 'vertical'
+                        ? height
+                        : width
+                ]);
+
+                const containerId = container.getAttribute('id');
+                const topOffset = containerId === 'top' ? 80 : 0;
+                const leftOffset = containerId === 'left' ? 160 : 0;
+
+                d3.select(container)
+                    .select('svg')
+                    .attr(
+                        'viewBox',
+                        `${-leftOffset} ${-topOffset} ${width} ${height}`
+                    );
+            });
+        container.requestRedraw();
     };
 
-    renderAxis(
-        scale => fc.axisLabelOffset(fc.axisBottom(scale)),
-        '#bottom svg',
-        'translate(0, 0)'
-    );
-    renderAxis(
-        scale => fc.axisLabelOffset(fc.axisTop(scale)),
-        '#top svg',
-        'translate(0, 80)'
-    );
-    renderAxis(
-        scale => fc.axisLabelOffset(fc.axisLeft(scale)),
-        '#left svg',
-        'translate(160, 0)'
-    );
-    renderAxis(
-        scale => fc.axisLabelOffset(fc.axisRight(scale)),
-        '#right svg',
-        'translate(0, 0)'
-    );
+    renderAxis(scale => fc.axisLabelOffset(fc.axisBottom(scale)), '#bottom');
+    renderAxis(scale => fc.axisLabelOffset(fc.axisTop(scale)), '#top');
+    renderAxis(scale => fc.axisLabelOffset(fc.axisLeft(scale)), '#left');
+    renderAxis(scale => fc.axisLabelOffset(fc.axisRight(scale)), '#right');
 };
 
 draw();

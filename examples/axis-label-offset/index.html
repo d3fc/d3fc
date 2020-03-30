@@ -19,16 +19,6 @@
             grid-template-rows: 80px 1fr 80px;
         }
 
-        .container div {
-            display: flex;
-        }
-
-        svg {
-            flex: 1;
-            width: 100%;
-            overflow: visible
-        }
-
         #top {
             grid-column: 2;
             grid-row: 1;
@@ -50,10 +40,10 @@
 
 <body>
     <div class="container">
-        <div id="top"><svg data-orient="horizontal"></svg></div>
-        <div id="left"><svg data-orient="vertical"></svg></div>
-        <div id="right"><svg data-orient="vertical"></svg></div>
-        <div id="bottom"><svg data-orient="horizontal"></svg></div>
+        <d3fc-svg id="top" data-orient="horizontal"></d3fc-svg>
+        <d3fc-svg id="left" data-orient="vertical"></d3fc-svg>
+        <d3fc-svg id="right" data-orient="vertical"></d3fc-svg>
+        <d3fc-svg id="bottom" data-orient="horizontal"></d3fc-svg>
     </div>
     <script src="index.js"></script>
 </body>

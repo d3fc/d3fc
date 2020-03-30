@@ -1,90 +1,80 @@
-const width = 400;
-const height = 80;
-const margin = 10;
-
-const scale = d3
-    .scaleBand()
-    .domain([
-        'Carrots',
-        'Bananas',
-        'Sausages',
-        'Pickles',
-        'Aubergines',
-        'Artichokes',
-        'Spinach',
-        'Cucumber'
-    ])
-    .range([margin, width - 40 - margin]);
+const domain = [
+    'Carrots',
+    'Bananas',
+    'Sausages',
+    'Pickles',
+    'Aubergines',
+    'Artichokes',
+    'Spinach',
+    'Cucumber'
+];
 
 const draw = () => {
-    const groupRect = d3
-        .select('.ordinal-group')
-        .node()
-        .getBoundingClientRect();
-    const groupSize = {
-        width: Math.max(50, groupRect.width - 2 * height),
-        height: Math.max(50, groupRect.height - 2 * height)
-    };
+    const renderAxis = (axisFactory, selector) => {
+        const container = document.querySelector(selector);
 
-    const renderAxis = (target, axis) => {
-        const side = target.attr('class');
-        const vertical = side === 'left' || side === 'right';
+        const scale = d3.scaleBand().domain(domain);
+        const axis = axisFactory(scale);
 
-        scale.range([0, vertical ? groupSize.height : groupSize.width]);
-
-        target
-            .attr('width', `${vertical ? height : groupSize.width}px`)
-            .attr('height', `${vertical ? groupSize.height : height}px`);
-
-        let axisElement = target.select('g');
-        if (!axisElement.size()) axisElement = target.append('g');
-
-        axisElement
-            .attr('transform', () => {
-                if (side === 'top') return `translate(0, ${height})`;
-                if (side === 'left') return `translate(${height}, 0)`;
+        d3.select(container)
+            .on('draw', () => {
+                d3.select(container)
+                    .select('svg')
+                    .call(axis);
             })
-            .call(axis);
+            .on('measure', () => {
+                const { width, height } = event.detail;
+                const side = container.getAttribute('class');
+
+                const vertical = side === 'left' || side === 'right';
+                scale.range([0, vertical ? height : width]);
+
+                const topOffset = side === 'top' ? 80 : 0;
+                const leftOffset = side === 'left' ? 80 : 0;
+
+                d3.select(container)
+                    .select('svg')
+                    .attr(
+                        'viewBox',
+                        `${-leftOffset} ${-topOffset} ${width} ${height}`
+                    );
+            });
+        container.requestRedraw();
     };
 
     renderAxis(
-        d3.select('#topAuto'),
-        fc.axisLabelRotate(fc.axisOrdinalTop(scale))
+        scale => fc.axisLabelRotate(fc.axisOrdinalTop(scale)),
+        '#topAuto'
+    );
+    renderAxis(
+        scale => fc.axisLabelRotate(fc.axisOrdinalBottom(scale)),
+        '#bottomAuto'
+    );
+    renderAxis(
+        scale => fc.axisLabelRotate(fc.axisOrdinalLeft(scale)),
+        '#leftAuto'
+    );
+    renderAxis(
+        scale => fc.axisLabelRotate(fc.axisOrdinalRight(scale)),
+        '#rightAuto'
     );
 
     renderAxis(
-        d3.select('#bottomAuto'),
-        fc.axisLabelRotate(fc.axisOrdinalBottom(scale))
+        scale => fc.axisLabelRotate(fc.axisOrdinalTop(scale)).labelRotate(30),
+        '#topFixed'
     );
-
     renderAxis(
-        d3.select('#leftAuto'),
-        fc.axisLabelRotate(fc.axisOrdinalLeft(scale))
+        scale =>
+            fc.axisLabelRotate(fc.axisOrdinalBottom(scale)).labelRotate(30),
+        '#bottomFixed'
     );
-
     renderAxis(
-        d3.select('#rightAuto'),
-        fc.axisLabelRotate(fc.axisOrdinalRight(scale))
+        scale => fc.axisLabelRotate(fc.axisOrdinalLeft(scale)).labelRotate(30),
+        '#leftFixed'
     );
-
     renderAxis(
-        d3.select('#topFixed'),
-        fc.axisLabelRotate(fc.axisOrdinalTop(scale)).labelRotate(30)
-    );
-
-    renderAxis(
-        d3.select('#bottomFixed'),
-        fc.axisLabelRotate(fc.axisOrdinalBottom(scale)).labelRotate(30)
-    );
-
-    renderAxis(
-        d3.select('#leftFixed'),
-        fc.axisLabelRotate(fc.axisOrdinalLeft(scale)).labelRotate(30)
-    );
-
-    renderAxis(
-        d3.select('#rightFixed'),
-        fc.axisLabelRotate(fc.axisOrdinalRight(scale)).labelRotate(30)
+        scale => fc.axisLabelRotate(fc.axisOrdinalRight(scale)).labelRotate(30),
+        '#rightFixed'
     );
 };
 

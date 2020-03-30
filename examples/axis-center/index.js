@@ -17,7 +17,6 @@ d3.select(bandContainer)
     .on('draw', () => {
         d3.select(bandContainer)
             .select('svg')
-            .append('g')
             .call(bandAxis);
     })
     .on('measure', () => {
@@ -49,7 +48,6 @@ const categoryAxis = fc
 d3.select(categoryContainer).on('draw', () => {
     d3.select(categoryContainer)
         .select('svg')
-        .append('g')
         .call(categoryAxis);
 });
 
