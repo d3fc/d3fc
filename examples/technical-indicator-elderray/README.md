@@ -1,0 +1,1 @@
+# Technical Indicator Elder Ray
