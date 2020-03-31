@@ -106,8 +106,8 @@ d3.json('../__data-files__/star-data.json').then(data => {
 
     d3.select('#showLabels').on('change', () => {
         includeOverlay = d3.event.target.checked;
-        requestAnimationFrame(render);
+        render();
     });
 
-    requestAnimationFrame(render);
+    render();
 });
