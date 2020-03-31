@@ -20,15 +20,17 @@ export default (initialValue = [0, 0, 0, 1]) => {
             .appendHeaderIfNotExists(fragmentShaderSnippets.strokeColor.header)
             .appendBodyIfNotExists(fragmentShaderSnippets.strokeColor.body);
 
-        if (!dirty) {
-            return;
-        }
-
         if (Array.isArray(value)) {
             programBuilder
                 .buffers()
                 .attribute('aStrokeColor', constantAttribute(value).size(4));
         } else if (typeof value === 'function') {
+            if (!dirty) {
+                return;
+            }
+
+            // The following line is expensive and is the one we want to skip,
+            // the rest aren't.
             attribute.value(value);
             programBuilder.buffers().attribute('aStrokeColor', attribute);
         } else {
