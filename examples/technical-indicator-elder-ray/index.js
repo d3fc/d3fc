@@ -88,19 +88,13 @@ const elderRayExample = () => {
     return elderRay;
 };
 
-const width = 500;
-const height = 250;
-
-const container = d3.select('d3fc-svg');
-
 const dataGenerator = fc.randomFinancial()
     .startDate(new Date(2014, 1, 1));
 
 const data = dataGenerator(50);
 
 const xScale = d3.scaleTime()
-    .domain(fc.extentDate().accessors([d => d.date])(data))
-    .range([0, width]);
+    .domain(fc.extentDate().accessors([d => d.date])(data));
 
 // START
 // Create and apply the elder ray algorithm
@@ -109,21 +103,32 @@ const elderRayData = elderRayAlgorithm(data);
 const mergedData = data.map((d, i) => Object.assign({}, d, elderRayData[i]));
 
 // the elder ray is rendered on its own scale
-    const yDomain = fc.extentLinear()
+const yDomain = fc.extentLinear()
     .accessors([d => d.bullPower, d => d.bearPower])
     .symmetricalAbout(0)
     .pad([0.1, 0.1]);
 
 const yScale = d3.scaleLinear()
-    .domain(yDomain(mergedData))
-    .range([height, 0]);
+    .domain(yDomain(mergedData));
 
 // Create the renderer
 const elderRay = elderRayExample()
     .xScale(xScale)
     .yScale(yScale);
 
-// Add it to the container
-container.select('svg')
-    .datum(mergedData)
-    .call(elderRay)
+const container = document.querySelector('d3fc-svg');
+
+d3.select(container)
+    .on('draw', () => {
+        d3.select(container)
+            .select('svg')
+            .datum(mergedData)
+            .call(elderRay);
+    })
+    .on('measure', () => {
+        const { width, height } = event.detail;
+        xScale.range([0, width]);
+        yScale.range([height, 0]);
+    });
+
+container.requestRedraw();
