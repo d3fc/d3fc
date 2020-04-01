@@ -1,76 +1,72 @@
-function bollingerBandsExample() {
+const envelopeExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
     let mainValue = d => d.close;
     let crossValue = d => d.date;
 
     const area = fc.seriesSvgArea()
-        .mainValue((d, i) => d.upper)
-        .baseValue((d, i) => d.lower);
+        .mainValue(d => d.upper)
+        .baseValue(d => d.lower);
 
     const upperLine = fc.seriesSvgLine()
-        .mainValue((d, i) => d.upper);
-
-    const averageLine = fc.seriesSvgLine()
-        .mainValue((d, i) => d.average);
+            .mainValue(d => d.upper);
 
     const lowerLine = fc.seriesSvgLine()
-        .mainValue((d, i) => d.lower);
+      .mainValue(d => d.lower);
 
-    const bollingerBands = function(selection) {
+    const envelope = (selection) => {
         const multi = fc.seriesSvgMulti()
             .xScale(xScale)
             .yScale(yScale)
-            .series([area, upperLine, lowerLine, averageLine])
+            .series([area, upperLine, lowerLine])
             .decorate((g, data, index) => {
                 g.enter()
-                    .attr('class', (d, i) =>
-                        'multi bollinger ' + ['area', 'upper', 'lower', 'average'][i]
-                    );
+                    .attr('class', (d, i) => (
+                        'multi envelope ' + ['area', 'upper', 'lower'][i]
+                    ));
             });
 
         area.crossValue(crossValue);
         upperLine.crossValue(crossValue);
-        averageLine.crossValue(crossValue);
         lowerLine.crossValue(crossValue);
 
         selection.call(multi);
     };
 
-    bollingerBands.xScale = (...args) => {
+    envelope.xScale = (...args) => {
         if (!args.length) {
             return xScale;
         }
         xScale = args[0];
-        return bollingerBands;
+        return envelope;
     };
 
-    bollingerBands.yScale = (...args) => {
+    envelope.yScale = (...args) => {
         if (!args.length) {
             return yScale;
         }
         yScale = args[0];
-        return bollingerBands;
+        return envelope;
     };
 
-    bollingerBands.crossValue = (...args) => {
+    envelope.crossValue = (...args) => {
         if (!args.length) {
             return crossValue;
         }
         crossValue = args[0];
-        return bollingerBands;
+        return envelope;
     };
 
-    bollingerBands.mainValue = (...args) => {
+    envelope.mainValue = (...args) => {
         if (!args.length) {
             return mainValue;
         }
         mainValue = args[0];
-        return bollingerBands;
+        return envelope;
     };
 
-    return bollingerBands;
-}
+    return envelope;
+};
 
 const dataGenerator = fc.randomFinancial()
     .startDate(new Date(2014, 1, 1));
@@ -78,10 +74,7 @@ const dataGenerator = fc.randomFinancial()
 const data = dataGenerator(50);
 
 const xScale = d3.scaleTime()
-    .domain(
-        fc.extentDate()
-            .accessors([d => d.date])(data)
-    );
+    .domain(fc.extentDate().accessors([d => d.date])(data));
 
 const yScale = d3.scaleLinear()
     .domain(
@@ -91,13 +84,16 @@ const yScale = d3.scaleLinear()
     );
 
 // START
-// Create and apply the bollinger algorithm
-const bollingerAlgorithm = fc.indicatorBollingerBands().value(d => d.close);
-const bollingerData = bollingerAlgorithm(data);
-const mergedData = data.map((d, i) => Object.assign({}, d, bollingerData[i]));
+// Create and apply the envelope algorithm
+const envelopeAlgorithm = fc.indicatorEnvelope()
+    .factor(0.01)
+    .value(d => d.close);
+
+const envelopeData = envelopeAlgorithm(data);
+const mergedData = data.map((d, i) => Object.assign({}, d, envelopeData[i]));
 
 // Create the renderer
-const bollinger = bollingerBandsExample()
+const envelope = envelopeExample()
     .xScale(xScale)
     .yScale(yScale);
 
@@ -109,7 +105,7 @@ d3.select(container)
         d3.select(container)
             .select('svg')
             .datum(mergedData)
-            .call(bollinger);
+            .call(envelope);
     })
     .on('measure', () => {
         const { width, height } = event.detail;

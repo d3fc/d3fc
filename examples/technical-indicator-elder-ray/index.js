@@ -116,6 +116,7 @@ const elderRay = elderRayExample()
     .xScale(xScale)
     .yScale(yScale);
 
+// Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)

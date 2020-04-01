@@ -128,6 +128,7 @@ const bollinger = bollingerBandsExample()
     .xScale(xScale)
     .yScale(yScale);
 
+// Add it to the container
 const container = document.querySelector('d3fc-canvas')
 
 d3.select(container)
