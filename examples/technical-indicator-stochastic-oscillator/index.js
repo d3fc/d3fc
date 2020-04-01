@@ -6,28 +6,31 @@ const stochasticExample = () => {
     const multi = fc.seriesSvgMulti();
 
     const annotations = fc.annotationSvgLine();
-    const dLine = fc.seriesSvgLine()
+    const dLine = fc
+        .seriesSvgLine()
         .crossValue(d => d.date)
         .mainValue(d => d.stochastic.d);
 
-    const kLine = fc.seriesSvgLine()
+    const kLine = fc
+        .seriesSvgLine()
         .crossValue(d => d.date)
         .mainValue(d => d.stochastic.k);
 
-    const stochastic = (selection) => {
-        multi.xScale(xScale)
+    const stochastic = selection => {
+        multi
+            .xScale(xScale)
             .yScale(yScale)
             .series([annotations, dLine, kLine])
             .mapping((data, index, series) =>
-                (series[index] === annotations)
-                ? [highValue, lowValue]
-                : data
+                series[index] === annotations ? [highValue, lowValue] : data
             )
             .decorate((g, data, index) => {
-                g.enter()
-                    .attr('class', (d, i) => (
-                        'multi stochastic ' + ['annotations', 'stochastic-d', 'stochastic-k'][i]
-                    ));
+                g.enter().attr(
+                    'class',
+                    (d, i) =>
+                        'multi stochastic ' +
+                        ['annotations', 'stochastic-d', 'stochastic-k'][i]
+                );
             });
 
         selection.call(multi);
@@ -68,23 +71,23 @@ const stochasticExample = () => {
     return stochastic;
 };
 
-const dataGenerator = fc.randomFinancial()
-    .startDate(new Date(2014, 1, 1));
+const dataGenerator = fc.randomFinancial().startDate(new Date(2014, 1, 1));
 const data = dataGenerator(50);
 
-const xScale = d3.scaleTime()
+const xScale = d3
+    .scaleTime()
     .domain(fc.extentDate().accessors([d => d.date])(data));
 
 // START
 // Create and apply the stochastic oscillator algorithm
-const stochasticAlgorithm = fc.indicatorStochasticOscillator()
-    .kPeriod(14);
+const stochasticAlgorithm = fc.indicatorStochasticOscillator().kPeriod(14);
 const stochasticData = stochasticAlgorithm(data);
-const mergedData = data.map((d, i) => Object.assign({}, d, { stochastic: stochasticData[i] }));
+const mergedData = data.map((d, i) =>
+    Object.assign({}, d, { stochastic: stochasticData[i] })
+);
 
 // the stochastic oscillator is rendered on its own scale
-const yScale = d3.scaleLinear()
-    .domain([0, 100]);
+const yScale = d3.scaleLinear().domain([0, 100]);
 
 // Create the renderer
 const stochastic = stochasticExample()

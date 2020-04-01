@@ -6,18 +6,16 @@ function bollingerBandsExample() {
     let decorate = () => {};
     let ctx;
 
-    const area = fc.seriesCanvasArea()
+    const area = fc
+        .seriesCanvasArea()
         .mainValue((d, i) => d.upper)
         .baseValue((d, i) => d.lower);
 
-    const upperLine = fc.seriesCanvasLine()
-        .mainValue((d, i) => d.upper);
+    const upperLine = fc.seriesCanvasLine().mainValue((d, i) => d.upper);
 
-    const averageLine = fc.seriesCanvasLine()
-        .mainValue((d, i) => d.average);
+    const averageLine = fc.seriesCanvasLine().mainValue((d, i) => d.average);
 
-    const lowerLine = fc.seriesCanvasLine()
-        .mainValue((d, i) => d.lower);
+    const lowerLine = fc.seriesCanvasLine().mainValue((d, i) => d.lower);
 
     const styles = {
         area: {
@@ -30,7 +28,8 @@ function bollingerBandsExample() {
     };
 
     const bollingerBands = function(data) {
-        const multi = fc.seriesCanvasMulti()
+        const multi = fc
+            .seriesCanvasMulti()
             .xScale(xScale)
             .yScale(yScale)
             .context(ctx)
@@ -99,23 +98,20 @@ function bollingerBandsExample() {
     return bollingerBands;
 }
 
-const dataGenerator = fc.randomFinancial()
-    .startDate(new Date(2014, 1, 1));
+const dataGenerator = fc.randomFinancial().startDate(new Date(2014, 1, 1));
 
 const data = dataGenerator(50);
 
-const xScale = d3.scaleTime()
-    .domain(
-        fc.extentDate()
-            .accessors([d => d.date])(data)
-    );
+const xScale = d3
+    .scaleTime()
+    .domain(fc.extentDate().accessors([d => d.date])(data));
 
-const yScale = d3.scaleLinear()
-    .domain(
-        fc.extentLinear()
-            .pad([0.4, 0.4])
-            .accessors([d => d.high, d => d.low])(data)
-    );
+const yScale = d3.scaleLinear().domain(
+    fc
+        .extentLinear()
+        .pad([0.4, 0.4])
+        .accessors([d => d.high, d => d.low])(data)
+);
 
 // START
 // Create and apply the bollinger algorithm
@@ -129,7 +125,7 @@ const bollinger = bollingerBandsExample()
     .yScale(yScale);
 
 // Add it to the container
-const container = document.querySelector('d3fc-canvas')
+const container = document.querySelector('d3fc-canvas');
 
 d3.select(container)
     .on('draw', () => {

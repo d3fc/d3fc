@@ -6,24 +6,26 @@ const rsiExample = () => {
     const multiSeries = fc.seriesSvgMulti();
 
     const annotations = fc.annotationSvgLine();
-    const rsiLine = fc.seriesSvgLine()
+    const rsiLine = fc
+        .seriesSvgLine()
         .crossValue(d => d.date)
         .mainValue(d => d.rsi);
 
-    const rsi = (selection) => {
-        multiSeries.xScale(xScale)
+    const rsi = selection => {
+        multiSeries
+            .xScale(xScale)
             .yScale(yScale)
             .series([annotations, rsiLine])
             .mapping((data, index, series) =>
-                (series[index] === annotations)
+                series[index] === annotations
                     ? [upperValue, 50, lowerValue]
                     : data
             )
             .decorate((g, data, index) => {
-                g.enter()
-                    .attr('class', (d, i) => (
-                        'multi rsi ' + ['annotations', 'indicator'][i]
-                    ));
+                g.enter().attr(
+                    'class',
+                    (d, i) => 'multi rsi ' + ['annotations', 'indicator'][i]
+                );
             });
 
         selection.call(multiSeries);
@@ -66,23 +68,24 @@ const rsiExample = () => {
     return rsi;
 };
 
-const dataGenerator = fc.randomFinancial()
-    .startDate(new Date(2014, 1, 1));
+const dataGenerator = fc.randomFinancial().startDate(new Date(2014, 1, 1));
 
 const data = dataGenerator(50);
 
-const xScale = d3.scaleTime()
+const xScale = d3
+    .scaleTime()
     .domain(fc.extentDate().accessors([d => d.date])(data));
 
 // START
 // the RSI is output on a percentage scale, so requires a domain from 0 - 100
-const yScale = d3.scaleLinear()
-    .domain([0, 100]);
+const yScale = d3.scaleLinear().domain([0, 100]);
 
 // Create and apply the RSI algorithm
 const rsiAlgorithm = fc.indicatorRelativeStrengthIndex().value(d => d.close);
 const rsiData = rsiAlgorithm(data);
-const mergedData = data.map((d, i) => Object.assign({}, d, { rsi: rsiData[i] }));
+const mergedData = data.map((d, i) =>
+    Object.assign({}, d, { rsi: rsiData[i] })
+);
 
 // Create the renderer
 const rsi = rsiExample()

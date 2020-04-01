@@ -4,26 +4,26 @@ const envelopeExample = () => {
     let mainValue = d => d.close;
     let crossValue = d => d.date;
 
-    const area = fc.seriesSvgArea()
+    const area = fc
+        .seriesSvgArea()
         .mainValue(d => d.upper)
         .baseValue(d => d.lower);
 
-    const upperLine = fc.seriesSvgLine()
-            .mainValue(d => d.upper);
+    const upperLine = fc.seriesSvgLine().mainValue(d => d.upper);
 
-    const lowerLine = fc.seriesSvgLine()
-      .mainValue(d => d.lower);
+    const lowerLine = fc.seriesSvgLine().mainValue(d => d.lower);
 
-    const envelope = (selection) => {
-        const multi = fc.seriesSvgMulti()
+    const envelope = selection => {
+        const multi = fc
+            .seriesSvgMulti()
             .xScale(xScale)
             .yScale(yScale)
             .series([area, upperLine, lowerLine])
             .decorate((g, data, index) => {
-                g.enter()
-                    .attr('class', (d, i) => (
-                        'multi envelope ' + ['area', 'upper', 'lower'][i]
-                    ));
+                g.enter().attr(
+                    'class',
+                    (d, i) => 'multi envelope ' + ['area', 'upper', 'lower'][i]
+                );
             });
 
         area.crossValue(crossValue);
@@ -68,24 +68,25 @@ const envelopeExample = () => {
     return envelope;
 };
 
-const dataGenerator = fc.randomFinancial()
-    .startDate(new Date(2014, 1, 1));
+const dataGenerator = fc.randomFinancial().startDate(new Date(2014, 1, 1));
 
 const data = dataGenerator(50);
 
-const xScale = d3.scaleTime()
+const xScale = d3
+    .scaleTime()
     .domain(fc.extentDate().accessors([d => d.date])(data));
 
-const yScale = d3.scaleLinear()
-    .domain(
-        fc.extentLinear()
-            .pad([0.4, 0.4])
-            .accessors([d => d.high, d => d.low])(data)
-    );
+const yScale = d3.scaleLinear().domain(
+    fc
+        .extentLinear()
+        .pad([0.4, 0.4])
+        .accessors([d => d.high, d => d.low])(data)
+);
 
 // START
 // Create and apply the envelope algorithm
-const envelopeAlgorithm = fc.indicatorEnvelope()
+const envelopeAlgorithm = fc
+    .indicatorEnvelope()
     .factor(0.01)
     .value(d => d.close);
 
