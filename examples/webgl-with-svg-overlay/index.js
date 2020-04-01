@@ -17,11 +17,13 @@ d3.json('../__data-files__/star-data.json').then(data => {
         requestAnimationFrame(render);
     });
 
-    const fillColor = fc.webglFillColor()
+    const fillColor = fc
+        .webglFillColor()
         .value(d => d.color)
         .data(data);
 
-    const starChart = fc.seriesWebglPoint()
+    const starChart = fc
+        .seriesWebglPoint()
         .type(d3.symbolStar)
         .xScale(x)
         .yScale(y)
@@ -45,7 +47,8 @@ d3.json('../__data-files__/star-data.json').then(data => {
             );
         });
 
-    const informationOverlay = fc.seriesSvgPoint()
+    const informationOverlay = fc
+        .seriesSvgPoint()
         .type(d3.symbolCircle)
         .xScale(x)
         .yScale(y)
@@ -80,7 +83,8 @@ d3.json('../__data-files__/star-data.json').then(data => {
                 });
         });
 
-    const chart = fc.chartCartesian(x, y)
+    const chart = fc
+        .chartCartesian(x, y)
         .chartLabel(`Stars`)
         .webglPlotArea(starChart)
         .decorate(selection => {
