@@ -4,7 +4,6 @@ import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
 import attribute from '../buffer/attribute';
-import elementIndices from '../buffer/elementIndices';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
@@ -29,10 +28,7 @@ export default () => {
             [1, 1, 0]
         ]);
 
-    program
-        .buffers()
-        .elementIndices(elementIndices([0, 1, 2, 3, 4, 5]))
-        .attribute('aCorner', cornerAttribute);
+    program.buffers().attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
         const shaderBuilder = areaShader();
