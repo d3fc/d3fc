@@ -64,14 +64,13 @@ export default () => {
         }
     };
 
-    build.extInstancedArrays = () => {
+    build.extInstancedArrays = () => extInstancedArrays;
+
+    build.instanced = () => {
         // This equates the choice of drawing mode with opting-in to instanced
         // rendering. These are not equivalent. However, we don't currently
         // have a use case for distinguishing between them.
-        if (mode === drawModes.TRIANGLES) {
-            return extInstancedArrays;
-        }
-        return null;
+        return mode === drawModes.TRIANGLES;
     };
 
     build.context = (...args) => {
