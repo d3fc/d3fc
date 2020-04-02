@@ -8,7 +8,7 @@ export default () => {
     let normalized = false;
     let stride = 0;
     let offset = 0;
-    let divisor = 0;
+    let divisor = null;
 
     const baseAttribute = programBuilder => {
         const gl = programBuilder.context();
@@ -31,7 +31,7 @@ export default () => {
         const extInstancedArrays = programBuilder.extInstancedArrays();
         extInstancedArrays.vertexAttribDivisorANGLE(
             location,
-            programBuilder.instanced() ? divisor : 0
+            divisor != null ? divisor : programBuilder.instanced() ? 1 : 0
         );
     };
 
