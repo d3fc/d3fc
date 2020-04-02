@@ -11,7 +11,9 @@ import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(12);
     let xScale = baseScale();
     let yScale = baseScale();
     let decorate = () => {};
