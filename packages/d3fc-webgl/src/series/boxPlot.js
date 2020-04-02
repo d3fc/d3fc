@@ -44,7 +44,9 @@ import rebindCurry from '../rebindCurry';
 // εL1 -> εR1
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(54);
     let xScale = baseScale();
     let yScale = baseScale();
     let decorate = () => {};
