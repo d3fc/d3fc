@@ -1,7 +1,7 @@
 import boxPlotBase from '../boxPlotBase';
 import {
     webglSeriesBoxPlot,
-    webglElementAttribute,
+    webglAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -11,15 +11,15 @@ import functor from '../functor';
 export default () => {
     const base = boxPlotBase();
 
-    const crossValueAttribute = webglElementAttribute();
-    const highValueAttribute = webglElementAttribute();
-    const upperQuartileValueAttribute = webglElementAttribute();
-    const medianValueAttribute = webglElementAttribute();
-    const lowerQuartileValueAttribute = webglElementAttribute();
-    const lowValueAttribute = webglElementAttribute();
-    const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const capAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAttribute();
+    const highValueAttribute = webglAttribute();
+    const upperQuartileValueAttribute = webglAttribute();
+    const medianValueAttribute = webglAttribute();
+    const lowerQuartileValueAttribute = webglAttribute();
+    const lowValueAttribute = webglAttribute();
+    const bandwidthAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const capAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = webglSeriesBoxPlot()
         .crossValueAttribute(crossValueAttribute)

@@ -9,9 +9,8 @@ export { default as webglSeriesBoxPlot } from './src/series/boxPlot';
 
 export { default as webglBufferBuilder } from './src/buffer/bufferBuilder';
 export { default as webglBaseAttribute } from './src/buffer/baseAttribute';
-export { default as webglAdjacentElementAttribute } from './src/buffer/adjacentElementAttribute';
-export { default as webglElementAttribute } from './src/buffer/elementAttribute';
-export { default as webglVertexAttribute } from './src/buffer/vertexAttribute';
+export { default as webglAdjacentAttribute } from './src/buffer/adjacentAttribute';
+export { default as webglAttribute } from './src/buffer/attribute';
 export { default as webglUniform } from './src/buffer/uniform';
 export { default as webglTypes } from './src/buffer/types';
 export { default as webglElementIndices } from './src/buffer/elementIndices';

@@ -4,7 +4,7 @@ import errorBarShader from '../shaders/errorBar/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffer/vertexAttribute';
+import attribute from '../buffer/attribute';
 import elementIndices from '../buffer/elementIndices';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
@@ -22,7 +22,8 @@ export default () => {
      * Y: -1: HIGH, 1: LOW
      * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
      */
-    const cornerAttribute = vertexAttribute()
+    const cornerAttribute = attribute()
+        .divisor(0)
         .size(3)
         .type(types.BYTE)
         .data([
