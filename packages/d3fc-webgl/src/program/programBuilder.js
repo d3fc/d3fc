@@ -10,6 +10,7 @@ export default () => {
     let programVertexShader = null;
     let programFragmentShader = null;
     let mode = drawModes.TRIANGLES;
+    let subInstanceCount = 0;
     let buffers = bufferBuilder();
     let debug = false;
     let extInstancedArrays = null;
@@ -37,41 +38,41 @@ export default () => {
 
         buffers(build, program);
 
-        switch (mode) {
-            case drawModes.TRIANGLES: {
-                if (buffers.elementIndices() == null) {
-                    throw new Error('Element indices must be provided.');
+        if (subInstanceCount === 0) {
+            if (buffers.elementIndices() == null) {
+                context.drawArrays(mode, 0, count);
+            } else {
+                context.drawElements(mode, count, context.UNSIGNED_SHORT, 0);
+            }
+        } else {
+            if (buffers.elementIndices() == null) {
+                extInstancedArrays.drawArraysInstancedANGLE(
+                    mode,
+                    0,
+                    subInstanceCount,
+                    count
+                );
+            } else {
+                const elementIndicesLength = buffers.elementIndices().data()
+                    .length;
+                if (subInstanceCount !== elementIndicesLength) {
+                    throw new Error(
+                        `Expected elementIndices length ${elementIndicesLength}` +
+                            ` to match subInstanceCount ${subInstanceCount}.`
+                    );
                 }
                 extInstancedArrays.drawElementsInstancedANGLE(
                     mode,
-                    buffers.elementIndices().data().length,
+                    subInstanceCount,
                     context.UNSIGNED_SHORT,
                     0,
                     count
                 );
-                break;
-            }
-            case drawModes.POINTS: {
-                if (buffers.elementIndices() != null) {
-                    throw new Error('Element indices must not be provided.');
-                }
-                context.drawArrays(mode, 0, count);
-                break;
-            }
-            default: {
-                throw new Error(`Unsupported drawing mode ${mode}.`);
             }
         }
     };
 
     build.extInstancedArrays = () => extInstancedArrays;
-
-    build.instanced = () => {
-        // This equates the choice of drawing mode with opting-in to instanced
-        // rendering. These are not equivalent. However, we don't currently
-        // have a use case for distinguishing between them.
-        return mode === drawModes.TRIANGLES;
-    };
 
     build.context = (...args) => {
         if (!args.length) {
@@ -117,6 +118,14 @@ export default () => {
             return mode;
         }
         mode = args[0];
+        return build;
+    };
+
+    build.subInstanceCount = (...args) => {
+        if (!args.length) {
+            return subInstanceCount;
+        }
+        subInstanceCount = args[0];
         return build;
     };
 

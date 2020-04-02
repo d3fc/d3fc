@@ -605,7 +605,7 @@ If *divisor* is specified, sets the divisor property and returns this attribute 
 
 The divisor property is used to specify the rate (the number of instances) at which the attribute advances. A divisor of 0 would be used to repeat the same set of values for each set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = b, vertex[1][0] = a, vertex[1][1] = b, vertex[2][0] = a, vertex[2][1] = b`. A divisor of 1 would be used to pass a value per set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = a, vertex[1][0] = b, vertex[1][1] = b, vertex[2][0] = c, vertex[2][1] = c`.
 
-By default this value is null which causes the value to depend upon whether [instanced](#webglProgramBuilder_instanced) is enabled. If it is enabled, the divisor will have the value 1 otherwise it will be 0.
+By default this value is null which causes the value to depend upon whether instanced rendering is enabled, see [subInstanceCount](#webglProgramBuilder_subInstanceCount). If it is enabled, the divisor will have the value 1 otherwise it will be 0.
 
 #### Uniform Builder
 
@@ -651,13 +651,13 @@ If *uniform* is specified, assigns the *uniform* for the specified *uniformName*
 
 If *elementIndices* is specified, sets element indices and returns this builder. If *elementIndices* is not specified, returns the current element indices.
 
-See [webglElementIndices](#webglElementIndices).
+If this value is null then array-based rendering will be used. Otherwise, element-based rendering will be used see [webglElementIndices](#webglElementIndices).
 
 #### Element Indices
 
 <a name="webglElementIndices" href="#webglElementIndices">#</a> fc.**webglElementIndices**()
 
-Used to create an element array buffer. This allows vertices to be defined once and reused by providing an index specifying which vertex we are currently using.
+Used to create an element array buffer. This allows vertices to be defined once and reused by providing an index specifying which vertex we are currently using. 
 
 For example to draw two triangles that share a vertex we could provide the values `[0, 1, 2, 1, 3, 4]`. Here we will draw a triangle with the vertices `0`, `1`, and `2`, and a second triangle with the vertices `1`, `3`, and `4`. We only have to specify the data for `5` vertices as we are reusing vertex `1`.
 
@@ -844,6 +844,8 @@ This component manages the creation and execution of a [WebGLProgram](https://de
 
 Returns a reference to the [`ANGLE_instanced_arrays`](https://developer.mozilla.org/en-US/docs/Web/API/ANGLE_instanced_arrays) WebGL extension used for drawing to the canvas.
 
+This reference should be used, rather than components obtaining their own, to prevent errors if the context is lost.
+
 <a name="webglProgramBuilder_context" href="#webglProgramBuilder_context">#</a> *webglProgramBuilder*.**context**(*context*)
 
 If *context* is specified, sets the context and returns this builder. If *context* is not specified, returns the current context.
@@ -874,11 +876,11 @@ If *mode* is specified, sets the mode and returns this builder. If *mode* is not
 
 *mode* must be a WebGL draw mode, modes supported by `webglProgramBuilder` are `WebGLRenderingContext.POINTS` and `WebGLRenderingContext.TRIANGLES`.
 
-<a name="webglProgramBuilder_instanced" href="#webglProgramBuilder_instanced">#</a> *webglProgramBuilder*.**instanced**(*instanced*)
+<a name="webglProgramBuilder_subInstanceCount" href="#webglProgramBuilder_subInstanceCount">#</a> *webglProgramBuilder*.**subInstanceCount**(*subInstanceCount*)
 
-Returns whether instanced rendering is enabled.
+If *subInstanceCount* is specified, sets the count of vertex count per instance and returns this builder. If *subInstanceCount* is not specified, returns the current value which default to 0.
 
-See [divisor](#webglBaseAttribute_divisor).
+A value of 0 disables instanced rendering, any other value enables instanced rendering. To control how instanced attribute behaviour see [divisor](#webglBaseAttribute_divisor).
 
 <a name="webglProgramBuilder_debug" href="#webglProgramBuilder_debug">#</a> *webglProgramBuilder*.**debug**(*debug*)
 
