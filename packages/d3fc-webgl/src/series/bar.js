@@ -34,7 +34,9 @@ import rebindCurry from '../rebindCurry';
 // β -> βR.
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(6);
     let xScale = baseScale();
     let yScale = baseScale();
     let decorate = () => {};

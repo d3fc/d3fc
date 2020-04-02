@@ -31,7 +31,11 @@ export default () => {
         const extInstancedArrays = programBuilder.extInstancedArrays();
         extInstancedArrays.vertexAttribDivisorANGLE(
             location,
-            divisor != null ? divisor : programBuilder.instanced() ? 1 : 0
+            divisor != null
+                ? divisor
+                : programBuilder.subInstanceCount() > 0
+                ? 1
+                : 0
         );
     };
 
