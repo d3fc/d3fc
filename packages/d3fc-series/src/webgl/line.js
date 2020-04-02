@@ -1,7 +1,7 @@
 import xyBase from '../xyBase';
 import {
     webglSeriesLine,
-    webglAdjacentElementAttribute,
+    webglAdjacentAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -10,15 +10,15 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossValueAttribute = webglAdjacentElementAttribute(-1, 2);
+    const crossValueAttribute = webglAdjacentAttribute(-1, 2);
     const crossPreviousValueAttribute = crossValueAttribute.offset(-1);
     const crossNextValueAttribute = crossValueAttribute.offset(1);
     const crossNextNextValueAttribute = crossValueAttribute.offset(2);
-    const mainValueAttribute = webglAdjacentElementAttribute(-1, 2);
+    const mainValueAttribute = webglAdjacentAttribute(-1, 2);
     const mainPreviousValueAttribute = mainValueAttribute.offset(-1);
     const mainNextValueAttribute = mainValueAttribute.offset(1);
     const mainNextNextValueAttribute = mainValueAttribute.offset(2);
-    const definedAttribute = webglAdjacentElementAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
+    const definedAttribute = webglAdjacentAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesLine()

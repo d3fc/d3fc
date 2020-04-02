@@ -1,7 +1,7 @@
 import xyBase from '../xyBase';
 import {
     webglSeriesArea,
-    webglAdjacentElementAttribute,
+    webglAdjacentAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -10,13 +10,13 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const crossValueAttribute = webglAdjacentAttribute(0, 1);
     const crossNextValueAttribute = crossValueAttribute.offset(1);
-    const mainValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const mainValueAttribute = webglAdjacentAttribute(0, 1);
     const mainNextValueAttribute = mainValueAttribute.offset(1);
-    const baseValueAttribute = webglAdjacentElementAttribute(0, 1);
+    const baseValueAttribute = webglAdjacentAttribute(0, 1);
     const baseNextValueAttribute = baseValueAttribute.offset(1);
-    const definedAttribute = webglAdjacentElementAttribute(0, 1)
+    const definedAttribute = webglAdjacentAttribute(0, 1)
         .type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 

@@ -1,6 +1,6 @@
 import ohlcBase from '../ohlcBase';
 import {
-    webglElementAttribute,
+    webglAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -9,13 +9,13 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default (pathGenerator) => {
     const base = ohlcBase();
 
-    const crossValueAttribute = webglElementAttribute();
-    const openValueAttribute = webglElementAttribute();
-    const highValueAttribute = webglElementAttribute();
-    const lowValueAttribute = webglElementAttribute();
-    const closeValueAttribute = webglElementAttribute();
-    const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAttribute();
+    const openValueAttribute = webglAttribute();
+    const highValueAttribute = webglAttribute();
+    const lowValueAttribute = webglAttribute();
+    const closeValueAttribute = webglAttribute();
+    const bandwidthAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     pathGenerator
         .crossValueAttribute(crossValueAttribute)

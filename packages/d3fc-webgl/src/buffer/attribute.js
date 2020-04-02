@@ -6,8 +6,8 @@ export default () => {
     const base = baseAttribute();
     const projector = attributeProjector();
 
-    const vertexAttribute = programBuilder => {
-        base.size(vertexAttribute.size()).type(vertexAttribute.type());
+    const attribute = programBuilder => {
+        base.size(attribute.size()).type(attribute.type());
 
         base(programBuilder);
 
@@ -21,13 +21,13 @@ export default () => {
         gl.bufferData(gl.ARRAY_BUFFER, projectedData, gl.DYNAMIC_DRAW);
     };
 
-    vertexAttribute.clear = () => {
+    attribute.clear = () => {
         base.buffer(null);
         projector.clear();
     };
 
-    rebind(vertexAttribute, base, 'normalized', 'location');
-    rebind(vertexAttribute, projector, 'data', 'value', 'size', 'type');
+    rebind(attribute, base, 'normalized', 'location', 'divisor');
+    rebind(attribute, projector, 'data', 'value', 'size', 'type');
 
-    return vertexAttribute;
+    return attribute;
 };

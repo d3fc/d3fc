@@ -2,7 +2,7 @@ import { symbolCircle } from 'd3-shape';
 import xyBase from '../xyBase';
 import {
     webglSeriesPoint,
-    webglElementAttribute,
+    webglAttribute,
     webglScaleMapper,
     webglSymbolMapper,
     webglTypes
@@ -15,10 +15,10 @@ export default () => {
     let size = functor(64);
     let type = symbolCircle;
 
-    const crossValueAttribute = webglElementAttribute();
-    const mainValueAttribute = webglElementAttribute();
-    const sizeAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAttribute();
+    const mainValueAttribute = webglAttribute();
+    const sizeAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = webglSeriesPoint()
         .crossValueAttribute(crossValueAttribute)

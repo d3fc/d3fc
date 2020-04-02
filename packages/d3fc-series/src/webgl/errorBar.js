@@ -1,7 +1,7 @@
 import errorBarBase from '../errorBarBase';
 import {
     webglSeriesErrorBar,
-    webglElementAttribute,
+    webglAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -10,11 +10,11 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = errorBarBase();
 
-    const crossValueAttribute = webglElementAttribute();
-    const highValueAttribute = webglElementAttribute();
-    const lowValueAttribute = webglElementAttribute();
-    const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAttribute();
+    const highValueAttribute = webglAttribute();
+    const lowValueAttribute = webglAttribute();
+    const bandwidthAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = webglSeriesErrorBar()
         .crossValueAttribute(crossValueAttribute)
