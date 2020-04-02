@@ -1,7 +1,7 @@
 import xyBase from '../xyBase';
 import {
     webglSeriesBar,
-    webglElementAttribute,
+    webglAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -10,11 +10,11 @@ import { exclude, rebind, rebindAll } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossValueAttribute = webglElementAttribute();
-    const mainValueAttribute = webglElementAttribute();
-    const baseValueAttribute = webglElementAttribute();
-    const bandwidthAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAttribute();
+    const mainValueAttribute = webglAttribute();
+    const baseValueAttribute = webglAttribute();
+    const bandwidthAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = webglSeriesBar()
         .crossValueAttribute(crossValueAttribute)
