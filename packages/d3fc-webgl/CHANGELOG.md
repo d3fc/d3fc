@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.9.1...@d3fc/d3fc-webgl@1.9.2) (2020-04-02)
+
+
+### Bug Fixes
+
+* move webgl style decorator dirty check ([208d787](https://github.com/d3fc/d3fc/commit/208d787))
+* stale divisor values if using non-instanced series ([a4418c5](https://github.com/d3fc/d3fc/commit/a4418c5))
+
+
+
+
+
 ## [1.9.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.9.0...@d3fc/d3fc-webgl@1.9.1) (2020-03-26)
 
 **Note:** Version bump only for package @d3fc/d3fc-webgl

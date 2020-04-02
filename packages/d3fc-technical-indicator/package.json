@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-technical-indicator",
-  "version": "7.1.4",
+  "version": "7.1.5",
   "description": "Components for calculating technical indicators on data series",
   "license": "MIT",
   "keywords": [
@@ -39,11 +39,11 @@
     "screenshots": "node ../../scripts/screenshot.js"
   },
   "devDependencies": {
-    "@d3fc/d3fc-annotation": "^2.5.4",
+    "@d3fc/d3fc-annotation": "^2.5.5",
     "@d3fc/d3fc-extent": "^3.2.0",
     "@d3fc/d3fc-random-data": "^3.1.0",
     "@d3fc/d3fc-rebind": "^5.0.8",
-    "@d3fc/d3fc-series": "^4.7.1",
+    "@d3fc/d3fc-series": "^4.7.2",
     "d3": "^4.2.5",
     "fs-promise": "^1.0.0"
   },
