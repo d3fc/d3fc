@@ -599,6 +599,14 @@ If *offset* is specified, sets the offset property and returns this attribute bu
 
 The offset property is used to specify the offset in bytes of the first value in the vertex attribute array. If set, the offset must be a multiple of the byte length of [type](#base-attribute).
 
+<a name="webglBaseAttribute_divisor" href="#webglBaseAttribute_divisor">#</a> *webglBaseAttribute*.**divisor**(*divisor*)
+
+If *divisor* is specified, sets the divisor property and returns this attribute builder. If *divisor* is not specified, returns the current divisor.
+
+The divisor property is used to specify the rate (the number of instances) at which the attribute advances. A divisor of 0 would be used to repeat the same set of values for each set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = b, vertex[1][0] = a, vertex[1][1] = b, vertex[2][0] = a, vertex[2][1] = b`. A divisor of 1 would be used to pass a value per set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = a, vertex[1][0] = b, vertex[1][1] = b, vertex[2][0] = c, vertex[2][1] = c`.
+
+The property is ignored unless [instanced rendering](#webglProgramBuilder_instanced) is enabled.
+
 #### Uniform Builder
 
 <a name="webglUniform" href="#webglUniform">#</a> fc.**webglUniform**()
@@ -865,6 +873,12 @@ If *shaderBuilder* is specified, sets the fragment shader and returns this build
 If *mode* is specified, sets the mode and returns this builder. If *mode* is not specified, returns the current mode.
 
 *mode* must be a WebGL draw mode, modes supported by `webglProgramBuilder` are `WebGLRenderingContext.POINTS` and `WebGLRenderingContext.TRIANGLES`.
+
+<a name="webglProgramBuilder_instanced" href="#webglProgramBuilder_instanced">#</a> *webglProgramBuilder*.**instanced**(*instanced*)
+
+Returns whether instanced rendering is enabled.
+
+See [divisor](#webglBaseAttribute_divisor).
 
 <a name="webglProgramBuilder_debug" href="#webglProgramBuilder_debug">#</a> *webglProgramBuilder*.**debug**(*debug*)
 
