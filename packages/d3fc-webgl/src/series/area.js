@@ -3,7 +3,7 @@ import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffer/vertexAttribute';
+import attribute from '../buffer/attribute';
 import elementIndices from '../buffer/elementIndices';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
@@ -14,7 +14,8 @@ export default () => {
     let yScale = baseScale();
     let decorate = () => {};
 
-    const cornerAttribute = vertexAttribute()
+    const cornerAttribute = attribute()
+        .divisor(0)
         .size(3)
         .type(types.UNSIGNED_BYTE)
         .data([

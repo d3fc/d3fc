@@ -9,7 +9,7 @@ export default (minOffset = 0, maxOffset = 0) => {
             `Offset values (${minOffset} & ${maxOffset}) must straddle 0 `
         );
     }
-    const base = baseAttribute().divisor(1);
+    const base = baseAttribute();
     const projector = attributeProjector();
 
     const adjacentAttribute = programBuilder => {
@@ -54,8 +54,7 @@ export default (minOffset = 0, maxOffset = 0) => {
             base(programBuilder);
         };
 
-        rebind(offsetAttribute, base, 'location');
-        rebind(offsetAttribute, adjacentAttribute, 'clear');
+        rebind(offsetAttribute, adjacentAttribute, 'clear', 'location');
 
         return offsetAttribute;
     };
@@ -65,7 +64,7 @@ export default (minOffset = 0, maxOffset = 0) => {
         projector.clear();
     };
 
-    rebind(adjacentAttribute, base, 'normalized', 'location');
+    rebind(adjacentAttribute, base, 'normalized', 'location', 'divisor');
     rebind(adjacentAttribute, projector, 'data', 'value', 'size', 'type');
 
     return adjacentAttribute;
