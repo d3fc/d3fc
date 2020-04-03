@@ -6,6 +6,20 @@
     <script src="../../node_modules/d3/dist/d3.js"></script>
     <script src="../../packages/d3fc/build/d3fc.js"></script>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        body>div {
+            flex: auto;
+            display: flex;
+        }
+
+        d3fc-group.cartesian-chart {
+            height: auto;
+        }
+
         path.area {
             fill: #99ff99;
             fill-opacity: 0.5;
@@ -22,10 +36,10 @@
 </head>
 
 <body>
-    <d3fc-svg id="sine-chart" use-device-pixel-ratio></d3fc-svg>
+    <div id="sine-chart" use-device-pixel-ratio></div>
     <h1>Legacy Components</h1>
-    <d3fc-svg id="sine-svg" use-device-pixel-ratio></d3fc-svg>
-    <d3fc-canvas id="sine-canvas" use-device-pixel-ratio></d3fc-canvas>
+    <div id="sine-svg" use-device-pixel-ratio></div>
+    <div id="sine-canvas" use-device-pixel-ratio></div>
 
     <script src="index.js"></script>
 </body>
