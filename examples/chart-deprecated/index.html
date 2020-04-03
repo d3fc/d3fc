@@ -9,10 +9,10 @@
         body {
             display: flex;
             flex-direction: column;
-            margin: 0;
         }
 
         body>div {
+            flex: auto;
             display: flex;
         }
 
@@ -20,23 +20,27 @@
             height: auto;
         }
 
-        #main-chart {
-            flex: 4;
+        path.area {
+            fill: #99ff99;
+            fill-opacity: 0.5;
         }
 
-        #navigator-chart {
-            flex: 1;
+        path.line {
+            stroke: #60c;
         }
 
-        #navigator-chart .y-axis {
-            opacity: 0;
+        .annotation-gridline line {
+            stroke: #ddd;
         }
     </style>
 </head>
 
 <body>
-    <div id="main-chart"></div>
-    <div id="navigator-chart"></div>
+    <div id="sine-chart" use-device-pixel-ratio></div>
+    <h1>Legacy Components</h1>
+    <div id="sine-svg" use-device-pixel-ratio></div>
+    <div id="sine-canvas" use-device-pixel-ratio></div>
+
     <script src="index.js"></script>
 </body>
 
