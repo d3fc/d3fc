@@ -1,5 +1,5 @@
-var data;
-var phase = 0;
+let data;
+let phase = 0;
 
 function updateData() {
     phase += 1;
@@ -14,24 +14,24 @@ function render() {
     updateData();
 
     // use d3fc-extent to compute the domain for each axis
-    var xExtent = fc.extentLinear().accessors([d => d.x]);
-    var yExtent = fc
+    const xExtent = fc.extentLinear().accessors([d => d.x]);
+    const yExtent = fc
         .extentLinear()
         .accessors([d => d.y, d => d.z])
         .pad([0.1, 0.1]);
 
     // gridlines (from d3fc-annotation)
-    var gridlines = fc.annotationSvgGridline();
+    const gridlines = fc.annotationSvgGridline();
     // series (from d3fc-series)
-    var bar = fc.seriesSvgBar().key(d => d.y);
-    var area = fc.seriesSvgArea().mainValue(d => d.z);
+    const bar = fc.seriesSvgBar().key(d => d.y);
+    const area = fc.seriesSvgArea().mainValue(d => d.z);
 
     // combine into a single series
-    var multi = fc.seriesSvgMulti().series([gridlines, area, bar]);
+    const multi = fc.seriesSvgMulti().series([gridlines, area, bar]);
 
     // the cartesian component, which uses d3fc-element for layout
     // of the standard feaures of a chart (axes, labels, plot area)
-    var chart = fc
+    const chart = fc
         .chartCartesian(d3.scaleLinear(), d3.scaleLinear())
         .xLabel('Value')
         .yLabel('Sine / Cosine')

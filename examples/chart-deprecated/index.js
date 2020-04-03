@@ -1,28 +1,28 @@
-var data = d3.range(50).map(d => ({
+const data = d3.range(50).map(d => ({
     x: d / 4,
     y: Math.sin(d / 4),
     z: Math.cos(d / 4) * 0.7
 }));
 
 // use d3fc-extent to compute the domain for each axis
-var xExtent = fc.extentLinear().accessors([d => d.x]);
-var yExtent = fc
+const xExtent = fc.extentLinear().accessors([d => d.x]);
+const yExtent = fc
     .extentLinear()
     .accessors([d => d.y, d => d.z])
     .pad([0.1, 0.1]);
 
 // gridlines (from d3fc-annotation)
-var gridlines = fc.annotationCanvasGridline();
+const gridlines = fc.annotationCanvasGridline();
 // series (from d3fc-series)
-var line = fc.seriesSvgLine();
-var area = fc.seriesSvgArea().mainValue(d => d.z);
+const line = fc.seriesSvgLine();
+const area = fc.seriesSvgArea().mainValue(d => d.z);
 
 // combine into a single series
-var multi = fc.seriesSvgMulti().series([area, line]);
+const multi = fc.seriesSvgMulti().series([area, line]);
 
 // the cartesian component, which uses d3fc-element for layout
 // of the standard feaures of a chart (axes, labels, plot area)
-var chart = fc
+const chart = fc
     .chartCartesian(d3.scaleLinear(), d3.scaleLinear())
     .xLabel('Value')
     .yLabel('Sine / Cosine')
@@ -36,13 +36,13 @@ d3.select('#sine-chart')
     .datum(data)
     .call(chart);
 
-var gridlinesSvg = fc.annotationSvgGridline();
-var lineSvg = fc.seriesSvgLine();
-var areaSvg = fc.seriesSvgArea().mainValue(d => d.z);
+const gridlinesSvg = fc.annotationSvgGridline();
+const lineSvg = fc.seriesSvgLine();
+const areaSvg = fc.seriesSvgArea().mainValue(d => d.z);
 
-var multiSvg = fc.seriesSvgMulti().series([gridlinesSvg, areaSvg, lineSvg]);
+const multiSvg = fc.seriesSvgMulti().series([gridlinesSvg, areaSvg, lineSvg]);
 
-var chartSvg = fc
+const chartSvg = fc
     .chartSvgCartesian(d3.scaleLinear(), d3.scaleLinear())
     .xLabel('Value')
     .yLabel('Sine / Cosine')
@@ -64,15 +64,15 @@ d3.select('#sine-svg')
 
 // and now in canvas ...
 
-var gridlinesCanvas = fc.annotationCanvasGridline();
-var areaCanvas = fc.seriesCanvasArea().mainValue(d => d.z);
-var lineCanvas = fc.seriesCanvasLine();
+const gridlinesCanvas = fc.annotationCanvasGridline();
+const areaCanvas = fc.seriesCanvasArea().mainValue(d => d.z);
+const lineCanvas = fc.seriesCanvasLine();
 
-var multiCanvas = fc
+const multiCanvas = fc
     .seriesCanvasMulti()
     .series([gridlinesCanvas, areaCanvas, lineCanvas]);
 
-var chartCanvas = fc
+const chartCanvas = fc
     .chartCanvasCartesian(d3.scaleLinear(), d3.scaleLinear())
     .xLabel('Value')
     .yLabel('Sine / Cosine')

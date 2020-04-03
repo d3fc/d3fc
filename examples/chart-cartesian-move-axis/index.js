@@ -1,24 +1,24 @@
-var data = d3.range(50).map(d => ({
+const data = d3.range(50).map(d => ({
     x: d / 4,
     y: Math.sin(d / 4),
     z: Math.cos(d / 4) * 0.7
 }));
 
-var xExtent = fc.extentLinear().accessors([d => d.x]);
-var yExtent = fc
+const xExtent = fc.extentLinear().accessors([d => d.x]);
+const yExtent = fc
     .extentLinear()
     .accessors([d => d.y, d => d.z])
     .pad([0.1, 0.1]);
 
-var gridlines = fc.annotationSvgGridline();
-var line = fc.seriesCanvasLine();
-var area = fc.seriesCanvasArea().mainValue(d => d.z);
+const gridlines = fc.annotationSvgGridline();
+const line = fc.seriesCanvasLine();
+const area = fc.seriesCanvasArea().mainValue(d => d.z);
 
-var multi = fc.seriesCanvasMulti().series([area, line]);
+const multi = fc.seriesCanvasMulti().series([area, line]);
 
-var yScale = d3.scaleLinear();
+const yScale = d3.scaleLinear();
 
-var chart = fc
+const chart = fc
     .chartCartesian(d3.scaleLinear(), yScale)
     .xLabel('Value')
     .yLabel('Sine / Cosine')

@@ -1,4 +1,4 @@
-var data = [
+const data = [
     {
         month: 'Jan',
         sales: 1
@@ -49,17 +49,17 @@ var data = [
     }
 ];
 
-var yExtent = fc
+const yExtent = fc
     .extentLinear()
     .accessors([d => d.sales])
     .include([0]);
 
-var bar = fc
+const bar = fc
     .seriesSvgBar()
     .crossValue(d => d.month)
     .mainValue(d => d.sales);
 
-var chart = fc
+const chart = fc
     .chartCartesian(d3.scalePoint().padding(0.5), d3.scaleLinear())
     .xLabel('Value')
     .yLabel('Sine / Cosine')

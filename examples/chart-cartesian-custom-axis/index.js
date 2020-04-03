@@ -35,25 +35,25 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
     return axis;
 };
 
-var data = d3.range(50).map(d => ({
+const data = d3.range(50).map(d => ({
     x: d / 4,
     y: Math.sin(d / 4),
     z: Math.cos(d / 4) * 0.7
 }));
 
-var xExtent = fc.extentLinear().accessors([d => d.x]);
-var yExtent = fc
+const xExtent = fc.extentLinear().accessors([d => d.x]);
+const yExtent = fc
     .extentLinear()
     .accessors([d => d.y, d => d.z])
     .pad([0.1, 0.1]);
 
-var gridlines = fc.annotationSvgGridline();
-var line = fc.seriesSvgLine();
-var area = fc.seriesSvgArea().mainValue(d => d.z);
+const gridlines = fc.annotationSvgGridline();
+const line = fc.seriesSvgLine();
+const area = fc.seriesSvgArea().mainValue(d => d.z);
 
-var multi = fc.seriesSvgMulti().series([gridlines, area, line]);
+const multi = fc.seriesSvgMulti().series([gridlines, area, line]);
 
-var chart = fc
+const chart = fc
     .chartCartesian({
         xScale: d3.scaleLinear(),
         yScale: d3.scaleLinear(),

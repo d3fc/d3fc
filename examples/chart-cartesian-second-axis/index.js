@@ -1,22 +1,22 @@
-var data = d3.range(50).map(d => ({
+const data = d3.range(50).map(d => ({
     x: d / 4,
     y: Math.sin(d / 4),
     z: Math.cos(d / 4) * 0.7
 }));
 
-var xExtent = fc.extentLinear().accessors([d => d.x]);
-var yExtent = fc
+const xExtent = fc.extentLinear().accessors([d => d.x]);
+const yExtent = fc
     .extentLinear()
     .accessors([d => d.y, d => d.z])
     .pad([0.1, 0.1]);
 
-var gridlines = fc.annotationSvgGridline();
-var line = fc.seriesCanvasLine();
-var area = fc.seriesCanvasArea().mainValue(d => d.z);
+const gridlines = fc.annotationSvgGridline();
+const line = fc.seriesCanvasLine();
+const area = fc.seriesCanvasArea().mainValue(d => d.z);
 
-var multi = fc.seriesCanvasMulti().series([area, line]);
+const multi = fc.seriesCanvasMulti().series([area, line]);
 
-var chart = fc
+const chart = fc
     .chartCartesian(d3.scaleLinear(), d3.scaleLinear())
     .xLabel('Value')
     .yLabel('Sine / Cosine')
@@ -27,9 +27,9 @@ var chart = fc
     .canvasPlotArea(multi);
 
 // create a scale for the second axis
-var zScale = d3.scaleLinear().domain([-1000, 1000]);
+const zScale = d3.scaleLinear().domain([-1000, 1000]);
 // create an axis for the scale
-var zAxis = d3.axisRight(zScale);
+const zAxis = d3.axisRight(zScale);
 
 chart.decorate(selection => {
     // when the chart is added to the DOM
