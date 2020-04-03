@@ -8,35 +8,29 @@
     <style>
         body {
             display: flex;
-            flex-direction: column;
-            margin: 0;
         }
 
-        body>div {
-            display: flex;
+        body>* {
+            flex: auto;
         }
 
-        d3fc-group.cartesian-chart {
-            height: auto;
+        path.area {
+            fill: #99ff99;
+            fill-opacity: 0.5;
         }
 
-        #main-chart {
-            flex: 4;
+        path.line {
+            stroke: #60c;
         }
 
-        #navigator-chart {
-            flex: 1;
-        }
-
-        #navigator-chart .y-axis {
-            opacity: 0;
+        .annotation-gridline line {
+            stroke: #ddd;
         }
     </style>
 </head>
 
 <body>
-    <div id="main-chart"></div>
-    <div id="navigator-chart"></div>
+    <d3fc-svg use-device-pixel-ratio></d3fc-svg>
     <script src="index.js"></script>
 </body>
 
