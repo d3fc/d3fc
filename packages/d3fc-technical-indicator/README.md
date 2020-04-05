@@ -38,7 +38,7 @@ Undefined inputs are best avoided — a single undefined input value will produc
 
 ```javascript
 
-import { indicatorBollingerBands } from 'd3fc-technical-indicator';
+import { indicatorBollingerBands } from '@d3fc/d3fc-technical-indicator';
 
 const bollinger = indicatorBollingerBands()
     .period(3);
