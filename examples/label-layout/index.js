@@ -1,10 +1,3 @@
-import { range, sum } from 'd3-array';
-import { rebind } from '@d3fc/d3fc-rebind';
-import { select, selectAll } from 'd3-selection';
-import * as d3 from 'd3-selection';
-import { layoutLabel, layoutTextLabel, layoutAnnealing, layoutRemoveOverlaps } from '..';
-import * as fc from '..';
-
 const isIntersecting = (a, b) =>
     !(a.x >= (b.x + b.width) ||
        (a.x + a.width) <= b.x ||
@@ -24,14 +17,12 @@ const layoutIntersect = (a, b) => {
 };
 
 const labelPadding = 4;
-const label = layoutTextLabel()
+const label = fc.layoutTextLabel()
     .padding(labelPadding)
     .value((d) => d.data);
 
 const width = 700;
 const height = 350;
-const itemWidth = 60;
-const itemHeight = 20;
 let data = [];
 
 // we intercept the strategy in order to capture the final layout and compute statistics
@@ -50,31 +41,29 @@ const strategyInterceptor = (strategy) => {
         const visibleLabels = finalLayout.filter((d) => !d.hidden);
         interceptor.time = time;
         interceptor.hidden = finalLayout.length - visibleLabels.length;
-        interceptor.overlap = sum(visibleLabels.map((label, index) => {
-            return sum(visibleLabels.filter((_, i) => i !== index)
-                .map((d) => layoutIntersect(d, label)));
-        }));
+        interceptor.overlap = d3.sum(visibleLabels.map((label, index) =>
+            d3.sum(visibleLabels.filter((_, i) => i !== index)
+                .map((d) => layoutIntersect(d, label)))
+        ));
         return finalLayout;
     };
-    rebind(interceptor, strategy, 'bounds');
+    fc.rebind(interceptor, strategy, 'bounds');
     return interceptor;
 };
 
-let strategy = strategyInterceptor(layoutAnnealing());
+let strategy = strategyInterceptor(fc.layoutAnnealing());
 
 const generateData = () => {
     const dataCount = document.getElementById('label-count').value;
-    data = range(0, document.getElementById('label-count').value)
-        .map((_, i) => {
-            return {
+    data = d3.range(0, dataCount)
+        .map((_, i) => ({
                 x: Math.random() * width,
                 y: Math.random() * height,
                 data: 'node-' + i
-            };
-        });
+        }));
 };
 
-const svg = select('svg')
+const svg = d3.select('svg')
     .attr('width', width)
     .attr('height', height);
 
@@ -90,7 +79,7 @@ const render = () => {
         .attr('cx', d => d.x)
         .attr('cy', d => d.y);
 
-    const labels = layoutLabel(strategy)
+    const labels = fc.layoutLabel(strategy)
         .size((_, i, g) => {
             const textSize = g[i].getElementsByTagName('text')[0].getBBox();
             return [textSize.width + labelPadding * 2, textSize.height + labelPadding * 2];
@@ -112,14 +101,14 @@ const getStrategyName = () => {
     return selector.options[selector.selectedIndex].value;
 };
 
-select('#strategy-selector')
+d3.select('#strategy-selector')
     .on('change', () => {
         const strategyName = getStrategyName();
-        selectAll('.annealing-field')
+        d3.selectAll('.annealing-field')
             .attr('style', 'display:' + (strategyName === 'annealing' ? 'visible' : 'none'));
     });
 
-select('#strategy-form .btn')
+d3.select('#apply-strategy')
     .on('click', () => {
         d3.event.preventDefault();
         const strategyName = getStrategyName();
@@ -137,13 +126,13 @@ select('#strategy-form .btn')
         }
         const removeOverlaps = document.getElementById('remove-overlaps').checked;
         if (removeOverlaps) {
-            strategy = layoutRemoveOverlaps(strategy);
+            strategy = fc.layoutRemoveOverlaps(strategy);
         }
         strategy = strategyInterceptor(strategy);
         render();
     });
 
-select('#labels-form .btn')
+d3.select('#generate-data')
     .on('click', () => {
         d3.event.preventDefault();
         generateData();
