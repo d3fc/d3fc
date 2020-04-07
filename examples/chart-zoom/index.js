@@ -33,8 +33,6 @@ const chart = fc.chartCartesian(x, y)
     .canvasPlotArea(area)
     .decorate((sel) => {
         // add the zoom interaction on the enter selection
-        // NOTE: there is a much better zoom integration being developed
-        // for d3fc!!!
         sel.enter()
             .select('.plot-area')
             .on('measure.range', () => {
