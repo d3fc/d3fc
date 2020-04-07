@@ -7,6 +7,10 @@ This directory contains a set of examples utilising various d3fc features.
 Just load up one of the `*/index.html` files in a browser. Where appropriate
 the `*/README.md` file will give further instructions.
 
+N.B Some of the tests require a webserver to be running in order for data
+files to be served correctly. This can be done by running `npm start` from
+the project root.
+
 ## Regression testing
 
 First the performance tests need baselining for the machine they are being run
@@ -32,7 +36,3 @@ non-determinism).
 
 It is advised that the `HEADLESS` and `EXECUTABLE_PATH` environment variables
 are set as puppeteer does not use the GPU in headless mode.
-
-N.B Some of the tests require a webserver to be running in order for data
-files to be served correctly. This can be done by running `npm start` from
-the project root.
