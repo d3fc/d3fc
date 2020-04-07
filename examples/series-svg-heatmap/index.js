@@ -1,4 +1,4 @@
-d3.csv('../__data-files__/heatmap-data.csv', type).then(data => {
+d3.csv('../__data__/heatmap-data.csv', type).then(data => {
     const container = document.querySelector('d3fc-svg');
 
     const xScale = d3.scaleLinear().domain([-0.5, 23.5]);
