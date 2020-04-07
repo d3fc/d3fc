@@ -2,9 +2,9 @@
 const prng = d3.randomNormal();
 
 const data = d3.range(1e3).map(d => ({
-        x: prng(),
-        y: prng()
-    }));
+    x: prng(),
+    y: prng()
+}));
 
 const x = d3.scaleLinear().domain([-5, 5]);
 const y = d3.scaleLinear().domain([-5, 5]);
@@ -13,25 +13,26 @@ const y = d3.scaleLinear().domain([-5, 5]);
 const x2 = x.copy();
 const y2 = y.copy();
 
-const area = fc.seriesCanvasPoint()
+const area = fc
+    .seriesCanvasPoint()
     .crossValue(d => d.x)
     .mainValue(d => d.y)
     .size(4);
 
 // create a d3-zoom that handles the mouse / touch interactions
-const zoom = d3.zoom()
-    .on('zoom', function () {
-        // update the scale used by the chart to use the updated domain
-        x.domain(d3.event.transform.rescaleX(x2).domain());
-        y.domain(d3.event.transform.rescaleY(y2).domain());
-        render();
-    });
+const zoom = d3.zoom().on('zoom', function() {
+    // update the scale used by the chart to use the updated domain
+    x.domain(d3.event.transform.rescaleX(x2).domain());
+    y.domain(d3.event.transform.rescaleY(y2).domain());
+    render();
+});
 
 // the chart!
-const chart = fc.chartCartesian(x, y)
+const chart = fc
+    .chartCartesian(x, y)
     .chartLabel('Canvas Zoom 1,000 Points')
     .canvasPlotArea(area)
-    .decorate((sel) => {
+    .decorate(sel => {
         // add the zoom interaction on the enter selection
         sel.enter()
             .select('.plot-area')
