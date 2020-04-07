@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "14.2.5",
+  "version": "14.2.6",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "@d3fc/d3fc-sample": "^4.1.0",
     "@d3fc/d3fc-series": "^4.7.2",
     "@d3fc/d3fc-shape": "^5.1.0",
-    "@d3fc/d3fc-technical-indicator": "^7.1.5",
+    "@d3fc/d3fc-technical-indicator": "^7.1.6",
     "@d3fc/d3fc-webgl": "^1.9.2"
   },
   "devDependencies": {

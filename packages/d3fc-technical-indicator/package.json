@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-technical-indicator",
-  "version": "7.1.5",
+  "version": "7.1.6",
   "description": "Components for calculating technical indicators on data series",
   "license": "MIT",
   "keywords": [
