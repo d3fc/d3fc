@@ -1,4 +1,4 @@
-d3.csv('../__data-files__/heatmap-data.csv', type).then(data => {
+d3.csv('../__data__/heatmap-data.csv', type).then(data => {
     const container = document.querySelector('d3fc-canvas');
 
     // Here we use band scales to demonstrate that the autoBandwidth component
