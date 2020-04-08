@@ -18,6 +18,10 @@ it('should have consistent performance', async () => {
 
 it('should look good on the website!', async () => {
     await d3fc.loadExample(module);
+    for (let i = 0; i < 6; i++) {
+        await page.click('d3fc-canvas');
+    }
+    await d3fc.waitForEmptyRedrawQueue();
     await page.screenshot({
         path: join(__dirname, '..', 'screenshot.png'),
         omitBackground: true
