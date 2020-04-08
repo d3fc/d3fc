@@ -1,8 +1,22 @@
 #!/bin/bash
 set -e # exit with nonzero exit code if anything fails
 
-# go to the dist directory and create a *new* Git repo
-cd packages/d3fc-site/dist
+# go to the example directory 
+cd examples
+
+# update scripts to reference unpkg
+sed -i "" "s#../../(node_modules|packages)/#https://unpkg.com/#" */index.html
+
+# add directory listing
+find . -type d -depth 1 -regex "./[a-z].*" > examples.txt
+
+# copy site assets
+cp -r ../site/* .
+
+# disable jekyll
+touch .nojekyll
+
+# create a *new* Git repo
 git init
 
 # inside this git repo we'll pretend to be a new user
