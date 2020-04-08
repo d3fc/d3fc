@@ -12,8 +12,4 @@ it('should look good on the website!', async () => {
         path: join(__dirname, '..', 'screenshot.png'),
         omitBackground: true
     });
-    await page.screenshot({
-        path: '../packages/d3fc-axis/screenshots/rotate.png',
-        omitBackground: true
-    });
 });
