@@ -36,3 +36,6 @@ non-determinism).
 
 It is advised that the `HEADLESS` and `EXECUTABLE_PATH` environment variables
 are set as puppeteer does not use the GPU in headless mode.
+
+The `BASE_URL` environment variable can also be used to change the base URL of
+the examples in the tests.

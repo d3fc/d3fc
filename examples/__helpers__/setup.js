@@ -5,6 +5,7 @@ const { toHaveLogs } = require('./toHaveLogs');
 const {
     toHaveConsistentPerformance
 } = require('./toHaveConsistentPerformance');
+const { loadExample } = require('./loadExample');
 const { waitForEmptyRedrawQueue } = require('./waitForEmptyRedrawQueue');
 
 expect.extend({
@@ -15,5 +16,6 @@ expect.extend({
 });
 
 global.d3fc = {
+    loadExample,
     waitForEmptyRedrawQueue
 };
