@@ -39,9 +39,7 @@ function render() {
         .xDomain(xExtent(data))
         .svgPlotArea(multi);
 
-    const container = document.querySelector('d3fc-svg');
-
-    d3.select(container)
+    d3.select('#chart')
         .datum(data)
         .transition()
         .duration(1000)
