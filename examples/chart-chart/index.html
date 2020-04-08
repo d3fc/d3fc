@@ -7,31 +7,27 @@
     <script src="../../packages/d3fc/build/d3fc.js"></script>
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
     <style>
-        body {
-            display: flex;
-            margin: 0;
+        path.area {
+            fill: #99ff99;
+            fill-opacity: 0.5;
         }
 
-        body>* {
-            flex: auto;
+        path.line {
+            stroke: #60c;
         }
 
-        g.annotation-band>path {
-            fill-opacity: 0.1;
-        }
-
-        g.annotation-band.horizontal>path {
-            fill: #60c;
-        }
-
-        g.annotation-band.vertical>path {
-            fill: #0c0;
+        .annotation-gridline line {
+            stroke: #ddd;
         }
     </style>
 </head>
 
 <body>
-    <d3fc-svg use-device-pixel-ratio></d3fc-svg>
+    <d3fc-svg id="sine-chart" use-device-pixel-ratio></d3fc-svg>
+    <h1>Legacy Components</h1>
+    <d3fc-svg id="sine-svg" use-device-pixel-ratio></d3fc-svg>
+    <d3fc-canvas id="sine-canvas" use-device-pixel-ratio></d3fc-canvas>
+
     <script src="index.js"></script>
 </body>
 
