@@ -47,7 +47,6 @@ npm install @d3fc/d3fc-series
  * [Decorate Pattern](#decorate-pattern)
  * [Orientation](#orientation)
  * [Multi Series](#multi-series)
- * [Decorate Pattern](#decorate-pattern)
  * [Auto Bandwidth](#auto-bandwidth)
  * [Accessors](#accessors)
 * [Line](#line)
