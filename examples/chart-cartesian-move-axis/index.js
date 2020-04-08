@@ -51,8 +51,6 @@ chart.xDecorate(selection => {
     selection.select('text').attr('transform', 'translate(-7, 7)');
 });
 
-const container = document.querySelector('d3fc-svg');
-
-d3.select(container)
+d3.select('#chart')
     .datum(data)
     .call(chart);
