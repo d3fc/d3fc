@@ -8,7 +8,8 @@ it('should match the image snapshot', async () => {
 
 it('should look good on the website!', async () => {
     await d3fc.loadExample(module);
-    await page.screenshot({
+    const element = await page.$('svg');
+    await element.screenshot({
         path: join(__dirname, '..', 'screenshot.png'),
         omitBackground: true
     });
