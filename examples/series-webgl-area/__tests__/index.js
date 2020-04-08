@@ -2,7 +2,7 @@ const { join } = require('path');
 
 it('should have consistent performance', async () => {
     await expect(async () => {
-        await page.goto('file://' + join(__dirname, '..', 'index.html'));
+        await d3fc.loadExample(module);
         await d3fc.waitForEmptyRedrawQueue();
         for (let i = 1; i < 6; i += 1) {
             await page.click('d3fc-canvas');
@@ -17,7 +17,7 @@ it('should have consistent performance', async () => {
 });
 
 it('should look good on the website!', async () => {
-    await page.goto('file://' + join(__dirname, '..', 'index.html'));
+    await d3fc.loadExample(module);
     await page.screenshot({
         path: join(__dirname, '..', 'screenshot.png'),
         omitBackground: true
