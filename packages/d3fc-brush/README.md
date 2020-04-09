@@ -2,7 +2,7 @@
 
 Adapts the D3 brush, making it easier to create data-driven, responsive brushed charts.
 
-<img src="../../examples/brush-navigator/screenshot.png" />
+<img src="https://d3fc.io/examples/brush-navigator/screenshot.png" />
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 

@@ -2,7 +2,7 @@
 
 A simple Cartesian chart component that renders to canvas or SVG.
 
-<img src="../../examples/chart-cartesian-move-axis/screenshot.png" />
+<img src="https://d3fc.io/examples/chart-cartesian-move-axis/screenshot.png" />
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 
