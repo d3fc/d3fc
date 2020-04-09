@@ -68,8 +68,6 @@ const chart = fc
     .xDomain(data.map(d => d.month))
     .svgPlotArea(bar);
 
-const container = document.querySelector('d3fc-svg');
-
 d3.select('#chart')
     .datum(data)
     .call(chart);

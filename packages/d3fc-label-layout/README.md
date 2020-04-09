@@ -2,7 +2,7 @@
 
 A D3 layout that places labels avoiding overlaps, with strategies including simulated annealing, greedy and a strategy that removes overlapping labels.
 
-![d3fc label layout](d3fc-label-layout.png)
+<img src="screenshots/d3fc-label-layout.png" />
 
 For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-label-layout/).
 
@@ -83,7 +83,7 @@ Specifies the position for each item in the associated array. The *accessor* fun
 
 Specified the component that is used to render each label.
 
-<a name="layoutLabel_xScale" href="#layoutLabel_xScale">#</a> *layoutLabel*.**xScale**(*scale*)  
+<a name="layoutLabel_xScale" href="#layoutLabel_xScale">#</a> *layoutLabel*.**xScale**(*scale*)
 <a name="layoutLabel_yScale" href="#layoutLabel_yScale">#</a> *layoutLabel*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns the label layout component. If *scale* is not specified, returns the current scale.
@@ -152,7 +152,7 @@ Constructs a removeOverlaps strategy, adapting the supplied *strategy* in order 
 
 This is a simple component that renders a label:
 
-![d3fc label layout](textLabel.png)
+<img src="screenshots/textLabel.png" />
 
 This component uses the `layout-width` and `layout-height` properties of its parent element to set its own width and height. It also uses the `anchor-x` and `anchor-y` properties to place the circular anchor. These properties are all set by the label layout as described above.
 

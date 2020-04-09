@@ -36,7 +36,7 @@ const axis = fc.axisBottom(linear)
   .tickCenterLabel(true);
 ```
 
-<img src="screenshots/center.png"/>
+<img src="https://d3fc.io/examples/axis-center/screenshot.png"/>
 
 ##### Band scales
 
@@ -85,8 +85,6 @@ d3.select('svg')
     .call(axis);
 ```
 
-<img src="screenshots/overlap.png"/>
-
 The overlap can be avoided by applying one of the adapters, for example you can apply the `axisLabelRotate` adapter as follows:
 
 ```
@@ -95,7 +93,7 @@ const axis = fc.axisLabelRotate(fc.axisOrdinalBottom(foodScale));
 
 Each time the axis is rendered this adapter measures the labels and determines whether they need to be rotated in order to avoid collisions. With this example the axis renders as follows:
 
-<img src="screenshots/rotate.png"/>
+<img src="https://d3fc.io/examples/axis-rotate-decorate/screenshot.png"/>
 
 #### Decorate pattern
 
@@ -121,33 +119,31 @@ const axis = fc.axisBottom(scale)
   );
 ```
 
-<img src="screenshots/color.png"/>
+<img src="https://d3fc.io/examples/axis-color/screenshot.png"/>
 
 ### Axis
 
-![](screenshots/axis.png)
-
-<a name="axisBottom" href="#axisBottom">#</a> fc.**axisBottom**()  
-<a name="axisTop" href="#axisTop">#</a> fc.**axisTop**()  
-<a name="axisLeft" href="#axisLeft">#</a> fc.**axisLeft**()  
-<a name="axisRight" href="#axisRight">#</a> fc.**axisRight**()  
+<a name="axisBottom" href="#axisBottom">#</a> fc.**axisBottom**()
+<a name="axisTop" href="#axisTop">#</a> fc.**axisTop**()
+<a name="axisLeft" href="#axisLeft">#</a> fc.**axisLeft**()
+<a name="axisRight" href="#axisRight">#</a> fc.**axisRight**()
 
 A drop-in replacement for D3 axis, see the [D3 documentation for API reference](https://github.com/d3/d3-axis#api-reference).
 
 ### Ordinal Axis
 
-![](screenshots/ordinal.png)
+<img src="https://d3fc.io/examples/axis-band-scale/screenshot.png" />
 
-<a name="axisOrdinalBottom" href="#axisOrdinalBottom">#</a> fc.**axisOrdinalBottom**()  
-<a name="axisOrdinalTop" href="#axisOrdinalTop">#</a> fc.**axisOrdinalTop**()  
-<a name="axisOrdinalLeft" href="#axisOrdinalLeft">#</a> fc.**axisOrdinalLeft**()  
-<a name="axisOrdinalRight" href="#axisOrdinalRight">#</a> fc.**axisOrdinalRight**()  
+<a name="axisOrdinalBottom" href="#axisOrdinalBottom">#</a> fc.**axisOrdinalBottom**()
+<a name="axisOrdinalTop" href="#axisOrdinalTop">#</a> fc.**axisOrdinalTop**()
+<a name="axisOrdinalLeft" href="#axisOrdinalLeft">#</a> fc.**axisOrdinalLeft**()
+<a name="axisOrdinalRight" href="#axisOrdinalRight">#</a> fc.**axisOrdinalRight**()
 
 A drop-in replacement for D3 axis, see the [D3 documentation for API reference](https://github.com/d3/d3-axis#api-reference).
 
 ### Axis Label Offset
 
-![](screenshots/offset.png)
+<img src="https://d3fc.io/examples/axis-offset/screenshot.png" />
 
 <a name="axisLabelOffset" href="#axisLabelOffset">#</a> fc.**axisLabelOffset**(*axis*)
 
@@ -161,7 +157,7 @@ If *offset* is set to `auto`, the adapter will determine the required offset dep
 
 ### Axis Label Rotate
 
-<img src="screenshots/rotate.png" style="width:400px;"/>
+<img src="https://d3fc.io/examples/axis-rotate-decorate/screenshot.png" />
 
 <a name="axisLabelRotate" href="#axisLabelRotate">#</a> fc.**axisLabelRotate**(*axis*)
 
