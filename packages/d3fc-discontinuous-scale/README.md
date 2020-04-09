@@ -35,7 +35,7 @@ var axis = axisBottom()
 
 Which renders as follows:
 
-![](discontinuous-scale.png)
+<img src="screenshots/discontinuous-scale.png" />
 
 There are various different discontinuity providers which can be used with the discontinuous scale. It is also possible to write your own.
 
