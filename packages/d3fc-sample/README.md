@@ -2,7 +2,7 @@
 
 A D3 component for down-sampling data using a variety of methods. Data is typically partitioned into equally-sized buckets, and one data point from each bucket is chosen. The algorithms employed here are Largest Triangle 1 (or 3) Bucket, or Mode-Median as detailed in the thesis [Downsampling Time Series for Visual Representation](http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf).
 
-<img src="../../examples/sample/screenshot.png" />
+<img src="https://d3fc.io/examples/sample/screenshot.png" />
 
 For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-sample/).
 

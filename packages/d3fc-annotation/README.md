@@ -4,12 +4,12 @@ A collection of components for rendering plot area annotations (bands, crosshair
 
 <table>
 <tr>
-<td><a href="#gridline"><img src="../../examples/annotation-canvas-gridline/screenshot.png"/></a></td>
-<td><a href="#crosshair"><img src="../../examples/annotation-canvas-crosshair/screenshot.png"/></a></td>
+<td><a href="#gridline"><img src="https://d3fc.io/examples/annotation-canvas-gridline/screenshot.png"/></a></td>
+<td><a href="#crosshair"><img src="https://d3fc.io/examples/annotation-canvas-crosshair/screenshot.png"/></a></td>
 </tr>
 <tr>
-<td><a href="#band"><img src="../../examples/annotation-canvas-band/screenshot.png"/></a></td>
-<td><a href="#line"><img src="../../examples/annotation-canvas-line/screenshot.png"/></a></td>
+<td><a href="#band"><img src="https://d3fc.io/examples/annotation-canvas-band/screenshot.png"/></a></td>
+<td><a href="#line"><img src="https://d3fc.io/examples/annotation-canvas-line/screenshot.png"/></a></td>
 </tr>
 </table>
 

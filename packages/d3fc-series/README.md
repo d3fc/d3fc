@@ -4,27 +4,27 @@ A collection of components for rendering data series to SVG, canvas and WebGL, i
 
 <table>
 <tr>
-  <td><a href="#boxplot"><img src="../../examples/series-svg-boxplot/screenshot.png"/></a></td>
-  <td><a href="#candlestick"><img src="../../examples/series-svg-candlestick/screenshot.png"/></a></td>
-  <td><a href="#line"><img src="../../examples/series-svg-line/screenshot.png"/></a></td>
+  <td><a href="#boxplot"><img src="https://d3fc.io/examples/series-svg-boxplot/screenshot.png"/></a></td>
+  <td><a href="#candlestick"><img src="https://d3fc.io/examples/series-svg-candlestick/screenshot.png"/></a></td>
+  <td><a href="#line"><img src="https://d3fc.io/examples/series-svg-line/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#ohlc"><img src="../../examples/series-svg-ohlc/screenshot.png"/></a></td>
-  <td><a href="#area"><img src="../../examples/series-svg-area/screenshot.png"/></a></td>
-  <td><a href="#point"><img src="../../examples/series-svg-point/screenshot.png"/></a></td>
+  <td><a href="#ohlc"><img src="https://d3fc.io/examples/series-svg-ohlc/screenshot.png"/></a></td>
+  <td><a href="#area"><img src="https://d3fc.io/examples/series-svg-area/screenshot.png"/></a></td>
+  <td><a href="#point"><img src="https://d3fc.io/examples/series-svg-point/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#bar"><img src="../../examples/series-svg-bar/screenshot.png"/></a></td>
-  <td><a href="#errorbar"><img src="../../examples/series-svg-errorbar/screenshot.png"/></a></td>
-  <td><a href="#multi"><img src="../../examples/series-svg-multi/screenshot.png"/></a></td>
+  <td><a href="#bar"><img src="https://d3fc.io/examples/series-svg-bar/screenshot.png"/></a></td>
+  <td><a href="#errorbar"><img src="https://d3fc.io/examples/series-svg-errorbar/screenshot.png"/></a></td>
+  <td><a href="#multi"><img src="https://d3fc.io/examples/series-svg-multi/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#grouped"><img src="../../examples/series-svg-grouped/screenshot.png"/></a></td>
-  <td><a href="#stacked"><img src="../../examples/series-svg-stacked/screenshot.png"/></a></td>
-  <td><a href="#repeat"><img src="../../examples/series-svg-repeat/screenshot.png"/></a></td>
+  <td><a href="#grouped"><img src="https://d3fc.io/examples/series-svg-grouped/screenshot.png"/></a></td>
+  <td><a href="#stacked"><img src="https://d3fc.io/examples/series-svg-stacked/screenshot.png"/></a></td>
+  <td><a href="#repeat"><img src="https://d3fc.io/examples/series-svg-repeat/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#heatmap"><img src="../../examples/series-svg-heatmap/screenshot.png"/></a></td>
+  <td><a href="#heatmap"><img src="https://d3fc.io/examples/series-svg-heatmap/screenshot.png"/></a></td>
   <td></td>
   <td></td>
 </tr>
@@ -178,7 +178,7 @@ const svgBar = fc.seriesSvgBar()
     });
 ```
 
-<img src="../../examples/series-svg-decorate/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-decorate/screenshot.png" />
 
 Here is the same example for a canvas bar series; the way that the decorate pattern works is subtly different. For SVG components the decorate function is invoked once with the selection that renders all of the bars (or points, candlesticks, ...), with canvas, the decorate function is invoked for each of the data-points in the series.
 
@@ -191,7 +191,7 @@ const canvasLine = fc.seriesCanvasBar()
     });
 ```
 
-<img src="../../examples/series-canvas-decorate/screenshot.png" />
+<img src="https://d3fc.io/examples/series-canvas-decorate/screenshot.png" />
 
 And here is the same example for a WebGL series; again the pattern is subtly different. In WebGL the fill color needs to be passed down to the GPU using an attribute and then applied by a shader to the rendered bar. This is all wrapped up by the `webglFillColor` component.
 
@@ -225,7 +225,7 @@ const svgBar = fc.seriesSvgBar()
     });
 ```
 
-<img src="../../examples/series-svg-decorate-append/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-decorate-append/screenshot.png" />
 
 With canvas, you can also perform additional rendering to the canvas in order to achieve the same effect. Once again, the canvas origin has been translated to the origin of each data-point before the decorate function is invoked.
 
@@ -243,7 +243,7 @@ const canvasLine = fc.seriesCanvasPoint()
     });
 ```
 
-<img src="../../examples/series-canvas-decorate-append/screenshot.png" />
+<img src="https://d3fc.io/examples/series-canvas-decorate-append/screenshot.png" />
 
 Whilst it is possible to do something similar with WebGL, it would be a much more involved process involving heavy customisation of the shaders. In most cases it would be easier to render the bulk of the data as a WebGL base series and then overlay a subset of the data using a decorated SVG/canvas series.
 
@@ -396,7 +396,7 @@ All of the series expose `xValues`/`yValues` methods which return an array of al
 
 ### Line
 
-<img src="../../examples/series-svg-line/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-line/screenshot.png" />
 
 <a name="seriesSvgLine" href="#seriesSvgLine">#</a> fc.**seriesSvgLine**()
 <a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.**seriesCanvasLine**()
@@ -456,7 +456,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Point
 
-<img src="../../examples/series-svg-point/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-point/screenshot.png" />
 
 <a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.**seriesSvgPoint**()
 <a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()
@@ -516,7 +516,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Area
 
-<img src="../../examples/series-svg-area/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-area/screenshot.png" />
 
 <a name="seriesSvgArea" href="#seriesSvgArea">#</a> fc.**seriesSvgArea**()
 <a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.**seriesCanvasArea**()
@@ -571,7 +571,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Bar
 
-<img src="../../examples/series-svg-bar/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-bar/screenshot.png" />
 
 <a name="seriesSvgBar" href="#seriesSvgBar">#</a> fc.**seriesSvgBar**()
 <a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.**seriesCanvasBar**()
@@ -624,7 +624,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Candlestick
 
-<img src="../../examples/series-svg-candlestick/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-candlestick/screenshot.png" />
 
 <a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a> fc.**seriesSvgCandlestick**()
 <a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.**seriesCanvasCandlestick**()
@@ -681,7 +681,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### OHLC
 
-<img src="../../examples/series-svg-ohlc/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-ohlc/screenshot.png" />
 
 <a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a> fc.**seriesSvgOhlc**()
 <a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.**seriesCanvasOhlc**()
@@ -740,7 +740,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Boxplot
 
-<img src="../../examples/series-svg-boxplot/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-boxplot/screenshot.png" />
 
 <a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a> fc.**seriesSvgBoxPlot**()
 <a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.**seriesCanvasBoxPlot**()
@@ -810,7 +810,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Errorbar
 
-<img src="../../examples/series-svg-errorbar/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-errorbar/screenshot.png" />
 
 <a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a> fc.**seriesSvgErrorBar**()
 <a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.**seriesCanvasErrorBar**()
@@ -873,7 +873,7 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Heatmap
 
-<img src="../../examples/series-svg-heatmap/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-heatmap/screenshot.png" />
 
 <a name="seriesSvgHeatmap" href="#seriesSvgHeatmap">#</a> fc.**seriesSvgHeatmap**()
 <a name="seriesCanvasHeatmap" href="#seriesCanvasHeatmap">#</a> fc.**seriesCanvasHeatmap**()
@@ -914,7 +914,7 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 ### Multi
 
-<img src="../../examples/series-svg-multi/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-multi/screenshot.png" />
 
 <a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.**seriesSvgMulti**()
 <a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()
@@ -968,7 +968,7 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 ### Repeat
 
-<img src="../../examples/series-svg-repeat/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-repeat/screenshot.png" />
 
 <a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.**seriesSvgRepeat**()
 <a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()
@@ -1019,7 +1019,7 @@ Please refer to the multi series for the documentation of these properties.
 
 ### Grouped
 
-<img src="../../examples/series-svg-grouped/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-grouped/screenshot.png" />
 
 <a name="seriesSvgGrouped" href="#seriesSvgGrouped">#</a> fc.**seriesSvgGrouped**(*adaptedSeries*)
 <a name="seriesCanvasGrouped" href="#seriesCanvasGrouped">#</a> fc.**seriesCanvasGrouped**(*adaptedSeries*)
@@ -1089,7 +1089,7 @@ If *padding* is specified, sets the sub-padding to the specified value which mus
 
 ### Stacked
 
-<img src="../../examples/series-svg-stacked/screenshot.png" />
+<img src="https://d3fc.io/examples/series-svg-stacked/screenshot.png" />
 
 There is not an explicit series type for rendering stacked charts, it is a straightforward task to render stacked series with the existing components. This section illustrates this with a few examples.
 
