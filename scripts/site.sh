@@ -5,7 +5,8 @@ set -e # exit with nonzero exit code if anything fails
 cd examples
 
 # update scripts to reference unpkg
-sed -i "" "s#../../(node_modules|packages)/#https://unpkg.com/#" */index.html
+sed -i "" "s#../../node_modules/#https://unpkg.com/#" */index.html
+sed -i "" "s#../../packages/#https://unpkg.com/#" */index.html
 
 # add directory listing
 find . -type d -depth 1 -regex "./[a-z].*" > examples.txt
