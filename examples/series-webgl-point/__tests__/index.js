@@ -1,5 +1,11 @@
 const { join } = require('path');
 
+it('should match the image snapshot', async () => {
+    await d3fc.loadExample(module);
+    const image = await page.screenshot();
+    expect(image).toMatchImageSnapshot();
+});
+
 it('should have consistent performance', async () => {
     await expect(async () => {
         await d3fc.loadExample(module);
@@ -11,9 +17,6 @@ it('should have consistent performance', async () => {
     }).toHaveConsistentPerformance();
 
     expect(page).not.toHaveLogs();
-
-    const image = await page.screenshot();
-    expect(image).toMatchImageSnapshot();
 });
 
 it('should look good on the website!', async () => {
