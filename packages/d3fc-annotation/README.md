@@ -4,12 +4,12 @@ A collection of components for rendering plot area annotations (bands, crosshair
 
 <table>
 <tr>
-<td><a href="#gridline"><img src="screenshots/gridline.png"/></a></td>
-<td><a href="#crosshair"><img src="screenshots/crosshair.png"/></a></td>
+<td><a href="#gridline"><img src="../../examples/annotation-canvas-gridline/screenshot.png"/></a></td>
+<td><a href="#crosshair"><img src="../../examples/annotation-canvas-crosshair/screenshot.png"/></a></td>
 </tr>
 <tr>
-<td><a href="#band"><img src="screenshots/band.png"/></a></td>
-<td><a href="#line"><img src="screenshots/line.png"/></a></td>
+<td><a href="#band"><img src="../../examples/annotation-canvas-band/screenshot.png"/></a></td>
+<td><a href="#line"><img src="../../examples/annotation-canvas-line/screenshot.png"/></a></td>
 </tr>
 </table>
 

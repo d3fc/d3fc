@@ -2,7 +2,7 @@
 
 Adapts the D3 brush, making it easier to create data-driven, responsive brushed charts.
 
-<img src="screenshots/screenshot.png"/>
+<img src="../../examples/brush-navigator/screenshot.png" />
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 
@@ -109,7 +109,7 @@ Creates a new two-dimensional brush.
 
 Creates a new one-dimensional brush along the x-dimension.
 
-<a name="brushY" href="#brushY">#</a> fc.**brushY**()  
+<a name="brushY" href="#brushY">#</a> fc.**brushY**()
 
 Creates a new one-dimensional brush along the y-dimension.
 
@@ -127,7 +127,7 @@ The event object exposes the following fields:
  - `xDomain` - the x-domain represented by the given selection.
  - `yDomain` - the y-domain represented by the given selection.
 
-<a name="xScale" href="#xScale">#</a> *brush*.**xScale**(*scale*)  
+<a name="xScale" href="#xScale">#</a> *brush*.**xScale**(*scale*)
 <a name="yScale" href="#yScale">#</a> *brush*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this brush. If *scale* is not specified, returns the current scale.

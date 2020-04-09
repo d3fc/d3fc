@@ -2,7 +2,7 @@
 
 A D3 component for down-sampling data using a variety of methods. Data is typically partitioned into equally-sized buckets, and one data point from each bucket is chosen. The algorithms employed here are Largest Triangle 1 (or 3) Bucket, or Mode-Median as detailed in the thesis [Downsampling Time Series for Visual Representation](http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf).
 
-![d3fc sample](d3fc-sample.png)
+<img src="../../examples/sample/screenshot.png" />
 
 For a live demo, see the [GitHub Pages site](http://d3fc.github.io/d3fc-sample/).
 
@@ -68,7 +68,7 @@ Largest Triangle is a sampler where, given two pre-determined points, the point 
 
 > The effective area of a point is the area size of a triangle it forms with its two adjacent points.
 
-![largest triangle one bucket illustration](largest-triangle-one-bucket.png)
+<img src="screenshots/largest-triangle-one-bucket.png" />
 
 <a name="largestTriangleOneBucket" href="#largestTriangleOneBucket">#</a> fc.**largestTriangleOneBucket**()
 
@@ -95,7 +95,7 @@ Denotes the amount of data points for each bucket. The first and last data point
 
 The point used to form the triangle in the last bucket is a temporary point which is the average of all other points within that bucket.
 
-![largest triangle three bucket illustration](largest-triangle-three-bucket.png)
+<img src="screenshots/largest-triangle-three-bucket.png" />
 
 <a name="largestTriangleThreeBucket" href="#largestTriangleThreeBucket">#</a> fc.**largestTriangleThreeBucket**()
 
