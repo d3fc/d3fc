@@ -10,27 +10,28 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
 
             container.attr('font-size', 10);
 
-            const labels = container
-                .selectAll('g')
-                .data(ticks);
+            const labels = container.selectAll('g').data(ticks);
 
-            const enter = labels.enter()
+            const enter = labels
+                .enter()
                 .append('g')
                 .attr('class', 'tick');
 
             const merged = labels.merge(enter);
 
-            enter.append('circle')
+            enter
+                .append('circle')
                 .attr('r', 10)
                 .attr('fill', 'rgba(100, 0, 0, 0.2)');
 
-            merged.select('circle')
+            merged
+                .select('circle')
                 .attr('transform', d => translate(scale(d), sign * 20));
 
-            enter.append('text')
-                .attr('text-anchor', 'middle');
+            enter.append('text').attr('text-anchor', 'middle');
 
-            merged.select('text')
+            merged
+                .select('text')
                 .text(d => d)
                 .attr('transform', d => translate(scale(d), sign * 20, 3));
         });
