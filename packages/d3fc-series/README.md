@@ -4,27 +4,27 @@ A collection of components for rendering data series to SVG, canvas and WebGL, i
 
 <table>
 <tr>
-  <td><a href="#boxplot"><img src="screenshots/boxplot.png"/></a></td>
-  <td><a href="#candlestick"><img src="screenshots/candlestick.png"/></a></td>
-  <td><a href="#line"><img src="screenshots/line.png"/></a></td>
+  <td><a href="#boxplot"><img src="../../examples/series-svg-boxplot/screenshot.png"/></a></td>
+  <td><a href="#candlestick"><img src="../../examples/series-svg-candlestick/screenshot.png"/></a></td>
+  <td><a href="#line"><img src="../../examples/series-svg-line/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#ohlc"><img src="screenshots/ohlc.png"/></a></td>
-  <td><a href="#area"><img src="screenshots/area.png"/></a></td>
-  <td><a href="#point"><img src="screenshots/point.png"/></a></td>
+  <td><a href="#ohlc"><img src="../../examples/series-svg-ohlc/screenshot.png"/></a></td>
+  <td><a href="#area"><img src="../../examples/series-svg-area/screenshot.png"/></a></td>
+  <td><a href="#point"><img src="../../examples/series-svg-point/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#bar"><img src="screenshots/bar.png"/></a></td>
-  <td><a href="#errorbar"><img src="screenshots/errorbar.png"/></a></td>
-  <td><a href="#multi"><img src="screenshots/multi.png"/></a></td>
+  <td><a href="#bar"><img src="../../examples/series-svg-bar/screenshot.png"/></a></td>
+  <td><a href="#errorbar"><img src="../../examples/series-svg-errorbar/screenshot.png"/></a></td>
+  <td><a href="#multi"><img src="../../examples/series-svg-multi/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#grouped"><img src="screenshots/grouped.png"/></a></td>
-  <td><a href="#stacked"><img src="screenshots/stacked.png"/></a></td>
-  <td><a href="#repeat"><img src="screenshots/repeat.png"/></a></td>
+  <td><a href="#grouped"><img src="../../examples/series-svg-grouped/screenshot.png"/></a></td>
+  <td><a href="#stacked"><img src="../../examples/series-svg-stacked/screenshot.png"/></a></td>
+  <td><a href="#repeat"><img src="../../examples/series-svg-repeat/screenshot.png"/></a></td>
 </tr>
 <tr>
-  <td><a href="#heatmap"><img src="screenshots/heatmap.png"/></a></td>
+  <td><a href="#heatmap"><img src="../../examples/series-svg-heatmap/screenshot.png"/></a></td>
   <td></td>
   <td></td>
 </tr>
@@ -127,7 +127,7 @@ Because D3 data-joins and data-binding only work on HTML / SVG, the canvas compo
 
 ***WebGL rendering does not yet have full feature parity with the other rendering methods. Please check the API documentation against the methods to see what is currently supported.***
 
-The `seriesWebglLine` component has an API that is almost identical to its canvas counterpart, `seriesCanvasLine`. The only difference is the `context` property, which requires a `contextType` of `'webgl'`. 
+The `seriesWebglLine` component has an API that is almost identical to its canvas counterpart, `seriesCanvasLine`. The only difference is the `context` property, which requires a `contextType` of `'webgl'`.
 
 ```javascript
 const data = [
@@ -152,7 +152,7 @@ As with the canvas, the components are invoked directly with the supplied data. 
 
 WebGL is based upon a pipeline of processing the data into the an appropriate format for the GPU, loading this data into the GPU and then allowing the GPU to process the data in a highly parallel fashion. When using these components, the bottlenecks in this pipeline are most commonly the pre-processing of data and the loading of data into the GPU, both of which are performed or controlled by JavaScript.
 
-Some of this performance optimisation is addressed by the design of the components (e.g. how we pre-process the data and in to what form) and some of it necessitates the optimal use of the components by consumers (e.g. when we need to pre-process/load the data). In all cases consumers should be aiming to reduce the amount of pre-processing and loading of data to achieve the best performance. 
+Some of this performance optimisation is addressed by the design of the components (e.g. how we pre-process the data and in to what form) and some of it necessitates the optimal use of the components by consumers (e.g. when we need to pre-process/load the data). In all cases consumers should be aiming to reduce the amount of pre-processing and loading of data to achieve the best performance.
 
 The components offer two WebGL-specific methods to allow finer control over these processses -
 
@@ -179,7 +179,7 @@ const svgBar = fc.seriesSvgBar()
     });
 ```
 
-<img src="screenshots/decorate.png"/>
+<img src="../../examples/series-svg-decorate/screenshot.png" />
 
 Here is the same example for a canvas bar series; the way that the decorate pattern works is subtly different. For SVG components the decorate function is invoked once with the selection that renders all of the bars (or points, candlesticks, ...), with canvas, the decorate function is invoked for each of the data-points in the series.
 
@@ -192,7 +192,7 @@ const canvasLine = fc.seriesCanvasBar()
     });
 ```
 
-<img src="screenshots/decorate-canvas.png"/>
+<img src="../../examples/series-canvas-decorate/screenshot.png" />
 
 And here is the same example for a WebGL series; again the pattern is subtly different. In WebGL the fill color needs to be passed down to the GPU using an attribute and then applied by a shader to the rendered bar. This is all wrapped up by the `webglFillColor` component.
 
@@ -226,7 +226,7 @@ const svgBar = fc.seriesSvgBar()
     });
 ```
 
-<img src="screenshots/decorate-append.png"/>
+<img src="../../examples/series-svg-decorate-append/screenshot.png" />
 
 With canvas, you can also perform additional rendering to the canvas in order to achieve the same effect. Once again, the canvas origin has been translated to the origin of each data-point before the decorate function is invoked.
 
@@ -244,7 +244,7 @@ const canvasLine = fc.seriesCanvasPoint()
     });
 ```
 
-<img src="screenshots/decorate-append-canvas.png"/>
+<img src="../../examples/series-canvas-decorate-append/screenshot.png" />
 
 Whilst it is possible to do something similar with WebGL, it would be a much more involved process involving heavy customisation of the shaders. In most cases it would be easier to render the bulk of the data as a WebGL base series and then overlay a subset of the data using a decorated SVG/canvas series.
 
@@ -393,31 +393,31 @@ var canvasMulti = fc.seriesCanvasMulti()
 
 #### Accessors
 
-All of the series expose `xValues`/`yValues` methods which return an array of all of the accessors used by the series when retrieving values for use with the `xScale`/`yScale` respectively. 
+All of the series expose `xValues`/`yValues` methods which return an array of all of the accessors used by the series when retrieving values for use with the `xScale`/`yScale` respectively.
 
 ### Line
 
-![](screenshots/line.png)
+<img src="../../examples/series-svg-line/screenshot.png" />
 
-<a name="seriesSvgLine" href="#seriesSvgLine">#</a> fc.**seriesSvgLine**()  
-<a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.**seriesCanvasLine**()  
+<a name="seriesSvgLine" href="#seriesSvgLine">#</a> fc.**seriesSvgLine**()
+<a name="seriesCanvasLine" href="#seriesCanvasLine">#</a> fc.**seriesCanvasLine**()
 <a name="seriesWebglLine" href="#seriesWebglLine">#</a> fc.**seriesWebglLine**()
 
 Constructs a new line renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesLine_crossValue" href="#seriesLine_crossValue">#</a> *seriesLine*.**crossValue**(*accessorFunc*)  
+<a name="seriesLine_crossValue" href="#seriesLine_crossValue">#</a> *seriesLine*.**crossValue**(*accessorFunc*)
 <a name="seriesLine_mainValue" href="#seriesLine_mainValue">#</a> *seriesLine*.**mainValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesLine_xScale" href="#seriesLine_xScale">#</a> *seriesLine*.**xScale**(*scale*)  
+<a name="seriesLine_xScale" href="#seriesLine_xScale">#</a> *seriesLine*.**xScale**(*scale*)
 <a name="seriesLine_yScale" href="#seriesLine_yScale">#</a> *seriesLine*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesLine_orient" href="#seriesLine_orient">#</a> *seriesLine*.**orient**(*orientation*)  
+<a name="seriesLine_orient" href="#seriesLine_orient">#</a> *seriesLine*.**orient**(*orientation*)
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
@@ -457,27 +457,27 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Point
 
-![](screenshots/point.png)
+<img src="../../examples/series-svg-point/screenshot.png" />
 
-<a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.**seriesSvgPoint**()  
-<a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()  
+<a name="seriesSvgPoint" href="#seriesSvgPoint">#</a> fc.**seriesSvgPoint**()
+<a name="seriesCanvasPoint" href="#seriesCanvasPoint">#</a> fc.**seriesCanvasPoint**()
 <a name="seriesWebglPoint" href="#seriesWebglPoint">#</a> fc.**seriesWebglPoint**()
 
 Constructs a new point series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesPoint_crossValue" href="#seriesPoint_crossValue">#</a> *seriesPoint*.**crossValue**(*accessorFunc*)  
+<a name="seriesPoint_crossValue" href="#seriesPoint_crossValue">#</a> *seriesPoint*.**crossValue**(*accessorFunc*)
 <a name="seriesPoint_mainValue" href="#seriesPoint_mainValue">#</a> *seriesPoint*.**mainValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesPoint_xScale" href="#seriesPoint_xScale">#</a> *seriesPoint*.**xScale**(*scale*)  
+<a name="seriesPoint_xScale" href="#seriesPoint_xScale">#</a> *seriesPoint*.**xScale**(*scale*)
 <a name="seriesPoint_yScale" href="#seriesPoint_yScale">#</a> *seriesPoint*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesPoint_orient" href="#seriesPoint_orient">#</a> *seriesPoint*.**orient**(*orientation*)  
+<a name="seriesPoint_orient" href="#seriesPoint_orient">#</a> *seriesPoint*.**orient**(*orientation*)
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
@@ -517,19 +517,19 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Area
 
-![](screenshots/area.png)
+<img src="../../examples/series-svg-area/screenshot.png" />
 
-<a name="seriesSvgArea" href="#seriesSvgArea">#</a> fc.**seriesSvgArea**()  
-<a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.**seriesCanvasArea**()  
+<a name="seriesSvgArea" href="#seriesSvgArea">#</a> fc.**seriesSvgArea**()
+<a name="seriesCanvasArea" href="#seriesCanvasArea">#</a> fc.**seriesCanvasArea**()
 <a name="seriesWebglArea" href="#seriesWebglArea">#</a> fc.**seriesWebglArea**()
 
 Constructs a new area series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesArea_crossValue" href="#seriesArea_crossValue">#</a> *seriesArea*.**crossValue**(*accessorFunc*)  
+<a name="seriesArea_crossValue" href="#seriesArea_crossValue">#</a> *seriesArea*.**crossValue**(*accessorFunc*)
 <a name="seriesArea_mainValue" href="#seriesArea_mainValue">#</a> *seriesArea*.**mainValue**(*accessorFunc*)
-<a name="seriesArea_baseValue" href="#seriesArea_baseValue">#</a> *seriesArea*.**baseValue**(*accessorFunc*)  
+<a name="seriesArea_baseValue" href="#seriesArea_baseValue">#</a> *seriesArea*.**baseValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
@@ -539,7 +539,7 @@ The WebGL implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
-<a name="seriesArea_xScale" href="#seriesArea_xScale">#</a> *seriesArea*.**xScale**(*scale*)  
+<a name="seriesArea_xScale" href="#seriesArea_xScale">#</a> *seriesArea*.**xScale**(*scale*)
 <a name="seriesArea_yScale" href="#seriesArea_yScale">#</a> *seriesArea*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -572,19 +572,19 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Bar
 
-![](screenshots/bar.png)
+<img src="../../examples/series-svg-bar/screenshot.png" />
 
-<a name="seriesSvgBar" href="#seriesSvgBar">#</a> fc.**seriesSvgBar**()  
-<a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.**seriesCanvasBar**()  
+<a name="seriesSvgBar" href="#seriesSvgBar">#</a> fc.**seriesSvgBar**()
+<a name="seriesCanvasBar" href="#seriesCanvasBar">#</a> fc.**seriesCanvasBar**()
 <a name="seriesWebglBar" href="#seriesWebglBar">#</a> fc.**seriesWebglBar**()
 
 Constructs a new bar series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesBar_crossValue" href="#seriesBar_crossValue">#</a> *seriesBar*.**crossValue**(*accessorFunc*)  
-<a name="seriesBar_mainValue" href="#seriesBar_mainValue">#</a> *seriesBar*.**mainValue**(*accessorFunc*)  
-<a name="seriesBar_baseValue" href="#seriesBar_baseValue">#</a> *seriesBar*.**baseValue**(*accessorFunc*)  
+<a name="seriesBar_crossValue" href="#seriesBar_crossValue">#</a> *seriesBar*.**crossValue**(*accessorFunc*)
+<a name="seriesBar_mainValue" href="#seriesBar_mainValue">#</a> *seriesBar*.**mainValue**(*accessorFunc*)
+<a name="seriesBar_baseValue" href="#seriesBar_baseValue">#</a> *seriesBar*.**baseValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
@@ -594,7 +594,7 @@ The WebGL implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
-<a name="seriesBar_xScale" href="#seriesBar_xScale">#</a> *seriesBar*.**xScale**(*scale*)  
+<a name="seriesBar_xScale" href="#seriesBar_xScale">#</a> *seriesBar*.**xScale**(*scale*)
 <a name="seriesBar_yScale" href="#seriesBar_yScale">#</a> *seriesBar*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -625,23 +625,23 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Candlestick
 
-![](screenshots/candlestick.png)
+<img src="../../examples/series-svg-candlestick/screenshot.png" />
 
-<a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a> fc.**seriesSvgCandlestick**()  
-<a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.**seriesCanvasCandlestick**()  
+<a name="seriesSvgCandlestick" href="#seriesSvgCandlestick">#</a> fc.**seriesSvgCandlestick**()
+<a name="seriesCanvasCandlestick" href="#seriesCanvasCandlestick">#</a> fc.**seriesCanvasCandlestick**()
 <a name="seriesWebglCandlestick" href="#seriesWebglCandlestick">#</a> fc.**seriesWebglCandlestick**()
 
 Constructs a new candlestick renderer for canvas, WebGL or SVG.
 
-<a name="seriesCandlestick_crossValue" href="#seriesCandlestick_crossValue">#</a> *seriesCandlestick*.**crossValue**(*accessorFunc*)  
-<a name="seriesCandlestick_highValue" href="#seriesCandlestick_highValue">#</a> *seriesCandlestick*.**highValue**(*accessorFunc*)  
-<a name="seriesCandlestick_lowValue" href="#seriesCandlestick_lowValue">#</a> *seriesCandlestick*.**lowValue**(*accessorFunc*)  
-<a name="seriesCandlestick_openValue" href="#seriesCandlestick_openValue">#</a> *seriesCandlestick*.**openValue**(*accessorFunc*)  
+<a name="seriesCandlestick_crossValue" href="#seriesCandlestick_crossValue">#</a> *seriesCandlestick*.**crossValue**(*accessorFunc*)
+<a name="seriesCandlestick_highValue" href="#seriesCandlestick_highValue">#</a> *seriesCandlestick*.**highValue**(*accessorFunc*)
+<a name="seriesCandlestick_lowValue" href="#seriesCandlestick_lowValue">#</a> *seriesCandlestick*.**lowValue**(*accessorFunc*)
+<a name="seriesCandlestick_openValue" href="#seriesCandlestick_openValue">#</a> *seriesCandlestick*.**openValue**(*accessorFunc*)
 <a name="seriesCandlestick_closeValue" href="#seriesCandlestick_closeValue">#</a> *seriesCandlestick*.**closeValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesCandlestick_xScale" href="#seriesCandlestick_xScale">#</a> *seriesCandlestick*.**xScale**(*scale*)  
+<a name="seriesCandlestick_xScale" href="#seriesCandlestick_xScale">#</a> *seriesCandlestick*.**xScale**(*scale*)
 <a name="seriesCandlestick_yScale" href="#seriesCandlestick_yScale">#</a> *seriesCandlestick*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -682,25 +682,25 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### OHLC
 
-![](screenshots/ohlc.png)
+<img src="../../examples/series-svg-ohlc/screenshot.png" />
 
-<a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a> fc.**seriesSvgOhlc**()  
-<a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.**seriesCanvasOhlc**()  
+<a name="seriesSvgOhlc" href="#seriesSvgOhlc">#</a> fc.**seriesSvgOhlc**()
+<a name="seriesCanvasOhlc" href="#seriesCanvasOhlc">#</a> fc.**seriesCanvasOhlc**()
 <a name="seriesWebglOhlc" href="#seriesWebglOhlc">#</a> fc.**seriesWebglOhlc**()
 
 Constructs a new OHLC renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesOhlc_crossValue" href="#seriesOhlc_crossValue">#</a> *seriesOhlc*.**crossValue**(*accessorFunc*)  
-<a name="seriesOhlc_highValue" href="#seriesOhlc_highValue">#</a> *seriesOhlc*.**highValue**(*accessorFunc*)  
-<a name="seriesOhlc_lowValue" href="#seriesOhlc_lowValue">#</a> *seriesOhlc*.**lowValue**(*accessorFunc*)  
-<a name="seriesOhlc_openValue" href="#seriesOhlc_openValue">#</a> *seriesOhlc*.**openValue**(*accessorFunc*)  
+<a name="seriesOhlc_crossValue" href="#seriesOhlc_crossValue">#</a> *seriesOhlc*.**crossValue**(*accessorFunc*)
+<a name="seriesOhlc_highValue" href="#seriesOhlc_highValue">#</a> *seriesOhlc*.**highValue**(*accessorFunc*)
+<a name="seriesOhlc_lowValue" href="#seriesOhlc_lowValue">#</a> *seriesOhlc*.**lowValue**(*accessorFunc*)
+<a name="seriesOhlc_openValue" href="#seriesOhlc_openValue">#</a> *seriesOhlc*.**openValue**(*accessorFunc*)
 <a name="seriesOhlc_closeValue" href="#seriesOhlc_closeValue">#</a> *seriesOhlc*.**closeValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesOhlc_xScale" href="#seriesOhlc_xScale">#</a> *seriesOhlc*.**xScale**(*scale*)  
+<a name="seriesOhlc_xScale" href="#seriesOhlc_xScale">#</a> *seriesOhlc*.**xScale**(*scale*)
 <a name="seriesOhlc_yScale" href="#seriesOhlc_yScale">#</a> *seriesOhlc*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -741,32 +741,32 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Boxplot
 
-![](screenshots/boxplot.png)
+<img src="../../examples/series-svg-boxplot/screenshot.png" />
 
-<a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a> fc.**seriesSvgBoxPlot**()  
-<a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.**seriesCanvasBoxPlot**()  
+<a name="seriesSvgBoxPlot" href="#seriesSvgBoxPlot">#</a> fc.**seriesSvgBoxPlot**()
+<a name="seriesCanvasBoxPlot" href="#seriesCanvasBoxPlot">#</a> fc.**seriesCanvasBoxPlot**()
 <a name="seriesWebglBoxPlot" href="#seriesWebglBoxPlot">#</a> fc.**seriesWebglBoxPlot**()
 
 Constructs a new boxplot renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesBoxPlot_crossValue" href="#seriesBoxPlot_crossValue">#</a> *seriesBoxPlot*.**crossValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_medianValue" href="#seriesBoxPlot_medianValue">#</a> *seriesBoxPlot*.**medianValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_upperQuartileValue" href="#seriesBoxPlot_upperQuartileValue">#</a> *seriesBoxPlot*.**upperQuartileValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_lowerQuartileValue" href="#seriesBoxPlot_lowerQuartileValue">#</a> *seriesBoxPlot*.**lowerQuartileValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_highValue" href="#seriesBoxPlot_highValue">#</a> *seriesBoxPlot*.**highValue**(*accessorFunc*)  
-<a name="seriesBoxPlot_lowValue" href="#seriesBoxPlot_lowValue">#</a> *seriesBoxPlot*.**lowValue**(*accessorFunc*)    
+<a name="seriesBoxPlot_crossValue" href="#seriesBoxPlot_crossValue">#</a> *seriesBoxPlot*.**crossValue**(*accessorFunc*)
+<a name="seriesBoxPlot_medianValue" href="#seriesBoxPlot_medianValue">#</a> *seriesBoxPlot*.**medianValue**(*accessorFunc*)
+<a name="seriesBoxPlot_upperQuartileValue" href="#seriesBoxPlot_upperQuartileValue">#</a> *seriesBoxPlot*.**upperQuartileValue**(*accessorFunc*)
+<a name="seriesBoxPlot_lowerQuartileValue" href="#seriesBoxPlot_lowerQuartileValue">#</a> *seriesBoxPlot*.**lowerQuartileValue**(*accessorFunc*)
+<a name="seriesBoxPlot_highValue" href="#seriesBoxPlot_highValue">#</a> *seriesBoxPlot*.**highValue**(*accessorFunc*)
+<a name="seriesBoxPlot_lowValue" href="#seriesBoxPlot_lowValue">#</a> *seriesBoxPlot*.**lowValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesBoxPlot_orient" href="#seriesBoxPlot_orient">#</a> *seriesBoxPlot*.**orient**(*orientation*)  
+<a name="seriesBoxPlot_orient" href="#seriesBoxPlot_orient">#</a> *seriesBoxPlot*.**orient**(*orientation*)
 
 The WebGL implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`
 
-<a name="seriesBoxPlot_xScale" href="#seriesBoxPlot_xScale">#</a> *seriesBoxPlot*.**xScale**(*scale*)  
+<a name="seriesBoxPlot_xScale" href="#seriesBoxPlot_xScale">#</a> *seriesBoxPlot*.**xScale**(*scale*)
 <a name="seriesBoxPlot_yScale" href="#seriesBoxPlot_yScale">#</a> *seriesBoxPlot*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -811,29 +811,29 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Errorbar
 
-![](screenshots/errorbar.png)
+<img src="../../examples/series-svg-errorbar/screenshot.png" />
 
-<a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a> fc.**seriesSvgErrorBar**()  
-<a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.**seriesCanvasErrorBar**()  
+<a name="seriesSvgErrorBar" href="#seriesSvgErrorBar">#</a> fc.**seriesSvgErrorBar**()
+<a name="seriesCanvasErrorBar" href="#seriesCanvasErrorBar">#</a> fc.**seriesCanvasErrorBar**()
 <a name="seriesWebglErrorBar" href="#seriesWebglErrorBar">#</a> fc.**seriesWebglErrorBar**()
 
 Constructs a new error bar renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesErrorBar_crossValue" href="#seriesErrorBar_crossValue">#</a> *seriesErrorBar*.**crossValue**(*accessorFunc*)  
-<a name="seriesErrorBar_highValue" href="#seriesErrorBar_highValue">#</a> *seriesErrorBar*.**highValue**(*accessorFunc*)  
-<a name="seriesErrorBar_lowValue" href="#seriesErrorBar_lowValue">#</a> *seriesErrorBar*.**lowValue**(*accessorFunc*)   
+<a name="seriesErrorBar_crossValue" href="#seriesErrorBar_crossValue">#</a> *seriesErrorBar*.**crossValue**(*accessorFunc*)
+<a name="seriesErrorBar_highValue" href="#seriesErrorBar_highValue">#</a> *seriesErrorBar*.**highValue**(*accessorFunc*)
+<a name="seriesErrorBar_lowValue" href="#seriesErrorBar_lowValue">#</a> *seriesErrorBar*.**lowValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesErrorBar_orient" href="#seriesErrorBar_orient">#</a> *seriesErrorBar*.**orient**(*orientation*)  
+<a name="seriesErrorBar_orient" href="#seriesErrorBar_orient">#</a> *seriesErrorBar*.**orient**(*orientation*)
 
 The SVG implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`
 
-<a name="seriesErrorBar_xScale" href="#seriesErrorBar_xScale">#</a> *seriesErrorBar*.**xScale**(*scale*)  
+<a name="seriesErrorBar_xScale" href="#seriesErrorBar_xScale">#</a> *seriesErrorBar*.**xScale**(*scale*)
 <a name="seriesErrorBar_yScale" href="#seriesErrorBar_yScale">#</a> *seriesErrorBar*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -874,22 +874,22 @@ The returned JavaScript scale is equality checked using a reference comparison t
 
 ### Heatmap
 
-![](screenshots/heatmap.png)
+<img src="../../examples/series-svg-heatmap/screenshot.png" />
 
-<a name="seriesSvgHeatmap" href="#seriesSvgHeatmap">#</a> fc.**seriesSvgHeatmap**()  
+<a name="seriesSvgHeatmap" href="#seriesSvgHeatmap">#</a> fc.**seriesSvgHeatmap**()
 <a name="seriesCanvasHeatmap" href="#seriesCanvasHeatmap">#</a> fc.**seriesCanvasHeatmap**()
 
 Constructs a new heatmap series renderer for either canvas or SVG.
 
 #### Common properties
 
-<a name="seriesHeatmap_crossValue" href="#seriesHeatmap_crossValue">#</a> *seriesHeatmap*.**crossValue**(*accessorFunc*)  
-<a name="seriesHeatmap_highValue" href="#seriesHeatmap_highValue">#</a> *seriesHeatmap*.**highValue**(*accessorFunc*)  
-<a name="seriesHeatmap_colorValue" href="#seriesHeatmap_colorValue">#</a> *seriesHeatmap*.**colorValue**(*accessorFunc*)  
+<a name="seriesHeatmap_crossValue" href="#seriesHeatmap_crossValue">#</a> *seriesHeatmap*.**crossValue**(*accessorFunc*)
+<a name="seriesHeatmap_highValue" href="#seriesHeatmap_highValue">#</a> *seriesHeatmap*.**highValue**(*accessorFunc*)
+<a name="seriesHeatmap_colorValue" href="#seriesHeatmap_colorValue">#</a> *seriesHeatmap*.**colorValue**(*accessorFunc*)
 
 If *accessorFunc* is specified, sets the accessor to the specified function and returns this series. If *accessorFunc* is not specified, returns the current accessor. The `accessorFunc(datum, index)` function is called on each item of the data, returning the relevant value for the given accessor. The respective scale is applied to the value returned by the accessor before rendering.
 
-<a name="seriesHeatmap_xScale" href="#seriesHeatmap_xScale">#</a> *seriesHeatmap*.**xScale**(*scale*)  
+<a name="seriesHeatmap_xScale" href="#seriesHeatmap_xScale">#</a> *seriesHeatmap*.**xScale**(*scale*)
 <a name="seriesHeatmap_yScale" href="#seriesHeatmap_yScale">#</a> *seriesHeatmap*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -915,21 +915,21 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 ### Multi
 
-![](screenshots/multi.png)
+<img src="../../examples/series-svg-multi/screenshot.png" />
 
-<a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.**seriesSvgMulti**()  
-<a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()  
+<a name="seriesSvgMulti" href="#seriesSvgMulti">#</a> fc.**seriesSvgMulti**()
+<a name="seriesCanvasMulti" href="#seriesCanvasMulti">#</a> fc.**seriesCanvasMulti**()
 <a name="seriesWebglMulti" href="#seriesWebglMulti">#</a> fc.**seriesWebglMulti**()
 
 Constructs a new multi series renderer for canvas, WebGL or SVG.
 
 #### Common properties
 
-<a name="seriesMulti_series" href="#seriesMulti_series">#</a> *seriesMulti*.**series**(*seriesArray*)  
+<a name="seriesMulti_series" href="#seriesMulti_series">#</a> *seriesMulti*.**series**(*seriesArray*)
 
 If *seriesArray* is specified, sets the array of series that this multi series should render and returns this series. If *seriesArray* is not specified, returns the current array of series.
 
-<a name="seriesMulti_xScale" href="#seriesMulti_xScale">#</a> *seriesMulti*.**xScale**(*scale*)  
+<a name="seriesMulti_xScale" href="#seriesMulti_xScale">#</a> *seriesMulti*.**xScale**(*scale*)
 <a name="seriesMulti_yScale" href="#seriesMulti_yScale">#</a> *seriesMulti*.**yScale**(*scale*)
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
@@ -969,10 +969,10 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 
 ### Repeat
 
-![](screenshots/repeat.png)
+<img src="../../examples/series-svg-repeat/screenshot.png" />
 
-<a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.**seriesSvgRepeat**()  
-<a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()  
+<a name="seriesSvgRepeat" href="#seriesSvgRepeat">#</a> fc.**seriesSvgRepeat**()
+<a name="seriesCanvasRepeat" href="#seriesCanvasRepeat">#</a> fc.**seriesCanvasRepeat**()
 <a name="seriesWebglRepeat" href="#seriesWebglRepeat">#</a> fc.**seriesWebglRepeat**()
 
 Constructs a new repeat series renderer for canvas, WebGL or SVG.
@@ -1003,26 +1003,26 @@ The repeat series also exposes an *orient* property which determines the 'orient
 
 #### Common properties
 
-<a name="seriesRepeat_series" href="#seriesRepeat_series">#</a> *seriesRepeat*.**series**(*series*)  
+<a name="seriesRepeat_series" href="#seriesRepeat_series">#</a> *seriesRepeat*.**series**(*series*)
 
 If *series* is specified, sets the series that this repeat series should render and returns this series. If *series* is not specified, returns the current series.
 
-<a name="seriesRepeat_orient" href="#seriesRepeat_orient">#</a> *seriesRepeat*.**orient**(*orientation*)  
+<a name="seriesRepeat_orient" href="#seriesRepeat_orient">#</a> *seriesRepeat*.**orient**(*orientation*)
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `vertical` (default) or `horizontal`.
 
-<a name="seriesRepeat_xScale" href="#seriesRepeat_xScale">#</a> *seriesRepeat*.**xScale**(*scale*)  
-<a name="seriesRepeat_yScale" href="#seriesRepeat_yScale">#</a> *seriesRepeat*.**yScale**(*scale*)  
-<a name="seriesRepeat_decorate" href="#seriesRepeat_decorate">#</a> *seriesRepeat*.**decorate**(*decorateFunc*)  
+<a name="seriesRepeat_xScale" href="#seriesRepeat_xScale">#</a> *seriesRepeat*.**xScale**(*scale*)
+<a name="seriesRepeat_yScale" href="#seriesRepeat_yScale">#</a> *seriesRepeat*.**yScale**(*scale*)
+<a name="seriesRepeat_decorate" href="#seriesRepeat_decorate">#</a> *seriesRepeat*.**decorate**(*decorateFunc*)
 <a name="seriesRepeat_context" href="#seriesRepeat_context">#</a> *seriesRepeat*.**context**(*ctx*)
 
 Please refer to the multi series for the documentation of these properties.
 
 ### Grouped
 
-![](screenshots/grouped.png)
+<img src="../../examples/series-svg-grouped/screenshot.png" />
 
-<a name="seriesSvgGrouped" href="#seriesSvgGrouped">#</a> fc.**seriesSvgGrouped**(*adaptedSeries*)  
+<a name="seriesSvgGrouped" href="#seriesSvgGrouped">#</a> fc.**seriesSvgGrouped**(*adaptedSeries*)
 <a name="seriesCanvasGrouped" href="#seriesCanvasGrouped">#</a> fc.**seriesCanvasGrouped**(*adaptedSeries*)
 
 Constructs a new grouped series by adapting the given series. This allows the rendering of grouped bars, boxplots and point series etc ...
@@ -1080,17 +1080,17 @@ groupedCanvasBar(series);
 
 #### Common properties
 
-<a name="grouped_bandwidth" href="#grouped_bandwidth">#</a> *grouped*.**bandwidth**(*bandwidthFunc*)  
+<a name="grouped_bandwidth" href="#grouped_bandwidth">#</a> *grouped*.**bandwidth**(*bandwidthFunc*)
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
-<a name="grouped_subPadding" href="#grouped_subPadding">#</a> *grouped*.**subPadding**(*padding*)  
+<a name="grouped_subPadding" href="#grouped_subPadding">#</a> *grouped*.**subPadding**(*padding*)
 
 If *padding* is specified, sets the sub-padding to the specified value which must be in the range [0, 1]. If *padding* is not specified, returns the current sub-padding. The sub-padding value determines the padding between the bars within each group.
 
 ### Stacked
 
-![](screenshots/stacked.png)
+<img src="../../examples/series-svg-stacked/screenshot.png" />
 
 There is not an explicit series type for rendering stacked charts, it is a straightforward task to render stacked series with the existing components. This section illustrates this with a few examples.
 

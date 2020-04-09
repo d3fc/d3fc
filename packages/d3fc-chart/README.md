@@ -2,7 +2,7 @@
 
 A simple Cartesian chart component that renders to canvas or SVG.
 
-<img src="screenshots/cartesian.png"/>
+<img src="../../examples/chart-cartesian-move-axis/screenshot.png" />
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 
@@ -217,9 +217,9 @@ chart.xDecorate(selection => {
 
 #### Changing the z-order of plot areas
 
-By default the z-order of the plot areas is webgl at the back, canvas in the middle and svg on top. This is to accomodate the most common use-case of supporting more interactive components being drawn in the foreground with less interactive components being drawn in the background. 
+By default the z-order of the plot areas is webgl at the back, canvas in the middle and svg on top. This is to accomodate the most common use-case of supporting more interactive components being drawn in the foreground with less interactive components being drawn in the background.
 
-Interactivity in this case means responding directly to user input to for example draw annotations or highlight data elements. It is typically easier to develop these components using svg (due to its richer user-initiated events model) or canvas (due to its simpler API). 
+Interactivity in this case means responding directly to user input to for example draw annotations or highlight data elements. It is typically easier to develop these components using svg (due to its richer user-initiated events model) or canvas (due to its simpler API).
 
 Where this z-ordering is not appropriate, it is possible to modify the order using decorate -
 
@@ -244,7 +244,7 @@ chart.decorate(selection => {
 
 ### Cartesian
 
-<a name="chartCartesian" href="#chartCartesian">#</a> fc.**chartCartesian**(*xScale*, *yScale*)  
+<a name="chartCartesian" href="#chartCartesian">#</a> fc.**chartCartesian**(*xScale*, *yScale*)
 
 Constructs a new Cartesian chart with the given scales.
 
@@ -256,9 +256,9 @@ If *xAxis* is specified, it must be an object with the required x-axis factory f
 
 If *yAxis* is specified, it must be an object with the required y-axis factory function (*top* if *xOrient*="top" or *bottom* if *xOrient*="bottom").
 
-<a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)  
-<a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)  
-<a name="cartesian_webglPlotArea" href="#cartesian_webglPlotArea">#</a> *cartesian*.**webglPlotArea**(*component*)  
+<a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)
+<a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)
+<a name="cartesian_webglPlotArea" href="#cartesian_webglPlotArea">#</a> *cartesian*.**webglPlotArea**(*component*)
 
 If *component* is specified, sets the component to render onto the SVG/canvas, and returns the Cartesian chart. If *component* is not specified, returns the existing component.
 
@@ -266,28 +266,28 @@ If *canvasPlotArea* or *webglPlotArea* is used, the relavent *context* is automa
 
 For series that contain a very high number of data-points, rendering to canvas can reduce the rendering time and improve performance. For components that require user-interaction, rendering to SVG can simplify their implementation.
 
-<a name="cartesian_chartLabel" href="#cartesian_chartLabel">#</a> *cartesian*.**chartLabel**(*label*)  
-<a name="cartesian_xLabel" href="#cartesian_xLabel">#</a> *cartesian*.**xLabel**(*label*)  
-<a name="cartesian_yLabel" href="#cartesian_yLabel">#</a> *cartesian*.**yLabel**(*label*)  
+<a name="cartesian_chartLabel" href="#cartesian_chartLabel">#</a> *cartesian*.**chartLabel**(*label*)
+<a name="cartesian_xLabel" href="#cartesian_xLabel">#</a> *cartesian*.**xLabel**(*label*)
+<a name="cartesian_yLabel" href="#cartesian_yLabel">#</a> *cartesian*.**yLabel**(*label*)
 
 If *label* is specified, sets the text for the given label, and returns the Cartesian chart. If *label* is not specified, returns the label text.
 
 The *label* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
 
-<a name="cartesian_xAxisHeight" href="#cartesian_xAxisHeight">#</a> *cartesian*.**xAxisHeight**(*height*)  
+<a name="cartesian_xAxisHeight" href="#cartesian_xAxisHeight">#</a> *cartesian*.**xAxisHeight**(*height*)
 
 If *height* is specified, sets the height for the x-axis, and returns the Cartesian chart. If *height* is not specified, returns the x-axis height or null if not set. The value should be a string with units (e.g. "2em").
 
 The *height* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
 
-<a name="cartesian_yAxisWidth" href="#cartesian_yAxisWidth">#</a> *cartesian*.**yAxisWidth**(*width*)  
+<a name="cartesian_yAxisWidth" href="#cartesian_yAxisWidth">#</a> *cartesian*.**yAxisWidth**(*width*)
 
 If *width* is specified, sets the width for the y-axis, and returns the Cartesian chart. If *width* is not specified, returns the y-axis width or null if not set. The value should be a string with units (e.g. "2em").
 
 The *width* value can either be a string, or a function that returns a string. If it is a function, it will be invoked with the data that is 'bound' to the chart. This can be useful if you are rendering multiple charts using a data join.
 
-<a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)  
-<a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)  
+<a name="cartesian_xOrient" href="#cartesian_xOrient">#</a> *cartesian*.**xOrient**(*orient*)
+<a name="cartesian_yOrient" href="#cartesian_yOrient">#</a> *cartesian*.**yOrient**(*orient*)
 
 If *orient* is specified, sets the orientation for the axis in the given direction, and returns the Cartesian chart. If *orient* is not specified, returns the orientation. Valid values for *yOrient* are *left*, *right* or *none*, and for *xOrient* they are *top*, *bottom* or *none*.
 
@@ -299,20 +299,20 @@ The *orient* value can either be a string, or a function that returns a string. 
 
 If *decorateFunc* is specified, sets the decorator function to the specified, and returns the Cartesian chart. If *decorateFunc* is not specified, returns the current decorator function.
 
-<a name="cartesian_xDomain" href="#cartesian_xDomain">#</a> *cartesian*.**xDomain**(...)  
-<a name="cartesian_yDomain" href="#cartesian_yDomain">#</a> *cartesian*.**yDomain**(...)  
-<a name="cartesian_xNice" href="#cartesian_xNice">#</a> *cartesian*.**xNice**(...)  
+<a name="cartesian_xDomain" href="#cartesian_xDomain">#</a> *cartesian*.**xDomain**(...)
+<a name="cartesian_yDomain" href="#cartesian_yDomain">#</a> *cartesian*.**yDomain**(...)
+<a name="cartesian_xNice" href="#cartesian_xNice">#</a> *cartesian*.**xNice**(...)
 ...
 
 The Cartesian chart exposes the scale properties with either an `x` or `y` prefix.
 
 
-<a name="cartesian_xTicks" href="#cartesian_xTicks">#</a> *cartesian*.**xTicks**(...)  
-<a name="cartesian_xTickFormat" href="#cartesian_xTickFormat">#</a> *cartesian*.**xTickFormat**(...)  
-<a name="cartesian_xDecorate" href="#cartesian_xDecorate">#</a> *cartesian*.**xDecorate**(...)  
-<a name="cartesian_yTicks" href="#cartesian_yTicks">#</a> *cartesian*.**yTicks**(...)  
-<a name="cartesian_yTickFormat" href="#cartesian_yTickFormat">#</a> *cartesian*.**yTickFormat**(...)  
-<a name="cartesian_yDecorate" href="#cartesian_yDecorate">#</a> *cartesian*.**yDecorate**(...)  
+<a name="cartesian_xTicks" href="#cartesian_xTicks">#</a> *cartesian*.**xTicks**(...)
+<a name="cartesian_xTickFormat" href="#cartesian_xTickFormat">#</a> *cartesian*.**xTickFormat**(...)
+<a name="cartesian_xDecorate" href="#cartesian_xDecorate">#</a> *cartesian*.**xDecorate**(...)
+<a name="cartesian_yTicks" href="#cartesian_yTicks">#</a> *cartesian*.**yTicks**(...)
+<a name="cartesian_yTickFormat" href="#cartesian_yTickFormat">#</a> *cartesian*.**yTickFormat**(...)
+<a name="cartesian_yDecorate" href="#cartesian_yDecorate">#</a> *cartesian*.**yDecorate**(...)
 ...
 
 The Cartesian chart exposes the [d3fc-axis](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-axis#d3fc-axis) *ticks*, *tickSize*, *tickValue*, *tickFormat*, *tickArguments*, *tickSizeInner*, *tickSizeOuter*, *tickPadding*, *tickCenterLabel* and *decorate* properties with either an `x` or `y` prefix.
