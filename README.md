@@ -22,7 +22,7 @@ npm install d3fc
 
 ## Documentation
 
-The project is split into sub-packages, see the packages/*/README.md files for API and usage documentation.
+The project is split into sub-packages, see the package-specific README.md files in the [packages folder](https://github.com/d3fc/d3fc/tree/master/packages) for API and usage documentation.
 
 Examples can be found on the [project website](http://d3fc.io/) (these same examples are also available offline - see examples/README.md).
 
