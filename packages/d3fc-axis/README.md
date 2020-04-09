@@ -36,7 +36,7 @@ const axis = fc.axisBottom(linear)
   .tickCenterLabel(true);
 ```
 
-<img src="../../examples/axis-center/screenshot.png"/>
+<img src="https://d3fc.io/examples/axis-center/screenshot.png"/>
 
 ##### Band scales
 
@@ -93,7 +93,7 @@ const axis = fc.axisLabelRotate(fc.axisOrdinalBottom(foodScale));
 
 Each time the axis is rendered this adapter measures the labels and determines whether they need to be rotated in order to avoid collisions. With this example the axis renders as follows:
 
-<img src="../../examples/axis-rotate-decorate/screenshot.png"/>
+<img src="https://d3fc.io/examples/axis-rotate-decorate/screenshot.png"/>
 
 #### Decorate pattern
 
@@ -119,7 +119,7 @@ const axis = fc.axisBottom(scale)
   );
 ```
 
-<img src="../../examples/axis-color/screenshot.png"/>
+<img src="https://d3fc.io/examples/axis-color/screenshot.png"/>
 
 ### Axis
 
@@ -132,7 +132,7 @@ A drop-in replacement for D3 axis, see the [D3 documentation for API reference](
 
 ### Ordinal Axis
 
-<img src="../../examples/axis-band-scale/screenshot.png" />
+<img src="https://d3fc.io/examples/axis-band-scale/screenshot.png" />
 
 <a name="axisOrdinalBottom" href="#axisOrdinalBottom">#</a> fc.**axisOrdinalBottom**()
 <a name="axisOrdinalTop" href="#axisOrdinalTop">#</a> fc.**axisOrdinalTop**()
@@ -143,7 +143,7 @@ A drop-in replacement for D3 axis, see the [D3 documentation for API reference](
 
 ### Axis Label Offset
 
-<img src="../../examples/axis-offset/screenshot.png" />
+<img src="https://d3fc.io/examples/axis-offset/screenshot.png" />
 
 <a name="axisLabelOffset" href="#axisLabelOffset">#</a> fc.**axisLabelOffset**(*axis*)
 
@@ -157,7 +157,7 @@ If *offset* is set to `auto`, the adapter will determine the required offset dep
 
 ### Axis Label Rotate
 
-<img src="../../examples/axis-rotate-decorate/screenshot.png" />
+<img src="https://d3fc.io/examples/axis-rotate-decorate/screenshot.png" />
 
 <a name="axisLabelRotate" href="#axisLabelRotate">#</a> fc.**axisLabelRotate**(*axis*)
 
