@@ -18,8 +18,7 @@
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
     "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-axis",
-    "screenshots": "node ../../scripts/screenshot.js"
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-axis"
   },
   "devDependencies": {
     "d3": "^5.15.0"
