@@ -80,4 +80,3 @@ const chartContainer = d3.select('#chart').on('draw', () => {
 
 // Now handlers are attached, request a redraw
 chartContainer.node().requestRedraw();
-

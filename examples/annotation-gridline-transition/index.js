@@ -35,13 +35,15 @@ d3.select(container)
         const xAxisSelection = xAxisJoin(svg, d => [d])
             .attr('transform', `translate(0, ${drawHeight - 20})`)
             .call(xAxis);
-        xAxisSelection.enter()
+        xAxisSelection
+            .enter()
             .attr('transform', `translate(0, ${drawHeight - 20})`);
         const yAxisSelection = yAxisJoin(svg, d => [d])
             .attr('transform', `translate(${drawWidth - 30}, 0)`)
             .call(yAxis);
-        yAxisSelection.enter()
-        .attr('transform', `translate(${drawWidth - 30}, 0)`);
+        yAxisSelection
+            .enter()
+            .attr('transform', `translate(${drawWidth - 30}, 0)`);
 
         svg.call(gridline);
     })
