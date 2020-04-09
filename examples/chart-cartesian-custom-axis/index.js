@@ -4,29 +4,34 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
 
     const axis = selection => {
         selection.each((data, index, group) => {
-            const container = d3.select(group[index]).append('g');
+            const container = d3.select(group[index]);
             const scale = baseAxis.scale();
             const ticks = scale.ticks(baseAxis.tickArguments());
 
             container.attr('font-size', 10);
 
             const labels = container
-                .selectAll('text')
-                .data(ticks)
-                .enter()
+                .selectAll('g')
+                .data(ticks);
+
+            const enter = labels.enter()
                 .append('g')
                 .attr('class', 'tick');
 
-            labels
-                .append('circle')
+            const merged = labels.merge(enter);
+
+            enter.append('circle')
                 .attr('r', 10)
-                .attr('fill', 'rgba(100, 0, 0, 0.2)')
+                .attr('fill', 'rgba(100, 0, 0, 0.2)');
+
+            merged.select('circle')
                 .attr('transform', d => translate(scale(d), sign * 20));
 
-            labels
-                .append('text')
+            enter.append('text')
+                .attr('text-anchor', 'middle');
+
+            merged.select('text')
                 .text(d => d)
-                .attr('text-anchor', 'middle')
                 .attr('transform', d => translate(scale(d), sign * 20, 3));
         });
     };
