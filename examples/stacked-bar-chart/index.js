@@ -1,4 +1,4 @@
-d3.csv('../__data__/energy-production.csv').then(data => {
+d3.csv('energy-production.csv').then(data => {
     // manipulate the data into stacked series
     const stack = d3
         .stack()
