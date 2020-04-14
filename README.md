@@ -5,11 +5,26 @@
 <a href="https://badge.fury.io/js/d3fc"><img alt="npm version" src="https://badge.fury.io/js/d3fc.svg"/></a>
 </p> 
 
-__A collection of components that make it easy to build interactive charts with D3.__
+__Components to rapidly build fast, highly customisable, interactive charts with D3__
 
-## Installation and Documentation
+## Installation
 
-For details of installation and general usage, visit the [d3fc project webpage](http://d3fc.io/).
+D3FC and its dependencies are available via npm or the unpkg CDN. The D3FC project is composed of a number of separate packages, detailed in the API documentation. Each of these packages can be installed via npm and used independently, or if you prefer you can install the entire D3FC bundle, which includes all of the separate packages.
+
+```
+npm install d3fc
+```
+
+```
+<script src="https://unpkg.com/d3"></script>
+<script src="https://unpkg.com/d3fc"></script>
+```
+
+## Documentation
+
+The project is split into sub-packages, see the package-specific README.md files in the [packages folder](https://github.com/d3fc/d3fc/tree/master/packages) for API and usage documentation.
+
+Examples can be found on the [project website](http://d3fc.io/) (these same examples are also available offline - see examples/README.md).
 
 ## Developing
 

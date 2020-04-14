@@ -80,11 +80,3 @@ const chartContainer = d3.select('#chart').on('draw', () => {
 
 // Now handlers are attached, request a redraw
 chartContainer.node().requestRedraw();
-
-// "Subscribe to updates" to the data
-setInterval(() => {
-    data.push(sample(data.length));
-
-    // As the data has changed, request a redraw
-    chartContainer.node().requestRedraw();
-}, 1);

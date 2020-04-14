@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>D3FC</title>
+    <meta name="description"
+        content="Components to rapidly build fast, highly customisable, interactive charts with D3.">
+
+    <link rel="shortcut icon"
+        href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAtNjIuNSAxOTQgMTk0IiBmaWxsPSJyZ2IoNjcsIDg4LCA5OCkiPgogIDxwYXRoIGQ9Im0gMTkzLjcsNjEuNCAtOC4zLDAuNiBjIC0xMi4xLDAgLTIxLjksLTEwLjYgLTIxLjksLTIyLjcgMCwtMTIuMSA5LjksLTIyLjEgMjIuMSwtMjIuMSBsIDcuOSwwIEwgMTkzLjQsOC4zMDAwMDAxIDE5My40LDAgMTU2LjUsMCAxNDUuMiwwIDEzMS44LDAgYyAtMTIuMSwwIC0yMiw5LjkgLTIyLDIyIDAsMC4zIDAsMC41IDAsMC44IGwgMCw1NS4xIDE2LjYsMCAwLC0zNC40IGMgMS43LDAuNCAzLjYsMC43IDUuNCwwLjcgbCA4LjgsMCAwLC0xNC4zIC02LjcsMCBjIC0zLjYsMCAtNi42LC0zIC02LjYsLTYuNiAwLC0zLjYgMywtNi42IDYuNiwtNi42IGwgMTEuMywwIGMgMCwwIDkuMiwwIDkuMiwwIC0xLjIsMCAtMy41LDcuMSAtMy45LDguMiAtMSwzIC0xLjQsNiAtMS42LDkuMiAtMC44LDkuNSAwLjMsMTkuNiA1LjYsMjcuNyA0LjMsNi42IDEwLjksMTEuNiAxOC40LDE0LjEgMy41LDEuMiA3LjIsMS43IDEwLjksMS43IGwgOS45LDAgMCwtMTYuMiB6Ii8+CiAgPHBhdGggZD0ibSA3OS4zLDAuMSAtNywwIC0xNy43LDAgLTU0LjYsMCAwLDAuNyAwLDE1LjkgMCw2MS4zIDE0LjksMCAxLjcsMCA3LjcsMCBDIDQzLjUsNzggNTkuMiw2Mi4zIDU5LjIsNDMuMSBsIDAsLTcuMyBjIDAsLTcgLTIuMSwtMTMuNiAtNS43LC0xOS4xIGwgMTguNywwIDAsMCA0LjksMCBjIDMuNiwwIDYuNiwzIDYuNiw2LjYgMCwzLjYgLTMsNi42IC02LjYsNi42IGwgLTYuNywwIDAsMTggNi43LDAgYyAzLjYsMCA2LjYsMyA2LjYsNi42IDAsMy42IC0zLDYuNiAtNi42LDYuNiBsIC0xMy43LDAgMCwxNi43IGMgMS4zLDAuMyAyLjYsMC41IDQsMC41IEwgNzkuMiw3OCBjIDEyLjEsMCAyMiwtOS45IDIyLC0yMiBsIDAsMCBjIDAsLTYuNyAtMy4xLC0xMi44IC03LjksLTE2LjggNC44LC00LjEgNy45LC0xMC4xIDcuOSwtMTYuOCBsIDAsMCBDIDEwMS4zLDEwIDkxLjQsMC4xIDc5LjMsMC4xIFogTSA0NC42LDM5LjIgYyAwLDEyLjEgLTkuOSwyMi4xIC0yMi4xLDIyLjEgbCAtNS45LDAgMCwtNDQuMiA1LjksMCBjIDEyLjIsMCAyMi4xLDkuOSAyMi4xLDIyLjEgbCAwLDAgeiIgLz4KPC9zdmc+Cg==" />
+
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+        }
+
+        header,
+        footer {
+            text-align: center;
+            margin: 2em 1em;
+        }
+
+        @media(min-width: 1000px) {
+            body {
+                width: 1000px;
+                margin: auto;
+            }
+
+            header,
+            footer {
+                margin: 2em 8em;
+            }
+
+            section {
+                margin: 2em 6em;
+            }
+
+            p {
+                margin: 2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="https://d3fc.io/"><img alt="D3FC"
+                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iLTEgLTEgMTk4LjggODAuMzAwMDAzIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiPgogIDxwYXRoIGQ9Im0gMTkzLjcsNjEuNCAtOC4zLDAuNiBjIC0xMi4xLDAgLTIxLjksLTEwLjYgLTIxLjksLTIyLjcgMCwtMTIuMSA5LjksLTIyLjEgMjIuMSwtMjIuMSBsIDcuOSwwIEwgMTkzLjQsOC4zMDAwMDAxIDE5My40LDAgMTU2LjUsMCAxNDUuMiwwIDEzMS44LDAgYyAtMTIuMSwwIC0yMiw5LjkgLTIyLDIyIDAsMC4zIDAsMC41IDAsMC44IGwgMCw1NS4xIDE2LjYsMCAwLC0zNC40IGMgMS43LDAuNCAzLjYsMC43IDUuNCwwLjcgbCA4LjgsMCAwLC0xNC4zIC02LjcsMCBjIC0zLjYsMCAtNi42LC0zIC02LjYsLTYuNiAwLC0zLjYgMywtNi42IDYuNiwtNi42IGwgMTEuMywwIGMgMCwwIDkuMiwwIDkuMiwwIC0xLjIsMCAtMy41LDcuMSAtMy45LDguMiAtMSwzIC0xLjQsNiAtMS42LDkuMiAtMC44LDkuNSAwLjMsMTkuNiA1LjYsMjcuNyA0LjMsNi42IDEwLjksMTEuNiAxOC40LDE0LjEgMy41LDEuMiA3LjIsMS43IDEwLjksMS43IGwgOS45LDAgMCwtMTYuMiB6Ii8+CiAgPHBhdGggZD0ibSA3OS4zLDAuMSAtNywwIC0xNy43LDAgLTU0LjYsMCAwLDAuNyAwLDE1LjkgMCw2MS4zIDE0LjksMCAxLjcsMCA3LjcsMCBDIDQzLjUsNzggNTkuMiw2Mi4zIDU5LjIsNDMuMSBsIDAsLTcuMyBjIDAsLTcgLTIuMSwtMTMuNiAtNS43LC0xOS4xIGwgMTguNywwIDAsMCA0LjksMCBjIDMuNiwwIDYuNiwzIDYuNiw2LjYgMCwzLjYgLTMsNi42IC02LjYsNi42IGwgLTYuNywwIDAsMTggNi43LDAgYyAzLjYsMCA2LjYsMyA2LjYsNi42IDAsMy42IC0zLDYuNiAtNi42LDYuNiBsIC0xMy43LDAgMCwxNi43IGMgMS4zLDAuMyAyLjYsMC41IDQsMC41IEwgNzkuMiw3OCBjIDEyLjEsMCAyMiwtOS45IDIyLC0yMiBsIDAsMCBjIDAsLTYuNyAtMy4xLC0xMi44IC03LjksLTE2LjggNC44LC00LjEgNy45LC0xMC4xIDcuOSwtMTYuOCBsIDAsMCBDIDEwMS4zLDEwIDkxLjQsMC4xIDc5LjMsMC4xIFogTSA0NC42LDM5LjIgYyAwLDEyLjEgLTkuOSwyMi4xIC0yMi4xLDIyLjEgbCAtNS45LDAgMCwtNDQuMiA1LjksMCBjIDEyLjIsMCAyMi4xLDkuOSAyMi4xLDIyLjEgbCAwLDAgeiIvPgo8L3N2Zz4K" /></a>
+        <h1>This page is no longer available</h2>
+            
+    </header>
+    <section>
+        <p>Usage documentation can now be found in the <a
+                href="https://github.com/d3fc/d3fc/blob/master/README.md">README.md</a>.</p>
+        <p>API documentation can be found in the package-specific README.md files within the <a
+                href="https://github.com/d3fc/d3fc/tree/master/packages">packages folder</a>.</p>
+        <p>Examples can be found on the <a href="https://d3fc.io/">homepage</a>.</p>
+        <p>Please <a href="https://github.com/d3fc/d3fc/issues/new">raise an issue</a> if you think we've
+            missed something.</p>
+    </section>
+    <footer>
+        <p>Project supported by <a href="https://www.scottlogic.com">Scott Logic</a></p>
+    </footer>
+</body>
+
+</html>

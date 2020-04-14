@@ -32,12 +32,18 @@ d3.select(container)
             .duration(1000)
             .ease(d3.easeLinear);
 
-        xAxisJoin(svg, d => [d])
+        const xAxisSelection = xAxisJoin(svg, d => [d])
             .attr('transform', `translate(0, ${drawHeight - 20})`)
             .call(xAxis);
-        yAxisJoin(svg, d => [d])
+        xAxisSelection
+            .enter()
+            .attr('transform', `translate(0, ${drawHeight - 20})`);
+        const yAxisSelection = yAxisJoin(svg, d => [d])
             .attr('transform', `translate(${drawWidth - 30}, 0)`)
             .call(yAxis);
+        yAxisSelection
+            .enter()
+            .attr('transform', `translate(${drawWidth - 30}, 0)`);
 
         svg.call(gridline);
     })

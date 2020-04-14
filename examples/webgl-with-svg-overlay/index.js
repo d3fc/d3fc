@@ -1,4 +1,4 @@
-d3.json('../__data-files__/star-data.json').then(data => {
+d3.json('star-data.json').then(data => {
     const x = d3.scaleLinear();
     const y = d3.scaleLinear();
 
