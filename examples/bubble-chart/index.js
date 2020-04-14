@@ -1,4 +1,4 @@
-d3.json('../__data__/health-wealth.json').then(data => {
+d3.json('health-wealth.json').then(data => {
     // convert string properties to numbers
     data.forEach(d => {
         d.income = Number(d.income);
