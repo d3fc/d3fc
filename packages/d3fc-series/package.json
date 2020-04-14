@@ -21,9 +21,6 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-series"
   },
   "devDependencies": {
-    "@d3fc/d3fc-extent": "^3.2.0",
-    "@d3fc/d3fc-group": "^2.0.10",
-    "@d3fc/d3fc-random-data": "^3.1.0",
     "canvas-mock": "0.0.0",
     "d3": "^5.15.0"
   },

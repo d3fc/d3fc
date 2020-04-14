@@ -24,7 +24,6 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json"
   },
   "devDependencies": {
-    "@d3fc/d3fc-random-data": "^3.1.0",
     "js-combinatorics": "^0.5.0"
   },
   "dependencies": {
