@@ -1,4 +1,4 @@
-d3.text('../__data__/repeat-data.csv').then(text => {
+d3.text('repeat-data.csv').then(text => {
     const data = d3.csvParseRows(text, d => d.map(s => Number(s)));
 
     const container = document.querySelector('d3fc-svg');
