@@ -21,7 +21,8 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json"
+    "test": " npx jasmine --config=../../scripts/jasmine.json",
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-financial-feed"
   },
   "dependencies": {
     "d3-fetch": "^1.1.2"

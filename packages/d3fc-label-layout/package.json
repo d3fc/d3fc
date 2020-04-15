@@ -18,10 +18,8 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "site": "npx rollup -c site/rollup.config.js",
-    "dev": "npm run site && watch -p '{src,test}/**/*.js' -c 'npm run site'",
-    "deploy-site": "npm run site && bash ./site/deploy.sh"
+    "test": " npx jasmine --config=../../scripts/jasmine.json",
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-label-layout"
   },
   "devDependencies": {
     "d3": "^5.15.0"
