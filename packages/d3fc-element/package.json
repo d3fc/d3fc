@@ -20,10 +20,6 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-element"
   },
-  "devDependencies": {
-    "d3": "^5.15.0",
-    "document-register-element": "^1.7.2"
-  },
   "publishConfig": {
     "access": "public"
   }

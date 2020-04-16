@@ -23,11 +23,8 @@
     "test": " npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-extent"
   },
-  "devDependencies": {
-    "ms": "^1.0.0"
-  },
-  "dependencies": {
-    "d3-array": "^2.4.0"
+  "peerDependencies": {
+    "d3-array": "*"
   },
   "publishConfig": {
     "access": "public"

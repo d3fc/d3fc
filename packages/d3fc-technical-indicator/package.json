@@ -37,18 +37,11 @@
     "test": " npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-technical-indicator"
   },
-  "devDependencies": {
-    "@d3fc/d3fc-annotation": "^2.5.5",
-    "@d3fc/d3fc-extent": "^3.2.0",
-    "@d3fc/d3fc-random-data": "^3.1.0",
-    "@d3fc/d3fc-rebind": "^5.0.8",
-    "@d3fc/d3fc-series": "^4.7.2",
-    "d3": "^5.15.0",
-    "fs-promise": "^1.0.0"
-  },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-array": "^2.4.0"
+    "@d3fc/d3fc-rebind": "^5.0.10"
+  },
+  "peerDependencies": {
+    "d3-array": "*"
   },
   "publishConfig": {
     "access": "public"

@@ -11,15 +11,9 @@
     "eslint": "eslint \"**/*.js\"",
     "markdownlint": "markdownlint **/*.md --ignore **/node_modules/**",
     "lint": "npm run eslint && npm run markdownlint",
-    "screenshots": "lerna run screenshots --stream --concurrency 1",
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
     "commitlint": "commitlint --from HEAD~1 to HEAD --verbose",
     "examples": "cd examples && npx jest --runInBand"
-  },
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "env FORCE_COLOR=1 node ./scripts/commit-notice.js"
-    }
   },
   "prettier": {
     "singleQuote": true,
@@ -49,13 +43,11 @@
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/travis-cli": "^8.1.0",
     "babelrc-rollup": "^3.0.0",
+    "canvas": "^2.6.1",
     "chalk": "^2.4.2",
-    "command-line-args": "^3.0.1",
     "commitizen": "^4.0.3",
-    "cross-spawn": "^5.0.1",
     "cz-conventional-changelog": "^3.0.2",
     "d3": "^5.15.0",
-    "eol": "^0.4.0",
     "eslint": "^6.7.1",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-semistandard": "^15.0.0",
@@ -65,27 +57,26 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "finalhandler": "^1.1.2",
-    "glob": "^7.1.0",
-    "husky": "^3.0.5",
+    "glsl-transpiler": "^1.8.5",
     "jasmine": "^2.4.1",
     "jest": "^24.9.0",
     "jest-image-snapshot": "^2.12.0",
     "jest-puppeteer": "^4.4.0",
+    "js-combinatorics": "^0.5.0",
     "jsdom": "^9.4.1",
     "lerna": "^3.16.4",
     "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
-    "mkdirp": "^0.5.1",
     "prettier": "^1.19.1",
     "puppeteer": "^1.20.0",
     "read-babelrc-up": "^0.4.0",
     "rollup": "^1.20.3",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-babel-minify": "^9.0.0",
+    "rollup-plugin-livereload": "^1.0.1",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "seedrandom": "^3.0.5",
-    "serve-static": "^1.11.1"
+    "rollup-plugin-serve": "^1.0.1",
+    "seedrandom": "^3.0.5"
   },
   "config": {
     "commitizen": {

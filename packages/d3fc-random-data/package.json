@@ -29,9 +29,11 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-random-data"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-random": "^2.1.0",
-    "d3-time": "^1.1.0"
+    "@d3fc/d3fc-rebind": "^5.0.10"
+  },
+  "peerDependencies": {
+    "d3-random": "*",
+    "d3-time": "*"
   },
   "publishConfig": {
     "access": "public"

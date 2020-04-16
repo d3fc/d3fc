@@ -24,9 +24,11 @@
   },
   "homepage": "https://github.com/d3fc/d3fc",
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-dispatch": "^1.0.6",
-    "d3-selection": "^1.4.1"
+    "@d3fc/d3fc-rebind": "^5.0.10"
+  },
+  "peerDependencies": {
+    "d3-dispatch": "*",
+    "d3-selection": "*"
   },
   "publishConfig": {
     "access": "public"

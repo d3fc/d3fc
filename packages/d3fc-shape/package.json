@@ -24,11 +24,8 @@
     "test": " npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-shape"
   },
-  "devDependencies": {
-    "js-combinatorics": "^0.5.0"
-  },
-  "dependencies": {
-    "d3-path": "^1.0.9"
+  "peerDependencies": {
+    "d3-path": "*"
   },
   "publishConfig": {
     "access": "public"

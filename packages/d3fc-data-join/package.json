@@ -20,11 +20,8 @@
     "test": " npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-data-join"
   },
-  "dependencies": {
-    "d3-selection": "^1.4.1"
-  },
-  "devDependencies": {
-    "d3-transition": "^1.3.2"
+  "peerDependencies": {
+    "d3-selection": "*"
   },
   "publishConfig": {
     "access": "public"
