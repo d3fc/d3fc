@@ -25,7 +25,7 @@ after_success:
     git fetch --tags --quiet &&
     git remote set-url origin "https://${GH_TOKEN}@${GH_REF}" &&
     npm run publish &&
-    bash ./packages/d3fc-site/deploy.sh
+    bash ./scripts/site.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
