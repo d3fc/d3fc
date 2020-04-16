@@ -21,15 +21,11 @@
     "test": " npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-sample"
   },
-  "devDependencies": {
-    "browserify": "^13.0.1",
-    "d3": "^5.15.0",
-    "topojson": "^2.0.0",
-    "watch-cli": "^0.2.1"
-  },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-array": "^2.4.0"
+    "@d3fc/d3fc-rebind": "^5.0.10"
+  },
+  "peerDependencies": {
+    "d3-array": "*"
   },
   "publishConfig": {
     "access": "public"

@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import * as fc from '../index';
-import canvasMock from 'canvas-mock';
+import { createCanvas } from 'canvas';
 
 const svgSeriesTypes = [
     fc.seriesSvgArea(),
@@ -37,9 +37,8 @@ describe('With an empty array', () => {
             container.datum([]).call(series)
         );
 
-        const canvas = document.createElement('canvas');
-        canvasMock(canvas);
-        const context = canvas.getContext();
+        const canvas = createCanvas();
+        const context = canvas.getContext('2d');
 
         canvasSeriesTypes.forEach(series =>
             series.context(context)([])

@@ -20,16 +20,15 @@
     "test": "npx jasmine --config=../../scripts/jasmine.json",
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-brush"
   },
-  "devDependencies": {
-    "d3": "^5.15.0"
-  },
   "dependencies": {
     "@d3fc/d3fc-data-join": "^5.1.0",
-    "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-brush": "^1.1.5",
-    "d3-dispatch": "^1.0.6",
-    "d3-scale": "^3.2.1",
-    "d3-selection": "^1.4.1"
+    "@d3fc/d3fc-rebind": "^5.0.10"
+  },
+  "peerDependencies": {
+    "d3-brush": "*",
+    "d3-dispatch": "*",
+    "d3-scale": "*",
+    "d3-selection": "*"
   },
   "publishConfig": {
     "access": "public"
