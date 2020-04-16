@@ -8,6 +8,10 @@
     "d3fc",
     "webgl"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/d3fc/d3fc"
+  },
   "main": "build/d3fc-webgl.js",
   "module": "index",
   "scripts": {
