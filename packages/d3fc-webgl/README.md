@@ -24,9 +24,8 @@ npm install @d3fc/d3fc-webgl
   * [Point](#point)
 * [Buffers](#buffers)
   * [Attribute Buffer Builders](#attribute-buffer-builders)
-    * [Element Attribute](#element-attribute)
-    * [Adjacent Element Attribute](#adjacent-element-attribute)
-    * [Vertex Attribute](#vertex-attribute)
+    * [Attribute](#attribute)
+    * [Adjacent Attribute](#adjacent-attribute)
     * [Base Attribute](#base-attribute)
   * [Uniform Builder](#uniform-builder)
   * [Buffer Builder](#buffer-builder)
@@ -388,13 +387,13 @@ The attribute components can be used to generate [WebGLBuffers](https://develope
 
 Example use of the builders can be seen in the [series](#series) components where the builders are used to provide the attribute values.
 
-##### Element Attribute
+##### Attribute
 
-<a name="webglElementAttribute" href="#webglElementAttribute">#</a> fc.**webglElementAttribute**()
+<a name="webglAttribute" href="#webglAttribute">#</a> fc.**webglAttribute**()
 
-Used to generate a buffer containing values to be used on a per element basis. In this context an element is an instance of a repeatedly drawn object, for example each individual candlestick on a candlestick chart is an element.
+Used to generate a buffer containing values for the shaders.
 
-<a name="webglElementAttribute_normalized" href="#webglElementAttribute_normalized">#</a> *webglElementAttribute*.**normalized**(*boolean*)
+<a name="webglAttribute_normalized" href="#webglAttribute_normalized">#</a> *webglAttribute*.**normalized**(*boolean*)
 
 If *boolean* is specified, sets the normalized property and returns this attribute builder. If *boolean* is not specified, returns the current value of normalized.
 
@@ -402,19 +401,19 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
-<a name="webglElementAttribute_location" href="#webglElementAttribute_location">#</a> *webglElementAttribute*.**location**(*index*)
+<a name="webglAttribute_location" href="#webglAttribute_location">#</a> *webglAttribute*.**location**(*index*)
 
 If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
 
 The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
-<a name="webglElementAttribute_data" href="#webglElementAttribute_data">#</a> *webglElementAttribute*.**data**(*array*)
+<a name="webglAttribute_data" href="#webglAttribute_data">#</a> *webglAttribute*.**data**(*array*)
 
 If *array* is specified, sets the data property and returns this attribute builder. If *array* is not specified, returns the current value of data.
 
 The data property is used to allow the value function to run for each entry in the data set.
 
-<a name="webglElementAttribute_value" href="#webglElementAttribute_value">#</a> *webglElementAttribute*.**value**(*valueFunc*)
+<a name="webglAttribute_value" href="#webglAttribute_value">#</a> *webglAttribute*.**value**(*valueFunc*)
 
 If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
 
@@ -422,38 +421,46 @@ The value function is run for each entry in the data set, receiving the current 
 
 If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
 
-<a name="webglElementAttribute_size" href="#webglElementAttribute_size">#</a> *webglElementAttribute*.**size**(*size*)
+<a name="webglAttribute_size" href="#webglAttribute_size">#</a> *webglAttribute*.**size**(*size*)
 
 If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
 
 The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
 
-<a name="webglElementAttribute_type" href="#webglElementAttribute_type">#</a> *webglElementAttribute*.**type**(*type*)
+<a name="webglAttribute_type" href="#webglAttribute_type">#</a> *webglAttribute*.**type**(*type*)
 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
 The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
 
-<a name="webglElementAttribute_clear" href="#webglElementAttribute_clear">#</a> *webglElementAttribute*.**clear**()
+<a name="webglAttribute_clear" href="#webglAttribute_clear">#</a> *webglAttribute*.**clear**()
 
 Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
 
+<a name="webglAttribute_divisor" href="#webglAttribute_divisor">#</a> *webglAttribute*.**divisor**(*divisor*)
+
+If *divisor* is specified, sets the divisor property and returns this attribute builder. If *divisor* is not specified, returns the current divisor.
+
+The divisor property is used to specify the rate (the number of instances) at which the attribute advances. A divisor of 0 would be used to repeat the same set of values for each set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = b, vertex[1][0] = a, vertex[1][1] = b, vertex[2][0] = a, vertex[2][1] = b`. A divisor of 1 would be used to pass a value per set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = a, vertex[1][0] = b, vertex[1][1] = b, vertex[2][0] = c, vertex[2][1] = c`.
+
+By default this value is null which causes the value to depend upon whether instanced rendering is enabled, see [subInstanceCount](#webglProgramBuilder_subInstanceCount). If it is enabled, the divisor will have the value 1 otherwise it will be 0.
+
 ##### Adjacent Element Attribute
 
-<a name="webglAdjacentElementAttribute" href="#webglAdjacentElementAttribute">#</a> fc.**webglAdjacentElementAttribute**(*minOffset*, *maxOffset*)
+<a name="webglAdjacentAttribute" href="#webglAdjacentAttribute">#</a> fc.**webglAdjacentAttribute**(*minOffset*, *maxOffset*)
 
 Used to generate a buffer where each element requires data from another element adjacent to it. In this context an element is an instance of a repeatedly drawn object, for example each individual candlestick on a candlestick chart is an element.
 
 *minOffset* specifies the minimum bound for the offset property, this controls how many previous elements are available to access from the builder. The default value is `0`.
 *maxOffset* specifies the maximum bound for the offset property, this controls how many following elements are available to access from the builder. The default value is `0`.
 
-<a name="webglAdjacentElementAttribute_offset" href="#webglAdjacentElementAttribute_offset">#</a> *webglAdjacentElementAttribute*.**offset**(*offset*)
+<a name="webglAdjacentAttribute_offset" href="#webglAdjacentAttribute_offset">#</a> *webglAdjacentAttribute*.**offset**(*offset*)
 
 Sets the offset property and returns an attribute builder that accesses the same data with the given *offset*.
 
 The value of *offset* must be within the bounds of `minOffset` and `maxOffset`.
 
-<a name="webglAdjacentElementAttribute_normalized" href="#webglAdjacentElementAttribute_normalized">#</a> *webglAdjacentElementAttribute*.**normalized**(*boolean*)
+<a name="webglAdjacentAttribute_normalized" href="#webglAdjacentAttribute_normalized">#</a> *webglAdjacentAttribute*.**normalized**(*boolean*)
 
 If *boolean* is specified, sets the normalized property and returns this attribute builder. If *boolean* is not specified, returns the current value of normalized.
 
@@ -461,19 +468,19 @@ The normalized property specifies whether integer data values should be normaliz
 
 More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
-<a name="webglAdjacentElementAttribute_location" href="#webglAdjacentElementAttribute_location">#</a> *webglAdjacentElementAttribute*.**location**(*index*)
+<a name="webglAdjacentAttribute_location" href="#webglAdjacentAttribute_location">#</a> *webglAdjacentAttribute*.**location**(*index*)
 
 If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
 
 The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
 
-<a name="webglAdjacentElementAttribute_data" href="#webglAdjacentElementAttribute_data">#</a> *webglAdjacentElementAttribute*.**data**(*array*)
+<a name="webglAdjacentAttribute_data" href="#webglAdjacentAttribute_data">#</a> *webglAdjacentAttribute*.**data**(*array*)
 
 If *array* is specified, sets the data property and returns this attribute builder. If *array* is not specified, returns the current value of data.
 
 The data property is used to allow the value function to run for each entry in the data set.
 
-<a name="webglAdjacentElementAttribute_value" href="#webglAdjacentElementAttribute_value">#</a> *webglAdjacentElementAttribute*.**value**(*valueFunc*)
+<a name="webglAdjacentAttribute_value" href="#webglAdjacentAttribute_value">#</a> *webglAdjacentAttribute*.**value**(*valueFunc*)
 
 If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
 
@@ -481,71 +488,29 @@ The value function is run for each entry in the data set, receiving the current 
 
 If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
 
-<a name="webglAdjacentElementAttribute_size" href="#webglAdjacentElementAttribute_size">#</a> *webglAdjacentElementAttribute*.**size**(*size*)
+<a name="webglAdjacentAttribute_size" href="#webglAdjacentAttribute_size">#</a> *webglAdjacentAttribute*.**size**(*size*)
 
 If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
 
 The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
 
-<a name="webglAdjacentElementAttribute_type" href="#webglAdjacentElementAttribute_type">#</a> *webglAdjacentElementAttribute*.**type**(*type*)
+<a name="webglAdjacentAttribute_type" href="#webglAdjacentAttribute_type">#</a> *webglAdjacentAttribute*.**type**(*type*)
 
 If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
 
 The type property is used to specify the type of the typed array used for the buffer data, the default is `Float`. Valid types can be accessed from [webglTypes](#types).
 
-<a name="webglAdjacentElementAttribute_clear" href="#webglAdjacentElementAttribute_clear">#</a> *webglAdjacentElementAttribute*.**clear**()
+<a name="webglAdjacentAttribute_clear" href="#webglAdjacentAttribute_clear">#</a> *webglAdjacentAttribute*.**clear**()
 
 Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
 
-##### Vertex Attribute
+<a name="webglAdjacentAttribute_divisor" href="#webglAdjacentAttribute_divisor">#</a> *webglAdjacentAttribute*.**divisor**(*divisor*)
 
-<a name="webglVertexAttribute" href="#webglVertexAttribute">#</a> fc.**webglVertexAttribute**()
+If *divisor* is specified, sets the divisor property and returns this attribute builder. If *divisor* is not specified, returns the current divisor.
 
-Used to generate a buffer where values are to be used on a per vertex basis within an element. For example, the corners of a single bar element within a bar series.
+The divisor property is used to specify the rate (the number of instances) at which the attribute advances. A divisor of 0 would be used to repeat the same set of values for each set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = b, vertex[1][0] = a, vertex[1][1] = b, vertex[2][0] = a, vertex[2][1] = b`. A divisor of 1 would be used to pass a value per set of vertices making up each instance e.g. `vertex[0][0] = a, vertex[0][1] = a, vertex[1][0] = b, vertex[1][1] = b, vertex[2][0] = c, vertex[2][1] = c`.
 
-<a name="webglVertexAttribute_normalized" href="#webglVertexAttribute_normalized">#</a> *webglVertexAttribute*.**normalized**(*boolean*)
-
-If *boolean* is specified, sets the normalized property and returns this attribute builder. If *boolean* is not specified, returns the current value of normalized.
-
-The normalized property specifies whether integer data values should be normalized when being cast to a float, the default value is false.
-
-More information on how values are normalized can be found [here](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
-
-<a name="webglVertexAttribute_location" href="#webglVertexAttribute_location">#</a> *webglVertexAttribute*.**location**(*index*)
-
-If *index* is specified, sets the location property and returns this attribute builder. If *index* is not specified, returns the current value of location.
-
-The location property is used to specify the index of the vertex attribute being modified. The appropriate value for an attribute can be found using [`WebGLRenderingContext.getAttribLocation()`](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/getAttribLocation). This is normally specified on your behalf by [bufferBuilder](#buffer-builder).
-
-<a name="webglVertexAttribute_data" href="#webglVertexAttribute_data">#</a> *webglVertexAttribute*.**data**(*array*)
-
-If *array* is specified, sets the data property and returns this attribute builder. If *array* is not specified, returns the current value of data.
-
-The data property is used to allow the value function to run for each entry in the data set.
-
-<a name="webglVertexAttribute_value" href="#webglVertexAttribute_value">#</a> *webglVertexAttribute*.**value**(*valueFunc*)
-
-If *valueFunc* is specified, sets the value property to the given function and returns this attribute builder. If *valueFunc* is not specified, returns the current value function.
-
-The value function is run for each entry in the data set, receiving the current data point and its index as arguments, *`valueFunc(data, index)`*.
-
-If the size property is set to `1`, then *valueFunc* must return a single value. If the size property is set to a value other than `1` then *valueFunc* must return an array of length equal to the size property.
-
-<a name="webglVertexAttribute_size" href="#webglVertexAttribute_size">#</a> *webglVertexAttribute*.**size**(*size*)
-
-If *size* is specified, sets the size property and returns this attribute builder. If *size* is not specified, returns the current value of size.
-
-The size property is used to specify the number of components to the attribute. It must have the value `1` (default), `2`, `3`, or `4`, corresponding to the shader types `float`, `vec2`, `vec3`, and `vec4` respectively.
-
-<a name="webglVertexAttribute_type" href="#webglVertexAttribute_type">#</a> *webglVertexAttribute*.**type**(*type*)
-
-If *type* is specified, sets the type property and returns this attribute builder. If *type* is not specified, returns the current type.
-
-The type property is used to specify the type of the typed array used for the buffer data. Valid types can be accessed from [webglTypes](#types).
-
-<a name="webglVertexAttribute_clear" href="#webglVertexAttribute_clear">#</a> *webglVertexAttribute*.**clear**()
-
-Used to indicate that the buffer should be rebuilt on the next render, by default the buffer will only be rebuilt if a property on the builder changes.
+By default this value is null which causes the value to depend upon whether instanced rendering is enabled, see [subInstanceCount](#webglProgramBuilder_subInstanceCount). If it is enabled, the divisor will have the value 1 otherwise it will be 0.
 
 ##### Base Attribute
 
