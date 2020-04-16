@@ -15,7 +15,7 @@ For details of installation and general usage, visit the [d3fc project webpage](
 This project is a mono-repo that uses [Lerna](https://lernajs.io/) to manage dependencies between packages. To get started, run the following:
 
 ~~~
-npm install
+npm ci
 npm test
 ~~~
 
