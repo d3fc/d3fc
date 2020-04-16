@@ -3,7 +3,7 @@
 <br/><br/>
 <a href="https://travis-ci.org/d3fc/d3fc"><img alt="Build status" src="https://travis-ci.org/d3fc/d3fc.svg?branch=master"/></a>
 <a href="https://badge.fury.io/js/d3fc"><img alt="npm version" src="https://badge.fury.io/js/d3fc.svg"/></a>
-</p> 
+</p>
 
 __Components to rapidly build fast, highly customisable, interactive charts with D3__
 
@@ -30,7 +30,7 @@ Examples can be found on the [project website](http://d3fc.io/) (these same exam
 
 This project is a mono-repo that uses [Lerna](https://lernajs.io/) to manage dependencies between packages. To get started, run:
 ~~~
-npm install
+npm ci
 npm test
 ~~~
 
