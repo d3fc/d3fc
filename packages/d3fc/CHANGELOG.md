@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 15.0.0 (2020-04-16)
+
+
+### chore
+
+* consolidate dependencies ([79b7d1f](https://github.com/d3fc/d3fc/commit/79b7d1f))
+
+
+### BREAKING CHANGES
+
+* d3fc no longer has a direct dependency on d3. Add the
+dependency directly to your package instead.
+
+
+
+
+
 ## [14.2.6](https://github.com/d3fc/d3fc/compare/d3fc@14.2.5...d3fc@14.2.6) (2020-04-07)
 
 **Note:** Version bump only for package d3fc

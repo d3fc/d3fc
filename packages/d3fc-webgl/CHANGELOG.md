@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0 (2020-04-16)
+
+
+### chore
+
+* consolidate dependencies ([79b7d1f](https://github.com/d3fc/d3fc/commit/79b7d1f))
+
+
+### Features
+
+* divisor defaults to null (auto) ([e60c82e](https://github.com/d3fc/d3fc/commit/e60c82e))
+
+
+### BREAKING CHANGES
+
+* d3fc no longer has a direct dependency on d3. Add the
+dependency directly to your package instead.
+
+
+
+
+
 ## [1.9.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.9.1...@d3fc/d3fc-webgl@1.9.2) (2020-04-02)
 
 
