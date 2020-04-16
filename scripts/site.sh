@@ -6,8 +6,8 @@ cd site
 cp -r ../examples .
 
 # update scripts to reference unpkg
-sed -i "" "s#../../node_modules/#https://unpkg.com/#" examples/*/index.html
-sed -i "" "s#../../packages/#https://unpkg.com/#" examples/*/index.html
+sed "s#../../node_modules/#https://unpkg.com/#" examples/*/index.html
+sed "s#../../packages/#https://unpkg.com/#" examples/*/index.html
 
 # disable jekyll
 touch .nojekyll
