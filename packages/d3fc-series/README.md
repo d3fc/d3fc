@@ -451,7 +451,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -511,7 +511,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -566,7 +566,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -619,7 +619,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -676,7 +676,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -735,7 +735,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -805,7 +805,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
@@ -868,7 +868,7 @@ If *equals* is specified, sets the equality function used to compare *previousDa
 
 The SVG and canvas implementations do not support this property.
 
-If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/packages/d3fc-webgl#webglScaleMapper).
+If *scaleMapper* is specified, sets the function used to map first the xScale and then the yScale onto matched pairs of JavaScript and WebGL implementations. If *equals* is not specified, returns the current scale mapper which defaults to [webglScaleMapper](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl#webglScaleMapper).
 
 The returned JavaScript scale is equality checked using a reference comparison to determine whether the data needs to be rescaled. If the reference is the same as the previous render, the values associated with the scale are not rescaled.
 
