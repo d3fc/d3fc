@@ -10,27 +10,6 @@ This project has recently upgraded to D3 version 5 to take advantage of the new 
 
 For details of installation and general usage, visit the [d3fc project webpage](http://d3fc.io/).
 
-## Developing
-
-This project is a mono-repo that uses [Lerna](https://lernajs.io/) to manage dependencies between packages. To get started, run the following:
-
-~~~
-npm ci
-npm test
-~~~
-
-This install dependencies, and runs `lerna bootstrap` in order to manage the cross-dependencies between the various projects. The test script bundles all of the packages and runs the tests.
-
-When making changes to a package, you can either execute `npm run bundle` within the package folder to build just that package, or you can run the following from the project root:
-
-~~~
-lerna run bundle --since --concurrency 1
-~~~
-
-This uses `lerna run` to execute the `bundle` run script for all packages that have been modified (or have modified dependencies).
-
-Releases are managed via CI and [semantic release](https://github.com/semantic-release/semantic-release).
-
 ## License
 
 These components are licensed under the [MIT License](http://opensource.org/licenses/MIT).
