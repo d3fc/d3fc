@@ -1,3 +1,2 @@
-# Webgl and Canvas Plot
-
-This example demonstrates how a Webgl series and a Canvas series can be rendered together by drawing a Webgl candlestick series with a Canvas gridline series.
+# SVG, Webgl and Canvas Chart
+This examples demonstrates a chart with a Webgl candlestick series, a Canvas gridline, and an SVG line series, all being rendered together.
