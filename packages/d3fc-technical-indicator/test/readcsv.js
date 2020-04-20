@@ -1,8 +1,9 @@
 import {csvParse} from 'd3-dsv';
-import fsp from 'fs-promise';
+import { promisify } from 'util';
+import { readFile } from 'fs';
 
 const readCsv = (file) =>
-    fsp.readFile(file, 'utf8')
+    promisify(readFile)(file, 'utf8')
         .then(csvParse)
         .then(data => {
             // coerce all defined values to numbers

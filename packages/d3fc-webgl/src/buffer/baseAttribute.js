@@ -8,12 +8,12 @@ export default () => {
     let normalized = false;
     let stride = 0;
     let offset = 0;
-    let divisor = 0;
+    let divisor = null;
 
     const baseAttribute = programBuilder => {
         const gl = programBuilder.context();
 
-        if (buffer == null || !gl.isBuffer(buffer)) {
+        if (buffer == null) {
             buffer = gl.createBuffer();
         }
 
@@ -28,8 +28,15 @@ export default () => {
         );
         gl.enableVertexAttribArray(location);
 
-        const ext = gl.getExtension('ANGLE_instanced_arrays');
-        ext.vertexAttribDivisorANGLE(location, divisor);
+        const extInstancedArrays = programBuilder.extInstancedArrays();
+        extInstancedArrays.vertexAttribDivisorANGLE(
+            location,
+            divisor != null
+                ? divisor
+                : programBuilder.subInstanceCount() > 0
+                ? 1
+                : 0
+        );
     };
 
     baseAttribute.location = (...args) => {

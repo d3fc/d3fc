@@ -5,19 +5,22 @@ import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
 import lineWidthShader from '../shaders/lineWidth';
 import * as vertexShaderSnippets from '../shaders/vertexShaderSnippets';
-import vertexAttribute from '../buffer/vertexAttribute';
+import attribute from '../buffer/attribute';
 import elementIndices from '../buffer/elementIndices';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(12);
     let xScale = baseScale();
     let yScale = baseScale();
     let decorate = () => {};
     const lineWidth = lineWidthShader();
 
-    const cornerAttribute = vertexAttribute()
+    const cornerAttribute = attribute()
+        .divisor(0)
         .size(3)
         .type(types.BYTE)
         .data([
@@ -39,14 +42,14 @@ export default () => {
             .vertexShader(shaderBuilder.vertex())
             .fragmentShader(shaderBuilder.fragment());
 
-        xScale(program, 'gl_Position', 0);
-        yScale(program, 'gl_Position', 1);
-        xScale(program, 'next', 0);
-        yScale(program, 'next', 1);
         xScale(program, 'prev', 0);
         yScale(program, 'prev', 1);
-        xScale(program, 'prevPrev', 0);
-        yScale(program, 'prevPrev', 1);
+        xScale(program, 'curr', 0);
+        yScale(program, 'curr', 1);
+        xScale(program, 'gl_Position', 0);
+        yScale(program, 'gl_Position', 1);
+        xScale(program, 'nextNext', 0);
+        yScale(program, 'nextNext', 1);
 
         program
             .vertexShader()
@@ -108,10 +111,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'crossPreviousPreviousValueAttribute',
+        'crossNextNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossPrevPrevValue'
+        'aCrossNextNextValue'
     );
     rebindCurry(
         draw,
@@ -136,10 +139,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'mainPreviousPreviousValueAttribute',
+        'mainNextNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainPrevPrevValue'
+        'aMainNextNextValue'
     );
     rebindCurry(
         draw,

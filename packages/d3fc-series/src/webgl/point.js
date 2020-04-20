@@ -1,9 +1,8 @@
-import d3Shape from 'd3-shape';
+import { symbolCircle } from 'd3-shape';
 import xyBase from '../xyBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesPoint,
-    webglElementAttribute,
+    webglAttribute,
     webglScaleMapper,
     webglSymbolMapper,
     webglTypes
@@ -14,12 +13,12 @@ import functor from '../functor';
 export default () => {
     const base = xyBase();
     let size = functor(64);
-    let type = d3Shape.symbolCircle;
+    let type = symbolCircle;
 
-    const crossValueAttribute = webglElementAttribute();
-    const mainValueAttribute = webglElementAttribute();
-    const sizeAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_SHORT);
-    const definedAttribute = webglElementAttribute().type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAttribute();
+    const mainValueAttribute = webglAttribute();
+    const sizeAttribute = webglAttribute().type(webglTypes.UNSIGNED_SHORT);
+    const definedAttribute = webglAttribute().type(webglTypes.UNSIGNED_BYTE);
 
     const draw = webglSeriesPoint()
         .crossValueAttribute(crossValueAttribute)
@@ -28,28 +27,40 @@ export default () => {
         .definedAttribute(definedAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
 
     const point = (data) => {
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-
-            if (base.orient() === 'vertical') {
-                crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
-            } else {
-                crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
-                mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
-            }
             sizeAttribute.value((d, i) => size(d, i)).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
+            if (base.orient() === 'vertical') {
+                crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            } else {
+                crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+            }
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
+            if (base.orient() === 'vertical') {
+                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            } else {
+                mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+            }
+        }
 
-        draw.xScale(xScale.glScale)
-            .yScale(yScale.glScale)
+        draw.xScale(xScale.webglScale)
+            .yScale(yScale.webglScale)
             .type(webglSymbolMapper(type))
             .decorate((program) => base.decorate()(program, data, 0));
 
@@ -77,6 +88,14 @@ export default () => {
             return equals;
         }
         equals = args[0];
+        return point;
+    };
+
+    point.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return point;
     };
 

@@ -4,13 +4,15 @@ import candlestickShader from '../shaders/candlestick/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffer/vertexAttribute';
+import attribute from '../buffer/attribute';
 import elementIndices from '../buffer/elementIndices';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(12);
     let xScale = baseScale();
     let yScale = baseScale();
     const lineWidth = lineWidthShader();
@@ -22,7 +24,8 @@ export default () => {
      * Y: -2: HIGH, -1: OPEN, 1: CLOSE, 2: LOW
      * Z: -1: LEFT, 1: RIGHT (only valid for HIGH/LOW corners)
      */
-    const cornerAttribute = vertexAttribute()
+    const cornerAttribute = attribute()
+        .divisor(0)
         .size(3)
         .type(types.BYTE)
         .data([

@@ -38,7 +38,7 @@ Undefined inputs are best avoided — a single undefined input value will produc
 
 ```javascript
 
-import { indicatorBollingerBands } from d3fc-technical-indicator;
+import { indicatorBollingerBands } from '@d3fc/d3fc-technical-indicator';
 
 const bollinger = indicatorBollingerBands()
     .period(3);
@@ -57,7 +57,7 @@ bollinger([5, 6, 7, 6, 5, 4]);
 
 ### Bollinger Bands
 
-![Bollinger Bands](screenshots/bollingerBands.png "Bollinger Bands")
+<img src="https://d3fc.io/examples/technical-indicator-bollinger-bands-svg/screenshot.png" />
 
 <a name="indicatorBollingerBands" href="#indicatorBollingerBands">#</a> fc.**indicatorBollingerBands**()
 
@@ -85,7 +85,7 @@ Get/set the multiplier of the of the standard deviation around the moving averag
 
 ### Elder-Ray
 
-![Elder Ray](screenshots/elderRay.png "Elder Ray")
+<img src="https://d3fc.io/examples/technical-indicator-elder-ray/screenshot.png" />
 
 <a name="indicatorElderRay" href="#indicatorElderRay">#</a> fc.**indicatorElderRay**()
 
@@ -116,7 +116,7 @@ Get/set the period of the moving average calculation performed by the calculator
 
 ### Envelope
 
-![Envelope](screenshots/envelope.png "Envelope")
+<img src="https://d3fc.io/examples/technical-indicator-envelope/screenshot.png" />
 
 <a name="indicatorEnvelope" href="#indicatorEnvelope">#</a> fc.**indicatorEnvelope**()
 
@@ -177,7 +177,7 @@ Get/set the period of the exponential moving average calculation performed by th
 
 ### Force Index
 
-![Force Index](screenshots/forceIndex.png "Force Index")
+<img src="https://d3fc.io/examples/technical-indicator-force-index/screenshot.png" />
 
 <a name="indicatorForceIndex" href="#indicatorForceIndex">#</a> fc.**indicatorForceIndex**()
 
@@ -202,7 +202,7 @@ Get/set the period of the exponential moving average calculation performed by th
 
 ### MACD
 
-![MACD](screenshots/macd.png "MACD")
+<img src="https://d3fc.io/examples/technical-indicator-macd/screenshot.png" />
 
 <a name="indicatorMacd" href="#indicatorMacd">#</a> fc.**indicatorMacd**()
 
@@ -234,7 +234,7 @@ Get/set the period of the 'signal' exponential moving average calculation perfor
 
 ### Relative Strength Index
 
-![Relative Strength Index](screenshots/relativeStrengthIndex.png "Relative Strength Index")
+<img src="https://d3fc.io/examples/technical-indicator-relative-strength-index/screenshot.png" />
 
 <a name="indicatorRelativeStrengthIndex" href="#indicatorRelativeStrengthIndex">#</a> fc.**indicatorRelativeStrengthIndex**()
 
@@ -255,7 +255,7 @@ Get/set the period of the relative strength index calculation performed by the c
 
 ### Stochastic Oscillator
 
-![Stochastic Oscillator](screenshots/stochasticOscillator.png "Stochastic Oscillator")
+<img src="https://d3fc.io/examples/technical-indicator-stochastic-oscillator/screenshot.png" />
 
 <a name="indicatorStochasticOscillator" href="#indicatorStochasticOscillator">#</a> fc.**indicatorStochasticOscillator**()
 

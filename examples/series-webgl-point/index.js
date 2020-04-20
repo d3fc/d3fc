@@ -1,43 +1,43 @@
-const data = fc.randomGeometricBrownianMotion().steps(1e4)(1);
+const randomNormal = d3.randomNormal(0, 1);
 
-const extent = fc.extentLinear();
+const data = Array.from({ length: 1e4 }, () => ({
+    x: randomNormal(),
+    y: randomNormal()
+}));
 
-const xScale = d3.scaleLinear().domain([0, data.length - 1]);
+const xScale = d3.scaleLinear().domain([-5, 5]);
 
-const yScale = d3.scaleLinear().domain(extent(data));
+const yScale = d3.scaleLinear().domain([-5, 5]);
 
 const container = document.querySelector('d3fc-canvas');
-
-const gl = d3
-    .select(container)
-    .select('canvas')
-    .node()
-    .getContext('webgl');
 
 const series = fc
     .seriesWebglPoint()
     .xScale(xScale)
     .yScale(yScale)
-    .context(gl)
-    .crossValue((d, i) => i)
-    .mainValue(d => d)
+    .crossValue(d => d.x)
+    .mainValue(d => d.y)
     .defined(() => true)
     .equals((previousData, data) => previousData.length > 0);
 
 let pixels = null;
 let frame = 0;
+let gl = null;
 
 d3.select(container)
     .on('click', () => {
         const domain = xScale.domain();
-        const max = Math.round(domain[1] / 2);
-        xScale.domain([0, max]);
+        const max = domain[1] / 2;
+        xScale.domain([-max, max]);
         container.requestRedraw();
     })
     .on('measure', () => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
+
+        gl = container.querySelector('canvas').getContext('webgl');
+        series.context(gl);
     })
     .on('draw', () => {
         if (pixels == null) {

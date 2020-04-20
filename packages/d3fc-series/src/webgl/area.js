@@ -1,8 +1,7 @@
 import xyBase from '../xyBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesArea,
-    webglAdjacentElementAttribute,
+    webglAdjacentAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -11,49 +10,58 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossPreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
-    const crossValueAttribute = crossPreviousValueAttribute.offset(1);
-    const mainPreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
-    const mainValueAttribute = mainPreviousValueAttribute.offset(1);
-    const basePreviousValueAttribute = webglAdjacentElementAttribute(0, 1);
-    const baseValueAttribute = basePreviousValueAttribute.offset(1);
-    const definedAttribute = webglAdjacentElementAttribute(0, 1)
+    const crossValueAttribute = webglAdjacentAttribute(0, 1);
+    const crossNextValueAttribute = crossValueAttribute.offset(1);
+    const mainValueAttribute = webglAdjacentAttribute(0, 1);
+    const mainNextValueAttribute = mainValueAttribute.offset(1);
+    const baseValueAttribute = webglAdjacentAttribute(0, 1);
+    const baseNextValueAttribute = baseValueAttribute.offset(1);
+    const definedAttribute = webglAdjacentAttribute(0, 1)
         .type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesArea()
         .crossValueAttribute(crossValueAttribute)
-        .crossPreviousValueAttribute(crossPreviousValueAttribute)
+        .crossNextValueAttribute(crossNextValueAttribute)
         .mainValueAttribute(mainValueAttribute)
-        .mainPreviousValueAttribute(mainPreviousValueAttribute)
+        .mainNextValueAttribute(mainNextValueAttribute)
         .baseValueAttribute(baseValueAttribute)
-        .basePreviousValueAttribute(basePreviousValueAttribute)
+        .baseNextValueAttribute(baseNextValueAttribute)
         .definedAttribute(definedAttribute)
         .definedNextAttribute(definedNextAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
 
     const area = (data) => {
         if (base.orient() !== 'vertical') {
             throw new Error(`Unsupported orientation ${base.orient()}`);
         }
 
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-
-            crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-            mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
-            basePreviousValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
+        }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
+            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
+            baseValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
+            mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
         }
 
         draw
-            .xScale(xScale.glScale)
-            .yScale(yScale.glScale)
+            .xScale(xScale.webglScale)
+            .yScale(yScale.webglScale)
             .decorate((program) => base.decorate()(program, data, 0));
 
         draw(data.length);
@@ -64,6 +72,14 @@ export default () => {
             return equals;
         }
         equals = args[0];
+        return area;
+    };
+
+    area.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return area;
     };
 

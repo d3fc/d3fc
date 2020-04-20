@@ -3,6 +3,88 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 5.0.0 (2020-04-16)
+
+
+### chore
+
+* consolidate dependencies ([79b7d1f](https://github.com/d3fc/d3fc/commit/79b7d1f))
+
+
+### BREAKING CHANGES
+
+* d3fc no longer has a direct dependency on d3. Add the
+dependency directly to your package instead.
+
+
+
+
+
+## [4.7.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.7.1...@d3fc/d3fc-series@4.7.2) (2020-04-02)
+
+**Note:** Version bump only for package @d3fc/d3fc-series
+
+
+
+
+
+## [4.7.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.7.0...@d3fc/d3fc-series@4.7.1) (2020-03-26)
+
+**Note:** Version bump only for package @d3fc/d3fc-series
+
+
+
+
+
+# [4.7.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.6.0...@d3fc/d3fc-series@4.7.0) (2020-03-25)
+
+
+### Features
+
+* add webgl star symbol ([c5124dd](https://github.com/d3fc/d3fc/commit/c5124dd))
+* add webgl wye symbol ([267ba37](https://github.com/d3fc/d3fc/commit/267ba37))
+
+
+
+
+
+# [4.6.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.5.1...@d3fc/d3fc-series@4.6.0) (2020-03-25)
+
+
+### Features
+
+* add scaleMapper property ([81fd44e](https://github.com/d3fc/d3fc/commit/81fd44e))
+
+
+
+
+
+## [4.5.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.5.0...@d3fc/d3fc-series@4.5.1) (2020-03-24)
+
+**Note:** Version bump only for package @d3fc/d3fc-series
+
+
+
+
+
+# [4.5.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.17...@d3fc/d3fc-series@4.5.0) (2020-03-19)
+
+
+### Bug Fixes
+
+* update imports to fix standalone package use ([cbb810e](https://github.com/d3fc/d3fc/commit/cbb810e))
+* webgl bar colour ([98679ff](https://github.com/d3fc/d3fc/commit/98679ff))
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+* add webgl diamond symbol ([#1481](https://github.com/d3fc/d3fc/issues/1481)) ([7605bb2](https://github.com/d3fc/d3fc/commit/7605bb2))
+
+
+
+
+
 ## [4.4.17](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@4.4.16...@d3fc/d3fc-series@4.4.17) (2020-02-18)
 
 **Note:** Version bump only for package @d3fc/d3fc-series

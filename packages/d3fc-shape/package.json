@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-shape",
-  "version": "5.0.19",
+  "version": "6.0.0",
   "description": "A collection of SVG/canvas path generators for creating chart series",
   "license": "MIT",
   "keywords": [
@@ -21,15 +21,11 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json"
+    "test": " npx jasmine --config=../../scripts/jasmine.json",
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-shape"
   },
-  "devDependencies": {
-    "@d3fc/d3fc-random-data": "^3.0.19",
-    "d3-path": "^1.0.3",
-    "js-combinatorics": "^0.5.0"
-  },
-  "dependencies": {
-    "d3-path": "^1.0.0"
+  "peerDependencies": {
+    "d3-path": "*"
   },
   "publishConfig": {
     "access": "public"

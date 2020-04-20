@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-data-join",
-  "version": "5.0.11",
+  "version": "6.0.0",
   "description": "A component that simplifies the D3 data join and supports the d3fc decorate pattern",
   "license": "MIT",
   "keywords": [
@@ -17,13 +17,11 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json"
+    "test": " npx jasmine --config=../../scripts/jasmine.json",
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-data-join"
   },
-  "dependencies": {
-    "d3-selection": "^1.0.0"
-  },
-  "devDependencies": {
-    "d3-transition": "^1.0.0"
+  "peerDependencies": {
+    "d3-selection": "*"
   },
   "publishConfig": {
     "access": "public"

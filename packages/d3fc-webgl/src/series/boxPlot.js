@@ -4,7 +4,7 @@ import boxPlotShader from '../shaders/boxPlot/shader';
 import lineWidthShader from '../shaders/lineWidth';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffer/vertexAttribute';
+import attribute from '../buffer/attribute';
 import elementIndices from '../buffer/elementIndices';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
@@ -44,7 +44,9 @@ import rebindCurry from '../rebindCurry';
 // εL1 -> εR1
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(54);
     let xScale = baseScale();
     let yScale = baseScale();
     let decorate = () => {};
@@ -57,7 +59,8 @@ export default () => {
      * Z: Follows X or Y convention, depending on the orientation of the line that the vertex is part of.
      * W: Indicator to determine line orientation (needed because some corners are part of two lines). - 0: VERTICAL, 1: HORIZONTAL
      */
-    const cornerAttribute = vertexAttribute()
+    const cornerAttribute = attribute()
+        .divisor(0)
         .size(4)
         .type(types.BYTE)
         .data([

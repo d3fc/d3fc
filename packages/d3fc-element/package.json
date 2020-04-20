@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-element",
-  "version": "5.3.28",
+  "version": "6.0.0",
   "description": "Custom HTML elements that make it easier to create responsive visualisations that integrate easily with other UI frameworks (e.g. React, Angular)",
   "license": "MIT",
   "keywords": [
@@ -18,14 +18,7 @@
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
     "test": "npx jasmine --config=../../scripts/jasmine.json",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-element",
-    "screenshots": "node ../../scripts/screenshot.js"
-  },
-  "devDependencies": {
-    "@d3fc/d3fc-extent": "^3.1.7",
-    "@d3fc/d3fc-series": "^4.4.17",
-    "d3": "^4.1.1",
-    "document-register-element": "^1.7.2"
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-element"
   },
   "publishConfig": {
     "access": "public"

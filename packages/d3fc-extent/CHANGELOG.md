@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 4.0.0 (2020-04-16)
+
+
+### chore
+
+* consolidate dependencies ([79b7d1f](https://github.com/d3fc/d3fc/commit/79b7d1f))
+
+
+### BREAKING CHANGES
+
+* d3fc no longer has a direct dependency on d3. Add the
+dependency directly to your package instead.
+
+
+
+
+
+# 3.2.0 (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+
+
+
+
+
 ## [3.1.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-extent@3.1.6...@d3fc/d3fc-extent@3.1.7) (2019-11-28)
 
 **Note:** Version bump only for package @d3fc/d3fc-extent

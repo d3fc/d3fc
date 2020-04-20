@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.0.0 (2020-04-16)
+
+
+### chore
+
+* consolidate dependencies ([79b7d1f](https://github.com/d3fc/d3fc/commit/79b7d1f))
+
+
+### BREAKING CHANGES
+
+* d3fc no longer has a direct dependency on d3. Add the
+dependency directly to your package instead.
+
+
+
+
+
+## [5.4.5](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.4.4...@d3fc/d3fc-element@5.4.5) (2020-04-02)
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+
+
+
+
+## [5.4.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.4.3...@d3fc/d3fc-element@5.4.4) (2020-03-26)
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+
+
+
+
+## [5.4.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.4.2...@d3fc/d3fc-element@5.4.3) (2020-03-25)
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+
+
+
+
+## [5.4.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.4.1...@d3fc/d3fc-element@5.4.2) (2020-03-25)
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+
+
+
+
+## [5.4.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.4.0...@d3fc/d3fc-element@5.4.1) (2020-03-24)
+
+**Note:** Version bump only for package @d3fc/d3fc-element
+
+
+
+
+
+# [5.4.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.3.28...@d3fc/d3fc-element@5.4.0) (2020-03-19)
+
+
+### Features
+
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+
+
+
+
+
 ## [5.3.28](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@5.3.27...@d3fc/d3fc-element@5.3.28) (2020-02-18)
 
 **Note:** Version bump only for package @d3fc/d3fc-element

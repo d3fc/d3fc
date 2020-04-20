@@ -6,7 +6,7 @@ export default initialData => {
     const base = programBuilder => {
         const gl = programBuilder.context();
 
-        if (buffer == null || !gl.isBuffer(buffer)) {
+        if (buffer == null) {
             buffer = gl.createBuffer();
         }
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
@@ -22,6 +22,11 @@ export default initialData => {
         );
 
         dirty = false;
+    };
+
+    base.clear = () => {
+        buffer = null;
+        dirty = true;
     };
 
     base.data = (...args) => {

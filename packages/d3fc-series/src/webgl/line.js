@@ -1,8 +1,7 @@
 import xyBase from '../xyBase';
-import isIdentityScale from '../isIdentityScale';
 import {
     webglSeriesLine,
-    webglAdjacentElementAttribute,
+    webglAdjacentAttribute,
     webglScaleMapper,
     webglTypes
 } from '@d3fc/d3fc-webgl';
@@ -11,51 +10,63 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossPreviousValueAttribute = webglAdjacentElementAttribute(-1, 2);
-    const crossValueAttribute = crossPreviousValueAttribute.offset(1);
-    const crossNextValueAttribute = crossPreviousValueAttribute.offset(2);
-    const crossPreviousPreviousValueAttribute = crossPreviousValueAttribute.offset(-1);
-    const mainPreviousValueAttribute = webglAdjacentElementAttribute(-1, 2);
-    const mainValueAttribute = mainPreviousValueAttribute.offset(1);
-    const mainNextValueAttribute = mainPreviousValueAttribute.offset(2);
-    const mainPreviousPreviousValueAttribute = mainPreviousValueAttribute.offset(-1);
-    const definedAttribute = webglAdjacentElementAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
+    const crossValueAttribute = webglAdjacentAttribute(-1, 2);
+    const crossPreviousValueAttribute = crossValueAttribute.offset(-1);
+    const crossNextValueAttribute = crossValueAttribute.offset(1);
+    const crossNextNextValueAttribute = crossValueAttribute.offset(2);
+    const mainValueAttribute = webglAdjacentAttribute(-1, 2);
+    const mainPreviousValueAttribute = mainValueAttribute.offset(-1);
+    const mainNextValueAttribute = mainValueAttribute.offset(1);
+    const mainNextNextValueAttribute = mainValueAttribute.offset(2);
+    const definedAttribute = webglAdjacentAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesLine()
         .crossPreviousValueAttribute(crossPreviousValueAttribute)
         .crossValueAttribute(crossValueAttribute)
         .crossNextValueAttribute(crossNextValueAttribute)
-        .crossPreviousPreviousValueAttribute(crossPreviousPreviousValueAttribute)
+        .crossNextNextValueAttribute(crossNextNextValueAttribute)
         .mainPreviousValueAttribute(mainPreviousValueAttribute)
         .mainValueAttribute(mainValueAttribute)
         .mainNextValueAttribute(mainNextValueAttribute)
-        .mainPreviousPreviousValueAttribute(mainPreviousPreviousValueAttribute)
+        .mainNextNextValueAttribute(mainNextNextValueAttribute)
         .definedAttribute(definedAttribute)
         .definedNextAttribute(definedNextAttribute);
 
     let equals = (previousData, data) => false;
+    let scaleMapper = webglScaleMapper;
     let previousData = [];
+    let previousXScale = null;
+    let previousYScale = null;
 
     const line = (data) => {
-        const xScale = webglScaleMapper(base.xScale());
-        const yScale = webglScaleMapper(base.yScale());
+        const xScale = scaleMapper(base.xScale());
+        const yScale = scaleMapper(base.yScale());
+        const dataChanged = !equals(previousData, data);
 
-        if (!isIdentityScale(xScale.scale) || !isIdentityScale(yScale.scale) || !equals(previousData, data)) {
+        if (dataChanged) {
             previousData = data;
-
-            if (base.orient() === 'vertical') {
-                crossPreviousValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
-                mainPreviousValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
-            } else {
-                crossPreviousValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
-                mainPreviousValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
-            }
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
+        if (dataChanged || xScale.scale !== previousXScale) {
+            previousXScale = xScale.scale;
+            if (base.orient() === 'vertical') {
+                crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            } else {
+                crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+            }
+        }
+        if (dataChanged || yScale.scale !== previousYScale) {
+            previousYScale = yScale.scale;
+            if (base.orient() === 'vertical') {
+                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            } else {
+                mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+            }
+        }
 
-        draw.xScale(xScale.glScale)
-            .yScale(yScale.glScale)
+        draw.xScale(xScale.webglScale)
+            .yScale(yScale.webglScale)
             .decorate((program) => base.decorate()(program, data, 0));
 
         draw(data.length);
@@ -66,6 +77,14 @@ export default () => {
             return equals;
         }
         equals = args[0];
+        return line;
+    };
+
+    line.scaleMapper = (...args) => {
+        if (!args.length) {
+            return scaleMapper;
+        }
+        scaleMapper = args[0];
         return line;
     };
 

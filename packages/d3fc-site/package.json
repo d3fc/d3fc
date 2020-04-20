@@ -1,21 +1,8 @@
 {
   "name": "@d3fc/d3fc-site",
-  "version": "0.1.36",
+  "version": "1.0.0",
   "private": true,
-  "description": "A collection of components that make it easy to build interactive charts with D3",
-  "scripts": {
-    "start": "npm run site",
-    "site": "npm-run-all site:clean site:build site:styles site:copy",
-    "site:dev": "cross-env NODE_ENV=dev npm-run-all site site:serve",
-    "site:styles": "node-sass src/style/styles.scss dist/styles.css",
-    "site:copy:dependencies": "copyfiles -f \"node_modules/{d3fc/build/d3fc.min.js,d3-svg-legend/d3-legend.min.js,d3/dist/d3.min.js,jquery/dist/jquery.min.js,babel-polyfill/browser.js,custom-event-polyfill/custom-event-polyfill.js,document-register-element/build/document-register-element.js,bootstrap-sass/assets/javascripts/bootstrap.min.js}\" dist/lib",
-    "site:copy:cname": "copyfiles -f src/CNAME dist",
-    "site:copy:assets": "copyfiles -f src/images/* dist/images",
-    "site:copy": "npm-run-all site:copy:cname site:copy:assets site:copy:dependencies",
-    "site:build": "babel-node scripts/build.js",
-    "site:clean": "rimraf dist",
-    "site:serve": "live-server dist"
-  },
+  "description": "TO BE DELETED",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/d3fc/d3fc.git",
@@ -31,38 +18,5 @@
   "bugs": {
     "url": "https://github.com/d3fc/d3fc/issues"
   },
-  "homepage": "https://d3fc.io",
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-polyfill": "^6.16.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "bootstrap-sass": "^3.3.7",
-    "change-case": "^3.0.0",
-    "copyfiles": "^2.0.0",
-    "cross-env": "^5.0.2",
-    "custom-event-polyfill": "^0.3.0",
-    "d3": "^5.5.0",
-    "d3-svg-legend": "^2.18.0",
-    "d3fc": "^14.1.30",
-    "document-register-element": "^1.7.2",
-    "fs-promise": "^2.0.0",
-    "glob": "^7.1.1",
-    "globby": "^4.0.0",
-    "gray-matter": "^4.0.1",
-    "handlebars": "^4.0.6",
-    "handlebars-helpers": "^0.10.0",
-    "highlight.js": "^9.8.0",
-    "html-entities": "^1.2.0",
-    "jquery": "^3.1.1",
-    "js-yaml": "^3.7.0",
-    "lerna": "^2.11.0",
-    "live-server": "^1.1.0",
-    "marked": "^0.7.0",
-    "mkdirp": "^0.5.1",
-    "node-sass": "^4.5.0",
-    "npm-run-all": "^4.0.1",
-    "rimraf": "^2.5.4",
-    "tiny-ssg": "github:colineberhardt/tiny-ssg#v0.0.6"
-  }
+  "homepage": "https://d3fc.io"
 }

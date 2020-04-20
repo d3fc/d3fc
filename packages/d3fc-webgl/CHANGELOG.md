@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0 (2020-04-16)
+
+
+### chore
+
+* consolidate dependencies ([79b7d1f](https://github.com/d3fc/d3fc/commit/79b7d1f))
+
+
+### Features
+
+* divisor defaults to null (auto) ([e60c82e](https://github.com/d3fc/d3fc/commit/e60c82e))
+
+
+### BREAKING CHANGES
+
+* d3fc no longer has a direct dependency on d3. Add the
+dependency directly to your package instead.
+
+
+
+
+
+## [1.9.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.9.1...@d3fc/d3fc-webgl@1.9.2) (2020-04-02)
+
+
+### Bug Fixes
+
+* move webgl style decorator dirty check ([208d787](https://github.com/d3fc/d3fc/commit/208d787))
+* stale divisor values if using non-instanced series ([a4418c5](https://github.com/d3fc/d3fc/commit/a4418c5))
+
+
+
+
+
+## [1.9.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.9.0...@d3fc/d3fc-webgl@1.9.1) (2020-03-26)
+
+**Note:** Version bump only for package @d3fc/d3fc-webgl
+
+
+
+
+
+# [1.9.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.8.2...@d3fc/d3fc-webgl@1.9.0) (2020-03-25)
+
+
+### Features
+
+* add webgl star symbol ([c5124dd](https://github.com/d3fc/d3fc/commit/c5124dd))
+* add webgl wye symbol ([267ba37](https://github.com/d3fc/d3fc/commit/267ba37))
+
+
+
+
+
+## [1.8.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.8.1...@d3fc/d3fc-webgl@1.8.2) (2020-03-25)
+
+**Note:** Version bump only for package @d3fc/d3fc-webgl
+
+
+
+
+
+## [1.8.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.8.0...@d3fc/d3fc-webgl@1.8.1) (2020-03-24)
+
+**Note:** Version bump only for package @d3fc/d3fc-webgl
+
+
+
+
+
+# [1.8.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.7.1...@d3fc/d3fc-webgl@1.8.0) (2020-03-19)
+
+
+### Bug Fixes
+
+* remove broken webgl boxplot fill ([1a16f57](https://github.com/d3fc/d3fc/commit/1a16f57))
+* update imports to fix standalone package use ([cbb810e](https://github.com/d3fc/d3fc/commit/cbb810e))
+* webgl bar colour ([98679ff](https://github.com/d3fc/d3fc/commit/98679ff))
+
+
+### Features
+
+* add debug property to opt-in to error checks ([c1aeccb](https://github.com/d3fc/d3fc/commit/c1aeccb))
+* add debug property to opt-in to error checks ([1c97ec6](https://github.com/d3fc/d3fc/commit/1c97ec6))
+* add fill to webgl boxplot ([7ea7859](https://github.com/d3fc/d3fc/commit/7ea7859))
+* add fill/stroke functionality for components ([d546aa6](https://github.com/d3fc/d3fc/commit/d546aa6))
+* add handling for context lost ([2f4b391](https://github.com/d3fc/d3fc/commit/2f4b391))
+* add webgl diamond symbol ([#1481](https://github.com/d3fc/d3fc/issues/1481)) ([7605bb2](https://github.com/d3fc/d3fc/commit/7605bb2))
+
+
+
+
+
 ## [1.7.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@1.7.0...@d3fc/d3fc-webgl@1.7.1) (2020-02-18)
 
 **Note:** Version bump only for package @d3fc/d3fc-webgl

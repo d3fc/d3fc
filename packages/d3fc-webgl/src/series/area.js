@@ -3,18 +3,20 @@ import programBuilder from '../program/programBuilder';
 import drawModes from '../program/drawModes';
 import areaShader from '../shaders/area/shader';
 import { rebind } from '@d3fc/d3fc-rebind';
-import vertexAttribute from '../buffer/vertexAttribute';
-import elementIndices from '../buffer/elementIndices';
+import attribute from '../buffer/attribute';
 import types from '../buffer/types';
 import rebindCurry from '../rebindCurry';
 
 export default () => {
-    const program = programBuilder().mode(drawModes.TRIANGLES);
+    const program = programBuilder()
+        .mode(drawModes.TRIANGLES)
+        .subInstanceCount(6);
     let xScale = baseScale();
     let yScale = baseScale();
     let decorate = () => {};
 
-    const cornerAttribute = vertexAttribute()
+    const cornerAttribute = attribute()
+        .divisor(0)
         .size(3)
         .type(types.UNSIGNED_BYTE)
         .data([
@@ -26,10 +28,7 @@ export default () => {
             [1, 1, 0]
         ]);
 
-    program
-        .buffers()
-        .elementIndices(elementIndices([0, 1, 2, 3, 4, 5]))
-        .attribute('aCorner', cornerAttribute);
+    program.buffers().attribute('aCorner', cornerAttribute);
 
     const draw = numElements => {
         const shaderBuilder = areaShader();
@@ -79,10 +78,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'crossPreviousValueAttribute',
+        'crossNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossPrevValue'
+        'aCrossNextValue'
     );
     rebindCurry(
         draw,
@@ -93,10 +92,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'mainPreviousValueAttribute',
+        'mainNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainPrevValue'
+        'aMainNextValue'
     );
     rebindCurry(
         draw,
@@ -107,10 +106,10 @@ export default () => {
     );
     rebindCurry(
         draw,
-        'basePreviousValueAttribute',
+        'baseNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aBasePrevValue'
+        'aBaseNextValue'
     );
     rebindCurry(
         draw,

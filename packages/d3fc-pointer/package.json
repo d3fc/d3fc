@@ -1,12 +1,13 @@
 {
   "name": "@d3fc/d3fc-pointer",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Component which emits the current mouse or touch position over a selection",
   "main": "build/d3fc-pointer.js",
   "module": "index",
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "test": "npx jasmine --config=../../scripts/jasmine.json"
+    "test": " npx jasmine --config=../../scripts/jasmine.json",
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-pointer"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,11 @@
   },
   "homepage": "https://github.com/d3fc/d3fc",
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^5.0.10",
-    "d3-dispatch": "^1.0.1",
-    "d3-selection": "^1.0.2"
+    "@d3fc/d3fc-rebind": "^6.0.0"
+  },
+  "peerDependencies": {
+    "d3-dispatch": "*",
+    "d3-selection": "*"
   },
   "publishConfig": {
     "access": "public"
