@@ -1,9 +1,45 @@
-const options = {
-    numPoints: 1e5,
+// Chart options.
+let options = {
+    numPoints: 100000,
     chartType: 'WebGL',
-    showMultiColor: false
+    enableMultiColor: false
 };
 
+function getFormValues() {
+    return {
+        numPoints: Number(document.getElementById('numPoints').value),
+        chartType: document.getElementById('chartType').value,
+        enableMultiColor: document.getElementById('enableMultiColor').checked
+    };
+}
+
+function setEnableMultiColorVisible(state) {
+    const element = document.getElementById('enableMultiColorWrapper');
+
+    if (state) {
+        element.style.display = 'block';
+    } else {
+        element.style.display = 'none';
+    }
+}
+
+// eslint-disable-next-line no-unused-vars
+function onChange() {
+    options = getFormValues();
+
+    switch (options.chartType) {
+        case 'WebGL':
+            setEnableMultiColorVisible(true);
+            break;
+        case 'Canvas':
+            setEnableMultiColorVisible(false);
+            break;
+    }
+
+    updateAndRender();
+}
+
+// Set up webworker to calculate data.
 let data = [];
 let currentData;
 
@@ -15,9 +51,11 @@ worker.onmessage = e => {
     x.domain([currentData[0].date, currentData[currentData.length - 1].date]);
     x2 = x.copy();
 
-    render();
+    updateAndRender();
 };
+worker.postMessage({ numPoints: options.numPoints });
 
+// Draw chart.
 const x = d3.scaleTime();
 const y = d3.scaleLinear();
 
@@ -79,24 +117,10 @@ const canvasLine = fc
 
 const canvasSeries = fc.seriesCanvasMulti().series([canvasArea, canvasLine]);
 
-const requestRedraw = () => {
-    d3.select('d3fc-group')
-        .node()
-        .requestRedraw();
-};
-
 const zoom = d3.zoom().on('zoom', () => {
     x.domain(d3.event.transform.rescaleX(x2).domain());
-    requestRedraw();
+    render();
 });
-
-const decorate = sel => {
-    sel.select('.plot-area')
-        .on('measure.range', () => {
-            x2.range([0, d3.event.detail.width]);
-        })
-        .call(zoom);
-};
 
 const multiColorAreaDecorate = program => {
     program.vertexShader().appendHeader(`varying lowp vec4 vColor;`)
@@ -124,48 +148,47 @@ const multiColorLineDecorate = program => {
     `);
 };
 
-const addShowMultiColor = () => {
-    gui.add(options, 'showMultiColor').onChange(render);
-};
-
-const render = () => {
+function updateChart() {
     currentData = data.slice(0, options.numPoints);
-    updateSeries();
-    decorateWebglSeries();
+
+    webglSeries
+        .xScale()
+        .domain([
+            currentData[0].date,
+            currentData[currentData.length - 1].date
+        ]);
+    canvasSeries
+        .xScale()
+        .domain([
+            currentData[0].date,
+            currentData[currentData.length - 1].date
+        ]);
+
+    const [areaSeries, lineSeries] = webglSeries.series();
+    areaSeries.decorate(
+        options.enableMultiColor ? multiColorAreaDecorate : blueGradientDecorate
+    );
+    lineSeries
+        .lineWidth(options.enableMultiColor ? 2 : 1)
+        .decorate(options.enableMultiColor ? multiColorLineDecorate : () => {});
 
     chart
         .canvasPlotArea(options.chartType === 'Canvas' ? canvasSeries : null)
         .webglPlotArea(options.chartType === 'WebGL' ? webglSeries : null);
 
+    zoom.transform(d3.select('.plot-area'), d3.zoomIdentity);
+}
+
+function render() {
     d3.select('#chart')
         .datum(currentData)
         .call(chart);
+}
 
-    zoom.transform(d3.select('.plot-area'), d3.zoomIdentity);
-};
-
-// eslint-disable-next-line no-undef
-const gui = new dat.GUI();
-gui.add(options, 'numPoints')
-    .min(2)
-    .max(options.numPoints)
-    .onFinishChange(render);
-gui.add(options, 'chartType', ['WebGL', 'Canvas']).onFinishChange(chartType => {
-    switch (chartType) {
-        case 'WebGL':
-            addShowMultiColor();
-            break;
-        case 'Canvas':
-            gui.__controllers[2].remove();
-            options.showMultiColor = false;
-            break;
-        default:
-            throw new Error('Invalid chart type used.');
-    }
-
+function updateAndRender() {
+    updateChart();
     render();
-});
-addShowMultiColor();
+}
 
 const chart = fc
     .chartCartesian(x, y)
@@ -173,32 +196,11 @@ const chart = fc
     .chartLabel('The distance between Earth and Mars over time')
     .xLabel('Year')
     .yLabel('Distance (million Km)')
-    .decorate(decorate);
-
-const updateSeries = () => {
-    webglSeries
-        .xScale()
-        .domain([
-            currentData[0].date,
-            currentData[currentData.length - 1].date
-        ]);
-
-    canvasSeries
-        .xScale()
-        .domain([
-            currentData[0].date,
-            currentData[currentData.length - 1].date
-        ]);
-};
-
-const decorateWebglSeries = () => {
-    const [areaSeries, lineSeries] = webglSeries.series();
-    areaSeries.decorate(
-        options.showMultiColor ? multiColorAreaDecorate : blueGradientDecorate
-    );
-    lineSeries
-        .lineWidth(options.showMultiColor ? 2 : 1)
-        .decorate(options.showMultiColor ? multiColorLineDecorate : () => {});
-};
-
-worker.postMessage({ numPoints: options.numPoints });
+    .decorate(selection => {
+        selection
+            .select('.plot-area')
+            .on('measure.range', () => {
+                x2.range([0, d3.event.detail.width]);
+            })
+            .call(zoom);
+    });
