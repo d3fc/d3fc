@@ -24,7 +24,7 @@ const xExtent = fc
     .pad([0.1, 0.1]);
 const yExtent = fc.extentLinear().accessors([d => d.price]);
 
-d3.tsv('diamondData.tsv', d => ({
+d3.tsv('diamond-data.tsv', d => ({
     carat: Number(d.carat),
     price: Number(d.price)
 })).then(data => {

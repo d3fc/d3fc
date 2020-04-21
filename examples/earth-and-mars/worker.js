@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-undef
-importScripts('../../node_modules/d3/dist/d3.js');
-
 const speed = 3;
 const resolution = 20;
 const width = 800;
@@ -194,19 +191,27 @@ const draw = () => {
     }
 };
 
-const parseDate = d3.timeParse('%d %B %Y');
-
 onmessage = ({ data }) => {
     const { numPoints } = data;
 
     setup();
 
-    const newData = d3.range(numPoints).map(() => {
+    const newData = Array.from({ length: numPoints }).map(() => {
         draw();
-        const date = dayToDate(Math.round(_day), _year);
+
+        const dayMonth = dayToDate(Math.round(_day), _year);
+        // d3 date parser, and built in date behave differently, so have to do
+        // this. With d3 it is just d3.timeParse('%d %B %Y').
+        let date;
+        if (dayMonth[0] === 0 && dayMonth[1] === 'January') {
+            date = new Date(`31 December ${_year - 1}`);
+        } else {
+            date = new Date(`${dayMonth[0]} ${dayMonth[1]} ${_year}`);
+        }
+
         return {
             distance: Math.round(getKM(d)),
-            date: parseDate(date[0] + ' ' + date[1] + ' ' + _year)
+            date
         };
     });
 
