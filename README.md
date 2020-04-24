@@ -9,22 +9,29 @@ __Components to rapidly build fast, highly customisable, interactive charts with
 
 ## Installation
 
-D3FC and its dependencies are available via npm or the unpkg CDN. The D3FC project is composed of a number of separate packages, detailed in the API documentation. Each of these packages can be installed via npm and used independently, or if you prefer you can install the entire D3FC bundle, which includes all of the separate packages.
+The latest release of D3FC is available via npm or the unpkg CDN. The D3FC project is composed of a number of separate packages each of which can be installed via npm and used independently, or if you prefer you can install the entire D3FC bundle, which includes all of the separate packages:
 
 ```
 npm install d3fc
 ```
 
-```
+```html
 <script src="https://unpkg.com/d3"></script>
 <script src="https://unpkg.com/d3fc"></script>
 ```
 
 ## Documentation
 
-The project is split into sub-packages, see the package-specific README.md files in the [packages folder](https://github.com/d3fc/d3fc/tree/master/packages) for API and usage documentation.
+The project is split into sub-packages, see the package-specific README.md files in the [packages folder](https://github.com/d3fc/d3fc/tree/master/packages) for API-level documentation and usage guidelines.
 
 Examples can be found on the [project website](http://d3fc.io/) (these same examples are also available offline - see examples/README.md).
+
+There are also a number of other documents and articles that provide a bit more background regarding the design principles of D3FC:
+
+ - [Unboxing D3](https://medium.com/@ColinEberhardt/unboxing-d3-ec3d71196852) - there are numerous charting libraries that are 'built with D3', but all of them keep D3 'in its box' and as a result, you cannot unleash its full power!
+ - [The Decorate Pattern](/decorate-pattern.md) - the pattern D3FC employs, resulting in charting components that are both simple and flexible.
+ - [Extending D3 with Higher Order Components](https://medium.com/@ColinEberhardt/extending-d3-with-higher-order-components-d58cd40b7efd) - a brief article that walks through the process of building a chart with D3FC
+ - [Building a Complex Financial Chart with D3 and D3FC](https://blog.scottlogic.com/2018/09/21/d3-financial-chart.html) - a lengthy and detailed article that builds a complex and bespoke chart which you can [view online here](https://colineberhardt.github.io/yahoo-finance-d3fc/).
 
 ## Developing
 
@@ -49,11 +56,11 @@ npm start
 ~~~
 
 
-## Releases
+### Releases
 
 Releases are managed via CI and [semantic release](https://github.com/semantic-release/semantic-release).
 
-## License
+### License
 
 These components are licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
