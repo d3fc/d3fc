@@ -49,7 +49,7 @@ export default commandLineArgs => {
         serve({
             contentBase: '../..',
             open: true,
-            openPage: `/packages/${devPkg}/examples/${devPage}`,
+            openPage: `/examples/simple-chart/${devPage}`,
             host: 'localhost',
             port: devPort
         }),
