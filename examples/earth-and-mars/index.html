@@ -6,32 +6,19 @@
     <script src="../../node_modules/d3/dist/d3.js"></script>
     <script src="../../packages/d3fc/build/d3fc.js"></script>
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <style>
+        body {
+            display: flex;
+        }
+
+        body>* {
+            flex: auto;
+        }
+    </style>
 </head>
 
 <body>
     <div id="chart"></div>
-
-    <form id="controls" onchange="onChange()">
-        <div>
-            <label for="numPoints">Number of Points</label>
-            <input id="numPoints" type="range" min="2" max="100000" value="100000" oninput="numPointsDisplay.innerHTML = numPoints.value" />
-            <span id="numPointsDisplay">100000</span>
-        </div>
-
-        <div>
-            <label for="chartType">Chart Type</label>
-            <select id="chartType">
-                <option value="WebGL">WebGL</option>
-                <option value="Canvas">Canvas</option>
-            </select>
-        </div>
-
-        <div id="enableMultiColorWrapper">
-            <label for="enableMultiColor">Enable Multi-Color</label>
-            <input id="enableMultiColor" type="checkbox" />
-        </div>
-    </form>
-
     <script src="index.js"></script>
 </body>
 
