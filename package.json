@@ -67,6 +67,7 @@
     "lerna": "^3.16.4",
     "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
+    "mockdate": "^2.0.5",
     "prettier": "^1.19.1",
     "puppeteer": "^1.20.0",
     "read-babelrc-up": "^0.4.0",
