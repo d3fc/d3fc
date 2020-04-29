@@ -1,5 +1,5 @@
 <p align="center">
-<img alt="D3FC Logo" src="site/logo_stroke.svg" height="110px"/>
+<img alt="D3FC Logo" src="site/logo-stroke.svg" height="110px"/>
 <br/><br/>
 <a href="https://travis-ci.org/d3fc/d3fc"><img alt="Build status" src="https://travis-ci.org/d3fc/d3fc.svg?branch=master"/></a>
 <a href="https://badge.fury.io/js/d3fc"><img alt="npm version" src="https://badge.fury.io/js/d3fc.svg"/></a>
