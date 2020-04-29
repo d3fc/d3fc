@@ -1,5 +1,5 @@
 <p align="center">
-<img alt="D3FC Logo" src="packages/d3fc-site/src/images/logo_outline.svg" height="110px"/>
+<img alt="D3FC Logo" src="site/logo_outline.svg" height="110px"/>
 <br/><br/>
 <a href="https://travis-ci.org/d3fc/d3fc"><img alt="Build status" src="https://travis-ci.org/d3fc/d3fc.svg?branch=master"/></a>
 <a href="https://badge.fury.io/js/d3fc"><img alt="npm version" src="https://badge.fury.io/js/d3fc.svg"/></a>
@@ -49,7 +49,6 @@ For API documentation see the corresponding package documentation -
 * [d3fc-sample](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-sample/README.md)
 * [d3fc-series](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-series/README.md)
 * [d3fc-shape](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-shape/README.md)
-* [d3fc-site](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-site/README.md)
 * [d3fc-technical-indicator](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-technical-indicator/README.md)
 * [d3fc-webgl](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl/README.md)
 
