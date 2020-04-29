@@ -17,9 +17,9 @@ d3.csv('energy-production.csv').then(data => {
         .scale(color);
 
     const barSeries = fc
-        .seriesSvgBar()
+        .autoBandwidth(fc.seriesSvgBar())
         .orient('horizontal')
-        .bandwidth(40)
+        .align('left')
         .crossValue(d => d.data.Country)
         .mainValue(d => d[1])
         .baseValue(d => d[0]);
@@ -40,11 +40,11 @@ d3.csv('energy-production.csv').then(data => {
         .padUnit('domain');
 
     const chart = fc
-        .chartCartesian(d3.scaleLinear(), d3.scalePoint())
+        .chartCartesian(d3.scaleLinear(), d3.scaleBand())
         .xDomain(xExtent(seriesData))
         .yDomain(data.map(d => d.Country))
         .yOrient('left')
-        .yPadding([0.5])
+        .yPadding([0.1])
         .xLabel('Million tonnes of oil equivalent')
         .chartLabel('2013 Energy Production')
         .svgPlotArea(repeat)
