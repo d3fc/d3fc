@@ -593,6 +593,12 @@ The WebGL implementation does not support this property.
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `horizontal` (default) or `vertical`.
 
+<a name="seriesBar_align" href="#seriesBar_align">#</a> *seriesBar*.**align**(*alignment*)
+
+The WebGL implementation does not support this property.
+
+If *alignment* is specified, sets the alignment and returns this series. If *alignment* is not specified, returns the current alignment. The alignment value should be `left`, `right` or `center` (default) and describes how the alignment of each bar with respect to the central value.
+
 <a name="seriesBar_xScale" href="#seriesBar_xScale">#</a> *seriesBar*.**xScale**(*scale*)
 <a name="seriesBar_yScale" href="#seriesBar_yScale">#</a> *seriesBar*.**yScale**(*scale*)
 
@@ -649,6 +655,12 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
+<a name="seriesCandlestick_align" href="#seriesCandlestick_align">#</a> *seriesCandlestick*.**align**(*alignment*)
+
+The WebGL implementation does not support this property.
+
+If *alignment* is specified, sets the alignment and returns this series. If *alignment* is not specified, returns the current alignment. The alignment value should be `left`, `right` or `center` (default) and describes how the alignment of each candlestick with respect to the central value.
+
 <a name="seriesCandlestick_decorate" href="#seriesCandlestick_decorate">#</a> *seriesCandlestick*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
@@ -704,9 +716,15 @@ If *accessorFunc* is specified, sets the accessor to the specified function and 
 
 If *scale* is specified, sets the scale and returns this series. If *scale* is not specified, returns the current scale.
 
-<a name="seriesCandlestick_bandwidth" href="#seriesCandlestick_bandwidth">#</a> *seriesCandlestick*.**bandwidth**(*bandwidthFunc*)
+<a name="seriesOhlc_bandwidth" href="#seriesOhlc_bandwidth">#</a> *seriesOhlc*.**bandwidth**(*bandwidthFunc*)
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
+
+<a name="seriesOhlc_align" href="#seriesOhlc_align">#</a> *seriesOhlc*.**align**(*alignment*)
+
+The WebGL implementation does not support this property.
+
+If *alignment* is specified, sets the alignment and returns this series. If *alignment* is not specified, returns the current alignment. The alignment value should be `left`, `right` or `center` (default) and describes how the alignment of each OHLC with respect to the central value.
 
 <a name="seriesOhlc_decorate" href="#seriesOhlc_decorate">#</a> *seriesOhlc*.**decorate**(*decorateFunc*)
 
@@ -773,6 +791,12 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 <a name="seriesBoxPlot_bandwidth" href="#seriesBoxPlot_bandwidth">#</a> *seriesBoxPlot*.**bandwidth**(*bandwidthFunc*)
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
+
+<a name="seriesBoxPlot_align" href="#seriesBoxPlot_align">#</a> *seriesBoxPlot*.**align**(*alignment*)
+
+The WebGL implementation does not support this property.
+
+If *alignment* is specified, sets the alignment and returns this series. If *alignment* is not specified, returns the current alignment. The alignment value should be `left`, `right` or `center` (default) and describes how the alignment of each boxplot with respect to the central value.
 
 <a name="seriesBoxPlot_cap" href="#seriesBoxPlot_cap">#</a> *seriesBoxPlot*.**cap**(*capFunc*)
 
@@ -841,6 +865,12 @@ If *scale* is specified, sets the scale and returns this series. If *scale* is n
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
 
+<a name="serieErrorsBar_align" href="#seriesErrorBar_align">#</a> *seriesErrorBar*.**align**(*alignment*)
+
+The WebGL implementation does not support this property.
+
+If *alignment* is specified, sets the alignment and returns this series. If *alignment* is not specified, returns the current alignment. The alignment value should be `left`, `right` or `center` (default) and describes how the alignment of each errorbar with respect to the central value.
+
 <a name="seriesErrorBar_decorate" href="#seriesErrorBar_decorate">#</a> *seriesErrorBar*.**decorate**(*decorateFunc*)
 
 If *decorateFunc* is specified, sets the decorator function to the specified function, and returns this series. If *decorateFunc* is not specified, returns the current decorator function.
@@ -901,6 +931,13 @@ If *colorInterpolate* is specified, sets the interpolator used to map color valu
 <a name="seriesHeatmap_yBandwidth" href="#seriesHeatmap_yBandwidth">#</a> *seriesHeatmap*.**yBandwidth**(*bandwidthFunc*)
 
 If *bandwidthFunc* is specified, sets the bandwidth function and returns this series. If *bandwidthFunc* is not specified, returns the current bandwidth function.
+
+<a name="seriesHeatmap_yAlign" href="#seriesHeatmap_yAlign">#</a> *seriesHeatmap*.**yAlign**(*alignment*)
+<a name="seriesHeatmap_xAlign" href="#seriesHeatmap_xAlign">#</a> *seriesHeatmap*.**xAlign**(*alignment*)
+
+The WebGL implementation does not support this property.
+
+If *alignment* is specified, sets the alignment and returns this series. If *alignment* is not specified, returns the current alignment. The alignment value should be `left`, `right` or `center` (default) and describes how the alignment of each heatmap cell with respect to the central value.
 
 <a name="seriesHeatmap_decorate" href="#seriesHeatmap_decorate">#</a> *seriesHeatmap*.**decorate**(*decorateFunc*)
 
