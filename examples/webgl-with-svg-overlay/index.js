@@ -59,6 +59,7 @@ d3.json('star-data.json').then(data => {
         .decorate(selection => {
             selection
                 .enter()
+                .select('path')
                 .style('fill', 'transparent')
                 .attr('stroke', 'yellow')
                 .attr('stroke-opacity', 0.8);
@@ -66,13 +67,9 @@ d3.json('star-data.json').then(data => {
             selection
                 .on('mouseover', (data, i, sel) => {
                     d3.select(sel[i])
-                        .attr('stroke-width', 3)
                         .append('text')
-                        .attr('font-family', 'sans-serif')
-                        .attr('font-size', '14px')
-                        .attr('stroke', 'white')
-                        .attr('stroke-opacity', 1)
-                        .attr('stroke-width', 1)
+                        .attr('fill', 'white')
+                        .attr('stroke', 'none')
                         .attr('x', 12)
                         .attr('y', 6)
                         .text(data.name);

@@ -11,18 +11,12 @@
     <link rel="stylesheet" href="../index.css">
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
     <style>
-        body {
-            display: flex;
-        }
-
         .side-by-side {
-            flex: 1 1;
             display: flex;
         }
 
         .ordinal-group {
-            flex: 1 1;
-            margin: 0 5px;
+            flex: auto;
             display: grid;
             grid-template-columns: minmax(80px, max-content) 1fr minmax(80px, max-content);
             grid-template-rows: minmax(80px, max-content) 1fr minmax(80px, max-content);
@@ -31,10 +25,8 @@
         .label {
             grid-column: 2;
             grid-row: 2;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 20px;
+            justify-self: center;
+            align-self: center;
         }
 
         .top {
