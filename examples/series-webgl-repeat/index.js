@@ -7,18 +7,18 @@ d3.text('repeat-data.csv').then(text => {
 
     const yScale = d3.scaleLinear().domain([0, 60]);
 
-    const line = fc
-        .seriesWebglLine()
-        .crossValue((_, i) => i)
-        .mainValue(d => d);
-
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     const series = fc
         .seriesWebglRepeat()
         .xScale(xScale)
         .yScale(yScale)
-        .series(line)
+        .series(() =>
+            fc
+                .seriesWebglLine()
+                .crossValue((_, i) => i)
+                .mainValue(d => d)
+        )
         .decorate((program, _, index) => {
             fc
                 .webglStrokeColor()

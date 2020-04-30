@@ -39,7 +39,7 @@ export { default as seriesCanvasGrouped } from './src/canvas/grouped';
 
 export { default as seriesSvgRepeat } from './src/svg/repeat';
 export { default as seriesCanvasRepeat } from './src/canvas/repeat';
-export { default as seriesWebglRepeat } from './src/canvas/repeat';
+export { default as seriesWebglRepeat } from './src/webgl/repeat';
 
 export { default as autoBandwidth } from './src/autoBandwidth';
 

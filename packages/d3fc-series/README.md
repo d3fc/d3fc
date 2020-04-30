@@ -1043,6 +1043,8 @@ The repeat series also exposes an *orient* property which determines the 'orient
 
 If *series* is specified, sets the series that this repeat series should render and returns this series. If *series* is not specified, returns the current series.
 
+For the WebGL implementation only, *series* can be specified as a function which when invoked returns a new series instance. This allows the repeat series to allocate a series instance per data series, preventing the unnecessary cache-evictions which can occur if only one series instance is used.
+
 <a name="seriesRepeat_orient" href="#seriesRepeat_orient">#</a> *seriesRepeat*.**orient**(*orientation*)
 
 If *orientation* is specified, sets the orientation and returns this series. If *orientation* is not specified, returns the current orientation. The orientation value should be either `vertical` (default) or `horizontal`.
