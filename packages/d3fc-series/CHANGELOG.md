@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@5.0.1...@d3fc/d3fc-series@5.1.0) (2020-05-01)
+
+
+### Features
+
+* optimise seriesWebglRepeat performance ([155b13c](https://github.com/d3fc/d3fc/commit/155b13c))
+
+
+
+
+
 ## [5.0.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@5.0.0...@d3fc/d3fc-series@5.0.1) (2020-04-30)
 
 **Note:** Version bump only for package @d3fc/d3fc-series
