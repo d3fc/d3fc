@@ -21,7 +21,8 @@ async function showReadme() {
         padding: '1em',
         margin: '1em',
         whiteSpace: 'pre-wrap',
-        background: 'rgba(250, 250, 250, 0.9)'
+        background: 'rgba(250, 250, 250, 0.9)',
+        color: '#1b1e23'
     });
     div.innerHTML = processedContent;
     const a = document.createElement('a');
@@ -31,9 +32,12 @@ async function showReadme() {
         right: 0,
         margin: '1em'
     });
-    a.href = '#';
-    a.onclick = () => div.remove();
-    a.innerHTML = 'Hide';
+    Object.assign(a, {
+        href: '#',
+        onclick: () => div.remove(),
+        id: 'hide-overlay',
+        innerHTML: 'Hide'
+    });
     div.appendChild(a);
     document.body.append(div);
 }

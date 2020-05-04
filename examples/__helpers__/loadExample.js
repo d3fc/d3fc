@@ -5,5 +5,7 @@ module.exports.loadExample = async module => {
     const exampleName = modulePathParts[modulePathParts.length - 2];
     const examplePath = `/examples/${exampleName}/`;
     const baseUrl = process.env.BASE_URL || 'http://localhost:8080';
-    return page.goto(new URL(examplePath, baseUrl));
+    await page.goto(new URL(examplePath, baseUrl));
+    const hideOverlayLink = await page.waitForSelector('#hide-overlay');
+    await hideOverlayLink.click();
 };
