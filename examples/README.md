@@ -27,8 +27,8 @@ npm run examples -- --testNamePattern image --updateSnapshot
 npm run examples -- --testNamePattern image
 ```
 
-The script that livereload injects has been known to cause issues with 
-determinism. Depending upon the version of Chromium, `Math.random()` can be 
+The script that livereload injects has been known to cause issues with
+determinism. Depending upon the version of Chromium, `Math.random()` can be
 invoked by livereload, which then changes the value of subsequent invocations.
 
 To avoid this we bundle without the livereload script and use a vanilla HTTP
