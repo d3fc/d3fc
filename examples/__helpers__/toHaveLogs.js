@@ -1,10 +1,16 @@
+const { inspect } = require('util');
+
 const messages = [];
 
-page.on('console', async msg => {
-    const args = await Promise.all(msg.args().map(arg => arg.jsonValue()));
-    messages.push({
-        type: msg._type,
-        args
+beforeEach(() => {
+    messages.length = 0;
+    page.on('console', async msg => {
+        const args = await Promise.all(msg.args().map(arg => arg.jsonValue()));
+        messages.push({
+            type: msg.type(),
+            text: msg.text(),
+            args
+        });
     });
 });
 
@@ -17,7 +23,7 @@ exports.toHaveLogs = function(received) {
                 return `There were no messages logged.`;
             }
             const formattedMessages = messages.map(
-                ({ type, args }) => `${type}: ${args.join(',')}`
+                ({ type, text, args }) => `${type}: ${text} ${inspect(args)}`
             );
             return `The following messages were logged - \n${formattedMessages.join(
                 '\n'
