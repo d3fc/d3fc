@@ -14,7 +14,7 @@ d3.json('star-data.json').then(data => {
         x.domain(d3.event.transform.rescaleX(x2).domain());
         y.domain(d3.event.transform.rescaleY(y2).domain());
 
-        requestAnimationFrame(render);
+        render();
     });
 
     const fillColor = fc
@@ -39,33 +39,32 @@ d3.json('star-data.json').then(data => {
             // Enable blending of transparent colors.
             const context = program.context();
             context.enable(context.BLEND);
-            context.blendFuncSeparate(
-                context.SRC_ALPHA,
-                context.ONE_MINUS_SRC_ALPHA,
-                context.ONE,
-                context.ONE_MINUS_SRC_ALPHA
-            );
+            context.blendFunc(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA);
         });
 
     const informationOverlay = fc
         .seriesSvgPoint()
-        .type(d3.symbolCircle)
+        .type(d3.symbolStar)
         .xScale(x)
         .yScale(y)
         .crossValue((d, i) => d.x)
         .mainValue(d => d.y)
         .defined(d => d.name !== '')
-        .size(d => d.size * 8)
+        .size(d => d.size)
         .decorate(selection => {
             selection
                 .enter()
                 .select('path')
-                .style('fill', 'transparent')
-                .attr('stroke', 'yellow')
-                .attr('stroke-opacity', 0.8);
+                .style('fill', 'white')
+                .style('stroke', 'white')
+                .style('stroke-width', '3')
+                .style('stroke-opacity', '0');
 
             selection
                 .on('mouseover', (data, i, sel) => {
+                    d3.select(sel[i])
+                        .select('path')
+                        .style('stroke-opacity', '1');
                     d3.select(sel[i])
                         .append('text')
                         .attr('fill', 'white')
@@ -75,40 +74,34 @@ d3.json('star-data.json').then(data => {
                         .text(data.name);
                 })
                 .on('mouseout', (data, i, sel) => {
-                    d3.selectAll('text').remove();
-                    selection.attr('stroke-width', 1);
+                    d3.select(sel[i])
+                        .select('path')
+                        .style('stroke-opacity', '0');
+                    d3.select(sel[i])
+                        .select('text')
+                        .remove();
                 });
         });
 
     const chart = fc
         .chartCartesian(x, y)
         .chartLabel(`Stars`)
+        .svgPlotArea(informationOverlay)
         .webglPlotArea(starChart)
         .decorate(selection => {
             // add the zoom interaction on the enter selection
-            selection.selectAll('.plot-area').on('measure.range', () => {
+            selection.select('.svg-plot-area').on('measure.range', () => {
                 x2.range([0, d3.event.detail.width]);
                 y2.range([d3.event.detail.height, 0]);
             });
             selection.enter().call(zoom);
         });
 
-    let includeOverlay = true;
-
-    const container = document.querySelector('d3fc-canvas');
-
     const render = () => {
-        chart.svgPlotArea(includeOverlay ? informationOverlay : null);
-
-        d3.select(container)
+        d3.select('#chart')
             .datum(data)
             .call(chart);
     };
-
-    d3.select('#showLabels').on('change', () => {
-        includeOverlay = d3.event.target.checked;
-        render();
-    });
 
     render();
 });
