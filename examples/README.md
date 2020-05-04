@@ -11,6 +11,29 @@ N.B Some of the tests require a webserver to be running in order for data
 files to be served correctly. This can be done by running `npm start` from
 the project root.
 
+## Regenerating screenshots
+
+Start up an HTTP server e.g. -
+
+```bash
+npx http-server
+```
+
+Then run the following -
+
+```bash
+npm run bundle
+npm run examples -- --testNamePattern image --updateSnapshot
+npm run examples -- --testNamePattern image
+```
+
+The script that livereload injects has been known to cause issues with 
+determinism. Depending upon the version of Chromium, `Math.random()` can be 
+invoked by livereload, which then changes the value of subsequent invocations.
+
+To avoid this we bundle without the livereload script and use a vanilla HTTP
+server. We run the tests twice to ensure determinism.
+
 ## Regression testing
 
 First the performance tests need baselining for the machine they are being run
