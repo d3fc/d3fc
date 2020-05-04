@@ -15,14 +15,16 @@
             background-color: #000107;
             color: white;
         }
+        .tick > text {
+            fill: currentColor;
+            fill-opacity: 0.5;
+        }
+        
     </style>
 </head>
 
 <body>
-    <d3fc-canvas use-device-pixel-ratio set-webgl-viewport></d3fc-canvas>
-    <input type="checkbox" id="showLabels" checked>
-    <label for="showLabels">Show labels</label>
-
+    <div id="chart"></div>
     <script src="index.js"></script>
 </body>
 
