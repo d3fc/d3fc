@@ -20,13 +20,22 @@ const scaleTimeCopy = scaleTime().copy.toString();
 // it is a pure function
 const identity = scaleIdentity();
 
+// offset date values to make the most of the float32 precision
+const epoch = Date.now();
+const reepoch = d => d - epoch;
+
 export default scale => {
     switch (scale.copy.toString()) {
-        case scaleLinearCopy:
-        case scaleTimeCopy: {
+        case scaleLinearCopy: {
             return {
                 scale: identity,
                 webglScale: linear().domain(scale.domain())
+            };
+        }
+        case scaleTimeCopy: {
+            return {
+                scale: reepoch,
+                webglScale: linear().domain(scale.domain().map(reepoch))
             };
         }
         case scaleLogCopy: {
