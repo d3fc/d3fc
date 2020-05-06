@@ -1,0 +1,41 @@
+#chart {
+  display: flex;
+  padding: 10px;
+}
+
+#chart > div {
+  flex: 5;
+}
+
+.annotation-line>line, .domain {
+  stroke-opacity: 0.5;
+}
+
+#chart>div:not(:first-child) .y-axis {
+  opacity: 0;
+}
+
+.chart-label {
+  font-size: medium;
+}
+
+d3fc-group.cartesian-chart,
+d3fc-group.cartesian-chart>.plot-area {
+  overflow: visible;
+}
+
+.area {
+  fill: #badcfe;
+}
+
+.line {
+  fill: none;
+  stroke: #8ba5be;
+  stroke-width: 1.5px;
+}
+
+.point {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+} 
