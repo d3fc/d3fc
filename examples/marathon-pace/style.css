@@ -12,7 +12,7 @@ body {
     font-size: 1.2em;
 }
 .plot-area {
-    overflow: visible !important;
+    overflow: visible;
 }
 path.area {
     fill: inherit;
