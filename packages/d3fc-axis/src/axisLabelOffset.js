@@ -12,7 +12,7 @@ export default (adaptee) => {
     const sign = () => (adaptee.orient() === 'top' || adaptee.orient() === 'left') ? -1 : 1;
 
     const decorateOffset = sel => {
-        const { maxHeight, maxWidth, labelCount } = measureLabels(adaptee.scale())(sel);
+        const { maxHeight, maxWidth, labelCount } = measureLabels(adaptee)(sel);
         const range = adaptee.scale().range()[1];
 
         const offsetLevels = labelOffsetDepth === 'auto'

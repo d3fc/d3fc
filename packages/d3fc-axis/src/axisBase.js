@@ -1,8 +1,9 @@
 import { select } from 'd3-selection';
 import { line } from 'd3-shape';
 import { dataJoin as _dataJoin } from '@d3fc/d3fc-data-join';
+import { ticksArrayForAxis, tickFormatterForAxis } from './axisTickUtils';
 
-const identity = (d) => d;
+const identity = d => d;
 
 export const axisBase = (orient, scale, custom = {}) => {
 
@@ -53,9 +54,6 @@ export const axisBase = (orient, scale, custom = {}) => {
     const isVertical = () =>
         orient === 'left' || orient === 'right';
 
-    const tryApply = (fn, args, defaultVal) =>
-        scale[fn] ? scale[fn].apply(scale, args) : defaultVal;
-
     const axis = (selection) => {
 
         if (selection.selection) {
@@ -80,8 +78,8 @@ export const axisBase = (orient, scale, custom = {}) => {
             const scaleOld = element.__scale__ || scale;
             element.__scale__ = scale.copy();
 
-            const ticksArray = tickValues == null ? tryApply('ticks', tickArguments, scale.domain()) : tickValues;
-            const tickFormatter = tickFormat == null ? tryApply('tickFormat', tickArguments, identity) : tickFormat;
+            const ticksArray = ticksArrayForAxis(axis);
+            const tickFormatter = tickFormatterForAxis(axis);
             const sign = orient === 'bottom' || orient === 'right' ? 1 : -1;
             const withSign = ([x, y]) => ([x, sign * y]);
 
@@ -211,7 +209,7 @@ export const axisBase = (orient, scale, custom = {}) => {
 
     axis.tickArguments = (...args) => {
         if (!args.length) {
-            return tickArguments.slice();
+            return tickArguments !== null ? tickArguments.slice() : null;
         }
         tickArguments = args[0] == null ? [] : [...args[0]];
         return axis;
@@ -219,7 +217,7 @@ export const axisBase = (orient, scale, custom = {}) => {
 
     axis.tickValues = (...args) => {
         if (!args.length) {
-            return tickValues.slice();
+            return tickValues !== null ? tickValues.slice() : null;
         }
         tickValues = args[0] == null ? [] : [...args[0]];
         return axis;

@@ -21,7 +21,7 @@ export default (adaptee) => {
     };
 
     const calculateRotation = s => {
-        const { maxHeight, maxWidth, labelCount } = measureLabels(adaptee.scale())(s);
+        const { maxHeight, maxWidth, labelCount } = measureLabels(adaptee)(s);
         const measuredSize = labelCount * maxWidth;
 
         // The more the overlap, the more we rotate
