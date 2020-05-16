@@ -1,0 +1,24 @@
+.annotation-line line {
+    display: none;
+}
+.right-handle text {
+    fill: black;
+    font-size: 0.8em;
+}
+.gridline-y {
+    display: none;
+}
+body {
+    font-size: 1.2em;
+}
+.plot-area {
+    overflow: visible;
+}
+path.area {
+    fill: inherit;
+    stroke: #333;
+    fill-opacity: 0.7;
+}
+d3fc-group.cartesian-chart {
+  grid-template-columns: minmax(1em,max-content) auto 1fr auto 4em;
+}
