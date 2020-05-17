@@ -51,13 +51,13 @@ d3.csv('repos-users-dump.csv').then(githubData => {
         .seriesSvgMulti()
         .series([points, labels, line])
         .mapping((data, index, series) => {
-            switch(series[index]) {
-              case line:
-                return data.diagonal;
-              default:
-                return data.scatter;
+            switch (series[index]) {
+                case line:
+                    return data.diagonal;
+                default:
+                    return data.scatter;
             }
-          });
+        });
 
     const extent = fc
         .extentLinear()
