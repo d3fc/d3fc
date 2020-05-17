@@ -1,0 +1,47 @@
+body {
+    font: 12px sans-serif;
+}
+.area {
+    fill: #cec6b9;
+}
+#chart > div {
+    display: inline-block;
+    height: 185px;
+    width: 250px;
+}
+.tooltip .x-axis .tick {
+    display: none;
+}
+.x-axis .domain,
+.x-axis .tick path,
+.y-axis .domain,
+.y-axis .tick path {
+    display: none;
+}
+.plot-area {
+    overflow: visible;
+}
+.point {
+    fill: black;
+}
+.point text {
+    text-anchor: middle;
+    transform: translateY(-10px);
+    font-size: 10px;
+    stroke: none;
+}
+.bottom-handle {
+    text-anchor: middle;
+    alignment-baseline: hanging;
+    font-size: 10px;
+    transform: translateY(1.5em);
+}
+.top-handle {
+    display: none;
+}
+.annotation-line line {
+    display: none;
+}
+d3fc-group.cartesian-chart > .plot-area {
+    overflow: visible;
+}
