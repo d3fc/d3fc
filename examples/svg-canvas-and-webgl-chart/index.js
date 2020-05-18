@@ -8,9 +8,12 @@ const yScale = d3
     .scaleLinear()
     .domain(fc.extentLinear().accessors([d => d.high, d => d.low])(data));
 
-const candlestick = fc.seriesWebglCandlestick();
+const candlestick = fc.seriesCanvasCandlestick().bandwidth(8);
 
 const gridline = fc.annotationCanvasGridline();
+
+const multi = fc.seriesCanvasMulti()
+    .series([candlestick, gridline]);
 
 const lowLine = fc
     .seriesSvgLine()
@@ -19,8 +22,8 @@ const lowLine = fc
 
 const chart = fc
     .chartCartesian(xScale, yScale)
-    .webglPlotArea(candlestick)
-    .canvasPlotArea(gridline)
+    .canvasPlotArea(multi)
+    .scaleDevicePixelRatio(true)
     .svgPlotArea(lowLine);
 
 d3.select('#chart')

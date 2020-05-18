@@ -18,6 +18,11 @@ export default () => {
         const xScale = xTicks.scale();
         const yScale = yTicks.scale();
 
+        context.save();
+        if (context.scaleDevicePixelRatio) {
+            context.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
         xTicks().forEach((xTick, i) => {
             context.save();
             context.beginPath();
@@ -47,6 +52,8 @@ export default () => {
             context.closePath();
             context.restore();
         });
+
+        context.restore();
     };
 
     instance.yDecorate = (...args) => {

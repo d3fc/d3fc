@@ -19,6 +19,7 @@ export default (...args) => {
     let yAxisWidth = functor(null);
     let yOrient = functor('right');
     let xOrient = functor('bottom');
+    let scaleDevicePixelRatio = false;
     let webglPlotArea = null;
     let canvasPlotArea = null;
     let svgPlotArea = null;
@@ -98,11 +99,14 @@ export default (...args) => {
 
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
                 .classed('plot-area', true)
+                .attr('use-device-pixel-ratio', scaleDevicePixelRatio)
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])
                         .select('canvas')
                         .node();
-                    canvasPlotArea.context(canvas.getContext('2d'))
+                    const context = canvas.getContext('2d')
+                    context.scaleDevicePixelRatio = scaleDevicePixelRatio;
+                    canvasPlotArea.context(context)
                         .xScale(xScale)
                         .yScale(yScale);
                     canvasPlotArea(d);
@@ -262,6 +266,13 @@ export default (...args) => {
             return decorate;
         }
         decorate = args[0];
+        return cartesian;
+    };
+    cartesian.scaleDevicePixelRatio = (...args) => {
+        if (!args.length) {
+            return scaleDevicePixelRatio;
+        }
+        scaleDevicePixelRatio = args[0];
         return cartesian;
     };
 

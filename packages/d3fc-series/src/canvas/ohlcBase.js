@@ -10,6 +10,11 @@ export default (pathGenerator) => {
         const filteredData = data.filter(base.defined());
         const context = pathGenerator.context();
 
+        context.save();
+        if (context.scaleDevicePixelRatio) {
+            context.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+
         filteredData.forEach((d, i) => {
             context.save();
 
@@ -36,6 +41,8 @@ export default (pathGenerator) => {
 
             context.restore();
         });
+
+        context.restore();
     };
 
     rebind(candlestick, pathGenerator, 'context');
