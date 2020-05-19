@@ -21,7 +21,7 @@ const chart = fc
     .chartCartesian(xScale, yScale)
     .webglPlotArea(candlestick)
     .canvasPlotArea(gridline)
-    // .scaleDevicePixelRatio(true)
+    .scaleDevicePixelRatio(true)
     .svgPlotArea(lowLine);
 
 d3.select('#chart')
