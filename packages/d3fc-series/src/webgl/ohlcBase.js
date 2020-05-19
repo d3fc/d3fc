@@ -37,9 +37,12 @@ export default (pathGenerator) => {
         const yScale = scaleMapper(base.yScale());
         const dataChanged = !equals(previousData, data);
 
+        const context = pathGenerator.context()
+
         if (dataChanged) {
             previousData = data;
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            const factor = 2 * (context.scaleDevicePixelRatio ? window.devicePixelRatio : 1);
+            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i) * factor).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
         if (dataChanged || xScale.scale !== previousXScale) {

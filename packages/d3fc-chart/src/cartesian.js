@@ -74,10 +74,13 @@ export default (...args) => {
             webglDataJoin(container, webglPlotArea ? [data] : [])
                 .attr('set-webgl-viewport','')
                 .classed('plot-area', true)
+                .attr('use-device-pixel-ratio', scaleDevicePixelRatio)
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])
                         .select('canvas')
                         .node();
+                    const context = canvas.getContext('webgl');
+                    context.scaleDevicePixelRatio = scaleDevicePixelRatio;
                     webglPlotArea.context(isContextLost ? null : canvas.getContext('webgl'))
                         .xScale(xScale)
                         .yScale(yScale);
