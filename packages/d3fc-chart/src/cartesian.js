@@ -23,6 +23,7 @@ export default (...args) => {
     let canvasPlotArea = null;
     let svgPlotArea = null;
     let isContextLost = false;
+    let useDevicePixelRatio = true;
     let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
     let xDecorate = () => { };
     let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
@@ -73,6 +74,7 @@ export default (...args) => {
             webglDataJoin(container, webglPlotArea ? [data] : [])
                 .attr('set-webgl-viewport','')
                 .classed('plot-area', true)
+                .attr('use-device-pixel-ratio', useDevicePixelRatio)
                 .on('draw', (d, i, nodes) => {
                     const canvas = select(nodes[i])
                         .select('canvas')
@@ -98,14 +100,22 @@ export default (...args) => {
 
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
                 .classed('plot-area', true)
+                .attr('use-device-pixel-ratio', useDevicePixelRatio)
                 .on('draw', (d, i, nodes) => {
+                    const { pixelRatio } = event.detail;
                     const canvas = select(nodes[i])
                         .select('canvas')
                         .node();
-                    canvasPlotArea.context(canvas.getContext('2d'))
+                    const context = canvas.getContext('2d');
+                    context.save();
+                    if (useDevicePixelRatio) {
+                        context.scale(pixelRatio, pixelRatio);
+                    }
+                    canvasPlotArea.context(context)
                         .xScale(xScale)
                         .yScale(yScale);
                     canvasPlotArea(d);
+                    context.restore();
                 });
 
             svgDataJoin(container, svgPlotArea ? [data] : [])
@@ -262,6 +272,13 @@ export default (...args) => {
             return decorate;
         }
         decorate = args[0];
+        return cartesian;
+    };
+    cartesian.useDevicePixelRatio = (...args) => {
+        if (!args.length) {
+            return useDevicePixelRatio;
+        }
+        useDevicePixelRatio = args[0];
         return cartesian;
     };
 
