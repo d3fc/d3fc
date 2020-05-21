@@ -75,11 +75,9 @@ export default (...args) => {
                 .attr('set-webgl-viewport','')
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', scaleByDevicePixelRatio)
-                .on('draw', (d, i, nodes) => {
-                    const canvas = select(nodes[i])
-                        .select('canvas')
-                        .node();
-                    webglPlotArea.context(isContextLost ? null : canvas.getContext('webgl'))
+                .on('draw', (d) => {
+                    const { child } = event.detail;
+                    webglPlotArea.context(isContextLost ? null : child.getContext('webgl'))
                         .xScale(xScale)
                         .yScale(yScale);
                     webglPlotArea(d);
@@ -101,12 +99,9 @@ export default (...args) => {
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', scaleByDevicePixelRatio)
-                .on('draw', (d, i, nodes) => {
-                    const { pixelRatio } = event.detail;
-                    const canvas = select(nodes[i])
-                        .select('canvas')
-                        .node();
-                    const context = canvas.getContext('2d');
+                .on('draw', (d) => {
+                    const { pixelRatio, child } = event.detail;
+                    const context = child.getContext('2d');
                     context.save();
                     if (scaleByDevicePixelRatio) {
                         context.scale(pixelRatio, pixelRatio)
@@ -121,50 +116,48 @@ export default (...args) => {
             svgDataJoin(container, svgPlotArea ? [data] : [])
                 .classed('plot-area', true)
                 .on('draw', (d, i, nodes) => {
+                    const { child } = event.detail;
                     svgPlotArea.xScale(xScale)
                         .yScale(yScale);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
+                    transitionPropagator(select(child).datum(d))
                         .call(svgPlotArea);
                 });
 
             xAxisDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-axis ${d}-axis`)
                 .style('height', xAxisHeight(data))
-                .on('measure', (d, i, nodes) => {
-                    const { width, height } = event.detail;
+                .on('measure', (d) => {
+                    const { width, height, child } = event.detail;
                     if (d === 'top') {
-                        select(nodes[i])
-                            .select('svg')
+                        select(child)
                             .attr('viewBox', `0 ${-height} ${width} ${height}`);
                     }
                     xScale.range([0, width]);
                 })
-                .on('draw', (d, i, nodes) => {
+                .on('draw', (d) => {
+                    const { child } = event.detail;
                     const xAxisComponent = d === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale);
                     xAxisComponent.decorate(xDecorate);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
+                    transitionPropagator(select(child).datum(d))
                         .call(xAxisStore(xAxisComponent));
                 });
 
             yAxisDataJoin(container, [yOrient(data)])
                 .attr('class', d => `y-axis ${d}-axis`)
                 .style('width', yAxisWidth(data))
-                .on('measure', (d, i, nodes) => {
-                    const { width, height } = event.detail;
+                .on('measure', (d) => {
+                    const { width, height, child } = event.detail;
                     if (d === 'left') {
-                        select(nodes[i])
-                            .select('svg')
+                        select(child)
                             .attr('viewBox', `${-width} 0 ${width} ${height}`);
                     }
                     yScale.range([height, 0]);
                 })
-                .on('draw', (d, i, nodes) => {
+                .on('draw', (d) => {
+                    const { child } = event.detail;
                     const yAxisComponent = d === 'left' ? yAxis.left(yScale) : yAxis.right(yScale);
                     yAxisComponent.decorate(yDecorate);
-                    transitionPropagator(select(nodes[i]))
-                        .select('svg')
+                    transitionPropagator(select(child).datum(d))
                         .call(yAxisStore(yAxisComponent));
                 });
 

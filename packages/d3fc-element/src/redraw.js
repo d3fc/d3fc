@@ -10,7 +10,8 @@ const measure = (element) => {
     const width = element.clientWidth * pixelRatio;
     const height = element.clientHeight * pixelRatio;
     const resized = width !== previousWidth || height !== previousHeight;
-    data.set(element, { pixelRatio, width, height, resized });
+    const child = element.children[0];
+    data.set(element, { pixelRatio, width, height, resized, child });
 };
 
 if (typeof CustomEvent !== 'function') {
