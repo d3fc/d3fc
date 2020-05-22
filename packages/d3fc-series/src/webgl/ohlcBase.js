@@ -39,7 +39,8 @@ export default (pathGenerator) => {
 
         if (dataChanged) {
             previousData = data;
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            const factor = 2 * window.devicePixelRatio;
+            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i) * factor).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
         if (dataChanged || xScale.scale !== previousXScale) {
