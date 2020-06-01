@@ -95,9 +95,11 @@ export const axisBase = (orient, scale, custom = {}) => {
             ]);
 
             const domainLine = domainPathDataJoin(container, [data]);
-            domainLine
-                .attr('d', svgDomainLine(domainPathData))
+
+            domainLine.enter()
                 .attr('stroke', '#000');
+
+            domainLine.attr('d', svgDomainLine(domainPathData));
 
             const g = dataJoin(container, ticksArray);
 
