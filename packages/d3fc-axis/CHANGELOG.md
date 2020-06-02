@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 3.0.1 (2020-06-02)
+
+
+### Bug Fixes
+
+* update axis domain line stroke to be set on enter ([7fe60c9](https://github.com/d3fc/d3fc/commit/7fe60c9))
+
+
+
+
+
 # 3.0.0 (2020-04-16)
 
 
