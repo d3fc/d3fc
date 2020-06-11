@@ -622,7 +622,7 @@ If this value is null then array-based rendering will be used. Otherwise, elemen
 
 <a name="webglElementIndices" href="#webglElementIndices">#</a> fc.**webglElementIndices**()
 
-Used to create an element array buffer. This allows vertices to be defined once and reused by providing an index specifying which vertex we are currently using. 
+Used to create an element array buffer. This allows vertices to be defined once and reused by providing an index specifying which vertex we are currently using.
 
 For example to draw two triangles that share a vertex we could provide the values `[0, 1, 2, 1, 3, 4]`. Here we will draw a triangle with the vertices `0`, `1`, and `2`, and a second triangle with the vertices `1`, `3`, and `4`. We only have to specify the data for `5` vertices as we are reusing vertex `1`.
 
@@ -897,7 +897,7 @@ If *value* is specified, sets value and returns this component. If *value* is no
 
 Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow. To convert an arbitrary CSS color string into this format -
 
-```
+```javascript
 const webglColor = identifier => {
     const { r, g, b, opacity } = d3.color(identifier).rgb();
     return [r / 255, g / 255, b / 255, opacity];
@@ -924,7 +924,7 @@ If *value* is specified, sets value and returns this component. If *value* is no
 
 Colors are specified as arrays containing four values representing `rgba` values given in the range `0` to `1` e.g. `[1, 1, 0, 1]` for yellow. To convert an arbitrary CSS color string into this format -
 
-```
+```javascript
 const webglColor = identifier => {
     const { r, g, b, opacity } = d3.color(identifier).rgb();
     return [r / 255, g / 255, b / 255, opacity];
