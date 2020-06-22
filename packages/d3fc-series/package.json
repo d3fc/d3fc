@@ -6,7 +6,7 @@
   "keywords": [
     "d3",
     "d3fc",
-    "scale"
+    "series"
   ],
   "homepage": "https://github.com/d3fc/d3fc",
   "main": "build/d3fc-series.js",
