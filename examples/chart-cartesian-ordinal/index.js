@@ -61,8 +61,8 @@ const bar = fc
 
 const chart = fc
     .chartCartesian(d3.scalePoint().padding(0.5), d3.scaleLinear())
-    .xLabel('Value')
-    .yLabel('Sine / Cosine')
+    .xLabel('Month')
+    .yLabel('Sales')
     .yOrient('left')
     .yDomain(yExtent(data))
     .xDomain(data.map(d => d.month))
