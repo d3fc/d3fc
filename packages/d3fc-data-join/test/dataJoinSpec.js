@@ -23,7 +23,7 @@ describe('dataJoin', () => {
     it('should allow element to be specified when created', () => {
         const join = dataJoin('rect');
         join(container, data);
-        expect(element.childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].nodeName.toLowerCase()).toBe('rect');
         expect(element.childNodes[0].className).toBe('');
     });
@@ -31,7 +31,7 @@ describe('dataJoin', () => {
     it('should allow element and className to be specified when created', () => {
         const join = dataJoin('rect', 'rectangle');
         join(container, data);
-        expect(element.childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].nodeName.toLowerCase()).toBe('rect');
         expect(element.childNodes[0].className).toBe('rectangle');
     });
@@ -47,11 +47,11 @@ describe('dataJoin', () => {
         const join = dataJoin();
         join(container, data)
             .append('g');
-        expect(element.childNodes.length).toBe(1);
-        expect(element.childNodes[0].childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
+        expect(element.childNodes[0].childNodes).toHaveLength(1);
         join(container, data);
-        expect(element.childNodes.length).toBe(1);
-        expect(element.childNodes[0].childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
+        expect(element.childNodes[0].childNodes).toHaveLength(1);
     });
 
     it('should use key if specified', () => {
@@ -59,7 +59,7 @@ describe('dataJoin', () => {
             .key(d => d);
         join(container, [1]);
         const exit = join(container, [2, 3]).exit();
-        expect(exit.nodes().length).toBe(1);
+        expect(exit.nodes()).toHaveLength(1);
     });
 
     it('should insert specified element w/ className', () => {
@@ -67,7 +67,7 @@ describe('dataJoin', () => {
             .element('rect')
             .className('rectangle');
         join(container, data);
-        expect(element.childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].nodeName.toLowerCase()).toBe('rect');
         expect(element.childNodes[0].className).toBe('rectangle');
     });
@@ -76,7 +76,7 @@ describe('dataJoin', () => {
         const join = dataJoin()
             .element('rect');
         join(container, data);
-        expect(element.childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].nodeName.toLowerCase()).toBe('rect');
         expect(element.childNodes[0].className).toBe('');
     });
@@ -84,15 +84,15 @@ describe('dataJoin', () => {
     it('should automatically merge the enter/update containers', () => {
         const join = dataJoin();
         const update = join(container, data);
-        expect(update.nodes().length).toBe(1);
+        expect(update.nodes()).toHaveLength(1);
     });
 
     it('should remove elements', () => {
         const join = dataJoin();
         join(container, data);
-        expect(element.childNodes.length).toBe(1);
+        expect(element.childNodes).toHaveLength(1);
         join(container, []);
-        expect(element.childNodes.length).toBe(0);
+        expect(element.childNodes).toHaveLength(0);
     });
 
     it('should insert new elements in an order consistent with the data', () => {
@@ -101,14 +101,14 @@ describe('dataJoin', () => {
         let data = [1, 2, 3];
 
         join(container, data);
-        expect(element.childNodes.length).toBe(3);
+        expect(element.childNodes).toHaveLength(3);
         expect(element.childNodes[0].__data__).toBe(1);
         expect(element.childNodes[1].__data__).toBe(2);
         expect(element.childNodes[2].__data__).toBe(3);
 
         data = [1, 4, 2];
         join(container, data);
-        expect(element.childNodes.length).toBe(3);
+        expect(element.childNodes).toHaveLength(3);
         expect(element.childNodes[0].__data__).toBe(1);
         expect(element.childNodes[1].__data__).toBe(4);
         expect(element.childNodes[2].__data__).toBe(2);
@@ -129,7 +129,7 @@ describe('dataJoin', () => {
             const update = join(container, data);
             const node = update.enter().node();
 
-            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(Number(node.style.opacity)).toBeCloseTo(0.000001, 6);
             expect(node.parentNode).not.toBe(null);
 
             setTimeout(() => {
@@ -144,7 +144,7 @@ describe('dataJoin', () => {
             const node = update.node();
 
             update.style('opacity', (d) => d);
-            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(Number(node.style.opacity)).toBeCloseTo(0.000001, 6);
 
             setTimeout(() => {
                 expect(node.style.opacity).toBe('1');
@@ -163,7 +163,7 @@ describe('dataJoin', () => {
             expect(node.parentNode).not.toBe(null);
 
             setTimeout(() => {
-                expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+                expect(Number(node.style.opacity)).toBeCloseTo(0.000001, 6);
                 expect(node.parentNode).toBe(null);
                 done();
             }, timeout);
@@ -201,7 +201,7 @@ describe('dataJoin', () => {
             const update = join(container, data);
             const node = update.enter().node();
 
-            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(Number(node.style.opacity)).toBeCloseTo(0.000001, 6);
             expect(node.parentNode).not.toBe(null);
 
             setTimeout(() => {
@@ -218,7 +218,7 @@ describe('dataJoin', () => {
             const update = join(container, data);
             const node = update.enter().node();
 
-            expect(node.style.opacity).toBeCloseTo(0.000001, 6);
+            expect(Number(node.style.opacity)).toBeCloseTo(0.000001, 6);
             expect(node.parentNode).not.toBe(null);
 
             setTimeout(() => {

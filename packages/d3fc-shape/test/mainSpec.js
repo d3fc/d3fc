@@ -1,3 +1,4 @@
+import path from 'path';
 import bar from '../src/bar';
 import candlestick from '../src/candlestick';
 import ohlc from '../src/ohlc';
@@ -7,7 +8,7 @@ import boxPlot from '../src/boxPlot';
 import fs from 'fs';
 import options from './data/options';
 
-const testData = JSON.parse(fs.readFileSync('test/data/data.json'));
+const testData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'data.json')));
 
 function checkResults(module, type) {
     const data = testData[type].data;

@@ -62,14 +62,14 @@ describe('date', () => {
 
     it('should always invoke valueOf on a scalar accessor result', function() {
         const date = new Date(2014, 0, 1);
-        spyOn(date, 'valueOf');
+        jest.spyOn(date, 'valueOf');
         dateExtent().accessors([d => d])([date]);
         expect(date.valueOf).toHaveBeenCalled();
     });
 
     it('should always invoke valueOf on a scalar array accessor result', function() {
         const date = new Date(2014, 0, 1);
-        spyOn(date, 'valueOf');
+        jest.spyOn(date, 'valueOf');
         dateExtent().accessors([d => [d, d]])([date]);
         expect(date.valueOf).toHaveBeenCalled();
     });

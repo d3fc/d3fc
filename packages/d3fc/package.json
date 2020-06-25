@@ -5,8 +5,7 @@
   "main": "build/d3fc.js",
   "scripts": {
     "start": "npx rollup -c --environment BUILD:dev --watch",
-    "bundle": "npx rollup -c",
-    "test": "npx jasmine --config=../../scripts/jasmine.json"
+    "bundle": "npx rollup -c"
   },
   "repository": {
     "type": "git",

@@ -1,17 +1,17 @@
-import jsdom from 'jsdom';
 import requestRedraw from '../src/requestRedraw';
 
 describe('document', () => {
 
-    let document;
-
     beforeEach(() => {
-        document = jsdom.jsdom();
         global.requestAnimationFrame = () => {};
     });
 
     afterEach(() => {
         delete global.requestAnimationFrame;
+
+        // Jest triggers test environment setup/teardown per test suite,
+        // not per test, so we reset '__d3fc-elements__' after each test here.
+        delete document['__d3fc-elements__'];
     });
 
     it('should enqueue a single element', () => {

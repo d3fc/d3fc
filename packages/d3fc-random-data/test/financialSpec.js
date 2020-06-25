@@ -14,7 +14,7 @@ describe('financial', () => {
 
     it('should return the correct number of data points', () => {
         const result = generator(10);
-        expect(result.length).toBe(10);
+        expect(result).toHaveLength(10);
     });
 
     it('should always return an initial date equal to the set startDate', () => {
@@ -36,7 +36,7 @@ describe('financial', () => {
         generator.filter(d => d.date > new Date(2015, 0, 5));
         const stream = generator.stream();
         const result = stream.until(datum => datum.date > new Date(2015, 0, 10));
-        expect(result.length).toBe(5);
+        expect(result).toHaveLength(5);
     });
 
     it('with fc.data.random.filter.skipWeekends filter, should not include weekends', () => {
@@ -118,27 +118,27 @@ describe('financial', () => {
         generator.filter(d => d.date > new Date(2015, 0, 5));
         const stream = generator.stream();
         const data = stream.take(10);
-        expect(data.length).toBe(10);
+        expect(data).toHaveLength(10);
     });
 
     it('stream.take with non-positive numeric argument should return empty array', () => {
         const stream = generator.stream();
         const data0 = stream.take(0);
-        expect(data0.length).toBe(0);
+        expect(data0).toHaveLength(0);
         const data1 = stream.take(-1);
-        expect(data1.length).toBe(0);
+        expect(data1).toHaveLength(0);
     });
 
     it('stream.take with undefined argument should return empty array', () => {
         const stream = generator.stream();
         const data = stream.take();
-        expect(data.length).toBe(0);
+        expect(data).toHaveLength(0);
     });
 
     it('stream.until should generate data up to the datum that satisfies the specified condition', () => {
         const stream = generator.stream();
         const data = stream.until(d => d.date > new Date(2015, 0, 10));
-        expect(data.length).toBe(10);
+        expect(data).toHaveLength(10);
     });
 
     it('stream.until subsequent stream method call should have correctly incremented date', () => {

@@ -20,7 +20,7 @@ describe('modeMedian', function() {
 
         it('should return the correct number of buckets if summarisation occurs', function() {
             var subsampledData = bucketGenerator.bucketSize(5)(data);
-            expect(subsampledData.length).toEqual(5);
+            expect(subsampledData).toHaveLength(5);
         });
 
         it('should have the first and last buckets be the first and last data points', function() {

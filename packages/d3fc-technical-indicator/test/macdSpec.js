@@ -1,11 +1,11 @@
 import _macd from '../src/macd';
-import readCsv from './readcsv.js';
+import readCsv from './helpers/readCsv.js';
 
 describe('macd', () => {
     it('should match the expected output', done => {
         Promise.all([
-            readCsv('./test/data/input.csv'),
-            readCsv('./test/data/macd.csv')
+            readCsv('input.csv'),
+            readCsv('macd.csv')
         ])
         .then(result => {
             const input = result[0];

@@ -20,48 +20,46 @@ describe('group', () => {
     let group;
 
     beforeEach(() => {
-        addEventListener = jasmine.createSpy('addEventListener');
-        global.addEventListener = addEventListener;
-        removeEventListener = jasmine.createSpy('removeEventListener');
-        global.removeEventListener = removeEventListener;
+        addEventListener = jest.spyOn(global, 'addEventListener');
+        removeEventListener = jest.spyOn(global, 'removeEventListener');
         group = new Group();
     });
 
     afterEach(() => {
-        delete global.addEventListener;
-        delete global.removeEventListener;
+        addEventListener.mockRestore();
+        removeEventListener.mockRestore();
     });
 
     it('should not add a listener if no auto-resize attribute present when connected', () => {
-        spyOn(group, 'hasAttribute').and.returnValue(false);
+        jest.spyOn(group, 'hasAttribute').mockImplementation(() => false);
         group.connectedCallback();
-        expect(addEventListener.calls.any()).toEqual(false);
+        expect(addEventListener).not.toHaveBeenCalled();
     });
 
     it('should not add a listener if no auto-resize attribute is false when connected', () => {
-        spyOn(group, 'hasAttribute').and.returnValue(true);
-        spyOn(group, 'getAttribute').and.returnValue('false');
+        jest.spyOn(group, 'hasAttribute').mockImplementation(() => true);
+        jest.spyOn(group, 'getAttribute').mockImplementation(() => 'false');
         group.connectedCallback();
-        expect(addEventListener.calls.any()).toEqual(false);
+        expect(addEventListener).not.toHaveBeenCalled();
     });
 
     it('should add a listener if auto-resize attribute is present when connected', () => {
-        spyOn(group, 'hasAttribute').and.returnValue(true);
-        spyOn(group, 'getAttribute').and.returnValue('');
+        jest.spyOn(group, 'hasAttribute').mockImplementation(() => true);
+        jest.spyOn(group, 'getAttribute').mockImplementation(() => '');
         group.connectedCallback();
         expect(addEventListener).toHaveBeenCalledWith('resize', group.__autoResizeListener__);
     });
 
     it('should add a listener if auto-resize attribute has a non false value when connected', () => {
-        spyOn(group, 'hasAttribute').and.returnValue(true);
-        spyOn(group, 'getAttribute').and.returnValue('true');
+        jest.spyOn(group, 'hasAttribute').mockImplementation(() => true);
+        jest.spyOn(group, 'getAttribute').mockImplementation(() => 'true');
         group.connectedCallback();
         expect(addEventListener).toHaveBeenCalledWith('resize', group.__autoResizeListener__);
     });
 
     it('should remove a listener when disconnected', () => {
-        spyOn(group, 'hasAttribute').and.returnValue(true);
-        spyOn(group, 'getAttribute').and.returnValue('true');
+        jest.spyOn(group, 'hasAttribute').mockImplementation(() => true);
+        jest.spyOn(group, 'getAttribute').mockImplementation(() => 'true');
         group.connectedCallback();
         const listener = group.__autoResizeListener__;
         expect(addEventListener).toHaveBeenCalledWith('resize', listener);
@@ -69,6 +67,6 @@ describe('group', () => {
         expect(removeEventListener).toHaveBeenCalledWith('resize', listener);
         expect(group.__autoResizeListener__).toEqual(null);
         group.disconnectedCallback();
-        expect(removeEventListener.calls.count()).toEqual(1);
+        expect(removeEventListener).toHaveBeenCalledTimes(1);
     });
 });

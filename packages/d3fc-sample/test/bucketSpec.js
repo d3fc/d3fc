@@ -22,7 +22,7 @@ describe('bucket', () => {
 
         it('should return the correct number of buckets if the bucket size is less than the data length and greater than 1', () => {
             const bucketedData = dataBucketer.bucketSize(3)(data);
-            expect(bucketedData.length).toEqual(6);
+            expect(bucketedData).toHaveLength(6);
             expect(bucketedData[0]).toEqual([0, 1, 6]);
             expect(bucketedData[1]).toEqual([4, 8, 4]);
             expect(bucketedData[2]).toEqual([ 8, 9, 3 ]);

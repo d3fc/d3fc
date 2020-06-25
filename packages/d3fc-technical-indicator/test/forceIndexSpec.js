@@ -1,11 +1,11 @@
 import _forceIndex from '../src/forceIndex';
-import readCsv from './readcsv.js';
+import readCsv from './helpers/readCsv.js';
 
 describe('forceIndex', () => {
     it('should match the expected output', done => {
         Promise.all([
-            readCsv('./test/data/input.csv'),
-            readCsv('./test/data/forceIndex.csv')
+            readCsv('input.csv'),
+            readCsv('forceIndex.csv')
         ])
         .then(result => {
             const input = result[0];

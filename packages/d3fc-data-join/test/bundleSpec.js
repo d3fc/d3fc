@@ -5,7 +5,7 @@ describe('bundle', function() {
         jsdom.env({
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo({
-                error: fail
+                error: done
             }),
             scripts: [
                 require.resolve('d3/dist/d3.js'),
@@ -23,7 +23,7 @@ describe('bundle', function() {
         jsdom.env({
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo({
-                error: fail
+                error: done
             }),
             scripts: [
                 require.resolve('d3/dist/d3.js'),

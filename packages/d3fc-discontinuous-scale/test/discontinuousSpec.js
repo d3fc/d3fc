@@ -67,7 +67,7 @@ describe('discontinuous', () => {
                 .domain([start, end]);
 
             var ticks = dateTime.ticks(100);
-            expect(ticks.length).toEqual(25);
+            expect(ticks).toHaveLength(25);
         });
     });
 

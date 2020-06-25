@@ -1,11 +1,11 @@
 import relativeStrengthIndex from '../src/relativeStrengthIndex';
-import readCsv from './readcsv.js';
+import readCsv from './helpers/readCsv.js';
 
 describe('relativeStrengthIndex', () => {
     it('should match the expected output', done => {
         Promise.all([
-            readCsv('./test/data/input.csv'),
-            readCsv('./test/data/rsi.csv')
+            readCsv('input.csv'),
+            readCsv('rsi.csv')
         ])
         .then(result => {
             const input = result[0];
