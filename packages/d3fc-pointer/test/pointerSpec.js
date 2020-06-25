@@ -1,4 +1,3 @@
-import jsdom from 'jsdom';
 import { select } from 'd3-selection';
 import pointer from '../src/pointer';
 
@@ -8,10 +7,10 @@ describe('pointer', () => {
     let pointSpy;
 
     beforeEach(() => {
-        global.document = jsdom.jsdom('<div id="element"></div>');
+        document.body.innerHTML = '<div id="element"></div>';
         element = document.querySelector('#element');
 
-        pointSpy = jasmine.createSpy('pointSpy');
+        pointSpy = jest.fn();
         const pointerInstance = pointer()
             .on('point', pointSpy);
 
@@ -25,18 +24,18 @@ describe('pointer', () => {
         });
 
         it('should call the callback', () => {
-            expect(pointSpy.calls.count()).toEqual(1);
+            expect(pointSpy).toHaveBeenCalledTimes(1);
         });
 
         it('should call the callback with an array', () => {
-            expect(pointSpy).toHaveBeenCalledWith(jasmine.any(Array));
-            const point = pointSpy.calls.argsFor(0)[0][0];
-            expect(point.x).not.toBeUndefined();
-            expect(point.y).not.toBeUndefined();
+            expect(pointSpy).toHaveBeenCalledWith([{
+                x: expect.any(Number),
+                y: expect.any(Number)
+            }]);
         });
 
         it('should call the callback with the "this" context as the current DOM element', () => {
-            expect(pointSpy.calls.mostRecent().object).toBe(element);
+            expect(pointSpy.mock.instances[0]).toBe(element);
         });
     });
 
@@ -46,18 +45,18 @@ describe('pointer', () => {
         });
 
         it('should call the callback', () => {
-            expect(pointSpy.calls.count()).toEqual(1);
+            expect(pointSpy).toHaveBeenCalledTimes(1);
         });
 
         it('should call the callback with an array', () => {
-            expect(pointSpy).toHaveBeenCalledWith(jasmine.any(Array));
-            const point = pointSpy.calls.argsFor(0)[0][0];
-            expect(point.x).not.toBeUndefined();
-            expect(point.y).not.toBeUndefined();
+            expect(pointSpy).toHaveBeenCalledWith([{
+                x: expect.any(Number),
+                y: expect.any(Number)
+            }]);
         });
 
         it('should call the callback with the "this" context as the current DOM element', () => {
-            expect(pointSpy.calls.mostRecent().object).toBe(element);
+            expect(pointSpy.mock.instances[0]).toBe(element);
         });
     });
 
@@ -67,7 +66,7 @@ describe('pointer', () => {
         });
 
         it('should call the callback', () => {
-            expect(pointSpy.calls.count()).toEqual(1);
+            expect(pointSpy).toHaveBeenCalledTimes(1);
         });
 
         it('should call the callback with an empty array', () => {
@@ -75,7 +74,7 @@ describe('pointer', () => {
         });
 
         it('should call the callback with the "this" context as the current DOM element', () => {
-            expect(pointSpy.calls.mostRecent().object).toBe(element);
+            expect(pointSpy.mock.instances[0]).toBe(element);
         });
 
     });

@@ -10,7 +10,7 @@ describe('removeOverlaps', () => {
             {x: 20, y: 20, width: 10, height: 10}
         ];
         const result = strategy(data);
-        expect(result.filter(r => r.hidden).length).toEqual(0);
+        expect(result.filter(r => r.hidden)).toHaveLength(0);
     });
 
     it('should hide overlaps', () => {
@@ -19,7 +19,7 @@ describe('removeOverlaps', () => {
             {x: 20, y: 20, width: 10, height: 10}
         ];
         const result = strategy(data);
-        expect(result.filter(r => r.hidden).length).toEqual(1);
+        expect(result.filter(r => r.hidden)).toHaveLength(1);
     });
 
     it('should favour hiding rectangles with the greatest overlap', () => {
@@ -30,7 +30,7 @@ describe('removeOverlaps', () => {
             {x: 11, y: 11, width: 10, height: 10}
         ];
         const result = strategy(data);
-        expect(result.filter(r => r.hidden).length).toEqual(1);
+        expect(result.filter(r => r.hidden)).toHaveLength(1);
         expect(data[1].hidden).toEqual(true);
     });
 

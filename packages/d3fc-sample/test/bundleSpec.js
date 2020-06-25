@@ -5,12 +5,12 @@ describe('bundle', function() {
         jsdom.env({
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo({
-                error: fail
+                error: done
             }),
             scripts: [
                 require.resolve('d3/dist/d3.js'),
-                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
-                './build/d3fc-sample.js'
+                require.resolve('../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
+                require.resolve('../build/d3fc-sample.js')
             ],
             done: (_, win) => {
                 const data = [0, 1, 6, 4, 8];

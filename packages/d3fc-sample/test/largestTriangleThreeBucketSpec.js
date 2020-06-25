@@ -41,7 +41,7 @@ describe('largestTriangleThreeBucket', function() {
 
         it('should return the correct number of data points if the bucket size is less than the data', function() {
             var sampledData = dataGenerator(data);
-            expect(sampledData.length).toEqual(7);
+            expect(sampledData).toHaveLength(7);
         });
 
         it('should return the first and last data points as the first and last buckets', function() {

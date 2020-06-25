@@ -1,28 +1,10 @@
 import { default as _group }  from '../src/group';
 
-const arrayEquals = (a, b) =>
-    a.length === b.length &&
-    a.every((item, index) => b[index] === item);
-
 describe('group', () => {
 
     let group;
 
     beforeEach(() => {
-        // add a matcher that compares array elements, but ignores any properties that
-        // have been added to the arrays
-        jasmine.addMatchers({
-            toEqualArray: () => ({
-                compare: (actual, expected) => {
-                    const result = {};
-                    result.pass =
-                        actual.length === expected.length &&
-                        actual.every((item, index) => arrayEquals(item, expected[index]));
-                    return result;
-                }
-            })
-        });
-
         group = _group()
           .key('Make');
     });
@@ -57,7 +39,7 @@ describe('group', () => {
 
         it('should group into separate series', () => {
             const series = group(data);
-            expect(series.length).toEqual(2);
+            expect(series).toHaveLength(2);
         });
 
         it('should correctly group the series data', () => {
@@ -97,7 +79,7 @@ describe('group', () => {
             const speedSeries = [
                 ['Porsche', 254]
             ];
-            expect(series.length).toEqual(2);
+            expect(series).toHaveLength(2);
             expect(series[0]).toEqualArray(speedSeries);
         });
 
@@ -120,7 +102,7 @@ describe('group', () => {
         it('should group into separate series', () => {
             group.orient('horizontal');
             const series = group(data);
-            expect(series.length).toEqual(2);
+            expect(series).toHaveLength(2);
         });
 
         it('should correctly group the series data', () => {
@@ -166,7 +148,7 @@ describe('group', () => {
                     [ 'Size', 56 ]
                 ]
             ];
-            expect(series.length).toEqual(2);
+            expect(series).toHaveLength(2);
             expect(series[0]).toEqualArray(speedSeries[0]);
             expect(series[1]).toEqualArray(speedSeries[1]);
         });

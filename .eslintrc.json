@@ -31,7 +31,7 @@
       "files": ["**/test/**/*.js"],
       "env": {
         "browser": true,
-        "jasmine": true,
+        "jest": true,
         "node": true
       }
     },
@@ -49,6 +49,7 @@
     },
 		{
       "files": [
+        "./babel.config.js",
         "./packages/d3fc/rollup.config.js",
         "./packages/d3fc-site/builder/**/*.js",
         "./packages/d3fc-site/scripts/**/*.js"
@@ -127,7 +128,7 @@
       ],
       "env": {
         "browser": true,
-        "jasmine": true,
+        "jest": true,
         "node": true
       },
       "extends": [
@@ -135,6 +136,15 @@
         "plugin:prettier/recommended",
         "prettier/standard"
       ]
+    },
+    {
+      "files": [
+        "./scripts/jest/**/*.js"
+      ],
+      "env": {
+        "jest": true,
+        "node": true
+      }
     }
   ]
 }

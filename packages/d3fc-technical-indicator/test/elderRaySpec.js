@@ -1,11 +1,11 @@
 import _elderRay from '../src/elderRay';
-import readCsv from './readcsv.js';
+import readCsv from './helpers/readCsv.js';
 
 describe('elderRay', () => {
     it('should match the expected output', done => {
         Promise.all([
-            readCsv('./test/data/input.csv'),
-            readCsv('./test/data/elderRay.csv')
+            readCsv('input.csv'),
+            readCsv('elderRay.csv')
         ])
         .then(result => {
             const input = result[0];

@@ -5,11 +5,11 @@ describe('bundle', function() {
         jsdom.env({
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo({
-                error: fail
+                error: done
             }),
             scripts: [
                 require.resolve('d3/dist/d3.js'),
-                './build/d3fc-shape.js'
+                require.resolve('../build/d3fc-shape.js')
             ],
             done: (_, win) => {
                 const shape = win.fc.shapeBar();

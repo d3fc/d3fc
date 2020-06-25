@@ -1,9 +1,12 @@
 import {csvParse} from 'd3-dsv';
+import { join } from 'path';
 import { promisify } from 'util';
 import { readFile } from 'fs';
 
-const readCsv = (file) =>
-    promisify(readFile)(file, 'utf8')
+const getFilePath = fileName => join(__dirname, '..', 'data', fileName);
+
+const readCsv = (fileName) =>
+    promisify(readFile)(getFilePath(fileName), 'utf8')
         .then(csvParse)
         .then(data => {
             // coerce all defined values to numbers

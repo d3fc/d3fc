@@ -23,7 +23,7 @@ describe('label', () => {
             .datum(data)
             .call(labels);
 
-        expect(svg.children.length).toEqual(3);
+        expect(svg.children).toHaveLength(3);
         expect(svg.children[0].getAttribute('style')).toEqual('display:inherit');
         expect(svg.children[1].getAttribute('style')).toEqual('display:none');
         expect(svg.children[2].getAttribute('style')).toEqual('display:inherit');

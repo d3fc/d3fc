@@ -5,12 +5,12 @@ describe('bundle', function() {
         jsdom.env({
             html: '<html></html>',
             virtualConsole: jsdom.createVirtualConsole().sendTo({
-                error: fail
+                error: done
             }),
             scripts: [
                 require.resolve('d3/dist/d3.js'),
-                './node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js',
-                './build/d3fc-discontinuous-scale.js'
+                require.resolve('../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
+                require.resolve('../build/d3fc-discontinuous-scale.js')
             ],
             done: (_, win) => {
                 const scale = win.fc.scaleDiscontinuous();

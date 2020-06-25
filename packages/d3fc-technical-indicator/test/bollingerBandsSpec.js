@@ -1,11 +1,11 @@
 import _bollingerBands from '../src/bollingerBands';
-import readCsv from './readcsv.js';
+import readCsv from './helpers/readCsv.js';
 
 describe('bollingerBands', () => {
     it('should match the expected output', done => {
         Promise.all([
-            readCsv('./test/data/input.csv'),
-            readCsv('./test/data/bollingerBands.csv')
+            readCsv('input.csv'),
+            readCsv('bollingerBands.csv')
         ])
         .then(result => {
             const input = result[0];

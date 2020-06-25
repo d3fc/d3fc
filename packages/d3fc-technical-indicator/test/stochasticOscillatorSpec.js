@@ -1,11 +1,11 @@
 import stochasticOscillator from '../src/stochasticOscillator';
-import readCsv from './readcsv.js';
+import readCsv from './helpers/readCsv.js';
 
 describe('stochasticOscillator', () => {
     it('should match the expected output', done => {
         Promise.all([
-            readCsv('./test/data/input.csv'),
-            readCsv('./test/data/stochastic.csv')
+            readCsv('input.csv'),
+            readCsv('stochastic.csv')
         ])
         .then(result => {
             const input = result[0];
