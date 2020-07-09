@@ -252,9 +252,9 @@ Constructs a new Cartesian chart with the given scales.
 
 Constructs a new Cartesian chart with the given scales and axis components.
 
-If *xAxis* is specified, it must be an object with the required x-axis factory function (*left* if *yOrient*="left" or *right* if *yOrient*="right").
+If *xAxis* is specified, it must be an object with the required x-axis factory function (*top* if *xOrient*="top" or *bottom* if *xOrient*="bottom").
 
-If *yAxis* is specified, it must be an object with the required y-axis factory function (*top* if *xOrient*="top" or *bottom* if *xOrient*="bottom").
+If *yAxis* is specified, it must be an object with the required y-axis factory function (*left* if *yOrient*="left" or *right* if *yOrient*="right").
 
 <a name="cartesian_svgPlotArea" href="#cartesian_svgPlotArea">#</a> *cartesian*.**svgPlotArea**(*component*)
 <a name="cartesian_canvasPlotArea" href="#cartesian_canvasPlotArea">#</a> *cartesian*.**canvasPlotArea**(*component*)
