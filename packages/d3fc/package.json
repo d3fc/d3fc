@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "15.0.8",
+  "version": "15.0.9",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "@d3fc/d3fc-annotation": "^3.0.5",
     "@d3fc/d3fc-axis": "^3.0.1",
     "@d3fc/d3fc-brush": "^3.0.0",
-    "@d3fc/d3fc-chart": "^4.0.5",
+    "@d3fc/d3fc-chart": "^4.0.6",
     "@d3fc/d3fc-data-join": "^6.0.0",
     "@d3fc/d3fc-discontinuous-scale": "^4.0.0",
     "@d3fc/d3fc-element": "^6.0.0",
