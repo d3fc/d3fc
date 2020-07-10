@@ -42,13 +42,13 @@ d3.select(container)
                 'transform',
                 'translate(0, 150)'
             )
-        ).call(d3OrdinalAxis);
+        ).call(fcLinearAxis);
         transition(
             d3OrdinalAxisJoin(svg, d => [d]).attr(
                 'transform',
                 'translate(0, 250)'
             )
-        ).call(fcLinearAxis);
+        ).call(d3OrdinalAxis);
         transition(
             fcOrdinalAxisJoin(svg, d => [d]).attr(
                 'transform',
