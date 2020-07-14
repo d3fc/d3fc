@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-financial-feed",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "An API for fetching financial time-series data from different sources including GDAX",
   "license": "MIT",
   "keywords": [

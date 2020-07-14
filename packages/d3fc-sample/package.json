@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-sample",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A data subsampler that chooses representative data points using a largest triangle or mode-median approach.",
   "license": "MIT",
   "keywords": [
@@ -21,7 +21,7 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-sample"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.0"
+    "@d3fc/d3fc-rebind": "^6.0.1"
   },
   "peerDependencies": {
     "d3-array": "*"

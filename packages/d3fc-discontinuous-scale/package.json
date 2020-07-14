@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-discontinuous-scale",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A D3 scale that supports domains that are not continuous, allowing 'breaks' in the scale, for example skipping weekends for a date scale.",
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,7 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-discontinuous-scale"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.0"
+    "@d3fc/d3fc-rebind": "^6.0.1"
   },
   "peerDependencies": {
     "d3-scale": "*",

@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-brush",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Adapts the D3 brush, making it easier to create data-driven brushed charts.",
   "license": "MIT",
   "keywords": [
@@ -20,8 +20,8 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-brush"
   },
   "dependencies": {
-    "@d3fc/d3fc-data-join": "^6.0.0",
-    "@d3fc/d3fc-rebind": "^6.0.0"
+    "@d3fc/d3fc-data-join": "^6.0.1",
+    "@d3fc/d3fc-rebind": "^6.0.1"
   },
   "peerDependencies": {
     "d3-brush": "*",

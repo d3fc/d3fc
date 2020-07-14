@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-technical-indicator",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Components for calculating technical indicators on data series",
   "license": "MIT",
   "keywords": [
@@ -37,7 +37,7 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-technical-indicator"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.0"
+    "@d3fc/d3fc-rebind": "^6.0.1"
   },
   "peerDependencies": {
     "d3-array": "*"

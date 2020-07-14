@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-shape",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "A collection of SVG/canvas path generators for creating chart series",
   "license": "MIT",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-webgl",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A collection of utilities to enable drawing to WebGL canvases",
   "license": "MIT",
   "keywords": [
@@ -19,7 +19,7 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-webgl"
   },
   "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.0"
+    "@d3fc/d3fc-rebind": "^6.0.1"
   },
   "peerDependencies": {
     "d3-scale": "*",
