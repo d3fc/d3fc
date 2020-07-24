@@ -87,8 +87,8 @@ export default () => {
         lineWidth(program);
 
         program.vertexShader().appendBody(`
-          gl_Position.x += xModifier / uScreen.x;
-          gl_Position.y += yModifier / uScreen.y;
+          gl_Position.x += xModifier / uScreen.x * 2.0;
+          gl_Position.y += yModifier / uScreen.y * 2.0;
         `);
 
         decorate(program);
