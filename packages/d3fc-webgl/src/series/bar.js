@@ -99,7 +99,7 @@ export default () => {
         return draw;
     };
 
-    rebind(draw, program, 'context');
+    rebind(draw, program, 'context', 'pixelRatio');
     rebindCurry(
         draw,
         'crossValueAttribute',

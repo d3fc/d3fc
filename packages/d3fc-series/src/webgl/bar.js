@@ -77,7 +77,7 @@ export default () => {
     };
 
     rebindAll(bar, base, exclude('align'));
-    rebind(bar, draw, 'context');
+    rebind(bar, draw, 'context', 'pixelRatio');
 
     return bar;
 };

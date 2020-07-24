@@ -84,7 +84,7 @@ export default () => {
     };
 
     rebindAll(area, base, exclude('bandwidth', 'align'));
-    rebind(area, draw, 'context');
+    rebind(area, draw, 'context', 'pixelRatio');
 
     return area;
 };

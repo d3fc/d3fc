@@ -78,7 +78,7 @@ export default () => {
     };
 
     rebindAll(errorBar, base,  exclude('align'));
-    rebind(errorBar, draw, 'context', 'lineWidth');
+    rebind(errorBar, draw, 'context', 'lineWidth', 'pixelRatio');
 
     return errorBar;
 };
