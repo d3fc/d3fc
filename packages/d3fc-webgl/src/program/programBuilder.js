@@ -15,6 +15,7 @@ export default () => {
     let debug = false;
     let extInstancedArrays = null;
     let dirty = true;
+    let pixelRatio = 1;
 
     const build = count => {
         if (context == null) {
@@ -33,7 +34,10 @@ export default () => {
 
         buffers.uniform(
             'uScreen',
-            uniform([context.canvas.width, context.canvas.height])
+            uniform([
+                context.canvas.width / pixelRatio,
+                context.canvas.height / pixelRatio
+            ])
         );
 
         buffers(build, program);
@@ -134,6 +138,14 @@ export default () => {
             return debug;
         }
         debug = args[0];
+        return build;
+    };
+
+    build.pixelRatio = (...args) => {
+        if (!args.length) {
+            return pixelRatio;
+        }
+        pixelRatio = args[0];
         return build;
     };
 

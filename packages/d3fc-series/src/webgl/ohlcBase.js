@@ -78,7 +78,7 @@ export default (pathGenerator) => {
     };
 
     rebindAll(candlestick, base, exclude('align'));
-    rebind(candlestick, pathGenerator, 'context', 'lineWidth');
+    rebind(candlestick, pathGenerator, 'context', 'lineWidth', 'pixelRatio');
 
     return candlestick;
 };

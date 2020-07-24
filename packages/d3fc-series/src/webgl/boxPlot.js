@@ -99,7 +99,7 @@ export default () => {
     };
     
     rebindAll(boxPlot, base, exclude('align'));
-    rebind(boxPlot, draw, 'context', 'lineWidth');
+    rebind(boxPlot, draw, 'context', 'lineWidth', 'pixelRatio');
 
     return boxPlot;
 };

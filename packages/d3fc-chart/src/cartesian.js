@@ -76,8 +76,9 @@ export default (...args) => {
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', useDevicePixelRatio)
                 .on('draw', (d) => {
-                    const { child } = event.detail;
+                    const { child, pixelRatio } = event.detail;
                     webglPlotArea.context(isContextLost ? null : child.getContext('webgl'))
+                        .pixelRatio(pixelRatio)
                         .xScale(xScale)
                         .yScale(yScale);
                     webglPlotArea(d);
@@ -100,7 +101,7 @@ export default (...args) => {
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', useDevicePixelRatio)
                 .on('draw', (d) => {
-                    const { pixelRatio, child } = event.detail;
+                    const { child, pixelRatio } = event.detail;
                     const context = child.getContext('2d');
                     context.save();
                     if (useDevicePixelRatio) {

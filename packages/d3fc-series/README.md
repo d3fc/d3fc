@@ -446,6 +446,12 @@ The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
 
+<a name="seriesLine_pixelRatio" href="#seriesLine_pixelRatio">#</a> *seriesLine*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
+
 <a name="seriesLine_scaleMapper" href="#seriesLine_scaleMapper">#</a> *seriesLine*.**scaleMapper**(*scaleMapper*)
 
 The SVG and canvas implementations do not support this property.
@@ -506,6 +512,12 @@ The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
 
+<a name="seriesPoint_pixelRatio" href="#seriesPoint_pixelRatio">#</a> *seriesPoin*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
+
 <a name="seriesPoint_scaleMapper" href="#seriesPoint_scaleMapper">#</a> *seriesPoint*.**scaleMapper**(*scaleMapper*)
 
 The SVG and canvas implementations do not support this property.
@@ -560,6 +572,12 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesArea_pixelRatio" href="#seriesArea_pixelRatio">#</a> *seriesArea*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
 
 <a name="seriesArea_scaleMapper" href="#seriesArea_scaleMapper">#</a> *seriesArea*.**scaleMapper**(*scaleMapper*)
 
@@ -619,6 +637,12 @@ If *ctx* is specified, sets the canvas context and returns this series. If *ctx*
 The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesBar_pixelRatio" href="#seriesBar_pixelRatio">#</a> *seriesBar_*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
 
 <a name="seriesBar_scaleMapper" href="#seriesBar_scaleMapper">#</a> *seriesBar*.**scaleMapper**(*scaleMapper*)
 
@@ -682,6 +706,12 @@ If *width* is specified, sets the line width and returns this series. If *width*
 The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesCandlestick_pixelRatio" href="#seriesCandlestick_pixelRatio">#</a> *seriesCand*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
 
 <a name="seriesCandlestick_scaleMapper" href="#seriesCandlestick_scaleMapper">#</a> *seriesCandlestick*.**scaleMapper**(*scaleMapper*)
 
@@ -747,6 +777,12 @@ If *width* is specified, sets the line width and returns this series. If *width*
 The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesOhlc_pixelRatio" href="#seriesOhlc_pixelRatio">#</a> *seriesOhlc*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
 
 <a name="seriesOhlc_scaleMapper" href="#seriesOhlc_scaleMapper">#</a> *seriesOhlc*.**scaleMapper**(*scaleMapper*)
 
@@ -824,6 +860,12 @@ The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
 
+<a name="seriesBoxplot_pixelRatio" href="#seriesBoxplot_pixelRatio">#</a> *seriesBoxp*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
+
 <a name="seriesBoxplot_scaleMapper" href="#seriesBoxplot_scaleMapper">#</a> *seriesBoxplot*.**scaleMapper**(*scaleMapper*)
 
 The SVG and canvas implementations do not support this property.
@@ -892,6 +934,12 @@ If *width* is specified, sets the line width and returns this series. If *width*
 The SVG and canvas implementations do not support this property.
 
 If *equals* is specified, sets the equality function used to compare *previousData* with *data*. The result of this check is used to control whether the data is reprojected and rescaled. If *equals* is not specified, returns the current equality function which defaults to always returning false indicating the data has changed.
+
+<a name="seriesErrorBar_pixelRatio" href="#seriesErrorBar_pixelRatio">#</a> *seriesErro*.**pixelRatio**(*pixelRatio*)
+
+The SVG and canvas implementations do not support this property.
+
+If *pixelRatio* is specified, sets the factor used to scale any pixel values. If *pixelRatio* is not specified returns the current value.
 
 <a name="seriesErrorBar_scaleMapper" href="#seriesErrorBar_scaleMapper">#</a> *seriesErrorBar*.**scaleMapper**(*scaleMapper*)
 

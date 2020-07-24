@@ -100,7 +100,7 @@ export default () => {
     };
 
     rebindAll(point, base, exclude('baseValue', 'bandwidth', 'align'));
-    rebind(point, draw, 'context');
+    rebind(point, draw, 'context', 'pixelRatio');
 
     return point;
 };

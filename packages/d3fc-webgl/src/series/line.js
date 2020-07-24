@@ -86,7 +86,7 @@ export default () => {
         return draw;
     };
 
-    rebind(draw, program, 'context');
+    rebind(draw, program, 'context', 'pixelRatio');
     rebind(draw, lineWidth, 'lineWidth');
     rebindCurry(
         draw,

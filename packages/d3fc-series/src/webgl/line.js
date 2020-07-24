@@ -89,7 +89,7 @@ export default () => {
     };
 
     rebindAll(line, base, exclude('baseValue', 'bandwidth', 'align'));
-    rebind(line, draw, 'context', 'lineWidth');
+    rebind(line, draw, 'context', 'lineWidth', 'pixelRatio');
 
     return line;
 };
