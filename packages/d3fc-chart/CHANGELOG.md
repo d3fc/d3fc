@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@4.0.7...@d3fc/d3fc-chart@5.0.0) (2020-08-14)
+
+
+### Features
+
+* add pixelRatio property to webgl series ([08c2de1](https://github.com/d3fc/d3fc/commit/08c2de1))
+* added useDevicePixelRatio property to cartesian chart ([737d140](https://github.com/d3fc/d3fc/commit/737d140))
+* d3fc-element exposes the underlying element via lifecycle events ([c58807e](https://github.com/d3fc/d3fc/commit/c58807e))
+
+
+### BREAKING CHANGES
+
+* webgl series must now expose a pixelRatio property
+
+
+
+
+
 ## [4.0.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@4.0.6...@d3fc/d3fc-chart@4.0.7) (2020-07-14)
 
 **Note:** Version bump only for package @d3fc/d3fc-chart
