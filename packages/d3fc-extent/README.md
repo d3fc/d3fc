@@ -44,7 +44,7 @@ Constructs a new linear extent calculator.
 
 <a name="linear_accessors" href="#linear_accessors"></a> *linear*.**accessors**([*accessors*])
 
-If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned be the accessors must be a scalar value or an array of scalar values. Defaults to an identity function (i.e. `d => d`).
+If *accessors* is specified, sets the array of value accessors to the specified array and returns this extent instance. The accessors are applied to each data value before computing the extent. The value returned by the accessors must be a scalar value or an array of scalar values. Defaults to an identity function (i.e. `d => d`).
 If *accessors* is not specified, returns the current array of value accessors, which defaults `[]`.
 
 <a name="linear_pad" href="#linear_pad"></a> *linear*.**pad**([*values*])
