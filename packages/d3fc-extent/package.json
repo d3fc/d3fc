@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-extent",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Extends the d3 extent functionality to allow multiple accessors, padding and date support",
   "license": "MIT",
   "keywords": [
