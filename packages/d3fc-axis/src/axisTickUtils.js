@@ -8,18 +8,16 @@ const tryApply = (scale, fn, args, defaultVal) =>
     scale[fn] ? scale[fn].apply(scale, args) : defaultVal;
 
 const ticksArrayForAxis = axis =>
-    axis.tickValues() == null
-        ? tryApply(
+    axis.tickValues() ??
+        tryApply(
               axis.scale(),
               'ticks',
               axis.tickArguments(),
               axis.scale().domain()
-          )
-        : axis.tickValues();
+          );
 
 const tickFormatterForAxis = axis =>
-    axis.tickFormat() == null
-        ? tryApply(axis.scale(), 'tickFormat', axis.tickArguments(), identity)
-        : axis.tickFormat();
+    axis.tickFormat() ??
+        tryApply(axis.scale(), 'tickFormat', axis.tickArguments(), identity);
 
 export { ticksArrayForAxis, tickFormatterForAxis };
