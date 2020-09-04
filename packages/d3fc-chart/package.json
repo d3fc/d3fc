@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-chart",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "A simple Cartesian chart component that renders to canvas or SVG.",
   "license": "MIT",
   "keywords": [
@@ -21,7 +21,7 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-chart"
   },
   "dependencies": {
-    "@d3fc/d3fc-axis": "^3.0.2",
+    "@d3fc/d3fc-axis": "^3.0.3",
     "@d3fc/d3fc-data-join": "^6.0.1",
     "@d3fc/d3fc-element": "^6.1.0",
     "@d3fc/d3fc-rebind": "^6.0.1",
