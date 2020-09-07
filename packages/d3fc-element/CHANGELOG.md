@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@6.1.0...@d3fc/d3fc-element@6.1.1) (2020-09-07)
+
+
+### Bug Fixes
+
+* no-op to force release ([c511b2a](https://github.com/d3fc/d3fc/commit/c511b2a)), closes [#1615](https://github.com/d3fc/d3fc/issues/1615)
+
+
+
+
+
 # [6.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@6.0.1...@d3fc/d3fc-element@6.1.0) (2020-08-14)
 
 
