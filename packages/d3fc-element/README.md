@@ -66,7 +66,6 @@ setTimeout(() => {
 }, 1000);
 ```
 
-
 <a name="surface_requestRedraw" href="#surface_requestRedraw">#</a> *surface*.**requestRedraw**()
 
 Enqueues a redraw to occur on the next animation frame, only if there isn't already one pending. If one is already pending, this call is ignored.
