@@ -32,7 +32,7 @@ export { default as seriesWebglOhlc } from './src/webgl/ohlc';
 
 export { default as seriesSvgMulti } from './src/svg/multi';
 export { default as seriesCanvasMulti } from './src/canvas/multi';
-export { default as seriesWebglMulti } from './src/canvas/multi';
+export { default as seriesWebglMulti } from './src/webgl/multi';
 
 export { default as seriesSvgGrouped } from './src/svg/grouped';
 export { default as seriesCanvasGrouped } from './src/canvas/grouped';
