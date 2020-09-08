@@ -1,5 +1,5 @@
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
-import multiSeries from '../canvas/multi';
+import multiSeries from './multi';
 import line from './line';
 
 export default () => {
