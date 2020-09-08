@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@6.0.1...@d3fc/d3fc-series@6.0.2) (2020-09-08)
+
+
+### Bug Fixes
+
+* gl repeat series was mapped to the canvas implementation ([#1620](https://github.com/d3fc/d3fc/issues/1620)) ([c169dae](https://github.com/d3fc/d3fc/commit/c169dae))
+
+
+
+
+
 ## [6.0.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-series@6.0.0...@d3fc/d3fc-series@6.0.1) (2020-09-01)
 
 **Note:** Version bump only for package @d3fc/d3fc-series

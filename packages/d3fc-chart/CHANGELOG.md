@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.3...@d3fc/d3fc-chart@5.0.4) (2020-09-08)
+
+**Note:** Version bump only for package @d3fc/d3fc-chart
+
+
+
+
+
 ## [5.0.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.2...@d3fc/d3fc-chart@5.0.3) (2020-09-07)
 
 **Note:** Version bump only for package @d3fc/d3fc-chart
