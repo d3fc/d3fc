@@ -69,7 +69,6 @@
     "mockdate": "^2.0.5",
     "prettier": "^1.19.1",
     "puppeteer": "^1.20.0",
-    "read-babelrc-up": "^0.4.0",
     "rollup": "^2.26.9",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-babel-minify": "^10.0.0",
