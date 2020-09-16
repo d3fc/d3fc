@@ -1,7 +1,7 @@
 import { select, event } from 'd3-selection';
 import { scaleIdentity } from 'd3-scale';
 import { axisBottom, axisRight, axisLeft, axisTop } from '@d3fc/d3fc-axis';
-import { dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { rebindAll, exclude, prefix } from '@d3fc/d3fc-rebind';
 import store from './store';
 import './css';
@@ -45,7 +45,7 @@ export default (...args) => {
         .key(d => d);
 
     const propagateTransition = maybeTransition => selection =>
-        maybeTransition.selection ? selection.transition(maybeTransition) : selection;
+        isTransition(maybeTransition) ? selection.transition(maybeTransition) : selection;
 
     const cartesian = (selection) => {
 

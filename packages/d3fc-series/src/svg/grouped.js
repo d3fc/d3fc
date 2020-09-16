@@ -1,4 +1,4 @@
-import { dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { select } from 'd3-selection';
 import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import groupedBase from '../groupedBase';
@@ -11,7 +11,7 @@ export default (series) => {
 
     const grouped = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             join.transition(selection);
         }
 

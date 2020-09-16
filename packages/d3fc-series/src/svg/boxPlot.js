@@ -1,5 +1,5 @@
 import { shapeBoxPlot } from '@d3fc/d3fc-shape';
-import { dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import { select } from 'd3-selection';
 import boxPlotBase from '../boxPlotBase';
@@ -15,14 +15,14 @@ export default () => {
         .value(0);
 
     const propagateTransition = maybeTransition => selection =>
-        maybeTransition.selection ? selection.transition(maybeTransition) : selection;
+        isTransition(maybeTransition) ? selection.transition(maybeTransition) : selection;
 
     const containerTranslation =
         (values) => 'translate(' + values.origin[0] + ', ' + values.origin[1] + ')';
 
     const boxPlot = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             join.transition(selection);
         }
 

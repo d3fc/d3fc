@@ -9,6 +9,9 @@
 // - https://github.com/mbostock/d3/wiki/Transitions#d3_interpolateNumber
 export const effectivelyZero = 1e-6;
 
+export const isTransition = selectionOrTransition =>
+    selectionOrTransition.selection() !== selectionOrTransition;
+
 // Wrapper around d3's selectAll/data data-join, which allows decoration of the result.
 // This is achieved by appending the element to the enter selection before exposing it.
 // A default transition of fade in/out is also implicitly added but can be modified.
@@ -21,14 +24,14 @@ export default (element, className) => {
     const dataJoin = function(container, data) {
         data = data || ((d) => d);
 
-        const implicitTransition = container.selection ? container : null;
-        if (implicitTransition) {
-            container = container.selection();
-        }
+        const selection = container.selection();
+        const implicitTransition = isTransition(container) ? container : null;
 
-        const selected = container.selectAll((d, i, nodes) =>
-              Array.from(nodes[i].childNodes)
-                  .filter(node => node.nodeType === 1)
+        const selected = selection
+            .selectAll((d, i, nodes) =>
+                Array.from(nodes[i].childNodes).filter(
+                    node => node.nodeType === 1
+                )
             )
             .filter(className == null ? element : `${element}.${className}`);
         let update = selected.data(data, key);

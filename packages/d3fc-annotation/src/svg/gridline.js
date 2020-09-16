@@ -1,5 +1,5 @@
 import { select } from 'd3-selection';
-import { dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import ticks from '../ticks';
 import { includeMap, prefix, rebindAll } from '@d3fc/d3fc-rebind';
 
@@ -19,7 +19,7 @@ export default () => {
 
     const instance = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             xJoin.transition(selection);
             yJoin.transition(selection);
         }

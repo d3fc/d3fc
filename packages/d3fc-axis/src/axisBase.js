@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { line } from 'd3-shape';
-import { dataJoin as _dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin as _dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { ticksArrayForAxis, tickFormatterForAxis } from './axisTickUtils';
 
 const identity = d => d;
@@ -56,7 +56,7 @@ export const axisBase = (orient, scale, custom = {}) => {
 
     const axis = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             dataJoin.transition(selection);
             domainPathDataJoin.transition(selection);
         }

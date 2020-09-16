@@ -1,4 +1,4 @@
-import {dataJoin} from '@d3fc/d3fc-data-join';
+import {dataJoin,isTransition} from '@d3fc/d3fc-data-join';
 import {area as areaShape} from 'd3-shape';
 import {select} from 'd3-selection';
 import {rebind, exclude, rebindAll} from '@d3fc/d3fc-rebind';
@@ -14,7 +14,7 @@ export default () => {
 
     const area = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             join.transition(selection);
         }
 

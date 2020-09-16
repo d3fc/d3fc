@@ -1,4 +1,4 @@
-import { dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import ohlcBase from '../ohlcBase';
 import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import { select } from 'd3-selection';
@@ -11,11 +11,11 @@ export default (pathGenerator, seriesName) => {
         (values) => 'translate(' + values.cross + ', ' + values.high + ')';
 
     const propagateTransition = maybeTransition => selection =>
-        maybeTransition.selection ? selection.transition(maybeTransition) : selection;
+        isTransition(maybeTransition) ? selection.transition(maybeTransition) : selection;
 
     const candlestick = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             join.transition(selection);
         }
 
