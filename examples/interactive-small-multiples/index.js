@@ -4,9 +4,8 @@ d3.tsv('data.tsv', r => ({
     year: Number(r.year)
 })).then(data => {
     const nested = d3
-        .nest()
-        .key(k => k.category)
-        .entries(data);
+        .groups(data, k => k.category)
+        .map(([key, values]) => ({ key, values }));
 
     nested.forEach(g => (g.trackball = []));
 

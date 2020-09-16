@@ -28,9 +28,8 @@ const sales = [
 
 // group by month, giving our per-month small multiples
 const groupedByMonth = d3
-    .nest()
-    .key(d => d.Month)
-    .entries(sales);
+    .groups(sales, d => d.Month)
+    .map(([key, values]) => ({ key, values }));
 
 // the various series components
 const area = fc
