@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [15.0.17](https://github.com/d3fc/d3fc/compare/d3fc@15.0.16...d3fc@15.0.17) (2020-09-16)
+
+
+### Bug Fixes
+
+* main bundle was not being bable'd ([d74d531](https://github.com/d3fc/d3fc/commit/d74d531))
+
+
+
+
+
 ## [15.0.16](https://github.com/d3fc/d3fc/compare/d3fc@15.0.15...d3fc@15.0.16) (2020-09-08)
 
 **Note:** Version bump only for package d3fc
