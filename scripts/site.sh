@@ -9,7 +9,7 @@ cp -r ../examples .
 # N.B. these versions need to be kept in sync with package.json
 sed -i "s#../../node_modules/seedrandom#https://unpkg.com/seedrandom@3#" examples/*/index.html
 sed -i "s#../../node_modules/mockdate#https://unpkg.com/mockdate@2#" examples/*/index.html
-sed -i "s#../../node_modules/d3#https://unpkg.com/d3@5#" examples/*/index.html
+sed -i "s#../../node_modules/d3#https://unpkg.com/d3#" examples/*/index.html
 sed -i "s#../../node_modules/#https://unpkg.com/#" examples/*/index.html
 sed -i "s#../../packages/#https://unpkg.com/#" examples/*/index.html
 
