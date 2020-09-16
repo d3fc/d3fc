@@ -1,13 +1,11 @@
 d3.csv('repos-users-dump.csv').then(githubData => {
     // count the organisations / users for each language
     const scatter = d3
-        .nest()
-        .key(d => d.language)
-        .entries(githubData)
-        .map(lang => ({
-            language: lang.key,
-            orgs: lang.values.filter(d => d.type === 'Organization').length,
-            users: lang.values.filter(d => d.type === 'User').length
+        .groups(githubData, d => d.language)
+        .map(([key, values]) => ({
+            language: key,
+            orgs: values.filter(d => d.type === 'Organization').length,
+            users: values.filter(d => d.type === 'User').length
         }))
         .filter(d => d.language);
 

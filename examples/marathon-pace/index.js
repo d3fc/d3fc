@@ -12,9 +12,8 @@ d3.text('splits.csv').then(text => {
 
     // group into buckets
     let grouped = d3
-        .nest()
-        .key(bucketByHour)
-        .entries(splits)
+        .groups(splits, bucketByHour)
+        .map(([key, values]) => ({ key, values }))
         .sort((a, b) => d3.ascending(+a.key, +b.key));
 
     grouped.forEach(g => {

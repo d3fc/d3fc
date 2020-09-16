@@ -20,7 +20,7 @@ const area = fc
     .size(4);
 
 // create a d3-zoom that handles the mouse / touch interactions
-const zoom = d3.zoom().on('zoom', (event) => {
+const zoom = d3.zoom().on('zoom', event => {
     // update the scale used by the chart to use the updated domain
     x.domain(event.transform.rescaleX(x2).domain());
     y.domain(event.transform.rescaleY(y2).domain());

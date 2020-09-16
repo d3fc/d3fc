@@ -23,12 +23,10 @@ d3.csv('github-repo-data.csv', d => ({
     };
 
     const languageQuartiles = d3
-        .nest()
-        .key(d => d.language)
-        .entries(githubData)
-        .map(languageGroup => ({
-            language: languageGroup.key,
-            quartile: quartile(languageGroup.values.map(d => d.forksPerStar))
+        .groups(githubData, d => d.language)
+        .map(([language, values]) => ({
+            language,
+            quartile: quartile(values.map(d => d.forksPerStar))
         }))
         .sort((a, b) => a.quartile.median - b.quartile.median);
 
