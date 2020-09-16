@@ -22,16 +22,18 @@ export default (element, className) => {
     let explicitTransition = null;
 
     const dataJoin = function(container, data) {
-        data = data || ((d) => d);
+        data = data || (d => d);
 
         const selection = container.selection();
         const implicitTransition = isTransition(container) ? container : null;
 
-        const selected = selection
-            .selectChildren(className == null ? element : `${element}.${className}`);
+        const selected = selection.selectChildren(
+            className == null ? element : `${element}.${className}`
+        );
         let update = selected.data(data, key);
 
-        const enter = update.enter()
+        const enter = update
+            .enter()
             .append(element)
             .attr('class', className);
 
@@ -43,10 +45,10 @@ export default (element, className) => {
         // if transitions are enabled apply a default fade in/out transition
         const transition = implicitTransition || explicitTransition;
         if (transition) {
-            update = update.transition(transition)
-                .style('opacity', 1);
+            update = update.transition(transition).style('opacity', 1);
             enter.style('opacity', effectivelyZero);
-            exit = exit.transition(transition)
+            exit = exit
+                .transition(transition)
                 .style('opacity', effectivelyZero);
         }
 

@@ -39,14 +39,12 @@ describe('dataJoin', () => {
     it('should use identity for data if not specified', () => {
         const join = dataJoin();
         container.datum(data);
-        join(container)
-            .each(d => expect(d).toBe(data[0]));
+        join(container).each(d => expect(d).toBe(data[0]));
     });
 
     it('should only select children', () => {
         const join = dataJoin();
-        join(container, data)
-            .append('g');
+        join(container, data).append('g');
         expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].childNodes).toHaveLength(1);
         join(container, data);
@@ -55,8 +53,7 @@ describe('dataJoin', () => {
     });
 
     it('should use key if specified', () => {
-        const join = dataJoin()
-            .key(d => d);
+        const join = dataJoin().key(d => d);
         join(container, [1]);
         const exit = join(container, [2, 3]).exit();
         expect(exit.nodes()).toHaveLength(1);
@@ -73,8 +70,7 @@ describe('dataJoin', () => {
     });
 
     it('should insert specified element w/o className', () => {
-        const join = dataJoin()
-            .element('rect');
+        const join = dataJoin().element('rect');
         join(container, data);
         expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].nodeName.toLowerCase()).toBe('rect');
@@ -96,8 +92,7 @@ describe('dataJoin', () => {
     });
 
     it('should insert new elements in an order consistent with the data', () => {
-        const join = dataJoin()
-            .key(d => d);
+        const join = dataJoin().key(d => d);
         let data = [1, 2, 3];
 
         join(container, data);
@@ -121,11 +116,10 @@ describe('dataJoin', () => {
         beforeEach(() => {
             selection.prototype.transition = selectionTransition;
             join = dataJoin();
-            container = container.transition()
-                .duration(1);
+            container = container.transition().duration(1);
         });
 
-        it('should apply a fade in transition', (done) => {
+        it('should apply a fade in transition', done => {
             const update = join(container, data);
             const node = update.enter().node();
 
@@ -139,11 +133,11 @@ describe('dataJoin', () => {
             }, timeout);
         });
 
-        it('should apply transitions to the update selection', (done) => {
+        it('should apply transitions to the update selection', done => {
             const update = join(container, [1]);
             const node = update.node();
 
-            update.style('opacity', (d) => d);
+            update.style('opacity', d => d);
             expect(Number(node.style.opacity)).toBeCloseTo(0.000001, 6);
 
             setTimeout(() => {
@@ -152,8 +146,9 @@ describe('dataJoin', () => {
             }, timeout);
         });
 
-        it('should apply a fade out transition', (done) => {
-            container.selection()
+        it('should apply a fade out transition', done => {
+            container
+                .selection()
                 .append('g')
                 .style('opacity', '1');
             const update = join(container, []);
@@ -170,13 +165,13 @@ describe('dataJoin', () => {
         });
 
         it('should return the untransitioned exit selection', () => {
-            container.selection()
+            container
+                .selection()
                 .append('g')
                 .style('opacity', '1');
             const update = join(container, []);
 
-            update.exit()
-              .remove();
+            update.exit().remove();
 
             const node = update.exit().node();
             expect(node.style.opacity).toBe('1');
@@ -193,7 +188,7 @@ describe('dataJoin', () => {
             expect(node.parentNode).not.toBe(null);
         });
 
-        it('should use explicit transition', (done) => {
+        it('should use explicit transition', done => {
             join.transition(container);
             container = container.selection();
 
@@ -210,7 +205,7 @@ describe('dataJoin', () => {
             }, timeout);
         });
 
-        it('should use implicit rather than explicit transition', (done) => {
+        it('should use implicit rather than explicit transition', done => {
             const explicit = container
                 .transition()
                 .duration(timeout * 10)

@@ -55,6 +55,7 @@
     // (and the test one below!)
     {
       "files": [
+        "./packages/d3fc-data-join/src/**/*.js",
         "./packages/d3fc-webgl/src/**/*.js",
         "./scripts/**/*.js"
       ],
@@ -67,6 +68,7 @@
     // Apply the same enhanced checks to tests (overrides the above override...)
     {
       "files": [
+        "./packages/d3fc-data-join/test/**/*.js",
         "./packages/d3fc-webgl/test/**/*.js"
       ],
       "env": {
