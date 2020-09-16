@@ -1,5 +1,4 @@
 import babel from 'rollup-plugin-babel';
-import babelrc from 'read-babelrc-up';
 import resolve from 'rollup-plugin-node-resolve';
 import minify from 'rollup-plugin-babel-minify';
 
@@ -17,7 +16,7 @@ var globals = function(key) {
 export default commandLineArgs => {
     process.env.env = commandLineArgs.configEnv || 'dev';
     const shouldMinify = process.env.env === 'prod';
-    const plugins = [babel(babelrc()), resolve()];
+    const plugins = [babel({ cwd: '../..' }), resolve()];
     if (shouldMinify) {
         plugins.push(minify({ comments: false }));
     }

@@ -1,5 +1,4 @@
 import babel from 'rollup-plugin-babel';
-import babelrc from 'read-babelrc-up';
 import resolve from 'rollup-plugin-node-resolve';
 import minify from 'rollup-plugin-babel-minify';
 
@@ -29,18 +28,18 @@ export default commandLineArgs => {
     let devPage = commandLineArgs.configOpen || 'index.html';
     const devPkg = commandLineArgs.configPkg || 'd3fc';
     const devPort = commandLineArgs.configPort || 8080;
-    
+
     devPage = devPage.endsWith('.html') ? devPage : devPage + '.html';
 
     process.env.env = commandLineArgs.configEnv || 'dev';
     const shouldMinify = process.env.env === 'prod';
 
     const _plugins = [
-        babel(babelrc()),
+        babel({ cwd: '../..' }),
         resolve()
     ];
 
-    if(shouldMinify) {
+    if (shouldMinify) {
         _plugins.push(minify({ comments: false }));
     }
     let plugins = () => _plugins;
@@ -67,7 +66,7 @@ export default commandLineArgs => {
             format: 'umd',
             name: 'fc',
             globals: (key) => {
-                if(key.indexOf('d3-') === 0) {
+                if (key.indexOf('d3-') === 0) {
                     return 'd3';
                 }
             },
@@ -78,7 +77,7 @@ export default commandLineArgs => {
             if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.indexOf('d3-') !== -1) {
                 return;
             }
-            
+
             rollupWarn(warning);
         }
     };
