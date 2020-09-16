@@ -1,5 +1,5 @@
 import { select, selection } from 'd3-selection';
-import { transition } from 'd3-transition';
+import 'd3-transition';
 import { easeLinear } from 'd3-ease';
 import dataJoin from '../src/dataJoin';
 
@@ -169,20 +169,19 @@ describe('dataJoin', () => {
             }, timeout);
         });
 
-        // TODO: investigate why this had to be disabled
-        // it('should return the untransitioned exit selection', () => {
-        //     container.selection()
-        //         .append('g')
-        //         .style('opacity', '1');
-        //     const update = join(container, []);
+        it('should return the untransitioned exit selection', () => {
+            container.selection()
+                .append('g')
+                .style('opacity', '1');
+            const update = join(container, []);
 
-        //     update.exit()
-        //       .remove();
+            update.exit()
+              .remove();
 
-        //     const node = update.exit().node();
-        //     expect(node.style.opacity).toBe('1');
-        //     expect(node.parentNode).toBe(null);
-        // });
+            const node = update.exit().node();
+            expect(node.style.opacity).toBe('1');
+            expect(node.parentNode).not.toBe(null);
+        });
 
         it('should allow the transition to be disabled', () => {
             container = container.selection();
@@ -212,8 +211,12 @@ describe('dataJoin', () => {
         });
 
         it('should use implicit rather than explicit transition', (done) => {
-            join.transition(transition().duration(timeout * 10).ease(easeLinear));
-            container = container.selection();
+            const explicit = container
+                .transition()
+                .duration(timeout * 10)
+                .ease(easeLinear);
+
+            join.transition(explicit);
 
             const update = join(container, data);
             const node = update.enter().node();
@@ -222,7 +225,7 @@ describe('dataJoin', () => {
             expect(node.parentNode).not.toBe(null);
 
             setTimeout(() => {
-                expect(node.style.opacity).not.toBe('1');
+                expect(node.style.opacity).toBe('1');
                 expect(node.parentNode).not.toBe(null);
                 done();
             }, timeout);
