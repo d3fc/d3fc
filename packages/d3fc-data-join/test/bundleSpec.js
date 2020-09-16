@@ -7,10 +7,7 @@ describe('bundle', function() {
             virtualConsole: jsdom.createVirtualConsole().sendTo({
                 error: done
             }),
-            scripts: [
-                require.resolve('d3/dist/d3.js'),
-                require.resolve('..')
-            ],
+            scripts: [require.resolve('d3/dist/d3.js'), require.resolve('..')],
             done: (_, win) => {
                 const dataJoin = win.fc.dataJoin();
                 const selection = win.d3.select(win.document);
@@ -25,10 +22,7 @@ describe('bundle', function() {
             virtualConsole: jsdom.createVirtualConsole().sendTo({
                 error: done
             }),
-            scripts: [
-                require.resolve('d3/dist/d3.js'),
-                require.resolve('..')
-            ],
+            scripts: [require.resolve('d3/dist/d3.js'), require.resolve('..')],
             done: (_, win) => {
                 const dataJoin = win.fc.dataJoin();
                 const selection = win.d3.select(win.document);
