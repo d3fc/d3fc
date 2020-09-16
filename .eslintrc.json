@@ -1,4 +1,8 @@
 {
+  // Base configuration that all packages should adhere to
+  // Ideally we'd apply the enhanced configuration below but
+  // we don't want to churn the source code unnecessarily.
+  // See comment below for more details.
   "extends": [
     "eslint:recommended"
   ],
@@ -14,20 +18,8 @@
     "semi": ["error", "always"]
   },
   "overrides": [
-   {
-      "files": ["**/examples/**/*.js"],
-      "parserOptions": {
-        "sourceType": "script"
-      },
-      "env": {
-        "browser": true
-      },
-      "globals": {
-        "fc": "readable",
-        "d3": "readable"
-      }
-    },
-   {
+    // Additional globals for tests
+    {
       "files": ["**/test/**/*.js"],
       "env": {
         "browser": true,
@@ -35,7 +27,8 @@
         "node": true
       }
     },
-   {
+    // Additional writable globals for browser-specific packages
+    {
       "files": [
         "./packages/d3fc-chart/src/**/*.js",
         "./packages/d3fc-element/src/**/*.js"
@@ -47,28 +40,19 @@
         "global": "writable"
       }
     },
-		{
+    // Additional writable globals for node-specific files
+    {
       "files": [
         "./babel.config.js",
-        "./packages/d3fc/rollup.config.js",
-        "./packages/d3fc-site/builder/**/*.js",
-        "./packages/d3fc-site/scripts/**/*.js"
+        "./packages/d3fc/rollup.config.js"
       ],
       "env": {
         "node": true
       }
     },
-    {
-      "files": ["./packages/d3fc-site/src/**/*.js"],
-      "env": {
-        "browser": true
-      },
-      "globals": {
-        "fc": "readable",
-        "d3": "readable",
-        "$": "readable"
-      }
-    },
+    // Enhanced checks for a more consistent style
+    // When packages undergo significant change, they should be added to the below list
+    // (and the test one below!)
     {
       "files": [
         "./packages/d3fc-webgl/src/**/*.js",
@@ -80,10 +64,27 @@
         "prettier/standard"
       ]
     },
+    // Apply the same enhanced checks to tests (overrides the above override...)
     {
       "files": [
-        "./examples/**/*.js",
-        "./packages/d3fc-webgl/examples/**/*.js"
+        "./packages/d3fc-webgl/test/**/*.js"
+      ],
+      "env": {
+        "browser": true,
+        "jest": true,
+        "node": true
+      },
+      "extends": [
+        "semistandard",
+        "plugin:prettier/recommended",
+        "prettier/standard"
+      ]
+    },
+    // Apply the same enhanced checks to examples 
+    // Extended to allow browser and library globals
+    {
+      "files": [
+        "./examples/**/*.js"
       ],
       "parserOptions": {
         "sourceType": "script"
@@ -101,6 +102,7 @@
         "prettier/standard"
       ]
     },
+    // Exemptions/enhancements for tests and helper scripts
     {
       "files": [
         "./examples/__helpers__/*.js",
@@ -115,21 +117,6 @@
         "browser": true,
         "context": true,
         "jestPuppeteer": true
-      },
-      "extends": [
-        "semistandard",
-        "plugin:prettier/recommended",
-        "prettier/standard"
-      ]
-    },
-    {
-      "files": [
-        "./packages/d3fc-webgl/test/**/*.js"
-      ],
-      "env": {
-        "browser": true,
-        "jest": true,
-        "node": true
       },
       "extends": [
         "semistandard",
