@@ -28,12 +28,7 @@ export default (element, className) => {
         const implicitTransition = isTransition(container) ? container : null;
 
         const selected = selection
-            .selectAll((d, i, nodes) =>
-                Array.from(nodes[i].childNodes).filter(
-                    node => node.nodeType === 1
-                )
-            )
-            .filter(className == null ? element : `${element}.${className}`);
+            .selectChildren(className == null ? element : `${element}.${className}`);
         let update = selected.data(data, key);
 
         const enter = update.enter()
