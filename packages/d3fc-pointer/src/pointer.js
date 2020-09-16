@@ -1,17 +1,17 @@
 import { dispatch } from 'd3-dispatch';
-import { mouse } from 'd3-selection';
+import { pointer } from 'd3-selection';
 import { rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
-    const event = dispatch('point');
+    const pointEvent = dispatch('point');
 
-    function mousemove() {
-        const point = mouse(this);
-        event.call('point', this, [{ x: point[0], y: point[1] }]);
+    function mousemove(event) {
+        const point = pointer(event);
+        pointEvent.call('point', this, [{ x: point[0], y: point[1] }]);
     }
 
     function mouseleave() {
-        void event.call('point', this, []);
+        void pointEvent.call('point', this, []);
     }
 
     const instance = (selection) => {
@@ -21,7 +21,7 @@ export default () => {
             .on('mouseleave.pointer', mouseleave);
     };
 
-    rebind(instance, event, 'on');
+    rebind(instance, pointEvent, 'on');
 
     return instance;
 };
