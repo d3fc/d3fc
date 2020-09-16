@@ -19,7 +19,7 @@ d3.select(bandContainer)
             .select('svg')
             .call(bandAxis);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width } = event.detail;
         bandScale.range([0, width]);
     });

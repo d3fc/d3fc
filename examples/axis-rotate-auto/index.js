@@ -21,7 +21,7 @@ const renderAxis = (axisFactory, selector) => {
                 .select('svg')
                 .call(axis);
         })
-        .on('measure', () => {
+        .on('measure', event => {
             const { width, height } = event.detail;
             const side = container.getAttribute('class');
 

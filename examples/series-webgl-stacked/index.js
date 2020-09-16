@@ -75,7 +75,7 @@ d3.select(container)
         yScale.domain([0, max]);
         container.requestRedraw();
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

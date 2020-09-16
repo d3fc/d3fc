@@ -35,9 +35,9 @@ chart.decorate(selection => {
         // move it into the plot-area
         .style('grid-row', 3)
         // listen for the draw event (using a namespace to avoid removing any existing handlers)
-        .on('draw.move-axis', (d, i, nodes) => {
+        .on('draw.move-axis', (event, d) => {
             // select the x-axis
-            d3.select(nodes[i])
+            d3.select(event.currentTarget)
                 // apply a top margin to the axis to align it to 0 on the y-axis
                 .style('margin-top', `${yScale(0)}px`);
         });

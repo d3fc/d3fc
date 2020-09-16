@@ -74,7 +74,7 @@ d3.select(container)
         const svg = d3.select(container).select('svg');
         join(svg, series).call(barSeries);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

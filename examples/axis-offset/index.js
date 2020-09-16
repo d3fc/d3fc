@@ -26,7 +26,7 @@ d3.select(container)
             .select('svg')
             .call(axis);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width } = event.detail;
         scale.range([margin, width - margin]);
     });

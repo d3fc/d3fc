@@ -134,8 +134,8 @@ function updateBucketInfo() {
         document.getElementById('data-count').value / 10;
 }
 
-d3.select('#strategy-selector').on('change', () => {
-    d3.event.preventDefault();
+d3.select('#strategy-selector').on('change', event => {
+    event.preventDefault();
     strategy = getStrategy();
     strategy = strategyInterceptor(strategy);
     render();
@@ -150,21 +150,21 @@ function sliderChange() {
 
 d3.select('#bucket-size')
     .on('change', sliderChange)
-    .on('mousemove', () => {
-        if (d3.event.buttons === 1) {
+    .on('mousemove', event => {
+        if (event.buttons === 1) {
             sliderChange();
         }
     });
 
-d3.select('#generate-chart').on('click', () => {
-    d3.event.preventDefault();
+d3.select('#generate-chart').on('click', event => {
+    event.preventDefault();
     generateData(chartGenerator());
     render();
     updateBucketInfo();
 });
 
-d3.select('#generate-circle').on('click', () => {
-    d3.event.preventDefault();
+d3.select('#generate-circle').on('click', event => {
+    event.preventDefault();
     generateData(circleGenerator());
     render();
     updateBucketInfo();

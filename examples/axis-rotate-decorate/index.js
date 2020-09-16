@@ -29,7 +29,7 @@ d3.select(container)
             .attr('transform', 'translate(0, 10)')
             .call(axis);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width } = event.detail;
         scale.range([margin, width - 40 - margin]);
     });

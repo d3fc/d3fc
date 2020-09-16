@@ -32,12 +32,12 @@ d3.select(container)
     .on('draw', () => {
         crosshair(data);
     })
-    .on('mousemove', () => {
+    .on('mousemove', event => {
         const { clientX, clientY } = event;
         data[0] = { x: clientX, y: clientY };
         container.requestRedraw();
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

@@ -76,7 +76,7 @@ d3.select(linearContainer)
             .datum(series)
             .call(fc.autoBandwidth(linearGroupedBar));
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         linearScale.range([0, width]);
         yScale.range([height, 0]);
@@ -117,7 +117,7 @@ d3.select(variableContainer)
             .datum(series)
             .call(pointGroupedBar);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         pointScale.range([0, width]);
         yScale.range([height, 0]);
@@ -162,7 +162,7 @@ d3.select(horizontalContainer)
             .datum(series)
             .call(fc.autoBandwidth(groupedHorizontal));
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScaleHorizontal.range([0, width]);
         yScaleHorizontal.rangeRound([0, height]);

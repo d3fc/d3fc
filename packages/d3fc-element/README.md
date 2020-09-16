@@ -42,12 +42,12 @@ const xScale = d3.scaleLinear()
 const xAxis = d3.axisBottom(xScale);
 
 const xAxisContainer = d3.select('#x-axis')
-  .on('measure', () => {
-    const { width } = d3.event.detail;
+  .on('measure', (event) => {
+    const { width } = event.detail;
     xScale.range([0, width]);
   })
-  .on('draw', (d, i, nodes) => {
-    d3.select(nodes[i])
+  .on('draw', (event) => {
+    d3.select(event.currentTarget)
       .select('svg')
       .call(xAxis);
   });

@@ -10,9 +10,9 @@ d3.tsv('diamond-data.tsv', d => ({
     const yScale = d3.scaleLog().domain(yExtent(data));
     const yScaleCopy = yScale.copy();
 
-    const zoom = d3.zoom().on('zoom', () => {
-        xScale.domain(d3.event.transform.rescaleX(xScaleCopy).domain());
-        yScale.domain(d3.event.transform.rescaleY(yScaleCopy).domain());
+    const zoom = d3.zoom().on('zoom', event => {
+        xScale.domain(event.transform.rescaleX(xScaleCopy).domain());
+        yScale.domain(event.transform.rescaleY(yScaleCopy).domain());
         render();
     });
 
@@ -67,9 +67,9 @@ d3.tsv('diamond-data.tsv', d => ({
                 .enter()
                 .select('.webgl-plot-area')
                 .raise()
-                .on('measure.range', () => {
-                    xScaleCopy.range([0, d3.event.detail.width]);
-                    yScaleCopy.range([d3.event.detail.height, 0]);
+                .on('measure.range', event => {
+                    xScaleCopy.range([0, event.detail.width]);
+                    yScaleCopy.range([event.detail.height, 0]);
                 })
                 .call(zoom);
         });

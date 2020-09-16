@@ -37,7 +37,7 @@ d3.select(container)
         horizontalBand(data);
         verticalBand(data);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

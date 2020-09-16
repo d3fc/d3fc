@@ -27,7 +27,7 @@ d3.text('repeat-data.csv').then(text => {
         .on('draw', () => {
             series(data);
         })
-        .on('measure', () => {
+        .on('measure', event => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);

@@ -20,8 +20,8 @@ const canvasSeries = fc
     .crossValue(d => d.x)
     .mainValue(d => d.y);
 
-const zoom = d3.zoom().on('zoom', () => {
-    const t = d3.event.transform;
+const zoom = d3.zoom().on('zoom', event => {
+    const t = event.transform;
     x.domain(t.rescaleX(x2).domain());
     y.domain(t.rescaleY(y2).domain());
 
@@ -32,8 +32,8 @@ const zoom = d3.zoom().on('zoom', () => {
 
 const decorate = sel => {
     sel.select('.plot-area')
-        .on('measure.range', () => {
-            const d = d3.event.detail;
+        .on('measure.range', event => {
+            const d = event.detail;
             x2.range([0, d.width]);
             y2.range([d.height, 0]);
         })

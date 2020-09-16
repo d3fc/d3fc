@@ -43,13 +43,13 @@ chart.decorate(selection => {
         // and give the axis a width
         .style('width', '3em')
         // when there's a measure event (namespaced to avoid removing existing handlers)
-        .on('measure.z-axis', () => {
+        .on('measure.z-axis', event => {
             // set the range on the scale to the elements height
-            zScale.range([d3.event.detail.height, 0]);
+            zScale.range([event.detail.height, 0]);
         })
-        .on('draw.z-axis', (d, i, nodes) => {
+        .on('draw.z-axis', (event, d) => {
             // draw the axis into the svg within the d3fc-svg element
-            d3.select(nodes[i])
+            d3.select(event.currentTarget)
                 .select('svg')
                 .call(zAxis);
         });
