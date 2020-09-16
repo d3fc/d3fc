@@ -1,4 +1,4 @@
-import {dataJoin} from '@d3fc/d3fc-data-join';
+import {dataJoin, isTransition} from '@d3fc/d3fc-data-join';
 import {select} from 'd3-selection';
 import {rebindAll, rebind} from '@d3fc/d3fc-rebind';
 import multiBase from '../multiBase';
@@ -13,7 +13,7 @@ export default () => {
 
     const multi = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             join.transition(selection);
             innerJoin.transition(selection);
         }
@@ -38,8 +38,7 @@ export default () => {
                 innerContainer.call(dataSeries);
             });
 
-            const unwrappedSelection = container.selection ? container.selection() : container;
-            unwrappedSelection.order();
+            container.selection().order();
 
             base.decorate()(container, data, index);
         });

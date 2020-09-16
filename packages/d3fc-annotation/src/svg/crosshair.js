@@ -1,6 +1,6 @@
 import { scaleIdentity } from 'd3-scale';
 import { select } from 'd3-selection';
-import { dataJoin } from '@d3fc/d3fc-data-join';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { include, prefix, rebindAll } from '@d3fc/d3fc-rebind';
 import annotationLine from './line';
 import { seriesSvgMulti, seriesSvgPoint } from '@d3fc/d3fc-series';
@@ -35,7 +35,7 @@ export default function() {
 
     const instance = (selection) => {
 
-        if (selection.selection) {
+        if (isTransition(selection)) {
             join.transition(selection);
         }
 
