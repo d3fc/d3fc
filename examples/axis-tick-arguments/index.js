@@ -47,7 +47,7 @@ d3.select(container)
             .attr('transform', 'translate(0, 170)')
             .call(fc.axisBottom(scale).tickFormat(d3.format(',.0f')));
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width } = event.detail;
         scale.range([0, width]);
     });

@@ -20,10 +20,10 @@ const area = fc
     .size(4);
 
 // create a d3-zoom that handles the mouse / touch interactions
-const zoom = d3.zoom().on('zoom', function() {
+const zoom = d3.zoom().on('zoom', (event) => {
     // update the scale used by the chart to use the updated domain
-    x.domain(d3.event.transform.rescaleX(x2).domain());
-    y.domain(d3.event.transform.rescaleY(y2).domain());
+    x.domain(event.transform.rescaleX(x2).domain());
+    y.domain(event.transform.rescaleY(y2).domain());
     render();
 });
 
@@ -36,9 +36,9 @@ const chart = fc
         // add the zoom interaction on the enter selection
         sel.enter()
             .select('.plot-area')
-            .on('measure.range', () => {
-                x2.range([0, d3.event.detail.width]);
-                y2.range([d3.event.detail.height, 0]);
+            .on('measure.range', event => {
+                x2.range([0, event.detail.width]);
+                y2.range([event.detail.height, 0]);
             })
             .call(zoom);
     });

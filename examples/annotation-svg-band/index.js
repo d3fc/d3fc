@@ -42,7 +42,7 @@ d3.select(container)
         svg.append('g').call(horizontalBand);
         svg.append('g').call(verticalBand);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

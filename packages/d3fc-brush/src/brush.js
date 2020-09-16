@@ -1,4 +1,4 @@
-import { select, event } from 'd3-selection';
+import { select } from 'd3-selection';
 import { scaleIdentity, scaleLinear } from 'd3-scale';
 import { dispatch } from 'd3-dispatch';
 import { rebind } from '@d3fc/d3fc-rebind';
@@ -103,9 +103,9 @@ const brushBase = (orient) => {
             ]);
 
             // forwards events
-            brush.on('end', () => transformEvent(event))
-              .on('brush', () => transformEvent(event))
-              .on('start', () => transformEvent(event));
+            brush.on('end', event => transformEvent(event))
+              .on('brush', event => transformEvent(event))
+              .on('start', event => transformEvent(event));
 
             // render
             const container = innerJoin(select(group[index]), [data]);

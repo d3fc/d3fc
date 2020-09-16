@@ -36,7 +36,7 @@ d3.select(container)
             .datum([0.2, 0.4, 0.6, 0.8])
             .call(verticalLine);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

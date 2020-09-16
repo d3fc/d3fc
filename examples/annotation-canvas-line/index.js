@@ -28,7 +28,7 @@ d3.select(container)
         horizontalLine([0.15, 0.85]);
         verticalLine([0.2, 0.4, 0.6, 0.8]);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

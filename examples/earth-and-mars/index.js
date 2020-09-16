@@ -50,8 +50,8 @@ worker.onmessage = e => {
 
     const multiSeries = fc.seriesWebglMulti().series([areaSeries, lineSeries]);
 
-    const zoom = d3.zoom().on('zoom', () => {
-        xScale.domain(d3.event.transform.rescaleX(xScaleCopy).domain());
+    const zoom = d3.zoom().on('zoom', event => {
+        xScale.domain(event.transform.rescaleX(xScaleCopy).domain());
         render();
     });
 
@@ -65,8 +65,8 @@ worker.onmessage = e => {
         .decorate(selection => {
             selection
                 .select('.plot-area')
-                .on('measure.range', () => {
-                    xScaleCopy.range([0, d3.event.detail.width]);
+                .on('measure.range', event => {
+                    xScaleCopy.range([0, event.detail.width]);
                 })
                 .call(zoom);
         });

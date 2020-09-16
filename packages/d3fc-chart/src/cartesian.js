@@ -1,4 +1,4 @@
-import { select, event } from 'd3-selection';
+import { select } from 'd3-selection';
 import { scaleIdentity } from 'd3-scale';
 import { axisBottom, axisRight, axisLeft, axisTop } from '@d3fc/d3fc-axis';
 import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
@@ -75,7 +75,7 @@ export default (...args) => {
                 .attr('set-webgl-viewport','')
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', useDevicePixelRatio)
-                .on('draw', (d) => {
+                .on('draw', (event, d) => {
                     const { child, pixelRatio } = event.detail;
                     webglPlotArea.context(isContextLost ? null : child.getContext('webgl'))
                         .pixelRatio(pixelRatio)
@@ -85,7 +85,7 @@ export default (...args) => {
                 });
 
             container.select('.webgl-plot-area>canvas')
-                .on('webglcontextlost', () => {
+                .on('webglcontextlost', event => {
                     console.warn('WebGLRenderingContext lost');
                     event.preventDefault();
                     isContextLost = true;
@@ -100,7 +100,7 @@ export default (...args) => {
             canvasDataJoin(container, canvasPlotArea ? [data] : [])
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', useDevicePixelRatio)
-                .on('draw', (d) => {
+                .on('draw', (event, d) => {
                     const { child, pixelRatio } = event.detail;
                     const context = child.getContext('2d');
                     context.save();
@@ -116,7 +116,7 @@ export default (...args) => {
 
             svgDataJoin(container, svgPlotArea ? [data] : [])
                 .classed('plot-area', true)
-                .on('draw', (d, i, nodes) => {
+                .on('draw', (event, d) => {
                     const { child } = event.detail;
                     svgPlotArea.xScale(xScale)
                         .yScale(yScale);
@@ -127,7 +127,7 @@ export default (...args) => {
             xAxisDataJoin(container, [xOrient(data)])
                 .attr('class', d => `x-axis ${d}-axis`)
                 .style('height', xAxisHeight(data))
-                .on('measure', (d) => {
+                .on('measure', (event, d) => {
                     const { width, height, child } = event.detail;
                     if (d === 'top') {
                         select(child)
@@ -135,7 +135,7 @@ export default (...args) => {
                     }
                     xScale.range([0, width]);
                 })
-                .on('draw', (d) => {
+                .on('draw', (event, d) => {
                     const { child } = event.detail;
                     const xAxisComponent = d === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale);
                     xAxisComponent.decorate(xDecorate);
@@ -146,7 +146,7 @@ export default (...args) => {
             yAxisDataJoin(container, [yOrient(data)])
                 .attr('class', d => `y-axis ${d}-axis`)
                 .style('width', yAxisWidth(data))
-                .on('measure', (d) => {
+                .on('measure', (event, d) => {
                     const { width, height, child } = event.detail;
                     if (d === 'left') {
                         select(child)
@@ -154,7 +154,7 @@ export default (...args) => {
                     }
                     yScale.range([height, 0]);
                 })
-                .on('draw', (d) => {
+                .on('draw', (event, d) => {
                     const { child } = event.detail;
                     const yAxisComponent = d === 'left' ? yAxis.left(yScale) : yAxis.right(yScale);
                     yAxisComponent.decorate(yDecorate);

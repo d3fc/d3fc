@@ -136,8 +136,8 @@ d3.select('#strategy-selector').on('change', () => {
     );
 });
 
-d3.select('#apply-strategy').on('click', () => {
-    d3.event.preventDefault();
+d3.select('#apply-strategy').on('click', event => {
+    event.preventDefault();
     const strategyName = getStrategyName();
     strategy = d => d;
     if (strategyName !== 'none') {
@@ -159,8 +159,8 @@ d3.select('#apply-strategy').on('click', () => {
     render();
 });
 
-d3.select('#generate-data').on('click', () => {
-    d3.event.preventDefault();
+d3.select('#generate-data').on('click', event => {
+    event.preventDefault();
     generateData();
     render();
 });

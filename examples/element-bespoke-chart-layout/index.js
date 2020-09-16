@@ -7,62 +7,62 @@ const xScale = d3.scaleLinear();
 const yScale = d3.scaleLinear();
 
 d3.select('#x-axis-top')
-    .on('measure', (d, i, nodes) => {
-        const { width, height } = d3.event.detail;
-        d3.select(nodes[i])
+    .on('measure', (event, d) => {
+        const { width, height } = event.detail;
+        d3.select(event.currentTarget)
             .select('svg')
             .attr('viewBox', `0 ${-height} ${width} ${height}`);
     })
-    .on('draw', (d, i, nodes) => {
+    .on('draw', (event, d) => {
         const xAxis = d3.axisTop(xScale);
-        d3.select(nodes[i])
+        d3.select(event.currentTarget)
             .select('svg')
             .call(xAxis);
     });
 
-d3.select('#x-axis-bottom').on('draw', (d, i, nodes) => {
+d3.select('#x-axis-bottom').on('draw', (event, d) => {
     const xAxis = d3.axisBottom(xScale);
-    d3.select(nodes[i])
+    d3.select(event.currentTarget)
         .select('svg')
         .call(xAxis);
 });
 
 d3.select('#y-axis-left')
-    .on('measure', (d, i, nodes) => {
-        const { width, height } = d3.event.detail;
-        d3.select(nodes[i])
+    .on('measure', (event, d) => {
+        const { width, height } = event.detail;
+        d3.select(event.currentTarget)
             .select('svg')
             .attr('viewBox', `${-width} 0 ${width} ${height}`);
     })
-    .on('draw', (d, i, nodes) => {
+    .on('draw', (event, d) => {
         const yAxis = d3.axisLeft(yScale);
-        d3.select(nodes[i])
+        d3.select(event.currentTarget)
             .select('svg')
             .call(yAxis);
     });
 
-d3.select('#y-axis-right').on('draw', (d, i, nodes) => {
+d3.select('#y-axis-right').on('draw', (event, d) => {
     const yAxis = d3.axisRight(yScale);
-    d3.select(nodes[i])
+    d3.select(event.currentTarget)
         .select('svg')
         .call(yAxis);
 });
 
 d3.select('#plot-area')
     .datum([])
-    .on('measure', () => {
+    .on('measure', event => {
         // Use measure event to ensure scales have their range updated before
         // any of the elements (including the axes) are drawn.
-        const { width, height } = d3.event.detail;
+        const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
     })
-    .on('draw', (d, i, nodes) => {
+    .on('draw', (event, d) => {
         const lineSeries = fc
             .seriesSvgLine()
             .xScale(xScale)
             .yScale(yScale);
-        d3.select(nodes[i])
+        d3.select(event.currentTarget)
             .select('svg')
             .datum(data)
             .call(lineSeries);

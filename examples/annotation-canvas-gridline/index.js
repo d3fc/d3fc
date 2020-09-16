@@ -13,7 +13,7 @@ d3.select(container)
     .on('draw', () => {
         gridline();
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

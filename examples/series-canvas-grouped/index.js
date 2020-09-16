@@ -76,7 +76,7 @@ d3.select(verticalContainer)
     .on('draw', () => {
         verticalGroupedBar(series);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
@@ -116,7 +116,7 @@ d3.select(horizontalContainer)
     .on('draw', () => {
         horizontalGroupedBar(series);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScaleHorizontal.range([0, width]);
         yScaleHorizontal.rangeRound([0, height]);

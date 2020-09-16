@@ -9,10 +9,10 @@ d3.json('star-data.json').then(data => {
     const y2 = y.copy();
 
     // create a d3-zoom that handles the mouse / touch interactions
-    const zoom = d3.zoom().on('zoom', () => {
+    const zoom = d3.zoom().on('zoom', event => {
         // update the scale used by the chart to use the udpated domain
-        x.domain(d3.event.transform.rescaleX(x2).domain());
-        y.domain(d3.event.transform.rescaleY(y2).domain());
+        x.domain(event.transform.rescaleX(x2).domain());
+        y.domain(event.transform.rescaleY(y2).domain());
 
         render();
     });
@@ -61,11 +61,11 @@ d3.json('star-data.json').then(data => {
                 .style('stroke-opacity', '0');
 
             selection
-                .on('mouseover', (data, i, sel) => {
-                    d3.select(sel[i])
+                .on('mouseover', (event, data) => {
+                    d3.select(event.currentTarget)
                         .select('path')
                         .style('stroke-opacity', '1');
-                    d3.select(sel[i])
+                    d3.select(event.currentTarget)
                         .append('text')
                         .attr('fill', 'white')
                         .attr('stroke', 'none')
@@ -73,11 +73,11 @@ d3.json('star-data.json').then(data => {
                         .attr('y', 6)
                         .text(data.name);
                 })
-                .on('mouseout', (data, i, sel) => {
-                    d3.select(sel[i])
+                .on('mouseout', (event, data) => {
+                    d3.select(event.currentTarget)
                         .select('path')
                         .style('stroke-opacity', '0');
-                    d3.select(sel[i])
+                    d3.select(event.currentTarget)
                         .select('text')
                         .remove();
                 });
@@ -90,9 +90,9 @@ d3.json('star-data.json').then(data => {
         .webglPlotArea(starChart)
         .decorate(selection => {
             // add the zoom interaction on the enter selection
-            selection.select('.svg-plot-area').on('measure.range', () => {
-                x2.range([0, d3.event.detail.width]);
-                y2.range([d3.event.detail.height, 0]);
+            selection.select('.svg-plot-area').on('measure.range', event => {
+                x2.range([0, event.detail.width]);
+                y2.range([event.detail.height, 0]);
             });
             selection.enter().call(zoom);
         });

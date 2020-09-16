@@ -23,7 +23,7 @@ d3.select(container)
             .attr('transform', 'translate(0, 50)')
             .call(fc.axisBottom(scale));
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width } = event.detail;
         scale.range([0, width]);
     });

@@ -56,7 +56,7 @@ d3.select(container)
             )
         ).call(fcOrdinalAxis);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width } = event.detail;
         linearScale.range([0, width]);
         ordinalScale.range([0, width]);

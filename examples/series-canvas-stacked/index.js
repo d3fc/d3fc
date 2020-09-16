@@ -72,7 +72,7 @@ d3.select(container)
             })(s);
         });
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

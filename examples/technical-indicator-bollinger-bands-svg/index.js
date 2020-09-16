@@ -109,7 +109,7 @@ d3.select(container)
             .datum(mergedData)
             .call(bollinger);
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

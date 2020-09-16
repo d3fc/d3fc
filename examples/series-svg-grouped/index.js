@@ -83,7 +83,7 @@ d3.select(container)
             .datum(series)
             .call(fc.autoBandwidth(groupedBar));
     })
-    .on('measure', () => {
+    .on('measure', event => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
