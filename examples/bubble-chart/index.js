@@ -6,7 +6,7 @@ d3.json('health-wealth.json').then(data => {
         d.lifeExpectancy = Number(d.lifeExpectancy);
     });
 
-    const regions = d3.set(data.map(d => d.region));
+    const regions = new Set(data.map(d => d.region));
     const color = d3.scaleOrdinal(d3.schemeCategory10).domain(regions.values());
 
     const legend = d3.legendColor().scale(color);

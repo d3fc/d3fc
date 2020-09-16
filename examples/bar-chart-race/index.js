@@ -21,7 +21,7 @@ d3.csv('data.csv', d => ({
     total: Number(d.total)
 })).then(data => {
     // find all unique tags
-    const tags = d3.set(data.map(d => d.tag)).values();
+    const tags = new Set(data.map(d => d.tag)).values();
 
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(tags);
 
