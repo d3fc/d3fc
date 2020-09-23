@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.5](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-axis@3.0.4...@d3fc/d3fc-axis@3.0.5) (2020-09-23)
+
+
+### Bug Fixes
+
+* d3v6 selection.selection changes ([c0175ae](https://github.com/d3fc/d3fc/commit/c0175ae))
+
+
+
+
+
 ## [3.0.4](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-axis@3.0.3...@d3fc/d3fc-axis@3.0.4) (2020-09-16)
 
 **Note:** Version bump only for package @d3fc/d3fc-axis

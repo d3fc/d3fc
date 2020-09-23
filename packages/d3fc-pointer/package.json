@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-pointer",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Component which emits the current mouse or touch position over a selection",
   "main": "build/d3fc-pointer.js",
   "module": "index",

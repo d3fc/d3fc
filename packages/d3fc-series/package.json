@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-series",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "description": "A collection of components for rendering data series to SVG and canvas, including line, bar, OHLC, candlestick and more",
   "license": "MIT",
   "keywords": [
@@ -20,7 +20,7 @@
     "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-series"
   },
   "dependencies": {
-    "@d3fc/d3fc-data-join": "^6.0.2",
+    "@d3fc/d3fc-data-join": "^6.0.3",
     "@d3fc/d3fc-rebind": "^6.0.1",
     "@d3fc/d3fc-shape": "^6.0.1",
     "@d3fc/d3fc-webgl": "^3.1.0"

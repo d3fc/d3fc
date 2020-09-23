@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@6.1.1...@d3fc/d3fc-element@6.1.2) (2020-09-23)
+
+
+### Bug Fixes
+
+* d3v6 removal of d3.event ([6c14c8e](https://github.com/d3fc/d3fc/commit/6c14c8e))
+
+
+
+
+
 ## [6.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@6.1.0...@d3fc/d3fc-element@6.1.1) (2020-09-07)
 
 

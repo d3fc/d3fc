@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-brush@3.0.2...@d3fc/d3fc-brush@3.0.3) (2020-09-23)
+
+
+### Bug Fixes
+
+* d3v6 removal of d3.event ([6c14c8e](https://github.com/d3fc/d3fc/commit/6c14c8e))
+
+
+
+
+
 ## [3.0.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-brush@3.0.1...@d3fc/d3fc-brush@3.0.2) (2020-09-16)
 
 **Note:** Version bump only for package @d3fc/d3fc-brush
