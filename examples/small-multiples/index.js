@@ -71,7 +71,7 @@ const yExtent = fc
 
 // the chart!
 var chart = fc
-    .chartCartesian(d3.scaleLinear(), d3.scaleLinear())
+    .interactiveChart(d3.scaleLinear(), d3.scaleLinear())
     .xDomain([2010.5, 2015.5])
     .yDomain(yExtent(sales))
     .yOrient('left')
