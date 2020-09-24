@@ -59,15 +59,14 @@ describe('discontinuous', () => {
         });
 
         it('should support arguments being passed to ticks', () => {
-            var start = new Date(2015, 0, 9); // friday
-            var end = new Date(2015, 0, 12); // monday
+            var scale = scaleLinear()
+                .domain([0, 100]);
 
-            var dateTime = discontinuous(scaleTime())
-                .discontinuityProvider(skipWeekends())
-                .domain([start, end]);
+            var scaleDiscontinuous = discontinuous(scaleLinear())
+                .discontinuityProvider(discontinuityRange([25, 75]))
+                .domain([0, 100]);
 
-            var ticks = dateTime.ticks(100);
-            expect(ticks).toHaveLength(25);
+            expect(scaleDiscontinuous.ticks(100).length).toEqual(scale.ticks(100).length);
         });
     });
 
