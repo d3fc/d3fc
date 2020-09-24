@@ -4,6 +4,8 @@ A D3 scale that supports domains that are not continuous, creating gaps, or disc
 
 [Main D3FC package](https://github.com/d3fc/d3fc)
 
+Ticks that are located within a discontinuity are 'clamped' to the upper boundary, as a result, if there are multiple ticks within a single discontinuity these will overlap. In this case it is recommended that the [`scale.ticks`](https://github.com/d3/d3-scale#ticks) property is used to specify the ticks that make most sense for the given use case.
+
 ## Installing
 
 ```bash
