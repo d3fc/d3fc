@@ -6,15 +6,9 @@ d3.tsv('diamond-data.tsv', d => ({
     const yExtent = fc.extentLinear().accessors([d => d.price]);
 
     const xScale = d3.scaleLog().domain(xExtent(data));
-    const xScaleCopy = xScale.copy();
     const yScale = d3.scaleLog().domain(yExtent(data));
-    const yScaleCopy = yScale.copy();
 
-    const zoom = d3.zoom().on('zoom', event => {
-        xScale.domain(event.transform.rescaleX(xScaleCopy).domain());
-        yScale.domain(event.transform.rescaleY(yScaleCopy).domain());
-        render();
-    });
+    const zoom = fc.zoom().on('zoom', render);
 
     const gridlines = fc.annotationSvgGridline();
 
@@ -23,10 +17,7 @@ d3.tsv('diamond-data.tsv', d => ({
         .crossValue(d => d.carat)
         .mainValue(d => d.price)
         .size(d =>
-            Math.pow(
-                Math.max(2, xScaleCopy(d.carat + 0.01) - xScaleCopy(d.carat)),
-                2
-            )
+            Math.pow(Math.max(2, xScale(d.carat + 0.01) - xScale(d.carat)), 2)
         )
         .type(d3.symbolSquare)
         .defined(() => true)
@@ -67,11 +58,7 @@ d3.tsv('diamond-data.tsv', d => ({
                 .enter()
                 .select('.webgl-plot-area')
                 .raise()
-                .on('measure.range', event => {
-                    xScaleCopy.range([0, event.detail.width]);
-                    yScaleCopy.range([event.detail.height, 0]);
-                })
-                .call(zoom);
+                .call(zoom, xScale, yScale);
         });
 
     function render() {
