@@ -60,6 +60,7 @@
     {
       "files": [
         "./packages/d3fc-data-join/src/**/*.js",
+        "./packages/d3fc-domain-zoom/src/**/*.js",
         "./packages/d3fc-webgl/src/**/*.js",
         "./scripts/**/*.js"
       ],
@@ -73,6 +74,7 @@
     {
       "files": [
         "./packages/d3fc-data-join/test/**/*.js",
+        "./packages/d3fc-domain-zoom/test/**/*.js",
         "./packages/d3fc-webgl/test/**/*.js"
       ],
       "env": {
