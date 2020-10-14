@@ -1,6 +1,6 @@
 {
   "name": "@d3fc/d3fc-zoom",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A zoom component which operates in domain values",
   "main": "build/d3fc-zoom.js",
   "module": "index",
