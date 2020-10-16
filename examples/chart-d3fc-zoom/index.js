@@ -37,30 +37,7 @@ const chart = fc
             .call(zoom, null, y);
     });
 
-function clamp(
-    domain,
-    scaleExtent = [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
-    translateExtent = [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY]
-) {
-    let [min, max] = domain;
-    const [scaleMin, scaleMax] = scaleExtent;
-    const [translateMin, translateMax] = translateExtent;
-    min = Math.max(translateMin, min);
-    max = Math.min(translateMax, max);
-    if (max - min < scaleMin) {
-        min -= (scaleMin - (max - min)) / 2;
-        max += (scaleMin - (max - min)) / 2;
-    }
-    if (max - min > scaleMax) {
-        min -= (scaleMax - (max - min)) / 2;
-        max += (scaleMax - (max - min)) / 2;
-    }
-    return [min, max];
-}
-
 function render() {
-    x.domain(clamp(x.domain(), [1, 10], [-5, 5]));
-    y.domain(clamp(y.domain(), [1, 10], [-5, 5]));
     d3.select('#zoom-chart')
         .datum(data)
         .call(chart);
