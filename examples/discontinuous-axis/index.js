@@ -5,8 +5,6 @@ const checkbox = document.getElementById('skip');
 const generator = fc.randomFinancial().filter(fc.randomSkipWeekends);
 const data = generator(50);
 
-const xTickFilter = d3.timeDay.filter(d => d.getDay() === 1);
-
 // use the date to determine the x extent, padding by one day at each end
 const xExtent = fc
     .extentDate()
@@ -21,7 +19,7 @@ const yExtent = fc
     .pad([0.1, 0.1]);
 
 // Create the gridlines and series
-const gridlines = fc.annotationSvgGridline().xTicks(xTickFilter);
+const gridlines = fc.annotationSvgGridline();
 const candlestick = fc.seriesSvgCandlestick();
 
 // add them to the chart via a multi-series
@@ -41,7 +39,6 @@ function renderChart() {
         )
         .xDomain(xExtent(data))
         .yDomain(yExtent(data))
-        .xTicks(xTickFilter)
         .svgPlotArea(multi);
 
     // render the chart

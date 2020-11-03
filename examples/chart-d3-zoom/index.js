@@ -33,13 +33,20 @@ const chart = fc
     .chartLabel('Canvas Zoom 1,000 Points')
     .canvasPlotArea(area)
     .decorate(sel => {
-        // add the zoom interaction on the enter selection
+        // add the zoom interaction on the enter selections
+        // use selectAll to avoid interfering with the existing data joins
         sel.enter()
-            .select('.plot-area')
+            .selectAll('.x-axis')
             .on('measure.range', event => {
                 x2.range([0, event.detail.width]);
+            });
+        sel.enter()
+            .selectAll('.y-axis')
+            .on('measure.range', event => {
                 y2.range([event.detail.height, 0]);
-            })
+            });
+        sel.enter()
+            .selectAll('.plot-area')
             .call(zoom);
     });
 

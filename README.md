@@ -51,6 +51,7 @@ For API documentation see the corresponding package documentation -
 * [d3fc-shape](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-shape/README.md)
 * [d3fc-technical-indicator](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-technical-indicator/README.md)
 * [d3fc-webgl](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-webgl/README.md)
+* [d3fc-zoom](https://github.com/d3fc/d3fc/tree/master/packages/d3fc-zoom/README.md)
 
 Examples can be found on the [project website](http://d3fc.io/). These same examples are also [available offline](https://github.com/d3fc/d3fc/tree/master/examples/README.md).
 

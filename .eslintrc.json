@@ -9,13 +9,17 @@
   "env": {
     "es6": true
   },
+  "globals": {
+    "console": true
+  },
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "rules": {
     "no-unused-vars": ["error", { "args": "none" }],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "no-console": ["error", { "allow": ["warn", "info"] }]
   },
   "overrides": [
     // Additional globals for tests
@@ -56,6 +60,7 @@
     {
       "files": [
         "./packages/d3fc-data-join/src/**/*.js",
+        "./packages/d3fc-domain-zoom/src/**/*.js",
         "./packages/d3fc-webgl/src/**/*.js",
         "./scripts/**/*.js"
       ],
@@ -69,6 +74,7 @@
     {
       "files": [
         "./packages/d3fc-data-join/test/**/*.js",
+        "./packages/d3fc-domain-zoom/test/**/*.js",
         "./packages/d3fc-webgl/test/**/*.js"
       ],
       "env": {
