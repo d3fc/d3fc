@@ -5,7 +5,6 @@ worker.onmessage = e => {
 
     // Draw chart.
     const xScale = d3.scaleTime().domain([data[0].date, data[1000].date]);
-    const xScaleCopy = xScale.copy();
     const yScale = d3.scaleLinear().domain([0, 400]);
 
     const crossValue = d => d.date;
@@ -50,10 +49,7 @@ worker.onmessage = e => {
 
     const multiSeries = fc.seriesWebglMulti().series([areaSeries, lineSeries]);
 
-    const zoom = d3.zoom().on('zoom', event => {
-        xScale.domain(event.transform.rescaleX(xScaleCopy).domain());
-        render();
-    });
+    const zoom = fc.zoom().on('zoom', render);
 
     const chart = fc
         .chartCartesian(xScale, yScale)
@@ -64,11 +60,9 @@ worker.onmessage = e => {
         .webglPlotArea(multiSeries)
         .decorate(selection => {
             selection
+                .enter()
                 .select('.plot-area')
-                .on('measure.range', event => {
-                    xScaleCopy.range([0, event.detail.width]);
-                })
-                .call(zoom);
+                .call(zoom, xScale);
         });
 
     function render() {

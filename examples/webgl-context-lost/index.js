@@ -7,9 +7,6 @@ const data = d3.range(numPoints).map(() => ({
 const x = d3.scaleLinear().domain([0, 1]);
 const y = d3.scaleLinear().domain([0, 1]);
 
-const x2 = x.copy();
-const y2 = y.copy();
-
 const webglSeries = fc
     .seriesWebglPoint()
     .crossValue(d => d.x)
@@ -20,35 +17,23 @@ const canvasSeries = fc
     .crossValue(d => d.x)
     .mainValue(d => d.y);
 
-const zoom = d3.zoom().on('zoom', event => {
-    const t = event.transform;
-    x.domain(t.rescaleX(x2).domain());
-    y.domain(t.rescaleY(y2).domain());
-
-    d3.select('d3fc-group')
-        .node()
-        .requestRedraw();
-});
-
-const decorate = sel => {
-    sel.select('.plot-area')
-        .on('measure.range', event => {
-            const d = event.detail;
-            x2.range([0, d.width]);
-            y2.range([d.height, 0]);
-        })
-        .call(zoom);
-};
+const zoom = fc.zoom().on('zoom', event => render());
 
 const chart = fc
     .chartCartesian(x, y)
     .canvasPlotArea(null)
     .webglPlotArea(webglSeries)
-    .decorate(decorate);
+    .decorate(sel => {
+        sel.enter().call(zoom, x, y);
+    });
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+const render = () => {
+    d3.select('#chart')
+        .datum(data)
+        .call(chart);
+};
+
+render();
 
 d3.select('#chart-type').on('change', () => {
     const chartType = d3.select('#chart-type').property('value');
@@ -57,11 +42,10 @@ d3.select('#chart-type').on('change', () => {
         .canvasPlotArea(chartType === 'canvas' ? canvasSeries : null)
         .webglPlotArea(chartType === 'webgl' ? webglSeries : null);
 
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    x.domain([0, 1]);
+    y.domain([0, 1]);
 
-    zoom.transform(d3.select('.plot-area'), d3.zoomIdentity);
+    render();
 });
 
 const canvas = d3.select('d3fc-canvas canvas').node();

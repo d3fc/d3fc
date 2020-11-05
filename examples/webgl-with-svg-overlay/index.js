@@ -5,17 +5,7 @@ d3.json('star-data.json').then(data => {
     x.domain(fc.extentLinear().accessors([d => d.x])(data));
     y.domain(fc.extentLinear().accessors([d => d.y])(data));
 
-    const x2 = x.copy();
-    const y2 = y.copy();
-
-    // create a d3-zoom that handles the mouse / touch interactions
-    const zoom = d3.zoom().on('zoom', event => {
-        // update the scale used by the chart to use the udpated domain
-        x.domain(event.transform.rescaleX(x2).domain());
-        y.domain(event.transform.rescaleY(y2).domain());
-
-        render();
-    });
+    const zoom = fc.zoom().on('zoom', () => render());
 
     const fillColor = fc
         .webglFillColor()
@@ -89,12 +79,7 @@ d3.json('star-data.json').then(data => {
         .svgPlotArea(informationOverlay)
         .webglPlotArea(starChart)
         .decorate(selection => {
-            // add the zoom interaction on the enter selection
-            selection.select('.svg-plot-area').on('measure.range', event => {
-                x2.range([0, event.detail.width]);
-                y2.range([event.detail.height, 0]);
-            });
-            selection.enter().call(zoom);
+            selection.enter().call(zoom, x, y);
         });
 
     const render = () => {
