@@ -40,32 +40,32 @@ See [d3-dispatch's `on`](https://github.com/d3/d3-dispatch#dispatch_on) for a fu
 
 <a name="zoom_extent" href="#zoom_extent">#</a> *zoom*.**extent**(*...*)
 
-See d3-zoom [extent](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [extent](https://github.com/d3/d3-zoom#zoom_extent).
 
 <a name="zoom_filter" href="#zoom_filter">#</a> *zoom*.**filter**(*...*)
 
-See d3-zoom [filter](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [filter](https://github.com/d3/d3-zoom#zoom_filter).
 
 <a name="zoom_wheelDelta" href="#zoom_wheelDelta">#</a> *zoom*.**wheelDelta**(*...*)
 
-See d3-zoom [wheelDelta](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [wheelDelta](https://github.com/d3/d3-zoom#zoom_wheelDelta).
 
 <a name="zoom_touchable" href="#zoom_touchable">#</a> *zoom*.**touchable**(*...*)
 
-See d3-zoom [touchable](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [touchable](https://github.com/d3/d3-zoom#zoom_touchable).
 
 <a name="zoom_clickDistance" href="#zoom_clickDistance">#</a> *zoom*.**clickDistance**(*...*)
 
-See d3-zoom [clickDistance](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [clickDistance](https://github.com/d3/d3-zoom#zoom_clickDistance).
 
 <a name="zoom_tapDistance" href="#zoom_tapDistance">#</a> *zoom*.**tapDistance**(*...*)
 
-See d3-zoom [tapDistance](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [tapDistance](https://github.com/d3/d3-zoom#zoom_tapDistance).
 
 <a name="zoom_duration" href="#zoom_duration">#</a> *zoom*.**duration**(*...*)
 
-See d3-zoom [duration](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [duration](https://github.com/d3/d3-zoom#zoom_duration).
 
 <a name="zoom_interpolate" href="#zoom_interpolate">#</a> *zoom*.**interpolate**(*...*)
 
-See d3-zoom [interpolate](https://github.com/d3/d3-brush#brush_handleSize).
+See d3-zoom [interpolate](https://github.com/d3/d3-zoom#zoom_interpolate).
