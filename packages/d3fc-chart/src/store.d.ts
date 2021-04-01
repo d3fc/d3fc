@@ -1,2 +1,3 @@
-declare function _default(...names: any[]): (target: any) => any;
-export default _default;
+export default function <StoreProperty extends string>(...names: StoreProperty[]):
+    Record<StoreProperty, any> &
+    (<TTarget>(target: TTarget) => TTarget);
