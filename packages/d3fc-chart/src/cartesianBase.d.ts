@@ -1,4 +1,6 @@
-declare function _default(setPlotArea: any, defaultPlotArea: any): (...args: any[]) => {
+import cartesianChart from './cartesian';
+
+declare function _default(setPlotArea: any, defaultPlotArea: any): (...args: Parameters<typeof cartesianChart>) => {
     (selection: any): void;
     yLabel(...args: any[]): any;
     plotArea(...args: any[]): any;
