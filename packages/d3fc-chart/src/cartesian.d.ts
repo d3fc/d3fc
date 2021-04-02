@@ -10,28 +10,28 @@ type WebglSeries = any; // Todo: Replace with import from d3fc-series
 type CanvasSeries = any; // Todo: Replace with import from d3fc-series
 type SVGSeries = any; // Todo: Replace with import from d3fc-series
 type DataJoin = any; // Todo: External 
+type Axis = any; // Todo: Not specific enough
 
 type Decorator = (container: DataJoin, data: any, index: number) => void
 
 type XAxisStore = TStore<'xTickFormat' | 'xTicks' | 'xTickArguments' | 'xTickSize' | 'xTickSizeInner' | 'xTickSizeOuter' | 'xTickValues' | 'xTickPadding' | 'xTickCenterLabel'>;
 type YAxisStore = TStore<'yTickFormat' | 'yTicks' | 'yTickArguments' | 'yTickSize' | 'yTickSizeInner' | 'yTickSizeOuter' | 'yTickValues' | 'yTickPadding' | 'yTickCenterLabel'>;
 
-
-// Todo: Something more specific with scale?
-type Scale = {
-    range: any,
-    domain: any
-};
-
-type PrefixScale<Scale, Prefix extends string> = {
-    [Property in keyof Scale as `${Prefix}${Capitalize<string & Property>}`]: Scale[Property]
+type GetterSetter<TThis, TValue, TSetValue> = {
+    (): TValue
+    (value: TSetValue): TThis,
 }
 
-type Axis = any; // Todo: More specific with scale?
+type CartesianChartScale<Scale, XScale, YScale, Prefix extends string> = {
+    [Property in keyof Scale as `${Prefix}${Capitalize<string & Property>}`]: Scale[Property] extends GetterSetter<any, infer U, infer V>
+    ? GetterSetter<CartesianChart<XScale, YScale>, U, V>
+    : Scale[Property]
+}
 
-export type CartesianChartArgs = [xScale: Scale, yScale?: Scale] | [{
-    xScale?: Scale,
-    yScale?: Scale,
+
+export type CartesianChartArgs<XScale, YScale> = [xScale: XScale, yScale?: YScale] | [{
+    xScale?: XScale,
+    yScale?: YScale,
     xAxis: {
         [key in XOrient]: Axis
     },
@@ -40,53 +40,56 @@ export type CartesianChartArgs = [xScale: Scale, yScale?: Scale] | [{
     }
 }]
 
+type TCartesianChart = typeof Cartesian;
 
-export default function Cartesian(...args: CartesianChartArgs): {
+type CartesianChart<XScale, YScale> = {
     (selection: any): void;
 
     xOrient(): Functor<XOrient>;
-    xOrient(orient: XOrient): typeof Cartesian;
+    xOrient(orient: XOrient): CartesianChart<XScale, YScale>;
 
     yOrient(): Functor<YOrient>;
-    yOrient(orient: YOrient): typeof Cartesian;
+    yOrient(orient: YOrient): CartesianChart<XScale, YScale>;
 
     xDecorate(): Decorator;
-    xDecorate(decorate: Decorator): typeof Cartesian;
+    xDecorate(decorate: Decorator): CartesianChart<XScale, YScale>;
 
     yDecorate(): Decorator;
-    yDecorate(decorate: Decorator): typeof Cartesian;
+    yDecorate(decorate: Decorator): CartesianChart<XScale, YScale>;
 
     chartLabel(): Functor<string>;
-    chartLabel(label: TypeOrFunctor<string>): typeof Cartesian;
+    chartLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
 
     xLabel(): Functor<string>;
-    xLabel(label: TypeOrFunctor<string>): typeof Cartesian;
+    xLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
 
     yLabel(): Functor<string>;
-    yLabel(label: TypeOrFunctor<string>): typeof Cartesian;
+    yLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
 
     xAxisHeight(): Functor<string>;
-    xAxisHeight(height: TypeOrFunctor<string>): typeof Cartesian;
+    xAxisHeight(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
 
     yAxisWidth(): Functor<string>;
-    yAxisWidth(height: TypeOrFunctor<string>): typeof Cartesian;
+    yAxisWidth(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
 
     webglPlotArea(): WebglSeries;
-    webglPlotArea(plotArea: WebglSeries): typeof Cartesian;
+    webglPlotArea(plotArea: WebglSeries): CartesianChart<XScale, YScale>;
 
     canvasPlotArea(): CanvasSeries;
-    canvasPlotArea(plotArea: CanvasSeries): typeof Cartesian;
+    canvasPlotArea(plotArea: CanvasSeries): CartesianChart<XScale, YScale>;
 
     svgPlotArea(): SVGSeries;
-    svgPlotArea(plotArea: SVGSeries): typeof Cartesian;
+    svgPlotArea(plotArea: SVGSeries): CartesianChart<XScale, YScale>;
 
     decorate(): Decorator;
-    decorate(decorate: Decorator): typeof Cartesian;
+    decorate(decorate: Decorator): CartesianChart<XScale, YScale>;
 
     useDevicePixelRatio(): boolean;
-    useDevicePixelRatio(useDevicePixelRatio: boolean): typeof Cartesian;
+    useDevicePixelRatio(useDevicePixelRatio: boolean): CartesianChart<XScale, YScale>;
 }
     & XAxisStore
     & YAxisStore
-    & PrefixScale<Scale, 'x'>
-    & PrefixScale<Scale, 'y'>
+    & CartesianChartScale<XScale, XScale, YScale, 'x'>
+    & CartesianChartScale<YScale, XScale, YScale, 'y'>
+
+export default function Cartesian<XScale, YScale>(...args: CartesianChartArgs<XScale, YScale>): CartesianChart<XScale, YScale>
