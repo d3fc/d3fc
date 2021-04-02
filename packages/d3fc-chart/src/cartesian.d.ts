@@ -1,3 +1,5 @@
+import { TStore } from './store'
+
 type Functor<T> = ((...args: any[]) => T);
 type TypeOrFunctor<T> = T | Functor<T>;
 
@@ -11,7 +13,35 @@ type DataJoin = any; // Todo: External
 
 type Decorator = (container: DataJoin, data: any, index: number) => void
 
-declare function Cartesian(...args: any[]): {
+type XAxisStore = TStore<'xTickFormat' | 'xTicks' | 'xTickArguments' | 'xTickSize' | 'xTickSizeInner' | 'xTickSizeOuter' | 'xTickValues' | 'xTickPadding' | 'xTickCenterLabel'>;
+type YAxisStore = TStore<'yTickFormat' | 'yTicks' | 'yTickArguments' | 'yTickSize' | 'yTickSizeInner' | 'yTickSizeOuter' | 'yTickValues' | 'yTickPadding' | 'yTickCenterLabel'>;
+
+
+// Todo: Something more specific with scale?
+type Scale = {
+    range: any,
+    domain: any
+};
+
+type PrefixScale<Scale, Prefix extends string> = {
+    [Property in keyof Scale as `${Prefix}${Capitalize<string & Property>}`]: Scale[Property]
+}
+
+type Axis = any; // Todo: More specific with scale?
+
+export type CartesianChartArgs = [xScale: Scale, yScale?: Scale] | [{
+    xScale?: Scale,
+    yScale?: Scale,
+    xAxis: {
+        [key in XOrient]: Axis
+    },
+    yAxis: {
+        [key in YOrient]: Axis
+    }
+}]
+
+
+export default function Cartesian(...args: CartesianChartArgs): {
     (selection: any): void;
 
     xOrient(): Functor<XOrient>;
@@ -55,6 +85,8 @@ declare function Cartesian(...args: any[]): {
 
     useDevicePixelRatio(): boolean;
     useDevicePixelRatio(useDevicePixelRatio: boolean): typeof Cartesian;
-};
-
-export default Cartesian;
+}
+    & XAxisStore
+    & YAxisStore
+    & PrefixScale<Scale, 'x'>
+    & PrefixScale<Scale, 'y'>
