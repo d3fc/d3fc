@@ -1,5 +1,5 @@
 import d3 from 'd3';
-import { chartCartesian } from '../';
+import chartCartesian from './cartesian';
 import { extentLinear, extentDate } from "../../d3fc-extent"
 import { randomFinancial } from '../../d3fc-random-data'
 import { annotationSvgGridline } from '../../d3fc-annotation';
