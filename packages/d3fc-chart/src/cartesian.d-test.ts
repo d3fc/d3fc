@@ -1,12 +1,19 @@
 import d3 from 'd3';
 import { chartCartesian } from '../';
 import { extentLinear, extentDate } from "../../d3fc-extent"
+import { randomFinancial } from '../../d3fc-random-data'
+import { annotationSvgGridline } from '../../d3fc-annotation';
+import { seriesSvgCandlestick, seriesSvgMulti } from '../../d3fc-series'
 
-const yExtent: any = extentLinear().accessors([d => d.high, d => d.low]);
-const xExtent: any = extentDate().accessors([d => d.date]);
+const data = randomFinancial()(50);
 
+const yExtent = extentLinear().accessors([d => d.high, d => d.low]) as any;
 
-const data = []
+const xExtent = extentDate().accessors([d => d.date]) as any;
+
+const gridlines = annotationSvgGridline();
+const candlestick = seriesSvgCandlestick();
+const multi = (seriesSvgMulti() as any).series([gridlines, candlestick]);
 
 const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear())
     .yDomain(yExtent(data))
