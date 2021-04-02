@@ -13,7 +13,8 @@
     "lint": "npm run eslint && npm run markdownlint",
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
     "commitlint": "commitlint --from HEAD~1 to HEAD --verbose",
-    "examples": "cd examples && npx jest --runInBand"
+    "examples": "cd examples && npx jest --runInBand",
+    "test:types": "tsd packages/d3fc-chart"
   },
   "prettier": {
     "singleQuote": true,
@@ -77,7 +78,8 @@
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-serve": "^1.0.4",
-    "seedrandom": "^3.0.5"
+    "seedrandom": "^3.0.5",
+    "tsd": "^0.14.0"
   },
   "config": {
     "commitizen": {
