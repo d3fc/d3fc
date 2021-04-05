@@ -14,8 +14,10 @@ type Axis = any; // Todo: Not specific enough
 
 type Decorator = (container: DataJoin, data: any, index: number) => void
 
-type XAxisStore = TStore<'xTickFormat' | 'xTicks' | 'xTickArguments' | 'xTickSize' | 'xTickSizeInner' | 'xTickSizeOuter' | 'xTickValues' | 'xTickPadding' | 'xTickCenterLabel'>;
-type YAxisStore = TStore<'yTickFormat' | 'yTicks' | 'yTickArguments' | 'yTickSize' | 'yTickSizeInner' | 'yTickSizeOuter' | 'yTickValues' | 'yTickPadding' | 'yTickCenterLabel'>;
+type StoreProperties = 'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel';
+
+type XAxisStore = TStore<`x${Capitalize<StoreProperties>}`>;
+type YAxisStore = TStore<`y${Capitalize<StoreProperties>}`>;
 
 type GetterSetter<TThis, TValue, TSetValue> = {
     (): TValue
