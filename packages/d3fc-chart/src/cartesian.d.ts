@@ -45,47 +45,47 @@ type TCartesianChart = typeof Cartesian;
 export type CartesianChart<XScale, YScale> = {
     (selection: any): void;
 
-    xOrient(): Functor<XOrient>;
-    xOrient(orient: XOrient): CartesianChart<XScale, YScale>;
-
-    yOrient(): Functor<YOrient>;
-    yOrient(orient: YOrient): CartesianChart<XScale, YScale>;
-
-    xDecorate(): Decorator;
-    xDecorate(decorate: Decorator): CartesianChart<XScale, YScale>;
-
-    yDecorate(): Decorator;
-    yDecorate(decorate: Decorator): CartesianChart<XScale, YScale>;
+    canvasPlotArea(): CanvasSeries;
+    canvasPlotArea(plotArea: CanvasSeries): CartesianChart<XScale, YScale>;
 
     chartLabel(): Functor<string>;
     chartLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
 
-    xLabel(): Functor<string>;
-    xLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
-
-    yLabel(): Functor<string>;
-    yLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
-
-    xAxisHeight(): Functor<string>;
-    xAxisHeight(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
-
-    yAxisWidth(): Functor<string>;
-    yAxisWidth(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
-
-    webglPlotArea(): WebglSeries;
-    webglPlotArea(plotArea: WebglSeries): CartesianChart<XScale, YScale>;
-
-    canvasPlotArea(): CanvasSeries;
-    canvasPlotArea(plotArea: CanvasSeries): CartesianChart<XScale, YScale>;
+    decorate(): Decorator;
+    decorate(decorate: Decorator): CartesianChart<XScale, YScale>;
 
     svgPlotArea(): SVGSeries;
     svgPlotArea(plotArea: SVGSeries): CartesianChart<XScale, YScale>;
 
-    decorate(): Decorator;
-    decorate(decorate: Decorator): CartesianChart<XScale, YScale>;
-
     useDevicePixelRatio(): boolean;
     useDevicePixelRatio(useDevicePixelRatio: boolean): CartesianChart<XScale, YScale>;
+
+    webglPlotArea(): WebglSeries;
+    webglPlotArea(plotArea: WebglSeries): CartesianChart<XScale, YScale>;
+
+    xAxisHeight(): Functor<string>;
+    xAxisHeight(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
+
+    xDecorate(): Decorator;
+    xDecorate(decorate: Decorator): CartesianChart<XScale, YScale>;
+
+    xLabel(): Functor<string>;
+    xLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
+
+    xOrient(): Functor<XOrient>;
+    xOrient(orient: XOrient): CartesianChart<XScale, YScale>;
+
+    yAxisWidth(): Functor<string>;
+    yAxisWidth(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
+
+    yDecorate(): Decorator;
+    yDecorate(decorate: Decorator): CartesianChart<XScale, YScale>;
+
+    yLabel(): Functor<string>;
+    yLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
+
+    yOrient(): Functor<YOrient>;
+    yOrient(orient: YOrient): CartesianChart<XScale, YScale>;
 }
     & XAxisStore
     & YAxisStore
