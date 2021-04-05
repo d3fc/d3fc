@@ -1,5 +1,6 @@
 import { CartesianChartArgs, CartesianChart, Functor } from './cartesian';
 
+//TODO: Make this type more specific
 type PlotArea = any;
 
 export type CartesianBase<XScale, YScale> = Omit<CartesianChart<XScale, YScale>, 'webglPlotArea' | 'canvasPlotArea' | 'svgPlotArea' | 'useDevicePixelRatio'> & {
