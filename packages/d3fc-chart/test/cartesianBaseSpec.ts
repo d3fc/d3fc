@@ -4,12 +4,9 @@ import * as d3 from 'd3';
 
 describe('cartesianBase', () => {
     it('type definition has all of the properties specified in Object.keys', () => {
-        type TSeries = any;
-        const line: TSeries = null;
-
         const makeChart = cartesianBase(
             (cartesian: any, plotArea: any) => cartesian.canvasPlotArea(plotArea),
-            line
+            null
         );
 
         const chart = makeChart(d3.scaleTime(), d3.scaleLinear());
