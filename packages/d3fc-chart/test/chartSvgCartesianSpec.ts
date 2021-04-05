@@ -1,16 +1,13 @@
 import * as d3 from 'd3';
-import chartCartesian from '../src/cartesian';
+import chartCartesian from '../src/svg/cartesian';
 
-describe('chartCartesian', () => {
+describe('chartSvgCartesian', () => {
     it('definition has all of the properties specified in Object.keys', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
 
-        expect(chart.canvasPlotArea).toBeDefined()
         expect(chart.chartLabel).toBeDefined()
         expect(chart.decorate).toBeDefined()
-        expect(chart.svgPlotArea).toBeDefined()
-        expect(chart.useDevicePixelRatio).toBeDefined()
-        expect(chart.webglPlotArea).toBeDefined()
+        expect(chart.plotArea).toBeDefined()
         expect(chart.xAxisHeight).toBeDefined()
         expect(chart.xClamp).toBeDefined()
         expect(chart.xCopy).toBeDefined()
