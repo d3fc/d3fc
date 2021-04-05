@@ -6,9 +6,27 @@ type TypeOrFunctor<T> = T | Functor<T>;
 type XOrient = 'top' | 'bottom' | 'none';
 type YOrient = 'left' | 'right' | 'none';
 
-type WebglSeries = any; // Todo: Replace with import from d3fc-series
-type CanvasSeries = any; // Todo: Replace with import from d3fc-series
-type SVGSeries = any; // Todo: Replace with import from d3fc-series
+type WebglPlotArea = {
+    (d: any): any
+    context(canvas: HTMLCanvasElement): WebglPlotArea
+    pixelRatio(pixelRatio: number): WebglPlotArea,
+    xScale(scale: any): WebglPlotArea,
+    yScale(scale: any): WebglPlotArea,
+};
+
+type CanvasPlotArea = {
+    (d: any): any,
+    context(canvas: HTMLCanvasElement): CanvasPlotArea,
+    xScale(scale: any): CanvasPlotArea,
+    yScale(scale: any): CanvasPlotArea,
+};
+
+type SvgPlotArea = {
+    (d: any): any,
+    xScale(scale: any): SvgPlotArea,
+    yScale(scale: any): SvgPlotArea,
+};
+
 type DataJoin = any; // Todo: External 
 type Axis = any; // Todo: Not specific enough
 
@@ -47,8 +65,8 @@ type TCartesianChart = typeof Cartesian;
 export type CartesianChart<XScale, YScale> = {
     (selection: d3.Selection<any, any, any, any>): void;
 
-    canvasPlotArea(): CanvasSeries;
-    canvasPlotArea(plotArea: CanvasSeries): CartesianChart<XScale, YScale>;
+    canvasPlotArea(): CanvasPlotArea;
+    canvasPlotArea(plotArea: CanvasPlotArea): CartesianChart<XScale, YScale>;
 
     chartLabel(): Functor<string>;
     chartLabel(label: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
@@ -56,14 +74,14 @@ export type CartesianChart<XScale, YScale> = {
     decorate(): Decorator;
     decorate(decorate: Decorator): CartesianChart<XScale, YScale>;
 
-    svgPlotArea(): SVGSeries;
-    svgPlotArea(plotArea: SVGSeries): CartesianChart<XScale, YScale>;
+    svgPlotArea(): SvgPlotArea;
+    svgPlotArea(plotArea: SvgPlotArea): CartesianChart<XScale, YScale>;
 
     useDevicePixelRatio(): boolean;
     useDevicePixelRatio(useDevicePixelRatio: boolean): CartesianChart<XScale, YScale>;
 
-    webglPlotArea(): WebglSeries;
-    webglPlotArea(plotArea: WebglSeries): CartesianChart<XScale, YScale>;
+    webglPlotArea(): WebglPlotArea;
+    webglPlotArea(plotArea: WebglPlotArea): CartesianChart<XScale, YScale>;
 
     xAxisHeight(): Functor<string>;
     xAxisHeight(height: TypeOrFunctor<string>): CartesianChart<XScale, YScale>;
