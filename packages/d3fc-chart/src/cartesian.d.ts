@@ -27,10 +27,7 @@ type SvgPlotArea = {
     yScale(scale: any): SvgPlotArea,
 };
 
-type DataJoin = any; // Todo: External 
-type Axis = any; // Todo: Not specific enough
-
-type Decorator = (container: DataJoin, data: any, index: number) => void
+type Decorator = (container: d3.Selection<any, any, any, any>, data: any, index: number) => void
 
 type StoreProperties = 'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel';
 
@@ -48,15 +45,16 @@ type CartesianChartScale<Scale, XScale, YScale, Prefix extends string> = {
     : Scale[Property]
 }
 
-
 export type CartesianChartArgs<XScale, YScale> = [xScale: XScale, yScale?: YScale] | [{
     xScale?: XScale,
     yScale?: YScale,
     xAxis: {
-        [key in XOrient]: Axis
+        top: any
+        bottom: any
     },
     yAxis: {
-        [key in YOrient]: Axis
+        left: any
+        right: any
     }
 }]
 

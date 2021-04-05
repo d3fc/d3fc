@@ -9,6 +9,11 @@
             "node",
             "jest"
         ],
-        "allowJs": true
+        "allowJs": true,
+        "paths": {
+            "@d3fc": [
+                "packages/*"
+            ]
+        }
     }
 }
