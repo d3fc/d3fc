@@ -42,7 +42,7 @@ export type CartesianChartArgs<XScale, YScale> = [xScale: XScale, yScale?: YScal
 
 type TCartesianChart = typeof Cartesian;
 
-type CartesianChart<XScale, YScale> = {
+export type CartesianChart<XScale, YScale> = {
     (selection: any): void;
 
     xOrient(): Functor<XOrient>;

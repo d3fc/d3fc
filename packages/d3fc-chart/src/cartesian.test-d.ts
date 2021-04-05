@@ -1,10 +1,10 @@
 import * as d3 from 'd3';
-import chartCartesian from './cartesian';
+import chartCartesian, { CartesianChart } from './cartesian';
 import { extentLinear, extentDate } from "../../d3fc-extent"
 import { randomFinancial } from '../../d3fc-random-data'
 import { annotationSvgGridline } from '../../d3fc-annotation';
 import { seriesSvgCandlestick, seriesSvgMulti } from '../../d3fc-series'
-import { expectType } from 'tsd';
+import { expectType, expectAssignable } from 'tsd';
 
 it('should be able to create a chart', () => {
     const data = randomFinancial()(50);
@@ -17,10 +17,16 @@ it('should be able to create a chart', () => {
     const candlestick = seriesSvgCandlestick();
     const multi = (seriesSvgMulti() as any).series([gridlines, candlestick]);
 
+    type TChart = typeof chart;
+
     const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear())
-        .yDomain(yExtent(data))
+    expectAssignable<CartesianChart<any, any>>(chart)
+    expectType<TChart>(chart);
+
+    const chainedChart = chart.yDomain(yExtent(data))
         .xDomain(xExtent(data))
         .svgPlotArea(multi);
+    expectType<TChart>(chainedChart);
 
     d3.select('#chart')
         .datum(data)
