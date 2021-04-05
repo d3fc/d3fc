@@ -45,7 +45,7 @@ export type CartesianChartArgs<XScale, YScale> = [xScale: XScale, yScale?: YScal
 type TCartesianChart = typeof Cartesian;
 
 export type CartesianChart<XScale, YScale> = {
-    (selection: any): void;
+    (selection: d3.Selection<any, any, any, any>): void;
 
     canvasPlotArea(): CanvasSeries;
     canvasPlotArea(plotArea: CanvasSeries): CartesianChart<XScale, YScale>;
