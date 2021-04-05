@@ -1,7 +1,3 @@
-declare var _default: (...args: any[]) => {
-    (selection: any): void;
-    yLabel(...args: any[]): any;
-    plotArea(...args: any[]): any;
-    decorate(...args: any[]): any | (() => void);
-};
-export default _default;
+import cartesianBase from '../cartesianBase';
+declare let chartSvgCartesian: ReturnType<typeof cartesianBase>;
+export default chartSvgCartesian

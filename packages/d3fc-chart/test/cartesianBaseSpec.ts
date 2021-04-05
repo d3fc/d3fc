@@ -1,16 +1,22 @@
+import cartesianBase from '../src/cartesianBase';
+
 import * as d3 from 'd3';
-import chartCartesian from '../src/cartesian';
 
-describe('cartesian', () => {
+describe('cartesianBase', () => {
     it('type definition has all of the properties specified in Object.keys', () => {
-        const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
+        type TSeries = any;
+        const line: TSeries = null;
 
-        expect(chart.canvasPlotArea).toBeDefined()
+        const makeChart = cartesianBase(
+            (cartesian: any, plotArea: any) => cartesian.canvasPlotArea(plotArea),
+            line
+        );
+
+        const chart = makeChart(d3.scaleTime(), d3.scaleLinear());
+
         expect(chart.chartLabel).toBeDefined()
         expect(chart.decorate).toBeDefined()
-        expect(chart.svgPlotArea).toBeDefined()
-        expect(chart.useDevicePixelRatio).toBeDefined()
-        expect(chart.webglPlotArea).toBeDefined()
+        expect(chart.plotArea).toBeDefined()
         expect(chart.xAxisHeight).toBeDefined()
         expect(chart.xClamp).toBeDefined()
         expect(chart.xCopy).toBeDefined()
@@ -52,5 +58,4 @@ describe('cartesian', () => {
         expect(chart.yTickValues).toBeDefined()
         expect(chart.yUnknown).toBeDefined()
     })
-
 });

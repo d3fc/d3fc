@@ -1,6 +1,6 @@
 import { TStore } from './store'
 
-type Functor<T> = ((...args: any[]) => T);
+export type Functor<T> = ((...args: any[]) => T);
 type TypeOrFunctor<T> = T | Functor<T>;
 
 type XOrient = 'top' | 'bottom' | 'none';

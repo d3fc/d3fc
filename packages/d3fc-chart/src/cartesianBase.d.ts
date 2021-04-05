@@ -1,10 +1,11 @@
-import { CartesianChartArgs } from './cartesian';
+import { CartesianChartArgs, CartesianChart, Functor } from './cartesian';
 
+type PlotArea = any;
 
-declare function _default<XScale, YScale>(setPlotArea: any, defaultPlotArea: any): (...args: CartesianChartArgs<XScale, YScale>) => {
-    (selection: any): void;
-    yLabel(...args: any[]): any;
-    plotArea(...args: any[]): any;
-    decorate(...args: any[]): any | (() => void);
+export type CartesianBase<XScale, YScale> = Omit<CartesianChart<XScale, YScale>, 'webglPlotArea' | 'canvasPlotArea' | 'svgPlotArea' | 'useDevicePixelRatio'> & {
+    plotArea(): Functor<PlotArea>;
+    plotArea(plotArea: PlotArea): CartesianBase<XScale, YScale>;
 }
-export default _default;
+
+export default function CartesianBase(setPlotArea: any, defaultPlotArea: PlotArea): <XScale, YScale>(...args: CartesianChartArgs<XScale, YScale>) =>
+    CartesianBase<XScale, YScale>
