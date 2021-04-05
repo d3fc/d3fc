@@ -14,7 +14,7 @@
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
     "commitlint": "commitlint --from HEAD~1 to HEAD --verbose",
     "examples": "cd examples && npx jest --runInBand",
-    "test:ts": "jest --config scripts/jest/jest.config-ts.js",
+    "test:ts": "jest",
     "test:types": "tsd packages/d3fc-chart"
   },
   "prettier": {
@@ -62,7 +62,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "glsl-transpiler": "^1.8.5",
-    "jest": "^26.3.3",
+    "jest": "^26.0.22",
     "jest-image-snapshot": "^2.12.0",
     "jest-puppeteer": "^4.4.0",
     "js-combinatorics": "^0.5.0",

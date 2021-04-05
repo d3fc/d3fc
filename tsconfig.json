@@ -4,6 +4,11 @@
         "noImplicitAny": false,
         "lib": [
             "DOM"
-        ]
+        ],
+        "types": [
+            "node",
+            "jest"
+        ],
+        "allowJs": true
     }
 }
