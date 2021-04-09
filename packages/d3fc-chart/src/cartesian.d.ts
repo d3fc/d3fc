@@ -6,26 +6,26 @@ type TypeOrFunctor<T> = T | Functor<T>;
 type XOrient = 'top' | 'bottom' | 'none';
 type YOrient = 'left' | 'right' | 'none';
 
-type WebglPlotArea = {
+interface WebglPlotArea {
     (d: any): any
     context(canvas: HTMLCanvasElement): WebglPlotArea
     pixelRatio(pixelRatio: number): WebglPlotArea,
     xScale(scale: any): WebglPlotArea,
     yScale(scale: any): WebglPlotArea,
-};
+}
 
-type CanvasPlotArea = {
+interface CanvasPlotArea {
     (d: any): any,
     context(canvas: HTMLCanvasElement): CanvasPlotArea,
     xScale(scale: any): CanvasPlotArea,
     yScale(scale: any): CanvasPlotArea,
-};
+}
 
-type SvgPlotArea = {
+interface SvgPlotArea {
     (d: any): any,
     xScale(scale: any): SvgPlotArea,
     yScale(scale: any): SvgPlotArea,
-};
+}
 
 type Decorator = (container: d3.Selection<any, any, any, any>, data: any, index: number) => void
 
@@ -57,8 +57,6 @@ export type CartesianChartArgs<XScale, YScale> = [xScale: XScale, yScale?: YScal
         right: any
     }
 }]
-
-type TCartesianChart = typeof Cartesian;
 
 export type CartesianChart<XScale, YScale> = {
     (selection: d3.Selection<any, any, any, any>): void;
