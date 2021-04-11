@@ -88,5 +88,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "dtslint": "^4.0.9"
   }
 }
