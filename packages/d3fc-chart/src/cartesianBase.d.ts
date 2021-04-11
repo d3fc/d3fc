@@ -8,6 +8,6 @@ export type CartesianBase<XScale, YScale> = Omit<CartesianChart<XScale, YScale>,
     plotArea(plotArea: PlotArea): CartesianBase<XScale, YScale>;
 }
 
-export type CreateChart = <XScale, YScale>(...args: CartesianChartArgs<XScale, YScale>) => CartesianBase<XScale, YScale>
+export type CreateCartesianBase = <XScale, YScale>(...args: CartesianChartArgs<XScale, YScale>) => CartesianBase<XScale, YScale>
 
-export default function CartesianBase(setPlotArea: any, defaultPlotArea: PlotArea): CreateChart
+export default function CartesianBase(setPlotArea: any, defaultPlotArea: PlotArea): CreateCartesianBase
