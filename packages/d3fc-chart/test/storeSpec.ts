@@ -50,4 +50,18 @@ describe('store', () => {
 
         expect(() => myStore(componentInstance)).toThrow();
     })
+
+    it('should return store when method is called with parameter', function () {
+        const myStore = store('ticks');
+        const sameStore = myStore.ticks(22)
+
+        expect(sameStore).toBe(myStore)
+    })
+
+    it('should return array of original input parameters when property is called', function () {
+        const myStore = store('ticks');
+        myStore.ticks(22)
+
+        expect(myStore.ticks()).toEqual([22])
+    })
 });
