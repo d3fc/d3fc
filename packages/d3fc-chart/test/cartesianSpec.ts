@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
 import chartCartesian from '../src/cartesian';
 import { expectType } from 'tsd'
+import { tickFormat } from 'd3';
 
 describe('chartCartesian', () => {
     it('definition has all of the properties specified in Object.keys', () => {
-        const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
+        const chart = chartCartesian(d3.scaleLinear(), d3.scaleLinear());
 
         expect(chart.canvasPlotArea).toBeDefined()
         expect(chart.chartLabel).toBeDefined()
@@ -136,7 +137,7 @@ describe('chartCartesian', () => {
 
     it('has the correct types for xDomain', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
-        const chart2 = chart.xDomain(null as unknown as any);
+        const chart2 = chart.xDomain([new Date()]);
         expectType<typeof chart>(chart2)
         const xDomain = chart.xDomain()
 
@@ -146,6 +147,7 @@ describe('chartCartesian', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
         const chart2 = chart.xInterpolate(null as unknown as any);
         expectType<typeof chart>(chart2)
+        expect(chart2).not.toBe(chart);
         const xInterpolate = chart.xInterpolate()
 
     })
@@ -153,8 +155,9 @@ describe('chartCartesian', () => {
     it('has the correct types for xInvert', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
         const chart2 = chart.xInvert(null as unknown as any);
-        expectType<typeof chart>(chart2)
-        const xInvert = chart.xInvert()
+        // expectType<typeof chart>(chart2)
+        expect(chart2).not.toBe(chart);
+        // const xInvert = chart.xInvert()
 
     })
 
@@ -198,12 +201,17 @@ describe('chartCartesian', () => {
 
     })
 
-    it('has the correct types for xTickFormat', () => {
+    fit('has the correct types for xTickFormat', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
-        const chart2 = chart.xTickFormat(null as unknown as any);
-        expectType<typeof chart>(chart2)
-        const xTickFormat = chart.xTickFormat()
+        const a = "test-string"
+        const b = "test-string-2"
+        chart.xTickFormat(a, b);
 
+        const tickFormatArgs = chart.xTickFormat()
+        const chartReturn = chart.xTickFormat(a)
+
+        expect(tickFormatArgs).toEqual([a, b])
+        expect(chartReturn).not.toBe(chart)
     })
 
     it('has the correct types for xTickPadding', () => {
@@ -304,7 +312,9 @@ describe('chartCartesian', () => {
     it('has the correct types for yInterpolate', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
         const chart2 = chart.yInterpolate(null as unknown as any);
-        expectType<typeof chart>(chart2)
+        // expectType<typeof chart>(chart2)
+        expect(chart2).not.toBe(chart);
+
         const yInterpolate = chart.yInterpolate()
 
     })
@@ -312,8 +322,9 @@ describe('chartCartesian', () => {
     it('has the correct types for yInvert', () => {
         const chart = chartCartesian(d3.scaleTime(), d3.scaleLinear());
         const chart2 = chart.yInvert(null as unknown as any);
-        expectType<typeof chart>(chart2)
-        const yInvert = chart.yInvert()
+        // expectType<typeof chart>(chart2)
+        expect(chart2).not.toBe(chart);
+        //const yInvert = chart.yInvert()
 
     })
 

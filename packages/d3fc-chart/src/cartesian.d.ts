@@ -1,4 +1,4 @@
-import { TStore } from './store'
+import { TStore, IStoreProperty } from './store'
 
 export type Functor<T> = ((...args: any[]) => T);
 type TypeOrFunctor<T> = T | Functor<T>;
@@ -30,9 +30,11 @@ interface SvgPlotArea {
 type Decorator = (container: d3.Selection<any, any, any, any>, data: any, index: number) => void
 
 type StoreProperties = 'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel';
+type XAxisStoreProperties = `x${Capitalize<StoreProperties>}`
+type YAxisStoreProperties = `y${Capitalize<StoreProperties>}`
 
-type XAxisStore = TStore<`x${Capitalize<StoreProperties>}`>;
-type YAxisStore = TStore<`y${Capitalize<StoreProperties>}`>;
+type XAxisStore = TStore<XAxisStoreProperties>;
+type YAxisStore = TStore<YAxisStoreProperties>;
 
 type GetterSetter<TThis, TValue, TSetValue> = {
     (): TValue
@@ -43,6 +45,12 @@ type CartesianChartScale<Scale, XScale, YScale, Prefix extends string> = {
     [Property in keyof Scale as `${Prefix}${Capitalize<string & Property>}`]: Scale[Property] extends GetterSetter<any, infer U, infer V>
     ? GetterSetter<CartesianChart<XScale, YScale>, U, V>
     : Scale[Property]
+}
+
+type RebindAxisStore<XScale, YScale, Axis> = {
+    [Property in keyof Axis]: Axis[Property] extends IStoreProperty<Axis>
+    ? IStoreProperty<CartesianChart<XScale, YScale>>
+    : never
 }
 
 export type CartesianChartArgs<XScale, YScale> = [xScale: XScale, yScale?: YScale] | [{
@@ -103,9 +111,9 @@ export type CartesianChart<XScale, YScale> = {
     yOrient(): Functor<YOrient>;
     yOrient(orient: YOrient): CartesianChart<XScale, YScale>;
 }
-    & XAxisStore
-    & YAxisStore
-    & CartesianChartScale<XScale, XScale, YScale, 'x'>
-    & CartesianChartScale<YScale, XScale, YScale, 'y'>
+    & RebindAxisStore<XScale, YScale, XAxisStore>
+    & RebindAxisStore<XScale, YScale, YAxisStore>
+    & Omit<CartesianChartScale<XScale, XScale, YScale, 'x'>, XAxisStoreProperties>
+    & Omit<CartesianChartScale<YScale, XScale, YScale, 'y'>, YAxisStoreProperties>
 
 export default function Cartesian<XScale, YScale>(...args: CartesianChartArgs<XScale, YScale>): CartesianChart<XScale, YScale>
