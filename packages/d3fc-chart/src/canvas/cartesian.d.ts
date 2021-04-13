@@ -1,3 +1,3 @@
-import type { CreateCartesianBase } from '../cartesianBase';
-declare const chartCanvasCartesian: CreateCartesianBase;
-export default chartCanvasCartesian
+import { CreateCartesianBase } from '../cartesianBase';
+
+export default CreateCartesianBase

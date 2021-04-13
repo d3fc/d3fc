@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
-import chartCartesian, { CartesianChart } from '../src/cartesian';
+import { chartCartesian } from '../index';
+import { CartesianChart } from '../src/cartesian';
 import { expectType } from 'tsd'
 import { ScaleIdentity, ScaleLinear, scaleTime, scaleLinear } from 'd3';
 
@@ -57,5 +58,7 @@ describe('chartCartesian', () => {
         const chart = chartCartesian(d3.scaleLinear(), d3.scaleLinear());
         const a = chart.xTickArguments()
         const b = chart.xTickArguments("an argument")
+        expectType<any>(a);
+        expectType<any>(b)
     })
 });
