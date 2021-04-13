@@ -1,11 +1,12 @@
 import type { ScaleIdentity, ScaleLinear } from 'd3-scale'
 import type { TStore, IStoreProperty } from './store'
 
-export type Functor<T> = ((...args: any[]) => T);
+type Functor<T> = ((...args: any[]) => T);
+
 type TypeOrFunctor<T> = T | Functor<T>;
 
-type XOrient = 'top' | 'bottom' | 'none';
-type YOrient = 'left' | 'right' | 'none';
+type Function = (...args: any[]) => any;
+
 
 interface WebglPlotArea {
     (d: any): any
@@ -30,20 +31,6 @@ interface SvgPlotArea {
 
 type Decorator = (container: d3.Selection<any, any, any, any>, data: any, index: number) => void
 
-export type CartesianChartArgs<XScale, YScale> = [xScale?: XScale, yScale?: YScale] | [{
-    xScale?: XScale,
-    yScale?: YScale,
-    xAxis?: {
-        top: any
-        bottom: any
-    },
-    yAxis?: {
-        left: any
-        right: any
-    }
-}]
-
-type Function = (...args: any[]) => any;
 
 type PrefixProperties<T, Prefix extends string> = {
     [Property in keyof T as `${Prefix}${Capitalize<string & Property>}`]: T[Property]
@@ -53,6 +40,8 @@ type AnyMethods<T> = {
     [Property in keyof T]: T[Property] extends Function ? Function : T[Property]
 }
 
+type XOrient = 'top' | 'bottom' | 'none';
+type YOrient = 'left' | 'right' | 'none';
 type Store = TStore<'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel'>;
 
 export type CartesianChart<XScale, YScale> = {
@@ -105,9 +94,39 @@ export type CartesianChart<XScale, YScale> = {
     & AnyMethods<PrefixProperties<Store, 'x'>>
     & AnyMethods<PrefixProperties<Store, 'y'>>
 
-export default function Cartesian<XScale, YScale>(...args: CartesianChartArgs<XScale, YScale>):
-    CartesianChart<
-        (unknown & undefined) extends XScale ? ScaleIdentity : XScale,
-        (unknown & undefined) extends YScale ? ScaleIdentity : YScale
-    >
+type Fallback<T> = undefined extends T ? ScaleIdentity : T
+
+interface Scale {
+    range: any,
+    domain: any
+}
+
+interface CartesianChartConfigurationObject<XScale, YScale> {
+    xScale?: XScale,
+    yScale?: YScale,
+    xAxis?: {
+        top: any
+        bottom: any
+    },
+    yAxis?: {
+        left: any
+        right: any
+    }
+}
+
+export default function Cartesian()
+    : CartesianChart<ScaleIdentity, ScaleIdentity>;
+
+export default function Cartesian<XScale extends Scale>(xScale: XScale)
+    : CartesianChart<XScale, ScaleIdentity>;
+
+export default function Cartesian<YScale extends Scale>(xScale: undefined, yScale: YScale)
+    : CartesianChart<ScaleIdentity, YScale>;
+
+export default function Cartesian<XScale extends Scale, YScale extends Scale>(xScale: XScale, yScale: YScale)
+    : CartesianChart<XScale, YScale>;
+
+export default function Cartesian<XScale extends Scale | undefined, YScale extends Scale | undefined>(configuration: CartesianChartConfigurationObject<XScale, YScale>)
+    : CartesianChart<Fallback<XScale>, Fallback<YScale>>;
+
 
