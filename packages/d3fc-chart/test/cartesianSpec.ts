@@ -54,10 +54,20 @@ describe('chartCartesian', () => {
         expectType<CartesianChart<d3.ScaleLinear<number, number, never>, d3.ScaleLinear<number, number, never>>>(chartWithAxes);
     })
 
-    it('rebinds scale methods as untyped methods', () => {
+    it('has rebound scale methods as any-typed methods', () => {
+        const chart = chartCartesian(d3.scaleLinear(), d3.scaleLinear());
+        const a = chart.xInterpolate()
+        const b = chart.xInterpolate("an argument")
+        expectType<(...args: any[]) => any>(chart.xInterpolate)
+        expectType<any>(a);
+        expectType<any>(b)
+    })
+
+    it('has rebound store methods as any-typed methods', () => {
         const chart = chartCartesian(d3.scaleLinear(), d3.scaleLinear());
         const a = chart.xTickArguments()
         const b = chart.xTickArguments("an argument")
+        expectType<(...args: any[]) => any>(chart.xTickArguments)
         expectType<any>(a);
         expectType<any>(b)
     })
