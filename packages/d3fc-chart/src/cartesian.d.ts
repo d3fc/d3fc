@@ -1,5 +1,5 @@
-import type { ScaleIdentity, ScaleLinear } from 'd3-scale'
-import type { Store, IStoreProperty } from './store'
+import type { ScaleIdentity } from 'd3-scale'
+import type { Store } from './store'
 
 type Functor<T> = ((...args: any[]) => T);
 
