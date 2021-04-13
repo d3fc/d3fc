@@ -4,11 +4,11 @@ export interface IStoreProperty<TThis> {
 }
 
 
-export type TStore<StoreProperty extends string> = Record<
+export type Store<StoreProperty extends string> = Record<
     StoreProperty,
-    IStoreProperty<TStore<StoreProperty>>
+    IStoreProperty<Store<StoreProperty>>
 > & (
         <TTarget>(target: TTarget) => TTarget
     );
 
-export default function <StoreProperty extends string>(...names: StoreProperty[]): TStore<StoreProperty>
+export default function <StoreProperty extends string>(...names: StoreProperty[]): Store<StoreProperty>

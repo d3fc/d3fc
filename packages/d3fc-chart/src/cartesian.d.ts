@@ -1,5 +1,5 @@
 import type { ScaleIdentity, ScaleLinear } from 'd3-scale'
-import type { TStore, IStoreProperty } from './store'
+import type { Store, IStoreProperty } from './store'
 
 type Functor<T> = ((...args: any[]) => T);
 
@@ -42,7 +42,7 @@ type AnyMethods<T> = {
 
 type XOrient = 'top' | 'bottom' | 'none';
 type YOrient = 'left' | 'right' | 'none';
-type Store = TStore<'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel'>;
+type ChartStore = Store<'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel'>;
 
 export type CartesianChart<XScale, YScale> = {
     (selection: d3.Selection<any, any, any, any>): void;
@@ -91,8 +91,8 @@ export type CartesianChart<XScale, YScale> = {
 }
     & AnyMethods<PrefixProperties<XScale, 'x'>>
     & AnyMethods<PrefixProperties<YScale, 'y'>>
-    & AnyMethods<PrefixProperties<Store, 'x'>>
-    & AnyMethods<PrefixProperties<Store, 'y'>>
+    & AnyMethods<PrefixProperties<ChartStore, 'x'>>
+    & AnyMethods<PrefixProperties<ChartStore, 'y'>>
 
 type Fallback<T> = undefined extends T ? ScaleIdentity : T
 
