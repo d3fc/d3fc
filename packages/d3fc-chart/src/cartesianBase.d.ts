@@ -1,12 +1,10 @@
-import { CartesianChart, Functor, CartesianChartConfigurationObject, Scale } from "../src/cartesian";
+import { CartesianChart, Functor, CartesianChartConfigurationObject, Scale, Fallback } from "../src/cartesian";
 import { ScaleIdentity } from "d3-scale";
 
 export type CartesianBaseChart<XScale, YScale> = Omit<CartesianChart<XScale, YScale>, 'webglPlotArea' | 'canvasPlotArea' | 'svgPlotArea' | 'useDevicePixelRatio'> & {
     plotArea(): Functor<any>;
     plotArea(plotArea: any): CartesianBaseChart<XScale, YScale>;
 }
-
-type Fallback<T> = undefined extends T ? ScaleIdentity : T
 
 export function CartesianBase()
     : CartesianBaseChart<ScaleIdentity, ScaleIdentity>;

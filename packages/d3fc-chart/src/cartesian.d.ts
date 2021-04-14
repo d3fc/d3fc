@@ -94,7 +94,7 @@ export type CartesianChart<XScale, YScale> = {
     & AnyMethods<PrefixProperties<ChartStore, 'x'>>
     & AnyMethods<PrefixProperties<ChartStore, 'y'>>
 
-type Fallback<T> = undefined extends T ? ScaleIdentity : T
+export type Fallback<T> = undefined extends T ? ScaleIdentity : T
 
 interface Scale {
     range: any,
