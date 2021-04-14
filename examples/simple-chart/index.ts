@@ -5,11 +5,6 @@ import { seriesSvgCandlestick, seriesSvgMulti } from '@d3fc/d3fc-series';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { chartCartesian } from '@d3fc/d3fc-chart';
 import { select as d3Select } from 'd3-selection'
-import SeedRandom from 'seedrandom'
-import * as MockDate from 'mockdate'
-
-SeedRandom('a22ebc7c488a3a47');
-MockDate.set('2000-01-01', 0);
 
 const data = randomFinancial()(50);
 

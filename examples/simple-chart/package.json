@@ -9,5 +9,8 @@
         "d3-scale": "^3.2.4",
         "d3-selection": "^2.0.0",
         "parcel": "^2.0.0-beta.2"
+    },
+    "scripts": {
+        "build": "parcel build --dist-dir . --no-content-hash --no-optimize index.ts"
     }
 }
