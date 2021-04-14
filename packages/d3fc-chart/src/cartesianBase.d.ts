@@ -1,4 +1,4 @@
-import { CartesianChart, Functor, CartesianChartConfigurationObject, Scale, Fallback } from "../src/cartesian";
+import { CartesianChart, Functor, CartesianChartConfigurationObject, Scale, Fallback } from "./cartesian";
 import { ScaleIdentity } from "d3-scale";
 
 export type CartesianBaseChart<XScale, YScale> = Omit<CartesianChart<XScale, YScale>, 'webglPlotArea' | 'canvasPlotArea' | 'svgPlotArea' | 'useDevicePixelRatio'> & {
