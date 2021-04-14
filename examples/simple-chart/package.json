@@ -1,6 +1,12 @@
 {
     "name": "simple-chart",
     "dependencies": {
-        "@d3fc/d3fc-chart": "file:../../packages/d3fc-chart"
+        "@d3fc/d3fc-annotation": "file:../../packages/d3fc-annotation",
+        "@d3fc/d3fc-chart": "file:../../packages/d3fc-chart",
+        "@d3fc/d3fc-extent": "file:../../packages/d3fc-extent",
+        "@d3fc/d3fc-random-data": "file:../../packages/d3fc-random-data",
+        "@d3fc/d3fc-series": "file:../../packages/d3fc-series",
+        "d3-scale": "^3.2.4",
+        "d3-selection": "^2.0.0"
     }
 }

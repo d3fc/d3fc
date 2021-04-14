@@ -1,19 +1,26 @@
-const data = fc.randomFinancial()(50);
+import { randomFinancial } from '@d3fc/d3fc-random-data'
+import { extentLinear, extentDate } from '@d3fc/d3fc-extent'
+import { annotationSvgGridline } from '@d3fc/d3fc-annotation';
+import { seriesSvgCandlestick, seriesSvgMulti } from '@d3fc/d3fc-series';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import { chartCartesian } from '@d3fc/d3fc-chart';
+import { select as d3Select } from 'd3-selection'
 
-const yExtent = fc.extentLinear().accessors([d => d.high, d => d.low]);
+const data = randomFinancial()(50);
 
-const xExtent = fc.extentDate().accessors([d => d.date]);
+const yExtent = extentLinear().accessors([d => d.high, d => d.low]) as ((...args: any[]) => void)
 
-const gridlines = fc.annotationSvgGridline();
-const candlestick = fc.seriesSvgCandlestick();
-const multi = fc.seriesSvgMulti().series([gridlines, candlestick]);
+const xExtent = extentDate().accessors([d => d.date]) as ((...args: any[]) => void)
 
-const chart = fc
-    .chartCartesian(d3.scaleTime(), d3.scaleLinear())
+const gridlines = annotationSvgGridline();
+const candlestick = seriesSvgCandlestick();
+const multi = (seriesSvgMulti() as any).series([gridlines, candlestick]);
+
+const chart = chartCartesian(scaleTime(), scaleLinear())
     .yDomain(yExtent(data))
     .xDomain(xExtent(data))
     .svgPlotArea(multi);
 
-d3.select('#chart')
+d3Select('#chart')
     .datum(data)
     .call(chart);
