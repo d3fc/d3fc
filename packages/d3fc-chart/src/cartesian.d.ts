@@ -1,7 +1,7 @@
 import type { ScaleIdentity } from 'd3-scale'
 import type { Store } from './store'
 
-type Functor<T> = ((...args: any[]) => T);
+export type Functor<T> = ((...args: any[]) => T);
 
 type TypeOrFunctor<T> = T | Functor<T>;
 
@@ -96,12 +96,12 @@ export type CartesianChart<XScale, YScale> = {
 
 export type Fallback<T> = undefined extends T ? ScaleIdentity : T
 
-interface Scale {
+export interface Scale {
     range: any,
     domain: any
 }
 
-interface CartesianChartConfigurationObject<XScale, YScale> {
+export interface CartesianChartConfigurationObject<XScale, YScale> {
     xScale?: XScale,
     yScale?: YScale,
     xAxis?: {
@@ -129,4 +129,4 @@ export default function Cartesian<XScale extends Scale, YScale extends Scale>(xS
 export default function Cartesian<XScale extends Scale | undefined, YScale extends Scale | undefined>(configuration: CartesianChartConfigurationObject<XScale, YScale>)
     : CartesianChart<Fallback<XScale>, Fallback<YScale>>;
 
-
+export { }
