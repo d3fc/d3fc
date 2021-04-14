@@ -17,8 +17,12 @@ const candlestick = seriesSvgCandlestick();
 const multi = (seriesSvgMulti() as any).series([gridlines, candlestick]);
 
 const chart = chartCartesian(scaleTime(), scaleLinear())
+
+chart
     .yDomain(yExtent(data))
+chart
     .xDomain(xExtent(data))
+chart
     .svgPlotArea(multi);
 
 d3Select('#chart')
