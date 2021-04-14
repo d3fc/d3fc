@@ -1,0 +1,6 @@
+{
+    "name": "simple-chart",
+    "dependencies": {
+        "@d3fc/d3fc-chart": "^5.0.7"
+    }
+}
