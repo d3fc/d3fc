@@ -42,7 +42,7 @@ type AnyMethods<T> = {
 
 type XOrient = 'top' | 'bottom' | 'none';
 type YOrient = 'left' | 'right' | 'none';
-type ChartStore = Store<'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel'>;
+type AxisStore = Store<'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel'>;
 
 export type CartesianChart<XScale, YScale> = {
     (selection: d3.Selection<any, any, any, any>): void;
@@ -91,8 +91,8 @@ export type CartesianChart<XScale, YScale> = {
 }
     & AnyMethods<PrefixProperties<XScale, 'x'>>
     & AnyMethods<PrefixProperties<YScale, 'y'>>
-    & AnyMethods<PrefixProperties<ChartStore, 'x'>>
-    & AnyMethods<PrefixProperties<ChartStore, 'y'>>
+    & AnyMethods<PrefixProperties<AxisStore, 'x'>>
+    & AnyMethods<PrefixProperties<AxisStore, 'y'>>
 
 export type Fallback<T> = undefined extends T ? ScaleIdentity : T
 
