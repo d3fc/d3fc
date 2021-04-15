@@ -114,19 +114,10 @@ export interface CartesianChartConfigurationObject<XScale, YScale> {
     }
 }
 
-export default function Cartesian()
-    : CartesianChart<ScaleIdentity, ScaleIdentity>;
-
-export default function Cartesian<XScale extends Scale>(xScale: XScale)
-    : CartesianChart<XScale, ScaleIdentity>;
-
-export default function Cartesian<YScale extends Scale>(xScale: undefined, yScale: YScale)
-    : CartesianChart<ScaleIdentity, YScale>;
-
-export default function Cartesian<XScale extends Scale, YScale extends Scale>(xScale: XScale, yScale: YScale)
-    : CartesianChart<XScale, YScale>;
-
 export default function Cartesian<XScale extends Scale | undefined, YScale extends Scale | undefined>(configuration: CartesianChartConfigurationObject<XScale, YScale>)
+    : CartesianChart<Fallback<XScale>, Fallback<YScale>>;
+
+export default function Cartesian<XScale extends Scale | undefined, YScale extends Scale | undefined>(xScale?: XScale, yScale?: YScale)
     : CartesianChart<Fallback<XScale>, Fallback<YScale>>;
 
 export { }
