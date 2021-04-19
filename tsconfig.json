@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitAny": false,
+        "lib": [
+            "DOM"
+        ],
+        "allowJs": true,
+        "paths": {
+            "@d3fc": [
+                "packages/*"
+            ]
+        }
+    }
+}

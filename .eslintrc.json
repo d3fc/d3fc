@@ -140,6 +140,24 @@
         "jest": true,
         "node": true
       }
+    },
+    {
+      "files": [
+        "./packages/**/*.ts"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "@typescript-eslint"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/semi": "error",
+        "@typescript-eslint/member-delimiter-style": "error"
+      }
     }
   ]
 }

@@ -13,6 +13,7 @@ script:
   - npm run bundle
   - npm run bundle-min
   - npm test
+  - npm run test:types
 before_install:
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 after_success:
