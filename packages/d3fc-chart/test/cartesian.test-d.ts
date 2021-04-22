@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { chartCartesian } from '../index';
-import { PlotAreaComponent, CartesianChart, SvgPlotAreaComponent } from '../src/cartesian';
+import { CanvasPlotAreaComponent, CartesianChart, SvgPlotAreaComponent, WebglPlotAreaComponent } from '../src/cartesian';
 import { expectType } from 'tsd';
 import { ScaleIdentity, ScaleLinear, scaleTime, scaleLinear } from 'd3';
 
@@ -54,7 +54,7 @@ expectType<any>(chart.xTickArguments());
 expectType<any>(chart.xTickArguments("an argument"));
 
 // Has methods specific to cartesian instances
-expectType<PlotAreaComponent | null>(chart.webglPlotArea());
-expectType<PlotAreaComponent | null>(chart.canvasPlotArea());
+expectType<WebglPlotAreaComponent | null>(chart.webglPlotArea());
+expectType<CanvasPlotAreaComponent | null>(chart.canvasPlotArea());
 expectType<SvgPlotAreaComponent | null>(chart.svgPlotArea());
 expectType<boolean>(chart.useDevicePixelRatio());

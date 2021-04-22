@@ -7,7 +7,15 @@ type TypeOrFunctor<T> = T | Functor<T>;
 
 type AnyFunction = (...args: any[]) => any;
 
-export interface PlotAreaComponent {
+export interface WebglPlotAreaComponent {
+    (d: any): any;
+    context(canvas: HTMLCanvasElement): this;
+    pixelRatio(pixelRatio: number): this;
+    xScale(scale: any): this;
+    yScale(scale: any): this;
+}
+
+export interface CanvasPlotAreaComponent {
     (d: any): any;
     context(canvas: HTMLCanvasElement): this;
     xScale(scale: any): this;
@@ -48,7 +56,7 @@ export type CartesianChart<XScale, YScale> = {
     /**
      * Returns the existing component.
      */
-    canvasPlotArea(): PlotAreaComponent | null;
+    canvasPlotArea(): CanvasPlotAreaComponent | null;
 
     /**
      * Sets the component to render onto the canvas, and returns the Cartesian chart. 
@@ -56,7 +64,7 @@ export type CartesianChart<XScale, YScale> = {
      * For `canvasPlotArea` and `webglPlotArea`, the relevant context is automatically applied to the chart.
      * @param component
      */
-    canvasPlotArea(component: PlotAreaComponent): CartesianChart<XScale, YScale>;
+    canvasPlotArea(component: CanvasPlotAreaComponent): CartesianChart<XScale, YScale>;
 
     /**
      * Returns a function that returns chartLabel.
@@ -109,14 +117,14 @@ export type CartesianChart<XScale, YScale> = {
     /**
      * Returns the existing component.
      */
-    webglPlotArea(): PlotAreaComponent | null;
+    webglPlotArea(): WebglPlotAreaComponent | null;
 
     /**
      * Sets the component to render, and returns the Cartesian chart. 
      * For `canvasPlotArea` and `webglPlotArea`, the relevant context is automatically applied to the chart.
      * @param component
      */
-    webglPlotArea(component: PlotAreaComponent): CartesianChart<XScale, YScale>;
+    webglPlotArea(component: WebglPlotAreaComponent): CartesianChart<XScale, YScale>;
 
     /**
      * Returns the x-axis height or null if not set. 
