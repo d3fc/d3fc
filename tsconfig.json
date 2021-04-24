@@ -11,5 +11,8 @@
                 "packages/*"
             ]
         }
-    }
+    },
+    "include": [
+        "packages/**/*"
+    ]
 }
