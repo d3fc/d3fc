@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
-import { chartCanvasCartesian } from '../../index';
-import { CartesianBaseChart } from '../../src/cartesianBase';
+import { chartCanvasCartesian } from '../index';
+import { CartesianBaseChart } from '../src/cartesianBase';
 import { expectType } from 'tsd';
 import { ScaleIdentity, ScaleLinear, scaleTime, scaleLinear } from 'd3';
 

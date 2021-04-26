@@ -7,14 +7,14 @@
     "publish": "lerna publish --conventional-commits --message \"chore: publish\" --yes",
     "bundle": "lerna run bundle --stream --concurrency 1",
     "bundle-min": "lerna run bundle --stream --concurrency 1 -- -- --configEnv=prod",
-    "test": "jest --config scripts/jest/jest.config.js",
+    "test": "jest --config scripts/jest/jest.config.js && npm run test:types",
     "eslint": "eslint . --ext .js --ext .ts",
     "markdownlint": "markdownlint **/*.md --ignore **/node_modules/**",
     "lint": "npm run eslint && npm run markdownlint",
     "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
     "commitlint": "commitlint --from HEAD~1 to HEAD --verbose",
     "examples": "cd examples && npx jest --runInBand",
-    "test:types": "find packages -type f -iname index.test-d.ts | xargs dirname | xargs tsd"
+    "test:types": "lerna run test:types"
   },
   "prettier": {
     "singleQuote": true,

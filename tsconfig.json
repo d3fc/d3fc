@@ -5,14 +5,10 @@
         "lib": [
             "DOM"
         ],
-        "allowJs": true,
         "paths": {
             "@d3fc": [
-                "packages/*"
+                "./packages/*"
             ]
         }
-    },
-    "include": [
-        "packages/**/*"
-    ]
+    }
 }
