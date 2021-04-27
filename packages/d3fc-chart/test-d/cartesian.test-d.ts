@@ -48,10 +48,18 @@ expectType<(...args: any[]) => any>(chart.xInterpolate);
 expectType<any>(chart.xInterpolate());
 expectType<any>(chart.xInterpolate("an argument"));
 
-// Has rebound store methods as any-typed methods
+// Has rebound axis methods as any-typed methods
 expectType<(...args: any[]) => any>(chart.xTickArguments);
+
+expectType<any>(chart.xTickFormat());
+expectType<any>(chart.xTicks());
 expectType<any>(chart.xTickArguments());
-expectType<any>(chart.xTickArguments("an argument"));
+expectType<any>(chart.xTickSize());
+expectType<any>(chart.xTickSizeInner());
+expectType<any>(chart.xTickSizeOuter());
+expectType<any>(chart.xTickValues());
+expectType<any>(chart.xTickPadding());
+expectType<any>(chart.xTickCenterLabel());
 
 // Has methods specific to cartesian instances
 expectType<WebglPlotAreaComponent | null>(chart.webglPlotArea());

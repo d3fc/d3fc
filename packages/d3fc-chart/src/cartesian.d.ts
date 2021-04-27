@@ -1,5 +1,11 @@
 import type { ScaleIdentity } from 'd3-scale';
-import type { Store } from './store';
+import type { Axis } from 'd3-axis';
+
+// To be eventually replaced by type from @d3fc/d3fc-axis
+interface AxisD3fc<Domain> extends Axis<Domain> {
+    tickCenterLabel(): boolean;
+    tickCenterLabel(tickCenterLabel: boolean): this;
+}
 
 export type Functor<T> = ((...args: any[]) => T);
 
@@ -45,7 +51,6 @@ type OmitPrefixes<T> = {[K in keyof T as NotStartsWith<K, 'range' | 'tickFormat'
 
 type XOrient = 'top' | 'bottom' | 'none';
 type YOrient = 'left' | 'right' | 'none';
-type AxisStore = Store<'tickFormat' | 'ticks' | 'tickArguments' | 'tickSize' | 'tickSizeInner' | 'tickSizeOuter' | 'tickValues' | 'tickPadding' | 'tickCenterLabel'>;
 
 /**
  * Cartesian Chart
@@ -242,8 +247,8 @@ export type CartesianChart<XScale, YScale> = {
 }
     & AnyMethods<PrefixProperties<OmitPrefixes<XScale>, 'x'>>
     & AnyMethods<PrefixProperties<OmitPrefixes<XScale>, 'y'>>
-    & AnyMethods<PrefixProperties<AxisStore, 'x'>>
-    & AnyMethods<PrefixProperties<AxisStore, 'y'>>;
+    & AnyMethods<PrefixProperties<AxisD3fc<any>, 'x'>>
+    & AnyMethods<PrefixProperties<AxisD3fc<any>, 'y'>>;
 
 export type Fallback<T> = undefined extends T ? ScaleIdentity : T;
 
