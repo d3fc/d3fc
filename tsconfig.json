@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitAny": false,
+        "lib": [
+            "DOM"
+        ],
+        "paths": {
+            "@d3fc": [
+                "./packages/*"
+            ]
+        }
+    }
+}

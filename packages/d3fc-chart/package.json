@@ -18,7 +18,8 @@
   },
   "scripts": {
     "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-chart"
+    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-chart",
+    "test:types": "tsd"
   },
   "dependencies": {
     "@d3fc/d3fc-axis": "^3.0.5",
