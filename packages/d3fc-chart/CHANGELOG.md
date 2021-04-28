@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.7...@d3fc/d3fc-chart@5.1.0) (2021-04-28)
+
+
+### Features
+
+* add d3fc-chart types ([#1697](https://github.com/d3fc/d3fc/issues/1697)) ([fe9289b](https://github.com/d3fc/d3fc/commit/fe9289b))
+
+
+
+
+
 ## [5.0.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.6...@d3fc/d3fc-chart@5.0.7) (2020-11-25)
 
 
