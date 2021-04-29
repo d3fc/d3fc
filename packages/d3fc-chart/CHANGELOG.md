@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.0...@d3fc/d3fc-chart@5.1.1) (2021-04-29)
+
+
+### Bug Fixes
+
+* remove deprecated export from d3fc-chart ([9bd27a9](https://github.com/d3fc/d3fc/commit/9bd27a9))
+* type rebinding from chart Scale generics ([732e5f3](https://github.com/d3fc/d3fc/commit/732e5f3))
+
+
+
+
+
 # [5.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.7...@d3fc/d3fc-chart@5.1.0) (2021-04-28)
 
 
