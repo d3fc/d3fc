@@ -1,5 +1,6 @@
 import type { ScaleIdentity } from 'd3-scale';
 import type { Axis } from 'd3-axis';
+import type { Selection } from 'd3-selection';
 
 // To be eventually replaced by type from @d3fc/d3fc-axis
 interface AxisD3fc<Domain> extends Axis<Domain> {
@@ -34,7 +35,7 @@ export interface SvgPlotAreaComponent {
     yScale(scale: any): this;
 }
 
-type Decorator = (container: d3.Selection<any, any, any, any>, data: any, index: number) => void;
+type Decorator = (container: Selection<any, any, any, any>, data: any, index: number) => void;
 
 type PrefixProperties<T, Prefix extends string> = {
     [Property in keyof T as `${Prefix}${Capitalize<string & Property>}`]: T[Property]
@@ -56,7 +57,7 @@ type YOrient = 'left' | 'right' | 'none';
  * Cartesian Chart
  */
 export type CartesianChart<XScale, YScale> = {
-    (selection: d3.Selection<any, any, any, any>): void;
+    (selection: Selection<any, any, any, any>): void;
 
     /**
      * Returns the existing component.
