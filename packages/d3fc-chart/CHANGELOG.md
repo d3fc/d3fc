@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.1...@d3fc/d3fc-chart@5.1.2) (2021-06-18)
+
+
+### Bug Fixes
+
+* missing import in .d.ts ([17cc386](https://github.com/d3fc/d3fc/commit/17cc386)), closes [#1700](https://github.com/d3fc/d3fc/issues/1700)
+
+
+
+
+
 ## [5.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.0...@d3fc/d3fc-chart@5.1.1) (2021-04-29)
 
 
