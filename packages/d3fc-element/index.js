@@ -4,10 +4,18 @@ import Group from './src/group';
 import Svg from './src/svg';
 import './src/css';
 
-if (typeof customElements !== 'object' || typeof customElements.define !== 'function') {
-    throw new Error('d3fc-element depends on Custom Elements (v1). Make sure that you load a polyfill in older browsers. See README.');
+if (
+    typeof customElements !== 'object' ||
+    typeof customElements.define !== 'function'
+) {
+    throw new Error(
+        'd3fc-element depends on Custom Elements (v1). Make sure that you load a polyfill in older browsers. See README.'
+    );
 }
 
-customElements.define('d3fc-canvas', Canvas);
-customElements.define('d3fc-group', Group);
-customElements.define('d3fc-svg', Svg);
+const registerElement = (name, element) =>
+    customElements.get(name) || customElements.define(name, element);
+
+registerElement('d3fc-canvas', Canvas);
+registerElement('d3fc-group', Group);
+registerElement('d3fc-svg', Svg);
