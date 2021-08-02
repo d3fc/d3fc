@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.2.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@6.1.2...@d3fc/d3fc-element@6.2.0) (2021-08-02)
+
+
+### Features
+
+* prevent registering components multiple times ([43e35b7](https://github.com/d3fc/d3fc/commit/43e35b7))
+
+
+
+
+
 ## [6.1.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-element@6.1.1...@d3fc/d3fc-element@6.1.2) (2020-09-23)
 
 
