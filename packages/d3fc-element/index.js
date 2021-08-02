@@ -13,9 +13,23 @@ if (
     );
 }
 
-const registerElement = (name, element) =>
-    customElements.get(name) || customElements.define(name, element);
+const alreadyRegistered = [];
+const registerElement = (name, element) => {
+    if (customElements.get(name)) {
+        alreadyRegistered.push(name);
+    } else {
+        customElements.define(name, element);
+    }
+};
 
 registerElement('d3fc-canvas', Canvas);
 registerElement('d3fc-group', Group);
 registerElement('d3fc-svg', Svg);
+
+if (alreadyRegistered.length > 0) {
+    console.warn(
+        `The d3fc components "${alreadyRegistered.join(
+            ', '
+        )}" is/are already registered on window. Be aware that this can create compatibility issues if different versions are used.`
+    );
+}
