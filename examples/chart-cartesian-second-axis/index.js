@@ -12,7 +12,7 @@ const yExtent = fc
 
 const gridlines = fc.annotationSvgGridline();
 const line = fc.seriesCanvasLine();
-const area = fc.seriesCanvasArea().mainValue(d => d.z);
+const area = fc.seriesCanvasArea().mainValue(d => d.z * 1000);
 
 const multi = fc.seriesCanvasMulti().series([area, line]);
 
@@ -30,6 +30,10 @@ const chart = fc
 const zScale = d3.scaleLinear().domain([-1000, 1000]);
 // create an axis for the scale
 const zAxis = d3.axisRight(zScale);
+// assign the series to the scale
+area.yScale(zScale);
+// prevent the chart changing the scale
+area.yScale = () => {};
 
 chart.decorate(selection => {
     // when the chart is added to the DOM
