@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [15.2.3](https://github.com/d3fc/d3fc/compare/d3fc@15.2.2...d3fc@15.2.3) (2021-08-02)
+
+**Note:** Version bump only for package d3fc
+
+
+
+
+
+## [15.2.2](https://github.com/d3fc/d3fc/compare/d3fc@15.2.1...d3fc@15.2.2) (2021-06-18)
+
+
+### Bug Fixes
+
+* add placeholder types for all top-level exports ([4d04c21](https://github.com/d3fc/d3fc/commit/4d04c21))
+
+
+
+
+
+## [15.2.1](https://github.com/d3fc/d3fc/compare/d3fc@15.2.0...d3fc@15.2.1) (2021-04-29)
+
+**Note:** Version bump only for package d3fc
+
+
+
+
+
+# [15.2.0](https://github.com/d3fc/d3fc/compare/d3fc@15.1.2...d3fc@15.2.0) (2021-04-28)
+
+
+### Features
+
+* add d3fc-chart types ([#1697](https://github.com/d3fc/d3fc/issues/1697)) ([fe9289b](https://github.com/d3fc/d3fc/commit/fe9289b))
+
+
+
+
+
+## [15.1.2](https://github.com/d3fc/d3fc/compare/d3fc@15.1.1...d3fc@15.1.2) (2020-11-25)
+
+**Note:** Version bump only for package d3fc
+
+
+
+
+
+## [15.1.1](https://github.com/d3fc/d3fc/compare/d3fc@15.1.0...d3fc@15.1.1) (2020-11-05)
+
+**Note:** Version bump only for package d3fc
+
+
+
+
+
 # [15.1.0](https://github.com/d3fc/d3fc/compare/d3fc@15.0.20...d3fc@15.1.0) (2020-10-14)
 
 

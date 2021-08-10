@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 8.1.0 (2021-04-28)
+
+
+### Features
+
+* add d3fc-chart types ([#1697](https://github.com/d3fc/d3fc/issues/1697)) ([fe9289b](https://github.com/d3fc/d3fc/commit/fe9289b))
+
+
+
+
+
 ## 8.0.1 (2020-07-14)
 
 **Note:** Version bump only for package @d3fc/d3fc-technical-indicator

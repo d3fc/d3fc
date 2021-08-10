@@ -3,7 +3,7 @@ declare namespace fc_financial_feed {
     export function Gdax(): Gdax;
 
     interface GdaxDatum {
-        date: Date,
+        date: Date;
         open: number;
         high: number;
         low: number;

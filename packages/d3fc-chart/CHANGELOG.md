@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.3](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.2...@d3fc/d3fc-chart@5.1.3) (2021-08-02)
+
+**Note:** Version bump only for package @d3fc/d3fc-chart
+
+
+
+
+
+## [5.1.2](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.1...@d3fc/d3fc-chart@5.1.2) (2021-06-18)
+
+
+### Bug Fixes
+
+* missing import in .d.ts ([17cc386](https://github.com/d3fc/d3fc/commit/17cc386)), closes [#1700](https://github.com/d3fc/d3fc/issues/1700)
+
+
+
+
+
+## [5.1.1](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.0...@d3fc/d3fc-chart@5.1.1) (2021-04-29)
+
+
+### Bug Fixes
+
+* remove deprecated export from d3fc-chart ([9bd27a9](https://github.com/d3fc/d3fc/commit/9bd27a9))
+* type rebinding from chart Scale generics ([732e5f3](https://github.com/d3fc/d3fc/commit/732e5f3))
+
+
+
+
+
+# [5.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.7...@d3fc/d3fc-chart@5.1.0) (2021-04-28)
+
+
+### Features
+
+* add d3fc-chart types ([#1697](https://github.com/d3fc/d3fc/issues/1697)) ([fe9289b](https://github.com/d3fc/d3fc/commit/fe9289b))
+
+
+
+
+
+## [5.0.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.6...@d3fc/d3fc-chart@5.0.7) (2020-11-25)
+
+
+### Bug Fixes
+
+* [#1654](https://github.com/d3fc/d3fc/issues/1654): register custom elements used in charts ([5b0405b](https://github.com/d3fc/d3fc/commit/5b0405b))
+
+
+
+
+
 ## [5.0.6](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.0.5...@d3fc/d3fc-chart@5.0.6) (2020-09-23)
 
 

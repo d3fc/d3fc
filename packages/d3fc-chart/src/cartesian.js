@@ -3,6 +3,7 @@ import { scaleIdentity } from 'd3-scale';
 import { axisBottom, axisRight, axisLeft, axisTop } from '@d3fc/d3fc-axis';
 import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { rebindAll, exclude, prefix } from '@d3fc/d3fc-rebind';
+import '@d3fc/d3fc-element';
 import store from './store';
 import './css';
 

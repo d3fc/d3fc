@@ -5,7 +5,7 @@ declare namespace fc {
     export function indicatorBollingerBands<T>(): BollingerBands<T>;
 
     interface BollingerBandsDatum {
-        upper: number,
+        upper: number;
         average: number;
         lower: number;
     }
