@@ -26,7 +26,7 @@ However, in some cases the label may refer to a range of data. For example, on a
 
 With the D3FC axis, setting `tickCenterLabel` to `true` will render the labels in between the tick marks, offsetting them to the right:
 
-```
+```javascript
 const linear = d3.scaleTime()
   .domain([new Date('2019-03-02'), new Date('2019-03-07')])
   .range([0, 400]);
@@ -44,7 +44,7 @@ Band scales are often used for rendering charts with a categorical dimension. Wi
 
 The D3FC ordinal axis is a drop-in replacement that renders the labels at the central point of the bar / column, and the ticks at the boundaries:
 
-```
+```javascript
 const vegetableScale = d3.scaleBand()
   .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles'])
   .paddingInner(0.1)
@@ -74,7 +74,7 @@ With the D3 axis, if tick marks are too close together, their associated labels 
 
 Here's a simple example where the axis labels overlap:
 
-```
+```javascript
 const foodScale = d3.scaleBand()
     .domain(['Carrots', 'Bananas', 'Sausages', 'Pickles', 'Aubergines', 'Artichokes', 'Spinach', 'Cucumber'])
     .range([10, 290]);
@@ -87,7 +87,7 @@ d3.select('svg')
 
 The overlap can be avoided by applying one of the adapters, for example you can apply the `axisLabelRotate` adapter as follows:
 
-```
+```javascript
 const axis = fc.axisLabelRotate(fc.axisOrdinalBottom(foodScale));
 ```
 
@@ -103,7 +103,7 @@ For further details, consult the [Decorate Pattern documentation](https://d3fc.i
 
 In the example below, the value bound to each tick is used to colour values greater than or equal to 100:
 
-```
+```javascript
 const scale = d3.scaleLinear()
   .domain([0, 140])
   .range([0, 400])
