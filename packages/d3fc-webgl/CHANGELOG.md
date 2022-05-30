@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 3.2.0 (2022-05-30)
+
+
+### Features
+
+* simplify webgl line series to use SDF ([#1718](https://github.com/d3fc/d3fc/issues/1718)) ([f6212a3](https://github.com/d3fc/d3fc/commit/f6212a3))
+
+
+
+
+
 # [3.1.0](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-webgl@3.0.0...@d3fc/d3fc-webgl@3.1.0) (2020-09-01)
 
 

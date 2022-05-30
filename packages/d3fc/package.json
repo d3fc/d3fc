@@ -1,6 +1,6 @@
 {
   "name": "d3fc",
-  "version": "15.2.4",
+  "version": "15.2.5",
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "main": "build/d3fc.js",
   "scripts": {
@@ -24,10 +24,10 @@
   },
   "homepage": "https://d3fc.io",
   "dependencies": {
-    "@d3fc/d3fc-annotation": "^3.0.11",
+    "@d3fc/d3fc-annotation": "^3.0.12",
     "@d3fc/d3fc-axis": "^3.0.6",
     "@d3fc/d3fc-brush": "^3.0.3",
-    "@d3fc/d3fc-chart": "^5.1.4",
+    "@d3fc/d3fc-chart": "^5.1.5",
     "@d3fc/d3fc-data-join": "^6.0.3",
     "@d3fc/d3fc-discontinuous-scale": "^4.0.1",
     "@d3fc/d3fc-element": "^6.2.0",
@@ -39,10 +39,10 @@
     "@d3fc/d3fc-random-data": "^4.0.1",
     "@d3fc/d3fc-rebind": "^6.0.1",
     "@d3fc/d3fc-sample": "^5.0.1",
-    "@d3fc/d3fc-series": "^6.0.4",
+    "@d3fc/d3fc-series": "^6.1.0",
     "@d3fc/d3fc-shape": "^6.0.1",
     "@d3fc/d3fc-technical-indicator": "^8.1.0",
-    "@d3fc/d3fc-webgl": "^3.1.0",
+    "@d3fc/d3fc-webgl": "^3.2.0",
     "@d3fc/d3fc-zoom": "^1.1.1"
   }
 }
