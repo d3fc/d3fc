@@ -57,6 +57,7 @@ Examples can be found on the [project website](http://d3fc.io/). These same exam
 
 Framework integration examples:
  - [Streaming Chart in React](https://codepen.io/murcikan-scottlogic/pen/wvyxbjo) 
+ - [Streaming Chart in Angular](https://stackblitz.com/edit/angular-ivy-bsksgk?file=src/app/app.component.html)
 
 There are also a number of other documents and articles that provide a bit more background regarding the design principles of D3FC -
 
