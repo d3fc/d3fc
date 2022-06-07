@@ -55,6 +55,9 @@ For API documentation see the corresponding package documentation -
 
 Examples can be found on the [project website](http://d3fc.io/). These same examples are also [available offline](https://github.com/d3fc/d3fc/tree/master/examples/README.md).
 
+Framework integration examples:
+ - [Streaming Chart in React](https://codepen.io/murcikan-scottlogic/pen/wvyxbjo) 
+
 There are also a number of other documents and articles that provide a bit more background regarding the design principles of D3FC -
 
  - [Unboxing D3](https://medium.com/@ColinEberhardt/unboxing-d3-ec3d71196852) - there are numerous charting libraries that are 'built with D3', but all of them keep D3 'in its box' and as a result, you cannot unleash its full power!
