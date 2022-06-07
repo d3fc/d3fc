@@ -10,26 +10,19 @@ import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = xyBase();
 
-    const crossValueAttribute = webglAdjacentAttribute(-1, 2);
-    const crossPreviousValueAttribute = crossValueAttribute.offset(-1);
+    const crossValueAttribute = webglAdjacentAttribute(0, 1);
     const crossNextValueAttribute = crossValueAttribute.offset(1);
-    const crossNextNextValueAttribute = crossValueAttribute.offset(2);
-    const mainValueAttribute = webglAdjacentAttribute(-1, 2);
-    const mainPreviousValueAttribute = mainValueAttribute.offset(-1);
+    const mainValueAttribute = webglAdjacentAttribute(0, 1);
     const mainNextValueAttribute = mainValueAttribute.offset(1);
-    const mainNextNextValueAttribute = mainValueAttribute.offset(2);
-    const definedAttribute = webglAdjacentAttribute(0, 1).type(webglTypes.UNSIGNED_BYTE);
+    const definedAttribute = webglAdjacentAttribute(0, 1)
+        .type(webglTypes.UNSIGNED_BYTE);
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesLine()
-        .crossPreviousValueAttribute(crossPreviousValueAttribute)
         .crossValueAttribute(crossValueAttribute)
         .crossNextValueAttribute(crossNextValueAttribute)
-        .crossNextNextValueAttribute(crossNextNextValueAttribute)
-        .mainPreviousValueAttribute(mainPreviousValueAttribute)
         .mainValueAttribute(mainValueAttribute)
         .mainNextValueAttribute(mainNextValueAttribute)
-        .mainNextNextValueAttribute(mainNextNextValueAttribute)
         .definedAttribute(definedAttribute)
         .definedNextAttribute(definedNextAttribute);
 
