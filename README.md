@@ -57,7 +57,9 @@ Examples can be found on the [project website](http://d3fc.io/). These same exam
 
 Framework integration examples:
  - [Streaming Chart in React](https://codepen.io/murcikan-scottlogic/pen/wvyxbjo) 
-
+ - [Streaming Chart in Angular](https://stackblitz.com/edit/angular-ivy-bsksgk?file=src/app/app.component.html)
+ - [Streaming Chart in Svelte](https://stackblitz.com/edit/vitejs-vite-74afkj?file=src/App.svelte)
+ 
 There are also a number of other documents and articles that provide a bit more background regarding the design principles of D3FC -
 
  - [Unboxing D3](https://medium.com/@ColinEberhardt/unboxing-d3-ec3d71196852) - there are numerous charting libraries that are 'built with D3', but all of them keep D3 'in its box' and as a result, you cannot unleash its full power!
