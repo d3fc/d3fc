@@ -1,4 +1,4 @@
-import type {Selection, BaseType} from "d3-selection"
+import type {Selection, BaseType} from "d3-selection";
 
 export default function Pointer <
     GElement extends BaseType,

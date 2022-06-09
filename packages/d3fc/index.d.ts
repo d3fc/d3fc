@@ -1,7 +1,7 @@
 export as namespace fc;
 
 export * from '@d3fc/d3fc-chart';
-export * from '@d3fc/d3fc-pointer'
+export * from '@d3fc/d3fc-pointer';
 
 // ---------------------------------------------------------------------------------
 // The following types are placeholders until the package has real definitions added
