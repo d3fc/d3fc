@@ -1,6 +1,7 @@
 export as namespace fc;
 
 export * from '@d3fc/d3fc-chart';
+export * from '@d3fc/d3fc-pointer'
 
 // ---------------------------------------------------------------------------------
 // The following types are placeholders until the package has real definitions added
@@ -73,9 +74,6 @@ export const layoutGreedy: any;
 export const layoutLabel: any;
 export const layoutRemoveOverlaps: any;
 export const layoutTextLabel: any;
-
-// @d3fc/d3fc-pointer
-export const pointer: any;
 
 // @d3fc/d3fc-random
 export const randomFinancial: any;
