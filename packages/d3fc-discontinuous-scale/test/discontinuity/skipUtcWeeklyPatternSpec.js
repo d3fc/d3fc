@@ -1,4 +1,4 @@
-import { default as skipUtcWeeklyPattern, utcTimeHelper } from '../../src/discontinuity/skipUtcWeeklyPattern';
+import { default as skipUtcWeeklyPattern } from '../../src/discontinuity/skipUtcWeeklyPattern';
 import { utcMillisecond } from 'd3-time';
 
 const nonTradingHoursPattern =
