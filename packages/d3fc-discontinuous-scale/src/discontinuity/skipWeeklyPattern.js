@@ -3,7 +3,7 @@ import { tradingDay } from './skipWeeklyPattern/tradingDay';
 import { dayBoundary, millisPerDay } from './skipWeeklyPattern/constants'
 import { dateTimeUtility } from './skipWeeklyPattern/dateTimeUtility';
 
-export const localTimeHelper = dateTimeUtility(
+export const localDateTimeUtility = dateTimeUtility(
     (date, hh, mm, ss, ms) => new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm, ss, ms),
     date => date.getDay(),
     date => [date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()],
@@ -24,21 +24,21 @@ export const localTimeHelper = dateTimeUtility(
 /**
  * Creates WeeklyPatternDiscontinuityProvider
  * @param {Object} nonTradingPattern - contains raw 'non-trading' time ranges for each day of the week
- * @param {DateTimeUtility} timeHelper - uses local or utc dates
+ * @param {DateTimeUtility} dateTimeUtility - uses local or utc dates
  * @returns { WeeklyPatternDiscontinuityProvider } WeeklyPatternDiscontinuityProvider
  */
-export const base = (nonTradingPattern, timeHelper) => {
+export const base = (nonTradingPattern, dateTimeUtility) => {
 
     const getDayPatternOrDefault = (day) => nonTradingPattern[day] === undefined ? [] : nonTradingPattern[day];
 
     const tradingDays = [
-        tradingDay(getDayPatternOrDefault('Sunday'), timeHelper),
-        tradingDay(getDayPatternOrDefault('Monday'), timeHelper),
-        tradingDay(getDayPatternOrDefault('Tuesday'), timeHelper),
-        tradingDay(getDayPatternOrDefault('Wednesday'), timeHelper),
-        tradingDay(getDayPatternOrDefault('Thursday'), timeHelper),
-        tradingDay(getDayPatternOrDefault('Friday'), timeHelper),
-        tradingDay(getDayPatternOrDefault('Saturday'), timeHelper)]
+        tradingDay(getDayPatternOrDefault('Sunday'), dateTimeUtility),
+        tradingDay(getDayPatternOrDefault('Monday'), dateTimeUtility),
+        tradingDay(getDayPatternOrDefault('Tuesday'), dateTimeUtility),
+        tradingDay(getDayPatternOrDefault('Wednesday'), dateTimeUtility),
+        tradingDay(getDayPatternOrDefault('Thursday'), dateTimeUtility),
+        tradingDay(getDayPatternOrDefault('Friday'), dateTimeUtility),
+        tradingDay(getDayPatternOrDefault('Saturday'), dateTimeUtility)]
 
     const totalTradingWeekMilliseconds = tradingDays.reduce((total, tradingDay) => total + tradingDay.totalTradingTimeInMiliseconds, 0)
 
@@ -55,14 +55,14 @@ export const base = (nonTradingPattern, timeHelper) => {
      * @returns {Date}
      */
     instance.clampUp = (date) => {
-        const tradingDay = tradingDays[timeHelper.getDay(date)];
+        const tradingDay = tradingDays[dateTimeUtility.getDay(date)];
 
         for (let i = 0; i < tradingDay.nonTradingTimeRanges.length; i++) {
             if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
 
                 return tradingDay.nonTradingTimeRanges[i].endTime === dayBoundary
-                    ? instance.clampUp(timeHelper.getStartOfNextDay(date))
-                    : timeHelper.setTime(date, tradingDay.nonTradingTimeRanges[i].endTime);
+                    ? instance.clampUp(dateTimeUtility.getStartOfNextDay(date))
+                    : dateTimeUtility.setTime(date, tradingDay.nonTradingTimeRanges[i].endTime);
             }
         }
         return date;
@@ -74,14 +74,14 @@ export const base = (nonTradingPattern, timeHelper) => {
      * @returns {Date}
     */
     instance.clampDown = (date) => {
-        const tradingDay = tradingDays[timeHelper.getDay(date)];
+        const tradingDay = tradingDays[dateTimeUtility.getDay(date)];
 
         for (let i = 0; i < tradingDay.nonTradingTimeRanges.length; i++) {
             if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
 
                 return tradingDay.nonTradingTimeRanges[i].startTime === dayBoundary
-                    ? instance.clampDown(timeHelper.getEndOfPreviousDay(date))
-                    : timeHelper.setTime(date, tradingDay.nonTradingTimeRanges[i].startTime, -1);
+                    ? instance.clampDown(dateTimeUtility.getEndOfPreviousDay(date))
+                    : dateTimeUtility.setTime(date, tradingDay.nonTradingTimeRanges[i].startTime, -1);
             }
         }
         return date;
@@ -104,33 +104,33 @@ export const base = (nonTradingPattern, timeHelper) => {
         let [start, end, factor] = sortChronologically(startDate, endDate);
 
         // same day distance
-        if (timeHelper.dayInterval.floor(start) === timeHelper.dayInterval.floor(end)) {
-            return instance.tradingDays[timeHelper.getDay(start)].totalTradingMillisecondsBetween(start, end);
+        if (dateTimeUtility.dayInterval.floor(start) === dateTimeUtility.dayInterval.floor(end)) {
+            return instance.tradingDays[dateTimeUtility.getDay(start)].totalTradingMillisecondsBetween(start, end);
         }
 
         // combine any trading time left in the day after startDate 
         // and any trading time from midnight up until the endDate
-        let total = instance.tradingDays[timeHelper.getDay(start)].totalTradingMillisecondsBetween(start, timeHelper.dayInterval.offset(timeHelper.dayInterval(start), 1)) +
-            instance.tradingDays[timeHelper.getDay(end)].totalTradingMillisecondsBetween(timeHelper.dayInterval(end), end)
+        let total = instance.tradingDays[dateTimeUtility.getDay(start)].totalTradingMillisecondsBetween(start, dateTimeUtility.dayInterval.offset(dateTimeUtility.dayInterval(start), 1)) +
+            instance.tradingDays[dateTimeUtility.getDay(end)].totalTradingMillisecondsBetween(dateTimeUtility.dayInterval(end), end)
 
         // startDate and endDate are consecutive days    
-        if (timeHelper.dayInterval.count(start, end) === 1) {
+        if (dateTimeUtility.dayInterval.count(start, end) === 1) {
             return total;
         }
 
         // move the start date to following day
-        start = timeHelper.dayInterval.offset(timeHelper.dayInterval(start), 1);
+        start = dateTimeUtility.dayInterval.offset(dateTimeUtility.dayInterval(start), 1);
         // remove 'time component' from endDate
-        end = timeHelper.dayInterval.ceil(end);
+        end = dateTimeUtility.dayInterval.ceil(end);
 
-        return factor * timeHelper.dayInterval.range(start, end)
+        return factor * dateTimeUtility.dayInterval.range(start, end)
             .reduce((runningTotal, currentDay, currentIndex, arr) => {
 
                 const nextDay = currentIndex < arr.length - 1
                     ? arr[currentIndex + 1]
-                    : timeHelper.dayInterval.offset(currentDay, 1);
+                    : dateTimeUtility.dayInterval.offset(currentDay, 1);
                 const isDstBoundary = (nextDay - currentDay) !== millisPerDay;
-                const tradingDay = instance.tradingDays[timeHelper.getDay(currentDay)];
+                const tradingDay = instance.tradingDays[dateTimeUtility.getDay(currentDay)];
                 return runningTotal += isDstBoundary
                     ? tradingDay.totalTradingMillisecondsBetween(currentDay, nextDay)
                     : tradingDay.totalTradingTimeInMiliseconds;
@@ -148,20 +148,20 @@ export const base = (nonTradingPattern, timeHelper) => {
             ? instance.clampUp(date)
             : instance.clampDown(date);
 
-        const isDstBoundary = (d) => (timeHelper.dayInterval.offset(d) - timeHelper.dayInterval(d)) !== millisPerDay;
+        const isDstBoundary = (d) => (dateTimeUtility.dayInterval.offset(d) - dateTimeUtility.dayInterval(d)) !== millisPerDay;
 
         const moveToDayBoundary = (tradingDay, date, ms) => {
 
             if (ms < 0) {
-                const dateFloor = timeHelper.dayInterval(date);
+                const dateFloor = dateTimeUtility.dayInterval(date);
                 const distanceToStartOfDay = tradingDay.totalTradingMillisecondsBetween(dateFloor, date);
 
                 return Math.abs(ms) <= distanceToStartOfDay
                     ? tradingDay.offset(date, ms)
-                    : [instance.clampDown(timeHelper.msInterval.offset(dateFloor, -1)), ms + distanceToStartOfDay + 1];
+                    : [instance.clampDown(dateTimeUtility.msInterval.offset(dateFloor, -1)), ms + distanceToStartOfDay + 1];
 
             } else {
-                const nextDate = timeHelper.getStartOfNextDay(date);
+                const nextDate = dateTimeUtility.getStartOfNextDay(date);
                 const distanceToDayBoundary = tradingDay.totalTradingMillisecondsBetween(date, nextDate);
 
                 return ms < distanceToDayBoundary
@@ -174,13 +174,13 @@ export const base = (nonTradingPattern, timeHelper) => {
             return date;
 
         const moveDateDelegate = ms < 0
-            ? (date, remainingMs, tradingDayMs) => [timeHelper.dayInterval.offset(date, -1), remainingMs + tradingDayMs]
-            : (date, remainingMs, tradingDayMs) => [timeHelper.dayInterval.offset(date), remainingMs - tradingDayMs];
+            ? (date, remainingMs, tradingDayMs) => [dateTimeUtility.dayInterval.offset(date, -1), remainingMs + tradingDayMs]
+            : (date, remainingMs, tradingDayMs) => [dateTimeUtility.dayInterval.offset(date), remainingMs - tradingDayMs];
 
-        let tradingDay = instance.tradingDays[timeHelper.getDay(date)];
+        let tradingDay = instance.tradingDays[dateTimeUtility.getDay(date)];
         [date, ms] = moveToDayBoundary(tradingDay, date, ms);
         while (ms !== 0) {
-            tradingDay = instance.tradingDays[timeHelper.getDay(date)];
+            tradingDay = instance.tradingDays[dateTimeUtility.getDay(date)];
             if (isDstBoundary(date)) {
                 [date, ms] = moveToDayBoundary(tradingDay, date, ms);
             } else {
@@ -198,4 +198,4 @@ export const base = (nonTradingPattern, timeHelper) => {
     return instance;
 }
 
-export default (nonTradingHoursPattern) => base(nonTradingHoursPattern, localTimeHelper);
+export default (nonTradingHoursPattern) => base(nonTradingHoursPattern, localDateTimeUtility);

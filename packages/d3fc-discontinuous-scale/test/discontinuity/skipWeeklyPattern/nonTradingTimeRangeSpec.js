@@ -1,6 +1,6 @@
 import { nonTradingTimeRange, standardiseTimeString } from "../../../src/discontinuity/skipWeeklyPattern/nonTradingTimeRange"
-import { utcTimeHelper } from "../../../src/discontinuity/skipUtcWeeklyPattern"
-import { localTimeHelper } from "../../../src/discontinuity/skipWeeklyPattern"
+import { utcDateTimeUtility } from "../../../src/discontinuity/skipUtcWeeklyPattern"
+import { localDateTimeUtility } from "../../../src/discontinuity/skipWeeklyPattern"
 
 describe('nonTradingTimeRange', () => {
     it('throws for no arguments', () => {
@@ -16,29 +16,29 @@ describe('nonTradingTimeRange', () => {
     });
 
     it('throws for argument that is not string[]', () => {
-        expect(() => nonTradingTimeRange([1, 2], utcTimeHelper)).toThrow();
+        expect(() => nonTradingTimeRange([1, 2], utcDateTimeUtility)).toThrow();
     });
 
     it('throws for argument that is not string[]', () => {
-        expect(() => nonTradingTimeRange([new Date(), new Date()], utcTimeHelper)).toThrow();
+        expect(() => nonTradingTimeRange([new Date(), new Date()], utcDateTimeUtility)).toThrow();
     });
 
     it('throws for string[] argument when lenght != 2', () => {
-        expect(() => nonTradingTimeRange(["a"], utcTimeHelper)).toThrow();
+        expect(() => nonTradingTimeRange(["a"], utcDateTimeUtility)).toThrow();
     });
 
     it('throws for string[] argument with invalid time string', () => {
-        expect(() => nonTradingTimeRange(["", ""], utcTimeHelper)).toThrow();
+        expect(() => nonTradingTimeRange(["", ""], utcDateTimeUtility)).toThrow();
     });
 
     it('should return lenght = 1 for SOD and "00:00:00.001" ', () => {
-        expect(nonTradingTimeRange(["SOD", "00:00:00.001"], utcTimeHelper).lenghtInMs).toEqual(1);
-        expect(nonTradingTimeRange(["SOD", "00:00:00.001"], localTimeHelper).lenghtInMs).toEqual(1);
+        expect(nonTradingTimeRange(["SOD", "00:00:00.001"], utcDateTimeUtility).lenghtInMs).toEqual(1);
+        expect(nonTradingTimeRange(["SOD", "00:00:00.001"], localDateTimeUtility).lenghtInMs).toEqual(1);
     });
 
     it('should return total milliseconds per day for timeRange [SOD, EOD)', () => {
-        expect(nonTradingTimeRange(["SOD", "EOD"], utcTimeHelper).lenghtInMs).toEqual(1000 * 60 * 60 * 24);
-        expect(nonTradingTimeRange(["SOD", "EOD"], localTimeHelper).lenghtInMs).toEqual(1000 * 60 * 60 * 24);
+        expect(nonTradingTimeRange(["SOD", "EOD"], utcDateTimeUtility).lenghtInMs).toEqual(1000 * 60 * 60 * 24);
+        expect(nonTradingTimeRange(["SOD", "EOD"], localDateTimeUtility).lenghtInMs).toEqual(1000 * 60 * 60 * 24);
     });
 });
 

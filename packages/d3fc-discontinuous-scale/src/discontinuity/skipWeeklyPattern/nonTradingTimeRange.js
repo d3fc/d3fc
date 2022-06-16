@@ -63,10 +63,10 @@ export function standardiseTimeString(timeString) {
  * EOD  - end of day
  * @constructor
  * @param { string[] } timeRangeTuple - Time range as a tuple of time strings e.g. ["07:45", "08:30"), ["SOD", "08:30:20") or ["19:00:45.500", "EOD").
- * @param { TimeHelper } timeHelper
+ * @param { import('./dateTimeUtility').DateTimeUtility } dateTimeUtility
  * @returns { nonTradingTimeRange }
  */
-export function nonTradingTimeRange(timeRangeTuple, timeHelper) {
+export function nonTradingTimeRange(timeRangeTuple, dateTimeUtility) {
 
     if (arguments.length != 2 ||
         !Array.isArray(timeRangeTuple)
@@ -91,7 +91,7 @@ export function nonTradingTimeRange(timeRangeTuple, timeHelper) {
         throw `Time range start time '${startTime}' must be before end time '${endTime}' or both must equal ${dayBoundary}`
     }
 
-    const lenghtInMs = timeHelper.setTime(new Date(endTime === dayBoundary ? millisPerDay : 0), endTime) - timeHelper.setTime(new Date(0), startTime)
+    const lenghtInMs = dateTimeUtility.setTime(new Date(endTime === dayBoundary ? millisPerDay : 0), endTime) - dateTimeUtility.setTime(new Date(0), startTime)
     const instance = { startTime, endTime, lenghtInMs };
 
     /**
@@ -100,7 +100,7 @@ export function nonTradingTimeRange(timeRangeTuple, timeHelper) {
      * @returns { boolean }
      */
     instance.isInRange = (date) => {
-        const time = timeHelper.getTimeString(date);
+        const time = dateTimeUtility.getTimeString(date);
 
         if (instance.startTime <= time
             && (instance.endTime === dayBoundary || instance.endTime > time)) {
