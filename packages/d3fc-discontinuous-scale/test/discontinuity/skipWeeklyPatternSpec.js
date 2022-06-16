@@ -119,17 +119,6 @@ describe('skipWeeklyPattern', () => {
       expect(sut.distance(new Date(2018, 11, 31), new Date(2018, 0, 1))).toBe(-52 * sut.totalTradingWeekMilliseconds);
     });
 
-    it('on DST boundaries (clock goes forward) should return 23hr or 25hr between consecutive days', () => {
-      const sut = skipWeeklyPattern(tradingWeekWithoutDiscontinuities);
-      expect(sut.distance(new Date(2022, 2, 27), new Date(2022, 2, 28))).toBe(23 * 3600 * 1000);
-      expect(sut.distance(new Date(2022, 9, 30), new Date(2022, 9, 31))).toBe(25 * 3600 * 1000);
-    });
-
-    it('should return 23 * 3600 * 1000 for a DST sunday as it skips missing hour', () => {
-      const sut = skipWeeklyPattern({ Sunday: [["1:0", "2:0"]] });
-      expect(sut.distance(new Date(2022, 2, 27), new Date(2022, 2, 28))).toBe(23 * 3600 * 1000);
-    });
-
     it('should return 7 * 24 * 3600 * 1000 for trading week without non-trading periods', () => {
       const sut = skipWeeklyPattern(tradingWeekWithoutDiscontinuities);
       expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 0, 8))).toBe(7 * 24 * 3600 * 1000);
@@ -202,21 +191,6 @@ describe('skipWeeklyPattern', () => {
 
     it('should return start of 53rd week when offset is 52 * totalTradingWeekMilliseconds', () => {
       expect(sut.offset(new Date(2018, 0, 1), 52 * sut.totalTradingWeekMilliseconds)).toEqual(new Date(2018, 11, 31));
-    });
-
-    it('on a DST boundry day should return start of next day when offset is 23 hours', () => {
-      const sut = skipWeeklyPattern(tradingWeekWithoutDiscontinuities);
-      expect(sut.offset(new Date(2022, 2, 27), 23 * 3600 * 1000)).toEqual(new Date(2022, 2, 28));
-    });
-
-    it('on a DST Sunday boundary should return 1h into next trading period when offset is 1h', () => {
-      const sut = skipWeeklyPattern({ Sunday: [["1:0", "2:0"]] });
-      expect(sut.offset(new Date(2022, 2, 27, 1), 3600 * 1000)).toEqual(new Date(2022, 2, 27, 3));
-    });
-
-    it('should return next day on a DST boundry when offset is 23 hours', () => {
-      const sut = skipWeeklyPattern({ Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [["1:0", "2:0"]] });
-      expect(sut.offset(new Date(2022, 2, 27), 23 * 3600 * 1000)).toEqual(new Date(2022, 2, 28));
     });
 
     it('should return end of second non-trading range', () => {
