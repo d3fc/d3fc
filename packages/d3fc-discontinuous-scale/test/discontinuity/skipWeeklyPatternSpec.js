@@ -1,4 +1,3 @@
-import * as timeZoneMock from 'timezone-mock';
 import { default as skipWeeklyPattern } from '../../src/discontinuity/skipWeeklyPattern';
 import { timeMillisecond } from 'd3-time';
 
@@ -22,7 +21,6 @@ const sundayEndBoundry = new Date(2018, 0, 7, 19);
 
 describe('skipWeeklyPattern', () => {
   const sut = skipWeeklyPattern(nonTradingHoursPattern);
-  timeZoneMock.register('Europe/London');
 
   it('has 7 trading days', () => {
     expect(sut.tradingDays.length).toBe(7);
@@ -257,6 +255,4 @@ describe('skipWeeklyPattern', () => {
       expect(sut.copy() === sut.copy()).toBeTruthy();
     });
   });
-
-  timeZoneMock.unregister();
 });

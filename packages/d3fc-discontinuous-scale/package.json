@@ -28,8 +28,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "timezone-mock": "^1.3.2"
   }
 }
