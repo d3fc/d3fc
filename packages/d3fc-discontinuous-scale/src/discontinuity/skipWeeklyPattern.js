@@ -1,4 +1,4 @@
-import * as d3 from 'd3';
+import { timeDay, timeMillisecond } from 'd3-time';
 
 const millisPerDay = 24 * 3600 * 1000;
 const dayBoundary = "00:00:00.000";
@@ -10,7 +10,7 @@ const EOD = 'EOD';
  * @param {string} timeString time string formatted as 'hh:mm:ss.fff';
  * @returns { int[] }
  */
-const getTimeComponentArray = (timeString) => [timeString.slice(0, 2), timeString.slice(3, 5), timeString.slice(6, 8), timeString.slice(9, 12)];
+export const getTimeComponentArray = (timeString) => [timeString.slice(0, 2), timeString.slice(3, 5), timeString.slice(6, 8), timeString.slice(9, 12)];
 
 /**
  * Object that helps with working with time strings and dates
@@ -21,52 +21,29 @@ const getTimeComponentArray = (timeString) => [timeString.slice(0, 2), timeStrin
  * @property { function(Date): Date } setToEndOfPreviousDay - returns the 'End' of the previous day i.e. one ms before midnight
  */
 
-export const utcTimeHelper = {
+/**
+ * 
+ * @param {function(Date, number, number, number, number): Date } setTimeForDate - sets a time on a Date object given hh, mm, ss & ms time compononets
+ * @param {function(Date): number } getMonth 
+ * @param {function(Date): number } getDate 
+ * @param {function(Date): number } getDay 
+ * @param {function(Date): number } getHours 
+ * @param {function(Date): number } getMinutes 
+ * @param {function(Date): number } getSeconds 
+ * @param {function(Date): number } getMilliseconds 
+ * @param {function} dayInterval 
+ * @param {function} msInterval 
+ * @returns {TimeHelper}
+ */
+export const timeHelper = (setTimeForDate, getDay, getHours, getMinutes, getSeconds, getMilliseconds, dayInterval, msInterval) => {
+    const helper = {}
+    helper.getTimeComponentArray = (timeString) => [timeString.slice(0, 2), timeString.slice(3, 5), timeString.slice(6, 8), timeString.slice(9, 12)];
     /**
-     * Returns the UTC time part of a given Date instance as 'hh:mm:ss.fff'
-     * @param {Date} date - Data instance
-     * @returns {string} time string.
-     */
-    getTimeString: date => `${date.getUTCHours().toString(10).padStart(2, '0')}:${date.getUTCMinutes().toString(10).padStart(2, '0')}:${date.getUTCSeconds().toString(10).padStart(2, '0')}.${date.getUTCMilliseconds().toString(10).padStart(3, '0')}`,
-
-    /**
-     * Returns the combined UTC date and time string
-     * @param {Date} date - Data instance
-     * @param {string} timeString - string as 'hh:mm:ss.fff'
-     * @param {number} offsetInmilliSeconds - additional offset in millisends. Default = 0; e.g. -1 is one millisecond before time specified by timeString;
-     * @returns {Date} - combined date and time.
-     */
-    setTime: (date, timeString, offsetInmilliSeconds = 0) => {
-        const [hh, mm, ss, ms] = getTimeComponentArray(timeString);
-        return d3.utcMillisecond.offset(new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), hh, mm, ss, ms)), offsetInmilliSeconds);
-    },
-
-    /**
-     * Returns the start of the next day i.e. 00:00:00.000
-     * @param {Date} date - Data instance
-     * @returns {Date}.
-     */
-    setToStartOfNextDay: (date) => d3.utcDay.offset(d3.utcDay.floor(date), 1),
-
-    /**
-     * Returns the end of the previous day (1ms before midnight) i.e.  23:59:59.999
-     * @param {Date} date - Data instance
-     * @returns {Date}.
-     */
-    setToEndOfPreviousDay: (date) => d3.utcMillisecond.offset(d3.utcDay.floor(date), -1),
-
-    dayInterval: d3.utcDay,
-
-    msInterval: d3.utcMillisecond
-}
-
-export const localTimeHelper = {
-    /**
-     * Returns the local time part of a given Date instance as 'hh:mm:ss.fff'
-     * @param {Date} date - Data instance
-     * @returns {string} time string.
-     */
-    getTimeString: date => `${date.getHours().toString(10).padStart(2, '0')}:${date.getMinutes().toString(10).padStart(2, '0')}:${date.getSeconds().toString(10).padStart(2, '0')}.${date.getMilliseconds().toString(10).padStart(3, '0')}`,
+        * Returns the local time part of a given Date instance as 'hh:mm:ss.fff'
+        * @param {Date} date - Data instance
+        * @returns {string} time string.
+        */
+    helper.getTimeString = date => `${getHours(date).toString(10).padStart(2, '0')}:${getMinutes(date).toString(10).padStart(2, '0')}:${getSeconds(date).toString(10).padStart(2, '0')}.${getMilliseconds(date).toString(10).padStart(3, '0')}`;
 
     /**
      * Returns the combined local date and time string
@@ -75,29 +52,83 @@ export const localTimeHelper = {
      * @param {number} offsetInmilliSeconds - additional offset in millisends. Default = 0; e.g. -1 is one millisecond before time specified by timeString;
      * @returns {Date} - combined date and time.
      */
-    setTime: (date, timeString, offsetInmilliSeconds = 0) => {
+    helper.setTime = (date, timeString, offsetInmilliSeconds = 0) => {
         const [hh, mm, ss, ms] = getTimeComponentArray(timeString);
-        return d3.timeMillisecond.offset(new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm, ss, ms), offsetInmilliSeconds);
-    },
+        return msInterval.offset(setTimeForDate(date, hh, mm, ss, ms), offsetInmilliSeconds);
+    };
 
     /**
      * Returns the start of the next day i.e. 00:00:00.000
      * @param {Date} date - Data instance
      * @returns {Date}.
      */
-    setToStartOfNextDay: (date) => d3.timeDay.offset(d3.timeDay.floor(date), 1),
+    helper.setToStartOfNextDay = (date) => dayInterval.offset(dayInterval.floor(date), 1);
 
     /**
      * Returns the end of the previous day (1ms before midnight) i.e.  23:59:59.999
      * @param {Date} date - Data instance
      * @returns {Date}.
      */
-    setToEndOfPreviousDay: (date) => d3.timeMillisecond.offset(d3.timeDay.floor(date), -1),
+    helper.setToEndOfPreviousDay = (date) => msInterval.offset(dayInterval.floor(date), -1);
 
-    dayInterval: d3.timeDay,
+    /**
+     * 
+     */
+    helper.dayInterval = dayInterval,
+        helper.msInterval = msInterval,
+        helper.getDay = getDay
 
-    msInterval: d3.timeMillisecond
+    return helper;
 }
+
+const localTimeHelper = timeHelper(
+    (date, hh, mm, ss, ms) => new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm, ss, ms),
+    date => date.getDay(),
+    date => date.getHours(),
+    date => date.getMinutes(),
+    date => date.getSeconds(),
+    date => date.getMilliseconds(),
+    timeDay,
+    timeMillisecond
+)
+// export const localTimeHelper = {
+//     /**
+//      * Returns the local time part of a given Date instance as 'hh:mm:ss.fff'
+//      * @param {Date} date - Data instance
+//      * @returns {string} time string.
+//      */
+//     getTimeString: date => `${date.getHours().toString(10).padStart(2, '0')}:${date.getMinutes().toString(10).padStart(2, '0')}:${date.getSeconds().toString(10).padStart(2, '0')}.${date.getMilliseconds().toString(10).padStart(3, '0')}`,
+
+//     /**
+//      * Returns the combined local date and time string
+//      * @param {Date} date - Data instance
+//      * @param {string} timeString - string as 'hh:mm:ss.fff'
+//      * @param {number} offsetInmilliSeconds - additional offset in millisends. Default = 0; e.g. -1 is one millisecond before time specified by timeString;
+//      * @returns {Date} - combined date and time.
+//      */
+//     setTime: (date, timeString, offsetInmilliSeconds = 0) => {
+//         const [hh, mm, ss, ms] = getTimeComponentArray(timeString);
+//         return timeMillisecond.offset(new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm, ss, ms), offsetInmilliSeconds);
+//     },
+
+//     /**
+//      * Returns the start of the next day i.e. 00:00:00.000
+//      * @param {Date} date - Data instance
+//      * @returns {Date}.
+//      */
+//     setToStartOfNextDay: (date) => timeDay.offset(timeDay.floor(date), 1),
+
+//     /**
+//      * Returns the end of the previous day (1ms before midnight) i.e.  23:59:59.999
+//      * @param {Date} date - Data instance
+//      * @returns {Date}.
+//      */
+//     setToEndOfPreviousDay: (date) => timeMillisecond.offset(timeDay.floor(date), -1),
+
+//     dayInterval: timeDay,
+
+//     msInterval: timeMillisecond
+// }
 
 /**
  * Attempts to parse and format a time string into a fixed lenght string 'hh:mm:ss.fff'
@@ -153,15 +184,15 @@ export function standardiseTimeString(timeString) {
  * @typedef { Object } nonTradingTimeRange
  * @property { string } startTime - Start time string with fixed format 'hh:mm:ss.fff'
  * @property { string } endTime - End time string with fixed format 'hh:mm:ss.fff'
- * @property { int } lenghtInMs - UTC Time range length in MS
+ * @property { int } lenghtInMs - Absolute length in MS i.e. only valid on non-Daylight saving boundaries
  */
 
 /**
- * Represents a single continous Non-Trading UTC time interval within a single day. You must denote day boundries as:
+ * Represents a single continous Non-Trading time interval within a single day. You must denote day boundries as:
  * SOD - start of day 
  * EOD  - end of day
  * @constructor
- * @param { string[] } timeRangeTuple - UTC time range as a tuple of time strings e.g. ["07:45", "08:30"), ["SOD", "08:30:20") or ["19:00:45.500", "EOD").
+ * @param { string[] } timeRangeTuple - Time range as a tuple of time strings e.g. ["07:45", "08:30"), ["SOD", "08:30:20") or ["19:00:45.500", "EOD").
  * @param { TimeHelper } timeHelper
  * @returns { nonTradingTimeRange }
  */
@@ -202,8 +233,9 @@ export function nonTradingTimeRange(timeRangeTuple, timeHelper) {
         const time = timeHelper.getTimeString(date);
 
         if (instance.startTime <= time
-            && (instance.endTime === dayBoundary || instance.endTime > time))
+            && (instance.endTime === dayBoundary || instance.endTime > time)) {
             return true;
+        }
 
         return false;
     }
@@ -213,7 +245,7 @@ export function nonTradingTimeRange(timeRangeTuple, timeHelper) {
 
 /**
  * Represents a Trading day
- * @param { string[][] } rawDicontinuityTimeRanges - Array of non-trading time ranges within the day
+ * @param { string[][] } rawDicontinuityTimeRanges - Array of time range tuples e.g. [["07:45", "08:30"), ["19:00:45.500", "EOD")]
  */
 export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
     const nonTradingTimeRanges = rawDicontinuityTimeRanges
@@ -227,7 +259,7 @@ export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
             return 0;
         }
 
-        // ensure arguments are on the same day or intervalEnd is at most the start of the next day
+        // ensure arguments are on the same day or intervalEnd is the next day boundary
         if (timeHelper.dayInterval(intervalStart).getTime() !== timeHelper.dayInterval(intervalEnd).getTime()
             && timeHelper.setToStartOfNextDay(intervalStart).getTime() !== intervalEnd.getTime()) {
             throw `tradingDay.totalTradingMillisecondsBetween arguments must be on the same day or intervalEnd must be the start of the next day instead: intervalStart: '${intervalStart}'; intervalEnd: '${intervalEnd}'`
@@ -262,7 +294,6 @@ export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
     }
 
     const offset = (date, ms) => {
-
         if (ms === 0) {
             return [date, ms];
         }
@@ -288,11 +319,11 @@ export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
                         ? timeHelper.setToStartOfNextDay(date)
                         : timeHelper.setTime(date, nonTradingRange.endTime);
                     offsetDate = timeHelper.msInterval.offset(date, ms);
-                } else {
-                    ms -= (offsetDate - date);
-                    break;
                 }
             }
+
+            ms -= (offsetDate - date);
+
         } else {
 
             for (const nonTradingRange of nonTradingRanges) {
@@ -304,11 +335,10 @@ export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
                     ms += (date - endTime) + 1;
                     date = timeHelper.msInterval.offset(timeHelper.setTime(date, nonTradingRange.startTime), - 1);
                     offsetDate = timeHelper.msInterval.offset(date, ms);
-                } else {
-                    ms += (date - offsetDate);
-                    break;
                 }
             }
+
+            ms += (date - offsetDate);
         }
 
         if (ms !== 0) {
@@ -339,14 +369,16 @@ export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
  */
 export const base = (nonTradingPattern, timeHelper) => {
 
+    const getDayPatternOrDefault = (day) => nonTradingPattern[day] === undefined ? [] : nonTradingPattern[day];
+
     const tradingDays = [
-        tradingDay(nonTradingPattern['Sunday'], timeHelper),
-        tradingDay(nonTradingPattern['Monday'], timeHelper),
-        tradingDay(nonTradingPattern['Tuesday'], timeHelper),
-        tradingDay(nonTradingPattern['Wednesday'], timeHelper),
-        tradingDay(nonTradingPattern['Thursday'], timeHelper),
-        tradingDay(nonTradingPattern['Friday'], timeHelper),
-        tradingDay(nonTradingPattern['Saturday'], timeHelper)]
+        tradingDay(getDayPatternOrDefault('Sunday'), timeHelper),
+        tradingDay(getDayPatternOrDefault('Monday'), timeHelper),
+        tradingDay(getDayPatternOrDefault('Tuesday'), timeHelper),
+        tradingDay(getDayPatternOrDefault('Wednesday'), timeHelper),
+        tradingDay(getDayPatternOrDefault('Thursday'), timeHelper),
+        tradingDay(getDayPatternOrDefault('Friday'), timeHelper),
+        tradingDay(getDayPatternOrDefault('Saturday'), timeHelper)]
 
     const totalTradingWeekMilliseconds = tradingDays.reduce((total, tradingDay) => total + tradingDay.totalTradingTimeInMiliseconds, 0)
 
@@ -359,7 +391,7 @@ export const base = (nonTradingPattern, timeHelper) => {
      * @returns {Date}
      */
     instance.clampUp = (date) => {
-        const tradingDay = tradingDays[date.getDay()];
+        const tradingDay = tradingDays[timeHelper.getDay(date)];
 
         for (let i = 0; i < tradingDay.nonTradingTimeRanges.length; i++) {
             if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
@@ -378,7 +410,7 @@ export const base = (nonTradingPattern, timeHelper) => {
      * @returns {Date}
     */
     instance.clampDown = (date) => {
-        const tradingDay = tradingDays[date.getDay()];
+        const tradingDay = tradingDays[timeHelper.getDay(date)];
 
         for (let i = 0; i < tradingDay.nonTradingTimeRanges.length; i++) {
             if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
@@ -409,13 +441,13 @@ export const base = (nonTradingPattern, timeHelper) => {
 
         // same day distance
         if (timeHelper.dayInterval.floor(start) === timeHelper.dayInterval.floor(end)) {
-            return instance.tradingDays[start.getDay()].totalTradingMillisecondsBetween(start, end);
+            return instance.tradingDays[timeHelper.getDay(start)].totalTradingMillisecondsBetween(start, end);
         }
 
         // combine any trading time left in the day after startDate 
         // and any trading time from midnight up until the endDate
-        let total = instance.tradingDays[start.getDay()].totalTradingMillisecondsBetween(start, timeHelper.dayInterval.offset(timeHelper.dayInterval(start), 1)) +
-            instance.tradingDays[end.getDay()].totalTradingMillisecondsBetween(timeHelper.dayInterval(end), end)
+        let total = instance.tradingDays[timeHelper.getDay(start)].totalTradingMillisecondsBetween(start, timeHelper.dayInterval.offset(timeHelper.dayInterval(start), 1)) +
+            instance.tradingDays[timeHelper.getDay(end)].totalTradingMillisecondsBetween(timeHelper.dayInterval(end), end)
 
         // startDate and endDate are consecutive days    
         if (timeHelper.dayInterval.count(start, end) === 1) {
@@ -434,18 +466,11 @@ export const base = (nonTradingPattern, timeHelper) => {
                     ? arr[currentIndex + 1]
                     : timeHelper.dayInterval.offset(currentDay, 1);
                 const isDstBoundary = (nextDay - currentDay) !== millisPerDay;
-                const tradingDay = instance.tradingDays[currentDay.getDay()];
+                const tradingDay = instance.tradingDays[timeHelper.getDay(currentDay)];
                 return runningTotal += isDstBoundary
                     ? tradingDay.totalTradingMillisecondsBetween(currentDay, nextDay)
                     : tradingDay.totalTradingTimeInMiliseconds;
 
-            }, total)
-
-        // works out totalTradingMilliseconds for each day 
-        // the 
-        return factor * timeHelper.dayInterval.range(start, end)
-            .reduce((runningTotal, day) => {
-                runningTotal += instance.tradingDays[day.getDay()].totalTradingMillisecondsBetween(day, timeHelper.dayInterval.offset(day, 1))
             }, total);
     }
 
@@ -455,8 +480,11 @@ export const base = (nonTradingPattern, timeHelper) => {
      * @param {number} ms 
      */
     instance.offset = (date, ms) => {
+        date = ms >= 0
+            ? instance.clampUp(date)
+            : instance.clampDown(date);
 
-        const isDstBoundary = (d) => (timeHelper.dayInterval.offset(d) - d) !== millisPerDay;
+        const isDstBoundary = (d) => (timeHelper.dayInterval.offset(d) - timeHelper.dayInterval(d)) !== millisPerDay;
 
         const moveToDayBoundary = (tradingDay, date, ms) => {
 
@@ -485,10 +513,10 @@ export const base = (nonTradingPattern, timeHelper) => {
             ? (date, remainingMs, tradingDayMs) => [timeHelper.dayInterval.offset(date, -1), remainingMs + tradingDayMs]
             : (date, remainingMs, tradingDayMs) => [timeHelper.dayInterval.offset(date), remainingMs - tradingDayMs];
 
-        let tradingDay = instance.tradingDays[date.getDay()];
+        let tradingDay = instance.tradingDays[timeHelper.getDay(date)];
         [date, ms] = moveToDayBoundary(tradingDay, date, ms);
         while (ms !== 0) {
-            tradingDay = instance.tradingDays[date.getDay()];
+            tradingDay = instance.tradingDays[timeHelper.getDay(date)];
             if (isDstBoundary(date)) {
                 [date, ms] = moveToDayBoundary(tradingDay, date, ms);
             } else {
@@ -505,3 +533,5 @@ export const base = (nonTradingPattern, timeHelper) => {
 
     return instance;
 }
+
+export default (nonTradingHoursPattern) => base(nonTradingHoursPattern, localTimeHelper);
