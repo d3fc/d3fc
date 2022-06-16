@@ -120,8 +120,8 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
 
         // move the start date to following day
         start = dateTimeUtility.dayInterval.offset(dateTimeUtility.dayInterval(start), 1);
-        // remove 'time component' from endDate
-        end = dateTimeUtility.dayInterval.ceil(end);
+        // floor endDate to remove 'time component'
+        end = dateTimeUtility.dayInterval(end);
 
         return factor * dateTimeUtility.dayInterval.range(start, end)
             .reduce((runningTotal, currentDay, currentIndex, arr) => {
@@ -166,7 +166,7 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
 
                 return ms < distanceToDayBoundary
                     ? tradingDay.offset(date, ms)
-                    : [nextDate, ms - distanceToDayBoundary];
+                    : [instance.clampUp(nextDate), ms - distanceToDayBoundary];
             }
         };
 
@@ -174,8 +174,8 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
             return date;
 
         const moveDateDelegate = ms < 0
-            ? (date, remainingMs, tradingDayMs) => [dateTimeUtility.dayInterval.offset(date, -1), remainingMs + tradingDayMs]
-            : (date, remainingMs, tradingDayMs) => [dateTimeUtility.dayInterval.offset(date), remainingMs - tradingDayMs];
+            ? (date, remainingMs, tradingDayMs) => [instance.clampDown(dateTimeUtility.dayInterval.offset(date, -1)), remainingMs + tradingDayMs]
+            : (date, remainingMs, tradingDayMs) => [instance.clampUp(dateTimeUtility.dayInterval.offset(date)), remainingMs - tradingDayMs];
 
         let tradingDay = instance.tradingDays[dateTimeUtility.getDay(date)];
         [date, ms] = moveToDayBoundary(tradingDay, date, ms);

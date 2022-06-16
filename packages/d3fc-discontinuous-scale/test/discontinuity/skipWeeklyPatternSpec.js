@@ -26,6 +26,10 @@ describe('skipWeeklyPattern', () => {
     expect(sut.tradingDays.length).toBe(7);
   });
 
+  it('should throw due to no trading periods', () => {
+    expect(() => skipWeeklyPattern({ Monday: [["SOD", "EOD"]], Tuesday: [["SOD", "EOD"]], Wednesday: [["SOD", "EOD"]], Thursday: [["SOD", "EOD"]], Friday: [["SOD", "EOD"]], Saturday: [["SOD", "EOD"]], Sunday: [["SOD", "EOD"]] })).toThrow();
+  });
+
   describe('clampUp', () => {
 
     it('should do nothing 1ms before non trading period', () => {
@@ -50,6 +54,17 @@ describe('skipWeeklyPattern', () => {
       const expected = sundayEndBoundry;
       const actual = sut.clampUp(fridaySecondStartBoundary);
       expect(actual).toEqual(expected);
+    });
+
+    it('should advance to single trading ms', () => {
+      const sut = skipWeeklyPattern({ Sunday: [["SOD", "23:59:59.999"]], Monday: [["SOD", "EOD"]], Tuesday: [["SOD", "EOD"]], Wednesday: [["SOD", "EOD"]], Thursday: [["SOD", "EOD"]], Friday: [["SOD", "EOD"]], Saturday: [["SOD", "EOD"]] });
+      expect(sut.clampUp(new Date(2018, 0, 1))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
+      expect(sut.clampUp(new Date(2018, 0, 2))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
+      expect(sut.clampUp(new Date(2018, 0, 3))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
+      expect(sut.clampUp(new Date(2018, 0, 4))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
+      expect(sut.clampUp(new Date(2018, 0, 5))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
+      expect(sut.clampUp(new Date(2018, 0, 6))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
+      expect(sut.clampUp(new Date(2018, 0, 7))).toEqual(new Date(2018, 0, 7, 23, 59, 59, 999));
     });
   });
 
@@ -78,6 +93,17 @@ describe('skipWeeklyPattern', () => {
       const actual = sut.clampDown(timeMillisecond.offset(sundayEndBoundry, -1));
       expect(actual).toEqual(expected);
     });
+
+    it('should clamp down to single trading ms', () => {
+      const sut = skipWeeklyPattern({ Monday: [["00:00:00.001", "EOD"]], Tuesday: [["SOD", "EOD"]], Wednesday: [["SOD", "EOD"]], Thursday: [["SOD", "EOD"]], Friday: [["SOD", "EOD"]], Saturday: [["SOD", "EOD"]], Sunday: [["SOD", "EOD"]] });
+      expect(sut.clampDown(new Date(2018, 0, 1, 0, 0, 0, 1))).toEqual(new Date(2018, 0, 1));
+      expect(sut.clampDown(new Date(2018, 0, 2))).toEqual(new Date(2018, 0, 1));
+      expect(sut.clampDown(new Date(2018, 0, 3))).toEqual(new Date(2018, 0, 1));
+      expect(sut.clampDown(new Date(2018, 0, 4))).toEqual(new Date(2018, 0, 1));
+      expect(sut.clampDown(new Date(2018, 0, 5))).toEqual(new Date(2018, 0, 1));
+      expect(sut.clampDown(new Date(2018, 0, 6))).toEqual(new Date(2018, 0, 1));
+      expect(sut.clampDown(new Date(2018, 0, 7))).toEqual(new Date(2018, 0, 1));
+    });
   });
 
   describe('distance', () => {
@@ -100,7 +126,7 @@ describe('skipWeeklyPattern', () => {
     });
 
     it('should return 23 * 3600 * 1000 for a DST sunday as it skips missing hour', () => {
-      const sut = skipWeeklyPattern({ Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [["1:0", "2:0"]] });
+      const sut = skipWeeklyPattern({ Sunday: [["1:0", "2:0"]] });
       expect(sut.distance(new Date(2022, 2, 27), new Date(2022, 2, 28))).toBe(23 * 3600 * 1000);
     });
 
@@ -113,11 +139,31 @@ describe('skipWeeklyPattern', () => {
       const sut = skipWeeklyPattern(tradingWeekWithoutDiscontinuities);
       expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 11, 31))).toBe(52 * 7 * 24 * 3600 * 1000);
     });
+
+    it('should return 0 between consecutive non-trading ranges spanning multiple days', () => {
+      expect(sut.distance(fridaySecondStartBoundary, sundayEndBoundry)).toEqual(0);
+      expect(sut.distance(sundayEndBoundry, fridaySecondStartBoundary)).toEqual(-0);
+    });
+
+    it('should return -1', () => {
+      const sut = skipWeeklyPattern({ Monday: [["00:00:00.001", "EOD"]], Tuesday: [["SOD", "EOD"]], Wednesday: [["SOD", "EOD"]], Thursday: [["SOD", "EOD"]], Friday: [["SOD", "EOD"]], Saturday: [["SOD", "EOD"]], Sunday: [["SOD", "EOD"]] });
+      expect(sut.distance(new Date(2018, 0, 8), new Date(2018, 0, 1))).toEqual(-1);
+      expect(sut.distance(new Date(2018, 0, 9), new Date(2018, 0, 2))).toEqual(-1);
+      expect(sut.distance(new Date(2018, 0, 10), new Date(2018, 0, 3))).toEqual(-1);
+      expect(sut.distance(new Date(2018, 0, 11), new Date(2018, 0, 4))).toEqual(-1);
+      expect(sut.distance(new Date(2018, 0, 12), new Date(2018, 0, 5))).toEqual(-1);
+      expect(sut.distance(new Date(2018, 0, 13), new Date(2018, 0, 6))).toEqual(-1);
+      expect(sut.distance(new Date(2018, 0, 14), new Date(2018, 0, 7))).toEqual(-1);
+    });
   });
 
   describe('offset', () => {
     it('0 offset should return same date', () => {
       expect(sut.offset(new Date(2018, 0, 1), 0)).toEqual(new Date(2018, 0, 1));
+    });
+
+    it('0 offset in non-trading range clamps up', () => {
+      expect(sut.offset(new Date(2018, 0, 1, 7, 45), 0)).toEqual(new Date(2018, 0, 1, 8, 30));
     });
 
     it('-1ms offset should return end of previous day', () => {
@@ -182,6 +228,25 @@ describe('skipWeeklyPattern', () => {
       const expected = timeMillisecond.offset(fridaySecondStartBoundary, -1);
       const actual = sut.offset(sundayEndBoundry, -1);
       expect(actual).toEqual(expected);
+    });
+
+    it('should skip to Sunday 7pm', () => {
+      expect(sut.offset(timeMillisecond.offset(fridaySecondStartBoundary, -1), 1)).toEqual(sundayEndBoundry);
+    });
+
+    it('should go back to Friday 13:20', () => {
+      expect(sut.offset(sundayEndBoundry, -1)).toEqual(timeMillisecond.offset(fridaySecondStartBoundary, -1));
+    });
+
+    it('should skip to Monday 15th', () => {
+      const sut = skipWeeklyPattern({ Monday: [["00:00:00.001", "EOD"]], Tuesday: [["SOD", "EOD"]], Wednesday: [["SOD", "EOD"]], Thursday: [["SOD", "EOD"]], Friday: [["SOD", "EOD"]], Saturday: [["SOD", "EOD"]], Sunday: [["SOD", "EOD"]] });
+      expect(sut.offset(new Date(2018, 0, 1, 1), 2)).toEqual(new Date(2018, 0, 22));
+      expect(sut.offset(new Date(2018, 0, 2), 2)).toEqual(new Date(2018, 0, 22));
+      expect(sut.offset(new Date(2018, 0, 3), 2)).toEqual(new Date(2018, 0, 22));
+      expect(sut.offset(new Date(2018, 0, 4), 2)).toEqual(new Date(2018, 0, 22));
+      expect(sut.offset(new Date(2018, 0, 5), 2)).toEqual(new Date(2018, 0, 22));
+      expect(sut.offset(new Date(2018, 0, 6), 2)).toEqual(new Date(2018, 0, 22));
+      expect(sut.offset(new Date(2018, 0, 7), 2)).toEqual(new Date(2018, 0, 22));
     });
   });
 

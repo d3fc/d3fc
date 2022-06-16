@@ -26,7 +26,12 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
 
         let total = 0;
 
-        for (const nonTradingRange of nonTradingTimeRanges) {
+        const relevantDiscontinuityRanges = nonTradingTimeRanges.filter(range => {
+            return range.endTime === dayBoundary ||
+                dateTimeUtility.setTime(intervalStart, range.endTime) >= intervalStart;
+        });
+
+        for (const nonTradingRange of relevantDiscontinuityRanges) {
             const startTime = dateTimeUtility.setTime(intervalStart, nonTradingRange.startTime);
             const endTime = nonTradingRange.endTime === dayBoundary
                 ? dateTimeUtility.getStartOfNextDay(intervalStart)

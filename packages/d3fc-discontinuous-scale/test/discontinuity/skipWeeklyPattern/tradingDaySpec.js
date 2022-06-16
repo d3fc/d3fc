@@ -33,5 +33,9 @@ describe('tradingDay', () => {
             expect(tradingDay([["0:0:0.1", "0:0:0.2"], ["0:0:0.3", "0:0:0.4"], ["0:0:0.5", "23:59:59.998"]], localDateTimeUtility).totalTradingMillisecondsBetween(new Date(2018, 0, 1), new Date(2018, 0, 1, 23, 59, 59, 999))).toBe(4);
             expect(tradingDay([["0:0:0.1", "0:0:0.2"], ["0:0:0.3", "0:0:0.4"], ["0:0:0.5", "23:59:59.998"]], utcDateTimeUtility).totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 1, 23, 59, 59, 999)))).toBe(4);
         });
+
+        it('should return 1', () => {
+            expect(tradingDay([["7:00", "7:30"], ["8:00", "EOD"]], localDateTimeUtility).totalTradingMillisecondsBetween(new Date(2018, 0, 1, 7, 59, 59, 999), new Date(2018, 0, 2)));
+        });
     });
 });
