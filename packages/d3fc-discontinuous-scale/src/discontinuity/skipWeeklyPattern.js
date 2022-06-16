@@ -1,355 +1,15 @@
 import { timeDay, timeMillisecond } from 'd3-time';
+import { tradingDay } from './skipWeeklyPattern/tradingDay';
+import { dayBoundary, millisPerDay } from './skipWeeklyPattern/constants'
+import { dateTimeUtility } from './skipWeeklyPattern/dateTimeUtility';
 
-const millisPerDay = 24 * 3600 * 1000;
-const dayBoundary = "00:00:00.000";
-const SOD = 'SOD';
-const EOD = 'EOD';
-
-/**
- * Returns the [hh, mm, ss, ms] time components of a time string'
- * @param {string} timeString time string formatted as 'hh:mm:ss.fff';
- * @returns { int[] }
- */
-export const getTimeComponentArray = (timeString) => [timeString.slice(0, 2), timeString.slice(3, 5), timeString.slice(6, 8), timeString.slice(9, 12)];
-
-/**
- * Object that helps with working with time strings and dates
- * @typedef { Object } TimeHelper
- * @property { function(Date): string } getTimeString - get's the time string for date as 'hh:mm:ss.fff'
- * @property { function(Date , string, number): Date } setTime - set the time  for date as
- * @property { function(Date): Date } setToStartOfNextDay - returns the start of the next day i.e. 00:00:00.000
- * @property { function(Date): Date } setToEndOfPreviousDay - returns the 'End' of the previous day i.e. one ms before midnight
- */
-
-/**
- * 
- * @param {function(Date, number, number, number, number): Date } setTimeForDate - sets a time on a Date object given hh, mm, ss & ms time compononets
- * @param {function(Date): number } getMonth 
- * @param {function(Date): number } getDate 
- * @param {function(Date): number } getDay 
- * @param {function(Date): number } getHours 
- * @param {function(Date): number } getMinutes 
- * @param {function(Date): number } getSeconds 
- * @param {function(Date): number } getMilliseconds 
- * @param {function} dayInterval 
- * @param {function} msInterval 
- * @returns {TimeHelper}
- */
-export const timeHelper = (setTimeForDate, getDay, getHours, getMinutes, getSeconds, getMilliseconds, dayInterval, msInterval) => {
-    const helper = {}
-    helper.getTimeComponentArray = (timeString) => [timeString.slice(0, 2), timeString.slice(3, 5), timeString.slice(6, 8), timeString.slice(9, 12)];
-    /**
-        * Returns the local time part of a given Date instance as 'hh:mm:ss.fff'
-        * @param {Date} date - Data instance
-        * @returns {string} time string.
-        */
-    helper.getTimeString = date => `${getHours(date).toString(10).padStart(2, '0')}:${getMinutes(date).toString(10).padStart(2, '0')}:${getSeconds(date).toString(10).padStart(2, '0')}.${getMilliseconds(date).toString(10).padStart(3, '0')}`;
-
-    /**
-     * Returns the combined local date and time string
-     * @param {Date} date - Data instance
-     * @param {string} timeString - string as 'hh:mm:ss.fff'
-     * @param {number} offsetInmilliSeconds - additional offset in millisends. Default = 0; e.g. -1 is one millisecond before time specified by timeString;
-     * @returns {Date} - combined date and time.
-     */
-    helper.setTime = (date, timeString, offsetInmilliSeconds = 0) => {
-        const [hh, mm, ss, ms] = getTimeComponentArray(timeString);
-        return msInterval.offset(setTimeForDate(date, hh, mm, ss, ms), offsetInmilliSeconds);
-    };
-
-    /**
-     * Returns the start of the next day i.e. 00:00:00.000
-     * @param {Date} date - Data instance
-     * @returns {Date}.
-     */
-    helper.setToStartOfNextDay = (date) => dayInterval.offset(dayInterval.floor(date), 1);
-
-    /**
-     * Returns the end of the previous day (1ms before midnight) i.e.  23:59:59.999
-     * @param {Date} date - Data instance
-     * @returns {Date}.
-     */
-    helper.setToEndOfPreviousDay = (date) => msInterval.offset(dayInterval.floor(date), -1);
-
-    /**
-     * 
-     */
-    helper.dayInterval = dayInterval,
-        helper.msInterval = msInterval,
-        helper.getDay = getDay
-
-    return helper;
-}
-
-const localTimeHelper = timeHelper(
+export const localTimeHelper = dateTimeUtility(
     (date, hh, mm, ss, ms) => new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm, ss, ms),
     date => date.getDay(),
-    date => date.getHours(),
-    date => date.getMinutes(),
-    date => date.getSeconds(),
-    date => date.getMilliseconds(),
+    date => [date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()],
     timeDay,
     timeMillisecond
 )
-// export const localTimeHelper = {
-//     /**
-//      * Returns the local time part of a given Date instance as 'hh:mm:ss.fff'
-//      * @param {Date} date - Data instance
-//      * @returns {string} time string.
-//      */
-//     getTimeString: date => `${date.getHours().toString(10).padStart(2, '0')}:${date.getMinutes().toString(10).padStart(2, '0')}:${date.getSeconds().toString(10).padStart(2, '0')}.${date.getMilliseconds().toString(10).padStart(3, '0')}`,
-
-//     /**
-//      * Returns the combined local date and time string
-//      * @param {Date} date - Data instance
-//      * @param {string} timeString - string as 'hh:mm:ss.fff'
-//      * @param {number} offsetInmilliSeconds - additional offset in millisends. Default = 0; e.g. -1 is one millisecond before time specified by timeString;
-//      * @returns {Date} - combined date and time.
-//      */
-//     setTime: (date, timeString, offsetInmilliSeconds = 0) => {
-//         const [hh, mm, ss, ms] = getTimeComponentArray(timeString);
-//         return timeMillisecond.offset(new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm, ss, ms), offsetInmilliSeconds);
-//     },
-
-//     /**
-//      * Returns the start of the next day i.e. 00:00:00.000
-//      * @param {Date} date - Data instance
-//      * @returns {Date}.
-//      */
-//     setToStartOfNextDay: (date) => timeDay.offset(timeDay.floor(date), 1),
-
-//     /**
-//      * Returns the end of the previous day (1ms before midnight) i.e.  23:59:59.999
-//      * @param {Date} date - Data instance
-//      * @returns {Date}.
-//      */
-//     setToEndOfPreviousDay: (date) => timeMillisecond.offset(timeDay.floor(date), -1),
-
-//     dayInterval: timeDay,
-
-//     msInterval: timeMillisecond
-// }
-
-/**
- * Attempts to parse and format a time string into a fixed lenght string 'hh:mm:ss.fff'
- * @param {string} timeString - string representation of time 'hh:mm:ss.fff' e.g. '09:30' or '00:00:00.000'
- * @returns {int[]} array of parsed time components [hh, mm, ss, ms] or throws.
- */
-export function standardiseTimeString(timeString) {
-
-    if (arguments.length !== 1 || typeof timeString !== 'string') {
-        throw 'Expected single argument of type string'
-    }
-
-    const isPositiveIntegerUpTo = (toCheck, upperBound) => {
-        if (!Number.isInteger(toCheck))
-            return false;
-
-        return toCheck >= 0 && toCheck <= upperBound;
-    }
-
-    const result = [0, 0, 0, 0];
-    const time_components = timeString.split(":");
-
-    if (time_components.length < 2 || time_components.length > 3) {
-        throw 'Expected an argument wiht 2 or 3 colon delimited parts.'
-    }
-
-    result[0] = isPositiveIntegerUpTo(parseInt(time_components[0], 10), 23)
-        ? parseInt(time_components[0], 10)
-        : function () { throw `'Hours' component must be an int between 0 and 23, but was '${time_components[0]}'`; }();
-
-    result[1] = isPositiveIntegerUpTo(parseInt(time_components[1], 10), 59)
-        ? parseInt(time_components[1], 10)
-        : function () { throw `'Minutes' component must be an int between 0 and 59, but was '${time_components[1]}'`; }();
-
-    if (time_components.length === 3) {
-        const ms_components = time_components[2].split(".").map(x => parseInt(x, 10));
-
-        result[2] = isPositiveIntegerUpTo(ms_components[0], 59)
-            ? ms_components[0]
-            : function () { throw `'Seconds' component must be an int between 0 and 59, but was '${ms_components[0]}'`; }();
-
-        if (ms_components.length === 2) {
-            result[3] = isPositiveIntegerUpTo(ms_components[1], 999)
-                ? ms_components[1]
-                : function () { throw `'Miliseconds' component must be an int between 0 and 999, but was '${ms_components[1]}'`; }();
-        }
-    }
-
-    return `${result[0].toString(10).padStart(2, '0')}:${result[1].toString(10).padStart(2, '0')}:${result[2].toString(10).padStart(2, '0')}.${result[3].toString(10).padStart(3, '0')}`;
-}
-
-/**
- * @typedef { Object } nonTradingTimeRange
- * @property { string } startTime - Start time string with fixed format 'hh:mm:ss.fff'
- * @property { string } endTime - End time string with fixed format 'hh:mm:ss.fff'
- * @property { int } lenghtInMs - Absolute length in MS i.e. only valid on non-Daylight saving boundaries
- */
-
-/**
- * Represents a single continous Non-Trading time interval within a single day. You must denote day boundries as:
- * SOD - start of day 
- * EOD  - end of day
- * @constructor
- * @param { string[] } timeRangeTuple - Time range as a tuple of time strings e.g. ["07:45", "08:30"), ["SOD", "08:30:20") or ["19:00:45.500", "EOD").
- * @param { TimeHelper } timeHelper
- * @returns { nonTradingTimeRange }
- */
-export function nonTradingTimeRange(timeRangeTuple, timeHelper) {
-
-    if (arguments.length != 2 ||
-        !Array.isArray(timeRangeTuple)
-        || timeRangeTuple.length !== 2
-        || typeof timeRangeTuple[0] !== 'string'
-        || typeof timeRangeTuple[1] !== 'string') {
-        throw `Expected argument is a single string[] of length 2.`
-    }
-
-    if (timeRangeTuple[0] === SOD) {
-        timeRangeTuple[0] = dayBoundary;
-    }
-
-    if (timeRangeTuple[1] === EOD) {
-        timeRangeTuple[1] = dayBoundary;
-    }
-
-    const startTime = standardiseTimeString(timeRangeTuple[0]);
-    const endTime = standardiseTimeString(timeRangeTuple[1]);
-
-    if (endTime !== dayBoundary && startTime > endTime) {
-        throw `Time range start time '${startTime}' must be before end time '${endTime}' or both must equal ${dayBoundary}`
-    }
-
-    const lenghtInMs = timeHelper.setTime(new Date(endTime === dayBoundary ? millisPerDay : 0), endTime) - timeHelper.setTime(new Date(0), startTime)
-    const instance = { startTime, endTime, lenghtInMs };
-
-    /**
-     * Returns if given date's time portion is within this discontinuity time range instance
-     * @param { Date } date - date
-     * @returns { boolean }
-     */
-    instance.isInRange = (date) => {
-        const time = timeHelper.getTimeString(date);
-
-        if (instance.startTime <= time
-            && (instance.endTime === dayBoundary || instance.endTime > time)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    return instance;
-}
-
-/**
- * Represents a Trading day
- * @param { string[][] } rawDicontinuityTimeRanges - Array of time range tuples e.g. [["07:45", "08:30"), ["19:00:45.500", "EOD")]
- */
-export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
-    const nonTradingTimeRanges = rawDicontinuityTimeRanges
-        .map(rawRange => nonTradingTimeRange(rawRange, timeHelper))
-        .sort((a, b) => a.startTime < b.startTime ? -1 : a.startTime > b.startTime ? 1 : 0);
-    const totalTradingTimeInMiliseconds = millisPerDay - nonTradingTimeRanges.reduce((total, range) => total + range.lenghtInMs, 0);
-
-    const totalTradingMillisecondsBetween = (intervalStart, intervalEnd) => {
-
-        if (intervalStart.getTime() === intervalEnd.getTime()) {
-            return 0;
-        }
-
-        // ensure arguments are on the same day or intervalEnd is the next day boundary
-        if (timeHelper.dayInterval(intervalStart).getTime() !== timeHelper.dayInterval(intervalEnd).getTime()
-            && timeHelper.setToStartOfNextDay(intervalStart).getTime() !== intervalEnd.getTime()) {
-            throw `tradingDay.totalTradingMillisecondsBetween arguments must be on the same day or intervalEnd must be the start of the next day instead: intervalStart: '${intervalStart}'; intervalEnd: '${intervalEnd}'`
-        }
-
-        let total = 0;
-
-        for (const nonTradingRange of nonTradingTimeRanges) {
-            const startTime = timeHelper.setTime(intervalStart, nonTradingRange.startTime);
-            const endTime = nonTradingRange.endTime === dayBoundary
-                ? timeHelper.setToStartOfNextDay(intervalStart)
-                : timeHelper.setTime(intervalStart, nonTradingRange.endTime);
-
-            // both intervalStart and intervalEnd are before the start of this non-trading range
-            if (startTime > intervalStart && startTime > intervalEnd) {
-                return total + (+intervalEnd - intervalStart);
-            }
-
-            // intervalStart is before the start of this non-trading time range
-            if (startTime > intervalStart) {
-                total += (+startTime - intervalStart);
-            }
-
-            if (endTime > intervalEnd) {
-                return total;
-            }
-
-            intervalStart = endTime;
-        }
-
-        return (total + (+intervalEnd - intervalStart));
-    }
-
-    const offset = (date, ms) => {
-        if (ms === 0) {
-            return [date, ms];
-        }
-
-        let offsetDate = timeHelper.msInterval.offset(date, ms);
-
-        const nonTradingRanges = (ms > 0)
-            ? nonTradingTimeRanges.filter(range => timeHelper.setTime(date, range.startTime) >= date)
-            : nonTradingTimeRanges.filter(range => timeHelper.setTime(date, range.startTime) < date).reverse();
-
-        if (nonTradingRanges.length === 0) {
-            return [timeHelper.msInterval.offset(date, ms), 0];
-        }
-
-        if (ms > 0) {
-            for (const nonTradingRange of nonTradingRanges) {
-
-                const rangeStart = timeHelper.setTime(date, nonTradingRange.startTime);
-
-                if (rangeStart <= offsetDate) {
-                    ms -= (rangeStart - date);
-                    date = nonTradingRange.endTime === dayBoundary
-                        ? timeHelper.setToStartOfNextDay(date)
-                        : timeHelper.setTime(date, nonTradingRange.endTime);
-                    offsetDate = timeHelper.msInterval.offset(date, ms);
-                }
-            }
-
-            ms -= (offsetDate - date);
-
-        } else {
-
-            for (const nonTradingRange of nonTradingRanges) {
-                const endTime = nonTradingRange.endTime === dayBoundary
-                    ? timeHelper.setToStartOfNextDay(date)
-                    : timeHelper.setTime(date, nonTradingRange.endTime);
-
-                if (endTime > offsetDate) {
-                    ms += (date - endTime) + 1;
-                    date = timeHelper.msInterval.offset(timeHelper.setTime(date, nonTradingRange.startTime), - 1);
-                    offsetDate = timeHelper.msInterval.offset(date, ms);
-                }
-            }
-
-            ms += (date - offsetDate);
-        }
-
-        if (ms !== 0) {
-            throw 'tradingDay.offset was called with an offset that spans more than a day';
-        }
-
-        return [offsetDate, ms];
-    }
-
-    return { totalTradingTimeInMiliseconds, nonTradingTimeRanges, totalTradingMillisecondsBetween, offset };
-}
 
 /**
  * Discontinuity provider implemenation that works with 'non-trading' periods during a trading day
@@ -364,7 +24,7 @@ export const tradingDay = (rawDicontinuityTimeRanges, timeHelper) => {
 /**
  * Creates WeeklyPatternDiscontinuityProvider
  * @param {Object} nonTradingPattern - contains raw 'non-trading' time ranges for each day of the week
- * @param {TimeHelper} timeHelper - uses local or utc dates
+ * @param {DateTimeUtility} timeHelper - uses local or utc dates
  * @returns { WeeklyPatternDiscontinuityProvider } WeeklyPatternDiscontinuityProvider
  */
 export const base = (nonTradingPattern, timeHelper) => {
@@ -382,6 +42,10 @@ export const base = (nonTradingPattern, timeHelper) => {
 
     const totalTradingWeekMilliseconds = tradingDays.reduce((total, tradingDay) => total + tradingDay.totalTradingTimeInMiliseconds, 0)
 
+    if (totalTradingWeekMilliseconds === 0) {
+        throw 'Trading pattern must yield at least 1 ms of trading time';
+    }
+
     const instance = { tradingDays, totalTradingWeekMilliseconds };
 
     /**
@@ -397,7 +61,7 @@ export const base = (nonTradingPattern, timeHelper) => {
             if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
 
                 return tradingDay.nonTradingTimeRanges[i].endTime === dayBoundary
-                    ? instance.clampUp(timeHelper.setToStartOfNextDay(date))
+                    ? instance.clampUp(timeHelper.getStartOfNextDay(date))
                     : timeHelper.setTime(date, tradingDay.nonTradingTimeRanges[i].endTime);
             }
         }
@@ -416,7 +80,7 @@ export const base = (nonTradingPattern, timeHelper) => {
             if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
 
                 return tradingDay.nonTradingTimeRanges[i].startTime === dayBoundary
-                    ? instance.clampDown(timeHelper.setToEndOfPreviousDay(date))
+                    ? instance.clampDown(timeHelper.getEndOfPreviousDay(date))
                     : timeHelper.setTime(date, tradingDay.nonTradingTimeRanges[i].startTime, -1);
             }
         }
@@ -497,7 +161,7 @@ export const base = (nonTradingPattern, timeHelper) => {
                     : [instance.clampDown(timeHelper.msInterval.offset(dateFloor, -1)), ms + distanceToStartOfDay + 1];
 
             } else {
-                const nextDate = timeHelper.setToStartOfNextDay(date);
+                const nextDate = timeHelper.getStartOfNextDay(date);
                 const distanceToDayBoundary = tradingDay.totalTradingMillisecondsBetween(date, nextDate);
 
                 return ms < distanceToDayBoundary

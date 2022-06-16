@@ -1,5 +1,4 @@
 import { default as skipUtcWeeklyPattern, utcTimeHelper } from '../../src/discontinuity/skipUtcWeeklyPattern';
-import { tradingDay, nonTradingTimeRange } from '../../src/discontinuity/skipWeeklyPattern';
 import { utcMillisecond } from 'd3-time';
 
 const nonTradingHoursPattern =
@@ -188,81 +187,6 @@ describe('skipUtcWeeklyPattern', () => {
   describe('copy', () => {
     it('should return same object', () => {
       expect(sut.copy() === sut.copy()).toBeTruthy();
-    });
-  });
-});
-
-describe('dicontinuityTimeRange', () => {
-  it('throws for no arguments', () => {
-    expect(() => nonTradingTimeRange()).toThrow();
-  });
-
-  it('throws for more than 1 argument', () => {
-    expect(() => nonTradingTimeRange("a", "b")).toThrow();
-  });
-
-  it('throws for argument that is not string[]', () => {
-    expect(() => nonTradingTimeRange("a")).toThrow();
-  });
-
-  it('throws for argument that is not string[]', () => {
-    expect(() => nonTradingTimeRange([1, 2], utcTimeHelper)).toThrow();
-  });
-
-  it('throws for argument that is not string[]', () => {
-    expect(() => nonTradingTimeRange([new Date(), new Date()], utcTimeHelper)).toThrow();
-  });
-
-  it('throws for string[] argument when lenght != 2', () => {
-    expect(() => nonTradingTimeRange(["a"], utcTimeHelper)).toThrow();
-  });
-
-  it('throws for string[] argument with invalid time string', () => {
-    expect(() => nonTradingTimeRange(["", ""], utcTimeHelper)).toThrow();
-  });
-
-  it('should return lenght = 1 for SOD and "00:00:00.001" ', () => {
-    const actual = nonTradingTimeRange(["SOD", "00:00:00.001"], utcTimeHelper);
-    expect(actual.lenghtInMs).toEqual(1);
-  });
-
-  it('should return total milliseconds per day for timeRange [SOD, EOD)', () => {
-    const actual = nonTradingTimeRange(["SOD", "EOD"], utcTimeHelper);
-    expect(actual.lenghtInMs).toEqual(1000 * 60 * 60 * 24);
-  });
-
-});
-
-describe('tradingDay', () => {
-  describe('totalTradingMillisecondsBetween', () => {
-    it(' should return 0 ms for non trading day', () => {
-      const sut = tradingDay([["SOD", "EOD"]], utcTimeHelper)
-      expect(sut.totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 2)))).toBe(0);
-    });
-
-    it('should return 1 ms', () => {
-      const sut = tradingDay([["0:0:0.1", "EOD"]], utcTimeHelper)
-      expect(sut.totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 2)))).toBe(1);
-    });
-
-    it('should return 2 ms', () => {
-      const sut = tradingDay([["0:0:0.1", "23:59:59.999"]], utcTimeHelper)
-      expect(sut.totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 2)))).toBe(2);
-    });
-
-    it('should return 2 ms - one at start and one at the end of the day', () => {
-      const sut = tradingDay([["0:0:0.1", "23:59:59.998"]], utcTimeHelper)
-      expect(sut.totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 1, 23, 59, 59, 999)))).toBe(2);
-    });
-
-    it('should skip multiple non-trading time ranges and return 3 ms', () => {
-      const sut = tradingDay([["0:0:0.1", "0:0:0.2"], ["0:0:0.3", "0:0:0.4"], ["0:0:0.5", "EOD"]], utcTimeHelper)
-      expect(sut.totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 2)))).toBe(3);
-    });
-
-    it('should skip multiple non-trading time ranges and return 4 ms', () => {
-      const sut = tradingDay([["0:0:0.1", "0:0:0.2"], ["0:0:0.3", "0:0:0.4"], ["0:0:0.5", "23:59:59.998"]], utcTimeHelper)
-      expect(sut.totalTradingMillisecondsBetween(new Date(Date.UTC(2018, 0, 1)), new Date(Date.UTC(2018, 0, 1, 23, 59, 59, 999)))).toBe(4);
     });
   });
 });
