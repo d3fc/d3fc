@@ -82,15 +82,15 @@ describe('skipWeeklyPattern', () => {
 
   describe('distance', () => {
     it('should return totalTradingWeekMilliseconds', () => {
-      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 0, 8))).toBe(sut.totalTradingWeekMilliseconds)
+      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 0, 8))).toBe(sut.totalTradingWeekMilliseconds);
     });
 
     it('should return 52 * totalTradingWeekMilliseconds', () => {
-      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 11, 31))).toBe(52 * sut.totalTradingWeekMilliseconds)
+      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 11, 31))).toBe(52 * sut.totalTradingWeekMilliseconds);
     });
 
     it('should return negative 52 * totalTradingWeekMilliseconds', () => {
-      expect(sut.distance(new Date(2018, 11, 31), new Date(2018, 0, 1))).toBe(-52 * sut.totalTradingWeekMilliseconds)
+      expect(sut.distance(new Date(2018, 11, 31), new Date(2018, 0, 1))).toBe(-52 * sut.totalTradingWeekMilliseconds);
     });
 
     it('on DST boundaries (clock goes forward) should return 23hr or 25hr between consecutive days', () => {
@@ -106,12 +106,12 @@ describe('skipWeeklyPattern', () => {
 
     it('should return 7 * 24 * 3600 * 1000 for trading week without non-trading periods', () => {
       const sut = skipWeeklyPattern(tradingWeekWithoutDiscontinuities);
-      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 0, 8))).toBe(7 * 24 * 3600 * 1000)
+      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 0, 8))).toBe(7 * 24 * 3600 * 1000);
     });
 
     it('should return 52 * 7 * 24 * 3600 * 1000 for trading week without non-trading periods', () => {
       const sut = skipWeeklyPattern(tradingWeekWithoutDiscontinuities);
-      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 11, 31))).toBe(52 * 7 * 24 * 3600 * 1000)
+      expect(sut.distance(new Date(2018, 0, 1), new Date(2018, 11, 31))).toBe(52 * 7 * 24 * 3600 * 1000);
     });
   });
 

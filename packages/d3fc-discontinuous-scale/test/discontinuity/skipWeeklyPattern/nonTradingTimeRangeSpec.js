@@ -1,6 +1,6 @@
-import { nonTradingTimeRange, standardiseTimeString } from "../../../src/discontinuity/skipWeeklyPattern/nonTradingTimeRange"
-import { utcDateTimeUtility } from "../../../src/discontinuity/skipUtcWeeklyPattern"
-import { localDateTimeUtility } from "../../../src/discontinuity/skipWeeklyPattern"
+import { nonTradingTimeRange, standardiseTimeString } from "../../../src/discontinuity/skipWeeklyPattern/nonTradingTimeRange";
+import { utcDateTimeUtility } from "../../../src/discontinuity/skipUtcWeeklyPattern";
+import { localDateTimeUtility } from "../../../src/discontinuity/skipWeeklyPattern";
 
 describe('nonTradingTimeRange', () => {
     it('throws for no arguments', () => {

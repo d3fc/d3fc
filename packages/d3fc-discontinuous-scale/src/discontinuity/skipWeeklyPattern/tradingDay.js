@@ -1,5 +1,5 @@
 import { nonTradingTimeRange } from './nonTradingTimeRange';
-import { dayBoundary, millisPerDay } from './constants'
+import { dayBoundary, millisPerDay } from './constants';
 
 /**
  * Represents a Trading day
@@ -21,7 +21,7 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
         // ensure arguments are on the same day or intervalEnd is the next day boundary
         if (dateTimeUtility.dayInterval(intervalStart).getTime() !== dateTimeUtility.dayInterval(intervalEnd).getTime()
             && dateTimeUtility.getStartOfNextDay(intervalStart).getTime() !== intervalEnd.getTime()) {
-            throw `tradingDay.totalTradingMillisecondsBetween arguments must be on the same day or intervalEnd must be the start of the next day instead: intervalStart: '${intervalStart}'; intervalEnd: '${intervalEnd}'`
+            throw `tradingDay.totalTradingMillisecondsBetween arguments must be on the same day or intervalEnd must be the start of the next day instead: intervalStart: '${intervalStart}'; intervalEnd: '${intervalEnd}'`;
         }
 
         let total = 0;
@@ -50,7 +50,7 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
         }
 
         return (total + (+intervalEnd - intervalStart));
-    }
+    };
 
     const offset = (date, ms) => {
         if (ms === 0) {
@@ -105,7 +105,7 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
         }
 
         return [offsetDate, ms];
-    }
+    };
 
     return { totalTradingTimeInMiliseconds, nonTradingTimeRanges, totalTradingMillisecondsBetween, offset };
-}
+};

@@ -1,6 +1,6 @@
 import { timeDay, timeMillisecond } from 'd3-time';
 import { tradingDay } from './skipWeeklyPattern/tradingDay';
-import { dayBoundary, millisPerDay } from './skipWeeklyPattern/constants'
+import { dayBoundary, millisPerDay } from './skipWeeklyPattern/constants';
 import { dateTimeUtility } from './skipWeeklyPattern/dateTimeUtility';
 
 export const localDateTimeUtility = dateTimeUtility(
@@ -9,7 +9,7 @@ export const localDateTimeUtility = dateTimeUtility(
     date => [date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()],
     timeDay,
     timeMillisecond
-)
+);
 
 /**
  * Discontinuity provider implemenation that works with 'non-trading' periods during a trading day
@@ -38,9 +38,9 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
         tradingDay(getDayPatternOrDefault('Wednesday'), dateTimeUtility),
         tradingDay(getDayPatternOrDefault('Thursday'), dateTimeUtility),
         tradingDay(getDayPatternOrDefault('Friday'), dateTimeUtility),
-        tradingDay(getDayPatternOrDefault('Saturday'), dateTimeUtility)]
+        tradingDay(getDayPatternOrDefault('Saturday'), dateTimeUtility)];
 
-    const totalTradingWeekMilliseconds = tradingDays.reduce((total, tradingDay) => total + tradingDay.totalTradingTimeInMiliseconds, 0)
+    const totalTradingWeekMilliseconds = tradingDays.reduce((total, tradingDay) => total + tradingDay.totalTradingTimeInMiliseconds, 0);
 
     if (totalTradingWeekMilliseconds === 0) {
         throw 'Trading pattern must yield at least 1 ms of trading time';
@@ -66,7 +66,7 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
             }
         }
         return date;
-    }
+    };
 
     /** 
      * When given a value, if it falls within a discontinuity it should be shifted backwards to the discontinuity boundary. Otherwise, it should be returned unchanged.
@@ -85,7 +85,7 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
             }
         }
         return date;
-    }
+    };
 
     /**
      * When given a pair of values, this function returns the distance between the, in domain units, minus any discontinuities. discontinuities.
@@ -98,8 +98,8 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
         const sortChronologically = (start, end) => {
             return start < end
                 ? [start, end, 1]
-                : [end, start, -1]
-        }
+                : [end, start, -1];
+        };
 
         let [start, end, factor] = sortChronologically(startDate, endDate);
 
@@ -111,7 +111,7 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
         // combine any trading time left in the day after startDate 
         // and any trading time from midnight up until the endDate
         let total = instance.tradingDays[dateTimeUtility.getDay(start)].totalTradingMillisecondsBetween(start, dateTimeUtility.dayInterval.offset(dateTimeUtility.dayInterval(start), 1)) +
-            instance.tradingDays[dateTimeUtility.getDay(end)].totalTradingMillisecondsBetween(dateTimeUtility.dayInterval(end), end)
+            instance.tradingDays[dateTimeUtility.getDay(end)].totalTradingMillisecondsBetween(dateTimeUtility.dayInterval(end), end);
 
         // startDate and endDate are consecutive days    
         if (dateTimeUtility.dayInterval.count(start, end) === 1) {
@@ -136,7 +136,7 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
                     : tradingDay.totalTradingTimeInMiliseconds;
 
             }, total);
-    }
+    };
 
     /**
      * When given a value and an offset in milliseconds, the value should be advanced by the offset value, skipping any discontinuities, to return the final value.
@@ -168,7 +168,7 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
                     ? tradingDay.offset(date, ms)
                     : [nextDate, ms - distanceToDayBoundary];
             }
-        }
+        };
 
         if (ms === 0)
             return date;
@@ -191,11 +191,11 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
         }
 
         return date;
-    }
+    };
 
     instance.copy = () => instance;
 
     return instance;
-}
+};
 
 export default (nonTradingHoursPattern) => base(nonTradingHoursPattern, localDateTimeUtility);

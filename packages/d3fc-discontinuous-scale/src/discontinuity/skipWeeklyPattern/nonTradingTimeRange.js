@@ -1,4 +1,4 @@
-import { EOD, SOD, dayBoundary, millisPerDay } from './constants'
+import { EOD, SOD, dayBoundary, millisPerDay } from './constants';
 
 /**
  * Attempts to parse and format a time string into a fixed lenght string 'hh:mm:ss.fff'
@@ -8,7 +8,7 @@ import { EOD, SOD, dayBoundary, millisPerDay } from './constants'
 export function standardiseTimeString(timeString) {
 
     if (arguments.length !== 1 || typeof timeString !== 'string') {
-        throw 'Expected single argument of type string'
+        throw 'Expected single argument of type string';
     }
 
     const isPositiveIntegerUpTo = (toCheck, upperBound) => {
@@ -16,13 +16,13 @@ export function standardiseTimeString(timeString) {
             return false;
 
         return toCheck >= 0 && toCheck <= upperBound;
-    }
+    };
 
     const result = [0, 0, 0, 0];
     const time_components = timeString.split(":");
 
     if (time_components.length < 2 || time_components.length > 3) {
-        throw 'Expected an argument wiht 2 or 3 colon delimited parts.'
+        throw 'Expected an argument wiht 2 or 3 colon delimited parts.';
     }
 
     result[0] = isPositiveIntegerUpTo(parseInt(time_components[0], 10), 23)
@@ -73,7 +73,7 @@ export function nonTradingTimeRange(timeRangeTuple, dateTimeUtility) {
         || timeRangeTuple.length !== 2
         || typeof timeRangeTuple[0] !== 'string'
         || typeof timeRangeTuple[1] !== 'string') {
-        throw `Expected argument is a single string[] of length 2.`
+        throw `Expected argument is a single string[] of length 2.`;
     }
 
     if (timeRangeTuple[0] === SOD) {
@@ -88,10 +88,10 @@ export function nonTradingTimeRange(timeRangeTuple, dateTimeUtility) {
     const endTime = standardiseTimeString(timeRangeTuple[1]);
 
     if (endTime !== dayBoundary && startTime > endTime) {
-        throw `Time range start time '${startTime}' must be before end time '${endTime}' or both must equal ${dayBoundary}`
+        throw `Time range start time '${startTime}' must be before end time '${endTime}' or both must equal ${dayBoundary}`;
     }
 
-    const lenghtInMs = dateTimeUtility.setTime(new Date(endTime === dayBoundary ? millisPerDay : 0), endTime) - dateTimeUtility.setTime(new Date(0), startTime)
+    const lenghtInMs = dateTimeUtility.setTime(new Date(endTime === dayBoundary ? millisPerDay : 0), endTime) - dateTimeUtility.setTime(new Date(0), startTime);
     const instance = { startTime, endTime, lenghtInMs };
 
     /**
@@ -108,7 +108,7 @@ export function nonTradingTimeRange(timeRangeTuple, dateTimeUtility) {
         }
 
         return false;
-    }
+    };
 
     return instance;
 }
