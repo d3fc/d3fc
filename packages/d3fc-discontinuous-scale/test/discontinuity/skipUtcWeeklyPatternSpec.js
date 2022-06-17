@@ -17,7 +17,7 @@ const tradingWeekWithoutDiscontinuities = {};
 const mondayFirstStartBoundary = new Date(Date.UTC(2018, 0, 1, 7, 45));
 const mondayFirstEndBoundary = new Date(Date.UTC(2018, 0, 1, 8, 30));
 const fridaySecondStartBoundary = new Date(Date.UTC(2018, 0, 5, 13, 20));
-const sundayEndBoundry = new Date(Date.UTC(2018, 0, 7, 19));
+const sundayEndBoundary = new Date(Date.UTC(2018, 0, 7, 19));
 
 describe('skipUtcWeeklyPattern', () => {
   const sut = skipUtcWeeklyPattern(nonTradingHoursPattern);
@@ -47,7 +47,7 @@ describe('skipUtcWeeklyPattern', () => {
     });
 
     it('should advance from Friday 13:20 to Sunday 7:00pm', () => {
-      const expected = sundayEndBoundry;
+      const expected = sundayEndBoundary;
       const actual = sut.clampUp(fridaySecondStartBoundary);
       expect(actual).toEqual(expected);
     });
@@ -75,7 +75,7 @@ describe('skipUtcWeeklyPattern', () => {
 
     it('should clamp down from Sunday 6:59:59.999pm to 1ms before Friday 13:20', () => {
       const expected = utcMillisecond.offset(fridaySecondStartBoundary, -1);
-      const actual = sut.clampDown(utcMillisecond.offset(sundayEndBoundry, -1));
+      const actual = sut.clampDown(utcMillisecond.offset(sundayEndBoundary, -1));
       expect(actual).toEqual(expected);
     });
   });
@@ -179,7 +179,7 @@ describe('skipUtcWeeklyPattern', () => {
 
     it('should return 1ms before Friday 13:20 when offset = -1ms on Sunday 7:00pm', () => {
       const expected = utcMillisecond.offset(fridaySecondStartBoundary, -1);
-      const actual = sut.offset(sundayEndBoundry, -1);
+      const actual = sut.offset(sundayEndBoundary, -1);
       expect(actual).toEqual(expected);
     });
   });

@@ -12,9 +12,9 @@
  * @param {function(Date, number, number, number, number): Date } setTimeForDate - sets a time on a Date object given hh, mm, ss & ms time compononets
  * @param {function(Date): number } getDay 
  * @param {function(Date): number[] } getTimeComponentArray 
- * @param {function} dayInterval 
- * @param {function} msInterval 
- * @returns {DateTimeUtility}
+ * @param {function} dayInterval - d3-time timeDay or utcDay
+ * @param {function} msInterval - d3-time timeMillisecond or utcMillisecond
+  * @returns {DateTimeUtility}
  */
 export const dateTimeUtility = (setTimeForDate, getDay, getTimeComponentArray, dayInterval, msInterval) => {
     const utility = {};

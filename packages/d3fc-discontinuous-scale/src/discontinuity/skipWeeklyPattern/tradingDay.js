@@ -32,29 +32,32 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
         });
 
         for (const nonTradingRange of relevantDiscontinuityRanges) {
-            const startTime = dateTimeUtility.setTime(intervalStart, nonTradingRange.startTime);
-            const endTime = nonTradingRange.endTime === dayBoundary
+            const nonTradingStart = dateTimeUtility.setTime(intervalStart, nonTradingRange.startTime);
+            const nonTradingEnd = nonTradingRange.endTime === dayBoundary
                 ? dateTimeUtility.getStartOfNextDay(intervalStart)
                 : dateTimeUtility.setTime(intervalStart, nonTradingRange.endTime);
 
             // both intervalStart and intervalEnd are before the start of this non-trading range
-            if (startTime > intervalStart && startTime > intervalEnd) {
-                return total + (+intervalEnd - intervalStart);
+            if (intervalStart < nonTradingStart && intervalEnd < nonTradingStart) {
+                return total + dateTimeUtility.msInterval.count(intervalStart, intervalEnd);
             }
 
             // intervalStart is before the start of this non-trading time range
-            if (startTime > intervalStart) {
-                total += (+startTime - intervalStart);
+            if (intervalStart < nonTradingStart) {
+                total += dateTimeUtility.msInterval.count(intervalStart, nonTradingStart);
             }
 
-            if (endTime > intervalEnd) {
+            // interval ends within non-trading range
+            if (intervalEnd < nonTradingEnd) {
                 return total;
             }
 
-            intervalStart = endTime;
+            // set interval start to the end of non-trading range
+            intervalStart = nonTradingEnd;
         }
 
-        return (total + (+intervalEnd - intervalStart));
+        // add any interval time still left after iterating through all non-trading ranges
+        return total + dateTimeUtility.msInterval.count(intervalStart, intervalEnd);
     };
 
     const offset = (date, ms) => {
@@ -78,7 +81,8 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
                 const rangeStart = dateTimeUtility.setTime(date, nonTradingRange.startTime);
 
                 if (rangeStart <= offsetDate) {
-                    ms -= (rangeStart - date);
+                    // offsetDate is within non-trading range
+                    ms -= dateTimeUtility.msInterval.count(date, rangeStart);
                     date = nonTradingRange.endTime === dayBoundary
                         ? dateTimeUtility.getStartOfNextDay(date)
                         : dateTimeUtility.setTime(date, nonTradingRange.endTime);
@@ -86,7 +90,7 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
                 }
             }
 
-            ms -= (offsetDate - date);
+            ms -= dateTimeUtility.msInterval.count(date, offsetDate);
 
         } else {
 
@@ -95,14 +99,15 @@ export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
                     ? dateTimeUtility.getStartOfNextDay(date)
                     : dateTimeUtility.setTime(date, nonTradingRange.endTime);
 
-                if (endTime > offsetDate) {
-                    ms += (date - endTime) + 1;
+                if (offsetDate < endTime) {
+                    // offsetDate is within non-trading range
+                    ms += dateTimeUtility.msInterval.count(endTime, date) + 1;
                     date = dateTimeUtility.msInterval.offset(dateTimeUtility.setTime(date, nonTradingRange.startTime), - 1);
                     offsetDate = dateTimeUtility.msInterval.offset(date, ms);
                 }
             }
 
-            ms += (date - offsetDate);
+            ms += dateTimeUtility.msInterval.count(offsetDate, date);
         }
 
         if (ms !== 0) {

@@ -96,15 +96,19 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
     instance.distance = (startDate, endDate) => {
 
         const sortChronologically = (start, end) => {
-            return start < end
+            return start <= end
                 ? [start, end, 1]
                 : [end, start, -1];
         };
 
+        if (startDate.getTime() === endDate.getTime()) {
+            return 0;
+        }
+
         let [start, end, factor] = sortChronologically(startDate, endDate);
 
         // same day distance
-        if (dateTimeUtility.dayInterval.floor(start) === dateTimeUtility.dayInterval.floor(end)) {
+        if (dateTimeUtility.dayInterval(start).getTime() === dateTimeUtility.dayInterval(end).getTime()) {
             return instance.tradingDays[dateTimeUtility.getDay(start)].totalTradingMillisecondsBetween(start, end);
         }
 
