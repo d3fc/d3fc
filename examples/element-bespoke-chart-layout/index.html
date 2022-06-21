@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+</head>
+
+<body>
+    <d3fc-group id="chart" auto-resize style="display: flex; height: 40vw; width: 60vw; flex-direction: column">
+        <h1 style="text-align: center">
+            Dual Axes Chart Layout
+        </h1>
+        <div style="height: 1em; display: flex; flex-direction: row">
+            <d3fc-svg id="x-axis-top" style="flex: 1; margin: 0 3em"></d3fc-svg>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: row">
+            <d3fc-svg id="y-axis-left" style="width: 3em"></d3fc-svg>
+            <d3fc-svg id="plot-area" style="flex: 1"></d3fc-svg>
+            <d3fc-svg id="y-axis-right" style="width: 3em"></d3fc-svg>
+        </div>
+        <div style="height: 1em; display: flex; flex-direction: row">
+            <d3fc-svg id="x-axis-bottom" style="flex: 1; margin: 0 3em"></d3fc-svg>
+        </div>
+    </d3fc-group>
+    <script src="index.js"></script>
+</body>
+
+</html>

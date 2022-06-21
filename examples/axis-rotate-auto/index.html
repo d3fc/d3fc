@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <style>
+        .side-by-side {
+            display: flex;
+        }
+
+        .ordinal-group {
+            flex: auto;
+            display: grid;
+            grid-template-columns: minmax(80px, max-content) 1fr minmax(80px, max-content);
+            grid-template-rows: minmax(80px, max-content) 1fr minmax(80px, max-content);
+        }
+
+        .label {
+            grid-column: 2;
+            grid-row: 2;
+            justify-self: center;
+            align-self: center;
+        }
+
+        .top {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        .left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        .right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        .bottom {
+            grid-column: 2;
+            grid-row: 3;
+        }
+    </style>
+</head>
+
+<body>
+    <d3fc-group class="side-by-side" auto-resize>
+        <div class="ordinal-group">
+            <div class="label">Auto rotate</div>
+            <d3fc-svg id="topAuto" class="top"></d3fc-svg>
+            <d3fc-svg id="leftAuto" class="left"></d3fc-svg>
+            <d3fc-svg id="rightAuto" class="right"></d3fc-svg>
+            <d3fc-svg id="bottomAuto" class="bottom"></d3fc-svg>
+        </div>
+        <div class="ordinal-group">
+            <div class="label">Fixed rotation</div>
+            <d3fc-svg id="topFixed" class="top"></d3fc-svg>
+            <d3fc-svg id="leftFixed" class="left"></d3fc-svg>
+            <d3fc-svg id="rightFixed" class="right"></d3fc-svg>
+            <d3fc-svg id="bottomFixed" class="bottom"></d3fc-svg>
+        </div>
+    </d3fc-group>
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>D3FC</title>
+        <meta name="description"
+                content="Components to rapidly build fast, highly customisable, interactive charts with D3.">
+
+        <link rel="shortcut icon"
+                href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAtNjIuNSAxOTQgMTk0IiBmaWxsPSJyZ2IoNjcsIDg4LCA5OCkiPgogIDxwYXRoIGQ9Im0gMTkzLjcsNjEuNCAtOC4zLDAuNiBjIC0xMi4xLDAgLTIxLjksLTEwLjYgLTIxLjksLTIyLjcgMCwtMTIuMSA5LjksLTIyLjEgMjIuMSwtMjIuMSBsIDcuOSwwIEwgMTkzLjQsOC4zMDAwMDAxIDE5My40LDAgMTU2LjUsMCAxNDUuMiwwIDEzMS44LDAgYyAtMTIuMSwwIC0yMiw5LjkgLTIyLDIyIDAsMC4zIDAsMC41IDAsMC44IGwgMCw1NS4xIDE2LjYsMCAwLC0zNC40IGMgMS43LDAuNCAzLjYsMC43IDUuNCwwLjcgbCA4LjgsMCAwLC0xNC4zIC02LjcsMCBjIC0zLjYsMCAtNi42LC0zIC02LjYsLTYuNiAwLC0zLjYgMywtNi42IDYuNiwtNi42IGwgMTEuMywwIGMgMCwwIDkuMiwwIDkuMiwwIC0xLjIsMCAtMy41LDcuMSAtMy45LDguMiAtMSwzIC0xLjQsNiAtMS42LDkuMiAtMC44LDkuNSAwLjMsMTkuNiA1LjYsMjcuNyA0LjMsNi42IDEwLjksMTEuNiAxOC40LDE0LjEgMy41LDEuMiA3LjIsMS43IDEwLjksMS43IGwgOS45LDAgMCwtMTYuMiB6Ii8+CiAgPHBhdGggZD0ibSA3OS4zLDAuMSAtNywwIC0xNy43LDAgLTU0LjYsMCAwLDAuNyAwLDE1LjkgMCw2MS4zIDE0LjksMCAxLjcsMCA3LjcsMCBDIDQzLjUsNzggNTkuMiw2Mi4zIDU5LjIsNDMuMSBsIDAsLTcuMyBjIDAsLTcgLTIuMSwtMTMuNiAtNS43LC0xOS4xIGwgMTguNywwIDAsMCA0LjksMCBjIDMuNiwwIDYuNiwzIDYuNiw2LjYgMCwzLjYgLTMsNi42IC02LjYsNi42IGwgLTYuNywwIDAsMTggNi43LDAgYyAzLjYsMCA2LjYsMyA2LjYsNi42IDAsMy42IC0zLDYuNiAtNi42LDYuNiBsIC0xMy43LDAgMCwxNi43IGMgMS4zLDAuMyAyLjYsMC41IDQsMC41IEwgNzkuMiw3OCBjIDEyLjEsMCAyMiwtOS45IDIyLC0yMiBsIDAsMCBjIDAsLTYuNyAtMy4xLC0xMi44IC03LjksLTE2LjggNC44LC00LjEgNy45LC0xMC4xIDcuOSwtMTYuOCBsIDAsMCBDIDEwMS4zLDEwIDkxLjQsMC4xIDc5LjMsMC4xIFogTSA0NC42LDM5LjIgYyAwLDEyLjEgLTkuOSwyMi4xIC0yMi4xLDIyLjEgbCAtNS45LDAgMCwtNDQuMiA1LjksMCBjIDEyLjIsMCAyMi4xLDkuOSAyMi4xLDIyLjEgbCAwLDAgeiIgLz4KPC9zdmc+Cg==" />
+
+        <style>
+                body {
+                        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+                }
+
+                header,
+                footer {
+                        text-align: center;
+                        margin: 2em 1em;
+                }
+
+                @media(min-width: 1000px) {
+                        body {
+                                width: 1000px;
+                                margin: auto;
+                        }
+
+                        header,
+                        footer {
+                                margin: 2em 8em;
+                        }
+
+                        section {
+                                margin: 2em 6em;
+                        }
+
+                        p {
+                                margin: 2em;
+                        }
+                }
+
+                #examples p {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+                }
+
+                @media(min-width: 1000px) {
+                        #examples p {
+                                margin: 0 calc(-1 * (100vw - 1000px) / 2);
+                        }
+                }
+
+                #examples a {
+                        display: block;
+                        font-size: small;
+                        text-align: center;
+                        margin: 0.5em;
+                        text-decoration: none;
+                        color: inherit;
+                }
+
+                #examples img {
+                        display: block;
+                        width: 100%;
+                        object-fit: cover;
+                        margin: 1em 0;
+                }
+        </style>
+</head>
+
+<body>
+        <header>
+                <a href="https://d3fc.io/"><img alt="D3FC"
+                                src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iLTEgLTEgMTk4LjggODAuMzAwMDAzIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiPgogIDxwYXRoIGQ9Im0gMTkzLjcsNjEuNCAtOC4zLDAuNiBjIC0xMi4xLDAgLTIxLjksLTEwLjYgLTIxLjksLTIyLjcgMCwtMTIuMSA5LjksLTIyLjEgMjIuMSwtMjIuMSBsIDcuOSwwIEwgMTkzLjQsOC4zMDAwMDAxIDE5My40LDAgMTU2LjUsMCAxNDUuMiwwIDEzMS44LDAgYyAtMTIuMSwwIC0yMiw5LjkgLTIyLDIyIDAsMC4zIDAsMC41IDAsMC44IGwgMCw1NS4xIDE2LjYsMCAwLC0zNC40IGMgMS43LDAuNCAzLjYsMC43IDUuNCwwLjcgbCA4LjgsMCAwLC0xNC4zIC02LjcsMCBjIC0zLjYsMCAtNi42LC0zIC02LjYsLTYuNiAwLC0zLjYgMywtNi42IDYuNiwtNi42IGwgMTEuMywwIGMgMCwwIDkuMiwwIDkuMiwwIC0xLjIsMCAtMy41LDcuMSAtMy45LDguMiAtMSwzIC0xLjQsNiAtMS42LDkuMiAtMC44LDkuNSAwLjMsMTkuNiA1LjYsMjcuNyA0LjMsNi42IDEwLjksMTEuNiAxOC40LDE0LjEgMy41LDEuMiA3LjIsMS43IDEwLjksMS43IGwgOS45LDAgMCwtMTYuMiB6Ii8+CiAgPHBhdGggZD0ibSA3OS4zLDAuMSAtNywwIC0xNy43LDAgLTU0LjYsMCAwLDAuNyAwLDE1LjkgMCw2MS4zIDE0LjksMCAxLjcsMCA3LjcsMCBDIDQzLjUsNzggNTkuMiw2Mi4zIDU5LjIsNDMuMSBsIDAsLTcuMyBjIDAsLTcgLTIuMSwtMTMuNiAtNS43LC0xOS4xIGwgMTguNywwIDAsMCA0LjksMCBjIDMuNiwwIDYuNiwzIDYuNiw2LjYgMCwzLjYgLTMsNi42IC02LjYsNi42IGwgLTYuNywwIDAsMTggNi43LDAgYyAzLjYsMCA2LjYsMyA2LjYsNi42IDAsMy42IC0zLDYuNiAtNi42LDYuNiBsIC0xMy43LDAgMCwxNi43IGMgMS4zLDAuMyAyLjYsMC41IDQsMC41IEwgNzkuMiw3OCBjIDEyLjEsMCAyMiwtOS45IDIyLC0yMiBsIDAsMCBjIDAsLTYuNyAtMy4xLC0xMi44IC03LjksLTE2LjggNC44LC00LjEgNy45LC0xMC4xIDcuOSwtMTYuOCBsIDAsMCBDIDEwMS4zLDEwIDkxLjQsMC4xIDc5LjMsMC4xIFogTSA0NC42LDM5LjIgYyAwLDEyLjEgLTkuOSwyMi4xIC0yMi4xLDIyLjEgbCAtNS45LDAgMCwtNDQuMiA1LjksMCBjIDEyLjIsMCAyMi4xLDkuOSAyMi4xLDIyLjEgbCAwLDAgeiIvPgo8L3N2Zz4K" /></a>
+                <h1>Components to rapidly build fast, highly customisable, interactive charts with D3</h1>
+                        <p>
+                                <a href="https://github.com/d3fc/d3fc">Source</a> |
+                                <a href="https://github.com/d3fc/d3fc/issues">Issues</a> |
+                                <a href="https://github.com/d3fc/d3fc/blob/master/README.md">Documentation</a>
+
+                        </p>
+        </header>
+        <section>
+                <p>Building a bespoke chart from scratch is a big undertaking. Luckily D3 is an excellent library for
+                        providing
+                        the low-level building blocks required e.g. scales, behaviours, paths. However, it's rare to
+                        have the luxury
+                        of starting from such a fundamental level, when higher-level charting libraries exist.</p>
+                <p>D3FC exists to plug that gap. To provide higher-level components, with a compositional approach, that
+                        can act
+                        as a higher-level starting point. This allows you to extensively style the components, augment
+                        them with
+                        novel behaviours and make fundamental changes by dropping down to their sub-components.</p>
+                <p>The library also provides low-level components in a few functional areas that D3 doesn't cover e.g.
+                        label
+                        layout optimisation, rendering surface elements and WebGL components.</p>
+        </section>
+        <section id="examples">
+                <h2>Featured Examples</h2>
+                <p>
+                        <a href="https://d3fc.io/examples/bubble-chart/">
+                                <img src="https://d3fc.io/examples/bubble-chart/screenshot.png" />
+                                Bubble Chart
+                        </a>
+
+                        <a href="https://d3fc.io/examples/brush-zoom/">
+                                <img src="https://d3fc.io/examples/brush-zoom/screenshot.png" />
+                                Brush Zoom
+                        </a>
+                        <a href="https://d3fc.io/examples/chart-d3fc-zoom/">
+                                <img src="https://d3fc.io/examples/chart-d3fc-zoom/screenshot.png" />
+                                Chart Zoom
+                        </a>
+                        <a href="https://d3fc.io/examples/stacked-bar-chart/">
+                                <img src="https://d3fc.io/examples/stacked-bar-chart/screenshot.png" />
+                                Stacked Bar Chart
+                        </a>
+                        <a href="https://d3fc.io/examples/simple-chart/">
+                                <img src="https://d3fc.io/examples/simple-chart/screenshot.png" />
+                                Simple Chart
+                        </a>
+                        <a href="https://d3fc.io/examples/streaming-chart/">
+                                <img src="https://d3fc.io/examples/streaming-chart/screenshot.png" />
+                                Streaming Chart
+                        </a>
+                        <a href="https://d3fc.io/examples/building-a-chart/">
+                                <img src="https://d3fc.io/examples/building-a-chart/screenshot.png" />
+                                Building a Chart
+                        </a>
+                        <a href="https://d3fc.io/examples/transitions/">
+                                <img src="https://d3fc.io/examples/transitions/screenshot.png" />
+                                Transitions
+                        </a>
+                        <a href="https://d3fc.io/examples/sample/">
+                                <img src="https://d3fc.io/examples/sample/screenshot.png" />
+                                Sample
+                        </a>
+                        <a href="https://d3fc.io/examples/technical-indicator-macd/">
+                                <img src="https://d3fc.io/examples/technical-indicator-macd/screenshot.png" />
+                                Technical Indicator MACD
+                        </a>
+                        <a href="https://d3fc.io/examples/label-layout/">
+                                <img src="https://d3fc.io/examples/label-layout/screenshot.png" />
+                                Label Layout
+                        </a>
+                        <a href="https://d3fc.io/examples/diamonds/">
+                                <img src="https://d3fc.io/examples/diamonds/screenshot.png" />
+                                Diamonds
+                        </a>
+                        <a href="https://d3fc.io/examples/svg-canvas-and-webgl-chart/">
+                                <img src="https://d3fc.io/examples/svg-canvas-and-webgl-chart/screenshot.png" />
+                                SVG, Webgl and Canvas Chart
+                        </a>
+                        <a href="https://d3fc.io/examples/earth-and-mars/">
+                                <img src="https://d3fc.io/examples/earth-and-mars/screenshot.png" />
+                                Earth and Mars
+                        </a>
+                        <a href="https://d3fc.io/examples/boxplot/">
+                                <img src="https://d3fc.io/examples/boxplot/screenshot.png" />
+                                Boxplot
+                        </a>
+                        <a href="https://d3fc.io/examples/label-layout-chart/">
+                                <img src="https://d3fc.io/examples/label-layout-chart/screenshot.png" />
+                                Label Layout Example
+                        </a>
+                        <a href="https://d3fc.io/examples/bar-chart-race/">
+                                <img src="https://d3fc.io/examples/bar-chart-race/screenshot.png" />
+                                Bar Chart Race
+                        </a>
+                        <a href="https://d3fc.io/examples/small-multiples/">
+                                <img src="https://d3fc.io/examples/small-multiples/screenshot.png" />
+                                Small Multiples
+                        </a>
+                        <a href="https://d3fc.io/examples/marathon-pace/">
+                                <img src="https://d3fc.io/examples/marathon-pace/screenshot.png" />
+                                London Marathon 2016 Pacing vs. Finish Time
+                        </a>
+                        <a href="https://d3fc.io/examples/interactive-small-multiples/">
+                                <img src="https://d3fc.io/examples/interactive-small-multiples/screenshot.png" />
+                                Interactive Small Multiples
+                        </a>
+                        <a href="https://d3fc.io/examples/discontinuous-axis/">
+                                <img src="https://d3fc.io/examples/discontinuous-axis/screenshot.png" />
+                                Discontinuous Axis
+                        </a>
+                </p>
+                <h3>Other Examples</h3>
+                <p>
+                        <a href="https://d3fc.io/examples/axis-label-offset/"><img
+                                        src="https://d3fc.io/examples/axis-label-offset/screenshot.png" />Axis Label
+                                Offset</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-stochastic-oscillator/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-stochastic-oscillator/screenshot.png" />Technical
+                                Indicator
+                                Stochastic
+                                Oscillator</a>
+                        <a href="https://d3fc.io/examples/series-svg-auto-bandwidth/"><img
+                                        src="https://d3fc.io/examples/series-svg-auto-bandwidth/screenshot.png" />Series
+                                SVG Auto
+                                Bandwidth</a>
+                        <a href="https://d3fc.io/examples/series-svg-area/"><img
+                                        src="https://d3fc.io/examples/series-svg-area/screenshot.png" />Series SVG
+                                Area</a>
+                        <a href="https://d3fc.io/examples/series-webgl-candlestick/"><img
+                                        src="https://d3fc.io/examples/series-webgl-candlestick/screenshot.png" />Series
+                                Webgl
+                                Candlestick</a>
+                        <a href="https://d3fc.io/examples/series-webgl-bar/"><img
+                                        src="https://d3fc.io/examples/series-webgl-bar/screenshot.png" />Series Webgl
+                                Bar</a>
+                        <a href="https://d3fc.io/examples/series-svg-candlestick/"><img
+                                        src="https://d3fc.io/examples/series-svg-candlestick/screenshot.png" />Series
+                                SVG Candlestick</a>
+                        <a href="https://d3fc.io/examples/element-bespoke-chart-layout/"><img
+                                        src="https://d3fc.io/examples/element-bespoke-chart-layout/screenshot.png" />Element
+                                Bespoke Chart
+                                Layout</a>
+                        <a href="https://d3fc.io/examples/annotation-svg-band/"><img
+                                        src="https://d3fc.io/examples/annotation-svg-band/screenshot.png" />Annotation
+                                SVG Band</a>
+                        <a href="https://d3fc.io/examples/axis-tick-arguments/"><img
+                                        src="https://d3fc.io/examples/axis-tick-arguments/screenshot.png" />Axis Tick
+                                Arguments</a>
+                        <a href="https://d3fc.io/examples/series-canvas-repeat/"><img
+                                        src="https://d3fc.io/examples/series-canvas-repeat/screenshot.png" />Series
+                                Canvas Repeat</a>
+                        <a href="https://d3fc.io/examples/annotation-svg-crosshair/"><img
+                                        src="https://d3fc.io/examples/annotation-svg-crosshair/screenshot.png" />Annotation
+                                SVG
+                                Crosshair</a>
+                        <a href="https://d3fc.io/examples/series-canvas-decorate-append/"><img
+                                        src="https://d3fc.io/examples/series-canvas-decorate-append/screenshot.png" />Series
+                                Canvas Decorate
+                                Append</a>
+                        <a href="https://d3fc.io/examples/chart-cartesian-second-axis/"><img
+                                        src="https://d3fc.io/examples/chart-cartesian-second-axis/screenshot.png" />Chart
+                                Cartesian Second
+                                Axis</a>
+                        <a href="https://d3fc.io/examples/series-svg-bar/"><img
+                                        src="https://d3fc.io/examples/series-svg-bar/screenshot.png" />Series SVG
+                                Bar</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-bollinger-bands-svg/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-bollinger-bands-svg/screenshot.png" />Technical
+                                Indicator
+                                Bollinger
+                                Bands SVG</a>
+                        <a href="https://d3fc.io/examples/series-canvas-boxplot/"><img
+                                        src="https://d3fc.io/examples/series-canvas-boxplot/screenshot.png" />Series
+                                Canvas Box Plot</a>
+                        <a href="https://d3fc.io/examples/series-canvas-ohlc/"><img
+                                        src="https://d3fc.io/examples/series-canvas-ohlc/screenshot.png" />Series Canvas
+                                OHLC</a>
+                        <a href="https://d3fc.io/examples/webgl-context-lost/"><img
+                                        src="https://d3fc.io/examples/webgl-context-lost/screenshot.png" />WebGL Context
+                                Lost</a>
+                        <a href="https://d3fc.io/examples/series-svg-decorate-append/"><img
+                                        src="https://d3fc.io/examples/series-svg-decorate-append/screenshot.png" />Series
+                                SVG Decorate
+                                Append</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-relative-strength-index/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-relative-strength-index/screenshot.png" />Technical
+                                Indicator
+                                Relative
+                                Strength Index</a>
+                        <a href="https://d3fc.io/examples/series-svg-boxplot/"><img
+                                        src="https://d3fc.io/examples/series-svg-boxplot/screenshot.png" />Series SVG
+                                Box Plot</a>
+                        <a href="https://d3fc.io/examples/series-webgl-line/"><img
+                                        src="https://d3fc.io/examples/series-webgl-line/screenshot.png" />Series Webgl
+                                Line</a>
+                        <a href="https://d3fc.io/examples/series-canvas-area/"><img
+                                        src="https://d3fc.io/examples/series-canvas-area/screenshot.png" />Series Canvas
+                                Area</a>
+                        <a href="https://d3fc.io/examples/series-canvas-multi/"><img
+                                        src="https://d3fc.io/examples/series-canvas-multi/screenshot.png" />Series
+                                Canvas Multi</a>
+                        <a href="https://d3fc.io/examples/annotation-gridline-transition/"><img
+                                        src="https://d3fc.io/examples/annotation-gridline-transition/screenshot.png" />Annotation
+                                Gridline
+                                Transition</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-elder-ray/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-elder-ray/screenshot.png" />Technical
+                                Indicator
+                                Elder Ray</a>
+                        <a href="https://d3fc.io/examples/series-canvas-grouped/"><img
+                                        src="https://d3fc.io/examples/series-canvas-grouped/screenshot.png" />Series
+                                Canvas Grouped</a>
+                        <a href="https://d3fc.io/examples/series-canvas-point/"><img
+                                        src="https://d3fc.io/examples/series-canvas-point/screenshot.png" />Series
+                                Canvas Point</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-force-index/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-force-index/screenshot.png" />Technical
+                                Indicator
+                                Force
+                                Index</a>
+                        <a href="https://d3fc.io/examples/annotation-canvas-line/"><img
+                                        src="https://d3fc.io/examples/annotation-canvas-line/screenshot.png" />Annotation
+                                Canvas Line</a>
+                        <a href="https://d3fc.io/examples/series-svg-grouped/"><img
+                                        src="https://d3fc.io/examples/series-svg-grouped/screenshot.png" />Series SVG
+                                Grouped</a>
+                        <a href="https://d3fc.io/examples/axis-center/"><img
+                                        src="https://d3fc.io/examples/axis-center/screenshot.png" />Axis
+                                Center</a>
+                        <a href="https://d3fc.io/examples/annotation-svg-gridline/"><img
+                                        src="https://d3fc.io/examples/annotation-svg-gridline/screenshot.png" />Annotation
+                                SVG Gridline</a>
+                        <a href="https://d3fc.io/examples/series-canvas-heatmap/"><img
+                                        src="https://d3fc.io/examples/series-canvas-heatmap/screenshot.png" />Series
+                                Canvas Heatmap</a>
+                        <a href="https://d3fc.io/examples/axis-rotate-auto/"><img
+                                        src="https://d3fc.io/examples/axis-rotate-auto/screenshot.png" />Axis Rotate
+                                Auto</a>
+                        <a href="https://d3fc.io/examples/axis-color/"><img
+                                        src="https://d3fc.io/examples/axis-color/screenshot.png" />Axis
+                                Color</a>
+                        <a href="https://d3fc.io/examples/chart-cartesian-move-axis/"><img
+                                        src="https://d3fc.io/examples/chart-cartesian-move-axis/screenshot.png" />Chart
+                                Cartesian Move
+                                Axis</a>
+                        <a href="https://d3fc.io/examples/series-canvas-stacked/"><img
+                                        src="https://d3fc.io/examples/series-canvas-stacked/screenshot.png" />Series
+                                Canvas Stacked</a>
+                        <a href="https://d3fc.io/examples/series-svg-repeat/"><img
+                                        src="https://d3fc.io/examples/series-svg-repeat/screenshot.png" />Series SVG
+                                Repeat</a>
+                        <a href="https://d3fc.io/examples/chart-cartesian-ordinal/"><img
+                                        src="https://d3fc.io/examples/chart-cartesian-ordinal/screenshot.png" />Chart
+                                Cartesian Ordinal</a>
+                        <a href="https://d3fc.io/examples/annotation-canvas-crosshair/"><img
+                                        src="https://d3fc.io/examples/annotation-canvas-crosshair/screenshot.png" />Annotation
+                                Canvas
+                                Crosshair</a>
+                        <a href="https://d3fc.io/examples/series-canvas-bar/"><img
+                                        src="https://d3fc.io/examples/series-canvas-bar/screenshot.png" />Series Canvas
+                                Bar</a>
+                        <a href="https://d3fc.io/examples/series-canvas-auto-bandwidth/"><img
+                                        src="https://d3fc.io/examples/series-canvas-auto-bandwidth/screenshot.png" />Series
+                                Canvas Auto
+                                Bandwidth</a>
+                        <a href="https://d3fc.io/examples/series-svg-heatmap/"><img
+                                        src="https://d3fc.io/examples/series-svg-heatmap/screenshot.png" />Series SVG
+                                Heatmap</a>
+                        <a href="https://d3fc.io/examples/series-svg-stacked/"><img
+                                        src="https://d3fc.io/examples/series-svg-stacked/screenshot.png" />Series SVG
+                                Stacked</a>
+                        <a href="https://d3fc.io/examples/series-svg-ohlc/"><img
+                                        src="https://d3fc.io/examples/series-svg-ohlc/screenshot.png" />Series SVG
+                                OHLC</a>
+                        <a href="https://d3fc.io/examples/idempotent-streaming-chart/"><img
+                                        src="https://d3fc.io/examples/idempotent-streaming-chart/screenshot.png" />Idempotent
+                                Streaming
+                                Chart</a>
+                        <a href="https://d3fc.io/examples/series-svg-point-size-type/"><img
+                                        src="https://d3fc.io/examples/series-svg-point-size-type/screenshot.png" />Series
+                                SVG Point Size
+                                Type</a>
+                        <a href="https://d3fc.io/examples/series-webgl-repeat/"><img
+                                        src="https://d3fc.io/examples/series-webgl-repeat/screenshot.png" />Series Webgl
+                                Repeat</a>
+                        <a href="https://d3fc.io/examples/chart-cartesian-custom-axis/"><img
+                                        src="https://d3fc.io/examples/chart-cartesian-custom-axis/screenshot.png" />Chart
+                                Cartesian Custom
+                                Axis</a>
+                        <a href="https://d3fc.io/examples/axis-transition/"><img
+                                        src="https://d3fc.io/examples/axis-transition/screenshot.png" />Axis
+                                Transition</a>
+                        <a href="https://d3fc.io/examples/axis-offset/"><img
+                                        src="https://d3fc.io/examples/axis-offset/screenshot.png" />Axis
+                                Offset</a>
+                        <a href="https://d3fc.io/examples/series-svg-decorate/"><img
+                                        src="https://d3fc.io/examples/series-svg-decorate/screenshot.png" />Series SVG
+                                Decorate</a>
+                        <a href="https://d3fc.io/examples/annotation-canvas-band/"><img
+                                        src="https://d3fc.io/examples/annotation-canvas-band/screenshot.png" />Annotation
+                                Canvas Band</a>
+                        <a href="https://d3fc.io/examples/series-canvas-candlestick/"><img
+                                        src="https://d3fc.io/examples/series-canvas-candlestick/screenshot.png" />Series
+                                Canvas
+                                Candlestick</a>
+                        <a href="https://d3fc.io/examples/webgl-with-svg-overlay/"><img
+                                        src="https://d3fc.io/examples/webgl-with-svg-overlay/screenshot.png" />WebGL
+                                With SVG Overlay</a>
+                        <a href="https://d3fc.io/examples/series-canvas-point-size-type/"><img
+                                        src="https://d3fc.io/examples/series-canvas-point-size-type/screenshot.png" />Series
+                                Canvas Point
+                                Size Type</a>
+                        <a href="https://d3fc.io/examples/series-webgl-errorbar/"><img
+                                        src="https://d3fc.io/examples/series-webgl-errorbar/screenshot.png" />Series
+                                Webgl Error Bar</a>
+                        <a href="https://d3fc.io/examples/series-webgl-area/"><img
+                                        src="https://d3fc.io/examples/series-webgl-area/screenshot.png" />Series Webgl
+                                Area</a>
+                        <a href="https://d3fc.io/examples/series-svg-line/"><img
+                                        src="https://d3fc.io/examples/series-svg-line/screenshot.png" />Series SVG
+                                Line</a>
+                        <a href="https://d3fc.io/examples/chart-cartesian-transition/"><img
+                                        src="https://d3fc.io/examples/chart-cartesian-transition/screenshot.png" />Chart
+                                Cartesian
+                                Transition</a>
+                        <a href="https://d3fc.io/examples/axis-rotate-decorate/"><img
+                                        src="https://d3fc.io/examples/axis-rotate-decorate/screenshot.png" />Axis Rotate
+                                Decorate</a>
+                        <a href="https://d3fc.io/examples/series-canvas-errorbar/"><img
+                                        src="https://d3fc.io/examples/series-canvas-errorbar/screenshot.png" />Series
+                                Canvas Error Bar</a>
+                        <a href="https://d3fc.io/examples/series-webgl-stacked/"><img
+                                        src="https://d3fc.io/examples/series-webgl-stacked/screenshot.png" />Series
+                                Webgl Stacked</a>
+                        <a href="https://d3fc.io/examples/series-svg-multi/"><img
+                                        src="https://d3fc.io/examples/series-svg-multi/screenshot.png" />Series SVG
+                                Multi</a>
+                        <a href="https://d3fc.io/examples/series-webgl-multi/"><img
+                                        src="https://d3fc.io/examples/series-webgl-multi/screenshot.png" />Series Webgl
+                                Multi</a>
+                        <a href="https://d3fc.io/examples/series-canvas-decorate/"><img
+                                        src="https://d3fc.io/examples/series-canvas-decorate/screenshot.png" />Series
+                                Canvas Decorate</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-bollinger-bands-canvas/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-bollinger-bands-canvas/screenshot.png" />Technical
+                                Indicator
+                                Bollinger Bands Canvas</a>
+                        <a href="https://d3fc.io/examples/series-webgl-point/"><img
+                                        src="https://d3fc.io/examples/series-webgl-point/screenshot.png" />Series Webgl
+                                Point</a>
+                        <a href="https://d3fc.io/examples/annotation-svg-line/"><img
+                                        src="https://d3fc.io/examples/annotation-svg-line/screenshot.png" />Annotation
+                                SVG Line</a>
+                        <a href="https://d3fc.io/examples/series-svg-point/"><img
+                                        src="https://d3fc.io/examples/series-svg-point/screenshot.png" />Series SVG
+                                Point</a>
+                        <a href="https://d3fc.io/examples/series-canvas-line/"><img
+                                        src="https://d3fc.io/examples/series-canvas-line/screenshot.png" />Series Canvas
+                                Line</a>
+                        <a href="https://d3fc.io/examples/chart-deprecated/"><img
+                                        src="https://d3fc.io/examples/chart-deprecated/screenshot.png" />Chart
+                                Deprecated</a>
+                        <a href="https://d3fc.io/examples/series-svg-errorbar/"><img
+                                        src="https://d3fc.io/examples/series-svg-errorbar/screenshot.png" />Series SVG
+                                Error Bar</a>
+                        <a href="https://d3fc.io/examples/series-webgl-ohlc/"><img
+                                        src="https://d3fc.io/examples/series-webgl-ohlc/screenshot.png" />Series Webgl
+                                OHLC</a>
+                        <a href="https://d3fc.io/examples/series-webgl-boxplot/"><img
+                                        src="https://d3fc.io/examples/series-webgl-boxplot/screenshot.png" />Series
+                                Webgl Box Plot</a>
+                        <a href="https://d3fc.io/examples/technical-indicator-envelope/"><img
+                                        src="https://d3fc.io/examples/technical-indicator-envelope/screenshot.png" />Technical
+                                Indicator
+                                Envelope</a>
+                        <a href="https://d3fc.io/examples/annotation-canvas-gridline/"><img
+                                        src="https://d3fc.io/examples/annotation-canvas-gridline/screenshot.png" />Annotation
+                                Canvas
+                                Gridline</a>
+                        <a href="https://d3fc.io/examples/axis-band-scale/"><img
+                                        src="https://d3fc.io/examples/axis-band-scale/screenshot.png" />Axis Band
+                                Scale</a>
+                        <a href="https://d3fc.io/examples/series-svg-grouped-alternate/"><img
+                                        src="https://d3fc.io/examples/series-svg-grouped-alternate/screenshot.png" />Series
+                                SVG Grouped
+                                Alternate</a>
+                </p>
+        </section>
+        <footer>
+                <p>Project supported by <a href="https://www.scottlogic.com">Scott Logic</a></p>
+        </footer>
+</body>
+
+</html>

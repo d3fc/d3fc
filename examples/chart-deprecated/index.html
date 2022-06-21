@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <style>
+        body {
+            flex-direction: column;
+        }
+
+        path.area {
+            fill: #99ff99;
+            fill-opacity: 0.5;
+        }
+
+        path.line {
+            stroke: #60c;
+        }
+
+        .annotation-gridline line {
+            stroke: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sine-chart"></div>
+    <div id="sine-svg"></div>
+    <div id="sine-canvas"></div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
