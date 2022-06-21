@@ -3,11 +3,11 @@ import { dayBoundary, millisPerDay } from './constants';
 
 /**
  * Represents a Trading day
- * @param { string[][] } rawDicontinuityTimeRanges - Array of time range tuples e.g. [["07:45", "08:30"), ["19:00:45.500", "EOD")]
+ * @param { string[][] } rawDiscontinuityTimeRanges - Array of time range tuples e.g. [["07:45", "08:30"), ["19:00:45.500", "EOD")]
  * @param { import('./dateTimeUtility').DateTimeUtility } dateTimeUtility
  */
-export const tradingDay = (rawDicontinuityTimeRanges, dateTimeUtility) => {
-    const nonTradingTimeRanges = rawDicontinuityTimeRanges
+export const tradingDay = (rawDiscontinuityTimeRanges, dateTimeUtility) => {
+    const nonTradingTimeRanges = rawDiscontinuityTimeRanges
         .map(rawRange => nonTradingTimeRange(rawRange, dateTimeUtility))
         .sort((a, b) => a.startTime < b.startTime ? -1 : a.startTime > b.startTime ? 1 : 0);
     const totalTradingTimeInMiliseconds = millisPerDay - nonTradingTimeRanges.reduce((total, range) => total + range.lenghtInMs, 0);
