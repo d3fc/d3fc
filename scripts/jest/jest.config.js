@@ -1,4 +1,4 @@
-process.env.TZ = "Europe/London";
+process.env.TZ = 'Europe/London';
 module.exports = {
     rootDir: '../../',
     roots: ['<rootDir>/packages'],

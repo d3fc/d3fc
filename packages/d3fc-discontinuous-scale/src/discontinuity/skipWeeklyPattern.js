@@ -57,14 +57,15 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
     instance.clampUp = (date) => {
         const tradingDay = tradingDays[dateTimeUtility.getDay(date)];
 
-        for (let i = 0; i < tradingDay.nonTradingTimeRanges.length; i++) {
-            if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
+        for (const range of tradingDay.nonTradingTimeRanges) {
+            if (range.isInRange(date)) {
 
-                return tradingDay.nonTradingTimeRanges[i].endTime === dayBoundary
+                return range.endTime === dayBoundary
                     ? instance.clampUp(dateTimeUtility.getStartOfNextDay(date))
-                    : dateTimeUtility.setTime(date, tradingDay.nonTradingTimeRanges[i].endTime);
+                    : dateTimeUtility.setTime(date, range.endTime);
             }
         }
+
         return date;
     };
 
@@ -76,12 +77,12 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
     instance.clampDown = (date) => {
         const tradingDay = tradingDays[dateTimeUtility.getDay(date)];
 
-        for (let i = 0; i < tradingDay.nonTradingTimeRanges.length; i++) {
-            if (tradingDay.nonTradingTimeRanges[i].isInRange(date)) {
+        for (const range of tradingDay.nonTradingTimeRanges) {
+            if (range.isInRange(date)) {
 
-                return tradingDay.nonTradingTimeRanges[i].startTime === dayBoundary
+                return range.startTime === dayBoundary
                     ? instance.clampDown(dateTimeUtility.getEndOfPreviousDay(date))
-                    : dateTimeUtility.setTime(date, tradingDay.nonTradingTimeRanges[i].startTime, -1);
+                    : dateTimeUtility.setTime(date, range.startTime, -1);
             }
         }
         return date;
@@ -95,17 +96,13 @@ export const base = (nonTradingPattern, dateTimeUtility) => {
      */
     instance.distance = (startDate, endDate) => {
 
-        const sortChronologically = (start, end) => {
-            return start <= end
-                ? [start, end, 1]
-                : [end, start, -1];
-        };
-
         if (startDate.getTime() === endDate.getTime()) {
             return 0;
         }
 
-        let [start, end, factor] = sortChronologically(startDate, endDate);
+        let [start, end, factor] = startDate <= endDate
+            ? [startDate, endDate, 1]
+            : [endDate, startDate, -1];
 
         // same day distance
         if (dateTimeUtility.dayInterval(start).getTime() === dateTimeUtility.dayInterval(end).getTime()) {
