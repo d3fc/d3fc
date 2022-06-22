@@ -8,7 +8,7 @@ import * as d3 from 'd3';
  * Returns: void
  */
 
-let button = d3.select('button');
+const button = d3.select('button');
 type ParamType = Parameters<typeof pointer>[0]; // fetch parameter's type
 
 // Test returns void
@@ -16,7 +16,7 @@ expectType<void>(pointer(button));
 
 // Test input types
 expectAssignable<ParamType>(button);
-let button2 = button.clone();
+const button2 = button.clone();
 expectAssignable<ParamType>(button2);
 
 // Bad inputs return an error
