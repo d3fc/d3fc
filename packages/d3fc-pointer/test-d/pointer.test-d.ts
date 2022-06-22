@@ -2,8 +2,7 @@ import { pointer } from '../index';
 import { expectAssignable, expectError, expectType } from 'tsd';
 import * as d3 from 'd3';
 
-/**
- * We expect Pointer to have the following type for our tests:
+/** We expect Pointer to have the following type for our tests:
  * Input: <GElement extends BaseType, Datum, PElement extends BaseType, PDatum>
  * Returns: void
  */
