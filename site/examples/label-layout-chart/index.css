@@ -1,0 +1,20 @@
+.label rect {
+  fill: transparent;
+}
+
+.label circle {
+  display: none;
+}
+
+body {
+  font-size: 1.0em;
+}
+
+.point {
+  fill: red;
+  stroke: red;
+}
+
+.line {
+  stroke-opacity: 0.3;
+}

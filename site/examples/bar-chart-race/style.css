@@ -1,0 +1,41 @@
+body {
+  font: 14px sans-serif;
+  background-color: #363b3f;
+  color: darkgrey;
+}
+
+.x-axis text {
+  fill: darkgrey;
+}
+
+.x-axis .domain {
+  display: none;
+}
+
+.x-axis .tick {
+  font-size: 12px;
+}
+
+.y-axis svg {
+  display: none;
+}
+
+.language-label {
+  text-anchor: end;
+  font-size: 20px;
+  fill: white;
+  alignment-baseline: central
+}
+ 
+.language-percent {
+  fill: darkgrey;
+  alignment-baseline: central
+}
+
+#date {
+  color: darkgrey;
+  font-size: 50px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

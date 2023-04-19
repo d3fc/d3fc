@@ -1,0 +1,22 @@
+.point path {
+    stroke: transparent;
+    fill: rgba(0, 0, 255, 0.6);
+}
+
+.box-plot path {
+    fill: transparent;
+    stroke-width: 1.5px;
+}
+
+.gridline-x:nth-child(9n + 3) {
+    stroke-opacity: 0.5;
+}
+
+body, .tick {
+  font-size: 1.2em;
+}
+
+d3fc-group.cartesian-chart {
+  grid-template-rows: 0 0.2em 1fr 4em 0;
+  grid-template-columns: minmax(1em,max-content) auto 1fr auto 2em;
+}

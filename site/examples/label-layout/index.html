@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <style>
+        body {
+            flex-direction: column;
+        }
+        rect {
+            fill: rgba(0, 255, 0, 0.1);
+            stroke: rgb(192, 192, 192);
+            stroke-width: 0.5;
+        }
+        svg {
+            border: 1px solid rgb(192, 192, 192);
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        g.label circle {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <svg></svg>
+    </div>
+    <form id="strategy-form">
+        <h4>Strategy:</h4>
+        <p>
+            <label for="strategy-selector">Strategy</label>
+            <select id="strategy-selector">
+                <option value="layoutAnnealing">Annealing</option>
+                <option value="layoutGreedy">Greedy</option>
+                <option value="layoutBoundingBox">Bounding Box</option>
+                <option value="none">None</option>
+            </select>
+        </p>
+        <p>
+            <label for="enforce-bounds">Enforce Bounds</label>
+            <input type="checkbox" id="enforce-bounds"/>
+        </p>
+        <p>
+            <label for="remove-overlaps">Remove Overlaps</label>
+            <input type="checkbox" id="remove-overlaps"/>
+        </p>
+        <p>
+            <label for="temperature">Temperature</label>
+            <input type="text" id="temperature" value="1000">
+        </p>
+        <p>
+            <label for="cooling">Cooling</label>
+            <input type="text" id="cooling" value="1">
+        </p>
+        <p>
+            <button id="apply-strategy">Apply Strategy</button>
+        </p>
+    </form>
+    <form id="labels-form">
+        <h4>Random Labels:</h4>
+        <p>
+            <label for="label-count">Label Count</label>
+            <input type="text" id="label-count" value="20">
+        </p>
+        <p>
+            <button id="generate-data">Generate Random Labels</button>
+        </p>
+    </form>
+    <p id="statistics"></p>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <style>
+        body {
+            flex-direction: column;
+        }
+        #controls {
+            flex-grow: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <div id="controls">
+        <select id="chart-type">
+            <option value="webgl">Webgl</option>
+            <option value="canvas">Canvas</option>
+        </select>
+        <button type="button" id="lose-context">Lose Context</button>
+        <button type="button" id="restore-context">Restore Context</button>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>

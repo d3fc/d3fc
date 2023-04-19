@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <style>
+        path.area {
+            fill: rgba(153, 204, 255, 0.5);
+            stroke: none;
+        }
+
+        path.line {
+            fill: none;
+            stroke: #06c;
+        }
+    </style>
+</head>
+
+<body>
+    <d3fc-svg use-device-pixel-ratio></d3fc-svg>
+    <script src="index.js"></script>
+</body>
+
+</html>

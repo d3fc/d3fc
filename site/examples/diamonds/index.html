@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://unpkg.com/seedrandom@3/seedrandom.js"></script>
+    <script>Math.seedrandom('a22ebc7c488a3a47');</script>
+    <script src="https://unpkg.com/mockdate@2/src/mockdate.js"></script>
+    <script>MockDate.set('2000-01-01', 0);</script>
+    <script src="https://unpkg.com/d3/dist/d3.js"></script>
+    <script src="https://unpkg.com/d3fc/build/d3fc.js"></script>
+    <script src="../index.js"></script>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+    <style>
+        d3fc-group.cartesian-chart>.y-label {
+            grid-row: 2;
+            grid-column: 2;
+            transform: none;
+            font-size: 10px;
+            padding: 0.5em 0;
+        }
+        d3fc-group.cartesian-chart>.x-label {
+            grid-row: 5;
+            grid-column: 5;
+            justify-self: end;
+            font-size: 10px;
+            margin-top: -1em;
+            margin-left: -2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart"></div>
+    <script src="index.js"></script>
+</body>
+
+</html>
