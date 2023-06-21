@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Use Node.js latest
       uses: actions/setup-node@v3
@@ -21,8 +23,8 @@ jobs:
     - name: Build
       run: |
         npm install
+        npm run commitlint
         npm run lint
         npm run bundle
         npm run bundle-min
         npm test
-#       npm run commitlint - disabled due to error - https://github.com/d3fc/d3fc/actions/runs/5333666789/jobs/9664435052
