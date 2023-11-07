@@ -115,7 +115,8 @@ export default () => {
         'clickDistance',
         'tapDistance',
         'duration',
-        'interpolate'
+        'interpolate',
+        'scaleExtent'
     );
 
     return instance;
