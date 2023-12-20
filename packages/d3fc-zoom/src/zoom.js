@@ -23,7 +23,8 @@ const symbol = Symbol('d3fc-domain-zoom');
 export default () => {
     const dispatcher = dispatch('zoom');
 
-    const zoomer = zoom().on('zoom', function({ transform }) {
+    const zoomer = zoom().on('zoom', function (e) {
+        const { transform } = e;
         const node = this;
         let updatedTransform = transform;
         let {
@@ -68,7 +69,7 @@ export default () => {
         if (updatedTransform !== transform) {
             zoomer.transform(select(node), updatedTransform);
         }
-        dispatcher.call('zoom');
+        dispatcher.call('zoom', this, e);
     });
 
     const instance = (selection, xScale = null, yScale = null) => {
@@ -116,7 +117,8 @@ export default () => {
         'tapDistance',
         'duration',
         'interpolate',
-        'scaleExtent'
+        'scaleExtent',
+        'translateExtent'
     );
 
     return instance;
