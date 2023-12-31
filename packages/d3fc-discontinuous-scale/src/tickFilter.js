@@ -1,4 +1,9 @@
 export default function tickFilter(ticks, discontinuityProvider) {
+
+    if ("tickFilter" in discontinuityProvider) {
+        return discontinuityProvider.tickFilter(ticks);
+    } // use tick filter provided by the discontinuity provider 
+
     const discontinuousTicks = ticks.map(discontinuityProvider.clampUp);
     if (
         discontinuousTicks.length !==
