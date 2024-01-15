@@ -185,7 +185,9 @@ export const candlestick = {
          (isNotPositiveY * isExtremeY * aHighValue);
 
         float lineWidthXDirection = (isNotExtremeY * aCorner.x) + (isExtremeY * aCorner.z);
-        float lineWidthYDirection = isNotExtremeY * sign(aCloseValue - aOpenValue) * aCorner.y;
+
+        float bodyThickness = (aOpenValue == aCloseValue ? 1.0 : sign(aCloseValue - aOpenValue));
+        float lineWidthYDirection = (isNotExtremeY * bodyThickness * aCorner.y);
 
         float bandwidthModifier = aBandwidth * aCorner.x / 2.0;
 
