@@ -23,8 +23,6 @@ jobs:
     - name: Build
       run: |
         npm ci
-        npm run commitlint
-        npm run lint
         npm run bundle
         npm run bundle-min
         npm test

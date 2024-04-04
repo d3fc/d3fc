@@ -1,0 +1,30 @@
+name: Lint
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # - name: Use Node.js latest
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: latest
+
+      - name: setup
+        run: npm ci
+
+      - name: commitlint
+        run: npm run commitlint
+
+      - name: lint
+        run: npm run lint
