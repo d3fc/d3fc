@@ -2,8 +2,10 @@
   "name": "@d3fc/d3fc-monorepo",
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "postinstall": "lerna bootstrap",
     "publish": "lerna publish --conventional-commits --message \"chore: publish\" --yes",
     "bundle": "lerna run bundle --stream --concurrency 1",
     "bundle-min": "lerna run bundle --stream --concurrency 1 -- -- --configEnv=prod",
@@ -68,7 +70,7 @@
     "jest-puppeteer": "^4.4.0",
     "js-combinatorics": "^0.5.5",
     "jsdom": "^9.12.0",
-    "lerna": "^3.22.1",
+    "lerna": "^8.1.2",
     "markdownlint": "^0.16.0",
     "markdownlint-cli": "^0.17.0",
     "mockdate": "^2.0.5",
