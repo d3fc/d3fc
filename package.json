@@ -3,7 +3,7 @@
   "private": true,
   "description": "A collection of components that make it easy to build interactive charts with D3",
   "workspaces": [
-    "./packages/*"
+    "packages/*"
   ],
   "scripts": {
     "publish": "lerna publish --conventional-commits --message \"chore: publish\" --yes",
