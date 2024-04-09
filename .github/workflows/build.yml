@@ -1,30 +1,39 @@
-name: Build
+name: Build & Test
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-jobs:
-  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Setup
+        uses: ./.github/workflows/workflow-setup.yml
 
-    - name: Use Node.js latest
-      uses: actions/setup-node@v3
-      with:
-        node-version: latest
+      - name: Build
+        run: |
+          npm run bundle
+          npm run bundle-min
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./packages/**/build
 
-    - name: Build
-      run: |
-        npm ci
-        npm run commitlint
-        npm run lint
-        npm run bundle
-        npm run bundle-min
-        npm test
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup
+        uses: ./.github/workflows/setup.yml
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Display structure of downloaded artifacts
+        run: ls -R
+
+      - name: Test
+        uses: ./.github/workflows/test.yml
