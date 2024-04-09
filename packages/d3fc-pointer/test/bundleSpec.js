@@ -9,7 +9,7 @@ describe('bundle', function() {
             }),
             scripts: [
                 require.resolve('d3/dist/d3.js'),
-                require.resolve('../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
+                require.resolve('../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
                 require.resolve('../build/d3fc-pointer.js')
             ],
             done: (_, win) => {
