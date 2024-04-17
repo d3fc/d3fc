@@ -11,6 +11,7 @@ jobs:
 
   publish-npm:
     name: Publish npm package(s)
+    if: github.repository == 'd3fc/d3fc'
     needs: build-test-lint
     runs-on: ubuntu-latest
     steps:
