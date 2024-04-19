@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build-test-lint:
+    name: Build, test, and lint
+    uses: ./.github/workflows/development.yml
+
+  publish-npm:
+    name: Publish npm package(s)
+    if: github.repository == 'd3fc/d3fc'
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+    steps:
+        - name: "Checkout repository"
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+
+        - name: "Setup Node"
+          uses: actions/setup-node@v3
+          with:
+            node-version: latest
+            registry-url: https://registry.npmjs.org/
+        
+        - name: "Install dependencies"
+          run: npm ci
+        
+        - name: "Publish"
+          run: npm run publish
+          env:
+            NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
