@@ -88,6 +88,9 @@
     "tsd": "^0.28.1",
     "typescript": "^4.9.5"
   },
+  "optionalDependencies": {
+    "@nx/nx-linux-x64-gnu": "18.0.4"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

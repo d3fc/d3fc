@@ -23,7 +23,7 @@ jobs:
           node-version: 21.7.3
 
       - name: "Install dependencies"
-        run: npm ci
+        run: npm ci --include=optional
 
       - name: "Build"
         run: |
@@ -48,7 +48,7 @@ jobs:
           node-version: 21.7.3
 
       - name: "Install dependencies"
-        run: npm ci
+        run: npm ci --include=optional
 
       - name: "Lint code"
         run: npm run lint
