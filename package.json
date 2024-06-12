@@ -66,7 +66,7 @@
     "eslint-plugin-standard": "^4.1.0",
     "glsl-transpiler": "^1.8.6",
     "jest": "^24.9.0",
-    "jest-image-snapshot": "^2.12.0",
+    "jest-image-snapshot": "^6.4.0",
     "jest-puppeteer": "^4.4.0",
     "js-combinatorics": "^0.5.5",
     "jsdom": "^9.12.0",
