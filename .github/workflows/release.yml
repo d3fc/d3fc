@@ -21,6 +21,11 @@ jobs:
             fetch-depth: 0
             ssh-key: ${{secrets.DEPLOY_KEY}}
 
+        - name: "Setup SSH"
+          uses: webfactory/ssh-agent@v0.7.0
+          with:
+            ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
         - name: "Setup Node"
           uses: actions/setup-node@v3
           with:
@@ -31,7 +36,7 @@ jobs:
           run: |
             git config --global user.name 'github-actions[bot]'
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            git remote set-url origin https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git
+            git remote set-url origin git@github.com:${{github.repository}}.git
 
         - name: "Install dependencies"
           run: npm ci
