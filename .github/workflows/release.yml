@@ -14,6 +14,8 @@ jobs:
     if: github.repository == 'd3fc/d3fc'
     needs: build-test-lint
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
     steps:
         - name: "Checkout repository"
           uses: actions/checkout@v3
@@ -31,12 +33,17 @@ jobs:
           with:
             node-version: 21.7.3
             registry-url: https://registry.npmjs.org/
+
+      
         
         - name: "Git config"
           run: |
             git config --global user.name 'github-actions[bot]'
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
             git remote set-url origin git@github.com:${{github.repository}}.git
+
+        - name: "Check if able to publish to npm" 
+          run: npm whoami
 
         - name: "Install dependencies"
           run: npm ci
