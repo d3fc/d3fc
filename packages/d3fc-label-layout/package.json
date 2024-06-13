@@ -1,35 +1,35 @@
 {
-  "name": "@d3fc/d3fc-label-layout",
-  "version": "7.0.3",
-  "description": "A D3 layout that places labels avoiding overlaps using either a greedy or simulated annealing strategy",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "label",
-    "layout"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-label-layout.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-label-layout"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-data-join": "^6.0.3",
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-array": "*",
-    "d3-scale": "*",
-    "d3-selection": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-label-layout",
+    "version": "7.0.4",
+    "description": "A D3 layout that places labels avoiding overlaps using either a greedy or simulated annealing strategy",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "label",
+        "layout"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-label-layout.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-label-layout"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-data-join": "^6.0.3",
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-array": "*",
+        "d3-scale": "*",
+        "d3-selection": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

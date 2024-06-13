@@ -1,48 +1,48 @@
 {
-  "name": "@d3fc/d3fc-technical-indicator",
-  "version": "8.1.0",
-  "description": "Components for calculating technical indicators on data series",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "indicator",
-    "technical indicators",
-    "financial indicators",
-    "trading indicators",
-    "technical studies",
-    "financial studies",
-    "trading studies",
-    "data",
-    "bollinger",
-    "elder ray",
-    "envelope",
-    "moving average",
-    "force index",
-    "percentage change",
-    "macd",
-    "rsi",
-    "stochastic oscillator"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-technical-indicator.js",
-  "module": "index",
-  "typings": "@d3fc/d3fc-technical-indicator.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-technical-indicator"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-array": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-technical-indicator",
+    "version": "8.1.1",
+    "description": "Components for calculating technical indicators on data series",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "indicator",
+        "technical indicators",
+        "financial indicators",
+        "trading indicators",
+        "technical studies",
+        "financial studies",
+        "trading studies",
+        "data",
+        "bollinger",
+        "elder ray",
+        "envelope",
+        "moving average",
+        "force index",
+        "percentage change",
+        "macd",
+        "rsi",
+        "stochastic oscillator"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-technical-indicator.js",
+    "module": "index",
+    "typings": "@d3fc/d3fc-technical-indicator.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-technical-indicator"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-array": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

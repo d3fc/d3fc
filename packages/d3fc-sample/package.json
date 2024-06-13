@@ -1,32 +1,32 @@
 {
-  "name": "@d3fc/d3fc-sample",
-  "version": "5.0.1",
-  "description": "A data subsampler that chooses representative data points using a largest triangle or mode-median approach.",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "sample",
-    "sampler"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-sample.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-sample"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-array": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-sample",
+    "version": "5.0.2",
+    "description": "A data subsampler that chooses representative data points using a largest triangle or mode-median approach.",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "sample",
+        "sampler"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-sample.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-sample"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-array": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }
