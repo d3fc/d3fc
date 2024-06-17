@@ -86,6 +86,9 @@
     "tsd": "^0.28.1",
     "typescript": "^4.9.5"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
