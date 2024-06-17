@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.8](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.7...@d3fc/d3fc-chart@5.1.8) (2024-06-17)
+
+**Note:** Version bump only for package @d3fc/d3fc-chart
+
 ## [5.1.7](https://github.com/d3fc/d3fc/compare/@d3fc/d3fc-chart@5.1.6...@d3fc/d3fc-chart@5.1.7) (2024-06-14)
 
 **Note:** Version bump only for package @d3fc/d3fc-chart
