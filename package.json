@@ -6,7 +6,7 @@
         "./packages/*"
     ],
     "scripts": {
-        "publish": "lerna publish --conventional-commits --create-release github --message \"chore: publish\" --yes",
+        "publish": "lerna publish --conventional-commits --message \"chore: publish\" --yes",
         "bundle": "lerna run bundle --stream --concurrency 1",
         "bundle-min": "lerna run bundle --stream --concurrency 1 -- --configEnv=prod",
         "test": "jest --config scripts/jest/jest.config.js && npm run test:types",
