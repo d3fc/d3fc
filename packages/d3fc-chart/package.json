@@ -1,38 +1,39 @@
 {
-  "name": "@d3fc/d3fc-chart",
-  "version": "5.1.5",
-  "description": "A simple Cartesian chart component that renders to canvas or SVG.",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "chart",
-    "cartesian"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-chart.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-chart",
-    "test:types": "tsd"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-axis": "^3.0.6",
-    "@d3fc/d3fc-data-join": "^6.0.3",
-    "@d3fc/d3fc-element": "^6.2.0",
-    "@d3fc/d3fc-rebind": "^6.0.1",
-    "@d3fc/d3fc-series": "^6.1.0"
-  },
-  "peerDependencies": {
-    "d3-scale": "*",
-    "d3-selection": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-chart",
+    "version": "5.1.8",
+    "description": "A simple Cartesian chart component that renders to canvas or SVG.",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "chart",
+        "cartesian"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-chart.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-chart",
+        "test:types": "tsd"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-axis": "^3.0.7",
+        "@d3fc/d3fc-data-join": "^6.0.3",
+        "@d3fc/d3fc-element": "^6.2.0",
+        "@d3fc/d3fc-rebind": "^6.0.1",
+        "@d3fc/d3fc-series": "^6.1.2"
+    },
+    "peerDependencies": {
+        "d3-scale": "*",
+        "d3-selection": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "types": "index.d.ts"
 }

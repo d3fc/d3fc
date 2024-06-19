@@ -1,38 +1,38 @@
 {
-  "name": "@d3fc/d3fc-series",
-  "version": "6.1.0",
-  "description": "A collection of components for rendering data series to SVG and canvas, including line, bar, OHLC, candlestick and more",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "series"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-series.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-series"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-data-join": "^6.0.3",
-    "@d3fc/d3fc-rebind": "^6.0.1",
-    "@d3fc/d3fc-shape": "^6.0.1",
-    "@d3fc/d3fc-webgl": "^3.2.0"
-  },
-  "peerDependencies": {
-    "d3-array": "*",
-    "d3-scale": "*",
-    "d3-scale-chromatic": "*",
-    "d3-selection": "*",
-    "d3-shape": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-series",
+    "version": "6.1.2",
+    "description": "A collection of components for rendering data series to SVG and canvas, including line, bar, OHLC, candlestick and more",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "series"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-series.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-series"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-data-join": "^6.0.3",
+        "@d3fc/d3fc-rebind": "^6.0.1",
+        "@d3fc/d3fc-shape": "^6.0.1",
+        "@d3fc/d3fc-webgl": "^3.2.0"
+    },
+    "peerDependencies": {
+        "d3-array": "*",
+        "d3-scale": "*",
+        "d3-scale-chromatic": "*",
+        "d3-selection": "*",
+        "d3-shape": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

@@ -1,37 +1,37 @@
 {
-  "name": "@d3fc/d3fc-zoom",
-  "version": "1.1.1",
-  "description": "A zoom component which operates in domain values",
-  "main": "build/d3fc-zoom.js",
-  "module": "index",
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-zoom"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc.git"
-  },
-  "keywords": [
-    "d3",
-    "d3fc",
-    "domain",
-    "zoom"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/d3fc/d3fc/issues"
-  },
-  "homepage": "https://github.com/d3fc/d3fc",
-  "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-dispatch": "*",
-    "d3-selection": "*",
-    "d3-zoom": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-zoom",
+    "version": "1.2.0",
+    "description": "A zoom component which operates in domain values",
+    "main": "build/d3fc-zoom.js",
+    "module": "index",
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-zoom"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc.git"
+    },
+    "keywords": [
+        "d3",
+        "d3fc",
+        "domain",
+        "zoom"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/d3fc/d3fc/issues"
+    },
+    "homepage": "https://github.com/d3fc/d3fc",
+    "dependencies": {
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-dispatch": "*",
+        "d3-selection": "*",
+        "d3-zoom": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build-test-lint:
+    name: Build, test, and lint
+    uses: ./.github/workflows/development.yml
+
+  publish-npm:
+    name: Publish npm package(s)
+    if: github.repository == 'd3fc/d3fc'
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+    steps:
+        - name: "Checkout repository"
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+            ssh-key: ${{secrets.DEPLOY_KEY}}
+
+        - name: "Setup SSH"
+          uses: webfactory/ssh-agent@v0.7.0
+          with:
+            ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+        - name: "Setup Node"
+          uses: actions/setup-node@v3
+          with:
+            node-version: 21.7.3
+            registry-url: https://registry.npmjs.org/
+      
+        - name: "Git config"
+          run: |
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git remote set-url origin git@github.com:${{github.repository}}.git
+
+        - name: "Install dependencies"
+          run: npm ci
+
+        - name: "Build"
+          run: |
+            npm run bundle
+            npm run bundle-min
+
+        - name: "Publish"
+          run: npm run publish
+          env:
+            NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+            GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
