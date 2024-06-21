@@ -1,10 +1,10 @@
-import jsdom from 'jsdom';
+import {jsdom, VirtualConsole} from 'jsdom';
 
 describe('bundle', function() {
     it('should corectly wire-up all the dependencies via their UMD-exposed globals', function(done) {
         jsdom.env({
             html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo({
+            virtualConsole: jsdom.createVirtualConsole().sendTo({ //virtualConsole: new VirtualConsole().sendTo({
                 error: done
             }),
             scripts: [

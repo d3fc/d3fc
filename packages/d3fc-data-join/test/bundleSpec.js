@@ -1,4 +1,4 @@
-import jsdom from 'jsdom';
+import {jsdom, VirtualConsole} from 'jsdom';
 
 describe('bundle', function() {
     it('should correctly wire-up all the dependencies via their UMD-exposed globals (w/o d3-transition)', function(done) {

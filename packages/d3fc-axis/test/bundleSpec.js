@@ -1,4 +1,4 @@
-import jsdom from 'jsdom';
+import {jsdom, VirtualConsole} from 'jsdom';
 
 describe('bundle', () => {
     it('should correctly wire-up all the dependencies via their UMD-exposed globals', (done) => {

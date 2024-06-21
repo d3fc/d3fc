@@ -1,4 +1,4 @@
-import jsdom from 'jsdom';
+import {jsdom, VirtualConsole} from 'jsdom';
 
 describe('bundle', () => {
 

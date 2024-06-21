@@ -70,7 +70,7 @@
         "jest-image-snapshot": "^6.4.0",
         "jest-puppeteer": "^10.0.1",
         "js-combinatorics": "^0.5.5",
-        "jsdom": "^9.12.0",
+        "jsdom": "^24.1.0",
         "lerna": "^8.1.2",
         "markdownlint": "^0.16.0",
         "markdownlint-cli": "^0.17.0",
