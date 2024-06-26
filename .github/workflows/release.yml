@@ -49,7 +49,9 @@ jobs:
             npm run bundle-min
 
         - name: "Publish"
-          run: npm run publish
+          run: |
+            chmod +x publish.sh
+            npm run publish
           env:
             CI: true
             NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
