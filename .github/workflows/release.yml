@@ -51,5 +51,6 @@ jobs:
         - name: "Publish"
           run: npm run publish
           env:
+            CI: true
             NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
             GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
