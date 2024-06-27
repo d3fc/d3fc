@@ -4,15 +4,19 @@ set -e
 MAIN_PACKAGE_VERSION=$(node -p "require('./packages/d3fc/package.json').version")
 
 echo "Running bundle..."
-npx lerna run bundle
+npm run bundle
+
 echo "Running bundle-min..."
-npx lerna run bundle-min
+npm run bundle-min
 
 echo "Running build..."
-npx lerna run build
+npm run build
+
+echo "Applying changesets..."
+npx changeset version
 
 echo "Publishing packages..."
-npx lerna publish from-package --conventional-commits --message \"chore: publish\" --yes
+npx changeset publish
 
 echo "Git tagging the main package..."
 git tag "d3fc@$MAIN_PACKAGE_VERSION"
