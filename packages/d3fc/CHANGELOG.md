@@ -1,5 +1,11 @@
 # Change Log
 
+## 15.2.12
+
+### Patch Changes
+
+-   chore: move to changesets
+
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
