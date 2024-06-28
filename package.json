@@ -6,14 +6,17 @@
         "./packages/*"
     ],
     "scripts": {
-        "publish": "./publish.sh",
+        "changeset": "changeset",
+        "version": "changeset version",
+        "publish": "changeset publish",
+        "build": "npm run bundle && npm run bundle-min",
         "bundle": "lerna run bundle --stream --concurrency 1",
         "bundle-min": "lerna run bundle --stream --concurrency 1 -- --configEnv=prod",
         "test": "jest --config scripts/jest/jest.config.js && npm run test:types",
         "eslint": "eslint . --ext .js --ext .ts",
         "markdownlint": "markdownlint **/*.md --ignore **/node_modules/**",
         "lint": "npm run eslint && npm run markdownlint",
-        "start": "lerna run bundle && npm start --prefix ./packages/d3fc",
+        "start": "npm run build && npm start --prefix ./packages/d3fc",
         "commitlint": "commitlint --from HEAD~1 --to HEAD --verbose",
         "examples": "cd examples && npx jest --runInBand",
         "test:types": "lerna run test:types"
@@ -53,6 +56,8 @@
         "canvas": "^2.11.2",
         "chalk": "^2.4.2",
         "commitizen": "^4.3.0",
+        "@changesets/cli": "^2.27.6",
+        "@changesets/changelog-github": "^0.5.0",
         "cz-conventional-changelog": "^3.0.2",
         "d3": "^6.7.0",
         "eslint": "^7.32.0",
