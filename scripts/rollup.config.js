@@ -1,5 +1,5 @@
 import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 
 var external = key =>
@@ -16,7 +16,7 @@ var globals = function(key) {
 export default commandLineArgs => {
     process.env.env = commandLineArgs.configEnv || 'dev';
     const shouldMinify = process.env.env === 'prod';
-    const plugins = [babel({ cwd: '../..' }), resolve()];
+    const plugins = [babel({ cwd: '../..' }), nodeResolve()];
     if (shouldMinify) {
         plugins.push(terser({ output: { comments: false } }));
     }
