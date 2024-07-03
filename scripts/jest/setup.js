@@ -5,3 +5,6 @@ expect.extend({
     toBeEqualWithTolerance,
     toEqualArray
 });
+
+global.TextEncoder = require('util').TextEncoder;
+global.TextDecoder = require('util').TextEncoder;
