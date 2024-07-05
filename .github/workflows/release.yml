@@ -53,12 +53,3 @@ jobs:
         run: npx changeset publish
         env:
           CI: true
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-      - name: "Git tagging the main package"
-        run: |
-          MAIN_PACKAGE_VERSION=$(node -p "require('./packages/d3fc/package.json').version")
-          git tag "d3fc@$MAIN_PACKAGE_VERSION"
-          git push origin "d3fc@$MAIN_PACKAGE_VERSION"
-        env:
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
