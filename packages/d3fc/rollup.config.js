@@ -1,7 +1,6 @@
-import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
-import minify from 'rollup-plugin-babel-minify';
-
+import babel from '@rollup/plugin-babel';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 
@@ -36,11 +35,11 @@ export default commandLineArgs => {
 
     const _plugins = [
         babel({ cwd: '../..' }),
-        resolve()
-    ];
+        nodeResolve()
+        ];
 
     if (shouldMinify) {
-        _plugins.push(minify({ comments: false }));
+        _plugins.push(terser({ output: { comments: false } }));
     }
     let plugins = () => _plugins;
 
