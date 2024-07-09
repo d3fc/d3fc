@@ -72,7 +72,7 @@
         "eslint-plugin-prettier": "^3.4.1",
         "eslint-plugin-promise": "^4.3.1",
         "eslint-plugin-standard": "^4.1.0",
-        "glsl-transpiler": "^1.8.6",
+        "glsl-transpiler": "^3.0.0",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
         "jest-image-snapshot": "^6.4.0",
