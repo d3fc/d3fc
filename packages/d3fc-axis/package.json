@@ -1,34 +1,34 @@
 {
-  "name": "@d3fc/d3fc-axis",
-  "version": "3.0.6",
-  "description": "A drop-in replacement for d3 axis, with support for the d3fc decorate pattern",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "axis"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-axis.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-axis"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-data-join": "^6.0.3",
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-scale": "*",
-    "d3-selection": "*",
-    "d3-shape": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-axis",
+    "version": "3.0.7",
+    "description": "A drop-in replacement for d3 axis, with support for the d3fc decorate pattern",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "axis"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-axis.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-axis"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-data-join": "^6.0.3",
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-scale": "*",
+        "d3-selection": "*",
+        "d3-shape": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

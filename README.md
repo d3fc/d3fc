@@ -100,11 +100,62 @@ This project is equipped with a Continuous Integration (CI) pipeline using GitHu
 -   Test: Tests the application to ensure that new changes do not introduce regressions.
 -   Linting: The code is analyzed for adherence to coding standards and best practices, using [eslint](https://eslint.org/), [markdownlint](https://github.com/DavidAnson/markdownlint), and [commitlint](https://github.com/conventional-changelog/commitlint).
 
+See [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for a more detailed explaination.
+
 When opening a PR, be mindful of (and make necessary changes in accordance with) these checks.
 
 ### Releases
 
-Releases are managed via CI and [semantic release](https://github.com/semantic-release/semantic-release).
+Releases are managed via CI and [Changesets](https://github.com/changesets/changesets). 
+
+When contributing to the project, developers should add a changeset.
+
+A changeset is a Markdown file with YAML front matter. The contents of the Markdown is the change summary which will be written to the changelog and the YAML front matter describes what packages have changed and what SemVer bump types they should be
+
+```md
+---
+"@d3fc": major
+"@d3fc/d3fc-annotation": minor
+---
+
+Change all the things
+```
+
+Changesets should include: 
+
+* WHAT the change is
+* WHY the change was made
+* HOW a consumer should update their code 
+
+#### Adding a changeset
+To add a changeset, before putting up a PR, contributors should: 
+
+1. Run the command line script `npx changeset`
+2. Select the packages you want to include in the changeset using ↑ and ↓ to navigate to packages, and space to select a package.
+3. Hit enter when all desired packages are selected.
+4. You will be prompted to select a bump type for each selected package.
+5. Select an appropriate bump type for the changes made. See [SemVer Versioning](#semver-versioning)
+
+Your final prompt will be to provide a message to go alongside the changeset. This will be written into the changelog when the next release occurs.
+
+[Source](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md)
+
+Dependabot updates should not affect the consumer, and so do not need a Changeset. These will have PATCH (`x.x.1`) version bumps.
+
+#### SemVer Versioning
+From [SemVer](https://semver.org/) -
+
+1. MAJOR version when you make incompatible API changes (`1.x.x`)
+2. MINOR version when you add functionality in a backward compatible manner (`x.1.x`)
+3. PATCH version when you make backward compatible bug fixes (`x.x.1`)
+
+Github tags and releases are done using the [Tag Release on Push](https://github.com/marketplace/actions/tag-release-on-push-action) action. By default, a `minor` version bump will be added. To override this, use `release:major`, `release:minor`, or `release:patch` on PRs. Only one of these tags should be added to a PR.
+
+From [SemVer](https://semver.org/) -
+
+1. MAJOR version when you make incompatible API changes
+2. MINOR version when you add functionality in a backward compatible manner
+3. PATCH version when you make backward compatible bug fixes
 
 ### License
 

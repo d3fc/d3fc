@@ -1,48 +1,48 @@
 {
-  "name": "d3fc",
-  "version": "15.2.6",
-  "description": "A collection of components that make it easy to build interactive charts with D3",
-  "main": "build/d3fc.js",
-  "scripts": {
-    "start": "npx rollup -c --environment BUILD:dev --watch",
-    "bundle": "npx rollup -c"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/d3fc/d3fc.git",
-    "_homepage": "https://github.com/d3fc/d3fc"
-  },
-  "keywords": [
-    "d3",
-    "financial",
-    "components",
-    "charts"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/d3fc/d3fc/issues"
-  },
-  "homepage": "https://d3fc.io",
-  "dependencies": {
-    "@d3fc/d3fc-annotation": "^3.0.12",
-    "@d3fc/d3fc-axis": "^3.0.6",
-    "@d3fc/d3fc-brush": "^3.0.3",
-    "@d3fc/d3fc-chart": "^5.1.5",
-    "@d3fc/d3fc-data-join": "^6.0.3",
-    "@d3fc/d3fc-discontinuous-scale": "^4.1.0",
-    "@d3fc/d3fc-element": "^6.2.0",
-    "@d3fc/d3fc-extent": "^4.0.2",
-    "@d3fc/d3fc-financial-feed": "^7.1.0",
-    "@d3fc/d3fc-group": "^3.0.1",
-    "@d3fc/d3fc-label-layout": "^7.0.3",
-    "@d3fc/d3fc-pointer": "^3.0.2",
-    "@d3fc/d3fc-random-data": "^4.0.1",
-    "@d3fc/d3fc-rebind": "^6.0.1",
-    "@d3fc/d3fc-sample": "^5.0.1",
-    "@d3fc/d3fc-series": "^6.1.0",
-    "@d3fc/d3fc-shape": "^6.0.1",
-    "@d3fc/d3fc-technical-indicator": "^8.1.0",
-    "@d3fc/d3fc-webgl": "^3.2.0",
-    "@d3fc/d3fc-zoom": "^1.1.1"
-  }
+    "name": "d3fc",
+    "version": "15.2.12",
+    "description": "A collection of components that make it easy to build interactive charts with D3",
+    "main": "build/d3fc.js",
+    "scripts": {
+        "start": "npx rollup -c --environment BUILD:dev --watch",
+        "bundle": "npx rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/d3fc/d3fc.git",
+        "_homepage": "https://github.com/d3fc/d3fc"
+    },
+    "keywords": [
+        "d3",
+        "financial",
+        "components",
+        "charts"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/d3fc/d3fc/issues"
+    },
+    "homepage": "https://d3fc.io",
+    "dependencies": {
+        "@d3fc/d3fc-annotation": "^3.0.15",
+        "@d3fc/d3fc-axis": "^3.0.7",
+        "@d3fc/d3fc-brush": "^3.0.3",
+        "@d3fc/d3fc-chart": "^5.1.8",
+        "@d3fc/d3fc-data-join": "^6.0.3",
+        "@d3fc/d3fc-discontinuous-scale": "^4.1.1",
+        "@d3fc/d3fc-element": "^6.2.0",
+        "@d3fc/d3fc-extent": "^4.0.2",
+        "@d3fc/d3fc-financial-feed": "^7.1.0",
+        "@d3fc/d3fc-group": "^3.0.1",
+        "@d3fc/d3fc-label-layout": "^7.0.4",
+        "@d3fc/d3fc-pointer": "^3.0.3",
+        "@d3fc/d3fc-random-data": "^4.0.2",
+        "@d3fc/d3fc-rebind": "^6.0.1",
+        "@d3fc/d3fc-sample": "^5.0.2",
+        "@d3fc/d3fc-series": "^6.1.2",
+        "@d3fc/d3fc-shape": "^6.0.1",
+        "@d3fc/d3fc-technical-indicator": "^8.1.1",
+        "@d3fc/d3fc-webgl": "^3.2.0",
+        "@d3fc/d3fc-zoom": "^1.2.0"
+    }
 }

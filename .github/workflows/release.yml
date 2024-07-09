@@ -4,6 +4,8 @@ on:
   push:
     branches: [ "master" ]
 
+concurrency:  ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   build-test-lint:
     name: Build, test, and lint
@@ -14,22 +16,32 @@ jobs:
     if: github.repository == 'd3fc/d3fc'
     needs: build-test-lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-        - name: "Checkout repository"
-          uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-        - name: "Setup Node"
-          uses: actions/setup-node@v3
-          with:
-            node-version: 21.7.3
-            registry-url: https://registry.npmjs.org/
-        
-        - name: "Install dependencies"
-          run: npm ci
-        
-        - name: "Publish"
-          run: npm run publish
-          env:
-            NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: "Setup Node"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.15.0
+          registry-url: https://registry.npmjs.org/
+
+      - name: "Install dependencies"
+        run: npm ci
+      
+      - name: "Running build"
+        run: npm run build
+
+      - name: "Publish to npm"
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

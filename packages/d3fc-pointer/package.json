@@ -1,35 +1,35 @@
 {
-  "name": "@d3fc/d3fc-pointer",
-  "version": "3.0.2",
-  "description": "Component which emits the current mouse or touch position over a selection",
-  "main": "build/d3fc-pointer.js",
-  "module": "index",
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-pointer"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc.git"
-  },
-  "keywords": [
-    "d3",
-    "d3fc",
-    "pointer"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/d3fc/d3fc/issues"
-  },
-  "homepage": "https://github.com/d3fc/d3fc",
-  "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-dispatch": "*",
-    "d3-selection": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-pointer",
+    "version": "3.0.3",
+    "description": "Component which emits the current mouse or touch position over a selection",
+    "main": "build/d3fc-pointer.js",
+    "module": "index",
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-pointer"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc.git"
+    },
+    "keywords": [
+        "d3",
+        "d3fc",
+        "pointer"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/d3fc/d3fc/issues"
+    },
+    "homepage": "https://github.com/d3fc/d3fc",
+    "dependencies": {
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-dispatch": "*",
+        "d3-selection": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

@@ -1,0 +1,18 @@
+name: Create Release Notes
+
+on: 
+    push:
+        tags:
+        - 'd3fc@*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with: 
+            generate_release_notes: true
+            make_latest: true
