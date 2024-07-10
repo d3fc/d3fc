@@ -25,7 +25,7 @@ export default () => {
         const context = pathGenerator.context();
         const horizontal = orient === 'horizontal';
         // the value scale which the annotation 'value' relates to, the crossScale
-        // is the other. Which is which depends on the orienation!
+        // is the other. Which is which depends on the orientation!
         const crossScale = horizontal ? xScale : yScale;
         const valueScale = horizontal ? yScale : xScale;
         const crossScaleRange = crossScale.range();
