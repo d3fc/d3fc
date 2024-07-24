@@ -4,6 +4,8 @@ on:
   push:
     branches: [ "master" ]
 
+concurrency:  ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   build-test-lint:
     name: Build, test, and lint
@@ -14,51 +16,32 @@ jobs:
     if: github.repository == 'd3fc/d3fc'
     needs: build-test-lint
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: "Checkout repository"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ssh-key: ${{secrets.DEPLOY_KEY}}
-
-      - name: "Setup SSH"
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: "Setup Node"
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 21.7.3
+          node-version: 20.15.0
           registry-url: https://registry.npmjs.org/
-      
-      - name: "Git config"
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin git@github.com:${{github.repository}}.git
 
       - name: "Install dependencies"
         run: npm ci
-
+      
       - name: "Running build"
         run: npm run build
 
-      - name: "Applying changesets"
-        run: npx changeset version
-
-      - name: "Publishing packages"
-        run: npx changeset publish
+      - name: "Publish to npm"
+        id: changesets
+        uses: d3fc/changesets-action@v1.4.8
+        with:
+          publish: npm run publish
         env:
-          CI: true
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-      - name: "Git tagging the main package"
-        run: |
-          MAIN_PACKAGE_VERSION=$(node -p "require('./packages/d3fc/package.json').version")
-          git tag "d3fc@$MAIN_PACKAGE_VERSION"
-          git push origin "d3fc@$MAIN_PACKAGE_VERSION"
-        env:
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
