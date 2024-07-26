@@ -39,7 +39,7 @@ jobs:
 
       - name: "Publish to npm"
         id: changesets
-        uses: d3fc/changesets-action@v1.4.8
+        uses: d3fc/changesets-action@v1.4.9
         with:
           publish: npm run publish
         env:
