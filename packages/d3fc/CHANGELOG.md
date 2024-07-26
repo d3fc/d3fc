@@ -1,5 +1,15 @@
 # Change Log
 
+## 15.2.13
+
+### Patch Changes
+
+-   Updated dependencies [3c5a877]
+    -   @d3fc/d3fc-webgl@3.2.1
+    -   @d3fc/d3fc-series@6.1.3
+    -   @d3fc/d3fc-annotation@3.0.16
+    -   @d3fc/d3fc-chart@5.1.9
+
 ## 15.2.12
 
 ### Patch Changes
