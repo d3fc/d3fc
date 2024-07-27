@@ -1,32 +1,32 @@
 {
-  "name": "@d3fc/d3fc-discontinuous-scale",
-  "version": "4.0.2",
-  "description": "A D3 scale that supports domains that are not continuous, allowing 'breaks' in the scale, for example skipping weekends for a date scale.",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "scale"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-discontinuous-scale.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-discontinuous-scale"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-scale": "*",
-    "d3-time": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-discontinuous-scale",
+    "version": "4.1.1",
+    "description": "A D3 scale that supports domains that are not continuous, allowing 'breaks' in the scale, for example skipping weekends for a date scale.",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "scale"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-discontinuous-scale.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-discontinuous-scale"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-scale": "*",
+        "d3-time": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

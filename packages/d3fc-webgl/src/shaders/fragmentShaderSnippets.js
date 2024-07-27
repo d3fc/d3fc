@@ -279,13 +279,3 @@ export const strokeColor = {
     header: `varying vec4 vStrokeColor;`,
     body: `gl_FragColor = (canStroke * vStrokeColor) + ((1.0 - canStroke) * gl_FragColor);`
 };
-
-export const line = {
-    header: `varying float vDefined;`,
-    body: `
-        float canFill = 0.0;
-        float canStroke = 1.0;
-        if (vDefined < 0.5) {
-            discard;
-        }`
-};

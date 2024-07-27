@@ -1,40 +1,40 @@
 {
-  "name": "@d3fc/d3fc-random-data",
-  "version": "4.0.1",
-  "description": "Components for generating random data series based on stochastic processes",
-  "license": "MIT",
-  "keywords": [
-    "d3",
-    "d3fc",
-    "data",
-    "brownian",
-    "brownian motion",
-    "geometric brownian motion",
-    "stochastic",
-    "stochastic process",
-    "financial",
-    "ohlc",
-    "stream"
-  ],
-  "homepage": "https://github.com/d3fc/d3fc",
-  "main": "build/d3fc-random-data.js",
-  "module": "index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/d3fc/d3fc"
-  },
-  "scripts": {
-    "bundle": "npx rollup -c ../../scripts/rollup.config.js",
-    "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-random-data"
-  },
-  "dependencies": {
-    "@d3fc/d3fc-rebind": "^6.0.1"
-  },
-  "peerDependencies": {
-    "d3-random": "*",
-    "d3-time": "*"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@d3fc/d3fc-random-data",
+    "version": "4.0.2",
+    "description": "Components for generating random data series based on stochastic processes",
+    "license": "MIT",
+    "keywords": [
+        "d3",
+        "d3fc",
+        "data",
+        "brownian",
+        "brownian motion",
+        "geometric brownian motion",
+        "stochastic",
+        "stochastic process",
+        "financial",
+        "ohlc",
+        "stream"
+    ],
+    "homepage": "https://github.com/d3fc/d3fc",
+    "main": "build/d3fc-random-data.js",
+    "module": "index",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/d3fc/d3fc"
+    },
+    "scripts": {
+        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-random-data"
+    },
+    "dependencies": {
+        "@d3fc/d3fc-rebind": "^6.0.1"
+    },
+    "peerDependencies": {
+        "d3-random": "*",
+        "d3-time": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
 }

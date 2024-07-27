@@ -1,24 +1,46 @@
-import jsdom from 'jsdom';
+import { JSDOM, VirtualConsole } from 'jsdom';
+import fs from 'fs';
 
-describe('bundle', () => {
+describe('bundle', function() {
+    it('should correctly wire-up all the dependencies via their UMD-exposed globals', function(done) {
+        const virtualConsole = new VirtualConsole().sendTo({
+            error: done
+        });
+        const dom = new JSDOM('<html></html>', {
+            virtualConsole,
+            runScripts: 'dangerously'
+        });
 
-    it('should corectly wire-up all the dependencies via their UMD-exposed globals', (done) => {
-        jsdom.env({
-            html: '<html></html>',
-            virtualConsole: jsdom.createVirtualConsole().sendTo({
-                error: done
-            }),
-            scripts: [
-                require.resolve('d3/dist/d3.js'),
-                require.resolve('../node_modules/@d3fc/d3fc-data-join/build/d3fc-data-join.js'),
-                require.resolve('../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
-                require.resolve('../build/d3fc-label-layout.js')
-            ],
-            done: (_, win) => {
-                const label = win.fc.layoutLabel();
+        const { window } = dom;
+
+        const loadScript = filePath => {
+            const scriptContent = fs.readFileSync(filePath, 'utf-8');
+            const scriptElement = window.document.createElement('script');
+            scriptElement.textContent = scriptContent;
+            window.document.head.appendChild(scriptElement);
+        };
+
+        const scripts = [
+            require.resolve('d3/dist/d3.js'),
+            require.resolve(
+                '../../../node_modules/@d3fc/d3fc-data-join/build/d3fc-data-join.js'
+            ),
+            require.resolve(
+                '../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'
+            ),
+            require.resolve('../build/d3fc-label-layout.js')
+        ];
+
+        scripts.forEach(loadScript);
+
+        window.onload = () => {
+            try {
+                const label = window.fc.layoutLabel();
                 expect(label).not.toBeUndefined();
                 done();
+            } catch (err) {
+                done(err);
             }
-        });
+        };
     });
 });

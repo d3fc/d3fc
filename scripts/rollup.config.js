@@ -1,6 +1,6 @@
-import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
-import minify from 'rollup-plugin-babel-minify';
+import babel from '@rollup/plugin-babel';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 
 var external = key =>
     key.indexOf('d3-') === 0 || key.indexOf('@d3fc/d3fc-') === 0;
@@ -16,9 +16,9 @@ var globals = function(key) {
 export default commandLineArgs => {
     process.env.env = commandLineArgs.configEnv || 'dev';
     const shouldMinify = process.env.env === 'prod';
-    const plugins = [babel({ cwd: '../..' }), resolve()];
+    const plugins = [babel({ cwd: '../..' }), nodeResolve()];
     if (shouldMinify) {
-        plugins.push(minify({ comments: false }));
+        plugins.push(terser({ output: { comments: false } }));
     }
     const pkgInfo = require(`${process.cwd()}/package.json`);
     if (!pkgInfo) {

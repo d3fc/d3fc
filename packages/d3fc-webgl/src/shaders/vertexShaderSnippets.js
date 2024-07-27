@@ -185,7 +185,9 @@ export const candlestick = {
          (isNotPositiveY * isExtremeY * aHighValue);
 
         float lineWidthXDirection = (isNotExtremeY * aCorner.x) + (isExtremeY * aCorner.z);
-        float lineWidthYDirection = isNotExtremeY * sign(aCloseValue - aOpenValue) * aCorner.y;
+
+        float bodyThickness = (aOpenValue == aCloseValue ? 1.0 : sign(aCloseValue - aOpenValue));
+        float lineWidthYDirection = (isNotExtremeY * bodyThickness * aCorner.y);
 
         float bandwidthModifier = aBandwidth * aCorner.x / 2.0;
 
@@ -257,78 +259,6 @@ export const bar = {
         float xModifier = aCorner.x * (aBandwidth) / 2.0;
 
         gl_Position = vec4(aCrossValue, yValue, 0, 1);`
-};
-
-export const preScaleLine = {
-    header: `
-        attribute vec3 aCorner;
-        attribute float aCrossNextNextValue;
-        attribute float aMainNextNextValue;
-        attribute float aCrossNextValue;
-        attribute float aMainNextValue;
-        attribute float aCrossValue;
-        attribute float aMainValue;
-        attribute float aCrossPrevValue;
-        attribute float aMainPrevValue;
-        attribute float aDefined;
-        attribute float aDefinedNext;
-
-        uniform float uStrokeWidth;
-        uniform vec2 uScreen;
-
-        varying float vDefined;`,
-    body: `
-        vDefined = aDefined * aDefinedNext;
-        vec4 prev = vec4(aCrossPrevValue, aMainPrevValue, 0, 0);
-        vec4 curr = vec4(aCrossValue, aMainValue, 0, 0);
-        gl_Position = vec4(aCrossNextValue, aMainNextValue, 0, 1);
-        vec4 nextNext = vec4(aCrossNextNextValue, aMainNextNextValue, 0, 0);`
-};
-
-export const postScaleLine = {
-    body: `
-        vec4 currVertexPosition = gl_Position;
-        vec4 nextVertexPosition = gl_Position;
-
-        if (all(equal(curr.xy, prev.xy))) {
-            prev.xy = curr.xy + normalize(curr.xy - currVertexPosition.xy);
-        }
-        if (all(equal(curr.xy, currVertexPosition.xy))) {
-            currVertexPosition.xy = curr.xy + normalize(curr.xy - prev.xy);
-        }
-        vec2 A = normalize(normalize(curr.xy - prev.xy) * uScreen);
-        vec2 B = normalize(normalize(currVertexPosition.xy - curr.xy) * uScreen);
-        vec2 tangent = normalize(A + B);
-        vec2 miter = vec2(-tangent.y, tangent.x);
-        vec2 normalA = vec2(-A.y, A.x);
-        float miterLength = 1.0 / dot(miter, normalA);
-        vec2 point = normalize(A - B);
-        if (miterLength > 10.0 && sign(aCorner.x * dot(miter, point)) > 0.0) {
-            currVertexPosition.xy = curr.xy - (aCorner.x * aCorner.y * uStrokeWidth * normalA) / uScreen.xy;
-        } else {
-            currVertexPosition.xy = curr.xy + (aCorner.x * miter * uStrokeWidth * miterLength) / uScreen.xy;
-        }
-
-        if (all(equal(nextVertexPosition.xy, curr.xy))) {
-            curr.xy = nextVertexPosition.xy + normalize(nextVertexPosition.xy - nextNext.xy);
-        }
-        if (all(equal(nextVertexPosition.xy, nextNext.xy))) {
-            nextNext.xy = nextVertexPosition.xy + normalize(nextVertexPosition.xy - curr.xy);
-        }
-        vec2 C = normalize(normalize(nextVertexPosition.xy - curr.xy) * uScreen);
-        vec2 D = normalize(normalize(nextNext.xy - nextVertexPosition.xy) * uScreen);
-        vec2 tangentCD = normalize(C + D);
-        vec2 miterCD = vec2(-tangentCD.y, tangentCD.x);
-        vec2 normalC = vec2(-C.y, C.x);
-        float miterCDLength = 1.0 / dot(miterCD, normalC);
-        vec2 pointCD = normalize(C - D);
-        if (miterCDLength > 10.0 && sign(aCorner.x * dot(miterCD, pointCD)) > 0.0) {
-            nextVertexPosition.xy = nextVertexPosition.xy - (aCorner.x * aCorner.y * uStrokeWidth * normalC) / uScreen.xy;
-        } else {
-            nextVertexPosition.xy = nextVertexPosition.xy + (aCorner.x * miterCD * uStrokeWidth * miterCDLength) / uScreen.xy;
-        }
-
-        gl_Position.xy = ((1.0 - aCorner.z) * currVertexPosition.xy) + (aCorner.z * nextVertexPosition.xy);`
 };
 
 export const errorBar = {
