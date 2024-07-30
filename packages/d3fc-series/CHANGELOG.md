@@ -1,12 +1,5 @@
 # Change Log
 
-## 6.1.3
-
-### Patch Changes
-
--   Updated dependencies [3c5a877]
-    -   @d3fc/d3fc-webgl@3.2.1
-
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

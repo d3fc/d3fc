@@ -1,11 +1,5 @@
 # Change Log
 
-## 3.0.16
-
-### Patch Changes
-
--   @d3fc/d3fc-series@6.1.3
-
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
