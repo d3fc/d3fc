@@ -1,4 +1,4 @@
-const Compiler = require('glsl-transpiler');
+const { GLSL } = require('glsl-transpiler');
 
 export const getShaders = element => {
     let _program;
@@ -45,7 +45,7 @@ export const expectVertexShader = (shader, attributes, uniforms) => {
 };
 
 export const transpileGlsl = shader => {
-    const compile = Compiler({
+    const compile = GLSL({
         uniform: function(name) {
             return `uniforms.${name}`;
         },
