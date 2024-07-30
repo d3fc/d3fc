@@ -128,3 +128,4 @@ You can create your own discontinuity provider by providing an object that expos
  discontinuities.
  + `offset` - When given a value and an offset, the value should be advanced by the offset value, skipping any discontinuities, to return the final value.
  + `copy` - Creates a copy of the discontinuity provider.
+ + `tickFilter` - When given a value, the provided filter function will be used to filter the ticks.
