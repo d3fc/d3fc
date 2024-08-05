@@ -20,9 +20,11 @@ describe('bundle', function() {
             window.document.head.appendChild(scriptElement);
         };
 
+        const nodeModules = global.nodeModulesPath;
+
         const scripts = [
-            require.resolve('d3/dist/d3.js'),
-            require.resolve('../build/d3fc-shape.js')
+            require.resolve(`${nodeModules}/d3/dist/d3.js`),
+            require.resolve(`../build/d3fc-shape.js`),
         ];
 
         scripts.forEach(loadScript);
