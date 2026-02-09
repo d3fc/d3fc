@@ -123,6 +123,7 @@ export const diamond = {
         float b = 1.0;
     `,
     body: `
+        float canFill = 1.0;
         if (vDefined < 0.5) {
             discard;
         }
@@ -137,6 +138,7 @@ export const diamond = {
 
         float distance = length(vec2(x, y)) / length(vec2(X, Y));
 
+        float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);
         if (distance > 1.0) {
             discard;
         }
