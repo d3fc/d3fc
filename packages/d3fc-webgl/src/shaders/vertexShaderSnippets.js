@@ -26,6 +26,12 @@ export const strokeColor = {
     body: `vStrokeColor = aStrokeColor;`
 };
 
+export const opacity = {
+    header: `attribute float aOpacity;
+             varying float vOpacity;`,
+    body: `vOpacity = aOpacity;`
+};
+
 export const circle = {
     header: `
         attribute float aCrossValue;

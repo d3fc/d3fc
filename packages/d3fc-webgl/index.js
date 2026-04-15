@@ -28,3 +28,4 @@ export { default as webglSymbolMapper } from './src/symbolMapper';
 
 export { default as webglFillColor } from './src/style/fillColor';
 export { default as webglStrokeColor } from './src/style/strokeColor';
+export { default as webglOpacity } from './src/style/opacity';

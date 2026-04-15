@@ -279,3 +279,8 @@ export const strokeColor = {
     header: `varying vec4 vStrokeColor;`,
     body: `gl_FragColor = (canStroke * vStrokeColor) + ((1.0 - canStroke) * gl_FragColor);`
 };
+
+export const opacity = {
+    header: `varying float vOpacity;`,
+    body: `gl_FragColor = vec4(gl_FragColor.rgb, gl_FragColor.a * vOpacity);`
+};
