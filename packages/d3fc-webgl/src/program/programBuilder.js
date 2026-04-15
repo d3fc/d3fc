@@ -32,6 +32,9 @@ export default () => {
         }
         context.useProgram(program);
 
+        context.enable(context.BLEND);
+        context.blendFunc(context.SRC_ALPHA, context.ONE_MINUS_SRC_ALPHA);
+
         buffers.uniform(
             'uScreen',
             uniform([
