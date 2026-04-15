@@ -121,13 +121,13 @@ export const axisBase = (orient, scale, custom = {}) => {
 
             // update
             g.select('path')
-                .attr('visibility', (d, i) => tickPaths[i].hidden && 'hidden')
+                .attr('visibility', (d, i) => tickPaths[i].hidden ? 'hidden' : null)
                 .attr('d',
                     (d, i) => svgDomainLine(pathTranspose(tickPaths[i].path.map(withSign)))
                 );
 
             g.select('text')
-                .attr('visibility', (d, i) => labelOffsets[i].hidden && 'hidden')
+                .attr('visibility', (d, i) => labelOffsets[i].hidden ? 'hidden' : null)
                 .attr('transform', (d, i) => translate(...withSign(labelOffsets[i].offset)))
                 .attr('dy', () => {
                     let offset = '0em';
