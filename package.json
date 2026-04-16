@@ -59,7 +59,6 @@
         "@typescript-eslint/parser": "^4.33.0",
         "babelrc-rollup": "^3.0.0",
         "canvas": "^2.11.2",
-        "chalk": "^2.4.2",
         "commitizen": "^4.3.0",
         "cz-conventional-changelog": "^3.0.2",
         "d3": "^6.7.0",
