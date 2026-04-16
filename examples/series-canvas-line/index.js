@@ -12,13 +12,13 @@ const series = fc
     .yScale(yScale)
     .defined((_, i) => i % 20 !== 0)
     .crossValue((_, i) => i)
-    .mainValue(d => d);
+    .mainValue((d) => d);
 
 d3.select(container)
     .on('draw', () => {
         series(data);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

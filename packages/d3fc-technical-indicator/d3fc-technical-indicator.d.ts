@@ -1,5 +1,4 @@
 declare namespace fc {
-
     // BOLLINGER
     export function indicatorBollingerBands(): BollingerBands<number>;
     export function indicatorBollingerBands<T>(): BollingerBands<T>;
@@ -85,11 +84,15 @@ declare namespace fc {
 
     // EXPONENTIAL MOVING AVERAGE
     export function indicatorExponentialMovingAverage(): ExponentialMovingAverage<number>;
-    export function indicatorExponentialMovingAverage<T>(): ExponentialMovingAverage<T>;
+    export function indicatorExponentialMovingAverage<
+        T,
+    >(): ExponentialMovingAverage<T>;
 
     interface ExponentialMovingAverage<T> {
         value(): (datum: T, index: number) => number;
-        value(accessor: (datum: T, index: number) => number): ExponentialMovingAverage<T>;
+        value(
+            accessor: (datum: T, index: number) => number,
+        ): ExponentialMovingAverage<T>;
 
         period(): (data: T[]) => number;
         period(x: (data: T[]) => number): ExponentialMovingAverage<T>;
@@ -184,7 +187,6 @@ declare namespace fc {
 
         (data: T[]): number[];
     }
-
 }
 
 declare module 'd3fc-technical-indicator' {

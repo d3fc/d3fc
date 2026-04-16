@@ -6,8 +6,8 @@ describe('shaderBuilder', () => {
     beforeEach(
         () =>
             (shaderBuilder = fc.webglShaderBuilder(
-                (header, body) => `${header} ${body}`
-            ))
+                (header, body) => `${header} ${body}`,
+            )),
     );
 
     it('should build the shaders with snippets', () => {
@@ -15,10 +15,10 @@ describe('shaderBuilder', () => {
         shaderBuilder.appendHeader('some more shader code');
         shaderBuilder.insertHeader(
             'this should be in the middle',
-            'some more shader code'
+            'some more shader code',
         );
         expect(shaderBuilder()).toContain(
-            'some shader code\nthis should be in the middle\nsome more shader code'
+            'some shader code\nthis should be in the middle\nsome more shader code',
         );
     });
 });

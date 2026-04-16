@@ -1,6 +1,9 @@
+import { createRequire } from 'node:module';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
+
+const require = createRequire(import.meta.url);
 
 var external = key =>
     key.indexOf('d3-') === 0 || key.indexOf('@d3fc/d3fc-') === 0;

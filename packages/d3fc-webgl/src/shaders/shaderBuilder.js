@@ -1,4 +1,4 @@
-export default base => {
+export default (base) => {
     const shaderHeaders = [];
     const shaderBodies = [];
 
@@ -22,7 +22,7 @@ export default base => {
         }
     }
 
-    build.appendHeader = header => {
+    build.appendHeader = (header) => {
         append(shaderHeaders, header);
         return build;
     };
@@ -32,12 +32,12 @@ export default base => {
         return build;
     };
 
-    build.appendHeaderIfNotExists = header => {
+    build.appendHeaderIfNotExists = (header) => {
         appendIfNotExists(shaderHeaders, header);
         return build;
     };
 
-    build.appendBody = body => {
+    build.appendBody = (body) => {
         append(shaderBodies, body);
         return build;
     };
@@ -47,7 +47,7 @@ export default base => {
         return build;
     };
 
-    build.appendBodyIfNotExists = body => {
+    build.appendBodyIfNotExists = (body) => {
         appendIfNotExists(shaderBodies, body);
         return build;
     };

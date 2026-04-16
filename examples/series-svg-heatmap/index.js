@@ -1,4 +1,4 @@
-d3.csv('heatmap-data.csv', type).then(data => {
+d3.csv('heatmap-data.csv', type).then((data) => {
     const container = document.querySelector('d3fc-svg');
 
     const xScale = d3.scaleLinear().domain([-0.5, 23.5]);
@@ -7,9 +7,9 @@ d3.csv('heatmap-data.csv', type).then(data => {
 
     const series = fc
         .autoBandwidth(fc.seriesSvgHeatmap())
-        .xValue(d => d.hour)
-        .yValue(d => d.day)
-        .colorValue(d => d.count)
+        .xValue((d) => d.hour)
+        .yValue((d) => d.day)
+        .colorValue((d) => d.count)
         .colorInterpolate(d3.interpolateWarm)
         .xScale(xScale)
         .yScale(yScale)
@@ -17,12 +17,9 @@ d3.csv('heatmap-data.csv', type).then(data => {
 
     d3.select(container)
         .on('draw', () => {
-            d3.select(container)
-                .select('svg')
-                .datum(data)
-                .call(series);
+            d3.select(container).select('svg').datum(data).call(series);
         })
-        .on('measure', event => {
+        .on('measure', (event) => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);

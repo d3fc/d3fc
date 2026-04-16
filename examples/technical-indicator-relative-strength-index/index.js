@@ -8,10 +8,10 @@ const rsiExample = () => {
     const annotations = fc.annotationSvgLine();
     const rsiLine = fc
         .seriesSvgLine()
-        .crossValue(d => d.date)
-        .mainValue(d => d.rsi);
+        .crossValue((d) => d.date)
+        .mainValue((d) => d.rsi);
 
-    const rsi = selection => {
+    const rsi = (selection) => {
         multiSeries
             .xScale(xScale)
             .yScale(yScale)
@@ -19,12 +19,12 @@ const rsiExample = () => {
             .mapping((data, index, series) =>
                 series[index] === annotations
                     ? [upperValue, 50, lowerValue]
-                    : data
+                    : data,
             )
             .decorate((g, data, index) => {
                 g.enter().attr(
                     'class',
-                    (d, i) => 'multi rsi ' + ['annotations', 'indicator'][i]
+                    (d, i) => 'multi rsi ' + ['annotations', 'indicator'][i],
                 );
             });
 
@@ -74,35 +74,30 @@ const data = dataGenerator(50);
 
 const xScale = d3
     .scaleTime()
-    .domain(fc.extentDate().accessors([d => d.date])(data));
+    .domain(fc.extentDate().accessors([(d) => d.date])(data));
 
 // START
 // the RSI is output on a percentage scale, so requires a domain from 0 - 100
 const yScale = d3.scaleLinear().domain([0, 100]);
 
 // Create and apply the RSI algorithm
-const rsiAlgorithm = fc.indicatorRelativeStrengthIndex().value(d => d.close);
+const rsiAlgorithm = fc.indicatorRelativeStrengthIndex().value((d) => d.close);
 const rsiData = rsiAlgorithm(data);
 const mergedData = data.map((d, i) =>
-    Object.assign({}, d, { rsi: rsiData[i] })
+    Object.assign({}, d, { rsi: rsiData[i] }),
 );
 
 // Create the renderer
-const rsi = rsiExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const rsi = rsiExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(rsi);
+        d3.select(container).select('svg').datum(mergedData).call(rsi);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

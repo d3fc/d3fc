@@ -34,7 +34,7 @@ export default () => {
             originalYScale,
             previousYScale,
             yScale,
-            previousTransform
+            previousTransform,
         } = node[symbol];
         if (
             !domainsEqual(previousXScale, xScale) ||
@@ -46,13 +46,13 @@ export default () => {
         }
         if (xScale != null) {
             previousXScale = updatedTransform.rescaleX(
-                originalXScale.range(xScale.range())
+                originalXScale.range(xScale.range()),
             );
             xScale.domain(previousXScale.domain());
         }
         if (yScale != null) {
             previousYScale = updatedTransform.rescaleY(
-                originalYScale.range(yScale.range())
+                originalYScale.range(yScale.range()),
             );
             yScale.domain(previousYScale.domain());
         }
@@ -64,7 +64,7 @@ export default () => {
             originalYScale,
             previousYScale,
             yScale,
-            previousTransform
+            previousTransform,
         };
         if (updatedTransform !== transform) {
             zoomer.transform(select(node), updatedTransform);
@@ -75,7 +75,7 @@ export default () => {
     const instance = (selection, xScale = null, yScale = null) => {
         if (xScale == null && yScale == null) {
             console.warn(
-                `Without an xScale and/or yScale specified, this component won't do anything. Perhaps you forgot to specify them e.g. selection.call(zoom, x, y)?`
+                `Without an xScale and/or yScale specified, this component won't do anything. Perhaps you forgot to specify them e.g. selection.call(zoom, x, y)?`,
             );
         }
         selection
@@ -87,7 +87,7 @@ export default () => {
                     existingContext.yScale === yScale
                 ) {
                     console.warn(
-                        `This component should only be called on a selection once. Perhaps you're missing an .enter()?`
+                        `This component should only be called on a selection once. Perhaps you're missing an .enter()?`,
                     );
                 }
                 const xScaleCopy = xScale?.copy();
@@ -99,7 +99,7 @@ export default () => {
                     originalYScale: yScaleCopy,
                     previousYScale: yScaleCopy,
                     yScale,
-                    previousTransform: zoomIdentity
+                    previousTransform: zoomIdentity,
                 };
             })
             .call(zoomer);
@@ -118,7 +118,7 @@ export default () => {
         'duration',
         'interpolate',
         'scaleExtent',
-        'translateExtent'
+        'translateExtent',
     );
 
     return instance;

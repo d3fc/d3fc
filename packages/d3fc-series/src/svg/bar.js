@@ -6,10 +6,7 @@ import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import colors from '../colors';
 
 export default () => {
-
-    const pathGenerator = shapeBar()
-        .x(0)
-        .y(0);
+    const pathGenerator = shapeBar().x(0).y(0);
 
     const base = xyBase();
 
@@ -25,23 +22,23 @@ export default () => {
         'translate(' + origin[0] + ', ' + origin[1] + ')';
 
     const bar = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
 
         selection.each((data, index, group) => {
-
             const orient = base.orient();
             if (orient !== 'vertical' && orient !== 'horizontal') {
-                throw new Error('The bar series does not support an orientation of ' + orient);
+                throw new Error(
+                    'The bar series does not support an orientation of ' +
+                        orient,
+                );
             }
 
             const filteredData = data.filter(base.defined());
             const projectedData = filteredData.map(base.values);
 
-            pathGenerator.width(0)
-                .height(0);
+            pathGenerator.width(0).height(0);
 
             if (base.orient() === 'vertical') {
                 pathGenerator.verticalAlign('top');
@@ -57,7 +54,9 @@ export default () => {
             // height bar on the baseline. As a result, when used with a transition the bar grows
             // from y0 to y1 (y)
             g.enter()
-                .attr('transform', (_, i) => translation(projectedData[i].baseOrigin))
+                .attr('transform', (_, i) =>
+                    translation(projectedData[i].baseOrigin),
+                )
                 .attr('class', 'bar ' + base.orient())
                 .attr('fill', colors.darkGray)
                 .append('path')

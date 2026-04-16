@@ -3,7 +3,7 @@ const types = {
     UNSIGNED_BYTE: 5121,
     SHORT: 5122,
     UNSIGNED_SHORT: 5123,
-    FLOAT: 5126
+    FLOAT: 5126,
 };
 
 export default types;

@@ -1,18 +1,18 @@
 const macdExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
-    let crossValue = d => d.date;
+    let crossValue = (d) => d.date;
     const macdLine = fc.seriesSvgLine();
     const signalLine = fc.seriesSvgLine();
     const divergenceBar = fc.seriesSvgBar();
     const multiSeries = fc.seriesSvgMulti();
 
-    const macd = selection => {
-        macdLine.crossValue(crossValue).mainValue(d => d.macd);
+    const macd = (selection) => {
+        macdLine.crossValue(crossValue).mainValue((d) => d.macd);
 
-        signalLine.crossValue(crossValue).mainValue(d => d.signal);
+        signalLine.crossValue(crossValue).mainValue((d) => d.signal);
 
-        divergenceBar.crossValue(crossValue).mainValue(d => d.divergence);
+        divergenceBar.crossValue(crossValue).mainValue((d) => d.divergence);
 
         multiSeries
             .xScale(xScale)
@@ -22,7 +22,8 @@ const macdExample = () => {
                 g.enter().attr(
                     'class',
                     (d, i) =>
-                        'multi ' + ['macd-divergence', 'macd', 'macd-signal'][i]
+                        'multi ' +
+                        ['macd-divergence', 'macd', 'macd-signal'][i],
                 );
             });
 
@@ -64,7 +65,7 @@ const data = dataGenerator(50);
 
 const xScale = d3
     .scaleTime()
-    .domain(fc.extentDate().accessors([d => d.date])(data));
+    .domain(fc.extentDate().accessors([(d) => d.date])(data));
 
 // START
 // Create and apply the macd algorithm
@@ -73,34 +74,29 @@ const macdAlgorithm = fc
     .fastPeriod(4)
     .slowPeriod(10)
     .signalPeriod(5)
-    .value(d => d.close);
+    .value((d) => d.close);
 const macdData = macdAlgorithm(data);
 const mergedData = data.map((d, i) => Object.assign({}, d, macdData[i]));
 
 // the MACD is rendered on its own scale, centered around zero
 const yDomain = fc
     .extentLinear()
-    .accessors([d => d.macd])
+    .accessors([(d) => d.macd])
     .symmetricalAbout(0);
 
 const yScale = d3.scaleLinear().domain(yDomain(mergedData));
 
 // Create the renderer
-const macd = macdExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const macd = macdExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(macd);
+        d3.select(container).select('svg').datum(mergedData).call(macd);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

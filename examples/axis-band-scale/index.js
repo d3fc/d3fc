@@ -10,7 +10,7 @@ const scale = d3
         'Aubergines',
         'Artichokes',
         'Spinach',
-        'Cucumber'
+        'Cucumber',
     ]);
 
 d3.select(container)
@@ -23,7 +23,7 @@ d3.select(container)
             .attr('transform', 'translate(0, 50)')
             .call(fc.axisBottom(scale));
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width } = event.detail;
         scale.range([0, width]);
     });

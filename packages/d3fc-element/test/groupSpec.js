@@ -3,10 +3,10 @@ describe('group', () => {
 
     beforeAll(() => {
         global.HTMLElement = class {
-            getAttribute() { }
-            hasAttribute() { }
-            removeAttribute() { }
-            setAttribute() { }
+            getAttribute() {}
+            hasAttribute() {}
+            removeAttribute() {}
+            setAttribute() {}
         };
         Group = require('../src/group').default;
     });
@@ -47,14 +47,20 @@ describe('group', () => {
         jest.spyOn(group, 'hasAttribute').mockImplementation(() => true);
         jest.spyOn(group, 'getAttribute').mockImplementation(() => '');
         group.connectedCallback();
-        expect(addEventListener).toHaveBeenCalledWith('resize', group.__autoResizeListener__);
+        expect(addEventListener).toHaveBeenCalledWith(
+            'resize',
+            group.__autoResizeListener__,
+        );
     });
 
     it('should add a listener if auto-resize attribute has a non false value when connected', () => {
         jest.spyOn(group, 'hasAttribute').mockImplementation(() => true);
         jest.spyOn(group, 'getAttribute').mockImplementation(() => 'true');
         group.connectedCallback();
-        expect(addEventListener).toHaveBeenCalledWith('resize', group.__autoResizeListener__);
+        expect(addEventListener).toHaveBeenCalledWith(
+            'resize',
+            group.__autoResizeListener__,
+        );
     });
 
     it('should remove a listener when disconnected', () => {

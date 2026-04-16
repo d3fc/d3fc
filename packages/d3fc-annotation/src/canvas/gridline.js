@@ -1,9 +1,8 @@
-import {line as lineShape} from 'd3-shape';
+import { line as lineShape } from 'd3-shape';
 import ticks from '../ticks';
-import {prefix, rebindAll, rebind} from '@d3fc/d3fc-rebind';
+import { prefix, rebindAll, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
-
     let xDecorate = () => {};
     let yDecorate = () => {};
 
@@ -13,7 +12,6 @@ export default () => {
     const lineData = lineShape();
 
     const instance = () => {
-
         const context = lineData.context();
         const xScale = xTicks.scale();
         const yScale = yTicks.scale();
@@ -25,7 +23,9 @@ export default () => {
             context.fillStyle = 'transparent';
 
             xDecorate(context, xTick, i);
-            lineData.context(context)(yScale.domain().map(d => [xScale(xTick), yScale(d)]));
+            lineData.context(context)(
+                yScale.domain().map((d) => [xScale(xTick), yScale(d)]),
+            );
 
             context.fill();
             context.stroke();
@@ -40,7 +40,9 @@ export default () => {
             context.fillStyle = 'transparent';
 
             yDecorate(context, yTick, i);
-            lineData.context(context)(xScale.domain().map(d => [xScale(d), yScale(yTick)]));
+            lineData.context(context)(
+                xScale.domain().map((d) => [xScale(d), yScale(yTick)]),
+            );
 
             context.fill();
             context.stroke();

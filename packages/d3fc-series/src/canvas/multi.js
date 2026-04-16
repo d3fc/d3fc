@@ -1,8 +1,7 @@
-import {rebindAll} from '@d3fc/d3fc-rebind';
+import { rebindAll } from '@d3fc/d3fc-rebind';
 import multiBase from '../multiBase';
 
 export default () => {
-
     let context = null;
     const base = multiBase();
 
@@ -14,9 +13,7 @@ export default () => {
 
         series.forEach((dataSeries, index) => {
             const seriesData = mapping(data, index, series);
-            dataSeries.context(context)
-                .xScale(xScale)
-                .yScale(yScale);
+            dataSeries.context(context).xScale(xScale).yScale(yScale);
 
             let adaptedDecorate;
             if (dataSeries.decorate) {

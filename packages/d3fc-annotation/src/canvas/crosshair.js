@@ -4,7 +4,6 @@ import annotationLine from './line';
 import { seriesCanvasMulti, seriesCanvasPoint } from '@d3fc/d3fc-series';
 
 export default () => {
-
     let x = (d) => d.x;
     let y = (d) => d.y;
     let xScale = scaleIdentity();
@@ -14,8 +13,7 @@ export default () => {
 
     const horizontalLine = annotationLine();
 
-    const verticalLine = annotationLine()
-        .orient('vertical');
+    const verticalLine = annotationLine().orient('vertical');
 
     // The line annotations and point series used to render the crosshair are positioned using
     // screen coordinates. This function constructs an identity scale for these components.
@@ -29,15 +27,13 @@ export default () => {
         .mapping((data) => [data]);
 
     const instance = (data) => {
-
-        data.forEach(d => {
+        data.forEach((d) => {
             // Assign the identity scales an accurate range to allow the line annotations to cover
             // the full width/height of the chart.
             xIdentity.range(xScale.range());
             yIdentity.range(yScale.range());
 
-            point.crossValue(x)
-                .mainValue(y);
+            point.crossValue(x).mainValue(y);
 
             horizontalLine.value(y);
 

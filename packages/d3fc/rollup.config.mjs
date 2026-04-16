@@ -1,25 +1,28 @@
+import { createRequire } from 'node:module';
 import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 
+const require = createRequire(import.meta.url);
+
 const devMode = process.env.BUILD === 'dev';
 
 let d3fcPkg = require('./package.json');
 
 /**
- * Provides a method for building d3fc, or for testing code live 
+ * Provides a method for building d3fc, or for testing code live
  * by providing the 'dev' environment variable.
- * 
+ *
  * Command line options for use with 'dev':
- * 
- * --configOpen='foo.html'  
+ *
+ * --configOpen='foo.html'
  *      Starts debugging at /examples/foo.html. If omitted, defaults to index.html
- * 
+ *
  * --configPkg='d3fc-bar'
  *      Starts debugging for the package /packages/d3fc-bar. If omitted defaults to d3fc
- * 
+ *
  * --port=1234
  *      Starts debugging with host on port 1234. If omitted defaults to 8080
  */

@@ -1,10 +1,7 @@
 import createReboundMethod from './createReboundMethod';
 
-const createTransform = (transforms) =>
-    (name) => transforms.reduce(
-        (name, fn) => name && fn(name),
-        name
-    );
+const createTransform = (transforms) => (name) =>
+    transforms.reduce((name, fn) => name && fn(name), name);
 
 export default (target, source, ...transforms) => {
     const transform = createTransform(transforms);

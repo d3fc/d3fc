@@ -1,13 +1,12 @@
-import {line as lineShape} from 'd3-shape';
+import { line as lineShape } from 'd3-shape';
 import { scaleIdentity } from 'd3-scale';
-import {rebind} from '@d3fc/d3fc-rebind';
+import { rebind } from '@d3fc/d3fc-rebind';
 import constant from '../constant';
 
 export default () => {
-
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
-    let value = d => d;
+    let value = (d) => d;
     let label = value;
     let decorate = () => {};
     let orient = 'horizontal';
@@ -41,14 +40,20 @@ export default () => {
             decorate(context, d, i);
 
             // Draw line
-            lineData.context(context)(crossDomain.map(extent => {
-                const point = [crossScale(extent), valueScale(value(d))];
-                return horizontal ? point : point.reverse();
-            }));
+            lineData.context(context)(
+                crossDomain.map((extent) => {
+                    const point = [crossScale(extent), valueScale(value(d))];
+                    return horizontal ? point : point.reverse();
+                }),
+            );
 
             // Draw label
-            const x = horizontal ? crossScale(crossDomain[1]) : valueScale(value(d));
-            const y = horizontal ? valueScale(value(d)) : crossScale(crossDomain[1]);
+            const x = horizontal
+                ? crossScale(crossDomain[1])
+                : valueScale(value(d));
+            const y = horizontal
+                ? valueScale(value(d))
+                : crossScale(crossDomain[1]);
             context.fillText(label(d), x + textOffsetX, y + textOffsetY);
 
             context.fill();

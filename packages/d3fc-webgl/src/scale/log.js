@@ -10,13 +10,13 @@ export default () => {
         return Math.log10(v) / Math.log10(base);
     }
 
-    const prefix = component => `log${component}`;
+    const prefix = (component) => `log${component}`;
 
     const scale = (programBuilder, identifier, component) => {
         const logPart = `${prefix(component)}Offset + (${prefix(
-            component
+            component,
         )}Scale * clamp(log(${identifier}) / log(${prefix(
-            component
+            component,
         )}Base), -inf, inf))`;
 
         programBuilder
@@ -24,15 +24,15 @@ export default () => {
             .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Offset;`)
             .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Scale;`)
             .appendHeaderIfNotExists(
-                `uniform vec4 ${prefix(component)}Include;`
+                `uniform vec4 ${prefix(component)}Include;`,
             )
             .appendHeaderIfNotExists(`uniform float ${prefix(component)}Base;`)
             .appendBody(
                 `${identifier} = (${prefix(
-                    component
+                    component,
                 )}Include * (${logPart})) + ((1.0 - ${prefix(
-                    component
-                )}Include) * ${identifier});`
+                    component,
+                )}Include) * ${identifier});`,
             );
 
         const domainSize =

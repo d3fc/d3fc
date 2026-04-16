@@ -1,6 +1,6 @@
 import { randomNormal } from 'd3-random';
 
-export default function() {
+export default function () {
     let period = 1;
     let steps = 20;
     let mu = 0.1;
@@ -13,8 +13,9 @@ export default function() {
 
         for (let i = 0; i < steps + 1; i++) {
             pathData.push(value);
-            const increment = (random() * Math.sqrt(timeStep) * sigma) +
-                ((mu - sigma * sigma / 2) * timeStep);
+            const increment =
+                random() * Math.sqrt(timeStep) * sigma +
+                (mu - (sigma * sigma) / 2) * timeStep;
             value = value * Math.exp(increment);
         }
 

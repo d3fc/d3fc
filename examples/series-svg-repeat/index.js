@@ -1,5 +1,5 @@
-d3.text('repeat-data.csv').then(text => {
-    const data = d3.csvParseRows(text, d => d.map(s => Number(s)));
+d3.text('repeat-data.csv').then((text) => {
+    const data = d3.csvParseRows(text, (d) => d.map((s) => Number(s)));
 
     const container = document.querySelector('d3fc-svg');
 
@@ -10,7 +10,7 @@ d3.text('repeat-data.csv').then(text => {
     const line = fc
         .seriesSvgLine()
         .crossValue((_, i) => i)
-        .mainValue(d => d);
+        .mainValue((d) => d);
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -19,18 +19,15 @@ d3.text('repeat-data.csv').then(text => {
         .xScale(xScale)
         .yScale(yScale)
         .series(line)
-        .decorate(sel => {
+        .decorate((sel) => {
             sel.attr('stroke', (_, i) => color(i));
         });
 
     d3.select(container)
         .on('draw', () => {
-            d3.select(container)
-                .select('svg')
-                .datum(data)
-                .call(series);
+            d3.select(container).select('svg').datum(data).call(series);
         })
-        .on('measure', event => {
+        .on('measure', (event) => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);

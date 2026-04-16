@@ -22,15 +22,15 @@ const labelPadding = 4;
 const label = fc
     .layoutTextLabel()
     .padding(labelPadding)
-    .value(d => d.data);
+    .value((d) => d.data);
 
 const width = 700;
 const height = 350;
 let data = [];
 
 // we intercept the strategy in order to capture the final layout and compute statistics
-const strategyInterceptor = strategy => {
-    const interceptor = layout => {
+const strategyInterceptor = (strategy) => {
+    const interceptor = (layout) => {
         const start = new Date();
         const finalLayout = strategy(layout);
         const time = new Date() - start;
@@ -39,18 +39,18 @@ const strategyInterceptor = strategy => {
         if (!interceptor.time) {
             Object.defineProperty(interceptor, 'time', {
                 enumerable: false,
-                writable: true
+                writable: true,
             });
             Object.defineProperty(interceptor, 'hidden', {
                 enumerable: false,
-                writable: true
+                writable: true,
             });
             Object.defineProperty(interceptor, 'overlap', {
                 enumerable: false,
-                writable: true
+                writable: true,
             });
         }
-        const visibleLabels = finalLayout.filter(d => !d.hidden);
+        const visibleLabels = finalLayout.filter((d) => !d.hidden);
         interceptor.time = time;
         interceptor.hidden = finalLayout.length - visibleLabels.length;
         interceptor.overlap = d3.sum(
@@ -58,9 +58,9 @@ const strategyInterceptor = strategy => {
                 d3.sum(
                     visibleLabels
                         .filter((_, i) => i !== index)
-                        .map(d => layoutIntersect(d, label))
-                )
-            )
+                        .map((d) => layoutIntersect(d, label)),
+                ),
+            ),
         );
         return finalLayout;
     };
@@ -75,14 +75,11 @@ const generateData = () => {
     data = d3.range(0, dataCount).map((_, i) => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        data: 'node-' + i
+        data: 'node-' + i,
     }));
 };
 
-const svg = d3
-    .select('svg')
-    .attr('width', width)
-    .attr('height', height);
+const svg = d3.select('svg').attr('width', width).attr('height', height);
 
 const render = () => {
     svg.selectAll('g').remove();
@@ -93,8 +90,8 @@ const render = () => {
         .enter()
         .append('circle')
         .attr('r', 2)
-        .attr('cx', d => d.x)
-        .attr('cy', d => d.y);
+        .attr('cx', (d) => d.x)
+        .attr('cy', (d) => d.y);
 
     const labels = fc
         .layoutLabel(strategy)
@@ -102,14 +99,12 @@ const render = () => {
             const textSize = g[i].getElementsByTagName('text')[0].getBBox();
             return [
                 textSize.width + labelPadding * 2,
-                textSize.height + labelPadding * 2
+                textSize.height + labelPadding * 2,
             ];
         })
         .component(label);
 
-    svg.append('g')
-        .datum(data)
-        .call(labels);
+    svg.append('g').datum(data).call(labels);
 
     const statsElement = document.getElementById('statistics');
     statsElement.innerHTML =
@@ -132,14 +127,14 @@ d3.select('#strategy-selector').on('change', () => {
     const strategyName = getStrategyName();
     d3.selectAll('.annealing-field').attr(
         'style',
-        'display:' + (strategyName === 'annealing' ? 'visible' : 'none')
+        'display:' + (strategyName === 'annealing' ? 'visible' : 'none'),
     );
 });
 
-d3.select('#apply-strategy').on('click', event => {
+d3.select('#apply-strategy').on('click', (event) => {
     event.preventDefault();
     const strategyName = getStrategyName();
-    strategy = d => d;
+    strategy = (d) => d;
     if (strategyName !== 'none') {
         strategy = fc[strategyName]();
     }
@@ -159,7 +154,7 @@ d3.select('#apply-strategy').on('click', event => {
     render();
 });
 
-d3.select('#generate-data').on('click', event => {
+d3.select('#generate-data').on('click', (event) => {
     event.preventDefault();
     generateData();
     render();

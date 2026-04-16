@@ -3,7 +3,7 @@ import uniform from '../buffer/uniform';
 export default () => {
     let width = 1;
 
-    const lineWidth = program => {
+    const lineWidth = (program) => {
         program.buffers().uniform('uStrokeWidth', uniform(width));
     };
 

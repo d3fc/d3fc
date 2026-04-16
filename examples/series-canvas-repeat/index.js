@@ -1,5 +1,5 @@
-d3.text('repeat-data.csv').then(text => {
-    const data = d3.csvParseRows(text, d => d.map(s => Number(s)));
+d3.text('repeat-data.csv').then((text) => {
+    const data = d3.csvParseRows(text, (d) => d.map((s) => Number(s)));
 
     const container = document.querySelector('d3fc-canvas');
 
@@ -10,7 +10,7 @@ d3.text('repeat-data.csv').then(text => {
     const line = fc
         .seriesCanvasLine()
         .crossValue((_, i) => i)
-        .mainValue(d => d);
+        .mainValue((d) => d);
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -27,7 +27,7 @@ d3.text('repeat-data.csv').then(text => {
         .on('draw', () => {
             series(data);
         })
-        .on('measure', event => {
+        .on('measure', (event) => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);

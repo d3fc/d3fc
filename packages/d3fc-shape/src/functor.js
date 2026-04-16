@@ -1,2 +1,1 @@
-export default (v) =>
-  typeof v === 'function' ? v : () => v;
+export default (v) => (typeof v === 'function' ? v : () => v);

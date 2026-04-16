@@ -1,19 +1,19 @@
 const envelopeExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
-    let mainValue = d => d.close;
-    let crossValue = d => d.date;
+    let mainValue = (d) => d.close;
+    let crossValue = (d) => d.date;
 
     const area = fc
         .seriesSvgArea()
-        .mainValue(d => d.upper)
-        .baseValue(d => d.lower);
+        .mainValue((d) => d.upper)
+        .baseValue((d) => d.lower);
 
-    const upperLine = fc.seriesSvgLine().mainValue(d => d.upper);
+    const upperLine = fc.seriesSvgLine().mainValue((d) => d.upper);
 
-    const lowerLine = fc.seriesSvgLine().mainValue(d => d.lower);
+    const lowerLine = fc.seriesSvgLine().mainValue((d) => d.lower);
 
-    const envelope = selection => {
+    const envelope = (selection) => {
         const multi = fc
             .seriesSvgMulti()
             .xScale(xScale)
@@ -22,7 +22,7 @@ const envelopeExample = () => {
             .decorate((g, data, index) => {
                 g.enter().attr(
                     'class',
-                    (d, i) => 'multi envelope ' + ['area', 'upper', 'lower'][i]
+                    (d, i) => 'multi envelope ' + ['area', 'upper', 'lower'][i],
                 );
             });
 
@@ -74,13 +74,13 @@ const data = dataGenerator(50);
 
 const xScale = d3
     .scaleTime()
-    .domain(fc.extentDate().accessors([d => d.date])(data));
+    .domain(fc.extentDate().accessors([(d) => d.date])(data));
 
 const yScale = d3.scaleLinear().domain(
     fc
         .extentLinear()
         .pad([0.4, 0.4])
-        .accessors([d => d.high, d => d.low])(data)
+        .accessors([(d) => d.high, (d) => d.low])(data),
 );
 
 // START
@@ -88,27 +88,22 @@ const yScale = d3.scaleLinear().domain(
 const envelopeAlgorithm = fc
     .indicatorEnvelope()
     .factor(0.01)
-    .value(d => d.close);
+    .value((d) => d.close);
 
 const envelopeData = envelopeAlgorithm(data);
 const mergedData = data.map((d, i) => Object.assign({}, d, envelopeData[i]));
 
 // Create the renderer
-const envelope = envelopeExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const envelope = envelopeExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(envelope);
+        d3.select(container).select('svg').datum(mergedData).call(envelope);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

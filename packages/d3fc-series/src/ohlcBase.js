@@ -5,7 +5,6 @@ import alignOffset from './alignOffset';
 import createBase from './base';
 
 export default () => {
-
     let base;
     let crossValue = (d) => d.date;
     let openValue = (d) => d.open;
@@ -17,16 +16,17 @@ export default () => {
     let crossValueScaled = (d, i) => base.xScale()(crossValue(d, i));
 
     base = createBase({
-        decorate: () => { },
-        defined: (d, i) => defined(
-            crossValue,
-            openValue,
-            lowValue,
-            highValue,
-            closeValue
-        )(d, i),
+        decorate: () => {},
+        defined: (d, i) =>
+            defined(
+                crossValue,
+                openValue,
+                lowValue,
+                highValue,
+                closeValue,
+            )(d, i),
         xScale: scaleIdentity(),
-        yScale: scaleIdentity()
+        yScale: scaleIdentity(),
     });
 
     base.values = (d, i) => {
@@ -49,17 +49,12 @@ export default () => {
             low: base.yScale()(lowValue(d, i)),
             close: base.yScale()(closeRaw),
             width,
-            direction
+            direction,
         };
     };
 
     base.xValues = () => [crossValue];
-    base.yValues = () => [
-        openValue,
-        highValue,
-        lowValue,
-        closeValue
-    ];
+    base.yValues = () => [openValue, highValue, lowValue, closeValue];
     base.crossValue = (...args) => {
         if (!args.length) {
             return crossValue;

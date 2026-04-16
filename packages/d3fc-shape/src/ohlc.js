@@ -5,27 +5,25 @@ import functor from './functor';
 // OHLC has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
 export default () => {
-
     let context = null;
-    let x       = (d) => d.date;
-    let open    = (d) => d.open;
-    let high    = (d) => d.high;
-    let low     = (d) => d.low;
-    let close   = (d) => d.close;
-    let orient  = 'vertical';
-    let width   = functor(3);
+    let x = (d) => d.date;
+    let open = (d) => d.open;
+    let high = (d) => d.high;
+    let low = (d) => d.low;
+    let close = (d) => d.close;
+    let orient = 'vertical';
+    let width = functor(3);
 
-    const ohlc = function(data) {
-
+    const ohlc = function (data) {
         const drawingContext = context || path();
 
-        data.forEach(function(d, i) {
-            const xValue      = x(d, i);
-            const yOpen       = open(d, i);
-            const yHigh       = high(d, i);
-            const yLow        = low(d, i);
-            const yClose      = close(d, i);
-            const halfWidth   = width(d, i) / 2;
+        data.forEach(function (d, i) {
+            const xValue = x(d, i);
+            const yOpen = open(d, i);
+            const yHigh = high(d, i);
+            const yLow = low(d, i);
+            const yClose = close(d, i);
+            const halfWidth = width(d, i) / 2;
 
             if (orient === 'vertical') {
                 drawingContext.moveTo(xValue, yLow);

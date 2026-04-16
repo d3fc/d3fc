@@ -9,10 +9,13 @@ export default class extends element(
             const context = node.getContext('webgl');
             context.viewport(0, 0, width, height);
         }
-    }
+    },
 ) {
     get setWebglViewport() {
-        return this.hasAttribute('set-webgl-viewport') && this.getAttribute('set-webgl-viewport') !== 'false';
+        return (
+            this.hasAttribute('set-webgl-viewport') &&
+            this.getAttribute('set-webgl-viewport') !== 'false'
+        );
     }
 
     set setWebglViewport(setWebglViewport) {

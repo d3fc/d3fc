@@ -2,7 +2,7 @@ const randomNormal = d3.randomNormal(0, 1);
 
 const data = Array.from({ length: 1e4 }, () => ({
     x: randomNormal(),
-    y: randomNormal()
+    y: randomNormal(),
 }));
 
 const xScale = d3.scaleLinear().domain([-5, 5]);
@@ -15,8 +15,8 @@ const series = fc
     .seriesWebglPoint()
     .xScale(xScale)
     .yScale(yScale)
-    .crossValue(d => d.x)
-    .mainValue(d => d.y)
+    .crossValue((d) => d.x)
+    .mainValue((d) => d.y)
     .defined(() => true)
     .equals((previousData, data) => previousData.length > 0);
 
@@ -31,7 +31,7 @@ d3.select(container)
         xScale.domain([-max, max]);
         container.requestRedraw();
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
@@ -42,7 +42,7 @@ d3.select(container)
     .on('draw', () => {
         if (pixels == null) {
             pixels = new Uint8Array(
-                gl.drawingBufferWidth * gl.drawingBufferHeight * 4
+                gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
             );
         }
         performance.mark(`draw-start-${frame}`);
@@ -55,7 +55,7 @@ d3.select(container)
             gl.drawingBufferHeight,
             gl.RGBA,
             gl.UNSIGNED_BYTE,
-            pixels
+            pixels,
         );
         performance.measure(`draw-duration-${frame}`, `draw-start-${frame}`);
         frame++;

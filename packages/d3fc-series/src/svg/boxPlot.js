@@ -6,22 +6,21 @@ import boxPlotBase from '../boxPlotBase';
 import colors from '../colors';
 
 export default () => {
-
     const base = boxPlotBase();
 
     const join = dataJoin('g', 'box-plot');
 
-    const pathGenerator = shapeBoxPlot()
-        .value(0);
+    const pathGenerator = shapeBoxPlot().value(0);
 
-    const propagateTransition = maybeTransition => selection =>
-        isTransition(maybeTransition) ? selection.transition(maybeTransition) : selection;
+    const propagateTransition = (maybeTransition) => (selection) =>
+        isTransition(maybeTransition)
+            ? selection.transition(maybeTransition)
+            : selection;
 
-    const containerTranslation =
-        (values) => 'translate(' + values.origin[0] + ', ' + values.origin[1] + ')';
+    const containerTranslation = (values) =>
+        'translate(' + values.origin[0] + ', ' + values.origin[1] + ')';
 
     const boxPlot = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
@@ -29,21 +28,26 @@ export default () => {
         const transitionPropagator = propagateTransition(selection);
 
         selection.each((data, index, group) => {
-
             const filteredData = data.filter(base.defined());
             const g = join(select(group[index]), filteredData);
 
             g.enter()
                 .attr('stroke', colors.black)
                 .attr('fill', colors.gray)
-                .attr('transform', (d, i) => containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)')
+                .attr(
+                    'transform',
+                    (d, i) =>
+                        containerTranslation(base.values(d, i)) +
+                        ' scale(1e-6, 1)',
+                )
                 .append('path');
 
             pathGenerator.orient(base.orient());
 
             g.each((d, i, g) => {
                 const values = base.values(d, i);
-                pathGenerator.median(values.median)
+                pathGenerator
+                    .median(values.median)
                     .upperQuartile(values.upperQuartile)
                     .lowerQuartile(values.lowerQuartile)
                     .width(values.width)

@@ -3,7 +3,7 @@ import {
     webglSeriesArea,
     webglAdjacentAttribute,
     webglScaleMapper,
-    webglTypes
+    webglTypes,
 } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
@@ -16,8 +16,9 @@ export default () => {
     const mainNextValueAttribute = mainValueAttribute.offset(1);
     const baseValueAttribute = webglAdjacentAttribute(0, 1);
     const baseNextValueAttribute = baseValueAttribute.offset(1);
-    const definedAttribute = webglAdjacentAttribute(0, 1)
-        .type(webglTypes.UNSIGNED_BYTE);
+    const definedAttribute = webglAdjacentAttribute(0, 1).type(
+        webglTypes.UNSIGNED_BYTE,
+    );
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesArea()
@@ -51,16 +52,21 @@ export default () => {
         }
         if (dataChanged || xScale.scale !== previousXScale) {
             previousXScale = xScale.scale;
-            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            crossValueAttribute
+                .value((d, i) => xScale.scale(base.crossValue()(d, i)))
+                .data(data);
         }
         if (dataChanged || yScale.scale !== previousYScale) {
             previousYScale = yScale.scale;
-            baseValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
-            mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            baseValueAttribute
+                .value((d, i) => yScale.scale(base.baseValue()(d, i)))
+                .data(data);
+            mainValueAttribute
+                .value((d, i) => yScale.scale(base.mainValue()(d, i)))
+                .data(data);
         }
 
-        draw
-            .xScale(xScale.webglScale)
+        draw.xScale(xScale.webglScale)
             .yScale(yScale.webglScale)
             .decorate((program) => base.decorate()(program, data, 0));
 

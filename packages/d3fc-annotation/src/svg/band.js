@@ -5,24 +5,22 @@ import { shapeBar } from '@d3fc/d3fc-shape';
 import constant from '../constant';
 
 export default () => {
-
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
     let orient = 'horizontal';
-    let fromValue = d => d.from;
-    let toValue = d => d.to;
+    let fromValue = (d) => d.from;
+    let toValue = (d) => d.to;
     let decorate = () => {};
 
     const join = dataJoin('g', 'annotation-band');
 
     const pathGenerator = shapeBar()
-      .horizontalAlign('center')
-      .verticalAlign('center')
-      .x(0)
-      .y(0);
+        .horizontalAlign('center')
+        .verticalAlign('center')
+        .x(0)
+        .y(0);
 
     var instance = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
@@ -32,7 +30,9 @@ export default () => {
         }
 
         const horizontal = orient === 'horizontal';
-        const translation = horizontal ? (a, b) => `translate(${a}, ${b})` : (a, b) => `translate(${b}, ${a})`;
+        const translation = horizontal
+            ? (a, b) => `translate(${a}, ${b})`
+            : (a, b) => `translate(${b}, ${a})`;
         // the value scale which the annotation 'value' relates to, the crossScale
         // is the other. Which is which depends on the orienation!
         const crossScale = horizontal ? xScale : yScale;
@@ -41,17 +41,21 @@ export default () => {
         const crossScaleSize = crossScaleRange[1] - crossScaleRange[0];
         const valueAxisDimension = horizontal ? 'height' : 'width';
         const crossAxisDimension = horizontal ? 'width' : 'height';
-        const containerTransform = (...args) => translation(
-          (crossScaleRange[1] + crossScaleRange[0]) / 2,
-          (valueScale(toValue(...args)) + valueScale(fromValue(...args))) / 2
-        );
+        const containerTransform = (...args) =>
+            translation(
+                (crossScaleRange[1] + crossScaleRange[0]) / 2,
+                (valueScale(toValue(...args)) +
+                    valueScale(fromValue(...args))) /
+                    2,
+            );
 
         pathGenerator[crossAxisDimension](crossScaleSize);
-        pathGenerator[valueAxisDimension]((...args) =>
-            valueScale(toValue(...args)) - valueScale(fromValue(...args)));
+        pathGenerator[valueAxisDimension](
+            (...args) =>
+                valueScale(toValue(...args)) - valueScale(fromValue(...args)),
+        );
 
         selection.each((data, index, nodes) => {
-
             var g = join(select(nodes[index]), data);
 
             g.enter()

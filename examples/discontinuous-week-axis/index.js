@@ -4,32 +4,32 @@ const checkbox = document.getElementById('skip');
 const nonTradingHoursPattern = {
     Monday: [
         ['07:45', '08:30'],
-        ['13:20', '19:00']
+        ['13:20', '19:00'],
     ],
     Tuesday: [
         ['07:45', '08:30'],
-        ['13:20', '19:00']
+        ['13:20', '19:00'],
     ],
     Wednesday: [
         ['07:45', '08:30'],
-        ['13:20', '19:00']
+        ['13:20', '19:00'],
     ],
     Thursday: [
         ['07:45', '08:30'],
-        ['13:20', '19:00']
+        ['13:20', '19:00'],
     ],
     Friday: [
         ['07:45', '08:30'],
-        ['13:20', 'EOD']
+        ['13:20', 'EOD'],
     ],
     Saturday: [['SOD', 'EOD']],
-    Sunday: [['SOD', '19:00']]
+    Sunday: [['SOD', '19:00']],
 };
 
 // create discontinous date range
 const dates = d3.timeMinute
     .range(new Date(2018, 0, 1), new Date(2018, 0, 8))
-    .filter(dt => {
+    .filter((dt) => {
         const dow = dt.getDay();
         switch (dow) {
             case 1:
@@ -51,6 +51,8 @@ const dates = d3.timeMinute
                 return false;
             case 0:
                 return dt.getHours() >= 19;
+            default:
+                return false;
         }
     });
 
@@ -65,14 +67,14 @@ for (let i = 0; i < dates.length; i++) {
 // use the date to determine the x extent, padding by one day at each end
 const xExtent = fc
     .extentDate()
-    .accessors([d => d.date])
+    .accessors([(d) => d.date])
     .padUnit('domain')
     .pad([60 * 1000, 60 * 1000]);
 
 // compute the y extent from the high / low values, padding by 10%
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d.high, d => d.low])
+    .accessors([(d) => d.high, (d) => d.low])
     .pad([0.1, 0.1]);
 
 // Create the gridlines and series
@@ -86,7 +88,7 @@ const multi = fc.seriesSvgMulti().series([gridlines, candlestick]);
 const skipWeeklyPatternScale = fc
     .scaleDiscontinuous(d3.scaleTime())
     .discontinuityProvider(
-        fc.discontinuitySkipWeeklyPattern(nonTradingHoursPattern)
+        fc.discontinuitySkipWeeklyPattern(nonTradingHoursPattern),
     );
 
 function renderChart() {
@@ -94,7 +96,7 @@ function renderChart() {
     const chart = fc
         .chartCartesian(
             checkbox.checked ? skipWeeklyPatternScale : d3.scaleTime(),
-            d3.scaleLinear()
+            d3.scaleLinear(),
         )
         .xDomain(xExtent(data))
         .yDomain(yExtent(data))
@@ -102,9 +104,7 @@ function renderChart() {
         .svgPlotArea(multi);
 
     // render the chart
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 }
 
 renderChart();

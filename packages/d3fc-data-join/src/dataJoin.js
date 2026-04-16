@@ -9,7 +9,7 @@
 // - https://github.com/mbostock/d3/wiki/Transitions#d3_interpolateNumber
 export const effectivelyZero = 1e-6;
 
-export const isTransition = selectionOrTransition =>
+export const isTransition = (selectionOrTransition) =>
     selectionOrTransition.selection() !== selectionOrTransition;
 
 // Wrapper around d3's selectAll/data data-join, which allows decoration of the result.
@@ -21,21 +21,18 @@ export default (element, className) => {
     let key = (_, i) => i;
     let explicitTransition = null;
 
-    const dataJoin = function(container, data) {
-        data = data || (d => d);
+    const dataJoin = function (container, data) {
+        data = data || ((d) => d);
 
         const selection = container.selection();
         const implicitTransition = isTransition(container) ? container : null;
 
         const selected = selection.selectChildren(
-            className == null ? element : `${element}.${className}`
+            className == null ? element : `${element}.${className}`,
         );
         let update = selected.data(data, key);
 
-        const enter = update
-            .enter()
-            .append(element)
-            .attr('class', className);
+        const enter = update.enter().append(element).attr('class', className);
 
         let exit = update.exit();
 

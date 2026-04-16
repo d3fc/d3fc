@@ -10,7 +10,7 @@ export default (initialValue = [0, 0, 0, 1]) => {
     let value = initialValue;
     let dirty = true;
 
-    const strokeColor = programBuilder => {
+    const strokeColor = (programBuilder) => {
         programBuilder
             .vertexShader()
             .appendHeaderIfNotExists(vertexShaderSnippets.strokeColor.header)
@@ -37,7 +37,7 @@ export default (initialValue = [0, 0, 0, 1]) => {
                 .attribute('aStrokeColor', projectedAttribute);
         } else {
             throw new Error(
-                `Expected value to be an array or function, received ${value}`
+                `Expected value to be an array or function, received ${value}`,
             );
         }
 

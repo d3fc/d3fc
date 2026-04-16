@@ -5,30 +5,33 @@ import functor from './functor';
 // candlestick has a fixed width, whilst the x, open, high, low and close positions are
 // obtained from each point via the supplied accessor functions.
 export default () => {
-
     let context = null;
-    let x       = (d) => d.date;
-    let open    = (d) => d.open;
-    let high    = (d) => d.high;
-    let low     = (d) => d.low;
-    let close   = (d) => d.close;
-    let width   = functor(3);
+    let x = (d) => d.date;
+    let open = (d) => d.open;
+    let high = (d) => d.high;
+    let low = (d) => d.low;
+    let close = (d) => d.close;
+    let width = functor(3);
 
-    const candlestick = function(data) {
-
+    const candlestick = function (data) {
         const drawingContext = context || path();
 
-        data.forEach(function(d, i) {
-            const xValue        = x(d, i);
-            const yOpen         = open(d, i);
-            const yHigh         = high(d, i);
-            const yLow          = low(d, i);
-            const yClose        = close(d, i);
-            const barWidth      = width(d, i);
-            const halfBarWidth  = barWidth / 2;
+        data.forEach(function (d, i) {
+            const xValue = x(d, i);
+            const yOpen = open(d, i);
+            const yHigh = high(d, i);
+            const yLow = low(d, i);
+            const yClose = close(d, i);
+            const barWidth = width(d, i);
+            const halfBarWidth = barWidth / 2;
 
             // Body
-            drawingContext.rect(xValue - halfBarWidth, yOpen, barWidth, yClose - yOpen);
+            drawingContext.rect(
+                xValue - halfBarWidth,
+                yOpen,
+                barWidth,
+                yClose - yOpen,
+            );
             // High wick
             // // Move to the max price of close or open; draw the high wick
             // N.B. Math.min() is used as we're dealing with pixel values,

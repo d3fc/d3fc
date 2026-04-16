@@ -9,5 +9,5 @@ export default {
     green,
     black,
     gray,
-    darkGray
+    darkGray,
 };

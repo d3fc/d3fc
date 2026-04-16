@@ -1,9 +1,9 @@
-d3.tsv('diamond-data.tsv', d => ({
+d3.tsv('diamond-data.tsv', (d) => ({
     carat: Number(d.carat),
-    price: Number(d.price)
-})).then(data => {
-    const xExtent = fc.extentLinear().accessors([d => d.carat]);
-    const yExtent = fc.extentLinear().accessors([d => d.price]);
+    price: Number(d.price),
+})).then((data) => {
+    const xExtent = fc.extentLinear().accessors([(d) => d.carat]);
+    const yExtent = fc.extentLinear().accessors([(d) => d.price]);
 
     const xScale = d3.scaleLog().domain(xExtent(data));
     const yScale = d3.scaleLog().domain(yExtent(data));
@@ -14,15 +14,15 @@ d3.tsv('diamond-data.tsv', d => ({
 
     const pointSeries = fc
         .seriesWebglPoint()
-        .crossValue(d => d.carat)
-        .mainValue(d => d.price)
-        .size(d =>
-            Math.pow(Math.max(2, xScale(d.carat + 0.01) - xScale(d.carat)), 2)
+        .crossValue((d) => d.carat)
+        .mainValue((d) => d.price)
+        .size((d) =>
+            Math.pow(Math.max(2, xScale(d.carat + 0.01) - xScale(d.carat)), 2),
         )
         .type(d3.symbolSquare)
         .defined(() => true)
-        .equals(d => d.length)
-        .decorate(program => {
+        .equals((d) => d.length)
+        .decorate((program) => {
             fc.webglFillColor([60 / 255, 180 / 255, 240 / 255, 1.0])(program);
 
             program.fragmentShader().appendBody(`
@@ -40,7 +40,7 @@ d3.tsv('diamond-data.tsv', d => ({
                 gl.DST_COLOR,
                 gl.ZERO,
                 gl.CONSTANT_ALPHA,
-                gl.ZERO
+                gl.ZERO,
             );
         });
 
@@ -53,7 +53,7 @@ d3.tsv('diamond-data.tsv', d => ({
         .yLabel('↑ Price $')
         .xTickFormat(d3.format('.1f'))
         .yTickFormat(d3.format('.1s'))
-        .decorate(selection => {
+        .decorate((selection) => {
             selection
                 .enter()
                 .select('.webgl-plot-area')
@@ -62,9 +62,7 @@ d3.tsv('diamond-data.tsv', d => ({
         });
 
     function render() {
-        d3.select('#chart')
-            .datum(data)
-            .call(chart);
+        d3.select('#chart').datum(data).call(chart);
     }
 
     render();

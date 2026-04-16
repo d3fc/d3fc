@@ -1,18 +1,18 @@
-const data = d3.range(50).map(d => ({
+const data = d3.range(50).map((d) => ({
     x: d / 4,
     y: Math.sin(d / 4),
-    z: Math.cos(d / 4) * 0.7
+    z: Math.cos(d / 4) * 0.7,
 }));
 
-const xExtent = fc.extentLinear().accessors([d => d.x]);
+const xExtent = fc.extentLinear().accessors([(d) => d.x]);
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d.y, d => d.z])
+    .accessors([(d) => d.y, (d) => d.z])
     .pad([0.1, 0.1]);
 
 const gridlines = fc.annotationSvgGridline();
 const line = fc.seriesCanvasLine();
-const area = fc.seriesCanvasArea().mainValue(d => d.z * 1000);
+const area = fc.seriesCanvasArea().mainValue((d) => d.z * 1000);
 
 const multi = fc.seriesCanvasMulti().series([area, line]);
 
@@ -35,7 +35,7 @@ area.yScale(zScale);
 // prevent the chart changing the scale
 area.yScale = () => {};
 
-chart.decorate(selection => {
+chart.decorate((selection) => {
     // when the chart is added to the DOM
     selection
         .enter()
@@ -47,18 +47,14 @@ chart.decorate(selection => {
         // and give the axis a width
         .style('width', '3em')
         // when there's a measure event (namespaced to avoid removing existing handlers)
-        .on('measure.z-axis', event => {
+        .on('measure.z-axis', (event) => {
             // set the range on the scale to the elements height
             zScale.range([event.detail.height, 0]);
         })
         .on('draw.z-axis', (event, d) => {
             // draw the axis into the svg within the d3fc-svg element
-            d3.select(event.currentTarget)
-                .select('svg')
-                .call(zAxis);
+            d3.select(event.currentTarget).select('svg').call(zAxis);
         });
 });
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

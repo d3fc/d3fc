@@ -7,7 +7,7 @@ async function loadReadme() {
     return rawContent.replace(
         /\[(.+)\]\(([^ ]+)(?: "(.+)")?\)/g,
         (_, text, url, title) =>
-            `<a href="${url}" title="${title || ''}">${text}</a>`
+            `<a href="${url}" title="${title || ''}">${text}</a>`,
     );
 }
 async function showReadme() {
@@ -22,7 +22,7 @@ async function showReadme() {
         margin: '1em',
         whiteSpace: 'pre-wrap',
         background: 'rgba(250, 250, 250, 0.9)',
-        color: '#1b1e23'
+        color: '#1b1e23',
     });
     div.innerHTML = processedContent;
     const a = document.createElement('a');
@@ -30,13 +30,13 @@ async function showReadme() {
         position: 'absolute',
         top: 0,
         right: 0,
-        margin: '1em'
+        margin: '1em',
     });
     Object.assign(a, {
         href: '#',
         onclick: () => div.remove(),
         id: 'hide-overlay',
-        innerHTML: 'Hide'
+        innerHTML: 'Hide',
     });
     div.appendChild(a);
     document.body.append(div);

@@ -4,10 +4,7 @@ const xScale = d3.scaleLinear().domain([0, 1]);
 
 const yScale = d3.scaleLinear().domain([0, 1]);
 
-const gridline = fc
-    .annotationSvgGridline()
-    .xScale(xScale)
-    .yScale(yScale);
+const gridline = fc.annotationSvgGridline().xScale(xScale).yScale(yScale);
 
 const xAxis = d3.axisBottom(xScale);
 
@@ -23,14 +20,14 @@ d3.select(container)
     .on('draw', () => {
         svg.call(gridline);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
-        xAxisJoin(svg, d => [d])
+        xAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(0, ${height - 20})`)
             .call(xAxis);
-        yAxisJoin(svg, d => [d])
+        yAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(${width - 30}, 0)`)
             .call(yAxis);
     });

@@ -18,7 +18,7 @@ export default () => {
                 const componentValues = value(data[i], i);
                 if (componentValues.length !== size) {
                     throw new Error(
-                        `Expected components array of size ${size}, recieved array with length ${componentValues.length}.`
+                        `Expected components array of size ${size}, recieved array with length ${componentValues.length}.`,
                     );
                 }
                 for (let component = 0; component < size; component++) {
@@ -31,7 +31,7 @@ export default () => {
                 const componentValue = value(data[i], i);
                 if (Array.isArray(componentValue)) {
                     throw new Error(
-                        `Expected a single component value, recieved array with length ${componentValue.length}.`
+                        `Expected a single component value, recieved array with length ${componentValue.length}.`,
                     );
                 }
                 projectedData[i] = componentValue;

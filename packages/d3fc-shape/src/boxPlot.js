@@ -3,35 +3,34 @@ import functor from './functor';
 
 // Renders a box plot series as an SVG path based on the given array of datapoints.
 export default () => {
-
-    let context       = null;
-    let value         = (d) => d.value;
-    let median        = (d) => d.median;
+    let context = null;
+    let value = (d) => d.value;
+    let median = (d) => d.median;
     let upperQuartile = (d) => d.upperQuartile;
     let lowerQuartile = (d) => d.lowerQuartile;
-    let high          = (d) => d.high;
-    let low           = (d) => d.low;
-    let orient        = 'vertical';
-    let width         = functor(5);
-    let cap           = functor(0.5);
+    let high = (d) => d.high;
+    let low = (d) => d.low;
+    let orient = 'vertical';
+    let width = functor(5);
+    let cap = functor(0.5);
 
-    const boxPlot = function(data) {
-
+    const boxPlot = function (data) {
         const drawingContext = context || path();
 
-        data.forEach(function(d, i) {
+        data.forEach(function (d, i) {
             // naming convention is for vertical orientation
-            const _value          = value(d, i);
-            const _width          = width(d, i);
-            const halfWidth       = _width / 2;
-            const capWidth        = _width * cap(d, i);
-            const halfCapWidth    = capWidth / 2;
-            const _high           = high(d, i);
-            const _upperQuartile  = upperQuartile(d, i);
-            const _median         = median(d, i);
-            const _lowerQuartile  = lowerQuartile(d, i);
-            const _low            = low(d, i);
-            const upperQuartileToLowerQuartile = _lowerQuartile - _upperQuartile;
+            const _value = value(d, i);
+            const _width = width(d, i);
+            const halfWidth = _width / 2;
+            const capWidth = _width * cap(d, i);
+            const halfCapWidth = capWidth / 2;
+            const _high = high(d, i);
+            const _upperQuartile = upperQuartile(d, i);
+            const _median = median(d, i);
+            const _lowerQuartile = lowerQuartile(d, i);
+            const _low = low(d, i);
+            const upperQuartileToLowerQuartile =
+                _lowerQuartile - _upperQuartile;
 
             if (orient === 'vertical') {
                 // Upper whisker
@@ -41,7 +40,12 @@ export default () => {
                 drawingContext.lineTo(_value, _upperQuartile);
 
                 // Box
-                drawingContext.rect(_value - halfWidth, _upperQuartile, _width, upperQuartileToLowerQuartile);
+                drawingContext.rect(
+                    _value - halfWidth,
+                    _upperQuartile,
+                    _width,
+                    upperQuartileToLowerQuartile,
+                );
                 drawingContext.moveTo(_value - halfWidth, _median);
                 // Median line
                 drawingContext.lineTo(_value + halfWidth, _median);
@@ -59,7 +63,12 @@ export default () => {
                 drawingContext.lineTo(_lowerQuartile, _value);
 
                 // Box
-                drawingContext.rect(_lowerQuartile, _value - halfWidth, -upperQuartileToLowerQuartile, _width);
+                drawingContext.rect(
+                    _lowerQuartile,
+                    _value - halfWidth,
+                    -upperQuartileToLowerQuartile,
+                    _width,
+                );
                 drawingContext.moveTo(_median, _value - halfWidth);
                 drawingContext.lineTo(_median, _value + halfWidth);
 

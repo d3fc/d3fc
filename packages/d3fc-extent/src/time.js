@@ -1,7 +1,6 @@
 import { default as linearExtent } from './linear';
 
-export default function() {
-
+export default function () {
     let accessors = [];
     let pad = [0, 0];
     let padUnit = 'percent';
@@ -10,22 +9,24 @@ export default function() {
 
     const extent = linearExtent();
 
-    const valueOf = date => date != null ? date.valueOf() : null;
+    const valueOf = (date) => (date != null ? date.valueOf() : null);
 
     const instance = (data) => {
-        const adaptedAccessors = accessors.map(accessor => (...args) => {
+        const adaptedAccessors = accessors.map((accessor) => (...args) => {
             const value = accessor(...args);
             return Array.isArray(value) ? value.map(valueOf) : valueOf(value);
         });
 
-        extent.accessors(adaptedAccessors)
-          .pad(pad)
-          .padUnit(padUnit)
-          .symmetricalAbout(symmetricalAbout != null ? symmetricalAbout.valueOf() : null)
-          .include(include.map(date => date.valueOf()));
+        extent
+            .accessors(adaptedAccessors)
+            .pad(pad)
+            .padUnit(padUnit)
+            .symmetricalAbout(
+                symmetricalAbout != null ? symmetricalAbout.valueOf() : null,
+            )
+            .include(include.map((date) => date.valueOf()));
 
-        return extent(data)
-          .map(value => new Date(value));
+        return extent(data).map((value) => new Date(value));
     };
 
     instance.accessors = (...args) => {
