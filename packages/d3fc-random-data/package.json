@@ -24,7 +24,7 @@
         "url": "https://github.com/d3fc/d3fc"
     },
     "scripts": {
-        "bundle": "npx rollup -c ../../scripts/rollup.config.js",
+        "bundle": "npx rollup -c ../../scripts/rollup.config.mjs",
         "start": "npm start  --prefix ../d3fc -- --configPkg=d3fc-random-data"
     },
     "dependencies": {
