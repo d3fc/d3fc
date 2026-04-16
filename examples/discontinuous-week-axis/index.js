@@ -51,6 +51,8 @@ const dates = d3.timeMinute
                 return false;
             case 0:
                 return dt.getHours() >= 19;
+            default:
+                return false;
         }
     });
 
