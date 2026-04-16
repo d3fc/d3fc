@@ -82,7 +82,7 @@
         "lerna": "^8.1.2",
         "markdownlint": "^0.16.0",
         "markdownlint-cli": "^0.17.0",
-        "mockdate": "^2.0.5",
+        "mockdate": "^3.0.5",
         "prettier": "^1.19.1",
         "puppeteer": "^22.8.0",
         "rollup": "^2.79.1",
