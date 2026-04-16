@@ -1,0 +1,9 @@
+{
+    "default": true,
+
+    "MD033": {
+        "allowed_elements": ["img"]
+    },
+
+    "MD045": false
+}
