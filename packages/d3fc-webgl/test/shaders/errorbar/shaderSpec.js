@@ -9,17 +9,17 @@ it('test', () => {
         aHighValue: 20,
         aLowValue: 10,
         aBandwidth: 5,
-        aCorner: [0, 1, -1]
+        aCorner: [0, 1, -1],
     };
 
     const uniforms = {
         uScreen: [2, 2],
-        uStrokeWidth: 1
+        uStrokeWidth: 1,
     };
 
     expectVertexShader(
         shaders.vertexShader(),
         attributes,
-        uniforms
+        uniforms,
     ).toHaveGlPosition([-1, 10, 0, 1]);
 });

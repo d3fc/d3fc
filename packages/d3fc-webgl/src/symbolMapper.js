@@ -5,7 +5,7 @@ import {
     symbolCross,
     symbolDiamond,
     symbolStar,
-    symbolWye
+    symbolWye,
 } from 'd3-shape';
 import circlePointShader from './shaders/point/circle/baseShader';
 import squarePointShader from './shaders/point/square/shader';
@@ -15,7 +15,7 @@ import diamondPointShader from './shaders/point/diamond/shader';
 import starPointShader from './shaders/point/star/shader';
 import wyePointShader from './shaders/point/wye/shader';
 
-export default symbol => {
+export default (symbol) => {
     switch (symbol) {
         case symbolCircle:
             return circlePointShader();

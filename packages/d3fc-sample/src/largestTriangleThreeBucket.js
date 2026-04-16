@@ -2,14 +2,12 @@ import { mean, max } from 'd3-array';
 import { rebind } from '@d3fc/d3fc-rebind';
 import bucket from './bucket';
 
-export default function() {
-
+export default function () {
     var x = (d) => d;
     var y = (d) => d;
     var dataBucketer = bucket();
 
     const largestTriangleThreeBucket = (data) => {
-
         if (dataBucketer.bucketSize() >= data.length) {
             return data;
         }
@@ -26,14 +24,20 @@ export default function() {
         var lastSelectedY = y(firstBucket);
 
         var subsampledData = buckets.map((thisBucket, i) => {
-
             var nextAvgX = mean(allBuckets[i + 1], x);
             var nextAvgY = mean(allBuckets[i + 1], y);
 
             var xyData = thisBucket.map((item) => [x(item), y(item)]);
 
-            var areas = xyData.map((item) => 0.5 * Math.abs((lastSelectedX - nextAvgX) * (item[1] - lastSelectedY) -
-                    (lastSelectedX - item[0]) * (nextAvgY - lastSelectedY)));
+            var areas = xyData.map(
+                (item) =>
+                    0.5 *
+                    Math.abs(
+                        (lastSelectedX - nextAvgX) * (item[1] - lastSelectedY) -
+                            (lastSelectedX - item[0]) *
+                                (nextAvgY - lastSelectedY),
+                    ),
+            );
 
             var highestIndex = areas.indexOf(max(areas));
             var highestXY = xyData[highestIndex];
@@ -50,7 +54,7 @@ export default function() {
 
     rebind(largestTriangleThreeBucket, dataBucketer, 'bucketSize');
 
-    largestTriangleThreeBucket.x = function(d) {
+    largestTriangleThreeBucket.x = function (d) {
         if (!arguments.length) {
             return x;
         }
@@ -60,7 +64,7 @@ export default function() {
         return largestTriangleThreeBucket;
     };
 
-    largestTriangleThreeBucket.y = function(d) {
+    largestTriangleThreeBucket.y = function (d) {
         if (!arguments.length) {
             return y;
         }

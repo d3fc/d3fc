@@ -4,11 +4,9 @@ import errorBarBase from '../errorBarBase';
 import colors from '../colors';
 
 export default () => {
-
     const base = errorBarBase();
 
-    const pathGenerator = shapeErrorBar()
-        .value(0);
+    const pathGenerator = shapeErrorBar().value(0);
 
     const errorBar = (data) => {
         const filteredData = data.filter(base.defined());
@@ -28,9 +26,9 @@ export default () => {
 
             base.decorate()(context, d, i);
 
-            pathGenerator.high(values.high)
-                .width(values.width)
-                .low(values.low)([d]);
+            pathGenerator.high(values.high).width(values.width).low(values.low)(
+                [d],
+            );
 
             context.fill();
             context.stroke();

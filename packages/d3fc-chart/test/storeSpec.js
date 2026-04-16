@@ -9,8 +9,7 @@ const component = () => {
 };
 
 describe('store', () => {
-
-    it('Should re-apply stored property values', function() {
+    it('Should re-apply stored property values', function () {
         // store values for 'ticks' property
         let myStore = store('ticks');
         myStore.ticks(22);
@@ -22,7 +21,7 @@ describe('store', () => {
         expect(componentInstance.ticksValue).toEqual([22]);
     });
 
-    it('Should re-apply multiple argument values', function() {
+    it('Should re-apply multiple argument values', function () {
         // store values for 'ticks' property
         let myStore = store('ticks');
         myStore.ticks(22, 's');

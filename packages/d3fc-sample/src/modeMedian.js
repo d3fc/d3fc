@@ -2,13 +2,11 @@ import { extent } from 'd3-array';
 import { rebind } from '@d3fc/d3fc-rebind';
 import bucket from './bucket';
 
-export default function() {
-
+export default function () {
     var dataBucketer = bucket();
     var value = (d) => d;
 
     const modeMedian = (data) => {
-
         if (dataBucketer.bucketSize() > data.length) {
             return data;
         }
@@ -17,7 +15,6 @@ export default function() {
         var buckets = dataBucketer(data.slice(1, data.length - 1));
 
         var subsampledData = buckets.map((thisBucket, i) => {
-
             var frequencies = {};
             var mostFrequent;
             var mostFrequentIndex;
@@ -25,8 +22,9 @@ export default function() {
 
             var values = thisBucket.map(value);
 
-            var globalMinMax = values.filter((value) => value === minMax[0] || value === minMax[1])
-                                    .map((value) => values.indexOf(value))[0];
+            var globalMinMax = values
+                .filter((value) => value === minMax[0] || value === minMax[1])
+                .map((value) => values.indexOf(value))[0];
 
             if (globalMinMax !== undefined) {
                 return thisBucket[globalMinMax];
@@ -38,7 +36,10 @@ export default function() {
                 }
                 frequencies[item]++;
 
-                if (frequencies[item] > frequencies[mostFrequent] || mostFrequent === undefined) {
+                if (
+                    frequencies[item] > frequencies[mostFrequent] ||
+                    mostFrequent === undefined
+                ) {
                     mostFrequent = item;
                     mostFrequentIndex = i;
                     singleMostFrequent = true;
@@ -60,7 +61,7 @@ export default function() {
 
     rebind(modeMedian, dataBucketer, 'bucketSize');
 
-    modeMedian.value = function(x) {
+    modeMedian.value = function (x) {
         if (!arguments.length) {
             return value;
         }

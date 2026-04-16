@@ -5,8 +5,7 @@ import { include, prefix, rebindAll } from '@d3fc/d3fc-rebind';
 import annotationLine from './line';
 import { seriesSvgMulti, seriesSvgPoint } from '@d3fc/d3fc-series';
 
-export default function() {
-
+export default function () {
     let x = (d) => d.x;
     let y = (d) => d.y;
     let xScale = scaleIdentity();
@@ -19,8 +18,7 @@ export default function() {
 
     const horizontalLine = annotationLine();
 
-    const verticalLine = annotationLine()
-        .orient('vertical');
+    const verticalLine = annotationLine().orient('vertical');
 
     // The line annotations and point series used to render the crosshair are positioned using
     // screen coordinates. This function constructs an identity scale for these components.
@@ -34,26 +32,22 @@ export default function() {
         .mapping((data) => [data]);
 
     const instance = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
 
         selection.each((data, index, nodes) => {
-
             const g = join(select(nodes[index]), data);
 
             // Prevent the crosshair triggering pointer events on itself
-            g.enter()
-                .style('pointer-events', 'none');
+            g.enter().style('pointer-events', 'none');
 
             // Assign the identity scales an accurate range to allow the line annotations to cover
             // the full width/height of the chart.
             xIdentity.range(xScale.range());
             yIdentity.range(yScale.range());
 
-            point.crossValue(x)
-                .mainValue(y);
+            point.crossValue(x).mainValue(y);
 
             horizontalLine.value(y);
 

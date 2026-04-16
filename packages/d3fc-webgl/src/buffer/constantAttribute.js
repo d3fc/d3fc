@@ -1,12 +1,12 @@
 import baseAttributeBuilder from './baseAttribute';
 import { rebind } from '@d3fc/d3fc-rebind';
 
-export default initialValue => {
+export default (initialValue) => {
     const base = baseAttributeBuilder().divisor(1);
     let value = initialValue;
     let dirty = true;
 
-    const constantAttribute = programBuilder => {
+    const constantAttribute = (programBuilder) => {
         base(programBuilder);
 
         if (!dirty) {
@@ -20,7 +20,7 @@ export default initialValue => {
             throw new Error(
                 `Expected array of length: ${base.size()}, recieved array of length: ${
                     value.length
-                }`
+                }`,
             );
         }
         const gl = programBuilder.context();

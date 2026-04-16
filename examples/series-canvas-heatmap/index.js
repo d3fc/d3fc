@@ -1,4 +1,4 @@
-d3.csv('heatmap-data.csv', type).then(data => {
+d3.csv('heatmap-data.csv', type).then((data) => {
     const container = document.querySelector('d3fc-canvas');
 
     // Here we use band scales to demonstrate that the autoBandwidth component
@@ -9,9 +9,9 @@ d3.csv('heatmap-data.csv', type).then(data => {
 
     const series = fc
         .autoBandwidth(fc.seriesCanvasHeatmap())
-        .xValue(d => d.hour)
-        .yValue(d => d.day)
-        .colorValue(d => d.count)
+        .xValue((d) => d.hour)
+        .yValue((d) => d.day)
+        .colorValue((d) => d.count)
         .xScale(xScale)
         .yScale(yScale)
         // The band scales require different alignments
@@ -23,7 +23,7 @@ d3.csv('heatmap-data.csv', type).then(data => {
         .on('draw', () => {
             series(data);
         })
-        .on('measure', event => {
+        .on('measure', (event) => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);

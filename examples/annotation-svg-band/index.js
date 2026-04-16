@@ -2,7 +2,7 @@ const data = [
     [0.1, 0.15],
     [0.2, 0.3],
     [0.4, 0.6],
-    [0.8, 0.9]
+    [0.8, 0.9],
 ];
 
 const container = document.querySelector('d3fc-svg');
@@ -15,16 +15,16 @@ const horizontalBand = fc
     .annotationSvgBand()
     .xScale(xScale)
     .yScale(yScale)
-    .fromValue(d => d[0])
-    .toValue(d => d[1]);
+    .fromValue((d) => d[0])
+    .toValue((d) => d[1]);
 
 const verticalBand = fc
     .annotationSvgBand()
     .orient('vertical')
     .xScale(xScale)
     .yScale(yScale)
-    .fromValue(d => d[0])
-    .toValue(d => d[1]);
+    .fromValue((d) => d[0])
+    .toValue((d) => d[1]);
 
 const xAxis = d3.axisBottom(xScale);
 
@@ -42,14 +42,14 @@ d3.select(container)
         svg.append('g').call(horizontalBand);
         svg.append('g').call(verticalBand);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
-        xAxisJoin(svg, d => [d])
+        xAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(0, ${height - 20})`)
             .call(xAxis);
-        yAxisJoin(svg, d => [d])
+        yAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(${width - 30}, 0)`)
             .call(yAxis);
     });

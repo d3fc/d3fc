@@ -5,7 +5,6 @@ import alignOffset from './alignOffset';
 import createBase from './base';
 
 export default () => {
-
     let upperQuartileValue = (d) => d.upperQuartile;
     let lowerQuartileValue = (d) => d.lowerQuartile;
     let highValue = (d) => d.high;
@@ -17,17 +16,18 @@ export default () => {
     let bandwidth = () => 5;
 
     const base = createBase({
-        decorate: () => { },
-        defined: (d, i) => defined(
-            lowValue,
-            highValue,
-            lowerQuartileValue,
-            upperQuartileValue,
-            crossValue,
-            medianValue
-        )(d, i),
+        decorate: () => {},
+        defined: (d, i) =>
+            defined(
+                lowValue,
+                highValue,
+                lowerQuartileValue,
+                upperQuartileValue,
+                crossValue,
+                medianValue,
+            )(d, i),
         xScale: scaleIdentity(),
-        yScale: scaleIdentity()
+        yScale: scaleIdentity(),
     });
 
     base.values = (d, i) => {
@@ -45,7 +45,7 @@ export default () => {
                 median: yScale(medianValue(d, i)) - y,
                 lowerQuartile: yScale(lowerQuartileValue(d, i)) - y,
                 low: yScale(lowValue(d, i)) - y,
-                width
+                width,
             };
         } else {
             const x = xScale(lowValue(d, i));
@@ -56,25 +56,31 @@ export default () => {
                 median: xScale(medianValue(d, i)) - x,
                 lowerQuartile: xScale(lowerQuartileValue(d, i)) - x,
                 low: 0,
-                width
+                width,
             };
         }
     };
 
-    base.xValues = () => orient === 'vertical' ? [crossValue] : [
-        upperQuartileValue,
-        lowerQuartileValue,
-        highValue,
-        lowValue,
-        medianValue
-    ];
-    base.yValues = () => orient !== 'vertical' ? [crossValue] : [
-        upperQuartileValue,
-        lowerQuartileValue,
-        highValue,
-        lowValue,
-        medianValue
-    ];
+    base.xValues = () =>
+        orient === 'vertical'
+            ? [crossValue]
+            : [
+                  upperQuartileValue,
+                  lowerQuartileValue,
+                  highValue,
+                  lowValue,
+                  medianValue,
+              ];
+    base.yValues = () =>
+        orient !== 'vertical'
+            ? [crossValue]
+            : [
+                  upperQuartileValue,
+                  lowerQuartileValue,
+                  highValue,
+                  lowValue,
+                  medianValue,
+              ];
     base.orient = (...args) => {
         if (!args.length) {
             return orient;

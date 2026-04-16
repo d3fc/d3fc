@@ -2,9 +2,9 @@ import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 
-var external = key =>
+const external = (key) =>
     key.indexOf('d3-') === 0 || key.indexOf('@d3fc/d3fc-') === 0;
-var globals = function(key) {
+const globals = function (key) {
     if (key.indexOf('d3-') === 0) {
         return 'd3';
     }
@@ -13,7 +13,7 @@ var globals = function(key) {
     }
 };
 
-export default commandLineArgs => {
+export default (commandLineArgs) => {
     process.env.env = commandLineArgs.configEnv || 'dev';
     const shouldMinify = process.env.env === 'prod';
     const plugins = [babel({ cwd: '../..' }), nodeResolve()];
@@ -23,7 +23,7 @@ export default commandLineArgs => {
     const pkgInfo = require(`${process.cwd()}/package.json`);
     if (!pkgInfo) {
         throw Error(
-            'Expected build to be triggered from directory containing package.json'
+            'Expected build to be triggered from directory containing package.json',
         );
     }
     let name = pkgInfo.name;
@@ -33,14 +33,14 @@ export default commandLineArgs => {
     name = name.replace('@d3fc/', '');
     return {
         input: 'index.js',
-        plugins: plugins,
-        external: external,
+        plugins,
+        external,
         output: {
             file: `build/${name}${shouldMinify ? '.min' : ''}.js`,
             format: 'umd',
-            globals: globals,
+            globals,
             extend: true,
-            name: 'fc'
-        }
+            name: 'fc',
+        },
     };
 };

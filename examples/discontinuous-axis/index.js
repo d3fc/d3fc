@@ -8,14 +8,14 @@ const data = generator(50);
 // use the date to determine the x extent, padding by one day at each end
 const xExtent = fc
     .extentDate()
-    .accessors([d => d.date])
+    .accessors([(d) => d.date])
     .padUnit('domain')
     .pad([DAY_MS, DAY_MS]);
 
 // compute the y extent from the high / low values, padding by 10%
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d.high, d => d.low])
+    .accessors([(d) => d.high, (d) => d.low])
     .pad([0.1, 0.1]);
 
 // Create the gridlines and series
@@ -35,16 +35,14 @@ function renderChart() {
     const chart = fc
         .chartCartesian(
             checkbox.checked ? skipWeekendScale : d3.scaleTime(),
-            d3.scaleLinear()
+            d3.scaleLinear(),
         )
         .xDomain(xExtent(data))
         .yDomain(yExtent(data))
         .svgPlotArea(multi);
 
     // render the chart
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 }
 
 renderChart();

@@ -14,8 +14,7 @@ d3fc-group.cartesian-chart>.y-label{display:flex;transform:rotate(-90deg);width:
 const styleElement = document.createElement('style');
 styleElement.setAttribute('type', 'text/css');
 
-document.querySelector('head')
-  .appendChild(styleElement);
+document.querySelector('head').appendChild(styleElement);
 
 if (styleElement.styleSheet) {
     styleElement.styleSheet.cssText += css;

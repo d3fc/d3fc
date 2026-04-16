@@ -1,6 +1,6 @@
 import shaderBuilder, {
     vertexShaderBase,
-    fragmentShaderBase
+    fragmentShaderBase,
 } from '../../shaderBuilder';
 import * as vertexShaderSnippets from '../../vertexShaderSnippets';
 import * as fragmentShaderSnippets from '../../fragmentShaderSnippets';
@@ -17,6 +17,6 @@ export default () => {
 
     return {
         vertex: () => vertexShader,
-        fragment: () => fragmentShader
+        fragment: () => fragmentShader,
     };
 };

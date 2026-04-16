@@ -6,7 +6,6 @@ import alignOffset from './alignOffset';
 import createBase from './base';
 
 export default (series) => {
-
     let bandwidth = () => 50;
     let align = 'center';
 
@@ -16,7 +15,7 @@ export default (series) => {
     const grouped = createBase({
         decorate: () => {},
         xScale: scaleLinear(),
-        yScale: scaleLinear()
+        yScale: scaleLinear(),
     });
 
     // the bandwidth for the grouped series can be a function of datum / index. As a result
@@ -28,8 +27,8 @@ export default (series) => {
 
         const halfWidth = width / 2;
         return offsetScale
-          .domain(range(0, data.length))
-          .range([-halfWidth + offset, halfWidth + offset]);
+            .domain(range(0, data.length))
+            .range([-halfWidth + offset, halfWidth + offset]);
     };
 
     grouped.bandwidth = (...args) => {
@@ -47,7 +46,11 @@ export default (series) => {
         return grouped;
     };
 
-    rebindAll(grouped, offsetScale, includeMap({'paddingInner': 'paddingOuter'}));
+    rebindAll(
+        grouped,
+        offsetScale,
+        includeMap({ paddingInner: 'paddingOuter' }),
+    );
 
     return grouped;
 };

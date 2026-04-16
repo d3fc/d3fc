@@ -3,7 +3,7 @@ import {
     webglSeriesBar,
     webglAttribute,
     webglScaleMapper,
-    webglTypes
+    webglTypes,
 } from '@d3fc/d3fc-webgl';
 import { exclude, rebind, rebindAll } from '@d3fc/d3fc-rebind';
 
@@ -40,17 +40,25 @@ export default () => {
 
         if (dataChanged) {
             previousData = data;
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            bandwidthAttribute
+                .value((d, i) => base.bandwidth()(d, i))
+                .data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
         if (dataChanged || xScale.scale !== previousXScale) {
             previousXScale = xScale.scale;
-            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            crossValueAttribute
+                .value((d, i) => xScale.scale(base.crossValue()(d, i)))
+                .data(data);
         }
         if (dataChanged || yScale.scale !== previousYScale) {
             previousYScale = yScale.scale;
-            baseValueAttribute.value((d, i) => yScale.scale(base.baseValue()(d, i))).data(data);
-            mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+            baseValueAttribute
+                .value((d, i) => yScale.scale(base.baseValue()(d, i)))
+                .data(data);
+            mainValueAttribute
+                .value((d, i) => yScale.scale(base.mainValue()(d, i)))
+                .data(data);
         }
 
         draw.xScale(xScale.webglScale)

@@ -1,13 +1,12 @@
-import prefix  from '../src/transform/prefix';
-import exclude  from '../src/transform/exclude';
-import rebindAll  from '../src/rebindAll';
+import prefix from '../src/transform/prefix';
+import exclude from '../src/transform/exclude';
+import rebindAll from '../src/rebindAll';
 
-describe('rebindAll', function() {
-
+describe('rebindAll', function () {
     var source, target;
 
     function createProperty(value) {
-        return function(arg) {
+        return function (arg) {
             if (!arguments.length) {
                 return value;
             }
@@ -16,7 +15,7 @@ describe('rebindAll', function() {
         };
     }
 
-    beforeEach(function() {
+    beforeEach(function () {
         source = {
             scale: createProperty(),
             orient: createProperty(),
@@ -25,12 +24,12 @@ describe('rebindAll', function() {
             innerTickSize: createProperty(),
             outerTickSize: createProperty(),
             tickPadding: createProperty(),
-            tickSubdivide: createProperty()
+            tickSubdivide: createProperty(),
         };
         target = {};
     });
 
-    it('should rebind all properties', function() {
+    it('should rebind all properties', function () {
         rebindAll(target, source);
         expect(target.scale()).toEqual(source.scale());
         expect(target.orient()).toEqual(source.orient());
@@ -42,7 +41,7 @@ describe('rebindAll', function() {
         expect(target.tickSubdivide()).toEqual(source.tickSubdivide());
     });
 
-    it('should rebind all properties with the given prefix', function() {
+    it('should rebind all properties with the given prefix', function () {
         rebindAll(target, source, prefix('x'));
         expect(target.xScale()).toEqual(source.scale());
         expect(target.xOrient()).toEqual(source.orient());
@@ -54,7 +53,7 @@ describe('rebindAll', function() {
         expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
     });
 
-    it('should rebind excluding the indicated property', function() {
+    it('should rebind excluding the indicated property', function () {
         rebindAll(target, source, exclude('scale'), prefix('x'));
 
         expect(target.xScale).not.toBeDefined();
@@ -68,7 +67,7 @@ describe('rebindAll', function() {
         expect(target.xTickSubdivide()).toEqual(source.tickSubdivide());
     });
 
-    it('should support regular expression exclusions', function() {
+    it('should support regular expression exclusions', function () {
         rebindAll(target, source, exclude('scale', /tick[\w]*/), prefix('x'));
 
         expect(target.xScale).not.toBeDefined();
@@ -82,7 +81,7 @@ describe('rebindAll', function() {
         expect(target.xOuterTickSize()).toEqual(source.outerTickSize());
     });
 
-    it('should return the target', function() {
+    it('should return the target', function () {
         expect(rebindAll(target, source)).toBe(target);
     });
 });

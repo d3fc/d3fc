@@ -25,8 +25,8 @@ const isDescendentOf = (element, ancestor) => {
         if (node.parentNode === ancestor) {
             return true;
         }
-    // eslint-disable-next-line no-cond-assign
-    } while (node = node.parentNode);
+        // eslint-disable-next-line no-cond-assign
+    } while ((node = node.parentNode));
     return false;
 };
 
@@ -36,11 +36,15 @@ export default (element) => {
     if (queueContainsElement) {
         return;
     }
-    const queueContainsAncestor = queue.some(queuedElement => isDescendentOf(element, queuedElement));
+    const queueContainsAncestor = queue.some((queuedElement) =>
+        isDescendentOf(element, queuedElement),
+    );
     if (queueContainsAncestor) {
         return;
     }
-    const queueExcludingDescendents = queue.filter(queuedElement => !isDescendentOf(queuedElement, element));
+    const queueExcludingDescendents = queue.filter(
+        (queuedElement) => !isDescendentOf(queuedElement, element),
+    );
     queueExcludingDescendents.push(element);
     setQueue(element, queueExcludingDescendents);
 };

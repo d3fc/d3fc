@@ -23,30 +23,30 @@ const sales = [
     { Year: 2015, Month: 'Feb', Sales: 195 },
     { Year: 2015, Month: 'Mar', Sales: 360 },
     { Year: 2015, Month: 'Apr', Sales: 410 },
-    { Year: 2015, Month: 'May', Sales: 385 }
+    { Year: 2015, Month: 'May', Sales: 385 },
 ];
 
 // group by month, giving our per-month small multiples
 const groupedByMonth = d3
-    .groups(sales, d => d.Month)
+    .groups(sales, (d) => d.Month)
     .map(([key, values]) => ({ key, values }));
 
 // the various series components
 const area = fc
     .seriesSvgArea()
-    .crossValue(d => d.Year)
-    .mainValue(d => d.Sales);
+    .crossValue((d) => d.Year)
+    .mainValue((d) => d.Sales);
 const line = fc
     .seriesSvgLine()
-    .crossValue(d => d.Year)
-    .mainValue(d => d.Sales);
+    .crossValue((d) => d.Year)
+    .mainValue((d) => d.Sales);
 const point = fc
     .seriesSvgPoint()
-    .crossValue(d => d.Year)
-    .mainValue(d => d.Sales);
+    .crossValue((d) => d.Year)
+    .mainValue((d) => d.Sales);
 
 // the average line
-const average = fc.annotationSvgLine().value(d => d);
+const average = fc.annotationSvgLine().value((d) => d);
 
 // bring all these renderers together into one using the multi-series. The area/point/line
 // are mapped to the 'values' returned by d3.nest, and the line annotation maps to the average
@@ -56,7 +56,7 @@ const multi = fc
     .mapping((data, index, series) => {
         switch (series[index]) {
             case average:
-                return [d3.mean(data.values, d => d.Sales)];
+                return [d3.mean(data.values, (d) => d.Sales)];
             default:
                 return data.values;
         }
@@ -67,7 +67,7 @@ const yExtent = fc
     .extentLinear()
     .include([0])
     .pad([0, 0.2])
-    .accessors([d => d.Sales]);
+    .accessors([(d) => d.Sales]);
 
 // the chart!
 var chart = fc
@@ -77,7 +77,7 @@ var chart = fc
     .yOrient('left')
     .xTickFormat(d3.format('0'))
     .xTicks(2)
-    .chartLabel(d => d.key)
+    .chartLabel((d) => d.key)
     .svgPlotArea(multi);
 
 // data-join to render our small multiples

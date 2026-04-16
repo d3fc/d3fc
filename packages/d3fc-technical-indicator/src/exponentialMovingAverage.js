@@ -1,14 +1,13 @@
 import { identity, functor, convertNaN } from './fn';
 import { mean } from 'd3-array';
 
-export default function() {
-
+export default function () {
     let value = identity;
     let period = () => 9;
 
-    const initialMovingAverageAccumulator = period => {
+    const initialMovingAverageAccumulator = (period) => {
         let values = [];
-        return value => {
+        return (value) => {
             let movingAverage;
             if (values.length < period) {
                 if (value != null) {
@@ -23,7 +22,7 @@ export default function() {
             return movingAverage;
         };
     };
-    const exponentialMovingAverage = function(data) {
+    const exponentialMovingAverage = function (data) {
         const size = period.apply(this, arguments);
         const alpha = 2 / (size + 1);
         const initialAccumulator = initialMovingAverageAccumulator(size);

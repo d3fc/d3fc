@@ -3,7 +3,6 @@ import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import colors from '../colors';
 
 export default (pathGenerator) => {
-
     const base = ohlcBase();
 
     const candlestick = (data) => {
@@ -17,7 +16,8 @@ export default (pathGenerator) => {
             context.translate(values.cross, values.high);
             context.beginPath();
 
-            pathGenerator.x(0)
+            pathGenerator
+                .x(0)
                 .open(() => values.open - values.high)
                 .width(values.width)
                 .high(0)
@@ -42,5 +42,4 @@ export default (pathGenerator) => {
     rebindAll(candlestick, base);
 
     return candlestick;
-
 };

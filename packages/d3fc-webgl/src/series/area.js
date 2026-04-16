@@ -25,12 +25,12 @@ export default () => {
             [1, 1, 1],
             [0, 0, 1],
             [1, 0, 0],
-            [1, 1, 0]
+            [1, 1, 0],
         ]);
 
     program.buffers().attribute('aCorner', cornerAttribute);
 
-    const draw = numElements => {
+    const draw = (numElements) => {
         const shaderBuilder = areaShader();
         program
             .vertexShader(shaderBuilder.vertex())
@@ -74,56 +74,56 @@ export default () => {
         'crossValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossValue'
+        'aCrossValue',
     );
     rebindCurry(
         draw,
         'crossNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossNextValue'
+        'aCrossNextValue',
     );
     rebindCurry(
         draw,
         'mainValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainValue'
+        'aMainValue',
     );
     rebindCurry(
         draw,
         'mainNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainNextValue'
+        'aMainNextValue',
     );
     rebindCurry(
         draw,
         'baseValueAttribute',
         program.buffers(),
         'attribute',
-        'aBaseValue'
+        'aBaseValue',
     );
     rebindCurry(
         draw,
         'baseNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aBaseNextValue'
+        'aBaseNextValue',
     );
     rebindCurry(
         draw,
         'definedAttribute',
         program.buffers(),
         'attribute',
-        'aDefined'
+        'aDefined',
     );
     rebindCurry(
         draw,
         'definedNextAttribute',
         program.buffers(),
         'attribute',
-        'aDefinedNext'
+        'aDefinedNext',
     );
 
     return draw;

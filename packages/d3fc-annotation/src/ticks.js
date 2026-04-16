@@ -1,14 +1,16 @@
 import { scaleIdentity } from 'd3-scale';
 
 export default () => {
-
     let scale = scaleIdentity();
     let tickArguments = [10];
     let tickValues = null;
 
     const ticks = () =>
-        tickValues != null ? tickValues
-            : (scale.ticks ? scale.ticks(...tickArguments) : scale.domain());
+        tickValues != null
+            ? tickValues
+            : scale.ticks
+              ? scale.ticks(...tickArguments)
+              : scale.domain();
 
     ticks.scale = (...args) => {
         if (!args.length) {

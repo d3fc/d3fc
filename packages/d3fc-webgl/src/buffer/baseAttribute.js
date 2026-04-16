@@ -10,7 +10,7 @@ export default () => {
     let offset = 0;
     let divisor = null;
 
-    const baseAttribute = programBuilder => {
+    const baseAttribute = (programBuilder) => {
         const gl = programBuilder.context();
 
         if (buffer == null) {
@@ -24,7 +24,7 @@ export default () => {
             type,
             normalized,
             stride,
-            offset
+            offset,
         );
         gl.enableVertexAttribArray(location);
 
@@ -34,8 +34,8 @@ export default () => {
             divisor != null
                 ? divisor
                 : programBuilder.subInstanceCount() > 0
-                ? 1
-                : 0
+                  ? 1
+                  : 0,
         );
     };
 

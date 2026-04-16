@@ -4,13 +4,13 @@ const data = d3.range(40).map(Math.random);
 // render a bar series via the cartesian chart component
 const barSeries = fc
     .seriesSvgBar()
-    .key(function(d) {
+    .key(function (d) {
         return d;
     })
-    .crossValue(function(_, i) {
+    .crossValue(function (_, i) {
         return i;
     })
-    .mainValue(function(d) {
+    .mainValue(function (d) {
         return d;
     });
 
@@ -36,11 +36,7 @@ function render() {
     index++;
 
     // re-render the chart
-    d3.select('#chart')
-        .datum(data)
-        .transition()
-        .duration(500)
-        .call(chart);
+    d3.select('#chart').datum(data).transition().duration(500).call(chart);
 }
 
 setInterval(render, 1000);

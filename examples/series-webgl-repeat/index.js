@@ -1,5 +1,5 @@
-d3.text('repeat-data.csv').then(text => {
-    const data = d3.csvParseRows(text, d => d.map(s => Number(s)));
+d3.text('repeat-data.csv').then((text) => {
+    const data = d3.csvParseRows(text, (d) => d.map((s) => Number(s)));
 
     const container = document.querySelector('d3fc-canvas');
 
@@ -17,7 +17,7 @@ d3.text('repeat-data.csv').then(text => {
             fc
                 .seriesWebglLine()
                 .crossValue((_, i) => i)
-                .mainValue(d => d)
+                .mainValue((d) => d),
         )
         .decorate((program, _, index) => {
             fc
@@ -40,7 +40,7 @@ d3.text('repeat-data.csv').then(text => {
             xScale.domain([0, max]);
             container.requestRedraw();
         })
-        .on('measure', event => {
+        .on('measure', (event) => {
             const { width, height } = event.detail;
             xScale.range([0, width]);
             yScale.range([height, 0]);
@@ -51,7 +51,7 @@ d3.text('repeat-data.csv').then(text => {
         .on('draw', () => {
             if (pixels == null) {
                 pixels = new Uint8Array(
-                    gl.drawingBufferWidth * gl.drawingBufferHeight * 4
+                    gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
                 );
             }
             performance.mark(`draw-start-${frame}`);
@@ -64,11 +64,11 @@ d3.text('repeat-data.csv').then(text => {
                 gl.drawingBufferHeight,
                 gl.RGBA,
                 gl.UNSIGNED_BYTE,
-                pixels
+                pixels,
             );
             performance.measure(
                 `draw-duration-${frame}`,
-                `draw-start-${frame}`
+                `draw-start-${frame}`,
             );
             frame++;
         });

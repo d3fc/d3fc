@@ -9,14 +9,14 @@ const marsData = {
     perihelion: 207,
     aperihelion: 249,
     longitude: 336,
-    year: 686.98
+    year: 686.98,
 };
 
 const earthData = {
     perihelion: 147,
     aperihelion: 152,
     longitude: 102,
-    year: 365.25
+    year: 365.25,
 };
 
 let _year = 2002;
@@ -27,10 +27,10 @@ const marsAngle = 146.25;
 
 const scalingFactor = 0.75;
 
-const cos = angle => Math.cos(angle * (Math.PI / 180));
-const sin = angle => Math.sin(angle * (Math.PI / 180));
+const cos = (angle) => Math.cos(angle * (Math.PI / 180));
+const sin = (angle) => Math.sin(angle * (Math.PI / 180));
 
-const Planet = function(data, angle) {
+const Planet = function (data, angle) {
     this.year = data.year;
 
     const focusDist =
@@ -43,7 +43,7 @@ const Planet = function(data, angle) {
     const cosPhi = cos(phi);
     const sinPhi = sin(phi);
 
-    this.setupAngle = function() {
+    this.setupAngle = function () {
         this.angle = angle - phi;
     };
 
@@ -55,7 +55,7 @@ const Planet = function(data, angle) {
     const eccentricity = focusDist / major;
     const angleConstant = (360 * major * minor) / data.year;
 
-    this.update = function(days) {
+    this.update = function (days) {
         const sign = days < 0 ? -1 / resolution : 1 / resolution;
 
         for (let d = 0; d < Math.abs(days) * resolution; d++) {
@@ -95,10 +95,10 @@ const months = {
     September: 30,
     October: 31,
     November: 30,
-    December: 31
+    December: 31,
 };
 
-const isLeapYear = y => y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0);
+const isLeapYear = (y) => y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0);
 
 const dayToDate = (d, y) => {
     for (const m in months) {
@@ -114,7 +114,7 @@ const dayToDate = (d, y) => {
     }
 };
 
-const convertDayToYear = days => {
+const convertDayToYear = (days) => {
     let y = 0;
 
     if (days > 365) {
@@ -142,14 +142,14 @@ const convertDayToYear = days => {
     return [y, days];
 };
 
-const updateDate = days => {
+const updateDate = (days) => {
     _day += days;
     const y = convertDayToYear(_day);
     _day = y[1];
     _year += y[0];
 };
 
-const changeDay = change => {
+const changeDay = (change) => {
     for (let i = 0; i < bodies.length; i++) {
         if (change > 0) {
             const years = Math.floor(change / bodies[i].year);
@@ -164,7 +164,7 @@ const changeDay = change => {
     updateDate(change);
 };
 
-const setYear = newYear => changeDay((newYear - _year) * 365.25);
+const setYear = (newYear) => changeDay((newYear - _year) * 365.25);
 
 const setup = () => {
     earth.setupAngle();
@@ -174,7 +174,7 @@ const setup = () => {
     setYear(1876);
 };
 
-const getKM = d => Math.round((10 * d) / scalingFactor) / 10;
+const getKM = (d) => Math.round((10 * d) / scalingFactor) / 10;
 
 const dist = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
 
@@ -211,7 +211,7 @@ onmessage = ({ data }) => {
 
         return {
             distance: Math.round(getKM(d)),
-            date
+            date,
         };
     });
 

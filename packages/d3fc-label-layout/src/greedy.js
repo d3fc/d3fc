@@ -4,15 +4,15 @@ import placements from './util/placements';
 import layout from './util/layout';
 
 export default () => {
-
     let bounds;
 
     const containerPenalty = (rectangle) =>
-        bounds ? rectangle.width * rectangle.height - intersect(rectangle, bounds) : 0;
+        bounds
+            ? rectangle.width * rectangle.height - intersect(rectangle, bounds)
+            : 0;
 
     const penaltyForRectangle = (rectangle, index, rectangles) =>
-        collisionArea(rectangles, index) +
-        containerPenalty(rectangle);
+        collisionArea(rectangles, index) + containerPenalty(rectangle);
 
     const strategy = (data) => {
         let rectangles = layout()

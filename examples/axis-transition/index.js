@@ -12,11 +12,8 @@ const fcLinearAxis = fc.axisBottom(linearScale);
 const d3OrdinalAxis = d3.axisBottom(ordinalScale);
 const fcOrdinalAxis = d3.axisBottom(ordinalScale);
 
-const transition = selection =>
-    selection
-        .transition()
-        .duration(1000)
-        .ease(d3.easeLinear);
+const transition = (selection) =>
+    selection.transition().duration(1000).ease(d3.easeLinear);
 
 const d3LinearAxisJoin = fc.dataJoin('g', 'd3-axis-linear');
 const fcLinearAxisJoin = fc.dataJoin('g', 'fc-axis-linear');
@@ -32,31 +29,31 @@ d3.select(container)
         const svg = d3.select(container).select('svg');
 
         transition(
-            d3LinearAxisJoin(svg, d => [d]).attr(
+            d3LinearAxisJoin(svg, (d) => [d]).attr(
                 'transform',
-                'translate(0, 50)'
-            )
+                'translate(0, 50)',
+            ),
         ).call(d3LinearAxis);
         transition(
-            fcLinearAxisJoin(svg, d => [d]).attr(
+            fcLinearAxisJoin(svg, (d) => [d]).attr(
                 'transform',
-                'translate(0, 150)'
-            )
+                'translate(0, 150)',
+            ),
         ).call(fcLinearAxis);
         transition(
-            d3OrdinalAxisJoin(svg, d => [d]).attr(
+            d3OrdinalAxisJoin(svg, (d) => [d]).attr(
                 'transform',
-                'translate(0, 250)'
-            )
+                'translate(0, 250)',
+            ),
         ).call(d3OrdinalAxis);
         transition(
-            fcOrdinalAxisJoin(svg, d => [d]).attr(
+            fcOrdinalAxisJoin(svg, (d) => [d]).attr(
                 'transform',
-                'translate(0, 350)'
-            )
+                'translate(0, 350)',
+            ),
         ).call(fcOrdinalAxis);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width } = event.detail;
         linearScale.range([0, width]);
         ordinalScale.range([0, width]);

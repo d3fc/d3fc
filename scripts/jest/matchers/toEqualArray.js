@@ -6,5 +6,5 @@ const arrayEquals = (a, b) =>
 exports.toEqualArray = (actual, expected) => ({
     pass:
         actual.length === expected.length &&
-        actual.every((item, index) => arrayEquals(item, expected[index]))
+        actual.every((item, index) => arrayEquals(item, expected[index])),
 });

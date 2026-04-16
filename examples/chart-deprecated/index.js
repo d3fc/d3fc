@@ -1,21 +1,21 @@
-const data = d3.range(50).map(d => ({
+const data = d3.range(50).map((d) => ({
     x: d / 4,
     y: Math.sin(d / 4),
-    z: Math.cos(d / 4) * 0.7
+    z: Math.cos(d / 4) * 0.7,
 }));
 
 // use d3fc-extent to compute the domain for each axis
-const xExtent = fc.extentLinear().accessors([d => d.x]);
+const xExtent = fc.extentLinear().accessors([(d) => d.x]);
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d.y, d => d.z])
+    .accessors([(d) => d.y, (d) => d.z])
     .pad([0.1, 0.1]);
 
 // gridlines (from d3fc-annotation)
 const gridlines = fc.annotationCanvasGridline();
 // series (from d3fc-series)
 const line = fc.seriesSvgLine();
-const area = fc.seriesSvgArea().mainValue(d => d.z);
+const area = fc.seriesSvgArea().mainValue((d) => d.z);
 
 // combine into a single series
 const multi = fc.seriesSvgMulti().series([area, line]);
@@ -32,13 +32,11 @@ const chart = fc
     .svgPlotArea(multi)
     .canvasPlotArea(gridlines);
 
-d3.select('#sine-chart')
-    .datum(data)
-    .call(chart);
+d3.select('#sine-chart').datum(data).call(chart);
 
 const gridlinesSvg = fc.annotationSvgGridline();
 const lineSvg = fc.seriesSvgLine();
-const areaSvg = fc.seriesSvgArea().mainValue(d => d.z);
+const areaSvg = fc.seriesSvgArea().mainValue((d) => d.z);
 
 const multiSvg = fc.seriesSvgMulti().series([gridlinesSvg, areaSvg, lineSvg]);
 
@@ -58,14 +56,12 @@ const chartSvg = fc
     .plotArea(multiSvg);
 
 // render
-d3.select('#sine-svg')
-    .datum(data)
-    .call(chartSvg);
+d3.select('#sine-svg').datum(data).call(chartSvg);
 
 // and now in canvas ...
 
 const gridlinesCanvas = fc.annotationCanvasGridline();
-const areaCanvas = fc.seriesCanvasArea().mainValue(d => d.z);
+const areaCanvas = fc.seriesCanvasArea().mainValue((d) => d.z);
 const lineCanvas = fc.seriesCanvasLine();
 
 const multiCanvas = fc
@@ -81,6 +77,4 @@ const chartCanvas = fc
     .xDomain(xExtent(data))
     .plotArea(multiCanvas);
 
-d3.select('#sine-canvas')
-    .datum(data)
-    .call(chartCanvas);
+d3.select('#sine-canvas').datum(data).call(chartCanvas);

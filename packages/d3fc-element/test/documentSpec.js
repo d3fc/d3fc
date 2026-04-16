@@ -1,7 +1,6 @@
 import requestRedraw from '../src/requestRedraw';
 
 describe('document', () => {
-
     beforeEach(() => {
         global.requestAnimationFrame = () => {};
     });

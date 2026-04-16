@@ -43,7 +43,7 @@ export default () => {
             [-1, 1, -1],
             [-1, 1, 1],
             [1, 1, 1],
-            [1, 1, -1]
+            [1, 1, -1],
         ]);
 
     program
@@ -51,31 +51,16 @@ export default () => {
         .elementIndices(
             elementIndices([
                 // Main stem
-                0,
-                1,
-                2,
-                0,
-                3,
-                2,
+                0, 1, 2, 0, 3, 2,
                 // Top cap
-                4,
-                5,
-                6,
-                4,
-                7,
-                6,
+                4, 5, 6, 4, 7, 6,
                 // Bottom cap
-                8,
-                9,
-                10,
-                8,
-                11,
-                10
-            ])
+                8, 9, 10, 8, 11, 10,
+            ]),
         )
         .attribute('aCorner', cornerAttribute);
 
-    const draw = numElements => {
+    const draw = (numElements) => {
         const shaderBuilder = errorBarShader();
         program
             .vertexShader(shaderBuilder.vertex())
@@ -127,35 +112,35 @@ export default () => {
         'crossValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossValue'
+        'aCrossValue',
     );
     rebindCurry(
         draw,
         'highValueAttribute',
         program.buffers(),
         'attribute',
-        'aHighValue'
+        'aHighValue',
     );
     rebindCurry(
         draw,
         'lowValueAttribute',
         program.buffers(),
         'attribute',
-        'aLowValue'
+        'aLowValue',
     );
     rebindCurry(
         draw,
         'bandwidthAttribute',
         program.buffers(),
         'attribute',
-        'aBandwidth'
+        'aBandwidth',
     );
     rebindCurry(
         draw,
         'definedAttribute',
         program.buffers(),
         'attribute',
-        'aDefined'
+        'aDefined',
     );
 
     return draw;

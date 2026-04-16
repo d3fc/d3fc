@@ -3,7 +3,7 @@ import {
     webglSeriesLine,
     webglAdjacentAttribute,
     webglScaleMapper,
-    webglTypes
+    webglTypes,
 } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
@@ -14,8 +14,9 @@ export default () => {
     const crossNextValueAttribute = crossValueAttribute.offset(1);
     const mainValueAttribute = webglAdjacentAttribute(0, 1);
     const mainNextValueAttribute = mainValueAttribute.offset(1);
-    const definedAttribute = webglAdjacentAttribute(0, 1)
-        .type(webglTypes.UNSIGNED_BYTE);
+    const definedAttribute = webglAdjacentAttribute(0, 1).type(
+        webglTypes.UNSIGNED_BYTE,
+    );
     const definedNextAttribute = definedAttribute.offset(1);
 
     const draw = webglSeriesLine()
@@ -44,17 +45,25 @@ export default () => {
         if (dataChanged || xScale.scale !== previousXScale) {
             previousXScale = xScale.scale;
             if (base.orient() === 'vertical') {
-                crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+                crossValueAttribute
+                    .value((d, i) => xScale.scale(base.crossValue()(d, i)))
+                    .data(data);
             } else {
-                crossValueAttribute.value((d, i) => xScale.scale(base.mainValue()(d, i))).data(data);
+                crossValueAttribute
+                    .value((d, i) => xScale.scale(base.mainValue()(d, i)))
+                    .data(data);
             }
         }
         if (dataChanged || yScale.scale !== previousYScale) {
             previousYScale = yScale.scale;
             if (base.orient() === 'vertical') {
-                mainValueAttribute.value((d, i) => yScale.scale(base.mainValue()(d, i))).data(data);
+                mainValueAttribute
+                    .value((d, i) => yScale.scale(base.mainValue()(d, i)))
+                    .data(data);
             } else {
-                mainValueAttribute.value((d, i) => yScale.scale(base.crossValue()(d, i))).data(data);
+                mainValueAttribute
+                    .value((d, i) => yScale.scale(base.crossValue()(d, i)))
+                    .data(data);
             }
         }
 

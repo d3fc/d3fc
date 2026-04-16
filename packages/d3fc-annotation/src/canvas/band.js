@@ -4,20 +4,18 @@ import { rebind } from '@d3fc/d3fc-rebind';
 import constant from '../constant';
 
 export default () => {
-
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
     let orient = 'horizontal';
-    let fromValue = d => d.from;
-    let toValue = d => d.to;
+    let fromValue = (d) => d.from;
+    let toValue = (d) => d.to;
     let decorate = () => {};
 
     const pathGenerator = shapeBar()
-      .horizontalAlign('right')
-      .verticalAlign('top');
+        .horizontalAlign('right')
+        .verticalAlign('top');
 
     var instance = (data) => {
-
         if (orient !== 'horizontal' && orient !== 'vertical') {
             throw new Error('Invalid orientation');
         }
@@ -43,7 +41,9 @@ export default () => {
             pathGenerator[crossAxisStart](valueScale(fromValue(d)));
             pathGenerator[valueAxisStart](crossScaleRange[0]);
             pathGenerator[crossAxisDimension](crossScaleSize);
-            pathGenerator[valueAxisDimension](valueScale(toValue(d)) - valueScale(fromValue(d)));
+            pathGenerator[valueAxisDimension](
+                valueScale(toValue(d)) - valueScale(fromValue(d)),
+            );
 
             decorate(context, d, i);
             pathGenerator.context(context)([d], i);

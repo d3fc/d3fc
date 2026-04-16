@@ -3,7 +3,6 @@ import multiSeries from './multi';
 import line from './line';
 
 export default () => {
-
     let orient = 'vertical';
     let series = () => line();
     const multi = multiSeries();
@@ -12,14 +11,22 @@ export default () => {
     const repeat = (data) => {
         if (orient === 'vertical') {
             const previousSeriesCache = seriesCache;
-            seriesCache = data[0].map((d, i) => i < previousSeriesCache.length ? previousSeriesCache[i] : series());
-            multi.series(seriesCache)
-              .mapping((data, index) => data.map(d => d[index]));
+            seriesCache = data[0].map((d, i) =>
+                i < previousSeriesCache.length
+                    ? previousSeriesCache[i]
+                    : series(),
+            );
+            multi
+                .series(seriesCache)
+                .mapping((data, index) => data.map((d) => d[index]));
         } else {
             const previousSeriesCache = seriesCache;
-            seriesCache = data.map((d, i) => i < previousSeriesCache.length ? previousSeriesCache[i] : series());
-            multi.series(seriesCache)
-              .mapping((data, index) => data[index]);
+            seriesCache = data.map((d, i) =>
+                i < previousSeriesCache.length
+                    ? previousSeriesCache[i]
+                    : series(),
+            );
+            multi.series(seriesCache).mapping((data, index) => data[index]);
         }
         multi(data);
     };
@@ -28,7 +35,10 @@ export default () => {
         if (!args.length) {
             return series;
         }
-        if (typeof args[0].xScale === 'function' && typeof args[0].yScale === 'function') {
+        if (
+            typeof args[0].xScale === 'function' &&
+            typeof args[0].yScale === 'function'
+        ) {
             series = () => args[0];
         } else {
             series = args[0];

@@ -3,7 +3,7 @@ const { toMatchImageSnapshot } = require('jest-image-snapshot');
 const { toMatchPerformanceSnapshot } = require('./toMatchPerformanceSnapshot');
 const { toHaveLogs } = require('./toHaveLogs');
 const {
-    toHaveConsistentPerformance
+    toHaveConsistentPerformance,
 } = require('./toHaveConsistentPerformance');
 const { loadExample } = require('./loadExample');
 const { saveScreenshot } = require('./saveScreenshot');
@@ -13,11 +13,11 @@ expect.extend({
     toHaveConsistentPerformance,
     toHaveLogs,
     toMatchImageSnapshot,
-    toMatchPerformanceSnapshot
+    toMatchPerformanceSnapshot,
 });
 
 global.d3fc = {
     loadExample,
     saveScreenshot,
-    waitForEmptyRedrawQueue
+    waitForEmptyRedrawQueue,
 };

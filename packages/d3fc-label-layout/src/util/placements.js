@@ -3,7 +3,7 @@ const getPlacement = (x, y, width, height, location) => ({
     y,
     width,
     height,
-    location
+    location,
 });
 
 // returns all the potential placements of the given label
@@ -20,6 +20,6 @@ export default (label) => {
         getPlacement(x, y - height / 2, width, height, 'middle-right'),
         getPlacement(x - width / 2, y, width, height, 'bottom-center'),
         getPlacement(x - width, y - height / 2, width, height, 'middle-left'),
-        getPlacement(x - width / 2, y - height, width, height, 'top-center')
+        getPlacement(x - width / 2, y - height, width, height, 'top-center'),
     ];
 };

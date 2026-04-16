@@ -12,7 +12,7 @@ const svgSeriesTypes = [
     fc.seriesSvgLine(),
     fc.seriesSvgMulti(),
     fc.seriesSvgOhlc(),
-    fc.seriesSvgPoint()
+    fc.seriesSvgPoint(),
 ];
 
 const canvasSeriesTypes = [
@@ -25,7 +25,7 @@ const canvasSeriesTypes = [
     fc.seriesCanvasLine(),
     fc.seriesCanvasMulti(),
     fc.seriesCanvasOhlc(),
-    fc.seriesCanvasPoint()
+    fc.seriesCanvasPoint(),
 ];
 
 describe('With an empty array', () => {
@@ -33,15 +33,11 @@ describe('With an empty array', () => {
         const svg = document.createElement('svg');
         const container = select(svg);
 
-        svgSeriesTypes.forEach(series =>
-            container.datum([]).call(series)
-        );
+        svgSeriesTypes.forEach((series) => container.datum([]).call(series));
 
         const canvas = createCanvas();
         const context = canvas.getContext('2d');
 
-        canvasSeriesTypes.forEach(series =>
-            series.context(context)([])
-        );
+        canvasSeriesTypes.forEach((series) => series.context(context)([]));
     });
 });

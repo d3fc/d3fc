@@ -3,7 +3,7 @@ const { toEqualArray } = require('./matchers/toEqualArray');
 
 expect.extend({
     toBeEqualWithTolerance,
-    toEqualArray
+    toEqualArray,
 });
 
 global.TextEncoder = require('util').TextEncoder;

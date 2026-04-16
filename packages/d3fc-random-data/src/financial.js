@@ -4,7 +4,7 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 import { timeDay, timeYear } from 'd3-time';
 import { functor } from './fn';
 
-export default function() {
+export default function () {
     let startDate = new Date();
     let startPrice = 100;
     let interval = timeDay;
@@ -18,8 +18,9 @@ export default function() {
     };
     const gbm = geometricBrownianMotion();
 
-    const getOffsetPeriod = date => {
-        const unitMilliseconds = unitInterval.offset(date, unitIntervalStep) - date;
+    const getOffsetPeriod = (date) => {
+        const unitMilliseconds =
+            unitInterval.offset(date, unitIntervalStep) - date;
         return (interval.offset(date, intervalStep) - date) / unitMilliseconds;
     };
 
@@ -31,16 +32,18 @@ export default function() {
             open: prices[0],
             high: Math.max.apply(Math, prices),
             low: Math.min.apply(Math, prices),
-            close: prices[gbm.steps()]
+            close: prices[gbm.steps()],
         };
         ohlc.volume = volume(ohlc);
         return ohlc;
     };
 
-    const getNextDatum = ohlc => {
+    const getNextDatum = (ohlc) => {
         let date, price, filtered;
         do {
-            date = ohlc ? interval.offset(ohlc.date, intervalStep) : new Date(startDate.getTime());
+            date = ohlc
+                ? interval.offset(ohlc.date, intervalStep)
+                : new Date(startDate.getTime());
             price = ohlc ? ohlc.close : startPrice;
             ohlc = calculateOHLC(date, price);
             filtered = filter && !filter(ohlc);
@@ -56,8 +59,11 @@ export default function() {
             latest = ohlc;
             return ohlc;
         };
-        stream.take = numPoints => stream.until((d, i) => !numPoints || numPoints < 0 || i === numPoints);
-        stream.until = comparison => {
+        stream.take = (numPoints) =>
+            stream.until(
+                (d, i) => !numPoints || numPoints < 0 || i === numPoints,
+            );
+        stream.until = (comparison) => {
             const data = [];
             let index = 0;
             let ohlc = getNextDatum(latest);
@@ -74,11 +80,13 @@ export default function() {
         return stream;
     };
 
-    const financial = numPoints => makeStream().take(numPoints);
+    const financial = (numPoints) => makeStream().take(numPoints);
     financial.stream = makeStream;
 
     if (typeof Symbol !== 'function' || typeof Symbol.iterator !== 'symbol') {
-        throw new Error('d3fc-random-data depends on Symbol. Make sure that you load a polyfill in older browsers. See README.');
+        throw new Error(
+            'd3fc-random-data depends on Symbol. Make sure that you load a polyfill in older browsers. See README.',
+        );
     }
 
     financial[Symbol.iterator] = () => {
@@ -86,8 +94,8 @@ export default function() {
         return {
             next: () => ({
                 value: stream.next(),
-                done: false
-            })
+                done: false,
+            }),
         };
     };
 

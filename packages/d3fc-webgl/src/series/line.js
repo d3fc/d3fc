@@ -2,7 +2,7 @@ import baseScale from '../scale/base';
 import programBuilder from '../program/programBuilder';
 import shaderBuilder, {
     vertexShaderBase,
-    fragmentShaderBase
+    fragmentShaderBase,
 } from '../shaders/shaderBuilder';
 import drawModes from '../program/drawModes';
 import { rebind } from '@d3fc/d3fc-rebind';
@@ -45,7 +45,7 @@ export default () => {
             [-1, +1, 1, 0],
             [+1, +1, 0, 1],
             [+1, -1, 0, 1],
-            [-1, -1, 1, 0]
+            [-1, -1, 1, 0],
         ]);
 
     program
@@ -53,7 +53,7 @@ export default () => {
         .elementIndices(elementIndices([0, 1, 2, 2, 3, 0]))
         .attribute('aCorner', cornerAttribute);
 
-    const draw = numElements => {
+    const draw = (numElements) => {
         const vertexShader = shaderBuilder(vertexShaderBase);
         const fragmentShader = shaderBuilder(fragmentShaderBase);
 
@@ -160,42 +160,42 @@ export default () => {
         'crossValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossValue'
+        'aCrossValue',
     );
     rebindCurry(
         draw,
         'crossNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossNextValue'
+        'aCrossNextValue',
     );
     rebindCurry(
         draw,
         'mainValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainValue'
+        'aMainValue',
     );
     rebindCurry(
         draw,
         'mainNextValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainNextValue'
+        'aMainNextValue',
     );
     rebindCurry(
         draw,
         'definedAttribute',
         program.buffers(),
         'attribute',
-        'aDefined'
+        'aDefined',
     );
     rebindCurry(
         draw,
         'definedNextAttribute',
         program.buffers(),
         'attribute',
-        'aDefinedNext'
+        'aDefinedNext',
     );
 
     return draw;

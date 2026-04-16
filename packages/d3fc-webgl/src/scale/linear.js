@@ -5,7 +5,7 @@ import { rebindAll } from '@d3fc/d3fc-rebind';
 export default () => {
     const base = baseScale();
 
-    const prefix = component => `linear${component}`;
+    const prefix = (component) => `linear${component}`;
 
     const scale = (programBuilder, identifier, component) => {
         programBuilder
@@ -13,10 +13,10 @@ export default () => {
             .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Offset;`)
             .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Scale;`)
             .appendBody(
-                `${identifier} = ${identifier} + ${prefix(component)}Offset;`
+                `${identifier} = ${identifier} + ${prefix(component)}Offset;`,
             )
             .appendBody(
-                `${identifier} = ${identifier} * ${prefix(component)}Scale;`
+                `${identifier} = ${identifier} * ${prefix(component)}Scale;`,
             );
 
         const domainSize = base.domain()[1] - base.domain()[0];

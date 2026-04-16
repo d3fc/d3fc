@@ -17,7 +17,7 @@ export default () => {
     let dirty = true;
     let pixelRatio = 1;
 
-    const build = count => {
+    const build = (count) => {
         if (context == null) {
             return;
         }
@@ -36,8 +36,8 @@ export default () => {
             'uScreen',
             uniform([
                 context.canvas.width / pixelRatio,
-                context.canvas.height / pixelRatio
-            ])
+                context.canvas.height / pixelRatio,
+            ]),
         );
 
         buffers(build, program);
@@ -54,15 +54,16 @@ export default () => {
                     mode,
                     0,
                     subInstanceCount,
-                    count
+                    count,
                 );
             } else {
-                const elementIndicesLength = buffers.elementIndices().data()
-                    .length;
+                const elementIndicesLength = buffers
+                    .elementIndices()
+                    .data().length;
                 if (subInstanceCount !== elementIndicesLength) {
                     throw new Error(
                         `Expected elementIndices length ${elementIndicesLength}` +
-                            ` to match subInstanceCount ${subInstanceCount}.`
+                            ` to match subInstanceCount ${subInstanceCount}.`,
                     );
                 }
                 extInstancedArrays.drawElementsInstancedANGLE(
@@ -70,7 +71,7 @@ export default () => {
                     subInstanceCount,
                     context.UNSIGNED_SHORT,
                     0,
-                    count
+                    count,
                 );
             }
         }
@@ -165,11 +166,11 @@ export default () => {
     function createProgram(vertexShaderSource, fragmentShaderSource) {
         const vertexShader = loadShader(
             vertexShaderSource,
-            context.VERTEX_SHADER
+            context.VERTEX_SHADER,
         );
         const fragmentShader = loadShader(
             fragmentShaderSource,
-            context.FRAGMENT_SHADER
+            context.FRAGMENT_SHADER,
         );
 
         const program = context.createProgram();

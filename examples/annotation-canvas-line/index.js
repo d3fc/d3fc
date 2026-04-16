@@ -8,7 +8,7 @@ const horizontalLine = fc
     .annotationCanvasLine()
     .xScale(xScale)
     .yScale(yScale)
-    .decorate(context => {
+    .decorate((context) => {
         context.fillStyle = 'rgba(204, 0, 0, 0.7)';
         context.strokeStyle = '#c60';
     });
@@ -18,7 +18,7 @@ const verticalLine = fc
     .orient('vertical')
     .xScale(xScale)
     .yScale(yScale)
-    .decorate(context => {
+    .decorate((context) => {
         context.fillStyle = 'rgba(204, 0, 0, 0.7)';
         context.strokeStyle = '#06c';
     });
@@ -28,7 +28,7 @@ d3.select(container)
         horizontalLine([0.15, 0.85]);
         verticalLine([0.2, 0.4, 0.6, 0.8]);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

@@ -3,10 +3,9 @@ import { line } from 'd3-shape';
 import { dataJoin as _dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import { ticksArrayForAxis, tickFormatterForAxis } from './axisTickUtils';
 
-const identity = d => d;
+const identity = (d) => d;
 
 export const axisBase = (orient, scale, custom = {}) => {
-
     let tickArguments = [10];
     let tickValues = null;
     let decorate = () => {};
@@ -17,13 +16,19 @@ export const axisBase = (orient, scale, custom = {}) => {
 
     const svgDomainLine = line();
 
-    const dataJoin = _dataJoin('g', 'tick')
-        .key(identity);
+    const dataJoin = _dataJoin('g', 'tick').key(identity);
 
     const domainPathDataJoin = _dataJoin('path', 'domain');
 
-    const defaultLabelOffset = () => ({ offset: [0, tickSizeInner + tickPadding] });
-    const defaultTickPath = () => ({ path: [[0, 0], [0, tickSizeInner]] });
+    const defaultLabelOffset = () => ({
+        offset: [0, tickSizeInner + tickPadding],
+    });
+    const defaultTickPath = () => ({
+        path: [
+            [0, 0],
+            [0, tickSizeInner],
+        ],
+    });
 
     const labelOffset = custom.labelOffset || defaultLabelOffset;
     const tickPath = custom.tickPath || defaultTickPath;
@@ -38,31 +43,24 @@ export const axisBase = (orient, scale, custom = {}) => {
                 offset = Math.round(offset);
             }
         }
-        return d => trans(scale(d) + offset, 0);
+        return (d) => trans(scale(d) + offset, 0);
     };
 
     const translate = (x, y) =>
-        isVertical()
-            ? `translate(${y}, ${x})`
-            : `translate(${x}, ${y})`;
+        isVertical() ? `translate(${y}, ${x})` : `translate(${x}, ${y})`;
 
     const pathTranspose = (arr) =>
-        isVertical()
-           ? arr.map(d => [d[1], d[0]])
-           : arr;
+        isVertical() ? arr.map((d) => [d[1], d[0]]) : arr;
 
-    const isVertical = () =>
-        orient === 'left' || orient === 'right';
+    const isVertical = () => orient === 'left' || orient === 'right';
 
     const axis = (selection) => {
-
         if (isTransition(selection)) {
             dataJoin.transition(selection);
             domainPathDataJoin.transition(selection);
         }
 
         selection.each((data, index, group) => {
-
             const element = group[index];
 
             const container = select(element);
@@ -71,7 +69,14 @@ export const axisBase = (orient, scale, custom = {}) => {
                     .attr('fill', 'none')
                     .attr('font-size', 10)
                     .attr('font-family', 'sans-serif')
-                    .attr('text-anchor', orient === 'right' ? 'start' : orient === 'left' ? 'end' : 'middle');
+                    .attr(
+                        'text-anchor',
+                        orient === 'right'
+                            ? 'start'
+                            : orient === 'left'
+                              ? 'end'
+                              : 'middle',
+                    );
             }
 
             // Stash a snapshot of the new scale, and retrieve the old snapshot.
@@ -81,7 +86,7 @@ export const axisBase = (orient, scale, custom = {}) => {
             const ticksArray = ticksArrayForAxis(axis);
             const tickFormatter = tickFormatterForAxis(axis);
             const sign = orient === 'bottom' || orient === 'right' ? 1 : -1;
-            const withSign = ([x, y]) => ([x, sign * y]);
+            const withSign = ([x, y]) => [x, sign * y];
 
             // add the domain line
             const range = scale.range();
@@ -89,20 +94,23 @@ export const axisBase = (orient, scale, custom = {}) => {
                 [range[0], sign * tickSizeOuter],
                 [range[0], 0],
                 [range[1], 0],
-                [range[1], sign * tickSizeOuter]
+                [range[1], sign * tickSizeOuter],
             ]);
 
             const domainLine = domainPathDataJoin(container, [data]);
 
-            domainLine.enter()
-                .attr('stroke', '#000');
+            domainLine.enter().attr('stroke', '#000');
 
             domainLine.attr('d', svgDomainLine(domainPathData));
 
             const g = dataJoin(container, ticksArray);
 
-            const labelOffsets = ticksArray.map((d, i) => labelOffset(d, i, ticksArray));
-            const tickPaths = ticksArray.map((d, i) => tickPath(d, i, ticksArray));
+            const labelOffsets = ticksArray.map((d, i) =>
+                labelOffset(d, i, ticksArray),
+            );
+            const tickPaths = ticksArray.map((d, i) =>
+                tickPath(d, i, ticksArray),
+            );
 
             // enter
             g.enter()
@@ -112,23 +120,31 @@ export const axisBase = (orient, scale, custom = {}) => {
 
             g.enter()
                 .append('text')
-                .attr('transform', (d, i) => translate(...withSign(labelOffsets[i].offset)))
+                .attr('transform', (d, i) =>
+                    translate(...withSign(labelOffsets[i].offset)),
+                )
                 .attr('fill', '#000');
 
             // exit
-            g.exit()
-                .attr('transform', containerTranslate(scale, translate));
+            g.exit().attr('transform', containerTranslate(scale, translate));
 
             // update
             g.select('path')
                 .attr('visibility', (d, i) => tickPaths[i].hidden && 'hidden')
-                .attr('d',
-                    (d, i) => svgDomainLine(pathTranspose(tickPaths[i].path.map(withSign)))
+                .attr('d', (d, i) =>
+                    svgDomainLine(
+                        pathTranspose(tickPaths[i].path.map(withSign)),
+                    ),
                 );
 
             g.select('text')
-                .attr('visibility', (d, i) => labelOffsets[i].hidden && 'hidden')
-                .attr('transform', (d, i) => translate(...withSign(labelOffsets[i].offset)))
+                .attr(
+                    'visibility',
+                    (d, i) => labelOffsets[i].hidden && 'hidden',
+                )
+                .attr('transform', (d, i) =>
+                    translate(...withSign(labelOffsets[i].offset)),
+                )
                 .attr('dy', () => {
                     let offset = '0em';
                     if (isVertical()) {
@@ -138,7 +154,7 @@ export const axisBase = (orient, scale, custom = {}) => {
                     }
                     return offset;
                 })
-               .text(tickFormatter);
+                .text(tickFormatter);
 
             g.attr('transform', containerTranslate(scale, translate));
 

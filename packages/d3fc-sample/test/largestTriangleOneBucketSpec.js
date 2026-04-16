@@ -1,14 +1,11 @@
 import largestTriangleOneBucket from '../src/largestTriangleOneBucket';
 
-describe('largestTriangleOneBucket', function() {
-
+describe('largestTriangleOneBucket', function () {
     var data;
     var dataGenerator;
 
-    describe('simple xy data', function() {
-
-        beforeEach(function() {
-
+    describe('simple xy data', function () {
+        beforeEach(function () {
             data = [
                 { x: 0, y: 6 }, // Bucket 1
                 { x: 1, y: 8 }, // Bucket 2
@@ -26,31 +23,37 @@ describe('largestTriangleOneBucket', function() {
                 { x: 13, y: 9 }, // Bucket 6
                 { x: 14, y: 2 },
                 { x: 15, y: 4 },
-                { x: 16, y: 5 } // Bucket 7
+                { x: 16, y: 5 }, // Bucket 7
             ];
             dataGenerator = largestTriangleOneBucket()
                 .bucketSize(3)
-                .x(function(d) { return d.x; })
-                .y(function(d) { return d.y; });
+                .x(function (d) {
+                    return d.x;
+                })
+                .y(function (d) {
+                    return d.y;
+                });
         });
 
-        it('should return the original data set if the number is larger than the data', function() {
+        it('should return the original data set if the number is larger than the data', function () {
             var sampledData = dataGenerator.bucketSize(100)(data);
             expect(sampledData).toEqual(data);
         });
 
-        it('should return the correct number of data points if the number is less than the data', function() {
+        it('should return the correct number of data points if the number is less than the data', function () {
             var sampledData = dataGenerator(data);
             expect(sampledData).toHaveLength(7);
         });
 
-        it('should return the first and last data points as the first and last buckets', function() {
+        it('should return the first and last data points as the first and last buckets', function () {
             var sampledData = dataGenerator(data);
             expect(sampledData[0].x).toEqual(data[0].x);
-            expect(sampledData[sampledData.length - 1].x).toEqual(data[data.length - 1].x);
+            expect(sampledData[sampledData.length - 1].x).toEqual(
+                data[data.length - 1].x,
+            );
         });
 
-        it('should return values that form the largest triangle in that bucket', function() {
+        it('should return values that form the largest triangle in that bucket', function () {
             var sampledData = dataGenerator(data);
             expect(sampledData[1].x).toEqual(2);
             expect(sampledData[2].x).toEqual(5);
@@ -58,27 +61,28 @@ describe('largestTriangleOneBucket', function() {
             expect(sampledData[4].x).toEqual(12);
             expect(sampledData[5].x).toEqual(13);
         });
-
     });
 
-    describe('array data', function() {
-
-        beforeEach(function() {
-
+    describe('array data', function () {
+        beforeEach(function () {
             data = [
                 [0, 6], // Bucket 1
                 [1, 8], // Bucket 2
                 [2, 1],
                 [3, 9],
-                [4, 12] // Bucket 7
+                [4, 12], // Bucket 7
             ];
             dataGenerator = largestTriangleOneBucket()
                 .bucketSize(3)
-                .x(function(d) { return d[0]; })
-                .y(function(d) { return d[1]; });
+                .x(function (d) {
+                    return d[0];
+                })
+                .y(function (d) {
+                    return d[1];
+                });
         });
 
-        it('should return a 2-dimensional array', function() {
+        it('should return a 2-dimensional array', function () {
             var sampledData = dataGenerator(data);
 
             expect(sampledData[0][0]).toEqual(0);
@@ -86,5 +90,4 @@ describe('largestTriangleOneBucket', function() {
             expect(sampledData[2][0]).toEqual(4);
         });
     });
-
 });

@@ -38,7 +38,7 @@ export default () => {
             [1, -1, 0],
             [-1, -1, 0],
             [-1, 1, 0],
-            [1, 1, 0]
+            [1, 1, 0],
         ]);
 
     program
@@ -46,24 +46,14 @@ export default () => {
         .elementIndices(
             elementIndices([
                 // Vertical line
-                0,
-                1,
-                2,
-                0,
-                3,
-                2,
+                0, 1, 2, 0, 3, 2,
                 // Central box
-                4,
-                5,
-                6,
-                4,
-                7,
-                6
-            ])
+                4, 5, 6, 4, 7, 6,
+            ]),
         )
         .attribute('aCorner', cornerAttribute);
 
-    const draw = numElements => {
+    const draw = (numElements) => {
         const shaderBuilder = candlestickShader();
         program
             .vertexShader(shaderBuilder.vertex())
@@ -115,49 +105,49 @@ export default () => {
         'crossValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossValue'
+        'aCrossValue',
     );
     rebindCurry(
         draw,
         'openValueAttribute',
         program.buffers(),
         'attribute',
-        'aOpenValue'
+        'aOpenValue',
     );
     rebindCurry(
         draw,
         'highValueAttribute',
         program.buffers(),
         'attribute',
-        'aHighValue'
+        'aHighValue',
     );
     rebindCurry(
         draw,
         'lowValueAttribute',
         program.buffers(),
         'attribute',
-        'aLowValue'
+        'aLowValue',
     );
     rebindCurry(
         draw,
         'closeValueAttribute',
         program.buffers(),
         'attribute',
-        'aCloseValue'
+        'aCloseValue',
     );
     rebindCurry(
         draw,
         'bandwidthAttribute',
         program.buffers(),
         'attribute',
-        'aBandwidth'
+        'aBandwidth',
     );
     rebindCurry(
         draw,
         'definedAttribute',
         program.buffers(),
         'attribute',
-        'aDefined'
+        'aDefined',
     );
 
     return draw;

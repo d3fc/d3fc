@@ -8,7 +8,6 @@ import defined from './defined';
 import createBase from './base';
 
 export default () => {
-
     let xValue = (d) => d.x;
     let yValue = (d) => d.y;
     let colorValue = (d) => d.color;
@@ -20,18 +19,15 @@ export default () => {
         decorate: () => {},
         defined: (d, i) => defined(xValue, yValue, colorValue)(d, i),
         xScale: scaleIdentity(),
-        yScale: scaleIdentity()
+        yScale: scaleIdentity(),
     });
 
-    heatmap.pathGenerator = shapeBar()
-        .x(0)
-        .y(0);
+    heatmap.pathGenerator = shapeBar().x(0).y(0);
 
     heatmap.colorScale = (data) => {
         const colorValues = data.map(colorValue);
         // a scale that maps the color values onto a unit range, [0, 1]
-        return scaleLinear()
-          .domain([min(colorValues), max(colorValues)]);
+        return scaleLinear().domain([min(colorValues), max(colorValues)]);
     };
 
     heatmap.values = (d, i) => ({
@@ -39,9 +35,8 @@ export default () => {
         y: heatmap.yScale()(yValue(d, i)),
         colorValue: colorValue(d, i),
         width: xBandwidth(d, i),
-        height: yBandwidth(d, i)
+        height: yBandwidth(d, i),
     });
-
 
     heatmap.xValues = () => [xValue];
     heatmap.yValues = () => [yValue];
@@ -88,10 +83,14 @@ export default () => {
         return heatmap;
     };
 
-    rebindAll(heatmap, heatmap.pathGenerator, includeMap({
-        'horizontalAlign': 'xAlign',
-        'verticalAlign': 'yAlign'
-    }));
+    rebindAll(
+        heatmap,
+        heatmap.pathGenerator,
+        includeMap({
+            horizontalAlign: 'xAlign',
+            verticalAlign: 'yAlign',
+        }),
+    );
 
     return heatmap;
 };

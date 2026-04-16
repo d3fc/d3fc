@@ -38,7 +38,10 @@ export default class extends HTMLElement {
     }
 
     get autoResize() {
-        return this.hasAttribute('auto-resize') && this.getAttribute('auto-resize') !== 'false';
+        return (
+            this.hasAttribute('auto-resize') &&
+            this.getAttribute('auto-resize') !== 'false'
+        );
     }
 
     set autoResize(autoResize) {
@@ -56,9 +59,9 @@ export default class extends HTMLElement {
 
     attributeChangedCallback(name) {
         switch (name) {
-        case 'auto-resize':
-            updateAutoResize(this);
-            break;
+            case 'auto-resize':
+                updateAutoResize(this);
+                break;
         }
     }
 }

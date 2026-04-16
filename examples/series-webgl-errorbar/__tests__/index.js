@@ -5,7 +5,7 @@ it('should match the image snapshot', async () => {
     }
     await d3fc.waitForEmptyRedrawQueue();
     const image = await page.screenshot({
-        omitBackground: true
+        omitBackground: true,
     });
     expect(image).toMatchImageSnapshot();
     await d3fc.saveScreenshot(module, image);

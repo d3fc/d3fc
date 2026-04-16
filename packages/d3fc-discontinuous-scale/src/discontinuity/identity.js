@@ -1,20 +1,19 @@
-export default function() {
-
+export default function () {
     var identity = {};
 
-    identity.distance = function(start, end) {
+    identity.distance = function (start, end) {
         return end - start;
     };
 
-    identity.offset = function(start, offset) {
-        return (start instanceof Date)
+    identity.offset = function (start, offset) {
+        return start instanceof Date
             ? new Date(start.getTime() + offset)
             : start + offset;
     };
 
-    identity.clampUp = d => d;
+    identity.clampUp = (d) => d;
 
-    identity.clampDown = d => d;
+    identity.clampDown = (d) => d;
 
     identity.copy = () => identity;
 

@@ -9,26 +9,25 @@ describe('accessors', () => {
             fc.seriesSvgLine(),
             fc.seriesSvgPoint(),
             fc.seriesCanvasLine(),
-            fc.seriesCanvasPoint()
+            fc.seriesCanvasPoint(),
         ];
         it('should be correct in vertical orientation', () => {
-            series.forEach(series => {
-                series.mainValue(mainValue)
-                    .crossValue(crossValue);
+            series.forEach((series) => {
+                series.mainValue(mainValue).crossValue(crossValue);
 
                 expect(series.xValues()).toContain(crossValue);
                 expect(series.yValues()).toContain(mainValue);
             });
         });
         it('should be correct in horizontal orientation', () => {
-            series.forEach(series => {
-                series.mainValue(mainValue)
+            series.forEach((series) => {
+                series
+                    .mainValue(mainValue)
                     .crossValue(crossValue)
                     .orient('horizontal');
 
                 expect(series.xValues()).toContain(mainValue);
                 expect(series.yValues()).toContain(crossValue);
-
             });
         });
     });
@@ -41,11 +40,12 @@ describe('accessors', () => {
             fc.seriesSvgArea(),
             fc.seriesSvgBar(),
             fc.seriesCanvasArea(),
-            fc.seriesCanvasBar()
+            fc.seriesCanvasBar(),
         ];
         it('should be correct in vertical orientation', () => {
-            series.forEach(series => {
-                series.mainValue(mainValue)
+            series.forEach((series) => {
+                series
+                    .mainValue(mainValue)
                     .baseValue(baseValue)
                     .crossValue(crossValue);
 
@@ -55,8 +55,9 @@ describe('accessors', () => {
             });
         });
         it('should be correct in horizontal orientation', () => {
-            series.forEach(series => {
-                series.mainValue(mainValue)
+            series.forEach((series) => {
+                series
+                    .mainValue(mainValue)
                     .baseValue(baseValue)
                     .crossValue(crossValue)
                     .orient('horizontal');
@@ -64,7 +65,6 @@ describe('accessors', () => {
                 expect(series.xValues()).toContain(mainValue);
                 expect(series.xValues()).toContain(baseValue);
                 expect(series.yValues()).toContain(crossValue);
-
             });
         });
     });
@@ -73,13 +73,11 @@ describe('accessors', () => {
         const lowValue = () => 1;
         const crossValue = () => 2;
 
-        const series = [
-            fc.seriesSvgErrorBar(),
-            fc.seriesCanvasErrorBar()
-        ];
+        const series = [fc.seriesSvgErrorBar(), fc.seriesCanvasErrorBar()];
         it('should be correct', () => {
-            series.forEach(series => {
-                series.highValue(highValue)
+            series.forEach((series) => {
+                series
+                    .highValue(highValue)
                     .lowValue(lowValue)
                     .crossValue(crossValue);
 
@@ -100,11 +98,12 @@ describe('accessors', () => {
             fc.seriesSvgCandlestick(),
             fc.seriesSvgOhlc(),
             fc.seriesCanvasCandlestick(),
-            fc.seriesCanvasOhlc()
+            fc.seriesCanvasOhlc(),
         ];
         it('should be correct', () => {
-            series.forEach(series => {
-                series.openValue(openValue)
+            series.forEach((series) => {
+                series
+                    .openValue(openValue)
                     .highValue(highValue)
                     .lowValue(lowValue)
                     .closeValue(closeValue)
@@ -122,11 +121,13 @@ describe('accessors', () => {
         const mainValue = () => 0;
         const crossValue = () => 1;
 
-        const svgSubSeries = fc.seriesSvgLine()
+        const svgSubSeries = fc
+            .seriesSvgLine()
             .mainValue(mainValue)
             .crossValue(crossValue);
 
-        const canvasSubSeries = fc.seriesCanvasLine()
+        const canvasSubSeries = fc
+            .seriesCanvasLine()
             .mainValue(mainValue)
             .crossValue(crossValue);
 
@@ -134,10 +135,10 @@ describe('accessors', () => {
             fc.seriesSvgGrouped(svgSubSeries),
             fc.seriesSvgMulti().series([svgSubSeries]),
             fc.seriesCanvasGrouped(canvasSubSeries),
-            fc.seriesCanvasMulti().series([canvasSubSeries])
+            fc.seriesCanvasMulti().series([canvasSubSeries]),
         ];
         it('should be correct', () => {
-            series.forEach(series => {
+            series.forEach((series) => {
                 expect(series.xValues()).toContain(crossValue);
                 expect(series.yValues()).toContain(mainValue);
             });
@@ -147,14 +148,10 @@ describe('accessors', () => {
         const xValue = () => 0;
         const yValue = () => 1;
 
-        const series = [
-            fc.seriesSvgHeatmap(),
-            fc.seriesCanvasHeatmap()
-        ];
+        const series = [fc.seriesSvgHeatmap(), fc.seriesCanvasHeatmap()];
         it('should be correct', () => {
-            series.forEach(series => {
-                series.xValue(xValue)
-                    .yValue(yValue);
+            series.forEach((series) => {
+                series.xValue(xValue).yValue(yValue);
 
                 expect(series.xValues()).toContain(xValue);
                 expect(series.yValues()).toContain(yValue);

@@ -3,7 +3,7 @@ import {
     webglSeriesBoxPlot,
     webglAttribute,
     webglScaleMapper,
-    webglTypes
+    webglTypes,
 } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 import functor from '../functor';
@@ -50,21 +50,35 @@ export default () => {
 
         if (dataChanged) {
             previousData = data;
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            bandwidthAttribute
+                .value((d, i) => base.bandwidth()(d, i))
+                .data(data);
             capAttribute.value((d, i) => cap(d, i)).data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
         if (dataChanged || xScale.scale !== previousXScale) {
             previousXScale = xScale.scale;
-            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            crossValueAttribute
+                .value((d, i) => xScale.scale(base.crossValue()(d, i)))
+                .data(data);
         }
         if (dataChanged || yScale.scale !== previousYScale) {
             previousYScale = yScale.scale;
-            highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
-            upperQuartileValueAttribute.value((d, i) => yScale.scale(base.upperQuartileValue()(d, i))).data(data);
-            medianValueAttribute.value((d, i) => yScale.scale(base.medianValue()(d, i))).data(data);
-            lowerQuartileValueAttribute.value((d, i) => yScale.scale(base.lowerQuartileValue()(d, i))).data(data);
-            lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
+            highValueAttribute
+                .value((d, i) => yScale.scale(base.highValue()(d, i)))
+                .data(data);
+            upperQuartileValueAttribute
+                .value((d, i) => yScale.scale(base.upperQuartileValue()(d, i)))
+                .data(data);
+            medianValueAttribute
+                .value((d, i) => yScale.scale(base.medianValue()(d, i)))
+                .data(data);
+            lowerQuartileValueAttribute
+                .value((d, i) => yScale.scale(base.lowerQuartileValue()(d, i)))
+                .data(data);
+            lowValueAttribute
+                .value((d, i) => yScale.scale(base.lowValue()(d, i)))
+                .data(data);
         }
 
         draw.xScale(xScale.webglScale)
@@ -97,7 +111,7 @@ export default () => {
         scaleMapper = args[0];
         return boxPlot;
     };
-    
+
     rebindAll(boxPlot, base, exclude('align'));
     rebind(boxPlot, draw, 'context', 'lineWidth', 'pixelRatio');
 
