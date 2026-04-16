@@ -84,7 +84,7 @@
         "markdownlint-cli": "^0.17.0",
         "mockdate": "^2.0.5",
         "prettier": "^1.19.1",
-        "puppeteer": "^22.8.0",
+        "puppeteer": "^24.0.0",
         "rollup": "^2.79.1",
         "rollup-plugin-livereload": "^2.0.5",
         "rollup-plugin-serve": "^1.1.0",

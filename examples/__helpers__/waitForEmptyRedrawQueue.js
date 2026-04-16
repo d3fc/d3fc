@@ -1,3 +1,3 @@
 module.exports.waitForEmptyRedrawQueue = async () => {
-    await page.waitFor(() => document['__d3fc-elements__'] == null);
+    await page.waitForFunction(() => document['__d3fc-elements__'] == null);
 };
