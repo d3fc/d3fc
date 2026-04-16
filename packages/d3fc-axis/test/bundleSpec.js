@@ -4,7 +4,7 @@ import fs from 'fs';
 describe('bundle', () => {
     it('should correctly wire-up all the dependencies via their UMD-exposed globals', (done) => {
 
-        const virtualConsole = new VirtualConsole().sendTo({
+        const virtualConsole = new VirtualConsole().forwardTo({
             error: done
         });
         const dom = new JSDOM('<html></html>', { virtualConsole, runScripts: 'dangerously' },);

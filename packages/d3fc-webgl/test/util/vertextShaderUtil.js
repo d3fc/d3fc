@@ -1,4 +1,4 @@
-const Compiler = require('glsl-transpiler');
+import Compiler from 'glsl-transpiler';
 
 export const getShaders = element => {
     let _program;

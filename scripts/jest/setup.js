@@ -7,4 +7,4 @@ expect.extend({
 });
 
 global.TextEncoder = require('util').TextEncoder;
-global.TextDecoder = require('util').TextEncoder;
+global.TextDecoder = require('util').TextDecoder;
