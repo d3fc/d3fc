@@ -75,7 +75,7 @@
         "glsl-transpiler": "^1.8.6",
         "jest": "^29.7.0",
         "jest-environment-jsdom": "^29.7.0",
-        "jest-image-snapshot": "^6.4.0",
+        "jest-image-snapshot": "^6.5.2",
         "jest-puppeteer": "^10.0.1",
         "js-combinatorics": "^0.5.5",
         "jsdom": "^24.1.0",
