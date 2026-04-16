@@ -53,12 +53,8 @@ chart.decorate(selection => {
         })
         .on('draw.z-axis', (event, d) => {
             // draw the axis into the svg within the d3fc-svg element
-            d3.select(event.currentTarget)
-                .select('svg')
-                .call(zAxis);
+            d3.select(event.currentTarget).select('svg').call(zAxis);
         });
 });
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

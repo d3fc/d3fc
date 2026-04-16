@@ -10,10 +10,7 @@ const yScale = d3
     .scaleLinear()
     .domain(fc.extentLinear().accessors([d => d.high, d => d.low])(data));
 
-const series = fc
-    .seriesCanvasOhlc()
-    .xScale(xScale)
-    .yScale(yScale);
+const series = fc.seriesCanvasOhlc().xScale(xScale).yScale(yScale);
 
 d3.select(container)
     .on('draw', () => {

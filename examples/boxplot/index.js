@@ -89,7 +89,5 @@ d3.csv('github-repo-data.csv', d => ({
                 .attr('transform', 'rotate(45 -10 10)')
         );
 
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 });

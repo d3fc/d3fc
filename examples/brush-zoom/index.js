@@ -67,10 +67,7 @@ const multi = fc
 const mainChart = fc.chartCartesian(x, y).svgPlotArea(multi);
 
 function render() {
-    d3.select('#main-chart')
-        .datum(data)
-        .transition()
-        .call(mainChart);
+    d3.select('#main-chart').datum(data).transition().call(mainChart);
 }
 
 render();

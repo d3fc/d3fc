@@ -86,6 +86,4 @@ const multi = fc
 
 chart.svgPlotArea(multi);
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

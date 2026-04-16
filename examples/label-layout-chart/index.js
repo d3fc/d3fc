@@ -83,7 +83,5 @@ d3.csv('repos-users-dump.csv').then(githubData => {
         .svgPlotArea(multiSeries);
 
     // render
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 });

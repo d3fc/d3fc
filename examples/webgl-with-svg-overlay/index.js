@@ -67,9 +67,7 @@ d3.json('star-data.json').then(data => {
                     d3.select(event.currentTarget)
                         .select('path')
                         .style('stroke-opacity', '0');
-                    d3.select(event.currentTarget)
-                        .select('text')
-                        .remove();
+                    d3.select(event.currentTarget).select('text').remove();
                 });
         });
 
@@ -83,9 +81,7 @@ d3.json('star-data.json').then(data => {
         });
 
     const render = () => {
-        d3.select('#chart')
-            .datum(data)
-            .call(chart);
+        d3.select('#chart').datum(data).call(chart);
     };
 
     render();

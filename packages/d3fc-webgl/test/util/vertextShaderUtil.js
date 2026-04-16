@@ -46,10 +46,10 @@ export const expectVertexShader = (shader, attributes, uniforms) => {
 
 export const transpileGlsl = shader => {
     const compile = Compiler({
-        uniform: function(name) {
+        uniform: function (name) {
             return `uniforms.${name}`;
         },
-        attribute: function(name) {
+        attribute: function (name) {
             return `attributes.${name}`;
         }
     });

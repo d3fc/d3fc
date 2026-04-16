@@ -44,7 +44,7 @@ function renderChart() {
     const gridlines = fc.annotationSvgGridline();
     const candlestick = fc.seriesSvgCandlestick();
 
-    const bollingerBands = function() {
+    const bollingerBands = function () {
         const area = fc
             .seriesSvgArea()
             .mainValue(d => d.bollinger.upper)
@@ -88,9 +88,7 @@ function renderChart() {
 
     chart.svgPlotArea(multi);
 
-    d3.select('#streaming-chart')
-        .datum(mergedData)
-        .call(chart);
+    d3.select('#streaming-chart').datum(mergedData).call(chart);
 }
 
 // re-render the chart every 200ms

@@ -51,6 +51,8 @@ const dates = d3.timeMinute
                 return false;
             case 0:
                 return dt.getHours() >= 19;
+            default:
+                return false;
         }
     });
 
@@ -102,9 +104,7 @@ function renderChart() {
         .svgPlotArea(multi);
 
     // render the chart
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 }
 
 renderChart();

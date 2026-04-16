@@ -27,7 +27,7 @@ function bollingerBandsExample() {
         average: { strokeStyle: '#06c' }
     };
 
-    const bollingerBands = function(data) {
+    const bollingerBands = function (data) {
         const multi = fc
             .seriesCanvasMulti()
             .xScale(xScale)
@@ -120,9 +120,7 @@ const bollingerData = bollingerAlgorithm(data);
 const mergedData = data.map((d, i) => Object.assign({}, d, bollingerData[i]));
 
 // Create the renderer
-const bollinger = bollingerBandsExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const bollinger = bollingerBandsExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-canvas');

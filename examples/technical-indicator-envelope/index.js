@@ -94,19 +94,14 @@ const envelopeData = envelopeAlgorithm(data);
 const mergedData = data.map((d, i) => Object.assign({}, d, envelopeData[i]));
 
 // Create the renderer
-const envelope = envelopeExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const envelope = envelopeExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(envelope);
+        d3.select(container).select('svg').datum(mergedData).call(envelope);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

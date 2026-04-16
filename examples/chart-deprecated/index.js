@@ -32,9 +32,7 @@ const chart = fc
     .svgPlotArea(multi)
     .canvasPlotArea(gridlines);
 
-d3.select('#sine-chart')
-    .datum(data)
-    .call(chart);
+d3.select('#sine-chart').datum(data).call(chart);
 
 const gridlinesSvg = fc.annotationSvgGridline();
 const lineSvg = fc.seriesSvgLine();
@@ -58,9 +56,7 @@ const chartSvg = fc
     .plotArea(multiSvg);
 
 // render
-d3.select('#sine-svg')
-    .datum(data)
-    .call(chartSvg);
+d3.select('#sine-svg').datum(data).call(chartSvg);
 
 // and now in canvas ...
 
@@ -81,6 +77,4 @@ const chartCanvas = fc
     .xDomain(xExtent(data))
     .plotArea(multiCanvas);
 
-d3.select('#sine-canvas')
-    .datum(data)
-    .call(chartCanvas);
+d3.select('#sine-canvas').datum(data).call(chartCanvas);

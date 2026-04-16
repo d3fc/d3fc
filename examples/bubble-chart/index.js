@@ -37,16 +37,10 @@ d3.json('health-wealth.json').then(data => {
         .svgPlotArea(pointSeries)
         .decorate(selection => {
             // append an svg for the d3-legend
-            selection
-                .enter()
-                .append('d3fc-svg')
-                .attr('class', 'legend');
+            selection.enter().append('d3fc-svg').attr('class', 'legend');
 
             // render the legend
-            selection
-                .select('.legend')
-                .select('svg')
-                .call(legend);
+            selection.select('.legend').select('svg').call(legend);
         });
 
     d3.select('#bubble-chart')

@@ -86,19 +86,14 @@ const yDomain = fc
 const yScale = d3.scaleLinear().domain(yDomain(mergedData));
 
 // Create the renderer
-const macd = macdExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const macd = macdExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(macd);
+        d3.select(container).select('svg').datum(mergedData).call(macd);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

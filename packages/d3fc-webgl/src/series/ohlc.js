@@ -51,26 +51,11 @@ export default () => {
         .elementIndices(
             elementIndices([
                 // Main stem
-                0,
-                1,
-                2,
-                0,
-                3,
-                2,
+                0, 1, 2, 0, 3, 2,
                 // Open bar
-                4,
-                5,
-                6,
-                4,
-                7,
-                6,
+                4, 5, 6, 4, 7, 6,
                 // Close bar
-                8,
-                9,
-                10,
-                10,
-                11,
-                8
+                8, 9, 10, 10, 11, 8
             ])
         )
         .attribute('aCorner', cornerAttribute);

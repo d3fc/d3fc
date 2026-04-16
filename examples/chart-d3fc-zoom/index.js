@@ -26,21 +26,13 @@ const chart = fc
     .decorate(sel => {
         // add the zoom interaction on the enter selection
         // use selectAll to avoid interfering with the existing data joins
-        sel.enter()
-            .selectAll('.plot-area')
-            .call(zoom, x, y);
-        sel.enter()
-            .selectAll('.x-axis')
-            .call(zoom, x, null);
-        sel.enter()
-            .selectAll('.y-axis')
-            .call(zoom, null, y);
+        sel.enter().selectAll('.plot-area').call(zoom, x, y);
+        sel.enter().selectAll('.x-axis').call(zoom, x, null);
+        sel.enter().selectAll('.y-axis').call(zoom, null, y);
     });
 
 function render() {
-    d3.select('#zoom-chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#zoom-chart').datum(data).call(chart);
 }
 
 render();

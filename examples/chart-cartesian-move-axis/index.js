@@ -51,6 +51,4 @@ chart.xDecorate(selection => {
     selection.select('text').attr('transform', 'translate(-7, 7)');
 });
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

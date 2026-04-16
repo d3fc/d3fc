@@ -25,10 +25,7 @@ d3.text('repeat-data.csv').then(text => {
 
     d3.select(container)
         .on('draw', () => {
-            d3.select(container)
-                .select('svg')
-                .datum(data)
-                .call(series);
+            d3.select(container).select('svg').datum(data).call(series);
         })
         .on('measure', event => {
             const { width, height } = event.detail;

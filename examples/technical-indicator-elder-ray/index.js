@@ -107,19 +107,14 @@ const yDomain = fc
 const yScale = d3.scaleLinear().domain(yDomain(mergedData));
 
 // Create the renderer
-const elderRay = elderRayExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const elderRay = elderRayExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(elderRay);
+        d3.select(container).select('svg').datum(mergedData).call(elderRay);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

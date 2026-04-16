@@ -59,16 +59,11 @@ worker.onmessage = e => {
         .yLabel('Distance (million Km)')
         .webglPlotArea(multiSeries)
         .decorate(selection => {
-            selection
-                .enter()
-                .select('.plot-area')
-                .call(zoom, xScale);
+            selection.enter().select('.plot-area').call(zoom, xScale);
         });
 
     function render() {
-        d3.select('#chart')
-            .datum(data)
-            .call(chart);
+        d3.select('#chart').datum(data).call(chart);
     }
 
     render();

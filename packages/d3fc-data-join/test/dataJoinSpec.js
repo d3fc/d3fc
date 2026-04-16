@@ -60,9 +60,7 @@ describe('dataJoin', () => {
     });
 
     it('should insert specified element w/ className', () => {
-        const join = dataJoin()
-            .element('rect')
-            .className('rectangle');
+        const join = dataJoin().element('rect').className('rectangle');
         join(container, data);
         expect(element.childNodes).toHaveLength(1);
         expect(element.childNodes[0].nodeName.toLowerCase()).toBe('rect');
@@ -147,10 +145,7 @@ describe('dataJoin', () => {
         });
 
         it('should apply a fade out transition', done => {
-            container
-                .selection()
-                .append('g')
-                .style('opacity', '1');
+            container.selection().append('g').style('opacity', '1');
             const update = join(container, []);
             const node = update.exit().node();
 
@@ -165,10 +160,7 @@ describe('dataJoin', () => {
         });
 
         it('should return the untransitioned exit selection', () => {
-            container
-                .selection()
-                .append('g')
-                .style('opacity', '1');
+            container.selection().append('g').style('opacity', '1');
             const update = join(container, []);
 
             update.exit().remove();

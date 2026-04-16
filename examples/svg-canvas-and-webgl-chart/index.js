@@ -23,6 +23,4 @@ const chart = fc
     .canvasPlotArea(gridline)
     .svgPlotArea(lowLine);
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

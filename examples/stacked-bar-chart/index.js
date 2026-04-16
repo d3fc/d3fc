@@ -48,18 +48,12 @@ d3.csv('energy-production.csv').then(data => {
         .xLabel('Million tonnes of oil equivalent')
         .chartLabel('2013 Energy Production')
         .svgPlotArea(repeat)
-        .decorate(function(selection, data, index) {
+        .decorate(function (selection, data, index) {
             // append an svg for the d3-legend
-            selection
-                .enter()
-                .append('d3fc-svg')
-                .attr('class', 'legend');
+            selection.enter().append('d3fc-svg').attr('class', 'legend');
 
             // render the legend
-            selection
-                .select('.legend')
-                .select('svg')
-                .call(legend);
+            selection.select('.legend').select('svg').call(legend);
         });
 
     d3.select('#stacked-chart')

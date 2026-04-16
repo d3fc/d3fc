@@ -46,19 +46,9 @@ export default () => {
         .elementIndices(
             elementIndices([
                 // Vertical line
-                0,
-                1,
-                2,
-                0,
-                3,
-                2,
+                0, 1, 2, 0, 3, 2,
                 // Central box
-                4,
-                5,
-                6,
-                4,
-                7,
-                6
+                4, 5, 6, 4, 7, 6
             ])
         )
         .attribute('aCorner', cornerAttribute);

@@ -42,10 +42,7 @@ d3.tsv('data.tsv', r => ({
         .orient('vertical')
         .value(d => d.year)
         .decorate(selection => {
-            selection
-                .enter()
-                .select('.bottom-handle')
-                .append('text');
+            selection.enter().select('.bottom-handle').append('text');
             selection.select('.bottom-handle text').text(d => d.year);
         });
 
@@ -75,7 +72,7 @@ d3.tsv('data.tsv', r => ({
                 const value = group.values.find(v => v.year === year);
                 group.trackball = [
                     {
-                        year: year,
+                        year,
                         value: value.n
                     }
                 ];
@@ -97,9 +94,7 @@ d3.tsv('data.tsv', r => ({
         .yOrient('left')
         .svgPlotArea(multi)
         .decorate(sel => {
-            sel.enter()
-                .select('#chart .plot-area')
-                .call(pointer);
+            sel.enter().select('#chart .plot-area').call(pointer);
         });
 
     function render() {

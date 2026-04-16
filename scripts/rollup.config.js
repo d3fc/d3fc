@@ -2,9 +2,9 @@ import babel from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 
-var external = key =>
+const external = key =>
     key.indexOf('d3-') === 0 || key.indexOf('@d3fc/d3fc-') === 0;
-var globals = function(key) {
+const globals = function (key) {
     if (key.indexOf('d3-') === 0) {
         return 'd3';
     }
@@ -33,12 +33,12 @@ export default commandLineArgs => {
     name = name.replace('@d3fc/', '');
     return {
         input: 'index.js',
-        plugins: plugins,
-        external: external,
+        plugins,
+        external,
         output: {
             file: `build/${name}${shouldMinify ? '.min' : ''}.js`,
             format: 'umd',
-            globals: globals,
+            globals,
             extend: true,
             name: 'fc'
         }

@@ -10,17 +10,11 @@ const yScale = d3
     .scaleLinear()
     .domain(fc.extentLinear().accessors([d => d.high, d => d.low])(data));
 
-const series = fc
-    .seriesSvgOhlc()
-    .xScale(xScale)
-    .yScale(yScale);
+const series = fc.seriesSvgOhlc().xScale(xScale).yScale(yScale);
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(data)
-            .call(series);
+        d3.select(container).select('svg').datum(data).call(series);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

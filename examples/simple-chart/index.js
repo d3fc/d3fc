@@ -17,6 +17,4 @@ const chart = fc
 chart.xDomain(xExtent(data));
 chart.yDomain(yExtent(data));
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

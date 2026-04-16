@@ -12,7 +12,7 @@ const getSnapshot = (snapshotState, currentTestName, hint) => {
     return JSON.parse(snapshot);
 };
 
-exports.toMatchPerformanceSnapshot = function(
+exports.toMatchPerformanceSnapshot = function (
     received,
     hint,
     { absoluteTolerance = 5, relativeTolerance = 0.05 } = {}

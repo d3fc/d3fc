@@ -14,7 +14,7 @@ beforeEach(() => {
     });
 });
 
-exports.toHaveLogs = function(received) {
+exports.toHaveLogs = function (received) {
     expect(page).toEqual(received);
     return {
         pass: messages.length !== 0,

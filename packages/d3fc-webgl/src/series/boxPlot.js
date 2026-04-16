@@ -116,68 +116,23 @@ export default () => {
         .elementIndices(
             elementIndices([
                 // Top cap line
-                0,
-                1,
-                2,
-                0,
-                2,
-                3,
+                0, 1, 2, 0, 2, 3,
                 // Top whisker line
-                4,
-                5,
-                6,
-                4,
-                6,
-                7,
+                4, 5, 6, 4, 6, 7,
                 // Upper quartile line
-                8,
-                9,
-                10,
-                8,
-                10,
-                11,
+                8, 9, 10, 8, 10, 11,
                 // Median line
-                12,
-                13,
-                14,
-                12,
-                14,
-                15,
+                12, 13, 14, 12, 14, 15,
                 // Lower quartile line
-                16,
-                17,
-                18,
-                16,
-                18,
-                19,
+                16, 17, 18, 16, 18, 19,
                 // Left box vertical line
-                20,
-                21,
-                22,
-                20,
-                22,
-                23,
+                20, 21, 22, 20, 22, 23,
                 // Right box vertical line
-                24,
-                25,
-                26,
-                24,
-                26,
-                27,
+                24, 25, 26, 24, 26, 27,
                 // Bottom whisker line
-                28,
-                29,
-                30,
-                28,
-                30,
-                31,
+                28, 29, 30, 28, 30, 31,
                 // Bottom cap line
-                32,
-                33,
-                34,
-                32,
-                34,
-                35
+                32, 33, 34, 32, 34, 35
             ])
         )
         .attribute('aCorner', cornerAttribute);

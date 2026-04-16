@@ -88,19 +88,14 @@ const mergedData = data.map((d, i) =>
 );
 
 // Create the renderer
-const rsi = rsiExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const rsi = rsiExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(rsi);
+        d3.select(container).select('svg').datum(mergedData).call(rsi);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

@@ -57,8 +57,9 @@ export default () => {
                     count
                 );
             } else {
-                const elementIndicesLength = buffers.elementIndices().data()
-                    .length;
+                const elementIndicesLength = buffers
+                    .elementIndices()
+                    .data().length;
                 if (subInstanceCount !== elementIndicesLength) {
                     throw new Error(
                         `Expected elementIndices length ${elementIndicesLength}` +

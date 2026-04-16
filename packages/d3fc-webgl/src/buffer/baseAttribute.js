@@ -34,8 +34,8 @@ export default () => {
             divisor != null
                 ? divisor
                 : programBuilder.subInstanceCount() > 0
-                ? 1
-                : 0
+                  ? 1
+                  : 0
         );
     };
 

@@ -40,7 +40,7 @@ function circleGenerator() {
         const x = (i / dataCount) * width;
         const y = Math.sqrt(height * height - Math.pow(x - height, 2));
         return {
-            x: x,
+            x,
             y: y + Math.random() * 50 - 25
         };
     };
@@ -48,7 +48,7 @@ function circleGenerator() {
 
 function chartGenerator() {
     let lastData = { x: 0, y: height / 2 };
-    return function() {
+    return function () {
         const nextData = {
             x: lastData.x + Math.random() * 10 - 4,
             y: lastData.y + Math.random() * 20 - 10
@@ -58,25 +58,16 @@ function chartGenerator() {
     };
 }
 
-const svg = d3
-    .select('svg')
-    .attr('width', width)
-    .attr('height', height);
+const svg = d3.select('svg').attr('width', width).attr('height', height);
 
 function render() {
     svg.selectAll('g').remove();
 
     const xExtent = d3.extent(data, d => d.x);
-    const xScale = d3
-        .scaleLinear()
-        .domain(xExtent)
-        .range([0, width]);
+    const xScale = d3.scaleLinear().domain(xExtent).range([0, width]);
 
     const yExtent = d3.extent(data, d => d.y);
-    const yScale = d3
-        .scaleLinear()
-        .domain(yExtent)
-        .range([height, 0]);
+    const yScale = d3.scaleLinear().domain(yExtent).range([height, 0]);
 
     const path = d3
         .line()

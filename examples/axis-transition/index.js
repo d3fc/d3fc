@@ -13,10 +13,7 @@ const d3OrdinalAxis = d3.axisBottom(ordinalScale);
 const fcOrdinalAxis = d3.axisBottom(ordinalScale);
 
 const transition = selection =>
-    selection
-        .transition()
-        .duration(1000)
-        .ease(d3.easeLinear);
+    selection.transition().duration(1000).ease(d3.easeLinear);
 
 const d3LinearAxisJoin = fc.dataJoin('g', 'd3-axis-linear');
 const fcLinearAxisJoin = fc.dataJoin('g', 'fc-axis-linear');

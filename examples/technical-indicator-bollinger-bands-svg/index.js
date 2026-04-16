@@ -15,7 +15,7 @@ function bollingerBandsExample() {
 
     const lowerLine = fc.seriesSvgLine().mainValue((d, i) => d.lower);
 
-    const bollingerBands = function(selection) {
+    const bollingerBands = function (selection) {
         const multi = fc
             .seriesSvgMulti()
             .xScale(xScale)
@@ -95,19 +95,14 @@ const bollingerData = bollingerAlgorithm(data);
 const mergedData = data.map((d, i) => Object.assign({}, d, bollingerData[i]));
 
 // Create the renderer
-const bollinger = bollingerBandsExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const bollinger = bollingerBandsExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(bollinger);
+        d3.select(container).select('svg').datum(mergedData).call(bollinger);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

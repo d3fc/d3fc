@@ -15,16 +15,12 @@ d3.select('#x-axis-top')
     })
     .on('draw', (event, d) => {
         const xAxis = d3.axisTop(xScale);
-        d3.select(event.currentTarget)
-            .select('svg')
-            .call(xAxis);
+        d3.select(event.currentTarget).select('svg').call(xAxis);
     });
 
 d3.select('#x-axis-bottom').on('draw', (event, d) => {
     const xAxis = d3.axisBottom(xScale);
-    d3.select(event.currentTarget)
-        .select('svg')
-        .call(xAxis);
+    d3.select(event.currentTarget).select('svg').call(xAxis);
 });
 
 d3.select('#y-axis-left')
@@ -36,16 +32,12 @@ d3.select('#y-axis-left')
     })
     .on('draw', (event, d) => {
         const yAxis = d3.axisLeft(yScale);
-        d3.select(event.currentTarget)
-            .select('svg')
-            .call(yAxis);
+        d3.select(event.currentTarget).select('svg').call(yAxis);
     });
 
 d3.select('#y-axis-right').on('draw', (event, d) => {
     const yAxis = d3.axisRight(yScale);
-    d3.select(event.currentTarget)
-        .select('svg')
-        .call(yAxis);
+    d3.select(event.currentTarget).select('svg').call(yAxis);
 });
 
 d3.select('#plot-area')
@@ -58,10 +50,7 @@ d3.select('#plot-area')
         yScale.range([height, 0]);
     })
     .on('draw', (event, d) => {
-        const lineSeries = fc
-            .seriesSvgLine()
-            .xScale(xScale)
-            .yScale(yScale);
+        const lineSeries = fc.seriesSvgLine().xScale(xScale).yScale(yScale);
         d3.select(event.currentTarget)
             .select('svg')
             .datum(data)

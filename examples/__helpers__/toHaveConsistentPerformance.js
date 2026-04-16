@@ -1,7 +1,7 @@
 const { mkdirSync } = require('fs');
 const { dirname, join } = require('path');
 
-exports.toHaveConsistentPerformance = async function(received, runs = 3) {
+exports.toHaveConsistentPerformance = async function (received, runs = 3) {
     const tracesDirectory = join(dirname(this.testPath), '__traces__');
     mkdirSync(tracesDirectory, { recursive: true });
     const averages = {};

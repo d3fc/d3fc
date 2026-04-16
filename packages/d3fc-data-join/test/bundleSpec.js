@@ -1,8 +1,8 @@
 import { JSDOM, VirtualConsole } from 'jsdom';
 import fs from 'fs';
 
-describe('bundle', function() {
-    it('should correctly wire-up all the dependencies via their UMD-exposed globals', function(done) {
+describe('bundle', function () {
+    it('should correctly wire-up all the dependencies via their UMD-exposed globals', function (done) {
         const virtualConsole = new VirtualConsole().sendTo({
             error: done
         });

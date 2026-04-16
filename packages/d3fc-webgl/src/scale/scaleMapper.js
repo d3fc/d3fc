@@ -41,9 +41,7 @@ export default scale => {
         case scaleLogCopy: {
             return {
                 scale: identity,
-                webglScale: log()
-                    .domain(scale.domain())
-                    .base(scale.base())
+                webglScale: log().domain(scale.domain()).base(scale.base())
             };
         }
         case scalePowCopy: {

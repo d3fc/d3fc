@@ -68,6 +68,4 @@ const chart = fc
     .xDomain(data.map(d => d.month))
     .svgPlotArea(bar);
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

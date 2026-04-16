@@ -62,9 +62,7 @@ d3.tsv('diamond-data.tsv', d => ({
         });
 
     function render() {
-        d3.select('#chart')
-            .datum(data)
-            .call(chart);
+        d3.select('#chart').datum(data).call(chart);
     }
 
     render();

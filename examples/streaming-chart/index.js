@@ -21,9 +21,7 @@ function renderChart() {
 
     chart.yDomain(yExtent(data)).xDomain(xExtent(data));
 
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 }
 
 renderChart();

@@ -21,7 +21,7 @@ export default (element, className) => {
     let key = (_, i) => i;
     let explicitTransition = null;
 
-    const dataJoin = function(container, data) {
+    const dataJoin = function (container, data) {
         data = data || (d => d);
 
         const selection = container.selection();
@@ -32,10 +32,7 @@ export default (element, className) => {
         );
         let update = selected.data(data, key);
 
-        const enter = update
-            .enter()
-            .append(element)
-            .attr('class', className);
+        const enter = update.enter().append(element).attr('class', className);
 
         let exit = update.exit();
 

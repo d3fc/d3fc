@@ -1,7 +1,0 @@
-# Ignore these folder names no matter where they appear
-node_modules/
-build/
-dist/
-
-/packages/d3fc-label-layout/site/
-/packages/d3fc-sample/site/

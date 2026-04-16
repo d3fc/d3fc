@@ -90,19 +90,14 @@ const mergedData = data.map((d, i) =>
 const yScale = d3.scaleLinear().domain([0, 100]);
 
 // Create the renderer
-const stochastic = stochasticExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const stochastic = stochasticExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(stochastic);
+        d3.select(container).select('svg').datum(mergedData).call(stochastic);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

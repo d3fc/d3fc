@@ -12,10 +12,7 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
 
             const labels = container.selectAll('g').data(ticks);
 
-            const enter = labels
-                .enter()
-                .append('g')
-                .attr('class', 'tick');
+            const enter = labels.enter().append('g').attr('class', 'tick');
 
             const merged = labels.merge(enter);
 
@@ -78,6 +75,4 @@ const chart = fc
     .xDomain(xExtent(data))
     .svgPlotArea(multi);
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

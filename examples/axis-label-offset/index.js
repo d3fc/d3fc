@@ -25,9 +25,7 @@ const renderAxis = (axisFactory, selector) => {
 
     d3.select(container)
         .on('draw', () => {
-            d3.select(container)
-                .select('svg')
-                .call(axis);
+            d3.select(container).select('svg').call(axis);
         })
         .on('measure', event => {
             const { width, height } = event.detail;

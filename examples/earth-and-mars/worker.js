@@ -30,7 +30,7 @@ const scalingFactor = 0.75;
 const cos = angle => Math.cos(angle * (Math.PI / 180));
 const sin = angle => Math.sin(angle * (Math.PI / 180));
 
-const Planet = function(data, angle) {
+const Planet = function (data, angle) {
     this.year = data.year;
 
     const focusDist =
@@ -43,7 +43,7 @@ const Planet = function(data, angle) {
     const cosPhi = cos(phi);
     const sinPhi = sin(phi);
 
-    this.setupAngle = function() {
+    this.setupAngle = function () {
         this.angle = angle - phi;
     };
 
@@ -55,7 +55,7 @@ const Planet = function(data, angle) {
     const eccentricity = focusDist / major;
     const angleConstant = (360 * major * minor) / data.year;
 
-    this.update = function(days) {
+    this.update = function (days) {
         const sign = days < 0 ? -1 / resolution : 1 / resolution;
 
         for (let d = 0; d < Math.abs(days) * resolution; d++) {

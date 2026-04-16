@@ -18,7 +18,7 @@ const forceIndexExample = () => {
             .mapping((data, index, series) =>
                 series[index] === annotations ? [0] : data
             )
-            .decorate(function(g, data, index) {
+            .decorate(function (g, data, index) {
                 g.enter().attr(
                     'class',
                     (d, i) => 'multi ' + ['annotations', 'indicator'][i]
@@ -73,25 +73,17 @@ const yDomain = fc
     .accessors([d => d.force])
     .symmetricalAbout(0);
 
-const yScale = d3
-    .scaleLinear()
-    .domain(yDomain(mergedData))
-    .nice();
+const yScale = d3.scaleLinear().domain(yDomain(mergedData)).nice();
 
 // Create the renderer
-const force = forceIndexExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const force = forceIndexExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(force);
+        d3.select(container).select('svg').datum(mergedData).call(force);
     })
     .on('measure', event => {
         const { width, height } = event.detail;

@@ -22,9 +22,7 @@ const axis = fc.axisBottom(scale).decorate(s => {
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .call(axis);
+        d3.select(container).select('svg').call(axis);
     })
     .on('measure', event => {
         const { width } = event.detail;

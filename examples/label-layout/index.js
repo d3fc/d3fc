@@ -79,10 +79,7 @@ const generateData = () => {
     }));
 };
 
-const svg = d3
-    .select('svg')
-    .attr('width', width)
-    .attr('height', height);
+const svg = d3.select('svg').attr('width', width).attr('height', height);
 
 const render = () => {
     svg.selectAll('g').remove();
@@ -107,9 +104,7 @@ const render = () => {
         })
         .component(label);
 
-    svg.append('g')
-        .datum(data)
-        .call(labels);
+    svg.append('g').datum(data).call(labels);
 
     const statsElement = document.getElementById('statistics');
     statsElement.innerHTML =

@@ -45,15 +45,11 @@ const chart = fc
             .on('measure.range', event => {
                 y2.range([event.detail.height, 0]);
             });
-        sel.enter()
-            .selectAll('.plot-area')
-            .call(zoom);
+        sel.enter().selectAll('.plot-area').call(zoom);
     });
 
 function render() {
-    d3.select('#zoom-chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#zoom-chart').datum(data).call(chart);
 }
 
 render();

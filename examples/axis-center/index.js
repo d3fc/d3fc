@@ -15,9 +15,7 @@ const bandAxis = fc.axisOrdinalBottom(bandScale).tickPadding(5);
 
 d3.select(bandContainer)
     .on('draw', () => {
-        d3.select(bandContainer)
-            .select('svg')
-            .call(bandAxis);
+        d3.select(bandContainer).select('svg').call(bandAxis);
     })
     .on('measure', event => {
         const { width } = event.detail;
@@ -46,9 +44,7 @@ const categoryAxis = fc
     .tickOffset(d => (map(d).length * bandScale.step()) / 2);
 
 d3.select(categoryContainer).on('draw', () => {
-    d3.select(categoryContainer)
-        .select('svg')
-        .call(categoryAxis);
+    d3.select(categoryContainer).select('svg').call(categoryAxis);
 });
 
 categoryContainer.requestRedraw();

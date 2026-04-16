@@ -12,10 +12,7 @@ const xAxisJoin = fc.dataJoin('g', 'x-axis');
 
 const yAxisJoin = fc.dataJoin('g', 'y-axis');
 
-const gridline = fc
-    .annotationSvgGridline()
-    .xScale(xScale)
-    .yScale(yScale);
+const gridline = fc.annotationSvgGridline().xScale(xScale).yScale(yScale);
 
 let drawWidth = 0;
 let drawHeight = 0;

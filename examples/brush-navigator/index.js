@@ -56,13 +56,9 @@ const scale = d3.scaleLinear().domain(x.domain());
 mainChart.xDomain(chartData.brushedRange.map(scale.invert));
 
 function render() {
-    d3.select('#main-chart')
-        .datum(chartData.series)
-        .call(mainChart);
+    d3.select('#main-chart').datum(chartData.series).call(mainChart);
 
-    d3.select('#navigator-chart')
-        .datum(chartData)
-        .call(navigatorChart);
+    d3.select('#navigator-chart').datum(chartData).call(navigatorChart);
 }
 
 render();

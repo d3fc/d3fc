@@ -1,7 +1,7 @@
 // verifies that two arrays of values are equal to a precision of 5 decimal places
 exports.toBeEqualWithTolerance = (actual, expected, precision) => {
     precision = precision || 5;
-    var result = {
+    const result = {
         pass: true,
         message: ''
     };
@@ -13,11 +13,11 @@ exports.toBeEqualWithTolerance = (actual, expected, precision) => {
             ', actual.length=' +
             actual.length;
     } else {
-        for (var i = 0; i < actual.length; i++) {
-            var expectedDatum = expected[i];
-            var actualDatum = actual[i];
+        for (let i = 0; i < actual.length; i++) {
+            const expectedDatum = expected[i];
+            const actualDatum = actual[i];
             if (!(expectedDatum === undefined && actualDatum === undefined)) {
-                var equalWithTolerance =
+                const equalWithTolerance =
                     Math.abs(expectedDatum - actualDatum) <
                     Math.pow(10, -precision) / 2;
                 if (!equalWithTolerance) {
