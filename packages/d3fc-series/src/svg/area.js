@@ -1,7 +1,7 @@
-import {dataJoin,isTransition} from '@d3fc/d3fc-data-join';
-import {area as areaShape} from 'd3-shape';
-import {select} from 'd3-selection';
-import {rebind, exclude, rebindAll} from '@d3fc/d3fc-rebind';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
+import { area as areaShape } from 'd3-shape';
+import { select } from 'd3-selection';
+import { rebind, exclude, rebindAll } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
 
@@ -13,7 +13,6 @@ export default () => {
     const join = dataJoin('path', 'area');
 
     const area = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
@@ -21,9 +20,9 @@ export default () => {
         areaData.defined(base.defined());
 
         selection.each((data, index, group) => {
-
             const projectedData = data.map(base.values);
-            areaData.x((_, i) => projectedData[i].transposedX)
+            areaData
+                .x((_, i) => projectedData[i].transposedX)
                 .y((_, i) => projectedData[i].transposedY);
 
             const valueComponent = base.orient() === 'vertical' ? 'y' : 'x';
@@ -32,8 +31,7 @@ export default () => {
 
             const path = join(select(group[index]), [data]);
 
-            path.enter()
-              .attr('fill', colors.gray);
+            path.enter().attr('fill', colors.gray);
 
             path.attr('d', areaData);
 

@@ -1,6 +1,6 @@
 const { dirname, sep } = require('path');
 
-module.exports.loadExample = async module => {
+module.exports.loadExample = async (module) => {
     // disable setInterval
     await page.evaluateOnNewDocument(() => {
         // eslint-disable-next-line no-global-assign

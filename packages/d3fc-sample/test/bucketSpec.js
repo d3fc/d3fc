@@ -1,7 +1,6 @@
 import bucket from '../src/bucket';
 
 describe('bucket', () => {
-
     let dataBucketer;
     let data;
 
@@ -15,7 +14,6 @@ describe('bucket', () => {
     });
 
     describe('simple data', () => {
-
         beforeEach(() => {
             data = [0, 1, 6, 4, 8, 4, 8, 9, 3, 5, 2, 10, 2, 4, 3, 8, 5];
         });
@@ -25,7 +23,7 @@ describe('bucket', () => {
             expect(bucketedData).toHaveLength(6);
             expect(bucketedData[0]).toEqual([0, 1, 6]);
             expect(bucketedData[1]).toEqual([4, 8, 4]);
-            expect(bucketedData[2]).toEqual([ 8, 9, 3 ]);
+            expect(bucketedData[2]).toEqual([8, 9, 3]);
             expect(bucketedData[3]).toEqual([5, 2, 10]);
             expect(bucketedData[4]).toEqual([2, 4, 3]);
             expect(bucketedData[5]).toEqual([8, 5]);
@@ -43,17 +41,71 @@ describe('bucket', () => {
 
         it('should return the same number of buckets as the data length if the bucket size is 1', () => {
             const bucketedData = dataBucketer.bucketSize(1)(data);
-            expect(bucketedData).toEqual([[0], [1], [6], [4], [8], [4], [8], [9], [3], [5], [2], [10], [2], [4], [3], [8], [5]]);
+            expect(bucketedData).toEqual([
+                [0],
+                [1],
+                [6],
+                [4],
+                [8],
+                [4],
+                [8],
+                [9],
+                [3],
+                [5],
+                [2],
+                [10],
+                [2],
+                [4],
+                [3],
+                [8],
+                [5],
+            ]);
         });
 
         it('should return the same number of buckets as the data length if the bucket size is less than 1', () => {
             const bucketedData = dataBucketer.bucketSize(0.5)(data);
-            expect(bucketedData).toEqual([[0], [1], [6], [4], [8], [4], [8], [9], [3], [5], [2], [10], [2], [4], [3], [8], [5]]);
+            expect(bucketedData).toEqual([
+                [0],
+                [1],
+                [6],
+                [4],
+                [8],
+                [4],
+                [8],
+                [9],
+                [3],
+                [5],
+                [2],
+                [10],
+                [2],
+                [4],
+                [3],
+                [8],
+                [5],
+            ]);
         });
 
         it('should return the same number of buckets as the data length if the bucket size is less than 1', () => {
             const bucketedData = dataBucketer.bucketSize(0.5)(data);
-            expect(bucketedData).toEqual([[0], [1], [6], [4], [8], [4], [8], [9], [3], [5], [2], [10], [2], [4], [3], [8], [5]]);
+            expect(bucketedData).toEqual([
+                [0],
+                [1],
+                [6],
+                [4],
+                [8],
+                [4],
+                [8],
+                [9],
+                [3],
+                [5],
+                [2],
+                [10],
+                [2],
+                [4],
+                [3],
+                [8],
+                [5],
+            ]);
         });
 
         it('should create a last bucket with (data.length % bucketSize) data points', () => {
@@ -66,7 +118,5 @@ describe('bucket', () => {
             expect(lastBucketSize).toEqual(data.length % bucketSize);
             expect(lastBucket).toEqual([8, 5]);
         });
-
     });
-
 });

@@ -8,28 +8,28 @@ const stochasticExample = () => {
     const annotations = fc.annotationSvgLine();
     const dLine = fc
         .seriesSvgLine()
-        .crossValue(d => d.date)
-        .mainValue(d => d.stochastic.d);
+        .crossValue((d) => d.date)
+        .mainValue((d) => d.stochastic.d);
 
     const kLine = fc
         .seriesSvgLine()
-        .crossValue(d => d.date)
-        .mainValue(d => d.stochastic.k);
+        .crossValue((d) => d.date)
+        .mainValue((d) => d.stochastic.k);
 
-    const stochastic = selection => {
+    const stochastic = (selection) => {
         multi
             .xScale(xScale)
             .yScale(yScale)
             .series([annotations, dLine, kLine])
             .mapping((data, index, series) =>
-                series[index] === annotations ? [highValue, lowValue] : data
+                series[index] === annotations ? [highValue, lowValue] : data,
             )
             .decorate((g, data, index) => {
                 g.enter().attr(
                     'class',
                     (d, i) =>
                         'multi stochastic ' +
-                        ['annotations', 'stochastic-d', 'stochastic-k'][i]
+                        ['annotations', 'stochastic-d', 'stochastic-k'][i],
                 );
             });
 
@@ -76,35 +76,30 @@ const data = dataGenerator(50);
 
 const xScale = d3
     .scaleTime()
-    .domain(fc.extentDate().accessors([d => d.date])(data));
+    .domain(fc.extentDate().accessors([(d) => d.date])(data));
 
 // START
 // Create and apply the stochastic oscillator algorithm
 const stochasticAlgorithm = fc.indicatorStochasticOscillator().kPeriod(14);
 const stochasticData = stochasticAlgorithm(data);
 const mergedData = data.map((d, i) =>
-    Object.assign({}, d, { stochastic: stochasticData[i] })
+    Object.assign({}, d, { stochastic: stochasticData[i] }),
 );
 
 // the stochastic oscillator is rendered on its own scale
 const yScale = d3.scaleLinear().domain([0, 100]);
 
 // Create the renderer
-const stochastic = stochasticExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const stochastic = stochasticExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(stochastic);
+        d3.select(container).select('svg').datum(mergedData).call(stochastic);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

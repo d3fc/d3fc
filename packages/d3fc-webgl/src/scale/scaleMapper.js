@@ -3,7 +3,7 @@ import {
     scaleLinear,
     scaleLog,
     scalePow,
-    scaleTime
+    scaleTime,
 } from 'd3-scale';
 import linear from './linear';
 import log from './log';
@@ -22,28 +22,26 @@ const identity = scaleIdentity();
 
 // offset date values to make the most of the float32 precision
 const epoch = Date.now();
-const reepoch = d => d - epoch;
+const reepoch = (d) => d - epoch;
 
-export default scale => {
+export default (scale) => {
     switch (scale.copy.toString()) {
         case scaleLinearCopy: {
             return {
                 scale: identity,
-                webglScale: linear().domain(scale.domain())
+                webglScale: linear().domain(scale.domain()),
             };
         }
         case scaleTimeCopy: {
             return {
                 scale: reepoch,
-                webglScale: linear().domain(scale.domain().map(reepoch))
+                webglScale: linear().domain(scale.domain().map(reepoch)),
             };
         }
         case scaleLogCopy: {
             return {
                 scale: identity,
-                webglScale: log()
-                    .domain(scale.domain())
-                    .base(scale.base())
+                webglScale: log().domain(scale.domain()).base(scale.base()),
             };
         }
         case scalePowCopy: {
@@ -51,7 +49,7 @@ export default scale => {
                 scale: identity,
                 webglScale: pow()
                     .domain(scale.domain())
-                    .exponent(scale.exponent())
+                    .exponent(scale.exponent()),
             };
         }
         default: {
@@ -59,7 +57,7 @@ export default scale => {
             // that it may be an impure function
             return {
                 scale: scale.copy(),
-                webglScale: linear().domain(scale.range())
+                webglScale: linear().domain(scale.range()),
             };
         }
     }

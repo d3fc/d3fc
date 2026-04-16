@@ -13,7 +13,7 @@ export default () => {
     let type = circlePointShader();
     let decorate = () => {};
 
-    const draw = numElements => {
+    const draw = (numElements) => {
         program.vertexShader(type.vertex()).fragmentShader(type.fragment());
 
         xScale(program, 'gl_Position', 0);
@@ -62,14 +62,14 @@ export default () => {
         'crossValueAttribute',
         program.buffers(),
         'attribute',
-        'aCrossValue'
+        'aCrossValue',
     );
     rebindCurry(
         draw,
         'mainValueAttribute',
         program.buffers(),
         'attribute',
-        'aMainValue'
+        'aMainValue',
     );
     rebindCurry(draw, 'sizeAttribute', program.buffers(), 'attribute', 'aSize');
     rebindCurry(
@@ -77,7 +77,7 @@ export default () => {
         'definedAttribute',
         program.buffers(),
         'attribute',
-        'aDefined'
+        'aDefined',
     );
 
     return draw;

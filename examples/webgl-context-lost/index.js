@@ -1,7 +1,7 @@
 const numPoints = 1000;
 const data = d3.range(numPoints).map(() => ({
     x: Math.random(),
-    y: Math.random()
+    y: Math.random(),
 }));
 
 const x = d3.scaleLinear().domain([0, 1]);
@@ -9,28 +9,26 @@ const y = d3.scaleLinear().domain([0, 1]);
 
 const webglSeries = fc
     .seriesWebglPoint()
-    .crossValue(d => d.x)
-    .mainValue(d => d.y);
+    .crossValue((d) => d.x)
+    .mainValue((d) => d.y);
 
 const canvasSeries = fc
     .seriesCanvasPoint()
-    .crossValue(d => d.x)
-    .mainValue(d => d.y);
+    .crossValue((d) => d.x)
+    .mainValue((d) => d.y);
 
-const zoom = fc.zoom().on('zoom', event => render());
+const zoom = fc.zoom().on('zoom', (event) => render());
 
 const chart = fc
     .chartCartesian(x, y)
     .canvasPlotArea(null)
     .webglPlotArea(webglSeries)
-    .decorate(sel => {
+    .decorate((sel) => {
         sel.enter().call(zoom, x, y);
     });
 
 const render = () => {
-    d3.select('#chart')
-        .datum(data)
-        .call(chart);
+    d3.select('#chart').datum(data).call(chart);
 };
 
 render();

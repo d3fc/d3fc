@@ -10,16 +10,21 @@ const axis = (orient, scale) => {
         let hidden = false;
         if (tickCenterLabel) {
             const thisPosition = scale(tick);
-            const nextPosition = index < ticksArray.length - 1 ? scale(ticksArray[index + 1]) : scale.range()[1];
+            const nextPosition =
+                index < ticksArray.length - 1
+                    ? scale(ticksArray[index + 1])
+                    : scale.range()[1];
             x = (nextPosition - thisPosition) / 2;
 
             y = base.tickPadding();
-            hidden = (index === ticksArray.length - 1) && (thisPosition === nextPosition);
+            hidden =
+                index === ticksArray.length - 1 &&
+                thisPosition === nextPosition;
         }
         return { offset: [x, y], hidden };
     };
 
-    const base = axisBase(orient, scale, {labelOffset});
+    const base = axisBase(orient, scale, { labelOffset });
 
     const axis = (selection) => {
         return base(selection);

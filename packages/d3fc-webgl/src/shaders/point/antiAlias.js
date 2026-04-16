@@ -1,7 +1,7 @@
 import * as fragmentShaderSnippets from '../fragmentShaderSnippets';
 
 export default () => {
-    const antiAlias = program => {
+    const antiAlias = (program) => {
         program
             .fragmentShader()
             .appendBodyIfNotExists(fragmentShaderSnippets.pointAlias.body);

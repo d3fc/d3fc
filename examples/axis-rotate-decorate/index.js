@@ -11,10 +11,10 @@ const scale = d3
         'Aubergines',
         'Artichokes',
         'Spinach',
-        'Cucumber'
+        'Cucumber',
     ]);
 
-const axis = fc.axisBottom(scale).decorate(s => {
+const axis = fc.axisBottom(scale).decorate((s) => {
     s.enter()
         .select('text')
         .style('text-anchor', 'start')
@@ -29,7 +29,7 @@ d3.select(container)
             .attr('transform', 'translate(0, 10)')
             .call(axis);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width } = event.detail;
         scale.range([margin, width - 40 - margin]);
     });

@@ -1,15 +1,15 @@
-d3.json('star-data.json').then(data => {
+d3.json('star-data.json').then((data) => {
     const x = d3.scaleLinear();
     const y = d3.scaleLinear();
 
-    x.domain(fc.extentLinear().accessors([d => d.x])(data));
-    y.domain(fc.extentLinear().accessors([d => d.y])(data));
+    x.domain(fc.extentLinear().accessors([(d) => d.x])(data));
+    y.domain(fc.extentLinear().accessors([(d) => d.y])(data));
 
     const zoom = fc.zoom().on('zoom', () => render());
 
     const fillColor = fc
         .webglFillColor()
-        .value(d => d.color)
+        .value((d) => d.color)
         .data(data);
 
     const starChart = fc
@@ -18,11 +18,11 @@ d3.json('star-data.json').then(data => {
         .xScale(x)
         .yScale(y)
         .crossValue((d, i) => d.x)
-        .mainValue(d => d.y)
-        .size(d => d.size)
+        .mainValue((d) => d.y)
+        .size((d) => d.size)
         .defined(() => true)
         .equals((previousData, data) => previousData.length > 0)
-        .decorate(program => {
+        .decorate((program) => {
             // Set the color of the points.
             fillColor(program);
 
@@ -38,10 +38,10 @@ d3.json('star-data.json').then(data => {
         .xScale(x)
         .yScale(y)
         .crossValue((d, i) => d.x)
-        .mainValue(d => d.y)
-        .defined(d => d.name !== '')
-        .size(d => d.size)
-        .decorate(selection => {
+        .mainValue((d) => d.y)
+        .defined((d) => d.name !== '')
+        .size((d) => d.size)
+        .decorate((selection) => {
             selection
                 .enter()
                 .select('path')
@@ -67,9 +67,7 @@ d3.json('star-data.json').then(data => {
                     d3.select(event.currentTarget)
                         .select('path')
                         .style('stroke-opacity', '0');
-                    d3.select(event.currentTarget)
-                        .select('text')
-                        .remove();
+                    d3.select(event.currentTarget).select('text').remove();
                 });
         });
 
@@ -78,14 +76,12 @@ d3.json('star-data.json').then(data => {
         .chartLabel(`Stars`)
         .svgPlotArea(informationOverlay)
         .webglPlotArea(starChart)
-        .decorate(selection => {
+        .decorate((selection) => {
             selection.enter().call(zoom, x, y);
         });
 
     const render = () => {
-        d3.select('#chart')
-            .datum(data)
-            .call(chart);
+        d3.select('#chart').datum(data).call(chart);
     };
 
     render();

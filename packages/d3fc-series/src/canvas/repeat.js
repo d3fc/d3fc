@@ -1,20 +1,21 @@
-import {rebindAll, exclude} from '@d3fc/d3fc-rebind';
+import { rebindAll, exclude } from '@d3fc/d3fc-rebind';
 import multiSeries from './multi';
 import line from './line';
 
 export default () => {
-
     let orient = 'vertical';
     let series = line();
     const multi = multiSeries();
 
     const repeat = (data) => {
         if (orient === 'vertical') {
-            multi.series(data[0].map(_ => series))
-              .mapping((data, index) => data.map(d => d[index]));
+            multi
+                .series(data[0].map((_) => series))
+                .mapping((data, index) => data.map((d) => d[index]));
         } else {
-            multi.series(data.map(_ => series))
-              .mapping((data, index) => data[index]);
+            multi
+                .series(data.map((_) => series))
+                .mapping((data, index) => data[index]);
         }
         multi(data);
     };

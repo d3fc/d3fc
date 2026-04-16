@@ -7,8 +7,7 @@ import '@d3fc/d3fc-element';
 import store from './store';
 import './css';
 
-const functor = (v) =>
-    typeof v === 'function' ? v : () => v;
+const functor = (v) => (typeof v === 'function' ? v : () => v);
 
 export default (...args) => {
     const { xScale, yScale, xAxis, yAxis } = getArguments(...args);
@@ -25,68 +24,92 @@ export default (...args) => {
     let svgPlotArea = null;
     let isContextLost = false;
     let useDevicePixelRatio = true;
-    let xAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
-    let xDecorate = () => { };
-    let yAxisStore = store('tickFormat', 'ticks', 'tickArguments', 'tickSize', 'tickSizeInner', 'tickSizeOuter', 'tickValues', 'tickPadding', 'tickCenterLabel');
-    let yDecorate = () => { };
-    let decorate = () => { };
+    let xAxisStore = store(
+        'tickFormat',
+        'ticks',
+        'tickArguments',
+        'tickSize',
+        'tickSizeInner',
+        'tickSizeOuter',
+        'tickValues',
+        'tickPadding',
+        'tickCenterLabel',
+    );
+    let xDecorate = () => {};
+    let yAxisStore = store(
+        'tickFormat',
+        'ticks',
+        'tickArguments',
+        'tickSize',
+        'tickSizeInner',
+        'tickSizeOuter',
+        'tickValues',
+        'tickPadding',
+        'tickCenterLabel',
+    );
+    let yDecorate = () => {};
+    let decorate = () => {};
 
     const containerDataJoin = dataJoin('d3fc-group', 'cartesian-chart');
     const webglDataJoin = dataJoin('d3fc-canvas', 'webgl-plot-area');
     const canvasDataJoin = dataJoin('d3fc-canvas', 'canvas-plot-area');
     const svgDataJoin = dataJoin('d3fc-svg', 'svg-plot-area');
-    const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis')
-        .key(d => d);
-    const yAxisDataJoin = dataJoin('d3fc-svg', 'y-axis')
-        .key(d => d);
+    const xAxisDataJoin = dataJoin('d3fc-svg', 'x-axis').key((d) => d);
+    const yAxisDataJoin = dataJoin('d3fc-svg', 'y-axis').key((d) => d);
     const chartLabelDataJoin = dataJoin('div', 'chart-label');
-    const xLabelDataJoin = dataJoin('div', 'x-label')
-        .key(d => d);
-    const yLabelDataJoin = dataJoin('div', 'y-label')
-        .key(d => d);
+    const xLabelDataJoin = dataJoin('div', 'x-label').key((d) => d);
+    const yLabelDataJoin = dataJoin('div', 'y-label').key((d) => d);
 
-    const propagateTransition = maybeTransition => selection =>
-        isTransition(maybeTransition) ? selection.transition(maybeTransition) : selection;
+    const propagateTransition = (maybeTransition) => (selection) =>
+        isTransition(maybeTransition)
+            ? selection.transition(maybeTransition)
+            : selection;
 
     const cartesian = (selection) => {
-
         const transitionPropagator = propagateTransition(selection);
 
         selection.each((data, index, group) => {
             const container = containerDataJoin(select(group[index]), [data]);
 
-            container.enter()
-                .attr('auto-resize', '');
+            container.enter().attr('auto-resize', '');
 
             chartLabelDataJoin(container, [xOrient(data)])
-                .attr('class', d => d === 'top' ? 'chart-label bottom-label' : 'chart-label top-label')
-                .style('margin-bottom', d => d === 'top' ? 0 : '1em')
-                .style('margin-top', d => d === 'top' ? '1em' : 0)
+                .attr('class', (d) =>
+                    d === 'top'
+                        ? 'chart-label bottom-label'
+                        : 'chart-label top-label',
+                )
+                .style('margin-bottom', (d) => (d === 'top' ? 0 : '1em'))
+                .style('margin-top', (d) => (d === 'top' ? '1em' : 0))
                 .text(chartLabel(data));
 
             xLabelDataJoin(container, [xOrient(data)])
-                .attr('class', d => `x-label ${d}-label`)
+                .attr('class', (d) => `x-label ${d}-label`)
                 .text(xLabel(data));
 
             yLabelDataJoin(container, [yOrient(data)])
-                .attr('class', d => `y-label ${d}-label`)
+                .attr('class', (d) => `y-label ${d}-label`)
                 .text(yLabel(data));
 
             webglDataJoin(container, webglPlotArea ? [data] : [])
-                .attr('set-webgl-viewport','')
+                .attr('set-webgl-viewport', '')
                 .classed('plot-area', true)
                 .attr('use-device-pixel-ratio', useDevicePixelRatio)
                 .on('draw', (event, d) => {
                     const { child, pixelRatio } = event.detail;
-                    webglPlotArea.context(isContextLost ? null : child.getContext('webgl'))
+                    webglPlotArea
+                        .context(
+                            isContextLost ? null : child.getContext('webgl'),
+                        )
                         .pixelRatio(pixelRatio)
                         .xScale(xScale)
                         .yScale(yScale);
                     webglPlotArea(d);
                 });
 
-            container.select('.webgl-plot-area>canvas')
-                .on('webglcontextlost', event => {
+            container
+                .select('.webgl-plot-area>canvas')
+                .on('webglcontextlost', (event) => {
                     console.warn('WebGLRenderingContext lost');
                     event.preventDefault();
                     isContextLost = true;
@@ -108,7 +131,8 @@ export default (...args) => {
                     if (useDevicePixelRatio) {
                         context.scale(pixelRatio, pixelRatio);
                     }
-                    canvasPlotArea.context(context)
+                    canvasPlotArea
+                        .context(context)
                         .xScale(xScale)
                         .yScale(yScale);
                     canvasPlotArea(d);
@@ -119,48 +143,56 @@ export default (...args) => {
                 .classed('plot-area', true)
                 .on('draw', (event, d) => {
                     const { child } = event.detail;
-                    svgPlotArea.xScale(xScale)
-                        .yScale(yScale);
-                    transitionPropagator(select(child).datum(d))
-                        .call(svgPlotArea);
+                    svgPlotArea.xScale(xScale).yScale(yScale);
+                    transitionPropagator(select(child).datum(d)).call(
+                        svgPlotArea,
+                    );
                 });
 
             xAxisDataJoin(container, [xOrient(data)])
-                .attr('class', d => `x-axis ${d}-axis`)
+                .attr('class', (d) => `x-axis ${d}-axis`)
                 .style('height', xAxisHeight(data))
                 .on('measure', (event, d) => {
                     const { width, height, child } = event.detail;
                     if (d === 'top') {
-                        select(child)
-                            .attr('viewBox', `0 ${-height} ${width} ${height}`);
+                        select(child).attr(
+                            'viewBox',
+                            `0 ${-height} ${width} ${height}`,
+                        );
                     }
                     xScale.range([0, width]);
                 })
                 .on('draw', (event, d) => {
                     const { child } = event.detail;
-                    const xAxisComponent = d === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale);
+                    const xAxisComponent =
+                        d === 'top' ? xAxis.top(xScale) : xAxis.bottom(xScale);
                     xAxisComponent.decorate(xDecorate);
-                    transitionPropagator(select(child).datum(d))
-                        .call(xAxisStore(xAxisComponent));
+                    transitionPropagator(select(child).datum(d)).call(
+                        xAxisStore(xAxisComponent),
+                    );
                 });
 
             yAxisDataJoin(container, [yOrient(data)])
-                .attr('class', d => `y-axis ${d}-axis`)
+                .attr('class', (d) => `y-axis ${d}-axis`)
                 .style('width', yAxisWidth(data))
                 .on('measure', (event, d) => {
                     const { width, height, child } = event.detail;
                     if (d === 'left') {
-                        select(child)
-                            .attr('viewBox', `${-width} 0 ${width} ${height}`);
+                        select(child).attr(
+                            'viewBox',
+                            `${-width} 0 ${width} ${height}`,
+                        );
                     }
                     yScale.range([height, 0]);
                 })
                 .on('draw', (event, d) => {
                     const { child } = event.detail;
-                    const yAxisComponent = d === 'left' ? yAxis.left(yScale) : yAxis.right(yScale);
+                    const yAxisComponent =
+                        d === 'left' ? yAxis.left(yScale) : yAxis.right(yScale);
                     yAxisComponent.decorate(yDecorate);
-                    transitionPropagator(select(child).datum(d))
-                        .call(yAxisStore(yAxisComponent));
+                    transitionPropagator(select(child).datum(d)).call(
+                        yAxisStore(yAxisComponent),
+                    );
                 });
 
             container.each((d, i, nodes) => nodes[i].requestRedraw());
@@ -170,8 +202,8 @@ export default (...args) => {
     };
 
     const scaleExclusions = exclude(
-        /range\w*/,   // the scale range is set via the component layout
-        /tickFormat/  // use axis.tickFormat instead (only present on linear scales)
+        /range\w*/, // the scale range is set via the component layout
+        /tickFormat/, // use axis.tickFormat instead (only present on linear scales)
     );
     rebindAll(cartesian, xScale, scaleExclusions, prefix('x'));
     rebindAll(cartesian, yScale, scaleExclusions, prefix('y'));
@@ -278,7 +310,6 @@ export default (...args) => {
     };
 
     return cartesian;
-
 };
 
 const getArguments = (...args) => {
@@ -286,7 +317,7 @@ const getArguments = (...args) => {
         xScale: scaleIdentity(),
         yScale: scaleIdentity(),
         xAxis: { bottom: axisBottom, top: axisTop },
-        yAxis: { right: axisRight, left: axisLeft }
+        yAxis: { right: axisRight, left: axisLeft },
     };
 
     if (args.length === 1 && !args[0].domain && !args[0].range) {
@@ -297,6 +328,6 @@ const getArguments = (...args) => {
     // xScale/yScale parameters
     return Object.assign(defaultSettings, {
         xScale: args[0] || defaultSettings.xScale,
-        yScale: args[1] || defaultSettings.yScale
+        yScale: args[1] || defaultSettings.yScale,
     });
 };

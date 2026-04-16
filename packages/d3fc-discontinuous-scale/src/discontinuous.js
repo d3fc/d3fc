@@ -1,17 +1,16 @@
-import {scaleIdentity} from 'd3-scale';
-import {rebindAll, include} from '@d3fc/d3fc-rebind';
+import { scaleIdentity } from 'd3-scale';
+import { rebindAll, include } from '@d3fc/d3fc-rebind';
 import identity from './discontinuity/identity';
 import tickFilter from './tickFilter';
 
 function discontinuous(adaptedScale) {
-
     if (!arguments.length) {
         adaptedScale = scaleIdentity();
     }
 
     var discontinuityProvider = identity();
 
-    const scale = value => {
+    const scale = (value) => {
         var domain = adaptedScale.domain();
         var range = adaptedScale.range();
 
@@ -19,19 +18,25 @@ function discontinuous(adaptedScale) {
         // along a scale that has discontinuities (i.e. sections that have been removed).
         // the scale for the given point 'x' is calculated as the ratio of the discontinuous distance
         // over the domain of this axis, versus the discontinuous distance to 'x'
-        var totalDomainDistance = discontinuityProvider.distance(domain[0], domain[1]);
+        var totalDomainDistance = discontinuityProvider.distance(
+            domain[0],
+            domain[1],
+        );
         var distanceToX = discontinuityProvider.distance(domain[0], value);
         var ratioToX = distanceToX / totalDomainDistance;
         var scaledByRange = ratioToX * (range[1] - range[0]) + range[0];
         return scaledByRange;
     };
 
-    scale.invert = x => {
+    scale.invert = (x) => {
         var domain = adaptedScale.domain();
         var range = adaptedScale.range();
 
         var ratioToX = (x - range[0]) / (range[1] - range[0]);
-        var totalDomainDistance = discontinuityProvider.distance(domain[0], domain[1]);
+        var totalDomainDistance = discontinuityProvider.distance(
+            domain[0],
+            domain[1],
+        );
         var distanceToX = ratioToX * totalDomainDistance;
         return discontinuityProvider.offset(domain[0], distanceToX);
     };
@@ -65,8 +70,9 @@ function discontinuous(adaptedScale) {
     };
 
     scale.copy = () =>
-        discontinuous(adaptedScale.copy())
-          .discontinuityProvider(discontinuityProvider.copy());
+        discontinuous(adaptedScale.copy()).discontinuityProvider(
+            discontinuityProvider.copy(),
+        );
 
     scale.discontinuityProvider = (...args) => {
         if (!args.length) {
@@ -76,7 +82,11 @@ function discontinuous(adaptedScale) {
         return scale;
     };
 
-    rebindAll(scale, adaptedScale, include('range', 'rangeRound', 'interpolate', 'clamp', 'tickFormat'));
+    rebindAll(
+        scale,
+        adaptedScale,
+        include('range', 'rangeRound', 'interpolate', 'clamp', 'tickFormat'),
+    );
 
     return scale;
 }

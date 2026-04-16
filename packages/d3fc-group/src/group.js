@@ -1,5 +1,4 @@
 export default () => {
-
     let key = '';
     let orient = 'vertical';
     // D3 CSV returns all values as strings, this converts them to numbers
@@ -8,9 +7,10 @@ export default () => {
 
     const verticalgroup = (data) =>
         Object.keys(data[0])
-            .filter(k => k !== key)
+            .filter((k) => k !== key)
             .map((k) => {
-                const values = data.filter(row => row[k])
+                const values = data
+                    .filter((row) => row[k])
                     .map((row) => {
                         const cell = [row[key], value(row, k)];
                         cell.data = row;

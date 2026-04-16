@@ -2,14 +2,14 @@
 const elderRayExample = () => {
     let xScale = d3.scaleTime();
     let yScale = d3.scaleLinear();
-    let crossValue = d => d.date;
+    let crossValue = (d) => d.date;
     const bullBar = fc.autoBandwidth(fc.seriesSvgBar());
     const bearBar = fc.autoBandwidth(fc.seriesSvgBar());
     const bullBarTop = fc.autoBandwidth(fc.seriesSvgBar());
     const bearBarTop = fc.autoBandwidth(fc.seriesSvgBar());
     const multi = fc.seriesSvgMulti();
 
-    const elderRay = selection => {
+    const elderRay = (selection) => {
         function isTop(input, comparison) {
             // The values share parity and the input is smaller than the comparison
             return (
@@ -20,25 +20,25 @@ const elderRayExample = () => {
         bullBar
             .crossValue(crossValue)
             .mainValue((d, i) =>
-                isTop(d.bullPower, d.bearPower) ? undefined : d.bullPower
+                isTop(d.bullPower, d.bearPower) ? undefined : d.bullPower,
             );
 
         bearBar
             .crossValue(crossValue)
             .mainValue((d, i) =>
-                isTop(d.bearPower, d.bullPower) ? undefined : d.bearPower
+                isTop(d.bearPower, d.bullPower) ? undefined : d.bearPower,
             );
 
         bullBarTop
             .crossValue(crossValue)
             .mainValue((d, i) =>
-                isTop(d.bullPower, d.bearPower) ? d.bullPower : undefined
+                isTop(d.bullPower, d.bearPower) ? d.bullPower : undefined,
             );
 
         bearBarTop
             .crossValue(crossValue)
             .mainValue((d, i) =>
-                isTop(d.bearPower, d.bullPower) ? d.bearPower : undefined
+                isTop(d.bearPower, d.bullPower) ? d.bearPower : undefined,
             );
 
         multi
@@ -49,7 +49,7 @@ const elderRayExample = () => {
                 g.enter().attr(
                     'class',
                     (d, i) =>
-                        'multi ' + ['bull', 'bear', 'bull top', 'bear top'][i]
+                        'multi ' + ['bull', 'bear', 'bull top', 'bear top'][i],
                 );
             });
 
@@ -89,7 +89,7 @@ const data = dataGenerator(50);
 
 const xScale = d3
     .scaleTime()
-    .domain(fc.extentDate().accessors([d => d.date])(data));
+    .domain(fc.extentDate().accessors([(d) => d.date])(data));
 
 // START
 // Create and apply the elder ray algorithm
@@ -100,28 +100,23 @@ const mergedData = data.map((d, i) => Object.assign({}, d, elderRayData[i]));
 // the elder ray is rendered on its own scale
 const yDomain = fc
     .extentLinear()
-    .accessors([d => d.bullPower, d => d.bearPower])
+    .accessors([(d) => d.bullPower, (d) => d.bearPower])
     .symmetricalAbout(0)
     .pad([0.1, 0.1]);
 
 const yScale = d3.scaleLinear().domain(yDomain(mergedData));
 
 // Create the renderer
-const elderRay = elderRayExample()
-    .xScale(xScale)
-    .yScale(yScale);
+const elderRay = elderRayExample().xScale(xScale).yScale(yScale);
 
 // Add it to the container
 const container = document.querySelector('d3fc-svg');
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(mergedData)
-            .call(elderRay);
+        d3.select(container).select('svg').datum(mergedData).call(elderRay);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);

@@ -10,12 +10,12 @@ const data = d3.merge([points0, points1, points2]);
 
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d[1]])
+    .accessors([(d) => d[1]])
     .pad([0.1, 0.1]);
 
 const xExtent = fc
     .extentLinear()
-    .accessors([d => d[0]])
+    .accessors([(d) => d[0]])
     .pad([0.1, 0.1]);
 
 const x = d3.scaleLinear().domain(xExtent(data));
@@ -24,17 +24,17 @@ const color = d3.scaleOrdinal(d3.schemeCategory10);
 
 const pointSeries = fc
     .seriesSvgPoint()
-    .crossValue(d => d[0])
-    .mainValue(d => d[1])
+    .crossValue((d) => d[0])
+    .mainValue((d) => d[1])
     .size(15)
-    .decorate(selection => {
-        selection.enter().style('fill', d => color(d[2]));
+    .decorate((selection) => {
+        selection.enter().style('fill', (d) => color(d[2]));
     });
 
 let idleTimeout;
 const idleDelay = 350;
 
-const brush = fc.brush().on('end', e => {
+const brush = fc.brush().on('end', (e) => {
     if (!e.selection) {
         if (!idleTimeout) {
             // detect double clicks
@@ -67,10 +67,7 @@ const multi = fc
 const mainChart = fc.chartCartesian(x, y).svgPlotArea(multi);
 
 function render() {
-    d3.select('#main-chart')
-        .datum(data)
-        .transition()
-        .call(mainChart);
+    d3.select('#main-chart').datum(data).transition().call(mainChart);
 }
 
 render();

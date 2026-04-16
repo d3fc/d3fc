@@ -2,7 +2,7 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
     const translate = (x, y, o = 0) =>
         isVertical ? `translate(${y}, ${x + o})` : `translate(${x}, ${y + o})`;
 
-    const axis = selection => {
+    const axis = (selection) => {
         selection.each((data, index, group) => {
             const container = d3.select(group[index]);
             const scale = baseAxis.scale();
@@ -12,10 +12,7 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
 
             const labels = container.selectAll('g').data(ticks);
 
-            const enter = labels
-                .enter()
-                .append('g')
-                .attr('class', 'tick');
+            const enter = labels.enter().append('g').attr('class', 'tick');
 
             const merged = labels.merge(enter);
 
@@ -26,14 +23,14 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
 
             merged
                 .select('circle')
-                .attr('transform', d => translate(scale(d), sign * 20));
+                .attr('transform', (d) => translate(scale(d), sign * 20));
 
             enter.append('text').attr('text-anchor', 'middle');
 
             merged
                 .select('text')
-                .text(d => d)
-                .attr('transform', d => translate(scale(d), sign * 20, 3));
+                .text((d) => d)
+                .attr('transform', (d) => translate(scale(d), sign * 20, 3));
         });
     };
 
@@ -41,21 +38,21 @@ const customAxis = (baseAxis, isVertical = false, sign = 1) => {
     return axis;
 };
 
-const data = d3.range(50).map(d => ({
+const data = d3.range(50).map((d) => ({
     x: d / 4,
     y: Math.sin(d / 4),
-    z: Math.cos(d / 4) * 0.7
+    z: Math.cos(d / 4) * 0.7,
 }));
 
-const xExtent = fc.extentLinear().accessors([d => d.x]);
+const xExtent = fc.extentLinear().accessors([(d) => d.x]);
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d.y, d => d.z])
+    .accessors([(d) => d.y, (d) => d.z])
     .pad([0.1, 0.1]);
 
 const gridlines = fc.annotationSvgGridline();
 const line = fc.seriesSvgLine();
-const area = fc.seriesSvgArea().mainValue(d => d.z);
+const area = fc.seriesSvgArea().mainValue((d) => d.z);
 
 const multi = fc.seriesSvgMulti().series([gridlines, area, line]);
 
@@ -64,11 +61,11 @@ const chart = fc
         xScale: d3.scaleLinear(),
         yScale: d3.scaleLinear(),
         xAxis: {
-            bottom: scale => customAxis(fc.axisBottom(scale), false)
+            bottom: (scale) => customAxis(fc.axisBottom(scale), false),
         },
         yAxis: {
-            left: scale => customAxis(fc.axisLeft(scale), true, -1)
-        }
+            left: (scale) => customAxis(fc.axisLeft(scale), true, -1),
+        },
     })
     .xLabel('Value')
     .yLabel('Sine / Cosine')
@@ -78,6 +75,4 @@ const chart = fc
     .xDomain(xExtent(data))
     .svgPlotArea(multi);
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

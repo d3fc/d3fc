@@ -1,9 +1,8 @@
-export default initialValues => {
-
+export default (initialValues) => {
     const env = Object.assign({}, initialValues);
     const base = () => {};
 
-    Object.keys(env).forEach(key => {
+    Object.keys(env).forEach((key) => {
         base[key] = (...args) => {
             if (!args.length) {
                 return env[key];

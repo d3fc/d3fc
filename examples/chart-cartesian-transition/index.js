@@ -3,10 +3,10 @@ let phase = 0;
 
 function updateData() {
     phase += 1;
-    data = d3.range(50).map(d => ({
+    data = d3.range(50).map((d) => ({
         x: (d + phase) / 4,
         y: Math.sin((d + phase) / 4),
-        z: Math.cos((d + phase) / 4) * 0.7
+        z: Math.cos((d + phase) / 4) * 0.7,
     }));
 }
 
@@ -14,17 +14,17 @@ function render() {
     updateData();
 
     // use d3fc-extent to compute the domain for each axis
-    const xExtent = fc.extentLinear().accessors([d => d.x]);
+    const xExtent = fc.extentLinear().accessors([(d) => d.x]);
     const yExtent = fc
         .extentLinear()
-        .accessors([d => d.y, d => d.z])
+        .accessors([(d) => d.y, (d) => d.z])
         .pad([0.1, 0.1]);
 
     // gridlines (from d3fc-annotation)
     const gridlines = fc.annotationSvgGridline();
     // series (from d3fc-series)
-    const bar = fc.seriesSvgBar().key(d => d.y);
-    const area = fc.seriesSvgArea().mainValue(d => d.z);
+    const bar = fc.seriesSvgBar().key((d) => d.y);
+    const area = fc.seriesSvgArea().mainValue((d) => d.z);
 
     // combine into a single series
     const multi = fc.seriesSvgMulti().series([gridlines, area, bar]);

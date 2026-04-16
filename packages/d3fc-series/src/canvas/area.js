@@ -1,5 +1,5 @@
-import {area as areaShape} from 'd3-shape';
-import {rebind, exclude, rebindAll} from '@d3fc/d3fc-rebind';
+import { area as areaShape } from 'd3-shape';
+import { rebind, exclude, rebindAll } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
 
@@ -14,7 +14,8 @@ export default () => {
         areaData.defined(base.defined());
 
         const projectedData = data.map(base.values);
-        areaData.x((_, i) => projectedData[i].transposedX)
+        areaData
+            .x((_, i) => projectedData[i].transposedX)
             .y((_, i) => projectedData[i].transposedY);
 
         const valueComponent = base.orient() === 'vertical' ? 'y' : 'x';

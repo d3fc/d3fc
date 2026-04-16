@@ -1,11 +1,10 @@
 import { sum } from 'd3-array';
 
-const substitute = (array, index, substitution) =>
-    [
-        ...array.slice(0, index),
-        substitution,
-        ...array.slice(index + 1)
-    ];
+const substitute = (array, index, substitution) => [
+    ...array.slice(0, index),
+    substitution,
+    ...array.slice(index + 1),
+];
 
 const lessThan = (a, b) => a < b;
 
@@ -25,12 +24,16 @@ const layoutComponent = () => {
     const evaluatePlacement = (placement, index) =>
         score -
         locationScore(rectangles[index], index, rectangles) +
-        locationScore(placement, index, substitute(rectangles, index, placement));
+        locationScore(
+            placement,
+            index,
+            substitute(rectangles, index, placement),
+        );
 
     const layout = (placement, index) => {
         if (!score) {
             score = sum(
-                rectangles.map((r, i) => locationScore(r, i, rectangles))
+                rectangles.map((r, i) => locationScore(r, i, rectangles)),
             );
         }
 

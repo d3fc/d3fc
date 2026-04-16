@@ -2,7 +2,7 @@ const data = [
     [0.1, 0.15],
     [0.2, 0.3],
     [0.4, 0.6],
-    [0.8, 0.9]
+    [0.8, 0.9],
 ];
 
 const container = document.querySelector('d3fc-canvas');
@@ -15,9 +15,9 @@ const horizontalBand = fc
     .annotationCanvasBand()
     .xScale(xScale)
     .yScale(yScale)
-    .fromValue(d => d[0])
-    .toValue(d => d[1])
-    .decorate(context => {
+    .fromValue((d) => d[0])
+    .toValue((d) => d[1])
+    .decorate((context) => {
         context.fillStyle = 'rgba(102, 0, 204, 0.1)';
     });
 
@@ -26,9 +26,9 @@ const verticalBand = fc
     .orient('vertical')
     .xScale(xScale)
     .yScale(yScale)
-    .fromValue(d => d[0])
-    .toValue(d => d[1])
-    .decorate(context => {
+    .fromValue((d) => d[0])
+    .toValue((d) => d[1])
+    .decorate((context) => {
         context.fillStyle = 'rgba(0, 204, 0, 0.1)';
     });
 
@@ -37,7 +37,7 @@ d3.select(container)
         horizontalBand(data);
         verticalBand(data);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

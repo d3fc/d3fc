@@ -13,9 +13,9 @@ const series = fc
     .xScale(xScale)
     .yScale(yScale)
     .crossValue((_, i) => i)
-    .mainValue(d => d)
+    .mainValue((d) => d)
     .defined(() => true)
-    .equals(previousData => previousData.length > 0);
+    .equals((previousData) => previousData.length > 0);
 
 let pixels = null;
 let frame = 0;
@@ -28,7 +28,7 @@ d3.select(container)
         xScale.domain([0, max]);
         container.requestRedraw();
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([0, width]);
         yScale.range([height, 0]);
@@ -39,7 +39,7 @@ d3.select(container)
     .on('draw', () => {
         if (pixels == null) {
             pixels = new Uint8Array(
-                gl.drawingBufferWidth * gl.drawingBufferHeight * 4
+                gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
             );
         }
         performance.mark(`draw-start-${frame}`);
@@ -52,7 +52,7 @@ d3.select(container)
             gl.drawingBufferHeight,
             gl.RGBA,
             gl.UNSIGNED_BYTE,
-            pixels
+            pixels,
         );
         performance.measure(`draw-duration-${frame}`, `draw-start-${frame}`);
         frame++;

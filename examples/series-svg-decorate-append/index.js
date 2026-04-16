@@ -12,25 +12,22 @@ const series = fc
     .xScale(xScale)
     .yScale(yScale)
     .crossValue((_, i) => i)
-    .mainValue(d => d)
-    .decorate(selection => {
+    .mainValue((d) => d)
+    .decorate((selection) => {
         selection
             .enter()
             .append('text')
             .style('text-anchor', 'middle')
             .attr('transform', 'translate(0, -10)')
-            .text(d => d3.format('.3f')(d))
+            .text((d) => d3.format('.3f')(d))
             .attr('fill', 'black');
     });
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .datum(data)
-            .call(series);
+        d3.select(container).select('svg').datum(data).call(series);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([margin, width - margin]);
         yScale.range([height, 0]);

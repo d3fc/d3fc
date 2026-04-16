@@ -5,7 +5,6 @@ import alignOffset from './alignOffset';
 import createBase from './base';
 
 export default () => {
-
     let highValue = (d) => d.high;
     let lowValue = (d) => d.low;
     let crossValue = (d) => d.cross;
@@ -14,10 +13,10 @@ export default () => {
     let bandwidth = () => 5;
 
     const base = createBase({
-        decorate: () => { },
+        decorate: () => {},
         defined: (d, i) => defined(lowValue, highValue, crossValue)(d, i),
         xScale: scaleIdentity(),
-        yScale: scaleIdentity()
+        yScale: scaleIdentity(),
     });
 
     base.values = (d, i) => {
@@ -32,7 +31,7 @@ export default () => {
                 origin: [xScale(crossValue(d, i)) + offset, y],
                 high: 0,
                 low: yScale(lowValue(d, i)) - y,
-                width
+                width,
             };
         } else {
             const x = xScale(lowValue(d, i));
@@ -40,19 +39,15 @@ export default () => {
                 origin: [x, yScale(crossValue(d, i)) + offset],
                 high: xScale(highValue(d, i)) - x,
                 low: 0,
-                width
+                width,
             };
         }
     };
 
-    base.xValues = () => orient === 'vertical' ? [crossValue] : [
-        highValue,
-        lowValue
-    ];
-    base.yValues = () => orient !== 'vertical' ? [crossValue] : [
-        highValue,
-        lowValue
-    ];
+    base.xValues = () =>
+        orient === 'vertical' ? [crossValue] : [highValue, lowValue];
+    base.yValues = () =>
+        orient !== 'vertical' ? [crossValue] : [highValue, lowValue];
     base.orient = (...args) => {
         if (!args.length) {
             return orient;

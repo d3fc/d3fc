@@ -3,25 +3,23 @@ import functor from './functor';
 
 // Renders an error bar series as an SVG path based on the given array of datapoints.
 export default () => {
+    let context = null;
+    let value = (d) => d.x;
+    let high = (d) => d.high;
+    let low = (d) => d.low;
+    let orient = 'vertical';
+    let width = functor(5);
 
-    let context   = null;
-    let value     = (d) => d.x;
-    let high      = (d) => d.high;
-    let low       = (d) => d.low;
-    let orient    = 'vertical';
-    let width     = functor(5);
-
-    const errorBar = function(data) {
-
+    const errorBar = function (data) {
         const drawingContext = context || path();
 
-        data.forEach(function(d, i) {
+        data.forEach(function (d, i) {
             // naming convention is for vertical orientation
-            const _value      = value(d, i);
-            const _width      = width(d, i);
-            const halfWidth   = _width / 2;
-            const _high       = high(d, i);
-            const _low        = low(d, i);
+            const _value = value(d, i);
+            const _width = width(d, i);
+            const halfWidth = _width / 2;
+            const _high = high(d, i);
+            const _low = low(d, i);
 
             if (orient === 'vertical') {
                 drawingContext.moveTo(_value - halfWidth, _high);

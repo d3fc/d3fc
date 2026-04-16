@@ -4,10 +4,9 @@ import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
 import constant from '../constant';
 
 export default () => {
-
     let xScale = scaleIdentity();
     let yScale = scaleIdentity();
-    let value = d => d;
+    let value = (d) => d;
     let label = value;
     let decorate = () => {};
     let orient = 'horizontal';
@@ -15,7 +14,6 @@ export default () => {
     const join = dataJoin('g', 'annotation-line');
 
     const instance = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
@@ -24,7 +22,9 @@ export default () => {
             throw new Error('Invalid orientation');
         }
         const horizontal = orient === 'horizontal';
-        const translation = horizontal ? (a, b) => `translate(${a}, ${b})` : (a, b) => `translate(${b}, ${a})`;
+        const translation = horizontal
+            ? (a, b) => `translate(${a}, ${b})`
+            : (a, b) => `translate(${b}, ${a})`;
         const lineProperty = horizontal ? 'x2' : 'y2';
         // the value scale which the annotation 'value' relates to, the crossScale
         // is the other. Which is which depends on the orienation!
@@ -39,26 +39,25 @@ export default () => {
 
         const scaleRange = crossScale.range();
         // the transform that sets the 'origin' of the annotation
-        const containerTransform = (...args) => translation(scaleRange[0], valueScale(value(...args)));
+        const containerTransform = (...args) =>
+            translation(scaleRange[0], valueScale(value(...args)));
         const scaleWidth = scaleRange[1] - scaleRange[0];
 
         selection.each((data, selectionIndex, nodes) => {
-
             const g = join(select(nodes[selectionIndex]), data);
 
             // create the outer container and line
-            const enter = g.enter()
+            const enter = g
+                .enter()
                 .attr('transform', containerTransform)
                 .style('stroke', '#bbb');
-            enter.append('line')
-                .attr(lineProperty, scaleWidth);
+            enter.append('line').attr(lineProperty, scaleWidth);
 
             // create containers at each end of the annotation
-            enter.append('g')
-                .classed(handleOne, true)
-                .style('stroke', 'none');
+            enter.append('g').classed(handleOne, true).style('stroke', 'none');
 
-            enter.append('g')
+            enter
+                .append('g')
                 .classed(handleTwo, true)
                 .style('stroke', 'none')
                 .attr('transform', translation(scaleWidth, 0))
@@ -75,14 +74,14 @@ export default () => {
             g.attr('transform', containerTransform);
 
             // update the elements that depend on scale width
-            g.select('line')
-                .attr(lineProperty, scaleWidth);
-            g.select('g.' + handleTwo)
-                .attr('transform', translation(scaleWidth, 0));
+            g.select('line').attr(lineProperty, scaleWidth);
+            g.select('g.' + handleTwo).attr(
+                'transform',
+                translation(scaleWidth, 0),
+            );
 
             // Update the text label
-            g.select('text')
-                .text(label);
+            g.select('text').text(label);
 
             decorate(g, data, selectionIndex);
         });

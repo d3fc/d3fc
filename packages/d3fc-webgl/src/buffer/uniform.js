@@ -1,9 +1,9 @@
-export default initialData => {
+export default (initialData) => {
     let location = -1;
     let data = initialData;
     let dirty = true;
 
-    const build = programBuilder => {
+    const build = (programBuilder) => {
         if (!dirty) {
             return;
         }
@@ -26,7 +26,7 @@ export default initialData => {
                     break;
                 default:
                     throw new Error(
-                        `Uniform supports up to 4 elements. ${data.length} provided.`
+                        `Uniform supports up to 4 elements. ${data.length} provided.`,
                     );
             }
         } else {

@@ -1,9 +1,9 @@
-export default initialData => {
+export default (initialData) => {
     let buffer = null;
     let data = initialData;
     let dirty = true;
 
-    const base = programBuilder => {
+    const base = (programBuilder) => {
         const gl = programBuilder.context();
 
         if (buffer == null) {
@@ -18,7 +18,7 @@ export default initialData => {
         gl.bufferData(
             gl.ELEMENT_ARRAY_BUFFER,
             new Uint16Array(data),
-            gl.STATIC_DRAW
+            gl.STATIC_DRAW,
         );
 
         dirty = false;

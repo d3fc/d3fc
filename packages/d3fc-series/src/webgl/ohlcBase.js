@@ -1,9 +1,5 @@
 import ohlcBase from '../ohlcBase';
-import {
-    webglAttribute,
-    webglScaleMapper,
-    webglTypes
-} from '@d3fc/d3fc-webgl';
+import { webglAttribute, webglScaleMapper, webglTypes } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
 export default (pathGenerator) => {
@@ -39,22 +35,35 @@ export default (pathGenerator) => {
 
         if (dataChanged) {
             previousData = data;
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            bandwidthAttribute
+                .value((d, i) => base.bandwidth()(d, i))
+                .data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
         if (dataChanged || xScale.scale !== previousXScale) {
             previousXScale = xScale.scale;
-            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            crossValueAttribute
+                .value((d, i) => xScale.scale(base.crossValue()(d, i)))
+                .data(data);
         }
         if (dataChanged || yScale.scale !== previousYScale) {
             previousYScale = yScale.scale;
-            openValueAttribute.value((d, i) => yScale.scale(base.openValue()(d, i))).data(data);
-            highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
-            lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
-            closeValueAttribute.value((d, i) => yScale.scale(base.closeValue()(d, i))).data(data);
+            openValueAttribute
+                .value((d, i) => yScale.scale(base.openValue()(d, i)))
+                .data(data);
+            highValueAttribute
+                .value((d, i) => yScale.scale(base.highValue()(d, i)))
+                .data(data);
+            lowValueAttribute
+                .value((d, i) => yScale.scale(base.lowValue()(d, i)))
+                .data(data);
+            closeValueAttribute
+                .value((d, i) => yScale.scale(base.closeValue()(d, i)))
+                .data(data);
         }
 
-        pathGenerator.xScale(xScale.webglScale)
+        pathGenerator
+            .xScale(xScale.webglScale)
             .yScale(yScale.webglScale)
             .decorate((program) => base.decorate()(program, data, 0));
 

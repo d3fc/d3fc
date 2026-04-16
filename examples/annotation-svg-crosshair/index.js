@@ -12,9 +12,9 @@ const crosshair = fc
     .annotationSvgCrosshair()
     .xScale(xScale)
     .yScale(yScale)
-    .xLabel(d => format(xScale.invert(d.x)))
-    .yLabel(d => format(yScale.invert(d.y)))
-    .decorate(sel => {
+    .xLabel((d) => format(xScale.invert(d.x)))
+    .yLabel((d) => format(yScale.invert(d.y)))
+    .decorate((sel) => {
         sel.selectAll('.point>path').attr('transform', 'scale(10)');
     });
 
@@ -32,19 +32,19 @@ d3.select(container)
     .on('draw', () => {
         svg.datum(data).call(crosshair);
     })
-    .on('mousemove', event => {
+    .on('mousemove', (event) => {
         const { clientX, clientY } = event;
         data[0] = { x: clientX, y: clientY };
         container.requestRedraw();
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
-        xAxisJoin(svg, d => [d])
+        xAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(0, ${height - 20})`)
             .call(xAxis);
-        yAxisJoin(svg, d => [d])
+        yAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(${width - 30}, 0)`)
             .call(yAxis);
     });

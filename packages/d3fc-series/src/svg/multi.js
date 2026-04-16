@@ -1,10 +1,9 @@
-import {dataJoin, isTransition} from '@d3fc/d3fc-data-join';
-import {select} from 'd3-selection';
-import {rebindAll, rebind} from '@d3fc/d3fc-rebind';
+import { dataJoin, isTransition } from '@d3fc/d3fc-data-join';
+import { select } from 'd3-selection';
+import { rebindAll, rebind } from '@d3fc/d3fc-rebind';
 import multiBase from '../multiBase';
 
 export default () => {
-
     const base = multiBase();
 
     const innerJoin = dataJoin('g');
@@ -12,7 +11,6 @@ export default () => {
     const join = dataJoin('g', 'multi');
 
     const multi = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
             innerJoin.transition(selection);
@@ -24,16 +22,17 @@ export default () => {
         const yScale = base.yScale();
 
         selection.each((data, index, group) => {
-
             const container = join(select(group[index]), series);
 
             // iterate over the containers, 'call'-ing the series for each
             container.each((dataSeries, seriesIndex, seriesGroup) => {
-                dataSeries.xScale(xScale)
-                         .yScale(yScale);
+                dataSeries.xScale(xScale).yScale(yScale);
 
                 const seriesData = mapping(data, seriesIndex, series);
-                const innerContainer = innerJoin(select(seriesGroup[seriesIndex]), [seriesData]);
+                const innerContainer = innerJoin(
+                    select(seriesGroup[seriesIndex]),
+                    [seriesData],
+                );
 
                 innerContainer.call(dataSeries);
             });

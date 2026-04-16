@@ -1,8 +1,7 @@
-import {rebindAll} from '@d3fc/d3fc-rebind';
+import { rebindAll } from '@d3fc/d3fc-rebind';
 import multiBase from '../multiBase';
 
 export default () => {
-
     let context = null;
     let pixelRatio = 1;
     const base = multiBase();
@@ -15,7 +14,8 @@ export default () => {
 
         series.forEach((dataSeries, index) => {
             const seriesData = mapping(data, index, series);
-            dataSeries.context(context)
+            dataSeries
+                .context(context)
                 .pixelRatio(pixelRatio)
                 .xScale(xScale)
                 .yScale(yScale);

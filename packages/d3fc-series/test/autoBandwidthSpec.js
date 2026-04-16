@@ -4,10 +4,10 @@ import * as fc from '../index';
 const mockSeries = () => {
     const xScale = scaleIdentity();
     const yScale = scaleIdentity();
-    const crossValue = d => d;
+    const crossValue = (d) => d;
     let bandwidth = null;
 
-    const series  = () => {};
+    const series = () => {};
 
     series.defined = () => () => true;
     series.xScale = () => xScale;
@@ -24,7 +24,6 @@ const mockSeries = () => {
 };
 
 describe('Auto bandwidth calculation', () => {
-
     it('should default to 10', () => {
         const adaptee = fc.seriesCanvasBar();
         const autoBandwidth = fc.autoBandwidth(adaptee);
@@ -36,10 +35,9 @@ describe('Auto bandwidth calculation', () => {
 
     it('should use the bandwidth property from the scale if present', () => {
         const scale = {
-            bandwidth: () => 25
+            bandwidth: () => 25,
         };
-        const adaptee = fc.seriesCanvasBar()
-            .xScale(scale);
+        const adaptee = fc.seriesCanvasBar().xScale(scale);
         const autoBandwidth = fc.autoBandwidth(adaptee);
 
         autoBandwidth([]);
@@ -49,15 +47,16 @@ describe('Auto bandwidth calculation', () => {
 
     it('should use the orient property of the series to select the cross scale', () => {
         const xScale = {
-            bandwidth: () => 25
+            bandwidth: () => 25,
         };
         const yScale = {
-            bandwidth: () => 45
+            bandwidth: () => 45,
         };
-        const adaptee = fc.seriesCanvasBar()
-          .xScale(xScale)
-          .yScale(yScale)
-          .orient('horizontal');
+        const adaptee = fc
+            .seriesCanvasBar()
+            .xScale(xScale)
+            .yScale(yScale)
+            .orient('horizontal');
         const autoBandwidth = fc.autoBandwidth(adaptee);
 
         autoBandwidth([]);
@@ -67,8 +66,7 @@ describe('Auto bandwidth calculation', () => {
 
     it('should use the smallest distance between values to determine the width', () => {
         const adaptee = mockSeries();
-        const autoBandwidth = fc.autoBandwidth(adaptee)
-          .widthFraction(1);
+        const autoBandwidth = fc.autoBandwidth(adaptee).widthFraction(1);
 
         autoBandwidth([0, 5, 20, 30, 50]);
 
@@ -77,8 +75,7 @@ describe('Auto bandwidth calculation', () => {
 
     it('should allow the width to be controlled via the widthFraction property', () => {
         const adaptee = mockSeries();
-        const autoBandwidth = fc.autoBandwidth(adaptee)
-          .widthFraction(0.5);
+        const autoBandwidth = fc.autoBandwidth(adaptee).widthFraction(0.5);
 
         autoBandwidth([0, 4, 10]);
 
@@ -87,8 +84,7 @@ describe('Auto bandwidth calculation', () => {
 
     it('should sort the data values', () => {
         const adaptee = mockSeries();
-        const autoBandwidth = fc.autoBandwidth(adaptee)
-          .widthFraction(1);
+        const autoBandwidth = fc.autoBandwidth(adaptee).widthFraction(1);
 
         autoBandwidth([0, 10, 4]);
 
@@ -97,8 +93,7 @@ describe('Auto bandwidth calculation', () => {
 
     it('should use unique data value', () => {
         const adaptee = mockSeries();
-        const autoBandwidth = fc.autoBandwidth(adaptee)
-          .widthFraction(1);
+        const autoBandwidth = fc.autoBandwidth(adaptee).widthFraction(1);
 
         autoBandwidth([0, 4, 4, 10]);
 
@@ -107,14 +102,12 @@ describe('Auto bandwidth calculation', () => {
 
     it('should support series with xBandwidth and yBandwidth properties', () => {
         const xScale = {
-            bandwidth: () => 25
+            bandwidth: () => 25,
         };
         const yScale = {
-            bandwidth: () => 45
+            bandwidth: () => 45,
         };
-        const adaptee = fc.seriesCanvasHeatmap()
-          .xScale(xScale)
-          .yScale(yScale);
+        const adaptee = fc.seriesCanvasHeatmap().xScale(xScale).yScale(yScale);
         const autoBandwidth = fc.autoBandwidth(adaptee);
 
         autoBandwidth([]);

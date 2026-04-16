@@ -1,12 +1,19 @@
 import * as data from './data';
 
-const find = (element) => element.tagName === 'D3FC-GROUP'
-  ? [element, ...element.querySelectorAll('d3fc-canvas, d3fc-group, d3fc-svg')]
-  : [element];
+const find = (element) =>
+    element.tagName === 'D3FC-GROUP'
+        ? [
+              element,
+              ...element.querySelectorAll('d3fc-canvas, d3fc-group, d3fc-svg'),
+          ]
+        : [element];
 
 const measure = (element) => {
     const { width: previousWidth, height: previousHeight } = data.get(element);
-    const pixelRatio = (element.useDevicePixelRatio && window.devicePixelRatio != null) ? window.devicePixelRatio : 1;
+    const pixelRatio =
+        element.useDevicePixelRatio && window.devicePixelRatio != null
+            ? window.devicePixelRatio
+            : 1;
     const width = element.clientWidth * pixelRatio;
     const height = element.clientHeight * pixelRatio;
     const resized = width !== previousWidth || height !== previousHeight;
@@ -15,7 +22,9 @@ const measure = (element) => {
 };
 
 if (typeof CustomEvent !== 'function') {
-    throw new Error('d3fc-element depends on CustomEvent. Make sure that you load a polyfill in older browsers. See README.');
+    throw new Error(
+        'd3fc-element depends on CustomEvent. Make sure that you load a polyfill in older browsers. See README.',
+    );
 }
 
 const resize = (element) => {
@@ -31,8 +40,7 @@ const draw = (element) => {
 };
 
 export default (elements) => {
-    const allElements = elements.map(find)
-      .reduce((a, b) => a.concat(b));
+    const allElements = elements.map(find).reduce((a, b) => a.concat(b));
     allElements.forEach(measure);
     allElements.forEach(resize);
     allElements.forEach(draw);

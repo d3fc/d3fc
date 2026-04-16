@@ -4,7 +4,7 @@ import fs from 'fs';
 describe('bundle', function() {
     it('should correctly wire-up all the dependencies via their UMD-exposed globals', function(done) {
 
-        const virtualConsole = new VirtualConsole().sendTo({
+        const virtualConsole = new VirtualConsole().forwardTo({
             error: done
         });
         const dom = new JSDOM('<html></html>', { virtualConsole, runScripts: 'dangerously' },);
@@ -19,7 +19,7 @@ describe('bundle', function() {
         };
 
         const scripts = [
-            require.resolve('d3/dist/d3.js'),
+            require.resolve('d3').replace(/src\/index\.js$/, 'dist/d3.js'),
             require.resolve('../../../node_modules/@d3fc/d3fc-rebind/build/d3fc-rebind.js'),
             require.resolve('../build/d3fc-zoom.js')
         ];

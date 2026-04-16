@@ -2,14 +2,12 @@ import { max, range } from 'd3-array';
 import { rebind } from '@d3fc/d3fc-rebind';
 import bucket from './bucket';
 
-export default function() {
-
+export default function () {
     var dataBucketer = bucket();
     var x = (d) => d;
     var y = (d) => d;
 
     const largestTriangleOneBucket = (data) => {
-
         if (dataBucketer.bucketSize() >= data.length) {
             return data;
         }
@@ -20,7 +18,6 @@ export default function() {
         var buckets = dataBucketer(data.slice(1, data.length - 1));
 
         var subsampledData = buckets.map((thisBucket, i) => {
-
             var pointAreaBucket = pointAreaBuckets[i];
             var maxArea = max(pointAreaBucket);
             var currentMaxIndex = pointAreaBucket.indexOf(maxArea);
@@ -33,7 +30,6 @@ export default function() {
     };
 
     function calculateAreaOfPoints(data) {
-
         var xyData = data.map((point) => [x(point), y(point)]);
 
         var pointAreas = range(1, xyData.length - 1).map((i) => {
@@ -41,8 +37,15 @@ export default function() {
             var thisPoint = xyData[i];
             var nextPoint = xyData[i + 1];
 
-            return 0.5 * Math.abs((lastPoint[0] - nextPoint[0]) * (thisPoint[1] - lastPoint[1]) -
-                (lastPoint[0] - thisPoint[0]) * (nextPoint[1] - lastPoint[1]));
+            return (
+                0.5 *
+                Math.abs(
+                    (lastPoint[0] - nextPoint[0]) *
+                        (thisPoint[1] - lastPoint[1]) -
+                        (lastPoint[0] - thisPoint[0]) *
+                            (nextPoint[1] - lastPoint[1]),
+                )
+            );
         });
 
         return pointAreas;
@@ -50,7 +53,7 @@ export default function() {
 
     rebind(largestTriangleOneBucket, dataBucketer, 'bucketSize');
 
-    largestTriangleOneBucket.x = function(d) {
+    largestTriangleOneBucket.x = function (d) {
         if (!arguments.length) {
             return x;
         }
@@ -60,7 +63,7 @@ export default function() {
         return largestTriangleOneBucket;
     };
 
-    largestTriangleOneBucket.y = function(d) {
+    largestTriangleOneBucket.y = function (d) {
         if (!arguments.length) {
             return y;
         }

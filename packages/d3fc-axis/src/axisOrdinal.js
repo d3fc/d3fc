@@ -27,8 +27,11 @@ const axisOrdinal = (orient, scale) => {
             x = step(tick, index, ticksArray) / 2;
         }
         return {
-            path: [[x, 0], [x, base.tickSizeInner()]],
-            hidden: index === ticksArray.length - 1
+            path: [
+                [x, 0],
+                [x, base.tickSizeInner()],
+            ],
+            hidden: index === ticksArray.length - 1,
         };
     };
     const labelOffset = () => {
@@ -36,7 +39,7 @@ const axisOrdinal = (orient, scale) => {
         return { offset: [0, base.tickPadding()] };
     };
 
-    const base = axisBase(orient, scale, {labelOffset, tickPath});
+    const base = axisBase(orient, scale, { labelOffset, tickPath });
 
     const axis = (selection) => {
         base(selection);

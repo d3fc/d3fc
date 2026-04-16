@@ -9,7 +9,7 @@ export const circle = {
         if (distance > 1.0 || vDefined < 0.5) {
             discard;
             return;
-        }`
+        }`,
 };
 
 // See https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
@@ -43,7 +43,7 @@ export const star = {
         if (distance > 1.0 || vDefined < 0.5) {
             discard;
             return;
-        }`
+        }`,
 };
 
 export const wye = {
@@ -71,7 +71,7 @@ export const wye = {
         if (distance > 1.0 || vDefined < 0.5) {
             discard;
             return;
-        }`
+        }`,
 };
 
 export const square = {
@@ -85,7 +85,7 @@ export const square = {
         }
         vec2 pointCoordTransform = 2.0 * gl_PointCoord - 1.0;
         float distance = max(abs(pointCoordTransform.x), abs(pointCoordTransform.y));
-        float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);`
+        float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);`,
 };
 
 // Diamond is symmetrical about the x, and y axes, so only consider x, y > 0.
@@ -140,7 +140,7 @@ export const diamond = {
         if (distance > 1.0) {
             discard;
         }
-    `
+    `,
 };
 
 export const triangle = {
@@ -156,7 +156,7 @@ export const triangle = {
         float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);
         if (distance > 1.0 || vDefined < 0.5) {
             discard;
-        }`
+        }`,
 };
 
 export const cross = {
@@ -173,7 +173,7 @@ export const cross = {
         float canStroke = smoothstep(vSize - 2.0, vSize, distance * vSize);
         if (distance > 1.0 || vDefined < 0.5) {
             discard;
-        }`
+        }`,
 };
 
 export const candlestick = {
@@ -189,7 +189,7 @@ export const candlestick = {
         gl_FragColor = vec4(0.4, 0.8, 0, 1);
         if (vColorIndicator < 0.0) {
             gl_FragColor = vec4(0.8, 0.4, 0, 1);
-        }`
+        }`,
 };
 
 export const ohlc = {
@@ -205,7 +205,7 @@ export const ohlc = {
         gl_FragColor = vec4(0.4, 0.8, 0, 1);
         if (vColorIndicator < 0.0) {
             gl_FragColor = vec4(0.8, 0.4, 0, 1);
-        }`
+        }`,
 };
 
 export const area = {
@@ -217,7 +217,7 @@ export const area = {
         if (vDefined < 0.5) {
             discard;
         }
-        gl_FragColor = vec4(0.86, 0.86, 0.86, 1);`
+        gl_FragColor = vec4(0.86, 0.86, 0.86, 1);`,
 };
 
 export const boxPlot = {
@@ -230,7 +230,7 @@ export const boxPlot = {
 
         if (vDefined < 0.5) {
             discard;
-        }`
+        }`,
 };
 
 export const errorBar = {
@@ -240,7 +240,7 @@ export const errorBar = {
         float canStroke = 1.0;
         if (vDefined < 0.5) {
             discard;
-        }`
+        }`,
 };
 
 export const bar = {
@@ -253,29 +253,29 @@ export const bar = {
 
         if (vDefined < 0.5) {
             discard;
-        }`
+        }`,
 };
 
 export const pointAlias = {
-    body: `gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(vSize - 2.0, vSize, distance * vSize));`
+    body: `gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(vSize - 2.0, vSize, distance * vSize));`,
 };
 
 export const multiColor = {
     header: `varying vec4 vColor;`,
-    body: `gl_FragColor = vColor;`
+    body: `gl_FragColor = vColor;`,
 };
 
 export const seriesColor = {
     header: `uniform vec4 uColor;`,
-    body: `gl_FragColor = uColor;`
+    body: `gl_FragColor = uColor;`,
 };
 
 export const fillColor = {
     header: `varying vec4 vFillColor;`,
-    body: `gl_FragColor = (canFill * vFillColor) + ((1.0 - canFill) * gl_FragColor);`
+    body: `gl_FragColor = (canFill * vFillColor) + ((1.0 - canFill) * gl_FragColor);`,
 };
 
 export const strokeColor = {
     header: `varying vec4 vStrokeColor;`,
-    body: `gl_FragColor = (canStroke * vStrokeColor) + ((1.0 - canStroke) * gl_FragColor);`
+    body: `gl_FragColor = (canStroke * vStrokeColor) + ((1.0 - canStroke) * gl_FragColor);`,
 };

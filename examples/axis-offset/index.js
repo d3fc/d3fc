@@ -11,10 +11,10 @@ const scale = d3
         'Aubergines',
         'Artichokes',
         'Spinach',
-        'Cucumber'
+        'Cucumber',
     ]);
 
-const axis = fc.axisBottom(scale).decorate(s => {
+const axis = fc.axisBottom(scale).decorate((s) => {
     s.enter()
         .select('text')
         .attr('transform', (_, i) => `translate(0, ${i % 2 === 0 ? 20 : 10})`);
@@ -22,11 +22,9 @@ const axis = fc.axisBottom(scale).decorate(s => {
 
 d3.select(container)
     .on('draw', () => {
-        d3.select(container)
-            .select('svg')
-            .call(axis);
+        d3.select(container).select('svg').call(axis);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width } = event.detail;
         scale.range([margin, width - margin]);
     });

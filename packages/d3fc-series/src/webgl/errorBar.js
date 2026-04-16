@@ -3,7 +3,7 @@ import {
     webglSeriesErrorBar,
     webglAttribute,
     webglScaleMapper,
-    webglTypes
+    webglTypes,
 } from '@d3fc/d3fc-webgl';
 import { rebindAll, exclude, rebind } from '@d3fc/d3fc-rebind';
 
@@ -34,24 +34,31 @@ export default () => {
             throw new Error(`Unsupported orientation ${base.orient()}`);
         }
 
-
         const xScale = scaleMapper(base.xScale());
         const yScale = scaleMapper(base.yScale());
         const dataChanged = !equals(previousData, data);
 
         if (dataChanged) {
             previousData = data;
-            bandwidthAttribute.value((d, i) => base.bandwidth()(d, i)).data(data);
+            bandwidthAttribute
+                .value((d, i) => base.bandwidth()(d, i))
+                .data(data);
             definedAttribute.value((d, i) => base.defined()(d, i)).data(data);
         }
         if (dataChanged || xScale.scale !== previousXScale) {
             previousXScale = xScale.scale;
-            crossValueAttribute.value((d, i) => xScale.scale(base.crossValue()(d, i))).data(data);
+            crossValueAttribute
+                .value((d, i) => xScale.scale(base.crossValue()(d, i)))
+                .data(data);
         }
         if (dataChanged || yScale.scale !== previousYScale) {
             previousYScale = yScale.scale;
-            highValueAttribute.value((d, i) => yScale.scale(base.highValue()(d, i))).data(data);
-            lowValueAttribute.value((d, i) => yScale.scale(base.lowValue()(d, i))).data(data);
+            highValueAttribute
+                .value((d, i) => yScale.scale(base.highValue()(d, i)))
+                .data(data);
+            lowValueAttribute
+                .value((d, i) => yScale.scale(base.lowValue()(d, i)))
+                .data(data);
         }
 
         draw.xScale(xScale.webglScale)
@@ -77,7 +84,7 @@ export default () => {
         return errorBar;
     };
 
-    rebindAll(errorBar, base,  exclude('align'));
+    rebindAll(errorBar, base, exclude('align'));
     rebind(errorBar, draw, 'context', 'lineWidth', 'pixelRatio');
 
     return errorBar;

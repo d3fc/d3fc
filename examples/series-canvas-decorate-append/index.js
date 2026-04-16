@@ -14,7 +14,7 @@ const series = fc
     .xScale(xScale)
     .yScale(yScale)
     .crossValue((_, i) => i)
-    .mainValue(d => d)
+    .mainValue((d) => d)
     .decorate((context, datum) => {
         context.textAlign = 'center';
         context.fillStyle = '#000';
@@ -28,7 +28,7 @@ d3.select(container)
     .on('draw', () => {
         series(data);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([margin, width - margin]);
         yScale.range([height, 0]);

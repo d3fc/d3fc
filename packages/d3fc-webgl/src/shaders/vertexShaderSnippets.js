@@ -1,29 +1,29 @@
 export const scale = {
     header: `uniform vec2 uScale;`,
-    body: `gl_Position.xy = gl_Position.xy * uScale;`
+    body: `gl_Position.xy = gl_Position.xy * uScale;`,
 };
 
 export const translate = {
     header: `uniform vec2 uTranslate;`,
-    body: `gl_Position.xy = gl_Position.xy + uTranslate;`
+    body: `gl_Position.xy = gl_Position.xy + uTranslate;`,
 };
 
 export const multiColor = {
     header: `attribute vec4 aColor;
              varying vec4 vColor;`,
-    body: `vColor = aColor;`
+    body: `vColor = aColor;`,
 };
 
 export const fillColor = {
     header: `attribute vec4 aFillColor;
              varying vec4 vFillColor;`,
-    body: `vFillColor = aFillColor;`
+    body: `vFillColor = aFillColor;`,
 };
 
 export const strokeColor = {
     header: `attribute vec4 aStrokeColor;
              varying vec4 vStrokeColor;`,
-    body: `vStrokeColor = aStrokeColor;`
+    body: `vStrokeColor = aStrokeColor;`,
 };
 
 export const circle = {
@@ -41,7 +41,7 @@ export const circle = {
         vDefined = aDefined;
         vSize = 2.0 * sqrt(aSize / 3.14159);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const star = {
@@ -59,7 +59,7 @@ export const star = {
         vDefined = aDefined;
         vSize = 4.0 * sqrt(aSize / 3.14159);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const wye = {
@@ -77,7 +77,7 @@ export const wye = {
         vDefined = aDefined;
         vSize = 3.0 * sqrt(aSize / 3.14159);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const square = {
@@ -95,7 +95,7 @@ export const square = {
         vDefined = aDefined;
         vSize = sqrt(aSize);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const diamond = {
@@ -113,7 +113,7 @@ export const diamond = {
         vDefined = aDefined;
         vSize = sqrt(aSize);
         gl_PointSize = 2.0 * (vSize + uStrokeWidth + 1.0);
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const triangle = {
@@ -131,7 +131,7 @@ export const triangle = {
         vDefined = aDefined;
         vSize = sqrt((16.0 * aSize) / (3.0 * sqrt(3.0)));
         gl_PointSize = vSize + uStrokeWidth + 1.0;
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const cross = {
@@ -151,7 +151,7 @@ export const cross = {
         vSize = 3.0 * sqrt(aSize / 5.0);
         vStrokeWidthRatio = uStrokeWidth / (vSize + uStrokeWidth + 1.0);
         gl_PointSize = vSize + uStrokeWidth + 1.0;
-        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, aMainValue, 0, 1);`,
 };
 
 export const candlestick = {
@@ -194,7 +194,7 @@ export const candlestick = {
         float xModifier = (uStrokeWidth * lineWidthXDirection / 2.0) + bandwidthModifier;
         float yModifier = uStrokeWidth * lineWidthYDirection / 2.0;
 
-        gl_Position = vec4(aCrossValue, yValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, yValue, 0, 1);`,
 };
 
 export const ohlc = {
@@ -235,7 +235,7 @@ export const ohlc = {
         float xModifier = (uStrokeWidth * lineWidthXDirection / 2.0) + bandwidthModifier;
         float yModifier = uStrokeWidth * lineWidthYDirection / 2.0;
 
-        gl_Position = vec4(aCrossValue, yValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, yValue, 0, 1);`,
 };
 
 export const bar = {
@@ -258,7 +258,7 @@ export const bar = {
 
         float xModifier = aCorner.x * (aBandwidth) / 2.0;
 
-        gl_Position = vec4(aCrossValue, yValue, 0, 1);`
+        gl_Position = vec4(aCrossValue, yValue, 0, 1);`,
 };
 
 export const errorBar = {
@@ -286,7 +286,7 @@ export const errorBar = {
         gl_Position = vec4(aCrossValue, yValue, 0, 1);
 
         float xModifier = (uStrokeWidth * lineWidthXDirection) + (aBandwidth * aCorner.x / 2.0);
-        float yModifier = (uStrokeWidth * lineWidthYDirection);`
+        float yModifier = (uStrokeWidth * lineWidthYDirection);`,
 };
 
 export const area = {
@@ -331,7 +331,7 @@ export const area = {
 
         gl_Position.x += (1.0 - useIntercept) * ((aCorner.x * aCrossNextValue) + ((1.0 - aCorner.x) * aCrossValue));
         gl_Position.y += (1.0 - useIntercept) * (1.0 - aCorner.y) * ((aCorner.x * aMainNextValue) + ((1.0 - aCorner.x) * aMainValue));
-        gl_Position.y += (1.0 - useIntercept) * aCorner.y * ((aCorner.x * aBaseNextValue) + ((1.0 - aCorner.x) * aBaseValue));`
+        gl_Position.y += (1.0 - useIntercept) * aCorner.y * ((aCorner.x * aBaseNextValue) + ((1.0 - aCorner.x) * aBaseValue));`,
 };
 
 export const boxPlot = {
@@ -380,5 +380,5 @@ export const boxPlot = {
         float xDisplacement = aCorner.x * (isExtremeY * aCapWidth + isNotExtremeY * aBandwidth) / 2.0;
 
         float xModifier = (isVertical * uStrokeWidth * aCorner.z / 2.0) + xDisplacement;
-        float yModifier = isHorizontal * uStrokeWidth * aCorner.z / 2.0;`
+        float yModifier = isHorizontal * uStrokeWidth * aCorner.z / 2.0;`,
 };

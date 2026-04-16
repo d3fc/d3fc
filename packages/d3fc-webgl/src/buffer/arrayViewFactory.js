@@ -4,7 +4,7 @@ export default () => {
     let type = types.FLOAT;
     let cachedArray = new Float32Array(0);
 
-    const factory = requiredLength => {
+    const factory = (requiredLength) => {
         const ArrayType = getArrayViewConstructor(type);
         if (cachedArray.length > requiredLength) {
             cachedArray = new ArrayType(cachedArray.buffer, 0, requiredLength);

@@ -2,7 +2,6 @@ import heatmapBase from '../heatmapBase';
 import { rebindAll, rebind } from '@d3fc/d3fc-rebind';
 
 export default () => {
-
     const base = heatmapBase();
 
     const heatmap = (data) => {
@@ -23,8 +22,7 @@ export default () => {
 
             base.decorate()(context, d, i);
 
-            base.pathGenerator.height(values.height)
-                .width(values.width)([d]);
+            base.pathGenerator.height(values.height).width(values.width)([d]);
 
             context.fill();
             context.stroke();

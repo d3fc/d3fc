@@ -1,5 +1,4 @@
 declare namespace fc_financial_feed {
-
     export function Gdax(): Gdax;
 
     interface GdaxDatum {

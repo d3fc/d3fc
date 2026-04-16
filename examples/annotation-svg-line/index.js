@@ -29,21 +29,17 @@ const svg = d3.select(container).select('svg');
 
 d3.select(container)
     .on('draw', () => {
-        svg.append('g')
-            .datum([0.15, 0.85])
-            .call(horizontalLine);
-        svg.append('g')
-            .datum([0.2, 0.4, 0.6, 0.8])
-            .call(verticalLine);
+        svg.append('g').datum([0.15, 0.85]).call(horizontalLine);
+        svg.append('g').datum([0.2, 0.4, 0.6, 0.8]).call(verticalLine);
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);
-        xAxisJoin(svg, d => [d])
+        xAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(0, ${height - 20})`)
             .call(xAxis);
-        yAxisJoin(svg, d => [d])
+        yAxisJoin(svg, (d) => [d])
             .attr('transform', `translate(${width - 30}, 0)`)
             .call(yAxis);
     });

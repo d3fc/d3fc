@@ -10,13 +10,13 @@ export default () => {
         return Math.sign(b) * Math.pow(Math.abs(b), e);
     }
 
-    const prefix = component => `pow${component}`;
+    const prefix = (component) => `pow${component}`;
 
     const scale = (programBuilder, identifier, component) => {
         const powPart = `${prefix(component)}Offset + (${prefix(
-            component
+            component,
         )}Scale * sign(${identifier}) * pow(abs(${identifier}), vec4(${prefix(
-            component
+            component,
         )}Exp)))`;
 
         programBuilder
@@ -24,15 +24,15 @@ export default () => {
             .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Offset;`)
             .appendHeaderIfNotExists(`uniform vec4 ${prefix(component)}Scale;`)
             .appendHeaderIfNotExists(
-                `uniform vec4 ${prefix(component)}Include;`
+                `uniform vec4 ${prefix(component)}Include;`,
             )
             .appendHeaderIfNotExists(`uniform float ${prefix(component)}Exp;`)
             .appendBody(
                 `${identifier} = (${prefix(
-                    component
+                    component,
                 )}Include * (${powPart})) + ((1.0 - ${prefix(
-                    component
-                )}Include) * ${identifier});`
+                    component,
+                )}Include) * ${identifier});`,
             );
 
         const domainSize =

@@ -1,18 +1,18 @@
-const data = d3.range(50).map(d => ({
+const data = d3.range(50).map((d) => ({
     x: d / 4,
     y: Math.sin(d / 4),
-    z: Math.cos(d / 4) * 0.7
+    z: Math.cos(d / 4) * 0.7,
 }));
 
-const xExtent = fc.extentLinear().accessors([d => d.x]);
+const xExtent = fc.extentLinear().accessors([(d) => d.x]);
 const yExtent = fc
     .extentLinear()
-    .accessors([d => d.y, d => d.z])
+    .accessors([(d) => d.y, (d) => d.z])
     .pad([0.1, 0.1]);
 
 const gridlines = fc.annotationSvgGridline();
 const line = fc.seriesCanvasLine();
-const area = fc.seriesCanvasArea().mainValue(d => d.z);
+const area = fc.seriesCanvasArea().mainValue((d) => d.z);
 
 const multi = fc.seriesCanvasMulti().series([area, line]);
 
@@ -28,7 +28,7 @@ const chart = fc
     .svgPlotArea(gridlines)
     .canvasPlotArea(multi);
 
-chart.decorate(selection => {
+chart.decorate((selection) => {
     // select the x-axis
     selection
         .select('.x-axis')
@@ -47,10 +47,8 @@ chart.decorate(selection => {
 });
 
 // optionally: re-position the x-axis tick labels so they're readable
-chart.xDecorate(selection => {
+chart.xDecorate((selection) => {
     selection.select('text').attr('transform', 'translate(-7, 7)');
 });
 
-d3.select('#chart')
-    .datum(data)
-    .call(chart);
+d3.select('#chart').datum(data).call(chart);

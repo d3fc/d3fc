@@ -1,14 +1,12 @@
-import {shapeBar} from '@d3fc/d3fc-shape';
-import {rebind, rebindAll} from '@d3fc/d3fc-rebind';
+import { shapeBar } from '@d3fc/d3fc-shape';
+import { rebind, rebindAll } from '@d3fc/d3fc-rebind';
 import xyBase from '../xyBase';
 import colors from '../colors';
 
 export default () => {
     const base = xyBase();
 
-    const pathGenerator = shapeBar()
-        .x(0)
-        .y(0);
+    const pathGenerator = shapeBar().x(0).y(0);
 
     const valueAxisDimension = (generator) =>
         base.orient() === 'vertical' ? generator.height : generator.width;

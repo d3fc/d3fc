@@ -6,13 +6,13 @@ import { length } from './types';
 export default (minOffset = 0, maxOffset = 0) => {
     if (minOffset > 0 || maxOffset < 0) {
         throw new Error(
-            `Offset values (${minOffset} & ${maxOffset}) must straddle 0 `
+            `Offset values (${minOffset} & ${maxOffset}) must straddle 0 `,
         );
     }
     const base = baseAttribute();
     const projector = attributeProjector();
 
-    const adjacentAttribute = programBuilder => {
+    const adjacentAttribute = (programBuilder) => {
         const elementSize =
             adjacentAttribute.size() * length(adjacentAttribute.type());
         const bufferOffset = Math.abs(minOffset) * elementSize;
@@ -39,17 +39,17 @@ export default (minOffset = 0, maxOffset = 0) => {
         gl.bufferSubData(gl.ARRAY_BUFFER, bufferOffset, projectedData);
     };
 
-    adjacentAttribute.offset = offset => {
+    adjacentAttribute.offset = (offset) => {
         if (minOffset > offset || offset > maxOffset) {
             throw new Error(
-                `Requested offset ${offset} exceeds bounds (${minOffset} & ${maxOffset}) `
+                `Requested offset ${offset} exceeds bounds (${minOffset} & ${maxOffset}) `,
             );
         }
-        const offsetAttribute = programBuilder => {
+        const offsetAttribute = (programBuilder) => {
             base.offset(
                 (offset - minOffset) *
                     adjacentAttribute.size() *
-                    length(adjacentAttribute.type())
+                    length(adjacentAttribute.type()),
             );
             base(programBuilder);
         };

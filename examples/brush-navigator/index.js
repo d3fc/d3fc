@@ -12,21 +12,21 @@ const y = d3.scaleLinear().domain(yExtent(data));
 // and the brushed / navigator range
 const chartData = {
     series: data,
-    brushedRange: [0.75, 1]
+    brushedRange: [0.75, 1],
 };
 
 const area = fc
     .seriesSvgArea()
     .crossValue((d, i) => i)
     .mainValue((d, i) => d)
-    .decorate(selection => {
+    .decorate((selection) => {
         selection
             .enter()
             .style('fill', 'lightgreen')
             .style('fill-opacity', 0.5);
     });
 
-const brush = fc.brushX().on('brush', e => {
+const brush = fc.brushX().on('brush', (e) => {
     // if the brush has zero height there is no selection
     if (e.selection) {
         chartData.brushedRange = e.selection;
@@ -56,13 +56,9 @@ const scale = d3.scaleLinear().domain(x.domain());
 mainChart.xDomain(chartData.brushedRange.map(scale.invert));
 
 function render() {
-    d3.select('#main-chart')
-        .datum(chartData.series)
-        .call(mainChart);
+    d3.select('#main-chart').datum(chartData.series).call(mainChart);
 
-    d3.select('#navigator-chart')
-        .datum(chartData)
-        .call(navigatorChart);
+    d3.select('#navigator-chart').datum(chartData).call(navigatorChart);
 }
 
 render();

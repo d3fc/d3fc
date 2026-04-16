@@ -4,16 +4,13 @@ const xScale = d3.scaleLinear().domain([0, 1]);
 
 const yScale = d3.scaleLinear().domain([0, 1]);
 
-const gridline = fc
-    .annotationCanvasGridline()
-    .xScale(xScale)
-    .yScale(yScale);
+const gridline = fc.annotationCanvasGridline().xScale(xScale).yScale(yScale);
 
 d3.select(container)
     .on('draw', () => {
         gridline();
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

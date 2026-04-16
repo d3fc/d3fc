@@ -12,15 +12,15 @@ const crosshair = fc
     .annotationCanvasCrosshair()
     .xScale(xScale)
     .yScale(yScale)
-    .xLabel(d => format(xScale.invert(d.x)))
-    .yLabel(d => format(yScale.invert(d.y)))
-    .xDecorate(context => {
+    .xLabel((d) => format(xScale.invert(d.x)))
+    .yLabel((d) => format(yScale.invert(d.y)))
+    .xDecorate((context) => {
         context.strokeStyle = 'rgba(204, 0, 0, 0.25)';
     })
-    .yDecorate(context => {
+    .yDecorate((context) => {
         context.strokeStyle = 'rgba(204, 0, 0, 0.25)';
     })
-    .decorate(context => {
+    .decorate((context) => {
         context.strokeStyle = 'rgba(204, 0, 0, 0.25)';
         context.fillStyle = 'rgba(0, 0, 0, 0)';
         context.scale(95, 95);
@@ -32,12 +32,12 @@ d3.select(container)
     .on('draw', () => {
         crosshair(data);
     })
-    .on('mousemove', event => {
+    .on('mousemove', (event) => {
         const { clientX, clientY } = event;
         data[0] = { x: clientX, y: clientY };
         container.requestRedraw();
     })
-    .on('measure', event => {
+    .on('measure', (event) => {
         const { width, height } = event.detail;
         xScale.range([10, width - 30]);
         yScale.range([5, height - 20]);

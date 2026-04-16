@@ -6,7 +6,7 @@ export default () => {
     const base = baseAttribute();
     const projector = attributeProjector();
 
-    const attribute = programBuilder => {
+    const attribute = (programBuilder) => {
         base.size(attribute.size()).type(attribute.type());
 
         base(programBuilder);

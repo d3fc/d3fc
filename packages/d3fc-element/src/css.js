@@ -6,8 +6,7 @@ d3fc-svg>svg{overflow:visible}`;
 const styleElement = document.createElement('style');
 styleElement.setAttribute('type', 'text/css');
 
-document.querySelector('head')
-  .appendChild(styleElement);
+document.querySelector('head').appendChild(styleElement);
 
 if (styleElement.styleSheet) {
     styleElement.styleSheet.cssText += css;

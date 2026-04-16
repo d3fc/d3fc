@@ -4,11 +4,9 @@ import boxPlotBase from '../boxPlotBase';
 import colors from '../colors';
 
 export default () => {
-
     const base = boxPlotBase();
 
-    const pathGenerator = shapeBoxPlot()
-        .value(0);
+    const pathGenerator = shapeBoxPlot().value(0);
 
     const boxPlot = (data) => {
         const filteredData = data.filter(base.defined());
@@ -28,7 +26,8 @@ export default () => {
 
             base.decorate()(context, d, i);
 
-            pathGenerator.median(values.median)
+            pathGenerator
+                .median(values.median)
                 .upperQuartile(values.upperQuartile)
                 .lowerQuartile(values.lowerQuartile)
                 .high(values.high)

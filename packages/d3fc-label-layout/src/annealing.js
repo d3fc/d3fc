@@ -8,24 +8,25 @@ const randomItem = (array) => array[randomIndex(array)];
 const randomIndex = (array) => Math.floor(Math.random() * array.length);
 
 export default () => {
-
     let temperature = 1000;
     let cooling = 1;
     let bounds;
 
     const orientationPenalty = (rectangle) => {
         switch (rectangle.location) {
-        case 'bottom-right':
-            return 0;
-        case 'middle-right':
-        case 'bottom-center':
-            return rectangle.width * rectangle.height / 8;
+            case 'bottom-right':
+                return 0;
+            case 'middle-right':
+            case 'bottom-center':
+                return (rectangle.width * rectangle.height) / 8;
         }
-        return rectangle.width * rectangle.height / 4;
+        return (rectangle.width * rectangle.height) / 4;
     };
 
     const containerPenalty = (rectangle) =>
-        bounds ? rectangle.width * rectangle.height - intersect(rectangle, bounds) : 0;
+        bounds
+            ? rectangle.width * rectangle.height - intersect(rectangle, bounds)
+            : 0;
 
     const penaltyForRectangle = (rectangle, index, rectangles) =>
         collisionArea(rectangles, index) +
@@ -37,7 +38,8 @@ export default () => {
 
         // use annealing to allow a new score to be picked even if it is worse than the old
         const winningScore = (newScore, oldScore) =>
-            Math.exp((oldScore - newScore) / currentTemperature) > Math.random();
+            Math.exp((oldScore - newScore) / currentTemperature) >
+            Math.random();
 
         let rectangles = layout()
             .locationScore(penaltyForRectangle)

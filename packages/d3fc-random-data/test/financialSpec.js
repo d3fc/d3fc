@@ -3,7 +3,6 @@ import { default as skipWeekends } from '../src/filter/skipWeekends';
 import { timeDay } from 'd3-time';
 
 describe('financial', () => {
-
     let generator;
     beforeEach(() => {
         generator = financial()
@@ -32,10 +31,12 @@ describe('financial', () => {
         expect(result1[0].open).toEqual(50);
     });
 
-    it('should exclude points with filtered date from result', () =>  {
-        generator.filter(d => d.date > new Date(2015, 0, 5));
+    it('should exclude points with filtered date from result', () => {
+        generator.filter((d) => d.date > new Date(2015, 0, 5));
         const stream = generator.stream();
-        const result = stream.until(datum => datum.date > new Date(2015, 0, 10));
+        const result = stream.until(
+            (datum) => datum.date > new Date(2015, 0, 10),
+        );
         expect(result).toHaveLength(5);
     });
 
@@ -57,7 +58,7 @@ describe('financial', () => {
     });
 
     it('should allow setting volume using function', () => {
-        generator.volume(d => d.date <= new Date(2015, 0, 1) ? 50 : 100);
+        generator.volume((d) => (d.date <= new Date(2015, 0, 1) ? 50 : 100));
         const result = generator(2);
         expect(result[0].volume).toBe(50);
         expect(result[1].volume).toBe(100);
@@ -68,7 +69,7 @@ describe('financial', () => {
         // 0.2, 0.8, 0.2, 0.8 ...
         const normal = () => {
             let index = 0;
-            return () => index++ % 2 ? 0.2 : 0.8;
+            return () => (index++ % 2 ? 0.2 : 0.8);
         };
         generator.random(normal());
         const result = generator(3);
@@ -106,7 +107,11 @@ describe('financial', () => {
     });
 
     it('stream.next with filter should skip filtered dates', () => {
-        generator.filter(d => d.date > new Date(2015, 0, 4) && d.date.getTime() !== new Date(2015, 0, 6).getTime());
+        generator.filter(
+            (d) =>
+                d.date > new Date(2015, 0, 4) &&
+                d.date.getTime() !== new Date(2015, 0, 6).getTime(),
+        );
         const stream = generator.stream();
         const first = stream.next();
         const second = stream.next();
@@ -115,7 +120,7 @@ describe('financial', () => {
     });
 
     it('stream.take should return the requested number of points', () => {
-        generator.filter(d => d.date > new Date(2015, 0, 5));
+        generator.filter((d) => d.date > new Date(2015, 0, 5));
         const stream = generator.stream();
         const data = stream.take(10);
         expect(data).toHaveLength(10);
@@ -137,13 +142,13 @@ describe('financial', () => {
 
     it('stream.until should generate data up to the datum that satisfies the specified condition', () => {
         const stream = generator.stream();
-        const data = stream.until(d => d.date > new Date(2015, 0, 10));
+        const data = stream.until((d) => d.date > new Date(2015, 0, 10));
         expect(data).toHaveLength(10);
     });
 
     it('stream.until subsequent stream method call should have correctly incremented date', () => {
         const stream = generator.stream();
-        stream.until(d => d.date > new Date(2015, 0, 10));
+        stream.until((d) => d.date > new Date(2015, 0, 10));
         const next = stream.next();
         expect(next.date).toEqual(new Date(2015, 0, 11));
     });

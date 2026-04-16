@@ -7,14 +7,15 @@ import colors from '../colors';
 export default (pathGenerator, seriesName) => {
     const base = ohlcBase();
     const join = dataJoin('g', seriesName);
-    const containerTranslation =
-        (values) => 'translate(' + values.cross + ', ' + values.high + ')';
+    const containerTranslation = (values) =>
+        'translate(' + values.cross + ', ' + values.high + ')';
 
-    const propagateTransition = maybeTransition => selection =>
-        isTransition(maybeTransition) ? selection.transition(maybeTransition) : selection;
+    const propagateTransition = (maybeTransition) => (selection) =>
+        isTransition(maybeTransition)
+            ? selection.transition(maybeTransition)
+            : selection;
 
     const candlestick = (selection) => {
-
         if (isTransition(selection)) {
             join.transition(selection);
         }
@@ -22,35 +23,42 @@ export default (pathGenerator, seriesName) => {
         const transitionPropagator = propagateTransition(selection);
 
         selection.each((data, index, group) => {
-
             const filteredData = data.filter(base.defined());
 
             const g = join(select(group[index]), filteredData);
 
             g.enter()
-                .attr('transform', (d, i) => containerTranslation(base.values(d, i)) + ' scale(1e-6, 1)')
+                .attr(
+                    'transform',
+                    (d, i) =>
+                        containerTranslation(base.values(d, i)) +
+                        ' scale(1e-6, 1)',
+                )
                 .append('path');
 
             g.each((d, i, g) => {
-
                 const values = base.values(d, i);
-                const color = values.direction === 'up' ? colors.green : colors.red;
+                const color =
+                    values.direction === 'up' ? colors.green : colors.red;
 
                 const singleCandlestick = transitionPropagator(select(g[i]))
                     .attr('class', seriesName + ' ' + values.direction)
                     .attr('stroke', color)
                     .attr('fill', color)
-                    .attr('transform', () => containerTranslation(values) + ' scale(1)');
+                    .attr(
+                        'transform',
+                        () => containerTranslation(values) + ' scale(1)',
+                    );
 
-                pathGenerator.x(0)
+                pathGenerator
+                    .x(0)
                     .width(values.width)
                     .open(() => values.open - values.high)
                     .high(0)
                     .low(() => values.low - values.high)
                     .close(() => values.close - values.high);
 
-                singleCandlestick.select('path')
-                    .attr('d', pathGenerator([d]));
+                singleCandlestick.select('path').attr('d', pathGenerator([d]));
             });
 
             base.decorate()(g, data, index);
